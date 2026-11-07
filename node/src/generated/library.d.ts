@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6d2e38765389af124598f05927683c4d15eab350cfc3e7e2ea913bb87f447d01
-// 96 capabilities, 767 providers, 4480 typed functions, 20 refused.
+// Manifest version: ddbde6e23cd82b1e4d5a4e240a4e86d35aaea23bd6f2363224214c77e61878ba
+// 96 capabilities, 770 providers, 4552 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3037,7 +3037,7 @@ interface LeadInput {
 
 interface EnrichOptions {
   linkedin?: boolean           // read the LinkedIn profile, default true; needs a saved LinkedIn login on the run. Pass false once your daily LinkedIn budget (~80 profiles) is spent
-  talks?: boolean              // YouTube talks + transcripts, default true; the slowest leg
+  talks?: boolean              // talks, podcasts and speaker pages (YouTube + transcripts, Apple Podcasts episodes, the Sessionize profile), default true; the slowest leg
   events?: boolean             // the company's own Luma calendar (needs `domain`): events they host, and the LinkedIn, X and site on their Luma host record; default true
   web?: boolean                // open-web search for booking pages, events and articles, default false: each query is a metered Serper credit (up to 4 per person)
   webBackend?: "serper" | "duckduckgo"  // default "serper" (Google; falls back to DuckDuckGo when Serper cannot answer); "duckduckgo" never calls Serper
@@ -3076,6 +3076,9 @@ interface LeadAppearance {
   url: string
   date: string | null     // YYYY-MM-DD, or null when the source shows none
   note: string | null     // one line from the transcript or page
+  citation: Citation      // where it was read: the video, the Apple Podcasts episode, the Sessionize profile, the event
+  verified?: boolean      // false on every scored appearance today (no source gives two independent anchors)
+  evidence?: string[]     // what ties it to them; a hit naming only a PAST employer says so here
 }
 
 interface LeadSummarySource {
@@ -3098,12 +3101,13 @@ interface Lead {
   emails: LeadEmail[]          // best first; [] when no free source has one
   booking: LeadLink | null
   x: LeadLink | null
+  bluesky: LeadLink | null     // a Bluesky handle on the company's own domain (first.company.com), confirmed against the profile's display name
   github: LeadLink | null
   site: LeadLink | null        // a personal site, never the company's
-  appearances: LeadAppearance[]
+  appearances: LeadAppearance[]   // talks, podcasts (Apple Podcasts), Sessionize speaker pages, videos, articles: newest first, at most 5, each naming the person AND their company (or a past employer, then probable with evidence)
   events: LeadAppearance[]     // Luma events they host or speak at: off the company's own Luma calendar (cited to the event page) and the web search
   other: LeadLink[]            // Bluesky, Substack, a podcast page
-  pending: Array<"linkedin" | "talks" | "github" | "booking" | "email" | "web" | "events">   // legs not run or failed: re-enrich just these later
+  pending: Array<"linkedin" | "talks" | "github" | "booking" | "email" | "web" | "events" | "bluesky">   // legs not run or failed: re-enrich just these later
   webQueries: number           // web searches run for this row (each Serper query is one credit); 0 when web is off
   namesakes: string[]          // hits dropped for naming the person but not the company, one sentence per source
   warnings: string[]           // what the row lacks: every failed leg, every value that could not be confirmed
@@ -3685,7 +3689,7 @@ type Offer = {
   url: string | null                             // product page
 }
 type OfferSearchResult = {
-  offers: Offer[]        // ONE part across ALL retailers, price-sorted (cheapest first)
+  offers: Offer[]        // ONE part across ALL retailers, best title match first, then cheapest
   warnings: string[]     // always present; names any store that did not answer. A
                          // store named here priced NOTHING, so "the cheapest of three"
                          // was really the cheapest of two — read this before sourcing
@@ -3732,21 +3736,22 @@ type ProductResult = {
 
   /**
    * Price a PC part across Newegg, Micro Center, and B&H with one call — Bowmark searches all
-   * three in parallel and returns price-sorted offers — then read any Micro Center result in
-   * full for the manufacturer part number, whether it is actually buyable, and the store's whole
-   * spec sheet. Compose a build by calling search per part and sourcing each from the cheapest
-   * store.
+   * three in parallel and returns offers ranked by title match, then price — then read any Micro
+   * Center result in full for the manufacturer part number, whether it is actually buyable, and
+   * the store's whole spec sheet. Compose a build by calling search per part and sourcing each
+   * from the cheapest store.
    */
   interface Unit {
     /**
      * Searches Newegg + Micro Center + B&H for ONE part (e.g. "Ryzen 7 7800X3D" or "RTX 4070") in
-     * parallel, keeps the cards that match the part, and returns `{ offers, warnings }` —
-     * price-sorted (cheapest first), each tagged with its `store`. A store that is genuinely empty
-     * contributes nothing and says nothing; a store that TIMED OUT or FAILED is named in
-     * `warnings`, and the two are not the same fact — "the cheapest of three stores" is a wrong
-     * claim when one of them never answered. When ALL THREE never answered this THROWS rather than
-     * returning `offers: []`, because that empty list is the same value as a part nobody stocks.
-     * `options.timeoutMs` sets the per-store budget (default 30000).
+     * parallel, keeps the cards that match the part, and returns `{ offers, warnings }` — rows
+     * whose title carries more of the words in the query first, cheapest first among equal
+     * matches, each tagged with its `store`. A store that is genuinely empty contributes nothing
+     * and says nothing; a store that TIMED OUT or FAILED is named in `warnings`, and the two are
+     * not the same fact — "the cheapest of three stores" is a wrong claim when one of them never
+     * answered. When ALL THREE never answered this THROWS rather than returning `offers: []`,
+     * because that empty list is the same value as a part nobody stocks. `options.timeoutMs` sets
+     * the per-store budget (default 30000).
      */
     search(query: string, options?: CallOptions): Promise<OfferSearchResult>;
 
@@ -3973,12 +3978,13 @@ interface ProductAvailability {
   interface Unit {
     /**
      * Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and
-     * returns one price-sorted list of offers — the same fan-out as `bowmark.retail.search`,
-     * reachable under the name callers guess first. The default fan-out does NOT include Amazon;
-     * to search Amazon, pass `site: 'amazon'` (any `site` searches that one store only). `limit`
-     * caps the rows. The answer is `{ results, warnings }`, not a bare array. Rows are each
-     * store's own keyword results, so filter on `title` before reading a price off the top row.
-     * `warnings` names any store that did not answer.
+     * returns one list of offers, best title match for the query first and cheapest first among
+     * equal matches — the same fan-out as `bowmark.retail.search`, reachable under the name
+     * callers guess first. The default fan-out does NOT include Amazon; to search Amazon, pass
+     * `site: 'amazon'` (any `site` searches that one store only). `limit` caps the rows. The
+     * answer is `{ results, warnings }`, not a bare array. Rows are each store's own keyword
+     * results, so filter on `title` before reading a price off the top row. `warnings` names any
+     * store that did not answer.
      */
     search(args: { query: string; site?: 'walmart' | 'target' | 'bestbuy' | 'amazon'; limit?: number }): Promise<ProductSearchResult>;
 
@@ -4458,12 +4464,12 @@ type RetailOffer = {
                                   // across stores as one normalized fact
 }
 type RetailSearchResult = {
-  results: RetailOffer[]   // ONE query across ALL stores, price-sorted (cheapest first).
-                           // These are each STORE'S OWN keyword results, so a search for
-                           // a product also returns its ACCESSORIES and its lookalikes —
-                           // and because the list is price-sorted, those sort ABOVE it.
-                           // "AirPods Pro 3" puts ~20 cases from $8.50 ahead of the
-                           // $199 earbuds. FILTER ON title before reading a cheapest
+  results: RetailOffer[]   // ONE query across ALL stores. Rows whose title carries more
+                           // of the query's words come first; equal matches are
+                           // cheapest first. These are each STORE'S OWN keyword results,
+                           // so an ACCESSORY that names the product ("case for AirPods
+                           // Pro 3") matches as well as the product and, being cheaper,
+                           // sorts above it. FILTER ON title before reading a cheapest
                            // price off the top row.
   warnings: string[]       // always present; names any store that did not answer. A
                            // store named here priced NOTHING, so read this before
@@ -4478,25 +4484,27 @@ type CallOptions = {
 
   /**
    * General-merchandise retail across Walmart, Target and Best Buy — one keyword search, fanned
-   * out in parallel and returned price-sorted, so an agent can answer 'where can I actually buy
-   * this and what does it cost **and whether it's in stock**' without querying each store by
-   * hand. Every offer includes that store's in-stock signal. Rows are the stores' own keyword
-   * results, so accessories and lookalikes come back too and sort above the product; filter on
-   * `title`. Best Buy's leg needs the caller's own Best Buy developer key; without one the
-   * search still returns Walmart + Target with a `warnings` entry naming the drop.
+   * out in parallel and returned best title match first, cheapest first among equal matches, so
+   * an agent can answer 'where can I actually buy this and what does it cost **and whether it's
+   * in stock**' without querying each store by hand. Every offer includes that store's in-stock
+   * signal. Rows are the stores' own keyword results, so accessories that name the product come
+   * back too and can sort above it; filter on `title`. Best Buy's leg needs the caller's own
+   * Best Buy developer key; without one the search still returns Walmart + Target with a
+   * `warnings` entry naming the drop.
    */
   interface Unit {
     /**
-     * Searches Walmart, Target and Best Buy in parallel for a keyword and returns one price-sorted
-     * list of offers across all stores, each tagged with which store it's from AND WHETHER THAT
+     * Searches Walmart, Target and Best Buy in parallel for a keyword and returns one list of
+     * offers across all stores — rows whose title carries more of the query's words first,
+     * cheapest first among equal matches — each tagged with which store it's from AND WHETHER THAT
      * STORE HAS IT IN STOCK. THE ROWS ARE EACH STORE'S OWN KEYWORD RESULTS, so a product search
-     * also returns that product's accessories and its lookalikes, and price-sorting puts those
-     * FIRST — filter on `title` for the thing you were actually asked about before reading a price
-     * off the top row. Every offer carries `inStock: boolean` so you can report both price and
-     * availability. Everything you need is in one call; a store returning accessories is not a
-     * reason to go query that store directly. `warnings` names any store that did not answer —
-     * including Best Buy when the caller holds no Best Buy developer key — so a caller can tell a
-     * genuinely cheaper/only offer from one where a store simply didn't answer.
+     * also returns that product's accessories, and an accessory that names the product is cheaper
+     * and sorts ABOVE it — filter on `title` for the thing you were actually asked about before
+     * reading a price off the top row. Every offer carries `inStock: boolean` so you can report
+     * both price and availability. Everything you need is in one call; a store returning
+     * accessories is not a reason to go query that store directly. `warnings` names any store that
+     * did not answer — including Best Buy when the caller holds no Best Buy developer key — so a
+     * caller can tell a genuinely cheaper/only offer from one where a store simply didn't answer.
      */
     search(args: { query: string }): Promise<RetailSearchResult>;
   }
@@ -6095,7 +6103,8 @@ type FormFillResult = {
   notFound: string[]         // the values keys that were not set — matched nothing, or matched a field that could not be set (a warning names which and why)
   advanced: boolean           // a Next/Continue control was found and clicked
   submitted: boolean          // a submit control was clicked AND the site took it (navigated, or the
-                              // form's own submit event fired with no validation text). False with
+                              // form's own submit event fired with no validation text, or new results
+                              // were drawn in place after the click). False with
                               // resultContent set: that text is the site's answer, read it
   openedWith: string | null
   multiStep: boolean          // the step now on screen continues past this one
@@ -10930,6 +10939,14 @@ interface ListReviewsArgs {
   sortBy?: AppStoreReviewSort;
   country?: string;
 }
+interface ListPurchasedAppsArgs {
+  batchId?: string; // the nextBatchId a previous call returned; omit for the newest purchases
+}
+interface ListPurchasedAppsResult {
+  batchId: string | null;
+  nextBatchId: string | null; // pass back as batchId for the next, older batch
+  raw: unknown; // Apple's own purchase-search JSON, unaltered — the signed-in shape is unmeasured
+}
 interface AppStoreReview {
   id: string;
   author: string;
@@ -11054,6 +11071,15 @@ interface ListReviewsResult {
      * door into getStory for an agent that holds no app yet, rather than one that already does.
      */
     listTodayStories(args?: ListTodayStoriesArgs): Promise<ListTodayStoriesResult>;
+
+    /**
+     * List the apps the caller's own Apple Account has bought or downloaded, with what was paid
+     * and when — Apple's own purchase history, the list behind reportaproblem.apple.com. NEEDS THE
+     * CALLER SIGNED IN to their Apple Account; the run pauses for that sign-in. Returns Apple's
+     * JSON as raw (its signed-in field shape is not yet measured) plus a nextBatchId to page back
+     * through older purchases.
+     */
+    listPurchasedApps(args?: ListPurchasedAppsArgs, opts?: ConnectionOption): Promise<ListPurchasedAppsResult>;
   }
 }
 
@@ -16782,6 +16808,7 @@ interface BlueskySuggestedFeedsResults {
 
 interface BlueskySuggestedUsersResults {
   users: BlueskyPostAuthor[];
+  count: number;
 }
 
 interface BlueskyFeedInfo {
@@ -17008,6 +17035,11 @@ interface BlueskyPostActionResult {
   changed: boolean;
 }
 
+interface BlueskyActorActionArgs {
+  actor: string;
+  undo?: boolean;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -17173,10 +17205,12 @@ interface BlueskyPostActionResult {
     getFeedInfo(feed: string | { feed: string }): Promise<BlueskyFeedInfo>;
 
     /**
-     * Bluesky's own suggested accounts to follow, as shown on the Discover and Explore pages.
-     * Optionally accepts a `limit` parameter (1–100) to control the number of results. Returns
-     * each suggested account's handle, DID, display name and avatar; there is no paging, the site
-     * answers a fixed-size list.
+     * Bluesky's own suggested accounts to follow, as shown during onboarding. Calls
+     * app.bsky.actor.getSuggestions, which is viewer-scoped: with no caller session it is an
+     * honest empty list (`count: 0`), since Bluesky has nobody to personalize suggestions for.
+     * Optionally accepts a `limit` parameter (1–100). Returns each suggested account's handle,
+     * DID, display name and avatar plus a `count`; there is no paging, the site answers a
+     * fixed-size list.
      */
     getSuggestedUsers(options?: { limit?: number }): Promise<BlueskySuggestedUsersResults>;
 
@@ -17351,6 +17385,32 @@ interface BlueskyPostActionResult {
      * sign in again.
      */
     repost(args: BlueskyPostActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Follows a person (handle, DID or bsky.app profile URL) as the signed-in caller; `undo: true`
+     * unfollows. Following someone already followed returns the existing follow record with
+     * `changed: false`. Needs the caller signed in to bsky.app — the run pauses for a sign-in link
+     * when they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    followUser(args: BlueskyActorActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Mutes a person (handle, DID or bsky.app profile URL) for the signed-in caller — private,
+     * they are not told; `undo: true` unmutes. `uri` is always null (a mute is not a public
+     * record); `changed: false` when it was already in that state. Needs the caller signed in to
+     * bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError` when
+     * the saved sign-in has expired; sign in again.
+     */
+    muteUser(args: BlueskyActorActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Blocks a person (handle, DID or bsky.app profile URL) as the signed-in caller — a public
+     * block record; `undo: true` unblocks. Blocking someone already blocked returns the existing
+     * block with `changed: false`. Needs the caller signed in to bsky.app — the run pauses for a
+     * sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has expired;
+     * sign in again.
+     */
+    blockUser(args: BlueskyActorActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
 
     /**
      * Replies to a post (at:// URI or bsky.app post URL) as the signed-in caller, threaded under
@@ -18967,6 +19027,11 @@ interface Wishlist {
 interface Wishlists {
   wishlists: Wishlist[];   // [] when the caller has saved nothing
 }
+interface WishlistWriteResult {
+  hotelId: string;
+  listId: string;   // the list that was changed
+  saved: boolean;   // true after addToWishlist, false after removeFromWishlist
+}
 interface AccountProfile {
   displayName: string | null;   // the name in the site's own header
   firstName: string | null;
@@ -19060,6 +19125,19 @@ interface AccountProfile {
      * sign-in rules as listBookings. No lists is `{ wishlists: [] }`.
      */
     listWishlist(opts?: ConnectionOption): Promise<Wishlists>;
+
+    /**
+     * SIGNED IN — save a property (the numeric `hotelId` getProperty returns) to one of the
+     * caller's own saved lists: `listId` from listWishlist, or their first list when omitted.
+     * Fails clearly when the caller has no list yet. Same sign-in rules as listBookings.
+     */
+    addToWishlist(args: { hotelId: string; listId?: string }, opts?: ConnectionOption): Promise<WishlistWriteResult>;
+
+    /**
+     * SIGNED IN — take a property out of one of the caller's own saved lists (`listId`, or their
+     * first list when omitted). Same sign-in rules as listBookings.
+     */
+    removeFromWishlist(args: { hotelId: string; listId?: string }, opts?: ConnectionOption): Promise<WishlistWriteResult>;
 
     /**
      * SIGNED IN — the caller's own Booking.com account header: display name, first and last name,
@@ -21909,6 +21987,36 @@ interface CanvaColorPaletteDetail {
   url: string;
 }
 
+interface CanvaNamedColor {
+  slug: string;
+  name: string;
+  hex: string;
+}
+
+interface CanvaColorMeaning {
+  slug: string;
+  name: string;
+  hex: string;
+  rgb: { r: number; g: number; b: number } | null;
+  meaning: string[];
+  relatedColors: { slug: string; name: string }[];
+  palettes: { slug: string; name: string; colors: string[] }[];
+  otherColors: CanvaNamedColor[];
+  readMoreUrl: string | null;
+  updated: string | null;
+  url: string;
+}
+
+interface CanvaColorCombinations {
+  hex: string;
+  complementary: string[];
+  analogous: string[];
+  triadic: string[];
+  splitComplementary: string[];
+  tetradic: string[];
+  monochromatic: string[];
+}
+
   /**
    * Canva, the online design tool: search its templates and stock photos, read plans and prices,
    * and, with the caller signed in, create, export and organise their own designs.
@@ -21986,6 +22094,19 @@ interface CanvaColorPaletteDetail {
 
     /** Reads one curated colour palette by slug — its name, hex colours and the colour names. */
     getColorPalette(slug: string): Promise<CanvaColorPaletteDetail>;
+
+    /**
+     * Reads Canva's page on one colour by name ("red", "baby blue") — hex and RGB, its meaning and
+     * symbolism, related colours, and curated palettes that use it.
+     */
+    getColorMeaning(colorName: string): Promise<CanvaColorMeaning>;
+
+    /**
+     * Returns the colour-wheel combinations for one hex colour — complementary, analogous,
+     * triadic, split-complementary, tetradic and monochromatic — each list starting with the
+     * colour itself.
+     */
+    getColorCombinations(hex: string): Promise<CanvaColorCombinations>;
 
     /**
      * Makes a NEW Canva account with the person's own email and password, in a session. Pauses
@@ -23541,6 +23662,38 @@ interface Conversation {
   messages: ConversationMessage[];
 }
 
+interface ProjectConversation {
+  id: string;
+  title: string | null;
+  updateTime: string | null;
+}
+
+interface ProjectSummary {
+  /** g-p-… id; pass to getProject. */
+  id: string;
+  name: string | null;
+  conversations: ProjectConversation[];
+}
+
+interface ProjectDetail {
+  id: string;
+  name: string | null;
+  instructions: string | null;
+  files: { id: string; name: string | null }[];
+  conversations: ProjectConversation[];
+  /** Pass back as cursor for more; null at the end. */
+  cursor: string | null;
+}
+
+interface SharedLink {
+  id: string;
+  title: string | null;
+  /** chatgpt.com/share/<id> — getSharedConversation reads it. */
+  url: string;
+  conversationId: string | null;
+  createTime: string | null;
+}
+
 interface SharedMessage {
   role: "user" | "assistant";
   text: string;
@@ -23630,6 +23783,30 @@ interface SharedConversation {
      * when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
      */
     getConversation(idOrUrl: string, opts?: ConnectionOption): Promise<Conversation>;
+
+    /**
+     * The caller's own ChatGPT projects — g-p-… id, name and the newest conversations filed under
+     * each; pass an id to getProject. Needs the caller signed in to chatgpt.com through the relay;
+     * the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the
+     * saved sign-in has expired.
+     */
+    listProjects(opts?: ConnectionOption): Promise<ProjectSummary[]>;
+
+    /**
+     * One of the caller's projects by its g-p-… id or url — name, instructions, uploaded files and
+     * its conversations; pass the returned cursor for more. Needs the caller signed in to
+     * chatgpt.com through the relay; the run pauses for a sign-in link when they are not. THROWS
+     * `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    getProject(idOrUrl: string, opts?: { cursor?: string }, connectionOpts?: ConnectionOption): Promise<ProjectDetail>;
+
+    /**
+     * The public share links the caller has created — share id, title, chatgpt.com/share url
+     * (readable with getSharedConversation) and the conversation it came from. Needs the caller
+     * signed in to chatgpt.com through the relay; the run pauses for a sign-in link when they are
+     * not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    listSharedLinks(opts?: ConnectionOption): Promise<SharedLink[]>;
   }
 }
 
@@ -25886,6 +26063,44 @@ interface ClaudeCreatedProject {
   projectId: string;
   name: string;
 }
+interface UpdateProjectInstructionsArgs {
+  projectId: string;
+  instructions: string;
+  organizationId?: string;
+}
+interface ClaudeProjectWriteAck {
+  projectId: string;
+  ok: true;
+}
+interface AddProjectDocumentArgs {
+  projectId: string;
+  fileName: string;
+  content: string;
+  organizationId?: string;
+}
+interface ClaudeAddedProjectDocument {
+  projectId: string;
+  documentId: string;
+  fileName: string;
+}
+interface DeleteProjectDocumentArgs {
+  projectId: string;
+  documentId: string;
+  organizationId?: string;
+}
+interface ClaudeProjectDocumentDeleteAck {
+  projectId: string;
+  documentId: string;
+  ok: true;
+}
+interface DeleteConversationArgs {
+  conversationId: string;
+  organizationId?: string;
+}
+interface ClaudeConversationDeleteAck {
+  conversationId: string;
+  ok: true;
+}
 interface ClaudeWriteAck {
   conversationId: string;
   ok: true;
@@ -26064,6 +26279,31 @@ interface MoveConversationToProjectArgs {
      * SIGN-IN (the caller's claude.ai session).
      */
     createProject(args: CreateProjectArgs, opts?: ConnectionOption): Promise<ClaudeCreatedProject>;
+
+    /**
+     * Replaces the custom instructions on one of the CALLER's Claude projects (`projectId` from
+     * listProjects) and returns an ack. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    updateProjectInstructions(args: UpdateProjectInstructionsArgs, opts?: ConnectionOption): Promise<ClaudeProjectWriteAck>;
+
+    /**
+     * Adds a text document (`fileName`, `content`) to one of the CALLER's project knowledge bases
+     * and returns its id for deleteProjectDocument. WRITE. NEEDS A SIGN-IN (the caller's claude.ai
+     * session).
+     */
+    addProjectDocument(args: AddProjectDocumentArgs, opts?: ConnectionOption): Promise<ClaudeAddedProjectDocument>;
+
+    /**
+     * Removes one document (`documentId` from getProject) from one of the CALLER's project
+     * knowledge bases. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    deleteProjectDocument(args: DeleteProjectDocumentArgs, opts?: ConnectionOption): Promise<ClaudeProjectDocumentDeleteAck>;
+
+    /**
+     * Deletes one of the CALLER's Claude chats (`conversationId` from listConversations). Not
+     * reversible. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    deleteConversation(args: DeleteConversationArgs, opts?: ConnectionOption): Promise<ClaudeConversationDeleteAck>;
   }
 }
 
@@ -29680,6 +29920,16 @@ interface DailymotionListFollowedChannelsResult {
   hasMore: boolean;
   channels: DailymotionChannel[];
 }
+interface AddToPlaylistArgs {
+  playlist: string;
+  video: string;
+  add?: boolean;
+}
+interface DailymotionPlaylistEntryResult {
+  playlist: string;
+  video: string;
+  inPlaylist: boolean;
+}
 interface AddToWatchLaterArgs {
   video: string;
   add?: boolean;
@@ -29902,6 +30152,12 @@ interface DailymotionListMyPlaylistsResult {
      * feed), paged — same fields as getVideo. Needs the caller signed in.
      */
     listFollowingFeed(args?: ListFollowingFeedArgs, opts?: ConnectionOption): Promise<DailymotionListFollowingFeedResult>;
+
+    /**
+     * Add a video to one of the signed-in caller's own playlists, or pass add: false to remove it.
+     * Needs the caller signed in.
+     */
+    addToPlaylist(args: AddToPlaylistArgs, opts?: ConnectionOption): Promise<DailymotionPlaylistEntryResult>;
 
     /**
      * Create a playlist on the signed-in caller's Dailymotion account — private unless private:
@@ -31137,6 +31393,22 @@ interface DeviantartWatchFeedResult {
   cursor?: string;
 }
 
+interface DeviantartNotification {
+  messageId: string;
+  type?: string;
+  time?: string;
+  fromUsername?: string;
+  deviationId?: string;
+  deviationTitle?: string;
+  url?: string;
+}
+
+interface DeviantartNotificationsResult {
+  notifications: DeviantartNotification[];
+  hasMore: boolean;
+  cursor?: string;
+}
+
 interface DeviantartPostedComment {
   commentId: string;
   text: string;
@@ -31277,6 +31549,13 @@ interface DeviantartPostedComment {
      * DeviantArt.
      */
     getWatchFeed(args?: { cursor?: string }, opts?: ConnectionOption): Promise<DeviantartWatchFeedResult>;
+
+    /**
+     * Reads the signed-in caller's notifications drawer — comments, favourites, new watchers and
+     * mentions, newest first; pass the returned cursor for the next page. Needs a caller signed in
+     * to DeviantArt.
+     */
+    getNotifications(args?: { cursor?: string }, opts?: ConnectionOption): Promise<DeviantartNotificationsResult>;
 
     /**
      * Sends a private note (DeviantArt's direct message, now a chat DM) from the signed-in caller
@@ -32428,6 +32707,41 @@ interface discordFriend {
 interface discordFriendRequest extends discordFriend {
   direction: "incoming" | "outgoing";
 }
+interface discordUserProfile {
+  id: string;
+  username: string;
+  globalName: string | null;
+  avatarUrl: string | null;
+  bannerUrl: string | null;
+  bio: string | null;
+  pronouns: string | null;
+  bot: boolean;
+  badges: string[];                  // badge descriptions, e.g. "Active Developer"
+  mutualServers: { id: string; nickname: string | null }[];
+  mutualFriends: { id: string; username: string; globalName: string | null }[];
+}
+interface discordMention extends discordMessage {
+  guildId: string | null;            // null for a DM
+}
+interface discordPinnedMessage extends discordMessage {
+  pinnedAt: string | null;           // ISO 8601
+}
+interface discordThread {
+  id: string;                        // the thread's channel id — pass to listMessages
+  name: string;
+  ownerId: string | null;
+  messageCount: number | null;
+  archived: boolean;
+  lastMessageId: string | null;
+  tagIds: string[];                  // forum tags applied
+  createdAt: string | null;
+}
+interface discordThreadList {
+  channelId: string;
+  totalResults: number | null;
+  hasMore: boolean;                  // step offset by 25 for more
+  threads: discordThread[];
+}
 interface discordMessageSearch {
   totalResults: number;              // Discord's count of every hit, not just this page (25 per page)
   messages: discordMessage[];        // this page's hits
@@ -32616,6 +32930,40 @@ interface discordMessageSearch {
      * browser yet.
      */
     listFriendRequests(opts?: ConnectionOption): Promise<discordFriendRequest[]>;
+
+    /**
+     * Reads another Discord user's profile AS THE SIGNED-IN USER — username, display name, avatar,
+     * banner, bio, pronouns, badges, and the servers and friends the caller shares with them.
+     * `userId` comes off a message author, a friend or a DM recipient. Needs a Discord sign-in
+     * made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+     * browser yet.
+     */
+    getUserProfile(args: { userId: string }, opts?: ConnectionOption): Promise<discordUserProfile>;
+
+    /**
+     * Lists recent messages that mentioned the SIGNED-IN USER (directly, by role or @everyone) —
+     * the Inbox's Mentions tab, newest first, each with its server id. `limit` 1-100 (default 25);
+     * `guildId` narrows to one server. Needs a Discord sign-in made through Bowmark's sign-in
+     * link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    listMentions(args?: { limit?: number; guildId?: string }, opts?: ConnectionOption): Promise<discordMention[]>;
+
+    /**
+     * Lists the messages pinned in one channel or DM the SIGNED-IN USER can read, with when each
+     * was pinned. `channelId` from listChannels() or listDirectMessages(). Needs a Discord sign-in
+     * made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+     * browser yet.
+     */
+    listPinnedMessages(args: { channelId: string }, opts?: ConnectionOption): Promise<discordPinnedMessage[]>;
+
+    /**
+     * Lists the threads in a text channel, or the posts in a forum channel, AS THE SIGNED-IN USER
+     * — name, starter, message count, tags — most recently active first, 25 a page. `archived:
+     * true` lists archived ones instead. Pass a thread's id to listMessages. Needs a Discord
+     * sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from
+     * your own browser yet.
+     */
+    listThreads(args: { channelId: string; archived?: boolean; offset?: number }, opts?: ConnectionOption): Promise<discordThreadList>;
 
     /**
      * Searches messages AS THE SIGNED-IN USER with Discord's own search — in one joined server
@@ -33249,6 +33597,10 @@ interface DropboxFileVersions { path: string; isDeleted: boolean; serverDeleted?
 interface DropboxDeletedListing { path: string; deleted: DropboxEntry[]; hasMore: boolean }
 interface DropboxSharedItem { kind: "file" | "folder"; name: string; id: string; accessType?: string; previewUrl?: string; path?: string; owners?: string[]; invited?: string }
 interface DropboxSharedWithMe { items: DropboxSharedItem[]; hasMore: boolean }
+interface DropboxSharingMember { kind: "user" | "group" | "invitee"; accessType?: string; name?: string; email?: string; accountId?: string; groupId?: string; inherited?: boolean }
+interface DropboxSharingMembers { members: DropboxSharingMember[]; hasMore: boolean }
+interface DropboxFileRequest { id: string; url: string; title: string; destination?: string; isOpen: boolean; fileCount?: number; created?: string; deadline?: string; description?: string }
+interface DropboxFileRequests { requests: DropboxFileRequest[]; hasMore: boolean }
 
   /**
    * Dropbox, the cloud file storage service: open, list, read and download files and folders
@@ -33257,6 +33609,22 @@ interface DropboxSharedWithMe { items: DropboxSharedItem[]; hasMore: boolean }
    * shared links, share with people, and run file requests and transfers.
    */
   interface Unit {
+    /**
+     * Lists who has access to one shared file (`file`: a path or `id:…` from
+     * `searchFiles`/`listFolder`) or shared folder (`sharedFolderId` from `listSharedWithMe`) in
+     * the signed-in caller's Dropbox — each user, group or pending invitee with their name, email,
+     * access (owner/editor/viewer) and whether it is inherited. Pass exactly one of the two. Needs
+     * the caller's Dropbox sign-in.
+     */
+    listSharingMembers(input: { file?: string; sharedFolderId?: string }, opts?: ConnectionOption): Promise<DropboxSharingMembers>;
+
+    /**
+     * Lists the signed-in caller's file requests, open and closed — each with its id, upload URL,
+     * title, destination folder, whether it is open, how many files it has received, when it was
+     * made and its deadline. Needs the caller's Dropbox sign-in.
+     */
+    listFileRequests(opts?: ConnectionOption): Promise<DropboxFileRequests>;
+
     /**
      * Lists the shared links the signed-in caller has created — all of them, or only those for one
      * `path` — each with its URL, file/folder kind, name, path, id, expiry, visibility
@@ -33361,6 +33729,20 @@ interface DropboxSharedWithMe { items: DropboxSharedItem[]; hasMore: boolean }
      * there is more than this one page. THROWS on a file link (use getSharedLink).
      */
     listSharedFolder(input: { url: string; path?: string }): Promise<DropboxSharedFolder>;
+
+    /**
+     * Makes a NEW Dropbox account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -34077,7 +34459,7 @@ interface ebaySellerProfile {
      * `watchlistPosition` (1-indexed order in the list). `limit` caps the row count (default 20,
      * ceiling 200).
      */
-    getWatchlist(args?: { limit?: number }): Promise<ebayWatchlistItem[]>;
+    getWatchlist(args?: { limit?: number }, opts?: ConnectionOption): Promise<ebayWatchlistItem[]>;
 
     /**
      * Get the caller's own active selling listings. Needs a signed-in eBay account; the caller
@@ -34085,7 +34467,7 @@ interface ebaySellerProfile {
      * since the page is the caller's own listings and does not print their username back to them.
      * `limit` caps the row count (default 20, ceiling 200).
      */
-    getMyListings(args?: { limit?: number }): Promise<ebayItem[]>;
+    getMyListings(args?: { limit?: number }, opts?: ConnectionOption): Promise<ebayItem[]>;
   }
 }
 
@@ -35746,6 +36128,15 @@ interface ListFavoritesResult {
   favorites: EspnFavorite[];
 }
 
+interface AddFavoriteArgs {
+  id: string; // ESPN preference id, as listFavorites returns it
+  kind: string; // type.code — "team", "league", "player", "fantasy"
+}
+
+interface RemoveFavoriteArgs {
+  id: string; // a favourite's id from listFavorites
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -35895,6 +36286,18 @@ interface ListFavoritesResult {
      * getFantasyLeague.
      */
     getFantasyTeam(args: GetFantasyTeamArgs): Promise<FantasyTeamResult>;
+
+    /**
+     * Adds a team, league or player to the CALLER's My ESPN favourites and returns the updated
+     * list. Needs the caller's own ESPN sign-in.
+     */
+    addFavorite(args: AddFavoriteArgs, opts?: ConnectionOption): Promise<ListFavoritesResult>;
+
+    /**
+     * Removes one favourite (by its id from listFavorites) from the CALLER's My ESPN favourites
+     * and returns the updated list. Needs the caller's own ESPN sign-in.
+     */
+    removeFavorite(args: RemoveFavoriteArgs, opts?: ConnectionOption): Promise<ListFavoritesResult>;
 
     /**
      * The CALLER's My ESPN favourites — the teams, leagues, players and fantasy teams they follow,
@@ -38208,6 +38611,14 @@ interface EditPageArgs {
   section?: number | "new";
 }
 
+interface UndoRevisionArgs {
+  wiki: string;
+  title: string;
+  revid: number | string;
+  undoafter?: number | string;
+  summary?: string;
+}
+
 interface CreatePageArgs {
   wiki: string;
   title: string;
@@ -38433,6 +38844,13 @@ interface WatchResult {
      * /api.php?action=edit&createonly=1`.
      */
     createPage(args: CreatePageArgs, opts?: ConnectionOption): Promise<EditResult>;
+
+    /**
+     * Undo one edit to an article under the caller's own account — `revid` from `listRevisions`,
+     * optionally `undoafter` to undo a run of edits. Fails with `undofailure` when later edits
+     * conflict. `POST /api.php?action=edit&undo={revid}`.
+     */
+    undoRevision(args: UndoRevisionArgs, opts?: ConnectionOption): Promise<EditResult>;
   }
 }
 
@@ -41254,6 +41672,15 @@ interface FoxnewsPodcastEpisode {
   duration?: string;
   audioUrl?: string;
 }
+interface FoxnewsAccount {
+  profileId: string | null;
+  email: string | null;
+  accountType: string | null;
+  displayName: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  raw: Record<string, unknown>;
+}
 
   /**
    * Fox News (foxnews.com) — search stories and clips, read an article in full, get the top
@@ -41370,6 +41797,12 @@ interface FoxnewsPodcastEpisode {
      * duration and the audio url — taking a show's url from listPodcasts.
      */
     listPodcastEpisodes(args: ListPodcastEpisodesArgs): Promise<{ episodes: FoxnewsPodcastEpisode[] }>;
+
+    /**
+     * Reads the signed-in caller's Fox account — profile id, email, account type and name — off
+     * the Fox ProfileSDK's identity API. Needs the caller signed in to foxnews.com.
+     */
+    getAccount(opts?: ConnectionOption): Promise<FoxnewsAccount>;
 
     /**
      * Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics, Breaking
@@ -42819,6 +43252,7 @@ interface GithubListCommitsOptions {
   sha?: string;
   since?: string;
   until?: string;
+  author?: string;  // a login or an email: only commits by that author
   per_page?: number;
   page?: number;
 }
@@ -43375,12 +43809,12 @@ interface GithubPullRequestCreated {
      * Returns a public repo's commit log off GitHub's own unauthenticated REST commits endpoint —
      * each commit's sha, author name/email, author date, message and its own github.com URL.
      * `options.sha` starts from a branch/tag/commit other than the default branch;
-     * `options.since`/`until` (ISO 8601) window by date; `options.per_page` (GitHub's own 1-100
-     * ceiling, default 30) and `options.page` page through history. Unauthenticated calls are
-     * capped at 60 requests/hour per IP — GitHub's own published ceiling, not something this
-     * provider adds. THROWS on an unknown owner/repo (404) or a rate limit (403/429); a repo with
-     * no commits yet (409, GitHub's own empty-history response) returns `commits: []`, not a
-     * throw.
+     * `options.since`/`until` (ISO 8601) window by date; `options.author` (a login or an email)
+     * keeps only that author's commits; `options.per_page` (GitHub's own 1-100 ceiling, default
+     * 30) and `options.page` page through history. Unauthenticated calls are capped at 60
+     * requests/hour per IP — GitHub's own published ceiling, not something this provider adds.
+     * THROWS on an unknown owner/repo (404) or a rate limit (403/429); a repo with no commits yet
+     * (409, GitHub's own empty-history response) returns `commits: []`, not a throw.
      */
     listCommits(owner: string, repo: string, options?: GithubListCommitsOptions): Promise<GithubListCommitsResult>;
 
@@ -45881,6 +46315,32 @@ interface SavePlaceArgs {
 interface SavePlaceResult {
   saved: boolean;
 }
+interface WriteReviewArgs {
+  placeId: string;
+  rating: number;
+  text?: string;
+}
+interface WriteReviewResult {
+  posted: boolean;
+}
+interface SuggestPlaceEditArgs {
+  featureId: string;
+  kind: "wrong_info" | "closed" | "other";
+  details: string;
+}
+interface SuggestPlaceEditResult {
+  submitted: boolean;
+}
+interface AddMissingPlaceArgs {
+  name: string;
+  address: string;
+  category?: string;
+  phone?: string;
+  website?: string;
+}
+interface AddMissingPlaceResult {
+  submitted: boolean;
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
@@ -46144,6 +46604,31 @@ interface SavePlaceResult {
      * a signed-in Maps session to have captured the positive shape.
      */
     savePlace(args: SavePlaceArgs, opts?: ConnectionOption): Promise<SavePlaceResult>;
+
+    /**
+     * Posts a 1-5 star rating and optional text on a place as the signed-in caller, through
+     * Google's own review composer (search.google.com/local/writereview?placeid=). An
+     * authFunction: the caller's own Google login, never ours; the fleet never fires it. Takes the
+     * Places API placeId searchPlaces returns. Logged out the door 302s to accounts.google.com
+     * (measured 2026-11-07), so with no session it throws rather than attempting the click.
+     */
+    writeReview(args: WriteReviewArgs, opts?: ConnectionOption): Promise<WriteReviewResult>;
+
+    /**
+     * Sends Google a correction about a place (wrong details, closed or moved, other) through the
+     * place panel's Suggest an edit control, as the signed-in caller. An authFunction: the
+     * caller's own login. Takes a featureId; with no session it throws rather than attempting the
+     * click.
+     */
+    suggestPlaceEdit(args: SuggestPlaceEditArgs, opts?: ConnectionOption): Promise<SuggestPlaceEditResult>;
+
+    /**
+     * Adds a business Google Maps does not list yet (name, address, optional category, phone,
+     * website) through the Maps menu's Add a missing place form, as the signed-in caller. An
+     * authFunction: the caller's own login. With no session it throws rather than attempting the
+     * form.
+     */
+    addMissingPlace(args: AddMissingPlaceArgs, opts?: ConnectionOption): Promise<AddMissingPlaceResult>;
   }
 }
 
@@ -46819,6 +47304,7 @@ interface GoogleStoreProduct {
 
 declare namespace BowmarkProvider_google_translate {
   // ── Google Translate — the unit's own declarations, verbatim ──
+type DeleteHistoryArgs = { text: string } | { all: true };
 interface PhraseArgs {
   text: string;
   from: string;
@@ -46968,6 +47454,7 @@ interface GoogleTranslateRomanization {
 interface SpeakArgs {
   text: string;
   language: string;
+  slow?: boolean;
 }
 interface GoogleTranslateSpeech {
   audioBase64: string;
@@ -47120,7 +47607,8 @@ interface GoogleTranslateImageResult {
      * stream with no container. `chunkCount` says how many `/translate_tts` calls the answer is
      * built from. Throws when a single SENTENCE in `args.text` is itself over 200 characters —
      * there is no boundary left to chunk on, and truncating it silently is the one thing this
-     * function must not do.
+     * function must not do. `args.slow: true` is the site's slow speaker button (`ttsspeed=0.24`),
+     * for hearing a phrase at learner speed.
      */
     speak(args: SpeakArgs): Promise<GoogleTranslateSpeech>;
 
@@ -47187,6 +47675,15 @@ interface GoogleTranslateImageResult {
      * 2026-09-15); a signed-in copy has never been captured, so a signed-in run refuses honestly.
      */
     listHistory(opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * Delete from the signed-in caller's translation history — one entry by its source text (`{
+     * text }`, the History panel's ✕) or everything (`{ all: true }`, "Clear all history"). Needs
+     * the caller's Google sign-in. Reaches the same translate.google.com/history door as
+     * listHistory, which 302s to accounts.google.com logged out; the delete request has never been
+     * captured signed in, so a signed-in run refuses without deleting anything.
+     */
+    deleteHistory(args: DeleteHistoryArgs, opts?: ConnectionOption): Promise<never>;
   }
 }
 
@@ -47733,6 +48230,14 @@ interface PlagiarismCheck {
 interface Humanized {
   text: string;
 }
+interface ParaphraseArgs {
+  /** The text to reword, up to 625 characters (the logged-out tool's own cap). */
+  text: string;
+}
+interface Paraphrased {
+  /** The reworded text: same meaning, same number of sentences. */
+  text: string;
+}
 interface GrammarlyAccount {
   /** The signed-in account's email. */
   email: string;
@@ -47808,6 +48313,15 @@ interface GrammarlyPlans {
      * spelling dialect can change.
      */
     humanize(args: TextArgs): Promise<Humanized>;
+
+    /**
+     * Grammarly's free paraphrasing tool, no account — rewords each sentence keeping its meaning,
+     * e.g. `paraphrase({ text: "The weather was really bad so we decided to stay at home and watch
+     * movies all day." })` → `{ text: "The weather was quite terrible, so we chose to stay indoors
+     * and binge-watch movies throughout the day." }`. Up to 625 characters per call; split longer
+     * text.
+     */
+    paraphrase(args: ParaphraseArgs): Promise<Paraphrased>;
 
     /**
      * Returns the signed-in account's profile: `email`, `name` ("" when unset), `plan` ("Free" or
@@ -50213,6 +50727,13 @@ interface HipcampListing {
   priceRange: string | null;
   detailPath: string;
 }
+interface HipcampSearchResult {
+  listings: HipcampListing[];
+  /** The area Hipcamp actually answered for. totalInArea is Hipcamp's own count, null when the page gives none. */
+  area: { kind: string | null; name: string | null; totalInArea: number | null };
+  /** Non-empty when the list is thinner than asked: Hipcamp's area pages show a curated top ~20-32, not every listing. */
+  warnings: string[];
+}
 
   /**
    * Hipcamp listing directory — find campgrounds by destination (a national park, a region, or a
@@ -50220,10 +50741,11 @@ interface HipcampListing {
    */
   interface Unit {
     /**
-     * Given a destination name (a national park, region, or city), returns campground listings
-     * from Hipcamp.
+     * Given a destination name (a national park, region, or city), returns Hipcamp's curated top
+     * campground listings there, with a warning when Hipcamp has more listings in the area than
+     * its page shows.
      */
-    search(destination: string): Promise<HipcampListing[]>;
+    search(destination: string): Promise<HipcampSearchResult>;
   }
 }
 
@@ -51301,6 +51823,15 @@ interface IkeaFamilyMembership {
   /** Every loyalty card on the account. */
   cards: { cardNumber: string | null; cardType: string | null }[];
 }
+interface IkeaFamilyOffers {
+  /** IKEA's own personal coupons, as IKEA sends them (signed-in shape unmeasured). */
+  offers: Record<string, unknown>[];
+  /** Coupons from IKEA's partners, as IKEA sends them. */
+  partnerOffers: Record<string, unknown>[];
+  /** The member benefits IKEA lists for the account, as sent; null when that call failed. */
+  benefits: unknown;
+  warnings: string[];
+}
 interface UpdateProfileArgs {
   /** Only the fields passed are changed. */
   firstName?: string;
@@ -51578,6 +52109,12 @@ interface RemoveFromFavoritesArgs {
      * card number and IKEA's customer id. Needs the caller signed in to IKEA.
      */
     getFamilyMembership(opts?: ConnectionOption): Promise<IkeaFamilyMembership>;
+
+    /**
+     * Lists the signed-in caller's IKEA Family offers — their personal coupons, partner coupons
+     * and the member benefits IKEA shows in the loyalty hub. Needs the caller signed in to IKEA.
+     */
+    listFamilyOffers(opts?: ConnectionOption): Promise<IkeaFamilyOffers>;
 
     /**
      * Edits the signed-in caller's own IKEA personal details — first name, last name, birth date
@@ -51955,6 +52492,35 @@ interface ImdbCustomListsResponse {
      * visibility and item count. Needs the caller signed in to IMDb.
      */
     listCustomLists(args?: ImdbCustomListsArgs, opts?: ConnectionOption): Promise<ImdbCustomListsResponse>;
+  }
+}
+
+declare namespace BowmarkProvider_imgur {
+  // ── Imgur — the unit's own declarations, verbatim ──
+interface imgurRow {
+  id: string;
+}
+
+  /**
+   * Image and meme hosting. Browsing, search and gallery feeds all work with no account —
+   * measured 2026-11-07 on /hot, /search and /t/<tag> (auth: none). Uploading, voting,
+   * commenting and favoriting need an account; auth.ts carries the sign-up adapter every site
+   * with accounts gets, not yet a known-good one (see its header for the unmeasured edges).
+   */
+  interface Unit {
+    /**
+     * Makes a NEW Imgur account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -54226,6 +54792,45 @@ interface IstanbulkartTouristPass {
      * specifically to visitors for unlimited transit over a fixed number of days.
      */
     getTouristPassFares(): Promise<IstanbulkartTouristPass[]>;
+  }
+}
+
+declare namespace BowmarkProvider_itunes {
+  // ── iTunes Search (Apple Podcasts) — the unit's own declarations, verbatim ──
+interface ItunesSearchArgs {
+  term: string;        // words to search, e.g. '"Erik Bernhardsson" Modal' (matched loosely: filter the rows)
+  limit?: number;      // 1-200, default 25
+  country?: string;    // two-letter store, default "us"
+}
+interface ItunesPodcastEpisode {
+  trackId: number;
+  title: string;               // the episode's title
+  show: string | null;         // the podcast it is on
+  showId: number | null;
+  description: string | null;  // show notes
+  releaseDate: string | null;  // ISO timestamp
+  durationMs: number | null;
+  url: string;                 // the episode's Apple Podcasts page
+  showUrl: string | null;
+  audioUrl: string | null;
+  feedUrl: string | null;
+}
+interface ItunesPodcastSearch {
+  episodes: ItunesPodcastEpisode[];
+  count: number;
+}
+
+  /**
+   * Search Apple Podcasts episodes by words (a guest's name, a company) through Apple's keyless
+   * iTunes Search API
+   */
+  interface Unit {
+    /**
+     * Podcast episodes on Apple Podcasts matching some words, newest Apple ranking first: title,
+     * show, show notes, release date and the episode page. Apple matches loosely (any word can
+     * carry a row), so check the rows name what you searched for.
+     */
+    searchPodcastEpisodes(args: ItunesSearchArgs): Promise<ItunesPodcastSearch>;
   }
 }
 
@@ -64095,7 +64700,7 @@ interface MsnVideoFeedOptions {
 }
 
 interface MsnScoresArgs {
-  league: "nfl" | "nba" | "nhl";
+  league: "nfl" | "nba" | "nhl" | "mlb" | "ncaaf" | "mls" | "epl" | "laliga" | "bundesliga" | "seriea" | "ligue1";
   date?: string;  // "YYYY-MM-DD", a UTC day; default today
 }
 
@@ -64254,9 +64859,9 @@ interface MsnScores {
      * Returns one league's games on one date the way MSN Sports' scores page does for a visitor
      * with no account: each game's start time, status (e.g. Final, Scheduled, or the live period),
      * venue, TV channels and both teams with name, abbreviation, home/away, score, won/lost and
-     * season record. `league` is nfl, nba or nhl; `date` is a UTC calendar day "YYYY-MM-DD"
-     * (default today), so an evening US game can fall on the next UTC day. A date with no games
-     * returns an empty `games` list.
+     * season record. `league` is nfl, nba, nhl, mlb, ncaaf, mls, epl, laliga, bundesliga, seriea
+     * or ligue1; `date` is a UTC calendar day "YYYY-MM-DD" (default today), so an evening US game
+     * can fall on the next UTC day. A date with no games returns an empty `games` list.
      */
     getScores(args: MsnScoresArgs): Promise<MsnScores>;
   }
@@ -65060,8 +65665,9 @@ interface NetflixMyListItem {
 }
 
 interface NetflixRating {
-  titleId: string;
-  rating: 1 | 2 | 3 | 4 | 5;
+  id: string;
+  /** THUMBS_DOWN = "Not for me", THUMBS_UP = "I like this", THUMBS_WAY_UP = "Love this!" */
+  rating: "THUMBS_DOWN" | "THUMBS_UP" | "THUMBS_WAY_UP";
 }
 
 interface NetflixMyListChange {
@@ -65115,6 +65721,15 @@ interface NetflixTudumSearchResult {
 
   /** Netflix streaming service — browse titles, search, manage My List and view history. */
   interface Unit {
+    /**
+     * Rates a title on the signed-in caller's own Netflix account by its numeric id —
+     * rateTitle("80057281", "up") for "I like this", "down" for "Not for me", "love" for "Love
+     * this!" — returning the rating Netflix recorded. Clearing a rating is not supported. Opens a
+     * browser, so it takes several seconds. Needs the caller signed in to their own Netflix
+     * account.
+     */
+    rateTitle(titleId: string, rating: "up" | "down" | "love", opts?: ConnectionOption): Promise<NetflixRating>;
+
     /**
      * Adds a title to the signed-in caller's own Netflix My List by its numeric id (from
      * findTitles, search or netflix.com/title/<id>) — e.g. addToMyList("80057281") — returning the
@@ -68168,6 +68783,7 @@ interface NytimesArticle {
   firstPublished?: string;
   lastModified?: string;
   commentsCount?: number;
+  warnings?: string[];
 }
 interface NytimesArticleSection {
   name: string;          // the site's short name, e.g. "world"
@@ -68376,7 +68992,7 @@ interface NytimesFollowWriterResult {
      * Gets full article text, metadata and comments count. Takes an article path like
      * /2026/09/26/world/article-slug.html. When NYT's bot wall refuses the page it falls back to
      * NYT's own oEmbed card: headline, description, bylines and publish date only, with the url as
-     * id.
+     * id and a warning naming what was dropped.
      */
     getArticle(path: string): Promise<NytimesArticle>;
 
@@ -68487,9 +69103,9 @@ interface NytimesFollowWriterResult {
     getConnections(date?: string): Promise<NytimesConnectionsPuzzle>;
 
     /**
-     * Gets a day's Spelling Bee puzzle off the site's own JSON endpoint (the center letter, the
-     * seven available letters, all valid words, and all pangrams). Takes an optional "YYYY-MM-DD"
-     * date, defaulting to today in America/New_York.
+     * Gets a day's Spelling Bee puzzle off the game page (the center letter, the six outer
+     * letters, all valid words, and all pangrams). Takes an optional "YYYY-MM-DD" date within
+     * roughly the last two weeks, defaulting to today in America/New_York.
      */
     getSpellingBee(date?: string): Promise<NytimesSpellingBeePuzzle>;
 
@@ -70342,6 +70958,20 @@ interface FollowCreatorResult {
      * no money. Needs the caller signed in.
      */
     followCreator(args: FollowCreatorArgs, opts?: ConnectionOption): Promise<FollowCreatorResult>;
+
+    /**
+     * Makes a NEW Patreon account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -72111,6 +72741,32 @@ interface PinterestNotification {
     hidePin(pinId: string, options?: { undo?: boolean }, opts?: ConnectionOption): Promise<{ pinId: string; hidden: boolean }>;
 
     /**
+     * Rename one of the signed-in caller's boards, change its description, or flip it between
+     * public and secret, and get the board back. `POST /resource/BoardResource/update/` with `{
+     * board_id, ...changes }`. THROWS `PinterestInputError` on a non-numeric board id, no change,
+     * or an unknown privacy, and when the saved session is refused (the run asks for a fresh
+     * sign-in).
+     */
+    updateBoard(boardId: string, changes: { name?: string; description?: string; privacy?: "secret" | "public" }, opts?: ConnectionOption): Promise<PinterestBoard>;
+
+    /**
+     * Delete one of the signed-in caller's own boards and every pin saved on it — the undo for
+     * `createBoard`. Not reversible. `POST /resource/BoardResource/delete/` with `{ board_id }`.
+     * THROWS `PinterestInputError` on a non-numeric board id, and when the saved session is
+     * refused (the run asks for a fresh sign-in).
+     */
+    deleteBoard(boardId: string, opts?: ConnectionOption): Promise<{ boardId: string; deleted: boolean }>;
+
+    /**
+     * Save (repin) an existing pin to one of the signed-in caller's boards, optionally into a
+     * section and with their own note, and get the new pin back. `POST
+     * /resource/RepinResource/create/` with `{ pin_id, board_id }`. THROWS `PinterestInputError`
+     * on a non-numeric pin, board or section id, and when the saved session is refused (the run
+     * asks for a fresh sign-in).
+     */
+    savePin(pinId: string, boardId: string, options?: { sectionId?: string; description?: string }, opts?: ConnectionOption): Promise<PinterestPin>;
+
+    /**
      * The caller's own notifications — who saved, commented on or followed them, newest first,
      * page by page. `GET /resource/ApiResource/get/` proxying the site's own `/v3/news_hub/feed/`
      * call, with the caller's replayed session. THROWS when the saved session is refused (the run
@@ -73483,6 +74139,15 @@ interface PrimeVideoLiveSportsEvent {
      * Needs the caller signed in; a profile with nothing in progress returns an empty array.
      */
     listContinueWatching(opts?: ConnectionOption): Promise<PrimeVideoTitle[]>;
+
+    /**
+     * Add a title to the caller's own Prime Video watchlist, or take it off — `action` is "add"
+     * (the default) or "remove". Takes a titleId or title URL, e.g. one read off searchTitles().
+     * Needs the caller signed in to their own Prime Video account; the run pauses for that sign-in
+     * otherwise. Private to the caller: it reaches nobody else and never buys or rents anything.
+     * Read getWatchlist() afterwards to confirm.
+     */
+    toggleWatchlist(titleId: string, action?: "add" | "remove", opts?: ConnectionOption): Promise<{ titleId: string; action: "add" | "remove"; ok: true }>;
   }
 }
 
@@ -75598,6 +76263,35 @@ interface QuickbooksSearchAppsArgs {
 }
 
 /** One App Store category. */
+interface QuickbooksListAppReviewsArgs {
+  /** The `id` a searchApps or getApp result returns. */
+  id: string;
+  /** 1-50, default 10. */
+  limit?: number;
+  /** Newest reviews to skip, for paging. Default 0. */
+  offset?: number;
+}
+
+interface QuickbooksAppReview {
+  id: string;
+  title: string | null;
+  text: string | null;
+  rating: number | null;
+  date: string | null;
+  reviewer: string | null;
+  reviewerLocation: string | null;
+  recommended: boolean | null;
+  developerResponses: { text: string; date: string | null; team: string | null }[];
+  comments: { text: string; date: string | null; author: string | null }[];
+}
+
+interface QuickbooksAppReviews {
+  totalReviews: number;
+  averageRating: number | null;
+  ratingDistribution: { rating: number; count: number }[];
+  reviews: QuickbooksAppReview[];
+}
+
 interface QuickbooksAppCategory {
   /** Pass to searchApps({ category }). */
   slug: string; // "INVOICING_AND_PAYMENTS"
@@ -75721,6 +76415,12 @@ interface QuickbooksApp extends QuickbooksAppSummary {
 
     /** The App Store's categories, with the slug searchApps filters on and each one's app count */
     listAppCategories(): Promise<QuickbooksAppCategory[]>;
+
+    /**
+     * One App Store listing's user reviews, newest first, with rating, text, date and developer
+     * replies
+     */
+    listAppReviews(args: string | QuickbooksListAppReviewsArgs): Promise<QuickbooksAppReviews>;
   }
 }
 
@@ -77583,6 +78283,30 @@ interface UpdateSettingsResult {
   updated: Array<"name" | "phone" | "email">;
 }
 
+interface CheckAvailabilityArgs {
+  /** Google-hosted merchant id from findBookablePlaces/getBookingOptions, e.g. "ACNsCyuOaeQ". */
+  merchantId: string;
+  /** Party size; defaults to 2. */
+  partySize?: number;
+}
+
+interface AvailabilitySlot {
+  /** Venue-local label, e.g. "9:30 PM". */
+  time: string;
+  /** Slot start, ISO UTC. */
+  startsAt: string;
+  available: boolean;
+}
+
+interface Availability {
+  merchantId: string;
+  partySize: number;
+  /** Every day with an opening for this party size, "YYYY-MM-DD", venue-local. */
+  bookableDates: string[];
+  /** Time slots for the nearest bookable day only — the page renders no other day. */
+  slots: AvailabilitySlot[];
+}
+
   /**
    * Google's own booking layer on Maps and Search: find places that take a booking through
    * Google, see which partner takes it, read a Google-hosted restaurant's party sizes and
@@ -77608,6 +78332,12 @@ interface UpdateSettingsResult {
      * partner, party sizes, time zone, bookable room and bookable days.
      */
     getMerchant(merchantId: string): Promise<Merchant>;
+
+    /**
+     * For a Google-hosted merchant and party size: every bookable day, plus the time slots (open
+     * or taken) for the nearest bookable day.
+     */
+    checkAvailability(args: CheckAvailabilityArgs): Promise<Availability>;
 
     /**
      * Lists every booking provider connected to Reserve with Google (Booksy, OpenTable, Tock…)
@@ -78235,6 +78965,17 @@ interface ReutersWriteResult {
   id: string;                 // what reuters.com echoed back
   success: boolean;           // reuters.com's own success flag
 }
+interface ReutersNewsletterChange {
+  newsletterId?: string;      // one id as listNewsletters returns it, e.g. "morning_bid_us"
+  newsletterIds?: string[];   // or several at once
+  email: string;              // the signed-in account's address — reuters.com keys subscriptions on it
+}
+interface ReutersNewsletterResult {
+  newsletterIds: string[];
+  subscribed: boolean;        // true for subscribeNewsletter, false for unsubscribeNewsletter
+  statusCode: number;         // reuters.com's own status (under 400 = done)
+  statusMessage: string | null;
+}
 interface ReutersArticleRef {
   id: string;                 // the article id listSavedArticles / getMyNewsFeed return
 }
@@ -78464,6 +79205,15 @@ interface GetMyNewsFeedArgs {
 
     /** Unfollow something listFollowedTopics returns, by its id (and type). */
     unfollowTopic(args: ReutersTopicRef, opts?: ConnectionOption): Promise<ReutersWriteResult>;
+
+    /**
+     * Sign the signed-in reader up to one or more Reuters newsletters, by the id listNewsletters
+     * returns, with the account's email.
+     */
+    subscribeNewsletter(args: ReutersNewsletterChange, opts?: ConnectionOption): Promise<ReutersNewsletterResult>;
+
+    /** Unsubscribe the signed-in reader from one or more Reuters newsletters. */
+    unsubscribeNewsletter(args: ReutersNewsletterChange, opts?: ConnectionOption): Promise<ReutersNewsletterResult>;
 
     /**
      * The signed-in reader's My News feed — the latest stories aggregated from everything
@@ -80864,6 +81614,20 @@ interface ScribdTrendingModule {
   url?: string;
   documents: ScribdTrendingDocument[];
 }
+interface ScribdMyList {
+  id: number | string | null;
+  name: string | null;
+  url: string | null;
+  privacy: string | null;
+  documentCount: number | null;
+  raw: unknown;
+}
+interface ScribdListWriteResult {
+  listId: string;
+  documentId: number;
+  added: boolean;
+  response?: unknown;
+}
 
   /**
    * Scribd, the document-sharing library: search user-uploaded documents, read a document's
@@ -80947,6 +81711,20 @@ interface ScribdTrendingModule {
      * Needs the caller signed in to Scribd.
      */
     unsaveDocument(document: string | number, opts?: ConnectionOption): Promise<ScribdSaveResult>;
+
+    /**
+     * Lists the signed-in caller's own Scribd lists (collections) — each with id, name, url,
+     * privacy and document count where Scribd sends them, plus the raw row. Pass an id to
+     * addDocumentToList. Needs the caller signed in to Scribd.
+     */
+    listMyLists(opts?: ConnectionOption): Promise<ScribdMyList[]>;
+
+    /**
+     * Adds a Scribd document to one of the signed-in caller's own lists, taking the list's
+     * scribd.com/lists/<id>/<slug> url or id (from listMyLists) and the document's url or id, and
+     * returns both ids with added: true. Needs the caller signed in to Scribd.
+     */
+    addDocumentToList(list: string | number, document: string | number, opts?: ConnectionOption): Promise<ScribdListWriteResult>;
 
     /**
      * Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
@@ -81934,6 +82712,48 @@ interface SerperSearchResult {
      * operator honoured.
      */
     searchGoogle(query: string, opts?: SerperSearchOptions): Promise<SerperSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_sessionize {
+  // ── Sessionize — the unit's own declarations, verbatim ──
+interface SessionizeSpeaker {
+  found: boolean;              // false: sessionize.com/<slug> is the site's 404 (no such speaker)
+  slug: string;
+  url: string;                 // https://sessionize.com/<slug>
+  name: string | null;
+  tagline: string | null;      // e.g. "Developer Advocate"
+  location: string | null;
+  bio: string | null;
+  links: { label: string; url: string }[];   // "LinkedIn", "Blog", "Company", "@handle"
+  topics: string[];
+  sessions: { title: string; url: string | null; summary: string | null }[];   // talks they submitted
+  events: { name: string; url: string | null; date: string | null; location: string | null }[];   // events they spoke at
+}
+interface SessionizeSpeakerSearch {
+  speakers: { slug: string; url: string; name: string; tagline: string | null; sessionsNote: string | null; bio: string | null }[];
+  count: number;
+}
+
+  /**
+   * Read a conference speaker's public Sessionize profile: name, tagline, bio, links, talks and
+   * events
+   */
+  interface Unit {
+    /**
+     * Searches the Sessionize speakers directory by a name or a topic and returns each speaker's
+     * slug, name, tagline and bio. Pass a row's `slug` to getSpeaker for their talks and events.
+     * Nobody matching is `count: 0`.
+     */
+    searchSpeakers(query: string): Promise<SessionizeSpeakerSearch>;
+
+    /**
+     * A speaker's public Sessionize profile by its slug ("charles-frye", or the full
+     * sessionize.com URL): name, tagline, bio, location, links (LinkedIn, X, company), topics, the
+     * talks they submitted and the events they spoke at. A slug nobody owns answers `found:
+     * false`.
+     */
+    getSpeaker(slug: string): Promise<SessionizeSpeaker>;
   }
 }
 
@@ -83108,6 +83928,20 @@ interface ShopAppOrderDetail {
   url: string;
   warnings: string[];
 }
+interface ShopAppTrackPackageArgs {
+  trackingCode: string;
+  carrier?: string;
+  name?: string;
+  destinationPostalCode?: string;
+}
+interface ShopAppTrackedPackage {
+  deliveryId: string;
+  trackingCode: string;
+  carrier: string;
+  alreadyTracked: boolean;
+  url: string;
+  warnings: string[];
+}
 interface ShopAppOrderList {
   orders: ShopAppOrder[];
   nextCursor: string | null;
@@ -83126,6 +83960,14 @@ interface ShopAppListOrdersArgs {
    * products, follow stores and fill a cart up to checkout.
    */
   interface Unit {
+    /**
+     * Adds a package to the signed-in caller's Shop by its tracking number so Shop tracks it —
+     * carrier picked from Shop's own suggestions for the number unless given, optional package
+     * name and destination postal code — and returns the delivery id and its shop.app link. Pauses
+     * for the caller to sign in to Shop.
+     */
+    trackPackage(args: ShopAppTrackPackageArgs, opts?: ConnectionOption): Promise<ShopAppTrackedPackage>;
+
     /**
      * One of the signed-in caller's own Shop orders by the id listOrders returns (or its
      * shop.app/orders/<id> url): store, order number, status, subtotal, shipping, tax and total,
@@ -86095,6 +86937,17 @@ interface SpotifyCurrentPlayback {
   repeatState: string | null;
   device: { id: string | null; name: string; type: string } | null;
 }
+interface SpotifyLibrarySearchResult {
+  query: string;
+  tracks: SpotifyTrack[];
+  albums: SpotifyAlbum[];
+  artists: SpotifyArtist[];
+  playlists: SpotifyPlaylist[];
+  /** how many items of each type were read */
+  scanned: { track?: number; album?: number; artist?: number; playlist?: number };
+  /** false when the library was larger than maxScan for some type */
+  complete: boolean;
+}
 
   /**
    * Search Spotify's catalog — tracks, albums, artists, playlists, podcasts — through Spotify's
@@ -86214,62 +87067,70 @@ interface SpotifyCurrentPlayback {
      * Reads the signed-in caller's own Spotify profile — id, display name, country, plan
      * (premium/free), follower count and profile url. Needs the caller signed in to Spotify.
      */
-    getUserProfile(): Promise<SpotifyUserProfile>;
+    getUserProfile(opts?: ConnectionOption): Promise<SpotifyUserProfile>;
 
     /**
      * The signed-in caller's most-played tracks over the last ~4 weeks, ~6 months or all time.
      * Needs the caller signed in to Spotify.
      */
-    getTopTracks(opts?: SpotifyTopOptions): Promise<SpotifyTopTracks>;
+    getTopTracks(opts?: SpotifyTopOptions, connectionOpts?: ConnectionOption): Promise<SpotifyTopTracks>;
 
     /**
      * The signed-in caller's most-played artists over the last ~4 weeks, ~6 months or all time.
      * Needs the caller signed in to Spotify.
      */
-    getTopArtists(opts?: SpotifyTopOptions): Promise<SpotifyTopArtists>;
+    getTopArtists(opts?: SpotifyTopOptions, connectionOpts?: ConnectionOption): Promise<SpotifyTopArtists>;
 
     /**
      * The signed-in caller's Liked Songs, newest first, paged (limit 1-50). Needs the caller
      * signed in to Spotify.
      */
-    getLibraryTracks(opts?: { limit?: number; offset?: number }): Promise<{ tracks: { addedAt: string | null; track: SpotifyTrack }[]; total: number }>;
+    getLibraryTracks(opts?: { limit?: number; offset?: number }, connectionOpts?: ConnectionOption): Promise<{ tracks: { addedAt: string | null; track: SpotifyTrack }[]; total: number }>;
 
     /**
      * Albums the signed-in caller saved to their library, paged. Needs the caller signed in to
      * Spotify.
      */
-    getLibraryAlbums(opts?: { limit?: number; offset?: number }): Promise<{ albums: { addedAt: string | null; album: SpotifyAlbum }[]; total: number }>;
+    getLibraryAlbums(opts?: { limit?: number; offset?: number }, connectionOpts?: ConnectionOption): Promise<{ albums: { addedAt: string | null; album: SpotifyAlbum }[]; total: number }>;
 
     /**
      * Artists the signed-in caller follows; pass the returned `after` cursor for the next page.
      * Needs the caller signed in to Spotify.
      */
-    getLibraryArtists(opts?: { limit?: number; after?: string }): Promise<{ artists: SpotifyArtist[]; total: number; after: string | null }>;
+    getLibraryArtists(opts?: { limit?: number; after?: string }, connectionOpts?: ConnectionOption): Promise<{ artists: SpotifyArtist[]; total: number; after: string | null }>;
 
     /**
      * Playlists the signed-in caller owns or follows, paged. Needs the caller signed in to
      * Spotify.
      */
-    getLibraryPlaylists(opts?: { limit?: number; offset?: number }): Promise<{ playlists: SpotifyPlaylist[]; total: number }>;
+    getLibraryPlaylists(opts?: { limit?: number; offset?: number }, connectionOpts?: ConnectionOption): Promise<{ playlists: SpotifyPlaylist[]; total: number }>;
+
+    /**
+     * Search only the signed-in caller's own library — Liked Songs, saved albums, followed artists
+     * and their playlists — for every word of the query. Reads up to maxScan (default 200, max
+     * 1000) items per type; `complete: false` means the library was larger than that. Needs the
+     * caller signed in to Spotify.
+     */
+    searchMyLibrary(query: string, opts?: { types?: ("track" | "album" | "artist" | "playlist")[]; maxScan?: number }, connectionOpts?: ConnectionOption): Promise<SpotifyLibrarySearchResult>;
 
     /**
      * The signed-in caller's recent play history, newest first, cursor-paged. Needs the caller
      * signed in to Spotify.
      */
-    getRecentlyPlayed(opts?: { limit?: number; before?: number; after?: number }): Promise<{ items: { playedAt: string; track: SpotifyTrack }[]; cursors: { before: string | null; after: string | null } }>;
+    getRecentlyPlayed(opts?: { limit?: number; before?: number; after?: number }, connectionOpts?: ConnectionOption): Promise<{ items: { playedAt: string; track: SpotifyTrack }[]; cursors: { before: string | null; after: string | null } }>;
 
     /**
      * The signed-in caller's connected Spotify Connect devices (speakers, phones, computers).
      * Needs the caller signed in to Spotify.
      */
-    getDevices(): Promise<{ devices: SpotifyDevice[] }>;
+    getDevices(opts?: ConnectionOption): Promise<{ devices: SpotifyDevice[] }>;
 
     /**
      * The signed-in caller's current playback state — what's playing, where, progress,
      * shuffle/repeat. Nothing playing is a normal, not-playing answer, never an error. Needs the
      * caller signed in to Spotify.
      */
-    getCurrentPlayback(): Promise<SpotifyCurrentPlayback>;
+    getCurrentPlayback(opts?: ConnectionOption): Promise<SpotifyCurrentPlayback>;
   }
 }
 
@@ -88094,6 +88955,16 @@ interface AddFriendResult {
   requested: true;
 }
 
+interface PostCommentArgs {
+  steamId: string | number;
+  comment: string;
+}
+
+interface PostCommentResult {
+  steamId: string;
+  posted: true;
+}
+
 interface RemoveFriendArgs {
   steamId: string | number;
 }
@@ -88326,6 +89197,13 @@ interface GetCommunityHubResponse {
      * page's own RemoveFriendAjax door. NEEDS A SIGN-IN — the caller signs in, not us.
      */
     removeFriend(args: RemoveFriendArgs, opts?: ConnectionOption): Promise<RemoveFriendResult>;
+
+    /**
+     * Posts a comment on a Steam user's profile by steamid64 (max 1000 characters), off the
+     * profile comment box's own post door. NEEDS A SIGN-IN — the caller signs in, not us. A public
+     * write: it appears on that person's profile.
+     */
+    postComment(args: PostCommentArgs, opts?: ConnectionOption): Promise<PostCommentResult>;
 
     /**
      * Reads a PUBLIC Steam profile's inventory by steamid64, appid and context — no sign-in
@@ -89796,6 +90674,15 @@ interface ProductImage {
   alt: string | null;
 }
 
+interface DeliveryOption {
+  method: string | null;  // the site's own id ("STANDARD")
+  description: string | null;  // "Standard Shipping"
+  earliestDate: string | null;  // YYYY-MM-DD
+  latestDate: string | null;
+  orderBy: string | null;  // ISO cutoff for these dates
+  isTwoDay: boolean;
+}
+
 interface ProductVariant {
   name: string;
   inStock: boolean;
@@ -89817,6 +90704,7 @@ interface TargetProduct {
   availabilityStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   inStock: boolean;
   variants: ProductVariant[];  // flattened from the site's own variation tree; [] when the product has no siblings
+  deliveryOptions: DeliveryOption[];  // when it would arrive if ordered now (default address)
   warnings: string[];
 }
 
@@ -90410,6 +91298,8 @@ interface TrackOrderArgs { orderId: string; }
 interface TemuTrackingEvent { time?: string; description: string; }
 interface TemuPackage { packageId?: string; carrier?: string; trackingNumber?: string; status?: string; expectedDelivery?: string; events: TemuTrackingEvent[]; }
 interface TemuTracking { orderId: string; packages: TemuPackage[]; }
+interface AddToWishlistArgs { productId?: string; url?: string; }
+interface TemuWishlistSave { productId: string; saved: true; }
 
   /** Shop Temu — search, product detail, cart and order functions on the marketplace app. */
   interface Unit {
@@ -90439,6 +91329,12 @@ interface TemuTracking { orderId: string; packages: TemuPackage[]; }
      * from listOrders. Needs the caller signed in.
      */
     trackOrder(args: TrackOrderArgs, opts?: ConnectionOption): Promise<TemuTracking>;
+
+    /**
+     * Saves one Temu product to the caller's own wishlist, by its productId (goods_id) or product
+     * url. Needs the caller signed in.
+     */
+    addToWishlist(args: AddToWishlistArgs, opts?: ConnectionOption): Promise<TemuWishlistSave>;
   }
 }
 
@@ -91993,6 +92889,19 @@ interface ThreadsHomeFeed {
   feed: "for_you" | "following";
   posts: ThreadsPost[];      // first server-rendered page, in feed order
 }
+// createPost / replyToPost / quotePost: publish a text thread as the caller
+interface ThreadsCreatePostArgs {
+  text: string;              // up to 500 characters
+}
+interface ThreadsReplyArgs {
+  postId: string;            // the post's numeric id (ThreadsPost.id from getPost / getProfilePosts)
+  text: string;              // up to 500 characters
+}
+interface ThreadsPublished {
+  id: string;                // the new post's numeric id
+  code: string | null;       // its short code, when Threads returns one
+  url: string | null;
+}
 // getSavedPosts: the signed-in caller's own saved posts
 interface ThreadsSavedPosts {
   posts: ThreadsPost[];      // first server-rendered page, as /saved lists them
@@ -92048,6 +92957,25 @@ interface ThreadsActivity {
      * runs through their own Chrome when Bowmark Link is attached.
      */
     getHomeFeed(args?: GetHomeFeedArgs, opts?: ConnectionOption): Promise<ThreadsHomeFeed>;
+
+    /**
+     * Publishes a new text thread (up to 500 characters) as the signed-in caller and returns its
+     * id and URL. Needs the caller signed in to Threads; runs through their own Chrome when
+     * Bowmark Link is attached.
+     */
+    createPost(args: ThreadsCreatePostArgs, opts?: ConnectionOption): Promise<ThreadsPublished>;
+
+    /**
+     * Replies to a Threads post as the signed-in caller. postId is the post's numeric id from
+     * getPost or getProfilePosts. Needs the caller signed in to Threads.
+     */
+    replyToPost(args: ThreadsReplyArgs, opts?: ConnectionOption): Promise<ThreadsPublished>;
+
+    /**
+     * Publishes a new thread quoting another post as the signed-in caller. postId is the quoted
+     * post's numeric id from getPost or getProfilePosts. Needs the caller signed in to Threads.
+     */
+    quotePost(args: ThreadsReplyArgs, opts?: ConnectionOption): Promise<ThreadsPublished>;
 
     /**
      * Reads the posts the signed-in caller has saved on Threads (first page) — author, text, media
@@ -92526,6 +93454,12 @@ type ListNotificationsArgs = {
   count?: number;
   cursor?: number;
 };
+type UploadVideoArgs = {
+  file?: string;
+  url?: string;
+  caption?: string;
+  privacy?: "public" | "friends" | "private";
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -92784,6 +93718,17 @@ type ListNotificationsArgs = {
      * door. The caller signs in through the auth relay; Bowmark never signs up on this site.
      */
     listConversations(args: ListConversationsArgs, opts?: ConnectionOption): Promise<{ conversations: Array<{ username?: string; nickname?: string; lastMessage?: string; unread?: boolean }> }>;
+
+    /**
+     * Upload a video to the signed-in caller's own TikTok account with a caption (hashtags
+     * inline). Pass exactly one of `file` (a Bowmark file id) or `url` (an https link to the
+     * video). `privacy` is "public", "friends" or "private" and defaults to "private"; a public
+     * post is visible to everyone at once under the caller's name, so only publish when they
+     * asked. Drives TikTok Studio's own upload page with the caller's session and confirms on the
+     * page's own post call. The caller signs in through the auth relay; Bowmark never signs up on
+     * this site.
+     */
+    uploadVideo(args: UploadVideoArgs, opts?: ConnectionOption): Promise<{ posted: boolean; privacy: "public" | "friends" | "private" }>;
 
     /**
      * The signed-in caller's own activity inbox — new followers, likes, comments and mentions,
@@ -95017,6 +95962,10 @@ interface TumblrEditPostArgs {
   state?: "published" | "draft" | "queue" | "private";
 }
 
+interface TumblrSendMessageArgs {
+  blog: string;
+  text: string;
+}
 interface TumblrComposeResult {
   ok: true;
   /** The post's id, or null when Tumblr's answer carried none. */
@@ -95132,6 +96081,9 @@ interface TumblrComposeResult {
 
     /** Replaces the text, title, tags or state of one post on the signed-in caller's own blog. */
     editPost(args: TumblrEditPostArgs, opts?: ConnectionOption): Promise<TumblrComposeResult>;
+
+    /** Sends an ask (a question) from the signed-in caller to another blog's inbox. */
+    sendMessage(args: TumblrSendMessageArgs, opts?: ConnectionOption): Promise<TumblrComposeResult>;
   }
 }
 
@@ -96878,6 +97830,21 @@ interface UpsPickupQuote {
   bookUrl: string;  // the wizard a person finishes the booking in
 }
 
+interface UpsServiceAlert {
+  title: string;  // e.g. "Middle East Service Impacts"
+  body: string;  // plain text, one paragraph or list item per line
+  links: string[];
+  targeted: boolean;  // true when UPS aims it at signed-in customer segments; hidden on the public page
+  segment: string | null;  // UPS's own audience segment id, when one is set
+  sourceUrl: string;
+}
+
+interface UpsServiceAlerts {
+  alerts: UpsServiceAlert[];
+  count: number;  // alerts.length; 0 is a real answer, "no active disruption"
+  sourceUrl: string;
+}
+
   /**
    * UPS's own documented Rating API (onlinetools.ups.com) — prices a domestic shipment across
    * UPS's service levels for a ZIP-to-ZIP move, weight and optional dimensions, the same rate
@@ -96952,6 +97919,15 @@ interface UpsPickupQuote {
      * person finishes it. Runs in a headless browser.
      */
     schedulePickup(args: { addressLine: string; city: string; state: string; zip: string; pickupDate?: string; residential?: boolean }): Promise<UpsPickupQuote>;
+
+    /**
+     * UPS's own active service alerts — weather, natural disasters and regional disruptions that
+     * may delay shipments — as listed on www.ups.com/us/en/service-alerts. `alerts` empty (and
+     * `count` 0) means UPS lists no active disruption. `includeTargeted: true` also returns
+     * notices UPS aims at signed-in business customers, which the public page hides. No account,
+     * no browser.
+     */
+    getServiceAlerts(args?: { includeTargeted?: boolean }): Promise<UpsServiceAlerts>;
   }
 }
 
@@ -96969,9 +97945,9 @@ interface usatodaySection {
 interface usatodayArticle {
   id: string;
   headline: string;
-  summary: string;
+  summary?: string;
   url: string;
-  publicationDate: string;
+  publicationDate?: string;
   image?: string;
 }
 
@@ -99416,6 +100392,12 @@ interface WashingtonpostArticleFullText {
   text: string;
 }
 
+interface WashingtonpostSavedArticle {
+  url: string;
+  savedAt?: string;
+  archived?: boolean;
+}
+
 interface WashingtonpostSavedArticleResult {
   url: string;
   saved: boolean;
@@ -99572,6 +100554,9 @@ interface WashingtonpostLiveBlog {
 
     /** Gets one newsletter's own name, description and frequency off the directory. */
     getNewsletter(slug: string): Promise<WashingtonpostNewsletter>;
+
+    /** Lists the signed-in reader's own saved articles off their Washington Post account. */
+    listSavedArticles(opts?: ConnectionOption): Promise<WashingtonpostSavedArticle[]>;
 
     /** Saves an article to the CALLER's own Washington Post saved-stories list — never a persona's. */
     saveArticle(url: string, opts?: ConnectionOption): Promise<WashingtonpostSavedArticleResult>;
@@ -99963,15 +100948,61 @@ interface PollenForecastResult {
   dayparts: PollenDaypart[];
 }
 
-interface RadarTile {
-  /** Tile server hostname / endpoint for serving map tiles. */
-  serverHost: string | null;
-  /** Available productSets (data layers) like "PPAcore", "dynamicmaps". */
-  productSets: string[];
-  /** Zoom level range [min, max] for available tiles. */
-  zoomRange: [number, number] | null;
-  /** Base URL pattern for fetching individual tiles. */
-  tileUrlPattern: string | null;
+interface RadarLayer {
+  name: string;
+  nativeZoom: number | null;
+  maxZoom: number | null;
+  /** [north, west, south, east] */
+  bounds: [number, number, number, number] | null;
+  /** Frame timestamps (epoch seconds), newest first. */
+  frames: number[];
+}
+
+interface RadarTilesResult {
+  layer: RadarLayer;
+  latestFrame: number | null;
+  latestFrameTime: string | null;
+  /** Fill {ts} {x} {y} {z}, then GET — a 256px slippy-map PNG. */
+  tileUrlTemplate: string;
+  howToFetch: string;
+  availableLayers: string[];
+}
+
+interface RainTiming {
+  location: WeatherLocation | null;
+  phrase: string;
+  shortPhrase: string | null;
+  overallType: number | null;
+  precipDay: string | null;
+  precipTime: string | null;
+  validAt: string | null;
+}
+
+interface TropicalPathPoint {
+  forecastHour: number | null;
+  time: string | null;
+  stormType: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  maxSustainedWind: number | null;
+  windGust: number | null;
+  heading: string | null;
+  speed: number | null;
+}
+
+interface TropicalPathStorm {
+  stormId: string;
+  stormName: string;
+  basin: string | null;
+  advisoryNumber: string | null;
+  issuedAt: string | null;
+  source: string | null;
+  path: TropicalPathPoint[];
+}
+
+interface TropicalForecastPathResult {
+  storms: TropicalPathStorm[];
+  units: "imperial";
 }
 
 interface HistoricalHour {
@@ -100174,10 +101205,11 @@ interface CMSContent {
     listAlerts(location: Location): Promise<AlertList>;
 
     /**
-     * Full details for one active weather alert — e.g. `getAlertDetails("MDC034")` where the ID
-     * comes from `listAlerts()`. Returns the headline, event type, full description, severity,
-     * urgency, certainty, affected area, issuing office and effective/expiry times. Returns null
-     * if the alert ID is not found or the alert has expired.
+     * Full details for one active weather alert — e.g. `getAlertDetails(alerts[0].id)` where the
+     * ID comes from `listAlerts()`. Returns the headline, event type, full description, severity,
+     * urgency, certainty, affected area, issuing office and effective/expiry times. Throws "No
+     * alert found" when the ID is unknown or the alert has expired — take a fresh id from
+     * `listAlerts()`.
      */
     getAlertDetails(alertId: string): Promise<AlertDetail | null>;
 
@@ -100273,6 +101305,31 @@ interface CMSContent {
      * latitude]` pairs.
      */
     getTropicalCone(stormId?: string): Promise<TropicalConeResult>;
+
+    /**
+     * The radar map layer weather.com's own map draws — the latest frame timestamps (5-minute
+     * steps, newest first) and a ready tile URL template for each. Default layer `"radar"`
+     * (US/global precipitation mosaic); `availableLayers` lists the rest (`"satrad"`,
+     * `"radarFcst"`, `"radarEurope"`, `"temp"`, …). `frames` 1-50, default 12. Not scoped to a
+     * location: convert your lat/lng to slippy-map x/y at zoom ≤ `layer.nativeZoom` and fill the
+     * template.
+     */
+    getRadarTiles(opts?: { layer?: string; frames?: number }): Promise<RadarTilesResult>;
+
+    /**
+     * weather.com's "when will it rain" sentence for a place — e.g. `getRainTiming("Seattle, WA")`
+     * → `"Rain expected around 3:45 pm."`, with the day and time split out (`precipDay`,
+     * `precipTime`). `overallType` 0 means dry for the next several hours.
+     */
+    getRainTiming(location: Location): Promise<RainTiming>;
+
+    /**
+     * Where each active tropical storm/hurricane is forecast to be and how strong — one point per
+     * forecast hour (time, position, storm type, max sustained wind and gust in mph, heading and
+     * speed). No argument returns every active system worldwide; pass a storm id from
+     * getCurrentTropicalPosition to narrow to one. Empty `storms` when nothing is active.
+     */
+    getTropicalForecastPath(stormId?: string): Promise<TropicalForecastPathResult>;
   }
 }
 
@@ -100858,6 +101915,12 @@ interface WhatsappChannelMatch {
   verified: boolean;
   url: string | null;
 }
+interface WhatsappFollowedChannel {
+  name: string;
+  latestUpdate: string | null;
+  time: string | null;
+  verified: boolean;
+}
 interface WhatsappBlogPost {
   slug: string;
   title: string;
@@ -100999,6 +102062,13 @@ interface WhatsappBlogPost {
      * the caller signed in.
      */
     searchChannels(query: string, opts?: ConnectionOption): Promise<WhatsappChannelMatch[]>;
+
+    /**
+     * Lists the Channels the caller follows as WhatsApp Web's Channels tab shows them: each
+     * channel's displayed name, its latest-update preview line, the row's time label and verified
+     * state. Needs the caller signed in.
+     */
+    listFollowedChannels(opts?: ConnectionOption): Promise<WhatsappFollowedChannel[]>;
 
     /**
      * Reads the current chat.whatsapp.com invite link of a group the caller administers, opened by
@@ -102647,6 +103717,12 @@ interface WsjTrendingArticle {
     listSavedArticles(opts?: ConnectionOption): Promise<WsjArticleSummary[]>;
 
     /**
+     * Gets the caller's own WSJ stock watchlist through their signed-in WSJ session — name,
+     * symbol, price, net change and percent change for each instrument.
+     */
+    getWatchlist(opts?: ConnectionOption): Promise<WsjMarketIndex[]>;
+
+    /**
      * Saves an article to the caller's own My WSJ saved list through their signed-in WSJ session.
      * Idempotent: changed is false when it was already saved.
      */
@@ -103953,13 +105029,18 @@ interface YahooSportsScheduleRow {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   opponent: string;
   date: string;
-  result: "W" | "L" | null;
+  result: "W" | "L" | "T" | null;
   score: string | null;
   isHome: boolean;
   // This game's own page — the gameUrl getGame takes. Null only if Yahoo's
   // own payload omitted alias.url for this game, which was not observed in
   // measurement.
   gameUrl: string | null;
+  // "FINAL", "PREGAME", …
+  status: string | null;
+  week: number | null;
+  // "PRESEASON", "REGULAR_SEASON", …
+  seasonPhase: string | null;
 }
 
 interface GetScoreboardArgs {
@@ -104642,6 +105723,28 @@ interface YelpPhotoPage {
   nextStart: number | null; // pass back as start for the next page; null on the last
 }
 
+interface YelpAnswer {
+  id: string;
+  text: string;
+  author: string | null; // display name, e.g. "Peter P."
+  createdAt: string | null; // ISO instant
+  helpfulCount: number;
+}
+interface YelpQuestion {
+  id: string;
+  text: string;
+  author: string | null;
+  askedAgo: string | null; // Yelp's own relative date, e.g. "5 years ago"
+  answerCount: number;
+  topAnswer: YelpAnswer | null; // null when nobody has answered
+  aiAnswer: string | null; // Yelp's own AI-generated answer, when it shows one
+}
+interface YelpQuestionPage {
+  business: { alias: string | null; name: string | null };
+  totalCount: number; // every question the business has
+  questions: YelpQuestion[]; // the first 10, Yelp's own "best" order
+}
+
 interface YelpSuggestArgs {
   prefix: string; // what has been typed so far, e.g. "tera"
   location: string; // e.g. "Philadelphia, PA"
@@ -104745,6 +105848,14 @@ interface YelpBookmarks {
      * pass nextStart back as start for the next page. Read-only.
      */
     getPhotos(args: YelpPhotosArgs): Promise<YelpPhotoPage>;
+
+    /**
+     * Reads a business's Ask the Community questions from its /questions/ page: each question's
+     * text, asker, relative date, answer count, top answer (text, author, date, helpful votes) and
+     * Yelp's own AI answer when shown — the first 10 in Yelp's best order, plus the total count.
+     * Takes a /biz/ url or bare alias from search. Read-only.
+     */
+    getQuestions(ref: string): Promise<YelpQuestionPage>;
 
     /**
      * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
@@ -106690,6 +107801,20 @@ interface ZoomProfile {
      * (PNG or JPEG) — needs the caller signed in
      */
     updateProfilePicture(image: string, opts?: ConnectionOption): Promise<ZoomUpdateProfilePictureResult>;
+
+    /**
+     * Makes a NEW Zoom account with the person's own email and password, in a session. Pauses with
+     * `needs_code` / `needs_phone` whenever the site wants something only the person has; continue
+     * with `confirmSignup` in the same session. Ends `signed_up` with the login saved and the
+     * credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -108060,6 +109185,7 @@ interface BowmarkProviders {
   ihg: BowmarkProvider_ihg.Unit;
   ikea: BowmarkProvider_ikea.Unit;
   imdb: BowmarkProvider_imdb.Unit;
+  imgur: BowmarkProvider_imgur.Unit;
   indeed: BowmarkProvider_indeed.Unit;
   inspirecommunities: BowmarkProvider_inspirecommunities.Unit;
   instacart: BowmarkProvider_instacart.Unit;
@@ -108072,6 +109198,7 @@ interface BowmarkProviders {
   iproyal: BowmarkProvider_iproyal.Unit;
   islllc: BowmarkProvider_islllc.Unit;
   istanbulkart: BowmarkProvider_istanbulkart.Unit;
+  itunes: BowmarkProvider_itunes.Unit;
   ivoryhomes: BowmarkProvider_ivoryhomes.Unit;
   iyc: BowmarkProvider_iyc.Unit;
   jasmine_dilucci: BowmarkProvider_jasmine_dilucci.Unit;
@@ -108292,6 +109419,7 @@ interface BowmarkProviders {
   semihandmade: BowmarkProvider_semihandmade.Unit;
   seoulfood: BowmarkProvider_seoulfood.Unit;
   serper: BowmarkProvider_serper.Unit;
+  sessionize: BowmarkProvider_sessionize.Unit;
   setmore: BowmarkProvider_setmore.Unit;
   sevenrooms: BowmarkProvider_sevenrooms.Unit;
   shein: BowmarkProvider_shein.Unit;
