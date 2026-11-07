@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6009 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6014 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1412,7 +1412,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `data_cms.getRows` | data.cms.gov | Read rows from one data.cms.gov dataset (its latest version), optionally filtered by… | 🟢 |
 | `data_cms.searchDatasets` | data.cms.gov | Search data.cms.gov's dataset catalog by keyword; returns each dataset's id (for… | 🟢 |
 | `davidsonhomes.getCommunity` | davidsonhomes.com | Reads one community's own page: its ACTUAL available homes right now — real street… | 🟢 |
-| `davidsonhomes.getHome` | davidsonhomes.com | Reads one specific home's own listing page: address, price, sqft, bed/bath count… | 🟢 |
+| `davidsonhomes.getHome` | davidsonhomes.com | Reads one specific home's own listing page: address, price, sqft, bed/bath count… | 🟡 |
 | `davidsonhomes.getRegion` | davidsonhomes.com | Reads one region's own page: every community in it with a real live price/bed/sqft… | 🟢 |
 | `davidsonhomes.listRegions` | davidsonhomes.com | Lists every market region Davidson Homes currently builds in — state/metro area, live… | 🟢 |
 | `deangroup.getRateCalendar` | deangroup.com | Reads 36 consecutive nights of per-night pricing and sold-out flags for one property… | 🟢 |
@@ -1632,15 +1632,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.getPlans` | dropbox.com | Lists Dropbox's plans as its own pricing page shows them — Basic, Plus, Essentials… | 🟢 |
 | `dropbox.getSharedLink` | dropbox.com | Opens a Dropbox shared link the caller was sent — any of the /s/, /sh/, /scl/fi/ or… | 🟢 |
 | `dropbox.getTransfer` | dropbox.com | Opens a Dropbox Transfer link (www.dropbox.com/t/<id>) the caller was sent: the files… | ⚪ |
-| `dropbox.listDeletedFiles` | dropbox.com | Lists the caller's recently deleted files and folders that can still be restored. | ⚪ |
+| `dropbox.listDeletedFiles` | dropbox.com | Lists the caller's recently deleted files and folders that can still be restored. | 🟢 |
 | `dropbox.listFileComments` | dropbox.com | Reads the comments on a file in the caller's Dropbox. | ⚪ |
 | `dropbox.listFileRequests` | dropbox.com | Lists the caller's file requests, open and closed, with how many files each has… | ⚪ |
-| `dropbox.listFileVersions` | dropbox.com | Lists the earlier versions of a file in the caller's Dropbox, with when and by whom… | ⚪ |
+| `dropbox.listFileVersions` | dropbox.com | Lists the earlier versions of a file in the caller's Dropbox, with when and by whom… | 🟢 |
 | `dropbox.listFolder` | dropbox.com | Lists a folder in the caller's own Dropbox — the root by default — with each entry's… | 🟢 |
 | `dropbox.listRecentFiles` | dropbox.com | Lists the files the caller opened or edited recently (dropbox.com/recents). | ⚪ |
 | `dropbox.listSharedFolder` | dropbox.com | Lists the files and sub-folders inside a shared folder link — name, size, modified… | 🟢 |
-| `dropbox.listSharedLinks` | dropbox.com | Lists the shared links the caller has created, with what each points at and its… | ⚪ |
-| `dropbox.listSharedWithMe` | dropbox.com | Lists the files and folders other people have shared with the caller… | ⚪ |
+| `dropbox.listSharedLinks` | dropbox.com | Lists the shared links the caller has created, with what each points at and its… | 🟢 |
+| `dropbox.listSharedWithMe` | dropbox.com | Lists the files and folders other people have shared with the caller… | 🟢 |
 | `dropbox.listSharingMembers` | dropbox.com | Lists who has access to a shared file or folder in the caller's Dropbox, and whether… | ⚪ |
 | `dropbox.listStarredFiles` | dropbox.com | Lists the files and folders the caller starred. | ⚪ |
 | `dropbox.listTransfers` | dropbox.com | Lists the transfers the caller has sent, with their links, view and download counts… | ⚪ |
@@ -1861,6 +1861,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventbrite.registerForEvent` | eventbrite.com | Registers the signed-in caller for an event on a FREE ticket class (ids from… | 🟢 |
 | `eventbrite.saveEvent` | eventbrite.com | Saves ('likes') an event to the signed-in caller's account, taking an event url or id. | 🟢 |
 | `eventbrite.searchEvents` | eventbrite.com | Searches live events by location (a city/region string or 'online') with an optional… | 🟢 |
+| `eventbrite.unfollowOrganizer` | eventbrite.com | Unfollows an organizer the signed-in caller follows, taking an organizer url or id. | 🟢 |
 | `eventbrite.unsaveEvent` | eventbrite.com | Removes a previously saved event from the signed-in caller's account, taking an event… | 🟢 |
 | `eventim.getEvent` | eventim.com | Would read one event's ticket page in full — every price category, seat map… | ⚪ |
 | `eventim.search` | eventim.com | Searches Eventim's event-ticket listings by artist or keyword, optionally narrowed to… | 🟢 |
@@ -2863,6 +2864,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
 | `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
 | `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟢 |
+| `itunes.searchPodcastEpisodes` | itunes.apple.com | Searches Apple Podcasts episodes by words (a guest's name, a company) and returns each… | 🟢 |
 | `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' home-design floor-plan search against the site's own live inventory… | 🟡 |
 | `iyc.checkCharterAvailability` | iyc.com | Reads one yacht's real charter calendar (the site's own booked/unavailable date list)… | 🟢 |
 | `iyc.searchCharterYachts` | iyc.com | Searches IYC's live superyacht charter fleet by destination, guest count, length and… | 🟢 |
@@ -3334,7 +3336,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `msn.listSavedArticles` | msn.com | Lists the articles the signed-in caller has saved to their MSN reading list — the… | 🟢 |
 | `msn.saveArticle` | msn.com | Adds an article to the signed-in caller's MSN reading list — the write half of… | 🟢 |
 | `msn.searchNews` | msn.com | Searches MSN's own aggregated news index the way its front-page search does and… | 🟢 |
-| `msn.searchVideos` | msn.com | Finds videos in MSN's video section by a topic the caller types, returning the same… | ⚪ |
+| `msn.searchVideos` | msn.com | Finds videos in MSN's video section by a topic the caller types (e.g. "apollo 11 moon… | 🟢 |
 | `municipal_recreation_fees_fetcher.getFeeSchedule` | fredericton.ca, dieppe.ca | Retrieves recreation centre membership and pass fees (adult and family), each with its… | 🟢 |
 | `muze_gov_tr.getVisitingHours` | muze.gov.tr | Matches a museum name against muze.gov.tr's own highlight listing and reads that… | 🟢 |
 | `my_auroramedicalspa_com.getProviders` | my.auroramedicalspa.com | Lists the providers who can perform one service at one location, including the site's… | 🟢 |
@@ -3665,7 +3667,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.followCreator` | patreon.com | Follow a creator for free as the signed-in caller — Patreon's free membership, no tier… | 🟢 |
 | `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | 🟢 |
 | `patreon.getCurrentUserFeed` | patreon.com | Read the signed-in caller's Patreon home feed — recent posts from the creators they… | 🟢 |
-| `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | 🟢 |
+| `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, content, and which tier… | 🟢 |
 | `patreon.likePost` | patreon.com | Like a post as the signed-in caller. | 🟢 |
 | `patreon.listCreatorCollections` | patreon.com | List a creator's collections (series), each with its title, post count and its posts'… | 🟢 |
 | `patreon.listCreatorPosts` | patreon.com | List a creator's posts, newest first, one page at a time with the site's own cursor. | 🟢 |
@@ -4008,6 +4010,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟡 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟢 |
+| `quora.getSpacePosts` | quora.com | Reads the posts in a Space's feed — most of what a Space holds, and what getSpace… | 🟢 |
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟢 |
 | `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | 🟢 |
 | `quora.postComment` | quora.com | Posts a comment on an answer as the signed-in caller. | ⚪ |
@@ -4356,6 +4359,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |
 | `serper.search` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
 | `serper.searchGoogle` | serper.dev | Alias for `search()`, kept for backward compatibility. | 🟢 |
+| `sessionize.getSpeaker` | sessionize.com | Reads a speaker's public Sessionize profile by slug: name, tagline, bio, links… | 🟢 |
+| `sessionize.searchSpeakers` | sessionize.com | Searches the Sessionize speakers directory by a name or topic and returns each… | 🟢 |
 | `setmore.bookAppointment` | setmore.com | Books a service at a business for a guest -- the service, a slot time and staff member… | 🟢 |
 | `setmore.bookClass` | setmore.com | Books a guest into a class session at a business -- only the sessionId from… | 🟢 |
 | `setmore.cancelAppointment` | setmore.com | Cancels a booking (appointment, class or event) at a business, from the booking id… | 🟢 |
@@ -4624,7 +4629,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spectrum.checkServiceAvailability` | spectrum.com | What Spectrum offers at a residential street address — which internet/TV/mobile plans… | ⚪ |
 | `spectrum.getAccountBalance` | spectrum.com | The signed-in caller's current Spectrum account balance: amount due, due date and… | 🟢 |
 | `spectrum.getBillingHistory` | spectrum.com | The signed-in caller's past Spectrum bills: period, amount and payment status. | 🟢 |
-| `spectrum.getChannelLineup` | spectrum.com | The channel lineup on spectrum.com/cable-tv/channel-lineup — which channels ship in… | ⚪ |
+| `spectrum.getChannelLineup` | spectrum.com | The signed-in caller's Spectrum TV channel lineup for their own market — name, guide… | 🟢 |
 | `spectrum.getEquipmentStatus` | spectrum.com | The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with… | 🟢 |
 | `spectrum.getInternetPlanDetails` | spectrum.com | One Gig-tier internet plan's own detail page at… | 🟢 |
 | `spectrum.getUsageSummary` | spectrum.com | The signed-in caller's Spectrum Mobile usage for the current bill cycle (data… | 🟢 |
@@ -4987,7 +4992,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `thezebra.listVehicles` | thezebra.com | Returns the makes and models The Zebra publishes insurance rates for — the index that… | ⚪ |
 | `thibautdesign.calculateRollsNeeded` | thibautdesign.com | Runs Thibaut's own wallpaper-calculator (thibautdesign.com/wallpaper-calculator) —… | 🟢 |
 | `threads.blockUser` | threads.com | Blocks an account for the CALLER. | ⚪ |
-| `threads.createPost` | threads.com | Publishes a new thread as the CALLER — text, optional images or video, a topic tag and… | ⚪ |
+| `threads.createPost` | threads.com | Publishes a new thread as the CALLER — text, optional images or video, a topic tag and… | 🟢 |
 | `threads.deletePost` | threads.com | Deletes one of the CALLER's own posts or replies. | ⚪ |
 | `threads.followUser` | threads.com | Follows an account as the CALLER. | ⚪ |
 | `threads.getActivity` | threads.com | Reads the CALLER's activity — new followers, replies, mentions, quotes, reposts and… | 🟢 |
@@ -5011,8 +5016,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.listConversations` | threads.com | Lists the CALLER's Threads direct-message conversations, newest first, with their ids… | ⚪ |
 | `threads.listCustomFeeds` | threads.com | Lists the custom feeds the CALLER has built or pinned, with their ids — the finder for… | 🟢 |
 | `threads.muteUser` | threads.com | Mutes an account so the CALLER stops seeing its posts, without unfollowing. | ⚪ |
-| `threads.quotePost` | threads.com | Quotes a post as the CALLER, with their own text above it. | ⚪ |
-| `threads.replyToPost` | threads.com | Replies to a post as the CALLER. | ⚪ |
+| `threads.quotePost` | threads.com | Quotes a post as the CALLER, with their own text above it. | 🟢 |
+| `threads.replyToPost` | threads.com | Replies to a post as the CALLER. | 🟢 |
 | `threads.repostPost` | threads.com | Reposts a post to the CALLER's profile. | ⚪ |
 | `threads.savePost` | threads.com | Saves a post to the CALLER's saved list. | ⚪ |
 | `threads.searchAccounts` | threads.com | Searches Threads accounts by name or username, logged out — the finder that turns a… | 🟢 |
@@ -5235,9 +5240,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trustpilot.getCompany` | trustpilot.com | Trustpilot reviews and rating for a company, by its website domain (`{ domain… | 🟢 |
 | `tryalma_com.listPages` | tryalma.com | List all pages and sections available on the Alma website by category. | 🟢 |
 | `tryalma_com.search` | tryalma.com | Search Alma's content, including pages, resources, and team member profiles. | 🟢 |
-| `tumblr.createPost` | tumblr.com | Create a new post on the signed-in account's blog. | ⚪ |
+| `tumblr.createPost` | tumblr.com | Create a new post on the signed-in account's blog. | 🟢 |
 | `tumblr.deletePost` | tumblr.com | Delete a post from the signed-in account's blog. | 🟢 |
-| `tumblr.editPost` | tumblr.com | Edit an existing post on the signed-in account's blog. | ⚪ |
+| `tumblr.editPost` | tumblr.com | Edit an existing post on the signed-in account's blog. | 🟢 |
 | `tumblr.findBlog` | tumblr.com | Find a blog by name. | 🟢 |
 | `tumblr.findTag` | tumblr.com | Find posts by searching a tag. | 🟢 |
 | `tumblr.followBlog` | tumblr.com | Follow a blog from the signed-in account. | 🟢 |
@@ -5300,7 +5305,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tx_comptroller.franchiseTaxStatus` | comptroller.texas.gov | Texas franchise-tax account status by entity name (prefix match), taxpayer number or… | 🟢 |
 | `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟢 |
 | `ubereats.addAddress` | ubereats.com | Saves a new delivery address (with drop-off instructions) to the caller's account. | ⚪ |
-| `ubereats.addToCart` | ubereats.com | Adds one menu item (from getStore()'s menu or getMenuItem()) to a NEW Uber Eats cart… | 🟢 |
+| `ubereats.addToCart` | ubereats.com | Adds one menu item (from getStore()'s menu or getMenuItem()) to a NEW Uber Eats cart… | 🟡 |
 | `ubereats.applyPromoCode` | ubereats.com | Applies a promo code to the caller's cart at checkout and reports whether it was… | 🟢 |
 | `ubereats.browseStores` | ubereats.com | Lists the restaurants and stores Uber Eats delivers from to one address — the… | 🟢 |
 | `ubereats.cancelOrder` | ubereats.com | Would cancel one of the caller's active orders. | ⚪ |
@@ -5633,7 +5638,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | 🟢 |
 | `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message with an emoji as the caller, or removes the caller's reaction. | ⚪ |
 | `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | ⚪ |
-| `whatsapp.searchChannels` | whatsapp.com | Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does —… | ⚪ |
+| `whatsapp.searchChannels` | whatsapp.com | Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does, by… | 🟢 |
 | `whatsapp.searchHelpCenter` | whatsapp.com | Searches WhatsApp's Help Center (faq.whatsapp.com) the way its search box does and… | 🟢 |
 | `whatsapp.searchMessages` | whatsapp.com | Searches the caller's WhatsApp messages the way WhatsApp Web's search box does: each… | 🟢 |
 | `whatsapp.sendMedia` | whatsapp.com | Sends a file to a chat as the caller — an image or video with an optional caption, a… | ⚪ |
@@ -6000,13 +6005,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | 🟢 |
 | `zoom.getProfile` | zoom.us | The signed-in caller's user profile. | 🟢 |
 | `zoom.getRecording` | zoom.us | Returns metadata and access info for one recording. | 🟢 |
-| `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | ⚪ |
+| `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | 🟢 |
 | `zoom.getSystemStatus` | zoom.us | Returns Zoom's current system status. | 🟢 |
 | `zoom.getWebinar` | zoom.us | Returns details of one webinar. | 🟢 |
 | `zoom.joinMeeting` | zoom.us | Checks whether a Zoom meeting link is valid and joinable, reading the site's own join… | 🟢 |
 | `zoom.listMeetings` | zoom.us | The signed-in caller's upcoming meetings. | 🟢 |
 | `zoom.listRecordings` | zoom.us | The signed-in caller's recorded meetings and webinars. | 🟢 |
-| `zoom.listRecordingTranscripts` | zoom.us | Lists available transcripts for a recording. | ⚪ |
+| `zoom.listRecordingTranscripts` | zoom.us | Lists available transcripts for a recording. | 🟢 |
 | `zoom.listWebinars` | zoom.us | The signed-in caller's webinars. | 🟢 |
 | `zoom.scheduleMeeting` | zoom.us | Creates a new meeting on the caller's account. | 🟢 |
 | `zoom.searchContacts` | zoom.us | Searches the caller's contacts by name. | 🟢 |

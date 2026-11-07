@@ -130,9 +130,17 @@ export class BowmarkError extends Error {
   /** The path that failed, as a caller writes it: `bowmark.music.search`. */
   readonly path?: string;
 
+  override readonly cause?: Error;
+
   constructor(
     message: string,
-    init: { code: string; httpStatus?: number; logs?: readonly string[]; path?: string },
+    init: {
+      code: string;
+      httpStatus?: number;
+      logs?: readonly string[];
+      path?: string;
+      cause?: Error;
+    },
   ) {
     super(message);
     this.name = "BowmarkError";
@@ -140,6 +148,7 @@ export class BowmarkError extends Error {
     this.httpStatus = init.httpStatus ?? 0;
     this.logs = init.logs ?? [];
     this.path = init.path;
+    this.cause = init.cause;
   }
 }
 
@@ -162,6 +171,7 @@ export class BowmarkNeedsUserError extends BowmarkError {
       path?: string;
       handoff?: Handoff;
       needs?: readonly AuthNeed[];
+      cause?: Error;
     },
   ) {
     super(message, init);
@@ -265,8 +275,14 @@ async function sendRequest<T>(
     } catch (err) {
       // A transport failure is not a capability failure, and conflating the two is
       // how a caller comes to retry a DNS problem against a site.
-      throw new BowmarkError(`could not reach ${client.baseUrl}${path}: ${String(err)}`, {
+      // Extract the underlying cause if available (e.g., from undici).
+      const cause = err instanceof Error ? err : undefined;
+      const causeMessage =
+        cause?.cause instanceof Error ? `${cause.cause.message}` : cause?.message || String(err);
+      const message = `could not reach ${client.baseUrl}${path}: ${causeMessage}`;
+      throw new BowmarkError(message, {
         code: "network_error",
+        cause,
       });
     }
 
