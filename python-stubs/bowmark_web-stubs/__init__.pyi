@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eabe1273611c7f1522733d0323bd87de815fcb8cc9e8b8ebf344448c06cced2e
+# Manifest version: 395de81818c798c56d50614c66325e8692f2a1623f6a869799a8b4a8eed76d00
 # 96 capabilities, 770 providers, 4552 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -1869,6 +1869,7 @@ class Cap_leads_EnrichOptions_In(TypedDict):
     webBackend: NotRequired[Literal["serper"] | Literal["duckduckgo"]]
     allowPatternEmail: NotRequired[bool]
     probeEmail: NotRequired[bool]
+    publishedEmail: NotRequired[bool]
     timeoutMs: NotRequired[float]
     deadlineMs: NotRequired[float]
 
@@ -1893,6 +1894,7 @@ class Cap_leads_Lead_Out(TypedDict):
     webQueries: float
     namesakes: list[str]
     warnings: list[str]
+    gaps: Any
 
 class Cap_leads_LeadSummarySource_Out(TypedDict):
     clause: Literal["role"] | Literal["previous"] | Literal["notable"]
@@ -69175,31 +69177,33 @@ class Cap_leads(Protocol):
         FOUND: GitHub's user search for the full name plus the company org's public members (at
         most 4 profiles read), each scored and tiered; a found account is `verified` only on two
         independent anchors (public membership of the company org, its commits to the company's
-        repos, your `linkedin` on its profile), `probable` (with `evidence`) when its profile
-        only names the person and the company, and dropped into `namesakes` otherwise, and every
-        link read off it (`github`, its site, booking page, `other`) carries that tier; a
-        profile whose own name is a different person's gives nothing, however it was found or
-        passed. An X handle (from that GitHub profile) is read and scored on its own (only a
-        passed or verified account vouches for it): verified when the X profile links back to
-        the company's site, its @handle or that GitHub profile; probable, with `evidence`, when
-        its bio only names the company; dropped when its display name is another person's, it
-        names another current employer, or the account is suspended or gone. `summary` is
-        `{title} at {company}; previously {role} at {company}; {one notable thing}` (at most 220
-        characters), each clause read off a cited field only: the LinkedIn profile's roles and
-        about text, a talk or appearance that survived the namesake split, or your own `title`
-        (which has no page); `summarySources` lists the citation url behind each clause (url
-        null only for your own title), and a clause with no citation is left out. `warnings`
-        says what the row lacks (a failed source, a leg the inputs could not run). `pending`
-        lists legs that were skipped or failed (LinkedIn when `linkedin: false` or no saved
-        login, talks when `talks: false`, web unless `web: true`, or when neither Serper nor
-        DuckDuckGo could answer) so a batch re-enriches just those later. `web: true` searches
-        Google through Serper (up to 4 queries per person, one metered credit each, counted in
-        `webQueries`; `webBackend: "duckduckgo"` skips it) for booking pages, luma events and
-        articles, and falls back to DuckDuckGo when Serper cannot answer. A missing value is
-        null or [], never a throw; the call THROWS only on bad input (before any request) or
-        when EVERY source failed. `allowPatternEmail: true` adds an address built from the
-        company's address format, proven by two or more OTHER people's cited addresses (its
-        commits, its npm packages' maintainers, its PyPI project, OpenPGP keys on its mail
+        repos, your `linkedin` on its profile, the company's own page linking it; with its full
+        name spelled exactly, one of these counts twice when the profile also names the company,
+        or 5+ linked commits, or your `linkedin` alone), `probable` (with `evidence`) when its
+        profile only names the person and the company, and dropped into `namesakes` otherwise,
+        and every link read off it (`github`, its site, booking page, `other`) carries that
+        tier; a profile whose own name is a different person's gives nothing, however it was
+        found or passed. An X handle (from that GitHub profile) is read and scored on its own
+        (only a passed or verified account vouches for it): verified when the X profile links
+        back to the company's site, its @handle or that GitHub profile; probable, with
+        `evidence`, when its bio only names the company; dropped when its display name is
+        another person's, it names another current employer, or the account is suspended or
+        gone. `summary` is `{title} at {company}; previously {role} at {company}; {one notable
+        thing}` (at most 220 characters), each clause read off a cited field only: the LinkedIn
+        profile's roles and about text, a talk or appearance that survived the namesake split,
+        or your own `title` (which has no page); `summarySources` lists the citation url behind
+        each clause (url null only for your own title), and a clause with no citation is left
+        out. `warnings` says what the row lacks (a failed source, a leg the inputs could not
+        run). `pending` lists legs that were skipped or failed (LinkedIn when `linkedin: false`
+        or no saved login, talks when `talks: false`, web unless `web: true`, or when neither
+        Serper nor DuckDuckGo could answer) so a batch re-enriches just those later. `web: true`
+        searches Google through Serper (up to 4 queries per person, one metered credit each,
+        counted in `webQueries`; `webBackend: "duckduckgo"` skips it) for booking pages, luma
+        events and articles, and falls back to DuckDuckGo when Serper cannot answer. A missing
+        value is null or [], never a throw; the call THROWS only on bad input (before any
+        request) or when EVERY source failed. `allowPatternEmail: true` adds an address built
+        from the company's address format, proven by two or more OTHER people's cited addresses
+        (its commits, its npm packages' maintainers, its PyPI project, OpenPGP keys on its mail
         domain; method "pattern", `formatProof` lists every proving url, `citation` the first;
         cited addresses that disagree prove nothing), checks Gravatar for a public profile at it
         (one naming the person makes it "registered", never "verified"; one naming somebody else

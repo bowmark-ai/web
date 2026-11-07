@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: eabe1273611c7f1522733d0323bd87de815fcb8cc9e8b8ebf344448c06cced2e
+// Manifest version: 395de81818c798c56d50614c66325e8692f2a1623f6a869799a8b4a8eed76d00
 // 96 capabilities, 770 providers, 4570 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -3043,6 +3043,7 @@ interface EnrichOptions {
   webBackend?: "serper" | "duckduckgo"  // default "serper" (Google; falls back to DuckDuckGo when Serper cannot answer); "duckduckgo" never calls Serper
   allowPatternEmail?: boolean  // default false: a work email built from the company's commit-proven format, method "pattern"
   probeEmail?: boolean         // default true: ask the domain's mail server about each pattern address (SMTP RCPT TO, never a message); false leaves it "unverified"
+  publishedEmail?: boolean     // default true: ONE Serper search ("<full name>" "@<domain>", one metered credit, counted in webQueries) for an address the person published: their own X post, a press release's media contact. Needs `domain`
   timeoutMs?: number           // per-leg budget, default 20000
   deadlineMs?: number          // the whole call's budget, default 50000 (max 110000): legs not started or cut off by it go into pending with a warning, never a throw
 }
@@ -3108,9 +3109,10 @@ interface Lead {
   events: LeadAppearance[]     // Luma events they host or speak at: off the company's own Luma calendar (cited to the event page) and the web search
   other: LeadLink[]            // Bluesky, Substack, a podcast page
   pending: Array<"linkedin" | "talks" | "github" | "booking" | "email" | "web" | "events" | "bluesky">   // legs not run or failed: re-enrich just these later
-  webQueries: number           // web searches run for this row (each Serper query is one credit); 0 when web is off
+  webQueries: number           // web searches run for this row (each Serper query is one credit): the web leg's, plus the one published-email search; 0 when both are off
   namesakes: string[]          // hits dropped for naming the person but not the company, one sentence per source
   warnings: string[]           // what the row lacks: every failed leg, every value that could not be confirmed
+  gaps: { [field in "email" | "booking" | "x" | "github" | "site" | "talks" | "events"]?: { searched: string[]; reason: "none-found" | "leg-failed" | "skipped" } }   // one entry per EMPTY field: what was searched, and whether nothing exists (none-found), a source failed (leg-failed, also in pending) or the search was off (skipped)
 }
 
   /**
@@ -3146,9 +3148,11 @@ interface Lead {
      * account is FOUND: GitHub's user search for the full name plus the company org's public
      * members (at most 4 profiles read), each scored and tiered; a found account is `verified`
      * only on two independent anchors (public membership of the company org, its commits to the
-     * company's repos, your `linkedin` on its profile), `probable` (with `evidence`) when its
-     * profile only names the person and the company, and dropped into `namesakes` otherwise, and
-     * every link read off it (`github`, its site, booking page, `other`) carries that tier; a
+     * company's repos, your `linkedin` on its profile, the company's own page linking it; with its
+     * full name spelled exactly, one of these counts twice when the profile also names the
+     * company, or 5+ linked commits, or your `linkedin` alone), `probable` (with `evidence`) when
+     * its profile only names the person and the company, and dropped into `namesakes` otherwise,
+     * and every link read off it (`github`, its site, booking page, `other`) carries that tier; a
      * profile whose own name is a different person's gives nothing, however it was found or
      * passed. An X handle (from that GitHub profile) is read and scored on its own (only a passed
      * or verified account vouches for it): verified when the X profile links back to the company's

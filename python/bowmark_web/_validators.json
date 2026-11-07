@@ -1,5 +1,5 @@
 {
-  "version": "eabe1273611c7f1522733d0323bd87de815fcb8cc9e8b8ebf344448c06cced2e",
+  "version": "395de81818c798c56d50614c66325e8692f2a1623f6a869799a8b4a8eed76d00",
   "units": {
     "address_validation": {
       "defs": {
@@ -3383,6 +3383,13 @@
             },
             {
               "name": "probeEmail",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "publishedEmail",
               "schema": {
                 "k": "boolean"
               },

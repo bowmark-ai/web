@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6090 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6093 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3628,6 +3628,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getWriter` | nytimes.com | Gets a writer's own profile off their /by/<slug> page — the site's real name and short… | 🟡 |
 | `nytimes.listArticles` | nytimes.com | Lists a section's own article grid, newest first, with metadata. | 🟢 |
 | `nytimes.listEpisodes` | nytimes.com | Lists a podcast's own episodes off its column page. | 🟢 |
+| `nytimes.listMyComments` | nytimes.com | The signed-in reader's own comments on one article, read from the same community API… | 🟢 |
 | `nytimes.listNewsletters` | nytimes.com | Lists NYT's own email newsletters off the signup page's catalog tray — up to 13, the… | 🟢 |
 | `nytimes.listPodcasts` | nytimes.com | Lists NYT podcasts. | 🟡 |
 | `nytimes.listRSSFeeds` | nytimes.com | Lists every RSS feed the site's own /rss index publishes, with its title, url and nav… | 🟢 |
@@ -3636,6 +3637,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listTopics` | nytimes.com | Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently… | 🟢 |
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
 | `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟡 |
+| `nytimes.postComment` | nytimes.com | Posts a comment as the signed-in reader under one article through the article's own… | 🟢 |
+| `nytimes.recommendComment` | nytimes.com | Presses Recommend on one reader comment under an article as the signed-in reader. | 🟢 |
 | `nytimes.saveArticle` | nytimes.com | Saves one article to the signed-in reader's Reading List. | 🟢 |
 | `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟡 |
 | `nytimes.searchWriters` | nytimes.com | Searches NYT's own writers by name off its collections sitemap (the site publishes no… | 🟢 |
@@ -5299,7 +5302,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.replyToForumTopic` | tripadvisor.com | Posts a reply to a travel-forum thread from the signed-in caller's account. | ⚪ |
 | `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
 | `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟢 |
-| `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank… | 🟢 |
+| `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank… | 🟡 |
 | `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟢 |
 | `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | 🟡 |
 | `tripadvisor.writeReview` | tripadvisor.com | Posts a review of a listing from the signed-in caller's account — rating, title, text… | ⚪ |
@@ -5494,8 +5497,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `vervecoffee.matchCoffeeSubscription` | vervecoffee.com | Runs Verve's real 'Find Your Coffee Match' quiz end to end — the same 5 questions… | 🟢 |
 | `vessi.getFitGuide` | vessi.com | Reads Vessi's own computed per-style fit-guide — a size-offset recommendation per foot… | 🟢 |
 | `vessi.getProduct` | vessi.com | Reads one product's complete colorway x size grid with live price, SKU and availability. | 🟢 |
-| `vessi.listProducts` | vessi.com | Lists every Vessi product from the storefront's own live catalog, optionally narrowed… | 🟢 |
-| `vessi.searchProducts` | vessi.com | Searches the live catalog by a fuzzy match on product title or handle. | 🟢 |
+| `vessi.listProducts` | vessi.com | Lists every Vessi product from the storefront's own live catalog, optionally narrowed… | 🟡 |
+| `vessi.searchProducts` | vessi.com | Searches the live catalog by a fuzzy match on product title or handle. | 🟡 |
 | `viewrail.getDesignEstimate` | viewrail.com | Submits a drawn Victor layout (posts, runs, materials, mounting style) and returns the… | ⚪ |
 | `viewrail.listInfillOptions` | viewrail.com | Lists Victor's infill choices for a run — stainless cable, rod, or glass panel — with… | ⚪ |
 | `viewrail.listMaterials` | viewrail.com | Lists the metal and metal-look composite families Victor's cable railing configurator… | 🟡 |
@@ -5970,7 +5973,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.search` | yelp.com | Runs Yelp's own business search for a term and location — with its sort (recommended… | 🟢 |
 | `yelp.searchEvents` | yelp.com | Lists local events Yelp hosts or lists for a city, with date, venue and url. | ⚪ |
 | `yelp.setProfilePhoto` | yelp.com | Changes the signed-in caller's own profile picture. | ⚪ |
-| `yelp.suggest` | yelp.com | Yelp's own search-as-you-type suggestions for a partial term or place — business names… | 🟢 |
+| `yelp.suggest` | yelp.com | Yelp's own search-as-you-type suggestions for a partial term or place — business names… | 🟡 |
 | `yelp.updateProfile` | yelp.com | Edits the signed-in caller's own profile: display name, location, 'things I love'… | ⚪ |
 | `yelp.uploadPhoto` | yelp.com | Adds a photo to a business's gallery from the signed-in caller's account. | ⚪ |
 | `yelp.writeReview` | yelp.com | Posts, edits or deletes the signed-in caller's star rating and review of a business. | ⚪ |

@@ -515,7 +515,7 @@ nurturelife.com — nurturelife: getMealBundle, getMealPlans
 nutrafol.com — nutrafol: assessHairWellness, computeHairWellness, getQuizOverview, getQuizQuestions
 nutribullet.com — capitalbrands: getBlenderRecommendation, listQuizQuestions
 nvisioncenters.com — nvisioncenters: calculateLasikSavings, checkLasikCandidacy, estimateLasikSavings
-nytimes.com — nytimes: followWriter, getArticle, getArticleComments, getConnections, getLiveBlog, getNewsletter, getPodcast, getSection, getSpellingBee, getTopicArticles, getTrending, getWordle, getWriter, listArticles, listEpisodes, listNewsletters, listPodcasts, listRSSFeeds, listSavedArticles, listSections, listTopics, listTrending, listWriterArticles, saveArticle, searchArticles, searchWriters, unfollowWriter, unsaveArticle
+nytimes.com — nytimes: followWriter, getArticle, getArticleComments, getConnections, getLiveBlog, getNewsletter, getPodcast, getSection, getSpellingBee, getTopicArticles, getTrending, getWordle, getWriter, listArticles, listEpisodes, listMyComments, listNewsletters, listPodcasts, listRSSFeeds, listSavedArticles, listSections, listTopics, listTrending, listWriterArticles, postComment, recommendComment, saveArticle, searchArticles, searchWriters, unfollowWriter, unsaveArticle
 oanda.com — oanda: convertCurrency
 ocado.com — ocado: searchProducts
 odfl.com — odfl: nothing callable yet (+1 planned)
