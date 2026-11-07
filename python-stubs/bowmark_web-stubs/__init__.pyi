@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4c19d77e8179e94174bfe37805a33969dadf5327d34d5416c10321981134909d
-# 96 capabilities, 770 providers, 4551 typed functions, 20 refused.
+# Manifest version: eabe1273611c7f1522733d0323bd87de815fcb8cc9e8b8ebf344448c06cced2e
+# 96 capabilities, 770 providers, 4552 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -55899,6 +55899,26 @@ class Prv_steam_PostCommentResult_Out(TypedDict):
     steamId: str
     posted: Literal[True]
 
+class Prv_steam_ViewMarketHistoryArgs_In(TypedDict):
+    start: NotRequired[float]
+    count: NotRequired[float]
+
+class Prv_steam_ViewMarketHistoryResult_Out(TypedDict):
+    entries: list[Prv_steam_MarketHistoryEntry_Out]
+    totalCount: float
+    start: float
+
+class Prv_steam_MarketHistoryEntry_Out(TypedDict):
+    itemName: str
+    gameName: str | None
+    action: Literal["bought"] | Literal["sold"] | None
+    price: str | None
+    actedOn: str | None
+    listedOn: str | None
+    counterparty: str | None
+    appId: float | None
+    imageUrl: str | None
+
 class Prv_steam_ViewInventoryArgs_In(TypedDict):
     steamId: str | float
     appId: NotRequired[str | float]
@@ -99310,6 +99330,12 @@ class Prv_steam(Protocol):
         """Posts a comment on a Steam user's profile by steamid64 (max 1000 characters), off the
         profile comment box's own post door. NEEDS A SIGN-IN — the caller signs in, not us. A
         public write: it appears on that person's profile.
+        """
+
+    async def viewMarketHistory(self, args: Prv_steam_ViewMarketHistoryArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_ViewMarketHistoryResult_Out:
+        """Lists the signed-in caller's own Steam Community Market history — item, game,
+        bought/sold, price and dates per row — off the market page's own myhistory door, with
+        start/count paging. NEEDS A SIGN-IN — the caller signs in, not us.
         """
 
     async def viewInventory(self, args: Prv_steam_ViewInventoryArgs_In, /) -> Prv_steam_ViewInventoryResponse_Out:

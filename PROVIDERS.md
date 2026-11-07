@@ -2142,7 +2142,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.unreactToComment` | fomo.family | Removes the signed-in trader's reaction from a comment. `POST /trades/comment/unreact`. | ⚪ |
 | `fomo.unreactToPost` | fomo.family | Removes the signed-in trader's reaction from a feed post. `POST /feed/unreact`. | ⚪ |
 | `fomo.useReferralCode` | fomo.family | Applies a referral code to the signed-in trader's account. `POST… | ⚪ |
-| `forbes.getArticle` | forbes.com | Read the full content of a single article. | 🟢 |
+| `forbes.getArticle` | forbes.com | Read the full content of a single article. | 🟡 |
 | `forbes.getContributor` | forbes.com | Get a contributor's profile and list their articles. | 🟢 |
 | `forbes.getList` | forbes.com | Get the ranked items from a Forbes list (e.g., Forbes 400, 30 Under 30, Most Powerful… | 🟢 |
 | `forbes.getPerson` | forbes.com | Get one person's Forbes profile — real-time net worth, world rank, source of wealth… | 🟢 |
@@ -2565,7 +2565,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `greatlakesbrewing.getEGiftCardOptions` | store.greatlakesbrewing.com | Reads Great Lakes Brewing Co.'s live eGift-card denominations, permitted custom range… | 🟢 |
 | `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
 | `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟡 |
-| `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
+| `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟡 |
 | `greenhouse.getJob` | greenhouse.io | Reads one posting's full description, pay-transparency ranges and application… | ⚪ |
 | `greenhouse.listJobs` | greenhouse.io | Lists every open job on one company's Greenhouse job board — title, location… | 🟢 |
 | `grubhub.addToCart` | grubhub.com | Adds a menu item with options, quantity and instructions to an anonymous Grubhub cart… | 🟢 |
@@ -4583,8 +4583,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `slickdeals.searchDeals` | slickdeals.net | Searches Slickdeals deal threads by keyword, e.g. "laptop" or "airpods", newest first… | 🟢 |
 | `smartrecruiters.getJob` | smartrecruiters.com | Reads one posting's full job ad (company description, job description, qualifications)… | ⚪ |
 | `smartrecruiters.listJobs` | smartrecruiters.com | Lists a company's public SmartRecruiters postings — title, full location… | 🟢 |
-| `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟢 |
-| `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |
+| `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟡 |
+| `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟡 |
 | `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the socks it… | 🟢 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
 | `smtp_probe.lookupMx` | gmail-smtp-in.l.google.com | Looks up a domain's mail hosts in DNS (MX records by preference, else the domain's own… | 🟢 |
@@ -5902,7 +5902,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getHistoricalPrices` | finance.yahoo.com | Reads a ticker's daily open/high/low/close/volume history over a requested range, the… | 🟢 |
 | `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | 🟢 |
 | `yahoo_finance.getKeyStatistics` | finance.yahoo.com | Reads the fuller valuation and share-statistics sheet the site's own Statistics tab… | 🟢 |
-| `yahoo_finance.getMarketSummary` | finance.yahoo.com | Reads the market-wide overview the site's own Markets home shows — the major indices… | 🟢 |
+| `yahoo_finance.getMarketSummary` | finance.yahoo.com | Reads the market-wide overview the site's own Markets home shows — the major indices… | 🟡 |
 | `yahoo_finance.getNews` | finance.yahoo.com | Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —… | 🟢 |
 | `yahoo_finance.getOptionsChain` | finance.yahoo.com | Reads a ticker's options chain — calls and puts by strike and expiration, with… | 🟢 |
 | `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟢 |

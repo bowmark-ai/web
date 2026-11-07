@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4c19d77e8179e94174bfe37805a33969dadf5327d34d5416c10321981134909d
-// 4551 checked, 20 unchecked.
+// Manifest version: eabe1273611c7f1522733d0323bd87de815fcb8cc9e8b8ebf344448c06cced2e
+// 4552 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4c19d77e8179e94174bfe37805a33969dadf5327d34d5416c10321981134909d",
+  "version": "eabe1273611c7f1522733d0323bd87de815fcb8cc9e8b8ebf344448c06cced2e",
   "units": {
     "address_validation": {
       "defs": {
@@ -117675,6 +117675,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ViewMarketHistoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "start",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -118032,6 +118051,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "PostCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "viewMarketHistory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ViewMarketHistoryArgs"
             },
             "optional": false
           },

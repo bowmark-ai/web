@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4c19d77e8179e94174bfe37805a33969dadf5327d34d5416c10321981134909d
-// 96 capabilities, 770 providers, 4569 typed functions, 20 refused.
+// Manifest version: eabe1273611c7f1522733d0323bd87de815fcb8cc9e8b8ebf344448c06cced2e
+// 96 capabilities, 770 providers, 4570 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -89182,6 +89182,29 @@ interface PostCommentResult {
   posted: true;
 }
 
+interface ViewMarketHistoryArgs {
+  start?: number;
+  count?: number;
+}
+
+interface MarketHistoryEntry {
+  itemName: string;
+  gameName: string | null;
+  action: "bought" | "sold" | null;
+  price: string | null;
+  actedOn: string | null;
+  listedOn: string | null;
+  counterparty: string | null;
+  appId: number | null;
+  imageUrl: string | null;
+}
+
+interface ViewMarketHistoryResult {
+  entries: MarketHistoryEntry[];
+  totalCount: number;
+  start: number;
+}
+
 interface RemoveFriendArgs {
   steamId: string | number;
 }
@@ -89421,6 +89444,13 @@ interface GetCommunityHubResponse {
      * write: it appears on that person's profile.
      */
     postComment(args: PostCommentArgs, opts?: ConnectionOption): Promise<PostCommentResult>;
+
+    /**
+     * Lists the signed-in caller's own Steam Community Market history — item, game, bought/sold,
+     * price and dates per row — off the market page's own myhistory door, with start/count paging.
+     * NEEDS A SIGN-IN — the caller signs in, not us.
+     */
+    viewMarketHistory(args: ViewMarketHistoryArgs, opts?: ConnectionOption): Promise<ViewMarketHistoryResult>;
 
     /**
      * Reads a PUBLIC Steam profile's inventory by steamid64, appid and context — no sign-in
