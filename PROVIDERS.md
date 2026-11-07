@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6008 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6009 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -673,7 +673,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booksy.bookAppointment` | booksy.com | Books an appointment for the signed-in caller: a service variant at a start time, with… | 🟢 |
 | `booksy.buyGiftCard` | booksy.com | Buys a business's gift card or voucher. | ⚪ |
 | `booksy.cancelAppointment` | booksy.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | 🟢 |
-| `booksy.getAvailability` | booksy.com | Returns the open appointment times for one service at one business over a date range… | 🟢 |
+| `booksy.getAvailability` | booksy.com | Returns the open appointment times for one service at one business over a date range… | 🟡 |
 | `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | 🟡 |
 | `booksy.getBusiness` | booksy.com | Returns one business from its id or its booksy.com page URL: name, description… | 🟢 |
 | `booksy.getBusinessContact` | booksy.com | Returns a business's contact email, which Booksy shows only to a signed-in customer. | 🟢 |
@@ -1476,7 +1476,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.suggestTags` | deviantart.com | Autocompletes a partial tag ("lands" → landscape, landscapephotography… | 🟢 |
 | `deviantart.unfavouriteDeviation` | deviantart.com | Removes a deviation from the signed-in caller's Favourites. | 🟢 |
 | `deviantart.unwatchUser` | deviantart.com | Stops watching an artist from the signed-in caller's account. | 🟢 |
-| `deviantart.updateProfile` | deviantart.com | Edits the signed-in caller's own profile — tagline, bio, location, avatar. | ⚪ |
+| `deviantart.updateProfile` | deviantart.com | Edits the signed-in caller's own About section: reads the site's current about-module… | 🟢 |
 | `deviantart.watchUser` | deviantart.com | Watches (follows) an artist from the signed-in caller's account, taking their username. | 🟢 |
 | `devto.getProfile` | dev.to | Looks up one public DEV Community profile by username or profile URL, with bio… | 🟢 |
 | `devto.searchArticles` | dev.to | Lists current public DEV Community articles, optionally narrowed by tag, author or… | 🟢 |
@@ -1678,7 +1678,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.setPrivateDuckAddressActive` | duckduckgo.com | Turns one private @duck.com address off (stop forwarding) or back on, using the… | 🟢 |
 | `duckduckgo.suggestQueries` | duckduckgo.com | Return DuckDuckGo's search-box autocomplete suggestions for a partial query. | 🟢 |
 | `duckduckgo.translateText` | duckduckgo.com | Translate text into a chosen language the way DuckDuckGo's translation answer does… | 🟢 |
-| `dumpsters.getQuote` | dumpsters.com | Prices a roll-off dumpster rental for a US address — real per-size prices, next… | 🟢 |
+| `dumpsters.getQuote` | dumpsters.com | Prices a roll-off dumpster rental for a US address — real per-size prices, next… | 🟡 |
 | `e2b.createSandbox` | e2b.dev | Boots a fresh Linux sandbox from a template (the `claude` template ships Claude Code)… | 🟢 |
 | `e2b.getSandbox` | e2b.dev | Reads one sandbox via GET /sandboxes/{id}: state, vCPU and RAM, start time and… | 🟢 |
 | `e2b.killSandbox` | e2b.dev | Destroys a sandbox via DELETE /sandboxes/{id}, which cannot be undone; idempotent on… | 🟢 |
@@ -2863,7 +2863,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
 | `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
 | `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟢 |
-| `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' home-design floor-plan search against the site's own live inventory… | 🟢 |
+| `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' home-design floor-plan search against the site's own live inventory… | 🟡 |
 | `iyc.checkCharterAvailability` | iyc.com | Reads one yacht's real charter calendar (the site's own booked/unavailable date list)… | 🟢 |
 | `iyc.searchCharterYachts` | iyc.com | Searches IYC's live superyacht charter fleet by destination, guest count, length and… | 🟢 |
 | `jasmine_dilucci.getApplicationFormSchema` | jasminedilucci.com | Returns the structure of the application funnel's DQ (disqualification) step: field… | 🟢 |
@@ -3562,7 +3562,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getConnections` | nytimes.com | Gets a day's Connections puzzle — the four categories and their cards. | 🟢 |
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟡 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
-| `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟡 |
+| `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟢 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟡 |
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟡 |
@@ -3575,7 +3575,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listPodcasts` | nytimes.com | Lists NYT podcasts. | 🟡 |
 | `nytimes.listRSSFeeds` | nytimes.com | Lists every RSS feed the site's own /rss index publishes, with its title, url and nav… | 🟢 |
 | `nytimes.listSavedArticles` | nytimes.com | The signed-in reader's saved articles (Reading List), newest first. | 🟢 |
-| `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟡 |
+| `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟢 |
 | `nytimes.listTopics` | nytimes.com | Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently… | 🟢 |
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
 | `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟡 |
@@ -3585,6 +3585,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.unfollowWriter` | nytimes.com | Unfollows one NYT writer for the signed-in reader by pressing the same follow control… | 🟢 |
 | `nytimes.unsaveArticle` | nytimes.com | Removes an article from the signed-in reader's Reading List, by driving the same save… | 🟢 |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
+| `ocado.searchProducts` | ocado.com | Search ocado.com's groceries by term and get each match's name, brand, size, current… | 🟢 |
 | `odfl.estimateFreightQuote` | odfl.com | Generates a shipping rate quote for an LTL freight shipment from ODFL. | ⚪ |
 | `old_navy.getProduct` | oldnavy.gap.com | Reads one Old Navy product's variant-level sizes, colors and fits with each SKU's sale… | 🟢 |
 | `old_navy.searchProducts` | oldnavy.gap.com | Searches Old Navy's live apparel catalog (oldnavy.gap.com) for what a shopper types —… | 🟢 |
@@ -3754,7 +3755,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pilotprotocol.getApp` | pilotprotocol.network | Reads one app's detail page (/apps/<id>) — vendor, tagline, description, category… | 🟢 |
 | `pilotprotocol.listApps` | pilotprotocol.network | Lists every app in Pilot Protocol's app store (id, name, vendor, category, tagline… | 🟢 |
 | `pinterest.commentOnPin` | pinterest.com | Leave a comment on a pin as the caller. | ⚪ |
-| `pinterest.createBoard` | pinterest.com | Make a new board on the caller's account, public or secret, with a name and description. | ⚪ |
+| `pinterest.createBoard` | pinterest.com | Make a new board on the caller's account, public or secret, with a name and description. | 🟢 |
 | `pinterest.createPin` | pinterest.com | Create a new pin on the caller's account from an image and a destination link, with a… | ⚪ |
 | `pinterest.deleteBoard` | pinterest.com | Delete one of the caller's own boards — what makes every board test write reversible. | ⚪ |
 | `pinterest.deletePin` | pinterest.com | Delete a pin the caller created or saved — the undo that makes `createPin` and… | ⚪ |
@@ -3769,7 +3770,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.getProduct` | pinterest.com | Read the product behind a shoppable pin: price and currency, the merchant and the… | 🟢 |
 | `pinterest.getTopic` | pinterest.com | Read one idea topic: its display name, its own key/slug, follower count, and whether… | 🟢 |
 | `pinterest.getUser` | pinterest.com | Read a person's or a brand's profile: id, full name, username, follower and following… | 🟢 |
-| `pinterest.hidePin` | pinterest.com | Tell Pinterest the caller does not want to see a pin. | ⚪ |
+| `pinterest.hidePin` | pinterest.com | Tell Pinterest the signed-in caller does not want to see a pin in their home feed —… | 🟢 |
 | `pinterest.listBoardPins` | pinterest.com | Every pin inside a board, in the board's own order, with a `bookmark` for the next… | 🟢 |
 | `pinterest.listBoardSectionPins` | pinterest.com | The pins inside one section of a board, taking the section id `listBoardSections`… | 🟢 |
 | `pinterest.listBoardSections` | pinterest.com | The sections a board is divided into — a 258-pin board is usually 29 sections, and… | 🟢 |
@@ -4549,7 +4550,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.listProfileLenses` | snapchat.com | Lists the Lenses a public profile has published, with lens name, preview image and… | 🟢 |
 | `snapchat.listProfileSpotlights` | snapchat.com | Lists the Spotlight videos a public profile has posted, with title, upload date, view… | 🟢 |
 | `snapchat.listProfileStory` | snapchat.com | Lists the snaps in a public profile's current Story — media url, preview url, media… | 🟢 |
-| `snapchat.listSpotlightComments` | snapchat.com | Reads the public comments under one Spotlight video — comment text, commenter and time… | 🟢 |
+| `snapchat.listSpotlightComments` | snapchat.com | Reads the public comments under one Spotlight video — comment text, commenter and time… | 🟡 |
 | `snapchat.listSpotlightFeed` | snapchat.com | Reads the Spotlight feed — Snapchat's public short-video feed at… | 🟢 |
 | `snapchat.listTopicSpotlights` | snapchat.com | Lists the Spotlight videos filed under one hashtag topic… | ⚪ |
 | `snapchat.postSpotlightComment` | snapchat.com | Posts a comment under a Spotlight video from the signed-in caller's account. | ⚪ |

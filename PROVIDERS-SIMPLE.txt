@@ -246,7 +246,7 @@ detailxperts.com — detailxperts: checkServiceArea, getQuote, listVehicleTypes 
 deutschepost.de — deutschepost: getDialogpostRates
 dev.to — devto: getProfile, searchArticles
 developers.openai.com — developersopenai: getDocPage
-deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getWatchFeed, listGalleryFolders, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, watchUser (+3 planned)
+deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getWatchFeed, listGalleryFolders, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateProfile, watchUser (+2 planned)
 dhl.com — dhl: getQuote
 dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
@@ -515,6 +515,7 @@ nutribullet.com — capitalbrands: getBlenderRecommendation, listQuizQuestions
 nvisioncenters.com — nvisioncenters: calculateLasikSavings, checkLasikCandidacy, estimateLasikSavings
 nytimes.com — nytimes: followWriter, getArticle, getArticleComments, getConnections, getLiveBlog, getNewsletter, getPodcast, getSection, getSpellingBee, getTopicArticles, getTrending, getWordle, getWriter, listArticles, listEpisodes, listNewsletters, listPodcasts, listRSSFeeds, listSavedArticles, listSections, listTopics, listTrending, listWriterArticles, saveArticle, searchArticles, searchWriters, unfollowWriter, unsaveArticle
 oanda.com — oanda: convertCurrency
+ocado.com — ocado: searchProducts
 odfl.com — odfl: nothing callable yet (+1 planned)
 oldnavy.gap.com — old_navy: getProduct, searchProducts
 oliverwinery.com — oliverwinery: checkShippingAvailability, getWine, listWines
@@ -547,7 +548,7 @@ personio.de — personio: listJobs
 pexels.com — pexels: search
 pike13.com — pike13: bookClass, cancelVisit, checkEnrollmentEligibility, findBusiness, getAppointmentAvailability, getAppointmentAvailabilitySummary, getBusiness, getClass, getMyProfile, getPlan, getSchedule, getScheduleSummary, getService, getWaitlistEligibility, joinWaitlist, leaveWaitlist, listClassSeries, listLocations, listMyBusinesses, listMyPlans, listMyVisits, listMyWaitlistEntries, listMyWaivers, listPlans, listServices, listStaff (+1 planned)
 pilotprotocol.network — pilotprotocol: getApp, listApps
-pinterest.com — pinterest: getBoard, getCurrentUser, getHomeFeed, getPin, getProduct, getTopic, getUser, listBoardPins, listBoardSectionPins, listBoardSections, listConversations, listNotifications, listTopicPins, listTopics, listUserBoards, listUserCreatedPins, listUserFollowers, listUserFollowing, listUserSavedPins, listVisualObjects, searchBoards, searchMyPins, searchPins, searchUsers, searchVideos, suggestSearches (+21 planned)
+pinterest.com — pinterest: createBoard, getBoard, getCurrentUser, getHomeFeed, getPin, getProduct, getTopic, getUser, hidePin, listBoardPins, listBoardSectionPins, listBoardSections, listConversations, listNotifications, listTopicPins, listTopics, listUserBoards, listUserCreatedPins, listUserFollowers, listUserFollowing, listUserSavedPins, listVisualObjects, searchBoards, searchMyPins, searchPins, searchUsers, searchVideos, suggestSearches (+19 planned)
 pirateship.com — pirateship: getRates (+2 planned)
 pitboss-grills.com — dansons: identifyProduct, listRegisterableProducts
 pizzahut.com — pizzahut: findStores, getDeals, getMenu, getMenuItem, priceOrder (+1 planned)
