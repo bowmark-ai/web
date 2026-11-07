@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ddbde6e23cd82b1e4d5a4e240a4e86d35aaea23bd6f2363224214c77e61878ba
-// 96 capabilities, 770 providers, 4552 typed functions, 20 refused.
+// Manifest version: 4c19d77e8179e94174bfe37805a33969dadf5327d34d5416c10321981134909d
+// 96 capabilities, 770 providers, 4569 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4194,8 +4194,9 @@ type ReadResult = {
                              // for. read.page cannot pause for a login the way a
                              // typed provider does — a human has to sign in first
   wall: { vendor: string; cleared: boolean } | null   // the bot wall this page is
-                             // behind, identified on the page or named by the site's
-                             // own response (AWS WAF's 202). Reported even when we
+                             // behind, identified on the page, named by the site's
+                             // own response (AWS WAF's 202), or "bespoke" when the site
+                             // redirected to its own captcha/verification url. Reported even when we
                              // could NOT clear it, so a block is a named fact rather
                              // than an empty page. Uncleared on the content served
                              // ⇒ ok:false, and warnings says the site refused the
@@ -23694,6 +23695,29 @@ interface SharedLink {
   createTime: string | null;
 }
 
+interface Memories {
+  memories: { id: string; content: string; updateTime: string | null }[];
+  /** Share of the memory budget used, 0-100, when reported. */
+  percentFull: number | null;
+}
+
+interface CustomInstructions {
+  enabled: boolean;
+  nickname: string | null;
+  occupation: string | null;
+  traits: string | null;
+  aboutYou: string | null;
+}
+
+interface ChatGPTModel {
+  /** The id the model menu sends, e.g. "gpt-4o". */
+  slug: string;
+  title: string | null;
+  description: string | null;
+  maxTokens: number | null;
+  tags: string[];
+}
+
 interface SharedMessage {
   role: "user" | "assistant";
   text: string;
@@ -23807,6 +23831,30 @@ interface SharedConversation {
      * not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
      */
     listSharedLinks(opts?: ConnectionOption): Promise<SharedLink[]>;
+
+    /**
+     * What ChatGPT has saved to the caller's memory — each memory's id and text, plus how full the
+     * memory is. Needs the caller signed in to chatgpt.com through the relay; the run pauses for a
+     * sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has
+     * expired.
+     */
+    getMemories(opts?: ConnectionOption): Promise<Memories>;
+
+    /**
+     * The caller's personalization — the name ChatGPT calls them, their occupation, the traits it
+     * should have and what else it should know. Needs the caller signed in to chatgpt.com through
+     * the relay; the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError`
+     * when the saved sign-in has expired.
+     */
+    getCustomInstructions(opts?: ConnectionOption): Promise<CustomInstructions>;
+
+    /**
+     * The models the caller's plan can pick in the model menu — slug, title, description and token
+     * limit. Needs the caller signed in to chatgpt.com through the relay; the run pauses for a
+     * sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has
+     * expired.
+     */
+    listModels(opts?: ConnectionOption): Promise<ChatGPTModel[]>;
   }
 }
 
@@ -30170,6 +30218,20 @@ interface DailymotionListMyPlaylistsResult {
      * getPlaylist. Needs the caller signed in.
      */
     listMyPlaylists(args?: ListMyPlaylistsArgs, opts?: ConnectionOption): Promise<DailymotionListMyPlaylistsResult>;
+
+    /**
+     * Makes a NEW Dailymotion account with the person's own email and password, in a session.
+     * Pauses with `needs_code` / `needs_phone` whenever the site wants something only the person
+     * has; continue with `confirmSignup` in the same session. Ends `signed_up` with the login
+     * saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -41672,6 +41734,21 @@ interface FoxnewsPodcastEpisode {
   duration?: string;
   audioUrl?: string;
 }
+interface UpdateProfileArgs {
+  firstName?: string;
+  lastName?: string;
+  displayName?: string;
+  gender?: string;
+  birthdate?: string;
+  newsLetter?: boolean;
+  politicalViews?: string;
+  householdIncome?: string;
+}
+interface FoxnewsProfileUpdate {
+  profileId: string;
+  updated: string[];
+  raw: Record<string, unknown> | null;
+}
 interface FoxnewsAccount {
   profileId: string | null;
   email: string | null;
@@ -41803,6 +41880,13 @@ interface FoxnewsAccount {
      * the Fox ProfileSDK's identity API. Needs the caller signed in to foxnews.com.
      */
     getAccount(opts?: ConnectionOption): Promise<FoxnewsAccount>;
+
+    /**
+     * Changes the signed-in caller's Fox profile — first and last name, display name, gender,
+     * birthdate, newsletter opt-in, political views, household income. Only the fields passed are
+     * sent. Needs the caller signed in to foxnews.com.
+     */
+    updateProfile(args: UpdateProfileArgs, opts?: ConnectionOption): Promise<FoxnewsProfileUpdate>;
 
     /**
      * Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics, Breaking
@@ -45651,6 +45735,44 @@ interface GoloadupServiceAvailability {
 
 declare namespace BowmarkProvider_goodreads {
   // ── Goodreads — the unit's own declarations, verbatim ──
+interface GoodreadsAuthorSearchRow {
+  legacyId: string;
+  name: string;
+  url: string;
+  memberUrl?: string;
+  location?: string;
+  booksCount?: number;
+}
+interface GoodreadsSeriesBook {
+  number?: string;
+  legacyId: string;
+  title: string;
+  url: string;
+  author?: string;
+  averageRating?: number;
+  ratingsCount?: number;
+  numPages?: number;
+}
+interface GoodreadsSeries {
+  seriesId: string;
+  title: string;
+  url: string;
+  books: GoodreadsSeriesBook[];
+}
+interface GoodreadsBookEdition {
+  legacyId: string;
+  title: string;
+  url: string;
+  published?: string;
+  publisher?: string;
+  format?: string;
+  pages?: number;
+  isbn?: string;
+  isbn10?: string;
+  language?: string;
+  averageRating?: number;
+  ratingsCount?: number;
+}
 interface GoodreadsUpdate {
   actorName: string;
   actorUrl?: string;
@@ -45805,6 +45927,30 @@ interface GoodreadsShelfBook {
      * per row. Takes the numeric id or the full URL.
      */
     getList(idOrUrl: string): Promise<GoodreadsListBook[]>;
+
+    /**
+     * Finds Goodreads authors by name — legacyId, name, author url, books-on-shelf count and
+     * location per match. Pass the legacyId or url to getAuthor or getAuthorBooks.
+     */
+    searchAuthors(query: string): Promise<GoodreadsAuthorSearchRow[]>;
+
+    /**
+     * Reads a book series' reading order — each book's position number, title, author, rating and
+     * page count. Takes the series id or the /series/ url off a book page.
+     */
+    getSeries(idOrUrl: string): Promise<GoodreadsSeries>;
+
+    /**
+     * Lists an author's full bibliography, 30 books a page (page is 1-indexed) — title, url,
+     * rating, ratings count and first-published year per book.
+     */
+    getAuthorBooks(idOrUrl: string, page?: number): Promise<GoodreadsAuthorBook[]>;
+
+    /**
+     * Lists the editions of a book, 10 a page — publisher, publication date, format, pages, ISBN,
+     * language and rating per edition. Takes a book id or url.
+     */
+    getBookEditions(idOrUrl: string, page?: number): Promise<GoodreadsBookEdition[]>;
 
     /**
      * Reads one author's page — bio, genre, influences, website, rating/review/follower stats, and
@@ -51841,6 +51987,49 @@ interface UpdateProfileArgs {
   /** IKEA's gender code, e.g. "MALE", "FEMALE", "NOTSET". */
   genderCode?: string;
 }
+interface BookPlanningAppointmentArgs {
+  /** The 5-digit US ZIP the appointment is for. */
+  zip: string;
+  /** IKEA's service group, e.g. "KITCHENPLANNING" (default), "KITCHEN", "BEDROOM", "WORKSPACE". */
+  operation?: string;
+  /** Two-letter state code; some groups list more services with it. */
+  state?: string;
+  /** A serviceId off the "services" step. Omit to list the services. */
+  serviceId?: string;
+  /** A storeId off the "stores" step — needed for STORE services only. */
+  storeId?: string;
+  /** First day to list slots from, YYYY-MM-DD; default today. */
+  from?: string;
+  /** A timeSlotId off the "slots" step. Pass it with customer to book. */
+  timeSlotId?: string;
+  customer?: {
+    firstName: string;
+    surName: string;
+    email: string;
+    mobileNumber: string;
+    address1?: string;
+    city?: string;
+    postCode?: string;
+  };
+}
+interface IkeaPlanningAppointment {
+  /** Which step this answer is: what to pass next, or the booking. */
+  step: "services" | "stores" | "slots" | "booked";
+  services?: {
+    serviceId: string;
+    serviceCode: string;
+    operation: string;
+    /** STORE, REMOTE or HOME. */
+    locationType: string;
+    /** Highest listed price in USD; 0 is free. Only free services book. */
+    price: number;
+    external: boolean;
+  }[];
+  stores?: { storeId: string; name: string; street: string | null; city: string | null; zip: string | null }[];
+  slots?: { timeSlotId: string; from: string; to: string | null }[];
+  booking?: { orderNo: string | null; payOrderLink: string | null; raw: Record<string, unknown> };
+  warnings: string[];
+}
 interface IkeaProfileUpdateResult {
   updated: boolean;
   /** The fields that were sent. */
@@ -52115,6 +52304,14 @@ interface RemoveFromFavoritesArgs {
      * and the member benefits IKEA shows in the loyalty hub. Needs the caller signed in to IKEA.
      */
     listFamilyOffers(opts?: ConnectionOption): Promise<IkeaFamilyOffers>;
+
+    /**
+     * Books a free IKEA planning appointment (kitchen, bedroom, office…) at a store or online,
+     * step by step: pass a ZIP to list services, add a serviceId to list stores or open slots,
+     * then a timeSlotId with the caller's contact details to book. Refuses any paid service. Needs
+     * the caller signed in to IKEA.
+     */
+    bookPlanningAppointment(args: BookPlanningAppointmentArgs, opts?: ConnectionOption): Promise<IkeaPlanningAppointment>;
 
     /**
      * Edits the signed-in caller's own IKEA personal details — first name, last name, birth date
@@ -86948,6 +87145,18 @@ interface SpotifyLibrarySearchResult {
   /** false when the library was larger than maxScan for some type */
   complete: boolean;
 }
+interface SpotifyLyrics {
+  trackId: string;
+  /** false when Spotify has no lyrics for this track */
+  available: boolean;
+  syncType: string | null; // "LINE_SYNCED" | "UNSYNCED" …
+  language: string | null;
+  provider: string | null; // e.g. "Musixmatch"
+  /** startTimeMs is null when the lyrics are not time-synced */
+  lines: { startTimeMs: number | null; words: string }[];
+  /** the lines joined with newlines */
+  text: string;
+}
 
   /**
    * Search Spotify's catalog — tracks, albums, artists, playlists, podcasts — through Spotify's
@@ -87124,6 +87333,14 @@ interface SpotifyLibrarySearchResult {
      * Needs the caller signed in to Spotify.
      */
     getDevices(opts?: ConnectionOption): Promise<{ devices: SpotifyDevice[] }>;
+
+    /**
+     * A track's lyrics as Spotify's lyrics panel shows them — lines (time-synced when Spotify has
+     * timing), a plain-text copy, language and provider. Takes a track id, spotify:track: uri or
+     * open.spotify.com url. A track with no lyrics answers `available: false`, never an error.
+     * Needs the caller signed in to Spotify.
+     */
+    getLyrics(track: string, opts?: ConnectionOption): Promise<SpotifyLyrics>;
 
     /**
      * The signed-in caller's current playback state — what's playing, where, progress,
@@ -92902,6 +93119,14 @@ interface ThreadsPublished {
   code: string | null;       // its short code, when Threads returns one
   url: string | null;
 }
+// likePost / unlikePost / repostPost / unrepostPost / deletePost: act on one post as the caller
+interface ThreadsPostRef {
+  postId: string;            // the post's numeric id (ThreadsPost.id)
+}
+interface ThreadsActionResult {
+  postId: string;
+  done: true;
+}
 // getSavedPosts: the signed-in caller's own saved posts
 interface ThreadsSavedPosts {
   posts: ThreadsPost[];      // first server-rendered page, as /saved lists them
@@ -92976,6 +93201,36 @@ interface ThreadsActivity {
      * post's numeric id from getPost or getProfilePosts. Needs the caller signed in to Threads.
      */
     quotePost(args: ThreadsReplyArgs, opts?: ConnectionOption): Promise<ThreadsPublished>;
+
+    /**
+     * Likes a Threads post as the signed-in caller. postId is the post's numeric id from getPost
+     * or getProfilePosts. Needs the caller signed in to Threads.
+     */
+    likePost(args: ThreadsPostRef, opts?: ConnectionOption): Promise<ThreadsActionResult>;
+
+    /**
+     * Removes the signed-in caller's like from a Threads post. postId is the post's numeric id
+     * from getPost or getProfilePosts. Needs the caller signed in to Threads.
+     */
+    unlikePost(args: ThreadsPostRef, opts?: ConnectionOption): Promise<ThreadsActionResult>;
+
+    /**
+     * Reposts a Threads post to the signed-in caller's profile. postId is the post's numeric id
+     * from getPost or getProfilePosts. Needs the caller signed in to Threads.
+     */
+    repostPost(args: ThreadsPostRef, opts?: ConnectionOption): Promise<ThreadsActionResult>;
+
+    /**
+     * Removes the signed-in caller's repost of a Threads post. postId is the post's numeric id
+     * from getPost or getProfilePosts. Needs the caller signed in to Threads.
+     */
+    unrepostPost(args: ThreadsPostRef, opts?: ConnectionOption): Promise<ThreadsActionResult>;
+
+    /**
+     * Deletes one of the signed-in caller's own Threads posts or replies. postId is the post's
+     * numeric id from getPost or getProfilePosts. Needs the caller signed in to Threads.
+     */
+    deletePost(args: ThreadsPostRef, opts?: ConnectionOption): Promise<ThreadsActionResult>;
 
     /**
      * Reads the posts the signed-in caller has saved on Threads (first page) — author, text, media

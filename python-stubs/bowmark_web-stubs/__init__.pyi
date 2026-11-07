@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ddbde6e23cd82b1e4d5a4e240a4e86d35aaea23bd6f2363224214c77e61878ba
-# 96 capabilities, 770 providers, 4534 typed functions, 20 refused.
+# Manifest version: 4c19d77e8179e94174bfe37805a33969dadf5327d34d5416c10321981134909d
+# 96 capabilities, 770 providers, 4551 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14621,6 +14621,29 @@ class Prv_chatgpt_SharedLink_Out(TypedDict):
     conversationId: str | None
     createTime: str | None
 
+class Prv_chatgpt_Memories_Out(TypedDict):
+    memories: list[Prv_chatgpt_Memories_Out_memories_item_Out]
+    percentFull: float | None
+
+class Prv_chatgpt_Memories_Out_memories_item_Out(TypedDict):
+    id: str
+    content: str
+    updateTime: str | None
+
+class Prv_chatgpt_CustomInstructions_Out(TypedDict):
+    enabled: bool
+    nickname: str | None
+    occupation: str | None
+    traits: str | None
+    aboutYou: str | None
+
+class Prv_chatgpt_ChatGPTModel_Out(TypedDict):
+    slug: str
+    title: str | None
+    description: str | None
+    maxTokens: float | None
+    tags: list[str]
+
 Prv_cheapflights_search_query_In = TypedDict(
     "Prv_cheapflights_search_query_In",
     {
@@ -18490,6 +18513,46 @@ class Prv_dailymotion_DailymotionListMyPlaylistsResult_Out(TypedDict):
     total: float
     hasMore: bool
     playlists: list[Prv_dailymotion_DailymotionPlaylist_Out]
+
+class Prv_dailymotion_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_dailymotion_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_dailymotion_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_dailymotion_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_dailymotion_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_dailymotion_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_dailymotion_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_dailymotion_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_dangotecement_FindDistributorsFilters_In(TypedDict):
     query: NotRequired[str]
@@ -25955,6 +26018,21 @@ class Prv_foxnews_FoxnewsAccount_Out(TypedDict):
     lastName: str | None
     raw: Mapping[str, Any]
 
+class Prv_foxnews_UpdateProfileArgs_In(TypedDict):
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+    displayName: NotRequired[str]
+    gender: NotRequired[str]
+    birthdate: NotRequired[str]
+    newsLetter: NotRequired[bool]
+    politicalViews: NotRequired[str]
+    householdIncome: NotRequired[str]
+
+class Prv_foxnews_FoxnewsProfileUpdate_Out(TypedDict):
+    profileId: str
+    updated: list[str]
+    raw: Mapping[str, Any] | None
+
 class Prv_foxnews_listNewsletters_return_Out(TypedDict):
     newsletters: list[Prv_foxnews_FoxnewsNewsletter_Out]
 
@@ -28551,6 +28629,52 @@ class Prv_goodreads_GoodreadsListBook_Out(TypedDict):
     authorUrl: NotRequired[str]
     averageRating: NotRequired[float]
 
+class Prv_goodreads_GoodreadsAuthorSearchRow_Out(TypedDict):
+    legacyId: str
+    name: str
+    url: str
+    memberUrl: NotRequired[str]
+    location: NotRequired[str]
+    booksCount: NotRequired[float]
+
+class Prv_goodreads_GoodreadsSeries_Out(TypedDict):
+    seriesId: str
+    title: str
+    url: str
+    books: list[Prv_goodreads_GoodreadsSeriesBook_Out]
+
+class Prv_goodreads_GoodreadsSeriesBook_Out(TypedDict):
+    number: NotRequired[str]
+    legacyId: str
+    title: str
+    url: str
+    author: NotRequired[str]
+    averageRating: NotRequired[float]
+    ratingsCount: NotRequired[float]
+    numPages: NotRequired[float]
+
+class Prv_goodreads_GoodreadsAuthorBook_Out(TypedDict):
+    legacyId: str
+    title: str
+    url: str
+    averageRating: NotRequired[float]
+    ratingsCount: NotRequired[float]
+    publishedYear: NotRequired[float]
+
+class Prv_goodreads_GoodreadsBookEdition_Out(TypedDict):
+    legacyId: str
+    title: str
+    url: str
+    published: NotRequired[str]
+    publisher: NotRequired[str]
+    format: NotRequired[str]
+    pages: NotRequired[float]
+    isbn: NotRequired[str]
+    isbn10: NotRequired[str]
+    language: NotRequired[str]
+    averageRating: NotRequired[float]
+    ratingsCount: NotRequired[float]
+
 class Prv_goodreads_GoodreadsAuthor_Out(TypedDict):
     legacyId: str
     name: str
@@ -28568,14 +28692,6 @@ class Prv_goodreads_GoodreadsAuthor_Out(TypedDict):
     worksCount: NotRequired[float]
     followersCount: NotRequired[float]
     books: list[Prv_goodreads_GoodreadsAuthorBook_Out]
-
-class Prv_goodreads_GoodreadsAuthorBook_Out(TypedDict):
-    legacyId: str
-    title: str
-    url: str
-    averageRating: NotRequired[float]
-    ratingsCount: NotRequired[float]
-    publishedYear: NotRequired[float]
 
 class Prv_goodreads_GoodreadsQuote_Out(TypedDict):
     id: str
@@ -31958,6 +32074,66 @@ class Prv_ikea_IkeaFamilyOffers_Out(TypedDict):
     partnerOffers: list[Mapping[str, Any]]
     benefits: Any
     warnings: list[str]
+
+Prv_ikea_BookPlanningAppointmentArgs_In = TypedDict(
+    "Prv_ikea_BookPlanningAppointmentArgs_In",
+    {
+    "zip": str,
+    "operation": NotRequired[str],
+    "state": NotRequired[str],
+    "serviceId": NotRequired[str],
+    "storeId": NotRequired[str],
+    "from": NotRequired[str],
+    "timeSlotId": NotRequired[str],
+    "customer": NotRequired[Prv_ikea_BookPlanningAppointmentArgs_In_customer_In],
+    },
+)
+
+class Prv_ikea_BookPlanningAppointmentArgs_In_customer_In(TypedDict):
+    firstName: str
+    surName: str
+    email: str
+    mobileNumber: str
+    address1: NotRequired[str]
+    city: NotRequired[str]
+    postCode: NotRequired[str]
+
+class Prv_ikea_IkeaPlanningAppointment_Out(TypedDict):
+    step: Literal["services"] | Literal["stores"] | Literal["slots"] | Literal["booked"]
+    services: NotRequired[list[Prv_ikea_IkeaPlanningAppointment_Out_services_item_Out]]
+    stores: NotRequired[list[Prv_ikea_IkeaPlanningAppointment_Out_stores_item_Out]]
+    slots: NotRequired[list[Prv_ikea_IkeaPlanningAppointment_Out_slots_item_Out]]
+    booking: NotRequired[Prv_ikea_IkeaPlanningAppointment_Out_booking_Out]
+    warnings: list[str]
+
+class Prv_ikea_IkeaPlanningAppointment_Out_services_item_Out(TypedDict):
+    serviceId: str
+    serviceCode: str
+    operation: str
+    locationType: str
+    price: float
+    external: bool
+
+class Prv_ikea_IkeaPlanningAppointment_Out_stores_item_Out(TypedDict):
+    storeId: str
+    name: str
+    street: str | None
+    city: str | None
+    zip: str | None
+
+Prv_ikea_IkeaPlanningAppointment_Out_slots_item_Out = TypedDict(
+    "Prv_ikea_IkeaPlanningAppointment_Out_slots_item_Out",
+    {
+    "timeSlotId": str,
+    "from": str,
+    "to": str | None,
+    },
+)
+
+class Prv_ikea_IkeaPlanningAppointment_Out_booking_Out(TypedDict):
+    orderNo: str | None
+    payOrderLink: str | None
+    raw: Mapping[str, Any]
 
 class Prv_ikea_UpdateProfileArgs_In(TypedDict):
     firstName: NotRequired[str]
@@ -54285,6 +54461,19 @@ class Prv_spotify_SpotifyDevice_Out(TypedDict):
     type: str
     volumePercent: float | None
 
+class Prv_spotify_SpotifyLyrics_Out(TypedDict):
+    trackId: str
+    available: bool
+    syncType: str | None
+    language: str | None
+    provider: str | None
+    lines: list[Prv_spotify_SpotifyLyrics_Out_lines_item_Out]
+    text: str
+
+class Prv_spotify_SpotifyLyrics_Out_lines_item_Out(TypedDict):
+    startTimeMs: float | None
+    words: str
+
 class Prv_spotify_SpotifyCurrentPlayback_Out(TypedDict):
     isPlaying: bool
     progressMs: float | None
@@ -58125,6 +58314,13 @@ class Prv_threads_ThreadsPublished_Out(TypedDict):
 class Prv_threads_ThreadsReplyArgs_In(TypedDict):
     postId: str
     text: str
+
+class Prv_threads_ThreadsPostRef_In(TypedDict):
+    postId: str
+
+class Prv_threads_ThreadsActionResult_Out(TypedDict):
+    postId: str
+    done: Literal[True]
 
 class Prv_threads_ThreadsSavedPosts_Out(TypedDict):
     posts: list[Prv_threads_ThreadsPost_Out]
@@ -76127,6 +76323,27 @@ class Prv_chatgpt(Protocol):
         when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
         """
 
+    async def getMemories(self, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_Memories_Out:
+        """What ChatGPT has saved to the caller's memory — each memory's id and text, plus how full
+        the memory is. Needs the caller signed in to chatgpt.com through the relay; the run
+        pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+        sign-in has expired.
+        """
+
+    async def getCustomInstructions(self, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_CustomInstructions_Out:
+        """The caller's personalization — the name ChatGPT calls them, their occupation, the traits
+        it should have and what else it should know. Needs the caller signed in to chatgpt.com
+        through the relay; the run pauses for a sign-in link when they are not. THROWS
+        `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def listModels(self, opts: ConnectionOption | None = None, /) -> list[Prv_chatgpt_ChatGPTModel_Out]:
+        """The models the caller's plan can pick in the model menu — slug, title, description and
+        token limit. Needs the caller signed in to chatgpt.com through the relay; the run pauses
+        for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+        sign-in has expired.
+        """
+
 class Prv_cheapflights(Protocol):
     """Cheapflights (cheapflights.com) — metasearch flight results, cheapest-first, read
     directly from the result cards. Also answers for Cheapflights' UK and Canadian sites:
@@ -78424,6 +78641,18 @@ class Prv_dailymotion(Protocol):
     async def listMyPlaylists(self, args: Prv_dailymotion_ListMyPlaylistsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionListMyPlaylistsResult_Out:
         """List the signed-in caller's own playlists (public and private), paged — same fields as
         getPlaylist. Needs the caller signed in.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_dailymotion_signup_return_u0_Out | Prv_dailymotion_signup_return_u1_Out | Prv_dailymotion_signup_return_u2_Out | Prv_dailymotion_signup_return_u3_Out:
+        """Makes a NEW Dailymotion account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_dailymotion_confirmSignup_return_u0_Out | Prv_dailymotion_confirmSignup_return_u1_Out | Prv_dailymotion_confirmSignup_return_u2_Out | Prv_dailymotion_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_dangotecement(Protocol):
@@ -82301,6 +82530,12 @@ class Prv_foxnews(Protocol):
         off the Fox ProfileSDK's identity API. Needs the caller signed in to foxnews.com.
         """
 
+    async def updateProfile(self, args: Prv_foxnews_UpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_foxnews_FoxnewsProfileUpdate_Out:
+        """Changes the signed-in caller's Fox profile — first and last name, display name, gender,
+        birthdate, newsletter opt-in, political views, household income. Only the fields passed
+        are sent. Needs the caller signed in to foxnews.com.
+        """
+
     async def listNewsletters(self, /) -> Prv_foxnews_listNewsletters_return_Out:
         """Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics,
         Breaking News Alerts, Health, AI…) with each one's name, description and list id.
@@ -83644,6 +83879,26 @@ class Prv_goodreads(Protocol):
     async def getList(self, idOrUrl: str, /) -> list[Prv_goodreads_GoodreadsListBook_Out]:
         """Reads one curated list's books — rank, title, author, url and (when shown) average
         rating per row. Takes the numeric id or the full URL.
+        """
+
+    async def searchAuthors(self, query: str, /) -> list[Prv_goodreads_GoodreadsAuthorSearchRow_Out]:
+        """Finds Goodreads authors by name — legacyId, name, author url, books-on-shelf count and
+        location per match. Pass the legacyId or url to getAuthor or getAuthorBooks.
+        """
+
+    async def getSeries(self, idOrUrl: str, /) -> Prv_goodreads_GoodreadsSeries_Out:
+        """Reads a book series' reading order — each book's position number, title, author, rating
+        and page count. Takes the series id or the /series/ url off a book page.
+        """
+
+    async def getAuthorBooks(self, idOrUrl: str, page: float | None = None, /) -> list[Prv_goodreads_GoodreadsAuthorBook_Out]:
+        """Lists an author's full bibliography, 30 books a page (page is 1-indexed) — title, url,
+        rating, ratings count and first-published year per book.
+        """
+
+    async def getBookEditions(self, idOrUrl: str, page: float | None = None, /) -> list[Prv_goodreads_GoodreadsBookEdition_Out]:
+        """Lists the editions of a book, 10 a page — publisher, publication date, format, pages,
+        ISBN, language and rating per edition. Takes a book id or url.
         """
 
     async def getAuthor(self, idOrUrl: str, /) -> Prv_goodreads_GoodreadsAuthor_Out:
@@ -85973,6 +86228,13 @@ class Prv_ikea(Protocol):
         """Lists the signed-in caller's IKEA Family offers — their personal coupons, partner
         coupons and the member benefits IKEA shows in the loyalty hub. Needs the caller signed
         in to IKEA.
+        """
+
+    async def bookPlanningAppointment(self, args: Prv_ikea_BookPlanningAppointmentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_ikea_IkeaPlanningAppointment_Out:
+        """Books a free IKEA planning appointment (kitchen, bedroom, office…) at a store or online,
+        step by step: pass a ZIP to list services, add a serviceId to list stores or open slots,
+        then a timeSlotId with the caller's contact details to book. Refuses any paid service.
+        Needs the caller signed in to IKEA.
         """
 
     async def updateProfile(self, args: Prv_ikea_UpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_ikea_IkeaProfileUpdateResult_Out:
@@ -98468,6 +98730,13 @@ class Prv_spotify(Protocol):
         Needs the caller signed in to Spotify.
         """
 
+    async def getLyrics(self, track: str, opts: ConnectionOption | None = None, /) -> Prv_spotify_SpotifyLyrics_Out:
+        """A track's lyrics as Spotify's lyrics panel shows them — lines (time-synced when Spotify
+        has timing), a plain-text copy, language and provider. Takes a track id, spotify:track:
+        uri or open.spotify.com url. A track with no lyrics answers `available: false`, never an
+        error. Needs the caller signed in to Spotify.
+        """
+
     async def getCurrentPlayback(self, opts: ConnectionOption | None = None, /) -> Prv_spotify_SpotifyCurrentPlayback_Out:
         """The signed-in caller's current playback state — what's playing, where, progress,
         shuffle/repeat. Nothing playing is a normal, not-playing answer, never an error. Needs
@@ -100366,6 +100635,31 @@ class Prv_threads(Protocol):
         """Publishes a new thread quoting another post as the signed-in caller. postId is the
         quoted post's numeric id from getPost or getProfilePosts. Needs the caller signed in to
         Threads.
+        """
+
+    async def likePost(self, args: Prv_threads_ThreadsPostRef_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActionResult_Out:
+        """Likes a Threads post as the signed-in caller. postId is the post's numeric id from
+        getPost or getProfilePosts. Needs the caller signed in to Threads.
+        """
+
+    async def unlikePost(self, args: Prv_threads_ThreadsPostRef_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActionResult_Out:
+        """Removes the signed-in caller's like from a Threads post. postId is the post's numeric id
+        from getPost or getProfilePosts. Needs the caller signed in to Threads.
+        """
+
+    async def repostPost(self, args: Prv_threads_ThreadsPostRef_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActionResult_Out:
+        """Reposts a Threads post to the signed-in caller's profile. postId is the post's numeric
+        id from getPost or getProfilePosts. Needs the caller signed in to Threads.
+        """
+
+    async def unrepostPost(self, args: Prv_threads_ThreadsPostRef_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActionResult_Out:
+        """Removes the signed-in caller's repost of a Threads post. postId is the post's numeric id
+        from getPost or getProfilePosts. Needs the caller signed in to Threads.
+        """
+
+    async def deletePost(self, args: Prv_threads_ThreadsPostRef_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActionResult_Out:
+        """Deletes one of the signed-in caller's own Threads posts or replies. postId is the post's
+        numeric id from getPost or getProfilePosts. Needs the caller signed in to Threads.
         """
 
     async def getSavedPosts(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsSavedPosts_Out:
