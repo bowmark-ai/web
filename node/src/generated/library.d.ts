@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bd49ad284347556feb42f07965d2ce0f3341d049b57f4e23acadae83968679fd
-// 95 capabilities, 762 providers, 4442 typed functions, 20 refused.
+// Manifest version: 419d09eda25e5d1db556e4e6219e5d044b3bdd8cd09e19ddce979712bc1df8ac
+// 96 capabilities, 767 providers, 4467 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3020,6 +3020,166 @@ interface LawyerRecord {
      * specialties, languages, firm, swearing-in date and contact details.
      */
     getLawyer(id: string): Promise<LawyerRecord>;
+  }
+}
+
+declare namespace BowmarkCapability_leads {
+  // ── Leads — one business contact's public info in one row (summary, work email, booking link, socials, talks) — the unit's own declarations, verbatim ──
+interface LeadInput {
+  name: string          // full name; non-ASCII is fine ("Rocío Niño Ardila")
+  company: string       // as the lead list writes it
+  domain?: string       // the company's site, e.g. "modal.com" — strongly preferred: without it no domain is guessed
+  linkedin?: string     // their LinkedIn profile URL
+  title?: string        // headline or title as the caller saw it
+  github?: string       // a GitHub handle READ off a page that names them, never guessed
+  githubOrg?: string    // the company's GitHub org when it differs from the domain's first label (fireworks.ai -> fw-ai)
+}
+
+interface EnrichOptions {
+  linkedin?: boolean           // read the LinkedIn profile, default true; needs a saved LinkedIn login on the run. Pass false once your daily LinkedIn budget (~80 profiles) is spent
+  talks?: boolean              // YouTube talks + transcripts, default true; the slowest leg
+  events?: boolean             // the company's own Luma calendar (needs `domain`): events they host, and the LinkedIn, X and site on their Luma host record; default true
+  web?: boolean                // open-web search for booking pages, events and articles, default false: each query is a metered Serper credit (up to 4 per person)
+  webBackend?: "serper" | "duckduckgo"  // default "serper" (Google; falls back to DuckDuckGo when Serper cannot answer); "duckduckgo" never calls Serper
+  allowPatternEmail?: boolean  // default false: a work email built from the company's commit-proven format, method "pattern"
+  probeEmail?: boolean         // default true: ask the domain's mail server about each pattern address (SMTP RCPT TO, never a message); false leaves it "unverified"
+  timeoutMs?: number           // per-leg budget, default 20000
+  deadlineMs?: number          // the whole call's budget, default 50000 (max 110000): legs not started or cut off by it go into pending with a warning, never a throw
+}
+
+interface Citation { url: string; source: string }   // url is never empty; source is the provider id ("github", "page", …)
+
+interface LeadEmail {
+  address: string
+  kind: "work" | "personal" | "role"   // role (press@) only when it is the company's sole published address; never verified
+  method: "page" | "commit" | "profile" | "pattern"
+  verified: boolean                    // exactly status === "verified"; true only when two independent sources tie it to them, or a probe proved a pattern address
+  status: "verified" | "catch-all" | "registered" | "unverified" | "unknown"  // show this column: verified = sourced, or the mail server accepted it and refused a random address; catch-all = the server accepts any address; registered = a pattern address whose Gravatar profile names them (a Gravatar never makes it verified); unverified = not probed, or one source only; unknown = the server would not say. An address the server says does not exist, or whose Gravatar names somebody else, is dropped.
+  citation: Citation                   // for "pattern": the commit that proves the company's FORMAT
+  evidence?: string[]                  // on an unverified non-pattern address: why it is shown at all
+  probe: { host: string | null; reply: string } | null  // the mail server's answer, for a probed pattern address
+  formatProof?: Citation[]             // on a "pattern" address: every cited address proving the format (other people's commits, npm maintainers, PyPI authors, keyserver keys), one per person
+  gravatar?: { url: string; displayName: string | null }  // on a "pattern" address with a public Gravatar profile
+  format?: string                      // on a "pattern" address: the format it was built with; only first.last / firstlast / first_last can be verified by a probe
+}
+
+interface LeadLink {
+  url: string
+  citation: Citation
+  verified?: boolean      // on a value read off a GitHub account: true only when two independent anchors tie that account to them
+  evidence?: string[]     // on one that is not verified (a probable X link, a probable GitHub account's links): what it stands on
+}
+
+interface LeadAppearance {
+  kind: "talk" | "podcast" | "video" | "event" | "article"
+  title: string
+  url: string
+  date: string | null     // YYYY-MM-DD, or null when the source shows none
+  note: string | null     // one line from the transcript or page
+}
+
+interface LeadSummarySource {
+  clause: "role" | "previous" | "notable"
+  text: string
+  source: "linkedin" | "appearance" | "about" | "caller"
+  url: string | null
+}
+
+// One row. Field order is the table's column order. A null means no free source has
+// it; a leg that FAILED is named in warnings and pending instead.
+interface Lead {
+  name: string
+  company: string
+  domain: string | null
+  title: string | null
+  summary: string | null       // "{title} at {company}; previously {role} at {company}; {one notable thing}", <= 220 chars
+  summarySources: LeadSummarySource[]   // which citation backs each clause of summary (url null only for a caller-supplied title)
+  linkedin: string | null
+  emails: LeadEmail[]          // best first; [] when no free source has one
+  booking: LeadLink | null
+  x: LeadLink | null
+  github: LeadLink | null
+  site: LeadLink | null        // a personal site, never the company's
+  appearances: LeadAppearance[]
+  events: LeadAppearance[]     // Luma events they host or speak at: off the company's own Luma calendar (cited to the event page) and the web search
+  other: LeadLink[]            // Bluesky, Substack, a podcast page
+  pending: Array<"linkedin" | "talks" | "github" | "booking" | "email" | "web" | "events">   // legs not run or failed: re-enrich just these later
+  webQueries: number           // web searches run for this row (each Serper query is one credit); 0 when web is off
+  namesakes: string[]          // hits dropped for naming the person but not the company, one sentence per source
+  warnings: string[]           // what the row lacks: every failed leg, every value that could not be confirmed
+}
+
+  /**
+   * Enrich ONE business contact into one table row: title, a one-line summary, work email (from
+   * the company's own commits and pages), booking link, X, GitHub, personal site, talks and
+   * events. Every value carries the page it was read off. Free public sources only, no paid
+   * enrichment; a pattern-built address is checked with the domain's own mail server (no message
+   * sent) and labelled verified / catch-all / unknown.
+   */
+  interface Unit {
+    /**
+     * Gathers one person's public contact info into ONE row for a lead table, every value cited
+     * (`citation.url` is the commit, profile or page it was read off). Pass `name` and `company`;
+     * `domain` is strongly preferred (no domain is ever guessed, because guesses land on
+     * lookalikes). Emails come from the company's own GitHub commits, its own pages, and a passed
+     * GitHub handle's profile, and are taken only when the FULL name says they are the person's
+     * (the commit author's name, or a first.last / flast local part): a one-word `name` gets no
+     * commit or page address. A commit domain counts as the company's only when it is the
+     * company's own domain or the company's own pages print it (committer counts never make one);
+     * a company whose own domain is a mailbox provider (proton.me, fastmail.com, yahoo.com) gives
+     * no work address at all; noreply, bot and example.com addresses are dropped, gmail-style
+     * mailboxes are kind "personal". Any script is accepted for `name`; legs that cannot spell it
+     * (booking slugs, address patterns) are skipped and listed in `pending`. A hit only counts if
+     * it names the COMPANY as well as the person (a one-word or everyday company name such as
+     * "Modal" or "X" only in context: "Modal Labs", "Modal's", "modal.com"): namesakes, including
+     * a booking page or X bio that never names the company, are dropped and NAMED in `namesakes`.
+     * A booking link is taken first off a page already tied to them (their README, GitHub profile,
+     * own site or verified X profile), cited to it; a guessed page (a Calendly or cal.com slug
+     * probe, read with its event types or description) comes after; a booking link is NEVER
+     * `verified`, only `probable` with `evidence` at most, because a link's words are its owner's
+     * choice and a relative or namesake can spell the same, and the company's own team booking
+     * page goes to `other`, labelled the company's. With no `github` handle passed, the GitHub
+     * account is FOUND: GitHub's user search for the full name plus the company org's public
+     * members (at most 4 profiles read), each scored and tiered; a found account is `verified`
+     * only on two independent anchors (public membership of the company org, its commits to the
+     * company's repos, your `linkedin` on its profile), `probable` (with `evidence`) when its
+     * profile only names the person and the company, and dropped into `namesakes` otherwise, and
+     * every link read off it (`github`, its site, booking page, `other`) carries that tier; a
+     * profile whose own name is a different person's gives nothing, however it was found or
+     * passed. An X handle (from that GitHub profile) is read and scored on its own (only a passed
+     * or verified account vouches for it): verified when the X profile links back to the company's
+     * site, its @handle or that GitHub profile; probable, with `evidence`, when its bio only names
+     * the company; dropped when its display name is another person's, it names another current
+     * employer, or the account is suspended or gone. `summary` is `{title} at {company};
+     * previously {role} at {company}; {one notable thing}` (at most 220 characters), each clause
+     * read off a cited field only: the LinkedIn profile's roles and about text, a talk or
+     * appearance that survived the namesake split, or your own `title` (which has no page);
+     * `summarySources` lists the citation url behind each clause (url null only for your own
+     * title), and a clause with no citation is left out. `warnings` says what the row lacks (a
+     * failed source, a leg the inputs could not run). `pending` lists legs that were skipped or
+     * failed (LinkedIn when `linkedin: false` or no saved login, talks when `talks: false`, web
+     * unless `web: true`, or when neither Serper nor DuckDuckGo could answer) so a batch
+     * re-enriches just those later. `web: true` searches Google through Serper (up to 4 queries
+     * per person, one metered credit each, counted in `webQueries`; `webBackend: "duckduckgo"`
+     * skips it) for booking pages, luma events and articles, and falls back to DuckDuckGo when
+     * Serper cannot answer. A missing value is null or [], never a throw; the call THROWS only on
+     * bad input (before any request) or when EVERY source failed. `allowPatternEmail: true` adds
+     * an address built from the company's address format, proven by two or more OTHER people's
+     * cited addresses (its commits, its npm packages' maintainers, its PyPI project, OpenPGP keys
+     * on its mail domain; method "pattern", `formatProof` lists every proving url, `citation` the
+     * first; cited addresses that disagree prove nothing), checks Gravatar for a public profile at
+     * it (one naming the person makes it "registered", never "verified"; one naming somebody else
+     * drops it; a format is only proven on the company's own mail domain, never a mailbox provider
+     * or a hosting subdomain), and asks the domain's mail server about it without sending
+     * anything: `status` is "verified" (it accepts the address and refuses a random one),
+     * "catch-all" (it accepts anything), or "unknown" (it would not say: greylisting, a block, no
+     * connection); an address the server says does not exist is dropped with a warning.
+     * `probeEmail: false` skips the check and leaves it "unverified". Show `status` in your table,
+     * not `verified`. ~10-40 s per person, and never past `deadlineMs` (default 50 s): legs it cut
+     * are in `pending` with a warning; run several in parallel from your script and keep LinkedIn
+     * under ~6/min.
+     */
+    enrich(input: LeadInput, options?: EnrichOptions): Promise<Lead>;
   }
 }
 
@@ -20948,6 +21108,7 @@ interface CalComProfileCandidate {
   title: string;              // the page's own <title>
   ownerName: string | null;   // read off the title
   nameMatches: boolean;       // ownerName carries BOTH names asked for — a hint, a namesake passes too
+  description: string | null; // the page's own meta description ("… With Peer Richelsen, Co-Founder of Cal.com"); null when none
 }
 
 interface CalComFindProfilesResult {
@@ -20995,9 +21156,9 @@ interface CalComFindProfilesResult {
      * it). Checks the slug shapes that measured reliable (first-last, firstlast, lastfirst,
      * first-company, firstcompany, last-company, and the bare company slug — which often belongs
      * to a stranger, so read `ownerName`) and returns each page that exists with its own title,
-     * the owner name the title states, and `nameMatches`. A match is a GUESS: a namesake passes,
-     * so tie the page to the company before relying on it. Works on pages no search engine has
-     * indexed.
+     * the owner name the title states, `nameMatches`, and the page's own meta description (where a
+     * page names the owner's role and company). A match is a GUESS: a namesake passes, so tie the
+     * page to the company before relying on it. Works on pages no search engine has indexed.
      */
     findProfiles(name: string, company?: string): Promise<CalComFindProfilesResult>;
   }
@@ -21098,6 +21259,8 @@ interface CalendlyProfileCandidate {
   ownerName: string;       // the name the profile itself shows
   nameMatches: boolean;    // ownerName carries BOTH names asked for — a hint, a namesake passes too
   timezone: string;
+  description: string | null;   // the profile's own description, verbatim (often Calendly's stock greeting)
+  eventTypes: Array<{ name: string; description: string | null }> | null;  // what the page offers ("Firecrawl-Introduction"); null = could not be read
 }
 
 interface CalendlyFindProfilesResult {
@@ -21160,10 +21323,11 @@ interface CalendlyFindProfilesResult {
      * it — "caleb-firecrawl" is found only by the company shape). Checks the slug shapes that
      * measured reliable (first-last, firstlast, lastfirst, first-company, firstcompany,
      * last-company, and the bare company slug — which often belongs to a stranger, so read
-     * `ownerName`) and returns every one that exists with the name the page itself shows and
-     * `nameMatches`. A match is a GUESS: a namesake with the same first and last name passes, so
-     * tie the page to the company before relying on it. Search engines do not index Calendly
-     * pages, so this is the way to find one.
+     * `ownerName`) and returns every one that exists with the name the page itself shows,
+     * `nameMatches`, the profile's own description and the names of the event types it offers
+     * (where a page names the company: "Firecrawl-Introduction"). A match is a GUESS: a namesake
+     * with the same first and last name passes, so tie the page to the company before relying on
+     * it. Search engines do not index Calendly pages, so this is the way to find one.
      */
     findProfiles(name: string, company?: string): Promise<CalendlyFindProfilesResult>;
 
@@ -29472,6 +29636,11 @@ interface LikeVideoArgs {
   video: string;
   like?: boolean;
 }
+interface CreatePlaylistArgs {
+  name: string;
+  description?: string;
+  private?: boolean;
+}
 interface DailymotionLikeResult {
   video: string;
   liked: boolean;
@@ -29724,6 +29893,12 @@ interface DailymotionListMyPlaylistsResult {
      * feed), paged — same fields as getVideo. Needs the caller signed in.
      */
     listFollowingFeed(args?: ListFollowingFeedArgs, opts?: ConnectionOption): Promise<DailymotionListFollowingFeedResult>;
+
+    /**
+     * Create a playlist on the signed-in caller's Dailymotion account — private unless private:
+     * false. Needs the caller signed in.
+     */
+    createPlaylist(args: CreatePlaylistArgs, opts?: ConnectionOption): Promise<DailymotionPlaylist>;
 
     /**
      * List the signed-in caller's own playlists (public and private), paged — same fields as
@@ -30941,6 +31116,12 @@ interface DeviantartSubmittedDeviation {
   submitted: boolean;
 }
 
+interface DeviantartProfileUpdate {
+  username: string;
+  saved: boolean;
+  fields: string[];
+}
+
 interface DeviantartWatchFeedResult {
   results: DeviantartGalleryItem[];
   hasMore: boolean;
@@ -31101,6 +31282,13 @@ interface DeviantartPostedComment {
      * are not set by this call. Needs a caller signed in to DeviantArt.
      */
     submitDeviation(args: { imageUrl: string; folderName?: string }, opts?: ConnectionOption): Promise<DeviantartSubmittedDeviation>;
+
+    /**
+     * Edits the signed-in caller's own About section: reads the site's current about-module
+     * settings, overlays `changes` (field names as the site's own editor uses them, returned in
+     * `fields`) and saves. `username` is the caller's own. Needs a caller signed in to DeviantArt.
+     */
+    updateProfile(args: { username: string; changes: Record<string, string | number | boolean> }, opts?: ConnectionOption): Promise<DeviantartProfileUpdate>;
   }
 }
 
@@ -32220,6 +32408,17 @@ interface discordDirectMessage {
   recipients: { id: string; username: string; globalName: string | null }[];
   lastMessageId: string | null;
 }
+interface discordFriend {
+  id: string;                        // the friend's user id
+  username: string;
+  globalName: string | null;
+  nickname: string | null;           // the caller's private nickname for them
+  avatarUrl: string | null;
+  since: string | null;              // ISO 8601
+}
+interface discordFriendRequest extends discordFriend {
+  direction: "incoming" | "outgoing";
+}
 interface discordMessageSearch {
   totalResults: number;              // Discord's count of every hit, not just this page (25 per page)
   messages: discordMessage[];        // this page's hits
@@ -32393,6 +32592,21 @@ interface discordMessageSearch {
      * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
      */
     listDirectMessages(opts?: ConnectionOption): Promise<discordDirectMessage[]>;
+
+    /**
+     * Lists the SIGNED-IN USER's Discord friends — user id, username, display name, the caller's
+     * nickname for them, avatar and since when. Needs a Discord sign-in made through Bowmark's
+     * sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    listFriends(opts?: ConnectionOption): Promise<discordFriend[]>;
+
+    /**
+     * Lists the SIGNED-IN USER's pending friend requests, each marked `incoming` or `outgoing`,
+     * with the other user's id, username, display name and avatar. Needs a Discord sign-in made
+     * through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+     * browser yet.
+     */
+    listFriendRequests(opts?: ConnectionOption): Promise<discordFriendRequest[]>;
 
     /**
      * Searches messages AS THE SIGNED-IN USER with Discord's own search — in one joined server
@@ -42543,6 +42757,7 @@ interface GithubCommit {
   date: string;
   message: string;
   url: string;
+  authorLogin?: string | null;  // the GitHub account the commit is linked to, or null
 }
 interface GithubListCommitsOptions {
   sha?: string;
@@ -42775,6 +42990,49 @@ interface GithubUser {
   following: number;
   createdAt: string;
   updatedAt: string;
+}
+interface GithubUserHit {
+  login: string;
+  id: number;
+  avatarUrl: string;
+  profileUrl: string;
+  type: string;   // "User" or "Organization"
+  score: number;  // GitHub's own relevance score
+}
+interface GithubSearchUsersOptions {
+  sort?: "followers" | "repositories" | "joined";
+  order?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
+interface GithubSearchUsersResult {
+  totalCount: number;   // GitHub's own match count; may exceed the page
+  users: GithubUserHit[];
+  warnings: string[];
+}
+interface GithubOrgMember {
+  login: string;
+  id: number;
+  avatarUrl: string;
+  profileUrl: string;
+  type: string;
+}
+interface GithubListOrganizationMembersOptions {
+  per_page?: number;
+  page?: number;
+}
+interface GithubListOrganizationMembersResult {
+  members: GithubOrgMember[];   // PUBLIC members only
+  warnings: string[];
+}
+interface GithubSocialAccount {
+  provider: string;   // "twitter", "linkedin", "mastodon", "bluesky", "youtube", … or "generic"
+  url: string;
+}
+interface GithubSocialAccountsResult {
+  login: string;
+  accounts: GithubSocialAccount[];
+  warnings: string[];
 }
 interface GithubOrganization {
   login: string;
@@ -43208,6 +43466,35 @@ interface GithubPullRequestCreated {
      * (404) or a rate limit (403/429).
      */
     getUser(username: string): Promise<GithubUser>;
+
+    /**
+     * Searches GitHub accounts off GitHub's own unauthenticated user-search endpoint. `query` is
+     * GitHub's qualifier syntax: `fullname:"Erik Bernhardsson"` matches the profile's display
+     * name, plus `location:`, `followers:>100`, `type:user`, `in:login`. Returns `totalCount`
+     * (GitHub's own count, which may exceed the page) and each hit's login, profile URL, account
+     * type and relevance score. A hit carries no name, company or bio: read those with
+     * `getUser(login)`. `options.sort` (`followers`/`repositories`/`joined`), `order`, `per_page`
+     * (1-100) and `page`. On the stricter 10 requests/minute anonymous search bucket. THROWS on an
+     * invalid query (422) or a rate limit (403/429).
+     */
+    searchUsers(query: string, options?: GithubSearchUsersOptions): Promise<GithubSearchUsersResult>;
+
+    /**
+     * Lists an organization's PUBLIC members off GitHub's own unauthenticated endpoint: login,
+     * profile URL, account type. A member who keeps their membership private is not listed, so
+     * absence proves nothing. `options.per_page` (1-100) and `page`. Shares the 60 requests/hour
+     * per IP ceiling. THROWS on an unknown organization (404) or a rate limit (403/429).
+     */
+    listOrganizationMembers(org: string, options?: GithubListOrganizationMembersOptions): Promise<GithubListOrganizationMembersResult>;
+
+    /**
+     * Returns the social links a user put on their GitHub profile (X, LinkedIn, Mastodon, Bluesky,
+     * YouTube, or `generic` for any other URL), each as `{ provider, url }`, off GitHub's own
+     * unauthenticated endpoint. `getUser` carries only the X handle; this has the rest. A user
+     * with none returns `accounts: []`. Shares the 60 requests/hour per IP ceiling. THROWS on an
+     * unknown username (404) or a rate limit (403/429).
+     */
+    getSocialAccounts(username: string): Promise<GithubSocialAccountsResult>;
 
     /**
      * Returns an organization's public metadata off GitHub's own unauthenticated REST orgs
@@ -46476,6 +46763,11 @@ interface GoogleStoreProduct {
 
 declare namespace BowmarkProvider_google_translate {
   // ── Google Translate — the unit's own declarations, verbatim ──
+interface PhraseArgs {
+  text: string;
+  from: string;
+  to: string;
+}
 interface TranslateArgs {
   text: string | readonly string[];
   to: string;
@@ -46671,7 +46963,8 @@ interface GoogleTranslateImageResult {
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
    * language something already is — plus the dictionary underneath: senses, definitions,
    * synonyms, alternative wordings, the romanization and the spoken audio. Thirteen functions
-   * are built; the four account-gated ones (saved phrases, history) are still declared stubs.
+   * are built; the four account functions (saved phrases, history) take the caller's own Google
+   * sign-in.
    */
   interface Unit {
     /**
@@ -46809,6 +47102,35 @@ interface GoogleTranslateImageResult {
      * (tl=en).
      */
     translateImage(args: TranslateImageArgs): Promise<GoogleTranslateImageResult>;
+
+    /**
+     * The signed-in caller's own saved phrases. Needs the CALLER's Google sign-in — a run without
+     * one pauses for it. Reaches translate.google.com/saved, which 302s to accounts.google.com
+     * logged out (measured 2026-09-15); a signed-in copy has never been captured, so a signed-in
+     * run refuses honestly rather than inventing rows.
+     */
+    listSavedPhrases(opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * Star a phrase into the signed-in caller's saved phrases. Needs the caller's Google sign-in.
+     * The star request has never been captured signed in, so this refuses without writing anything
+     * rather than guessing a request.
+     */
+    savePhrase(args: PhraseArgs, opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * Remove a phrase from the signed-in caller's saved phrases — savePhrase's undo. Needs the
+     * caller's Google sign-in; refuses without writing anything for the same reason savePhrase
+     * does.
+     */
+    unsavePhrase(args: PhraseArgs, opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * The signed-in caller's recent translation history. Needs the caller's Google sign-in.
+     * Reaches translate.google.com/history, which 302s to accounts.google.com logged out (measured
+     * 2026-09-15); a signed-in copy has never been captured, so a signed-in run refuses honestly.
+     */
+    listHistory(opts?: ConnectionOption): Promise<never>;
   }
 }
 
@@ -47536,6 +47858,37 @@ type GrandwelcomeQuote =
      * those dates, an ordinary answer.
      */
     getRentalQuote(propertyId: string, options: { checkin: string; checkout: string }): Promise<GrandwelcomeQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_gravatar {
+  // ── Gravatar — the unit's own declarations, verbatim ──
+interface GravatarProfile {
+  hash: string;                 // SHA-256 of the account's primary address
+  displayName: string | null;
+  profileUrl: string | null;    // https://gravatar.com/<slug>
+  avatarUrl: string | null;
+  location: string | null;
+  jobTitle: string | null;
+  company: string | null;
+  description: string | null;
+  verifiedAccounts: { service: string; url: string }[];  // e.g. { service: "linkedin", url: "https://www.linkedin.com/in/…" }
+}
+
+  /**
+   * Gravatar's public profile for an email address: whether one is registered there, and its
+   * display name, slug, job, company and verified linked accounts. The address is hashed
+   * locally, never sent.
+   */
+  interface Unit {
+    /**
+     * The public Gravatar profile registered at an email address (Gravatar's REST v3, keyless
+     * public fields): display name, profile slug, job title, company and the linked accounts
+     * Gravatar verified. Null when no public profile exists at that address — which proves nothing
+     * about whether the address receives mail. A profile proves the address is REGISTERED with
+     * Gravatar, not that the person you expected owns it: compare `displayName`.
+     */
+    getProfile(email: string): Promise<GravatarProfile | null>;
   }
 }
 
@@ -58748,6 +59101,8 @@ interface LumaEvent {
   requiresApproval: boolean;
   guestCount: number | null;
   hosts: string[];
+  /** The hosts again, with what each publishes on Luma. */
+  hostDetails: LumaHost[];
   /** Pass this straight to listCalendarEvents({ calendar }). `name` is a label, never an argument. */
   calendar: LumaCalendar | null;
   categories: string[];
@@ -58773,6 +59128,18 @@ interface LumaCalendar {
   name: string | null;
   slug: string | null;
   url: string | null;
+  /** The owner's own website, e.g. "https://modal.com". */
+  website: string | null;
+}
+interface LumaHost {
+  id: string | null;
+  name: string;
+  /** https://www.linkedin.com/in/<slug>; null for a company page or none. */
+  linkedin: string | null;
+  /** https://x.com/<handle> */
+  x: string | null;
+  website: string | null;
+  bio: string | null;
 }
 interface LumaPlace {
   slug: string;
@@ -58822,7 +59189,8 @@ interface DiscoverEventsArgs {
      * (label, required, type, options, terms) so a complete application can be drafted before
      * submitting the form — whether the event requires approval or is first-come-first-served —
      * plus date and time with timezone, venue and full address, price, spots remaining, sold out,
-     * hosts, categories, and the description as markdown (agenda, prerequisites, what to bring).
+     * hosts (each with the LinkedIn, X, website and bio they gave Luma), categories, and the
+     * description as markdown (agenda, prerequisites, what to bring).
      */
     getEvent(args: GetEventArgs): Promise<LumaEvent>;
 
@@ -58837,10 +59205,11 @@ interface DiscoverEventsArgs {
 
     /**
      * Every upcoming event on one Luma calendar or organizer profile — the schedule of a recurring
-     * meetup, demo night or event series, soonest first. Takes an event's `calendar` exactly as
-     * getEvent or discoverEvents returned it, a calendar id (cal-…), or a calendar, profile or
-     * EVENT url (luma.com/<calendar>, luma.com/user/<name>, luma.com/<event>). `past: true` lists
-     * past editions instead.
+     * meetup, demo night or event series, soonest first, each with its hosts' LinkedIn, X, website
+     * and bio (who runs a company's events). Takes an event's `calendar` exactly as getEvent or
+     * discoverEvents returned it, a calendar id (cal-…), or a calendar, profile or EVENT url
+     * (luma.com/<calendar>, luma.com/user/<name>, luma.com/<event>). `past: true` lists past
+     * editions instead.
      */
     listCalendarEvents(args: ListCalendarEventsArgs): Promise<LumaEvent[]>;
 
@@ -59065,8 +59434,10 @@ interface MangoSearchArgs {
   size?: string;
   onSaleOnly?: boolean;
   inStockOnly?: boolean;
-  /** 1-60, default 20. */
+  /** 1-60, default 20. For more, page with offset. */
   limit?: number;
+  /** Listing position to start at — pass the previous result's nextOffset. Default 0. */
+  offset?: number;
   /** "us" (default) or "ca" for Canadian prices (CAD), stock and URLs. */
   country?: MangoCountry;
 }
@@ -59118,10 +59489,16 @@ interface MangoSearchResult {
   country: MangoCountry;
   currency: string;
   category: MangoCategory;
+  /** Tiles Mango lists (one per product COLOR), so distinct products are fewer. */
   totalInCategory: number;
-  /** Products read to find the hits; a filtered search stops at 120. */
+  offset: number;
+  /** Products read this call to find the hits; one call reads at most 120. */
   scanned: number;
   hits: MangoProduct[];
+  /** More of the category remains — fewer hits than limit does NOT mean the category is done. */
+  hasMore: boolean;
+  /** Pass as offset to read the next stretch: while (r.hasMore) r = await searchProducts({ ...args, offset: r.nextOffset }). Null when done. */
+  nextOffset: number | null;
   /** Listed products that could not be read; empty on a whole answer. */
   warnings: string[];
 }
@@ -59142,8 +59519,9 @@ interface MangoSearchResult {
     /**
      * Searches Mango's apparel catalog for what a shopper asks ("men's sweater", "long sleeve
      * shirt") and returns each product with variant sizes, sale and compare-at prices and per-size
-     * stock — filterable to a size, on-sale and in-stock only, from the US store or the Canadian
-     * one (country: "ca", CAD). The way in; returns the productId getProduct takes.
+     * stock — filterable to a size, on-sale and in-stock only, paged past 60 with
+     * offset/nextOffset (hasMore says the category goes on), from the US store or the Canadian one
+     * (country: "ca", CAD). The way in; returns the productId getProduct takes.
      */
     searchProducts(args: MangoSearchArgs | string): Promise<MangoSearchResult>;
 
@@ -65645,6 +66023,9 @@ interface npmjsSearchResult {
   date: string | null;  // ISO-8601
   publisher: string | null;
   weeklyDownloads: number | null;
+  maintainers: { username: string; email: string | null }[];  // npm's maintainer list, with the email each registered
+  repository: string | null;  // links.repository
+  homepage: string | null;    // links.homepage
 }
 
   /**
@@ -65663,8 +66044,9 @@ interface npmjsSearchResult {
 
     /**
      * Finds published npm packages by keyword through npm's public registry search. Each result
-     * includes its name, current version, description, publication date, publisher and npm's
-     * current weekly-download count. `size` defaults to 20 and accepts 1–250.
+     * includes its name, current version, description, publication date, publisher, npm's current
+     * weekly-download count, its maintainers (username and the email each registered with npm) and
+     * its repository and homepage links. `size` defaults to 20 and accepts 1–250.
      */
     search(query: string, size?: number): Promise<npmjsSearchResult[]>;
   }
@@ -68120,6 +68502,63 @@ interface OandaConversion {
      * for the pair/date (e.g. before its data starts, or an unknown code).
      */
     convertCurrency(amount: number, from: string, to: string, date?: string): Promise<OandaConversion>;
+  }
+}
+
+declare namespace BowmarkProvider_ocado {
+  // ── Ocado — the unit's own declarations, verbatim ──
+interface OcadoPrice {
+  amount: number;
+  currency: string;
+}
+
+interface OcadoProduct {
+  sku: string;
+  productId: string;
+  name: string;
+  brand: string | null;
+  url: string;
+  size: string | null;
+  price: OcadoPrice | null;
+  wasPrice: OcadoPrice | null;
+  unitPrice: (OcadoPrice & { per: string | null }) | null;
+  offer: string | null;
+  available: boolean;
+  rating: number | null;
+  reviewCount: number | null;
+  categoryPath: string[];
+  imageUrl: string | null;
+  sponsored: boolean;
+}
+
+interface OcadoSearchResult {
+  query: string;
+  url: string;
+  total: number;
+  products: OcadoProduct[];
+}
+
+interface OcadoSearchProductsArgs {
+  query: string;
+  limit?: number;
+}
+
+  /**
+   * Ocado — the UK online supermarket. searchProducts() runs ocado.com's own product search and
+   * returns each match's name, brand, size, price, offer, unit price, rating and its exact
+   * product url.
+   */
+  interface Unit {
+    /**
+     * Search ocado.com's groceries by term (`{ query: "oatly barista" }`; an ocado.com/search url
+     * works too, including an old `?entry=` link). Returns Ocado's total match count and its first
+     * page of products (up to ~50) in Ocado's own order — name, brand, size, current and was
+     * price, offer text, unit price, rating, availability, category path, image and exact product
+     * url (`sponsored: true` marks the paid "Featured" slots). Ocado matches every word, so a long
+     * phrase can return 0 where a shorter one finds the product. Use this rather than read.page on
+     * an ocado.com search url, which is walled.
+     */
+    searchProducts(args: OcadoSearchProductsArgs | string): Promise<OcadoSearchResult>;
   }
 }
 
@@ -71569,6 +72008,25 @@ interface PinterestNotification {
     listConversations(opts?: ConnectionOption): Promise<{ conversations: PinterestConversation[] }>;
 
     /**
+     * Make a new board on the signed-in caller's profile and get it back with its `id` and `url`.
+     * SECRET unless `privacy: "public"` is passed, so nothing appears to anyone else by default.
+     * `POST /resource/BoardResource/create/` with `{ name, privacy }`. THROWS
+     * `PinterestInputError` on an empty name or an unknown privacy, and when the saved session is
+     * refused (the run asks for a fresh sign-in).
+     */
+    createBoard(name: string, options?: { privacy?: "secret" | "public"; description?: string }, opts?: ConnectionOption): Promise<PinterestBoard>;
+
+    /**
+     * Tell Pinterest the signed-in caller does not want to see a pin in their home feed — the
+     * feed's own "Hide Pin" — or take it back with `{ undo: true }`. Account-scoped: nobody else's
+     * view changes and nobody is notified. `POST /resource/ApiResource/update/` proxying the
+     * site's own `PUT /v3/pfy/<pin>/feedback/` (`feedback_type: 1`). THROWS `PinterestInputError`
+     * on a non-numeric pin id, and when the saved session is refused (the run asks for a fresh
+     * sign-in).
+     */
+    hidePin(pinId: string, options?: { undo?: boolean }, opts?: ConnectionOption): Promise<{ pinId: string; hidden: boolean }>;
+
+    /**
      * The caller's own notifications — who saved, commented on or followed them, newest first,
      * page by page. `GET /resource/ApiResource/get/` proxying the site's own `/v3/news_hub/feed/`
      * call, with the caller's replayed session. THROWS when the saved session is refused (the run
@@ -72918,6 +73376,29 @@ interface PrimeVideoLiveSportsEvent {
      * code; a made-up one refuses with `could not find a 26-character titleId`.
      */
     listRelatedTitles(titleId: string): Promise<PrimeVideoCategoryRow[]>;
+
+    /**
+     * Read the caller's own Prime Video watchlist — every title they saved, in the site's order,
+     * with the same fields searchTitles() returns, including whether each one can be watched now
+     * (`entitled`, `watchMessage`). Needs the caller signed in to their own Prime Video account;
+     * the run pauses for that sign-in otherwise. An empty watchlist returns an empty array.
+     */
+    getWatchlist(opts?: ConnectionOption): Promise<PrimeVideoTitle[]>;
+
+    /**
+     * List the films and series the caller has already bought or rented on Prime Video — their
+     * video library — with the same fields searchTitles() returns. The read that stops an agent
+     * telling someone to buy a title they already own. Needs the caller signed in to their own
+     * Prime Video account. Never buys anything.
+     */
+    listPurchases(opts?: ConnectionOption): Promise<PrimeVideoTitle[]>;
+
+    /**
+     * What the caller started and has not finished — the "Continue watching" row on their own
+     * Prime Video home page, in the site's order, with the same fields searchTitles() returns.
+     * Needs the caller signed in; a profile with nothing in progress returns an empty array.
+     */
+    listContinueWatching(opts?: ConnectionOption): Promise<PrimeVideoTitle[]>;
   }
 }
 
@@ -74679,6 +75160,36 @@ interface PushpressMyInvoices {
   }
 }
 
+declare namespace BowmarkProvider_pypi {
+  // ── PyPI — the unit's own declarations, verbatim ──
+interface PypiProject {
+  name: string;
+  version: string;
+  summary: string | null;
+  author: string | null;
+  authorEmail: string | null;      // core metadata verbatim, often "Name <address>"
+  maintainer: string | null;
+  maintainerEmail: string | null;
+  homePage: string | null;
+  projectUrls: Record<string, string>;  // "Homepage", "Source", "Documentation" …
+  url: string;                      // the project's pypi.org page
+}
+
+  /**
+   * The Python Package Index's JSON API: one project's current metadata (version, summary,
+   * author and maintainer with their emails, homepage and project links).
+   */
+  interface Unit {
+    /**
+     * One PyPI project's current metadata off PyPI's documented JSON API
+     * (https://pypi.org/pypi/<name>/json): version, summary, author and maintainer with the emails
+     * they published, homepage and project links. Null when PyPI has no project of that name (its
+     * 404).
+     */
+    getProject(name: string): Promise<PypiProject | null>;
+  }
+}
+
 declare namespace BowmarkProvider_quickbooks {
   // ── QuickBooks — the unit's own declarations, verbatim ──
 /** One component on status.quickbooks.intuit.com — a region under a product. */
@@ -74889,6 +75400,33 @@ interface QuickbooksCommunityEvent {
   url: string;
 }
 
+/** listResourceArticles' argument: a topic slug, and optionally a page. */
+interface QuickbooksListResourceArticlesArgs {
+  /** e.g. "accounting", "taxes", "payroll", "cash-flow", "starting-a-business". */
+  topic: string;
+  /** 1-based listing page. Default 1. */
+  page?: number;
+}
+
+/** One Resource Center article, as listResourceArticles finds it. */
+interface QuickbooksResourceArticle {
+  title: string;
+  topic: string;
+  slug: string;
+  url: string;
+}
+
+/** One Resource Center article's text, as getResourceArticle reads it. */
+interface QuickbooksResourceArticleDetail {
+  title: string;
+  author: string | null;
+  publishedAt: string | null;
+  updatedAt: string | null;
+  /** Body paragraphs, headings and list items in reading order. */
+  content: string[];
+  url: string;
+}
+
 /** One Community event's detail. */
 interface QuickbooksEvent {
   title: string;
@@ -75066,6 +75604,12 @@ interface QuickbooksApp extends QuickbooksAppSummary {
 
     /** Upcoming Community events and webinars, by slug and URL */
     listEvents(): Promise<QuickbooksCommunityEvent[]>;
+
+    /** Articles in one Resource Center topic (accounting, taxes, payroll…), with title and URL */
+    listResourceArticles(args: string | QuickbooksListResourceArticlesArgs): Promise<QuickbooksResourceArticle[]>;
+
+    /** One Resource Center article's title, author, dates and body text */
+    getResourceArticle(url: string): Promise<QuickbooksResourceArticleDetail>;
 
     /** One Community event's title, date, time zone offset and description */
     getEvent(slug: string): Promise<QuickbooksEvent>;
@@ -83223,6 +83767,59 @@ interface SmitherySearchResult {
      * ~500 most-used servers its unfiltered list still exposes, and `warnings` says so.
      */
     search(query: string | ({ query: string } & SmitherySearchOptions), options?: SmitherySearchOptions): Promise<SmitherySearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_smtp_probe {
+  // ── SMTP mailbox probe (MX lookup + RCPT TO, no mail sent) — the unit's own declarations, verbatim ──
+interface MxAnswer {
+  domain: string
+  hosts: string[]                 // mail hosts, most preferred first; [] when the domain takes no mail
+  source: "mx" | "a" | "none"     // a = no MX, so the domain's own host (RFC 5321); none = no mail accepted (or a null MX)
+}
+
+interface LookupMxArgs { domain: string }          // "acme.com"
+interface ProbeMailboxesArgs { addresses: string[] } // 1-5 addresses, all on ONE domain
+
+interface RcptAnswer {
+  address: string
+  verdict: "accepted" | "rejected" | "unknown"  // rejected ONLY when the server says the user does not exist
+  code: number | null                           // the SMTP reply code; null when none came
+  reply: string                                 // the reply's first line
+}
+
+interface MailboxProbeResult {
+  domain: string
+  mx: MxAnswer
+  host: string | null      // the MX that answered; null when the domain takes no mail
+  catchAll: boolean | null // true: the server accepts ANY address, so "accepted" proves nothing
+  results: RcptAnswer[]
+  sent: string[]           // every SMTP line sent: EHLO, MAIL FROM:<>, RCPT TO, QUIT. Never DATA.
+}
+
+  /**
+   * Asks a domain's own mail server whether it would accept mail for an address, without sending
+   * any: MX lookup, then EHLO / MAIL FROM:<> / RCPT TO / QUIT, plus a random address to detect
+   * catch-all servers.
+   */
+  interface Unit {
+    /**
+     * The domain's mail hosts from DNS, most preferred first. With no MX record, the domain's own
+     * host (RFC 5321 implicit MX). `source: "none"` means the domain accepts no mail at all (no MX
+     * and no address, or a null MX).
+     */
+    lookupMx(args: LookupMxArgs): Promise<MxAnswer>;
+
+    /**
+     * Asks ONE domain's mail server about 1-5 of its addresses over SMTP port 25 — EHLO, MAIL
+     * FROM:<>, RCPT TO each, RCPT TO a random address, QUIT — and never sends a message. `verdict:
+     * "accepted"` with `catchAll: false` means the mailbox exists; `catchAll: true` means the
+     * server takes any address so nothing is proven; `"rejected"` only when the server says the
+     * user does not exist; `"unknown"` for greylisting, blocks and policy refusals (common at
+     * Google and Microsoft). THROWS when no mail server for the domain could be reached on port 25
+     * — nothing is known then.
+     */
+    probeMailboxes(args: ProbeMailboxesArgs): Promise<MailboxProbeResult>;
   }
 }
 
@@ -95570,6 +96167,40 @@ interface UbereatsAddToCartArgs {
   }
 }
 
+declare namespace BowmarkProvider_ubuntu_keyserver {
+  // ── Ubuntu OpenPGP keyserver — the unit's own declarations, verbatim ──
+interface KeyserverUid {
+  raw: string;            // "Ada Lovelace (work) <ada@example.org>"
+  name: string | null;
+  comment: string | null;
+  email: string | null;
+  created: string | null; // ISO date
+}
+interface KeyserverKey {
+  fingerprint: string;
+  created: string | null;
+  expires: string | null;
+  flags: string;          // "r" revoked, "d" disabled, "e" expired
+  uids: KeyserverUid[];
+  url: string;            // the key on keyserver.ubuntu.com
+}
+
+  /**
+   * Search the Ubuntu OpenPGP keyserver's public index by text (a name, an address, "@domain"):
+   * each key's fingerprint, dates and user IDs (name, comment, email).
+   */
+  interface Unit {
+    /**
+     * Searches the Ubuntu OpenPGP keyserver's public index (HKP `op=index`, machine-readable) for
+     * keys whose user IDs contain `query` — a name, an address, or "@domain" for every published
+     * key on a domain. Returns each key's fingerprint, dates, flags and user IDs split into name,
+     * comment and email. The match is a SUBSTRING ("@acme.com" also matches "@acme.com.au"), so
+     * filter the emails to the exact domain. [] when nothing matches.
+     */
+    searchKeys(query: string): Promise<KeyserverKey[]>;
+  }
+}
+
 declare namespace BowmarkProvider_uhaul {
   // ── U-Haul — the unit's own declarations, verbatim ──
 type UhaulEquipment = "truck" | "trailer";
@@ -102054,6 +102685,8 @@ interface XProfile {
   joined: string;
   verified: boolean;
   avatarUrl: string;
+  mentions: string[]; // handles the bio @-mentions, without the "@"
+  links: string[]; // every link on the profile, expanded (website first, then bio urls)
 }
 
 interface XPostMedia {
@@ -102128,8 +102761,9 @@ interface XUploadProfilePictureResult {
     userTimeline(args: UserTimelineArgs): Promise<XTweet[]>;
 
     /**
-     * Reads an X (Twitter) profile by handle or URL: name, bio, location, website, follower count
-     * — browserless.
+     * Reads an X (Twitter) profile by handle or URL: name, bio, location, website, follower count,
+     * the bio's @-mentions and its links expanded (never t.co) — browserless. A suspended or
+     * nonexistent account throws saying so.
      */
     profile(args: { handle: string }): Promise<XProfile>;
 
@@ -107181,6 +107815,7 @@ interface BowmarkProviders {
   grainger: BowmarkProvider_grainger.Unit;
   grammarly: BowmarkProvider_grammarly.Unit;
   grandwelcome: BowmarkProvider_grandwelcome.Unit;
+  gravatar: BowmarkProvider_gravatar.Unit;
   greatlakesbrewing: BowmarkProvider_greatlakesbrewing.Unit;
   greatlakesdentaltech: BowmarkProvider_greatlakesdentaltech.Unit;
   greenhouse: BowmarkProvider_greenhouse.Unit;
@@ -107339,6 +107974,7 @@ interface BowmarkProviders {
   nyt_games: BowmarkProvider_nyt_games.Unit;
   nytimes: BowmarkProvider_nytimes.Unit;
   oanda: BowmarkProvider_oanda.Unit;
+  ocado: BowmarkProvider_ocado.Unit;
   old_navy: BowmarkProvider_old_navy.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
   olo: BowmarkProvider_olo.Unit;
@@ -107396,6 +108032,7 @@ interface BowmarkProviders {
   punchpass: BowmarkProvider_punchpass.Unit;
   purevpn: BowmarkProvider_purevpn.Unit;
   pushpress: BowmarkProvider_pushpress.Unit;
+  pypi: BowmarkProvider_pypi.Unit;
   quickbooks: BowmarkProvider_quickbooks.Unit;
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;
@@ -107460,6 +108097,7 @@ interface BowmarkProviders {
   smartsign: BowmarkProvider_smartsign.Unit;
   smartwool: BowmarkProvider_smartwool.Unit;
   smithery: BowmarkProvider_smithery.Unit;
+  smtp_probe: BowmarkProvider_smtp_probe.Unit;
   snapchat: BowmarkProvider_snapchat.Unit;
   solidcore: BowmarkProvider_solidcore.Unit;
   solostove: BowmarkProvider_solostove.Unit;
@@ -107535,6 +108173,7 @@ interface BowmarkProviders {
   tx_comptroller: BowmarkProvider_tx_comptroller.Unit;
   uber: BowmarkProvider_uber.Unit;
   ubereats: BowmarkProvider_ubereats.Unit;
+  ubuntu_keyserver: BowmarkProvider_ubuntu_keyserver.Unit;
   uhaul: BowmarkProvider_uhaul.Unit;
   uhc_directory: BowmarkProvider_uhc_directory.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
@@ -157533,6 +158172,7 @@ interface BowmarkLibrary {
   job_search: BowmarkCapability_job_search.Unit;
   kenya_fuel_prices: BowmarkCapability_kenya_fuel_prices.Unit;
   lawyer_directory: BowmarkCapability_lawyer_directory.Unit;
+  leads: BowmarkCapability_leads.Unit;
   llm: BowmarkCapability_llm.Unit;
   local_classifieds_search: BowmarkCapability_local_classifieds_search.Unit;
   local_database_gui: BowmarkCapability_local_database_gui.Unit;

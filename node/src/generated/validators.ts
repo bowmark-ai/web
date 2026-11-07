@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bd49ad284347556feb42f07965d2ce0f3341d049b57f4e23acadae83968679fd
-// 4424 checked, 20 unchecked.
+// Manifest version: 419d09eda25e5d1db556e4e6219e5d044b3bdd8cd09e19ddce979712bc1df8ac
+// 4449 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bd49ad284347556feb42f07965d2ce0f3341d049b57f4e23acadae83968679fd",
+  "version": "419d09eda25e5d1db556e4e6219e5d044b3bdd8cd09e19ddce979712bc1df8ac",
   "units": {
     "address_validation": {
       "defs": {
@@ -3332,6 +3332,162 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "leads": {
+      "defs": {
+        "EnrichOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "linkedin",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "talks",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "events",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "web",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "webBackend",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "serper"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "duckduckgo"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "allowPatternEmail",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "probeEmail",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "deadlineMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "LeadInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "company",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "domain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "linkedin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "github",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "githubOrg",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "enrich": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "LeadInput"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "EnrichOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -34944,6 +35100,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "CreatePlaylistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "private",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "DailymotionSort": {
           "k": "union",
           "of": [
@@ -35804,6 +35986,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListFollowingFeedArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createPlaylist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CreatePlaylistArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -37567,6 +37775,61 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "updateProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "changes",
+                  "schema": {
+                    "k": "record",
+                    "value": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "string"
+                        },
+                        {
+                          "k": "number"
+                        },
+                        {
+                          "k": "boolean"
+                        }
+                      ]
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -38740,6 +39003,42 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDirectMessages": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFriends": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFriendRequests": [
           {
             "name": "opts",
             "schema": {
@@ -52084,6 +52383,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GithubListOrganizationMembersOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubListOrganizationRepositoriesOptions": {
           "k": "object",
           "props": [
@@ -52474,6 +52792,63 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "GithubSearchUsersOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "followers"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "repositories"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "joined"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "order",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -52816,6 +53191,49 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getUser": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchUsers": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubSearchUsersOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listOrganizationMembers": [
+          {
+            "name": "org",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListOrganizationMembersOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getSocialAccounts": [
           {
             "name": "username",
             "schema": {
@@ -57621,6 +58039,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "PhraseArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "RomanizeArgs": {
           "k": "object",
           "props": [
@@ -57925,6 +58369,94 @@ export const VALIDATORS: ValidatorTable = {
               "name": "TranslateImageArgs"
             },
             "optional": false
+          }
+        ],
+        "listSavedPhrases": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "savePhrase": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PhraseArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unsavePhrase": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PhraseArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listHistory": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -58867,6 +59399,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.gravatar": {
+      "defs": {},
+      "functions": {
+        "getProfile": [
+          {
+            "name": "email",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -72681,6 +73227,21 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": false
+            },
+            {
+              "name": "website",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
             }
           ]
         }
@@ -73168,6 +73729,13 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
               "schema": {
                 "k": "number"
               },
@@ -85806,6 +86374,49 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.ocado": {
+      "defs": {
+        "OcadoSearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "OcadoSearchProductsArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.old_navy": {
       "defs": {
         "OldNavySearchArgs": {
@@ -91213,6 +91824,105 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "createBoard": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "privacy",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "secret"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "public"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "hidePin": [
+          {
+            "name": "pinId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "undo",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listNotifications": [
           {
             "name": "options",
@@ -92259,6 +92969,60 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getWatchlist": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listPurchases": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listContinueWatching": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -96093,6 +96857,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.pypi": {
+      "defs": {},
+      "functions": {
+        "getProject": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.quickbooks": {
       "defs": {
         "QuickbooksCalculatePaycheckArgs": {
@@ -96280,6 +97058,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "QuickbooksListResourceArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "topic",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "QuickbooksSearchAppsArgs": {
           "k": "object",
           "props": [
@@ -96422,6 +97219,33 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listEvents": [],
+        "listResourceArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "QuickbooksListResourceArticlesArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getResourceArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getEvent": [
           {
             "name": "slug",
@@ -108421,6 +109245,59 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SmitherySearchOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.smtp_probe": {
+      "defs": {
+        "LookupMxArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "domain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ProbeMailboxesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "addresses",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "lookupMx": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LookupMxArgs"
+            },
+            "optional": false
+          }
+        ],
+        "probeMailboxes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ProbeMailboxesArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -124851,6 +125728,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ubuntu_keyserver": {
+      "defs": {},
+      "functions": {
+        "searchKeys": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

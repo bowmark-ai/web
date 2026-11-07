@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bd49ad284347556feb42f07965d2ce0f3341d049b57f4e23acadae83968679fd
-# 95 capabilities, 762 providers, 4424 typed functions, 20 refused.
+# Manifest version: 419d09eda25e5d1db556e4e6219e5d044b3bdd8cd09e19ddce979712bc1df8ac
+# 96 capabilities, 767 providers, 4449 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1851,6 +1851,91 @@ class Cap_lawyer_directory_LawyerRecord_Out(TypedDict):
     statusNote: str | None
     profileUrl: str
     warnings: list[str]
+
+class Cap_leads_LeadInput_In(TypedDict):
+    name: str
+    company: str
+    domain: NotRequired[str]
+    linkedin: NotRequired[str]
+    title: NotRequired[str]
+    github: NotRequired[str]
+    githubOrg: NotRequired[str]
+
+class Cap_leads_EnrichOptions_In(TypedDict):
+    linkedin: NotRequired[bool]
+    talks: NotRequired[bool]
+    events: NotRequired[bool]
+    web: NotRequired[bool]
+    webBackend: NotRequired[Literal["serper"] | Literal["duckduckgo"]]
+    allowPatternEmail: NotRequired[bool]
+    probeEmail: NotRequired[bool]
+    timeoutMs: NotRequired[float]
+    deadlineMs: NotRequired[float]
+
+class Cap_leads_Lead_Out(TypedDict):
+    name: str
+    company: str
+    domain: str | None
+    title: str | None
+    summary: str | None
+    summarySources: list[Cap_leads_LeadSummarySource_Out]
+    linkedin: str | None
+    emails: list[Cap_leads_LeadEmail_Out]
+    booking: Cap_leads_LeadLink_Out | None
+    x: Cap_leads_LeadLink_Out | None
+    github: Cap_leads_LeadLink_Out | None
+    site: Cap_leads_LeadLink_Out | None
+    appearances: list[Cap_leads_LeadAppearance_Out]
+    events: list[Cap_leads_LeadAppearance_Out]
+    other: list[Cap_leads_LeadLink_Out]
+    pending: list[Literal["linkedin"] | Literal["talks"] | Literal["github"] | Literal["booking"] | Literal["email"] | Literal["web"] | Literal["events"]]
+    webQueries: float
+    namesakes: list[str]
+    warnings: list[str]
+
+class Cap_leads_LeadSummarySource_Out(TypedDict):
+    clause: Literal["role"] | Literal["previous"] | Literal["notable"]
+    text: str
+    source: Literal["linkedin"] | Literal["appearance"] | Literal["about"] | Literal["caller"]
+    url: str | None
+
+class Cap_leads_LeadEmail_Out(TypedDict):
+    address: str
+    kind: Literal["work"] | Literal["personal"] | Literal["role"]
+    method: Literal["page"] | Literal["commit"] | Literal["profile"] | Literal["pattern"]
+    verified: bool
+    status: Literal["verified"] | Literal["catch-all"] | Literal["registered"] | Literal["unverified"] | Literal["unknown"]
+    citation: Cap_leads_Citation_Out
+    evidence: NotRequired[list[str]]
+    probe: Cap_leads_LeadEmail_Out_probe_u0_Out | None
+    formatProof: NotRequired[list[Cap_leads_Citation_Out]]
+    gravatar: NotRequired[Cap_leads_LeadEmail_Out_gravatar_Out]
+    format: NotRequired[str]
+
+class Cap_leads_Citation_Out(TypedDict):
+    url: str
+    source: str
+
+class Cap_leads_LeadEmail_Out_probe_u0_Out(TypedDict):
+    host: str | None
+    reply: str
+
+class Cap_leads_LeadEmail_Out_gravatar_Out(TypedDict):
+    url: str
+    displayName: str | None
+
+class Cap_leads_LeadLink_Out(TypedDict):
+    url: str
+    citation: Cap_leads_Citation_Out
+    verified: NotRequired[bool]
+    evidence: NotRequired[list[str]]
+
+class Cap_leads_LeadAppearance_Out(TypedDict):
+    kind: Literal["talk"] | Literal["podcast"] | Literal["video"] | Literal["event"] | Literal["article"]
+    title: str
+    url: str
+    date: str | None
+    note: str | None
 
 class Cap_llm_LlmCompleteArgs_In(TypedDict):
     prompt: str
@@ -12913,6 +12998,7 @@ class Prv_cal_com_CalComProfileCandidate_Out(TypedDict):
     title: str
     ownerName: str | None
     nameMatches: bool
+    description: str | None
 
 class Prv_calendly_CalendlyEventTypesResult_Out(TypedDict):
     profile: Prv_calendly_CalendlyProfile_Out
@@ -13003,6 +13089,12 @@ class Prv_calendly_CalendlyProfileCandidate_Out(TypedDict):
     ownerName: str
     nameMatches: bool
     timezone: str
+    description: str | None
+    eventTypes: list[Prv_calendly_CalendlyProfileCandidate_Out_eventTypes_u0_item_Out] | None
+
+class Prv_calendly_CalendlyProfileCandidate_Out_eventTypes_u0_item_Out(TypedDict):
+    name: str
+    description: str | None
 
 class Prv_calendly_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -18225,6 +18317,11 @@ class Prv_dailymotion_DailymotionListFollowingFeedResult_Out(TypedDict):
     hasMore: bool
     videos: list[Prv_dailymotion_DailymotionVideo_Out]
 
+class Prv_dailymotion_CreatePlaylistArgs_In(TypedDict):
+    name: str
+    description: NotRequired[str]
+    private: NotRequired[bool]
+
 class Prv_dailymotion_ListMyPlaylistsArgs_In(TypedDict):
     limit: NotRequired[float]
     page: NotRequired[float]
@@ -19110,6 +19207,15 @@ class Prv_deviantart_DeviantartSubmittedDeviation_Out(TypedDict):
     deviationId: str
     submitted: bool
 
+class Prv_deviantart_updateProfile_args_In(TypedDict):
+    username: str
+    changes: Mapping[str, str | float | bool]
+
+class Prv_deviantart_DeviantartProfileUpdate_Out(TypedDict):
+    username: str
+    saved: bool
+    fields: list[str]
+
 class Prv_devto_DevtoArticleSearchArgs_In(TypedDict):
     tag: NotRequired[str]
     username: NotRequired[str]
@@ -19947,6 +20053,23 @@ class Prv_discord_discordDirectMessage_Out_recipients_item_Out(TypedDict):
     id: str
     username: str
     globalName: str | None
+
+class Prv_discord_discordFriend_Out(TypedDict):
+    id: str
+    username: str
+    globalName: str | None
+    nickname: str | None
+    avatarUrl: str | None
+    since: str | None
+
+class Prv_discord_discordFriendRequest_Out(TypedDict):
+    id: str
+    username: str
+    globalName: str | None
+    nickname: str | None
+    avatarUrl: str | None
+    since: str | None
+    direction: Literal["incoming"] | Literal["outgoing"]
 
 class Prv_discord_searchMessages_args_In(TypedDict):
     guildId: NotRequired[str]
@@ -26409,6 +26532,7 @@ class Prv_github_GithubCommit_Out(TypedDict):
     date: str
     message: str
     url: str
+    authorLogin: NotRequired[str | None]
 
 class Prv_github_GithubListReleasesOptions_In(TypedDict):
     per_page: NotRequired[float]
@@ -26628,6 +26752,49 @@ class Prv_github_GithubUser_Out(TypedDict):
     following: float
     createdAt: str
     updatedAt: str
+
+class Prv_github_GithubSearchUsersOptions_In(TypedDict):
+    sort: NotRequired[Literal["followers"] | Literal["repositories"] | Literal["joined"]]
+    order: NotRequired[Literal["asc"] | Literal["desc"]]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubSearchUsersResult_Out(TypedDict):
+    totalCount: float
+    users: list[Prv_github_GithubUserHit_Out]
+    warnings: list[str]
+
+class Prv_github_GithubUserHit_Out(TypedDict):
+    login: str
+    id: float
+    avatarUrl: str
+    profileUrl: str
+    type: str
+    score: float
+
+class Prv_github_GithubListOrganizationMembersOptions_In(TypedDict):
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListOrganizationMembersResult_Out(TypedDict):
+    members: list[Prv_github_GithubOrgMember_Out]
+    warnings: list[str]
+
+class Prv_github_GithubOrgMember_Out(TypedDict):
+    login: str
+    id: float
+    avatarUrl: str
+    profileUrl: str
+    type: str
+
+class Prv_github_GithubSocialAccountsResult_Out(TypedDict):
+    login: str
+    accounts: list[Prv_github_GithubSocialAccount_Out]
+    warnings: list[str]
+
+class Prv_github_GithubSocialAccount_Out(TypedDict):
+    provider: str
+    url: str
 
 class Prv_github_GithubOrganization_Out(TypedDict):
     login: str
@@ -29033,6 +29200,15 @@ class Prv_google_translate_GoogleTranslateImageResult_Out(TypedDict):
     sourceText: str
     translatedText: str
 
+Prv_google_translate_PhraseArgs_In = TypedDict(
+    "Prv_google_translate_PhraseArgs_In",
+    {
+    "text": str,
+    "from": str,
+    "to": str,
+    },
+)
+
 class Prv_goremutual_ProductOverviewResult_Out(TypedDict):
     title: str
     description: str
@@ -29529,6 +29705,21 @@ class Prv_grandwelcome_GrandwelcomeQuote_u1_Out(TypedDict):
     propertyId: str
     checkin: str
     checkout: str
+
+class Prv_gravatar_GravatarProfile_Out(TypedDict):
+    hash: str
+    displayName: str | None
+    profileUrl: str | None
+    avatarUrl: str | None
+    location: str | None
+    jobTitle: str | None
+    company: str | None
+    description: str | None
+    verifiedAccounts: list[Prv_gravatar_GravatarProfile_Out_verifiedAccounts_item_Out]
+
+class Prv_gravatar_GravatarProfile_Out_verifiedAccounts_item_Out(TypedDict):
+    service: str
+    url: str
 
 class Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardOptions_Out(TypedDict):
     presetAmounts: list[float]
@@ -35989,6 +36180,7 @@ class Prv_luma_LumaEvent_Out(TypedDict):
     requiresApproval: bool
     guestCount: float | None
     hosts: list[str]
+    hostDetails: list[Prv_luma_LumaHost_Out]
     calendar: Prv_luma_LumaCalendar_Out | None
     categories: list[str]
     coverUrl: str | None
@@ -35999,11 +36191,20 @@ class Prv_luma_LumaEvent_Out_price_u0_Out(TypedDict):
     cents: float
     currency: str
 
+class Prv_luma_LumaHost_Out(TypedDict):
+    id: str | None
+    name: str
+    linkedin: str | None
+    x: str | None
+    website: str | None
+    bio: str | None
+
 class Prv_luma_LumaCalendar_Out(TypedDict):
     id: str
     name: str | None
     slug: str | None
     url: str | None
+    website: str | None
 
 class Prv_luma_LumaRegistrationQuestion_Out(TypedDict):
     id: str
@@ -36030,6 +36231,7 @@ class Prv_luma_LumaCalendar_In(TypedDict):
     name: str | None
     slug: str | None
     url: str | None
+    website: str | None
 
 class Prv_luma_LumaPlace_Out(TypedDict):
     slug: str
@@ -36121,6 +36323,7 @@ class Prv_mango_MangoSearchArgs_In(TypedDict):
     onSaleOnly: NotRequired[bool]
     inStockOnly: NotRequired[bool]
     limit: NotRequired[float]
+    offset: NotRequired[float]
     country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_mango_MangoSearchResult_Out(TypedDict):
@@ -36128,8 +36331,11 @@ class Prv_mango_MangoSearchResult_Out(TypedDict):
     currency: str
     category: Prv_mango_MangoCategory_Out
     totalInCategory: float
+    offset: float
     scanned: float
     hits: list[Prv_mango_MangoProduct_Out]
+    hasMore: bool
+    nextOffset: float | None
     warnings: list[str]
 
 class Prv_mango_MangoProduct_Out(TypedDict):
@@ -39872,6 +40078,13 @@ class Prv_npmjs_npmjsSearchResult_Out(TypedDict):
     date: str | None
     publisher: str | None
     weeklyDownloads: float | None
+    maintainers: list[Prv_npmjs_npmjsSearchResult_Out_maintainers_item_Out]
+    repository: str | None
+    homepage: str | None
+
+class Prv_npmjs_npmjsSearchResult_Out_maintainers_item_Out(TypedDict):
+    username: str
+    email: str | None
 
 class Prv_npr_GetStoryArgs_In(TypedDict):
     url: str
@@ -41418,6 +41631,43 @@ Prv_oanda_OandaConversion_Out = TypedDict(
     "asOf": str,
     },
 )
+
+class Prv_ocado_OcadoSearchProductsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_ocado_OcadoSearchResult_Out(TypedDict):
+    query: str
+    url: str
+    total: float
+    products: list[Prv_ocado_OcadoProduct_Out]
+
+class Prv_ocado_OcadoProduct_Out(TypedDict):
+    sku: str
+    productId: str
+    name: str
+    brand: str | None
+    url: str
+    size: str | None
+    price: Prv_ocado_OcadoPrice_Out | None
+    wasPrice: Prv_ocado_OcadoPrice_Out | None
+    unitPrice: Prv_ocado_OcadoProduct_Out_unitPrice_u0_Out | None
+    offer: str | None
+    available: bool
+    rating: float | None
+    reviewCount: float | None
+    categoryPath: list[str]
+    imageUrl: str | None
+    sponsored: bool
+
+class Prv_ocado_OcadoPrice_Out(TypedDict):
+    amount: float
+    currency: str
+
+class Prv_ocado_OcadoProduct_Out_unitPrice_u0_Out(TypedDict):
+    amount: float
+    currency: str
+    per: str | None
 
 class Prv_old_navy_OldNavySearchArgs_In(TypedDict):
     query: str
@@ -43829,6 +44079,17 @@ class Prv_pinterest_PinterestConversation_Out_last_message_Out(TypedDict):
     text: NotRequired[str]
     created_at: NotRequired[str]
 
+class Prv_pinterest_createBoard_options_In(TypedDict):
+    privacy: NotRequired[Literal["secret"] | Literal["public"]]
+    description: NotRequired[str]
+
+class Prv_pinterest_hidePin_options_In(TypedDict):
+    undo: NotRequired[bool]
+
+class Prv_pinterest_hidePin_return_Out(TypedDict):
+    pinId: str
+    hidden: bool
+
 class Prv_pinterest_listNotifications_options_In(TypedDict):
     bookmark: NotRequired[str]
     pageSize: NotRequired[float]
@@ -45652,6 +45913,18 @@ class Prv_pushpress_PushpressMyInvoice_Out(TypedDict):
     subtotal: float | None
     openedAt: str | None
 
+class Prv_pypi_PypiProject_Out(TypedDict):
+    name: str
+    version: str
+    summary: str | None
+    author: str | None
+    authorEmail: str | None
+    maintainer: str | None
+    maintainerEmail: str | None
+    homePage: str | None
+    projectUrls: Mapping[str, str]
+    url: str
+
 class Prv_quickbooks_QuickbooksCalculatePaycheckArgs_In(TypedDict):
     state: str
     grossPay: float
@@ -45799,6 +46072,24 @@ class Prv_quickbooks_QuickbooksThreadAnswer_Out(TypedDict):
 
 class Prv_quickbooks_QuickbooksCommunityEvent_Out(TypedDict):
     slug: str
+    url: str
+
+class Prv_quickbooks_QuickbooksListResourceArticlesArgs_In(TypedDict):
+    topic: str
+    page: NotRequired[float]
+
+class Prv_quickbooks_QuickbooksResourceArticle_Out(TypedDict):
+    title: str
+    topic: str
+    slug: str
+    url: str
+
+class Prv_quickbooks_QuickbooksResourceArticleDetail_Out(TypedDict):
+    title: str
+    author: str | None
+    publishedAt: str | None
+    updatedAt: str | None
+    content: list[str]
     url: str
 
 class Prv_quickbooks_QuickbooksEvent_Out(TypedDict):
@@ -51509,6 +51800,31 @@ class Prv_smithery_SmitherySearchResult_Out_pagination_Out(TypedDict):
     pageSize: float
     totalPages: float
     totalCount: float
+
+class Prv_smtp_probe_LookupMxArgs_In(TypedDict):
+    domain: str
+
+class Prv_smtp_probe_MxAnswer_Out(TypedDict):
+    domain: str
+    hosts: list[str]
+    source: Literal["mx"] | Literal["a"] | Literal["none"]
+
+class Prv_smtp_probe_ProbeMailboxesArgs_In(TypedDict):
+    addresses: Sequence[str]
+
+class Prv_smtp_probe_MailboxProbeResult_Out(TypedDict):
+    domain: str
+    mx: Prv_smtp_probe_MxAnswer_Out
+    host: str | None
+    catchAll: bool | None
+    results: list[Prv_smtp_probe_RcptAnswer_Out]
+    sent: list[str]
+
+class Prv_smtp_probe_RcptAnswer_Out(TypedDict):
+    address: str
+    verdict: Literal["accepted"] | Literal["rejected"] | Literal["unknown"]
+    code: float | None
+    reply: str
 
 class Prv_snapchat_SnapchatSearchResult_Out(TypedDict):
     query: str
@@ -59803,6 +60119,21 @@ class Prv_ubereats_clearCart_args_In(TypedDict):
 class Prv_ubereats_clearCart_return_Out(TypedDict):
     draftOrderUuid: str
 
+class Prv_ubuntu_keyserver_KeyserverKey_Out(TypedDict):
+    fingerprint: str
+    created: str | None
+    expires: str | None
+    flags: str
+    uids: list[Prv_ubuntu_keyserver_KeyserverUid_Out]
+    url: str
+
+class Prv_ubuntu_keyserver_KeyserverUid_Out(TypedDict):
+    raw: str
+    name: str | None
+    comment: str | None
+    email: str | None
+    created: str | None
+
 class Prv_uhaul_UhaulRatesArgs_In(TypedDict):
     pickup: str
     dropoff: NotRequired[str]
@@ -64154,6 +64485,8 @@ class Prv_x_XProfile_Out(TypedDict):
     joined: str
     verified: bool
     avatarUrl: str
+    mentions: list[str]
+    links: list[str]
 
 class Prv_x_post_args_u0_In(TypedDict):
     url: str
@@ -67540,6 +67873,79 @@ class Cap_lawyer_directory(Protocol):
     async def getLawyer(self, id: str, /) -> Cap_lawyer_directory_LawyerRecord_Out:
         """Reads one lawyer's full bar record by the `id` search returned — practice areas,
         specialties, languages, firm, swearing-in date and contact details.
+        """
+
+class Cap_leads(Protocol):
+    """Enrich ONE business contact into one table row: title, a one-line summary, work email
+    (from the company's own commits and pages), booking link, X, GitHub, personal site,
+    talks and events. Every value carries the page it was read off. Free public sources
+    only, no paid enrichment; a pattern-built address is checked with the domain's own mail
+    server (no message sent) and labelled verified / catch-all / unknown.
+    """
+
+    async def enrich(self, input: Cap_leads_LeadInput_In, options: Cap_leads_EnrichOptions_In | None = None, /) -> Cap_leads_Lead_Out:
+        """Gathers one person's public contact info into ONE row for a lead table, every value
+        cited (`citation.url` is the commit, profile or page it was read off). Pass `name` and
+        `company`; `domain` is strongly preferred (no domain is ever guessed, because guesses
+        land on lookalikes). Emails come from the company's own GitHub commits, its own pages,
+        and a passed GitHub handle's profile, and are taken only when the FULL name says they
+        are the person's (the commit author's name, or a first.last / flast local part): a
+        one-word `name` gets no commit or page address. A commit domain counts as the company's
+        only when it is the company's own domain or the company's own pages print it (committer
+        counts never make one); a company whose own domain is a mailbox provider (proton.me,
+        fastmail.com, yahoo.com) gives no work address at all; noreply, bot and example.com
+        addresses are dropped, gmail-style mailboxes are kind "personal". Any script is accepted
+        for `name`; legs that cannot spell it (booking slugs, address patterns) are skipped and
+        listed in `pending`. A hit only counts if it names the COMPANY as well as the person (a
+        one-word or everyday company name such as "Modal" or "X" only in context: "Modal Labs",
+        "Modal's", "modal.com"): namesakes, including a booking page or X bio that never names
+        the company, are dropped and NAMED in `namesakes`. A booking link is taken first off a
+        page already tied to them (their README, GitHub profile, own site or verified X
+        profile), cited to it; a guessed page (a Calendly or cal.com slug probe, read with its
+        event types or description) comes after; a booking link is NEVER `verified`, only
+        `probable` with `evidence` at most, because a link's words are its owner's choice and a
+        relative or namesake can spell the same, and the company's own team booking page goes to
+        `other`, labelled the company's. With no `github` handle passed, the GitHub account is
+        FOUND: GitHub's user search for the full name plus the company org's public members (at
+        most 4 profiles read), each scored and tiered; a found account is `verified` only on two
+        independent anchors (public membership of the company org, its commits to the company's
+        repos, your `linkedin` on its profile), `probable` (with `evidence`) when its profile
+        only names the person and the company, and dropped into `namesakes` otherwise, and every
+        link read off it (`github`, its site, booking page, `other`) carries that tier; a
+        profile whose own name is a different person's gives nothing, however it was found or
+        passed. An X handle (from that GitHub profile) is read and scored on its own (only a
+        passed or verified account vouches for it): verified when the X profile links back to
+        the company's site, its @handle or that GitHub profile; probable, with `evidence`, when
+        its bio only names the company; dropped when its display name is another person's, it
+        names another current employer, or the account is suspended or gone. `summary` is
+        `{title} at {company}; previously {role} at {company}; {one notable thing}` (at most 220
+        characters), each clause read off a cited field only: the LinkedIn profile's roles and
+        about text, a talk or appearance that survived the namesake split, or your own `title`
+        (which has no page); `summarySources` lists the citation url behind each clause (url
+        null only for your own title), and a clause with no citation is left out. `warnings`
+        says what the row lacks (a failed source, a leg the inputs could not run). `pending`
+        lists legs that were skipped or failed (LinkedIn when `linkedin: false` or no saved
+        login, talks when `talks: false`, web unless `web: true`, or when neither Serper nor
+        DuckDuckGo could answer) so a batch re-enriches just those later. `web: true` searches
+        Google through Serper (up to 4 queries per person, one metered credit each, counted in
+        `webQueries`; `webBackend: "duckduckgo"` skips it) for booking pages, luma events and
+        articles, and falls back to DuckDuckGo when Serper cannot answer. A missing value is
+        null or [], never a throw; the call THROWS only on bad input (before any request) or
+        when EVERY source failed. `allowPatternEmail: true` adds an address built from the
+        company's address format, proven by two or more OTHER people's cited addresses (its
+        commits, its npm packages' maintainers, its PyPI project, OpenPGP keys on its mail
+        domain; method "pattern", `formatProof` lists every proving url, `citation` the first;
+        cited addresses that disagree prove nothing), checks Gravatar for a public profile at it
+        (one naming the person makes it "registered", never "verified"; one naming somebody else
+        drops it; a format is only proven on the company's own mail domain, never a mailbox
+        provider or a hosting subdomain), and asks the domain's mail server about it without
+        sending anything: `status` is "verified" (it accepts the address and refuses a random
+        one), "catch-all" (it accepts anything), or "unknown" (it would not say: greylisting, a
+        block, no connection); an address the server says does not exist is dropped with a
+        warning. `probeEmail: false` skips the check and leaves it "unverified". Show `status`
+        in your table, not `verified`. ~10-40 s per person, and never past `deadlineMs` (default
+        50 s): legs it cut are in `pending` with a warning; run several in parallel from your
+        script and keep LinkedIn under ~6/min.
         """
 
 class Cap_llm(Protocol):
@@ -73729,7 +74135,8 @@ class Prv_cal_com(Protocol):
         (pass it). Checks the slug shapes that measured reliable (first-last, firstlast,
         lastfirst, first-company, firstcompany, last-company, and the bare company slug — which
         often belongs to a stranger, so read `ownerName`) and returns each page that exists with
-        its own title, the owner name the title states, and `nameMatches`. A match is a GUESS: a
+        its own title, the owner name the title states, `nameMatches`, and the page's own meta
+        description (where a page names the owner's role and company). A match is a GUESS: a
         namesake passes, so tie the page to the company before relying on it. Works on pages no
         search engine has indexed.
         """
@@ -73782,10 +74189,12 @@ class Prv_calendly(Protocol):
         (pass it — "caleb-firecrawl" is found only by the company shape). Checks the slug shapes
         that measured reliable (first-last, firstlast, lastfirst, first-company, firstcompany,
         last-company, and the bare company slug — which often belongs to a stranger, so read
-        `ownerName`) and returns every one that exists with the name the page itself shows and
-        `nameMatches`. A match is a GUESS: a namesake with the same first and last name passes,
-        so tie the page to the company before relying on it. Search engines do not index
-        Calendly pages, so this is the way to find one.
+        `ownerName`) and returns every one that exists with the name the page itself shows,
+        `nameMatches`, the profile's own description and the names of the event types it offers
+        (where a page names the company: "Firecrawl-Introduction"). A match is a GUESS: a
+        namesake with the same first and last name passes, so tie the page to the company before
+        relying on it. Search engines do not index Calendly pages, so this is the way to find
+        one.
         """
 
     async def signup(self, args: Any, /) -> Prv_calendly_signup_return_u0_Out | Prv_calendly_signup_return_u1_Out | Prv_calendly_signup_return_u2_Out | Prv_calendly_signup_return_u3_Out:
@@ -76847,6 +77256,11 @@ class Prv_dailymotion(Protocol):
         feed), paged — same fields as getVideo. Needs the caller signed in.
         """
 
+    async def createPlaylist(self, args: Prv_dailymotion_CreatePlaylistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionPlaylist_Out:
+        """Create a playlist on the signed-in caller's Dailymotion account — private unless
+        private: false. Needs the caller signed in.
+        """
+
     async def listMyPlaylists(self, args: Prv_dailymotion_ListMyPlaylistsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionListMyPlaylistsResult_Out:
         """List the signed-in caller's own playlists (public and private), paged — same fields as
         getPlaylist. Needs the caller signed in.
@@ -77358,6 +77772,13 @@ class Prv_deviantart(Protocol):
         mature flag are not set by this call. Needs a caller signed in to DeviantArt.
         """
 
+    async def updateProfile(self, args: Prv_deviantart_updateProfile_args_In, opts: ConnectionOption | None = None, /) -> Prv_deviantart_DeviantartProfileUpdate_Out:
+        """Edits the signed-in caller's own About section: reads the site's current about-module
+        settings, overlays `changes` (field names as the site's own editor uses them, returned
+        in `fields`) and saves. `username` is the caller's own. Needs a caller signed in to
+        DeviantArt.
+        """
+
 class Prv_devto(Protocol):
     """DEV Community's public articles and member profiles — list recent or tag-filtered
     articles, then look up an author profile — through dev.to's documented API.
@@ -77746,6 +78167,20 @@ class Prv_discord(Protocol):
         row's id to listMessages or searchMessages({ channelId }). Needs a Discord sign-in made
         through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
         browser yet.
+        """
+
+    async def listFriends(self, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordFriend_Out]:
+        """Lists the SIGNED-IN USER's Discord friends — user id, username, display name, the
+        caller's nickname for them, avatar and since when. Needs a Discord sign-in made through
+        Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser
+        yet.
+        """
+
+    async def listFriendRequests(self, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordFriendRequest_Out]:
+        """Lists the SIGNED-IN USER's pending friend requests, each marked `incoming` or
+        `outgoing`, with the other user's id, username, display name and avatar. Needs a Discord
+        sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token
+        from your own browser yet.
         """
 
     async def searchMessages(self, args: Prv_discord_searchMessages_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordMessageSearch_Out:
@@ -81227,6 +81662,33 @@ class Prv_github(Protocol):
         username (404) or a rate limit (403/429).
         """
 
+    async def searchUsers(self, query: str, options: Prv_github_GithubSearchUsersOptions_In | None = None, /) -> Prv_github_GithubSearchUsersResult_Out:
+        """Searches GitHub accounts off GitHub's own unauthenticated user-search endpoint. `query`
+        is GitHub's qualifier syntax: `fullname:"Erik Bernhardsson"` matches the profile's
+        display name, plus `location:`, `followers:>100`, `type:user`, `in:login`. Returns
+        `totalCount` (GitHub's own count, which may exceed the page) and each hit's login,
+        profile URL, account type and relevance score. A hit carries no name, company or bio:
+        read those with `getUser(login)`. `options.sort` (`followers`/`repositories`/`joined`),
+        `order`, `per_page` (1-100) and `page`. On the stricter 10 requests/minute anonymous
+        search bucket. THROWS on an invalid query (422) or a rate limit (403/429).
+        """
+
+    async def listOrganizationMembers(self, org: str, options: Prv_github_GithubListOrganizationMembersOptions_In | None = None, /) -> Prv_github_GithubListOrganizationMembersResult_Out:
+        """Lists an organization's PUBLIC members off GitHub's own unauthenticated endpoint: login,
+        profile URL, account type. A member who keeps their membership private is not listed, so
+        absence proves nothing. `options.per_page` (1-100) and `page`. Shares the 60
+        requests/hour per IP ceiling. THROWS on an unknown organization (404) or a rate limit
+        (403/429).
+        """
+
+    async def getSocialAccounts(self, username: str, /) -> Prv_github_GithubSocialAccountsResult_Out:
+        """Returns the social links a user put on their GitHub profile (X, LinkedIn, Mastodon,
+        Bluesky, YouTube, or `generic` for any other URL), each as `{ provider, url }`, off
+        GitHub's own unauthenticated endpoint. `getUser` carries only the X handle; this has the
+        rest. A user with none returns `accounts: []`. Shares the 60 requests/hour per IP
+        ceiling. THROWS on an unknown username (404) or a rate limit (403/429).
+        """
+
     async def getOrganization(self, org: str, /) -> Prv_github_GithubOrganization_Out:
         """Returns an organization's public metadata off GitHub's own unauthenticated REST orgs
         endpoint — login, name, description, location, blog/website URL, email, avatar URL,
@@ -82667,8 +83129,8 @@ class Prv_google_translate(Protocol):
     """Translate text into any of 249 languages, in a batch if you have a list, and find out
     what language something already is — plus the dictionary underneath: senses,
     definitions, synonyms, alternative wordings, the romanization and the spoken audio.
-    Thirteen functions are built; the four account-gated ones (saved phrases, history) are
-    still declared stubs.
+    Thirteen functions are built; the four account functions (saved phrases, history) take
+    the caller's own Google sign-in.
     """
 
     async def translate(self, args: Prv_google_translate_TranslateArgs_In, /) -> list[Prv_google_translate_GoogleTranslateResult_Out]:
@@ -82794,6 +83256,32 @@ class Prv_google_translate(Protocol):
         browser) but its own rpcid (`WqWDPb`) and upload shape — measured 2026-09-16 uploading a
         real PNG with rendered glyphs, verified "Hola mundo" → "Bonjour le monde" (tl=fr) and →
         "Hello world" (tl=en).
+        """
+
+    async def listSavedPhrases(self, opts: ConnectionOption | None = None, /) -> Any:
+        """The signed-in caller's own saved phrases. Needs the CALLER's Google sign-in — a run
+        without one pauses for it. Reaches translate.google.com/saved, which 302s to
+        accounts.google.com logged out (measured 2026-09-15); a signed-in copy has never been
+        captured, so a signed-in run refuses honestly rather than inventing rows.
+        """
+
+    async def savePhrase(self, args: Prv_google_translate_PhraseArgs_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Star a phrase into the signed-in caller's saved phrases. Needs the caller's Google
+        sign-in. The star request has never been captured signed in, so this refuses without
+        writing anything rather than guessing a request.
+        """
+
+    async def unsavePhrase(self, args: Prv_google_translate_PhraseArgs_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Remove a phrase from the signed-in caller's saved phrases — savePhrase's undo. Needs the
+        caller's Google sign-in; refuses without writing anything for the same reason savePhrase
+        does.
+        """
+
+    async def listHistory(self, opts: ConnectionOption | None = None, /) -> Any:
+        """The signed-in caller's recent translation history. Needs the caller's Google sign-in.
+        Reaches translate.google.com/history, which 302s to accounts.google.com logged out
+        (measured 2026-09-15); a signed-in copy has never been captured, so a signed-in run
+        refuses honestly.
         """
 
 class Prv_goremutual(Protocol):
@@ -83072,6 +83560,21 @@ class Prv_grandwelcome(Protocol):
         ("YYYY-MM-DD") — rent, fees, tax, total — and returns the exact Book Now checkout URL
         for those dates. `available: false` means the site checked and the property is not free
         for those dates, an ordinary answer.
+        """
+
+class Prv_gravatar(Protocol):
+    """Gravatar's public profile for an email address: whether one is registered there, and its
+    display name, slug, job, company and verified linked accounts. The address is hashed
+    locally, never sent.
+    """
+
+    async def getProfile(self, email: str, /) -> Prv_gravatar_GravatarProfile_Out | None:
+        """The public Gravatar profile registered at an email address (Gravatar's REST v3, keyless
+        public fields): display name, profile slug, job title, company and the linked accounts
+        Gravatar verified. Null when no public profile exists at that address — which proves
+        nothing about whether the address receives mail. A profile proves the address is
+        REGISTERED with Gravatar, not that the person you expected owns it: compare
+        `displayName`.
         """
 
 class Prv_greatlakesbrewing(Protocol):
@@ -87270,8 +87773,8 @@ class Prv_luma(Protocol):
         (label, required, type, options, terms) so a complete application can be drafted before
         submitting the form — whether the event requires approval or is first-come-first-served
         — plus date and time with timezone, venue and full address, price, spots remaining, sold
-        out, hosts, categories, and the description as markdown (agenda, prerequisites, what to
-        bring).
+        out, hosts (each with the LinkedIn, X, website and bio they gave Luma), categories, and
+        the description as markdown (agenda, prerequisites, what to bring).
         """
 
     async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
@@ -87284,7 +87787,8 @@ class Prv_luma(Protocol):
 
     async def listCalendarEvents(self, args: Prv_luma_ListCalendarEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
         """Every upcoming event on one Luma calendar or organizer profile — the schedule of a
-        recurring meetup, demo night or event series, soonest first. Takes an event's `calendar`
+        recurring meetup, demo night or event series, soonest first, each with its hosts'
+        LinkedIn, X, website and bio (who runs a company's events). Takes an event's `calendar`
         exactly as getEvent or discoverEvents returned it, a calendar id (cal-…), or a calendar,
         profile or EVENT url (luma.com/<calendar>, luma.com/user/<name>, luma.com/<event>).
         `past: true` lists past editions instead.
@@ -87393,9 +87897,9 @@ class Prv_mango(Protocol):
     async def searchProducts(self, args: Prv_mango_MangoSearchArgs_In | str, /) -> Prv_mango_MangoSearchResult_Out:
         """Searches Mango's apparel catalog for what a shopper asks ("men's sweater", "long sleeve
         shirt") and returns each product with variant sizes, sale and compare-at prices and
-        per-size stock — filterable to a size, on-sale and in-stock only, from the US store or
-        the Canadian one (country: "ca", CAD). The way in; returns the productId getProduct
-        takes.
+        per-size stock — filterable to a size, on-sale and in-stock only, paged past 60 with
+        offset/nextOffset (hasMore says the category goes on), from the US store or the Canadian
+        one (country: "ca", CAD). The way in; returns the productId getProduct takes.
         """
 
     async def getProduct(self, productId: str | Prv_mango_MangoProduct_In | Prv_mango_getProduct_productId_u2_In, /) -> Prv_mango_MangoProduct_Out:
@@ -89530,8 +90034,10 @@ class Prv_npmjs(Protocol):
 
     async def search(self, query: str, size: float | None = None, /) -> list[Prv_npmjs_npmjsSearchResult_Out]:
         """Finds published npm packages by keyword through npm's public registry search. Each
-        result includes its name, current version, description, publication date, publisher and
-        npm's current weekly-download count. `size` defaults to 20 and accepts 1–250.
+        result includes its name, current version, description, publication date, publisher,
+        npm's current weekly-download count, its maintainers (username and the email each
+        registered with npm) and its repository and homepage links. `size` defaults to 20 and
+        accepts 1–250.
         """
 
 class Prv_npr(Protocol):
@@ -90360,6 +90866,22 @@ class Prv_oanda(Protocol):
         weekend/holiday, exactly like the site's own converter. THROWS when neither currency
         resolves or the site has no rate for the pair/date (e.g. before its data starts, or an
         unknown code).
+        """
+
+class Prv_ocado(Protocol):
+    """Ocado — the UK online supermarket. searchProducts() runs ocado.com's own product search
+    and returns each match's name, brand, size, price, offer, unit price, rating and its
+    exact product url.
+    """
+
+    async def searchProducts(self, args: Prv_ocado_OcadoSearchProductsArgs_In | str, /) -> Prv_ocado_OcadoSearchResult_Out:
+        """Search ocado.com's groceries by term (`{ query: "oatly barista" }`; an ocado.com/search
+        url works too, including an old `?entry=` link). Returns Ocado's total match count and
+        its first page of products (up to ~50) in Ocado's own order — name, brand, size, current
+        and was price, offer text, unit price, rating, availability, category path, image and
+        exact product url (`sponsored: true` marks the paid "Featured" slots). Ocado matches
+        every word, so a long phrase can return 0 where a shorter one finds the product. Use
+        this rather than read.page on an ocado.com search url, which is walled.
         """
 
 class Prv_old_navy(Protocol):
@@ -91600,6 +92122,23 @@ class Prv_pinterest(Protocol):
         THROWS when the saved session is refused (the run asks for a fresh sign-in).
         """
 
+    async def createBoard(self, name: str, options: Prv_pinterest_createBoard_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pinterest_PinterestBoard_Out:
+        """Make a new board on the signed-in caller's profile and get it back with its `id` and
+        `url`. SECRET unless `privacy: "public"` is passed, so nothing appears to anyone else by
+        default. `POST /resource/BoardResource/create/` with `{ name, privacy }`. THROWS
+        `PinterestInputError` on an empty name or an unknown privacy, and when the saved session
+        is refused (the run asks for a fresh sign-in).
+        """
+
+    async def hidePin(self, pinId: str, options: Prv_pinterest_hidePin_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pinterest_hidePin_return_Out:
+        """Tell Pinterest the signed-in caller does not want to see a pin in their home feed — the
+        feed's own "Hide Pin" — or take it back with `{ undo: true }`. Account-scoped: nobody
+        else's view changes and nobody is notified. `POST /resource/ApiResource/update/`
+        proxying the site's own `PUT /v3/pfy/<pin>/feedback/` (`feedback_type: 1`). THROWS
+        `PinterestInputError` on a non-numeric pin id, and when the saved session is refused
+        (the run asks for a fresh sign-in).
+        """
+
     async def listNotifications(self, options: Prv_pinterest_listNotifications_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pinterest_listNotifications_return_Out:
         """The caller's own notifications — who saved, commented on or followed them, newest first,
         page by page. `GET /resource/ApiResource/get/` proxying the site's own
@@ -92234,6 +92773,27 @@ class Prv_prime_video(Protocol):
         one refuses with `could not find a 26-character titleId`.
         """
 
+    async def getWatchlist(self, opts: ConnectionOption | None = None, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
+        """Read the caller's own Prime Video watchlist — every title they saved, in the site's
+        order, with the same fields searchTitles() returns, including whether each one can be
+        watched now (`entitled`, `watchMessage`). Needs the caller signed in to their own Prime
+        Video account; the run pauses for that sign-in otherwise. An empty watchlist returns an
+        empty array.
+        """
+
+    async def listPurchases(self, opts: ConnectionOption | None = None, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
+        """List the films and series the caller has already bought or rented on Prime Video — their
+        video library — with the same fields searchTitles() returns. The read that stops an
+        agent telling someone to buy a title they already own. Needs the caller signed in to
+        their own Prime Video account. Never buys anything.
+        """
+
+    async def listContinueWatching(self, opts: ConnectionOption | None = None, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
+        """What the caller started and has not finished — the "Continue watching" row on their own
+        Prime Video home page, in the site's order, with the same fields searchTitles() returns.
+        Needs the caller signed in; a profile with nothing in progress returns an empty array.
+        """
+
 class Prv_printful(Protocol):
     """Printful's documented REST API — retrieves order status (production, shipping, tracking)
     for print-on-demand stores by order ID from the store's own Printful account.
@@ -92800,6 +93360,18 @@ class Prv_pushpress(Protocol):
         pays nothing. Needs the caller signed in.
         """
 
+class Prv_pypi(Protocol):
+    """The Python Package Index's JSON API: one project's current metadata (version, summary,
+    author and maintainer with their emails, homepage and project links).
+    """
+
+    async def getProject(self, name: str, /) -> Prv_pypi_PypiProject_Out | None:
+        """One PyPI project's current metadata off PyPI's documented JSON API
+        (https://pypi.org/pypi/<name>/json): version, summary, author and maintainer with the
+        emails they published, homepage and project links. Null when PyPI has no project of that
+        name (its 404).
+        """
+
 class Prv_quickbooks(Protocol):
     """QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators,
     the ProAdvisor accountant directory, the App Store, Community answers, help articles and
@@ -92846,6 +93418,12 @@ class Prv_quickbooks(Protocol):
 
     async def listEvents(self, /) -> list[Prv_quickbooks_QuickbooksCommunityEvent_Out]:
         """Upcoming Community events and webinars, by slug and URL"""
+
+    async def listResourceArticles(self, args: str | Prv_quickbooks_QuickbooksListResourceArticlesArgs_In, /) -> list[Prv_quickbooks_QuickbooksResourceArticle_Out]:
+        """Articles in one Resource Center topic (accounting, taxes, payroll…), with title and URL"""
+
+    async def getResourceArticle(self, url: str, /) -> Prv_quickbooks_QuickbooksResourceArticleDetail_Out:
+        """One Resource Center article's title, author, dates and body text"""
 
     async def getEvent(self, slug: str, /) -> Prv_quickbooks_QuickbooksEvent_Out:
         """One Community event's title, date, time zone offset and description"""
@@ -95566,6 +96144,28 @@ class Prv_smithery(Protocol):
         While Smithery's own search answers HTTP 500 (since 2026-11-02), results are matched
         client-side against the ~500 most-used servers its unfiltered list still exposes, and
         `warnings` says so.
+        """
+
+class Prv_smtp_probe(Protocol):
+    """Asks a domain's own mail server whether it would accept mail for an address, without
+    sending any: MX lookup, then EHLO / MAIL FROM:<> / RCPT TO / QUIT, plus a random address
+    to detect catch-all servers.
+    """
+
+    async def lookupMx(self, args: Prv_smtp_probe_LookupMxArgs_In, /) -> Prv_smtp_probe_MxAnswer_Out:
+        """The domain's mail hosts from DNS, most preferred first. With no MX record, the domain's
+        own host (RFC 5321 implicit MX). `source: "none"` means the domain accepts no mail at
+        all (no MX and no address, or a null MX).
+        """
+
+    async def probeMailboxes(self, args: Prv_smtp_probe_ProbeMailboxesArgs_In, /) -> Prv_smtp_probe_MailboxProbeResult_Out:
+        """Asks ONE domain's mail server about 1-5 of its addresses over SMTP port 25 — EHLO, MAIL
+        FROM:<>, RCPT TO each, RCPT TO a random address, QUIT — and never sends a message.
+        `verdict: "accepted"` with `catchAll: false` means the mailbox exists; `catchAll: true`
+        means the server takes any address so nothing is proven; `"rejected"` only when the
+        server says the user does not exist; `"unknown"` for greylisting, blocks and policy
+        refusals (common at Google and Microsoft). THROWS when no mail server for the domain
+        could be reached on port 25 — nothing is known then.
         """
 
 class Prv_snapchat(Protocol):
@@ -99731,6 +100331,19 @@ class Prv_ubereats(Protocol):
         Anonymous, same as addToCart (measured 2026-11-02).
         """
 
+class Prv_ubuntu_keyserver(Protocol):
+    """Search the Ubuntu OpenPGP keyserver's public index by text (a name, an address,
+    "@domain"): each key's fingerprint, dates and user IDs (name, comment, email).
+    """
+
+    async def searchKeys(self, query: str, /) -> list[Prv_ubuntu_keyserver_KeyserverKey_Out]:
+        """Searches the Ubuntu OpenPGP keyserver's public index (HKP `op=index`, machine-readable)
+        for keys whose user IDs contain `query` — a name, an address, or "@domain" for every
+        published key on a domain. Returns each key's fingerprint, dates, flags and user IDs
+        split into name, comment and email. The match is a SUBSTRING ("@acme.com" also matches
+        "@acme.com.au"), so filter the emails to the exact domain. [] when nothing matches.
+        """
+
 class Prv_uhaul(Protocol):
     """U-Haul truck and trailer rental quotes — in-town or one-way, for a pickup location and
     date.
@@ -101969,7 +102582,8 @@ class Prv_x(Protocol):
 
     async def profile(self, args: Prv_x_profile_args_In, /) -> Prv_x_XProfile_Out:
         """Reads an X (Twitter) profile by handle or URL: name, bio, location, website, follower
-        count — browserless.
+        count, the bio's @-mentions and its links expanded (never t.co) — browserless. A
+        suspended or nonexistent account throws saying so.
         """
 
     async def post(self, args: Prv_x_post_args_u0_In | Prv_x_post_args_u1_In, /) -> Prv_x_XPost_Out:
@@ -103780,6 +104394,7 @@ class BowmarkProviders(Protocol):
     grainger: Prv_grainger
     grammarly: Prv_grammarly
     grandwelcome: Prv_grandwelcome
+    gravatar: Prv_gravatar
     greatlakesbrewing: Prv_greatlakesbrewing
     greatlakesdentaltech: Prv_greatlakesdentaltech
     greenhouse: Prv_greenhouse
@@ -103938,6 +104553,7 @@ class BowmarkProviders(Protocol):
     nyt_games: Prv_nyt_games
     nytimes: Prv_nytimes
     oanda: Prv_oanda
+    ocado: Prv_ocado
     old_navy: Prv_old_navy
     oliverwinery: Prv_oliverwinery
     olo: Prv_olo
@@ -103995,6 +104611,7 @@ class BowmarkProviders(Protocol):
     punchpass: Prv_punchpass
     purevpn: Prv_purevpn
     pushpress: Prv_pushpress
+    pypi: Prv_pypi
     quickbooks: Prv_quickbooks
     quince: Prv_quince
     quora: Prv_quora
@@ -104059,6 +104676,7 @@ class BowmarkProviders(Protocol):
     smartsign: Prv_smartsign
     smartwool: Prv_smartwool
     smithery: Prv_smithery
+    smtp_probe: Prv_smtp_probe
     snapchat: Prv_snapchat
     solidcore: Prv_solidcore
     solostove: Prv_solostove
@@ -104134,6 +104752,7 @@ class BowmarkProviders(Protocol):
     tx_comptroller: Prv_tx_comptroller
     uber: Prv_uber
     ubereats: Prv_ubereats
+    ubuntu_keyserver: Prv_ubuntu_keyserver
     uhaul: Prv_uhaul
     uhc_directory: Prv_uhc_directory
     uhc_smallbusiness: Prv_uhc_smallbusiness
@@ -104258,6 +104877,7 @@ class Bowmark(Protocol):
     job_search: Cap_job_search
     kenya_fuel_prices: Cap_kenya_fuel_prices
     lawyer_directory: Cap_lawyer_directory
+    leads: Cap_leads
     llm: Cap_llm
     local_classifieds_search: Cap_local_classifieds_search
     local_database_gui: Cap_local_database_gui
