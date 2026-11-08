@@ -745,7 +745,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boulevard.submitForm` | joinblvd.com | Fills in and submits one of the signed-in client's pending intake or consent forms. | ⚪ |
 | `boulevard.updateMyProfile` | joinblvd.com | Updates the signed-in client's name, email, phone or communication preferences at a… | ⚪ |
 | `bowmark.getOverview` | bowmark.ai | Reads Bowmark AI's public product overview, API and MCP endpoints, and published… | 🟢 |
-| `bowmark.searchLibrary` | bowmark.ai | Searches Bowmark AI's public library documentation by query. | 🟡 |
+| `bowmark.listDocumentation` | bowmark.ai | Lists Bowmark AI's published agent-facing documentation pages from its public llms.txt… | 🟢 |
 | `boxlunch.search` | boxlunch.com | Searches boxlunch.com's own storefront for a keyword and returns the real, priced… | 🟢 |
 | `boydsleep.calibrateSixZoneSupportNumber` | boydsleep.com | Runs Boyd's own '6-Zone Smart Support Number' calibration for the 6-zone Nautica Home… | 🟢 |
 | `boydsleep.calibrateSupportNumber` | boydsleep.com | Runs Boyd's own '2-Zone Smart Support Number' calibration — sleep position, gender… | 🟢 |

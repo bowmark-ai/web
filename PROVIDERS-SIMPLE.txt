@@ -129,7 +129,7 @@ booking.com — booking_com: autocompleteDestination, checkPrice, getAccountProf
 booking.mangomint.com — mangomint: bookAppointment, checkAvailability, findBusiness, getBusinessInfo, getService, getStaff, joinWaitlist, listLocations, listMemberships, listPackages, listPastServices, listServiceCategories, listServices, listStaff, validateSlot (+7 planned)
 booksy.com — booksy: addFavorite, bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getBusiness, getBusinessContact, getBusinessNetwork, getBusinessPhotos, getBusinessReviews, getMyAppointment, getMyProfile, getSearchSuggestions, listCategories, listFavorites, listGiftCardOffers, listMyBookings, listMyGiftCards, removeFavorite, resolveLocation, searchBusinesses, updateMyProfile, writeReview (+5 planned)
 borsheims.com — borsheims: configureRing, getProduct, searchProducts
-bowmark.ai — bowmark: getOverview, searchLibrary
+bowmark.ai — bowmark: getOverview, listDocumentation
 boxlunch.com — boxlunch: search
 boydsleep.com — boydsleep: calibrateSixZoneSupportNumber, calibrateSupportNumber
 bravabraces.com — brius: findProviders
