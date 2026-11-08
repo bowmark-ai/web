@@ -899,7 +899,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.listColorPalettes` | canva.com | Lists Canva's curated colour palettes (name, hex colours, page url), paged. | 🟢 |
 | `canva.listComments` | canva.com | Lists the comments on one of the caller's designs — author, text, page, resolved or… | ⚪ |
 | `canva.listDesignPages` | canva.com | Lists the pages of one of the caller's designs with each page's thumbnail. | ⚪ |
-| `canva.listDesignSizes` | canva.com | Reads Canva's design-size wiki for one platform or format (Instagram, YouTube… | ⚪ |
+| `canva.listDesignSizes` | canva.com | Reads Canva's design-size wiki for one platform or format (Instagram, YouTube… | 🟢 |
 | `canva.listFolderItems` | canva.com | Lists what is in one of the caller's folders — designs, uploads and subfolders —… | ⚪ |
 | `canva.listFolders` | canva.com | Lists the caller's folders (and subfolders of one folder) — folder id, name and item… | ⚪ |
 | `canva.listPrintProducts` | canva.com | Lists what Canva Print sells — business cards, flyers, posters, mugs, t-shirts and the… | ⚪ |
@@ -5129,7 +5129,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.getTranscript` | tiktok.com | A video's own caption track, read off `itemStruct.video.subtitleInfos` — the WebVTT… | 🟢 |
 | `tiktok.getVideo` | tiktok.com | One video's own facts, off the watch page's embedded state: url, caption, hashtags… | 🟢 |
 | `tiktok.likeVideo` | tiktok.com | Like a video as the signed-in caller — the heart button. | 🟢 |
-| `tiktok.listBookmarkedVideos` | tiktok.com | The signed-in caller's own saved videos — the companion read to bookmarkVideo. | ⚪ |
+| `tiktok.listBookmarkedVideos` | tiktok.com | The signed-in caller's own saved (Favorites) videos — the companion read to… | 🟢 |
 | `tiktok.listCaptionTracks` | tiktok.com | Which languages a video's captions are available in and which TikTok shows by default… | 🟢 |
 | `tiktok.listCommentReplies` | tiktok.com | The replies under one comment thread, hidden behind TikTok's "N replies" button and… | 🟢 |
 | `tiktok.listComments` | tiktok.com | The first 20 comments under a video — author (id, handle, nickname, secUid, avatar)… | 🟢 |
@@ -5631,10 +5631,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | 🟢 |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
 | `weather_channel.getLocation` | weather.com | Gets location details by place name, postal code, or coordinates — returns full… | 🟢 |
-| `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-level precipitation data — highly granular rainfall/snowfall timing and… | ⚪ |
+| `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-by-minute precipitation for the next hour where weather.com has coverage; an… | 🟢 |
 | `weather_channel.getObservations` | weather.com | Live readings from personal weather stations near a place — the site's own 'Weather… | 🟢 |
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
-| `weather_channel.getPollenHealth` | weather.com | Cognitive/health indices related to pollen and air quality — allergy forecasts, cold &… | ⚪ |
+| `weather_channel.getPollenHealth` | weather.com | 5-day cold & flu or migraine risk for a place — weather.com's health forecast. | 🟢 |
 | `weather_channel.getRadarTiles` | weather.com | Radar map layers weather.com's own map draws — latest frame timestamps and a tile URL… | 🔴 |
 | `weather_channel.getRainTiming` | weather.com | When will it start (or stop) raining here — the site's one-sentence answer with the… | 🔴 |
 | `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | 🟢 |
