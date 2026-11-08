@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9ed6b6cfd0210a1cdce15f77ffe23b07e9f5fe00a38b3a1429c9d8f6b7b8cbc0
-// 4558 checked, 20 unchecked.
+// Manifest version: bfbe0de48b2a8de0b6e9cb5c9e6b8d6a1a0d534b89bebc3f5ad1f838a69cc5e6
+// 4573 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9ed6b6cfd0210a1cdce15f77ffe23b07e9f5fe00a38b3a1429c9d8f6b7b8cbc0",
+  "version": "bfbe0de48b2a8de0b6e9cb5c9e6b8d6a1a0d534b89bebc3f5ad1f838a69cc5e6",
   "units": {
     "address_validation": {
       "defs": {
@@ -1439,6 +1439,325 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "cve_lookupSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "db": {
+      "defs": {
+        "DbDeleteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "jig",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "collection",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "all",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "DbListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "jig",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "collection",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "where",
+              "schema": {
+                "k": "any"
+              },
+              "optional": true
+            },
+            {
+              "name": "orderBy",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "updatedAt"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "createdAt"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "id"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "dir",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "after",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "DbOp": {
+          "k": "any"
+        },
+        "DbPatchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "jig",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "collection",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "data",
+              "schema": {
+                "k": "any"
+              },
+              "optional": false
+            },
+            {
+              "name": "ifRev",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "DbSetArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "jig",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "collection",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "data",
+              "schema": {
+                "k": "any"
+              },
+              "optional": false
+            },
+            {
+              "name": "ifRev",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "set": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DbSetArgs"
+            },
+            "optional": false
+          }
+        ],
+        "get": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "jig",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "collection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "list": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DbListArgs"
+            },
+            "optional": false
+          }
+        ],
+        "patch": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DbPatchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "delete": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DbDeleteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "batch": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "jig",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "ops",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "DbOp"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "info": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "jig",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
@@ -47324,6 +47643,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "PostDiscussionPostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "wiki",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "threadId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -47829,6 +48174,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CreatePageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postDiscussionPost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostDiscussionPostArgs"
             },
             "optional": false
           },
@@ -61819,6 +62190,33 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.hackernews": {
       "defs": {
+        "HackerNewsGetThreadArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "depth",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "HackerNewsSearchCommentsArgs": {
           "k": "object",
           "props": [
@@ -61972,6 +62370,27 @@ export const VALIDATORS: ValidatorTable = {
                 {
                   "k": "ref",
                   "name": "HackerNewsSearchCommentsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getThread": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "HackerNewsGetThreadArgs"
+                },
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "string"
                 }
               ]
             },
@@ -103779,6 +104198,39 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.reserve_with_google": {
       "defs": {
+        "BookReservationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "merchantId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startsAt",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "note",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "CheckAvailabilityArgs": {
           "k": "object",
           "props": [
@@ -103924,6 +104376,57 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "UpdateSettingsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "bookReservation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookReservationArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelBooking": [
+          {
+            "name": "featureId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },
@@ -104450,6 +104953,18 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            }
+          ]
+        },
+        "ListNewsletterSubscriptionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -105160,6 +105675,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ReutersNewsletterChange"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listNewsletterSubscriptions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListNewsletterSubscriptionsArgs"
             },
             "optional": false
           },
@@ -112149,14 +112690,31 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "input",
             "schema": {
-              "k": "object",
-              "props": [
+              "k": "union",
+              "of": [
                 {
-                  "name": "userId",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "userId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "username",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
                 }
               ]
             },
@@ -137843,6 +138401,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "WsjWatchlistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "symbol",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -137912,6 +138482,58 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getWatchlist": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToWatchlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WsjWatchlistArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromWatchlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WsjWatchlistArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -138423,6 +139045,47 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getListPosts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "listId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           },
           {
             "name": "opts",

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9ed6b6cfd0210a1cdce15f77ffe23b07e9f5fe00a38b3a1429c9d8f6b7b8cbc0
-# 96 capabilities, 769 providers, 4558 typed functions, 20 refused.
+# Manifest version: bfbe0de48b2a8de0b6e9cb5c9e6b8d6a1a0d534b89bebc3f5ad1f838a69cc5e6
+# 97 capabilities, 769 providers, 4573 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1017,6 +1017,88 @@ class Cap_cve_lookup_cve_lookupSearchResult_Out(TypedDict):
     total: float
     warnings: list[str]
 
+class Cap_db_DbSetArgs_In(TypedDict):
+    jig: str
+    collection: str
+    id: NotRequired[str]
+    data: Any
+    ifRev: NotRequired[float]
+
+class Cap_db_set_return_Out(TypedDict):
+    id: str
+    rev: float
+    created: bool
+
+class Cap_db_get_args_In(TypedDict):
+    jig: str
+    collection: str
+    id: str
+
+class Cap_db_get_return_Out(TypedDict):
+    doc: Cap_db_JigDbDoc_Out | None
+
+class Cap_db_JigDbDoc_Out(TypedDict):
+    id: str
+    data: Mapping[str, Any]
+    rev: float
+    createdAt: str
+    updatedAt: str
+
+class Cap_db_DbListArgs_In(TypedDict):
+    jig: str
+    collection: str
+    where: NotRequired[Any]
+    orderBy: NotRequired[Literal["updatedAt"] | Literal["createdAt"] | Literal["id"]]
+    dir: NotRequired[Literal["asc"] | Literal["desc"]]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Cap_db_list_return_Out(TypedDict):
+    docs: list[Cap_db_JigDbDoc_Out]
+    next: NotRequired[str]
+    rev: float
+
+class Cap_db_DbPatchArgs_In(TypedDict):
+    jig: str
+    collection: str
+    id: str
+    data: Any
+    ifRev: NotRequired[float]
+
+class Cap_db_patch_return_Out(TypedDict):
+    rev: float
+
+class Cap_db_DbDeleteArgs_In(TypedDict):
+    jig: str
+    collection: str
+    id: NotRequired[str]
+    all: NotRequired[bool]
+
+class Cap_db_delete_return_Out(TypedDict):
+    deleted: float
+
+class Cap_db_batch_args_In(TypedDict):
+    jig: str
+    ops: Sequence[Any]
+
+class Cap_db_batch_return_Out(TypedDict):
+    results: list[Any]
+
+class Cap_db_info_args_In(TypedDict):
+    jig: str
+
+class Cap_db_info_return_Out(TypedDict):
+    rows: float
+    bytes: float
+    limits: Any
+    collections: list[Cap_db_info_return_Out_collections_item_Out]
+
+class Cap_db_info_return_Out_collections_item_Out(TypedDict):
+    name: str
+    rows: float
+    bytes: float
+    rev: float
+
 class Cap_delegate_StartDelegateOptions_In(TypedDict):
     prompt: str
     env: NotRequired[Mapping[str, str]]
@@ -1960,6 +2042,7 @@ class Cap_llm_LlmUsage_Out(TypedDict):
     inputTokens: float
     outputTokens: float
     costUsd: float
+    servedBy: Literal["gateway"] | Literal["chat"] | Literal["link"]
 
 class Cap_llm_LlmJudgeArgs_In(TypedDict):
     question: str
@@ -24426,6 +24509,18 @@ class Prv_fandom_CreatePageArgs_In(TypedDict):
     text: str
     summary: NotRequired[str]
 
+class Prv_fandom_PostDiscussionPostArgs_In(TypedDict):
+    wiki: str
+    threadId: str
+    text: str
+
+class Prv_fandom_PostDiscussionPostResult_Out(TypedDict):
+    wiki: str
+    id: str
+    threadId: str
+    text: str
+    createdAt: str
+
 class Prv_fandom_UndoRevisionArgs_In(TypedDict):
     wiki: str
     title: str
@@ -30768,6 +30863,27 @@ class Prv_hackernews_HackerNewsCommentHit_Out(TypedDict):
     storyTitle: str | None
     storyUrl: str | None
     hnUrl: str
+
+class Prv_hackernews_HackerNewsGetThreadArgs_In(TypedDict):
+    id: float | str
+    depth: NotRequired[float]
+
+class Prv_hackernews_HackerNewsThread_Out(TypedDict):
+    id: float
+    by: str | None
+    title: str | None
+    text: str | None
+    time: str | None
+    score: float | None
+    replies: list[Prv_hackernews_HackerNewsComment_Out]
+
+class Prv_hackernews_HackerNewsComment_Out(TypedDict):
+    id: float
+    by: str | None
+    text: str
+    time: str | None
+    score: float | None
+    replies: list[Prv_hackernews_HackerNewsComment_Out]
 
 class Prv_hamptonwaterwine_HamptonWaterNearbyRetailers_Out(TypedDict):
     zip: str
@@ -48512,6 +48628,23 @@ class Prv_reserve_with_google_UpdateSettingsArgs_In(TypedDict):
 class Prv_reserve_with_google_UpdateSettingsResult_Out(TypedDict):
     updated: list[Literal["name"] | Literal["phone"] | Literal["email"]]
 
+class Prv_reserve_with_google_BookReservationArgs_In(TypedDict):
+    merchantId: str
+    startsAt: str
+    partySize: NotRequired[float]
+    note: NotRequired[str]
+
+class Prv_reserve_with_google_BookReservationResult_Out(TypedDict):
+    merchantId: str
+    startsAt: str
+    partySize: float
+    confirmed: bool
+
+class Prv_reserve_with_google_CancelBookingResult_Out(TypedDict):
+    featureId: str
+    venue: str
+    cancelled: bool
+
 class Prv_resy_search_query_u1_In(TypedDict):
     query: str
     latitude: NotRequired[float]
@@ -49058,6 +49191,14 @@ class Prv_reuters_ReutersNewsletterResult_Out(TypedDict):
     subscribed: bool
     statusCode: float
     statusMessage: str | None
+
+class Prv_reuters_ListNewsletterSubscriptionsArgs_In(TypedDict):
+    email: str
+
+class Prv_reuters_ReutersNewsletterSubscriptions_Out(TypedDict):
+    email: str
+    newsletterIds: list[str]
+    raw: str | None
 
 class Prv_reuters_GetMyNewsFeedArgs_In(TypedDict):
     limit: NotRequired[float]
@@ -53060,14 +53201,18 @@ class Prv_snapchat_SnapchatFriend_Out(TypedDict):
     addedAt: NotRequired[float]
     bitmojiAvatarId: NotRequired[str]
 
-class Prv_snapchat_addFriend_input_In(TypedDict):
+class Prv_snapchat_addFriend_input_u0_In(TypedDict):
     userId: str
+
+class Prv_snapchat_addFriend_input_u1_In(TypedDict):
+    username: str
 
 class Prv_snapchat_SnapchatFriendActionResult_Out(TypedDict):
     userId: str
     added: bool
     failureReason: NotRequired[float]
     message: NotRequired[str]
+    username: NotRequired[str]
 
 class Prv_snapchat_updateDisplayName_input_In(TypedDict):
     displayName: str
@@ -59789,7 +59934,7 @@ class Prv_tripadvisor_SearchResult_Out(TypedDict):
 
 class Prv_tripadvisor_TripadvisorLocation_Out(TypedDict):
     id: str
-    placeType: Literal["GEO"] | Literal["ACCOMMODATION"] | Literal["ATTRACTION"] | Literal["EATERY"] | Literal["AIRLINE"] | Literal["ATTRACTION_PRODUCT"] | str
+    placeType: Literal["CITY"] | Literal["STATE"] | Literal["COUNTRY"] | Literal["ACCOMMODATION"] | Literal["ATTRACTION"] | Literal["EATERY"] | Literal["AIRLINE"] | Literal["ACTIVITY"] | Literal["LOCATION"] | str
     localizedName: str
     webLinkUrl: NotRequired[str]
     parentPlace: NotRequired[list[Prv_tripadvisor_TripadvisorLocation_Out_parentPlace_item_Out]]
@@ -65541,6 +65686,14 @@ class Prv_wsj_WsjMarketIndex_Out(TypedDict):
     change: float
     changePercent: float
 
+class Prv_wsj_WsjWatchlistArgs_In(TypedDict):
+    symbol: str
+
+class Prv_wsj_WsjWatchlistWriteResult_Out(TypedDict):
+    symbol: str
+    watching: bool
+    changed: bool
+
 class Prv_wsj_WsjSaveArticleArgs_In(TypedDict):
     url: str
 
@@ -65771,6 +65924,10 @@ class Prv_x_listHomeFeed_args_In(TypedDict):
     limit: NotRequired[float]
 
 class Prv_x_listBookmarks_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_x_getListPosts_args_In(TypedDict):
+    listId: str
     limit: NotRequired[float]
 
 class Prv_x_listNotifications_args_In(TypedDict):
@@ -68563,6 +68720,44 @@ class Cap_cve_lookup(Protocol):
         """Search CVE vulnerabilities by product, keyword or phrase ({ query: "openssh" }); each
         result is the full record lookup returns.
         """
+
+class Cap_db(Protocol):
+    """A jig's own records: JSON documents in named collections, kept on Bowmark and billed by
+    size. From run: bowmark.db.set({ jig, collection, data }). A jig page calls the same
+    functions by name ("db.set") with no jig (it is the page's own). Rolling out: a call
+    answers `disabled` until storage is on for the account.
+    """
+
+    async def set(self, args: Cap_db_DbSetArgs_In, /) -> Cap_db_set_return_Out:
+        """Stores one document (a JSON object up to 16 KiB) in a collection, replacing any with the
+        same id. No id makes a new sortable one. `ifRev` refuses with `conflict` if the stored
+        rev differs (0 = only if absent).
+        """
+
+    async def get(self, args: Cap_db_get_args_In, /) -> Cap_db_get_return_Out:
+        """One document by id, or null."""
+
+    async def list(self, args: Cap_db_DbListArgs_In, /) -> Cap_db_list_return_Out:
+        """Up to 200 documents, newest-updated first by default. `where` keeps documents that
+        CONTAIN it ({ sku: "a" }); no range filters. Pass `next` back as `after` for the next
+        page.
+        """
+
+    async def patch(self, args: Cap_db_DbPatchArgs_In, /) -> Cap_db_patch_return_Out:
+        """Merges top-level keys into a stored document (null removes a key), so two writers
+        changing different keys both land.
+        """
+
+    async def delete(self, args: Cap_db_DbDeleteArgs_In, /) -> Cap_db_delete_return_Out:
+        """Deletes one document, or a whole collection with `all: true`. Always allowed, even when
+        storage is full.
+        """
+
+    async def batch(self, args: Cap_db_batch_args_In, /) -> Cap_db_batch_return_Out:
+        """Up to 100 set / patch / delete ops in one transaction: all land or none do."""
+
+    async def info(self, args: Cap_db_info_args_In, /) -> Cap_db_info_return_Out:
+        """What this jig holds per collection, and its limits."""
 
 class Cap_delegate(Protocol):
     """**A coding agent (Claude Code) in a fresh, throwaway Linux machine, for a task that
@@ -81490,6 +81685,13 @@ class Prv_fandom(Protocol):
         /api.php?action=edit&createonly=1`.
         """
 
+    async def postDiscussionPost(self, args: Prv_fandom_PostDiscussionPostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_fandom_PostDiscussionPostResult_Out:
+        """Reply to a Discussions thread on one wiki under the caller's own account — `threadId`
+        from `listDiscussionPosts` (or `getDiscussionPost`), `text` the message. Refuses before
+        sending when Fandom reads the caller as anonymous. `POST
+        /wikia.php?controller=DiscussionPost&method=create`.
+        """
+
     async def undoRevision(self, args: Prv_fandom_UndoRevisionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_fandom_EditResult_Out:
         """Undo one edit to an article under the caller's own account — `revid` from
         `listRevisions`, optionally `undoafter` to undo a run of edits. Fails with `undofailure`
@@ -85400,8 +85602,8 @@ class Prv_gst_india(Protocol):
 class Prv_hackernews(Protocol):
     """Hacker News (news.ycombinator.com) — the current top / new / best / Ask HN / Show HN /
     job stories with title, link, points and comment count, one item (story or comment) by
-    id, and keyword search over every HN story or every HN comment (with a date window),
-    through HN's own public API.
+    id, and keyword search over every HN story or every HN comment (with a date window), and
+    full nested comment threads, through HN's own public API.
     """
 
     async def topStories(self, args: Prv_hackernews_HackerNewsTopStoriesArgs_In | None = None, /) -> list[Prv_hackernews_HackerNewsItem_Out]:
@@ -85432,6 +85634,15 @@ class Prv_hackernews(Protocol):
         or unix seconds); `sort` is "relevance" (default) or "date" (newest first); `limit`
         1-100, default 20. Research community opinion and discussion. Returns [] on no match.
         Example: searchComments({ query: "rust", since: "2026-01-01" }).
+        """
+
+    async def getThread(self, args: Prv_hackernews_HackerNewsGetThreadArgs_In | float | str, /) -> Prv_hackernews_HackerNewsThread_Out:
+        """One Hacker News story or comment with its entire nested comment thread in one call —
+        every reply, every reply-to-reply, to the specified depth. Takes { id, depth? } (or a
+        bare id). Returns the top-level item with all comments arranged as nested `replies`.
+        `depth` caps how many levels of replies come back, 1-100, default 100 (the whole tree).
+        A story with 300+ comments returns in one request. THROWS on an id HN has no item for.
+        Example: getThread({ id: 8863, depth: 2 }).
         """
 
 class Prv_hamptonwaterwine(Protocol):
@@ -95991,6 +96202,19 @@ class Prv_reserve_with_google(Protocol):
         saving, the way a person would. Pass only the fields to change.
         """
 
+    async def bookReservation(self, args: Prv_reserve_with_google_BookReservationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_BookReservationResult_Out:
+        """Books a slot from checkAvailability at a Google-hosted merchant on the caller's own
+        Google account (needs the caller's Google sign-in), with party size and an optional
+        note, by picking the slot and pressing Reserve the way a person would. Stops before any
+        card deposit or prepayment.
+        """
+
+    async def cancelBooking(self, featureId: str, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_CancelBookingResult_Out:
+        """Cancels the caller's booking at one venue (needs the caller's Google sign-in), found by
+        the venue feature id listMyBookings returns, by opening it on the Bookings page and
+        confirming Cancel.
+        """
+
     async def getBooking(self, featureId: str, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_BookingVenue_Out:
         """Finds one of the caller's bookings on their Bookings page (needs the caller's Google
         sign-in) by the venue's feature id — the same id listMyBookings returns — and returns
@@ -96266,6 +96490,11 @@ class Prv_reuters(Protocol):
 
     async def unsubscribeNewsletter(self, args: Prv_reuters_ReutersNewsletterChange_In, opts: ConnectionOption | None = None, /) -> Prv_reuters_ReutersNewsletterResult_Out:
         """Unsubscribe the signed-in reader from one or more Reuters newsletters."""
+
+    async def listNewsletterSubscriptions(self, args: Prv_reuters_ListNewsletterSubscriptionsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_reuters_ReutersNewsletterSubscriptions_Out:
+        """The newsletters the signed-in reader is subscribed to, by the ids listNewsletters
+        returns, keyed on the account's email.
+        """
 
     async def getMyNewsFeed(self, args: Prv_reuters_GetMyNewsFeedArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_reuters_ReutersFeedArticle_Out]:
         """The signed-in reader's My News feed — the latest stories aggregated from everything
@@ -98101,10 +98330,10 @@ class Prv_snapchat(Protocol):
         type and when each was added.
         """
 
-    async def addFriend(self, input: Prv_snapchat_addFriend_input_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatFriendActionResult_Out:
+    async def addFriend(self, input: Prv_snapchat_addFriend_input_u0_In | Prv_snapchat_addFriend_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatFriendActionResult_Out:
         """Sends a friend add from the signed-in caller's account to one Snapchat user, by their
-        user id (a uuid, e.g. off listFriends). Snapchat for Web's username search is not
-        reachable yet, so a bare username is refused. NEEDS A SIGN-IN.
+        user id (a uuid, e.g. off listFriends) or their username, which it resolves to an id
+        first. NEEDS A SIGN-IN.
         """
 
     async def updateDisplayName(self, input: Prv_snapchat_updateDisplayName_input_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatDisplayNameResult_Out:
@@ -101568,7 +101797,10 @@ class Prv_tripadvisor(Protocol):
 
     async def search(self, args: Prv_tripadvisor_SearchArgs_In, /) -> Prv_tripadvisor_SearchResult_Out:
         """Finds places by query — a city or region, hotel, restaurant, attraction, tour or airline
-        name — returning each match's id, type, name, parent place hierarchy and url.
+        name — returning each match's id, type, name, parent place hierarchy and url. A
+        city/region/country match has placeType "CITY", "STATE" or "COUNTRY" (never "GEO"); pick
+        one of those three to get a geoId for
+        searchHotels/searchRestaurants/searchAttractions/getDestination.
         """
 
     async def searchHotels(self, args: Prv_tripadvisor_SearchHotelsArgs_In, /) -> Prv_tripadvisor_SearchHotelsResult_Out:
@@ -104498,6 +104730,16 @@ class Prv_wsj(Protocol):
         symbol, price, net change and percent change for each instrument.
         """
 
+    async def addToWatchlist(self, args: Prv_wsj_WsjWatchlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wsj_WsjWatchlistWriteResult_Out:
+        """Adds a stock to the caller's own WSJ watchlist through their signed-in WSJ session.
+        Idempotent: changed is false when it was already watched.
+        """
+
+    async def removeFromWatchlist(self, args: Prv_wsj_WsjWatchlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wsj_WsjWatchlistWriteResult_Out:
+        """Removes a stock from the caller's own WSJ watchlist through their signed-in WSJ session.
+        Idempotent: changed is false when it was not watched.
+        """
+
     async def saveArticle(self, args: Prv_wsj_WsjSaveArticleArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wsj_WsjSaveResult_Out:
         """Saves an article to the caller's own My WSJ saved list through their signed-in WSJ
         session. Idempotent: changed is false when it was already saved.
@@ -104613,6 +104855,11 @@ class Prv_x(Protocol):
     async def listBookmarks(self, args: Prv_x_listBookmarks_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XTweet_Out]:
         """Reads the signed-in caller's saved bookmarks, newest saved first, scrolling until
         `limit` is met.
+        """
+
+    async def getListPosts(self, args: Prv_x_getListPosts_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_x_XTweet_Out]:
+        """Reads the posts in an X List (by id or x.com/i/lists/<id> url) as the signed-in caller,
+        scrolling until `limit` is met.
         """
 
     async def listNotifications(self, args: Prv_x_listNotifications_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XNotification_Out]:
@@ -106885,6 +107132,7 @@ class Bowmark(Protocol):
     custom_packaging_quote: Cap_custom_packaging_quote
     custom_sofa_configurator: Cap_custom_sofa_configurator
     cve_lookup: Cap_cve_lookup
+    db: Cap_db
     delegate: Cap_delegate
     delivery: Cap_delivery
     developer_api_key_signup: Cap_developer_api_key_signup

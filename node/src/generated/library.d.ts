@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9ed6b6cfd0210a1cdce15f77ffe23b07e9f5fe00a38b3a1429c9d8f6b7b8cbc0
-// 96 capabilities, 769 providers, 4576 typed functions, 20 refused.
+// Manifest version: bfbe0de48b2a8de0b6e9cb5c9e6b8d6a1a0d534b89bebc3f5ad1f838a69cc5e6
+// 97 capabilities, 769 providers, 4591 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1302,6 +1302,60 @@ interface cve_lookupSearchResult {
      * is the full record lookup returns.
      */
     search(args: cve_lookupSearchArgs): Promise<cve_lookupSearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_db {
+  // ── Keep a jig's own records (notes, history, saved items) — the unit's own declarations, verbatim ──
+interface JigDbDoc { id: string; data: Record<string, unknown>; rev: number; createdAt: string; updatedAt: string }
+// jig is the jig's id, required in run. A jig page calls the same functions by name with no jig.
+interface DbSetArgs { jig: string; collection: string; id?: string; data: object; ifRev?: number }      // no id = server-made, sortable
+interface DbListArgs { jig: string; collection: string; where?: object; orderBy?: "updatedAt" | "createdAt" | "id"; dir?: "asc" | "desc"; limit?: number; after?: string }
+interface DbPatchArgs { jig: string; collection: string; id: string; data: object; ifRev?: number }    // top-level keys merged; null removes a key
+interface DbDeleteArgs { jig: string; collection: string; id?: string; all?: boolean }
+type DbOp = ({ op: "set" } & Omit<DbSetArgs, "jig">) | ({ op: "patch" } & Omit<DbPatchArgs, "jig">) | ({ op: "delete" } & Omit<DbDeleteArgs, "jig">)
+// Refusals throw "<code>: <message>": conflict, not_found, too_large, storage_full, rate_limited, invalid, disabled.
+
+  /**
+   * A jig's own records: JSON documents in named collections, kept on Bowmark and billed by
+   * size. From run: bowmark.db.set({ jig, collection, data }). A jig page calls the same
+   * functions by name ("db.set") with no jig (it is the page's own). Rolling out: a call answers
+   * `disabled` until storage is on for the account.
+   */
+  interface Unit {
+    /**
+     * Stores one document (a JSON object up to 16 KiB) in a collection, replacing any with the
+     * same id. No id makes a new sortable one. `ifRev` refuses with `conflict` if the stored rev
+     * differs (0 = only if absent).
+     */
+    set(args: DbSetArgs): Promise<{ id: string; rev: number; created: boolean }>;
+
+    /** One document by id, or null. */
+    get(args: { jig: string; collection: string; id: string }): Promise<{ doc: JigDbDoc | null }>;
+
+    /**
+     * Up to 200 documents, newest-updated first by default. `where` keeps documents that CONTAIN
+     * it ({ sku: "a" }); no range filters. Pass `next` back as `after` for the next page.
+     */
+    list(args: DbListArgs): Promise<{ docs: JigDbDoc[]; next?: string; rev: number }>;
+
+    /**
+     * Merges top-level keys into a stored document (null removes a key), so two writers changing
+     * different keys both land.
+     */
+    patch(args: DbPatchArgs): Promise<{ rev: number }>;
+
+    /**
+     * Deletes one document, or a whole collection with `all: true`. Always allowed, even when
+     * storage is full.
+     */
+    delete(args: DbDeleteArgs): Promise<{ deleted: number }>;
+
+    /** Up to 100 set / patch / delete ops in one transaction: all land or none do. */
+    batch(args: { jig: string; ops: DbOp[] }): Promise<{ results: unknown[] }>;
+
+    /** What this jig holds per collection, and its limits. */
+    info(args: { jig: string }): Promise<{ rows: number; bytes: number; limits: object; collections: { name: string; rows: number; bytes: number; rev: number }[] }>;
   }
 }
 
@@ -3193,7 +3247,7 @@ interface Lead {
 
 declare namespace BowmarkCapability_llm {
   // ── Ask a model, from inside a jig page — the unit's own declarations, verbatim ──
-interface LlmUsage { model: string; inputTokens: number; outputTokens: number; costUsd: number }
+interface LlmUsage { model: string; inputTokens: number; outputTokens: number; costUsd: number; servedBy: "gateway" | "chat" | "link" }  // model is "chatgpt (via Link)" / "chat" when not gateway
 
 interface LlmCompleteArgs {
   prompt: string
@@ -38725,6 +38779,20 @@ interface CreatePageArgs {
   summary?: string;
 }
 
+interface PostDiscussionPostArgs {
+  wiki: string;
+  threadId: string;
+  text: string;
+}
+
+interface PostDiscussionPostResult {
+  wiki: string;
+  id: string;
+  threadId: string;
+  text: string;
+  createdAt: string;
+}
+
 interface EditResult {
   wiki: string;
   title: string;
@@ -38943,6 +39011,14 @@ interface WatchResult {
      * /api.php?action=edit&createonly=1`.
      */
     createPage(args: CreatePageArgs, opts?: ConnectionOption): Promise<EditResult>;
+
+    /**
+     * Reply to a Discussions thread on one wiki under the caller's own account — `threadId` from
+     * `listDiscussionPosts` (or `getDiscussionPost`), `text` the message. Refuses before sending
+     * when Fandom reads the caller as anonymous. `POST
+     * /wikia.php?controller=DiscussionPost&method=create`.
+     */
+    postDiscussionPost(args: PostDiscussionPostArgs, opts?: ConnectionOption): Promise<PostDiscussionPostResult>;
 
     /**
      * Undo one edit to an article under the caller's own account — `revid` from `listRevisions`,
@@ -49258,6 +49334,23 @@ interface HackerNewsCommentHit {
   storyUrl: string | null;
   hnUrl: string;
 }
+interface HackerNewsComment {
+  id: number;
+  by: string | null;
+  text: string;
+  time: string | null;
+  score: number | null;
+  replies: HackerNewsComment[];
+}
+interface HackerNewsThread {
+  id: number;
+  by: string | null;
+  title: string | null;
+  text: string | null;
+  time: string | null;
+  score: number | null;
+  replies: HackerNewsComment[];
+}
 interface HackerNewsSearchCommentsArgs {
   query: string;
   since?: string | number;
@@ -49269,12 +49362,16 @@ interface HackerNewsTopStoriesArgs {
   list?: "top" | "new" | "best" | "ask" | "show" | "job";
   limit?: number;
 }
+interface HackerNewsGetThreadArgs {
+  id: number | string;
+  depth?: number;
+}
 
   /**
    * Hacker News (news.ycombinator.com) — the current top / new / best / Ask HN / Show HN / job
    * stories with title, link, points and comment count, one item (story or comment) by id, and
-   * keyword search over every HN story or every HN comment (with a date window), through HN's
-   * own public API.
+   * keyword search over every HN story or every HN comment (with a date window), and full nested
+   * comment threads, through HN's own public API.
    */
   interface Unit {
     /**
@@ -49309,6 +49406,16 @@ interface HackerNewsTopStoriesArgs {
      * query: "rust", since: "2026-01-01" }).
      */
     searchComments(args: string | HackerNewsSearchCommentsArgs): Promise<HackerNewsCommentHit[]>;
+
+    /**
+     * One Hacker News story or comment with its entire nested comment thread in one call — every
+     * reply, every reply-to-reply, to the specified depth. Takes { id, depth? } (or a bare id).
+     * Returns the top-level item with all comments arranged as nested `replies`. `depth` caps how
+     * many levels of replies come back, 1-100, default 100 (the whole tree). A story with 300+
+     * comments returns in one request. THROWS on an id HN has no item for. Example: getThread({
+     * id: 8863, depth: 2 }).
+     */
+    getThread(args: HackerNewsGetThreadArgs | number | string): Promise<HackerNewsThread>;
   }
 }
 
@@ -78505,6 +78612,32 @@ interface UpdateSettingsResult {
   updated: Array<"name" | "phone" | "email">;
 }
 
+interface BookReservationArgs {
+  /** Google-hosted merchant id, e.g. "ACNsCyuOaeQ". */
+  merchantId: string;
+  /** A slot's startsAt from checkAvailability, ISO UTC. */
+  startsAt: string;
+  /** Party size; defaults to 2. */
+  partySize?: number;
+  /** Optional note to the venue, filled when the form has a note field. */
+  note?: string;
+}
+
+interface BookReservationResult {
+  merchantId: string;
+  startsAt: string;
+  partySize: number;
+  /** True once Google's own endpoint answered OK to Reserve. */
+  confirmed: boolean;
+}
+
+interface CancelBookingResult {
+  featureId: string;
+  /** The venue name the cancelled booking was at. */
+  venue: string;
+  cancelled: boolean;
+}
+
 interface CheckAvailabilityArgs {
   /** Google-hosted merchant id from findBookablePlaces/getBookingOptions, e.g. "ACNsCyuOaeQ". */
   merchantId: string;
@@ -78595,6 +78728,21 @@ interface Availability {
      * the way a person would. Pass only the fields to change.
      */
     updateSettings(args: UpdateSettingsArgs, opts?: ConnectionOption): Promise<UpdateSettingsResult>;
+
+    /**
+     * Books a slot from checkAvailability at a Google-hosted merchant on the caller's own Google
+     * account (needs the caller's Google sign-in), with party size and an optional note, by
+     * picking the slot and pressing Reserve the way a person would. Stops before any card deposit
+     * or prepayment.
+     */
+    bookReservation(args: BookReservationArgs, opts?: ConnectionOption): Promise<BookReservationResult>;
+
+    /**
+     * Cancels the caller's booking at one venue (needs the caller's Google sign-in), found by the
+     * venue feature id listMyBookings returns, by opening it on the Bookings page and confirming
+     * Cancel.
+     */
+    cancelBooking(featureId: string, opts?: ConnectionOption): Promise<CancelBookingResult>;
 
     /**
      * Finds one of the caller's bookings on their Bookings page (needs the caller's Google
@@ -79198,6 +79346,14 @@ interface ReutersNewsletterResult {
   statusCode: number;         // reuters.com's own status (under 400 = done)
   statusMessage: string | null;
 }
+interface ListNewsletterSubscriptionsArgs {
+  email: string;              // the signed-in account's address — reuters.com keys subscriptions on it
+}
+interface ReutersNewsletterSubscriptions {
+  email: string;
+  newsletterIds: string[];    // ids as listNewsletters returns them
+  raw: string | null;         // reuters.com's own String answer, unparsed
+}
 interface ReutersArticleRef {
   id: string;                 // the article id listSavedArticles / getMyNewsFeed return
 }
@@ -79436,6 +79592,12 @@ interface GetMyNewsFeedArgs {
 
     /** Unsubscribe the signed-in reader from one or more Reuters newsletters. */
     unsubscribeNewsletter(args: ReutersNewsletterChange, opts?: ConnectionOption): Promise<ReutersNewsletterResult>;
+
+    /**
+     * The newsletters the signed-in reader is subscribed to, by the ids listNewsletters returns,
+     * keyed on the account's email.
+     */
+    listNewsletterSubscriptions(args: ListNewsletterSubscriptionsArgs, opts?: ConnectionOption): Promise<ReutersNewsletterSubscriptions>;
 
     /**
      * The signed-in reader's My News feed — the latest stories aggregated from everything
@@ -85284,6 +85446,7 @@ interface SnapchatFriendActionResult {
   added: boolean; // Snapchat accepted the add
   failureReason?: number; // Snapchat's own refusal enum, when it refused
   message?: string;
+  username?: string; // set when the add was made by username
 }
 
   /**
@@ -85412,10 +85575,10 @@ interface SnapchatFriendActionResult {
 
     /**
      * Sends a friend add from the signed-in caller's account to one Snapchat user, by their user
-     * id (a uuid, e.g. off listFriends). Snapchat for Web's username search is not reachable yet,
-     * so a bare username is refused. NEEDS A SIGN-IN.
+     * id (a uuid, e.g. off listFriends) or their username, which it resolves to an id first. NEEDS
+     * A SIGN-IN.
      */
-    addFriend(input: { userId: string }, opts?: ConnectionOption): Promise<SnapchatFriendActionResult>;
+    addFriend(input: { userId: string } | { username: string }, opts?: ConnectionOption): Promise<SnapchatFriendActionResult>;
 
     /**
      * Changes the signed-in caller's Snapchat display name (the name friends see, not the
@@ -95389,7 +95552,7 @@ declare namespace BowmarkProvider_tripadvisor {
   // ── Tripadvisor — the unit's own declarations, verbatim ──
 interface TripadvisorLocation {
   id: string;
-  placeType: "GEO" | "ACCOMMODATION" | "ATTRACTION" | "EATERY" | "AIRLINE" | "ATTRACTION_PRODUCT" | string;
+  placeType: "CITY" | "STATE" | "COUNTRY" | "ACCOMMODATION" | "ATTRACTION" | "EATERY" | "AIRLINE" | "ACTIVITY" | "LOCATION" | string;
   localizedName: string;
   webLinkUrl?: string;
   parentPlace?: { id?: string; localizedName?: string }[];
@@ -95671,7 +95834,10 @@ interface TripadvisorNearbyListing {
   interface Unit {
     /**
      * Finds places by query — a city or region, hotel, restaurant, attraction, tour or airline
-     * name — returning each match's id, type, name, parent place hierarchy and url.
+     * name — returning each match's id, type, name, parent place hierarchy and url. A
+     * city/region/country match has placeType "CITY", "STATE" or "COUNTRY" (never "GEO"); pick one
+     * of those three to get a geoId for
+     * searchHotels/searchRestaurants/searchAttractions/getDestination.
      */
     search(args: SearchArgs): Promise<SearchResult>;
 
@@ -103876,6 +104042,16 @@ interface WsjArticle {
   url: string;
 }
 
+interface WsjWatchlistArgs {
+  symbol: string; // a stock ticker, e.g. "AAPL"
+}
+
+interface WsjWatchlistWriteResult {
+  symbol: string;
+  watching: boolean; // whether the symbol is on the caller's watchlist after the call
+  changed: boolean; // false when it was already in that state
+}
+
 interface WsjSaveArticleArgs {
   url: string; // a www.wsj.com article url, e.g. from listArticles or listSavedArticles
 }
@@ -104081,6 +104257,18 @@ interface WsjTrendingArticle {
      * symbol, price, net change and percent change for each instrument.
      */
     getWatchlist(opts?: ConnectionOption): Promise<WsjMarketIndex[]>;
+
+    /**
+     * Adds a stock to the caller's own WSJ watchlist through their signed-in WSJ session.
+     * Idempotent: changed is false when it was already watched.
+     */
+    addToWatchlist(args: WsjWatchlistArgs, opts?: ConnectionOption): Promise<WsjWatchlistWriteResult>;
+
+    /**
+     * Removes a stock from the caller's own WSJ watchlist through their signed-in WSJ session.
+     * Idempotent: changed is false when it was not watched.
+     */
+    removeFromWatchlist(args: WsjWatchlistArgs, opts?: ConnectionOption): Promise<WsjWatchlistWriteResult>;
 
     /**
      * Saves an article to the caller's own My WSJ saved list through their signed-in WSJ session.
@@ -104422,6 +104610,12 @@ interface XUploadProfilePictureResult {
      * met.
      */
     listBookmarks(args?: { limit?: number }, opts?: ConnectionOption): Promise<XTweet[]>;
+
+    /**
+     * Reads the posts in an X List (by id or x.com/i/lists/<id> url) as the signed-in caller,
+     * scrolling until `limit` is met.
+     */
+    getListPosts(args: { listId: string; limit?: number }, opts?: ConnectionOption): Promise<XTweet[]>;
 
     /**
      * Reads the signed-in caller's notifications — likes, reposts, follows, replies, mentions and
@@ -159839,6 +160033,7 @@ interface BowmarkLibrary {
   custom_packaging_quote: BowmarkCapability_custom_packaging_quote.Unit;
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
   cve_lookup: BowmarkCapability_cve_lookup.Unit;
+  db: BowmarkCapability_db.Unit;
   delegate: BowmarkCapability_delegate.Unit;
   delivery: BowmarkCapability_delivery.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;

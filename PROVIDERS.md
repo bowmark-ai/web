@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6093 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6096 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -107,6 +107,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `agoda.searchArea` | agoda.com | Search hotels within an Agoda area or around a landmark rather than a whole city. | ⚪ |
 | `agoda.searchFlights` | agoda.com | Search flights on Agoda's flights vertical. | ⚪ |
 | `agoda.searchHotels` | agoda.com | Search Agoda hotels in a city for check-in/check-out dates; returns live cheapest-room… | 🟢 |
+| `ahrefs.getDomainRating` | ahrefs.com | Returns Ahrefs' 0–100 Domain Rating for one domain or URL. | 🟢 |
 | `ai_engineer.getSpeaker` | ai.engineer | Returns detailed information about one speaker from the AI Engineer conference… | 🟢 |
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟢 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
@@ -1834,7 +1835,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.listEditorsPicks` | etsy.com | Etsy's Editors' Picks. | 🟢 |
 | `etsy.listFavoriteItems` | etsy.com | The listings the signed-in caller has favorited (hearted), newest first. | ⚪ |
 | `etsy.listFavoriteShops` | etsy.com | The shops the signed-in caller has favorited. | ⚪ |
-| `etsy.listListingReviews` | etsy.com | The reviews on one Etsy listing, as the listing page's own `Product` structured data… | 🟢 |
+| `etsy.listListingReviews` | etsy.com | The reviews on one Etsy listing, as the listing page's own `Product` structured data… | 🟡 |
 | `etsy.listPurchases` | etsy.com | The signed-in caller's Etsy orders, newest first — shop, items, total, order date and… | ⚪ |
 | `etsy.listShopListings` | etsy.com | The items on the first page of an Etsy shop, from the shop page's own `ItemList`… | 🟡 |
 | `etsy.listShopReviews` | etsy.com | One page of the reviews an Etsy shop has received across all its listings, newest… | 🟢 |
@@ -1961,14 +1962,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.listRevisions` | fandom.com | An article's edit history on this wiki — each revision with its id, timestamp, editor… | 🟢 |
 | `fandom.listUserContributions` | fandom.com | Every edit one named editor has made on this wiki, newest first. `GET… | 🟡 |
 | `fandom.listWatchlist` | fandom.com | The caller's own watchlist on one wiki — recent edits to the pages they follow, newest… | 🟢 |
-| `fandom.postDiscussionPost` | fandom.com | Post a new message to a wiki's Discussions forum, under the caller's own account.… | ⚪ |
+| `fandom.postDiscussionPost` | fandom.com | Reply to a Discussions thread on one wiki under the caller's own account — `threadId`… | 🟢 |
 | `fandom.search` | fandom.com | Search one wiki the way a person types into its search box — hand it a `wiki`… | 🟢 |
 | `fandom.suggestTitles` | fandom.com | Autocomplete a partial title within one wiki, the way its search box does as you type.… | 🟢 |
 | `fandom.undoRevision` | fandom.com | Undo one edit to an article under the caller's own account — `revid` from… | 🔴 |
 | `fandom.unwatchPage` | fandom.com | Remove an article from the caller's own watchlist on one wiki — `{ wiki, title }` or… | 🟢 |
 | `fandom.watchPage` | fandom.com | Add an article to the caller's own watchlist on one wiki — `{ wiki, title }` or the… | 🟢 |
 | `fareharbor.cancelBooking` | fareharbor.com | Cancel an existing booking by confirmation number. | ⚪ |
-| `fareharbor.createBooking` | fareharbor.com | Places a booking for a slot and ticket mix under a contact (name, email, phone)… | 🔴 |
+| `fareharbor.createBooking` | fareharbor.com | Places a booking for a slot and ticket mix under a contact (name, email, phone)… | 🟢 |
 | `fareharbor.getAvailabilitySlot` | fareharbor.com | Get details of a specific available time slot including start time, duration… | 🟢 |
 | `fareharbor.getBooking` | fareharbor.com | Retrieve details of a created booking including confirmation number and booking status. | ⚪ |
 | `fareharbor.getItem` | fareharbor.com | Get detailed information about a specific item including title, description, and… | 🟢 |
@@ -2592,6 +2593,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grubhub.updateCartItem` | grubhub.com | Sets the quantity of one Grubhub cart line, keeping its options, and returns the cart. | 🟢 |
 | `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟢 |
 | `hackernews.getItem` | news.ycombinator.com | Returns one Hacker News item — story, comment, job or poll — by its numeric id or… | 🟢 |
+| `hackernews.getThread` | news.ycombinator.com | Returns a Hacker News story or comment with its entire nested comment thread in one… | 🟢 |
 | `hackernews.search` | news.ycombinator.com | Keyword-searches every Hacker News story through HN's own search (hn.algolia.com)… | 🟢 |
 | `hackernews.searchComments` | news.ycombinator.com | Search Hacker News comments for community discussion and opinion on a topic. | 🟢 |
 | `hackernews.topStories` | news.ycombinator.com | Returns the stories on the Hacker News front page (or the new, best, Ask HN, Show HN… | 🟢 |
@@ -4171,8 +4173,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `resend.updateTopic` | resend.com | Edit a Resend topic's name, description or visibility. | 🟢 |
 | `resend.upgradePlan` | resend.com | Upgrade or change the Resend billing plan. | ⚪ |
 | `resend.uploadSupportAttachment` | resend.com | Request an upload slot for a support-chat attachment. | ⚪ |
-| `reserve_with_google.bookReservation` | google.com/maps/reserve | Books a slot from checkAvailability on the caller's own Google account, with party… | ⚪ |
-| `reserve_with_google.cancelBooking` | google.com/maps/reserve | Cancels one of the caller's bookings by id and returns the cancellation status. | ⚪ |
+| `reserve_with_google.bookReservation` | google.com/maps/reserve | Books a slot from checkAvailability on the caller's own Google account, with party… | 🟢 |
+| `reserve_with_google.cancelBooking` | google.com/maps/reserve | Cancels the caller's booking at one venue, found by the venue feature id… | 🟢 |
 | `reserve_with_google.checkAvailability` | google.com/maps/reserve | For a Google-hosted merchant and party size, returns every bookable day plus the time… | 🔴 |
 | `reserve_with_google.findBookablePlaces` | google.com/maps/reserve | Finds places you can book through Reserve with Google from words — "sushi near Union… | 🟢 |
 | `reserve_with_google.getBooking` | google.com/maps/reserve | Finds one of the caller's bookings on their Bookings page by the venue's feature id —… | 🟢 |
@@ -4216,7 +4218,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listLatestNews` | www.reuters.com | The newest Reuters stories across the whole site, newest first — headline, url… | 🟡 |
 | `reuters.listMostRead` | www.reuters.com | The "most read" stories Reuters shows beside its articles: rank, headline and url. | ⚪ |
 | `reuters.listNewsletters` | www.reuters.com | Every Reuters newsletter: name, id, landing page, description, frequency and whether… | 🟢 |
-| `reuters.listNewsletterSubscriptions` | www.reuters.com | The newsletters the signed-in reader is subscribed to. | ⚪ |
+| `reuters.listNewsletterSubscriptions` | www.reuters.com | The newsletters the signed-in reader is subscribed to. | 🟢 |
 | `reuters.listPictureGalleries` | www.reuters.com | Reuters photo galleries ("Pictures"), newest first: title, url, published time and… | 🟢 |
 | `reuters.listPodcastEpisodes` | www.reuters.com | The latest episodes of one Reuters podcast show, newest first: title, description… | 🟢 |
 | `reuters.listPodcasts` | www.reuters.com | The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On… | 🟢 |
@@ -4491,7 +4493,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.removeFromCart` | shein.com | Removes an item from the signed-in caller's bag. | ⚪ |
 | `shein.removeFromWishlist` | shein.com | Removes a product from the signed-in caller's wishlist. | ⚪ |
 | `shein.requestReturn` | shein.com | Starts a return or refund for an item in one of the signed-in caller's orders. | ⚪ |
-| `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | 🟡 |
+| `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | 🟢 |
 | `shein.searchByImage` | shein.com | Finds products that look like a given image — Shein's camera/photo search. | ⚪ |
 | `shein.updateCartItem` | shein.com | Changes the quantity, size or colour of an item in the signed-in caller's bag. | ⚪ |
 | `shein.updateProfile` | shein.com | Edits the signed-in caller's profile — nickname, birthday, or the body measurements… | ⚪ |
@@ -4693,7 +4695,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spectrum.getUsageSummary` | spectrum.com | The signed-in caller's Spectrum Mobile usage for the current bill cycle (data… | 🟢 |
 | `spectrum.listInternetPlans` | spectrum.com | Every residential internet-only plan Spectrum advertises on… | 🟢 |
 | `spectrum.listMobileDeals` | spectrum.com | Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals… | 🟢 |
-| `spectrum.listMobilePlans` | spectrum.com | The three Spectrum Mobile "Unlimited" plans on spectrum.com/mobile/plans (Unlimited… | 🟢 |
+| `spectrum.listMobilePlans` | spectrum.com | The three Spectrum Mobile "Unlimited" plans on spectrum.com/mobile/plans (Unlimited… | 🟡 |
 | `spectrum.listTvAddOns` | spectrum.com | Every premium channel and add-on package Spectrum advertises on… | 🟢 |
 | `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, the page's… | 🟢 |
 | `spectrum.payBill` | spectrum.com | Pay the signed-in caller's Spectrum bill using a payment method already on the account. | ⚪ |
@@ -5839,7 +5841,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `workable.listJobs` | workable.com | Lists every published job on one company's Workable careers page… | 🟢 |
 | `workday.getJob` | myworkdayjobs.com | Reads one posting's full description, exact posted date, time type and every location… | ⚪ |
 | `workday.listJobs` | myworkdayjobs.com | Lists open jobs on one company's Workday careers site… | 🟢 |
-| `wsj.addToWatchlist` | wsj.com | Adds a symbol to the signed-in reader's own watchlist. | ⚪ |
+| `wsj.addToWatchlist` | wsj.com | Adds a stock to the caller's own WSJ watchlist through their signed-in WSJ session, by… | 🟢 |
 | `wsj.getArticle` | wsj.com | Gets one article's own headline, byline, dek, section, publish date and body. | 🟢 |
 | `wsj.getArticleFullText` | wsj.com | Gets the full text of a subscriber-only article using the CALLER's own WSJ… | 🟢 |
 | `wsj.getAuthor` | wsj.com | Gets a WSJ journalist's own byline page (/news/author/<slug>) — name, title/beat, bio… | 🟢 |
@@ -5857,7 +5859,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.listSavedArticles` | wsj.com | Lists the articles the caller has saved to their own My WSJ account, through the… | 🟢 |
 | `wsj.listSections` | wsj.com | Lists WSJ's own news sections and verticals (World, Business, Markets, Tech, Opinion… | 🟡 |
 | `wsj.listTrending` | wsj.com | Lists WSJ's own Most Popular articles right now — the homepage's top news and top… | 🟢 |
-| `wsj.removeFromWatchlist` | wsj.com | Removes a symbol from the signed-in reader's own watchlist. | ⚪ |
+| `wsj.removeFromWatchlist` | wsj.com | Removes a stock from the caller's own WSJ watchlist through their signed-in WSJ… | 🟢 |
 | `wsj.saveArticle` | wsj.com | Saves an article to the caller's own My WSJ saved list, through their signed-in WSJ… | 🟢 |
 | `wsj.searchArticles` | wsj.com | Searches WSJ's own site search for a keyword and returns matching articles with… | 🟢 |
 | `wsj.unsaveArticle` | wsj.com | Removes an article from the caller's own My WSJ saved list, through their signed-in… | 🟢 |
@@ -5867,6 +5869,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.deletePost` | x.com | Delete one of the signed-in account's own posts. | 🟢 |
 | `x.followUser` | x.com | Follow or unfollow a user as the signed-in account — one `follow` boolean argument… | 🟢 |
 | `x.getConversation` | x.com | The messages inside one of the signed-in account's DM conversations. | 🟢 |
+| `x.getListPosts` | x.com | The posts in an X List, read as the signed-in caller. | 🟢 |
 | `x.getPostReplies` | x.com | Reads the reply thread under a single X post — the same status page `post` reads, but… | 🟢 |
 | `x.likePost` | x.com | Like or unlike a post as the signed-in account — one `like` boolean argument picks the… | 🟢 |
 | `x.listBookmarks` | x.com | The signed-in account's saved bookmarks. | 🟢 |

@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 153 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 160 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -40,6 +40,13 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `custom_sofa_configurator.priceConfiguration` | Prices ONE exact configuration against the maker's own live customizer and returns the… | 2 | 🟢 |
 | `cve_lookup.lookup` | One CVE by id ("CVE-2021-44228"): description, CVSS score and severity, CWE, affected… | 1 | 🟢 |
 | `cve_lookup.search` | Search CVE vulnerabilities by product, keyword or phrase ({ query: "openssh" }); each… | 1 | 🟢 |
+| `db.batch` | Up to 100 set / patch / delete ops in one transaction: all land or none do. | 0 | 🟢 |
+| `db.delete` | Deletes one document, or a whole collection with `all: true`. Always allowed, even… | 0 | 🟢 |
+| `db.get` | One document by id, or null. | 0 | 🟢 |
+| `db.info` | What this jig holds per collection, and its limits. | 0 | 🟢 |
+| `db.list` | Up to 200 documents, newest-updated first by default. `where` keeps documents that… | 0 | 🟢 |
+| `db.patch` | Merges top-level keys into a stored document (null removes a key), so two writers… | 0 | 🟢 |
+| `db.set` | Stores one document (a JSON object up to 16 KiB) in a collection, replacing any with… | 0 | 🟢 |
 | `delegate.list` | Lists this account's delegate sessions (open ones by default). | 1 | 🟢 |
 | `delegate.send` | Continues the same conversation in the same machine after a turn has finished: a… | 1 | 🟢 |
 | `delegate.start` | Boots a fresh Linux machine running Claude Code on `prompt`, optionally inside a clone… | 1 | 🟢 |
