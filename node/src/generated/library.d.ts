@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6627c09bd201c951ab88787f3411ba4e92e1b5428c0aa85b3fc857e95159f9c5
-// 97 capabilities, 773 providers, 4616 typed functions, 20 refused.
+// Manifest version: 56411145ede9d8ee637e0c9d2b3ba0896bd356f720ee5e2909e8128fc4b06f65
+// 97 capabilities, 774 providers, 4622 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30301,6 +30301,13 @@ interface DailymotionPlaylistEntryResult {
   video: string;
   inPlaylist: boolean;
 }
+interface DeletePlaylistArgs {
+  playlist: string;
+}
+interface DailymotionDeletedPlaylist {
+  playlist: string;
+  deleted: true;
+}
 interface AddToWatchLaterArgs {
   video: string;
   add?: boolean;
@@ -30529,6 +30536,9 @@ interface DailymotionListMyPlaylistsResult {
      * Needs the caller signed in.
      */
     addToPlaylist(args: AddToPlaylistArgs, opts?: ConnectionOption): Promise<DailymotionPlaylistEntryResult>;
+
+    /** Delete one of the signed-in caller's own Dailymotion playlists. Needs the caller signed in. */
+    deletePlaylist(args: DeletePlaylistArgs, opts?: ConnectionOption): Promise<DailymotionDeletedPlaylist>;
 
     /**
      * Create a playlist on the signed-in caller's Dailymotion account — private unless private:
@@ -78602,6 +78612,44 @@ interface RedditProfileText {
   }
 }
 
+declare namespace BowmarkProvider_redfin {
+  // ── Redfin — the unit's own declarations, verbatim ──
+interface RedfinHome {
+  propertyId: string; listingId: string | null;
+  address: string | null; city: string | null; state: string | null; zip: string | null;
+  price: number | null; beds: number | null; baths: number | null;
+  sqft: number | null; lotSqft: number | null; yearBuilt: number | null;
+  propertyType: string | null;   // house, condo, townhouse, multi-family, land, …
+  status: string | null;         // MLS status: "Active", "Coming Soon", "Pending"
+  latitude: number | null; longitude: number | null;
+  remarks: string | null;        // the listing description
+  url: string;                   // the home's redfin.com page
+}
+
+interface RedfinSearch {
+  regionId: number; regionType: number;
+  scanned: number;               // rows Redfin returned (max 350) before filters
+  total: number;                 // rows after filters
+  homes: RedfinHome[];
+  warnings: string[];
+}
+
+  /**
+   * Homes for sale on Redfin in a city, neighborhood or county — price, beds, baths, square
+   * feet, status and link — live off Redfin's own map-search JSON.
+   */
+  interface Unit {
+    /**
+     * Homes for sale on Redfin in one region, live. Pass a redfin.com city / neighborhood / county
+     * URL ("https://www.redfin.com/city/16163/WA/Seattle") or { regionId, regionType } (6 city, 1
+     * neighborhood, 5 county). Filters (minPrice, maxPrice, minBeds, propertyType) run on the
+     * up-to-350 rows Redfin returns; limit defaults to 50. A ZIP or free-text place is refused —
+     * Redfin blocks its place lookup — so find the city URL first.
+     */
+    search(query: string | { url?: string; regionId?: number; regionType?: number; minPrice?: number; maxPrice?: number; minBeds?: number; propertyType?: string; limit?: number }): Promise<RedfinSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_rei {
   // ── REI Co-op — the unit's own declarations, verbatim ──
 interface ReiSearchArgs {
@@ -99061,61 +99109,75 @@ interface usatodayVideoDetail {
      * Lists USA Today's main news sections (news, sports, money, life, tech, opinion), each with a
      * section ID and display name. This is the door for browsing a section.
      */
-    listSections(): Promise<usatodaySection[]>;
+    listSections(opts?: ConnectionOption): Promise<usatodaySection[]>;
 
     /**
      * Lists articles in one USA Today section, paginated, showing headline, summary, URL, date and
      * image. Uses the section IDs from listSections.
      */
-    browseSection(args: BrowseSectionArgs): Promise<usatodayArticle[]>;
+    browseSection(args: BrowseSectionArgs, opts?: ConnectionOption): Promise<usatodayArticle[]>;
 
     /**
      * Searches USA Today's news archive for articles matching a free-text query, returning
      * headline, summary, URL, date and image. Paginated results sorted by relevance.
      */
-    searchNews(args: SearchNewsArgs): Promise<usatodayArticle[]>;
+    searchNews(args: SearchNewsArgs, opts?: ConnectionOption): Promise<usatodayArticle[]>;
 
     /**
      * Reads the USA Today homepage and returns the top headlines currently displayed — the lead
      * stories, top news items, and featured sections.
      */
-    listHomepageHeadlines(): Promise<usatodayArticle[]>;
+    listHomepageHeadlines(opts?: ConnectionOption): Promise<usatodayArticle[]>;
 
     /**
      * Reads the full text of one USA Today article, returning headline, byline, body text,
      * publication and update dates, section, image, and whether it is free to read.
      */
-    getArticle(args: GetArticleArgs): Promise<usatodayFullArticle>;
+    getArticle(args: GetArticleArgs, opts?: ConnectionOption): Promise<usatodayFullArticle>;
 
     /**
      * Reads sports scores from USA Today's scores section — given a sport like NFL, NBA, MLB, MLS
      * — returning game results with home and away teams, scores, date and status.
      */
-    getScores(args: GetScoresArgs): Promise<usatodayScore[]>;
+    getScores(args: GetScoresArgs, opts?: ConnectionOption): Promise<usatodayScore[]>;
 
     /**
      * Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games and
      * more), each with an id, display name and play URL.
      */
-    listPuzzles(): Promise<usatodayPuzzle[]>;
+    listPuzzles(opts?: ConnectionOption): Promise<usatodayPuzzle[]>;
 
     /**
      * Reads the details of one USA Today puzzle — given a puzzle ID — returning the puzzle type,
      * difficulty, date created, and play URL.
      */
-    getPuzzle(args: GetPuzzleArgs): Promise<usatodayPuzzleDetail>;
+    getPuzzle(args: GetPuzzleArgs, opts?: ConnectionOption): Promise<usatodayPuzzleDetail>;
 
     /**
      * Lists the videos on USA Today's videos hub, each with a title, description, thumbnail URL
      * and publish date. Duration is not shown on the hub page.
      */
-    listVideos(): Promise<usatodayVideo[]>;
+    listVideos(opts?: ConnectionOption): Promise<usatodayVideo[]>;
 
     /**
      * Reads one USA Today video — given the url a listVideos row returns — returning its title,
      * description, duration, publish date, thumbnail and video file URL.
      */
-    getVideo(args: GetVideoArgs): Promise<usatodayVideoDetail>;
+    getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<usatodayVideoDetail>;
+
+    /**
+     * Makes a NEW USA Today account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -106383,6 +106445,56 @@ interface YahooSportsNews {
   stories: YahooSportsNewsStory[];
 }
 
+interface GetTeamStatsArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  teamSlug: string; // listTeams()' slug, e.g. "kansas-city", or an exact team name/abbreviation
+}
+
+interface YahooSportsTeamStatValue {
+  key: string; // the site's own stable column id, e.g. "PASSING_YARDS" — unique within a category
+  label: string; // the short label as rendered, e.g. "Yds" — not unique
+  title: string | null; // the long name, e.g. "Passing Yards"
+  value: string; // the displayed value, verbatim ("1795", "66.4", "34:23", "3-3")
+}
+
+interface YahooSportsTeamStatPlayer {
+  name: string;
+  playerId: string | null;
+  url: string | null; // the url getPlayer takes
+  stats: YahooSportsTeamStatValue[];
+}
+
+interface YahooSportsTeamStatCategory {
+  category: string; // the site's own heading, verbatim — "Passing", "Rushing", "Averages"
+  players: YahooSportsTeamStatPlayer[];
+}
+
+interface YahooSportsTeamStats {
+  league: string;
+  teamSlug: string;
+  categories: YahooSportsTeamStatCategory[];
+}
+
+interface GetPlayerNewsArgs {
+  playerUrl: string; // the url getPlayer takes, e.g. "https://sports.yahoo.com/nfl/players/30123/"
+}
+
+interface YahooSportsPlayerNewsItem {
+  headline: string;
+  url: string; // the item's page on Yahoo Sports
+  sourceUrl: string | null; // the publisher's own copy, when it differs
+  provider: string | null; // e.g. "Chiefs Wire", "NBC Sports"
+  author: string | null;
+  published: string | null; // ISO timestamp
+  summary: string | null;
+}
+
+interface YahooSportsPlayerNews {
+  playerUrl: string;
+  stories: YahooSportsPlayerNewsItem[]; // the player's story stream, newest first (about ten)
+  videos: YahooSportsPlayerNewsItem[]; // the player's video rail (about thirty) — team-level clips mixed in
+}
+
 interface GetFantasyLeagueArgs {
   // The league's numeric id off its own URL (football.fantasysports.yahoo.com/f1/<leagueId>).
   leagueId: string;
@@ -106523,6 +106635,22 @@ interface YahooFantasyTeamDetail {
      * name/abbreviation such as getOdds' `abbr` ("IND").
      */
     getTeamRoster(args: GetTeamRosterArgs): Promise<YahooSportsRosterRow[]>;
+
+    /**
+     * Reads one team's season stats off its own Stats page — every category the site publishes
+     * (nfl: Passing, Rushing, Receiving, Kicking, Kickoffs, Punts, Returns, Defense; nba:
+     * Averages), each player with their stat line, player id and the url getPlayer takes. Answers
+     * "who is the Chiefs' leading rusher". teamSlug is listTeams/getStandings `slug` or an exact
+     * team name/abbreviation.
+     */
+    getTeamStats(args: GetTeamStatsArgs): Promise<YahooSportsTeamStats>;
+
+    /**
+     * Reads one player's News tab — the stories about that player (headline, Yahoo url, publisher,
+     * author, time, summary) and the video rail beside them. Takes the same playerUrl getPlayer
+     * takes. For a whole league's news use getNews.
+     */
+    getPlayerNews(args: GetPlayerNewsArgs): Promise<YahooSportsPlayerNews>;
 
     /**
      * Finds players on one team's roster by name — the door for `getPlayer`, so a caller holding a
@@ -110472,6 +110600,7 @@ interface BowmarkProviders {
   recreation_gov: BowmarkProvider_recreation_gov.Unit;
   recruitee: BowmarkProvider_recruitee.Unit;
   reddit: BowmarkProvider_reddit.Unit;
+  redfin: BowmarkProvider_redfin.Unit;
   rei: BowmarkProvider_rei.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
   renttherunway: BowmarkProvider_renttherunway.Unit;

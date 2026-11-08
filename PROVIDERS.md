@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6109 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6110 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -995,6 +995,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chappellet.listWines` | chappellet.com | Reads Chappellet's live public wine shop as the storefront publishes it — every… | 🟢 |
 | `charterhomes.getScheduleVisitOptions` | charterhomes.com | Reads Charter's live schedule-a-visit page and returns every bookable neighborhood… | 🟢 |
 | `charterhomes.searchHomes` | charterhomes.com | Searches Charter Homes & Neighborhoods' live for-sale home inventory by… | 🟢 |
+| `chase.search` | chase.com | Searches Chase's public site for products, rates, branches and help pages, returning… | 🟢 |
 | `chatgpt.archiveConversation` | chatgpt.com | Archives (or un-archives) one of the CALLER's conversations. | ⚪ |
 | `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | ⚪ |
 | `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | 🟢 |
@@ -1246,8 +1247,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnbc_com.listCategories` | cnbc.com | Lists CNBC's news categories and sections — Markets, Investing, Earnings, Economy… | ⚪ |
 | `cnbc_com.listCommodities` | cnbc.com | Lists commodity prices — crude oil, natural gas, gold, silver, copper, wheat and other… | ⚪ |
 | `cnbc_com.listCurrencies` | cnbc.com | Lists major currency exchange rates — USD/EUR, USD/GBP, USD/JPY and others — with… | ⚪ |
-| `cnbc_com.listMarkets` | cnbc.com | Returns the current state of all major market indices — Dow Jones, S&P 500, Nasdaq… | ⚪ |
-| `cnbc_com.listNews` | cnbc.com | Returns the latest news and articles from CNBC — headlines, publication date, author… | ⚪ |
+| `cnbc_com.listMarkets` | cnbc.com | Returns the current state of all major market indices — Dow Jones, S&P 500, Nasdaq… | 🟢 |
+| `cnbc_com.listNews` | cnbc.com | Returns the latest news and articles from CNBC — headlines, publication date, author… | 🟢 |
 | `cnbc_com.listQuotes` | cnbc.com | Returns stock quotes for multiple symbols in one call — the same fields as getQuote… | 🟢 |
 | `cnbc_com.listSectors` | cnbc.com | Lists S&P 500 sector performance — sector name, price change, percent change, and top… | ⚪ |
 | `cnbc_com.listVideosByCategory` | cnbc.com | Lists CNBC videos by category (latest, trending, live, channels) — title, description… | ⚪ |
@@ -1474,7 +1475,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.getUserProfile` | deviantart.com | Reads an artist's public profile — display name, avatar, tagline, country, website… | 🟢 |
 | `deviantart.getWatchFeed` | deviantart.com | Reads the signed-in caller's Watch feed — the newest deviations and posts from the… | 🟢 |
 | `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | 🟢 |
-| `deviantart.listNotes` | deviantart.com | Reads the signed-in caller's Notes inbox — each note's sender, subject, time and body. | ⚪ |
+| `deviantart.listNotes` | deviantart.com | Reads the signed-in caller's Notes inbox — each conversation's other participants… | 🟢 |
 | `deviantart.postComment` | deviantart.com | Posts a comment on a deviation (or a reply to a comment) as the signed-in caller. | 🟢 |
 | `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | 🟢 |
 | `deviantart.searchShop` | deviantart.com | Searches the DeviantArt Shop's exclusives — one-of-a-kind artworks and adoptables sold… | 🟢 |
@@ -5008,17 +5009,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teladoc.getInsurancePricing` | teladochealth.com | Returns the with-insurance side of /start/no-insurance — what Teladoc publishes about… | 🟢 |
 | `teladoc.getPricing` | teladochealth.com | Returns Teladoc's published self-pay (no-insurance) visit pricing by service line —… | 🟢 |
 | `teladoc.search` | teladochealth.com | Searches Teladoc Health's public Health Library — recipes, meal plans… | ⚪ |
-| `temu.addToCart` | www.temu.com | Add one product (with its chosen variant and quantity) to the caller's cart. | ⚪ |
+| `temu.addToCart` | www.temu.com | Add one product (with its chosen variant and quantity) to the caller's cart. | 🟢 |
 | `temu.addToWishlist` | www.temu.com | Save a product to the caller's wishlist by its productId (goods_id) or product url. | 🔴 |
 | `temu.checkout` | www.temu.com | Read the live order total (items, shipping, tax, any coupon) for the caller's cart and… | 🟢 |
 | `temu.getProduct` | www.temu.com | Read one product's detail page — title, price, images, variants, shipping estimate… | ⚪ |
 | `temu.getProductReviews` | www.temu.com | Read a product's customer reviews and rating breakdown by its product url. | ⚪ |
 | `temu.listCategories` | www.temu.com | List Temu's top-level shopping categories (Women's Clothing, Home & Kitchen… | 🟢 |
 | `temu.listOrders` | www.temu.com | The caller's own order history — what they bought, when, for how much, and where each… | 🟢 |
-| `temu.removeFromCart` | www.temu.com | Remove one line from the cart. | ⚪ |
+| `temu.removeFromCart` | www.temu.com | Remove one line from the cart. | 🟢 |
 | `temu.searchProducts` | www.temu.com | Search Temu's catalog by keyword and return matching products (title, price, image… | ⚪ |
 | `temu.trackOrder` | www.temu.com | Where a specific order's package is and when it is due — the follow-up to listOrders. | 🟢 |
-| `temu.updateCart` | www.temu.com | Change a cart line's quantity or chosen variant. | ⚪ |
+| `temu.updateCart` | www.temu.com | Change a cart line's quantity or chosen variant. | 🟢 |
 | `temu.viewCart` | www.temu.com | Read the caller's current cart — line items, quantities, per-item and total price. | 🟢 |
 | `temu.writeReview` | www.temu.com | Post a review and star rating on a product the caller has an order for. | ⚪ |
 | `tenders_go_ke.getTender` | tenders.go.ke | Read a single Kenya public procurement tender: close date, tender fee, venue, notice… | 🟢 |

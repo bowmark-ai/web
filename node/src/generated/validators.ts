@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6627c09bd201c951ab88787f3411ba4e92e1b5428c0aa85b3fc857e95159f9c5
-// 4598 checked, 20 unchecked.
+// Manifest version: 56411145ede9d8ee637e0c9d2b3ba0896bd356f720ee5e2909e8128fc4b06f65
+// 4604 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6627c09bd201c951ab88787f3411ba4e92e1b5428c0aa85b3fc857e95159f9c5",
+  "version": "56411145ede9d8ee637e0c9d2b3ba0896bd356f720ee5e2909e8128fc4b06f65",
   "units": {
     "address_validation": {
       "defs": {
@@ -36632,6 +36632,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "DeletePlaylistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playlist",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "FollowChannelArgs": {
           "k": "object",
           "props": [
@@ -37491,6 +37503,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AddToPlaylistArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deletePlaylist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeletePlaylistArgs"
             },
             "optional": false
           },
@@ -104135,6 +104173,86 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.redfin": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "regionId",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "regionType",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "minPrice",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "maxPrice",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "minBeds",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "propertyType",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.rei": {
       "defs": {
         "ReiGetProductArgs": {
@@ -132370,7 +132488,24 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
-        "listSections": [],
+        "listSections": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "browseSection": [
           {
             "name": "args",
@@ -132379,6 +132514,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "BrowseSectionArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "searchNews": [
@@ -132389,9 +132540,42 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchNewsArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
-        "listHomepageHeadlines": [],
+        "listHomepageHeadlines": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getArticle": [
           {
             "name": "args",
@@ -132400,6 +132584,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetArticleArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getScores": [
@@ -132410,9 +132610,42 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetScoresArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
-        "listPuzzles": [],
+        "listPuzzles": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getPuzzle": [
           {
             "name": "args",
@@ -132421,15 +132654,82 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetPuzzleArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
-        "listVideos": [],
+        "listVideos": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getVideo": [
           {
             "name": "args",
             "schema": {
               "k": "ref",
               "name": "GetVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
@@ -141952,6 +142252,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPlayerNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playerUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetRssFeedArgs": {
           "k": "object",
           "props": [
@@ -142215,6 +142527,51 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetTeamStatsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "teamSlug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListTeamsArgs": {
           "k": "object",
           "props": [
@@ -142386,6 +142743,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetTeamRosterArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTeamStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTeamStatsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlayerNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPlayerNewsArgs"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6627c09bd201c951ab88787f3411ba4e92e1b5428c0aa85b3fc857e95159f9c5
-# 97 capabilities, 773 providers, 4598 typed functions, 20 refused.
+# Manifest version: 56411145ede9d8ee637e0c9d2b3ba0896bd356f720ee5e2909e8128fc4b06f65
+# 97 capabilities, 774 providers, 4604 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18727,6 +18727,13 @@ class Prv_dailymotion_DailymotionPlaylistEntryResult_Out(TypedDict):
     playlist: str
     video: str
     inPlaylist: bool
+
+class Prv_dailymotion_DeletePlaylistArgs_In(TypedDict):
+    playlist: str
+
+class Prv_dailymotion_DailymotionDeletedPlaylist_Out(TypedDict):
+    playlist: str
+    deleted: Literal[True]
 
 class Prv_dailymotion_CreatePlaylistArgs_In(TypedDict):
     name: str
@@ -48546,6 +48553,44 @@ class Prv_reddit_confirmSignup_return_u3_Out(TypedDict):
     twoFactor: Literal["enrolled"] | Literal["none"]
     secrets: list[str]
 
+class Prv_redfin_search_query_u1_In(TypedDict):
+    url: NotRequired[str]
+    regionId: NotRequired[float]
+    regionType: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minBeds: NotRequired[float]
+    propertyType: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_redfin_RedfinSearch_Out(TypedDict):
+    regionId: float
+    regionType: float
+    scanned: float
+    total: float
+    homes: list[Prv_redfin_RedfinHome_Out]
+    warnings: list[str]
+
+class Prv_redfin_RedfinHome_Out(TypedDict):
+    propertyId: str
+    listingId: str | None
+    address: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    price: float | None
+    beds: float | None
+    baths: float | None
+    sqft: float | None
+    lotSqft: float | None
+    yearBuilt: float | None
+    propertyType: str | None
+    status: str | None
+    latitude: float | None
+    longitude: float | None
+    remarks: str | None
+    url: str
+
 class Prv_rei_ReiSearchArgs_In(TypedDict):
     query: NotRequired[str]
     category: NotRequired[str]
@@ -62270,6 +62315,46 @@ class Prv_usatoday_usatodayVideoDetail_Out(TypedDict):
     publishDate: NotRequired[str]
     contentUrl: NotRequired[str]
 
+class Prv_usatoday_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_usatoday_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_usatoday_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_usatoday_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_usatoday_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_usatoday_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_usatoday_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_usatoday_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_uscis_CaseStatusArgs_In(TypedDict):
     receiptNumber: str
 
@@ -67053,6 +67138,48 @@ class Prv_yahoo_sports_YahooSportsRosterRow_Out(TypedDict):
     position: str
     jerseyNumber: str | None
     url: str
+
+class Prv_yahoo_sports_GetTeamStatsArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    teamSlug: str
+
+class Prv_yahoo_sports_YahooSportsTeamStats_Out(TypedDict):
+    league: str
+    teamSlug: str
+    categories: list[Prv_yahoo_sports_YahooSportsTeamStatCategory_Out]
+
+class Prv_yahoo_sports_YahooSportsTeamStatCategory_Out(TypedDict):
+    category: str
+    players: list[Prv_yahoo_sports_YahooSportsTeamStatPlayer_Out]
+
+class Prv_yahoo_sports_YahooSportsTeamStatPlayer_Out(TypedDict):
+    name: str
+    playerId: str | None
+    url: str | None
+    stats: list[Prv_yahoo_sports_YahooSportsTeamStatValue_Out]
+
+class Prv_yahoo_sports_YahooSportsTeamStatValue_Out(TypedDict):
+    key: str
+    label: str
+    title: str | None
+    value: str
+
+class Prv_yahoo_sports_GetPlayerNewsArgs_In(TypedDict):
+    playerUrl: str
+
+class Prv_yahoo_sports_YahooSportsPlayerNews_Out(TypedDict):
+    playerUrl: str
+    stories: list[Prv_yahoo_sports_YahooSportsPlayerNewsItem_Out]
+    videos: list[Prv_yahoo_sports_YahooSportsPlayerNewsItem_Out]
+
+class Prv_yahoo_sports_YahooSportsPlayerNewsItem_Out(TypedDict):
+    headline: str
+    url: str
+    sourceUrl: str | None
+    provider: str | None
+    author: str | None
+    published: str | None
+    summary: str | None
 
 class Prv_yahoo_sports_FindPlayersArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -79341,6 +79468,11 @@ class Prv_dailymotion(Protocol):
     async def addToPlaylist(self, args: Prv_dailymotion_AddToPlaylistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionPlaylistEntryResult_Out:
         """Add a video to one of the signed-in caller's own playlists, or pass add: false to remove
         it. Needs the caller signed in.
+        """
+
+    async def deletePlaylist(self, args: Prv_dailymotion_DeletePlaylistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionDeletedPlaylist_Out:
+        """Delete one of the signed-in caller's own Dailymotion playlists. Needs the caller signed
+        in.
         """
 
     async def createPlaylist(self, args: Prv_dailymotion_CreatePlaylistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionPlaylist_Out:
@@ -96508,6 +96640,19 @@ class Prv_reddit(Protocol):
         `code`, the email's verification `link`, or the person's `phone`.
         """
 
+class Prv_redfin(Protocol):
+    """Homes for sale on Redfin in a city, neighborhood or county — price, beds, baths, square
+    feet, status and link — live off Redfin's own map-search JSON.
+    """
+
+    async def search(self, query: str | Prv_redfin_search_query_u1_In, /) -> Prv_redfin_RedfinSearch_Out:
+        """Homes for sale on Redfin in one region, live. Pass a redfin.com city / neighborhood /
+        county URL ("https://www.redfin.com/city/16163/WA/Seattle") or { regionId, regionType }
+        (6 city, 1 neighborhood, 5 county). Filters (minPrice, maxPrice, minBeds, propertyType)
+        run on the up-to-350 rows Redfin returns; limit defaults to 50. A ZIP or free-text place
+        is refused — Redfin blocks its place lookup — so find the city URL first.
+        """
+
 class Prv_rei(Protocol):
     """REI Co-op outdoor gear and apparel. Searches the catalog by keyword or category,
     filtered to a size, gender and deals, with sale vs compare-at price and availability;
@@ -103246,54 +103391,66 @@ class Prv_ups(Protocol):
 class Prv_usatoday(Protocol):
     """USA Today news site — articles, sections, search, sports scores and puzzles."""
 
-    async def listSections(self, /) -> list[Prv_usatoday_usatodaySection_Out]:
+    async def listSections(self, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodaySection_Out]:
         """Lists USA Today's main news sections (news, sports, money, life, tech, opinion), each
         with a section ID and display name. This is the door for browsing a section.
         """
 
-    async def browseSection(self, args: Prv_usatoday_BrowseSectionArgs_In, /) -> list[Prv_usatoday_usatodayArticle_Out]:
+    async def browseSection(self, args: Prv_usatoday_BrowseSectionArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayArticle_Out]:
         """Lists articles in one USA Today section, paginated, showing headline, summary, URL, date
         and image. Uses the section IDs from listSections.
         """
 
-    async def searchNews(self, args: Prv_usatoday_SearchNewsArgs_In, /) -> list[Prv_usatoday_usatodayArticle_Out]:
+    async def searchNews(self, args: Prv_usatoday_SearchNewsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayArticle_Out]:
         """Searches USA Today's news archive for articles matching a free-text query, returning
         headline, summary, URL, date and image. Paginated results sorted by relevance.
         """
 
-    async def listHomepageHeadlines(self, /) -> list[Prv_usatoday_usatodayArticle_Out]:
+    async def listHomepageHeadlines(self, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayArticle_Out]:
         """Reads the USA Today homepage and returns the top headlines currently displayed — the
         lead stories, top news items, and featured sections.
         """
 
-    async def getArticle(self, args: Prv_usatoday_GetArticleArgs_In, /) -> Prv_usatoday_usatodayFullArticle_Out:
+    async def getArticle(self, args: Prv_usatoday_GetArticleArgs_In, opts: ConnectionOption | None = None, /) -> Prv_usatoday_usatodayFullArticle_Out:
         """Reads the full text of one USA Today article, returning headline, byline, body text,
         publication and update dates, section, image, and whether it is free to read.
         """
 
-    async def getScores(self, args: Prv_usatoday_GetScoresArgs_In, /) -> list[Prv_usatoday_usatodayScore_Out]:
+    async def getScores(self, args: Prv_usatoday_GetScoresArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayScore_Out]:
         """Reads sports scores from USA Today's scores section — given a sport like NFL, NBA, MLB,
         MLS — returning game results with home and away teams, scores, date and status.
         """
 
-    async def listPuzzles(self, /) -> list[Prv_usatoday_usatodayPuzzle_Out]:
+    async def listPuzzles(self, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayPuzzle_Out]:
         """Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games and
         more), each with an id, display name and play URL.
         """
 
-    async def getPuzzle(self, args: Prv_usatoday_GetPuzzleArgs_In, /) -> Prv_usatoday_usatodayPuzzleDetail_Out:
+    async def getPuzzle(self, args: Prv_usatoday_GetPuzzleArgs_In, opts: ConnectionOption | None = None, /) -> Prv_usatoday_usatodayPuzzleDetail_Out:
         """Reads the details of one USA Today puzzle — given a puzzle ID — returning the puzzle
         type, difficulty, date created, and play URL.
         """
 
-    async def listVideos(self, /) -> list[Prv_usatoday_usatodayVideo_Out]:
+    async def listVideos(self, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayVideo_Out]:
         """Lists the videos on USA Today's videos hub, each with a title, description, thumbnail
         URL and publish date. Duration is not shown on the hub page.
         """
 
-    async def getVideo(self, args: Prv_usatoday_GetVideoArgs_In, /) -> Prv_usatoday_usatodayVideoDetail_Out:
+    async def getVideo(self, args: Prv_usatoday_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_usatoday_usatodayVideoDetail_Out:
         """Reads one USA Today video — given the url a listVideos row returns — returning its
         title, description, duration, publish date, thumbnail and video file URL.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_usatoday_signup_return_u0_Out | Prv_usatoday_signup_return_u1_Out | Prv_usatoday_signup_return_u2_Out | Prv_usatoday_signup_return_u3_Out:
+        """Makes a NEW USA Today account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_usatoday_confirmSignup_return_u0_Out | Prv_usatoday_confirmSignup_return_u1_Out | Prv_usatoday_confirmSignup_return_u2_Out | Prv_usatoday_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_uscis(Protocol):
@@ -105827,6 +105984,20 @@ class Prv_yahoo_sports(Protocol):
         name/abbreviation such as getOdds' `abbr` ("IND").
         """
 
+    async def getTeamStats(self, args: Prv_yahoo_sports_GetTeamStatsArgs_In, /) -> Prv_yahoo_sports_YahooSportsTeamStats_Out:
+        """Reads one team's season stats off its own Stats page — every category the site publishes
+        (nfl: Passing, Rushing, Receiving, Kicking, Kickoffs, Punts, Returns, Defense; nba:
+        Averages), each player with their stat line, player id and the url getPlayer takes.
+        Answers "who is the Chiefs' leading rusher". teamSlug is listTeams/getStandings `slug`
+        or an exact team name/abbreviation.
+        """
+
+    async def getPlayerNews(self, args: Prv_yahoo_sports_GetPlayerNewsArgs_In, /) -> Prv_yahoo_sports_YahooSportsPlayerNews_Out:
+        """Reads one player's News tab — the stories about that player (headline, Yahoo url,
+        publisher, author, time, summary) and the video rail beside them. Takes the same
+        playerUrl getPlayer takes. For a whole league's news use getNews.
+        """
+
     async def findPlayers(self, args: Prv_yahoo_sports_FindPlayersArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsPlayerRow_Out]:
         """Finds players on one team's roster by name — the door for `getPlayer`, so a caller
         holding a name and a team can reach that player's own page. It reads one team's Roster
@@ -107438,6 +107609,7 @@ class BowmarkProviders(Protocol):
     recreation_gov: Prv_recreation_gov
     recruitee: Prv_recruitee
     reddit: Prv_reddit
+    redfin: Prv_redfin
     rei: Prv_rei
     reliancepartners: Prv_reliancepartners
     renttherunway: Prv_renttherunway

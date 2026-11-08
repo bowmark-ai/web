@@ -183,6 +183,7 @@ champxpress.com — champxpress: getPlanQuote, listLocations
 chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
 chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
+chase.com — chase: search
 chatgpt.com — chatgpt: browseGPTStore, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getSharedConversation, listConversations, listModels, searchConversations, searchGPTs (+24 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
@@ -207,7 +208,7 @@ clubchampion.com — clubchampion: checkAvailability, getFittings, listFitters, 
 clubpilates.com — clubpilates: bookClass, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, joinWaitlist, listClassCategories, listClasses, listClassTypes, listInstructors, listMyBookings, listPricing, updateProfile (+1 planned)
 clubready.com — clubready: bookClass, bookService, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, getWorkoutStats, joinWaitlist, listBrands, listClassCategories, listClasses, listClassTypes, listInstructors, listInvoices, listMyBookings, listPricing, listServiceAvailability, listServiceTypes, updateProfile (+1 planned)
 cnb.avocat.fr — cnb_avocat_fr: nothing callable yet (+1 planned)
-cnbc.com — cnbc_com: getQuote, listQuotes (+22 planned)
+cnbc.com — cnbc_com: getQuote, listMarkets, listNews, listQuotes (+20 planned)
 coastpay.com — coast: getFleetCardPricing, getFuelRebate
 code.claude.com — code_claude_com: getDoc, listDocPages
 code.visualstudio.com — vscode: getDoc, listDocPages
@@ -249,7 +250,7 @@ detailxperts.com — detailxperts: checkServiceArea, getQuote, listVehicleTypes 
 deutschepost.de — deutschepost: getDialogpostRates
 dev.to — devto: getProfile, searchArticles
 developers.openai.com — developersopenai: getDocPage
-deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getWatchFeed, listGalleryFolders, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateProfile, watchUser (+2 planned)
+deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getWatchFeed, listGalleryFolders, listNotes, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateProfile, watchUser (+1 planned)
 dhl.com — dhl: getQuote
 dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
@@ -788,7 +789,7 @@ www.nintendo.com — nintendo: browseCategory, getMyNintendoRewardsBalance, getP
 www.primevideo.com — prime_video: getChannel, getLiveSchedule, getPerson, getTitle, getWatchlist, getWatchOptions, listCategories, listCategoryTitles, listChannels, listContinueWatching, listDeals, listEpisodes, listFreeToWatch, listLiveChannels, listLiveSports, listNewReleases, listPurchases, listRelatedTitles, listSeasons, listTop10, searchTitles, suggestTitles (+1 planned)
 www.reuters.com — reuters: findAuthor, followTopic, getArticle, getAuthor, getCompanyEvents, getCompanyKeyMetrics, getCompanyProfile, getLiveCoverage, getMarketOverview, getMyNewsFeed, getPictureGallery, getPressRelease, getQuote, getVideo, listArticlesByDate, listCompanyNews, listFollowedTopics, listGraphics, listHeadlines, listLatestNews, listNewsletters, listNewsletterSubscriptions, listPictureGalleries, listPodcastEpisodes, listPodcasts, listPressReleases, listSavedArticles, listSections, listVideos, removeSavedArticle, saveArticle, searchArticles, searchCompanies, unfollowTopic (+4 planned)
 www.speedrun.com — speedrun: categories, findGame, platforms (+1 planned)
-www.temu.com — temu: checkout, listCategories, listOrders, trackOrder, viewCart (+8 planned)
+www.temu.com — temu: addToCart, checkout, listCategories, listOrders, removeFromCart, trackOrder, updateCart, viewCart (+5 planned)
 www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends, getEarnings, getEconomicCalendar, getFinancials, getMarketOverview, getNews, getOptionChain, getQuote, getScreenerResults, getTechnicalAnalysis, listIdeas, searchSymbols
 www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getCancellationPolicy, getClass, getOpenTimes, getService, getStaffMember, listAddOns, listClasses, listPhotos, listPromotions, listReviews, listServices, listStaff, searchBusinesses (+19 planned)
 www.walmart.ca — walmart_ca: search
