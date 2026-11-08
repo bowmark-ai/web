@@ -4528,7 +4528,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.listProductLists` | shop.app | Lists the caller's own product lists (wishlists) with each list's items. | ⚪ |
 | `shop_app.listSavedProducts` | shop.app | Lists the products the caller has saved (hearted) on Shop. | ⚪ |
 | `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | 🟡 |
-| `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's orders as delivered, or un-marks it. | ⚪ |
+| `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's Shop deliveries as delivered, or un-marks it (delivered… | 🟢 |
 | `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | ⚪ |
 | `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | 🟡 |
 | `shop_app.searchStore` | shop.app | Searches inside one store for products matching free text ("strawberry" in Liquid… | 🟢 |
