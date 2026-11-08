@@ -664,7 +664,7 @@ solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updatePreferences (+6 planned)
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 spacest.com — spacest: nothing callable yet (+1 planned)
-spectrum.com — spectrum: checkMobileCoverage, getAccountBalance, getBillingHistory, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listTvAddOns, listTvPlans (+4 planned)
+spectrum.com — spectrum: checkMobileCoverage, getAccountBalance, getBillingHistory, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listTvAddOns, listTvPlans, scheduleServiceAppointment, updateWifiNetwork (+2 planned)
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getPlayerNews, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, getTeamStats, listTeams, searchPlayers (+1 planned)

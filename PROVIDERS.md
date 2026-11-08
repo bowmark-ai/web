@@ -4714,8 +4714,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spectrum.listTvAddOns` | spectrum.com | Every premium channel and add-on package Spectrum advertises on… | 🟢 |
 | `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, the page's… | 🟢 |
 | `spectrum.payBill` | spectrum.com | Pay the signed-in caller's Spectrum bill using a payment method already on the account. | ⚪ |
-| `spectrum.scheduleServiceAppointment` | spectrum.com | Book a technician visit for the signed-in caller's account, from spectrum.net's… | ⚪ |
-| `spectrum.updateWifiNetwork` | spectrum.com | Change the signed-in caller's home WiFi network name (SSID) or password, from… | ⚪ |
+| `spectrum.scheduleServiceAppointment` | spectrum.com | Book a Spectrum technician visit for the signed-in caller's internet (down or slow)… | 🟢 |
+| `spectrum.updateWifiNetwork` | spectrum.com | Change the signed-in caller's Spectrum home WiFi network name and password in one… | 🟢 |
 | `speedrun.categories` | www.speedrun.com | List all categories for a game, including variables and values. | 🟢 |
 | `speedrun.findGame` | www.speedrun.com | Search for a game by name, returning metadata including ID, platforms, and rules. | 🟢 |
 | `speedrun.platforms` | www.speedrun.com | List all platforms, optionally filtered to a specific game. | 🟢 |
