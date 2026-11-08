@@ -427,7 +427,7 @@ keyserver.ubuntu.com — ubuntu_keyserver: searchKeys
 kijiji.ca — kijiji: getListing, search (+2 planned)
 kingsdown.com — kingsdown: getBedMatchResult
 kitchentuneup.com — kitchentuneup: listCabinetStyles, visualizeKitchen
-kohls.com — kohls: search (+4 planned)
+kohls.com — kohls: nothing callable yet (+5 planned)
 kompan.com — kompan: getSparePartsDocuments, searchPlaygroundSpareParts, searchProduct
 kp.org — kaiser_directory: findProviders
 kuiu.com — kuiu: findKuiuSize, getKuiuCheckoutLink, getKuiuProduct, listKuiuProducts

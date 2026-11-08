@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 395de81818c798c56d50614c66325e8692f2a1623f6a869799a8b4a8eed76d00
-// 96 capabilities, 770 providers, 4570 typed functions, 20 refused.
+// Manifest version: 9ed6b6cfd0210a1cdce15f77ffe23b07e9f5fe00a38b3a1429c9d8f6b7b8cbc0
+// 96 capabilities, 769 providers, 4576 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21998,6 +21998,33 @@ interface CanvaNamedColor {
   hex: string;
 }
 
+interface CanvaDesignSizeTopic {
+  slug: string;
+  title: string;
+  category: string;
+}
+
+interface CanvaDesignSize {
+  name: string;
+  widthCm: number;
+  heightCm: number;
+  widthIn: number;
+  heightIn: number;
+  widthPx: number;
+  heightPx: number;
+}
+
+interface CanvaDesignSizes {
+  slug: string | null;
+  title: string | null;
+  category: string | null;
+  unit: string | null;
+  columns: string[];
+  sizes: CanvaDesignSize[];
+  topics: CanvaDesignSizeTopic[];
+  url: string;
+}
+
 interface CanvaColorMeaning {
   slug: string;
   name: string;
@@ -22112,6 +22139,12 @@ interface CanvaColorCombinations {
      * colour itself.
      */
     getColorCombinations(hex: string): Promise<CanvaColorCombinations>;
+
+    /**
+     * Reads Canva's design-size wiki — with no argument every topic slug; with one ("instagram",
+     * "business-card", "a-series-paper") its formats in cm, inches and pixels at 300 DPI.
+     */
+    listDesignSizes(topic?: string): Promise<CanvaDesignSizes>;
 
     /**
      * Makes a NEW Canva account with the person's own email and password, in a session. Pauses
@@ -39260,8 +39293,9 @@ interface FindMcpServer { name: string; description: string; category: string | 
   /** Search FindMCP's public directory of MCP servers by keyword. */
   interface Unit {
     /**
-     * Searches FindMCP's public MCP-server directory by keyword. Omit query to browse its current
-     * server cards; each result has the displayed name, description, category and detail-page URL.
+     * Searches FindMCP's public MCP-server directory by keyword. Call search() with no argument to
+     * browse its current server cards; do not pass an empty string. Each result has the displayed
+     * name, description, category and detail-page URL.
      */
     search(query?: string | { query?: string }): Promise<FindMcpServer[]>;
   }
@@ -56789,52 +56823,6 @@ interface KitchentuneupVisualization {
   }
 }
 
-declare namespace BowmarkProvider_kohls {
-  // ── Kohl's — the unit's own declarations, verbatim ──
-interface KohlsSearchArgs {
-  query: string;   // what a shopper types into Kohl's search, e.g. "bath towels"
-  limit?: number;  // default 48, at most 120 (one results page)
-}
-interface KohlsProduct {
-  webId: string;                   // Kohl's web id, the number in /product/prd-<webId>/
-  title: string;
-  price: number | null;            // current price (sale if on sale), USD, low end of a range
-  regularPrice: number | null;     // "Reg." price, low end of a range
-  yourPrice: number | null;        // Kohl's "Your Price" after its current offer code, low end
-  priceText: string | null;        // as Kohl's prints it, e.g. "$16.99 - $59.99"
-  regularPriceText: string | null;
-  yourPriceText: string | null;
-  onSale: boolean;
-  rating: number | null;           // out of 5
-  reviewCount: number | null;
-  imageUrl: string | null;
-  url: string;                     // the product page
-  colors: string[];
-  shippable: boolean;
-  pickup: boolean;                 // store pickup offered
-  sponsored: boolean;
-}
-interface KohlsSearchResult {
-  query: string;
-  totalResults: number | null;
-  products: KohlsProduct[];
-}
-
-  /**
-   * Search Kohl's (kohls.com) department-store catalog — apparel, shoes, home, bedding, bath,
-   * kitchen, toys — and get each listing's regular, sale and Kohl's "Your Price", rating, review
-   * count, colors and link.
-   */
-  interface Unit {
-    /**
-     * Searches Kohl's product catalog for a shopper's query (e.g. "bath towels") and returns
-     * listings with current, regular and Kohl's "Your Price", sale flag, rating, review count,
-     * colors, image and product link. A real browser load, so expect 15-40 s.
-     */
-    search(args: KohlsSearchArgs): Promise<KohlsSearchResult>;
-  }
-}
-
 declare namespace BowmarkProvider_kompan {
   // ── KOMPAN Master — the unit's own declarations, verbatim ──
 // KOMPAN Master's OWN shapes — not a capability contract.
@@ -69171,6 +69159,19 @@ interface NytimesFollowWriterResult {
   url: string; // the writer's /by/<slug> page
   following: boolean; // true after followWriter, false after unfollowWriter
 }
+interface NytimesMyCommentsResult {
+  url: string; // the article whose thread was read
+  comments: NytimesComment[]; // only the signed-in reader's own comments on it
+}
+interface NytimesPostCommentResult {
+  url: string; // the article the comment was submitted under
+  posted: true; // NYT moderates: a posted comment is pending until approved
+}
+interface NytimesRecommendCommentResult {
+  url: string;
+  commentId: string;
+  recommended: true;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -69350,6 +69351,26 @@ interface NytimesFollowWriterResult {
      * NYT sign-in.
      */
     unfollowWriter(writer: string, opts?: ConnectionOption): Promise<NytimesFollowWriterResult>;
+
+    /**
+     * The signed-in reader's own comments on one article (path like
+     * "/2026/09/28/world/americas/slug.html"), read from the same thread getArticleComments reads.
+     * NYT has no account-wide comment history. Needs the caller's own NYT sign-in.
+     */
+    listMyComments(path: string, limit?: number, opts?: ConnectionOption): Promise<NytimesMyCommentsResult>;
+
+    /**
+     * Posts a comment as the signed-in reader under one article, through the article's own comment
+     * box. NYT moderates comments, so it shows up once approved. Needs the caller's own NYT
+     * sign-in.
+     */
+    postComment(path: string, body: string, opts?: ConnectionOption): Promise<NytimesPostCommentResult>;
+
+    /**
+     * Presses Recommend on one reader comment (its id from getArticleComments) under an article,
+     * as the signed-in reader. Already recommended is a no-op. Needs the caller's own NYT sign-in.
+     */
+    recommendComment(path: string, commentId: string, opts?: ConnectionOption): Promise<NytimesRecommendCommentResult>;
 
     /**
      * Makes a NEW The New York Times account with the person's own email and password, in a
@@ -93736,6 +93757,9 @@ type SendDirectMessageArgs = {
   username: string;
   text: string;
 };
+type ListBookmarkedVideosArgs = {
+  count?: number;
+};
 type ListConversationsArgs = {
   count?: number;
 };
@@ -93998,6 +94022,15 @@ type UploadVideoArgs = {
      * fails with that reason.
      */
     sendDirectMessage(args: SendDirectMessageArgs, opts?: ConnectionOption): Promise<{ sent: boolean; username: string }>;
+
+    /**
+     * The signed-in caller's own saved (Favorites) videos — the companion read to bookmarkVideo.
+     * Optional count (1-30, default 30). Loads the caller's TikTok profile with their session
+     * cookies, opens the Favorites tab and reads the page's own /api/user/collect/item_list/
+     * response, because that door is signature-walled to any browserless request. The caller signs
+     * in through the auth relay; Bowmark never signs up on this site.
+     */
+    listBookmarkedVideos(args: ListBookmarkedVideosArgs, opts?: ConnectionOption): Promise<{ videos: tiktokVideoSummary[]; hasMore: boolean }>;
 
     /**
      * The signed-in caller's own DM inbox — threads, last message and unread state, newest first.
@@ -101257,6 +101290,27 @@ interface RadarTilesResult {
   availableLayers: string[];
 }
 
+interface MinutelyPrecipRow {
+  time: string | null;
+  precipTypeCode: number | null;
+  intensityCode: number | null;
+  dBZ: number | null;
+}
+
+interface MinutelyPrecipitationResult {
+  location: WeatherLocation | null;
+  covered: boolean;
+  minutes: MinutelyPrecipRow[];
+  note: string | null;
+}
+
+interface HealthRiskResult {
+  location: WeatherLocation | null;
+  condition: "coldAndFlu" | "migraine";
+  days: { validAt: string | null; expiresAt: string | null; riskLevel: number | null }[];
+  note: string | null;
+}
+
 interface RainTiming {
   location: WeatherLocation | null;
   phrase: string;
@@ -101604,6 +101658,23 @@ interface CMSContent {
      * template.
      */
     getRadarTiles(opts?: { layer?: string; frames?: number }): Promise<RadarTilesResult>;
+
+    /**
+     * Minute-by-minute precipitation for the next hour — one row per minute (`time`,
+     * `precipTypeCode`, `intensityCode` 0 = none, radar `dBZ`). Measured 2026-11-07: answered for
+     * Glasgow while it rained. When the site returns nothing (dry hour, or outside coverage — US
+     * cities answered nothing) `covered` is false, `minutes` is empty and `note` says so; use
+     * getFifteenMinuteForecast or getRainTiming then.
+     */
+    getMinutelyPrecipitation(location: Location): Promise<MinutelyPrecipitationResult>;
+
+    /**
+     * weather.com's 5-day health-risk forecast — cold & flu risk by default, or migraine risk —
+     * one `riskLevel` per day (0 = lowest). The only two condition types the site's API accepts
+     * (measured 2026-11-07; others 400). Empty `days` with a `note` when the site has no data for
+     * the place.
+     */
+    getPollenHealth(location: Location, condition?: "coldAndFlu" | "migraine"): Promise<HealthRiskResult>;
 
     /**
      * weather.com's "when will it rain" sentence for a place — e.g. `getRainTiming("Seattle, WA")`
@@ -109509,7 +109580,6 @@ interface BowmarkProviders {
   kijiji: BowmarkProvider_kijiji.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
-  kohls: BowmarkProvider_kohls.Unit;
   kompan: BowmarkProvider_kompan.Unit;
   kuiu: BowmarkProvider_kuiu.Unit;
   kwworldwide: BowmarkProvider_kwworldwide.Unit;

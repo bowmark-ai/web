@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 395de81818c798c56d50614c66325e8692f2a1623f6a869799a8b4a8eed76d00
-# 96 capabilities, 770 providers, 4552 typed functions, 20 refused.
+# Manifest version: 9ed6b6cfd0210a1cdce15f77ffe23b07e9f5fe00a38b3a1429c9d8f6b7b8cbc0
+# 96 capabilities, 769 providers, 4558 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13600,6 +13600,30 @@ class Prv_canva_CanvaColorCombinations_Out(TypedDict):
     splitComplementary: list[str]
     tetradic: list[str]
     monochromatic: list[str]
+
+class Prv_canva_CanvaDesignSizes_Out(TypedDict):
+    slug: str | None
+    title: str | None
+    category: str | None
+    unit: str | None
+    columns: list[str]
+    sizes: list[Prv_canva_CanvaDesignSize_Out]
+    topics: list[Prv_canva_CanvaDesignSizeTopic_Out]
+    url: str
+
+class Prv_canva_CanvaDesignSize_Out(TypedDict):
+    name: str
+    widthCm: float
+    heightCm: float
+    widthIn: float
+    heightIn: float
+    widthPx: float
+    heightPx: float
+
+class Prv_canva_CanvaDesignSizeTopic_Out(TypedDict):
+    slug: str
+    title: str
+    category: str
 
 class Prv_canva_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -35119,34 +35143,6 @@ class Prv_kitchentuneup_KitchentuneupVisualization_Out(TypedDict):
     resultImageUrl: str
     appliedFeatureIds: list[float]
 
-class Prv_kohls_KohlsSearchArgs_In(TypedDict):
-    query: str
-    limit: NotRequired[float]
-
-class Prv_kohls_KohlsSearchResult_Out(TypedDict):
-    query: str
-    totalResults: float | None
-    products: list[Prv_kohls_KohlsProduct_Out]
-
-class Prv_kohls_KohlsProduct_Out(TypedDict):
-    webId: str
-    title: str
-    price: float | None
-    regularPrice: float | None
-    yourPrice: float | None
-    priceText: str | None
-    regularPriceText: str | None
-    yourPriceText: str | None
-    onSale: bool
-    rating: float | None
-    reviewCount: float | None
-    imageUrl: str | None
-    url: str
-    colors: list[str]
-    shippable: bool
-    pickup: bool
-    sponsored: bool
-
 class Prv_kompan_KompanSearchResult_Out(TypedDict):
     productNo: str
     region: Literal["region_america"] | Literal["region_europe_middleeast"] | Literal["region_asia_newzealand"] | Literal["region_australia"]
@@ -42316,6 +42312,19 @@ class Prv_nytimes_NytimesUnsaveArticleResult_Out(TypedDict):
 class Prv_nytimes_NytimesFollowWriterResult_Out(TypedDict):
     url: str
     following: bool
+
+class Prv_nytimes_NytimesMyCommentsResult_Out(TypedDict):
+    url: str
+    comments: list[Prv_nytimes_NytimesComment_Out]
+
+class Prv_nytimes_NytimesPostCommentResult_Out(TypedDict):
+    url: str
+    posted: Literal[True]
+
+class Prv_nytimes_NytimesRecommendCommentResult_Out(TypedDict):
+    url: str
+    commentId: str
+    recommended: Literal[True]
 
 class Prv_nytimes_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -58834,6 +58843,13 @@ class Prv_tiktok_sendDirectMessage_return_Out(TypedDict):
     sent: bool
     username: str
 
+class Prv_tiktok_ListBookmarkedVideosArgs_In(TypedDict):
+    count: NotRequired[float]
+
+class Prv_tiktok_listBookmarkedVideos_return_Out(TypedDict):
+    videos: list[Prv_tiktok_tiktokVideoSummary_Out]
+    hasMore: bool
+
 class Prv_tiktok_ListConversationsArgs_In(TypedDict):
     count: NotRequired[float]
 
@@ -63877,6 +63893,29 @@ class Prv_weather_channel_RadarLayer_Out(TypedDict):
     maxZoom: float | None
     bounds: tuple[float, float, float, float] | None
     frames: list[float]
+
+class Prv_weather_channel_MinutelyPrecipitationResult_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    covered: bool
+    minutes: list[Prv_weather_channel_MinutelyPrecipRow_Out]
+    note: str | None
+
+class Prv_weather_channel_MinutelyPrecipRow_Out(TypedDict):
+    time: str | None
+    precipTypeCode: float | None
+    intensityCode: float | None
+    dBZ: float | None
+
+class Prv_weather_channel_HealthRiskResult_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    condition: Literal["coldAndFlu"] | Literal["migraine"]
+    days: list[Prv_weather_channel_HealthRiskResult_Out_days_item_Out]
+    note: str | None
+
+class Prv_weather_channel_HealthRiskResult_Out_days_item_Out(TypedDict):
+    validAt: str | None
+    expiresAt: str | None
+    riskLevel: float | None
 
 class Prv_weather_channel_RainTiming_Out(TypedDict):
     location: Prv_weather_channel_WeatherLocation_Out | None
@@ -75749,6 +75788,12 @@ class Prv_canva(Protocol):
         colour itself.
         """
 
+    async def listDesignSizes(self, topic: str | None = None, /) -> Prv_canva_CanvaDesignSizes_Out:
+        """Reads Canva's design-size wiki — with no argument every topic slug; with one
+        ("instagram", "business-card", "a-series-paper") its formats in cm, inches and pixels at
+        300 DPI.
+        """
+
     async def signup(self, args: Any, /) -> Prv_canva_signup_return_u0_Out | Prv_canva_signup_return_u1_Out | Prv_canva_signup_return_u2_Out | Prv_canva_signup_return_u3_Out:
         """Makes a NEW Canva account with the person's own email and password, in a session. Pauses
         with `needs_code` / `needs_phone` whenever the site wants something only the person has;
@@ -81559,9 +81604,9 @@ class Prv_findmcp_app(Protocol):
     """Search FindMCP's public directory of MCP servers by keyword."""
 
     async def search(self, query: str | Prv_findmcp_app_search_query_u1_In | None = None, /) -> list[Prv_findmcp_app_FindMcpServer_Out]:
-        """Searches FindMCP's public MCP-server directory by keyword. Omit query to browse its
-        current server cards; each result has the displayed name, description, category and
-        detail-page URL.
+        """Searches FindMCP's public MCP-server directory by keyword. Call search() with no
+        argument to browse its current server cards; do not pass an empty string. Each result
+        has the displayed name, description, category and detail-page URL.
         """
 
 class Prv_firstamericahomes(Protocol):
@@ -87869,18 +87914,6 @@ class Prv_kitchentuneup(Protocol):
         behalf') and bounces the user back to the site.
         """
 
-class Prv_kohls(Protocol):
-    """Search Kohl's (kohls.com) department-store catalog — apparel, shoes, home, bedding,
-    bath, kitchen, toys — and get each listing's regular, sale and Kohl's "Your Price",
-    rating, review count, colors and link.
-    """
-
-    async def search(self, args: Prv_kohls_KohlsSearchArgs_In, /) -> Prv_kohls_KohlsSearchResult_Out:
-        """Searches Kohl's product catalog for a shopper's query (e.g. "bath towels") and returns
-        listings with current, regular and Kohl's "Your Price", sale flag, rating, review count,
-        colors, image and product link. A real browser load, so expect 15-40 s.
-        """
-
 class Prv_kompan(Protocol):
     """KOMPAN's own spare-parts / TÜV-certificate / maintenance-manual lookup (KOMPAN Master) —
     search a KOMPAN playground product number for its real installed variants, then read the
@@ -92506,6 +92539,24 @@ class Prv_nytimes(Protocol):
         """Unfollows one NYT writer (slug or "/by/<slug>" path) for the signed-in reader, by
         pressing the same follow control followWriter does. Not following is a no-op. Needs the
         caller's own NYT sign-in.
+        """
+
+    async def listMyComments(self, path: str, limit: float | None = None, opts: ConnectionOption | None = None, /) -> Prv_nytimes_NytimesMyCommentsResult_Out:
+        """The signed-in reader's own comments on one article (path like
+        "/2026/09/28/world/americas/slug.html"), read from the same thread getArticleComments
+        reads. NYT has no account-wide comment history. Needs the caller's own NYT sign-in.
+        """
+
+    async def postComment(self, path: str, body: str, opts: ConnectionOption | None = None, /) -> Prv_nytimes_NytimesPostCommentResult_Out:
+        """Posts a comment as the signed-in reader under one article, through the article's own
+        comment box. NYT moderates comments, so it shows up once approved. Needs the caller's
+        own NYT sign-in.
+        """
+
+    async def recommendComment(self, path: str, commentId: str, opts: ConnectionOption | None = None, /) -> Prv_nytimes_NytimesRecommendCommentResult_Out:
+        """Presses Recommend on one reader comment (its id from getArticleComments) under an
+        article, as the signed-in reader. Already recommended is a no-op. Needs the caller's own
+        NYT sign-in.
         """
 
     async def signup(self, args: Any, /) -> Prv_nytimes_signup_return_u0_Out | Prv_nytimes_signup_return_u1_Out | Prv_nytimes_signup_return_u2_Out | Prv_nytimes_signup_return_u3_Out:
@@ -101027,6 +101078,15 @@ class Prv_tiktok(Protocol):
         not accept messages from the caller fails with that reason.
         """
 
+    async def listBookmarkedVideos(self, args: Prv_tiktok_ListBookmarkedVideosArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_listBookmarkedVideos_return_Out:
+        """The signed-in caller's own saved (Favorites) videos — the companion read to
+        bookmarkVideo. Optional count (1-30, default 30). Loads the caller's TikTok profile with
+        their session cookies, opens the Favorites tab and reads the page's own
+        /api/user/collect/item_list/ response, because that door is signature-walled to any
+        browserless request. The caller signs in through the auth relay; Bowmark never signs up
+        on this site.
+        """
+
     async def listConversations(self, args: Prv_tiktok_ListConversationsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_listConversations_return_Out:
         """The signed-in caller's own DM inbox — threads, last message and unread state, newest
         first. Optional count (1-50, default 20). Loads TikTok's /messages page with the
@@ -103555,6 +103615,21 @@ class Prv_weather_channel(Protocol):
         `"radarFcst"`, `"radarEurope"`, `"temp"`, …). `frames` 1-50, default 12. Not scoped to a
         location: convert your lat/lng to slippy-map x/y at zoom ≤ `layer.nativeZoom` and fill
         the template.
+        """
+
+    async def getMinutelyPrecipitation(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_MinutelyPrecipitationResult_Out:
+        """Minute-by-minute precipitation for the next hour — one row per minute (`time`,
+        `precipTypeCode`, `intensityCode` 0 = none, radar `dBZ`). Measured 2026-11-07: answered
+        for Glasgow while it rained. When the site returns nothing (dry hour, or outside
+        coverage — US cities answered nothing) `covered` is false, `minutes` is empty and `note`
+        says so; use getFifteenMinuteForecast or getRainTiming then.
+        """
+
+    async def getPollenHealth(self, location: str | Prv_weather_channel_Location_u1_In, condition: Literal["coldAndFlu"] | Literal["migraine"] | None = None, /) -> Prv_weather_channel_HealthRiskResult_Out:
+        """weather.com's 5-day health-risk forecast — cold & flu risk by default, or migraine risk
+        — one `riskLevel` per day (0 = lowest). The only two condition types the site's API
+        accepts (measured 2026-11-07; others 400). Empty `days` with a `note` when the site has
+        no data for the place.
         """
 
     async def getRainTiming(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_RainTiming_Out:
@@ -106425,7 +106500,6 @@ class BowmarkProviders(Protocol):
     kijiji: Prv_kijiji
     kingsdown: Prv_kingsdown
     kitchentuneup: Prv_kitchentuneup
-    kohls: Prv_kohls
     kompan: Prv_kompan
     kuiu: Prv_kuiu
     kwworldwide: Prv_kwworldwide

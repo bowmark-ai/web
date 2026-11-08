@@ -1354,7 +1354,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `crunchbase.searchOrganizations` | crunchbase.com | Finds companies by name the way the site's header search does — Crunchbase's own… | 🟢 |
 | `crutchfield.getProduct` | crutchfield.com | Reads one product's full page — price, availability, images, brand, spec/description… | ⚪ |
 | `crutchfield.search` | crutchfield.com | Searches Crutchfield's catalog for car audio products — items found, price, brand, URL… | 🟡 |
-| `culturefly.buildCultureFlyCheckoutLink` | culturefly.com | Resolves a chosen size + cadence against getCultureFlyBoxOptions and returns the exact… | 🟢 |
+| `culturefly.buildCultureFlyCheckoutLink` | culturefly.com | Resolves a chosen size + cadence against getCultureFlyBoxOptions and returns the exact… | 🟡 |
 | `culturefly.getCultureFlyBoxOptions` | culturefly.com | Reads one box's full configure surface off its own product page — every apparel size… | 🟢 |
 | `culturefly.listCultureFlyBoxes` | culturefly.com | Reads the live CultureFly catalogue for exactly the licensed subscription-box product… | 🟢 |
 | `curiocity.listEvents` | curiocity.com | Reads curiocity.com's own city 'things to do' feed and returns individual events… | 🟢 |
@@ -2987,7 +2987,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kohls.findStores` | kohls.com | Finds Kohl's stores near a ZIP or city, with address and hours. | ⚪ |
 | `kohls.getProduct` | kohls.com | Reads one product page: sizes, colors, per-SKU price, description and reviews for a… | ⚪ |
 | `kohls.listDeals` | kohls.com | Lists Kohl's current sales, coupon codes and Kohl's Cash promotions. | ⚪ |
-| `kohls.search` | kohls.com | Searches Kohl's product catalog for a shopper's query (e.g. "bath towels") and returns… | 🟢 |
+| `kohls.search` | kohls.com | Searches Kohl's product catalog for a shopper's query (e.g. "bath towels") and returns… | ⚪ |
 | `kompan.getSparePartsDocuments` | kompan.com | Reads the real spare-parts / TÜV-certificate / maintenance-manual documents KOMPAN… | 🟢 |
 | `kompan.searchPlaygroundSpareParts` | kompan.com | Single-object-argument search keyed by product_no that reports whether a playground… | 🟢 |
 | `kompan.searchProduct` | kompan.com | Searches KOMPAN Master for a product number in one region and lists every real… | 🟢 |
@@ -4516,7 +4516,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getStoreCollection` | shop.app | Lists the products in one of a store's collections ("Best Sellers", "Sugar-Free")… | 🟢 |
 | `shop_app.getStoreContacts` | shop.app | Reads how to reach a store — its support email, phone, website, contact page, social… | 🟢 |
 | `shop_app.getStorePolicies` | shop.app | Reads a store's refund, shipping and privacy policies as plain text — the policy sheet… | 🟢 |
-| `shop_app.getStoreReviews` | shop.app | Lists the reviews left across a whole store — rating, text, product, author and date —… | 🟢 |
+| `shop_app.getStoreReviews` | shop.app | Lists the reviews left across a whole store — rating, text, product, author and date —… | 🟡 |
 | `shop_app.getVariant` | shop.app | Picks one variant of a product by its options ({ Size: "Large", Color: "Powder Blue"… | 🟢 |
 | `shop_app.listAddresses` | shop.app | Lists the caller's saved shipping addresses on Shop. | ⚪ |
 | `shop_app.listCategories` | shop.app | Lists Shop's product categories (Women, Men, Beauty, Home, Fitness, Baby, Food …) —… | 🟢 |
@@ -4528,10 +4528,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | 🟡 |
 | `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's orders as delivered, or un-marks it. | ⚪ |
 | `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | ⚪ |
-| `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | 🟢 |
+| `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | 🟡 |
 | `shop_app.searchStore` | shop.app | Searches inside one store for products matching free text ("strawberry" in Liquid… | 🟢 |
 | `shop_app.startCheckout` | shop.app | Opens a checkout for the caller's cart at one store and returns the checkout url for… | ⚪ |
-| `shop_app.suggestSearches` | shop.app | Autocompletes a partial search ("running sh") into Shop's own query suggestions plus… | 🟢 |
+| `shop_app.suggestSearches` | shop.app | Autocompletes a partial search ("running sh") into Shop's own query suggestions plus… | 🟡 |
 | `shop_app.trackPackage` | shop.app | Adds a package to the caller's Shop by its tracking number and carrier, so Shop tracks… | 🔴 |
 | `shop_app.updatePrivacySettings` | shop.app | Changes the caller's Shop privacy settings (personalised recommendations, data sharing). | ⚪ |
 | `shop_app.writeReview` | shop.app | Leaves a star rating and review on a product the caller bought through Shop. | ⚪ |
@@ -4602,7 +4602,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.getProfile` | snapchat.com | Reads one Snapchat account's public page by username — www.snapchat.com/@<username> —… | 🟡 |
 | `snapchat.getShow` | snapchat.com | Reads one Discover show or publisher page (www.snapchat.com/p/<publisherId>) — name… | 🟢 |
 | `snapchat.getSnapMap` | snapchat.com | Reads the signed-in caller's Snap Map — friends who share their location and the… | ⚪ |
-| `snapchat.getSpotlightVideo` | snapchat.com | Reads one Spotlight video by its share url or snap id — creator (username, display… | 🟢 |
+| `snapchat.getSpotlightVideo` | snapchat.com | Reads one Spotlight video by its share url or snap id — creator (username, display… | 🟡 |
 | `snapchat.listChats` | snapchat.com | Lists the signed-in caller's conversations in Snapchat for Web — who, the last… | ⚪ |
 | `snapchat.listDiscoverStories` | snapchat.com | Reads the public Discover feed at www.snapchat.com/discover — publisher Shows and Snap… | 🟢 |
 | `snapchat.listFriends` | snapchat.com | Lists the signed-in caller's Snapchat friends — user id, username, display name, link… | 🟢 |
@@ -4614,7 +4614,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.listProfileSpotlights` | snapchat.com | Lists the Spotlight videos a public profile has posted, with title, upload date, view… | 🟢 |
 | `snapchat.listProfileStory` | snapchat.com | Lists the snaps in a public profile's current Story — media url, preview url, media… | 🟢 |
 | `snapchat.listSpotlightComments` | snapchat.com | Reads the public comments under one Spotlight video — comment text, commenter and time… | 🟡 |
-| `snapchat.listSpotlightFeed` | snapchat.com | Reads the Spotlight feed — Snapchat's public short-video feed at… | 🟢 |
+| `snapchat.listSpotlightFeed` | snapchat.com | Reads the Spotlight feed — Snapchat's public short-video feed at… | 🟡 |
 | `snapchat.listTopicSpotlights` | snapchat.com | Lists the Spotlight videos filed under one hashtag topic… | ⚪ |
 | `snapchat.postSpotlightComment` | snapchat.com | Posts a comment under a Spotlight video from the signed-in caller's account. | ⚪ |
 | `snapchat.postStory` | snapchat.com | Posts a photo to the signed-in caller's own Story. | ⚪ |
@@ -5519,7 +5519,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `vistaprint.getShippingBoxPrice` | vistaprint.com | Prices Vistaprint's Full-Print Shipping Boxes (product PRD-Y1LEPL3MX) for a given box… | 🟢 |
 | `voluspa.getFragranceQuizIntro` | voluspa.com | Reads the "Find Your Fragrance" quiz suite's entry screen — the two branching paths… | 🔴 |
 | `voluspa.matchFragranceQuiz` | voluspa.com | Drives the actual multi-step quiz end to end with a caller-supplied path and set of… | ⚪ |
-| `vscode.getDoc` | code.visualstudio.com | Returns one code.visualstudio.com documentation page's structured content by its URL —… | 🟡 |
+| `vscode.getDoc` | code.visualstudio.com | Returns one code.visualstudio.com documentation page's structured content by its URL —… | 🟢 |
 | `vscode.listDocPages` | code.visualstudio.com | Lists every doc page code.visualstudio.com publishes, parsed from the site's own… | 🟢 |
 | `vts_marketplace.getListing` | marketplace.vts.com | One VTS Marketplace listing by id or URL — description, photos, coordinates, days on… | 🟢 |
 | `vts_marketplace.listMarkets` | marketplace.vts.com | Every public market VTS Marketplace lists commercial space in — the market ids… | 🟢 |

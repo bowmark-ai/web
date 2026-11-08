@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 395de81818c798c56d50614c66325e8692f2a1623f6a869799a8b4a8eed76d00
-// 4552 checked, 20 unchecked.
+// Manifest version: 9ed6b6cfd0210a1cdce15f77ffe23b07e9f5fe00a38b3a1429c9d8f6b7b8cbc0
+// 4558 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "395de81818c798c56d50614c66325e8692f2a1623f6a869799a8b4a8eed76d00",
+  "version": "9ed6b6cfd0210a1cdce15f77ffe23b07e9f5fe00a38b3a1429c9d8f6b7b8cbc0",
   "units": {
     "address_validation": {
       "defs": {
@@ -25752,6 +25752,15 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "listDesignSizes": [
+          {
+            "name": "topic",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ],
         "signup": [
@@ -70900,41 +70909,6 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
-    "providers.kohls": {
-      "defs": {
-        "KohlsSearchArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "query",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "limit",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        }
-      },
-      "functions": {
-        "search": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "KohlsSearchArgs"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
     "providers.kompan": {
       "defs": {
         "KompanRegion": {
@@ -88361,6 +88335,102 @@ export const VALIDATORS: ValidatorTable = {
         "unfollowWriter": [
           {
             "name": "writer",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyComments": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postComment": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "body",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "recommendComment": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "commentId",
             "schema": {
               "k": "string"
             },
@@ -123481,6 +123551,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListBookmarkedVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListCaptionTracksArgs": {
           "k": "object",
           "props": [
@@ -124272,6 +124354,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SendDirectMessageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listBookmarkedVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListBookmarkedVideosArgs"
             },
             "optional": false
           },
@@ -134430,6 +134538,43 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMinutelyPrecipitation": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          }
+        ],
+        "getPollenHealth": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          },
+          {
+            "name": "condition",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "coldAndFlu"
+                },
+                {
+                  "k": "literal",
+                  "v": "migraine"
                 }
               ]
             },
