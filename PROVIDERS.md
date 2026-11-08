@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6110 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6117 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1347,6 +1347,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `costco.search` | costco.com | Costco's own search-bar autocomplete suggestions for a typed term — real phrases… | 🟢 |
 | `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
+| `craigslist.getListing` | craigslist.org | Reads a public Craigslist listing URL from searchListings for its full description… | 🟢 |
+| `craigslist.searchListings` | craigslist.org | Searches public Craigslist listings by keyword in an area (SF Bay Area by default)… | 🟢 |
 | `crateandbarrel.getProduct` | crateandbarrel.com | Reads one product page: every size, fabric and finish option with its own price… | ⚪ |
 | `crateandbarrel.searchProducts` | crateandbarrel.com | Searches Crate & Barrel's furniture, kitchen and decor catalog the way its own search… | 🟢 |
 | `crecipr.searchCredenciados` | crecipr.gov.br | Searches CRECI-PR's accredited brokers registry by name or CRECI registration number. | 🟢 |
@@ -1626,12 +1628,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.addFileComment` | dropbox.com | Adds a comment to a file in the caller's Dropbox. | ⚪ |
 | `dropbox.changeProfilePhoto` | dropbox.com | Changes the signed-in caller's profile photo. | ⚪ |
 | `dropbox.closeFileRequest` | dropbox.com | Closes one of the caller's file requests so it stops accepting uploads. | ⚪ |
-| `dropbox.copyFile` | dropbox.com | Copies a file or folder to another place in the caller's Dropbox. | ⚪ |
+| `dropbox.copyFile` | dropbox.com | Copies a file or folder to another place in the caller's Dropbox. | 🟢 |
 | `dropbox.createFileRequest` | dropbox.com | Creates a file request — a link anyone can upload files to, landing in a folder of the… | ⚪ |
-| `dropbox.createFolder` | dropbox.com | Creates a new folder in the caller's Dropbox. | ⚪ |
+| `dropbox.createFolder` | dropbox.com | Creates a new folder in the caller's Dropbox. | 🟢 |
 | `dropbox.createSharedLink` | dropbox.com | Creates (or returns the existing) shared link for a file or folder in the caller's… | ⚪ |
 | `dropbox.createTransfer` | dropbox.com | Creates a Dropbox Transfer from files in the caller's Dropbox or uploaded with it, and… | ⚪ |
-| `dropbox.deleteFile` | dropbox.com | Deletes a file or folder in the caller's Dropbox (it goes to Deleted files, where… | ⚪ |
+| `dropbox.deleteFile` | dropbox.com | Deletes a file or folder in the caller's Dropbox (it goes to Deleted files, where… | 🟢 |
 | `dropbox.downloadFile` | dropbox.com | Downloads a file from the caller's Dropbox and returns a Bowmark file URL for it. | ⚪ |
 | `dropbox.downloadSharedFile` | dropbox.com | Downloads the file behind a shared link and returns a Bowmark file URL for it, with… | 🟢 |
 | `dropbox.downloadSharedFolder` | dropbox.com | Downloads a whole shared folder as a zip and returns a Bowmark file URL for it. | ⚪ |
@@ -1652,7 +1654,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.listSharingMembers` | dropbox.com | Lists who has access to a shared file or folder in the caller's Dropbox, and whether… | 🔴 |
 | `dropbox.listStarredFiles` | dropbox.com | Lists the files and folders the caller starred. | ⚪ |
 | `dropbox.listTransfers` | dropbox.com | Lists the transfers the caller has sent, with their links, view and download counts… | ⚪ |
-| `dropbox.moveFile` | dropbox.com | Moves or renames a file or folder in the caller's Dropbox. | ⚪ |
+| `dropbox.moveFile` | dropbox.com | Moves or renames a file or folder in the caller's Dropbox. | 🟢 |
 | `dropbox.readSharedFile` | dropbox.com | Returns the text of a shared document (PDF, Word, slides, text) the way Dropbox's own… | 🟢 |
 | `dropbox.removeSharingMember` | dropbox.com | Removes a person's access to a shared file or folder in the caller's Dropbox. | ⚪ |
 | `dropbox.restoreFile` | dropbox.com | Restores a deleted file or folder in the caller's Dropbox. | ⚪ |
@@ -1723,6 +1725,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `embroker.getBusinessInsuranceQuote` | embroker.com | Returns a priced business-insurance coverage package for a company's profile… | ⚪ |
 | `embroker.getQuoteEntryPoint` | embroker.com | Returns the live entry URL for Embroker's self-serve quote wizard for one coverage… | 🟢 |
 | `embroker.listCoverageLines` | embroker.com | Returns the real list of commercial-insurance coverage lines and policy product types… | 🟢 |
+| `emirates.flightStatus` | emirates.com | Live status of an Emirates flight number on a date: route, status… | 🟢 |
 | `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | ⚪ |
 | `epicgames.addToCart` | epicgames.com | Put a game or add-on in the signed-in caller's cart. | ⚪ |
 | `epicgames.addToWishlist` | epicgames.com | Add a game to the signed-in caller's wishlist. | ⚪ |
@@ -1822,7 +1825,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.addToCart` | etsy.com | Adds a listing to the signed-in caller's cart with the chosen variation and quantity. | ⚪ |
 | `etsy.addToCollection` | etsy.com | Saves a listing into one of the caller's collections, creating the collection by name… | ⚪ |
-| `etsy.browseCategory` | etsy.com | The listings in one Etsy category (e.g. jewelry/necklaces), with the category's own… | 🟢 |
+| `etsy.browseCategory` | etsy.com | The listings in one Etsy category (e.g. jewelry/necklaces), with the category's own… | 🟡 |
 | `etsy.estimateShipping` | etsy.com | What one Etsy listing costs to ship and when it would arrive at a destination — a US… | 🟢 |
 | `etsy.favoriteListing` | etsy.com | Hearts a listing for the signed-in caller, or un-hearts it. | ⚪ |
 | `etsy.favoriteShop` | etsy.com | Favorites (follows) a shop for the signed-in caller, or unfollows it. | ⚪ |
@@ -4078,6 +4081,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | 🟢 |
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary off /settings. | 🟢 |
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
+| `quora.getProfileAnswers` | quora.com | Reads what a member has answered — the first page of their profile's Answers tab, each… | 🟢 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟡 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟢 |
 | `quora.getSpacePosts` | quora.com | Reads the posts in a Space's feed — most of what a Space holds, and what getSpace… | 🟢 |
@@ -4526,9 +4530,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getSharedList` | shop.app | Reads a product list someone shared from Shop (a shop.app/collections/<id> link) — the… | ⚪ |
 | `shop_app.getShopCash` | shop.app | Reads the caller's Shop Cash balance and its recent activity. | ⚪ |
 | `shop_app.getStore` | shop.app | Reads one store's Shop page — name, logo, description, rating and review count… | 🟢 |
-| `shop_app.getStoreCollection` | shop.app | Lists the products in one of a store's collections ("Best Sellers", "Sugar-Free")… | 🟢 |
+| `shop_app.getStoreCollection` | shop.app | Lists the products in one of a store's collections ("Best Sellers", "Sugar-Free")… | 🟡 |
 | `shop_app.getStoreContacts` | shop.app | Reads how to reach a store — its support email, phone, website, contact page, social… | 🟢 |
-| `shop_app.getStorePolicies` | shop.app | Reads a store's refund, shipping and privacy policies as plain text — the policy sheet… | 🟢 |
+| `shop_app.getStorePolicies` | shop.app | Reads a store's refund, shipping and privacy policies as plain text — the policy sheet… | 🟡 |
 | `shop_app.getStoreReviews` | shop.app | Lists the reviews left across a whole store — rating, text, product, author and date —… | 🟡 |
 | `shop_app.getVariant` | shop.app | Picks one variant of a product by its options ({ Size: "Large", Color: "Powder Blue"… | 🟢 |
 | `shop_app.listAddresses` | shop.app | Lists the caller's saved shipping addresses on Shop. | ⚪ |
@@ -4890,7 +4894,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
 | `stubhub.createListing` | stubhub.com | Publishes a ticket listing for sale on one of the caller's own events, at a given… | 🟢 |
-| `stubhub.findEventsToSell` | stubhub.com | The seller side of the marketplace: searches StubHub's own event-finder… | 🟢 |
+| `stubhub.findEventsToSell` | stubhub.com | The seller side of the marketplace: searches StubHub's own event-finder… | 🟡 |
 | `stubhub.findPerformers` | stubhub.com | Finds a performer, artist or sports team by name and returns its id, display name and… | 🟢 |
 | `stubhub.findVenues` | stubhub.com | Finds a venue by name and returns its id, display name and StubHub's own page url for… | 🟢 |
 | `stubhub.getCheckoutHandoff` | stubhub.com | Given a listing id from `getEventListings`, resolves StubHub's own checkout URL for… | 🟢 |
@@ -5373,6 +5377,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | 🟢 |
 | `twitch.getChannelSchedule` | twitch.tv | Reads a channel's scheduled broadcast times and upcoming events (if public). Logged… | 🟢 |
 | `twitch.getClip` | twitch.tv | Reads one clip by its slug, a clips.twitch.tv link or a twitch.tv/<login>/clip/<slug>… | 🟢 |
+| `twitch.getCurrentUser` | twitch.tv | Reads which Twitch account the saved sign-in belongs to: its numeric id and login… | 🟢 |
 | `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | 🟢 |
 | `twitch.getStream` | twitch.tv | Reads a channel's LIVE state right now: whether it is live, title, game, viewer count… | 🟢 |
 | `twitch.getSubscriptionStatus` | twitch.tv | Checks whether the signed-in user is subscribed to one named channel: id, Twitch's own… | 🟢 |
@@ -5504,6 +5509,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `vagaro.writeReview` | www.vagaro.com | Leaves a star rating and review for a business or staff member the signed-in caller… | ⚪ |
 | `vbt.getTourDepartures` | vbt.com | Reads one VBT tour's own public page and returns its Tour-Only and Tour+Travel-Package… | 🟢 |
 | `vbt.listTours` | vbt.com | Lists every self-guided/guided bike and walking tour VBT publishes, straight off its… | 🟢 |
+| `vercel.getDoc` | vercel.com | Reads one Vercel documentation page by URL or /docs path and returns its first-party… | 🟢 |
+| `vercel.listDocPages` | vercel.com | Lists Vercel's public documentation pages from its first-party Markdown sitemap… | 🟢 |
 | `verizon.getPlanTotal` | verizon.com | Walks the new-line plan-builder flow (verizon.com/smartphones/?isMyPlanFlow=true → a… | ⚪ |
 | `verizon.searchPhones` | verizon.com | Search Verizon Wireless's public phone catalog on verizon.com — every smartphone it… | 🟢 |
 | `vervecoffee.listRoastersChoiceSubscriptions` | vervecoffee.com | Lists Verve's five real Roaster's Choice coffee subscription products (single origin… | 🟢 |
@@ -6002,9 +6009,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yogatreecollective.listTeachers` | yogatreecollective.com | Lists the collective's teacher directory from /teacher-profile?format=json: name… | 🟢 |
 | `yogatreecollective.searchSite` | yogatreecollective.com | Searches the site's own Squarespace index (/api/search/GeneralSearch) for teachers… | 🟢 |
 | `yogatreecollective.sendContactMessage` | yogatreecollective.com | Submits the /contact form (name, email, message) to the collective. | ⚪ |
-| `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page — the exact Add to cart button for this… | 🔴 |
-| `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product page in full — SKU, live price, in-stock/out-of-stock status… | 🔴 |
-| `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —… | 🔴 |
+| `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page, with its Add to cart button, for a… | 🔴 |
+| `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product in full — full-size SKU, live price, stock, description, images… | 🔴 |
+| `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword… | 🔴 |
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |

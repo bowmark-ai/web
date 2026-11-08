@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 56411145ede9d8ee637e0c9d2b3ba0896bd356f720ee5e2909e8128fc4b06f65
-# 97 capabilities, 774 providers, 4604 typed functions, 20 refused.
+# Manifest version: 589b19fe16e3301f8a3f538b07d93ef0c7571a4b4d298f3c7f558638e79615f7
+# 97 capabilities, 777 providers, 4626 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6784,6 +6784,10 @@ class Prv_app_store_ListPurchasedAppsResult_Out(TypedDict):
     batchId: str | None
     nextBatchId: str | None
     raw: Any
+
+class Prv_app_store_ListSubscriptionsResult_Out(TypedDict):
+    url: str
+    raw: str
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -14697,6 +14701,14 @@ class Prv_charterhomes_CharterhomesVisitOption_Out(TypedDict):
     label: str
     calendlyUrl: str
 
+class Prv_chase_search_query_u1_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_chase_ChaseSearchResult_Out(TypedDict):
+    title: str
+    description: str | None
+    url: str
+
 class Prv_chatgpt_SharedConversation_Out(TypedDict):
     shareId: str
     url: str
@@ -17207,6 +17219,19 @@ class Prv_cnbc_com_cnbc_comRow_Out(TypedDict):
 class Prv_cnbc_com_ListQuotesArgs_In(TypedDict):
     symbols: Sequence[str]
 
+class Prv_cnbc_com_ListNewsArgs_In(TypedDict):
+    category: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_cnbc_com_cnbc_comNewsItem_Out(TypedDict):
+    id: str | None
+    title: str | None
+    url: str | None
+    teaser: str | None
+    published: str | None
+    type: str | None
+    sponsored: bool
+
 class Prv_cnbc_com_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -18064,6 +18089,27 @@ class Prv_couponfollow_CouponFollowOffer_Out(TypedDict):
     verified: bool
     exclusive: bool
     createdAt: str | None
+    url: str
+
+class Prv_craigslist_CraigslistListing_Out(TypedDict):
+    id: str
+    title: str
+    price: str | None
+    location: str | None
+    url: str
+    description: str | None
+    postedAt: str | None
+    attributes: list[str]
+
+class Prv_craigslist_CraigslistSearchArgs_In(TypedDict):
+    query: str
+    area: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_craigslist_CraigslistSearchResult_Out(TypedDict):
+    query: str
+    area: str
+    listings: list[Prv_craigslist_CraigslistListing_Out]
     url: str
 
 class Prv_crateandbarrel_CrateAndBarrelSearchArgs_In(TypedDict):
@@ -19665,6 +19711,23 @@ class Prv_deviantart_DeviantartNotification_Out(TypedDict):
     deviationTitle: NotRequired[str]
     url: NotRequired[str]
 
+class Prv_deviantart_listNotes_args_In(TypedDict):
+    cursor: NotRequired[str]
+
+class Prv_deviantart_DeviantartNotesResult_Out(TypedDict):
+    threads: list[Prv_deviantart_DeviantartNoteThread_Out]
+    hasMore: bool
+    cursor: NotRequired[str]
+
+class Prv_deviantart_DeviantartNoteThread_Out(TypedDict):
+    roomId: str
+    kind: NotRequired[str]
+    name: NotRequired[str]
+    withUsernames: list[str]
+    lastMessage: NotRequired[str]
+    lastMessageFrom: NotRequired[str]
+    updatedAt: NotRequired[str]
+
 class Prv_deviantart_sendNote_args_In(TypedDict):
     username: str
     text: str
@@ -21119,6 +21182,41 @@ class Prv_drafthouse_DrafthouseShowtime_Out(TypedDict):
     status: str
     url: str
 
+class Prv_dropbox_deleteFile_input_In(TypedDict):
+    path: str
+
+class Prv_dropbox_DropboxEntry_Out(TypedDict):
+    kind: Literal["file"] | Literal["folder"] | Literal["deleted"]
+    name: str
+    path: str
+    id: NotRequired[str]
+    sizeBytes: NotRequired[float]
+    modified: NotRequired[str]
+    rev: NotRequired[str]
+    contentHash: NotRequired[str]
+
+Prv_dropbox_copyFile_input_In = TypedDict(
+    "Prv_dropbox_copyFile_input_In",
+    {
+    "from": str,
+    "to": str,
+    "autorename": NotRequired[bool],
+    },
+)
+
+Prv_dropbox_moveFile_input_In = TypedDict(
+    "Prv_dropbox_moveFile_input_In",
+    {
+    "from": str,
+    "to": str,
+    "autorename": NotRequired[bool],
+    },
+)
+
+class Prv_dropbox_createFolder_input_In(TypedDict):
+    path: str
+    autorename: NotRequired[bool]
+
 class Prv_dropbox_listSharingMembers_input_In(TypedDict):
     file: NotRequired[str]
     sharedFolderId: NotRequired[str]
@@ -21177,16 +21275,6 @@ class Prv_dropbox_DropboxFileVersions_Out(TypedDict):
     isDeleted: bool
     serverDeleted: NotRequired[str]
     versions: list[Prv_dropbox_DropboxEntry_Out]
-
-class Prv_dropbox_DropboxEntry_Out(TypedDict):
-    kind: Literal["file"] | Literal["folder"] | Literal["deleted"]
-    name: str
-    path: str
-    id: NotRequired[str]
-    sizeBytes: NotRequired[float]
-    modified: NotRequired[str]
-    rev: NotRequired[str]
-    contentHash: NotRequired[str]
 
 class Prv_dropbox_listDeletedFiles_input_In(TypedDict):
     path: NotRequired[str]
@@ -23491,6 +23579,14 @@ class Prv_eventbrite_unfollowOrganizer_return_Out(TypedDict):
     organizerId: str
     followed: Literal[False]
     numFollowers: float | None
+
+class Prv_eventbrite_getFollowedOrganizers_return_Out(TypedDict):
+    organizers: list[Prv_eventbrite_getFollowedOrganizers_return_Out_organizers_item_Out]
+
+class Prv_eventbrite_getFollowedOrganizers_return_Out_organizers_item_Out(TypedDict):
+    id: str
+    name: str | None
+    url: str | None
 
 class Prv_eventbrite_getOrderHistory_return_Out(TypedDict):
     orders: list[Mapping[str, Any]]
@@ -43843,6 +43939,7 @@ class Prv_patreon_patreonPostAccess_Out(TypedDict):
     minPledgeCents: NotRequired[float]
     currency: NotRequired[str]
     tiers: list[Prv_patreon_patreonPostAccess_Out_tiers_item_Out]
+    purchasable: NotRequired[bool]
 
 class Prv_patreon_patreonPostAccess_Out_tiers_item_Out(TypedDict):
     id: str
@@ -45296,6 +45393,18 @@ class Prv_pinterest_deleteBoard_return_Out(TypedDict):
 class Prv_pinterest_savePin_options_In(TypedDict):
     sectionId: NotRequired[str]
     description: NotRequired[str]
+
+class Prv_pinterest_deletePin_return_Out(TypedDict):
+    pinId: str
+    deleted: bool
+
+class Prv_pinterest_followTopic_return_Out(TypedDict):
+    topicId: str
+    following: bool
+
+class Prv_pinterest_unfollowTopic_return_Out(TypedDict):
+    topicId: str
+    following: bool
 
 class Prv_pinterest_listNotifications_options_In(TypedDict):
     bookmark: NotRequired[str]
@@ -47617,6 +47726,25 @@ class Prv_quora_QuoraProfile_Out_spaces_item_Out(TypedDict):
     id: str
     name: str
     description: NotRequired[str]
+
+class Prv_quora_QuoraProfileAnswers_Out(TypedDict):
+    userId: str
+    name: str
+    profileUrl: str
+    answers: list[Prv_quora_QuoraProfileAnswers_Out_answers_item_Out]
+    hasMore: bool
+
+class Prv_quora_QuoraProfileAnswers_Out_answers_item_Out(TypedDict):
+    id: str
+    url: str
+    questionTitle: str
+    questionUrl: str
+    content: str
+    upvotes: float
+    views: NotRequired[float]
+    shares: NotRequired[float]
+    commentCount: NotRequired[float]
+    createdAt: NotRequired[str]
 
 class Prv_quora_GetSpaceArgs_In(TypedDict):
     url: NotRequired[str]
@@ -58048,6 +58176,31 @@ class Prv_temu_TemuWishlistSave_Out(TypedDict):
     productId: str
     saved: Literal[True]
 
+class Prv_temu_AddToCartArgs_In(TypedDict):
+    productId: NotRequired[str]
+    url: NotRequired[str]
+    skuId: str
+    quantity: NotRequired[float]
+
+class Prv_temu_TemuCartChange_Out(TypedDict):
+    productId: str
+    skuId: str
+    quantity: float
+    operation: Literal["add"] | Literal["update"] | Literal["remove"]
+
+class Prv_temu_UpdateCartArgs_In(TypedDict):
+    productId: NotRequired[str]
+    url: NotRequired[str]
+    skuId: str
+    quantity: float
+    fromQuantity: NotRequired[float]
+
+class Prv_temu_RemoveFromCartArgs_In(TypedDict):
+    productId: NotRequired[str]
+    url: NotRequired[str]
+    skuId: str
+    quantity: NotRequired[float]
+
 class Prv_tenders_go_ke_ListTendersArgs_In(TypedDict):
     status: NotRequired[Literal["active"] | Literal["all"]]
     title: NotRequired[str]
@@ -62811,6 +62964,17 @@ class Prv_vbt_VbtDeparture_Out(TypedDict):
     status: str | None
     deposit: str | None
     finalPaymentDate: str | None
+
+class Prv_vercel_VercelDoc_Out(TypedDict):
+    url: str
+    title: str | None
+    summary: str | None
+    body: str
+
+class Prv_vercel_VercelDocLink_Out(TypedDict):
+    title: str
+    url: str
+    summary: str | None
 
 class Prv_verizon_VerizonPhoneQuery_In(TypedDict):
     query: NotRequired[str]
@@ -67589,6 +67753,34 @@ class Prv_yelp_YelpAnswer_Out(TypedDict):
     createdAt: str | None
     helpfulCount: float
 
+class Prv_yelp_YelpUser_Out(TypedDict):
+    id: str
+    name: str | None
+    location: str | None
+    joined: str | None
+    tagline: str | None
+    photoUrl: str | None
+    eliteYears: list[float]
+    reviewCount: float
+    photoCount: float
+    friendCount: float
+    followerCount: float
+    complimentCount: float
+    about: Mapping[str, str]
+    recentReviews: list[Prv_yelp_YelpUserReview_Out]
+
+class Prv_yelp_YelpUserReview_Out(TypedDict):
+    id: str
+    rating: float | None
+    text: str | None
+    createdAt: str | None
+    business: Prv_yelp_YelpUserReview_Out_business_Out
+
+class Prv_yelp_YelpUserReview_Out_business_Out(TypedDict):
+    alias: str | None
+    name: str | None
+    city: str | None
+
 class Prv_yelp_YelpBookmarks_Out(TypedDict):
     bookmarks: list[Prv_yelp_YelpBookmark_Out]
 
@@ -67663,12 +67855,15 @@ class Prv_yogatreecollective_YtcSignUpTarget_Out(TypedDict):
     warnings: list[str]
 
 class Prv_yorkwallcoverings_YorkWallcoveringsSearchResult_Out(TypedDict):
+    handle: str
     sku: str
     name: str
     url: str
     price: float
+    inStock: bool
 
 class Prv_yorkwallcoverings_YorkWallcoveringsProduct_Out(TypedDict):
+    handle: str
     sku: str
     name: str
     url: str
@@ -67676,6 +67871,14 @@ class Prv_yorkwallcoverings_YorkWallcoveringsProduct_Out(TypedDict):
     inStock: bool
     description: str
     images: list[str]
+    variants: list[Prv_yorkwallcoverings_YorkWallcoveringsVariant_Out]
+
+class Prv_yorkwallcoverings_YorkWallcoveringsVariant_Out(TypedDict):
+    sku: str | None
+    title: str
+    price: float
+    available: bool
+    isSample: bool
 
 class Prv_yorkwallcoverings_YorkWallcoveringsAddToCartHandoff_Out(TypedDict):
     sku: str
@@ -69889,43 +70092,44 @@ class Cap_leads(Protocol):
         independent anchors (public membership of the company org, its commits to the company's
         repos, your `linkedin` on its profile, the company's own page linking it; with its full
         name spelled exactly, one of these counts twice when the profile also names the company,
-        or 5+ linked commits, or your `linkedin` alone), `probable` (with `evidence`) when its
-        profile only names the person and the company, and dropped into `namesakes` otherwise,
-        and every link read off it (`github`, its site, booking page, `other`) carries that
-        tier; a profile whose own name is a different person's gives nothing, however it was
-        found or passed. An X handle (from that GitHub profile) is read and scored on its own
-        (only a passed or verified account vouches for it): verified when the X profile links
-        back to the company's site, its @handle or that GitHub profile; probable, with
-        `evidence`, when its bio only names the company; dropped when its display name is
-        another person's, it names another current employer, or the account is suspended or
-        gone. `summary` is `{title} at {company}; previously {role} at {company}; {one notable
-        thing}` (at most 220 characters), each clause read off a cited field only: the LinkedIn
-        profile's roles and about text, a talk or appearance that survived the namesake split,
-        or your own `title` (which has no page); `summarySources` lists the citation url behind
-        each clause (url null only for your own title), and a clause with no citation is left
-        out. `warnings` says what the row lacks (a failed source, a leg the inputs could not
-        run). `pending` lists legs that were skipped or failed (LinkedIn when `linkedin: false`
-        or no saved login, talks when `talks: false`, web unless `web: true`, or when neither
-        Serper nor DuckDuckGo could answer) so a batch re-enriches just those later. `web: true`
-        searches Google through Serper (up to 4 queries per person, one metered credit each,
-        counted in `webQueries`; `webBackend: "duckduckgo"` skips it) for booking pages, luma
-        events and articles, and falls back to DuckDuckGo when Serper cannot answer. A missing
-        value is null or [], never a throw; the call THROWS only on bad input (before any
-        request) or when EVERY source failed. `allowPatternEmail: true` adds an address built
-        from the company's address format, proven by two or more OTHER people's cited addresses
-        (its commits, its npm packages' maintainers, its PyPI project, OpenPGP keys on its mail
-        domain; method "pattern", `formatProof` lists every proving url, `citation` the first;
-        cited addresses that disagree prove nothing), checks Gravatar for a public profile at it
-        (one naming the person makes it "registered", never "verified"; one naming somebody else
-        drops it; a format is only proven on the company's own mail domain, never a mailbox
-        provider or a hosting subdomain), and asks the domain's mail server about it without
-        sending anything: `status` is "verified" (it accepts the address and refuses a random
-        one), "catch-all" (it accepts anything), or "unknown" (it would not say: greylisting, a
-        block, no connection); an address the server says does not exist is dropped with a
-        warning. `probeEmail: false` skips the check and leaves it "unverified". Show `status`
-        in your table, not `verified`. ~10-40 s per person, and never past `deadlineMs` (default
-        50 s): legs it cut are in `pending` with a warning; run several in parallel from your
-        script and keep LinkedIn under ~6/min.
+        or 5+ linked commits, or your `linkedin` alone; a silent or partial name also verifies
+        on your exact `linkedin` plus the company as its whole company field), `probable` (with
+        `evidence`) when its profile only names the person and the company, and dropped into
+        `namesakes` otherwise, and every link read off it (`github`, its site, booking page,
+        `other`) carries that tier; a profile whose own name is a different person's gives
+        nothing, however it was found or passed. An X handle (from that GitHub profile) is read
+        and scored on its own (only a passed or verified account vouches for it): verified when
+        the X profile links back to the company's site, its @handle or that GitHub profile;
+        probable, with `evidence`, when its bio only names the company; dropped when its display
+        name is another person's, it names another current employer, or the account is suspended
+        or gone. `summary` is `{title} at {company}; previously {role} at {company}; {one
+        notable thing}` (at most 220 characters), each clause read off a cited field only: the
+        LinkedIn profile's roles and about text, a talk or appearance that survived the namesake
+        split, or your own `title` (which has no page); `summarySources` lists the citation url
+        behind each clause (url null only for your own title), and a clause with no citation is
+        left out. `warnings` says what the row lacks (a failed source, a leg the inputs could
+        not run). `pending` lists legs that were skipped or failed (LinkedIn when `linkedin:
+        false` or no saved login, talks when `talks: false`, web unless `web: true`, or when
+        neither Serper nor DuckDuckGo could answer) so a batch re-enriches just those later.
+        `web: true` searches Google through Serper (up to 4 queries per person, one metered
+        credit each, counted in `webQueries`; `webBackend: "duckduckgo"` skips it) for booking
+        pages, luma events and articles, and falls back to DuckDuckGo when Serper cannot answer.
+        A missing value is null or [], never a throw; the call THROWS only on bad input (before
+        any request) or when EVERY source failed. `allowPatternEmail: true` adds an address
+        built from the company's address format, proven by two or more OTHER people's cited
+        addresses (its commits, its npm packages' maintainers, its PyPI project, OpenPGP keys on
+        its mail domain; method "pattern", `formatProof` lists every proving url, `citation` the
+        first; cited addresses that disagree prove nothing), checks Gravatar for a public
+        profile at it (one naming the person makes it "registered", never "verified"; one naming
+        somebody else drops it; a format is only proven on the company's own mail domain, never
+        a mailbox provider or a hosting subdomain), and asks the domain's mail server about it
+        without sending anything: `status` is "verified" (it accepts the address and refuses a
+        random one), "catch-all" (it accepts anything), or "unknown" (it would not say:
+        greylisting, a block, no connection); an address the server says does not exist is
+        dropped with a warning. `probeEmail: false` skips the check and leaves it "unverified".
+        Show `status` in your table, not `verified`. ~10-40 s per person, and never past
+        `deadlineMs` (default 50 s): legs it cut are in `pending` with a warning; run several in
+        parallel from your script and keep LinkedIn under ~6/min.
         """
 
 class Cap_llm(Protocol):
@@ -72772,6 +72976,13 @@ class Prv_app_store(Protocol):
         NEEDS THE CALLER SIGNED IN to their Apple Account; the run pauses for that sign-in.
         Returns Apple's JSON as raw (its signed-in field shape is not yet measured) plus a
         nextBatchId to page back through older purchases.
+        """
+
+    async def listSubscriptions(self, opts: ConnectionOption | None = None, /) -> Prv_app_store_ListSubscriptionsResult_Out:
+        """List the App Store subscriptions the caller's own Apple Account is paying for — Apple's
+        own subscriptions page. NEEDS THE CALLER SIGNED IN to their Apple Account; the run
+        pauses for that sign-in. Returns the page as raw (its signed-in shape is not yet
+        measured). Read only: never cancels or starts a subscription.
         """
 
 class Prv_apple(Protocol):
@@ -77052,6 +77263,15 @@ class Prv_charterhomes(Protocol):
         Calendly tour-booking URL. Never books anything.
         """
 
+class Prv_chase(Protocol):
+    """Search Chase's public site for banking products, rates, branches and help pages."""
+
+    async def search(self, query: str | Prv_chase_search_query_u1_In | None = None, /) -> list[Prv_chase_ChaseSearchResult_Out]:
+        """Searches Chase's public site for products, rates, branches and help pages. Call search()
+        with no argument for a current Chase overview, or pass a phrase such as "credit cards".
+        Each result has its displayed title, short description and Chase page URL.
+        """
+
 class Prv_chatgpt(Protocol):
     """OpenAI's ChatGPT at chatgpt.com — read a shared conversation link logged out, and,
     signed in as the CALLER through the relay, read their own account. The rest of the
@@ -78581,6 +78801,18 @@ class Prv_cnbc_com(Protocol):
         getQuote.
         """
 
+    async def listMarkets(self, opts: ConnectionOption | None = None, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
+        """Returns CNBC's market banner — Dow, S&P 500, Nasdaq, VIX, WTI crude, gold, 10-year
+        Treasury yield and the US Dollar Index — with price, change and percent change, in one
+        call.
+        """
+
+    async def listNews(self, args: Prv_cnbc_com_ListNewsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_cnbc_com_cnbc_comNewsItem_Out]:
+        """Returns the latest CNBC headlines for a section (top news by default, or world,
+        business, investing, technology, economy and others) — title, link, teaser, publication
+        date and story type — from CNBC's own RSS feed.
+        """
+
     async def signup(self, args: Any, /) -> Prv_cnbc_com_signup_return_u0_Out | Prv_cnbc_com_signup_return_u1_Out | Prv_cnbc_com_signup_return_u2_Out | Prv_cnbc_com_signup_return_u3_Out:
         """Makes a NEW CNBC account with the person's own email and password, in a session. Pauses
         with `needs_code` / `needs_phone` whenever the site wants something only the person has;
@@ -79082,6 +79314,19 @@ class Prv_couponfollow(Protocol):
         real, correct answer, not a failure. Each offer's code is null for a deal-only listing
         (no code to enter, discount applies automatically or at a linked page) and set only when
         couponfollow itself marks the card as carrying one.
+        """
+
+class Prv_craigslist(Protocol):
+    """Finds public Craigslist listings by keyword and reads a listing's full public details."""
+
+    async def getListing(self, url: str, /) -> Prv_craigslist_CraigslistListing_Out:
+        """Reads a public Craigslist listing URL from searchListings for its full description,
+        posted time and attributes.
+        """
+
+    async def searchListings(self, query: str | Prv_craigslist_CraigslistSearchArgs_In, /) -> Prv_craigslist_CraigslistSearchResult_Out:
+        """Searches public Craigslist listings by keyword in an area (SF Bay Area by default),
+        returning title, asking price, location and listing URL.
         """
 
 class Prv_crateandbarrel(Protocol):
@@ -79997,6 +80242,12 @@ class Prv_deviantart(Protocol):
         signed in to DeviantArt.
         """
 
+    async def listNotes(self, args: Prv_deviantart_listNotes_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_deviantart_DeviantartNotesResult_Out:
+        """Reads the signed-in caller's Notes inbox — each conversation's other participants,
+        latest message, its sender and time, newest first; pass the returned cursor for the next
+        page. Needs a caller signed in to DeviantArt.
+        """
+
     async def sendNote(self, args: Prv_deviantart_sendNote_args_In, opts: ConnectionOption | None = None, /) -> Prv_deviantart_DeviantartSentNote_Out:
         """Sends a private note (DeviantArt's direct message, now a chat DM) from the signed-in
         caller to another user, taking their username and the message text. Needs a caller
@@ -80667,6 +80918,30 @@ class Prv_dropbox(Protocol):
     in, browse, search, upload, move, delete and restore the caller's own files, create and
     manage shared links, share with people, and run file requests and transfers.
     """
+
+    async def deleteFile(self, input: Prv_dropbox_deleteFile_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxEntry_Out:
+        """Deletes a file or folder at `path` in the signed-in caller's Dropbox and returns what
+        was deleted. It goes to Deleted files, where `listDeletedFiles` finds it and
+        `restoreFile` can bring it back. Needs the caller's Dropbox sign-in.
+        """
+
+    async def copyFile(self, input: Prv_dropbox_copyFile_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxEntry_Out:
+        """Copies a file or folder in the signed-in caller's Dropbox `from` one full path `to`
+        another (the copy's name included) and returns the copy. THROWS if `to` is taken, unless
+        `autorename: true`. Needs the caller's Dropbox sign-in.
+        """
+
+    async def moveFile(self, input: Prv_dropbox_moveFile_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxEntry_Out:
+        """Moves or renames a file or folder in the signed-in caller's Dropbox, `from` one full
+        path `to` another (the new name included), and returns it at its new path. THROWS if
+        `to` is taken, unless `autorename: true`. Needs the caller's Dropbox sign-in.
+        """
+
+    async def createFolder(self, input: Prv_dropbox_createFolder_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxEntry_Out:
+        """Creates a folder at `path` (e.g. "/Projects/2026") in the signed-in caller's Dropbox and
+        returns it. THROWS if something already sits at that path, unless `autorename: true`,
+        which makes "2026 (1)" instead. Needs the caller's Dropbox sign-in.
+        """
 
     async def listSharingMembers(self, input: Prv_dropbox_listSharingMembers_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxSharingMembers_Out:
         """Lists who has access to one shared file (`file`: a path or `id:…` from
@@ -81704,6 +81979,13 @@ class Prv_eventbrite(Protocol):
         """Unfollows an organizer the signed-in caller follows on Eventbrite, taking an organizer
         url or its numeric id — the undo of followOrganizer; needs the caller signed in to
         Eventbrite (an authFunction, a write).
+        """
+
+    async def getFollowedOrganizers(self, opts: ConnectionOption | None = None, /) -> Prv_eventbrite_getFollowedOrganizers_return_Out:
+        """Lists the organizers the signed-in caller follows on Eventbrite — the list
+        followOrganizer and unfollowOrganizer write to; needs the caller signed in to Eventbrite
+        (an authFunction). The page's signed-in shape is UNMEASURED, so only id, name and url
+        are promised.
         """
 
     async def getOrderHistory(self, opts: ConnectionOption | None = None, /) -> Prv_eventbrite_getOrderHistory_return_Out:
@@ -94755,6 +95037,28 @@ class Prv_pinterest(Protocol):
         session is refused (the run asks for a fresh sign-in).
         """
 
+    async def deletePin(self, pinId: str, opts: ConnectionOption | None = None, /) -> Prv_pinterest_deletePin_return_Out:
+        """Delete a pin the signed-in caller created or saved — the undo for `savePin` and
+        `createPin`. Not reversible. `POST /resource/ApiResource/delete/` proxying `DELETE
+        /v3/pins/<id>/`. THROWS `PinterestInputError` on a non-numeric pin id, and when the
+        saved session is refused (the run asks for a fresh sign-in).
+        """
+
+    async def followTopic(self, topicId: str, opts: ConnectionOption | None = None, /) -> Prv_pinterest_followTopic_return_Out:
+        """Follow one of Pinterest's idea topics (an id from `listTopics` or `getTopic`) for the
+        signed-in caller, which steers their home feed. Nobody is notified. `ApiResource` update
+        proxying `PUT /v3/users/me/interests/favorited/<id>/`. THROWS `PinterestInputError` on a
+        non-numeric topic id, and when the saved session is refused (the run asks for a fresh
+        sign-in).
+        """
+
+    async def unfollowTopic(self, topicId: str, opts: ConnectionOption | None = None, /) -> Prv_pinterest_unfollowTopic_return_Out:
+        """Stop following an idea topic — the undo for `followTopic`. `ApiResource` delete proxying
+        `DELETE /v3/users/me/interests/favorited/<id>/`. THROWS `PinterestInputError` on a
+        non-numeric topic id, and when the saved session is refused (the run asks for a fresh
+        sign-in).
+        """
+
     async def listNotifications(self, options: Prv_pinterest_listNotifications_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pinterest_listNotifications_return_Out:
         """The caller's own notifications — who saved, commented on or followed them, newest first,
         page by page. `GET /resource/ApiResource/get/` proxying the site's own
@@ -96131,6 +96435,12 @@ class Prv_quora(Protocol):
         """Reads a member's public profile — display name, bio, credential, follower count, answer
         count, question count, and their Spaces — taking a Quora profile URL or the name as it
         appears in the URL.
+        """
+
+    async def getProfileAnswers(self, args: Prv_quora_GetProfileArgs_In, /) -> Prv_quora_QuoraProfileAnswers_Out:
+        """Reads what a member has answered — the first page of their profile's Answers tab, each
+        with its permalink, the question, the text, upvotes, views and when it was written —
+        taking the same profile URL or name getProfile takes. Signed out.
         """
 
     async def getSpace(self, args: Prv_quora_GetSpaceArgs_In, /) -> Prv_quora_QuoraSpace_Out:
@@ -101074,6 +101384,22 @@ class Prv_temu(Protocol):
         product url. Needs the caller signed in.
         """
 
+    async def addToCart(self, args: Prv_temu_AddToCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_temu_TemuCartChange_Out:
+        """Adds one Temu product variant (productId or product url, plus its skuId) to the caller's
+        own cart, quantity 1 unless given. Needs the caller signed in; never checks out.
+        """
+
+    async def updateCart(self, args: Prv_temu_UpdateCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_temu_TemuCartChange_Out:
+        """Sets one line of the caller's Temu cart to a new quantity; pass productId, skuId,
+        quantity and the line's current fromQuantity (from viewCart). Needs the caller signed
+        in.
+        """
+
+    async def removeFromCart(self, args: Prv_temu_RemoveFromCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_temu_TemuCartChange_Out:
+        """Removes one line from the caller's Temu cart by productId and skuId; quantity is the
+        line's current count (default 1). Needs the caller signed in.
+        """
+
 class Prv_tenders_go_ke(Protocol):
     """List open (or all) Kenyan government procurement tenders with close dates, paginated and
     filterable by title; read one tender's documents and award value.
@@ -103620,6 +103946,23 @@ class Prv_vbt(Protocol):
         the booking handoff. Throws if the slug does not resolve to a real tour.
         """
 
+class Prv_vercel(Protocol):
+    """Reads Vercel's published documentation Markdown or lists its first-party documentation
+    sitemap, so an agent can find and retrieve Vercel guidance without crawling pages.
+    """
+
+    async def getDoc(self, url: str, /) -> Prv_vercel_VercelDoc_Out:
+        """Reads one Vercel documentation page by its /docs path or vercel.com URL (for example,
+        "/docs/getting-started-with-vercel") and returns first-party Markdown content, title and
+        summary. Throws for another host or a page outside /docs.
+        """
+
+    async def listDocPages(self, /) -> list[Prv_vercel_VercelDocLink_Out]:
+        """Lists Vercel's public documentation pages from its first-party Markdown sitemap. Use
+        this zero-argument entry point for a bare Vercel request, then pass a returned URL to
+        getDoc.
+        """
+
 class Prv_verizon(Protocol):
     """Verizon Wireless's public phone catalog on verizon.com — every smartphone it sells, with
     full retail price, monthly device payment, deals and trade-in promos, colors and stock.
@@ -106159,6 +106502,14 @@ class Prv_yelp(Protocol):
         plus the total count. Takes a /biz/ url or bare alias from search. Read-only.
         """
 
+    async def getUser(self, userId: str, /) -> Prv_yelp_YelpUser_Out:
+        """Reads a public Yelp member profile from /user_details?userid=<id>: name, location, join
+        month, tagline, photo, Elite years, review/photo/friend/follower/compliment counts,
+        their filled-in About answers and their 5 latest reviews (rating, text, date, business
+        alias). userId is a getReviews row's author.id, or the userid in a profile url.
+        Read-only.
+        """
+
     async def getBookmarks(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpBookmarks_Out:
         """Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
         page): each business's alias, name and url, in the order the page shows them, [] when
@@ -106220,25 +106571,24 @@ class Prv_yogatreecollective(Protocol):
 
 class Prv_yorkwallcoverings(Protocol):
     """Reads York Wallcoverings' public wallpaper/mural storefront (yorkwallcoverings.com) —
-    search the catalog by keyword, read a product's live price and stock, and get the
-    handoff to add it to cart on the real site.
+    search the catalog by keyword, read a product's live price, stock and every colourway,
+    and get the handoff to add it to cart on the real site.
     """
 
     async def search(self, query: str, /) -> list[Prv_yorkwallcoverings_YorkWallcoveringsSearchResult_Out]:
-        """Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —
-        theme, style, color or brand words all match, since the site's own search covers name
-        and description — and returns each match's SKU, name, product URL and price.
+        """Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword
+        through the store's own search and returns each match's handle, full-size SKU, name,
+        product URL, price and stock. Throws, never returns [], when York refuses the request.
         """
 
-    async def getProduct(self, url: str, /) -> Prv_yorkwallcoverings_YorkWallcoveringsProduct_Out:
-        """Reads one York product page in full — SKU, live price, in-stock/out-of-stock status,
-        description and images — for a product URL `search` already returned.
+    async def getProduct(self, urlOrHandle: str, /) -> Prv_yorkwallcoverings_YorkWallcoveringsProduct_Out:
+        """Reads one York product in full — full-size SKU, live price, stock, description, images
+        and every colourway/sample variant — for a handle or /products/ URL `search` returned.
         """
 
-    async def addToCart(self, url: str, /) -> Prv_yorkwallcoverings_YorkWallcoveringsAddToCartHandoff_Out:
-        """Hands back the shopper's own York product page — the exact Add to cart button for this
-        SKU — since the site's cart requires a per-session ASP.NET token nobody but the shopper
-        can supply. Writes nothing.
+    async def addToCart(self, urlOrHandle: str, /) -> Prv_yorkwallcoverings_YorkWallcoveringsAddToCartHandoff_Out:
+        """Hands back the shopper's own York product page, with its Add to cart button, for a
+        product `search` returned. Writes nothing.
         """
 
 class Prv_yourarborhome(Protocol):
@@ -107210,6 +107560,7 @@ class BowmarkProviders(Protocol):
     chantecaille: Prv_chantecaille
     chappellet: Prv_chappellet
     charterhomes: Prv_charterhomes
+    chase: Prv_chase
     chatgpt: Prv_chatgpt
     cheapflights: Prv_cheapflights
     checkfront: Prv_checkfront
@@ -107252,6 +107603,7 @@ class BowmarkProviders(Protocol):
     costco: Prv_costco
     countycourt_vic_gov_au: Prv_countycourt_vic_gov_au
     couponfollow: Prv_couponfollow
+    craigslist: Prv_craigslist
     crateandbarrel: Prv_crateandbarrel
     crecipr: Prv_crecipr
     credibly_com: Prv_credibly_com
@@ -107758,6 +108110,7 @@ class BowmarkProviders(Protocol):
     va_gov: Prv_va_gov
     vagaro: Prv_vagaro
     vbt: Prv_vbt
+    vercel: Prv_vercel
     verizon: Prv_verizon
     vervecoffee: Prv_vervecoffee
     vessi: Prv_vessi

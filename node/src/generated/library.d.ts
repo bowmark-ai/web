@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 56411145ede9d8ee637e0c9d2b3ba0896bd356f720ee5e2909e8128fc4b06f65
-// 97 capabilities, 774 providers, 4622 typed functions, 20 refused.
+// Manifest version: 589b19fe16e3301f8a3f538b07d93ef0c7571a4b4d298f3c7f558638e79615f7
+// 97 capabilities, 777 providers, 4644 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3204,20 +3204,21 @@ interface Lead {
      * only on two independent anchors (public membership of the company org, its commits to the
      * company's repos, your `linkedin` on its profile, the company's own page linking it; with its
      * full name spelled exactly, one of these counts twice when the profile also names the
-     * company, or 5+ linked commits, or your `linkedin` alone), `probable` (with `evidence`) when
-     * its profile only names the person and the company, and dropped into `namesakes` otherwise,
-     * and every link read off it (`github`, its site, booking page, `other`) carries that tier; a
-     * profile whose own name is a different person's gives nothing, however it was found or
-     * passed. An X handle (from that GitHub profile) is read and scored on its own (only a passed
-     * or verified account vouches for it): verified when the X profile links back to the company's
-     * site, its @handle or that GitHub profile; probable, with `evidence`, when its bio only names
-     * the company; dropped when its display name is another person's, it names another current
-     * employer, or the account is suspended or gone. `summary` is `{title} at {company};
-     * previously {role} at {company}; {one notable thing}` (at most 220 characters), each clause
-     * read off a cited field only: the LinkedIn profile's roles and about text, a talk or
-     * appearance that survived the namesake split, or your own `title` (which has no page);
-     * `summarySources` lists the citation url behind each clause (url null only for your own
-     * title), and a clause with no citation is left out. `warnings` says what the row lacks (a
+     * company, or 5+ linked commits, or your `linkedin` alone; a silent or partial name also
+     * verifies on your exact `linkedin` plus the company as its whole company field), `probable`
+     * (with `evidence`) when its profile only names the person and the company, and dropped into
+     * `namesakes` otherwise, and every link read off it (`github`, its site, booking page,
+     * `other`) carries that tier; a profile whose own name is a different person's gives nothing,
+     * however it was found or passed. An X handle (from that GitHub profile) is read and scored on
+     * its own (only a passed or verified account vouches for it): verified when the X profile
+     * links back to the company's site, its @handle or that GitHub profile; probable, with
+     * `evidence`, when its bio only names the company; dropped when its display name is another
+     * person's, it names another current employer, or the account is suspended or gone. `summary`
+     * is `{title} at {company}; previously {role} at {company}; {one notable thing}` (at most 220
+     * characters), each clause read off a cited field only: the LinkedIn profile's roles and about
+     * text, a talk or appearance that survived the namesake split, or your own `title` (which has
+     * no page); `summarySources` lists the citation url behind each clause (url null only for your
+     * own title), and a clause with no citation is left out. `warnings` says what the row lacks (a
      * failed source, a leg the inputs could not run). `pending` lists legs that were skipped or
      * failed (LinkedIn when `linkedin: false` or no saved login, talks when `talks: false`, web
      * unless `web: true`, or when neither Serper nor DuckDuckGo could answer) so a batch
@@ -11149,6 +11150,10 @@ interface ListPurchasedAppsResult {
   nextBatchId: string | null; // pass back as batchId for the next, older batch
   raw: unknown; // Apple's own purchase-search JSON, unaltered — the signed-in shape is unmeasured
 }
+interface ListSubscriptionsResult {
+  url: string;
+  raw: string; // Apple's own subscriptions page, unaltered — the signed-in shape is unmeasured
+}
 interface AppStoreReview {
   id: string;
   author: string;
@@ -11282,6 +11287,14 @@ interface ListReviewsResult {
      * through older purchases.
      */
     listPurchasedApps(args?: ListPurchasedAppsArgs, opts?: ConnectionOption): Promise<ListPurchasedAppsResult>;
+
+    /**
+     * List the App Store subscriptions the caller's own Apple Account is paying for — Apple's own
+     * subscriptions page. NEEDS THE CALLER SIGNED IN to their Apple Account; the run pauses for
+     * that sign-in. Returns the page as raw (its signed-in shape is not yet measured). Read only:
+     * never cancels or starts a subscription.
+     */
+    listSubscriptions(opts?: ConnectionOption): Promise<ListSubscriptionsResult>;
   }
 }
 
@@ -23840,6 +23853,21 @@ interface CharterhomesVisitOption { neighborhood: string; label: string; calendl
   }
 }
 
+declare namespace BowmarkProvider_chase {
+  // ── Chase — the unit's own declarations, verbatim ──
+interface ChaseSearchResult { title: string; description: string | null; url: string; }
+
+  /** Search Chase's public site for banking products, rates, branches and help pages. */
+  interface Unit {
+    /**
+     * Searches Chase's public site for products, rates, branches and help pages. Call search()
+     * with no argument for a current Chase overview, or pass a phrase such as "credit cards". Each
+     * result has its displayed title, short description and Chase page URL.
+     */
+    search(query?: string | { query?: string }): Promise<ChaseSearchResult[]>;
+  }
+}
+
 declare namespace BowmarkProvider_chatgpt {
   // ── ChatGPT — the unit's own declarations, verbatim ──
 interface ChatGPTAccount {
@@ -27968,6 +27996,24 @@ interface ListQuotesArgs {
   symbols: string[];
 }
 
+interface ListNewsArgs {
+  /** top (default), world, us, business, investing, earnings, economy,
+   * finance, technology, politics, health, realestate, media */
+  category?: string;
+  /** at most this many items (the feed carries ~30) */
+  limit?: number;
+}
+
+interface cnbc_comNewsItem {
+  id: string | null;
+  title: string | null;
+  url: string | null;
+  teaser: string | null;
+  published: string | null;
+  type: string | null;
+  sponsored: boolean;
+}
+
   /** Stock quotes, market data, news, videos and analysis from CNBC. */
   interface Unit {
     /**
@@ -27979,6 +28025,19 @@ interface ListQuotesArgs {
 
     /** Returns current stock quotes for multiple symbols as an array, with same fields as getQuote. */
     listQuotes(args: ListQuotesArgs, opts?: ConnectionOption): Promise<cnbc_comRow[]>;
+
+    /**
+     * Returns CNBC's market banner — Dow, S&P 500, Nasdaq, VIX, WTI crude, gold, 10-year Treasury
+     * yield and the US Dollar Index — with price, change and percent change, in one call.
+     */
+    listMarkets(opts?: ConnectionOption): Promise<cnbc_comRow[]>;
+
+    /**
+     * Returns the latest CNBC headlines for a section (top news by default, or world, business,
+     * investing, technology, economy and others) — title, link, teaser, publication date and story
+     * type — from CNBC's own RSS feed.
+     */
+    listNews(args?: ListNewsArgs, opts?: ConnectionOption): Promise<cnbc_comNewsItem[]>;
 
     /**
      * Makes a NEW CNBC account with the person's own email and password, in a session. Pauses with
@@ -29424,6 +29483,28 @@ interface CouponFollowOffer {
      * marks the card as carrying one.
      */
     getCodes(domain: string): Promise<CouponFollowOffer[]>;
+  }
+}
+
+declare namespace BowmarkProvider_craigslist {
+  // ── Craigslist — the unit's own declarations, verbatim ──
+interface CraigslistListing { id: string; title: string; price: string | null; location: string | null; url: string; description: string | null; postedAt: string | null; attributes: string[]; }
+interface CraigslistSearchArgs { query: string; area?: string; limit?: number; }
+interface CraigslistSearchResult { query: string; area: string; listings: CraigslistListing[]; url: string; }
+
+  /** Finds public Craigslist listings by keyword and reads a listing's full public details. */
+  interface Unit {
+    /**
+     * Reads a public Craigslist listing URL from searchListings for its full description, posted
+     * time and attributes.
+     */
+    getListing(url: string): Promise<CraigslistListing>;
+
+    /**
+     * Searches public Craigslist listings by keyword in an area (SF Bay Area by default),
+     * returning title, asking price, location and listing URL.
+     */
+    searchListings(query: string | CraigslistSearchArgs): Promise<CraigslistSearchResult>;
   }
 }
 
@@ -31804,6 +31885,22 @@ interface DeviantartNotificationsResult {
   cursor?: string;
 }
 
+interface DeviantartNoteThread {
+  roomId: string;
+  kind?: string;
+  name?: string;
+  withUsernames: string[];
+  lastMessage?: string;
+  lastMessageFrom?: string;
+  updatedAt?: string;
+}
+
+interface DeviantartNotesResult {
+  threads: DeviantartNoteThread[];
+  hasMore: boolean;
+  cursor?: string;
+}
+
 interface DeviantartPostedComment {
   commentId: string;
   text: string;
@@ -31951,6 +32048,13 @@ interface DeviantartPostedComment {
      * to DeviantArt.
      */
     getNotifications(args?: { cursor?: string }, opts?: ConnectionOption): Promise<DeviantartNotificationsResult>;
+
+    /**
+     * Reads the signed-in caller's Notes inbox — each conversation's other participants, latest
+     * message, its sender and time, newest first; pass the returned cursor for the next page.
+     * Needs a caller signed in to DeviantArt.
+     */
+    listNotes(args?: { cursor?: string }, opts?: ConnectionOption): Promise<DeviantartNotesResult>;
 
     /**
      * Sends a private note (DeviantArt's direct message, now a chat DM) from the signed-in caller
@@ -34067,6 +34171,34 @@ interface DropboxFileRequests { requests: DropboxFileRequest[]; hasMore: boolean
    * shared links, share with people, and run file requests and transfers.
    */
   interface Unit {
+    /**
+     * Deletes a file or folder at `path` in the signed-in caller's Dropbox and returns what was
+     * deleted. It goes to Deleted files, where `listDeletedFiles` finds it and `restoreFile` can
+     * bring it back. Needs the caller's Dropbox sign-in.
+     */
+    deleteFile(input: { path: string }, opts?: ConnectionOption): Promise<DropboxEntry>;
+
+    /**
+     * Copies a file or folder in the signed-in caller's Dropbox `from` one full path `to` another
+     * (the copy's name included) and returns the copy. THROWS if `to` is taken, unless
+     * `autorename: true`. Needs the caller's Dropbox sign-in.
+     */
+    copyFile(input: { from: string; to: string; autorename?: boolean }, opts?: ConnectionOption): Promise<DropboxEntry>;
+
+    /**
+     * Moves or renames a file or folder in the signed-in caller's Dropbox, `from` one full path
+     * `to` another (the new name included), and returns it at its new path. THROWS if `to` is
+     * taken, unless `autorename: true`. Needs the caller's Dropbox sign-in.
+     */
+    moveFile(input: { from: string; to: string; autorename?: boolean }, opts?: ConnectionOption): Promise<DropboxEntry>;
+
+    /**
+     * Creates a folder at `path` (e.g. "/Projects/2026") in the signed-in caller's Dropbox and
+     * returns it. THROWS if something already sits at that path, unless `autorename: true`, which
+     * makes "2026 (1)" instead. Needs the caller's Dropbox sign-in.
+     */
+    createFolder(input: { path: string; autorename?: boolean }, opts?: ConnectionOption): Promise<DropboxEntry>;
+
     /**
      * Lists who has access to one shared file (`file`: a path or `id:…` from
      * `searchFiles`/`listFolder`) or shared folder (`sharedFolderId` from `listSharedWithMe`) in
@@ -37403,6 +37535,13 @@ interface EventbriteOrganizerDetail {
      * (an authFunction, a write).
      */
     unfollowOrganizer(args: { organizerIdOrUrl: string }, opts?: ConnectionOption): Promise<{ organizerId: string; followed: false; numFollowers: number | null }>;
+
+    /**
+     * Lists the organizers the signed-in caller follows on Eventbrite — the list followOrganizer
+     * and unfollowOrganizer write to; needs the caller signed in to Eventbrite (an authFunction).
+     * The page's signed-in shape is UNMEASURED, so only id, name and url are promised.
+     */
+    getFollowedOrganizers(opts?: ConnectionOption): Promise<{ organizers: { id: string; name: string | null; url: string | null }[] }>;
 
     /**
      * Reads the signed-in caller's past and upcoming ticket orders from Eventbrite's 'My tickets'
@@ -71551,6 +71690,7 @@ interface patreonPostAccess {
   minPledgeCents?: number;
   currency?: string;
   tiers: { id: string; title?: string; amountCents: number; url?: string }[];
+  purchasable?: boolean;
 }
 
 interface patreonPostDetail extends patreonPost {
@@ -73545,6 +73685,31 @@ interface PinterestNotification {
      * asks for a fresh sign-in).
      */
     savePin(pinId: string, boardId: string, options?: { sectionId?: string; description?: string }, opts?: ConnectionOption): Promise<PinterestPin>;
+
+    /**
+     * Delete a pin the signed-in caller created or saved — the undo for `savePin` and `createPin`.
+     * Not reversible. `POST /resource/ApiResource/delete/` proxying `DELETE /v3/pins/<id>/`.
+     * THROWS `PinterestInputError` on a non-numeric pin id, and when the saved session is refused
+     * (the run asks for a fresh sign-in).
+     */
+    deletePin(pinId: string, opts?: ConnectionOption): Promise<{ pinId: string; deleted: boolean }>;
+
+    /**
+     * Follow one of Pinterest's idea topics (an id from `listTopics` or `getTopic`) for the
+     * signed-in caller, which steers their home feed. Nobody is notified. `ApiResource` update
+     * proxying `PUT /v3/users/me/interests/favorited/<id>/`. THROWS `PinterestInputError` on a
+     * non-numeric topic id, and when the saved session is refused (the run asks for a fresh
+     * sign-in).
+     */
+    followTopic(topicId: string, opts?: ConnectionOption): Promise<{ topicId: string; following: boolean }>;
+
+    /**
+     * Stop following an idea topic — the undo for `followTopic`. `ApiResource` delete proxying
+     * `DELETE /v3/users/me/interests/favorited/<id>/`. THROWS `PinterestInputError` on a
+     * non-numeric topic id, and when the saved session is refused (the run asks for a fresh
+     * sign-in).
+     */
+    unfollowTopic(topicId: string, opts?: ConnectionOption): Promise<{ topicId: string; following: boolean }>;
 
     /**
      * The caller's own notifications — who saved, commented on or followed them, newest first,
@@ -77447,6 +77612,24 @@ interface GetTopicArgs {
   url?: string;
   name?: string;
 }
+interface QuoraProfileAnswers {
+  userId: string;
+  name: string;
+  profileUrl: string;
+  answers: Array<{
+    id: string;
+    url: string;
+    questionTitle: string;
+    questionUrl: string;
+    content: string;
+    upvotes: number;
+    views?: number;
+    shares?: number;
+    commentCount?: number;
+    createdAt?: string;
+  }>;
+  hasMore: boolean;
+}
 interface QuoraSpacePosts {
   spaceId: string;
   spaceName: string;
@@ -77524,6 +77707,13 @@ interface QuoraAnswersPage {
      * appears in the URL.
      */
     getProfile(args: GetProfileArgs): Promise<QuoraProfile>;
+
+    /**
+     * Reads what a member has answered — the first page of their profile's Answers tab, each with
+     * its permalink, the question, the text, upvotes, views and when it was written — taking the
+     * same profile URL or name getProfile takes. Signed out.
+     */
+    getProfileAnswers(args: GetProfileArgs): Promise<QuoraProfileAnswers>;
 
     /**
      * Reads one Space — its name, description, member count, and its most recent questions —
@@ -92310,6 +92500,10 @@ interface TemuPackage { packageId?: string; carrier?: string; trackingNumber?: s
 interface TemuTracking { orderId: string; packages: TemuPackage[]; }
 interface AddToWishlistArgs { productId?: string; url?: string; }
 interface TemuWishlistSave { productId: string; saved: true; }
+interface AddToCartArgs { productId?: string; url?: string; skuId: string; quantity?: number; }
+interface UpdateCartArgs { productId?: string; url?: string; skuId: string; quantity: number; fromQuantity?: number; }
+interface RemoveFromCartArgs { productId?: string; url?: string; skuId: string; quantity?: number; }
+interface TemuCartChange { productId: string; skuId: string; quantity: number; operation: "add" | "update" | "remove"; }
 
   /** Shop Temu — search, product detail, cart and order functions on the marketplace app. */
   interface Unit {
@@ -92345,6 +92539,24 @@ interface TemuWishlistSave { productId: string; saved: true; }
      * url. Needs the caller signed in.
      */
     addToWishlist(args: AddToWishlistArgs, opts?: ConnectionOption): Promise<TemuWishlistSave>;
+
+    /**
+     * Adds one Temu product variant (productId or product url, plus its skuId) to the caller's own
+     * cart, quantity 1 unless given. Needs the caller signed in; never checks out.
+     */
+    addToCart(args: AddToCartArgs, opts?: ConnectionOption): Promise<TemuCartChange>;
+
+    /**
+     * Sets one line of the caller's Temu cart to a new quantity; pass productId, skuId, quantity
+     * and the line's current fromQuantity (from viewCart). Needs the caller signed in.
+     */
+    updateCart(args: UpdateCartArgs, opts?: ConnectionOption): Promise<TemuCartChange>;
+
+    /**
+     * Removes one line from the caller's Temu cart by productId and skuId; quantity is the line's
+     * current count (default 1). Needs the caller signed in.
+     */
+    removeFromCart(args: RemoveFromCartArgs, opts?: ConnectionOption): Promise<TemuCartChange>;
   }
 }
 
@@ -99759,6 +99971,40 @@ interface VbtTourDepartures {
   }
 }
 
+declare namespace BowmarkProvider_vercel {
+  // ── Vercel Docs — the unit's own declarations, verbatim ──
+interface VercelDoc {
+  url: string;
+  title: string | null;
+  summary: string | null;
+  body: string;
+}
+interface VercelDocLink {
+  title: string;
+  url: string;
+  summary: string | null;
+}
+
+  /**
+   * Reads Vercel's published documentation Markdown or lists its first-party documentation
+   * sitemap, so an agent can find and retrieve Vercel guidance without crawling pages.
+   */
+  interface Unit {
+    /**
+     * Reads one Vercel documentation page by its /docs path or vercel.com URL (for example,
+     * "/docs/getting-started-with-vercel") and returns first-party Markdown content, title and
+     * summary. Throws for another host or a page outside /docs.
+     */
+    getDoc(url: string): Promise<VercelDoc>;
+
+    /**
+     * Lists Vercel's public documentation pages from its first-party Markdown sitemap. Use this
+     * zero-argument entry point for a bare Vercel request, then pass a returned URL to getDoc.
+     */
+    listDocPages(): Promise<VercelDocLink[]>;
+  }
+}
+
 declare namespace BowmarkProvider_verizon {
   // ── Verizon — the unit's own declarations, verbatim ──
 interface VerizonPhone {
@@ -106967,6 +107213,30 @@ interface YelpQuestionPage {
   questions: YelpQuestion[]; // the first 10, Yelp's own "best" order
 }
 
+interface YelpUserReview {
+  id: string;
+  rating: number | null;
+  text: string | null;
+  createdAt: string | null; // business-local ISO time
+  business: { alias: string | null; name: string | null; city: string | null }; // alias → getBusiness
+}
+interface YelpUser {
+  id: string; // the userid, e.g. from a getReviews row's author.id
+  name: string | null; // e.g. "Vince C."
+  location: string | null;
+  joined: string | null; // Yelp's own month, e.g. "September 2013"
+  tagline: string | null;
+  photoUrl: string | null;
+  eliteYears: number[];
+  reviewCount: number;
+  photoCount: number;
+  friendCount: number;
+  followerCount: number;
+  complimentCount: number;
+  about: Record<string, string>; // filled-in "About" answers keyed by Yelp's own prompt
+  recentReviews: YelpUserReview[]; // the latest 5 the profile shows
+}
+
 interface YelpSuggestArgs {
   prefix: string; // what has been typed so far, e.g. "tera"
   location: string; // e.g. "Philadelphia, PA"
@@ -107078,6 +107348,14 @@ interface YelpBookmarks {
      * Takes a /biz/ url or bare alias from search. Read-only.
      */
     getQuestions(ref: string): Promise<YelpQuestionPage>;
+
+    /**
+     * Reads a public Yelp member profile from /user_details?userid=<id>: name, location, join
+     * month, tagline, photo, Elite years, review/photo/friend/follower/compliment counts, their
+     * filled-in About answers and their 5 latest reviews (rating, text, date, business alias).
+     * userId is a getReviews row's author.id, or the userid in a profile url. Read-only.
+     */
+    getUser(userId: string): Promise<YelpUser>;
 
     /**
      * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
@@ -107227,13 +107505,24 @@ interface YtcSignUpTarget {
 declare namespace BowmarkProvider_yorkwallcoverings {
   // ── York Wallcoverings — the unit's own declarations, verbatim ──
 interface YorkWallcoveringsSearchResult {
-  sku: string;
+  handle: string;   // pass into getProduct
+  sku: string;      // the first purchasable full-size variant, never the sample
   name: string;
   url: string;
   price: number;
+  inStock: boolean;
+}
+
+interface YorkWallcoveringsVariant {
+  sku: string | null;
+  title: string;    // e.g. "Periwinkle / Double Roll (27in x 27.0ft)"
+  price: number;
+  available: boolean;
+  isSample: boolean; // the 8in x 10in swatch sold beside every colourway
 }
 
 interface YorkWallcoveringsProduct {
+  handle: string;
   sku: string;
   name: string;
   url: string;
@@ -107241,6 +107530,7 @@ interface YorkWallcoveringsProduct {
   inStock: boolean;
   description: string;
   images: string[];
+  variants: YorkWallcoveringsVariant[];
 }
 
 interface YorkWallcoveringsAddToCartHandoff {
@@ -107254,29 +107544,28 @@ interface YorkWallcoveringsAddToCartHandoff {
 
   /**
    * Reads York Wallcoverings' public wallpaper/mural storefront (yorkwallcoverings.com) — search
-   * the catalog by keyword, read a product's live price and stock, and get the handoff to add it
-   * to cart on the real site.
+   * the catalog by keyword, read a product's live price, stock and every colourway, and get the
+   * handoff to add it to cart on the real site.
    */
   interface Unit {
     /**
-     * Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword — theme,
-     * style, color or brand words all match, since the site's own search covers name and
-     * description — and returns each match's SKU, name, product URL and price.
+     * Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword through
+     * the store's own search and returns each match's handle, full-size SKU, name, product URL,
+     * price and stock. Throws, never returns [], when York refuses the request.
      */
     search(query: string): Promise<YorkWallcoveringsSearchResult[]>;
 
     /**
-     * Reads one York product page in full — SKU, live price, in-stock/out-of-stock status,
-     * description and images — for a product URL `search` already returned.
+     * Reads one York product in full — full-size SKU, live price, stock, description, images and
+     * every colourway/sample variant — for a handle or /products/ URL `search` returned.
      */
-    getProduct(url: string): Promise<YorkWallcoveringsProduct>;
+    getProduct(urlOrHandle: string): Promise<YorkWallcoveringsProduct>;
 
     /**
-     * Hands back the shopper's own York product page — the exact Add to cart button for this SKU —
-     * since the site's cart requires a per-session ASP.NET token nobody but the shopper can
-     * supply. Writes nothing.
+     * Hands back the shopper's own York product page, with its Add to cart button, for a product
+     * `search` returned. Writes nothing.
      */
-    addToCart(url: string): Promise<YorkWallcoveringsAddToCartHandoff>;
+    addToCart(urlOrHandle: string): Promise<YorkWallcoveringsAddToCartHandoff>;
   }
 }
 
@@ -110201,6 +110490,7 @@ interface BowmarkProviders {
   chantecaille: BowmarkProvider_chantecaille.Unit;
   chappellet: BowmarkProvider_chappellet.Unit;
   charterhomes: BowmarkProvider_charterhomes.Unit;
+  chase: BowmarkProvider_chase.Unit;
   chatgpt: BowmarkProvider_chatgpt.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   checkfront: BowmarkProvider_checkfront.Unit;
@@ -110243,6 +110533,7 @@ interface BowmarkProviders {
   costco: BowmarkProvider_costco.Unit;
   countycourt_vic_gov_au: BowmarkProvider_countycourt_vic_gov_au.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
+  craigslist: BowmarkProvider_craigslist.Unit;
   crateandbarrel: BowmarkProvider_crateandbarrel.Unit;
   crecipr: BowmarkProvider_crecipr.Unit;
   credibly_com: BowmarkProvider_credibly_com.Unit;
@@ -110749,6 +111040,7 @@ interface BowmarkProviders {
   va_gov: BowmarkProvider_va_gov.Unit;
   vagaro: BowmarkProvider_vagaro.Unit;
   vbt: BowmarkProvider_vbt.Unit;
+  vercel: BowmarkProvider_vercel.Unit;
   verizon: BowmarkProvider_verizon.Unit;
   vervecoffee: BowmarkProvider_vervecoffee.Unit;
   vessi: BowmarkProvider_vessi.Unit;
