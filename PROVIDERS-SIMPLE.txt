@@ -60,7 +60,7 @@ api.weather.gov — nws: findRadarStations, findStations, findZones, getActiveAl
 apify.com — apify: store
 app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchDeals (+2 planned)
 apple.com — apple: addToBag, bookGeniusBarAppointment, checkCoverage, compareModels, findStoresNear, getBag, getConfigurationOptions, getDeliveryEstimate, getNewsroomPost, getOrderStatus, getPickupAvailability, getProduct, getProductByPartNumber, getPurchaseOptions, getRepairPricing, getStore, getSupportArticle, getSystemStatus, getTradeInEstimate, listAccessories, listFamilyModels, listNewsroomPosts, listOrders, listRefurbished, listStores, listTodaySessions, listTradeInValues, removeFromBag, resolveLocation, search, searchSupport, suggestSearches
-apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCategories, listDeveloperApps, listReviews, listSimilarApps, listTodayStories, listTopCharts, searchApps (+3 planned)
+apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCategories, listDeveloperApps, listReviews, listSimilarApps, listSubscriptions, listTodayStories, listTopCharts, searchApps (+2 planned)
 arajet.com — arajet: search
 archipelago.gg — archipelago: getClientRelease, getGameOptions
 archive.org — archive_org: checkLendingAvailability, downloadFile, getItem, getSnapshot, searchItems, searchScholar (+2 planned)
@@ -235,7 +235,7 @@ curiocity.com — curiocity: listEvents
 currys.co.uk — currys: listClearance, search (+2 planned)
 cve.circl.lu — circl: getCve, search
 cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuild
-dailymotion.com — dailymotion: addToWatchLater, createPlaylist, followChannel, getChannel, getMyProfile, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listFollowedChannels, listFollowingFeed, listHashtagVideos, listLiveStreams, listMyLikedVideos, listMyPlaylists, listPlaylistVideos, listRelatedVideos, listStreamFormats, listTrendingVideos, listWatchHistory, listWatchLater, searchChannels, searchPlaylists, searchVideos (+7 planned)
+dailymotion.com — dailymotion: addToWatchLater, createPlaylist, deletePlaylist, followChannel, getChannel, getMyProfile, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listFollowedChannels, listFollowingFeed, listHashtagVideos, listLiveStreams, listMyLikedVideos, listMyPlaylists, listPlaylistVideos, listRelatedVideos, listStreamFormats, listTrendingVideos, listWatchHistory, listWatchLater, searchChannels, searchPlaylists, searchVideos (+6 planned)
 dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
 data.cms.gov — data_cms: getRows, searchDatasets
 davidsonhomes.com — davidsonhomes: getCommunity, getHome, getRegion, listRegions
@@ -284,7 +284,7 @@ estes-express.com — estes_express: estimateFreightQuote
 ethos.com — ethos: nothing callable yet (+1 planned)
 etsy.com — etsy: browseCategory, estimateShipping, findRegistry, getListing, getRegistry, getShop, getUserProfile, listCategories, listEditorsPicks, listListingReviews, listShopListings, listShopReviews, listTrendingSearches, search, searchShops, suggestSearches (+19 planned)
 evag.de — evag: listDepartures, listDisruptions, searchStop
-eventbrite.com — eventbrite: followOrganizer, getEvent, getOrderHistory, getOrganizer, getOwnProfile, getSavedEvents, getVenue, listTicketClasses, registerForEvent, saveEvent, searchEvents, unfollowOrganizer, unsaveEvent
+eventbrite.com — eventbrite: followOrganizer, getEvent, getFollowedOrganizers, getOrderHistory, getOrganizer, getOwnProfile, getSavedEvents, getVenue, listTicketClasses, registerForEvent, saveEvent, searchEvents, unfollowOrganizer, unsaveEvent
 eventim.com — eventim: search (+1 planned)
 eventsource.com — eventsource: getShowroom, getShowroomInquiryContact, getShowroomVenue
 evolutionofsmooth.com — evolutionofsmooth: answerShadeQuizQuestion, startShadeQuiz
@@ -554,7 +554,7 @@ personio.de — personio: listJobs
 pexels.com — pexels: search
 pike13.com — pike13: bookClass, cancelVisit, checkEnrollmentEligibility, findBusiness, getAppointmentAvailability, getAppointmentAvailabilitySummary, getBusiness, getClass, getMyProfile, getPlan, getSchedule, getScheduleSummary, getService, getWaitlistEligibility, joinWaitlist, leaveWaitlist, listClassSeries, listLocations, listMyBusinesses, listMyPlans, listMyVisits, listMyWaitlistEntries, listMyWaivers, listPlans, listServices, listStaff (+1 planned)
 pilotprotocol.network — pilotprotocol: getApp, listApps
-pinterest.com — pinterest: createBoard, getBoard, getCurrentUser, getHomeFeed, getPin, getProduct, getTopic, getUser, hidePin, listBoardPins, listBoardSectionPins, listBoardSections, listConversations, listNotifications, listTopicPins, listTopics, listUserBoards, listUserCreatedPins, listUserFollowers, listUserFollowing, listUserSavedPins, listVisualObjects, searchBoards, searchMyPins, searchPins, searchUsers, searchVideos, suggestSearches (+19 planned)
+pinterest.com — pinterest: createBoard, deletePin, followTopic, getBoard, getCurrentUser, getHomeFeed, getPin, getProduct, getTopic, getUser, hidePin, listBoardPins, listBoardSectionPins, listBoardSections, listConversations, listNotifications, listTopicPins, listTopics, listUserBoards, listUserCreatedPins, listUserFollowers, listUserFollowing, listUserSavedPins, listVisualObjects, searchBoards, searchMyPins, searchPins, searchUsers, searchVideos, suggestSearches, unfollowTopic (+16 planned)
 pirateship.com — pirateship: getRates (+2 planned)
 pitboss-grills.com — dansons: identifyProduct, listRegisterableProducts
 pizzahut.com — pizzahut: findStores, getDeals, getMenu, getMenuItem, priceOrder (+1 planned)
@@ -593,6 +593,7 @@ reboot.floathelm.com — floathelm: createAccount, findStudio, getRoom, listAvai
 recreation.gov — recreation_gov: campgroundAvailability, searchCampgrounds
 recruitee.com — recruitee: listJobs
 reddit.com — reddit: blockUser, browseSubreddits, createSubreddit, deletePostOrComment, editPostOrComment, findPostsByUrl, followUser, getCommentReplies, getHomeFeed, getMyAccount, getPost, getSubreddit, getSubredditPosts, getSubredditRules, getUser, getUserComments, getUserPosts, getWikiPage, hidePost, joinSubreddit, leaveSubreddit, listInbox, listMySubscriptions, listPostFlairs, listSaved, listWikiPages, postComment, replyToComment, reportPostOrComment, savePostOrComment, search, searchComments, searchSubreddits, searchUsers, sendDirectMessage, setProfilePicture, submitPost, unsavePostOrComment, updateProfile, vote (+2 planned)
+redfin.com — redfin: search
 registry.modelcontextprotocol.io — mcp_registry: search
 rei.com — rei: getProduct, getSku, search (+3 planned)
 reliancepartners.com — reliancepartners: assembleApplication, getApplicationSchema
@@ -796,7 +797,7 @@ x.com — x: bookmarkPost, createPost, deletePost, followUser, getConversation, 
 xola.com — xola: findSeller, getAvailability, getExperience, getPriceQuote, listExperiences, listWaivers (+3 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
-yelp.com — yelp: getBookmarks, getBusiness, getMenu, getPhotos, getReviews, search, suggest (+23 planned)
+yelp.com — yelp: getBookmarks, getBusiness, getMenu, getPhotos, getReviews, getUser, search, suggest (+22 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
 yorkwallcoverings.com — yorkwallcoverings: nothing callable yet (+3 planned)
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)

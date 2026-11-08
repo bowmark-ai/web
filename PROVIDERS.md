@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6107 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6109 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -262,7 +262,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listPurchasedApps` | apps.apple.com | List the apps the caller's own Apple Account has bought or downloaded, with what was… | 🔴 |
 | `app_store.listReviews` | apps.apple.com | Read what people actually wrote about an app — the review body, its title, the star… | 🟢 |
 | `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | 🟢 |
-| `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions this Apple Account is paying for, what each one… | ⚪ |
+| `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions the caller's own Apple Account is paying for —… | 🟢 |
 | `app_store.listTodayStories` | apps.apple.com | List the editorial stories Apple is featuring on the Today tab right now — the page a… | 🟢 |
 | `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | 🟢 |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
@@ -1378,7 +1378,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.addToPlaylist` | dailymotion.com | Add a video to one of the signed-in caller's own playlists, or pass add: false to… | 🔴 |
 | `dailymotion.addToWatchLater` | dailymotion.com | Save a Dailymotion video to the signed-in caller's Watch Later, or pass add: false to… | 🟢 |
 | `dailymotion.createPlaylist` | dailymotion.com | Create a playlist on the signed-in caller's Dailymotion account — name, optional… | 🟢 |
-| `dailymotion.deletePlaylist` | dailymotion.com | Delete one of the signed-in caller's playlists. | ⚪ |
+| `dailymotion.deletePlaylist` | dailymotion.com | Delete one of the signed-in caller's playlists. | 🟢 |
 | `dailymotion.deleteVideo` | dailymotion.com | Delete one of the signed-in caller's videos. | ⚪ |
 | `dailymotion.followChannel` | dailymotion.com | Follow a Dailymotion channel as the signed-in caller, or pass follow: false to unfollow. | 🟢 |
 | `dailymotion.getChannel` | dailymotion.com | Read one Dailymotion channel from its id, username or dailymotion.com/<username> URL —… | 🟢 |
@@ -1859,6 +1859,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `evag.searchStop` | evag.de | Search for Essen transit stops and stations by name or partial name; returns matching… | 🟢 |
 | `eventbrite.followOrganizer` | eventbrite.com | Follows an organizer from the signed-in caller's account, taking an organizer url or id. | 🟢 |
 | `eventbrite.getEvent` | eventbrite.com | Returns one event in full: title, description, start/end time, venue (name, address… | 🟢 |
+| `eventbrite.getFollowedOrganizers` | eventbrite.com | Lists the organizers the signed-in caller follows (id, name, url) — the list… | 🟢 |
 | `eventbrite.getOrderHistory` | eventbrite.com | Reads the signed-in caller's past and upcoming ticket orders from their account's 'My… | 🟢 |
 | `eventbrite.getOrganizer` | eventbrite.com | Reads an organizer's public page — name, bio, verification status, website… | 🟢 |
 | `eventbrite.getOwnProfile` | eventbrite.com | Reads the signed-in caller's own account profile (name, email on file, location). | 🟢 |
@@ -3828,10 +3829,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.createBoard` | pinterest.com | Make a new board on the caller's account, public or secret, with a name and description. | 🟢 |
 | `pinterest.createPin` | pinterest.com | Create a new pin on the caller's account from an image and a destination link, with a… | ⚪ |
 | `pinterest.deleteBoard` | pinterest.com | Delete one of the caller's own boards — what makes every board test write reversible. | 🔴 |
-| `pinterest.deletePin` | pinterest.com | Delete a pin the caller created or saved — the undo that makes `createPin` and… | ⚪ |
+| `pinterest.deletePin` | pinterest.com | Delete a pin the caller created or saved — the undo that makes `createPin` and… | 🟢 |
 | `pinterest.findVisuallySimilar` | pinterest.com | Find pins that look like a region of an image — Pinterest's lens, the thing the site… | ⚪ |
 | `pinterest.followBoard` | pinterest.com | Follow a single board rather than everything its owner posts. | ⚪ |
-| `pinterest.followTopic` | pinterest.com | Follow one of Pinterest's idea topics, which is what steers the caller's home feed. | ⚪ |
+| `pinterest.followTopic` | pinterest.com | Follow one of Pinterest's idea topics, which is what steers the caller's home feed. | 🟢 |
 | `pinterest.followUser` | pinterest.com | Follow a person or a brand on the caller's behalf. | ⚪ |
 | `pinterest.getBoard` | pinterest.com | Read one board: name, description, owner, pin count, follower count, section count… | 🟢 |
 | `pinterest.getCurrentUser` | pinterest.com | Who the caller is signed in as — username, display name, counts. | 🟢 |
@@ -3867,7 +3868,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.sendPin` | pinterest.com | Send a pin to somebody in a Pinterest message — the site's own share action. | ⚪ |
 | `pinterest.suggestSearches` | pinterest.com | Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre"… | 🟢 |
 | `pinterest.unfollowBoard` | pinterest.com | Stop following a board. | ⚪ |
-| `pinterest.unfollowTopic` | pinterest.com | Stop following an idea topic. | ⚪ |
+| `pinterest.unfollowTopic` | pinterest.com | Stop following an idea topic. | 🟢 |
 | `pinterest.unfollowUser` | pinterest.com | Stop following a person or a brand. | ⚪ |
 | `pinterest.updateBoard` | pinterest.com | Rename a board, change its description, or flip it between public and secret. | 🔴 |
 | `pinterest.updateProfile` | pinterest.com | Edit the caller's own profile — display name, bio, website, and the profile picture. | ⚪ |
@@ -4136,6 +4137,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reddit.unsavePostOrComment` | reddit.com | Removes a post or comment from the signed-in caller's Saved list. | 🟢 |
 | `reddit.updateProfile` | reddit.com | Changes the signed-in caller's public profile — display name and the 'about' bio. | 🟢 |
 | `reddit.vote` | reddit.com | Upvotes, downvotes or clears the caller's vote on a post or a comment, as the… | 🟢 |
+| `redfin.search` | redfin.com | Lists homes for sale on Redfin in one city, neighborhood or county — address, price… | 🟢 |
 | `rei.addToCart` | rei.com | Adds a SKU to the visitor's cart. | ⚪ |
 | `rei.findStores` | rei.com | Finds REI stores near a location, with hours. | ⚪ |
 | `rei.getProduct` | rei.com | Reads one REI product by name or keyword: its price, product-level availability and… | 🟡 |
@@ -5975,7 +5977,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.getQuestions` | yelp.com | Reads a business's Ask the Community questions from its /questions/ page: each… | 🔴 |
 | `yelp.getReservationAvailability` | yelp.com | Reads the open reservation slots a restaurant offers through Yelp Reservations for a… | ⚪ |
 | `yelp.getReviews` | yelp.com | Lists a business's reviews a page at a time with Yelp's own sorts (relevance, newest… | 🟢 |
-| `yelp.getUser` | yelp.com | Reads a public Yelp member profile from /user_details?userid=<id>: name, location… | ⚪ |
+| `yelp.getUser` | yelp.com | Reads a public Yelp member profile from /user_details?userid=<id>: name, location… | 🟢 |
 | `yelp.getWaitlist` | yelp.com | Reads a restaurant's current Yelp Waitlist estimate — whether it is taking parties now… | ⚪ |
 | `yelp.joinWaitlist` | yelp.com | Joins a restaurant's Yelp Waitlist remotely for the signed-in caller, or leaves it. | ⚪ |
 | `yelp.listCategories` | yelp.com | Lists Yelp's business categories with their aliases and parents — the finder for… | ⚪ |
