@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6096 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6107 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -95,6 +95,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adorama.getProduct` | adorama.com | Reads one product page — typeset title, current price, specs, rating. | ⚪ |
 | `adorama.listCategories` | adorama.com | Lists every Adorama department and sub-category with its full path and url, from its… | 🟢 |
 | `adorama.search` | adorama.com | Finds Adorama products by name, brand, model or SKU across its whole catalog, from… | 🟢 |
+| `ads_google.listAccounts` | ads.google.com | Lists every Google Ads account the signed-in caller can open, with its customer id and… | 🟢 |
+| `ads_google.listCampaigns` | ads.google.com | Reads the Campaigns page grid for one account and date range: each campaign's status… | 🟢 |
+| `adsmanager_facebook.getAccountInsights` | adsmanager.facebook.com | Reads one ad account totals (spend, impressions, clicks, reach, CTR, CPC, CPM) for a… | 🟢 |
+| `adsmanager_facebook.listAdAccounts` | adsmanager.facebook.com | Lists every ad account the signed-in caller can see in Ads Manager, with currency… | 🟢 |
+| `adsmanager_facebook.listAds` | adsmanager.facebook.com | Lists the account ads (optionally one campaign), as on the Ads tab, each with status… | 🟢 |
+| `adsmanager_facebook.listCampaigns` | adsmanager.facebook.com | Lists the account campaigns, as on the Campaigns tab, each with status, objective and… | 🟢 |
 | `aetna_directory.findProviders` | aetna.com | In-network providers near one US ZIP code for one Aetna commercial plan, by specialty… | 🟢 |
 | `agakhanhospitals.getHospitalInfo` | agakhanhospitals.org | Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services… | 🟢 |
 | `agakhanhospitals.listSpecialties` | agakhanhospitals.org | Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics… | 🟢 |
@@ -111,7 +117,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ai_engineer.getSpeaker` | ai.engineer | Returns detailed information about one speaker from the AI Engineer conference… | 🟢 |
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟢 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
-| `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
+| `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟡 |
 | `airbnb.getListing` | airbnb.com | Get the nightly rate and availability calendar for a specific Airbnb listing: given a… | 🟢 |
 | `airbnb.listTrips` | airbnb.com | The signed-in guest's own trips from the Trips tab (airbnb.com/trips) — upcoming, past… | 🟢 |
 | `airbnb.search` | airbnb.com | Runs Airbnb's own stays search (airbnb.com/s/<location>/homes) for a free-text… | 🟢 |
@@ -485,7 +491,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bing.searchImages` | bing.com | Searches Bing's image index the way bing.com/images/search does and returns each hit's… | 🟢 |
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟢 |
 | `bing.searchPlaces` | bing.com | Searches Bing Maps the way bing.com/maps does and returns every place result rendered… | 🟢 |
-| `bing.searchShopping` | bing.com | Searches Bing Shopping the way bing.com/shop does and returns each product's title… | 🟡 |
+| `bing.searchShopping` | bing.com | Searches Bing Shopping the way bing.com/shop does and returns each product's title… | 🔴 |
 | `bing.searchVideos` | bing.com | Searches Bing's video index the way bing.com/videos/search does and returns each hit's… | 🟢 |
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🟢 |
 | `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |
@@ -515,7 +521,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesignal.searchJobs` | bluesignal.com | Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by a… | 🟢 |
 | `bluesky.addToList` | bsky.app | Add a person to one of the caller's lists, or remove them. | ⚪ |
 | `bluesky.blockUser` | bsky.app | Block a person as the caller, or unblock them. | 🔴 |
-| `bluesky.bookmarkPost` | bsky.app | Save a post to the caller's Bookmarks, or remove it. | ⚪ |
+| `bluesky.bookmarkPost` | bsky.app | Save a post to the caller's Bookmarks, or remove it. | 🟢 |
 | `bluesky.createList` | bsky.app | Create a curation or moderation list owned by the caller. | ⚪ |
 | `bluesky.createPost` | bsky.app | Publish a post as the caller: text with links and mentions resolved into facets… | 🟢 |
 | `bluesky.deletePost` | bsky.app | Delete one of the caller's own posts. | 🟢 |
@@ -555,7 +561,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.listConversations` | bsky.app | The caller's direct-message conversations, most recent first, with the last message… | 🟢 |
 | `bluesky.listMutedUsers` | bsky.app | The accounts the caller has muted. | 🟢 |
 | `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | 🟢 |
-| `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | ⚪ |
+| `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | 🟢 |
 | `bluesky.muteUser` | bsky.app | Mute a person for the caller, or unmute them. | 🔴 |
 | `bluesky.quotePost` | bsky.app | Quote-post an existing post with the caller's own text. | 🟢 |
 | `bluesky.replyToPost` | bsky.app | Reply to a post as the caller, threaded under it. | 🟢 |
@@ -1109,7 +1115,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.listOnDemandVideos` | classpass.com | Lists the member on-demand workout videos (filters, collections, stacks) included with… | 🟢 |
 | `classpass.listSimilarStudios` | classpass.com | Lists studios ClassPass considers similar to one studio — the 'you might also like'… | 🟢 |
 | `classpass.listStudioBranches` | classpass.com | Lists the other locations of the same brand on ClassPass — every Barry's, say — with… | 🟢 |
-| `classpass.listStudioClasses` | classpass.com | Lists the classes a studio teaches — its class catalogue (name, alias, description)… | 🟢 |
+| `classpass.listStudioClasses` | classpass.com | Lists the classes a studio teaches — its class catalogue (name, alias, description)… | 🟡 |
 | `classpass.pauseMembership` | classpass.com | Pauses the signed-in member's plan for a period the site offers, and reports when it… | ⚪ |
 | `classpass.redeemGiftCode` | classpass.com | Redeems a ClassPass gift code onto the signed-in member's account. | ⚪ |
 | `classpass.removeFavorite` | classpass.com | Removes a studio from the signed-in member's favourites. | 🟢 |
@@ -1144,16 +1150,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude.listSharedLinks` | claude.ai | Lists the conversation share links the CALLER has created (Settings → Privacy → Shared… | 🟢 |
 | `claude.listSkills` | claude.ai | Lists the skills enabled in the CALLER's Claude account, their own and Anthropic's. | 🟢 |
 | `claude.moveConversationToProject` | claude.ai | Moves one or more of the CALLER's chats into a project, or out of one. | 🟢 |
-| `claude.publishArtifact` | claude.ai | Publishes one of the CALLER's artifacts to a public claude.ai/public/artifacts link… | ⚪ |
+| `claude.publishArtifact` | claude.ai | Publishes one of the CALLER's artifacts to a public claude.ai/public/artifacts link… | 🟢 |
 | `claude.rateResponse` | claude.ai | Gives a thumbs up or thumbs down, with an optional comment, on one of Claude's replies… | 🟢 |
 | `claude.renameConversation` | claude.ai | Renames one of the CALLER's Claude chats. | 🟢 |
 | `claude.searchConversations` | claude.ai | Searches the CALLER's Claude chat history by keyword, the way the sidebar search does… | 🟢 |
 | `claude.sendMessage` | claude.ai | Sends a message to Claude as the CALLER — into a new chat or an existing one… | 🟢 |
 | `claude.shareConversation` | claude.ai | Creates a public share link for one of the CALLER's chats and returns the… | 🟢 |
 | `claude.starConversation` | claude.ai | Stars or unstars one of the CALLER's Claude chats, which pins it at the top of the… | 🟢 |
-| `claude.updateMemory` | claude.ai | Turns Claude's memory on or off for the CALLER, or tells it to forget everything… | ⚪ |
-| `claude.updatePreferences` | claude.ai | Updates the CALLER's personal preferences — what Claude should call them, their work… | ⚪ |
-| `claude.updateProfile` | claude.ai | Updates the CALLER's Claude profile — full name, display name and profile picture. | ⚪ |
+| `claude.updateMemory` | claude.ai | Turns Claude's memory on or off for the CALLER, or tells it to forget everything… | 🟢 |
+| `claude.updatePreferences` | claude.ai | Updates the CALLER's personal preferences — what Claude should call them, their work… | 🟢 |
+| `claude.updateProfile` | claude.ai | Updates the CALLER's Claude profile — full name, display name and profile picture. | 🟢 |
 | `claude.updateProjectInstructions` | claude.ai | Sets the custom instructions on one of the CALLER's projects. | 🔴 |
 | `claude.uploadFile` | claude.ai | Uploads a file (PDF, image, text) to the CALLER's account so `sendMessage` can attach… | ⚪ |
 | `claudemarketplaces_com.getListing` | claudemarketplaces.com | Fetches one MCP server listing page (`/mcp/<publisher>/<slug>`) from… | 🟢 |
@@ -1541,10 +1547,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.listMessages` | discord.com | Reads a channel's or DM's recent messages, newest first, paging backwards — author… | 🟢 |
 | `discord.listMyServers` | discord.com | Lists the servers the signed-in caller has joined — id, name, icon, whether they own… | 🟢 |
 | `discord.listPinnedMessages` | discord.com | Lists the messages pinned in a channel. | 🔴 |
-| `discord.listQuests` | discord.com | Lists the Quests currently offered to the caller — game, task, reward and expiry — and… | ⚪ |
+| `discord.listQuests` | discord.com | Lists the Quests currently offered to the caller — game, task, reward and expiry — and… | 🟢 |
 | `discord.listServerAnnouncements` | discord.com | Lists the posts a server publishes to its public announcements page… | 🟢 |
 | `discord.listServerCategories` | discord.com | Lists the public server directory's categories (Gaming, Entertainment, Education… | 🟢 |
-| `discord.listServerEvents` | discord.com | Lists a joined server's scheduled events — name, description, start and end time… | ⚪ |
+| `discord.listServerEvents` | discord.com | Lists a joined server's scheduled events — name, description, start and end time… | 🟢 |
 | `discord.listServers` | discord.com | Browses Discord's public server directory with no keyword, in the directory's own… | 🟢 |
 | `discord.listSimilarApps` | discord.com | Lists the apps the App Directory shows as similar to one app — the same full shape… | 🟢 |
 | `discord.listThreads` | discord.com | Lists the active threads in a channel, or the posts in a forum channel — title… | 🔴 |
@@ -1553,7 +1559,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.removeReaction` | discord.com | Removes the caller's own emoji reaction from a message. | ⚪ |
 | `discord.searchApps` | discord.com | Searches Discord's App Directory (discord.com/discovery/applications) for bots, games… | 🟢 |
 | `discord.searchMessages` | discord.com | Searches the messages in one joined server (or the caller's DMs) by text, author… | 🟢 |
-| `discord.searchServerMembers` | discord.com | Finds members of a joined server by name — user id, username, nickname, roles and join… | ⚪ |
+| `discord.searchServerMembers` | discord.com | Finds members of a joined server by name — user id, username, nickname, roles and join… | 🟢 |
 | `discord.searchServers` | discord.com | Searches Discord's public server directory (discord.com/servers) by keyword… | 🟢 |
 | `discord.sendDirectMessage` | discord.com | Sends a direct message to one user by username or user id, opening the DM if none… | ⚪ |
 | `discord.sendFriendRequest` | discord.com | Sends a friend request to a user by username. | ⚪ |
@@ -1776,7 +1782,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `erieinsurance.getRvQuote` | erieinsurance.com | Returns an RV/motorhome insurance premium quote for a vehicle and owner. | ⚪ |
 | `erieinsurance.getUmbrellaQuote` | erieinsurance.com | Returns a personal umbrella liability insurance premium quote given a requested… | ⚪ |
 | `erieinsurance.getWorkersCompensationQuote` | erieinsurance.com | Returns a workers' compensation insurance premium quote for a business's payroll… | ⚪ |
-| `espn.addDropFantasyPlayer` | espn.com | Adds a free agent to the CALLER's own ESPN fantasy team, dropping one of theirs if the… | ⚪ |
+| `espn.addDropFantasyPlayer` | espn.com | Adds a free agent to the CALLER's own ESPN fantasy team, dropping one of theirs if the… | 🟢 |
 | `espn.addFavorite` | espn.com | Adds a team, league or player to the CALLER's My ESPN favourites. | 🔴 |
 | `espn.createFantasyLeague` | espn.com | Creates a new ESPN fantasy league (football, baseball, basketball or hockey) owned by… | ⚪ |
 | `espn.draftPicks` | espn.com | A league's draft pick by pick — round, pick, overall number, drafting team, the player… | 🟢 |
@@ -1797,12 +1803,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.odds` | espn.com | The betting lines ESPN shows for a league's games — spread, total and moneyline from… | 🟢 |
 | `espn.playerGameLog` | espn.com | One player's game-by-game log for a season — opponent, result and the full stat line… | 🟢 |
 | `espn.playerStats` | espn.com | One player's full statistics — season by season and career totals in every category… | 🟢 |
-| `espn.proposeFantasyTrade` | espn.com | Proposes a trade from the CALLER's own ESPN fantasy team to another team in the same… | ⚪ |
+| `espn.proposeFantasyTrade` | espn.com | Proposes a trade from the CALLER's own ESPN fantasy team to another team in the same… | 🟢 |
 | `espn.rankings` | espn.com | College polls — the AP Top 25, the Coaches Poll and (in season) the playoff rankings… | 🟢 |
 | `espn.removeFavorite` | espn.com | Removes a team, league or player from the CALLER's My ESPN favourites. | 🔴 |
 | `espn.scoreboard` | espn.com | A league's games for today, a date, a date range or a football week — teams, live or… | 🟢 |
 | `espn.search` | espn.com | ESPN's own site search — players, teams, leagues and articles matching free text, each… | 🟢 |
-| `espn.setFantasyLineup` | espn.com | Moves players between the CALLER's starting lineup and bench in one of their own ESPN… | ⚪ |
+| `espn.setFantasyLineup` | espn.com | Moves players between the CALLER's starting lineup and bench in one of their own ESPN… | 🟢 |
 | `espn.standings` | espn.com | A league's current standings by conference and division — wins, losses, ties, win… | 🟢 |
 | `espn.statLeaders` | espn.com | A league's season leaderboard — every stat category (passing yards, points per game… | 🟢 |
 | `espn.submitPicks` | espn.com | Enters the CALLER's picks in one of ESPN's free prediction games — Pigskin Pick'em… | ⚪ |
@@ -2546,7 +2552,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grammarly.deleteDocument` | www.grammarly.com | Deletes one saved document from the signed-in account, by the id listDocuments returns. | ⚪ |
 | `grammarly.detectAI` | www.grammarly.com | Scores 0-100 how much of a text Grammarly's AI detector judges AI-written, with the… | 🟢 |
 | `grammarly.detectPlagiarism` | www.grammarly.com | Counts how many passages of a text Grammarly's free scan matches against web and… | 🟢 |
-| `grammarly.detectTone` | www.grammarly.com | Identifies the tone and sentiment of written text. | ⚪ |
+| `grammarly.detectTone` | www.grammarly.com | Reads how a text sounds to a reader with Grammarly's tone detector, e.g. appreciative… | 🟢 |
 | `grammarly.getAccount` | www.grammarly.com | Returns the signed-in account's profile: name, email, plan (Free or Premium) and… | 🟢 |
 | `grammarly.getDocument` | www.grammarly.com | Returns one saved document's title and full text from the signed-in account, by the id… | ⚪ |
 | `grammarly.getPersonalDictionary` | www.grammarly.com | Retrieves custom words and phrases saved in the account's personal dictionary. | ⚪ |
@@ -3006,7 +3012,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `landmarkhw_com.getOrderFormOptions` | landmarkhw.com | Returns the property-type choices for a Landmark Home Warranty order in one supported… | 🟢 |
 | `landmarkhw_com.listOrderStates` | landmarkhw.com | Lists the states where Landmark Home Warranty's public order form currently offers… | 🟢 |
 | `landsend.addToCart` | landsend.com | Adds a size/colour SKU to the visitor's bag. | ⚪ |
-| `landsend.getActivePromo` | landsend.com | Reads the sitewide promo code Lands' End is running right now (e.g. MALLARDS, 40% off)… | 🟢 |
+| `landsend.getActivePromo` | landsend.com | Reads the sitewide promo code Lands' End is running right now (e.g. MALLARDS, 40% off)… | 🟡 |
 | `landsend.getProduct` | landsend.com | Reads one product page: full fabric composition and care, every size/colour SKU with… | ⚪ |
 | `landsend.searchProducts` | landsend.com | Searches the Lands' End catalog the way the site's own search box does ("mens linen… | 🟢 |
 | `lasikplus.findCenters` | lasikplus.com | Runs the site's own iSchedule center locator (lasikplus.com/ischedule/) — given a US… | 🟢 |
@@ -3249,6 +3255,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `medicare.searchHealthPlans` | medicare.gov | Returns the Medicare Advantage (Part C) plans somebody can actually buy for a ZIP and… | ⚪ |
 | `medicare.searchMedigapPlans` | medicare.gov | Returns the Medigap (Medicare Supplement) plan TYPES sold in somebody's ZIP's state… | 🟢 |
 | `medicare.searchPharmacies` | medicare.gov | Returns the pharmacies near a ZIP that a given Medicare drug plan works with, and on… | ⚪ |
+| `meetup.getGroup` | meetup.com | Reads one meetup.com group by its urlname — description, location, member count… | 🟢 |
+| `meetup.searchEvents` | meetup.com | Searches meetup.com for upcoming events matching a topic, optionally near a meetup… | 🟢 |
 | `menards.checkStoreInventory` | menards.com | Checks an item's in-stock quantity at a chosen Menards store. | ⚪ |
 | `menards.findStores` | menards.com | Finds Menards stores near a ZIP or city, with address and hours. | ⚪ |
 | `menards.getProduct` | menards.com | Reads one product page: specifications, price, rebate and store availability for an… | ⚪ |
@@ -4032,7 +4040,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.contactAccountant` | quickbooks.intuit.com | Sends a ProAdvisor the directory's contact request (name, email, phone, what you need… | ⚪ |
 | `quickbooks.estimatePaymentFees` | quickbooks.intuit.com | Estimates what QuickBooks Payments would charge on a given monthly volume split across… | ⚪ |
 | `quickbooks.findAccountants` | quickbooks.intuit.com | Searches the QuickBooks ProAdvisor directory for certified accountants and bookkeepers… | ⚪ |
-| `quickbooks.generateInvoice` | quickbooks.intuit.com | Fills in QuickBooks' free invoice generator (/payments/invoicing/generator/) with a… | ⚪ |
+| `quickbooks.generateInvoice` | quickbooks.intuit.com | Builds an invoice PDF (seller, customer, line items, tax, discount) the way… | 🟢 |
 | `quickbooks.getAccountant` | quickbooks.intuit.com | Reads one ProAdvisor's public profile by the searchId findAccountants returns (or the… | ⚪ |
 | `quickbooks.getApp` | quickbooks.intuit.com | Reads one App Store listing by the id a searchApps result returns: full description… | 🟢 |
 | `quickbooks.getDesktopPlans` | quickbooks.intuit.com | Lists the QuickBooks Desktop Enterprise editions with their annual subscription prices… | ⚪ |
@@ -4130,7 +4138,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reddit.vote` | reddit.com | Upvotes, downvotes or clears the caller's vote on a post or a comment, as the… | 🟢 |
 | `rei.addToCart` | rei.com | Adds a SKU to the visitor's cart. | ⚪ |
 | `rei.findStores` | rei.com | Finds REI stores near a location, with hours. | ⚪ |
-| `rei.getProduct` | rei.com | Reads one REI product by name or keyword: its price, product-level availability and… | 🟢 |
+| `rei.getProduct` | rei.com | Reads one REI product by name or keyword: its price, product-level availability and… | 🟡 |
 | `rei.getProductStock` | rei.com | Reads one product's per-size, per-colour IN-STORE stock at a chosen REI store. | ⚪ |
 | `rei.getSku` | rei.com | Reads one REI SKU: its size, colour, price, compare-at price and sale flag, plus every… | 🟡 |
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
@@ -5561,6 +5569,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.browseCategory` | walmart.com | Lists products under one of the site's own department/category pages (e.g.… | 🟡 |
 | `walmart.checkStock` | walmart.com | Answers whether a specific item is actually available right now at a given store or… | ⚪ |
 | `walmart.createList` | walmart.com | Creates a new saved list with a name. | 🟢 |
+| `walmart.findBrand` | walmart.com | Finds a brand's Walmart page by name (e.g. "Samsung") off the site's own brand… | 🟢 |
 | `walmart.findStores` | walmart.com | Finds nearby Walmart stores for a 5-digit US ZIP code — address, phone, hours… | 🔴 |
 | `walmart.getAccountProfile` | walmart.com | Reads the signed-in shopper's profile — name, email, Walmart+ membership status. | 🟢 |
 | `walmart.getCart` | walmart.com | Reads what is in the cart — items, quantities, prices and the subtotal. | 🟢 |
@@ -5828,7 +5837,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wodify.joinWaitlist` | wodify.com | Add the member to a waitlist for a full class. | ⚪ |
 | `wodify.leaveWaitlist` | wodify.com | Remove the member from a class waitlist. | ⚪ |
 | `wodify.listGymSchedule` | wodify.com | Get the class schedule for a specific gym, with available times and capacity. | 🟢 |
-| `wodify.listInstructors` | wodify.com | List instructors and coaches available at the gym. | 🟢 |
+| `wodify.listInstructors` | wodify.com | List instructors and coaches available at the gym. | 🟡 |
 | `wodify.listMemberships` | wodify.com | List the membership plans, class packs and drop-ins a gym sells online, with prices. | 🟢 |
 | `wodify.listPrices` | wodify.com | Get pricing information for memberships and drop-in classes. | 🟢 |
 | `wodify.listPrograms` | wodify.com | List all available fitness programs and training paths offered at the gym. | 🟢 |
@@ -5935,12 +5944,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads a league's News tab — all story headlines, links, sources and publication times… | 🟢 |
 | `yahoo_sports.getOdds` | sports.yahoo.com | Reads a league's current betting lines off the site's own Odds page — spread, total… | 🟢 |
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and current-season stat line off their own player page —… | 🟢 |
+| `yahoo_sports.getPlayerNews` | sports.yahoo.com | Reads one player's News tab — the stories about that player (headline, Yahoo url… | 🟢 |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | 🟢 |
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟢 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads games for one league — NFL, NBA, MLB, NHL, college football, college basketball… | 🟢 |
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟢 |
 | `yahoo_sports.getStatLeaders` | sports.yahoo.com | Reads the season-to-date individual leaderboard for one category off the site's own… | 🟢 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
+| `yahoo_sports.getTeamStats` | sports.yahoo.com | Reads one team's season stats off its own Stats page — every category the site… | 🟢 |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟢 |
 | `yahoo_sports.searchPlayers` | sports.yahoo.com | Searches for a player by name across every league: NFL, NBA, MLB, NHL, college… | 🟢 |
 | `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |

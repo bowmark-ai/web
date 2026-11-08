@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bfbe0de48b2a8de0b6e9cb5c9e6b8d6a1a0d534b89bebc3f5ad1f838a69cc5e6
-# 97 capabilities, 769 providers, 4573 typed functions, 20 refused.
+# Manifest version: 6627c09bd201c951ab88787f3411ba4e92e1b5428c0aa85b3fc857e95159f9c5
+# 97 capabilities, 773 providers, 4598 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4754,6 +4754,85 @@ class Prv_adorama_AdoramaCategory_Out(TypedDict):
     path: list[str]
     url: str
 
+class Prv_ads_google_GoogleAdsAccount_Out(TypedDict):
+    customerId: str
+    name: str | None
+    ocid: str | None
+
+class Prv_ads_google_GoogleAdsCampaignArgs_In(TypedDict):
+    customerId: NotRequired[str]
+    dateRange: NotRequired[Literal["today"] | Literal["yesterday"] | Literal["last_7_days"] | Literal["last_14_days"] | Literal["last_30_days"] | Literal["this_month"] | Literal["last_month"] | Literal["all_time"]]
+
+class Prv_ads_google_GoogleAdsCampaignTable_Out(TypedDict):
+    campaigns: list[Prv_ads_google_GoogleAdsCampaign_Out]
+    total: Prv_ads_google_GoogleAdsStats_Out | None
+
+class Prv_ads_google_GoogleAdsCampaign_Out(TypedDict):
+    name: str
+    status: str | None
+    budget: str | None
+    campaignType: str | None
+    stats: Prv_ads_google_GoogleAdsStats_Out
+
+class Prv_ads_google_GoogleAdsStats_Out(TypedDict):
+    cost: float | None
+    impressions: float | None
+    clicks: float | None
+    ctr: float | None
+    avgCpc: float | None
+    conversions: float | None
+    costPerConversion: float | None
+
+class Prv_adsmanager_facebook_AdAccount_Out(TypedDict):
+    id: str
+    accountId: str
+    name: str | None
+    currency: str | None
+    status: float | None
+    amountSpent: float | None
+    timezone: str | None
+
+class Prv_adsmanager_facebook_AdsStatsArgs_In(TypedDict):
+    accountId: str
+    datePreset: NotRequired[str]
+    since: NotRequired[str]
+    until: NotRequired[str]
+
+class Prv_adsmanager_facebook_AdStats_Out(TypedDict):
+    spend: float | None
+    impressions: float | None
+    clicks: float | None
+    reach: float | None
+    ctr: float | None
+    cpc: float | None
+    cpm: float | None
+    dateStart: str | None
+    dateStop: str | None
+
+class Prv_adsmanager_facebook_AdsCampaign_Out(TypedDict):
+    id: str
+    name: str
+    status: str | None
+    effectiveStatus: str | None
+    objective: str | None
+    stats: Prv_adsmanager_facebook_AdStats_Out | None
+
+class Prv_adsmanager_facebook_AdsListArgs_In(TypedDict):
+    accountId: str
+    datePreset: NotRequired[str]
+    since: NotRequired[str]
+    until: NotRequired[str]
+    campaignId: NotRequired[str]
+
+class Prv_adsmanager_facebook_AdsAd_Out(TypedDict):
+    id: str
+    name: str
+    status: str | None
+    effectiveStatus: str | None
+    campaignId: str | None
+    adsetId: str | None
+    stats: Prv_adsmanager_facebook_AdStats_Out | None
+
 class Prv_aetna_directory_findProviders_query_u1_In(TypedDict):
     zip: str
     specialty: NotRequired[str]
@@ -4931,6 +5010,11 @@ class Prv_agoda_AgodaHotel_Out(TypedDict):
     currency: str | None
     pricePerNight: float | None
     pricePerNightInclusive: float | None
+
+class Prv_ahrefs_AhrefsDomainRating_Out(TypedDict):
+    target: str
+    domainRating: float
+    license: str | None
 
 class Prv_ai_engineer_listSpeakers_return_Out(TypedDict):
     speakers: list[Prv_ai_engineer_AiEngineerSpeaker_Out]
@@ -10544,6 +10628,12 @@ class Prv_bluesky_BlueskyPostActionArgs_In(TypedDict):
     post: str
     undo: NotRequired[bool]
 
+class Prv_bluesky_markNotificationsRead_opts_In(TypedDict):
+    seenAt: NotRequired[str]
+
+class Prv_bluesky_BlueskyMarkSeenResult_Out(TypedDict):
+    seenAt: str
+
 class Prv_bluesky_BlueskyActorActionArgs_In(TypedDict):
     actor: str
     undo: NotRequired[bool]
@@ -16144,6 +16234,36 @@ class Prv_claude_ClaudeProjectDocumentDeleteAck_Out(TypedDict):
     documentId: str
     ok: Literal[True]
 
+class Prv_claude_UpdatePreferencesArgs_In(TypedDict):
+    instructions: str
+
+class Prv_claude_ClaudeSettingsAck_Out(TypedDict):
+    ok: Literal[True]
+
+class Prv_claude_UpdateProfileArgs_In(TypedDict):
+    fullName: NotRequired[str]
+    displayName: NotRequired[str]
+
+class Prv_claude_UpdateMemoryArgs_In(TypedDict):
+    enabled: NotRequired[bool]
+    reset: NotRequired[bool]
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeMemoryWriteAck_Out(TypedDict):
+    organizationId: str
+    ok: Literal[True]
+
+class Prv_claude_PublishArtifactArgs_In(TypedDict):
+    artifactId: NotRequired[str]
+    publishedArtifactId: NotRequired[str]
+    published: NotRequired[bool]
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeArtifactPublishAck_Out(TypedDict):
+    publishedArtifactId: str
+    published: bool
+    url: str | None
+
 class Prv_claude_DeleteConversationArgs_In(TypedDict):
     conversationId: str
     organizationId: NotRequired[str]
@@ -20520,6 +20640,55 @@ class Prv_discord_discordThread_Out(TypedDict):
     tagIds: list[str]
     createdAt: str | None
 
+class Prv_discord_searchServerMembers_args_In(TypedDict):
+    guildId: str
+    query: str
+    limit: NotRequired[float]
+
+class Prv_discord_discordServerMember_Out(TypedDict):
+    id: str
+    username: str
+    globalName: str | None
+    nickname: str | None
+    avatarUrl: str | None
+    bot: bool
+    roleIds: list[str]
+    joinedAt: str | None
+
+class Prv_discord_listServerEvents_args_In(TypedDict):
+    guildId: str
+
+class Prv_discord_discordServerEvent_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    startsAt: str | None
+    endsAt: str | None
+    status: Literal["scheduled"] | Literal["active"] | Literal["completed"] | Literal["canceled"] | None
+    kind: Literal["stage"] | Literal["voice"] | Literal["external"] | None
+    channelId: str | None
+    location: str | None
+    creatorId: str | None
+    interestedCount: float | None
+    imageUrl: str | None
+
+class Prv_discord_discordQuest_Out(TypedDict):
+    id: str
+    name: str
+    game: str | None
+    tasks: list[Prv_discord_discordQuest_Out_tasks_item_Out]
+    rewards: list[str]
+    startsAt: str | None
+    expiresAt: str | None
+    enrolledAt: str | None
+    completedAt: str | None
+    claimedAt: str | None
+    progress: Mapping[str, float]
+
+class Prv_discord_discordQuest_Out_tasks_item_Out(TypedDict):
+    type: str
+    seconds: float | None
+
 class Prv_discord_searchMessages_args_In(TypedDict):
     guildId: NotRequired[str]
     channelId: NotRequired[str]
@@ -22706,6 +22875,44 @@ class Prv_espn_FantasyRosterPlayer_Out(TypedDict):
     projectedPoints: float | None
     actualPoints: float | None
 
+class Prv_espn_SetFantasyLineupArgs_In(TypedDict):
+    sport: str
+    leagueId: str | float
+    teamId: float
+    season: NotRequired[float]
+    scoringPeriodId: NotRequired[float]
+    moves: Sequence[Prv_espn_SetFantasyLineupArgs_In_moves_item_In]
+
+class Prv_espn_SetFantasyLineupArgs_In_moves_item_In(TypedDict):
+    playerId: float
+    fromLineupSlotId: float
+    toLineupSlotId: float
+
+class Prv_espn_FantasyTransactionResult_Out(TypedDict):
+    id: str | None
+    status: str | None
+    type: str
+    raw: Any
+
+class Prv_espn_AddDropFantasyPlayerArgs_In(TypedDict):
+    sport: str
+    leagueId: str | float
+    teamId: float
+    season: NotRequired[float]
+    scoringPeriodId: NotRequired[float]
+    addPlayerId: NotRequired[float]
+    dropPlayerId: NotRequired[float]
+
+class Prv_espn_ProposeFantasyTradeArgs_In(TypedDict):
+    sport: str
+    leagueId: str | float
+    teamId: float
+    season: NotRequired[float]
+    scoringPeriodId: NotRequired[float]
+    toTeamId: float
+    sendPlayerIds: Sequence[float]
+    receivePlayerIds: Sequence[float]
+
 class Prv_espn_AddFavoriteArgs_In(TypedDict):
     id: str
     kind: str
@@ -24700,7 +24907,7 @@ class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
 class Prv_fbsappliance_FbsapplianceSearchResult_Out(TypedDict):
     name: str
     modelNumber: str
-    price: float
+    price: float | None
     wasPrice: float | None
     availableAt: str | None
     url: str
@@ -29680,6 +29887,7 @@ Prv_google_translate_TranslateArgs_In = TypedDict(
     "text": str | Sequence[str],
     "to": str,
     "from": NotRequired[str],
+    "model": NotRequired[Literal["classic"] | Literal["advanced"]],
     },
 )
 
@@ -29689,6 +29897,12 @@ class Prv_google_translate_GoogleTranslateResult_Out(TypedDict):
     targetLanguage: str
     sourceLanguage: str
     detected: bool
+    genderAlternatives: NotRequired[list[Prv_google_translate_GoogleTranslateResult_Out_genderAlternatives_item_Out]]
+    model: NotRequired[Literal["classic"] | Literal["advanced"]]
+
+class Prv_google_translate_GoogleTranslateResult_Out_genderAlternatives_item_Out(TypedDict):
+    gender: str
+    translated: str
 
 class Prv_google_translate_DetectLanguageArgs_In(TypedDict):
     text: str
@@ -30291,6 +30505,14 @@ class Prv_grammarly_IssueCount_Out(TypedDict):
 
 class Prv_grammarly_Humanized_Out(TypedDict):
     text: str
+
+class Prv_grammarly_ToneDetection_Out(TypedDict):
+    tones: list[Prv_grammarly_DetectedTone_Out]
+
+class Prv_grammarly_DetectedTone_Out(TypedDict):
+    name: str
+    emoji: str
+    confidence: float
 
 class Prv_grammarly_ParaphraseArgs_In(TypedDict):
     text: str
@@ -38679,6 +38901,56 @@ class Prv_medicare_medicarePlanDetail_Out_lis_Out(TypedDict):
     level75: float
     level50: float
     level25: float
+
+class Prv_meetup_SearchEventsArgs_In(TypedDict):
+    query: str
+    location: NotRequired[str]
+
+class Prv_meetup_MeetupEventSearch_Out(TypedDict):
+    query: str
+    location: str
+    totalCount: float | None
+    events: list[Prv_meetup_MeetupEvent_Out]
+
+class Prv_meetup_MeetupEvent_Out(TypedDict):
+    id: str
+    title: str
+    dateTime: str
+    eventType: str
+    url: str
+    description: str
+    venue: Prv_meetup_MeetupEvent_Out_venue_u0_Out | None
+    groupName: str
+    groupUrlname: str
+    rsvpCount: float | None
+
+class Prv_meetup_MeetupEvent_Out_venue_u0_Out(TypedDict):
+    name: str
+    address: str
+    city: str
+    state: str
+    country: str
+
+class Prv_meetup_GetGroupArgs_In(TypedDict):
+    urlname: str
+
+class Prv_meetup_MeetupGroup_Out(TypedDict):
+    id: str
+    name: str
+    urlname: str
+    url: str
+    description: str
+    city: str
+    state: str
+    country: str
+    timezone: str
+    memberCount: float | None
+    rating: float | None
+    joinMode: str
+    isPrivate: bool
+    organizerName: str
+    upcomingEvents: list[Prv_meetup_MeetupEvent_Out]
+    pastEvents: list[Prv_meetup_MeetupEvent_Out]
 
 class Prv_menards_MenardsSearchArgs_In(TypedDict):
     query: str
@@ -47154,6 +47426,63 @@ class Prv_quickbooks_QuickbooksAppReview_Out_comments_item_Out(TypedDict):
     date: str | None
     author: str | None
 
+Prv_quickbooks_QuickbooksGenerateInvoiceArgs_In = TypedDict(
+    "Prv_quickbooks_QuickbooksGenerateInvoiceArgs_In",
+    {
+    "from": Prv_quickbooks_QuickbooksInvoiceParty_In,
+    "billTo": Prv_quickbooks_QuickbooksInvoiceParty_In,
+    "items": Sequence[Prv_quickbooks_QuickbooksInvoiceLineItem_In],
+    "invoiceNumber": NotRequired[str],
+    "date": NotRequired[str],
+    "dueDate": NotRequired[str],
+    "taxRate": NotRequired[float],
+    "discount": NotRequired[float],
+    "currency": NotRequired[str],
+    "notes": NotRequired[str],
+    "terms": NotRequired[str],
+    },
+)
+
+class Prv_quickbooks_QuickbooksInvoiceParty_In(TypedDict):
+    name: str
+    address: NotRequired[Sequence[str]]
+    email: NotRequired[str]
+    phone: NotRequired[str]
+
+class Prv_quickbooks_QuickbooksInvoiceLineItem_In(TypedDict):
+    description: str
+    quantity: NotRequired[float]
+    rate: float
+
+class Prv_quickbooks_QuickbooksGeneratedInvoice_Out(TypedDict):
+    invoiceNumber: str
+    date: str
+    dueDate: str | None
+    currency: str
+    items: list[Prv_quickbooks_QuickbooksGeneratedInvoice_Out_items_item_Out]
+    subtotal: float
+    discount: float
+    tax: float
+    total: float
+    file: NotRequired[Prv_quickbooks_QuickbooksSavedFile_Out]
+    pdfBytes: float
+    warnings: list[str]
+
+class Prv_quickbooks_QuickbooksGeneratedInvoice_Out_items_item_Out(TypedDict):
+    description: str
+    quantity: float
+    rate: float
+    amount: float
+
+class Prv_quickbooks_QuickbooksSavedFile_Out(TypedDict):
+    id: str
+    name: str
+    contentType: str
+    bytes: float
+    url: str
+    expiresAt: str
+    keepUntil: NotRequired[str | None]
+
 class Prv_quince_QuinceSearchArgs_In(TypedDict):
     query: str
     gender: NotRequired[Literal["men"] | Literal["women"]]
@@ -52121,6 +52450,16 @@ class Prv_shein_sheinProductVariant_Out(TypedDict):
 class Prv_shein_sheinProductDetail_Out_breadcrumbs_item_Out(TypedDict):
     name: str
     url: str
+
+class Prv_shop_app_ShopAppMarkDeliveredArgs_In(TypedDict):
+    deliveryId: str
+    delivered: NotRequired[bool]
+
+class Prv_shop_app_ShopAppDeliveryState_Out(TypedDict):
+    deliveryId: str
+    delivered: bool
+    url: str
+    warnings: list[str]
 
 class Prv_shop_app_ShopAppTrackPackageArgs_In(TypedDict):
     trackingCode: str
@@ -63332,6 +63671,15 @@ class Prv_walmart_walmartDepartmentLink_Out(TypedDict):
 class Prv_walmart_browseCategory_args_In(TypedDict):
     browseId: str
 
+class Prv_walmart_findBrand_args_In(TypedDict):
+    name: str
+    limit: NotRequired[float]
+
+class Prv_walmart_walmartBrand_Out(TypedDict):
+    name: str
+    brandId: str
+    url: str
+
 class Prv_walmart_browseBrand_args_In(TypedDict):
     brandId: str
 
@@ -63382,6 +63730,7 @@ class Prv_walmart_listSellerOffers_args_In(TypedDict):
 
 class Prv_walmart_walmartSellerOffer_Out(TypedDict):
     sellerId: str | None
+    catalogSellerId: str | None
     sellerName: str
     price: float | None
     shipping: str | None
@@ -71201,6 +71550,55 @@ class Prv_adorama(Protocol):
         category sitemap.
         """
 
+class Prv_ads_google(Protocol):
+    """Read-only stats from the caller's OWN Google Ads account: accounts, and each campaign's
+    cost, impressions, clicks, CTR, avg. CPC and conversions. Needs the caller signed in to
+    Google.
+    """
+
+    async def listAccounts(self, opts: ConnectionOption | None = None, /) -> list[Prv_ads_google_GoogleAdsAccount_Out]:
+        """Every Google Ads account the signed-in caller can open, with its customer id
+        ("123-456-7890") and name. A row's `customerId` is what listCampaigns takes. Read-only.
+        Needs the caller signed in to Google.
+        """
+
+    async def listCampaigns(self, args: Prv_ads_google_GoogleAdsCampaignArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_ads_google_GoogleAdsCampaignTable_Out:
+        """The account's campaigns as Google Ads' Campaigns page shows them — status, budget, type
+        and cost, impressions, clicks, CTR, avg. CPC, conversions for the date range (default
+        last 30 days) — plus the grid's Total row. Read-only; never edits or pauses anything.
+        Needs the caller signed in.
+        """
+
+class Prv_adsmanager_facebook(Protocol):
+    """Read-only stats from the caller's OWN Meta (Facebook/Instagram) Ads Manager: ad
+    accounts, spend, impressions, clicks, reach, CTR, CPC per account, campaign and ad.
+    Needs the caller signed in to Facebook.
+    """
+
+    async def listAdAccounts(self, opts: ConnectionOption | None = None, /) -> list[Prv_adsmanager_facebook_AdAccount_Out]:
+        """Every ad account the signed-in caller can see in Meta Ads Manager, with name, currency,
+        status and lifetime amount spent. A row's `id` is the `accountId` every other function
+        takes. Needs the caller signed in to Facebook.
+        """
+
+    async def getAccountInsights(self, args: Prv_adsmanager_facebook_AdsStatsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_adsmanager_facebook_AdStats_Out | None:
+        """One ad account's totals for a date range — spend, impressions, clicks, reach, CTR, CPC,
+        CPM — as Ads Manager's summary row shows them. Default range last 30 days; `null` means
+        no delivery in the range. Read-only. Needs the caller signed in.
+        """
+
+    async def listCampaigns(self, args: Prv_adsmanager_facebook_AdsStatsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_adsmanager_facebook_AdsCampaign_Out]:
+        """The account's campaigns (Ads Manager's Campaigns tab), each with status, objective and
+        its spend, impressions, clicks, reach, CTR and CPC for the range. Read-only — never
+        pauses or edits anything. Needs the caller signed in.
+        """
+
+    async def listAds(self, args: Prv_adsmanager_facebook_AdsListArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_adsmanager_facebook_AdsAd_Out]:
+        """The account's ads (Ads Manager's Ads tab), optionally only one campaign's, each with
+        status, campaign/ad set ids and its spend, impressions, clicks, reach, CTR and CPC for
+        the range. Read-only. Needs the caller signed in.
+        """
+
 class Prv_aetna_directory(Protocol):
     """Doctors in Aetna's commercial network near a US ZIP code, from Aetna's public
     find-a-doctor search: name, specialty, office address, phone, NPI and whether they take
@@ -71270,6 +71668,14 @@ class Prv_agoda(Protocol):
     async def searchHotels(self, args: Prv_agoda_SearchHotelsArgs_In, /) -> Prv_agoda_searchHotels_return_Out:
         """Search Agoda hotels in a city for check-in/check-out dates; returns live cheapest-room
         rates per night, star rating, review score and location.
+        """
+
+class Prv_ahrefs(Protocol):
+    """Check Ahrefs Domain Rating for a domain or URL with the caller's free Ahrefs APIv3 key."""
+
+    async def getDomainRating(self, target: str, /) -> Prv_ahrefs_AhrefsDomainRating_Out:
+        """Returns Ahrefs' 0–100 Domain Rating for one domain or URL. Needs an Ahrefs APIv3 key;
+        for example, call getDomainRating("example.com").
         """
 
 class Prv_ai_engineer(Protocol):
@@ -74551,6 +74957,21 @@ class Prv_bluesky(Protocol):
         sign-in has expired; sign in again.
         """
 
+    async def bookmarkPost(self, args: Prv_bluesky_BlueskyPostActionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyPostActionResult_Out:
+        """Saves a post (at:// URI or bsky.app post URL) to the signed-in caller's private
+        Bookmarks; `undo: true` removes it. `uri` is always null (a bookmark is not a public
+        record); `changed: false` when it was already in that state. Needs the caller signed in
+        to bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError`
+        when the saved sign-in has expired; sign in again.
+        """
+
+    async def markNotificationsRead(self, opts: Prv_bluesky_markNotificationsRead_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyMarkSeenResult_Out:
+        """Marks the signed-in caller's notifications as seen up to now (or up to `seenAt`, an ISO
+        date-time), clearing the unread count. Returns the instant used. Needs the caller signed
+        in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+        `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
     async def followUser(self, args: Prv_bluesky_BlueskyActorActionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyPostActionResult_Out:
         """Follows a person (handle, DID or bsky.app profile URL) as the signed-in caller; `undo:
         true` unfollows. Following someone already followed returns the existing follow record
@@ -77487,6 +77908,31 @@ class Prv_claude(Protocol):
         knowledge bases. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
         """
 
+    async def updatePreferences(self, args: Prv_claude_UpdatePreferencesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeSettingsAck_Out:
+        """Sets the CALLER's personal preferences — the instructions Claude applies to every chat
+        (Settings → Profile). Read the current value with getPreferences first. WRITE. NEEDS A
+        SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def updateProfile(self, args: Prv_claude_UpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeSettingsAck_Out:
+        """Changes the CALLER's Claude full name and/or the name Claude calls them (Settings →
+        Profile). The profile picture is not settable here. WRITE. NEEDS A SIGN-IN (the caller's
+        claude.ai session).
+        """
+
+    async def updateMemory(self, args: Prv_claude_UpdateMemoryArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeMemoryWriteAck_Out:
+        """Turns Claude's memory on or off for the CALLER (`enabled`), or makes it forget
+        everything (`reset: true`, not reversible) — Settings → Capabilities → Memory. Read it
+        with getMemory. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def publishArtifact(self, args: Prv_claude_PublishArtifactArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeArtifactPublishAck_Out:
+        """Publishes one of the CALLER's artifacts (`artifactId` from listArtifacts) to a public
+        claude.ai/public/artifacts link, or unpublishes it (`publishedArtifactId`, `published:
+        false`). Read a published one with getPublishedArtifact. WRITE. NEEDS A SIGN-IN (the
+        caller's claude.ai session).
+        """
+
     async def deleteConversation(self, args: Prv_claude_DeleteConversationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeConversationDeleteAck_Out:
         """Deletes one of the CALLER's Claude chats (`conversationId` from listConversations). Not
         reversible. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
@@ -79873,6 +80319,29 @@ class Prv_discord(Protocol):
         Discord's token from your own browser yet.
         """
 
+    async def searchServerMembers(self, args: Prv_discord_searchServerMembers_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordServerMember_Out]:
+        """Finds members of a server the SIGNED-IN USER has joined whose username or nickname
+        starts with `query` — id, username, display name, server nickname, avatar, role ids,
+        join date. `guildId` from listMyServers(); `limit` 1-1000 (default 25). Pass a member's
+        id to getUserProfile. Needs a Discord sign-in made through Bowmark's sign-in link:
+        Bowmark Link cannot pass Discord's token from your own browser yet.
+        """
+
+    async def listServerEvents(self, args: Prv_discord_listServerEvents_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordServerEvent_Out]:
+        """Lists a joined server's scheduled events AS THE SIGNED-IN USER, soonest first — name,
+        description, start and end, status, whether it is in a stage or voice channel or
+        external (with its location), and how many are interested. `guildId` from
+        listMyServers(). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark
+        Link cannot pass Discord's token from your own browser yet.
+        """
+
+    async def listQuests(self, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordQuest_Out]:
+        """Lists the Quests Discord currently offers the SIGNED-IN USER — quest and game name, the
+        task (e.g. play for 15 minutes), rewards, expiry, and the caller's enrolment, completion
+        and progress. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+        cannot pass Discord's token from your own browser yet.
+        """
+
     async def searchMessages(self, args: Prv_discord_searchMessages_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordMessageSearch_Out:
         """Searches messages AS THE SIGNED-IN USER with Discord's own search — in one joined server
         (`guildId` from listMyServers(), optionally narrowed with `channelId`) or one DM
@@ -80828,6 +81297,24 @@ class Prv_espn(Protocol):
         projected and actual points this scoring period, and the team's record. Same league
         access as getFantasyLeague: a public league reads logged out. Takes a league id and a
         team id from getFantasyLeague.
+        """
+
+    async def setFantasyLineup(self, args: Prv_espn_SetFantasyLineupArgs_In, opts: ConnectionOption | None = None, /) -> Prv_espn_FantasyTransactionResult_Out:
+        """Moves players between the CALLER's starting lineup and bench in one of their own ESPN
+        fantasy leagues — each move a playerId with its from/to lineup slot ids (as
+        getFantasyTeam returns them). Changes only the caller's own team; needs their ESPN
+        sign-in.
+        """
+
+    async def addDropFantasyPlayer(self, args: Prv_espn_AddDropFantasyPlayerArgs_In, opts: ConnectionOption | None = None, /) -> Prv_espn_FantasyTransactionResult_Out:
+        """Adds a free agent to and/or drops a player from the CALLER's own team in one of their
+        ESPN fantasy leagues. Needs their ESPN sign-in.
+        """
+
+    async def proposeFantasyTrade(self, args: Prv_espn_ProposeFantasyTradeArgs_In, opts: ConnectionOption | None = None, /) -> Prv_espn_FantasyTransactionResult_Out:
+        """Proposes a trade from the CALLER's own team to another team in their ESPN fantasy league
+        — players sent and players asked for. The other owner must accept on ESPN. Needs the
+        caller's ESPN sign-in.
         """
 
     async def addFavorite(self, args: Prv_espn_AddFavoriteArgs_In, opts: ConnectionOption | None = None, /) -> Prv_espn_ListFavoritesResult_Out:
@@ -84969,7 +85456,13 @@ class Prv_google_translate(Protocol):
         in one request, in order; `args.to` names the target language by name ("Spanish") or
         code ("es", "pt-BR"); `args.from` is optional and, left out, the source is detected per
         string, with `detected: true` and the detected code coming back on each result. Returns
-        one `GoogleTranslateResult` per input string, aligned by position.
+        one `GoogleTranslateResult` per input string, aligned by position. A gendered sentence
+        ("I am tired and the doctor is late." → Spanish) also carries `genderAlternatives: [{
+        gender: "feminine", translated }, { gender: "masculine", translated }]`, the site's own
+        gender-specific pair, for calls of up to 10 strings. `args.model: "advanced"` asks for
+        the site's Gemini model (its web default: idiomatic where the default classic model is
+        literal) for ONE string, through a real browser (~30 s); the result's `model` says which
+        answered.
         """
 
     async def detectLanguage(self, args: Prv_google_translate_DetectLanguageArgs_In, /) -> Prv_google_translate_GoogleTranslateLanguageDetection_Out:
@@ -85344,6 +85837,14 @@ class Prv_grammarly(Protocol):
         e.g. `humanize({ text: "Artificial intelligence has transformed many industries…" })` →
         `{ text: "AI has changed the game in so many industries…" }`. Meaning is kept; wording,
         rhythm and spelling dialect can change.
+        """
+
+    async def detectTone(self, args: Prv_grammarly_TextArgs_In, /) -> Prv_grammarly_ToneDetection_Out:
+        """Grammarly's tone detector, no account — how the text sounds to a reader, e.g.
+        `detectTone({ text: "Thank you so much for your wonderful help yesterday! …" })` → `{
+        tones: [{ name: "appreciative", emoji: "🙌", confidence: 0.999 }, { name: "optimistic",
+        emoji: "✌️", confidence: 0.565 }] }`. Strongest first. Needs a few sentences: one or two
+        short sentences usually answer `tones: []`. Up to 150,000 characters.
         """
 
     async def paraphrase(self, args: Prv_grammarly_ParaphraseArgs_In, /) -> Prv_grammarly_Paraphrased_Out:
@@ -90411,6 +90912,22 @@ class Prv_medicare(Protocol):
         '' (not published) is load-bearing — never coerce an empty string to 0.
         """
 
+class Prv_meetup(Protocol):
+    """Meetup.com — search upcoming events by topic and location, and read a group's details
+    and events.
+    """
+
+    async def searchEvents(self, args: Prv_meetup_SearchEventsArgs_In, /) -> Prv_meetup_MeetupEventSearch_Out:
+        """Searches meetup.com for upcoming events matching a topic, optionally near a location
+        code like "us--ny--New York". Returns the first page (~20) of events with time, venue,
+        group and RSVP count.
+        """
+
+    async def getGroup(self, args: Prv_meetup_GetGroupArgs_In, /) -> Prv_meetup_MeetupGroup_Out:
+        """Reads one meetup.com group by its urlname: description, location, member count, rating,
+        organizer, and its next and most recent events. THROWS if no such group.
+        """
+
 class Prv_menards(Protocol):
     """Search Menards (menards.com) product catalog — tools, lumber, hardware, appliances, home
     improvement — and get each listing's sale price, mail-in rebate, price after rebate,
@@ -95432,6 +95949,11 @@ class Prv_quickbooks(Protocol):
         developer replies
         """
 
+    async def generateInvoice(self, args: Prv_quickbooks_QuickbooksGenerateInvoiceArgs_In, /) -> Prv_quickbooks_QuickbooksGeneratedInvoice_Out:
+        """Builds an invoice PDF (seller, customer, line items, tax, discount) like QuickBooks'
+        free invoice generator, saved to the run's files; sends nothing
+        """
+
 class Prv_quince(Protocol):
     """Quince (quince.com) apparel and home store. Searches the live catalog (men's/women's,
     size, in-stock) and reads one product's per-variant size, color, price and live stock.
@@ -97885,6 +98407,12 @@ class Prv_shop_app(Protocol):
     catalogue, collections, reviews and policies; once a caller signs in, list and track
     their orders, save products, follow stores and fill a cart up to checkout.
     """
+
+    async def markOrderDelivered(self, args: Prv_shop_app_ShopAppMarkDeliveredArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppDeliveryState_Out:
+        """Marks one of the signed-in caller's Shop deliveries as delivered (or un-marks it with
+        delivered: false) by the deliveryId trackPackage returns or its shop.app/deliveries/<id>
+        url, and returns the new state. Pauses for the caller to sign in to Shop.
+        """
 
     async def trackPackage(self, args: Prv_shop_app_ShopAppTrackPackageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppTrackedPackage_Out:
         """Adds a package to the signed-in caller's Shop by its tracking number so Shop tracks it —
@@ -103401,6 +103929,11 @@ class Prv_walmart(Protocol):
         `search`.
         """
 
+    async def findBrand(self, args: Prv_walmart_findBrand_args_In, /) -> list[Prv_walmart_walmartBrand_Out]:
+        """Finds a brand's Walmart page by name (e.g. "Samsung") off the site's own brand
+        directory, returning the `brandId` `browseBrand` takes — best match first.
+        """
+
     async def browseBrand(self, args: Prv_walmart_browseBrand_args_In, /) -> list[Prv_walmart_walmartSearchResult_Out]:
         """Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a
         shopper browses by brand rather than by keyword. Takes the numeric `brandId` off the
@@ -103439,7 +103972,7 @@ class Prv_walmart(Protocol):
     async def getSeller(self, args: Prv_walmart_getSeller_args_In, /) -> Prv_walmart_walmartSeller_Out:
         """Reads one Marketplace seller's profile page — name, rating, and review count — for the
         `catalogSellerId` (a short numeric id) a seller's own `/global/seller/<id>` URL carries.
-        NOT the GUID `listSellerOffers` returns.
+        `listSellerOffers` returns it per offer as `catalogSellerId` (not its GUID `sellerId`).
         """
 
     async def getStore(self, args: Prv_walmart_getStore_args_In, /) -> Prv_walmart_walmartStore_Out:
@@ -106348,10 +106881,13 @@ class BowmarkProviders(Protocol):
     acuityscheduling: Prv_acuityscheduling
     adobe: Prv_adobe
     adorama: Prv_adorama
+    ads_google: Prv_ads_google
+    adsmanager_facebook: Prv_adsmanager_facebook
     aetna_directory: Prv_aetna_directory
     agakhanhospitals: Prv_agakhanhospitals
     agentstatus: Prv_agentstatus
     agoda: Prv_agoda
+    ahrefs: Prv_ahrefs
     ai_engineer: Prv_ai_engineer
     aiper: Prv_aiper
     airbnb: Prv_airbnb
@@ -106787,6 +107323,7 @@ class BowmarkProviders(Protocol):
     mcp_so: Prv_mcp_so
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
+    meetup: Prv_meetup
     menards: Prv_menards
     mercari: Prv_mercari
     mergify: Prv_mergify

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bfbe0de48b2a8de0b6e9cb5c9e6b8d6a1a0d534b89bebc3f5ad1f838a69cc5e6
-// 97 capabilities, 769 providers, 4591 typed functions, 20 refused.
+// Manifest version: 6627c09bd201c951ab88787f3411ba4e92e1b5428c0aa85b3fc857e95159f9c5
+// 97 capabilities, 773 providers, 4616 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8196,6 +8196,135 @@ interface AdoramaCategory {
   }
 }
 
+declare namespace BowmarkProvider_ads_google {
+  // ── Google Ads — the unit's own declarations, verbatim ──
+interface GoogleAdsAccount {
+  customerId: string;          // "123-456-7890" — pass this as customerId
+  name: string | null;
+  ocid: string | null;         // Google Ads' own URL id for the account, when the page showed it
+}
+interface GoogleAdsStats {
+  cost: number | null;         // in the account's currency
+  impressions: number | null;
+  clicks: number | null;
+  ctr: number | null;          // percent
+  avgCpc: number | null;
+  conversions: number | null;
+  costPerConversion: number | null;
+}
+interface GoogleAdsCampaign {
+  name: string; status: string | null; budget: string | null; campaignType: string | null;
+  stats: GoogleAdsStats;
+}
+interface GoogleAdsCampaignArgs {
+  customerId?: string;         // GoogleAdsAccount.customerId; omitted = the account Google Ads opens
+  dateRange?: "today" | "yesterday" | "last_7_days" | "last_14_days" | "last_30_days"
+    | "this_month" | "last_month" | "all_time";   // default "last_30_days"
+}
+interface GoogleAdsCampaignTable {
+  campaigns: GoogleAdsCampaign[];
+  total: GoogleAdsStats | null;  // the grid's own "Total" row
+}
+
+  /**
+   * Read-only stats from the caller's OWN Google Ads account: accounts, and each campaign's
+   * cost, impressions, clicks, CTR, avg. CPC and conversions. Needs the caller signed in to
+   * Google.
+   */
+  interface Unit {
+    /**
+     * Every Google Ads account the signed-in caller can open, with its customer id
+     * ("123-456-7890") and name. A row's `customerId` is what listCampaigns takes. Read-only.
+     * Needs the caller signed in to Google.
+     */
+    listAccounts(opts?: ConnectionOption): Promise<GoogleAdsAccount[]>;
+
+    /**
+     * The account's campaigns as Google Ads' Campaigns page shows them — status, budget, type and
+     * cost, impressions, clicks, CTR, avg. CPC, conversions for the date range (default last 30
+     * days) — plus the grid's Total row. Read-only; never edits or pauses anything. Needs the
+     * caller signed in.
+     */
+    listCampaigns(args?: GoogleAdsCampaignArgs, opts?: ConnectionOption): Promise<GoogleAdsCampaignTable>;
+  }
+}
+
+declare namespace BowmarkProvider_adsmanager_facebook {
+  // ── Meta Ads Manager — the unit's own declarations, verbatim ──
+interface AdStats {
+  spend: number | null;        // in the account's currency
+  impressions: number | null;
+  clicks: number | null;
+  reach: number | null;
+  ctr: number | null;          // percent
+  cpc: number | null;
+  cpm: number | null;
+  dateStart: string | null;    // YYYY-MM-DD
+  dateStop: string | null;
+}
+interface AdAccount {
+  id: string;                  // "act_<digits>" — pass this as accountId
+  accountId: string;
+  name: string | null;
+  currency: string | null;
+  status: number | null;       // Meta's account_status: 1 active, 2 disabled, …
+  amountSpent: number | null;  // lifetime, in the currency's minor unit as Meta reports it
+  timezone: string | null;
+}
+interface AdsStatsArgs {
+  accountId: string;           // AdAccount.id
+  datePreset?: string;         // "last_30d" (default), "last_7d", "this_month", "maximum", …
+  since?: string;              // YYYY-MM-DD, with until — overrides datePreset
+  until?: string;
+}
+interface AdsListArgs extends AdsStatsArgs {
+  campaignId?: string;         // listAds only: just this campaign's ads
+}
+interface AdsCampaign {
+  id: string; name: string; status: string | null; effectiveStatus: string | null;
+  objective: string | null; stats: AdStats | null;   // null = no delivery in the range
+}
+interface AdsAd {
+  id: string; name: string; status: string | null; effectiveStatus: string | null;
+  campaignId: string | null; adsetId: string | null; stats: AdStats | null;
+}
+
+  /**
+   * Read-only stats from the caller's OWN Meta (Facebook/Instagram) Ads Manager: ad accounts,
+   * spend, impressions, clicks, reach, CTR, CPC per account, campaign and ad. Needs the caller
+   * signed in to Facebook.
+   */
+  interface Unit {
+    /**
+     * Every ad account the signed-in caller can see in Meta Ads Manager, with name, currency,
+     * status and lifetime amount spent. A row's `id` is the `accountId` every other function
+     * takes. Needs the caller signed in to Facebook.
+     */
+    listAdAccounts(opts?: ConnectionOption): Promise<AdAccount[]>;
+
+    /**
+     * One ad account's totals for a date range — spend, impressions, clicks, reach, CTR, CPC, CPM
+     * — as Ads Manager's summary row shows them. Default range last 30 days; `null` means no
+     * delivery in the range. Read-only. Needs the caller signed in.
+     */
+    getAccountInsights(args: AdsStatsArgs, opts?: ConnectionOption): Promise<AdStats | null>;
+
+    /**
+     * The account's campaigns (Ads Manager's Campaigns tab), each with status, objective and its
+     * spend, impressions, clicks, reach, CTR and CPC for the range. Read-only — never pauses or
+     * edits anything. Needs the caller signed in.
+     */
+    listCampaigns(args: AdsStatsArgs, opts?: ConnectionOption): Promise<AdsCampaign[]>;
+
+    /**
+     * The account's ads (Ads Manager's Ads tab), optionally only one campaign's, each with status,
+     * campaign/ad set ids and its spend, impressions, clicks, reach, CTR and CPC for the range.
+     * Read-only. Needs the caller signed in.
+     */
+    listAds(args: AdsListArgs, opts?: ConnectionOption): Promise<AdsAd[]>;
+  }
+}
+
 declare namespace BowmarkProvider_aetna_directory {
   // ── Aetna — provider directory — the unit's own declarations, verbatim ──
 interface aetna_directoryProvider {
@@ -8421,6 +8550,20 @@ interface AgodaHotel {
      * per night, star rating, review score and location.
      */
     searchHotels(args: SearchHotelsArgs): Promise<{ cityId: number; totalHotels: number | null; hotels: AgodaHotel[] }>;
+  }
+}
+
+declare namespace BowmarkProvider_ahrefs {
+  // ── Ahrefs — the unit's own declarations, verbatim ──
+interface AhrefsDomainRating { target: string; domainRating: number; license: string | null; }
+
+  /** Check Ahrefs Domain Rating for a domain or URL with the caller's free Ahrefs APIv3 key. */
+  interface Unit {
+    /**
+     * Returns Ahrefs' 0–100 Domain Rating for one domain or URL. Needs an Ahrefs APIv3 key; for
+     * example, call getDomainRating("example.com").
+     */
+    getDomainRating(target: string): Promise<AhrefsDomainRating>;
   }
 }
 
@@ -17094,6 +17237,10 @@ interface BlueskyPostActionResult {
   changed: boolean;
 }
 
+interface BlueskyMarkSeenResult {
+  seenAt: string;
+}
+
 interface BlueskyActorActionArgs {
   actor: string;
   undo?: boolean;
@@ -17444,6 +17591,23 @@ interface BlueskyActorActionArgs {
      * sign in again.
      */
     repost(args: BlueskyPostActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Saves a post (at:// URI or bsky.app post URL) to the signed-in caller's private Bookmarks;
+     * `undo: true` removes it. `uri` is always null (a bookmark is not a public record); `changed:
+     * false` when it was already in that state. Needs the caller signed in to bsky.app — the run
+     * pauses for a sign-in link when they are not. THROWS `blueskyError` when the saved sign-in
+     * has expired; sign in again.
+     */
+    bookmarkPost(args: BlueskyPostActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Marks the signed-in caller's notifications as seen up to now (or up to `seenAt`, an ISO
+     * date-time), clearing the unread count. Returns the instant used. Needs the caller signed in
+     * to bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError`
+     * when the saved sign-in has expired; sign in again.
+     */
+    markNotificationsRead(opts?: { seenAt?: string }, connectionOpts?: ConnectionOption): Promise<BlueskyMarkSeenResult>;
 
     /**
      * Follows a person (handle, DID or bsky.app profile URL) as the signed-in caller; `undo: true`
@@ -26240,6 +26404,45 @@ interface ClaudeConversationDeleteAck {
   conversationId: string;
   ok: true;
 }
+interface UpdatePreferencesArgs {
+  /** The instructions Claude applies to every chat (Settings → Profile → personal preferences). */
+  instructions: string;
+}
+interface ClaudeSettingsAck {
+  ok: true;
+}
+interface UpdateProfileArgs {
+  /** The caller's full name. */
+  fullName?: string;
+  /** What Claude calls the caller. */
+  displayName?: string;
+}
+interface UpdateMemoryArgs {
+  /** Turn memory on (true) or off (false). */
+  enabled?: boolean;
+  /** Make Claude forget everything it remembers. NOT reversible. */
+  reset?: boolean;
+  organizationId?: string;
+}
+interface ClaudeMemoryWriteAck {
+  organizationId: string;
+  ok: true;
+}
+interface PublishArtifactArgs {
+  /** To publish: the artifact id from listArtifacts. */
+  artifactId?: string;
+  /** To unpublish: the published id (listArtifacts' publishedArtifactId) and published: false. */
+  publishedArtifactId?: string;
+  /** Default true. */
+  published?: boolean;
+  organizationId?: string;
+}
+interface ClaudeArtifactPublishAck {
+  publishedArtifactId: string;
+  published: boolean;
+  /** The public claude.ai/public/artifacts link, or null after unpublishing. */
+  url: string | null;
+}
 interface ClaudeWriteAck {
   conversationId: string;
   ok: true;
@@ -26437,6 +26640,35 @@ interface MoveConversationToProjectArgs {
      * knowledge bases. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
      */
     deleteProjectDocument(args: DeleteProjectDocumentArgs, opts?: ConnectionOption): Promise<ClaudeProjectDocumentDeleteAck>;
+
+    /**
+     * Sets the CALLER's personal preferences — the instructions Claude applies to every chat
+     * (Settings → Profile). Read the current value with getPreferences first. WRITE. NEEDS A
+     * SIGN-IN (the caller's claude.ai session).
+     */
+    updatePreferences(args: UpdatePreferencesArgs, opts?: ConnectionOption): Promise<ClaudeSettingsAck>;
+
+    /**
+     * Changes the CALLER's Claude full name and/or the name Claude calls them (Settings →
+     * Profile). The profile picture is not settable here. WRITE. NEEDS A SIGN-IN (the caller's
+     * claude.ai session).
+     */
+    updateProfile(args: UpdateProfileArgs, opts?: ConnectionOption): Promise<ClaudeSettingsAck>;
+
+    /**
+     * Turns Claude's memory on or off for the CALLER (`enabled`), or makes it forget everything
+     * (`reset: true`, not reversible) — Settings → Capabilities → Memory. Read it with getMemory.
+     * WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    updateMemory(args: UpdateMemoryArgs, opts?: ConnectionOption): Promise<ClaudeMemoryWriteAck>;
+
+    /**
+     * Publishes one of the CALLER's artifacts (`artifactId` from listArtifacts) to a public
+     * claude.ai/public/artifacts link, or unpublishes it (`publishedArtifactId`, `published:
+     * false`). Read a published one with getPublishedArtifact. WRITE. NEEDS A SIGN-IN (the
+     * caller's claude.ai session).
+     */
+    publishArtifact(args: PublishArtifactArgs, opts?: ConnectionOption): Promise<ClaudeArtifactPublishAck>;
 
     /**
      * Deletes one of the CALLER's Claude chats (`conversationId` from listConversations). Not
@@ -32895,6 +33127,43 @@ interface discordThreadList {
   hasMore: boolean;                  // step offset by 25 for more
   threads: discordThread[];
 }
+interface discordServerMember {
+  id: string;                        // user id — pass to getUserProfile
+  username: string;
+  globalName: string | null;
+  nickname: string | null;           // this server's nickname
+  avatarUrl: string | null;
+  bot: boolean;
+  roleIds: string[];
+  joinedAt: string | null;           // ISO 8601
+}
+interface discordServerEvent {
+  id: string;
+  name: string;
+  description: string | null;
+  startsAt: string | null;           // ISO 8601
+  endsAt: string | null;
+  status: "scheduled" | "active" | "completed" | "canceled" | null;
+  kind: "stage" | "voice" | "external" | null;
+  channelId: string | null;          // the stage/voice channel
+  location: string | null;           // external events only
+  creatorId: string | null;
+  interestedCount: number | null;
+  imageUrl: string | null;
+}
+interface discordQuest {
+  id: string;
+  name: string;
+  game: string | null;
+  tasks: { type: string; seconds: number | null }[];   // e.g. PLAY_ON_DESKTOP, 900
+  rewards: string[];
+  startsAt: string | null;
+  expiresAt: string | null;
+  enrolledAt: string | null;         // null until the caller accepts it
+  completedAt: string | null;
+  claimedAt: string | null;
+  progress: Record<string, number>;  // seconds done per task type
+}
 interface discordMessageSearch {
   totalResults: number;              // Discord's count of every hit, not just this page (25 per page)
   messages: discordMessage[];        // this page's hits
@@ -33117,6 +33386,32 @@ interface discordMessageSearch {
      * your own browser yet.
      */
     listThreads(args: { channelId: string; archived?: boolean; offset?: number }, opts?: ConnectionOption): Promise<discordThreadList>;
+
+    /**
+     * Finds members of a server the SIGNED-IN USER has joined whose username or nickname starts
+     * with `query` — id, username, display name, server nickname, avatar, role ids, join date.
+     * `guildId` from listMyServers(); `limit` 1-1000 (default 25). Pass a member's id to
+     * getUserProfile. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+     * cannot pass Discord's token from your own browser yet.
+     */
+    searchServerMembers(args: { guildId: string; query: string; limit?: number }, opts?: ConnectionOption): Promise<discordServerMember[]>;
+
+    /**
+     * Lists a joined server's scheduled events AS THE SIGNED-IN USER, soonest first — name,
+     * description, start and end, status, whether it is in a stage or voice channel or external
+     * (with its location), and how many are interested. `guildId` from listMyServers(). Needs a
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * token from your own browser yet.
+     */
+    listServerEvents(args: { guildId: string }, opts?: ConnectionOption): Promise<discordServerEvent[]>;
+
+    /**
+     * Lists the Quests Discord currently offers the SIGNED-IN USER — quest and game name, the task
+     * (e.g. play for 15 minutes), rewards, expiry, and the caller's enrolment, completion and
+     * progress. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot
+     * pass Discord's token from your own browser yet.
+     */
+    listQuests(opts?: ConnectionOption): Promise<discordQuest[]>;
 
     /**
      * Searches messages AS THE SIGNED-IN USER with Discord's own search — in one joined server
@@ -36290,6 +36585,36 @@ interface RemoveFavoriteArgs {
   id: string; // a favourite's id from listFavorites
 }
 
+interface FantasyLeagueRef {
+  sport: string; // "football" | "baseball" | "basketball" | "hockey"
+  leagueId: string | number;
+  teamId: number; // the caller's own team
+  season?: number;
+  scoringPeriodId?: number;
+}
+
+interface SetFantasyLineupArgs extends FantasyLeagueRef {
+  moves: { playerId: number; fromLineupSlotId: number; toLineupSlotId: number }[];
+}
+
+interface AddDropFantasyPlayerArgs extends FantasyLeagueRef {
+  addPlayerId?: number;
+  dropPlayerId?: number;
+}
+
+interface ProposeFantasyTradeArgs extends FantasyLeagueRef {
+  toTeamId: number;
+  sendPlayerIds: number[];
+  receivePlayerIds: number[];
+}
+
+interface FantasyTransactionResult {
+  id: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  type: string;
+  raw: unknown;
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -36439,6 +36764,26 @@ interface RemoveFavoriteArgs {
      * getFantasyLeague.
      */
     getFantasyTeam(args: GetFantasyTeamArgs): Promise<FantasyTeamResult>;
+
+    /**
+     * Moves players between the CALLER's starting lineup and bench in one of their own ESPN
+     * fantasy leagues — each move a playerId with its from/to lineup slot ids (as getFantasyTeam
+     * returns them). Changes only the caller's own team; needs their ESPN sign-in.
+     */
+    setFantasyLineup(args: SetFantasyLineupArgs, opts?: ConnectionOption): Promise<FantasyTransactionResult>;
+
+    /**
+     * Adds a free agent to and/or drops a player from the CALLER's own team in one of their ESPN
+     * fantasy leagues. Needs their ESPN sign-in.
+     */
+    addDropFantasyPlayer(args: AddDropFantasyPlayerArgs, opts?: ConnectionOption): Promise<FantasyTransactionResult>;
+
+    /**
+     * Proposes a trade from the CALLER's own team to another team in their ESPN fantasy league —
+     * players sent and players asked for. The other owner must accept on ESPN. Needs the caller's
+     * ESPN sign-in.
+     */
+    proposeFantasyTrade(args: ProposeFantasyTradeArgs, opts?: ConnectionOption): Promise<FantasyTransactionResult>;
 
     /**
      * Adds a team, league or player to the CALLER's My ESPN favourites and returns the updated
@@ -39231,7 +39576,7 @@ interface FbsapplianceSearchArgs {
 interface FbsapplianceSearchResult {
   name: string;
   modelNumber: string;         // may end in a literal "..." when the grid clips it
-  price: number;                // real, current selling price
+  price: number | null;         // real, current selling price — null on a "Call for Best Price" card
   wasPrice: number | null;      // the crossed-out "was" price, when shown
   availableAt: string | null;   // the city the grid names, when it names one
   url: string;                   // this product's own FBS Appliance URL
@@ -47574,6 +47919,7 @@ interface TranslateArgs {
   text: string | readonly string[];
   to: string;
   from?: string;
+  model?: "classic" | "advanced";
 }
 interface GoogleTranslateResult {
   source: string;
@@ -47581,6 +47927,8 @@ interface GoogleTranslateResult {
   targetLanguage: string;
   sourceLanguage: string;
   detected: boolean;
+  genderAlternatives?: { gender: string; translated: string }[];
+  model?: "classic" | "advanced";
 }
 interface DetectLanguageArgs {
   text: string;
@@ -47775,7 +48123,12 @@ interface GoogleTranslateImageResult {
      * one request, in order; `args.to` names the target language by name ("Spanish") or code
      * ("es", "pt-BR"); `args.from` is optional and, left out, the source is detected per string,
      * with `detected: true` and the detected code coming back on each result. Returns one
-     * `GoogleTranslateResult` per input string, aligned by position.
+     * `GoogleTranslateResult` per input string, aligned by position. A gendered sentence ("I am
+     * tired and the doctor is late." → Spanish) also carries `genderAlternatives: [{ gender:
+     * "feminine", translated }, { gender: "masculine", translated }]`, the site's own
+     * gender-specific pair, for calls of up to 10 strings. `args.model: "advanced"` asks for the
+     * site's Gemini model (its web default: idiomatic where the default classic model is literal)
+     * for ONE string, through a real browser (~30 s); the result's `model` says which answered.
      */
     translate(args: TranslateArgs): Promise<GoogleTranslateResult[]>;
 
@@ -48490,6 +48843,17 @@ interface PlagiarismCheck {
 interface Humanized {
   text: string;
 }
+interface DetectedTone {
+  /** Grammarly's tone label, e.g. "appreciative", "optimistic", "disapproving". */
+  name: string;
+  emoji: string;
+  /** 0-1, how sure the detector is. */
+  confidence: number;
+}
+interface ToneDetection {
+  /** Strongest first. Empty when the text is too short or carries no clear tone. */
+  tones: DetectedTone[];
+}
 interface ParaphraseArgs {
   /** The text to reword, up to 625 characters (the logged-out tool's own cap). */
   text: string;
@@ -48573,6 +48937,15 @@ interface GrammarlyPlans {
      * spelling dialect can change.
      */
     humanize(args: TextArgs): Promise<Humanized>;
+
+    /**
+     * Grammarly's tone detector, no account — how the text sounds to a reader, e.g. `detectTone({
+     * text: "Thank you so much for your wonderful help yesterday! …" })` → `{ tones: [{ name:
+     * "appreciative", emoji: "🙌", confidence: 0.999 }, { name: "optimistic", emoji: "✌️",
+     * confidence: 0.565 }] }`. Strongest first. Needs a few sentences: one or two short sentences
+     * usually answer `tones: []`. Up to 150,000 characters.
+     */
+    detectTone(args: TextArgs): Promise<ToneDetection>;
 
     /**
      * Grammarly's free paraphrasing tool, no account — rewords each sentence keeping its meaning,
@@ -63062,6 +63435,74 @@ interface medicareGetPlanQuery {
   }
 }
 
+declare namespace BowmarkProvider_meetup {
+  // ── Meetup — the unit's own declarations, verbatim ──
+interface MeetupEvent {
+  id: string;
+  title: string;
+  dateTime: string; // ISO with offset
+  eventType: string; // "PHYSICAL" | "ONLINE" | "HYBRID"
+  url: string;
+  description: string; // markdown
+  venue: { name: string; address: string; city: string; state: string; country: string } | null;
+  groupName: string;
+  groupUrlname: string;
+  rsvpCount: number | null;
+}
+interface SearchEventsArgs {
+  query: string;
+  /** meetup's location code "<country>--<state>--<City>", e.g. "us--ny--New York", "gb--17--London". Omit for meetup's default location. */
+  location?: string;
+}
+interface MeetupEventSearch {
+  query: string;
+  location: string;
+  totalCount: number | null;
+  events: MeetupEvent[];
+}
+interface GetGroupArgs {
+  /** the group's url path segment, e.g. "nycpython", or its full url */
+  urlname: string;
+}
+interface MeetupGroup {
+  id: string;
+  name: string;
+  urlname: string;
+  url: string;
+  description: string;
+  city: string;
+  state: string;
+  country: string;
+  timezone: string;
+  memberCount: number | null;
+  rating: number | null;
+  joinMode: string;
+  isPrivate: boolean;
+  organizerName: string;
+  upcomingEvents: MeetupEvent[];
+  pastEvents: MeetupEvent[];
+}
+
+  /**
+   * Meetup.com — search upcoming events by topic and location, and read a group's details and
+   * events.
+   */
+  interface Unit {
+    /**
+     * Searches meetup.com for upcoming events matching a topic, optionally near a location code
+     * like "us--ny--New York". Returns the first page (~20) of events with time, venue, group and
+     * RSVP count.
+     */
+    searchEvents(args: SearchEventsArgs): Promise<MeetupEventSearch>;
+
+    /**
+     * Reads one meetup.com group by its urlname: description, location, member count, rating,
+     * organizer, and its next and most recent events. THROWS if no such group.
+     */
+    getGroup(args: GetGroupArgs): Promise<MeetupGroup>;
+  }
+}
+
 declare namespace BowmarkProvider_menards {
   // ── Menards — the unit's own declarations, verbatim ──
 interface MenardsSearchArgs {
@@ -76661,6 +77102,69 @@ interface QuickbooksApp extends QuickbooksAppSummary {
   builtByIntuit: boolean;
 }
 
+/** A file saved to the run's files — a presigned `url` until `expiresAt`. */
+interface QuickbooksSavedFile {
+  id: string;
+  name: string;
+  contentType: string;
+  bytes: number;
+  url: string;
+  expiresAt: string;
+  keepUntil?: string | null;
+}
+
+/** The seller or the customer on an invoice. */
+interface QuickbooksInvoiceParty {
+  name: string;
+  /** Address lines, printed in order. */
+  address?: string[];
+  email?: string;
+  phone?: string;
+}
+
+/** One line; amount = quantity (default 1) × rate. */
+interface QuickbooksInvoiceLineItem {
+  description: string;
+  quantity?: number;
+  rate: number;
+}
+
+interface QuickbooksGenerateInvoiceArgs {
+  from: QuickbooksInvoiceParty;
+  billTo: QuickbooksInvoiceParty;
+  items: QuickbooksInvoiceLineItem[];
+  /** Default "1001". */
+  invoiceNumber?: string;
+  /** YYYY-MM-DD; default today (UTC). */
+  date?: string;
+  /** YYYY-MM-DD. */
+  dueDate?: string;
+  /** Percent of the subtotal after discount, e.g. 8.25. */
+  taxRate?: number;
+  /** Flat amount off the subtotal before tax. */
+  discount?: number;
+  /** ISO 4217, default "USD". */
+  currency?: string;
+  notes?: string;
+  terms?: string;
+}
+
+interface QuickbooksGeneratedInvoice {
+  invoiceNumber: string;
+  date: string;
+  dueDate: string | null;
+  currency: string;
+  items: { description: string; quantity: number; rate: number; amount: number }[];
+  subtotal: number;
+  discount: number;
+  tax: number;
+  total: number;
+  /** The PDF in the run's files; absent when the run has no file store. */
+  file?: QuickbooksSavedFile;
+  pdfBytes: number;
+  warnings: string[];
+}
+
   /**
    * QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators, the
    * ProAdvisor accountant directory, the App Store, Community answers, help articles and service
@@ -76750,6 +77254,12 @@ interface QuickbooksApp extends QuickbooksAppSummary {
      * replies
      */
     listAppReviews(args: string | QuickbooksListAppReviewsArgs): Promise<QuickbooksAppReviews>;
+
+    /**
+     * Builds an invoice PDF (seller, customer, line items, tax, discount) like QuickBooks' free
+     * invoice generator, saved to the run's files; sends nothing
+     */
+    generateInvoice(args: QuickbooksGenerateInvoiceArgs): Promise<QuickbooksGeneratedInvoice>;
   }
 }
 
@@ -84326,6 +84836,16 @@ interface ShopAppTrackedPackage {
   url: string;
   warnings: string[];
 }
+interface ShopAppMarkDeliveredArgs {
+  deliveryId: string;
+  delivered?: boolean;
+}
+interface ShopAppDeliveryState {
+  deliveryId: string;
+  delivered: boolean;
+  url: string;
+  warnings: string[];
+}
 interface ShopAppOrderList {
   orders: ShopAppOrder[];
   nextCursor: string | null;
@@ -84344,6 +84864,13 @@ interface ShopAppListOrdersArgs {
    * products, follow stores and fill a cart up to checkout.
    */
   interface Unit {
+    /**
+     * Marks one of the signed-in caller's Shop deliveries as delivered (or un-marks it with
+     * delivered: false) by the deliveryId trackPackage returns or its shop.app/deliveries/<id>
+     * url, and returns the new state. Pauses for the caller to sign in to Shop.
+     */
+    markOrderDelivered(args: ShopAppMarkDeliveredArgs, opts?: ConnectionOption): Promise<ShopAppDeliveryState>;
+
     /**
      * Adds a package to the signed-in caller's Shop by its tracking number so Shop tracks it —
      * carrier picked from Shop's own suggestions for the number unless given, optional package
@@ -100604,10 +101131,17 @@ interface walmartProduct {
 
 interface walmartSellerOffer {
   sellerId: string | null;
+  catalogSellerId: string | null;
   sellerName: string;
   price: number | null;
   shipping: string | null;
   condition: string | null; // the site's own labels — read the values off a result, never guess one from prose
+}
+
+interface walmartBrand {
+  name: string;
+  brandId: string;
+  url: string;
 }
 
 interface walmartSeller {
@@ -100662,6 +101196,12 @@ interface walmartSeller {
     browseCategory(args: { browseId: string }): Promise<walmartSearchResult[]>;
 
     /**
+     * Finds a brand's Walmart page by name (e.g. "Samsung") off the site's own brand directory,
+     * returning the `brandId` `browseBrand` takes — best match first.
+     */
+    findBrand(args: { name: string; limit?: number }): Promise<walmartBrand[]>;
+
+    /**
      * Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a
      * shopper browses by brand rather than by keyword. Takes the numeric `brandId` off the site's
      * own `/brand/<slug>/<id>` URL — the slug is decorative and only the id selects the shelf.
@@ -100703,8 +101243,8 @@ interface walmartSeller {
 
     /**
      * Reads one Marketplace seller's profile page — name, rating, and review count — for the
-     * `catalogSellerId` (a short numeric id) a seller's own `/global/seller/<id>` URL carries. NOT
-     * the GUID `listSellerOffers` returns.
+     * `catalogSellerId` (a short numeric id) a seller's own `/global/seller/<id>` URL carries.
+     * `listSellerOffers` returns it per offer as `catalogSellerId` (not its GUID `sellerId`).
      */
     getSeller(args: { sellerId: string }): Promise<walmartSeller>;
 
@@ -109375,10 +109915,13 @@ interface BowmarkProviders {
   acuityscheduling: BowmarkProvider_acuityscheduling.Unit;
   adobe: BowmarkProvider_adobe.Unit;
   adorama: BowmarkProvider_adorama.Unit;
+  ads_google: BowmarkProvider_ads_google.Unit;
+  adsmanager_facebook: BowmarkProvider_adsmanager_facebook.Unit;
   aetna_directory: BowmarkProvider_aetna_directory.Unit;
   agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
   agentstatus: BowmarkProvider_agentstatus.Unit;
   agoda: BowmarkProvider_agoda.Unit;
+  ahrefs: BowmarkProvider_ahrefs.Unit;
   ai_engineer: BowmarkProvider_ai_engineer.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   airbnb: BowmarkProvider_airbnb.Unit;
@@ -109814,6 +110357,7 @@ interface BowmarkProviders {
   mcp_so: BowmarkProvider_mcp_so.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
+  meetup: BowmarkProvider_meetup.Unit;
   menards: BowmarkProvider_menards.Unit;
   mercari: BowmarkProvider_mercari.Unit;
   mergify: BowmarkProvider_mergify.Unit;
