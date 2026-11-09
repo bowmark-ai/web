@@ -4941,7 +4941,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `summerfridaysquiz.getSkincareQuizQuestions` | summerfridays.com | Lists the live Skincare Quiz's questions (skin type, sensitivity, skin concerns, eye… | 🟢 |
 | `summerfridaysquiz.getSkincareRoutine` | summerfridays.com | Runs Summer Fridays' own published Skincare Quiz decision tree (the routine-category… | 🟢 |
 | `sunhomesaunas.addSaunaToCart` | sunhomesaunas.com | Adds one real matched product to a real Shopify cart at Sun Home Saunas' own real live… | 🟢 |
-| `sunhomesaunas.getPersonalizedSaunaMatches` | sunhomesaunas.com | Applies real answers to the live Digioh product-weight rules the site's quiz… | 🟡 |
+| `sunhomesaunas.getPersonalizedSaunaMatches` | sunhomesaunas.com | Applies real answers to the live Digioh product-weight rules the site's quiz… | 🟢 |
 | `sunhomesaunas.getSaunaFinderQuestions` | sunhomesaunas.com | Reads Sun Home Saunas' real, live Digioh buyer quiz from its public breakpoint… | 🟢 |
 | `sunlighten.getModelPricing` | sunlighten.com | Reads the real, currently-quoted price for a Sunlighten sauna model off the public… | 🟢 |
 | `sunlighten.matchSauna` | sunlighten.com | Runs Sunlighten's own 'Find My Sauna' quiz match — the same wellness-goal +… | 🟢 |
