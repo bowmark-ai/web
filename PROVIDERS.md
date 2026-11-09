@@ -3133,7 +3133,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lowes.checkStoreInventory` | lowes.com | Checks an item's in-store stock and pickup availability at a Lowe's store near a ZIP. | ⚪ |
 | `lowes.findStores` | lowes.com | Finds Lowe's stores near a ZIP or city, with address and hours. | ⚪ |
 | `lowes.getProduct` | lowes.com | Reads one product page: full specs, price, availability and store pickup for an item. | ⚪ |
-| `lowes.search` | lowes.com | Searches Lowe's product catalog for a shopper's query (e.g. "cordless drill") and… | 🟢 |
+| `lowes.search` | lowes.com | Searches Lowe's product catalog for a shopper's query (e.g. "cordless drill") and… | 🟡 |
 | `lufthansa.getBaggageAllowance` | lufthansa.com | Reads the checked and carry-on baggage allowance for a fare class and route — bag… | 🟢 |
 | `lufthansa.getFlightStatus` | lufthansa.com | Looks up a flight's real-time status by flight number and date — scheduled vs.… | 🟢 |
 | `lufthansa.getSeatMap` | lufthansa.com | Reads the seat map for a specific flight — cabin layout, which seats are open… | ⚪ |
