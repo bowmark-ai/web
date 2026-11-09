@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 274ce28ec25755d9d05488038e04b4e211ca52706cd72a6d68f01f7b168ec35e
-# 97 capabilities, 781 providers, 4646 typed functions, 20 refused.
+# Manifest version: ed173c24c5ee36a6a182700d5fc9c03f59dcdedc944952c5b66b0a7289f2e5f6
+# 97 capabilities, 781 providers, 4653 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21592,8 +21592,7 @@ class Prv_duckduckgo_DuckDuckGoVideo_Out(TypedDict):
 
 class Prv_duckduckgo_SearchPlacesArgs_In(TypedDict):
     query: str
-    latitude: NotRequired[float]
-    longitude: NotRequired[float]
+    near: NotRequired[str]
     cursor: NotRequired[str]
 
 class Prv_duckduckgo_SearchPlacesResult_Out(TypedDict):
@@ -26477,6 +26476,32 @@ class Prv_foxnews_FoxnewsLiveBlogUpdate_Out(TypedDict):
     datePublished: str | None
     author: NotRequired[str]
 
+class Prv_foxnews_GetCommentsArgs_In(TypedDict):
+    url: str
+    sort: NotRequired[Literal["newest"] | Literal["best"]]
+    cursor: NotRequired[str]
+
+class Prv_foxnews_FoxnewsComments_Out(TypedDict):
+    threadId: str | None
+    commentsOpen: bool
+    comments: list[Prv_foxnews_FoxnewsComment_Out]
+    nextCursor: str | None
+
+class Prv_foxnews_FoxnewsComment_Out(TypedDict):
+    id: str
+    body: str
+    created: str
+    edited: bool
+    score: float
+    pinned: bool
+    parentCommentId: str | None
+    author: Prv_foxnews_FoxnewsCommentAuthor_Out | None
+
+class Prv_foxnews_FoxnewsCommentAuthor_Out(TypedDict):
+    id: str
+    name: str | None
+    username: str | None
+
 class Prv_foxnews_listPodcasts_return_Out(TypedDict):
     podcasts: list[Prv_foxnews_FoxnewsPodcast_Out]
 
@@ -26506,6 +26531,23 @@ class Prv_foxnews_FoxnewsAccount_Out(TypedDict):
     firstName: str | None
     lastName: str | None
     raw: Mapping[str, Any]
+
+class Prv_foxnews_PostCommentArgs_In(TypedDict):
+    url: str
+    body: str
+    replyTo: NotRequired[str]
+
+class Prv_foxnews_FoxnewsPostedComment_Out(TypedDict):
+    commentId: str | None
+    threadId: str
+    raw: Mapping[str, Any] | None
+
+class Prv_foxnews_DeleteCommentArgs_In(TypedDict):
+    commentId: str
+
+class Prv_foxnews_deleteComment_return_Out(TypedDict):
+    deleted: bool
+    commentId: str
 
 class Prv_foxnews_UpdateProfileArgs_In(TypedDict):
     firstName: NotRequired[str]
@@ -29247,6 +29289,10 @@ class Prv_goodreads_writeReview_return_Out(TypedDict):
 class Prv_goodreads_followUser_return_Out(TypedDict):
     memberId: str
     following: Literal[True]
+
+class Prv_goodreads_unfollowUser_return_Out(TypedDict):
+    memberId: str
+    following: Literal[False]
 
 class Prv_goodreads_GoodreadsUpdate_Out(TypedDict):
     actorName: str
@@ -41181,6 +41227,54 @@ class Prv_nike_NikeLaunchProduct_Out(TypedDict):
     exclusiveAccess: bool
     available: bool | None
     imageUrl: str | None
+
+class Prv_nike_NikeCategories_Out(TypedDict):
+    path: str
+    categories: list[Prv_nike_NikeCategoryOption_Out]
+    filters: list[Prv_nike_NikeCategoryGroup_Out]
+
+class Prv_nike_NikeCategoryOption_Out(TypedDict):
+    name: str
+    path: str
+    resultCount: float | None
+
+class Prv_nike_NikeCategoryGroup_Out(TypedDict):
+    name: str
+    options: list[Prv_nike_NikeCategoryOption_Out]
+
+class Prv_nike_NikeCategoryArgs_In(TypedDict):
+    category: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_nike_NikeProductPage_Out(TypedDict):
+    title: str | None
+    path: str | None
+    total: float
+    offset: float
+    nextOffset: float | None
+    products: list[Prv_nike_NikeProductCard_Out]
+
+class Prv_nike_NikeProductCard_Out(TypedDict):
+    productCode: str
+    groupKey: str
+    title: str
+    subtitle: str
+    colorway: str
+    productType: str
+    price: float | None
+    fullPrice: float | None
+    discountPercent: float | None
+    currency: str
+    badge: str | None
+    url: str
+    imageUrl: str | None
+
+class Prv_nike_NikeSearchArgs_In(TypedDict):
+    query: str
+    category: NotRequired[str]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
 
 class Prv_nintendo_NintendoProduct_Out(TypedDict):
     sku: str
@@ -81449,8 +81543,9 @@ class Prv_duckduckgo(Protocol):
     async def searchPlaces(self, args: Prv_duckduckgo_SearchPlacesArgs_In, /) -> Prv_duckduckgo_SearchPlacesResult_Out:
         """Searches DuckDuckGo's Maps vertical for places and returns each location's name, URL,
         address, phone number, coordinates, rating and hours of operation — about 19 per page.
-        Optional `latitude` and `longitude` for location-based search. Pass the returned `next`
-        back as `cursor` for the following page.
+        Optional `near` (a place name such as `Manhattan, New York`) steers the results;
+        coordinates are not accepted. Pass the returned `next` back as `cursor` for the
+        following page.
         """
 
     async def searchImages(self, args: Prv_duckduckgo_SearchImagesArgs_In, /) -> Prv_duckduckgo_SearchImagesResult_Out:
@@ -84018,6 +84113,11 @@ class Prv_foxnews(Protocol):
         listLiveBlogs.
         """
 
+    async def getComments(self, args: Prv_foxnews_GetCommentsArgs_In, /) -> Prv_foxnews_FoxnewsComments_Out:
+        """Reads the reader comments under a Fox News article, a page at a time — each comment's
+        text, author, time and like score — taking the article url; page on with nextCursor.
+        """
+
     async def listPodcasts(self, /) -> Prv_foxnews_listPodcasts_return_Out:
         """Lists the Fox News podcasts (Fox News Talk, Perino on Politics, The Brian Kilmeade
         Show…) with each one's name and url — the door to listPodcastEpisodes.
@@ -84031,6 +84131,17 @@ class Prv_foxnews(Protocol):
     async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_foxnews_FoxnewsAccount_Out:
         """Reads the signed-in caller's Fox account — profile id, email, account type and name —
         off the Fox ProfileSDK's identity API. Needs the caller signed in to foxnews.com.
+        """
+
+    async def postComment(self, args: Prv_foxnews_PostCommentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_foxnews_FoxnewsPostedComment_Out:
+        """Posts a comment under a Fox News article, or a reply to one of its comments, as the
+        signed-in caller, through Fox's Hedgehog comment service. Needs the caller signed in to
+        foxnews.com.
+        """
+
+    async def deleteComment(self, args: Prv_foxnews_DeleteCommentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_foxnews_deleteComment_return_Out:
+        """Deletes one of the signed-in caller's own Fox News comments, by the id postComment or
+        getComments returned. Needs the caller signed in to foxnews.com.
         """
 
     async def updateProfile(self, args: Prv_foxnews_UpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_foxnews_FoxnewsProfileUpdate_Out:
@@ -85462,6 +85573,12 @@ class Prv_goodreads(Protocol):
     async def followUser(self, idOrUrl: str, opts: ConnectionOption | None = None, /) -> Prv_goodreads_followUser_return_Out:
         """Follows another Goodreads member as the signed-in caller, by numeric id or the full user
         URL. Needs the caller signed in to Goodreads (an authFunction, a write).
+        """
+
+    async def unfollowUser(self, idOrUrl: str, opts: ConnectionOption | None = None, /) -> Prv_goodreads_unfollowUser_return_Out:
+        """Stops following another Goodreads member as the signed-in caller, by numeric id or the
+        full user URL — the pair of followUser. Needs the caller signed in to Goodreads (an
+        authFunction, a write).
         """
 
     async def getNewsFeed(self, opts: ConnectionOption | None = None, /) -> list[Prv_goodreads_GoodreadsUpdate_Out]:
@@ -93088,6 +93205,23 @@ class Prv_nike(Protocol):
     async def getLaunch(self, slug: str, /) -> Prv_nike_NikeLaunch_Out:
         """One SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in the drop
         with release time, entry method, price and availability.
+        """
+
+    async def listCategories(self, category: str | None = None, /) -> Prv_nike_NikeCategories_Out:
+        """The sub-categories and every filter (gender, sport, colour, price, size, brand) of one
+        nike.com category page, default the whole store "/w". Each option carries the category
+        path listCategoryProducts and searchProducts take.
+        """
+
+    async def listCategoryProducts(self, args: Prv_nike_NikeCategoryArgs_In, /) -> Prv_nike_NikeProductPage_Out:
+        """The products in one nike.com category, e.g. { category: "/w/mens-shoes-nik1zy7ok" } —
+        name, colourway, price, sale price, style-colour code and URL, paged with limit/offset.
+        """
+
+    async def searchProducts(self, args: Prv_nike_NikeSearchArgs_In | str, /) -> Prv_nike_NikeProductPage_Out:
+        """Searches Nike's US store the way nike.com/w?q= does — every matching product with name,
+        colourway, price, sale price, style-colour code and URL. Optional category path (from
+        listCategories) narrows it; paged with limit/offset.
         """
 
 class Prv_nintendo(Protocol):

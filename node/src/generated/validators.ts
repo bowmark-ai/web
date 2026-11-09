@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 274ce28ec25755d9d05488038e04b4e211ca52706cd72a6d68f01f7b168ec35e
-// 4646 checked, 20 unchecked.
+// Manifest version: ed173c24c5ee36a6a182700d5fc9c03f59dcdedc944952c5b66b0a7289f2e5f6
+// 4653 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "274ce28ec25755d9d05488038e04b4e211ca52706cd72a6d68f01f7b168ec35e",
+  "version": "ed173c24c5ee36a6a182700d5fc9c03f59dcdedc944952c5b66b0a7289f2e5f6",
   "units": {
     "address_validation": {
       "defs": {
@@ -42881,16 +42881,9 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             },
             {
-              "name": "latitude",
+              "name": "near",
               "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "longitude",
-              "schema": {
-                "k": "number"
+                "k": "string"
               },
               "optional": true
             },
@@ -53406,6 +53399,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.foxnews": {
       "defs": {
+        "DeleteCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "commentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "FindAuthorArgs": {
           "k": "object",
           "props": [
@@ -53427,6 +53432,42 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "GetCommentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "best"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -53622,6 +53663,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "offset",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PostCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "body",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "replyTo",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -53839,6 +53906,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getComments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCommentsArgs"
+            },
+            "optional": false
+          }
+        ],
         "listPodcasts": [],
         "listPodcastEpisodes": [
           {
@@ -53851,6 +53928,58 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeleteCommentArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -59779,6 +59908,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "followUser": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowUser": [
           {
             "name": "idOrUrl",
             "schema": {
@@ -86233,7 +86387,67 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.nike": {
-      "defs": {},
+      "defs": {
+        "NikeCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "NikeSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "upcomingLaunches": [
           {
@@ -86249,6 +86463,43 @@ export const VALIDATORS: ValidatorTable = {
             "name": "slug",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "listCategoryProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NikeCategoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "NikeSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
             },
             "optional": false
           }

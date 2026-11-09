@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 274ce28ec25755d9d05488038e04b4e211ca52706cd72a6d68f01f7b168ec35e
-// 97 capabilities, 781 providers, 4664 typed functions, 20 refused.
+// Manifest version: ed173c24c5ee36a6a182700d5fc9c03f59dcdedc944952c5b66b0a7289f2e5f6
+// 97 capabilities, 781 providers, 4671 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -34527,10 +34527,9 @@ interface DuckDuckGoPlace {
 interface SearchPlacesArgs {
   /** What you would type into a maps search box. */
   query: string;
-  /** Latitude for location-based search; used alongside longitude. */
-  latitude?: number;
-  /** Longitude for location-based search; used alongside latitude. */
-  longitude?: number;
+  /** A place name to search around, e.g. "Manhattan, New York". DuckDuckGo's
+   * places search does not take coordinates — it ranks by a place named in the query. */
+  near?: string;
   /** The `next` value a previous call returned, to fetch the following page. */
   cursor?: string;
 }
@@ -34832,8 +34831,8 @@ interface DuckDuckGoTranslation {
     /**
      * Searches DuckDuckGo's Maps vertical for places and returns each location's name, URL,
      * address, phone number, coordinates, rating and hours of operation — about 19 per page.
-     * Optional `latitude` and `longitude` for location-based search. Pass the returned `next` back
-     * as `cursor` for the following page.
+     * Optional `near` (a place name such as `Manhattan, New York`) steers the results; coordinates
+     * are not accepted. Pass the returned `next` back as `cursor` for the following page.
      */
     searchPlaces(args: SearchPlacesArgs): Promise<SearchPlacesResult>;
 
@@ -42355,6 +42354,63 @@ interface GetLiveBlogArgs {
   url: string;
 }
 
+interface PostCommentArgs {
+  /** the foxnews.com article to comment under */
+  url: string;
+  /** the comment text, 1-2000 characters */
+  body: string;
+  /** reply to this comment id (a getComments row's id) instead of the article */
+  replyTo?: string;
+}
+
+interface DeleteCommentArgs {
+  /** the id postComment returned, or a getComments row's id the caller wrote */
+  commentId: string;
+}
+
+interface FoxnewsPostedComment {
+  commentId: string | null;
+  threadId: string;
+  raw: Record<string, unknown> | null;
+}
+
+interface GetCommentsArgs {
+  /** a foxnews.com article url */
+  url: string;
+  /** "newest" (default) or "best" */
+  sort?: "newest" | "best";
+  /** the previous page's nextCursor */
+  cursor?: string;
+}
+
+interface FoxnewsCommentAuthor {
+  id: string;
+  name: string | null;
+  username: string | null;
+}
+
+interface FoxnewsComment {
+  id: string;
+  body: string;
+  created: string;
+  edited: boolean;
+  /** the comment's like score */
+  score: number;
+  pinned: boolean;
+  parentCommentId: string | null;
+  author: FoxnewsCommentAuthor | null;
+}
+
+interface FoxnewsComments {
+  /** the comment thread id (the article's uuid) */
+  threadId: string | null;
+  /** false when the article mounts no comment widget or has new comments switched off */
+  commentsOpen: boolean;
+  comments: FoxnewsComment[];
+  /** pass back as cursor for the next page; null on the last */
+  nextCursor: string | null;
+}
+
 interface FoxnewsNewsletter {
   id: string;
   listId: string;
@@ -42553,6 +42609,12 @@ interface FoxnewsAccount {
     getLiveBlog(args: GetLiveBlogArgs): Promise<FoxnewsLiveBlogDetail>;
 
     /**
+     * Reads the reader comments under a Fox News article, a page at a time — each comment's text,
+     * author, time and like score — taking the article url; page on with nextCursor.
+     */
+    getComments(args: GetCommentsArgs): Promise<FoxnewsComments>;
+
+    /**
      * Lists the Fox News podcasts (Fox News Talk, Perino on Politics, The Brian Kilmeade Show…)
      * with each one's name and url — the door to listPodcastEpisodes.
      */
@@ -42569,6 +42631,19 @@ interface FoxnewsAccount {
      * the Fox ProfileSDK's identity API. Needs the caller signed in to foxnews.com.
      */
     getAccount(opts?: ConnectionOption): Promise<FoxnewsAccount>;
+
+    /**
+     * Posts a comment under a Fox News article, or a reply to one of its comments, as the
+     * signed-in caller, through Fox's Hedgehog comment service. Needs the caller signed in to
+     * foxnews.com.
+     */
+    postComment(args: PostCommentArgs, opts?: ConnectionOption): Promise<FoxnewsPostedComment>;
+
+    /**
+     * Deletes one of the signed-in caller's own Fox News comments, by the id postComment or
+     * getComments returned. Needs the caller signed in to foxnews.com.
+     */
+    deleteComment(args: DeleteCommentArgs, opts?: ConnectionOption): Promise<{ deleted: boolean; commentId: string }>;
 
     /**
      * Changes the signed-in caller's Fox profile — first and last name, display name, gender,
@@ -46710,6 +46785,13 @@ interface GoodreadsShelfBook {
      * URL. Needs the caller signed in to Goodreads (an authFunction, a write).
      */
     followUser(idOrUrl: string, opts?: ConnectionOption): Promise<{ memberId: string; following: true }>;
+
+    /**
+     * Stops following another Goodreads member as the signed-in caller, by numeric id or the full
+     * user URL — the pair of followUser. Needs the caller signed in to Goodreads (an authFunction,
+     * a write).
+     */
+    unfollowUser(idOrUrl: string, opts?: ConnectionOption): Promise<{ memberId: string; following: false }>;
 
     /**
      * Reads the signed-in caller's friends feed — each row is who did what to which book
@@ -67410,6 +67492,57 @@ interface NikeLaunch {
   releaseDate: string | null;
   products: NikeLaunchProduct[];
 }
+interface NikeProductCard {
+  productCode: string;
+  groupKey: string;
+  title: string;
+  subtitle: string;
+  colorway: string;
+  productType: string;
+  price: number | null;
+  fullPrice: number | null;
+  discountPercent: number | null;
+  currency: string;
+  badge: string | null;
+  url: string;
+  imageUrl: string | null;
+}
+interface NikeProductPage {
+  title: string | null;
+  path: string | null;
+  total: number;
+  offset: number;
+  /** Pass as offset for the next page; null on the last. */
+  nextOffset: number | null;
+  products: NikeProductCard[];
+}
+interface NikeSearchArgs {
+  query: string;
+  /** A category path from listCategories, e.g. "/w/mens-shoes-nik1zy7ok". */
+  category?: string;
+  /** 1-60, default 24. */
+  limit?: number;
+  offset?: number;
+}
+interface NikeCategoryArgs {
+  category: string;
+  limit?: number;
+  offset?: number;
+}
+interface NikeCategoryOption {
+  name: string;
+  path: string;
+  resultCount: number | null;
+}
+interface NikeCategoryGroup {
+  name: string;
+  options: NikeCategoryOption[];
+}
+interface NikeCategories {
+  path: string;
+  categories: NikeCategoryOption[];
+  filters: NikeCategoryGroup[];
+}
 
   /**
    * Nike SNKRS launch calendar — the sneaker drops coming up on nike.com/launch, each with
@@ -67428,6 +67561,26 @@ interface NikeLaunch {
      * release time, entry method, price and availability.
      */
     getLaunch(slug: string): Promise<NikeLaunch>;
+
+    /**
+     * The sub-categories and every filter (gender, sport, colour, price, size, brand) of one
+     * nike.com category page, default the whole store "/w". Each option carries the category path
+     * listCategoryProducts and searchProducts take.
+     */
+    listCategories(category?: string): Promise<NikeCategories>;
+
+    /**
+     * The products in one nike.com category, e.g. { category: "/w/mens-shoes-nik1zy7ok" } — name,
+     * colourway, price, sale price, style-colour code and URL, paged with limit/offset.
+     */
+    listCategoryProducts(args: NikeCategoryArgs): Promise<NikeProductPage>;
+
+    /**
+     * Searches Nike's US store the way nike.com/w?q= does — every matching product with name,
+     * colourway, price, sale price, style-colour code and URL. Optional category path (from
+     * listCategories) narrows it; paged with limit/offset.
+     */
+    searchProducts(args: NikeSearchArgs | string): Promise<NikeProductPage>;
   }
 }
 

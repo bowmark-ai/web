@@ -4403,7 +4403,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
 | `scribd.addDocumentToList` | scribd.com | Adds a document to one of the signed-in caller's lists. | 🟢 |
 | `scribd.askDocument` | scribd.com | Asks Scribd's AI assistant a question about one document and returns its answer, as… | ⚪ |
-| `scribd.createList` | scribd.com | Creates a new list (collection) on the signed-in caller's account, public or private… | ⚪ |
+| `scribd.createList` | scribd.com | Creates a new list (collection) on the signed-in caller's account, private unless… | 🟢 |
 | `scribd.deleteDocument` | scribd.com | Deletes one of the signed-in caller's own uploaded documents. | ⚪ |
 | `scribd.downloadDocument` | scribd.com | Downloads a document's file (PDF, DOCX, TXT … as its formats list offers) for the… | ⚪ |
 | `scribd.getDocument` | scribd.com | Reads one document's metadata — title, uploader (name and profile url), description… | 🟢 |
@@ -4417,9 +4417,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `scribd.listMyLists` | scribd.com | Lists the signed-in caller's own lists (collections), with each list's id, name… | 🟢 |
 | `scribd.listSavedDocuments` | scribd.com | Lists the documents in the signed-in caller's library — saved and finished — with id… | 🟢 |
 | `scribd.listUserUploads` | scribd.com | Lists every document one uploader has published, newest first, a page at a time — each… | ⚪ |
-| `scribd.markDocumentFinished` | scribd.com | Marks a saved document as finished in the signed-in caller's library. | ⚪ |
+| `scribd.markDocumentFinished` | scribd.com | Marks a document in the signed-in caller's library as finished reading, or back to… | 🟢 |
 | `scribd.rateDocument` | scribd.com | Rates a document helpful or not helpful (Scribd's thumbs up / thumbs down) as the… | ⚪ |
-| `scribd.removeDocumentFromList` | scribd.com | Removes a document from one of the signed-in caller's lists. | ⚪ |
+| `scribd.removeDocumentFromList` | scribd.com | Removes a document from one of the signed-in caller's lists. | 🟢 |
 | `scribd.saveDocument` | scribd.com | Saves a document to the signed-in caller's library (the bookmark icon on every… | 🟢 |
 | `scribd.searchDocuments` | scribd.com | Searches Scribd's user-uploaded documents by free text ("python tutorial", "lease… | 🟢 |
 | `scribd.unsaveDocument` | scribd.com | Removes a document from the signed-in caller's saved library. | 🟢 |
@@ -4988,13 +4988,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `surveymonkey.deleteSurvey` | surveymonkey.com | Permanently deletes one survey and all its responses. | ⚪ |
 | `surveymonkey.downloadSurveyData` | surveymonkey.com | Exports all responses to one survey as a CSV or Excel file. | ⚪ |
 | `surveymonkey.editSurvey` | surveymonkey.com | Updates an existing survey's title, description, questions, or settings. | ⚪ |
-| `surveymonkey.getAccountInfo` | surveymonkey.com | Retrieves the signed-in user's account details: name, email, plan tier, response limits. | ⚪ |
+| `surveymonkey.getAccountInfo` | surveymonkey.com | Retrieves the signed-in user's account details: name, email, plan tier, response limits. | 🟢 |
 | `surveymonkey.getCollectorStatus` | surveymonkey.com | Retrieves the response count and status for one collector on one survey. | ⚪ |
-| `surveymonkey.getSurvey` | surveymonkey.com | Retrieves one survey's full details: title, description, questions, and settings. | ⚪ |
+| `surveymonkey.getSurvey` | surveymonkey.com | Retrieves one survey's full details: title, description, questions, and settings. | 🟢 |
 | `surveymonkey.getSurveyAnalytics` | surveymonkey.com | Retrieves high-level analytics for one survey: response rate, completion time… | ⚪ |
 | `surveymonkey.getSurveyResults` | surveymonkey.com | Fetches all responses submitted to one survey, with respondent answers per question. | ⚪ |
-| `surveymonkey.listCollectors` | surveymonkey.com | Lists all collectors (email, link, SMS, etc.) set up for one survey with response… | ⚪ |
-| `surveymonkey.listSurveys` | surveymonkey.com | Lists the signed-in user's surveys with titles, creation dates, and response counts. | ⚪ |
+| `surveymonkey.listCollectors` | surveymonkey.com | Lists all collectors (email, link, SMS, etc.) set up for one survey with response… | 🟢 |
+| `surveymonkey.listSurveys` | surveymonkey.com | Lists the signed-in user's surveys with titles, creation dates, and response counts. | 🟢 |
 | `surveymonkey.listTemplates` | surveymonkey.com | Lists pre-built survey templates available to the signed-in user. | ⚪ |
 | `surveymonkey.sendSurveyInvite` | surveymonkey.com | Sends survey invitations via email to one or more email addresses. | ⚪ |
 | `surveymonkey.shareSurvey` | surveymonkey.com | Shares one survey with a team member or colleague for collaboration. | ⚪ |
@@ -5475,7 +5475,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `unsplash.search` | unsplash.com | Searches Unsplash's photo library by keyword and returns the first page of photos with… | 🟢 |
 | `upkeepstl_com.estimatePlanCost` | upkeepstl.com | Computes the total contract price and per-year price for one plan selection (home… | 🟢 |
 | `upkeepstl_com.getPlanBuilder` | upkeepstl.com | Reads UPKEEP's public 'Build Your Plan' quote-form schema: the home-warranty plan… | 🟢 |
-| `ups.calculateShippingCost` | ups.com | Flat-rate UPS® Simple Rate quote (box-size category, no weight, no account) from the… | 🟢 |
+| `ups.calculateShippingCost` | ups.com | Retail shipping quote from ups.com's public calculator: UPS® Simple Rate (box-size… | 🟢 |
 | `ups.estimateDeliveryDate` | ups.com | Estimates delivery date and timeframe for shipment between two locations with a… | 🟢 |
 | `ups.findNearbyLocation` | ups.com | Finds UPS drop-off/pickup locations near a ZIP Code or street/city address — UPS… | 🟢 |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
