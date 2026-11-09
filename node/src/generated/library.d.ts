@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 44dde02ac354922d359a915e0ab72f950d425af699720b77d0423b03a8929491
-// 97 capabilities, 790 providers, 4771 typed functions, 20 refused.
+// Manifest version: bfc57df506bc2ac06c3f97e6fc1f7cc5123fe7edd53d9135360494c15685137e
+// 97 capabilities, 790 providers, 4776 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5086,8 +5086,9 @@ interface StringifyResult {
 
   /**
    * Turn spreadsheet text (CSV, TSV, semicolon- or pipe-separated) into row objects, or rows
-   * back into a CSV — no network, no account. For a live Google Sheet use
-   * providers.google_sheets.
+   * back into a CSV — no network, no account. For a live Google Sheet use the read-only
+   * providers.google_sheets functions findSpreadsheets, listSheets and readSheet; Bowmark does
+   * not create or write Google Sheets.
    */
   interface Unit {
     /**
@@ -19453,7 +19454,8 @@ interface AccountProfile {
 
     /**
      * Check a specific property's own room rate table for given dates — every room offered, its
-     * price, how many are left, cancellation policy and whether breakfast is included.
+     * price in USD, how many are left, cancellation policy and whether breakfast is included.
+     * `rates[].totalPrice` and `rates[].pricePerNight` are USD in Bowmark's production route.
      */
     checkPrice(args: CheckPriceArgs): Promise<PropertyPriceCheck>;
 
@@ -36025,6 +36027,14 @@ interface ListOrdersResult {
   history: unknown;
 }
 
+interface GetLibraryResult {
+  library: unknown; // the library service's own JSON, raw; pass its cursor back as `cursor`
+}
+
+interface ListFriendsResult {
+  friends: unknown; // the friends service's own summary JSON, raw
+}
+
 interface GetRewardsBalanceResult {
   balance: number;
   balanceCurrency: string;
@@ -36169,6 +36179,19 @@ interface GetAchievementProgressResult {
      * Games session exists to pin individual field names). Needs the caller signed in.
      */
     getAccount(opts?: ConnectionOption): Promise<GetAccountResult>;
+
+    /**
+     * The games the signed-in caller owns on Epic, including claimed free games, returned raw from
+     * Epic's library service (no fleet-held session exists to pin field names). Pass the cursor it
+     * returns as `cursor` for the next page. Needs the caller signed in.
+     */
+    getLibrary(opts?: { cursor?: string }, connectionOpts?: ConnectionOption): Promise<GetLibraryResult>;
+
+    /**
+     * The signed-in caller's Epic friends summary — friends, incoming and outgoing requests —
+     * returned raw from Epic's friends service. Needs the caller signed in.
+     */
+    listFriends(opts?: ConnectionOption): Promise<ListFriendsResult>;
 
     /**
      * The signed-in caller's Epic Rewards balance — the store credit they have earned from
@@ -89641,6 +89664,33 @@ interface SpotappsJobListing {
 
 declare namespace BowmarkProvider_spotify {
   // ── Spotify — the unit's own declarations, verbatim ──
+interface SpotifyBrowseItem {
+  kind: "playlist" | "album" | "artist" | "track" | "category" | "other";
+  id: string | null;
+  uri: string;
+  name: string;
+  description: string | null;
+  imageUrl: string | null;
+}
+interface SpotifyBrowseSection {
+  title: string;
+  items: SpotifyBrowseItem[];
+}
+interface SpotifyBrowseCategory {
+  categoryId: string;
+  /** the category's own name, e.g. "Pop" */
+  title: string | null;
+  sections: SpotifyBrowseSection[];
+}
+interface SpotifyFeatured {
+  sections: SpotifyBrowseSection[];
+}
+interface SpotifyRelatedArtists {
+  artistId: string;
+  /** how many related artists Spotify reports */
+  totalCount: number;
+  artists: { id: string; uri: string; name: string; imageUrl: string | null }[];
+}
 interface SpotifyTrack {
   id: string;
   name: string;
@@ -89993,6 +90043,32 @@ interface SpotifyLyrics {
      * per-country charts need a Spotify login.
      */
     getChart(opts?: { type?: SpotifyChartType }): Promise<SpotifyChart>;
+
+    /**
+     * Gets a Spotify browse category's page (a genre or mood, e.g. "0JQ5DAqbMKFEC4WFtoNRpw" for
+     * Pop; a spotify:page: uri or open.spotify.com/genre/ url also works) as its titled sections
+     * of editorial playlists, albums and sub-categories. Keyless and signed-out: it loads the web
+     * player's own genre page in a browser, so it takes several seconds. Pass a playlist's id to
+     * getPlaylist or listPlaylistTracks.
+     */
+    browseCategory(id: string): Promise<SpotifyBrowseCategory>;
+
+    /**
+     * Gets the featured shelves on Spotify's signed-out home page — trending songs, popular
+     * artists, popular albums and singles, popular radio and featured chart playlists — each a
+     * titled section of items with kind, id and image. Keyless; it loads the web player's home
+     * page in a browser, so it takes several seconds. Pass a playlist's id to getPlaylist or
+     * listPlaylistTracks.
+     */
+    getFeaturedPlaylists(): Promise<SpotifyFeatured>;
+
+    /**
+     * Gets the artists Spotify lists as "Fans also like" for an artist (id, uri or
+     * open.spotify.com url) — usually about 20-40, each with id and image. Keyless and signed-out:
+     * it loads the web player's own artist page in a browser, so it takes several seconds. Pass a
+     * returned id to getArtist or back into this function.
+     */
+    getRelatedArtists(id: string): Promise<SpotifyRelatedArtists>;
 
     /**
      * Lists the two-letter country codes of every market Spotify is available in — the values

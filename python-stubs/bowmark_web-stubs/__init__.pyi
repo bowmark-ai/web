@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 44dde02ac354922d359a915e0ab72f950d425af699720b77d0423b03a8929491
-# 97 capabilities, 790 providers, 4753 typed functions, 20 refused.
+# Manifest version: bfc57df506bc2ac06c3f97e6fc1f7cc5123fe7edd53d9135360494c15685137e
+# 97 capabilities, 790 providers, 4758 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22628,6 +22628,15 @@ class Prv_epicgames_ListOrdersResult_Out(TypedDict):
 
 class Prv_epicgames_GetAccountResult_Out(TypedDict):
     account: Any
+
+class Prv_epicgames_getLibrary_opts_In(TypedDict):
+    cursor: NotRequired[str]
+
+class Prv_epicgames_GetLibraryResult_Out(TypedDict):
+    library: Any
+
+class Prv_epicgames_ListFriendsResult_Out(TypedDict):
+    friends: Any
 
 class Prv_epicgames_GetRewardsBalanceResult_Out(TypedDict):
     balance: float
@@ -56316,6 +56325,37 @@ class Prv_spotify_SpotifyChartEntry_Out_artists_item_Out(TypedDict):
     id: str | None
     name: str
 
+class Prv_spotify_SpotifyBrowseCategory_Out(TypedDict):
+    categoryId: str
+    title: str | None
+    sections: list[Prv_spotify_SpotifyBrowseSection_Out]
+
+class Prv_spotify_SpotifyBrowseSection_Out(TypedDict):
+    title: str
+    items: list[Prv_spotify_SpotifyBrowseItem_Out]
+
+class Prv_spotify_SpotifyBrowseItem_Out(TypedDict):
+    kind: Literal["playlist"] | Literal["album"] | Literal["artist"] | Literal["track"] | Literal["category"] | Literal["other"]
+    id: str | None
+    uri: str
+    name: str
+    description: str | None
+    imageUrl: str | None
+
+class Prv_spotify_SpotifyFeatured_Out(TypedDict):
+    sections: list[Prv_spotify_SpotifyBrowseSection_Out]
+
+class Prv_spotify_SpotifyRelatedArtists_Out(TypedDict):
+    artistId: str
+    totalCount: float
+    artists: list[Prv_spotify_SpotifyRelatedArtists_Out_artists_item_Out]
+
+class Prv_spotify_SpotifyRelatedArtists_Out_artists_item_Out(TypedDict):
+    id: str
+    uri: str
+    name: str
+    imageUrl: str | None
+
 class Prv_spotify_SpotifyMarkets_Out(TypedDict):
     markets: list[str]
 
@@ -72429,8 +72469,9 @@ class Cap_shipping(Protocol):
 
 class Cap_spreadsheet(Protocol):
     """Turn spreadsheet text (CSV, TSV, semicolon- or pipe-separated) into row objects, or rows
-    back into a CSV — no network, no account. For a live Google Sheet use
-    providers.google_sheets.
+    back into a CSV — no network, no account. For a live Google Sheet use the read-only
+    providers.google_sheets functions findSpreadsheets, listSheets and readSheet; Bowmark
+    does not create or write Google Sheets.
     """
 
     async def parse(self, text: str, options: Cap_spreadsheet_ParseOptions_In | None = None, /) -> Cap_spreadsheet_ParseResult_Out:
@@ -77414,7 +77455,9 @@ class Prv_booking_com(Protocol):
 
     async def checkPrice(self, args: Prv_booking_com_CheckPriceArgs_In, /) -> Prv_booking_com_PropertyPriceCheck_Out:
         """Check a specific property's own room rate table for given dates — every room offered,
-        its price, how many are left, cancellation policy and whether breakfast is included.
+        its price in USD, how many are left, cancellation policy and whether breakfast is
+        included. `rates[].totalPrice` and `rates[].pricePerNight` are USD in Bowmark's
+        production route.
         """
 
     async def listPropertyReviews(self, args: Prv_booking_com_GetPropertyArgs_In, /) -> Prv_booking_com_listPropertyReviews_return_Out:
@@ -83292,6 +83335,17 @@ class Prv_epicgames(Protocol):
     async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_GetAccountResult_Out:
         """The signed-in caller's own Epic Games account settings, returned raw (no fleet-held Epic
         Games session exists to pin individual field names). Needs the caller signed in.
+        """
+
+    async def getLibrary(self, opts: Prv_epicgames_getLibrary_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_epicgames_GetLibraryResult_Out:
+        """The games the signed-in caller owns on Epic, including claimed free games, returned raw
+        from Epic's library service (no fleet-held session exists to pin field names). Pass the
+        cursor it returns as `cursor` for the next page. Needs the caller signed in.
+        """
+
+    async def listFriends(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_ListFriendsResult_Out:
+        """The signed-in caller's Epic friends summary — friends, incoming and outgoing requests —
+        returned raw from Epic's friends service. Needs the caller signed in.
         """
 
     async def getRewardsBalance(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_GetRewardsBalanceResult_Out:
@@ -102197,6 +102251,29 @@ class Prv_spotify(Protocol):
         """Gets Spotify's global weekly top 50 chart — tracks (default), albums or artists — with
         each entry's rank, last week's rank, peak and movement. Public and keyless; global
         weekly only, per-country charts need a Spotify login.
+        """
+
+    async def browseCategory(self, id: str, /) -> Prv_spotify_SpotifyBrowseCategory_Out:
+        """Gets a Spotify browse category's page (a genre or mood, e.g. "0JQ5DAqbMKFEC4WFtoNRpw"
+        for Pop; a spotify:page: uri or open.spotify.com/genre/ url also works) as its titled
+        sections of editorial playlists, albums and sub-categories. Keyless and signed-out: it
+        loads the web player's own genre page in a browser, so it takes several seconds. Pass a
+        playlist's id to getPlaylist or listPlaylistTracks.
+        """
+
+    async def getFeaturedPlaylists(self, /) -> Prv_spotify_SpotifyFeatured_Out:
+        """Gets the featured shelves on Spotify's signed-out home page — trending songs, popular
+        artists, popular albums and singles, popular radio and featured chart playlists — each a
+        titled section of items with kind, id and image. Keyless; it loads the web player's home
+        page in a browser, so it takes several seconds. Pass a playlist's id to getPlaylist or
+        listPlaylistTracks.
+        """
+
+    async def getRelatedArtists(self, id: str, /) -> Prv_spotify_SpotifyRelatedArtists_Out:
+        """Gets the artists Spotify lists as "Fans also like" for an artist (id, uri or
+        open.spotify.com url) — usually about 20-40, each with id and image. Keyless and
+        signed-out: it loads the web player's own artist page in a browser, so it takes several
+        seconds. Pass a returned id to getArtist or back into this function.
         """
 
     async def getAvailableMarkets(self, /) -> Prv_spotify_SpotifyMarkets_Out:

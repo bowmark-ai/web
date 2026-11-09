@@ -280,7 +280,7 @@ embroker.com — embroker: getQuoteEntryPoint, listCoverageLines (+1 planned)
 emirates.com — emirates: flightStatus
 en.wikipedia.org — wikipedia_standings: search
 energyaustralia.com.au — energyaustralia_com_au: nothing callable yet (+1 planned)
-epicgames.com — epicgames: claimFreeGame, getAccount, getAchievementProgress, getGame, getNewsArticle, getPrice, getRewardsBalance, getServiceStatus, getStorefront, listCollection, listDeals, listFreeGames, listGameOffers, listNews, listOrders, redeemCode, removeFriend, searchGames, sendFriendRequest, updateDisplayName (+11 planned)
+epicgames.com — epicgames: claimFreeGame, getAccount, getAchievementProgress, getGame, getLibrary, getNewsArticle, getPrice, getRewardsBalance, getServiceStatus, getStorefront, listCollection, listDeals, listFreeGames, listFriends, listGameOffers, listNews, listOrders, redeemCode, removeFriend, searchGames, sendFriendRequest, updateDisplayName (+9 planned)
 epromos.com — epromos: getProductConfiguration, listCategoryProducts, quoteBulkPrice (+1 planned)
 eq3.com — eq3: getSofaConfiguration, listSofas (+1 planned)
 equinox-hotels.com — equinox_hotels: listRooms, searchRates
@@ -521,7 +521,7 @@ news.google.com — google_news: followTopic, getForYou, getFullCoverage, getTop
 news.ycombinator.com — hackernews: getItem, getThread, search, searchComments, topStories
 nfa.futures.org — nfa_futures_org: lookupByNfaId, searchFirms, searchIndividuals
 nhc.noaa.gov — nhc: getBestTrack, getForecastCone, getForecastDiscussion, getMarineForecast, getReconObservations, getSatelliteImagery, getStormAdvisory, getStormForecast, getStormGraphics, getStormInfo, getStormNames, getTropicalCycloneReport, getTropicalOutlook, getTropicalWeatherDiscussion, getWatchesWarnings, getWindSpeedProbabilities, listCurrentStorms, listMarineZones, listSeasonStorms, listStormAdvisories, searchStorms (+2 planned)
-nike.com — nike: getLaunch, listCategories, listCategoryProducts, searchProducts, upcomingLaunches (+18 planned)
+nike.com — nike: checkSizeAvailability, checkStoreAvailability, findStores, getLaunch, getProduct, listCategories, listCategoryProducts, searchProducts, upcomingLaunches (+14 planned)
 notion.com — notion: appendBlocks, createComment, createPage, getDatabase, getMe, getPage, getPageContent, listComments, listUsers, queryDatabase, search, systemStatus, updatePage
 npiregistry.cms.hhs.gov — npi_registry: lookup, search
 npmjs.com — npmjs: getDownloads, search
@@ -539,7 +539,7 @@ oliverwinery.com — oliverwinery: checkShippingAvailability, getWine, listWines
 olo.com — olo: addToBasket, applyCoupon, checkOrderAvailability, findBrand, getBasket, getLocation, getMenu, getOrderStatus, getProductOptions, listOrderDays, listRegions, listTimeSlots, removeBasketItem, searchLocations, setHandoff, startCheckout, startOrder, updateBasketItem (+15 planned)
 onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
 onthemarket.com — onthemarket: search
-open.spotify.com — spotify: getAlbum, getArtist, getAvailableMarkets, getChart, getCurrentPlayback, getDevices, getEpisode, getGenreSeeds, getLibraryAlbums, getLibraryArtists, getLibraryPlaylists, getLibraryTracks, getLyrics, getOEmbed, getPlaylist, getPlaylistCoverImage, getPodcast, getRecentlyPlayed, getTopArtists, getTopTracks, getTrack, getUserProfile, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchMyLibrary, searchPlaylists (+5 planned)
+open.spotify.com — spotify: browseCategory, getAlbum, getArtist, getAvailableMarkets, getChart, getCurrentPlayback, getDevices, getEpisode, getFeaturedPlaylists, getGenreSeeds, getLibraryAlbums, getLibraryArtists, getLibraryPlaylists, getLibraryTracks, getLyrics, getOEmbed, getPlaylist, getPlaylistCoverImage, getPodcast, getRecentlyPlayed, getRelatedArtists, getTopArtists, getTopTracks, getTrack, getUserProfile, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchMyLibrary, searchPlaylists (+3 planned)
 openai.com — openai_com: listPosts, readPost
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, listMyReservations, search, startBooking
 originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote

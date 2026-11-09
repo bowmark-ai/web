@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6192 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6193 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1742,7 +1742,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getCart` | epicgames.com | The signed-in caller's cart — each line's offer, price and discount, and the cart total. | ⚪ |
 | `epicgames.getGame` | epicgames.com | One game's store page as data: title, description, developer, publisher, editions and… | 🟢 |
 | `epicgames.getGameRatings` | epicgames.com | How players rate a game on the Epic Games Store — the average star rating, the count… | ⚪ |
-| `epicgames.getLibrary` | epicgames.com | The games the signed-in caller owns on Epic — title, namespace, slug, and when it was… | ⚪ |
+| `epicgames.getLibrary` | epicgames.com | The games the signed-in caller owns on Epic — title, namespace, slug, and when it was… | 🟢 |
 | `epicgames.getNewsArticle` | epicgames.com | One Epic Games Store news article's full text (HTML), date, author, category and images. | 🟢 |
 | `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | 🟢 |
 | `epicgames.getRewardsBalance` | epicgames.com | The signed-in caller's Epic Rewards balance — the store credit they have earned from… | 🟢 |
@@ -1752,7 +1752,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Most Popular, Top… | 🟢 |
 | `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | 🟢 |
 | `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | 🟢 |
-| `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | ⚪ |
+| `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | 🟢 |
 | `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | 🟡 |
 | `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | 🟢 |
 | `epicgames.listOrders` | epicgames.com | The signed-in caller's Epic purchase history, newest first, returned raw; pass the… | 🟢 |
@@ -3493,15 +3493,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.searchStorms` | nhc.noaa.gov | Find a storm by name. | 🟢 |
 | `nike.addFavorite` | nike.com | Adds one product to the signed-in caller's nike.com favorites. | ⚪ |
 | `nike.addToCart` | nike.com | Adds one product in one size to the signed-in caller's nike.com bag. | ⚪ |
-| `nike.checkSizeAvailability` | nike.com | Checks which sizes of one product (style-colour code) are in stock online right now… | ⚪ |
-| `nike.checkStoreAvailability` | nike.com | Checks whether one product in one size is available to pick up at nearby Nike stores. | ⚪ |
+| `nike.checkSizeAvailability` | nike.com | Checks which sizes of one product (style-colour code) are in stock online right now… | 🟢 |
+| `nike.checkStoreAvailability` | nike.com | Checks whether one product in one size is available to pick up at nearby Nike stores. | 🟢 |
 | `nike.enterLaunchDraw` | nike.com | Enters the signed-in caller into a SNKRS draw for one launch in one size — free to… | ⚪ |
-| `nike.findStores` | nike.com | Finds Nike stores near a ZIP code, city or coordinates — name, address, hours… | ⚪ |
+| `nike.findStores` | nike.com | Finds Nike stores near a US ZIP code, city or coordinates — name, address, hours… | 🟢 |
 | `nike.getCart` | nike.com | Reads the signed-in caller's nike.com bag — items, sizes, quantities, subtotal and… | ⚪ |
 | `nike.getLaunch` | nike.com | Reads one SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in… | 🟢 |
 | `nike.getMemberProfile` | nike.com | Reads the signed-in caller's Nike member profile — name, shoe size, preferences and… | ⚪ |
 | `nike.getOrder` | nike.com | Reads one of the caller's orders by order number — every item, shipping status… | ⚪ |
-| `nike.getProduct` | nike.com | Reads one nike.com product page by its URL or style-colour code — name, description… | ⚪ |
+| `nike.getProduct` | nike.com | Reads one nike.com product page by its URL or style-colour code — name, description… | 🟢 |
 | `nike.getProductReviews` | nike.com | Reads the customer reviews on one nike.com product — rating, title, text, fit feedback… | ⚪ |
 | `nike.getSizeChart` | nike.com | Reads Nike's size chart for a product type (men's shoes, women's tops, kids') with… | ⚪ |
 | `nike.listCategories` | nike.com | Lists nike.com's shop navigation — the gender, sport and product-type categories and… | 🟢 |
@@ -4798,7 +4798,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotapps.requestCatering` | spotapps.co | Sends a catering inquiry (date, time, guest count, fulfilment type, contact details)… | 🟢 |
 | `spotapps.requestPrivateParty` | spotapps.co | Sends a private-party / group-event inquiry (date, time, guest count, occasion… | 🟢 |
 | `spotapps.startOnlineOrder` | spotapps.co | Builds an online pickup or delivery order up to the payment step and stops there. | ⚪ |
-| `spotify.browseCategory` | open.spotify.com | Browse playlists in a Spotify category. | ⚪ |
+| `spotify.browseCategory` | open.spotify.com | Browse a Spotify category's page (a genre or mood) as its sections of editorial… | 🟢 |
 | `spotify.getAlbum` | open.spotify.com | Get details about a specific album. | 🟢 |
 | `spotify.getArtist` | open.spotify.com | Get details about a specific artist. | 🟢 |
 | `spotify.getAudioAnalysis` | open.spotify.com | Get low-level audio analysis (beats, bars, sections, segments) for a track. | ⚪ |
@@ -4808,7 +4808,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.getCurrentPlayback` | open.spotify.com | Get the signed-in user's current playback state. | 🟢 |
 | `spotify.getDevices` | open.spotify.com | Get the signed-in user's available devices. | 🟢 |
 | `spotify.getEpisode` | open.spotify.com | Get details about a specific podcast episode. | 🟢 |
-| `spotify.getFeaturedPlaylists` | open.spotify.com | Get Spotify's featured playlists. | ⚪ |
+| `spotify.getFeaturedPlaylists` | open.spotify.com | Get the featured shelves (trending, popular, radio and chart playlists) on Spotify's… | 🟢 |
 | `spotify.getGenreSeeds` | open.spotify.com | List the genre seed values Spotify's catalog recognizes. | 🟢 |
 | `spotify.getLibraryAlbums` | open.spotify.com | Get the signed-in user's saved albums. | 🟢 |
 | `spotify.getLibraryArtists` | open.spotify.com | Get the signed-in user's followed artists. | 🟢 |
@@ -4821,6 +4821,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.getPodcast` | open.spotify.com | Get details about a specific podcast show. | 🟢 |
 | `spotify.getRecentlyPlayed` | open.spotify.com | Get the signed-in user's recently played tracks. | 🟢 |
 | `spotify.getRecommendations` | open.spotify.com | Get track recommendations based on seeds. | ⚪ |
+| `spotify.getRelatedArtists` | open.spotify.com | Get the artists Spotify lists as "Fans also like" for an artist. | 🟢 |
 | `spotify.getTopArtists` | open.spotify.com | Get the signed-in user's top artists. | 🟢 |
 | `spotify.getTopTracks` | open.spotify.com | Get the signed-in user's top tracks. | 🟢 |
 | `spotify.getTrack` | open.spotify.com | Get details about a specific track including audio features. | 🟢 |
@@ -5088,7 +5089,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `temu.viewCart` | www.temu.com | Read the caller's current cart — line items, quantities, per-item and total price. | 🟢 |
 | `temu.writeReview` | www.temu.com | Post a 1-5 star review, with optional text, on a product from one of the caller's own… | 🟢 |
 | `tenders_go_ke.getTender` | tenders.go.ke | Read a single Kenya public procurement tender: close date, tender fee, venue, notice… | 🟢 |
-| `tenders_go_ke.listTenders` | tenders.go.ke | List Kenya government procurement tenders from the Public Procurement Information… | 🟢 |
+| `tenders_go_ke.listTenders` | tenders.go.ke | List Kenya government procurement tenders from the Public Procurement Information… | 🟡 |
 | `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
 | `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
 | `thataicollection_com.browseCategory` | thataicollection.com | Browses AI tools in one category by linkName, with pagination. | 🟢 |
