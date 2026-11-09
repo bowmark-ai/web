@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 78271dd17e858512602826ce88734768a12ae51f018790023ae1cd4254783482
-# 97 capabilities, 779 providers, 4635 typed functions, 20 refused.
+# Manifest version: 274ce28ec25755d9d05488038e04b4e211ca52706cd72a6d68f01f7b168ec35e
+# 97 capabilities, 781 providers, 4646 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5941,6 +5941,25 @@ class Prv_amramp_findNearestLocation_input_In(TypedDict):
 class Prv_amramp_AmrampLocation_Out(TypedDict):
     name: str
     url: str
+
+class Prv_analytics_google_GoogleAnalyticsProperty_Out(TypedDict):
+    propertyId: str
+    name: str | None
+
+class Prv_analytics_google_GoogleAnalyticsReportArgs_In(TypedDict):
+    propertyId: NotRequired[str]
+
+class Prv_analytics_google_GoogleAnalyticsOverview_Out(TypedDict):
+    propertyId: str | None
+    sessions: float | None
+    activeUsers: float | None
+    eventCount: float | None
+
+class Prv_analytics_google_GoogleAnalyticsTrafficSource_Out(TypedDict):
+    source: str
+    sessions: float | None
+    users: float | None
+    engagementRate: float | None
 
 class Prv_ancientnutrition_QuizRun_Out(TypedDict):
     pages: list[Prv_ancientnutrition_QuizPage_Out]
@@ -36928,6 +36947,26 @@ class Prv_lmstudio_lmstudioDocPage_Out(TypedDict):
     url: str
     slug: str
 
+class Prv_lobehub_com_search_query_u1_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_lobehub_com_LobehubMcpListing_Out(TypedDict):
+    identifier: str
+    name: str
+    description: str
+    author: str | None
+    category: str | None
+    github: Prv_lobehub_com_LobehubMcpListing_Out_github_u0_Out | None
+    installCount: float | None
+    isOfficial: bool
+    isValidated: bool
+    url: str
+
+class Prv_lobehub_com_LobehubMcpListing_Out_github_u0_Out(TypedDict):
+    url: str
+    stars: float
+    language: str | None
+
 class Prv_lonelyplanet_LonelyPlanetSearchResult_Out(TypedDict):
     title: str
     subtitle: str | None
@@ -46810,6 +46849,145 @@ class Prv_proxy_cheap_CoverageRegion_Out(TypedDict):
     region: str
     url: str
 
+class Prv_prusa3d_PrusaSearchArgs_In(TypedDict):
+    currency: NotRequired[str]
+    country: NotRequired[str]
+    query: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_prusa3d_PrusaSearchResult_Out(TypedDict):
+    query: str
+    totalCount: float
+    endCursor: str | None
+    products: list[Prv_prusa3d_PrusaProductRow_Out]
+
+class Prv_prusa3d_PrusaProductRow_Out(TypedDict):
+    uuid: str
+    slug: str
+    name: str
+    url: str
+    inStock: bool | None
+    canBuy: bool | None
+    availability: str | None
+    averageRating: float | None
+    price: Prv_prusa3d_PrusaPrice_Out | None
+
+class Prv_prusa3d_PrusaPrice_Out(TypedDict):
+    priceWithVat: float | None
+    priceWithoutVat: float | None
+    discountInPercent: float | None
+    currency: str
+
+class Prv_prusa3d_PrusaProductArgs_In(TypedDict):
+    currency: NotRequired[str]
+    country: NotRequired[str]
+    slug: str
+
+class Prv_prusa3d_PrusaProduct_Out(TypedDict):
+    uuid: str
+    slug: str
+    name: str
+    url: str
+    inStock: bool | None
+    canBuy: bool | None
+    availability: str | None
+    averageRating: float | None
+    price: Prv_prusa3d_PrusaPrice_Out | None
+    shortDescription: str | None
+    description: str | None
+    stockQuantity: float | None
+    canSentProductAvailabilityRequest: bool | None
+    brand: str | None
+    breadcrumbs: list[str]
+    images: list[str]
+    variants: list[Prv_prusa3d_PrusaVariant_Out]
+
+class Prv_prusa3d_PrusaVariant_Out(TypedDict):
+    uuid: str
+    slug: str
+    name: str
+    inStock: bool | None
+    price: Prv_prusa3d_PrusaPrice_Out | None
+
+class Prv_prusa3d_PrusaCategoryArgs_In(TypedDict):
+    currency: NotRequired[str]
+    country: NotRequired[str]
+    slug: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_prusa3d_PrusaCategory_Out(TypedDict):
+    uuid: str | None
+    slug: str
+    name: str | None
+    children: list[Prv_prusa3d_PrusaCategory_Out_children_item_Out]
+    totalCount: float
+    endCursor: str | None
+    products: list[Prv_prusa3d_PrusaProductRow_Out]
+
+class Prv_prusa3d_PrusaCategory_Out_children_item_Out(TypedDict):
+    slug: str
+    name: str
+
+class Prv_prusa3d_PrusaReviewsArgs_In(TypedDict):
+    productUuid: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_prusa3d_PrusaReviews_Out(TypedDict):
+    productUuid: str
+    totalCount: float
+    averageRating: float | None
+    ratingCounts: list[Prv_prusa3d_PrusaReviews_Out_ratingCounts_item_Out]
+    endCursor: str | None
+    reviews: list[Prv_prusa3d_PrusaReviews_Out_reviews_item_Out]
+
+class Prv_prusa3d_PrusaReviews_Out_ratingCounts_item_Out(TypedDict):
+    rating: float | None
+    count: float | None
+
+class Prv_prusa3d_PrusaReviews_Out_reviews_item_Out(TypedDict):
+    uuid: str | None
+    rating: float | None
+    text: str | None
+    author: str | None
+    createdAt: str | None
+
+class Prv_prusa3d_PrusaPricing_In(TypedDict):
+    currency: NotRequired[str]
+    country: NotRequired[str]
+
+class Prv_prusa3d_PrusaCountry_Out(TypedDict):
+    name: str | None
+    code: str | None
+    vatCode: str | None
+    allowedCurrencies: list[str]
+    needsCity: bool | None
+    needsZip: bool | None
+    note: str | None
+
+class Prv_prusa3d_PrusaBlogArgs_In(TypedDict):
+    limit: NotRequired[float]
+    search: NotRequired[str]
+
+class Prv_prusa3d_PrusaBlogPost_Out(TypedDict):
+    id: float | None
+    date: str | None
+    slug: str | None
+    url: str | None
+    title: str
+    excerpt: str
+
+class Prv_prusa3d_PrusaEmailArgs_In(TypedDict):
+    email: str
+
+class Prv_prusa3d_PrusaEmailCheck_Out(TypedDict):
+    email: str
+    available: bool
+    verdict: str | None
+    disposable: bool | None
+
 class Prv_pullandbear_listCategories_args_In(TypedDict):
     gender: NotRequired[Literal["men"] | Literal["women"]]
 
@@ -53386,28 +53564,6 @@ class Prv_smartrecruiters_SmartRecruitersPosting_Out(TypedDict):
     releasedDate: str | None
     url: str
 
-class Prv_smartsign_SmartsignSearchResult_Out(TypedDict):
-    sku: str
-    name: str
-    url: str
-    imageUrl: str
-
-class Prv_smartsign_SmartsignTemplate_Out(TypedDict):
-    sku: str
-    title: str
-    url: str
-    materials: list[Prv_smartsign_SmartsignMaterialPricing_Out]
-
-class Prv_smartsign_SmartsignMaterialPricing_Out(TypedDict):
-    name: str
-    sizeCode: str
-    unitPrice: float
-    pricingTiers: list[Prv_smartsign_SmartsignMaterialPricing_Out_pricingTiers_item_Out]
-
-class Prv_smartsign_SmartsignMaterialPricing_Out_pricingTiers_item_Out(TypedDict):
-    qty: float
-    price: float
-
 class Prv_smartwool_SmartwoolSockFinderResult_Out(TypedDict):
     headline: str
     description: str
@@ -55099,6 +55255,32 @@ class Prv_spotify_SpotifyOEmbed_Out(TypedDict):
     html: str
     iframeUrl: str | None
     providerName: str
+
+class Prv_spotify_getChart_opts_In(TypedDict):
+    type: NotRequired[Literal["tracks"] | Literal["albums"] | Literal["artists"]]
+
+class Prv_spotify_SpotifyChart_Out(TypedDict):
+    type: Literal["tracks"] | Literal["albums"] | Literal["artists"]
+    title: str
+    date: str | None
+    recurrence: str | None
+    country: str | None
+    entries: list[Prv_spotify_SpotifyChartEntry_Out]
+
+class Prv_spotify_SpotifyChartEntry_Out(TypedDict):
+    rank: float
+    previousRank: float | None
+    peakRank: float | None
+    status: str | None
+    id: str | None
+    uri: str | None
+    name: str
+    artists: list[Prv_spotify_SpotifyChartEntry_Out_artists_item_Out]
+    imageUrl: str | None
+
+class Prv_spotify_SpotifyChartEntry_Out_artists_item_Out(TypedDict):
+    id: str | None
+    name: str
 
 class Prv_spotify_SpotifyMarkets_Out(TypedDict):
     markets: list[str]
@@ -61992,6 +62174,7 @@ class Prv_ubereats_UbereatsAddToCartArgs_In(TypedDict):
     itemUuid: str
     quantity: NotRequired[float]
     customizations: NotRequired[Mapping[str, Sequence[str]]]
+    address: NotRequired[str]
 
 class Prv_ubereats_UbereatsCartItemRef_Out(TypedDict):
     draftOrderUuid: str
@@ -72670,6 +72853,26 @@ class Prv_amramp(Protocol):
         franchise covers the ZIP — a real, correct answer, not a failure. Each returned
         location's url carries that franchise's own quote-request form (Gravity Forms) — the
         write step, reached by handoff, never submitted here.
+        """
+
+class Prv_analytics_google(Protocol):
+    """Read-only properties, session totals, and traffic sources from the caller's own Google
+    Analytics account. Requires the caller to sign in to Google.
+    """
+
+    async def listProperties(self, opts: ConnectionOption | None = None, /) -> list[Prv_analytics_google_GoogleAnalyticsProperty_Out]:
+        """Lists Google Analytics properties the signed-in caller can open, with numeric property
+        ids. Read-only; requires the caller signed in to Google.
+        """
+
+    async def getOverview(self, args: Prv_analytics_google_GoogleAnalyticsReportArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_analytics_google_GoogleAnalyticsOverview_Out:
+        """Reads a property's rendered Analytics overview: sessions, active users, and event count.
+        Read-only; requires the caller signed in.
+        """
+
+    async def listTrafficSources(self, args: Prv_analytics_google_GoogleAnalyticsReportArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_analytics_google_GoogleAnalyticsTrafficSource_Out]:
+        """Reads the rendered traffic-acquisition table: source, sessions, users, and engagement
+        rate. Read-only; requires the caller signed in.
         """
 
 class Prv_ancientnutrition(Protocol):
@@ -90468,6 +90671,18 @@ class Prv_lmstudio(Protocol):
         title; call getDoc(url) for the page's real <title>.
         """
 
+class Prv_lobehub_com(Protocol):
+    """Search LobeHub's public MCP-server marketplace (lobehub.com/mcp) by keyword, or browse
+    its current listings.
+    """
+
+    async def search(self, query: str | Prv_lobehub_com_search_query_u1_In | None = None, /) -> list[Prv_lobehub_com_LobehubMcpListing_Out]:
+        """Searches LobeHub's public MCP-server marketplace by keyword. Call search() with no
+        argument to browse its current listings; do not pass an empty string. Each result
+        carries LobeHub's own identifier, name, description, author, category, GitHub stats
+        (when the listing names a repo), install count and detail-page URL.
+        """
+
 class Prv_lonelyplanet(Protocol):
     """Travel guides: destination guides, site search, Best in Travel picks, curated trips and
     guidebooks.
@@ -96141,6 +96356,48 @@ class Prv_proxy_cheap(Protocol):
     async def listCoverage(self, /) -> list[Prv_proxy_cheap_CoverageRegion_Out]:
         """Lists the proxy locations (countries, by region) Proxy-Cheap features on its site."""
 
+class Prv_prusa3d(Protocol):
+    """Prusa (prusa3d.com) e-shop: search printers, Prusament filament and parts, read one
+    product's live price, stock and variants, list a category, read reviews, new arrivals,
+    shipping countries, blog posts, and check whether an email can register a Prusa Account.
+    """
+
+    async def searchProducts(self, args: Prv_prusa3d_PrusaSearchArgs_In, /) -> Prv_prusa3d_PrusaSearchResult_Out:
+        """Search the Prusa e-shop catalog (printers, Prusament filament, spare parts) by keyword;
+        returns live price in the chosen currency, stock and slug per hit.
+        """
+
+    async def getProduct(self, args: Prv_prusa3d_PrusaProductArgs_In, /) -> Prv_prusa3d_PrusaProduct_Out:
+        """Full detail for one Prusa product by slug or URL: price with and without VAT, stock
+        quantity, availability, brand, breadcrumbs, images and every purchasable variant.
+        """
+
+    async def listCategory(self, args: Prv_prusa3d_PrusaCategoryArgs_In, /) -> Prv_prusa3d_PrusaCategory_Out:
+        """List the products in one Prusa shop category (e.g. 3d-printers, filament) with its child
+        categories and a cursor for paging.
+        """
+
+    async def getReviews(self, args: Prv_prusa3d_PrusaReviewsArgs_In, /) -> Prv_prusa3d_PrusaReviews_Out:
+        """Customer reviews for one Prusa product by its uuid: count, average rating, per-star
+        counts and review text.
+        """
+
+    async def listNewProducts(self, args: Prv_prusa3d_PrusaPricing_In | None = None, /) -> list[Prv_prusa3d_PrusaProductRow_Out]:
+        """The Prusa shop's new-products list with price and stock."""
+
+    async def listCountries(self, /) -> list[Prv_prusa3d_PrusaCountry_Out]:
+        """Countries the Prusa shop ships to, with ISO code, allowed currencies and per-country
+        shipping notes.
+        """
+
+    async def listBlogPosts(self, args: Prv_prusa3d_PrusaBlogArgs_In | None = None, /) -> list[Prv_prusa3d_PrusaBlogPost_Out]:
+        """Recent or keyword-matched posts from the Prusa blog (blog.prusa3d.com)."""
+
+    async def checkEmail(self, args: Prv_prusa3d_PrusaEmailArgs_In, /) -> Prv_prusa3d_PrusaEmailCheck_Out:
+        """Check whether an email address can register a new Prusa Account, using the site's own
+        registration pre-check.
+        """
+
 class Prv_pullandbear(Protocol):
     """Pull&Bear (pullandbear.com) fast-fashion store, US catalog. Lists a men's/women's
     category (jackets, jeans, t-shirts…) with per-colour price, sale compare-at price and
@@ -99267,27 +99524,6 @@ class Prv_smartrecruiters(Protocol):
         company is a customer.
         """
 
-class Prv_smartsign(Protocol):
-    """Reads SmartSign's custom-sign template configurator — search for a template, then read
-    its real per-material live pricing and volume-discount ladder — straight from
-    smartsign.com's own pages, no key, no browser.
-    """
-
-    async def search(self, query: str, /) -> list[Prv_smartsign_SmartsignSearchResult_Out]:
-        """Runs SmartSign's own site-search suggest endpoint for a free-text query (e.g. "parking
-        sign", "custom aluminum sign") and returns the matching product/template rows — sku,
-        name, product URL, thumbnail — deduplicated by URL. The `sku` it returns is what
-        getTemplate takes. May legitimately return [] for a query that matches nothing.
-        """
-
-    async def getTemplate(self, sku: str, /) -> Prv_smartsign_SmartsignTemplate_Out:
-        """Reads one custom-sign template's product page and returns its title plus every material
-        option offered — display name, the site's own size+material code, single-unit price, and
-        the FULL volume-discount ladder (qty tier -> price). THROWS rather than returning an
-        empty materials list on a retired/mistyped SKU — every real template offers at least one
-        material, so zero is never an honest answer.
-        """
-
 class Prv_smartwool(Protocol):
     """Smartwool's own Sock Finder — runs its six-question quiz (activity, type, sock height,
     cushion, style, size) through the quiz's own routing rules and returns the recommended
@@ -100099,6 +100335,12 @@ class Prv_spotify(Protocol):
         """Gets oEmbed metadata (title, thumbnail, embeddable player html) for a track, album,
         artist, playlist, episode or show — pass the open.spotify.com url, or a bare Spotify id
         plus its type. Public and keyless; needs no developer app key at all.
+        """
+
+    async def getChart(self, opts: Prv_spotify_getChart_opts_In | None = None, /) -> Prv_spotify_SpotifyChart_Out:
+        """Gets Spotify's global weekly top 50 chart — tracks (default), albums or artists — with
+        each entry's rank, last week's rank, peak and movement. Public and keyless; global
+        weekly only, per-country charts need a Spotify login.
         """
 
     async def getAvailableMarkets(self, /) -> Prv_spotify_SpotifyMarkets_Out:
@@ -103660,7 +103902,9 @@ class Prv_ubereats(Protocol):
         that store, with quantity and chosen customization options, and returns the cart item
         reference updateCartItem/removeFromCart/clearCart take back. Anonymous — Uber Eats' own
         guest cart, no sign-in needed (measured 2026-11-02); sign-in is only needed to place the
-        order.
+        order. Pass { address } so the cart has a delivery location; without it, Uber Eats
+        refuses the cart unless an earlier call in the same run (checkDeliveryAvailability,
+        browseStores, findChainStore, searchStoreProducts) already set one.
         """
 
     async def updateCartItem(self, args: Prv_ubereats_updateCartItem_args_In, /) -> Prv_ubereats_UbereatsCartItemRef_Out:
@@ -107610,6 +107854,7 @@ class BowmarkProviders(Protocol):
     americanvisionwindows: Prv_americanvisionwindows
     americashealthrankings: Prv_americashealthrankings
     amramp: Prv_amramp
+    analytics_google: Prv_analytics_google
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows
     andstr: Prv_andstr
@@ -108007,6 +108252,7 @@ class BowmarkProviders(Protocol):
     liquidspace: Prv_liquidspace
     littlewordsproject: Prv_littlewordsproject
     lmstudio: Prv_lmstudio
+    lobehub_com: Prv_lobehub_com
     lonelyplanet: Prv_lonelyplanet
     louvershop: Prv_louvershop
     lovelybride: Prv_lovelybride
@@ -108132,6 +108378,7 @@ class BowmarkProviders(Protocol):
     provenwinners: Prv_provenwinners
     proxmox: Prv_proxmox
     proxy_cheap: Prv_proxy_cheap
+    prusa3d: Prv_prusa3d
     pullandbear: Prv_pullandbear
     puls_com: Prv_puls_com
     punchpass: Prv_punchpass
@@ -108201,7 +108448,6 @@ class BowmarkProviders(Protocol):
     slice: Prv_slice
     slickdeals: Prv_slickdeals
     smartrecruiters: Prv_smartrecruiters
-    smartsign: Prv_smartsign
     smartwool: Prv_smartwool
     smithery: Prv_smithery
     smtp_probe: Prv_smtp_probe

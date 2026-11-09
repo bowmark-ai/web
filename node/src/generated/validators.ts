@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 78271dd17e858512602826ce88734768a12ae51f018790023ae1cd4254783482
-// 4635 checked, 20 unchecked.
+// Manifest version: 274ce28ec25755d9d05488038e04b4e211ca52706cd72a6d68f01f7b168ec35e
+// 4646 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "78271dd17e858512602826ce88734768a12ae51f018790023ae1cd4254783482",
+  "version": "274ce28ec25755d9d05488038e04b4e211ca52706cd72a6d68f01f7b168ec35e",
   "units": {
     "address_validation": {
       "defs": {
@@ -12644,6 +12644,94 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.analytics_google": {
+      "defs": {
+        "GoogleAnalyticsReportArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "propertyId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listProperties": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOverview": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleAnalyticsReportArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listTrafficSources": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleAnalyticsReportArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -76219,6 +76307,37 @@ export const VALIDATORS: ValidatorTable = {
         "listDocPages": []
       }
     },
+    "providers.lobehub_com": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.lonelyplanet": {
       "defs": {},
       "functions": {
@@ -100229,6 +100348,265 @@ export const VALIDATORS: ValidatorTable = {
         "listCoverage": []
       }
     },
+    "providers.prusa3d": {
+      "defs": {
+        "PrusaBlogArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "search",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PrusaCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PrusaEmailArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PrusaPricing": {
+          "k": "object",
+          "props": [
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PrusaProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PrusaReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PrusaSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PrusaSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PrusaProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PrusaCategoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PrusaReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listNewProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PrusaPricing"
+            },
+            "optional": true
+          }
+        ],
+        "listCountries": [],
+        "listBlogPosts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PrusaBlogArgs"
+            },
+            "optional": true
+          }
+        ],
+        "checkEmail": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PrusaEmailArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.pullandbear": {
       "defs": {
         "PullAndBearSearchArgs": {
@@ -114138,29 +114516,6 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
-    "providers.smartsign": {
-      "defs": {},
-      "functions": {
-        "search": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getTemplate": [
-          {
-            "name": "sku",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
     "providers.smartwool": {
       "defs": {},
       "functions": {
@@ -117051,6 +117406,23 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SpotifyChartType": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "tracks"
+            },
+            {
+              "k": "literal",
+              "v": "albums"
+            },
+            {
+              "k": "literal",
+              "v": "artists"
+            }
+          ]
+        },
         "SpotifyListArtistAlbumsOptions": {
           "k": "object",
           "props": [
@@ -117448,6 +117820,25 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SpotifyOEmbedType"
+            },
+            "optional": true
+          }
+        ],
+        "getChart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "type",
+                  "schema": {
+                    "k": "ref",
+                    "name": "SpotifyChartType"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": true
           }
@@ -131603,6 +131994,13 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   }
                 }
+              },
+              "optional": true
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }

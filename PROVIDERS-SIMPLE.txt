@@ -47,6 +47,7 @@ americanstandardair.com — americanstandard: getSystemCostEstimate
 americanvisionwindows.com — americanvisionwindows: checkAvailability (+1 planned)
 americashealthrankings.org — americashealthrankings: getMeasureData, listReports, searchMeasures
 amramp.com — amramp: findNearestLocation
+analytics.google.com — analytics_google: getOverview, listProperties, listTrafficSources
 ancientnutrition.com — ancientnutrition: computeGutType, getGutTypeQuizQuestions
 andersenwindows.com — andersenwindows: findDealers
 angus-systems.com — angussystems: nothing callable yet (+1 planned)
@@ -324,7 +325,7 @@ ford.com — ford: findDealers, getOffers, getRecalls, getVehicle, listNameplate
 forms.hubspot.com — forms_hubspot_com: findForms, getFormDefinition
 fortressbp.com — fortressbp: listProductTypes, recommendProduct
 fourseasonsyachts.com — fourseasonsyachts: getVoyage, getVoyageSailing, searchVoyages
-foxnews.com — foxnews: findAuthor, getAccount, getArticle, getAuthor, getElectionResults, getLiveBlog, getShow, getTopStories, getVideo, listAuthorArticles, listElectionRaces, listLatest, listLiveBlogs, listNewsletters, listPodcastEpisodes, listPodcasts, listSectionArticles, listSections, listShows, listVideoPlaylists, listVideos, searchArticles, updateProfile (+7 planned)
+foxnews.com — foxnews: deleteComment, findAuthor, getAccount, getArticle, getAuthor, getComments, getElectionResults, getLiveBlog, getShow, getTopStories, getVideo, listAuthorArticles, listElectionRaces, listLatest, listLiveBlogs, listNewsletters, listPodcastEpisodes, listPodcasts, listSectionArticles, listSections, listShows, listVideoPlaylists, listVideos, postComment, searchArticles, updateProfile (+4 planned)
 framebridge.com — framebridge: getConfigurator, listFrameStyles, priceConfiguration
 franklinbbq.com — franklinbbq_com: getPreorderMenu, listPickupSlots
 fred.stlouisfed.org — fred: browseCategory, getSeriesInfo, getSeriesObservations, listReleases, listSources, searchSeries (+1 planned)
@@ -350,7 +351,7 @@ gobrightwing.com — gobrightwing: getJobDetails, searchJobs (+2 planned)
 gokenko.com — kenko: cancelBooking, cancelMembership, findStudio, getAppointmentAvailability, getClass, getClassSpots, getMyProfile, listAppointmentTypes, listClasses, listGiftCards, listInstructors, listMyBookings, listMyMemberships, listMyPurchases, listPricing, listProducts, listScheduleFilters, pauseMembership, updateMyProfile (+8 planned)
 golf.com — golf_com: nothing callable yet (+2 planned)
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
-goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, writeReview
+goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, unfollowUser, writeReview
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaces (+3 planned)
@@ -452,6 +453,7 @@ liquiddeath.com — liquiddeath: addToCart, getCart, getProduct, listProducts, s
 liquidspace.com — liquidspace: getListingDetails, search
 littlewordsproject.com — littlewordsproject: getLittleWordsProjectCheckoutLink, getLittleWordsProjectProduct, listLittleWordsProjectCollections, listLittleWordsProjectProducts
 lmstudio.ai — lmstudio: getDoc, listDocPages
+lobehub.com — lobehub_com: search
 lonelyplanet.com — lonelyplanet: search (+4 planned)
 louvershop.com — louvershop: findLocalDealer (+1 planned)
 lovelybride.com — lovelybride: getAvailableSlots, getStoreAppointmentTypes, listStores
@@ -468,7 +470,7 @@ mail.aol.com — aol_mail: deleteMessage, getAccountProfile, getMessage, listFol
 mail.yahoo.com — yahoo_mail: deleteMessage, flagMessage, getAttachment, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage
 mailchimp.com — mailchimp: getPlanPricing
 mango.com — mango: getProduct, listCategories, searchProducts (+1 planned)
-marianatek.com — marianatek: bookAppointment, bookClass, cancelMembership, cancelReservation, changeSpot, checkIn, findStudio, getClass, getLocation, getMyAccount, getMyReservation, getMyStats, joinWaitlist, listAppointmentCategories, listAppointmentPaymentOptions, listAppointmentServices, listAppointmentSlots, listClasses, listClassPaymentOptions, listClassSpots, listLocations, listMyAppointments, listMyCredits, listMyMemberships, listMyOrders, listMyReservations, listMyWaivers, listPricing, listRegions, listScheduleFilters, redeemGiftCard, setProfileImage, updateCommunicationPreferences, updateMyAccount (+1 planned)
+marianatek.com — marianatek: 34 functions — ask get_library (+1 planned)
 marketplace.visualstudio.com — marketplace_visualstudio: getExtensionStats, searchExtensions
 marketplace.vts.com — vts_marketplace: getListing, listMarkets, searchListings
 marriott.com — marriott: findHotels (+5 planned)
@@ -531,7 +533,7 @@ oliverwinery.com — oliverwinery: checkShippingAvailability, getWine, listWines
 olo.com — olo: addToBasket, applyCoupon, checkOrderAvailability, findBrand, getBasket, getLocation, getMenu, getOrderStatus, getProductOptions, listOrderDays, listRegions, listTimeSlots, removeBasketItem, searchLocations, setHandoff, startCheckout, startOrder, updateBasketItem (+15 planned)
 onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
 onthemarket.com — onthemarket: search
-open.spotify.com — spotify: getAlbum, getArtist, getAvailableMarkets, getCurrentPlayback, getDevices, getEpisode, getGenreSeeds, getLibraryAlbums, getLibraryArtists, getLibraryPlaylists, getLibraryTracks, getLyrics, getOEmbed, getPlaylist, getPlaylistCoverImage, getPodcast, getRecentlyPlayed, getTopArtists, getTopTracks, getTrack, getUserProfile, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchMyLibrary, searchPlaylists (+6 planned)
+open.spotify.com — spotify: getAlbum, getArtist, getAvailableMarkets, getChart, getCurrentPlayback, getDevices, getEpisode, getGenreSeeds, getLibraryAlbums, getLibraryArtists, getLibraryPlaylists, getLibraryTracks, getLyrics, getOEmbed, getPlaylist, getPlaylistCoverImage, getPodcast, getRecentlyPlayed, getTopArtists, getTopTracks, getTrack, getUserProfile, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchMyLibrary, searchPlaylists (+5 planned)
 openai.com — openai_com: listPosts, readPost
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, listMyReservations, search, startBooking
 originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote

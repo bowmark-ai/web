@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6149 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6154 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -210,6 +210,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `americashealthrankings.listReports` | americashealthrankings.org | Lists the public report editions and their release years. | 🟢 |
 | `americashealthrankings.searchMeasures` | americashealthrankings.org | Searches the site's public health measures by name. | 🟢 |
 | `amramp.findNearestLocation` | amramp.com | Runs Amramp's own ZIP/postal-code locator — the same… | 🟢 |
+| `analytics_google.getOverview` | analytics.google.com | Reads a property's rendered overview: sessions, active users, and event count. | 🟢 |
+| `analytics_google.listProperties` | analytics.google.com | Lists every Google Analytics property the signed-in caller can open, with its numeric… | 🟢 |
+| `analytics_google.listTrafficSources` | analytics.google.com | Reads a property's rendered traffic-acquisition table: source, sessions, users, and… | 🟢 |
 | `ancientnutrition.computeGutType` | ancientnutrition.com | Runs Ancient Nutrition's real Gut Type Quiz with the caller's own answers (keyed by… | 🟢 |
 | `ancientnutrition.getGutTypeQuizQuestions` | ancientnutrition.com | Walks Ancient Nutrition's real Gut Type Quiz along its default path (first option for… | 🟢 |
 | `andersenwindows.findDealers` | andersenwindows.com | Finds Andersen-certified dealers and contractors near a US ZIP code — the entry point… | 🟢 |
@@ -2185,12 +2188,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fourseasonsyachts.getVoyage` | fourseasonsyachts.com | Reads one voyage's full itinerary — the day-by-day description, its region, its vessel… | 🟢 |
 | `fourseasonsyachts.getVoyageSailing` | fourseasonsyachts.com | Reads the real, live departure for one voyageCode — exact embark/disembark ports and… | 🟢 |
 | `fourseasonsyachts.searchVoyages` | fourseasonsyachts.com | Reads the live Voyage Finder inventory — every published sailing, its region, vessel… | 🟢 |
-| `foxnews.deleteComment` | foxnews.com | Deletes one of the signed-in caller's own comments on a Fox News article. | ⚪ |
+| `foxnews.deleteComment` | foxnews.com | Deletes one of the signed-in caller's own Fox News comments, by the id postComment or… | 🟢 |
 | `foxnews.findAuthor` | foxnews.com | Finds a Fox News reporter, columnist, host or contributor by name ("Charles Creitz"… | 🟢 |
 | `foxnews.getAccount` | foxnews.com | Reads the signed-in caller's Fox account — profile id, email, account type and name —… | 🟢 |
 | `foxnews.getArticle` | foxnews.com | Reads one Fox News article in full — headline, description, the whole body text… | 🟢 |
 | `foxnews.getAuthor` | foxnews.com | Reads one Fox News person's profile — name, job title, bio, social links and their… | 🟢 |
-| `foxnews.getComments` | foxnews.com | Reads the reader comments under a Fox News article — each comment's text, author… | ⚪ |
+| `foxnews.getComments` | foxnews.com | Reads the reader comments under a Fox News article, a page at a time — each comment's… | 🟢 |
 | `foxnews.getElectionResults` | foxnews.com | Reads Fox News's results for one 2026 general-election race — each candidate's votes… | 🟢 |
 | `foxnews.getLiveBlog` | foxnews.com | Reads one Fox News live-coverage page — its headline and every update posted to it… | 🟢 |
 | `foxnews.getShow` | foxnews.com | Reads one Fox News Channel show — description, hosts, genre and its latest clips —… | 🟢 |
@@ -2208,7 +2211,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.listShows` | foxnews.com | Lists the Fox News Channel shows (Hannity, The Five, Fox & Friends, Special Report…)… | 🟢 |
 | `foxnews.listVideoPlaylists` | foxnews.com | Lists the video playlists Fox News groups its clips into — each show's Episodes rail… | 🟢 |
 | `foxnews.listVideos` | foxnews.com | Lists the clips in one Fox News video playlist, newest first with paging — each clip's… | 🟢 |
-| `foxnews.postComment` | foxnews.com | Posts a comment under a Fox News article, or a reply to another comment, as the… | ⚪ |
+| `foxnews.postComment` | foxnews.com | Posts a comment under a Fox News article, or a reply to one of its comments, as the… | 🟢 |
 | `foxnews.searchArticles` | foxnews.com | Searches Fox News for stories and video clips matching free text ("border wall"… | 🟢 |
 | `foxnews.submitNewsTip` | foxnews.com | Sends a news tip to Fox News's newsroom through its tip form — name, email, and the… | ⚪ |
 | `foxnews.subscribeNewsletter` | foxnews.com | Signs an email address up to one or more Fox News newsletters — what the sign-up box… | ⚪ |
@@ -2448,6 +2451,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.searchAuthors` | goodreads.com | Finds Goodreads authors by name; returns each match's id, url, books-on-shelf count… | 🟢 |
 | `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | 🟢 |
 | `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | 🟢 |
+| `goodreads.unfollowUser` | goodreads.com | Stops following another member as the signed-in caller — the pair of followUser. | 🟢 |
 | `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | 🟢 |
 | `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟡 |
 | `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟡 |
@@ -3115,6 +3119,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `littlewordsproject.listLittleWordsProjectProducts` | littlewordsproject.com | Reads a Little Words Project collection's live catalogue as the storefront publishes… | 🟢 |
 | `lmstudio.getDoc` | lmstudio.ai | Fetches one lmstudio.ai/docs/... documentation page and returns its title and body… | 🟢 |
 | `lmstudio.listDocPages` | lmstudio.ai | Lists every documentation page lmstudio.ai publishes under /docs — url and the page's… | 🟢 |
+| `lobehub_com.search` | lobehub.com | Searches LobeHub's public MCP-server marketplace (lobehub.com/mcp) by keyword and… | 🟢 |
 | `lonelyplanet.getBestInTravel` | lonelyplanet.com | Reads Lonely Planet's annually curated 'Best in Travel' list — the destinations and… | ⚪ |
 | `lonelyplanet.getDestinationGuide` | lonelyplanet.com | Reads one destination's guide page (e.g. lonelyplanet.com/destinations/italy) — its… | ⚪ |
 | `lonelyplanet.search` | lonelyplanet.com | Searches lonelyplanet.com's site-wide index — destinations, articles, curated trip… | 🟢 |
@@ -4775,7 +4780,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.getAudioAnalysis` | open.spotify.com | Get low-level audio analysis (beats, bars, sections, segments) for a track. | ⚪ |
 | `spotify.getAudioFeatures` | open.spotify.com | Get audio analysis features for a track. | ⚪ |
 | `spotify.getAvailableMarkets` | open.spotify.com | List the two-letter country codes of every market Spotify is available in. | 🟢 |
-| `spotify.getChart` | open.spotify.com | Get Spotify's featured charts by type and country. | ⚪ |
+| `spotify.getChart` | open.spotify.com | Get Spotify's featured charts by type and country. | 🟢 |
 | `spotify.getCurrentPlayback` | open.spotify.com | Get the signed-in user's current playback state. | 🟢 |
 | `spotify.getDevices` | open.spotify.com | Get the signed-in user's available devices. | 🟢 |
 | `spotify.getEpisode` | open.spotify.com | Get details about a specific podcast episode. | 🟢 |

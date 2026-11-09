@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 78271dd17e858512602826ce88734768a12ae51f018790023ae1cd4254783482
-// 97 capabilities, 779 providers, 4653 typed functions, 20 refused.
+// Manifest version: 274ce28ec25755d9d05488038e04b4e211ca52706cd72a6d68f01f7b168ec35e
+// 97 capabilities, 781 providers, 4664 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10008,6 +10008,46 @@ interface AmrampLocation {
      * handoff, never submitted here.
      */
     findNearestLocation(input: { zip: string }): Promise<AmrampLocation[]>;
+  }
+}
+
+declare namespace BowmarkProvider_analytics_google {
+  // ── Google Analytics — the unit's own declarations, verbatim ──
+interface GoogleAnalyticsProperty {
+  propertyId: string; // Google Analytics' numeric property id
+  name: string | null;
+}
+interface GoogleAnalyticsOverview {
+  propertyId: string | null; sessions: number | null; activeUsers: number | null; eventCount: number | null;
+}
+interface GoogleAnalyticsTrafficSource {
+  source: string; sessions: number | null; users: number | null; engagementRate: number | null; // percent
+}
+interface GoogleAnalyticsReportArgs { propertyId?: string; // GoogleAnalyticsProperty.propertyId; omitted = Analytics' selected property
+}
+
+  /**
+   * Read-only properties, session totals, and traffic sources from the caller's own Google
+   * Analytics account. Requires the caller to sign in to Google.
+   */
+  interface Unit {
+    /**
+     * Lists Google Analytics properties the signed-in caller can open, with numeric property ids.
+     * Read-only; requires the caller signed in to Google.
+     */
+    listProperties(opts?: ConnectionOption): Promise<GoogleAnalyticsProperty[]>;
+
+    /**
+     * Reads a property's rendered Analytics overview: sessions, active users, and event count.
+     * Read-only; requires the caller signed in.
+     */
+    getOverview(args?: GoogleAnalyticsReportArgs, opts?: ConnectionOption): Promise<GoogleAnalyticsOverview>;
+
+    /**
+     * Reads the rendered traffic-acquisition table: source, sessions, users, and engagement rate.
+     * Read-only; requires the caller signed in.
+     */
+    listTrafficSources(args?: GoogleAnalyticsReportArgs, opts?: ConnectionOption): Promise<GoogleAnalyticsTrafficSource[]>;
   }
 }
 
@@ -59873,6 +59913,36 @@ interface lmstudioDocPage {
   }
 }
 
+declare namespace BowmarkProvider_lobehub_com {
+  // ── LobeHub MCP Marketplace — the unit's own declarations, verbatim ──
+interface LobehubMcpListing {
+  identifier: string;
+  name: string;
+  description: string;
+  author: string | null;
+  category: string | null;
+  github: { url: string; stars: number; language: string | null } | null;
+  installCount: number | null;
+  isOfficial: boolean;
+  isValidated: boolean;
+  url: string;
+}
+
+  /**
+   * Search LobeHub's public MCP-server marketplace (lobehub.com/mcp) by keyword, or browse its
+   * current listings.
+   */
+  interface Unit {
+    /**
+     * Searches LobeHub's public MCP-server marketplace by keyword. Call search() with no argument
+     * to browse its current listings; do not pass an empty string. Each result carries LobeHub's
+     * own identifier, name, description, author, category, GitHub stats (when the listing names a
+     * repo), install count and detail-page URL.
+     */
+    search(query?: string | { query?: string }): Promise<LobehubMcpListing[]>;
+  }
+}
+
 declare namespace BowmarkProvider_lonelyplanet {
   // ── Lonely Planet — the unit's own declarations, verbatim ──
 interface LonelyPlanetSearchResult {
@@ -76126,6 +76196,76 @@ interface CoverageRegion {
   }
 }
 
+declare namespace BowmarkProvider_prusa3d {
+  // ── Prusa Research 3D printer e-shop — the unit's own declarations, verbatim ──
+interface PrusaPricing { currency?: string; country?: string }
+interface PrusaPrice { priceWithVat: number | null; priceWithoutVat: number | null; discountInPercent: number | null; currency: string }
+interface PrusaProductRow { uuid: string; slug: string; name: string; url: string; inStock: boolean | null; canBuy: boolean | null; availability: string | null; averageRating: number | null; price: PrusaPrice | null }
+interface PrusaVariant { uuid: string; slug: string; name: string; inStock: boolean | null; price: PrusaPrice | null }
+interface PrusaProduct extends PrusaProductRow { shortDescription: string | null; description: string | null; stockQuantity: number | null; canSentProductAvailabilityRequest: boolean | null; brand: string | null; breadcrumbs: string[]; images: string[]; variants: PrusaVariant[] }
+interface PrusaSearchArgs extends PrusaPricing { query: string; limit?: number; cursor?: string }
+interface PrusaSearchResult { query: string; totalCount: number; endCursor: string | null; products: PrusaProductRow[] }
+interface PrusaProductArgs extends PrusaPricing { slug: string }
+interface PrusaCategoryArgs extends PrusaPricing { slug: string; limit?: number; cursor?: string }
+interface PrusaCategory { uuid: string | null; slug: string; name: string | null; children: { slug: string; name: string }[]; totalCount: number; endCursor: string | null; products: PrusaProductRow[] }
+interface PrusaReviewsArgs { productUuid: string; limit?: number; cursor?: string }
+interface PrusaReviews { productUuid: string; totalCount: number; averageRating: number | null; ratingCounts: { rating: number | null; count: number | null }[]; endCursor: string | null; reviews: { uuid: string | null; rating: number | null; text: string | null; author: string | null; createdAt: string | null }[] }
+interface PrusaCountry { name: string | null; code: string | null; vatCode: string | null; allowedCurrencies: string[]; needsCity: boolean | null; needsZip: boolean | null; note: string | null }
+interface PrusaBlogArgs { limit?: number; search?: string }
+interface PrusaBlogPost { id: number | null; date: string | null; slug: string | null; url: string | null; title: string; excerpt: string }
+interface PrusaEmailArgs { email: string }
+interface PrusaEmailCheck { email: string; available: boolean; verdict: string | null; disposable: boolean | null }
+
+  /**
+   * Prusa (prusa3d.com) e-shop: search printers, Prusament filament and parts, read one
+   * product's live price, stock and variants, list a category, read reviews, new arrivals,
+   * shipping countries, blog posts, and check whether an email can register a Prusa Account.
+   */
+  interface Unit {
+    /**
+     * Search the Prusa e-shop catalog (printers, Prusament filament, spare parts) by keyword;
+     * returns live price in the chosen currency, stock and slug per hit.
+     */
+    searchProducts(args: PrusaSearchArgs): Promise<PrusaSearchResult>;
+
+    /**
+     * Full detail for one Prusa product by slug or URL: price with and without VAT, stock
+     * quantity, availability, brand, breadcrumbs, images and every purchasable variant.
+     */
+    getProduct(args: PrusaProductArgs): Promise<PrusaProduct>;
+
+    /**
+     * List the products in one Prusa shop category (e.g. 3d-printers, filament) with its child
+     * categories and a cursor for paging.
+     */
+    listCategory(args: PrusaCategoryArgs): Promise<PrusaCategory>;
+
+    /**
+     * Customer reviews for one Prusa product by its uuid: count, average rating, per-star counts
+     * and review text.
+     */
+    getReviews(args: PrusaReviewsArgs): Promise<PrusaReviews>;
+
+    /** The Prusa shop's new-products list with price and stock. */
+    listNewProducts(args?: PrusaPricing): Promise<PrusaProductRow[]>;
+
+    /**
+     * Countries the Prusa shop ships to, with ISO code, allowed currencies and per-country
+     * shipping notes.
+     */
+    listCountries(): Promise<PrusaCountry[]>;
+
+    /** Recent or keyword-matched posts from the Prusa blog (blog.prusa3d.com). */
+    listBlogPosts(args?: PrusaBlogArgs): Promise<PrusaBlogPost[]>;
+
+    /**
+     * Check whether an email address can register a new Prusa Account, using the site's own
+     * registration pre-check.
+     */
+    checkEmail(args: PrusaEmailArgs): Promise<PrusaEmailCheck>;
+  }
+}
+
 declare namespace BowmarkProvider_pullandbear {
   // ── Pull&Bear — the unit's own declarations, verbatim ──
 interface PullAndBearCategory { id: string; gender: "men" | "women"; title: string; keyword: string }
@@ -85804,52 +85944,6 @@ interface SmartRecruitersListOptions {
   }
 }
 
-declare namespace BowmarkProvider_smartsign {
-  // ── SmartSign — the unit's own declarations, verbatim ──
-interface SmartsignSearchResult {
-  sku: string;
-  name: string;
-  url: string;       // absolute product page URL — what getTemplate takes
-  imageUrl: string;
-}
-interface SmartsignMaterialPricing {
-  name: string;               // e.g. "Aluminum"
-  sizeCode: string;           // SmartSign's own per-material+size code
-  unitPrice: number;          // single-unit price, e.g. 37.94
-  pricingTiers: { qty: number; price: number }[]; // volume-discount ladder, includes qty:1
-}
-interface SmartsignTemplate {
-  sku: string;
-  title: string;
-  url: string;
-  materials: SmartsignMaterialPricing[];
-}
-
-  /**
-   * Reads SmartSign's custom-sign template configurator — search for a template, then read its
-   * real per-material live pricing and volume-discount ladder — straight from smartsign.com's
-   * own pages, no key, no browser.
-   */
-  interface Unit {
-    /**
-     * Runs SmartSign's own site-search suggest endpoint for a free-text query (e.g. "parking
-     * sign", "custom aluminum sign") and returns the matching product/template rows — sku, name,
-     * product URL, thumbnail — deduplicated by URL. The `sku` it returns is what getTemplate
-     * takes. May legitimately return [] for a query that matches nothing.
-     */
-    search(query: string): Promise<SmartsignSearchResult[]>;
-
-    /**
-     * Reads one custom-sign template's product page and returns its title plus every material
-     * option offered — display name, the site's own size+material code, single-unit price, and the
-     * FULL volume-discount ladder (qty tier -> price). THROWS rather than returning an empty
-     * materials list on a retired/mistyped SKU — every real template offers at least one material,
-     * so zero is never an honest answer.
-     */
-    getTemplate(sku: string): Promise<SmartsignTemplate>;
-  }
-}
-
 declare namespace BowmarkProvider_smartwool {
   // ── Smartwool — the unit's own declarations, verbatim ──
 interface SmartwoolRecommendedProduct {
@@ -88191,6 +88285,26 @@ interface SpotifyOEmbed {
   iframeUrl: string | null;
   providerName: string;
 }
+export type SpotifyChartType = "tracks" | "albums" | "artists";
+interface SpotifyChartEntry {
+  rank: number;
+  previousRank: number | null;
+  peakRank: number | null;
+  status: string | null; // "NO_CHANGE" — the chart's own entryStatus labels; read the values off a result, never guess one from prose
+  id: string | null;
+  uri: string | null;
+  name: string;
+  artists: { id: string | null; name: string }[]; // empty for an artists chart
+  imageUrl: string | null;
+}
+interface SpotifyChart {
+  type: SpotifyChartType;
+  title: string;
+  date: string | null;
+  recurrence: string | null; // WEEKLY
+  country: string | null; // GLOBAL
+  entries: SpotifyChartEntry[];
+}
 interface SpotifyGenreSeeds {
   genres: string[];
 }
@@ -88344,6 +88458,13 @@ interface SpotifyLyrics {
      * type. Public and keyless; needs no developer app key at all.
      */
     getOEmbed(input: string, type?: SpotifyOEmbedType): Promise<SpotifyOEmbed>;
+
+    /**
+     * Gets Spotify's global weekly top 50 chart — tracks (default), albums or artists — with each
+     * entry's rank, last week's rank, peak and movement. Public and keyless; global weekly only,
+     * per-country charts need a Spotify login.
+     */
+    getChart(opts?: { type?: SpotifyChartType }): Promise<SpotifyChart>;
 
     /**
      * Lists the two-letter country codes of every market Spotify is available in — the values
@@ -98600,6 +98721,8 @@ interface UbereatsAddToCartArgs {
   store: string; sectionUuid: string; subsectionUuid: string; itemUuid: string; quantity?: number;
   // chosen option uuid(s) per customization group uuid — both from getMenuItem()'s customizations
   customizations?: Record<string, string[]>;
+  // delivery address for the new cart — needed unless an earlier call in this run already set one
+  address?: string;
 }
 
   /**
@@ -98731,7 +98854,9 @@ interface UbereatsAddToCartArgs {
      * that store, with quantity and chosen customization options, and returns the cart item
      * reference updateCartItem/removeFromCart/clearCart take back. Anonymous — Uber Eats' own
      * guest cart, no sign-in needed (measured 2026-11-02); sign-in is only needed to place the
-     * order.
+     * order. Pass { address } so the cart has a delivery location; without it, Uber Eats refuses
+     * the cart unless an earlier call in the same run (checkDeliveryAvailability, browseStores,
+     * findChainStore, searchStoreProducts) already set one.
      */
     addToCart(args: UbereatsAddToCartArgs): Promise<UbereatsCartItemRef>;
 
@@ -110546,6 +110671,7 @@ interface BowmarkProviders {
   americanvisionwindows: BowmarkProvider_americanvisionwindows.Unit;
   americashealthrankings: BowmarkProvider_americashealthrankings.Unit;
   amramp: BowmarkProvider_amramp.Unit;
+  analytics_google: BowmarkProvider_analytics_google.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
   andstr: BowmarkProvider_andstr.Unit;
@@ -110943,6 +111069,7 @@ interface BowmarkProviders {
   liquidspace: BowmarkProvider_liquidspace.Unit;
   littlewordsproject: BowmarkProvider_littlewordsproject.Unit;
   lmstudio: BowmarkProvider_lmstudio.Unit;
+  lobehub_com: BowmarkProvider_lobehub_com.Unit;
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
   louvershop: BowmarkProvider_louvershop.Unit;
   lovelybride: BowmarkProvider_lovelybride.Unit;
@@ -111068,6 +111195,7 @@ interface BowmarkProviders {
   provenwinners: BowmarkProvider_provenwinners.Unit;
   proxmox: BowmarkProvider_proxmox.Unit;
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
+  prusa3d: BowmarkProvider_prusa3d.Unit;
   pullandbear: BowmarkProvider_pullandbear.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
   punchpass: BowmarkProvider_punchpass.Unit;
@@ -111137,7 +111265,6 @@ interface BowmarkProviders {
   slice: BowmarkProvider_slice.Unit;
   slickdeals: BowmarkProvider_slickdeals.Unit;
   smartrecruiters: BowmarkProvider_smartrecruiters.Unit;
-  smartsign: BowmarkProvider_smartsign.Unit;
   smartwool: BowmarkProvider_smartwool.Unit;
   smithery: BowmarkProvider_smithery.Unit;
   smtp_probe: BowmarkProvider_smtp_probe.Unit;
