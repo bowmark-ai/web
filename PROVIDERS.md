@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6119 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6149 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -986,8 +986,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cerebralvalley.getEvent` | cerebralvalley.ai | Reads one cerebralvalley.ai event page (/e/<slug>) and returns its name, date and time… | 🟢 |
 | `cerebralvalley.listEvents` | cerebralvalley.ai | Lists the upcoming events on cerebralvalley.ai/events with each one's slug, url and… | 🟢 |
 | `cftc.searchRules` | cftc.gov | Searches the CFTC's Designated Contract Market rule filings register —… | 🟢 |
-| `champxpress.getPlanQuote` | champxpress.com | Runs the site's own state → location price computation for one location (matched by… | 🟡 |
-| `champxpress.listLocations` | champxpress.com | Lists every wash location currently enrolled in Champion Xpress's "25 for Life" MVP… | 🟡 |
+| `champxpress.getPlanQuote` | champxpress.com | Runs the site's own state → location price computation for one location (matched by… | 🔴 |
+| `champxpress.listLocations` | champxpress.com | Lists every wash location currently enrolled in Champion Xpress's "25 for Life" MVP… | 🔴 |
 | `chantecaille.getFoundationQuizTaxonomy` | chantecaille.com | Reads Chantecaille's real, live Foundation Shade Match Quiz question and answer… | 🟢 |
 | `chantecaille.matchFoundation` | chantecaille.com | Chantecaille's own Foundation Shade Match Quiz, run for real: posts the caller's… | 🟢 |
 | `chappellet.checkShippingEligibility` | chappellet.com | Checks whether Chappellet's own storefront can ship wine to a US state right now, off… | 🟢 |
@@ -3977,6 +3977,36 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
 | `proxy_cheap.listCoverage` | proxy-cheap.com | Lists the proxy locations (countries, by region) Proxy-Cheap features on its site. | 🟡 |
 | `proxy_cheap.listPlans` | proxy-cheap.com | Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting… | 🟡 |
+| `prusa3d.addToCart` | prusa3d.com | Add a product variant to the cart. | ⚪ |
+| `prusa3d.applyPromoCode` | prusa3d.com | Apply a promo code to the cart. | ⚪ |
+| `prusa3d.checkEmail` | prusa3d.com | Check whether an email address can register a new Prusa Account, using the site's own… | 🟢 |
+| `prusa3d.createAccount` | prusa3d.com | Create a new Prusa Account with email and password. | ⚪ |
+| `prusa3d.createAddress` | prusa3d.com | Save a new delivery address. | ⚪ |
+| `prusa3d.createStockAlert` | prusa3d.com | Request a back-in-stock alert for an unavailable product. | ⚪ |
+| `prusa3d.deleteAddress` | prusa3d.com | Delete a saved delivery address. | ⚪ |
+| `prusa3d.getCart` | prusa3d.com | Summary of the signed-in account's cart. | ⚪ |
+| `prusa3d.getCheckoutSummary` | prusa3d.com | Full order preview of the cart. | ⚪ |
+| `prusa3d.getProduct` | prusa3d.com | Full detail for one Prusa product by slug or URL: price with and without VAT, stock… | 🟢 |
+| `prusa3d.getReviews` | prusa3d.com | Customer reviews for one Prusa product by its uuid: count, average rating, per-star… | 🟢 |
+| `prusa3d.getShippingOptions` | prusa3d.com | Shipping methods and prices for the cart to a destination. | ⚪ |
+| `prusa3d.listAddresses` | prusa3d.com | The account's saved addresses. | ⚪ |
+| `prusa3d.listBlogPosts` | prusa3d.com | Recent or keyword-matched posts from the Prusa blog (blog.prusa3d.com). | 🟢 |
+| `prusa3d.listCategory` | prusa3d.com | List the products in one Prusa shop category (e.g. 3d-printers, filament) with its… | 🟢 |
+| `prusa3d.listCountries` | prusa3d.com | Countries the Prusa shop ships to, with ISO code, allowed currencies and per-country… | 🟢 |
+| `prusa3d.listNewProducts` | prusa3d.com | The Prusa shop's new-products list with price and stock. | 🟢 |
+| `prusa3d.listOrders` | prusa3d.com | The account's order history. | ⚪ |
+| `prusa3d.listPrinters` | prusa3d.com | The printers marketing catalog from cache.prusa3d.com. | ⚪ |
+| `prusa3d.listStockAlerts` | prusa3d.com | The account's back-in-stock alerts. | ⚪ |
+| `prusa3d.removeCartItem` | prusa3d.com | Remove a cart line. | ⚪ |
+| `prusa3d.removeStockAlert` | prusa3d.com | Cancel a back-in-stock alert. | ⚪ |
+| `prusa3d.searchContent` | prusa3d.com | Full-text search across Prusa blog, help and landing pages. | ⚪ |
+| `prusa3d.searchHelp` | prusa3d.com | Search the Prusa Knowledge Base (help.prusa3d.com) for support articles. | ⚪ |
+| `prusa3d.searchProducts` | prusa3d.com | Search the Prusa e-shop catalog (printers, Prusament filament, spare parts) by… | 🟢 |
+| `prusa3d.setDefaultAddress` | prusa3d.com | Make a saved delivery address the default. | ⚪ |
+| `prusa3d.startCheckout` | prusa3d.com | Set cart delivery info before the Global-e payment hand-off; never pays. | ⚪ |
+| `prusa3d.updateAddress` | prusa3d.com | Edit a saved delivery address. | ⚪ |
+| `prusa3d.updateCartItem` | prusa3d.com | Change a cart line's quantity. | ⚪ |
+| `prusa3d.verifyEmail` | prusa3d.com | Open the Prusa account activation link to finish signup. | ⚪ |
 | `pullandbear.getProduct` | pullandbear.com | Reads one Pull&Bear product's colours and sizes with each colour's price, compare-at… | 🟢 |
 | `pullandbear.listCategories` | pullandbear.com | Lists Pull&Bear's US catalog categories (jackets, jeans, t-shirts…), read live off the… | 🟢 |
 | `pullandbear.searchProducts` | pullandbear.com | Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer… | 🟢 |
@@ -4093,7 +4123,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.searchQuestions` | quora.com | Runs Quora's own search and returns matching questions with their urls — the finder a… | 🟢 |
 | `quora.upvoteAnswer` | quora.com | Upvotes an answer as the signed-in caller. | ⚪ |
 | `quora.writeAnswer` | quora.com | Posts a text answer to a question as the signed-in caller. | ⚪ |
-| `raadvanstate_nl.getRuling` | raadvanstate.nl | Reads one Council of State ruling in full by ECLI — case number, dates, procedure… | 🟢 |
+| `raadvanstate_nl.getRuling` | raadvanstate.nl | Reads one Council of State ruling in full by ECLI — case number, dates, procedure… | 🟡 |
 | `raadvanstate_nl.searchRulings` | raadvanstate.nl | Searches the Council of State's case register (raadvanstate.nl/uitspraken) by keyword… | 🟢 |
 | `rakuten.getCashBackBalance` | rakuten.com | Reads the signed-in member's pending and paid cash-back balance. | ⚪ |
 | `rakuten.getStore` | rakuten.com | Reads one Rakuten store page — the store's name and today's cash-back rate — by the… | 🟢 |
@@ -5305,7 +5335,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.getForumThread` | tripadvisor.com | Reads one forum thread — the opening post and every reply, with author, date and text… | ⚪ |
 | `tripadvisor.getForumTopics` | tripadvisor.com | Lists a destination's travel-forum topics — title, author, reply count, last post date… | ⚪ |
 | `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟢 |
-| `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | 🟢 |
+| `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | 🟡 |
 | `tripadvisor.getMemberProfile` | tripadvisor.com | Reads a member's public profile — handle, display name, home town, join date… | ⚪ |
 | `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a listing (/HotelsNear-… | 🟢 |
 | `tripadvisor.getOwnProfile` | tripadvisor.com | Reads the signed-in caller's own profile — handle, display name, home town… | ⚪ |
@@ -5314,7 +5344,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.getRestaurant` | tripadvisor.com | Reads one restaurant in full: name, address, phone, cuisines, price range, opening… | 🟢 |
 | `tripadvisor.getRestaurantAvailability` | tripadvisor.com | Reads a restaurant's open reservation times for a date and party size, from the… | ⚪ |
 | `tripadvisor.getReview` | tripadvisor.com | Reads one review on its own page — rating, title, full text, date of visit, date… | 🟢 |
-| `tripadvisor.getReviews` | tripadvisor.com | Reads one page of a hotel's, restaurant's or attraction's reviews in the site's own… | 🟢 |
+| `tripadvisor.getReviews` | tripadvisor.com | Reads one page of a hotel's, restaurant's or attraction's reviews in the site's own… | 🟡 |
 | `tripadvisor.getTour` | tripadvisor.com | Reads one bookable tour or experience (/AttractionProductReview-g<geo>-d<id>-…)… | ⚪ |
 | `tripadvisor.getTrips` | tripadvisor.com | Lists the signed-in caller's Trips — the saved-places lists Tripadvisor keeps per… | ⚪ |
 | `tripadvisor.removeFromTrip` | tripadvisor.com | Removes a saved place from one of the signed-in caller's Trips. | ⚪ |

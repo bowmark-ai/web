@@ -179,7 +179,7 @@ cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
 cerebralvalley.ai — cerebralvalley: getEvent, listEvents
 cftc.gov — cftc: searchRules
-champxpress.com — champxpress: getPlanQuote, listLocations
+champxpress.com — champxpress: nothing callable yet (+2 planned)
 chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
 chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
@@ -581,6 +581,7 @@ proton.me — proton_mail: nothing callable yet (+5 planned)
 provenwinners.com — provenwinners: getRecipeDetails, searchContainerRecipes
 proxmox.com — proxmox: getIsoDownloads
 proxy-cheap.com — proxy_cheap: listCoverage, listPlans
+prusa3d.com — prusa3d: checkEmail, getProduct, getReviews, listBlogPosts, listCategory, listCountries, listNewProducts, searchProducts (+22 planned)
 pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
 puls.com — puls_com: getRepairQuote, listApplianceCategories
 punchpass.com — punchpass: getCalendarFeed, getClass, getMyClassHistory, getMyProfile, getPass, getSchedule, getSeries, getStudio, listAppointmentSlots, listInstructors, listMyChildren, listMyPasses, listMyReservations, listPasses, listScheduleFilters, listSeries (+16 planned)
