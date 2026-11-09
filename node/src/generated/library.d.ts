@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 345f9e919593462561f0083f2c3831ffb11cc7276f718a24b64b88e815b38fd7
-// 97 capabilities, 783 providers, 4688 typed functions, 20 refused.
+// Manifest version: 6b0c80098e30e258ff82252c698c7e5c07dff2e30b2c6dc9cef2025260217ae8
+// 97 capabilities, 784 providers, 4702 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -24125,6 +24125,30 @@ interface ChatGPTModel {
   tags: string[];
 }
 
+interface ScheduledTask {
+  id: string;
+  title: string | null;
+  prompt: string | null;
+  /** The recurrence the site stores, e.g. "FREQ=DAILY". */
+  schedule: string | null;
+  nextRun: string | null;
+  enabled: boolean;
+}
+
+interface LibraryImage {
+  id: string;
+  url: string | null;
+  prompt: string | null;
+  conversationId: string | null;
+  createTime: string | null;
+}
+
+interface MyGPT extends GPTSummary {
+  /** "only me", "link" or "store" when the site reports it. */
+  visibility: string | null;
+  pinned: boolean;
+}
+
 interface SharedMessage {
   role: "user" | "assistant";
   text: string;
@@ -24262,6 +24286,30 @@ interface SharedConversation {
      * expired.
      */
     listModels(opts?: ConnectionOption): Promise<ChatGPTModel[]>;
+
+    /**
+     * The caller's scheduled tasks — id, title, prompt, schedule and next run time (the door for
+     * deleteScheduledTask). Needs the caller signed in to chatgpt.com through the relay; the run
+     * pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+     * sign-in has expired.
+     */
+    listScheduledTasks(opts?: ConnectionOption): Promise<ScheduledTask[]>;
+
+    /**
+     * The images the caller has generated, newest first — id, url, prompt and the conversation
+     * each came from. Needs the caller signed in to chatgpt.com through the relay; the run pauses
+     * for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in
+     * has expired.
+     */
+    listLibraryImages(opts?: ConnectionOption): Promise<LibraryImage[]>;
+
+    /**
+     * The custom GPTs in the caller's sidebar — id, name, description, visibility and whether
+     * pinned. Needs the caller signed in to chatgpt.com through the relay; the run pauses for a
+     * sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has
+     * expired.
+     */
+    listMyGPTs(opts?: ConnectionOption): Promise<MyGPT[]>;
   }
 }
 
@@ -26460,6 +26508,8 @@ interface SendMessageArgs {
   projectId?: string;
   model?: string;
   organizationId?: string;
+  /** File ids from uploadFile to attach to this message. */
+  fileIds?: string[];
 }
 interface ClaudeReply {
   conversationId: string;
@@ -26579,6 +26629,23 @@ interface UpdateMemoryArgs {
 interface ClaudeMemoryWriteAck {
   organizationId: string;
   ok: true;
+}
+interface UploadFileArgs {
+  /** The file name Claude shows, e.g. "notes.txt". */
+  fileName: string;
+  /** Plain-text content. Give this OR `base64`. */
+  text?: string;
+  /** The file's bytes, base64-encoded (a PDF, an image). Give this OR `text`. */
+  base64?: string;
+  /** MIME type; defaults to text/plain for `text`, application/octet-stream otherwise. */
+  contentType?: string;
+  organizationId?: string;
+}
+interface ClaudeUploadedFile {
+  organizationId: string;
+  fileId: string;
+  fileName: string;
+  raw: Record<string, unknown>;
 }
 interface PublishArtifactArgs {
   /** To publish: the artifact id from listArtifacts. */
@@ -26813,6 +26880,13 @@ interface MoveConversationToProjectArgs {
      * WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
      */
     updateMemory(args: UpdateMemoryArgs, opts?: ConnectionOption): Promise<ClaudeMemoryWriteAck>;
+
+    /**
+     * Uploads a file (text, or base64 bytes for a PDF or image) to the CALLER's Claude account and
+     * returns its fileId — pass it to sendMessage's `fileIds` to attach it to a message. WRITE.
+     * NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    uploadFile(args: UploadFileArgs, opts?: ConnectionOption): Promise<ClaudeUploadedFile>;
 
     /**
      * Publishes one of the CALLER's artifacts (`artifactId` from listArtifacts) to a public
@@ -39337,6 +39411,24 @@ interface RecentChange {
   comment: string;
 }
 
+interface FindWikiArgs {
+  query: string;
+  language?: string;
+  limit?: number;
+}
+
+interface FoundWiki {
+  wiki: string;
+  id: string;
+  name: string;
+  language: string;
+  description: string;
+  url: string;
+  hub: string;
+  pageCount: number;
+  pageViews: number;
+}
+
 interface GetUserArgs {
   wiki: string;
   username: string;
@@ -39588,6 +39680,13 @@ interface WatchResult {
      * editor, timestamp and edit summary. `GET /api.php?action=query&list=recentchanges`.
      */
     listRecentChanges(args: ListRecentChangesArgs): Promise<RecentChange[]>;
+
+    /**
+     * Find which Fandom wiki covers a topic — hand it "star wars" and get back matching wikis with
+     * the `wiki` subdomain every other function needs. `GET
+     * services.fandom.com/unified-search/community-search`.
+     */
+    findWiki(args: FindWikiArgs): Promise<FoundWiki[]>;
 
     /**
      * A wiki editor's public record on this wiki — registration date, edit count and user groups.
@@ -63071,6 +63170,24 @@ interface mcdonaldsFindStoresResult {
   }
 }
 
+declare namespace BowmarkProvider_mcp_directory {
+  // ── MCP.Directory — the unit's own declarations, verbatim ──
+interface McpDirectoryServer { id: string; name: string; slug: string; description: string; classification: string | null; transportTypes: string[]; stars: number | null; githubStars: number | null; npmWeeklyDownloads: number | null; toolCount: number | null; publisher: { name: string; avatarUrl: string | null; verified: boolean } | null; url: string; }
+
+  /**
+   * Search MCP.Directory's public catalogue of MCP servers by keyword, or browse its current
+   * listings.
+   */
+  interface Unit {
+    /**
+     * Searches MCP.Directory's public MCP-server catalogue by keyword, or browses current listings
+     * when called with no argument. Each result includes the site's name, slug, description,
+     * classification, transports, popularity figures, publisher and detail-page URL.
+     */
+    search(query?: string | { query?: string; limit?: number }, limit?: number): Promise<McpDirectoryServer[]>;
+  }
+}
+
 declare namespace BowmarkProvider_mcp_registry {
   // ── MCP Registry — the unit's own declarations, verbatim ──
 interface mcpRegistryEntry {
@@ -79887,6 +80004,37 @@ interface CancelBookingResult {
   cancelled: boolean;
 }
 
+interface ModifyBookingArgs {
+  /** The booking's venue feature id, as listMyBookings returns it. */
+  featureId: string;
+  /** New slot start, ISO UTC — a slot checkAvailability shows for the venue. */
+  startsAt?: string;
+  /** New party size. */
+  partySize?: number;
+}
+
+interface ModifyBookingResult {
+  featureId: string;
+  venue: string;
+  startsAt?: string;
+  partySize?: number;
+  modified: boolean;
+}
+
+interface JoinWaitlistArgs {
+  /** Google-hosted merchant id, e.g. "ACNsCyuOaeQ". */
+  merchantId: string;
+  /** Party size; defaults to 2. */
+  partySize?: number;
+}
+
+interface JoinWaitlistResult {
+  merchantId: string;
+  partySize: number;
+  /** True once Google's own endpoint answered OK to Join. */
+  joined: boolean;
+}
+
 interface CheckAvailabilityArgs {
   /** Google-hosted merchant id from findBookablePlaces/getBookingOptions, e.g. "ACNsCyuOaeQ". */
   merchantId: string;
@@ -79992,6 +80140,21 @@ interface Availability {
      * Cancel.
      */
     cancelBooking(featureId: string, opts?: ConnectionOption): Promise<CancelBookingResult>;
+
+    /**
+     * Changes the time or party size of the caller's booking at one venue (needs the caller's
+     * Google sign-in), found by the venue feature id listMyBookings returns, by opening it on the
+     * Bookings page, pressing Change and picking the new slot or party size. Where the partner
+     * allows changes through Google.
+     */
+    modifyBooking(args: ModifyBookingArgs, opts?: ConnectionOption): Promise<ModifyBookingResult>;
+
+    /**
+     * Adds the caller to a Google-hosted restaurant's waitlist (needs the caller's Google sign-in)
+     * by pressing the merchant page's Join waitlist button with the party size. Only where the
+     * venue offers a waitlist; stops before any card deposit.
+     */
+    joinWaitlist(args: JoinWaitlistArgs, opts?: ConnectionOption): Promise<JoinWaitlistResult>;
 
     /**
      * Finds one of the caller's bookings on their Bookings page (needs the caller's Google
@@ -85607,6 +85770,78 @@ interface ShopAppTrackedPackage {
   url: string;
   warnings: string[];
 }
+interface ShopAppListPageArgs {
+  first?: number;
+  cursor?: string;
+}
+interface ShopAppSavedProduct {
+  productId: string | null;
+  variantId: string;
+  title: string | null;
+  variantTitle: string | null;
+  price: number | null;
+  compareAtPrice: number | null;
+  currency: string | null;
+  available: boolean | null;
+  image: string | null;
+  store: string | null;
+  url: string | null;
+}
+interface ShopAppSavedProducts {
+  products: ShopAppSavedProduct[];
+  nextCursor: string | null;
+  warnings: string[];
+}
+interface ShopAppFollowedStore {
+  id: string;
+  name: string | null;
+  logo: string | null;
+  followedByMe: boolean | null;
+}
+interface ShopAppFollowedStores {
+  stores: ShopAppFollowedStore[];
+  nextCursor: string | null;
+  warnings: string[];
+}
+interface ShopAppProductList {
+  id: string;
+  name: string | null;
+  publicId: string | null;
+  privacy: string | null;
+  isDefault: boolean;
+  ownedByMe: boolean | null;
+  coverImage: string | null;
+  inviteUrl: string | null;
+  items: { variantId: string; image: string | null }[];
+}
+interface ShopAppProductLists {
+  lists: ShopAppProductList[];
+  nextCursor: string | null;
+  warnings: string[];
+}
+interface ShopAppCartLine {
+  id: string;
+  variantId: string | null;
+  title: string | null;
+  quantity: number | null;
+  price: number | null;
+  currency: string | null;
+}
+
+interface ShopAppStoreCart {
+  id: string;
+  store: string | null;
+  storeUuid: string | null;
+  totalQuantity: number | null;
+  checkoutUrl: string | null;
+  lines: ShopAppCartLine[];
+}
+
+interface ShopAppCart {
+  carts: ShopAppStoreCart[];
+  totalItemCount: number | null;
+  warnings: string[];
+}
 interface ShopAppMarkDeliveredArgs {
   deliveryId: string;
   delivered?: boolean;
@@ -85635,6 +85870,33 @@ interface ShopAppListOrdersArgs {
    * products, follow stores and fill a cart up to checkout.
    */
   interface Unit {
+    /**
+     * Lists the products the signed-in caller has saved (hearted) on Shop — product and variant
+     * id, title, price, availability, image and store — a page at a time. Pauses for the caller to
+     * sign in to Shop.
+     */
+    listSavedProducts(args?: ShopAppListPageArgs, opts?: ConnectionOption): Promise<ShopAppSavedProducts>;
+
+    /**
+     * Lists the signed-in caller's own Shop collections (wishlists) — id, name, public share id,
+     * privacy, cover image and a preview of the items — a page at a time. Pauses for the caller to
+     * sign in to Shop.
+     */
+    listProductLists(args?: ShopAppListPageArgs, opts?: ConnectionOption): Promise<ShopAppProductLists>;
+
+    /**
+     * Reads the signed-in caller's Shop cart — one cart per store, each with its lines (variant,
+     * title, quantity, price) and the store's checkout url — and the total item count. Pauses for
+     * the caller to sign in to Shop.
+     */
+    getCart(opts?: ConnectionOption): Promise<ShopAppCart>;
+
+    /**
+     * Lists the stores the signed-in caller follows on Shop — store id, name and logo — a page at
+     * a time. Pauses for the caller to sign in to Shop.
+     */
+    listFollowedStores(args?: ShopAppListPageArgs, opts?: ConnectionOption): Promise<ShopAppFollowedStores>;
+
     /**
      * Marks one of the signed-in caller's Shop deliveries as delivered (or un-marks it with
      * delivered: false) by the deliveryId trackPackage returns or its shop.app/deliveries/<id>
@@ -106105,6 +106367,12 @@ interface XFollowResult {
   changed: boolean; // false when it was already in that state
 }
 
+interface XRelationResult {
+  handle: string;
+  state: boolean; // true when blocked (blockUser) / muted (muteUser) after the call
+  changed: boolean; // false when it was already in that state
+}
+
 interface XProfile {
   handle: string;
   name: string;
@@ -106295,6 +106563,18 @@ interface XUploadProfilePictureResult {
      * signed-in caller — sets the state, never toggles.
      */
     followUser(args: { handle: string; follow?: boolean }, opts?: ConnectionOption): Promise<XFollowResult>;
+
+    /**
+     * Blocks (block: true, the default) or unblocks (block: false) an X account as the signed-in
+     * caller — sets the state, never toggles.
+     */
+    blockUser(args: { handle: string; block?: boolean }, opts?: ConnectionOption): Promise<XRelationResult>;
+
+    /**
+     * Mutes (mute: true, the default) or unmutes (mute: false) an X account as the signed-in
+     * caller — they can still see and reply to you; sets the state, never toggles.
+     */
+    muteUser(args: { handle: string; mute?: boolean }, opts?: ConnectionOption): Promise<XRelationResult>;
 
     /**
      * Reads the signed-in caller's trending topics from /explore — name, category and the site's
@@ -111547,6 +111827,7 @@ interface BowmarkProviders {
   marks: BowmarkProvider_marks.Unit;
   marriott: BowmarkProvider_marriott.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
+  mcp_directory: BowmarkProvider_mcp_directory.Unit;
   mcp_registry: BowmarkProvider_mcp_registry.Unit;
   mcp_so: BowmarkProvider_mcp_so.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;

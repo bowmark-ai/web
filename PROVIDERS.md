@@ -3651,7 +3651,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟡 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets a day's Wordle puzzle — the solution, puzzle id and editor. | 🟢 |
-| `nytimes.getWriter` | nytimes.com | Gets a writer's own profile off their /by/<slug> page — the site's real name and short… | 🟡 |
+| `nytimes.getWriter` | nytimes.com | Gets a writer's own profile off their /by/<slug> page — the site's real name and short… | 🔴 |
 | `nytimes.listArticles` | nytimes.com | Lists a section's own article grid, newest first, with metadata. | 🟢 |
 | `nytimes.listEpisodes` | nytimes.com | Lists a podcast's own episodes off its column page. | 🟢 |
 | `nytimes.listMyComments` | nytimes.com | The signed-in reader's own comments on one article, read from the same community API… | 🟢 |
@@ -4562,7 +4562,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.createProductList` | shop.app | Creates a new named product list for the caller. | ⚪ |
 | `shop_app.followStore` | shop.app | Follows a store on Shop for the caller, or unfollows it (follow: false). | ⚪ |
 | `shop_app.getAccount` | shop.app | Reads the caller's Shop profile — name, email and privacy settings. | ⚪ |
-| `shop_app.getCart` | shop.app | Reads the caller's Shop cart — items grouped by store, quantities and totals. | ⚪ |
+| `shop_app.getCart` | shop.app | Reads the caller's Shop cart: one cart per store with its lines and the store's… | 🟢 |
 | `shop_app.getDeliveryEstimate` | shop.app | Says when a product variant would arrive — the delivery promise Shop shows under the… | ⚪ |
 | `shop_app.getDiscoveryFeed` | shop.app | Reads Shop's home discovery feed — the sections of trending stores and products… | 🟢 |
 | `shop_app.getOrder` | shop.app | Reads one of the caller's orders — items, totals, the shipping address, the receipt… | 🟢 |
@@ -4578,11 +4578,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getVariant` | shop.app | Picks one variant of a product by its options ({ Size: "Large", Color: "Powder Blue"… | 🟢 |
 | `shop_app.listAddresses` | shop.app | Lists the caller's saved shipping addresses on Shop. | ⚪ |
 | `shop_app.listCategories` | shop.app | Lists Shop's product categories (Women, Men, Beauty, Home, Fitness, Baby, Food …) —… | 🟢 |
-| `shop_app.listFollowedStores` | shop.app | Lists the stores the caller follows on Shop. | ⚪ |
+| `shop_app.listFollowedStores` | shop.app | Lists the stores the signed-in caller follows on Shop, a page at a time. | 🟢 |
 | `shop_app.listOffers` | shop.app | Lists the current Shop offers and promotions — store discounts and Shop Cash rewards —… | 🟢 |
 | `shop_app.listOrders` | shop.app | Lists the signed-in caller's orders from every store they bought from with Shop —… | 🟢 |
-| `shop_app.listProductLists` | shop.app | Lists the caller's own product lists (wishlists) with each list's items. | ⚪ |
-| `shop_app.listSavedProducts` | shop.app | Lists the products the caller has saved (hearted) on Shop. | ⚪ |
+| `shop_app.listProductLists` | shop.app | Lists the caller's own Shop collections (wishlists) with a preview of each list's… | 🟢 |
+| `shop_app.listSavedProducts` | shop.app | Lists the products the signed-in caller has saved (hearted) on Shop, a page at a time. | 🟢 |
 | `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | 🟡 |
 | `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's Shop deliveries as delivered, or un-marks it (delivered… | 🟢 |
 | `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | ⚪ |

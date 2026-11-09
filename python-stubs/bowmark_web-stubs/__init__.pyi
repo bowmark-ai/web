@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 345f9e919593462561f0083f2c3831ffb11cc7276f718a24b64b88e815b38fd7
-# 97 capabilities, 783 providers, 4670 typed functions, 20 refused.
+# Manifest version: 6b0c80098e30e258ff82252c698c7e5c07dff2e30b2c6dc9cef2025260217ae8
+# 97 capabilities, 784 providers, 4684 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14951,6 +14951,31 @@ class Prv_chatgpt_ChatGPTModel_Out(TypedDict):
     maxTokens: float | None
     tags: list[str]
 
+class Prv_chatgpt_ScheduledTask_Out(TypedDict):
+    id: str
+    title: str | None
+    prompt: str | None
+    schedule: str | None
+    nextRun: str | None
+    enabled: bool
+
+class Prv_chatgpt_LibraryImage_Out(TypedDict):
+    id: str
+    url: str | None
+    prompt: str | None
+    conversationId: str | None
+    createTime: str | None
+
+class Prv_chatgpt_MyGPT_Out(TypedDict):
+    id: str
+    name: str | None
+    description: str | None
+    author: str | None
+    url: str | None
+    conversations: str | None
+    visibility: str | None
+    pinned: bool
+
 Prv_cheapflights_search_query_In = TypedDict(
     "Prv_cheapflights_search_query_In",
     {
@@ -16245,6 +16270,7 @@ class Prv_claude_SendMessageArgs_In(TypedDict):
     projectId: NotRequired[str]
     model: NotRequired[str]
     organizationId: NotRequired[str]
+    fileIds: NotRequired[Sequence[str]]
 
 class Prv_claude_ClaudeReply_Out(TypedDict):
     conversationId: str
@@ -16360,6 +16386,19 @@ class Prv_claude_UpdateMemoryArgs_In(TypedDict):
 class Prv_claude_ClaudeMemoryWriteAck_Out(TypedDict):
     organizationId: str
     ok: Literal[True]
+
+class Prv_claude_UploadFileArgs_In(TypedDict):
+    fileName: str
+    text: NotRequired[str]
+    base64: NotRequired[str]
+    contentType: NotRequired[str]
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeUploadedFile_Out(TypedDict):
+    organizationId: str
+    fileId: str
+    fileName: str
+    raw: Mapping[str, Any]
 
 class Prv_claude_PublishArtifactArgs_In(TypedDict):
     artifactId: NotRequired[str]
@@ -24860,6 +24899,22 @@ class Prv_fandom_RecentChange_Out(TypedDict):
     timestamp: str
     user: str
     comment: str
+
+class Prv_fandom_FindWikiArgs_In(TypedDict):
+    query: str
+    language: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_fandom_FoundWiki_Out(TypedDict):
+    wiki: str
+    id: str
+    name: str
+    language: str
+    description: str
+    url: str
+    hub: str
+    pageCount: float
+    pageViews: float
 
 class Prv_fandom_GetUserArgs_In(TypedDict):
     wiki: str
@@ -38876,6 +38931,29 @@ class Prv_marriott_MarriottHotelListing_Out(TypedDict):
     url: str
     place: str
 
+class Prv_mcp_directory_search_query_u1_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_mcp_directory_McpDirectoryServer_Out(TypedDict):
+    id: str
+    name: str
+    slug: str
+    description: str
+    classification: str | None
+    transportTypes: list[str]
+    stars: float | None
+    githubStars: float | None
+    npmWeeklyDownloads: float | None
+    toolCount: float | None
+    publisher: Prv_mcp_directory_McpDirectoryServer_Out_publisher_u0_Out | None
+    url: str
+
+class Prv_mcp_directory_McpDirectoryServer_Out_publisher_u0_Out(TypedDict):
+    name: str
+    avatarUrl: str | None
+    verified: bool
+
 class Prv_mcp_registry_search_query_u1_In(TypedDict):
     query: NotRequired[str]
     limit: NotRequired[float]
@@ -49604,6 +49682,27 @@ class Prv_reserve_with_google_CancelBookingResult_Out(TypedDict):
     venue: str
     cancelled: bool
 
+class Prv_reserve_with_google_ModifyBookingArgs_In(TypedDict):
+    featureId: str
+    startsAt: NotRequired[str]
+    partySize: NotRequired[float]
+
+class Prv_reserve_with_google_ModifyBookingResult_Out(TypedDict):
+    featureId: str
+    venue: str
+    startsAt: NotRequired[str]
+    partySize: NotRequired[float]
+    modified: bool
+
+class Prv_reserve_with_google_JoinWaitlistArgs_In(TypedDict):
+    merchantId: str
+    partySize: NotRequired[float]
+
+class Prv_reserve_with_google_JoinWaitlistResult_Out(TypedDict):
+    merchantId: str
+    partySize: float
+    joined: bool
+
 class Prv_resy_search_query_u1_In(TypedDict):
     query: str
     latitude: NotRequired[float]
@@ -53095,6 +53194,80 @@ class Prv_shein_sheinProductVariant_Out(TypedDict):
 class Prv_shein_sheinProductDetail_Out_breadcrumbs_item_Out(TypedDict):
     name: str
     url: str
+
+class Prv_shop_app_ShopAppListPageArgs_In(TypedDict):
+    first: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_shop_app_ShopAppSavedProducts_Out(TypedDict):
+    products: list[Prv_shop_app_ShopAppSavedProduct_Out]
+    nextCursor: str | None
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppSavedProduct_Out(TypedDict):
+    productId: str | None
+    variantId: str
+    title: str | None
+    variantTitle: str | None
+    price: float | None
+    compareAtPrice: float | None
+    currency: str | None
+    available: bool | None
+    image: str | None
+    store: str | None
+    url: str | None
+
+class Prv_shop_app_ShopAppProductLists_Out(TypedDict):
+    lists: list[Prv_shop_app_ShopAppProductList_Out]
+    nextCursor: str | None
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppProductList_Out(TypedDict):
+    id: str
+    name: str | None
+    publicId: str | None
+    privacy: str | None
+    isDefault: bool
+    ownedByMe: bool | None
+    coverImage: str | None
+    inviteUrl: str | None
+    items: list[Prv_shop_app_ShopAppProductList_Out_items_item_Out]
+
+class Prv_shop_app_ShopAppProductList_Out_items_item_Out(TypedDict):
+    variantId: str
+    image: str | None
+
+class Prv_shop_app_ShopAppCart_Out(TypedDict):
+    carts: list[Prv_shop_app_ShopAppStoreCart_Out]
+    totalItemCount: float | None
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppStoreCart_Out(TypedDict):
+    id: str
+    store: str | None
+    storeUuid: str | None
+    totalQuantity: float | None
+    checkoutUrl: str | None
+    lines: list[Prv_shop_app_ShopAppCartLine_Out]
+
+class Prv_shop_app_ShopAppCartLine_Out(TypedDict):
+    id: str
+    variantId: str | None
+    title: str | None
+    quantity: float | None
+    price: float | None
+    currency: str | None
+
+class Prv_shop_app_ShopAppFollowedStores_Out(TypedDict):
+    stores: list[Prv_shop_app_ShopAppFollowedStore_Out]
+    nextCursor: str | None
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppFollowedStore_Out(TypedDict):
+    id: str
+    name: str | None
+    logo: str | None
+    followedByMe: bool | None
 
 class Prv_shop_app_ShopAppMarkDeliveredArgs_In(TypedDict):
     deliveryId: str
@@ -67259,6 +67432,19 @@ class Prv_x_XFollowResult_Out(TypedDict):
     following: bool
     changed: bool
 
+class Prv_x_blockUser_args_In(TypedDict):
+    handle: str
+    block: NotRequired[bool]
+
+class Prv_x_XRelationResult_Out(TypedDict):
+    handle: str
+    state: bool
+    changed: bool
+
+class Prv_x_muteUser_args_In(TypedDict):
+    handle: str
+    mute: NotRequired[bool]
+
 class Prv_x_listTrending_args_In(TypedDict):
     limit: NotRequired[float]
 
@@ -78052,6 +78238,27 @@ class Prv_chatgpt(Protocol):
         sign-in has expired.
         """
 
+    async def listScheduledTasks(self, opts: ConnectionOption | None = None, /) -> list[Prv_chatgpt_ScheduledTask_Out]:
+        """The caller's scheduled tasks — id, title, prompt, schedule and next run time (the door
+        for deleteScheduledTask). Needs the caller signed in to chatgpt.com through the relay;
+        the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when
+        the saved sign-in has expired.
+        """
+
+    async def listLibraryImages(self, opts: ConnectionOption | None = None, /) -> list[Prv_chatgpt_LibraryImage_Out]:
+        """The images the caller has generated, newest first — id, url, prompt and the conversation
+        each came from. Needs the caller signed in to chatgpt.com through the relay; the run
+        pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+        sign-in has expired.
+        """
+
+    async def listMyGPTs(self, opts: ConnectionOption | None = None, /) -> list[Prv_chatgpt_MyGPT_Out]:
+        """The custom GPTs in the caller's sidebar — id, name, description, visibility and whether
+        pinned. Needs the caller signed in to chatgpt.com through the relay; the run pauses for
+        a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in
+        has expired.
+        """
+
 class Prv_cheapflights(Protocol):
     """Cheapflights (cheapflights.com) — metasearch flight results, cheapest-first, read
     directly from the result cards. Also answers for Cheapflights' UK and Canadian sites:
@@ -78947,6 +79154,12 @@ class Prv_claude(Protocol):
         """Turns Claude's memory on or off for the CALLER (`enabled`), or makes it forget
         everything (`reset: true`, not reversible) — Settings → Capabilities → Memory. Read it
         with getMemory. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def uploadFile(self, args: Prv_claude_UploadFileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeUploadedFile_Out:
+        """Uploads a file (text, or base64 bytes for a PDF or image) to the CALLER's Claude account
+        and returns its fileId — pass it to sendMessage's `fileIds` to attach it to a message.
+        WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
         """
 
     async def publishArtifact(self, args: Prv_claude_PublishArtifactArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeArtifactPublishAck_Out:
@@ -83214,6 +83427,12 @@ class Prv_fandom(Protocol):
     async def listRecentChanges(self, args: Prv_fandom_ListRecentChangesArgs_In, /) -> list[Prv_fandom_RecentChange_Out]:
         """What is being edited on a wiki right now — a live feed of recent edits with page title,
         editor, timestamp and edit summary. `GET /api.php?action=query&list=recentchanges`.
+        """
+
+    async def findWiki(self, args: Prv_fandom_FindWikiArgs_In, /) -> list[Prv_fandom_FoundWiki_Out]:
+        """Find which Fandom wiki covers a topic — hand it "star wars" and get back matching wikis
+        with the `wiki` subdomain every other function needs. `GET
+        services.fandom.com/unified-search/community-search`.
         """
 
     async def getUser(self, args: Prv_fandom_GetUserArgs_In, /) -> Prv_fandom_FandomUser_Out:
@@ -91888,6 +92107,18 @@ class Prv_mcdonalds(Protocol):
     # It is CALLABLE at runtime; `bowmark.providers.mcdonalds.findStores` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
+class Prv_mcp_directory(Protocol):
+    """Search MCP.Directory's public catalogue of MCP servers by keyword, or browse its current
+    listings.
+    """
+
+    async def search(self, query: str | Prv_mcp_directory_search_query_u1_In | None = None, limit: float | None = None, /) -> list[Prv_mcp_directory_McpDirectoryServer_Out]:
+        """Searches MCP.Directory's public MCP-server catalogue by keyword, or browses current
+        listings when called with no argument. Each result includes the site's name, slug,
+        description, classification, transports, popularity figures, publisher and detail-page
+        URL.
+        """
+
 class Prv_mcp_registry(Protocol):
     """The official Model Context Protocol server registry — search or browse published MCP
     servers by name, and get each one's install/connect URL.
@@ -98015,6 +98246,19 @@ class Prv_reserve_with_google(Protocol):
         confirming Cancel.
         """
 
+    async def modifyBooking(self, args: Prv_reserve_with_google_ModifyBookingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_ModifyBookingResult_Out:
+        """Changes the time or party size of the caller's booking at one venue (needs the caller's
+        Google sign-in), found by the venue feature id listMyBookings returns, by opening it on
+        the Bookings page, pressing Change and picking the new slot or party size. Where the
+        partner allows changes through Google.
+        """
+
+    async def joinWaitlist(self, args: Prv_reserve_with_google_JoinWaitlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_JoinWaitlistResult_Out:
+        """Adds the caller to a Google-hosted restaurant's waitlist (needs the caller's Google
+        sign-in) by pressing the merchant page's Join waitlist button with the party size. Only
+        where the venue offers a waitlist; stops before any card deposit.
+        """
+
     async def getBooking(self, featureId: str, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_BookingVenue_Out:
         """Finds one of the caller's bookings on their Bookings page (needs the caller's Google
         sign-in) by the venue's feature id — the same id listMyBookings returns — and returns
@@ -99704,6 +99948,29 @@ class Prv_shop_app(Protocol):
     catalogue, collections, reviews and policies; once a caller signs in, list and track
     their orders, save products, follow stores and fill a cart up to checkout.
     """
+
+    async def listSavedProducts(self, args: Prv_shop_app_ShopAppListPageArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppSavedProducts_Out:
+        """Lists the products the signed-in caller has saved (hearted) on Shop — product and
+        variant id, title, price, availability, image and store — a page at a time. Pauses for
+        the caller to sign in to Shop.
+        """
+
+    async def listProductLists(self, args: Prv_shop_app_ShopAppListPageArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppProductLists_Out:
+        """Lists the signed-in caller's own Shop collections (wishlists) — id, name, public share
+        id, privacy, cover image and a preview of the items — a page at a time. Pauses for the
+        caller to sign in to Shop.
+        """
+
+    async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppCart_Out:
+        """Reads the signed-in caller's Shop cart — one cart per store, each with its lines
+        (variant, title, quantity, price) and the store's checkout url — and the total item
+        count. Pauses for the caller to sign in to Shop.
+        """
+
+    async def listFollowedStores(self, args: Prv_shop_app_ShopAppListPageArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppFollowedStores_Out:
+        """Lists the stores the signed-in caller follows on Shop — store id, name and logo — a page
+        at a time. Pauses for the caller to sign in to Shop.
+        """
 
     async def markOrderDelivered(self, args: Prv_shop_app_ShopAppMarkDeliveredArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppDeliveryState_Out:
         """Marks one of the signed-in caller's Shop deliveries as delivered (or un-marks it with
@@ -106865,6 +107132,16 @@ class Prv_x(Protocol):
         signed-in caller — sets the state, never toggles.
         """
 
+    async def blockUser(self, args: Prv_x_blockUser_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XRelationResult_Out:
+        """Blocks (block: true, the default) or unblocks (block: false) an X account as the
+        signed-in caller — sets the state, never toggles.
+        """
+
+    async def muteUser(self, args: Prv_x_muteUser_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XRelationResult_Out:
+        """Mutes (mute: true, the default) or unmutes (mute: false) an X account as the signed-in
+        caller — they can still see and reply to you; sets the state, never toggles.
+        """
+
     async def listTrending(self, args: Prv_x_listTrending_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XTrend_Out]:
         """Reads the signed-in caller's trending topics from /explore — name, category and the
         site's own post-volume string.
@@ -108762,6 +109039,7 @@ class BowmarkProviders(Protocol):
     marks: Prv_marks
     marriott: Prv_marriott
     mcdonalds: Prv_mcdonalds
+    mcp_directory: Prv_mcp_directory
     mcp_registry: Prv_mcp_registry
     mcp_so: Prv_mcp_so
     medicalguardian: Prv_medicalguardian
