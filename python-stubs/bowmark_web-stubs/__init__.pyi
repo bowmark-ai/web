@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 589b19fe16e3301f8a3f538b07d93ef0c7571a4b4d298f3c7f558638e79615f7
-# 97 capabilities, 777 providers, 4626 typed functions, 20 refused.
+# Manifest version: 56962b179cd156c0d4a92308cd6085fbd8564c838a46d553fac3313f20c23f4b
+# 97 capabilities, 778 providers, 4630 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2535,6 +2535,7 @@ class Cap_prospect_screening_InteractiveFlowSignal_Out(TypedDict):
 
 class Cap_read_ReadOptions_In(TypedDict):
     format: NotRequired[Literal["markdown"] | Literal["text"] | Literal["cleanHtml"] | Literal["html"]]
+    connection: NotRequired[str]
     strategy: NotRequired[Literal["auto"] | Literal["fetch"] | Literal["browser"]]
     maxChars: NotRequired[float]
     timeoutMs: NotRequired[float]
@@ -12497,9 +12498,10 @@ class Prv_bowmark_BowmarkOverview_Out_pricing_u0_Out(TypedDict):
     currency: str
     description: str
 
-class Prv_bowmark_BowmarkLibrarySearch_Out(TypedDict):
-    query: str
-    document: str
+class Prv_bowmark_BowmarkDocumentation_Out(TypedDict):
+    title: str
+    url: str
+    description: str
 
 class Prv_boxlunch_search_arg_In(TypedDict):
     query: str
@@ -21978,6 +21980,42 @@ class Prv_embroker_EmbrokerQuoteEntryPoint_Out(TypedDict):
     productLabel: str
     url: str
     reachable: bool
+
+class Prv_emirates_emiratesFlightStatusQuery_In(TypedDict):
+    flight: str | float
+    date: NotRequired[str]
+
+class Prv_emirates_emiratesFlightStatus_Out(TypedDict):
+    flight: str
+    date: str
+    flightId: str
+    legs: list[Prv_emirates_emiratesFlightLeg_Out]
+
+Prv_emirates_emiratesFlightLeg_Out = TypedDict(
+    "Prv_emirates_emiratesFlightLeg_Out",
+    {
+    "leg": float,
+    "from": str,
+    "to": str,
+    "actualFrom": str,
+    "actualTo": str,
+    "statusCode": str,
+    "progress": float | None,
+    "duration": str | None,
+    "irregular": bool,
+    "departure": Prv_emirates_emiratesFlightTimes_Out,
+    "arrival": Prv_emirates_emiratesFlightTimes_Out,
+    "departureTerminal": str | None,
+    "arrivalTerminal": str | None,
+    "tailNumber": str | None,
+    "lastUpdated": str | None,
+    },
+)
+
+class Prv_emirates_emiratesFlightTimes_Out(TypedDict):
+    scheduled: str | None
+    estimated: str | None
+    actual: str | None
 
 class Prv_epicgames_ListFreeGamesResult_Out(TypedDict):
     elements: list[Prv_epicgames_FreeGame_Out]
@@ -54392,6 +54430,50 @@ class Prv_spectrum_SpectrumChannel_Out(TypedDict):
     logoUrl: str | None
     tmsId: str | None
 
+class Prv_spectrum_SpectrumScheduleAppointmentArgs_In(TypedDict):
+    reason: Literal["internetOut"] | Literal["internetSlow"]
+    scheduleDate: NotRequired[str]
+    scheduleTimeCode: NotRequired[str]
+
+class Prv_spectrum_SpectrumServiceAppointment_Out(TypedDict):
+    booked: bool
+    appointment: Prv_spectrum_SpectrumBookedAppointment_Out | None
+    availableWindows: list[Prv_spectrum_SpectrumAppointmentWindow_Out]
+
+class Prv_spectrum_SpectrumBookedAppointment_Out(TypedDict):
+    apptId: str | None
+    jobNumber: str | None
+    startTime: str | None
+    endTime: str | None
+    timezone: str | None
+    status: str | None
+    workOrderType: str | None
+    reasonCodes: list[str]
+    rescheduleAllowed: bool | None
+    cancelAllowed: bool | None
+
+class Prv_spectrum_SpectrumAppointmentWindow_Out(TypedDict):
+    scheduleDate: str | None
+    scheduleTime: str | None
+    scheduleTimeCode: str | None
+    startTimestamp: str | None
+    endTimestamp: str | None
+
+class Prv_spectrum_SpectrumUpdateWifiArgs_In(TypedDict):
+    ssid: str
+    password: str
+    equipmentId: NotRequired[str]
+
+class Prv_spectrum_SpectrumWifiUpdate_Out(TypedDict):
+    equipmentId: str | None
+    wifiNetworks: list[Prv_spectrum_SpectrumWifiAccessPoint_Out]
+
+class Prv_spectrum_SpectrumWifiAccessPoint_Out(TypedDict):
+    id: str | None
+    ssid: str | None
+    securityMode: str | None
+    bands: list[str]
+
 class Prv_spectrum_SpectrumEquipment_Out(TypedDict):
     id: str | None
     connectionState: str | None
@@ -61538,6 +61620,10 @@ class Prv_twitch_SetChannelArgs_In(TypedDict):
     title: NotRequired[str]
     language: NotRequired[str]
     game: NotRequired[str]
+
+class Prv_twitch_TwitchCurrentUser_Out(TypedDict):
+    id: str
+    login: str
 
 class Prv_twitch_TwitchFollowedChannel_Out(TypedDict):
     id: str
@@ -69855,14 +69941,14 @@ class Cap_industrial_supply(Protocol):
         """
 
 class Cap_insurance(Protocol):
-    """UNITED STATES ONLY — every source here is the US NAIC register and two US carrier
-    panels; nothing here covers a non-US insurer or address. Look up insurance carriers in
-    the regulators' own national register — the NAIC company code, the legal entity behind a
-    consumer brand, head-office contact details, and the states each carrier is LICENSED to
-    write in, which is not the same as where it is headquartered — and get REAL home
-    insurance quotes and rates for a specific property address from two independent carrier
-    panels (Insurify's marketplace, Progressive's HomeQuote Explorer). Direct API, no
-    browser.
+    """**US insurers only via NAIC register — not available for international markets.** Look
+    up insurance carriers in the regulators' own national register — the NAIC company code,
+    the legal entity behind a consumer brand, head-office contact details, and the states
+    each carrier is LICENSED to write in, which is not the same as where it is headquartered
+    — and get REAL home insurance quotes and rates for a specific property address from two
+    independent carrier panels (Insurify's marketplace, Progressive's HomeQuote Explorer).
+    Direct API, no browser. Every source here is the US NAIC register and two US carrier
+    panels; nothing here covers a non-US insurer or address.
     """
 
     async def searchCarriers(self, query: Cap_insurance_CarrierQuery_In, limit: float | None = None, options: Cap_insurance_CallOptions_In | None = None, /) -> Cap_insurance_CarrierSearchResult_Out:
@@ -76013,8 +76099,8 @@ class Prv_boulevard(Protocol):
         """
 
 class Prv_bowmark(Protocol):
-    """Bowmark AI's public product overview, API and MCP endpoints, pricing, and searchable
-    library.
+    """Bowmark AI's public product overview, API and MCP endpoints, pricing, and documentation
+    index.
     """
 
     async def getOverview(self, /) -> Prv_bowmark_BowmarkOverview_Out:
@@ -76022,8 +76108,10 @@ class Prv_bowmark(Protocol):
         and MCP endpoints, and pricing summary.
         """
 
-    async def searchLibrary(self, query: str, /) -> Prv_bowmark_BowmarkLibrarySearch_Out:
-        """Searches Bowmark AI's public library and returns the matching documentation."""
+    async def listDocumentation(self, /) -> list[Prv_bowmark_BowmarkDocumentation_Out]:
+        """Lists Bowmark AI's published agent-facing documentation pages from its public llms.txt
+        index.
+        """
 
 class Prv_boxlunch(Protocol):
     """BoxLunch's own storefront search (boxlunch.com) — licensed pop-culture and entertainment
@@ -81369,6 +81457,17 @@ class Prv_embroker(Protocol):
     async def getQuoteEntryPoint(self, args: Prv_embroker_getQuoteEntryPoint_args_In, /) -> Prv_embroker_EmbrokerQuoteEntryPoint_Out:
         """Returns the live, confirmed-reachable entry URL for one of Embroker's self-serve
         quote-wizard products.
+        """
+
+class Prv_emirates(Protocol):
+    """Emirates (emirates.com) live flight status: route, scheduled/estimated/actual times,
+    terminals and aircraft for an EK flight number on a date
+    """
+
+    async def flightStatus(self, query: Prv_emirates_emiratesFlightStatusQuery_In, /) -> list[Prv_emirates_emiratesFlightStatus_Out]:
+        """Live status of an Emirates flight ("EK1") on a date: each leg's airports, status code,
+        scheduled/estimated/actual departure and arrival, terminals and tail number; [] when
+        Emirates has no such flight that day
         """
 
 class Prv_epicgames(Protocol):
@@ -99737,6 +99836,24 @@ class Prv_spectrum(Protocol):
         the caller signed in to spectrum.net.
         """
 
+    async def scheduleServiceAppointment(self, args: Prv_spectrum_SpectrumScheduleAppointmentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_spectrum_SpectrumServiceAppointment_Out:
+        """Book a Spectrum technician visit for the signed-in caller's internet (reason internetOut
+        or internetSlow), through spectrum.net's own account GraphQL. Call it with only a reason
+        to get the open appointment windows (nothing is booked), then again with a window's
+        scheduleDate and scheduleTimeCode to book that visit; returns the appointment id, time
+        and whether it can be rescheduled or cancelled. Needs the caller signed in to
+        spectrum.net.
+        """
+
+    async def updateWifiNetwork(self, args: Prv_spectrum_SpectrumUpdateWifiArgs_In, opts: ConnectionOption | None = None, /) -> Prv_spectrum_SpectrumWifiUpdate_Out:
+        """Change the signed-in caller's Spectrum home WiFi network name and password in one step,
+        on every band, through spectrum.net's own account GraphQL (the same call its "Change
+        WiFi name and password" form makes). Picks the account's router when it has exactly one;
+        otherwise pass equipmentId from getEquipmentStatus. Devices on the old network drop off
+        until reconnected. Never returns the password. Needs the caller signed in to
+        spectrum.net.
+        """
+
     async def getEquipmentStatus(self, opts: ConnectionOption | None = None, /) -> list[Prv_spectrum_SpectrumEquipment_Out]:
         """The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with each
         device's connection state, model, ownership and firmware, plus the WiFi network names
@@ -103283,6 +103400,12 @@ class Prv_twitch(Protocol):
         Returns the updated settings. It cannot set tags — `tags` is not a field of Twitch's own
         UpdateBroadcastSettingsInput. NEEDS the streamer's Twitch sign-in, which only a
         capability can hold: call it as bowmark.stream_channel.set.
+        """
+
+    async def getCurrentUser(self, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchCurrentUser_Out:
+        """Reads which Twitch account the saved sign-in belongs to: its numeric id and login
+        handle. NEEDS the viewer's Twitch sign-in. THROWS a sign-in pause when the saved session
+        is no longer signed in.
         """
 
     async def listFollowedChannels(self, opts: ConnectionOption | None = None, /) -> list[Prv_twitch_TwitchFollowedChannel_Out]:
@@ -107651,6 +107774,7 @@ class BowmarkProviders(Protocol):
     elase: Prv_elase
     elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
+    emirates: Prv_emirates
     epicgames: Prv_epicgames
     epromos: Prv_epromos
     eq3: Prv_eq3

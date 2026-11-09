@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6117 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6119 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2522,6 +2522,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.translateImage` | translate.google.com | Read the text in a picture and translate it — the Images tab, where a person points a… | 🟡 |
 | `google_translate.translateWebPage` | translate.google.com | Read somebody else's web page in your own language — the Websites tab. | 🟢 |
 | `google_translate.unsavePhrase` | translate.google.com | Take a phrase back out of the signed-in person's saved phrases — the undo for… | 🟢 |
+| `google_trends.interestOverTime` | trends.google.com | Search interest over time for a keyword (the Explore chart), with related and rising… | ⚪ |
+| `google_trends.trending` | trends.google.com | Google Trends' 'Trending now' list for one country: each trending search, its… | 🟢 |
 | `google.search` | google.com | Runs a Google web search and returns the ranked results — title, destination url and… | ⚪ |
 | `google.searchShopping` | google.com | Searches Google Shopping to compare prices for a product across sellers, returning the… | ⚪ |
 | `goremutual.getProductOverview` | goremutual.ca | Returns the public product overview for Gore Mutual's commercial property and casualty… | 🟢 |
@@ -3880,7 +3882,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pirateship.trackShipment` | pirateship.com | Looks up delivery status for a shipment by tracking number, the way… | ⚪ |
 | `pirateship.validateAddress` | pirateship.com | Validates and standardizes a US shipping address the way Pirate Ship checks an address… | ⚪ |
 | `pizzahut.checkDeliveryAvailability` | pizzahut.com | Answers whether Pizza Hut delivers to a given address, and on what terms — which store… | ⚪ |
-| `pizzahut.findStores` | pizzahut.com | Finds the Pizza Hut stores that serve a given address or ZIP — each store's id, street… | 🟡 |
+| `pizzahut.findStores` | pizzahut.com | Finds the Pizza Hut stores that serve a given address or ZIP — each store's id, street… | 🟢 |
 | `pizzahut.getDeals` | pizzahut.com | Reads the deals, coupons and bundle offers Pizza Hut is running at a store right now —… | 🟡 |
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | 🟢 |
 | `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
@@ -5084,10 +5086,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `thezebra.listCarriers` | thezebra.com | Returns the insurance companies The Zebra compares — the roster behind the '100+… | ⚪ |
 | `thezebra.listVehicles` | thezebra.com | Returns the makes and models The Zebra publishes insurance rates for — the index that… | ⚪ |
 | `thibautdesign.calculateRollsNeeded` | thibautdesign.com | Runs Thibaut's own wallpaper-calculator (thibautdesign.com/wallpaper-calculator) —… | 🟢 |
-| `threads.blockUser` | threads.com | Blocks an account for the CALLER. | ⚪ |
+| `threads.blockUser` | threads.com | Blocks an account for the CALLER. | 🟢 |
 | `threads.createPost` | threads.com | Publishes a new thread as the CALLER — text, optional images or video, a topic tag and… | 🟢 |
 | `threads.deletePost` | threads.com | Deletes one of the CALLER's own posts or replies. | 🟢 |
-| `threads.followUser` | threads.com | Follows an account as the CALLER. | ⚪ |
+| `threads.followUser` | threads.com | Follows an account as the CALLER. | 🟢 |
 | `threads.getActivity` | threads.com | Reads the CALLER's activity — new followers, replies, mentions, quotes, reposts and… | 🟢 |
 | `threads.getConversation` | threads.com | Reads the messages in one of the CALLER's direct-message conversations. | ⚪ |
 | `threads.getCustomFeed` | threads.com | Reads the posts in one of the CALLER's custom feeds. | 🟢 |
@@ -5117,8 +5119,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.searchPosts` | threads.com | Searches Threads posts by keyword and returns the top results with author, text and… | 🟢 |
 | `threads.searchTopics` | threads.com | Finds Threads topic tags by keyword and lists the public posts filed under them… | 🟢 |
 | `threads.sendMessage` | threads.com | Sends a direct message from the CALLER to a Threads account. | ⚪ |
-| `threads.unblockUser` | threads.com | Unblocks an account the CALLER blocked. | ⚪ |
-| `threads.unfollowUser` | threads.com | Unfollows an account as the CALLER. | ⚪ |
+| `threads.unblockUser` | threads.com | Unblocks an account the CALLER blocked. | 🟢 |
+| `threads.unfollowUser` | threads.com | Unfollows an account as the CALLER. | 🟢 |
 | `threads.unlikePost` | threads.com | Removes the CALLER's like from a post. | 🟢 |
 | `threads.unmuteUser` | threads.com | Unmutes an account the CALLER muted. | ⚪ |
 | `threads.unrepostPost` | threads.com | Removes the CALLER's repost of a post. | 🟢 |

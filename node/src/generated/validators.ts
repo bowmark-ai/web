@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 589b19fe16e3301f8a3f538b07d93ef0c7571a4b4d298f3c7f558638e79615f7
-// 4626 checked, 20 unchecked.
+// Manifest version: 56962b179cd156c0d4a92308cd6085fbd8564c838a46d553fac3313f20c23f4b
+// 4630 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "589b19fe16e3301f8a3f538b07d93ef0c7571a4b4d298f3c7f558638e79615f7",
+  "version": "56962b179cd156c0d4a92308cd6085fbd8564c838a46d553fac3313f20c23f4b",
   "units": {
     "address_validation": {
       "defs": {
@@ -5092,6 +5092,13 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "ref",
                 "name": "ReadFormat"
+              },
+              "optional": true
+            },
+            {
+              "name": "connection",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             },
@@ -24701,15 +24708,7 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "getOverview": [],
-        "searchLibrary": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ]
+        "listDocumentation": []
       }
     },
     "providers.boxlunch": {
@@ -43618,6 +43617,49 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.emirates": {
+      "defs": {
+        "emiratesFlightStatusQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "flight",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "flightStatus": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "emiratesFlightStatusQuery"
             },
             "optional": false
           }
@@ -116078,7 +116120,70 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.spectrum": {
-      "defs": {},
+      "defs": {
+        "SpectrumScheduleAppointmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "reason",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "internetOut"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "internetSlow"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "scheduleDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "scheduleTimeCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SpectrumUpdateWifiArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ssid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "password",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "equipmentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "listInternetPlans": [],
         "listTvAddOns": [],
@@ -116158,6 +116263,58 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getChannelLineup": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "scheduleServiceAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpectrumScheduleAppointmentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateWifiNetwork": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpectrumUpdateWifiArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -130910,6 +131067,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCurrentUser": [
           {
             "name": "opts",
             "schema": {

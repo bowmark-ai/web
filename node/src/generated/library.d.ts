@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 589b19fe16e3301f8a3f538b07d93ef0c7571a4b4d298f3c7f558638e79615f7
-// 97 capabilities, 777 providers, 4644 typed functions, 20 refused.
+// Manifest version: 56962b179cd156c0d4a92308cd6085fbd8564c838a46d553fac3313f20c23f4b
+// 97 capabilities, 778 providers, 4648 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2675,13 +2675,14 @@ type CallOptions = {
 }
 
   /**
-   * UNITED STATES ONLY — every source here is the US NAIC register and two US carrier panels;
-   * nothing here covers a non-US insurer or address. Look up insurance carriers in the
-   * regulators' own national register — the NAIC company code, the legal entity behind a
-   * consumer brand, head-office contact details, and the states each carrier is LICENSED to
-   * write in, which is not the same as where it is headquartered — and get REAL home insurance
-   * quotes and rates for a specific property address from two independent carrier panels
-   * (Insurify's marketplace, Progressive's HomeQuote Explorer). Direct API, no browser.
+   * **US insurers only via NAIC register — not available for international markets.** Look up
+   * insurance carriers in the regulators' own national register — the NAIC company code, the
+   * legal entity behind a consumer brand, head-office contact details, and the states each
+   * carrier is LICENSED to write in, which is not the same as where it is headquartered — and
+   * get REAL home insurance quotes and rates for a specific property address from two
+   * independent carrier panels (Insurify's marketplace, Progressive's HomeQuote Explorer).
+   * Direct API, no browser. Every source here is the US NAIC register and two US carrier panels;
+   * nothing here covers a non-US insurer or address.
    */
   interface Unit {
     /**
@@ -4167,6 +4168,14 @@ type ReadOptions = {
                              // reading "Book now" arrives with no url, so you
                              // cannot tell where it goes. To check a link's
                              // destination use "markdown" or "cleanHtml"
+  connection?: string        // read SIGNED IN with one of your saved logins: its
+                             // id from GET /v1/connections. The url must be on
+                             // that login's site, or the read is refused (never
+                             // read signed out instead). A login the site no
+                             // longer accepts comes back ok:false, needsLogin:true,
+                             // with a warning naming it. To keep a login for a site
+                             // no provider covers: POST /v1/connections/link with
+                             // provider "site:<host>"
   strategy?: ReadStrategy    // default "auto" — a fast read, and a full page load only
                              // when the page needs one. "fetch" is FAST MODE: it never
                              // waits on a slow full load — the fast-fail escape for a
@@ -20212,11 +20221,11 @@ interface BoulevardPackagesAndMemberships {
 declare namespace BowmarkProvider_bowmark {
   // ── Bowmark AI — the unit's own declarations, verbatim ──
 interface BowmarkOverview { name: string; description: string; website: string; apiUrl: string | null; mcpUrl: string | null; pricing: { price: string; currency: string; description: string } | null; }
-interface BowmarkLibrarySearch { query: string; document: string; }
+interface BowmarkDocumentation { title: string; url: string; description: string; }
 
   /**
-   * Bowmark AI's public product overview, API and MCP endpoints, pricing, and searchable
-   * library.
+   * Bowmark AI's public product overview, API and MCP endpoints, pricing, and documentation
+   * index.
    */
   interface Unit {
     /**
@@ -20225,8 +20234,11 @@ interface BowmarkLibrarySearch { query: string; document: string; }
      */
     getOverview(): Promise<BowmarkOverview>;
 
-    /** Searches Bowmark AI's public library and returns the matching documentation. */
-    searchLibrary(query: string): Promise<BowmarkLibrarySearch>;
+    /**
+     * Lists Bowmark AI's published agent-facing documentation pages from its public llms.txt
+     * index.
+     */
+    listDocumentation(): Promise<BowmarkDocumentation[]>;
   }
 }
 
@@ -35216,6 +35228,33 @@ interface EmbrokerQuoteEntryPoint {
      * quote-wizard products.
      */
     getQuoteEntryPoint(args: { product: string }): Promise<EmbrokerQuoteEntryPoint>;
+  }
+}
+
+declare namespace BowmarkProvider_emirates {
+  // ── Emirates — flight status — the unit's own declarations, verbatim ──
+interface emiratesFlightTimes { scheduled: string | null; estimated: string | null; actual: string | null }
+interface emiratesFlightLeg {
+  leg: number; from: string; to: string; actualFrom: string; actualTo: string;
+  statusCode: string; progress: number | null; duration: string | null; irregular: boolean;
+  departure: emiratesFlightTimes; arrival: emiratesFlightTimes;
+  departureTerminal: string | null; arrivalTerminal: string | null;
+  tailNumber: string | null; lastUpdated: string | null;
+}
+interface emiratesFlightStatus { flight: string; date: string; flightId: string; legs: emiratesFlightLeg[] }
+interface emiratesFlightStatusQuery { flight: string | number; date?: string }
+
+  /**
+   * Emirates (emirates.com) live flight status: route, scheduled/estimated/actual times,
+   * terminals and aircraft for an EK flight number on a date
+   */
+  interface Unit {
+    /**
+     * Live status of an Emirates flight ("EK1") on a date: each leg's airports, status code,
+     * scheduled/estimated/actual departure and arrival, terminals and tail number; [] when
+     * Emirates has no such flight that day
+     */
+    flightStatus(query: emiratesFlightStatusQuery): Promise<emiratesFlightStatus[]>;
   }
 }
 
@@ -87301,6 +87340,50 @@ interface SpectrumChannelLineup {
   channels: SpectrumChannel[];
   notices: string[];  // Spectrum's own lineup-change notices, in order
 }
+interface SpectrumUpdateWifiArgs {
+  ssid: string;  // new network name, 1-32 characters
+  password: string;  // new WPA2 passphrase, 8-63 characters
+  equipmentId?: string;  // the router's id from getEquipmentStatus; optional when the account has one router
+}
+interface SpectrumWifiAccessPoint {
+  id: string | null;
+  ssid: string | null;
+  securityMode: string | null;
+  bands: string[];  // e.g. "2.4GHz", "5GHz"
+}
+interface SpectrumScheduleAppointmentArgs {
+  reason: "internetOut" | "internetSlow";  // why the technician is coming
+  scheduleDate?: string;  // YYYY-MM-DD, from a window this function listed
+  scheduleTimeCode?: string;  // e.g. "11AMTO1PM", from the same window
+}
+interface SpectrumAppointmentWindow {
+  scheduleDate: string | null;
+  scheduleTime: string | null;  // e.g. "11AM - 1PM"
+  scheduleTimeCode: string | null;
+  startTimestamp: string | null;
+  endTimestamp: string | null;
+}
+interface SpectrumBookedAppointment {
+  apptId: string | null;
+  jobNumber: string | null;
+  startTime: string | null;
+  endTime: string | null;
+  timezone: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  workOrderType: string | null;
+  reasonCodes: string[];
+  rescheduleAllowed: boolean | null;
+  cancelAllowed: boolean | null;
+}
+interface SpectrumServiceAppointment {
+  booked: boolean;  // false when only listing windows
+  appointment: SpectrumBookedAppointment | null;  // set when booked
+  availableWindows: SpectrumAppointmentWindow[];  // set when no window was chosen
+}
+interface SpectrumWifiUpdate {
+  equipmentId: string | null;
+  wifiNetworks: SpectrumWifiAccessPoint[];  // what the router reports after the change — never the password
+}
 
   /**
    * Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check address
@@ -87400,6 +87483,24 @@ interface SpectrumChannelLineup {
      * caller signed in to spectrum.net.
      */
     getChannelLineup(opts?: ConnectionOption): Promise<SpectrumChannelLineup>;
+
+    /**
+     * Book a Spectrum technician visit for the signed-in caller's internet (reason internetOut or
+     * internetSlow), through spectrum.net's own account GraphQL. Call it with only a reason to get
+     * the open appointment windows (nothing is booked), then again with a window's scheduleDate
+     * and scheduleTimeCode to book that visit; returns the appointment id, time and whether it can
+     * be rescheduled or cancelled. Needs the caller signed in to spectrum.net.
+     */
+    scheduleServiceAppointment(args: SpectrumScheduleAppointmentArgs, opts?: ConnectionOption): Promise<SpectrumServiceAppointment>;
+
+    /**
+     * Change the signed-in caller's Spectrum home WiFi network name and password in one step, on
+     * every band, through spectrum.net's own account GraphQL (the same call its "Change WiFi name
+     * and password" form makes). Picks the account's router when it has exactly one; otherwise
+     * pass equipmentId from getEquipmentStatus. Devices on the old network drop off until
+     * reconnected. Never returns the password. Needs the caller signed in to spectrum.net.
+     */
+    updateWifiNetwork(args: SpectrumUpdateWifiArgs, opts?: ConnectionOption): Promise<SpectrumWifiUpdate>;
 
     /**
      * The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with each
@@ -97921,6 +98022,12 @@ interface TwitchDeveloperApp {
   redirectUri: string;
   dashboardUrl: string;
 }
+/** The signed-in account itself. */
+interface TwitchCurrentUser {
+  id: string;
+  /** The account's login handle, e.g. "ninja" (twitch.tv/<login>). */
+  login: string;
+}
 interface TwitchFollowedChannel {
   id: string;
   login: string;
@@ -98160,6 +98267,13 @@ interface TwitchFollowChannelResult {
      * can hold: call it as bowmark.stream_channel.set.
      */
     setChannel(args: SetChannelArgs, opts?: ConnectionOption): Promise<TwitchChannelSettings>;
+
+    /**
+     * Reads which Twitch account the saved sign-in belongs to: its numeric id and login handle.
+     * NEEDS the viewer's Twitch sign-in. THROWS a sign-in pause when the saved session is no
+     * longer signed in.
+     */
+    getCurrentUser(opts?: ConnectionOption): Promise<TwitchCurrentUser>;
 
     /**
      * Lists channels the signed-in user follows: login, display name, current game (only when
@@ -110581,6 +110695,7 @@ interface BowmarkProviders {
   elase: BowmarkProvider_elase.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
+  emirates: BowmarkProvider_emirates.Unit;
   epicgames: BowmarkProvider_epicgames.Unit;
   epromos: BowmarkProvider_epromos.Unit;
   eq3: BowmarkProvider_eq3.Unit;
