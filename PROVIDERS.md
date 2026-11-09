@@ -3487,14 +3487,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nike.getProduct` | nike.com | Reads one nike.com product page by its URL or style-colour code — name, description… | ⚪ |
 | `nike.getProductReviews` | nike.com | Reads the customer reviews on one nike.com product — rating, title, text, fit feedback… | ⚪ |
 | `nike.getSizeChart` | nike.com | Reads Nike's size chart for a product type (men's shoes, women's tops, kids') with… | ⚪ |
-| `nike.listCategories` | nike.com | Lists nike.com's shop navigation — the gender, sport and product-type categories and… | ⚪ |
-| `nike.listCategoryProducts` | nike.com | Lists the products on one nike.com category wall (a /w/ URL such as men's running… | ⚪ |
+| `nike.listCategories` | nike.com | Lists nike.com's shop navigation — the gender, sport and product-type categories and… | 🟢 |
+| `nike.listCategoryProducts` | nike.com | Lists the products on one nike.com category wall (a /w/ URL such as men's running… | 🟢 |
 | `nike.listFavorites` | nike.com | Lists the products the signed-in caller has favorited on nike.com. | ⚪ |
 | `nike.listOrders` | nike.com | Lists the signed-in caller's Nike orders — date, items, total and status — newest first. | ⚪ |
 | `nike.lookupGuestOrder` | nike.com | Looks up an order's status and tracking from an order number and the email it was… | ⚪ |
 | `nike.removeFavorite` | nike.com | Removes one product from the signed-in caller's nike.com favorites. | ⚪ |
 | `nike.removeFromCart` | nike.com | Removes or changes the quantity of one line in the caller's nike.com bag. | ⚪ |
-| `nike.searchProducts` | nike.com | Searches Nike's US store by text the way nike.com/w?q= does — every matching product… | ⚪ |
+| `nike.searchProducts` | nike.com | Searches Nike's US store by text the way nike.com/w?q= does — every matching product… | 🟢 |
 | `nike.upcomingLaunches` | nike.com | Lists every upcoming SNKRS launch (sneaker release) on nike.com/launch in the US… | 🟢 |
 | `nike.updateMemberProfile` | nike.com | Edits the signed-in caller's Nike profile — bio, shoe size, sport and product… | ⚪ |
 | `nintendo.browseCategory` | www.nintendo.com | Browse a whole department or platform family with no keyword — "what's in Nintendo… | 🟢 |
@@ -4862,7 +4862,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `squire.getReviews` | getsquire.com | Lists the customer reviews of a shop or of one barber, with the average rating, the… | 🟢 |
 | `squire.getShop` | getsquire.com | Returns one barbershop from its id, its route or a getsquire.com URL: name, address… | 🟢 |
 | `squire.getWaitlistOffers` | getsquire.com | Lists the slot times Squire is offering the caller from a waitlist entry, so the… | ⚪ |
-| `squire.getWalkInStatus` | getsquire.com | Says whether a shop is taking walk-ins or a same-day standby list right now, and which… | 🟢 |
+| `squire.getWalkInStatus` | getsquire.com | Says whether a shop is taking walk-ins or a same-day standby list right now, and which… | 🟡 |
 | `squire.joinWaitlist` | getsquire.com | Puts the caller on a shop's waitlist for chosen services on a day with no open time… | ⚪ |
 | `squire.joinWalkInList` | getsquire.com | Adds the caller to a shop's same-day walk-in (standby) list for chosen services, with… | ⚪ |
 | `squire.leaveWaitlist` | getsquire.com | Takes the caller off a shop's waitlist. | ⚪ |
