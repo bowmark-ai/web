@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6179 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6185 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1637,7 +1637,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.copyFile` | dropbox.com | Copies a file or folder to another place in the caller's Dropbox. | 🟢 |
 | `dropbox.createFileRequest` | dropbox.com | Creates a file request — a link anyone can upload files to, landing in a folder of the… | ⚪ |
 | `dropbox.createFolder` | dropbox.com | Creates a new folder in the caller's Dropbox. | 🟢 |
-| `dropbox.createSharedLink` | dropbox.com | Creates (or returns the existing) shared link for a file or folder in the caller's… | ⚪ |
+| `dropbox.createSharedLink` | dropbox.com | Creates (or returns the existing) shared link for a file or folder in the caller's… | 🟢 |
 | `dropbox.createTransfer` | dropbox.com | Creates a Dropbox Transfer from files in the caller's Dropbox or uploaded with it, and… | ⚪ |
 | `dropbox.deleteFile` | dropbox.com | Deletes a file or folder in the caller's Dropbox (it goes to Deleted files, where… | 🟢 |
 | `dropbox.downloadFile` | dropbox.com | Downloads a file from the caller's Dropbox and returns a Bowmark file URL for it. | ⚪ |
@@ -1663,9 +1663,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.moveFile` | dropbox.com | Moves or renames a file or folder in the caller's Dropbox. | 🟢 |
 | `dropbox.readSharedFile` | dropbox.com | Returns the text of a shared document (PDF, Word, slides, text) the way Dropbox's own… | 🟢 |
 | `dropbox.removeSharingMember` | dropbox.com | Removes a person's access to a shared file or folder in the caller's Dropbox. | ⚪ |
-| `dropbox.restoreFile` | dropbox.com | Restores a deleted file or folder in the caller's Dropbox. | ⚪ |
-| `dropbox.restoreFileVersion` | dropbox.com | Restores a file in the caller's Dropbox to one of its earlier versions. | ⚪ |
-| `dropbox.revokeSharedLink` | dropbox.com | Turns off one of the caller's shared links so it stops working. | ⚪ |
+| `dropbox.restoreFile` | dropbox.com | Restores a deleted file or folder in the caller's Dropbox. | 🟢 |
+| `dropbox.restoreFileVersion` | dropbox.com | Restores a file in the caller's Dropbox to one of its earlier versions. | 🟢 |
+| `dropbox.revokeSharedLink` | dropbox.com | Turns off one of the caller's shared links so it stops working. | 🟢 |
 | `dropbox.saveSharedLinkToDropbox` | dropbox.com | Saves the file or folder behind a shared link into the caller's own Dropbox (the 'Save… | ⚪ |
 | `dropbox.searchFiles` | dropbox.com | Searches the caller's Dropbox by file name and content, as the search box at the top… | 🟢 |
 | `dropbox.shareWithPeople` | dropbox.com | Invites people by email to a file or folder in the caller's Dropbox, as viewers or… | ⚪ |
@@ -3758,6 +3758,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `partiful.discoverEvents` | partiful.com | Lists the public events Partiful's explore page shows for one region (sf, nyc, la… | 🟢 |
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
 | `patreon.commentOnPost` | patreon.com | Leave a comment on a post as the signed-in caller; returns the comment as Patreon… | 🟢 |
+| `patreon.deleteComment` | patreon.com | Delete one of the signed-in caller's own comments. | 🟢 |
 | `patreon.followCreator` | patreon.com | Follow a creator for free as the signed-in caller — Patreon's free membership, no tier… | 🟢 |
 | `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | 🟢 |
 | `patreon.getCurrentUserFeed` | patreon.com | Read the signed-in caller's Patreon home feed — recent posts from the creators they… | 🟢 |
@@ -3765,12 +3766,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.likePost` | patreon.com | Like a post as the signed-in caller. | 🟢 |
 | `patreon.listCreatorCollections` | patreon.com | List a creator's collections (series), each with its title, post count and its posts'… | 🟢 |
 | `patreon.listCreatorPosts` | patreon.com | List a creator's posts, newest first, one page at a time with the site's own cursor. | 🟢 |
+| `patreon.listCreatorShop` | patreon.com | List what a creator sells one-off in their shop — single posts and digital downloads —… | 🟢 |
 | `patreon.listCreatorTiers` | patreon.com | List all membership tiers offered by a creator with pricing. | 🟢 |
 | `patreon.listMemberOnlyPosts` | patreon.com | List a creator's member-only posts, newest first, with the site's own cursor — each… | 🟢 |
 | `patreon.listPledges` | patreon.com | List the signed-in caller's Patreon memberships: which creator, which tier, how much. | 🟢 |
 | `patreon.listPostComments` | patreon.com | List all comments on a post. | 🟢 |
 | `patreon.searchCreatorPosts` | patreon.com | Search inside one creator's posts — titles and body text — newest first, with the… | 🟢 |
 | `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | 🟢 |
+| `patreon.unlikePost` | patreon.com | Take back the signed-in caller's like on a post. | 🟢 |
 | `pausestudio.bookAppointment` | pausestudio.com | Books one service at one location at a time listAvailableSlots() returned, on the… | 🟢 |
 | `pausestudio.cancelBooking` | pausestudio.com | Cancels one of the caller's own appointments by its id — requires the caller's own… | 🟢 |
 | `pausestudio.getLocationInfo` | pausestudio.com | Gets address, phone and the services offered at one location, by the id… | 🟢 |
@@ -4759,13 +4762,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spectrum.getChannelLineup` | spectrum.com | The signed-in caller's Spectrum TV channel lineup for their own market — name, guide… | 🟢 |
 | `spectrum.getEquipmentStatus` | spectrum.com | The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with… | 🟢 |
 | `spectrum.getInternetPlanDetails` | spectrum.com | One Gig-tier internet plan's own detail page at… | 🟢 |
+| `spectrum.getOutageStatus` | spectrum.com | Every open outage or maintenance event on the signed-in caller's Spectrum account —… | 🟢 |
 | `spectrum.getUsageSummary` | spectrum.com | The signed-in caller's Spectrum Mobile usage for the current bill cycle (data… | 🟢 |
 | `spectrum.listInternetPlans` | spectrum.com | Every residential internet-only plan Spectrum advertises on… | 🟢 |
 | `spectrum.listMobileDeals` | spectrum.com | Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals… | 🟢 |
 | `spectrum.listMobilePlans` | spectrum.com | The three Spectrum Mobile "Unlimited" plans on spectrum.com/mobile/plans (Unlimited… | 🟡 |
-| `spectrum.listTvAddOns` | spectrum.com | Every premium channel and add-on package Spectrum advertises on… | 🟢 |
+| `spectrum.listServiceAppointments` | spectrum.com | The signed-in caller's Spectrum technician visits with time window, status, reason… | 🟢 |
+| `spectrum.listTvAddOns` | spectrum.com | Every premium channel Spectrum TV sells as an add-on, read off… | 🟢 |
 | `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, the page's… | 🟢 |
 | `spectrum.payBill` | spectrum.com | Pay the signed-in caller's Spectrum bill using a payment method already on the account. | ⚪ |
+| `spectrum.restartEquipment` | spectrum.com | Restart the signed-in caller's Spectrum modem (or another device by equipmentId)… | 🟢 |
 | `spectrum.scheduleServiceAppointment` | spectrum.com | Book a Spectrum technician visit for the signed-in caller's internet (down or slow)… | 🟢 |
 | `spectrum.updateWifiNetwork` | spectrum.com | Change the signed-in caller's Spectrum home WiFi network name and password in one… | 🟢 |
 | `speedrun.categories` | www.speedrun.com | List all categories for a game, including variables and values. | 🟢 |
@@ -5077,7 +5083,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `temu.trackOrder` | www.temu.com | Where a specific order's package is and when it is due — the follow-up to listOrders. | 🟢 |
 | `temu.updateCart` | www.temu.com | Change a cart line's quantity or chosen variant. | 🟢 |
 | `temu.viewCart` | www.temu.com | Read the caller's current cart — line items, quantities, per-item and total price. | 🟢 |
-| `temu.writeReview` | www.temu.com | Post a review and star rating on a product the caller has an order for. | ⚪ |
+| `temu.writeReview` | www.temu.com | Post a 1-5 star review, with optional text, on a product from one of the caller's own… | 🟢 |
 | `tenders_go_ke.getTender` | tenders.go.ke | Read a single Kenya public procurement tender: close date, tender fee, venue, notice… | 🟢 |
 | `tenders_go_ke.listTenders` | tenders.go.ke | List Kenya government procurement tenders from the Public Procurement Information… | 🟢 |
 | `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
@@ -5358,7 +5364,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.askQuestion` | tripadvisor.com | Posts a question to a listing's Q&A from the signed-in caller's account. | ⚪ |
 | `tripadvisor.createTrip` | tripadvisor.com | Creates a new Trip on the signed-in caller's account with a name and optional dates. | ⚪ |
 | `tripadvisor.getAttraction` | tripadvisor.com | Reads one attraction in full: name, description, address, phone, website, opening… | 🟢 |
-| `tripadvisor.getDestination` | tripadvisor.com | Reads a city or region's overview page (/Tourism-g<geoId>-…): its name, parent places… | 🟢 |
+| `tripadvisor.getDestination` | tripadvisor.com | Reads a city or region's overview page (/Tourism-g<geoId>-…): its name, parent places… | 🟡 |
 | `tripadvisor.getForumThread` | tripadvisor.com | Reads one forum thread — the opening post and every reply, with author, date and text… | ⚪ |
 | `tripadvisor.getForumTopics` | tripadvisor.com | Lists a destination's travel-forum topics — title, author, reply count, last post date… | ⚪ |
 | `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟢 |
@@ -5778,9 +5784,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.forwardMessage` | whatsapp.com | Forwards one of the caller's messages to another chat. | ⚪ |
 | `whatsapp.getBlogPost` | whatsapp.com | Reads one WhatsApp Blog post by slug or url: its title, publish date and body text. | 🟢 |
 | `whatsapp.getChannel` | whatsapp.com | Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the… | 🟢 |
-| `whatsapp.getChannelUpdates` | whatsapp.com | Reads a Channel's posts (updates) newest first — text, media, time and reaction counts… | ⚪ |
+| `whatsapp.getChannelUpdates` | whatsapp.com | Reads the updates a channel the caller follows shows in WhatsApp Web, opened by its… | 🟢 |
 | `whatsapp.getChatMessages` | whatsapp.com | Reads the messages WhatsApp Web's own conversation panel currently renders for one… | 🟢 |
-| `whatsapp.getCommunity` | whatsapp.com | Reads a WhatsApp Community the caller belongs to: its name, description, announcement… | ⚪ |
+| `whatsapp.getCommunity` | whatsapp.com | Reads a WhatsApp Community the caller belongs to, opened by its exact displayed name… | 🟢 |
 | `whatsapp.getGroupInfo` | whatsapp.com | Reads a group the caller belongs to, opened by its exact displayed name (from… | 🟢 |
 | `whatsapp.getGroupInviteLink` | whatsapp.com | Reads the current chat.whatsapp.com invite link of a group the caller administers… | 🟢 |
 | `whatsapp.getHelpArticle` | whatsapp.com | Reads one WhatsApp Help Center article by its numeric id or faq.whatsapp.com url… | 🟢 |
@@ -5792,7 +5798,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.listChats` | whatsapp.com | Lists the signed-in caller's chats off WhatsApp Web's own sidebar, newest activity… | 🟢 |
 | `whatsapp.listContacts` | whatsapp.com | Lists the caller's contacts off WhatsApp Web's own new-chat panel: each contact's… | 🟢 |
 | `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows as WhatsApp Web's Channels tab shows them: each… | 🟢 |
-| `whatsapp.listStatusUpdates` | whatsapp.com | Lists the Status updates the caller's contacts have posted in the last 24 hours — who… | ⚪ |
+| `whatsapp.listStatusUpdates` | whatsapp.com | Lists the contacts who have a Status up in the caller's WhatsApp Web Status tab: each… | 🟢 |
 | `whatsapp.postStatus` | whatsapp.com | Posts a text or image Status update as the caller, and deletes one. | ⚪ |
 | `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟡 |
 | `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | 🟢 |

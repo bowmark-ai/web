@@ -268,7 +268,7 @@ donsappliances.com — donsappliances: getProduct, search
 doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getRetailStore, getStore, getStoreReviews, listCuisines, listOrders, search, searchDishes (+23 planned)
 drafthouse.com — drafthouse: findTheaters, getShowtimes (+1 planned)
 drivers.uber.com — uber: getDriverEarnings
-dropbox.com — dropbox: copyFile, createFolder, deleteFile, downloadSharedFile, getFileMetadata, getMyAccount, getPlans, getSharedLink, listDeletedFiles, listFileRequests, listFileVersions, listFolder, listSharedFolder, listSharedLinks, listSharedWithMe, listSharingMembers, moveFile, readSharedFile, searchFiles (+23 planned)
+dropbox.com — dropbox: copyFile, createFolder, createSharedLink, deleteFile, downloadSharedFile, getFileMetadata, getMyAccount, getPlans, getSharedLink, listDeletedFiles, listFileRequests, listFileVersions, listFolder, listSharedFolder, listSharedLinks, listSharedWithMe, listSharingMembers, moveFile, readSharedFile, restoreFile, restoreFileVersion, revokeSharedLink, searchFiles (+19 planned)
 duckduckgo.com — duckduckgo: changeForwardingAddress, chatWithDuckAi, convertCurrency, createPrivateDuckAddress, defineWord, getEmailProtectionAccount, getInstantAnswer, getLocalTime, getWeather, listBangs, listDuckAiModels, listRegions, resolveBang, searchImages, searchNews, searchPlaces, searchVideos, searchWeb, setPrivateDuckAddressActive, suggestQueries, translateText
 dumpsters.com — dumpsters: getQuote
 e2b.dev — e2b: createSandbox, getSandbox, killSandbox, listSandboxes, readFile, runCommand, setSandboxTimeout, writeFile
@@ -554,7 +554,7 @@ pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
 packlane.com — packlane: getQuote
 pallet2ship.co.uk — pallet2ship: getQuote
 partiful.com — partiful: discoverEvents, getEvent
-patreon.com — patreon: commentOnPost, followCreator, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators
+patreon.com — patreon: commentOnPost, deleteComment, followCreator, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorShop, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators, unlikePost
 pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, getServiceDetails, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listMyMemberships, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, getServiceStatus, searchHelp, searchShoppingOffers (+2 planned)
@@ -674,7 +674,7 @@ solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updatePreferences (+6 planned)
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 spacest.com — spacest: nothing callable yet (+1 planned)
-spectrum.com — spectrum: checkMobileCoverage, getAccountBalance, getBillingHistory, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listTvAddOns, listTvPlans, scheduleServiceAppointment, updateWifiNetwork (+2 planned)
+spectrum.com — spectrum: checkMobileCoverage, getAccountBalance, getBillingHistory, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getOutageStatus, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listServiceAppointments, listTvAddOns, listTvPlans, restartEquipment, scheduleServiceAppointment, updateWifiNetwork (+2 planned)
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getPlayerNews, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, getTeamStats, listTeams, searchPlayers (+1 planned)
@@ -780,7 +780,7 @@ webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)
 westelm.com — westelm: searchProducts (+1 planned)
-whatsapp.com — whatsapp: checkNumber, createClickToChatLink, downloadMedia, findContact, getBlogPost, getChannel, getChatMessages, getGroupInfo, getGroupInviteLink, getHelpArticle, getMyProfile, listBlogPosts, listChats, listContacts, listFollowedChannels, previewBusinessCatalog, previewGroupInvite, searchChannels, searchHelpCenter, searchMessages (+24 planned)
+whatsapp.com — whatsapp: checkNumber, createClickToChatLink, downloadMedia, findContact, getBlogPost, getChannel, getChannelUpdates, getChatMessages, getCommunity, getGroupInfo, getGroupInviteLink, getHelpArticle, getMyProfile, listBlogPosts, listChats, listContacts, listFollowedChannels, listStatusUpdates, previewBusinessCatalog, previewGroupInvite, searchChannels, searchHelpCenter, searchMessages (+21 planned)
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
 wikipedia.org — wikipedia: compareRevisions, createPage, editPage, getArticle, getArticleHtml, getCurrentUser, getFeaturedContent, getImage, getInfobox, getOnThisDay, getPageviews, getRandomArticle, getRevision, getSection, getSections, getSummary, getUser, getWikitext, listBacklinks, listCategories, listCategoryMembers, listExternalLinks, listImages, listLanguages, listLinks, listMostViewed, listNotifications, listRecentChanges, listRelated, listRevisions, listUserContributions, listWatchlist, postTalkMessage, search, searchNearby, suggestTitles, thankUser, undoRevision, unwatchPage, watchPage
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)
@@ -804,7 +804,7 @@ www.nintendo.com — nintendo: browseCategory, getMyNintendoRewardsBalance, getP
 www.primevideo.com — prime_video: getChannel, getLiveSchedule, getPerson, getTitle, getWatchlist, getWatchOptions, listCategories, listCategoryTitles, listChannels, listContinueWatching, listDeals, listEpisodes, listFreeToWatch, listLiveChannels, listLiveSports, listNewReleases, listPurchases, listRelatedTitles, listSeasons, listTop10, searchTitles, suggestTitles, toggleWatchlist
 www.reuters.com — reuters: 36 functions — ask get_library (+2 planned)
 www.speedrun.com — speedrun: categories, findGame, platforms (+1 planned)
-www.temu.com — temu: addToCart, addToWishlist, checkout, listCategories, listOrders, removeFromCart, trackOrder, updateCart, viewCart (+4 planned)
+www.temu.com — temu: addToCart, addToWishlist, checkout, listCategories, listOrders, removeFromCart, trackOrder, updateCart, viewCart, writeReview (+3 planned)
 www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends, getEarnings, getEconomicCalendar, getFinancials, getMarketOverview, getNews, getOptionChain, getQuote, getScreenerResults, getTechnicalAnalysis, listIdeas, searchSymbols
 www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getCancellationPolicy, getClass, getOpenTimes, getService, getStaffMember, listAddOns, listClasses, listPhotos, listPromotions, listReviews, listServices, listStaff, searchBusinesses (+19 planned)
 www.walmart.ca — walmart_ca: search
