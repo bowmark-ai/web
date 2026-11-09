@@ -4605,8 +4605,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `slickdeals.searchDeals` | slickdeals.net | Searches Slickdeals deal threads by keyword, e.g. "laptop" or "airpods", newest first… | 🟢 |
 | `smartrecruiters.getJob` | smartrecruiters.com | Reads one posting's full job ad (company description, job description, qualifications)… | ⚪ |
 | `smartrecruiters.listJobs` | smartrecruiters.com | Lists a company's public SmartRecruiters postings — title, full location… | 🟢 |
-| `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟡 |
-| `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟡 |
+| `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's per-material live pricing and volume-discount ladder. | ⚪ |
+| `smartsign.search` | smartsign.com | Searches SmartSign's own custom-sign template catalog by free-text query. | ⚪ |
 | `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the socks it… | 🟢 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
 | `smtp_probe.lookupMx` | gmail-smtp-in.l.google.com | Looks up a domain's mail hosts in DNS (MX records by preference, else the domain's own… | 🟢 |
@@ -5188,7 +5188,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `toast.getGiftCardBalance` | toasttab.com | Checks the balance on a restaurant gift card the caller holds, by card number. | ⚪ |
 | `toast.getLoyaltyProgram` | toasttab.com | Reads a restaurant's loyalty program as a guest sees it before joining: how points are… | ⚪ |
 | `toast.getMenu` | toasttab.com | Reads a restaurant's online-ordering menu: menus, groups, and items with name… | 🟡 |
-| `toast.getMenuItem` | toasttab.com | Reads one menu item with everything ordering it needs: sizes, modifier groups… | 🟢 |
+| `toast.getMenuItem` | toasttab.com | Reads one menu item with everything ordering it needs: sizes, modifier groups… | 🟡 |
 | `toast.getMyAccount` | toasttab.com | Reads the signed-in guest's own Toast profile: name, email, phone and saved delivery… | ⚪ |
 | `toast.getMyOrder` | toasttab.com | Reads one of the signed-in guest's past orders in full: items, choices, totals… | ⚪ |
 | `toast.getMyRewards` | toasttab.com | Reads the signed-in guest's loyalty points and rewards at each Toast restaurant they… | ⚪ |

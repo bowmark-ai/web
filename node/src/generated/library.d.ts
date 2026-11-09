@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 56962b179cd156c0d4a92308cd6085fbd8564c838a46d553fac3313f20c23f4b
-// 97 capabilities, 778 providers, 4648 typed functions, 20 refused.
+// Manifest version: 78271dd17e858512602826ce88734768a12ae51f018790023ae1cd4254783482
+// 97 capabilities, 779 providers, 4653 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6110,7 +6110,9 @@ interface FormFieldOption { value: string; label: string }  // value is what get
 interface FormField { name: string | null; label: string | null; type: string; required: boolean; value?: string; options?: FormFieldOption[] }
                                            // type: a native input type, "choice"/"radio" for a tap-one row, or an ARIA role
                                            // ("combobox", "listbox") for a dropdown the page built itself — its choices are in options
-interface InspectedForm { action: string | null; method: string; fields: FormField[]; frameUrl?: string | null }
+interface InspectedForm { action: string | null; method: string; fields: FormField[]; frameUrl?: string | null;
+  hiddenValues?: Record<string, string> }  // a GET form's hidden inputs — with action + your field
+                                           // values, the whole submit URL to replay via read.page
 interface ReadFailure {
   httpStatus: number | null  // the status the SITE answered (404, 500, …); null when the request
                               // never got that far — the domain doesn't resolve, the connection was
@@ -48485,6 +48487,47 @@ interface GoogleTranslateImageResult {
      * captured signed in, so a signed-in run refuses without deleting anything.
      */
     deleteHistory(args: DeleteHistoryArgs, opts?: ConnectionOption): Promise<never>;
+  }
+}
+
+declare namespace BowmarkProvider_google_trends {
+  // ── Google Trends — the unit's own declarations, verbatim ──
+// Google Trends' OWN shapes — not a capability contract.
+interface GoogleTrendsArgs {
+  geo?: string; // ISO-3166 alpha-2, default "US"
+}
+
+interface GoogleTrendsNewsItem {
+  title: string;
+  url: string;
+  source: string | null;
+  picture: string | null;
+}
+
+interface GoogleTrendsTrendingSearch {
+  query: string;
+  approxTraffic: string | null; // Google's own bucket, e.g. "5000+"
+  startedAt: string | null; // ISO timestamp
+  picture: string | null;
+  news: GoogleTrendsNewsItem[];
+}
+
+interface GoogleTrendsTrending {
+  geo: string;
+  searches: GoogleTrendsTrendingSearch[];
+  url: string;
+}
+
+  /**
+   * Google Trends' own 'Trending now' list for a country — what people are searching for right
+   * now, approximate search volume, and the news stories behind each trend.
+   */
+  interface Unit {
+    /**
+     * Today's trending Google searches in one country (`geo`, default US) with approximate
+     * traffic, start time and the linked news stories, read off Google Trends' own trending feed.
+     */
+    trending(args?: GoogleTrendsArgs): Promise<GoogleTrendsTrending>;
   }
 }
 
@@ -94233,6 +94276,14 @@ interface ThreadsActionResult {
   postId: string;
   done: true;
 }
+// followUser / unfollowUser / blockUser / unblockUser: act on one account as the caller
+interface ThreadsUserRef {
+  userId: string;            // the account's numeric id (ThreadsProfile.id)
+}
+interface ThreadsUserActionResult {
+  userId: string;
+  done: true;
+}
 // getSavedPosts: the signed-in caller's own saved posts
 interface ThreadsSavedPosts {
   posts: ThreadsPost[];      // first server-rendered page, as /saved lists them
@@ -94337,6 +94388,30 @@ interface ThreadsActivity {
      * numeric id from getPost or getProfilePosts. Needs the caller signed in to Threads.
      */
     deletePost(args: ThreadsPostRef, opts?: ConnectionOption): Promise<ThreadsActionResult>;
+
+    /**
+     * Follows a Threads account as the signed-in caller. userId is the account's numeric id from
+     * getProfile or searchAccounts. Needs the caller signed in to Threads.
+     */
+    followUser(args: ThreadsUserRef, opts?: ConnectionOption): Promise<ThreadsUserActionResult>;
+
+    /**
+     * Unfollows a Threads account as the signed-in caller. userId is the account's numeric id from
+     * getProfile or searchAccounts. Needs the caller signed in to Threads.
+     */
+    unfollowUser(args: ThreadsUserRef, opts?: ConnectionOption): Promise<ThreadsUserActionResult>;
+
+    /**
+     * Blocks a Threads account as the signed-in caller. userId is the account's numeric id from
+     * getProfile or searchAccounts. Needs the caller signed in to Threads.
+     */
+    blockUser(args: ThreadsUserRef, opts?: ConnectionOption): Promise<ThreadsUserActionResult>;
+
+    /**
+     * Unblocks a Threads account the signed-in caller blocked. userId is the account's numeric id
+     * from getProfile or searchAccounts. Needs the caller signed in to Threads.
+     */
+    unblockUser(args: ThreadsUserRef, opts?: ConnectionOption): Promise<ThreadsUserActionResult>;
 
     /**
      * Reads the posts the signed-in caller has saved on Threads (first page) — author, text, media
@@ -110771,6 +110846,7 @@ interface BowmarkProviders {
   google_sheets: BowmarkProvider_google_sheets.Unit;
   google_store: BowmarkProvider_google_store.Unit;
   google_translate: BowmarkProvider_google_translate.Unit;
+  google_trends: BowmarkProvider_google_trends.Unit;
   goremutual: BowmarkProvider_goremutual.Unit;
   gostoreit: BowmarkProvider_gostoreit.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;

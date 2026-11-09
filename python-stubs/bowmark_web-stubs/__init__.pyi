@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 56962b179cd156c0d4a92308cd6085fbd8564c838a46d553fac3313f20c23f4b
-# 97 capabilities, 778 providers, 4630 typed functions, 20 refused.
+# Manifest version: 78271dd17e858512602826ce88734768a12ae51f018790023ae1cd4254783482
+# 97 capabilities, 779 providers, 4635 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3600,6 +3600,7 @@ class Cap_web_form_fields_InspectedForm_Out(TypedDict):
     method: str
     fields: list[Cap_web_form_fields_FormField_Out]
     frameUrl: NotRequired[str | None]
+    hiddenValues: NotRequired[Mapping[str, str]]
 
 class Cap_web_form_fields_FormField_Out(TypedDict):
     name: str | None
@@ -30266,6 +30267,27 @@ class Prv_google_translate_DeleteHistoryArgs_u0_In(TypedDict):
 
 class Prv_google_translate_DeleteHistoryArgs_u1_In(TypedDict):
     all: Literal[True]
+
+class Prv_google_trends_GoogleTrendsArgs_In(TypedDict):
+    geo: NotRequired[str]
+
+class Prv_google_trends_GoogleTrendsTrending_Out(TypedDict):
+    geo: str
+    searches: list[Prv_google_trends_GoogleTrendsTrendingSearch_Out]
+    url: str
+
+class Prv_google_trends_GoogleTrendsTrendingSearch_Out(TypedDict):
+    query: str
+    approxTraffic: str | None
+    startedAt: str | None
+    picture: str | None
+    news: list[Prv_google_trends_GoogleTrendsNewsItem_Out]
+
+class Prv_google_trends_GoogleTrendsNewsItem_Out(TypedDict):
+    title: str
+    url: str
+    source: str | None
+    picture: str | None
 
 class Prv_goremutual_ProductOverviewResult_Out(TypedDict):
     title: str
@@ -59117,6 +59139,13 @@ class Prv_threads_ThreadsActionResult_Out(TypedDict):
     postId: str
     done: Literal[True]
 
+class Prv_threads_ThreadsUserRef_In(TypedDict):
+    userId: str
+
+class Prv_threads_ThreadsUserActionResult_Out(TypedDict):
+    userId: str
+    done: Literal[True]
+
 class Prv_threads_ThreadsSavedPosts_Out(TypedDict):
     posts: list[Prv_threads_ThreadsPost_Out]
 
@@ -86131,6 +86160,17 @@ class Prv_google_translate(Protocol):
         refuses without deleting anything.
         """
 
+class Prv_google_trends(Protocol):
+    """Google Trends' own 'Trending now' list for a country — what people are searching for
+    right now, approximate search volume, and the news stories behind each trend.
+    """
+
+    async def trending(self, args: Prv_google_trends_GoogleTrendsArgs_In | None = None, /) -> Prv_google_trends_GoogleTrendsTrending_Out:
+        """Today's trending Google searches in one country (`geo`, default US) with approximate
+        traffic, start time and the linked news stories, read off Google Trends' own trending
+        feed.
+        """
+
 class Prv_goremutual(Protocol):
     """Public product information for Gore Mutual Insurance commercial lines."""
 
@@ -102088,6 +102128,26 @@ class Prv_threads(Protocol):
         numeric id from getPost or getProfilePosts. Needs the caller signed in to Threads.
         """
 
+    async def followUser(self, args: Prv_threads_ThreadsUserRef_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsUserActionResult_Out:
+        """Follows a Threads account as the signed-in caller. userId is the account's numeric id
+        from getProfile or searchAccounts. Needs the caller signed in to Threads.
+        """
+
+    async def unfollowUser(self, args: Prv_threads_ThreadsUserRef_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsUserActionResult_Out:
+        """Unfollows a Threads account as the signed-in caller. userId is the account's numeric id
+        from getProfile or searchAccounts. Needs the caller signed in to Threads.
+        """
+
+    async def blockUser(self, args: Prv_threads_ThreadsUserRef_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsUserActionResult_Out:
+        """Blocks a Threads account as the signed-in caller. userId is the account's numeric id
+        from getProfile or searchAccounts. Needs the caller signed in to Threads.
+        """
+
+    async def unblockUser(self, args: Prv_threads_ThreadsUserRef_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsUserActionResult_Out:
+        """Unblocks a Threads account the signed-in caller blocked. userId is the account's numeric
+        id from getProfile or searchAccounts. Needs the caller signed in to Threads.
+        """
+
     async def getSavedPosts(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsSavedPosts_Out:
         """Reads the posts the signed-in caller has saved on Threads (first page) — author, text,
         media and counts. Needs the caller signed in to Threads; runs through their own Chrome
@@ -107850,6 +107910,7 @@ class BowmarkProviders(Protocol):
     google_sheets: Prv_google_sheets
     google_store: Prv_google_store
     google_translate: Prv_google_translate
+    google_trends: Prv_google_trends
     goremutual: Prv_goremutual
     gostoreit: Prv_gostoreit
     gotchacovered: Prv_gotchacovered

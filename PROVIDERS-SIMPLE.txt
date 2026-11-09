@@ -655,7 +655,7 @@ slicelife.com — slice: checkDelivery, getDeliveryEstimate, getHours, getLoyalt
 slickdeals.net — slickdeals: getFrontpageDeals, searchDeals (+1 planned)
 smallbusiness.uhc.com — uhc_smallbusiness: getGroupHealthQuote
 smartrecruiters.com — smartrecruiters: listJobs (+1 planned)
-smartsign.com — smartsign: getTemplate, search
+smartsign.com — smartsign: nothing callable yet (+2 planned)
 smartwool.com — smartwool: getSockRecommendation
 smithery.ai — smithery: search
 snapchat.com — snapchat: addFriend, getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSpotlightVideo, listDiscoverStories, listFriends, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, searchSnapchat, updateDisplayName (+12 planned)

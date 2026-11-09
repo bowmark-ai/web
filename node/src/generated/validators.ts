@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 56962b179cd156c0d4a92308cd6085fbd8564c838a46d553fac3313f20c23f4b
-// 4630 checked, 20 unchecked.
+// Manifest version: 78271dd17e858512602826ce88734768a12ae51f018790023ae1cd4254783482
+// 4635 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "56962b179cd156c0d4a92308cd6085fbd8564c838a46d553fac3313f20c23f4b",
+  "version": "78271dd17e858512602826ce88734768a12ae51f018790023ae1cd4254783482",
   "units": {
     "address_validation": {
       "defs": {
@@ -61980,6 +61980,34 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.google_trends": {
+      "defs": {
+        "GoogleTrendsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "geo",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "trending": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleTrendsArgs"
             },
             "optional": true
           }
@@ -125602,6 +125630,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ThreadsUserRef": {
+          "k": "object",
+          "props": [
+            {
+              "name": "userId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -125837,6 +125877,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ThreadsPostRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ThreadsUserRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ThreadsUserRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "blockUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ThreadsUserRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unblockUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ThreadsUserRef"
             },
             "optional": false
           },
