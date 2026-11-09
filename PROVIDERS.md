@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6154 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6157 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -727,7 +727,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boulevard.getRescheduleTimes` | joinblvd.com | Lists the dates and open times one of the signed-in client's appointments can move to. | ⚪ |
 | `boulevard.getServiceDetails` | joinblvd.com | Gets one service's full detail at a location: description, price and duration range… | 🟢 |
 | `boulevard.joinWaitlist` | joinblvd.com | Adds the client to a location's waitlist for a service on a date range when no time… | ⚪ |
-| `boulevard.listBookingQuestions` | joinblvd.com | Lists the intake questions a business asks before it confirms a booking of a service… | 🟢 |
+| `boulevard.listBookingQuestions` | joinblvd.com | Lists the intake questions a business asks before it confirms a booking of a service… | 🟡 |
 | `boulevard.listLocations` | joinblvd.com | Lists a business's locations: id, name, full address, coordinates, time zone, opening… | 🟢 |
 | `boulevard.listMyAppointments` | joinblvd.com | Lists the signed-in client's upcoming and past appointments at a business. | ⚪ |
 | `boulevard.listMyConversations` | joinblvd.com | Lists the signed-in client's secure message threads with a business's locations, with… | ⚪ |
@@ -3267,6 +3267,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `medicare.searchHealthPlans` | medicare.gov | Returns the Medicare Advantage (Part C) plans somebody can actually buy for a ZIP and… | ⚪ |
 | `medicare.searchMedigapPlans` | medicare.gov | Returns the Medigap (Medicare Supplement) plan TYPES sold in somebody's ZIP's state… | 🟢 |
 | `medicare.searchPharmacies` | medicare.gov | Returns the pharmacies near a ZIP that a given Medicare drug plan works with, and on… | ⚪ |
+| `medium.authorPosts` | medium.com | Lists a Medium author's latest public stories by @username or profile URL, with title… | 🟢 |
+| `medium.publicationPosts` | medium.com | Lists a Medium publication's latest public stories by publication slug or URL, with… | 🟢 |
+| `medium.tagPosts` | medium.com | Lists the latest public Medium stories under one topic tag, with title, URL, publish… | 🟢 |
 | `meetup.getGroup` | meetup.com | Reads one meetup.com group by its urlname — description, location, member count… | 🟢 |
 | `meetup.searchEvents` | meetup.com | Searches meetup.com for upcoming events matching a topic, optionally near a meetup… | 🟢 |
 | `menards.checkStoreInventory` | menards.com | Checks an item's in-stock quantity at a chosen Menards store. | ⚪ |

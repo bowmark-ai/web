@@ -478,6 +478,7 @@ mcdonalds.com — mcdonalds: findStores, getMenu, getMenuItem (+2 planned)
 mcp.so — mcp_so: search
 medicalguardian.com — medicalguardian: assessFallRisk, getRiskAssessmentQuestions
 medicare.gov — medicare: findDoctors, findHospitals, findNursingHomes, getCosts, getPlan, searchDrugPlans, searchMedigapPlans (+12 planned)
+medium.com — medium: authorPosts, publicationPosts, tagPosts
 meetup.com — meetup: getGroup, searchEvents
 menards.com — menards: search (+3 planned)
 mercadolibre.com — mercadolibre: nothing callable yet (+6 planned)
