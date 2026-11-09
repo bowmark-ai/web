@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6b0c80098e30e258ff82252c698c7e5c07dff2e30b2c6dc9cef2025260217ae8
-// 97 capabilities, 784 providers, 4702 typed functions, 20 refused.
+// Manifest version: fd228a727f787a8816a884f12ce6f2f86a6bf9e7a188396c5fa7c7c77c9b4b32
+// 97 capabilities, 785 providers, 4704 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -63257,6 +63257,32 @@ interface McpSoSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_mcpmarket {
+  // ── MCP Market — the unit's own declarations, verbatim ──
+interface McpMarketSearchResult { slug: string; name: string; description: string; category: string | null; url: string; }
+interface McpMarketServer { slug: string; name: string; description: string; sourceUrl: string | null; author: string | null; authorUrl: string | null; keywords: string[]; likes: number | null; category: string | null; url: string; }
+
+  /**
+   * mcpmarket.com, a marketplace of MCP servers — search listings by keyword and read one
+   * server's details (repository, author, keywords, likes).
+   */
+  interface Unit {
+    /**
+     * Searches mcpmarket.com's MCP server marketplace by keyword, exactly as its own search page
+     * does, and returns each matching listing's slug, name, description, category and page url
+     * (default 20, max 60).
+     */
+    search(query: string | { query: string; limit?: number }, limit?: number): Promise<McpMarketSearchResult[]>;
+
+    /**
+     * Reads one MCP server listing on mcpmarket.com — by slug from search() or by its page url —
+     * and returns its name, description, source repository url, author, keywords, like count and
+     * category.
+     */
+    server(slug: string | { slug?: string; url?: string }): Promise<McpMarketServer>;
+  }
+}
+
 declare namespace BowmarkProvider_medicalguardian {
   // ── Medical Guardian — the unit's own declarations, verbatim ──
 // Medical Guardian's OWN shapes — not a capability contract.
@@ -111830,6 +111856,7 @@ interface BowmarkProviders {
   mcp_directory: BowmarkProvider_mcp_directory.Unit;
   mcp_registry: BowmarkProvider_mcp_registry.Unit;
   mcp_so: BowmarkProvider_mcp_so.Unit;
+  mcpmarket: BowmarkProvider_mcpmarket.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
   medium: BowmarkProvider_medium.Unit;

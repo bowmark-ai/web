@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6b0c80098e30e258ff82252c698c7e5c07dff2e30b2c6dc9cef2025260217ae8
-# 97 capabilities, 784 providers, 4684 typed functions, 20 refused.
+# Manifest version: fd228a727f787a8816a884f12ce6f2f86a6bf9e7a188396c5fa7c7c77c9b4b32
+# 97 capabilities, 785 providers, 4686 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -38983,6 +38983,33 @@ class Prv_mcp_so_McpSoListing_Out(TypedDict):
     author: str | None
     url: str
     imageUrl: str | None
+
+class Prv_mcpmarket_search_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_mcpmarket_McpMarketSearchResult_Out(TypedDict):
+    slug: str
+    name: str
+    description: str
+    category: str | None
+    url: str
+
+class Prv_mcpmarket_server_slug_u1_In(TypedDict):
+    slug: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_mcpmarket_McpMarketServer_Out(TypedDict):
+    slug: str
+    name: str
+    description: str
+    sourceUrl: str | None
+    author: str | None
+    authorUrl: str | None
+    keywords: list[str]
+    likes: float | None
+    category: str | None
+    url: str
 
 class Prv_medicalguardian_getRiskAssessmentQuestions_return_Out(TypedDict):
     questions: list[Prv_medicalguardian_MedicalguardianRiskQuestion_Out]
@@ -92155,6 +92182,23 @@ class Prv_mcp_so(Protocol):
         detail page this call could not reach, and is empty on a fully healthy call.
         """
 
+class Prv_mcpmarket(Protocol):
+    """mcpmarket.com, a marketplace of MCP servers — search listings by keyword and read one
+    server's details (repository, author, keywords, likes).
+    """
+
+    async def search(self, query: str | Prv_mcpmarket_search_query_u1_In, limit: float | None = None, /) -> list[Prv_mcpmarket_McpMarketSearchResult_Out]:
+        """Searches mcpmarket.com's MCP server marketplace by keyword, exactly as its own search
+        page does, and returns each matching listing's slug, name, description, category and
+        page url (default 20, max 60).
+        """
+
+    async def server(self, slug: str | Prv_mcpmarket_server_slug_u1_In, /) -> Prv_mcpmarket_McpMarketServer_Out:
+        """Reads one MCP server listing on mcpmarket.com — by slug from search() or by its page url
+        — and returns its name, description, source repository url, author, keywords, like count
+        and category.
+        """
+
 class Prv_medicalguardian(Protocol):
     """Medical Guardian's own fall-risk assessment (medicalguardian.com/risk-assessment) — a
     real 0-9 score and low/medium/high risk level computed exactly as the site computes it,
@@ -109042,6 +109086,7 @@ class BowmarkProviders(Protocol):
     mcp_directory: Prv_mcp_directory
     mcp_registry: Prv_mcp_registry
     mcp_so: Prv_mcp_so
+    mcpmarket: Prv_mcpmarket
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
     medium: Prv_medium

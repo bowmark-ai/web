@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6b0c80098e30e258ff82252c698c7e5c07dff2e30b2c6dc9cef2025260217ae8
-// 4684 checked, 20 unchecked.
+// Manifest version: fd228a727f787a8816a884f12ce6f2f86a6bf9e7a188396c5fa7c7c77c9b4b32
+// 4686 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6b0c80098e30e258ff82252c698c7e5c07dff2e30b2c6dc9cef2025260217ae8",
+  "version": "fd228a727f787a8816a884f12ce6f2f86a6bf9e7a188396c5fa7c7c77c9b4b32",
   "units": {
     "address_validation": {
       "defs": {
@@ -81039,6 +81039,84 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.mcpmarket": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "server": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "slug",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

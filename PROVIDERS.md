@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6161 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6165 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -262,7 +262,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.getStory` | apps.apple.com | Read an App Store editorial story — the Today-tab piece Apple's editors wrote ("Master… | 🟢 |
 | `app_store.listCategories` | apps.apple.com | List every category and subcategory the App Store sorts apps into — Business… | 🟢 |
 | `app_store.listDeveloperApps` | apps.apple.com | List every app one developer has on the store — from the developer's numeric artist… | 🟢 |
-| `app_store.listPurchasedApps` | apps.apple.com | List the apps the caller's own Apple Account has bought or downloaded, with what was… | 🔴 |
+| `app_store.listPurchasedApps` | apps.apple.com | List the apps the caller's own Apple Account has bought or downloaded, with what was… | 🟢 |
 | `app_store.listReviews` | apps.apple.com | Read what people actually wrote about an app — the review body, its title, the star… | 🟢 |
 | `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | 🟢 |
 | `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions the caller's own Apple Account is paying for —… | 🟢 |
@@ -523,12 +523,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟢 |
 | `bluesignal.searchJobs` | bluesignal.com | Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by a… | 🟢 |
 | `bluesky.addToList` | bsky.app | Add a person to one of the caller's lists, or remove them. | ⚪ |
-| `bluesky.blockUser` | bsky.app | Block a person as the caller, or unblock them. | 🔴 |
+| `bluesky.blockUser` | bsky.app | Block a person as the caller, or unblock them. | 🟢 |
 | `bluesky.bookmarkPost` | bsky.app | Save a post to the caller's Bookmarks, or remove it. | 🟢 |
 | `bluesky.createList` | bsky.app | Create a curation or moderation list owned by the caller. | ⚪ |
 | `bluesky.createPost` | bsky.app | Publish a post as the caller: text with links and mentions resolved into facets… | 🟢 |
 | `bluesky.deletePost` | bsky.app | Delete one of the caller's own posts. | 🟢 |
-| `bluesky.followUser` | bsky.app | Follow a person as the caller, or unfollow them. | 🔴 |
+| `bluesky.followUser` | bsky.app | Follow a person as the caller, or unfollow them. | 🟢 |
 | `bluesky.getConversation` | bsky.app | The messages in one of the caller's DM conversations, page by page, with a finder from… | 🟢 |
 | `bluesky.getFeed` | bsky.app | Read a custom feed's posts (Discover, What's Hot, any creator's feed) by URL or at://… | 🟢 |
 | `bluesky.getFeedInfo` | bsky.app | One custom feed's details: name, creator, description, avatar, like count and whether… | 🟢 |
@@ -565,7 +565,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.listMutedUsers` | bsky.app | The accounts the caller has muted. | 🟢 |
 | `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | 🟢 |
 | `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | 🟢 |
-| `bluesky.muteUser` | bsky.app | Mute a person for the caller, or unmute them. | 🔴 |
+| `bluesky.muteUser` | bsky.app | Mute a person for the caller, or unmute them. | 🟢 |
 | `bluesky.quotePost` | bsky.app | Quote-post an existing post with the caller's own text. | 🟢 |
 | `bluesky.replyToPost` | bsky.app | Reply to a post as the caller, threaded under it. | 🟢 |
 | `bluesky.repost` | bsky.app | Repost a post as the caller, or undo the repost. | 🟢 |
@@ -661,7 +661,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booker.requestAppointment` | booker.com | Sends the location a request for an appointment time that is not open online (the… | ⚪ |
 | `booker.searchLocations` | booker.com | Searches Booker's directory of spas and salons by business name and returns matching… | 🟢 |
 | `booker.updateMyProfile` | booker.com | Updates the signed-in customer's profile fields (name, phone, address, communication… | ⚪ |
-| `booking_com.addToWishlist` | booking.com | Save a property to one of the caller's own Booking.com saved lists. | 🔴 |
+| `booking_com.addToWishlist` | booking.com | Save a property to one of the caller's own Booking.com saved lists. | 🟢 |
 | `booking_com.autocompleteDestination` | booking.com | Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text… | 🟢 |
 | `booking_com.checkPrice` | booking.com | Check a specific property's own room rate table for given dates — every room offered… | 🟢 |
 | `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | 🟢 |
@@ -676,7 +676,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.listPropertyReviews` | booking.com | List guest reviews for a property — the reviewer, their stay, the score, and what they… | 🟢 |
 | `booking_com.listSavedPaymentMethods` | booking.com | List payment methods saved to the caller's account. | ⚪ |
 | `booking_com.listWishlist` | booking.com | List the caller's own Booking.com saved lists and the properties in each. | 🟢 |
-| `booking_com.removeFromWishlist` | booking.com | Remove a property from one of the caller's own Booking.com saved lists. | 🔴 |
+| `booking_com.removeFromWishlist` | booking.com | Remove a property from one of the caller's own Booking.com saved lists. | 🟢 |
 | `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | 🟢 |
 | `booking_com.writeReview` | booking.com | Write a review for a property the caller has booked. | ⚪ |
 | `booksy.addFavorite` | booksy.com | Saves a business to the signed-in caller's favourites. | 🟢 |
@@ -892,8 +892,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.getApp` | canva.com | Reads one Canva app's marketplace page by id or url — name, developer, description… | 🟢 |
 | `canva.getBrandKit` | canva.com | Reads the caller's brand kit — logos, brand colours and brand fonts. | ⚪ |
 | `canva.getBrandTemplateDataset` | canva.com | Reads which fields (text, image) one Brand Template can autofill. | ⚪ |
-| `canva.getColorCombinations` | canva.com | Returns the colour-wheel combinations for one hex colour — complementary, analogous… | 🔴 |
-| `canva.getColorMeaning` | canva.com | Reads Canva's page on one colour by name — hex/RGB values, symbolism and meaning, and… | 🔴 |
+| `canva.getColorCombinations` | canva.com | Returns the colour-wheel combinations for one hex colour — complementary, analogous… | 🟢 |
+| `canva.getColorMeaning` | canva.com | Reads Canva's page on one colour by name — hex/RGB values, symbolism and meaning, and… | 🟢 |
 | `canva.getColorPalette` | canva.com | Reads one curated colour palette by slug — its name, hex colours and the colour names. | 🟢 |
 | `canva.getCreator` | canva.com | Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower… | 🟢 |
 | `canva.getDesign` | canva.com | Reads one of the caller's designs by id or edit url — title, owner, created and… | ⚪ |
@@ -1014,15 +1014,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.getCustomInstructions` | chatgpt.com | Reads the CALLER's personalization — what ChatGPT should call them, their occupation… | 🟢 |
 | `chatgpt.getGPT` | chatgpt.com | Reads one custom GPT's page in the GPT Store — name, description, author, conversation… | 🟢 |
 | `chatgpt.getMemories` | chatgpt.com | Reads what ChatGPT has saved to the CALLER's memory (Settings → Personalization →… | 🟢 |
-| `chatgpt.getProject` | chatgpt.com | Reads one of the CALLER's projects — its instructions, uploaded files and the… | 🔴 |
+| `chatgpt.getProject` | chatgpt.com | Reads one of the CALLER's projects — its instructions, uploaded files and the… | 🟢 |
 | `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | 🟢 |
 | `chatgpt.listConversations` | chatgpt.com | Lists the CALLER's ChatGPT chat history, newest first — conversation id, title, last… | 🟢 |
 | `chatgpt.listLibraryImages` | chatgpt.com | Lists the images the CALLER has generated, from the Library page, newest first, with… | 🟢 |
 | `chatgpt.listModels` | chatgpt.com | Lists the models the CALLER's plan can pick in the model menu, with their limits. | 🟢 |
 | `chatgpt.listMyGPTs` | chatgpt.com | Lists the custom GPTs in the CALLER's sidebar (their own and ones they pinned or… | 🟢 |
-| `chatgpt.listProjects` | chatgpt.com | Lists the CALLER's ChatGPT projects with their names and conversation counts — the… | 🔴 |
+| `chatgpt.listProjects` | chatgpt.com | Lists the CALLER's ChatGPT projects with their names and conversation counts — the… | 🟢 |
 | `chatgpt.listScheduledTasks` | chatgpt.com | Lists the CALLER's scheduled tasks (reminders and recurring prompts ChatGPT runs on a… | 🟢 |
-| `chatgpt.listSharedLinks` | chatgpt.com | Lists the public share links the CALLER has created, with the conversation each points… | 🔴 |
+| `chatgpt.listSharedLinks` | chatgpt.com | Lists the public share links the CALLER has created, with the conversation each points… | 🟢 |
 | `chatgpt.moveConversationToProject` | chatgpt.com | Files one of the CALLER's conversations under one of their projects. | ⚪ |
 | `chatgpt.pinGPT` | chatgpt.com | Pins a GPT to (or unpins it from) the CALLER's sidebar. | ⚪ |
 | `chatgpt.rateResponse` | chatgpt.com | Gives a thumbs up or thumbs down on one of ChatGPT's replies in the CALLER's… | ⚪ |
@@ -1132,11 +1132,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude_com.listDocPages` | claude.com | Lists every /docs page claude.com publishes, parsed from the site's own /docs/llms.txt… | 🟢 |
 | `claude_support.getArticle` | support.claude.com | Returns one Claude help-center article's structured content by its URL — title… | 🟢 |
 | `claude_support.listArticles` | support.claude.com | Lists every English-language help-center article — url, numeric articleId and URL slug… | 🟢 |
-| `claude.addProjectDocument` | claude.ai | Adds a text document to one of the CALLER's project knowledge bases. | 🔴 |
+| `claude.addProjectDocument` | claude.ai | Adds a text document to one of the CALLER's project knowledge bases. | 🟢 |
 | `claude.continueSharedConversation` | claude.ai | Copies a shared Claude conversation into the CALLER's own account so they can keep… | 🟢 |
 | `claude.createProject` | claude.ai | Creates a Claude project in the CALLER's account, private to them, with a name and… | 🟢 |
-| `claude.deleteConversation` | claude.ai | Deletes one of the CALLER's Claude chats. | 🔴 |
-| `claude.deleteProjectDocument` | claude.ai | Removes a document from one of the CALLER's project knowledge bases. | 🔴 |
+| `claude.deleteConversation` | claude.ai | Deletes one of the CALLER's Claude chats. | 🟢 |
+| `claude.deleteProjectDocument` | claude.ai | Removes a document from one of the CALLER's project knowledge bases. | 🟢 |
 | `claude.deleteSharedLink` | claude.ai | Turns off one of the CALLER's conversation share links so the URL stops working. | 🟢 |
 | `claude.getAccount` | claude.ai | Reads the CALLER's own Claude account — id, email and display name — and the… | 🟢 |
 | `claude.getConversation` | claude.ai | Reads one of the CALLER's Claude conversations — title, model, and every message in… | 🟢 |
@@ -1164,7 +1164,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude.updateMemory` | claude.ai | Turns Claude's memory on or off for the CALLER, or tells it to forget everything… | 🟢 |
 | `claude.updatePreferences` | claude.ai | Updates the CALLER's personal preferences — what Claude should call them, their work… | 🟢 |
 | `claude.updateProfile` | claude.ai | Updates the CALLER's Claude profile — full name, display name and profile picture. | 🟢 |
-| `claude.updateProjectInstructions` | claude.ai | Sets the custom instructions on one of the CALLER's projects. | 🔴 |
+| `claude.updateProjectInstructions` | claude.ai | Sets the custom instructions on one of the CALLER's projects. | 🟢 |
 | `claude.uploadFile` | claude.ai | Uploads a file (PDF, image, text) to the CALLER's account so `sendMessage` can attach… | 🟢 |
 | `claudemarketplaces_com.getListing` | claudemarketplaces.com | Fetches one MCP server listing page (`/mcp/<publisher>/<slug>`) from… | 🟢 |
 | `claudemarketplaces_com.searchListings` | claudemarketplaces.com | Finds MCP server listings whose publisher or slug matches every word in a search… | 🟢 |
@@ -1381,7 +1381,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cyberpowerpc.priceBuild` | cyberpowerpc.com | Prices an exact build for one configurator given a caller's part selections (one part… | 🟢 |
 | `dahlconsulting.getJob` | careers.dahlconsulting.com | Reads one job posting's full detail — the complete description, industry… | 🟢 |
 | `dahlconsulting.searchJobs` | careers.dahlconsulting.com | Searches Dahl Consulting's live job board — every open role at… | 🟢 |
-| `dailymotion.addToPlaylist` | dailymotion.com | Add a video to one of the signed-in caller's own playlists, or pass add: false to… | 🔴 |
+| `dailymotion.addToPlaylist` | dailymotion.com | Add a video to one of the signed-in caller's own playlists, or pass add: false to… | 🟢 |
 | `dailymotion.addToWatchLater` | dailymotion.com | Save a Dailymotion video to the signed-in caller's Watch Later, or pass add: false to… | 🟢 |
 | `dailymotion.createPlaylist` | dailymotion.com | Create a playlist on the signed-in caller's Dailymotion account — name, optional… | 🟢 |
 | `dailymotion.deletePlaylist` | dailymotion.com | Delete one of the signed-in caller's playlists. | 🟢 |
@@ -1472,7 +1472,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.getComments` | deviantart.com | Reads a deviation's comment thread — each comment's author, posted time, text and… | 🟢 |
 | `deviantart.getDailyDeviations` | deviantart.com | Lists the Daily Deviations — the artworks DeviantArt's staff feature each day — for… | 🟢 |
 | `deviantart.getDeviation` | deviantart.com | Reads one deviation in full — title, author, published time, description text, tags… | 🟡 |
-| `deviantart.getNotifications` | deviantart.com | Reads the signed-in caller's notifications — comments, favourites, new watchers and… | 🔴 |
+| `deviantart.getNotifications` | deviantart.com | Reads the signed-in caller's notifications — comments, favourites, new watchers and… | 🟢 |
 | `deviantart.getRelatedDeviations` | deviantart.com | Lists the deviations an art page shows under one artwork — more by the same artist… | 🟢 |
 | `deviantart.getUserFavourites` | deviantart.com | Lists the deviations an artist has favourited — their public 'Favourites' collections… | 🟢 |
 | `deviantart.getUserGallery` | deviantart.com | Lists an artist's gallery — every deviation they posted, newest first, or one gallery… | 🟢 |
@@ -1538,7 +1538,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | 🟡 |
 | `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | 🟢 |
 | `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | 🟡 |
-| `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | 🔴 |
+| `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | 🟢 |
 | `discord.joinServer` | discord.com | Joins a server from an invite code or link as the caller. | ⚪ |
 | `discord.leaveServer` | discord.com | Leaves a server the caller has joined. | ⚪ |
 | `discord.listAppCategories` | discord.com | Lists the App Directory's categories (Games, Entertainment, Moderation and Tools… | 🟢 |
@@ -1549,17 +1549,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.listFeaturedApps` | discord.com | Lists the App Directory's featured collections ("Action Games" and the rest) — each… | 🟢 |
 | `discord.listFriendRequests` | discord.com | Lists the caller's pending incoming and outgoing friend requests. | 🟢 |
 | `discord.listFriends` | discord.com | Lists the caller's friends — user id, username, display name and avatar. | 🟢 |
-| `discord.listMentions` | discord.com | Lists the recent messages that mentioned the caller across their servers — the Inbox's… | 🔴 |
+| `discord.listMentions` | discord.com | Lists the recent messages that mentioned the caller across their servers — the Inbox's… | 🟢 |
 | `discord.listMessages` | discord.com | Reads a channel's or DM's recent messages, newest first, paging backwards — author… | 🟢 |
 | `discord.listMyServers` | discord.com | Lists the servers the signed-in caller has joined — id, name, icon, whether they own… | 🟢 |
-| `discord.listPinnedMessages` | discord.com | Lists the messages pinned in a channel. | 🔴 |
+| `discord.listPinnedMessages` | discord.com | Lists the messages pinned in a channel. | 🟢 |
 | `discord.listQuests` | discord.com | Lists the Quests currently offered to the caller — game, task, reward and expiry — and… | 🟢 |
 | `discord.listServerAnnouncements` | discord.com | Lists the posts a server publishes to its public announcements page… | 🟢 |
 | `discord.listServerCategories` | discord.com | Lists the public server directory's categories (Gaming, Entertainment, Education… | 🟢 |
 | `discord.listServerEvents` | discord.com | Lists a joined server's scheduled events — name, description, start and end time… | 🟢 |
 | `discord.listServers` | discord.com | Browses Discord's public server directory with no keyword, in the directory's own… | 🟢 |
 | `discord.listSimilarApps` | discord.com | Lists the apps the App Directory shows as similar to one app — the same full shape… | 🟢 |
-| `discord.listThreads` | discord.com | Lists the active threads in a channel, or the posts in a forum channel — title… | 🔴 |
+| `discord.listThreads` | discord.com | Lists the active threads in a channel, or the posts in a forum channel — title… | 🟢 |
 | `discord.listTrendingGames` | discord.com | Lists the games trending on Discord this week (discord.com/trending-games), overall or… | 🟢 |
 | `discord.removeFriend` | discord.com | Removes a friend, or cancels or declines a pending request. | ⚪ |
 | `discord.removeReaction` | discord.com | Removes the caller's own emoji reaction from a message. | ⚪ |
@@ -1647,14 +1647,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.getTransfer` | dropbox.com | Opens a Dropbox Transfer link (www.dropbox.com/t/<id>) the caller was sent: the files… | ⚪ |
 | `dropbox.listDeletedFiles` | dropbox.com | Lists the caller's recently deleted files and folders that can still be restored. | 🟢 |
 | `dropbox.listFileComments` | dropbox.com | Reads the comments on a file in the caller's Dropbox. | ⚪ |
-| `dropbox.listFileRequests` | dropbox.com | Lists the caller's file requests, open and closed, with how many files each has… | 🔴 |
+| `dropbox.listFileRequests` | dropbox.com | Lists the caller's file requests, open and closed, with how many files each has… | 🟢 |
 | `dropbox.listFileVersions` | dropbox.com | Lists the earlier versions of a file in the caller's Dropbox, with when and by whom… | 🟢 |
 | `dropbox.listFolder` | dropbox.com | Lists a folder in the caller's own Dropbox — the root by default — with each entry's… | 🟢 |
 | `dropbox.listRecentFiles` | dropbox.com | Lists the files the caller opened or edited recently (dropbox.com/recents). | ⚪ |
 | `dropbox.listSharedFolder` | dropbox.com | Lists the files and sub-folders inside a shared folder link — name, size, modified… | 🟢 |
 | `dropbox.listSharedLinks` | dropbox.com | Lists the shared links the caller has created, with what each points at and its… | 🟢 |
 | `dropbox.listSharedWithMe` | dropbox.com | Lists the files and folders other people have shared with the caller… | 🟢 |
-| `dropbox.listSharingMembers` | dropbox.com | Lists who has access to a shared file or folder in the caller's Dropbox, and whether… | 🔴 |
+| `dropbox.listSharingMembers` | dropbox.com | Lists who has access to a shared file or folder in the caller's Dropbox, and whether… | 🟢 |
 | `dropbox.listStarredFiles` | dropbox.com | Lists the files and folders the caller starred. | ⚪ |
 | `dropbox.listTransfers` | dropbox.com | Lists the transfers the caller has sent, with their links, view and download counts… | ⚪ |
 | `dropbox.moveFile` | dropbox.com | Moves or renames a file or folder in the caller's Dropbox. | 🟢 |
@@ -1790,7 +1790,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `erieinsurance.getUmbrellaQuote` | erieinsurance.com | Returns a personal umbrella liability insurance premium quote given a requested… | ⚪ |
 | `erieinsurance.getWorkersCompensationQuote` | erieinsurance.com | Returns a workers' compensation insurance premium quote for a business's payroll… | ⚪ |
 | `espn.addDropFantasyPlayer` | espn.com | Adds a free agent to the CALLER's own ESPN fantasy team, dropping one of theirs if the… | 🟢 |
-| `espn.addFavorite` | espn.com | Adds a team, league or player to the CALLER's My ESPN favourites. | 🔴 |
+| `espn.addFavorite` | espn.com | Adds a team, league or player to the CALLER's My ESPN favourites. | 🟢 |
 | `espn.createFantasyLeague` | espn.com | Creates a new ESPN fantasy league (football, baseball, basketball or hockey) owned by… | ⚪ |
 | `espn.draftPicks` | espn.com | A league's draft pick by pick — round, pick, overall number, drafting team, the player… | 🟢 |
 | `espn.fantasyPlayers` | espn.com | ESPN Fantasy's public player board for fantasy football, baseball, basketball or… | 🟢 |
@@ -1812,7 +1812,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.playerStats` | espn.com | One player's full statistics — season by season and career totals in every category… | 🟢 |
 | `espn.proposeFantasyTrade` | espn.com | Proposes a trade from the CALLER's own ESPN fantasy team to another team in the same… | 🟢 |
 | `espn.rankings` | espn.com | College polls — the AP Top 25, the Coaches Poll and (in season) the playoff rankings… | 🟢 |
-| `espn.removeFavorite` | espn.com | Removes a team, league or player from the CALLER's My ESPN favourites. | 🔴 |
+| `espn.removeFavorite` | espn.com | Removes a team, league or player from the CALLER's My ESPN favourites. | 🟢 |
 | `espn.scoreboard` | espn.com | A league's games for today, a date, a date range or a football week — teams, live or… | 🟢 |
 | `espn.search` | espn.com | ESPN's own site search — players, teams, leagues and articles matching free text, each… | 🟢 |
 | `espn.setFantasyLineup` | espn.com | Moves players between the CALLER's starting lineup and bench in one of their own ESPN… | 🟢 |
@@ -1979,7 +1979,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.postDiscussionPost` | fandom.com | Reply to a Discussions thread on one wiki under the caller's own account — `threadId`… | 🟢 |
 | `fandom.search` | fandom.com | Search one wiki the way a person types into its search box — hand it a `wiki`… | 🟢 |
 | `fandom.suggestTitles` | fandom.com | Autocomplete a partial title within one wiki, the way its search box does as you type.… | 🟢 |
-| `fandom.undoRevision` | fandom.com | Undo one edit to an article under the caller's own account — `revid` from… | 🔴 |
+| `fandom.undoRevision` | fandom.com | Undo one edit to an article under the caller's own account — `revid` from… | 🟢 |
 | `fandom.unwatchPage` | fandom.com | Remove an article from the caller's own watchlist on one wiki — `{ wiki, title }` or… | 🟢 |
 | `fandom.watchPage` | fandom.com | Add an article to the caller's own watchlist on one wiki — `{ wiki, title }` or the… | 🟢 |
 | `fareharbor.cancelBooking` | fareharbor.com | Cancel an existing booking by confirmation number. | ⚪ |
@@ -2461,7 +2461,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
-| `google_maps.addMissingPlace` | google.com/maps | Add a business Google Maps does not list yet — name, address, category and hours —… | 🔴 |
+| `google_maps.addMissingPlace` | google.com/maps | Add a business Google Maps does not list yet — name, address, category and hours —… | 🟢 |
 | `google_maps.geocodeAddress` | google.com/maps | A street address or place name in, coordinates and the matching Google Maps place out. | 🟢 |
 | `google_maps.getDirections` | google.com/maps | Route between two places — the site's own trip total (distance, duration… | 🟢 |
 | `google_maps.getPlace` | google.com/maps | Get detailed business information including hours of operation and current open/closed… | 🟢 |
@@ -2476,9 +2476,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | 🟢 |
 | `google_maps.searchNearby` | google.com/maps | searchPlaces anchored to a POINT instead of resolved from the query text — for a… | 🟢 |
 | `google_maps.searchPlaces` | google.com/maps | Search for places by name or category, returning hours and open status. | 🟢 |
-| `google_maps.suggestPlaceEdit` | google.com/maps | Send Google a correction about a place — wrong hours, wrong address, permanently… | 🔴 |
+| `google_maps.suggestPlaceEdit` | google.com/maps | Send Google a correction about a place — wrong hours, wrong address, permanently… | 🟢 |
 | `google_maps.suggestPlaces` | google.com/maps | Google Maps' own autocomplete for a half-typed query — what the search box offers… | 🟢 |
-| `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | 🔴 |
+| `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | 🟢 |
 | `google_news.findTopic` | news.google.com | The finder `getTopicHeadlines` is missing for an ENTITY topic — a company, a person, a… | ⚪ |
 | `google_news.followTopic` | news.google.com | Follow a topic, a place or a publisher as the signed-in person — how a Google News… | 🟢 |
 | `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | 🟢 |
@@ -2509,7 +2509,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_store.listProducts` | store.google.com | Lists every product page on the US Google Store (Pixel phones, Pixel Watch, Pixel… | 🟢 |
 | `google_store.searchProducts` | store.google.com | Finds Google Store products by name words (pixel 10, nest cam, pixel buds) — slug… | 🟢 |
 | `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | 🟢 |
-| `google_translate.deleteHistory` | translate.google.com | Delete from the signed-in person's translation history — one entry (the History… | 🔴 |
+| `google_translate.deleteHistory` | translate.google.com | Delete from the signed-in person's translation history — one entry (the History… | 🟢 |
 | `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | 🟢 |
 | `google_translate.getAlternativeTranslations` | translate.google.com | The other ways Google would have translated the same thing — the list that appears… | 🟢 |
 | `google_translate.getDefinitions` | translate.google.com | What a word MEANS, in its own language — every sense grouped by part of speech, each… | 🟢 |
@@ -2571,7 +2571,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grammarly.listDocuments` | www.grammarly.com | Lists saved documents in a signed-in account. | ⚪ |
 | `grammarly.listGoals` | www.grammarly.com | Lists writing goals (audience, tone, formality, domain) for the account. | ⚪ |
 | `grammarly.listPlans` | www.grammarly.com | Lists Grammarly's subscription plans with their prices for the visitor's country. | 🟢 |
-| `grammarly.paraphrase` | www.grammarly.com | Rewrites text in different words with the same meaning, logged out (up to 625… | 🔴 |
+| `grammarly.paraphrase` | www.grammarly.com | Rewrites text in different words with the same meaning, logged out (up to 625… | 🟢 |
 | `grammarly.removeFromDictionary` | www.grammarly.com | Removes a word or phrase from the signed-in account's personal dictionary. | ⚪ |
 | `grammarly.setGoals` | www.grammarly.com | Sets the writing goals (audience, formality, domain, intent) the checker tunes its… | ⚪ |
 | `grammarly.updateProfile` | www.grammarly.com | Changes the signed-in account's display name. | ⚪ |
@@ -2750,7 +2750,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.getPurchase` | ikea.com | Reads one of the signed-in caller's purchases by order number — items, prices… | 🟢 |
 | `ikea.listCategories` | ikea.com | Lists IKEA's product category tree (e.g. Furniture → Bookcases & shelving units) with… | 🟢 |
 | `ikea.listCategoryProducts` | ikea.com | Lists the products in one category with IKEA's own filters (price, colour, material… | 🟢 |
-| `ikea.listFamilyOffers` | ikea.com | Lists the signed-in caller's IKEA Family offers — personal coupons, partner coupons… | 🔴 |
+| `ikea.listFamilyOffers` | ikea.com | Lists the signed-in caller's IKEA Family offers — personal coupons, partner coupons… | 🟢 |
 | `ikea.listFavorites` | ikea.com | Reads every favorites list on an identity — a fresh, empty one if favoritesToken is… | 🟢 |
 | `ikea.listInspiration` | ikea.com | Lists one room's idea content — photographed room galleries, how-to articles, product… | 🟢 |
 | `ikea.listNewProducts` | ikea.com | Lists IKEA US products marked as new arrivals, with the same filters, sort orders and… | 🟢 |
@@ -3050,7 +3050,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.followCompany` | linkedin.com | Follows or unfollows a company page as the signed-in caller. `company` is the numeric… | 🟢 |
 | `linkedin.followMember` | linkedin.com | Follows or unfollows a member as the signed-in caller, so their posts appear in the… | 🟢 |
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | 🟢 |
-| `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
+| `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟡 |
 | `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟢 |
 | `linkedin.getEvent` | linkedin.com | Returns one LinkedIn event by its URL or numeric id (from searchEvents) — name… | 🟢 |
 | `linkedin.getGroup` | linkedin.com | Returns one LinkedIn group by its URL or numeric id (from searchGroups or… | 🟢 |
@@ -3247,6 +3247,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mcp_directory.search` | mcp.directory | Searches MCP.Directory's public catalogue of MCP servers by keyword, or browses its… | 🟢 |
 | `mcp_registry.search` | registry.modelcontextprotocol.io | Lists or searches the official MCP server registry (registry.modelcontextprotocol.io)… | 🟢 |
 | `mcp_so.search` | mcp.so | Searches the mcp.so directory of published MCP servers by a slug/name substring and… | 🟢 |
+| `mcpmarket.search` | mcpmarket.com | Searches mcpmarket.com's MCP server marketplace by keyword, exactly as its own search… | 🟢 |
+| `mcpmarket.server` | mcpmarket.com | Reads one MCP server listing on mcpmarket.com by slug or page url and returns its… | 🟢 |
 | `medicalguardian.assessFallRisk` | medicalguardian.com | Runs Medical Guardian's own fall-risk scoring — 9 yes/no + one 3-way activity-level… | 🟢 |
 | `medicalguardian.getRiskAssessmentQuestions` | medicalguardian.com | Returns the 9 scored questions from Medical Guardian's own fall-risk assessment… | 🟢 |
 | `medicare.checkCoverage` | medicare.gov | Answers the question this site gets asked most: is a specific test, item or service… | ⚪ |
@@ -3436,14 +3438,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.addToMyList` | www.netflix.com | Adds a title to the signed-in caller's own Netflix My List by its numeric id (from… | 🟢 |
 | `netflix.browseGenre` | www.netflix.com | Lists the titles in one Netflix genre — the id from listGenres or the number in… | 🟢 |
 | `netflix.findTitles` | www.netflix.com | Finds Netflix titles by name — e.g. findTitles("stranger things") — returning each… | 🟢 |
+| `netflix.getAccount` | www.netflix.com | Reads the signed-in caller's own Netflix account — name, email, membership status… | 🟢 |
 | `netflix.getContinueWatching` | www.netflix.com | Reads the signed-in caller's own Netflix Continue Watching row — the titles they are… | 🟢 |
+| `netflix.getEpisodes` | www.netflix.com | Lists a Netflix series' episodes by its numeric title id — e.g.… | 🟢 |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's own Netflix My List — each saved title's id, name… | 🟢 |
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
 | `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10… | 🟢 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads one article on Tudum, Netflix's editorial site, by its slug or URL — headline… | 🟢 |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's own Netflix viewing history, most recent first, 100 per… | 🟢 |
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
-| `netflix.rateTitle` | www.netflix.com | Rates a title on the signed-in caller's own Netflix account by its numeric id — "up"… | 🔴 |
+| `netflix.rateTitle` | www.netflix.com | Rates a title on the signed-in caller's own Netflix account by its numeric id — "up"… | 🟢 |
 | `netflix.removeFromMyList` | www.netflix.com | Removes a title from the signed-in caller's own Netflix My List by its numeric id… | 🟢 |
 | `netflix.search` | www.netflix.com | Searches the whole Netflix catalogue the way the site's own search box does — e.g.… | 🟢 |
 | `netflix.searchTudum` | www.netflix.com | Searches Netflix's weekly Top 10 history by title, returning every week and category… | 🟢 |
@@ -3843,7 +3847,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.commentOnPin` | pinterest.com | Leave a comment on a pin as the caller. | ⚪ |
 | `pinterest.createBoard` | pinterest.com | Make a new board on the caller's account, public or secret, with a name and description. | 🟢 |
 | `pinterest.createPin` | pinterest.com | Create a new pin on the caller's account from an image and a destination link, with a… | ⚪ |
-| `pinterest.deleteBoard` | pinterest.com | Delete one of the caller's own boards — what makes every board test write reversible. | 🔴 |
+| `pinterest.deleteBoard` | pinterest.com | Delete one of the caller's own boards — what makes every board test write reversible. | 🟢 |
 | `pinterest.deletePin` | pinterest.com | Delete a pin the caller created or saved — the undo that makes `createPin` and… | 🟢 |
 | `pinterest.findVisuallySimilar` | pinterest.com | Find pins that look like a region of an image — Pinterest's lens, the thing the site… | ⚪ |
 | `pinterest.followBoard` | pinterest.com | Follow a single board rather than everything its owner posts. | ⚪ |
@@ -3874,7 +3878,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listUserSavedPins` | pinterest.com | The pins a person has saved, newest first, across all their boards — what… | 🟢 |
 | `pinterest.listVisualObjects` | pinterest.com | The objects Pinterest's own computer vision found inside a pin's image — each with a… | 🟢 |
 | `pinterest.reactToPin` | pinterest.com | React to a pin as the caller — Pinterest's good-idea / love / thanks set, which… | ⚪ |
-| `pinterest.savePin` | pinterest.com | Save an existing pin to one of the caller's boards — the repin, which is the single… | 🔴 |
+| `pinterest.savePin` | pinterest.com | Save an existing pin to one of the caller's boards — the repin, which is the single… | 🟢 |
 | `pinterest.searchBoards` | pinterest.com | Search for boards rather than pins — "espresso machine" comes back as 49 boards with… | 🟢 |
 | `pinterest.searchMyPins` | pinterest.com | Search only inside the caller's own saved pins — Pinterest's `my_pins` search scope… | 🟢 |
 | `pinterest.searchPins` | pinterest.com | Search Pinterest the way a person types into its search box and get the pins back… | 🟢 |
@@ -3885,7 +3889,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.unfollowBoard` | pinterest.com | Stop following a board. | ⚪ |
 | `pinterest.unfollowTopic` | pinterest.com | Stop following an idea topic. | 🟢 |
 | `pinterest.unfollowUser` | pinterest.com | Stop following a person or a brand. | ⚪ |
-| `pinterest.updateBoard` | pinterest.com | Rename a board, change its description, or flip it between public and secret. | 🔴 |
+| `pinterest.updateBoard` | pinterest.com | Rename a board, change its description, or flip it between public and secret. | 🟢 |
 | `pinterest.updateProfile` | pinterest.com | Edit the caller's own profile — display name, bio, website, and the profile picture. | ⚪ |
 | `pirateship.getRates` | pirateship.com | Compares live shipping rates across USPS and UPS for a package — given a from/to… | 🟢 |
 | `pirateship.trackShipment` | pirateship.com | Looks up delivery status for a shipment by tracking number, the way… | ⚪ |
@@ -3942,7 +3946,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.listTop10` | www.primevideo.com | Prime Video's own top ten right now — the most-watched TV shows in the US, the top… | 🟢 |
 | `prime_video.searchTitles` | www.primevideo.com | Search Prime Video's whole catalogue for what a person would type — "matrix", "the… | 🟢 |
 | `prime_video.suggestTitles` | www.primevideo.com | Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy"… | 🟢 |
-| `prime_video.toggleWatchlist` | www.primevideo.com | Add a title to the caller's watchlist, or take one off it — the one write a person… | 🔴 |
+| `prime_video.toggleWatchlist` | www.primevideo.com | Add a title to the caller's watchlist, or take one off it — the one write a person… | 🟢 |
 | `printful.getOrder` | printful.com | Fetches details of a single order by order ID from a Printful store, including status… | 🟢 |
 | `printful.searchOrders` | printful.com | Finds orders matching a customer's email or the order's own reference (external_id)… | 🟢 |
 | `producthunt.listLaunches` | producthunt.com | Lists the latest product launches on Product Hunt (up to 50, newest first) from the… | 🟢 |
@@ -4231,7 +4235,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `resend.uploadSupportAttachment` | resend.com | Request an upload slot for a support-chat attachment. | ⚪ |
 | `reserve_with_google.bookReservation` | google.com/maps/reserve | Books a slot from checkAvailability on the caller's own Google account, with party… | 🟢 |
 | `reserve_with_google.cancelBooking` | google.com/maps/reserve | Cancels the caller's booking at one venue, found by the venue feature id… | 🟢 |
-| `reserve_with_google.checkAvailability` | google.com/maps/reserve | For a Google-hosted merchant and party size, returns every bookable day plus the time… | 🔴 |
+| `reserve_with_google.checkAvailability` | google.com/maps/reserve | For a Google-hosted merchant and party size, returns every bookable day plus the time… | 🟢 |
 | `reserve_with_google.findBookablePlaces` | google.com/maps/reserve | Finds places you can book through Reserve with Google from words — "sushi near Union… | 🟢 |
 | `reserve_with_google.getBooking` | google.com/maps/reserve | Finds one of the caller's bookings on their Bookings page by the venue's feature id —… | 🟢 |
 | `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists the booking action one place offers on Google — "Reserve a table", "Book online"… | 🟡 |
@@ -4286,9 +4290,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.saveArticle` | www.reuters.com | Save a Reuters article to the signed-in reader's saved list. | 🟢 |
 | `reuters.searchArticles` | www.reuters.com | Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed… | 🟡 |
 | `reuters.searchCompanies` | www.reuters.com | Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF"… | 🟢 |
-| `reuters.subscribeNewsletter` | www.reuters.com | Sign the signed-in reader up to one or more Reuters newsletters. | 🔴 |
+| `reuters.subscribeNewsletter` | www.reuters.com | Sign the signed-in reader up to one or more Reuters newsletters. | 🟢 |
 | `reuters.unfollowTopic` | www.reuters.com | Unfollow a Reuters topic, section, company, law firm or author in the reader's My News. | 🟢 |
-| `reuters.unsubscribeNewsletter` | www.reuters.com | Unsubscribe the signed-in reader from one or more Reuters newsletters. | 🔴 |
+| `reuters.unsubscribeNewsletter` | www.reuters.com | Unsubscribe the signed-in reader from one or more Reuters newsletters. | 🟢 |
 | `revisionskincare.getSkincareQuizQuestions` | revisionskincare.com | Reads the live 'Product Finder Quiz' at revisionskincare.com/pages/skincare-quiz… | 🟢 |
 | `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟢 |
 | `rezdy.bookSession` | rezdy.com | Prepares a guest booking for a session -- product, session, the quantity of each price… | 🟢 |
@@ -4590,7 +4594,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.searchStore` | shop.app | Searches inside one store for products matching free text ("strawberry" in Liquid… | 🟢 |
 | `shop_app.startCheckout` | shop.app | Opens a checkout for the caller's cart at one store and returns the checkout url for… | ⚪ |
 | `shop_app.suggestSearches` | shop.app | Autocompletes a partial search ("running sh") into Shop's own query suggestions plus… | 🟡 |
-| `shop_app.trackPackage` | shop.app | Adds a package to the caller's Shop by its tracking number and carrier, so Shop tracks… | 🔴 |
+| `shop_app.trackPackage` | shop.app | Adds a package to the caller's Shop by its tracking number and carrier, so Shop tracks… | 🟢 |
 | `shop_app.updatePrivacySettings` | shop.app | Changes the caller's Shop privacy settings (personalised recommendations, data sharing). | ⚪ |
 | `shop_app.writeReview` | shop.app | Leaves a star rating and review on a product the caller bought through Shop. | ⚪ |
 | `shopify.addToCart` | shopify.com (49875 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
@@ -4924,7 +4928,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.listGamesByCategory` | steampowered.com | Lists games filtered by one of Steam's own genre/category tags (Action, Adventure… | 🟢 |
 | `steam.listGameTags` | steampowered.com | Lists every tag users can apply to games on the Steam store, in the site's own… | 🟢 |
 | `steam.listNews` | steampowered.com | Lists a game's news and updates by appid, from both official announcements and… | 🟢 |
-| `steam.postComment` | steampowered.com | Posts a comment on a Steam user's profile by steamid64 (max 1000 characters), off the… | 🔴 |
+| `steam.postComment` | steampowered.com | Posts a comment on a Steam user's profile by steamid64 (max 1000 characters), off the… | 🟢 |
 | `steam.removeFriend` | steampowered.com | Removes a user from the signed-in caller's Steam friends list by steamid64, off the… | 🟢 |
 | `steam.removeFromWishlist` | steampowered.com | Removes a game from the signed-in caller's wishlist by appid, off the store's own… | 🟢 |
 | `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | 🟢 |
@@ -5055,7 +5059,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teladoc.getPricing` | teladochealth.com | Returns Teladoc's published self-pay (no-insurance) visit pricing by service line —… | 🟢 |
 | `teladoc.search` | teladochealth.com | Searches Teladoc Health's public Health Library — recipes, meal plans… | ⚪ |
 | `temu.addToCart` | www.temu.com | Add one product (with its chosen variant and quantity) to the caller's cart. | 🟢 |
-| `temu.addToWishlist` | www.temu.com | Save a product to the caller's wishlist by its productId (goods_id) or product url. | 🔴 |
+| `temu.addToWishlist` | www.temu.com | Save a product to the caller's wishlist by its productId (goods_id) or product url. | 🟢 |
 | `temu.checkout` | www.temu.com | Read the live order total (items, shipping, tax, any coupon) for the caller's cart and… | 🟢 |
 | `temu.getProduct` | www.temu.com | Read one product's detail page — title, price, images, variants, shipping estimate… | ⚪ |
 | `temu.getProductReviews` | www.temu.com | Read a product's customer reviews and rating breakdown by its product url. | ⚪ |
@@ -5206,7 +5210,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller to a TikTok account, by handle — drives TikTok's own… | 🟢 |
 | `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | 🟢 |
 | `tiktok.unlikeVideo` | tiktok.com | Remove a like the caller placed — the reverse of likeVideo. | 🟢 |
-| `tiktok.uploadVideo` | tiktok.com | Upload a video to the signed-in caller's own account, with caption, hashtags and… | 🔴 |
+| `tiktok.uploadVideo` | tiktok.com | Upload a video to the signed-in caller's own account, with caption, hashtags and… | 🟢 |
 | `tilsonhomes.getElevationDetails` | tilsonhomes.com | Reads one plan's elevation — the exterior style's customization range (how far… | 🟢 |
 | `tilsonhomes.listPlans` | tilsonhomes.com | Lists Tilson Homes' Build-On-Your-Land floor plans — model name, bed/bath/size and the… | 🟢 |
 | `titlenine.calculateBraSize` | titlenine.com | Runs Title Nine's own bra-size calculator — chest, bust and under-bust measurements… | 🟢 |
@@ -5346,7 +5350,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟢 |
 | `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | 🟡 |
 | `tripadvisor.getMemberProfile` | tripadvisor.com | Reads a member's public profile — handle, display name, home town, join date… | ⚪ |
-| `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a listing (/HotelsNear-… | 🟢 |
+| `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a listing (/HotelsNear-… | 🟡 |
 | `tripadvisor.getOwnProfile` | tripadvisor.com | Reads the signed-in caller's own profile — handle, display name, home town… | ⚪ |
 | `tripadvisor.getPhotos` | tripadvisor.com | Lists a listing's photos — the gallery's albums (all photos, traveller, dining… | 🟢 |
 | `tripadvisor.getQuestions` | tripadvisor.com | Reads a listing's travellers' Q&A questions, newest first — each question's id, text… | 🟢 |
@@ -5392,7 +5396,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.reblogPost` | tumblr.com | Reblog a post to the signed-in account's blog. | 🟢 |
 | `tumblr.searchBlogPosts` | tumblr.com | Search posts within a specific blog. | 🟢 |
 | `tumblr.searchPosts` | tumblr.com | Search all posts across Tumblr by keyword or phrase. | 🟢 |
-| `tumblr.sendMessage` | tumblr.com | Send an ask (public or anonymous) to a blog. | 🔴 |
+| `tumblr.sendMessage` | tumblr.com | Send an ask (public or anonymous) to a blog. | 🟢 |
 | `tumblr.unfollowBlog` | tumblr.com | Unfollow a blog from the signed-in account. | 🟢 |
 | `tumblr.unlikePost` | tumblr.com | Remove a like from a post on the signed-in account. | 🟢 |
 | `tumblr.unreblogPost` | tumblr.com | Remove a reblog from the signed-in account's blog. | 🟢 |
@@ -5483,7 +5487,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ups.estimateDeliveryDate` | ups.com | Estimates delivery date and timeframe for shipment between two locations with a… | 🟢 |
 | `ups.findNearbyLocation` | ups.com | Finds UPS drop-off/pickup locations near a ZIP Code or street/city address — UPS… | 🟢 |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
-| `ups.getServiceAlerts` | ups.com | UPS's own active service alerts (weather, natural disasters, regional disruptions)… | 🔴 |
+| `ups.getServiceAlerts` | ups.com | UPS's own active service alerts (weather, natural disasters, regional disruptions)… | 🟢 |
 | `ups.schedulePickup` | ups.com | Quotes UPS's one-time pickup fee for a US address and date, through the guest Schedule… | 🟢 |
 | `ups.trackShipment` | ups.com | Tracks a shipment by tracking number and returns status, delivery date, and current… | 🟢 |
 | `ups.validateAddress` | ups.com | Validates and standardizes a US shipping address against UPS's Address Validation API… | 🟢 |
@@ -5663,7 +5667,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `washingtonpost.listEpisodes` | washingtonpost.com | Lists a podcast show's own episodes off its RSS feed, newest first — title, url, date… | 🟢 |
 | `washingtonpost.listNewsletters` | washingtonpost.com | Lists the site's own newsletters off its newsletter directory (the /newsletters/… | 🟢 |
 | `washingtonpost.listPodcasts` | washingtonpost.com | Lists the site's own recent podcast episodes across every show. | 🟢 |
-| `washingtonpost.listSavedArticles` | washingtonpost.com | Lists the signed-in reader's own saved articles off their Washington Post account. | 🔴 |
+| `washingtonpost.listSavedArticles` | washingtonpost.com | Lists the signed-in reader's own saved articles off their Washington Post account. | 🟢 |
 | `washingtonpost.listSections` | washingtonpost.com | Lists the site's own news sections (Politics, World, Business, Sports, Opinions, etc.)… | 🟢 |
 | `washingtonpost.listTopics` | washingtonpost.com | Lists the site's own topic/beat pages off its published section-sitemap — narrower… | 🟢 |
 | `washingtonpost.listTrending` | washingtonpost.com | Lists the site's own most-read articles right now. | 🟢 |
@@ -5698,9 +5702,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
 | `weather_channel.getPollenHealth` | weather.com | 5-day cold & flu or migraine risk for a place — weather.com's health forecast. | 🟢 |
 | `weather_channel.getRadarTiles` | weather.com | Radar map layers weather.com's own map draws — latest frame timestamps and a tile URL… | 🔴 |
-| `weather_channel.getRainTiming` | weather.com | When will it start (or stop) raining here — the site's one-sentence answer with the… | 🔴 |
+| `weather_channel.getRainTiming` | weather.com | When will it start (or stop) raining here — the site's one-sentence answer with the… | 🟢 |
 | `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | 🟢 |
-| `weather_channel.getTropicalForecastPath` | weather.com | Where each active hurricane/tropical storm is forecast to be over the coming days, and… | 🔴 |
+| `weather_channel.getTropicalForecastPath` | weather.com | Where each active hurricane/tropical storm is forecast to be over the coming days, and… | 🟢 |
 | `weather_channel.getTropicalTrack` | weather.com | Where a tropical storm/hurricane has been — its advisory-by-advisory past track and… | 🟢 |
 | `weather_channel.getWeeklyAd` | weather.com | Weekly promotional content and special notices — featured forecasts or seasonal alerts. | ⚪ |
 | `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | 🟢 |
@@ -5773,7 +5777,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.listCatalogProducts` | whatsapp.com | Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the… | ⚪ |
 | `whatsapp.listChats` | whatsapp.com | Lists the signed-in caller's chats off WhatsApp Web's own sidebar, newest activity… | 🟢 |
 | `whatsapp.listContacts` | whatsapp.com | Lists the caller's contacts off WhatsApp Web's own new-chat panel: each contact's… | 🟢 |
-| `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows as WhatsApp Web's Channels tab shows them: each… | 🔴 |
+| `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows as WhatsApp Web's Channels tab shows them: each… | 🟢 |
 | `whatsapp.listStatusUpdates` | whatsapp.com | Lists the Status updates the caller's contacts have posted in the last 24 hours — who… | ⚪ |
 | `whatsapp.postStatus` | whatsapp.com | Posts a text or image Status update as the caller, and deletes one. | ⚪ |
 | `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟡 |
@@ -5909,7 +5913,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.getNewsletter` | wsj.com | Gets one WSJ newsletter's own catalog entry by seoName or id — description, cadence… | 🟢 |
 | `wsj.getPodcast` | wsj.com | Gets one podcast's own catalog record by seoName — name, description, category… | 🟢 |
 | `wsj.getQuote` | wsj.com | Gets one US-listed symbol's current quote — price, open, high, low, net change and… | 🟢 |
-| `wsj.getWatchlist` | wsj.com | Gets the caller's own WSJ stock watchlist through their signed-in WSJ session — never… | 🔴 |
+| `wsj.getWatchlist` | wsj.com | Gets the caller's own WSJ stock watchlist through their signed-in WSJ session — never… | 🟢 |
 | `wsj.listArticles` | wsj.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | 🟢 |
 | `wsj.listArticlesByAuthor` | wsj.com | Lists a journalist's own articles off their byline page, newest first, 50 a page via… | 🟢 |
 | `wsj.listEpisodes` | wsj.com | Lists a podcast's own episodes, newest first, off the show's RSS feed on Dow Jones'… | 🟢 |
