@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ed173c24c5ee36a6a182700d5fc9c03f59dcdedc944952c5b66b0a7289f2e5f6
-# 97 capabilities, 781 providers, 4653 typed functions, 20 refused.
+# Manifest version: 345f9e919593462561f0083f2c3831ffb11cc7276f718a24b64b88e815b38fd7
+# 97 capabilities, 783 providers, 4670 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13823,6 +13823,80 @@ class Prv_canva_CanvaDesignSizeTopic_Out(TypedDict):
     slug: str
     title: str
     category: str
+
+class Prv_canva_searchApps_return_Out(TypedDict):
+    apps: list[Prv_canva_CanvaApp_Out]
+    total: float
+    url: str
+    warnings: list[str]
+
+class Prv_canva_CanvaApp_Out(TypedDict):
+    id: str
+    name: str
+    tagline: str | None
+    developer: str | None
+    topics: list[str]
+    pricing: str | None
+    users: float | None
+    iconUrl: str | None
+    url: str
+
+class Prv_canva_CanvaAppDetail_Out(TypedDict):
+    id: str
+    name: str
+    tagline: str | None
+    developer: str | None
+    topics: list[str]
+    pricing: str | None
+    users: float | None
+    iconUrl: str | None
+    url: str
+    description: str | None
+    tags: list[str]
+    platforms: list[str]
+    publishedAt: str | None
+    updatedAt: str | None
+    helpUrl: str | None
+    developerUrl: str | None
+    imageUrl: str | None
+    related: list[Prv_canva_CanvaApp_Out]
+
+class Prv_canva_CanvaPrintCatalog_Out(TypedDict):
+    products: list[Prv_canva_CanvaPrintProduct_Out]
+    collections: list[Prv_canva_CanvaPrintCatalog_Out_collections_item_Out]
+    currency: str | None
+    url: str
+    warnings: list[str]
+
+class Prv_canva_CanvaPrintProduct_Out(TypedDict):
+    key: str
+    id: str | None
+    name: str
+    namePlural: str | None
+    description: list[str]
+    fromPrice: float | None
+    fromQuantity: float | None
+    currency: str | None
+    collections: list[str]
+    formats: list[Prv_canva_CanvaPrintFormat_Out]
+    thumbnailUrl: str | None
+
+class Prv_canva_CanvaPrintFormat_Out(TypedDict):
+    id: str
+    label: str | None
+    sizes: list[Prv_canva_CanvaPrintFormat_Out_sizes_item_Out]
+    defaultQuantity: float | None
+
+class Prv_canva_CanvaPrintFormat_Out_sizes_item_Out(TypedDict):
+    label: str | None
+    width: float
+    height: float
+    units: str
+
+class Prv_canva_CanvaPrintCatalog_Out_collections_item_Out(TypedDict):
+    key: str
+    label: str
+    count: float
 
 class Prv_canva_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -33086,6 +33160,48 @@ class Prv_imdb_ImdbCustomList_Out(TypedDict):
     itemCount: float | None
     createdDate: str | None
 
+class Prv_imgur_ImgurGalleryArgs_In(TypedDict):
+    section: NotRequired[Literal["hot"] | Literal["top"] | Literal["new"]]
+    sort: NotRequired[Literal["newest"] | Literal["top"] | Literal["viral"]]
+    page: NotRequired[float]
+
+class Prv_imgur_ImgurPost_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    url: str
+    accountId: float | None
+    createdAt: str | None
+    views: float
+    upvotes: float
+    downvotes: float
+    points: float
+    comments: float
+    favorites: float
+    imageCount: float
+    isAlbum: bool
+    isMature: bool
+    cover: Prv_imgur_ImgurMedia_Out | None
+
+class Prv_imgur_ImgurMedia_Out(TypedDict):
+    id: str
+    type: str
+    mimeType: str
+    url: str
+    width: float | None
+    height: float | None
+    size: float | None
+    title: str | None
+    description: str | None
+    isAnimated: bool
+    duration: float | None
+
+class Prv_imgur_ImgurSearchArgs_In(TypedDict):
+    query: str
+    window: NotRequired[Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
+    sort: NotRequired[Literal["newest"] | Literal["top"] | Literal["viral"]]
+    page: NotRequired[float]
+
 class Prv_imgur_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -39149,6 +39265,15 @@ class Prv_medicare_medicarePlanDetail_Out_lis_Out(TypedDict):
     level75: float
     level50: float
     level25: float
+
+class Prv_medium_MediumPost_Out(TypedDict):
+    id: str | None
+    title: str
+    url: str
+    author: str | None
+    publishedAt: str | None
+    tags: list[str]
+    excerpt: str | None
 
 class Prv_meetup_SearchEventsArgs_In(TypedDict):
     query: str
@@ -51694,6 +51819,21 @@ class Prv_scribd_ScribdListWriteResult_Out(TypedDict):
     added: bool
     response: NotRequired[Any]
 
+class Prv_scribd_createList_options_In(TypedDict):
+    privacy: NotRequired[Literal["private"] | Literal["public"]]
+    document: NotRequired[str | float]
+
+class Prv_scribd_ScribdCreatedList_Out(TypedDict):
+    id: float | str | None
+    name: str
+    privacy: Literal["private"] | Literal["public"]
+    response: NotRequired[Any]
+
+class Prv_scribd_ScribdFinishResult_Out(TypedDict):
+    id: float
+    finished: bool
+    response: NotRequired[Any]
+
 class Prv_scribd_ScribdCategory_Out(TypedDict):
     name: str
     slug: str
@@ -56947,6 +57087,20 @@ class Prv_steam_PostCommentResult_Out(TypedDict):
     steamId: str
     posted: Literal[True]
 
+class Prv_steam_GetPlayTimeArgs_In(TypedDict):
+    appId: NotRequired[str | float]
+
+class Prv_steam_GetPlayTimeResult_Out(TypedDict):
+    gameCount: float
+    games: list[Prv_steam_PlayTimeEntry_Out]
+
+class Prv_steam_PlayTimeEntry_Out(TypedDict):
+    appId: float
+    name: str | None
+    hoursTotal: float
+    hoursLastTwoWeeks: float
+    lastPlayed: str | None
+
 class Prv_steam_ViewMarketHistoryArgs_In(TypedDict):
     start: NotRequired[float]
     count: NotRequired[float]
@@ -57835,6 +57989,59 @@ class Prv_surfshark_SurfsharkDedicatedIpPlan_Out(TypedDict):
     priceUsd: float
     per: str
 
+class Prv_surveymonkey_SurveyMonkeyAccount_Out(TypedDict):
+    id: str | None
+    username: str | None
+    email: str | None
+    firstName: str | None
+    lastName: str | None
+    packageId: str | None
+    language: str | None
+
+class Prv_surveymonkey_SurveyMonkeySurveyArgs_In(TypedDict):
+    surveyId: str
+
+class Prv_surveymonkey_SurveyMonkeySurveyDetail_Out(TypedDict):
+    id: str
+    title: str | None
+    nickname: str | None
+    status: str | None
+    createdAt: str | None
+    modifiedAt: str | None
+    questionCount: float | None
+    questions: list[Prv_surveymonkey_SurveyMonkeySurveyDetail_Out_questions_item_Out]
+
+class Prv_surveymonkey_SurveyMonkeySurveyDetail_Out_questions_item_Out(TypedDict):
+    id: str
+    position: float | None
+
+class Prv_surveymonkey_SurveyMonkeyCollector_Out(TypedDict):
+    id: str
+    name: str | None
+    type: str | None
+    status: str | None
+    responseCount: float | None
+    createdAt: str | None
+    modifiedAt: str | None
+
+class Prv_surveymonkey_SurveyMonkeyListSurveysArgs_In(TypedDict):
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+    sortBy: NotRequired[Literal["modified"] | Literal["title"] | Literal["responses"]]
+
+class Prv_surveymonkey_SurveyMonkeySurveyList_Out(TypedDict):
+    totalCount: float
+    surveys: list[Prv_surveymonkey_SurveyMonkeySurvey_Out]
+
+class Prv_surveymonkey_SurveyMonkeySurvey_Out(TypedDict):
+    id: str
+    title: str | None
+    nickname: str | None
+    status: str | None
+    createdAt: str | None
+    modifiedAt: str | None
+    questionCount: float | None
+
 class Prv_sweathouz_SweathouzListStudiosArgs_In(TypedDict):
     query: NotRequired[str]
     includeComingSoon: NotRequired[bool]
@@ -58261,7 +58468,7 @@ class Prv_target_TargetReview_Out(TypedDict):
 class Prv_target_listQuestions_args_In(TypedDict):
     tcin: str
     limit: NotRequired[float]
-    sortBy: NotRequired[Literal["most_recent"] | Literal["most_helpful"]]
+    sortBy: NotRequired[Literal["most_recent"] | Literal["most_helpful"] | Literal["most_answers"]]
 
 class Prv_target_TargetQuestions_Out(TypedDict):
     tcin: str
@@ -62702,7 +62909,14 @@ class Prv_ups_upsAddressCandidate_Out(TypedDict):
 class Prv_ups_calculateShippingCost_args_In(TypedDict):
     fromZip: str
     toZip: str
-    packageSize: Literal["extraSmall"] | Literal["small"] | Literal["medium"] | Literal["large"] | Literal["extraLarge"]
+    toCountry: NotRequired[str]
+    toCity: NotRequired[str]
+    packageSize: NotRequired[Literal["extraSmall"] | Literal["small"] | Literal["medium"] | Literal["large"] | Literal["extraLarge"]]
+    weightLbs: NotRequired[float]
+    lengthIn: NotRequired[float]
+    widthIn: NotRequired[float]
+    heightIn: NotRequired[float]
+    customsValue: NotRequired[float]
     shipDate: NotRequired[str]
 
 class Prv_ups_UpsSimpleRateQuote_Out(TypedDict):
@@ -62710,7 +62924,7 @@ class Prv_ups_UpsSimpleRateQuote_Out(TypedDict):
     serviceName: str
     cost: float
     currency: str
-    daysInTransit: float
+    daysInTransit: float | None
     deliveredBy: str | None
     guaranteed: bool
 
@@ -65084,6 +65298,38 @@ class Prv_weather_channel_TropicalPathPoint_Out(TypedDict):
     windGust: float | None
     heading: str | None
     speed: float | None
+
+class Prv_weather_channel_TropicalTrackResult_Out(TypedDict):
+    basin: str
+    year: float
+    storms: list[Prv_weather_channel_TropicalTrackStorm_Out]
+    units: Literal["imperial"]
+
+class Prv_weather_channel_TropicalTrackStorm_Out(TypedDict):
+    stormId: str
+    stormName: str
+    startedAt: str | None
+    lastReportedAt: str | None
+    peakStormType: str | None
+    peakCategory: str | None
+    highestMaxSustainedWind: float | None
+    lowestMinPressure: float | None
+    track: list[Prv_weather_channel_TropicalTrackPoint_Out]
+
+class Prv_weather_channel_TropicalTrackPoint_Out(TypedDict):
+    advisoryNumber: str | None
+    time: str | None
+    source: str | None
+    stormType: str | None
+    category: str | None
+    latitude: float | None
+    longitude: float | None
+    maxSustainedWind: float | None
+    windGust: float | None
+    minPressure: float | None
+    heading: str | None
+    speed: float | None
+    headline: list[str]
 
 class Prv_webshare_WebsharePlanTier_Out(TypedDict):
     productType: Literal["residential"] | Literal["staticResidential"] | Literal["datacenter"]
@@ -77162,6 +77408,22 @@ class Prv_canva(Protocol):
         300 DPI.
         """
 
+    async def searchApps(self, query: str | None = None, /) -> Prv_canva_searchApps_return_Out:
+        """Lists and searches the Canva Apps Marketplace — app id, name, developer, topics, free or
+        paid and user count, most used first. With no query, every app.
+        """
+
+    async def getApp(self, idOrUrl: str, /) -> Prv_canva_CanvaAppDetail_Out:
+        """Reads one Canva app's marketplace page by id or url (from searchApps) — name, developer,
+        description, topics, platforms, dates, help link and related apps.
+        """
+
+    async def listPrintProducts(self, collection: str | None = None, /) -> Prv_canva_CanvaPrintCatalog_Out:
+        """Lists what Canva Print sells (business cards, flyers, mugs, t-shirts … 68 products) with
+        each one's starting price and quantity, formats and sizes; pass a collection key such as
+        "POPULAR" or "CLOTHING" to narrow it.
+        """
+
     async def signup(self, args: Any, /) -> Prv_canva_signup_return_u0_Out | Prv_canva_signup_return_u1_Out | Prv_canva_signup_return_u2_Out | Prv_canva_signup_return_u3_Out:
         """Makes a NEW Canva account with the person's own email and password, in a session. Pauses
         with `needs_code` / `needs_phone` whenever the site wants something only the person has;
@@ -88025,6 +88287,17 @@ class Prv_imgur(Protocol):
     edges).
     """
 
+    async def getGalleryPosts(self, args: Prv_imgur_ImgurGalleryArgs_In | None = None, /) -> list[Prv_imgur_ImgurPost_Out]:
+        """The imgur gallery feed (about 60 posts a page): "hot" (default), "top", or "new". Each
+        post has its title, url, counts and cover image. Example: getGalleryPosts({ section:
+        "top" }).
+        """
+
+    async def searchPosts(self, query: str | Prv_imgur_ImgurSearchArgs_In, /) -> list[Prv_imgur_ImgurPost_Out]:
+        """Searches public imgur posts (about 60 a page), top-scored first by default. Example:
+        searchPosts("cats") or searchPosts({ query: "cats", window: "week" }).
+        """
+
     async def signup(self, args: Any, /) -> Prv_imgur_signup_return_u0_Out | Prv_imgur_signup_return_u1_Out | Prv_imgur_signup_return_u2_Out | Prv_imgur_signup_return_u3_Out:
         """Makes a NEW Imgur account with the person's own email and password, in a session. Pauses
         with `needs_code` / `needs_phone` whenever the site wants something only the person has;
@@ -91795,6 +92068,26 @@ class Prv_medicare(Protocol):
         region to ask about. `year` defaults to the current calendar year. NOTE: the per-visit
         cost strings are verbatim and the difference between '$0' (a real zero-cost benefit) and
         '' (not published) is load-bearing — never coerce an empty string to 0.
+        """
+
+class Prv_medium(Protocol):
+    """Medium's public stories — the latest posts by an author, a publication, or a topic tag —
+    read from medium.com's own RSS feeds, no browser.
+    """
+
+    async def tagPosts(self, tag: str, /) -> list[Prv_medium_MediumPost_Out]:
+        """Latest public Medium stories under one topic tag (about 10, newest first). Example:
+        tagPosts("programming").
+        """
+
+    async def authorPosts(self, username: str, /) -> list[Prv_medium_MediumPost_Out]:
+        """Latest public stories by one Medium author, by username, @username, or profile URL.
+        Example: authorPosts("ev").
+        """
+
+    async def publicationPosts(self, publication: str, /) -> list[Prv_medium_MediumPost_Out]:
+        """Latest public stories in one Medium publication, by slug or medium.com URL. Example:
+        publicationPosts("better-programming").
         """
 
 class Prv_meetup(Protocol):
@@ -98782,6 +99075,25 @@ class Prv_scribd(Protocol):
         and returns both ids with added: true. Needs the caller signed in to Scribd.
         """
 
+    async def removeDocumentFromList(self, list: str | float, document: str | float, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdListWriteResult_Out:
+        """Removes a Scribd document from one of the signed-in caller's own lists, taking the
+        list's scribd.com/lists/<id>/<slug> url or id (from listMyLists) and the document's url
+        or id, and returns both ids with added: false. Needs the caller signed in to Scribd.
+        """
+
+    async def createList(self, name: str, options: Prv_scribd_createList_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdCreatedList_Out:
+        """Creates a new list (collection) on the signed-in caller's Scribd account with the given
+        name, private unless privacy: 'public' is passed, optionally starting it with one
+        document (url or id), and returns the new list's id. Needs the caller signed in to
+        Scribd.
+        """
+
+    async def markDocumentFinished(self, document: str | float, finished: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdFinishResult_Out:
+        """Marks a document in the signed-in caller's Scribd library as finished reading (or, with
+        finished: false, back to just saved), from a scribd.com/document/<id>/<slug> url or the
+        numeric id. Needs the caller signed in to Scribd.
+        """
+
     async def listCategories(self, /) -> list[Prv_scribd_ScribdCategory_Out]:
         """Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
         Management, Law, Science & Mathematics, Teaching Methods & Materials, Technology &
@@ -101132,6 +101444,12 @@ class Prv_steam(Protocol):
         public write: it appears on that person's profile.
         """
 
+    async def getPlayTime(self, args: Prv_steam_GetPlayTimeArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetPlayTimeResult_Out:
+        """Lists the signed-in caller's own playtime per owned game — lifetime hours, hours in the
+        last two weeks and last played — or one game's with { appId }, off the store's own
+        web-API token and Steam's GetOwnedGames. NEEDS A SIGN-IN — the caller signs in, not us.
+        """
+
     async def viewMarketHistory(self, args: Prv_steam_ViewMarketHistoryArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_ViewMarketHistoryResult_Out:
         """Lists the signed-in caller's own Steam Community Market history — item, game,
         bought/sold, price and dates per row — off the market page's own myhistory door, with
@@ -101550,6 +101868,31 @@ class Prv_surfshark(Protocol):
         surfshark.com/dedicated-ip.
         """
 
+class Prv_surveymonkey(Protocol):
+    """Build, send, and analyze surveys; view responses and collector status."""
+
+    async def getAccountInfo(self, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyAccount_Out:
+        """The signed-in caller's own SurveyMonkey account: id, username, email, name, plan package
+        id and language. Needs the caller signed in to SurveyMonkey.
+        """
+
+    async def getSurvey(self, args: Prv_surveymonkey_SurveyMonkeySurveyArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeySurveyDetail_Out:
+        """One of the caller's surveys by id (from listSurveys): title, nickname, status, created
+        and modified dates, question count and its question ids in order. Needs the caller
+        signed in.
+        """
+
+    async def listCollectors(self, args: Prv_surveymonkey_SurveyMonkeySurveyArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_surveymonkey_SurveyMonkeyCollector_Out]:
+        """Every collector (web link, email, SMS, social) on one of the caller's surveys, with its
+        type, status and response count. Needs the caller signed in.
+        """
+
+    async def listSurveys(self, args: Prv_surveymonkey_SurveyMonkeyListSurveysArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeySurveyList_Out:
+        """The signed-in caller's surveys, one page at a time (pageSize up to 100, default 25),
+        sorted by last modified, title or response count, with the total. Needs the caller
+        signed in.
+        """
+
 class Prv_sweathouz(Protocol):
     """SWTHZ (sweathouz.com) private contrast-therapy suites (sauna, cold plunge, shower)
     booked as timed 60-minute appointments: read studios, open suite times and pricing, and
@@ -101771,8 +102114,8 @@ class Prv_target(Protocol):
         """Reads the customer Q&A on a product page — the questions shoppers asked ("does it fit…",
         "is it dishwasher safe") with every answer, each marked whether it came from a brand
         expert or another shopper — which `listReviews`/`reviewPhotos` do not cover. Takes a
-        TCIN from `search`. `limit` defaults to 10, max 100; `sortBy` defaults to the site's own
-        newest-first order.
+        TCIN from `search`. `limit` defaults to 10, max 100; `sortBy` defaults to newest first;
+        `"most_answers"` puts the questions shoppers answered most at the top.
         """
 
     async def listOrders(self, opts: ConnectionOption | None = None, /) -> Prv_target_TargetOrdersHistory_Out:
@@ -104246,6 +104589,10 @@ class Prv_ups(Protocol):
         wording. A DIFFERENT product from `getRate` (negotiated, weight-based pricing through
         the keyed Rating API) — this is the flat retail price any anonymous visitor sees. No key
         needed; drives the calculator's own multi-step wizard in a headless browser.
+        International: pass `toCountry` (ISO 2-letter, default "US"), the destination postal
+        code as `toZip`, ideally `toCity`, and instead of `packageSize` give `weightLbs`,
+        `lengthIn`, `widthIn`, `heightIn` and `customsValue` (USD) — Simple Rate is US-only, so
+        those lanes are priced by weight and box, and `daysInTransit` comes back null.
         """
 
     async def findNearbyLocation(self, args: Prv_ups_findNearbyLocation_args_In, /) -> list[Prv_ups_UpsNearbyLocation_Out]:
@@ -105469,6 +105816,14 @@ class Prv_weather_channel(Protocol):
         per forecast hour (time, position, storm type, max sustained wind and gust in mph,
         heading and speed). No argument returns every active system worldwide; pass a storm id
         from getCurrentTropicalPosition to narrow to one. Empty `storms` when nothing is active.
+        """
+
+    async def getTropicalTrack(self, stormIdOrBasin: str, year: float | None = None, /) -> Prv_weather_channel_TropicalTrackResult_Out:
+        """Where a tropical storm/hurricane HAS BEEN — every advisory position with time, storm
+        type, category, max wind/gust (mph), pressure (inHg) and heading, plus the storm's peak.
+        Pass a storm id (`"AL132025"`, from getCurrentTropicalPosition) for one storm, or a
+        basin code (`"AL"` Atlantic, `"EP"`, `"CP"`, `"WP"`, `"IO"`, `"SH"`) and a year for that
+        whole season. Empty `storms` for a season the site has nothing for.
         """
 
 class Prv_webshare(Protocol):
@@ -108411,6 +108766,7 @@ class BowmarkProviders(Protocol):
     mcp_so: Prv_mcp_so
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
+    medium: Prv_medium
     meetup: Prv_meetup
     menards: Prv_menards
     mercari: Prv_mercari
@@ -108611,6 +108967,7 @@ class BowmarkProviders(Protocol):
     sunhomesaunas: Prv_sunhomesaunas
     sunlighten: Prv_sunlighten
     surfshark: Prv_surfshark
+    surveymonkey: Prv_surveymonkey
     sweathouz: Prv_sweathouz
     tagtrans_net: Prv_tagtrans_net
     tamarackidaho: Prv_tamarackidaho

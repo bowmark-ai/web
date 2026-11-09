@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ed173c24c5ee36a6a182700d5fc9c03f59dcdedc944952c5b66b0a7289f2e5f6
-// 4653 checked, 20 unchecked.
+// Manifest version: 345f9e919593462561f0083f2c3831ffb11cc7276f718a24b64b88e815b38fd7
+// 4670 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ed173c24c5ee36a6a182700d5fc9c03f59dcdedc944952c5b66b0a7289f2e5f6",
+  "version": "345f9e919593462561f0083f2c3831ffb11cc7276f718a24b64b88e815b38fd7",
   "units": {
     "address_validation": {
       "defs": {
@@ -26533,6 +26533,33 @@ export const VALIDATORS: ValidatorTable = {
         "listDesignSizes": [
           {
             "name": "topic",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "searchApps": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getApp": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPrintProducts": [
+          {
+            "name": "collection",
             "schema": {
               "k": "string"
             },
@@ -67315,8 +67342,160 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.imgur": {
-      "defs": {},
+      "defs": {
+        "ImgurGalleryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "hot"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "top"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "new"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "top"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "viral"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ImgurSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "window",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "day"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "week"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "month"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "year"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "top"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "viral"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
+        "getGalleryPosts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ImgurGalleryArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchPosts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ImgurSearchArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -81054,6 +81233,38 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "medicareGetPlanQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.medium": {
+      "defs": {},
+      "functions": {
+        "tagPosts": [
+          {
+            "name": "tag",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "authorPosts": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "publicationPosts": [
+          {
+            "name": "publication",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -111305,6 +111516,160 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "removeDocumentFromList": [
+          {
+            "name": "list",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "document",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createList": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "privacy",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "private"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "public"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "document",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "number"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "markDocumentFinished": [
+          {
+            "name": "document",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "finished",
+            "schema": {
+              "k": "boolean"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listCategories": [],
         "getTrendingDocuments": [
           {
@@ -120657,6 +121022,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPlayTimeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetProfileArgs": {
           "k": "object",
           "props": [
@@ -121341,6 +121726,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "PostCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getPlayTime": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPlayTimeArgs"
             },
             "optional": false
           },
@@ -123190,6 +123601,160 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.surveymonkey": {
+      "defs": {
+        "SurveyMonkeyListSurveysArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "pageSize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sortBy",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "modified"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "title"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "responses"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SurveyMonkeySurveyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "surveyId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getAccountInfo": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSurvey": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeySurveyArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listCollectors": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeySurveyArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listSurveys": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyListSurveysArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.sweathouz": {
       "defs": {
         "SweathouzAvailabilityArgs": {
@@ -124053,6 +124618,10 @@ export const VALIDATORS: ValidatorTable = {
                       {
                         "k": "literal",
                         "v": "most_helpful"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "most_answers"
                       }
                     ]
                   },
@@ -133816,6 +134385,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 },
                 {
+                  "name": "toCountry",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "toCity",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
                   "name": "packageSize",
                   "schema": {
                     "k": "union",
@@ -133842,7 +134425,42 @@ export const VALIDATORS: ValidatorTable = {
                       }
                     ]
                   },
-                  "optional": false
+                  "optional": true
+                },
+                {
+                  "name": "weightLbs",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "lengthIn",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "widthIn",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "heightIn",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "customsValue",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 },
                 {
                   "name": "shipDate",
@@ -138356,6 +138974,22 @@ export const VALIDATORS: ValidatorTable = {
             "name": "stormId",
             "schema": {
               "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getTropicalTrack": [
+          {
+            "name": "stormIdOrBasin",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "year",
+            "schema": {
+              "k": "number"
             },
             "optional": true
           }

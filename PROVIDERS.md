@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6157 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6158 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -889,7 +889,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.exportDesign` | canva.com | Exports one of the caller's designs as PDF, PNG, JPG, GIF, MP4 or PPTX and saves the… | ⚪ |
 | `canva.generateDesign` | canva.com | Generates designs from a text prompt with Canva's Magic Design, as the caller, and… | ⚪ |
 | `canva.generatePaletteFromImage` | canva.com | Extracts a colour palette (hex colours) from an image url, as Canva's colour-palette… | ⚪ |
-| `canva.getApp` | canva.com | Reads one Canva app's marketplace page by id or url — name, developer, description… | ⚪ |
+| `canva.getApp` | canva.com | Reads one Canva app's marketplace page by id or url — name, developer, description… | 🟢 |
 | `canva.getBrandKit` | canva.com | Reads the caller's brand kit — logos, brand colours and brand fonts. | ⚪ |
 | `canva.getBrandTemplateDataset` | canva.com | Reads which fields (text, image) one Brand Template can autofill. | ⚪ |
 | `canva.getColorCombinations` | canva.com | Returns the colour-wheel combinations for one hex colour — complementary, analogous… | 🔴 |
@@ -912,7 +912,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.listDesignSizes` | canva.com | Reads Canva's design-size wiki for one platform or format (Instagram, YouTube… | 🟢 |
 | `canva.listFolderItems` | canva.com | Lists what is in one of the caller's folders — designs, uploads and subfolders —… | ⚪ |
 | `canva.listFolders` | canva.com | Lists the caller's folders (and subfolders of one folder) — folder id, name and item… | ⚪ |
-| `canva.listPrintProducts` | canva.com | Lists what Canva Print sells — business cards, flyers, posters, mugs, t-shirts and the… | ⚪ |
+| `canva.listPrintProducts` | canva.com | Lists what Canva Print sells — business cards, flyers, posters, mugs, t-shirts and the… | 🟢 |
 | `canva.listTemplateCategories` | canva.com | Lists the design types Canva groups templates under (flyers, posters, Instagram posts… | 🟢 |
 | `canva.listUploads` | canva.com | Lists the images and videos the caller has uploaded to Canva — asset id, name, type… | ⚪ |
 | `canva.mergeDesigns` | canva.com | Combines several of the caller's designs into one new design, in the order given. | ⚪ |
@@ -920,7 +920,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.orderPrint` | canva.com | Orders a printed copy of one of the caller's designs through Canva Print — product… | ⚪ |
 | `canva.renameDesign` | canva.com | Renames one of the caller's designs. | ⚪ |
 | `canva.resizeDesign` | canva.com | Copies one of the caller's designs into new dimensions (a preset like Instagram Story… | ⚪ |
-| `canva.searchApps` | canva.com | Lists and searches the Canva Apps Marketplace — app id, name, developer, category and… | ⚪ |
+| `canva.searchApps` | canva.com | Lists and searches the Canva Apps Marketplace — app id, name, developer, category and… | 🟢 |
 | `canva.searchAudio` | canva.com | Searches Canva's stock music and sound-effects library by keyword — track id, title… | ⚪ |
 | `canva.searchBrandTemplates` | canva.com | Searches the Brand Templates the caller's team has shared with them. | ⚪ |
 | `canva.searchGraphics` | canva.com | Searches Canva's graphics and illustrations library (stickers, icons, illustrations)… | 🟢 |
@@ -1017,11 +1017,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.getProject` | chatgpt.com | Reads one of the CALLER's projects — its instructions, uploaded files and the… | 🔴 |
 | `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | 🟢 |
 | `chatgpt.listConversations` | chatgpt.com | Lists the CALLER's ChatGPT chat history, newest first — conversation id, title, last… | 🟢 |
-| `chatgpt.listLibraryImages` | chatgpt.com | Lists the images the CALLER has generated, from the Library page, newest first, with… | ⚪ |
+| `chatgpt.listLibraryImages` | chatgpt.com | Lists the images the CALLER has generated, from the Library page, newest first, with… | 🟢 |
 | `chatgpt.listModels` | chatgpt.com | Lists the models the CALLER's plan can pick in the model menu, with their limits. | 🟢 |
-| `chatgpt.listMyGPTs` | chatgpt.com | Lists the custom GPTs the CALLER has built, with visibility (only me, link, store) and… | ⚪ |
+| `chatgpt.listMyGPTs` | chatgpt.com | Lists the custom GPTs in the CALLER's sidebar (their own and ones they pinned or… | 🟢 |
 | `chatgpt.listProjects` | chatgpt.com | Lists the CALLER's ChatGPT projects with their names and conversation counts — the… | 🔴 |
-| `chatgpt.listScheduledTasks` | chatgpt.com | Lists the CALLER's scheduled tasks (reminders and recurring prompts ChatGPT runs on a… | ⚪ |
+| `chatgpt.listScheduledTasks` | chatgpt.com | Lists the CALLER's scheduled tasks (reminders and recurring prompts ChatGPT runs on a… | 🟢 |
 | `chatgpt.listSharedLinks` | chatgpt.com | Lists the public share links the CALLER has created, with the conversation each points… | 🔴 |
 | `chatgpt.moveConversationToProject` | chatgpt.com | Files one of the CALLER's conversations under one of their projects. | ⚪ |
 | `chatgpt.pinGPT` | chatgpt.com | Pins a GPT to (or unpins it from) the CALLER's sidebar. | ⚪ |
@@ -1829,7 +1829,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.addToCart` | etsy.com | Adds a listing to the signed-in caller's cart with the chosen variation and quantity. | ⚪ |
 | `etsy.addToCollection` | etsy.com | Saves a listing into one of the caller's collections, creating the collection by name… | ⚪ |
 | `etsy.browseCategory` | etsy.com | The listings in one Etsy category (e.g. jewelry/necklaces), with the category's own… | 🟡 |
-| `etsy.estimateShipping` | etsy.com | What one Etsy listing costs to ship and when it would arrive at a destination — a US… | 🟢 |
+| `etsy.estimateShipping` | etsy.com | What one Etsy listing costs to ship and when it would arrive at a destination — a US… | 🟡 |
 | `etsy.favoriteListing` | etsy.com | Hearts a listing for the signed-in caller, or un-hearts it. | ⚪ |
 | `etsy.favoriteShop` | etsy.com | Favorites (follows) a shop for the signed-in caller, or unfollows it. | ⚪ |
 | `etsy.findRegistry` | etsy.com | Finds Etsy gift registries (wedding, baby, gift) by the registrant's first and last… | 🟢 |
@@ -1952,7 +1952,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facerealityskincare.searchAcneExperts` | facerealityskincare.com | Runs Face Reality's own Acne Expert Locator search — matches a free-text query (city… | 🟢 |
 | `fandom.createPage` | fandom.com | Create an article that does not exist yet, under the caller's own account. `POST… | 🟢 |
 | `fandom.editPage` | fandom.com | Change an article — replace a page or one of its sections with new wikitext, under the… | 🟢 |
-| `fandom.findWiki` | fandom.com | Find which Fandom wiki covers a topic — hand it "star wars" or "minecraft" and get… | ⚪ |
+| `fandom.findWiki` | fandom.com | Find which Fandom wiki covers a topic — hand it "star wars" or "minecraft" and get… | 🟢 |
 | `fandom.getArticle` | fandom.com | A wiki article in full — title, the body as plain text with wiki markup stripped, the… | 🟢 |
 | `fandom.getCurrentUser` | fandom.com | Who the caller is signed in as on this wiki — username, global user id, edit count and… | 🟢 |
 | `fandom.getDiscussionPost` | fandom.com | One Discussions post by id, with its full text, author and the thread it belongs to. | 🟢 |
@@ -2780,7 +2780,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imgur.favoritePost` | imgur.com | Favorites a post. | ⚪ |
 | `imgur.followTag` | imgur.com | Follows a tag. | ⚪ |
 | `imgur.followUser` | imgur.com | Follows a user. | ⚪ |
-| `imgur.getGalleryPosts` | imgur.com | Lists the gallery feed (most viral, user submitted, or top) with sort and paging… | ⚪ |
+| `imgur.getGalleryPosts` | imgur.com | Lists the gallery feed (most viral, user submitted, or top) with sort and paging… | 🟢 |
 | `imgur.getImage` | imgur.com | Resolves a direct image/video id or i.imgur.com link to its media URL, size and type. | ⚪ |
 | `imgur.getMyFavorites` | imgur.com | Lists the signed-in account's favorites, including private ones. | ⚪ |
 | `imgur.getMyPosts` | imgur.com | Lists the signed-in account's posts and uploads, including hidden ones. | ⚪ |
@@ -2793,7 +2793,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imgur.getUserFavorites` | imgur.com | Lists a user's public favorites. | ⚪ |
 | `imgur.getUserPosts` | imgur.com | Lists a user's public submitted posts. | ⚪ |
 | `imgur.listTags` | imgur.com | Lists trending and featured tags, the door to a tag's posts. | ⚪ |
-| `imgur.searchPosts` | imgur.com | Searches imgur's gallery for posts matching a query, logged out. | ⚪ |
+| `imgur.searchPosts` | imgur.com | Searches imgur's gallery for posts matching a query, logged out. | 🟢 |
 | `imgur.unfavoritePost` | imgur.com | Removes a post from favorites. | ⚪ |
 | `imgur.unfollowTag` | imgur.com | Unfollows a tag. | ⚪ |
 | `imgur.unfollowUser` | imgur.com | Unfollows a user. | ⚪ |
@@ -3011,7 +3011,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kompan.searchPlaygroundSpareParts` | kompan.com | Single-object-argument search keyed by product_no that reports whether a playground… | 🟢 |
 | `kompan.searchProduct` | kompan.com | Searches KOMPAN Master for a product number in one region and lists every real… | 🟢 |
 | `kuiu.findKuiuSize` | kuiu.com | Maps a shopper's chest/waist measurements (inches) to KUIU's own men's apparel size… | 🟢 |
-| `kuiu.getKuiuCheckoutLink` | kuiu.com | Resolves a product handle + chosen variant (camo pattern/color + size) to a real… | 🟢 |
+| `kuiu.getKuiuCheckoutLink` | kuiu.com | Resolves a product handle + chosen variant (camo pattern/color + size) to a real… | 🟡 |
 | `kuiu.getKuiuProduct` | kuiu.com | Reads one product by its handle — every camo-pattern/size variant, its exact price and… | 🟢 |
 | `kuiu.listKuiuProducts` | kuiu.com | Reads the live KUIU catalogue as the storefront publishes it — every hunting… | 🟢 |
 | `kwworldwide.findContactForm` | kwworldwide.com | Fetches a kwworldwide.com page (defaults to the contact page) and recovers the HubSpot… | 🟢 |
@@ -4916,7 +4916,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getLibrary` | steampowered.com | Fetches the signed-in caller's owned-games library — the appid of every game they own… | 🟢 |
 | `steam.getMarketPrice` | steampowered.com | Reads an item's current Community Market price by appid and exact market name… | 🟢 |
 | `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by appid and id (both from listNews… | 🟢 |
-| `steam.getPlayTime` | steampowered.com | Returns total playtime in hours for a specific game owned by the caller. | ⚪ |
+| `steam.getPlayTime` | steampowered.com | Lists the signed-in caller's own playtime per owned game — lifetime hours, hours in… | 🟢 |
 | `steam.getProfile` | steampowered.com | Reads a Steam profile by steamid64 or vanity name off the site's own public profile… | 🟢 |
 | `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | 🟢 |
 | `steam.listFeaturedGames` | steampowered.com | Fetches the current list of featured games displayed on the Steam store homepage… | 🟢 |
@@ -5700,6 +5700,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getRainTiming` | weather.com | When will it start (or stop) raining here — the site's one-sentence answer with the… | 🔴 |
 | `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | 🟢 |
 | `weather_channel.getTropicalForecastPath` | weather.com | Where each active hurricane/tropical storm is forecast to be over the coming days, and… | 🔴 |
+| `weather_channel.getTropicalTrack` | weather.com | Where a tropical storm/hurricane has been — its advisory-by-advisory past track and… | 🟢 |
 | `weather_channel.getWeeklyAd` | weather.com | Weekly promotional content and special notices — featured forecasts or seasonal alerts. | ⚪ |
 | `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | 🟢 |
 | `weather_channel.searchLocations` | weather.com | Autocomplete for location names (cities, ZIP codes) — returns matching locations with… | 🟢 |

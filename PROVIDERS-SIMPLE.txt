@@ -157,7 +157,7 @@ camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
-canva.com — canva: browseTemplates, getColorPalette, getCreator, getGraphic, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignSizes, listTemplateCategories, searchGraphics, searchPhotos, searchTemplates (+39 planned)
+canva.com — canva: browseTemplates, getApp, getColorPalette, getCreator, getGraphic, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignSizes, listPrintProducts, listTemplateCategories, searchApps, searchGraphics, searchPhotos, searchTemplates (+36 planned)
 capitaloneshopping.com — capitaloneshopping: getStoreRate, searchStores
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
 careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs
@@ -185,7 +185,7 @@ chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
 chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
 chase.com — chase: search
-chatgpt.com — chatgpt: browseGPTStore, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getSharedConversation, listConversations, listModels, searchConversations, searchGPTs (+24 planned)
+chatgpt.com — chatgpt: browseGPTStore, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getSharedConversation, listConversations, listLibraryImages, listModels, listMyGPTs, listScheduledTasks, searchConversations, searchGPTs (+21 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
@@ -303,7 +303,7 @@ extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planne
 facebook.com — facebook: 43 functions — ask get_library
 faceforwardaesthetics.com — faceforwardaesthetics: checkAvailability, listLocations, listServices
 facerealityskincare.com — facerealityskincare: searchAcneExperts
-fandom.com — fandom: createPage, editPage, getArticle, getCurrentUser, getDiscussionPost, getImage, getInfobox, getRevision, getSection, getSections, getSummary, getUser, getWikiInfo, getWikitext, listBacklinks, listCategories, listCategoryMembers, listDiscussionPosts, listExternalLinks, listImages, listLinks, listRecentChanges, listRevisions, listUserContributions, listWatchlist, postDiscussionPost, search, suggestTitles, unwatchPage, watchPage (+2 planned)
+fandom.com — fandom: createPage, editPage, findWiki, getArticle, getCurrentUser, getDiscussionPost, getImage, getInfobox, getRevision, getSection, getSections, getSummary, getUser, getWikiInfo, getWikitext, listBacklinks, listCategories, listCategoryMembers, listDiscussionPosts, listExternalLinks, listImages, listLinks, listRecentChanges, listRevisions, listUserContributions, listWatchlist, postDiscussionPost, search, suggestTitles, unwatchPage, watchPage (+1 planned)
 fareharbor.com — fareharbor: createBooking, getAvailabilitySlot, getItem, listAvailability, quoteBooking, searchItems (+3 planned)
 fbsappliance.com — fbsappliance: nothing callable yet (+2 planned)
 fedex.com — fedex: getRate
@@ -400,7 +400,7 @@ identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
 ikea.com — ikea: addToCart, addToFavorites, bookPlanningAppointment, findStores, getCart, getDeliveryOptions, getFamilyMembership, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getProfile, getPurchase, listCategories, listCategoryProducts, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem, updateProfile (+1 planned)
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
-imgur.com — imgur: nothing callable yet (+29 planned)
+imgur.com — imgur: getGalleryPosts, searchPosts (+27 planned)
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 inspirecommunities.com — inspirecommunities: searchHomes
 instacart.com — instacart: compareStores, findLocation, getCart, getDeliveryEstimate, getMyAccount, getProduct, getStore, getStoreHours, getWeeklyAd, listCarts, listDeals, listDepartmentProducts, listDepartments, listMyAddresses, listOrders, listStores, suggestSearches (+25 planned)
@@ -678,7 +678,7 @@ stackoverflow.com — stackoverflow: getQuestion, searchQuestions
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments
 statefarm.com — statefarm: findAgent, getBusinessQuote, getLifeQuote, getRentersQuote (+14 planned)
-steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getCommunityHub, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getMarketPrice, getNewsItem, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, removeFriend, removeFromWishlist, searchGames, searchNews, viewFriends, viewInventory, viewMarketHistory (+2 planned)
+steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getCommunityHub, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getMarketPrice, getNewsItem, getPlayTime, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, removeFriend, removeFromWishlist, searchGames, searchNews, viewFriends, viewInventory, viewMarketHistory (+1 planned)
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
@@ -768,7 +768,7 @@ washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getLiveBl
 waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)
 wearehirschfeld.com — wearehirschfeld: getContactForm, listPages
-weather.com — weather_channel: getAirQuality, getAlertDetails, getAlmanac, getCMSContent, getCurrentConditions, getCurrentTropicalPosition, getDailyForecast, getFifteenMinuteForecast, getHistoricalDaily, getHistoricalDailySummary, getHistoricalHourly, getHourlyAirQuality, getHourlyForecast, getLocation, getMinutelyPrecipitation, getObservations, getPollenForecast, getPollenHealth, getTropicalCone, listAlerts, searchLocations, searchNews (+4 planned)
+weather.com — weather_channel: getAirQuality, getAlertDetails, getAlmanac, getCMSContent, getCurrentConditions, getCurrentTropicalPosition, getDailyForecast, getFifteenMinuteForecast, getHistoricalDaily, getHistoricalDailySummary, getHistoricalHourly, getHourlyAirQuality, getHourlyForecast, getLocation, getMinutelyPrecipitation, getObservations, getPollenForecast, getPollenHealth, getTropicalCone, getTropicalTrack, listAlerts, searchLocations, searchNews (+4 planned)
 webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)

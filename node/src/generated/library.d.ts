@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ed173c24c5ee36a6a182700d5fc9c03f59dcdedc944952c5b66b0a7289f2e5f6
-// 97 capabilities, 781 providers, 4671 typed functions, 20 refused.
+// Manifest version: 345f9e919593462561f0083f2c3831ffb11cc7276f718a24b64b88e815b38fd7
+// 97 capabilities, 783 providers, 4688 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22299,6 +22299,57 @@ interface CanvaDesignSize {
   heightPx: number;
 }
 
+interface CanvaApp {
+  id: string;
+  name: string;
+  tagline: string | null;
+  developer: string | null;
+  /** Marketplace topics, e.g. "videos", "text_effects". */
+  topics: string[];
+  /** "free", "paid", "freemium" … */
+  pricing: string | null;
+  users: number | null;
+  iconUrl: string | null;
+  url: string;
+}
+interface CanvaAppDetail extends CanvaApp {
+  description: string | null;
+  tags: string[];
+  platforms: string[];
+  publishedAt: string | null;
+  updatedAt: string | null;
+  helpUrl: string | null;
+  developerUrl: string | null;
+  imageUrl: string | null;
+  related: CanvaApp[];
+}
+interface CanvaPrintFormat {
+  id: string;
+  label: string | null;
+  sizes: { label: string | null; width: number; height: number; units: string }[];
+  defaultQuantity: number | null;
+}
+interface CanvaPrintProduct {
+  key: string;
+  id: string | null;
+  name: string;
+  namePlural: string | null;
+  description: string[];
+  /** Cheapest listed price for fromQuantity items, in currency. */
+  fromPrice: number | null;
+  fromQuantity: number | null;
+  currency: string | null;
+  collections: string[];
+  formats: CanvaPrintFormat[];
+  thumbnailUrl: string | null;
+}
+interface CanvaPrintCatalog {
+  products: CanvaPrintProduct[];
+  collections: { key: string; label: string; count: number }[];
+  currency: string | null;
+  url: string;
+  warnings: string[];
+}
 interface CanvaDesignSizes {
   slug: string | null;
   title: string | null;
@@ -22430,6 +22481,25 @@ interface CanvaColorCombinations {
      * "business-card", "a-series-paper") its formats in cm, inches and pixels at 300 DPI.
      */
     listDesignSizes(topic?: string): Promise<CanvaDesignSizes>;
+
+    /**
+     * Lists and searches the Canva Apps Marketplace — app id, name, developer, topics, free or
+     * paid and user count, most used first. With no query, every app.
+     */
+    searchApps(query?: string): Promise<{ apps: CanvaApp[]; total: number; url: string; warnings: string[] }>;
+
+    /**
+     * Reads one Canva app's marketplace page by id or url (from searchApps) — name, developer,
+     * description, topics, platforms, dates, help link and related apps.
+     */
+    getApp(idOrUrl: string): Promise<CanvaAppDetail>;
+
+    /**
+     * Lists what Canva Print sells (business cards, flyers, mugs, t-shirts … 68 products) with
+     * each one's starting price and quantity, formats and sizes; pass a collection key such as
+     * "POPULAR" or "CLOTHING" to narrow it.
+     */
+    listPrintProducts(collection?: string): Promise<CanvaPrintCatalog>;
 
     /**
      * Makes a NEW Canva account with the person's own email and password, in a session. Pauses
@@ -53565,8 +53635,23 @@ interface ImdbCustomListsResponse {
 
 declare namespace BowmarkProvider_imgur {
   // ── Imgur — the unit's own declarations, verbatim ──
-interface imgurRow {
-  id: string;
+interface ImgurMedia { id: string; type: string; mimeType: string; url: string; width: number | null; height: number | null; size: number | null; title: string | null; description: string | null; isAnimated: boolean; duration: number | null }
+interface ImgurPost { id: string; title: string; description: string | null; url: string; accountId: number | null; createdAt: string | null; views: number; upvotes: number; downvotes: number; points: number; comments: number; favorites: number; imageCount: number; isAlbum: boolean; isMature: boolean; cover: ImgurMedia | null }
+interface ImgurGalleryArgs {
+  /** "hot" (default), "top", or "new" (newest user submissions) */
+  section?: "hot" | "top" | "new";
+  /** "newest" (default; "top" for the top section), "top" or "viral" */
+  sort?: "newest" | "top" | "viral";
+  /** 1-50, default 1 */
+  page?: number;
+}
+interface ImgurSearchArgs {
+  query: string;
+  /** default "all" */
+  window?: "day" | "week" | "month" | "year" | "all";
+  /** default "top" */
+  sort?: "newest" | "top" | "viral";
+  page?: number;
 }
 
   /**
@@ -53576,6 +53661,18 @@ interface imgurRow {
    * with accounts gets, not yet a known-good one (see its header for the unmeasured edges).
    */
   interface Unit {
+    /**
+     * The imgur gallery feed (about 60 posts a page): "hot" (default), "top", or "new". Each post
+     * has its title, url, counts and cover image. Example: getGalleryPosts({ section: "top" }).
+     */
+    getGalleryPosts(args?: ImgurGalleryArgs): Promise<ImgurPost[]>;
+
+    /**
+     * Searches public imgur posts (about 60 a page), top-scored first by default. Example:
+     * searchPosts("cats") or searchPosts({ query: "cats", window: "week" }).
+     */
+    searchPosts(query: string | ImgurSearchArgs): Promise<ImgurPost[]>;
+
     /**
      * Makes a NEW Imgur account with the person's own email and password, in a session. Pauses
      * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
@@ -63815,6 +63912,35 @@ interface medicareGetPlanQuery {
      * coerce an empty string to 0.
      */
     getPlan(arg0: medicareGetPlanQuery): Promise<medicarePlanDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_medium {
+  // ── Medium — the unit's own declarations, verbatim ──
+interface MediumPost { id: string | null; title: string; url: string; author: string | null; publishedAt: string | null; tags: string[]; excerpt: string | null }
+
+  /**
+   * Medium's public stories — the latest posts by an author, a publication, or a topic tag —
+   * read from medium.com's own RSS feeds, no browser.
+   */
+  interface Unit {
+    /**
+     * Latest public Medium stories under one topic tag (about 10, newest first). Example:
+     * tagPosts("programming").
+     */
+    tagPosts(tag: string): Promise<MediumPost[]>;
+
+    /**
+     * Latest public stories by one Medium author, by username, @username, or profile URL. Example:
+     * authorPosts("ev").
+     */
+    authorPosts(username: string): Promise<MediumPost[]>;
+
+    /**
+     * Latest public stories in one Medium publication, by slug or medium.com URL. Example:
+     * publicationPosts("better-programming").
+     */
+    publicationPosts(publication: string): Promise<MediumPost[]>;
   }
 }
 
@@ -83135,6 +83261,17 @@ interface ScribdListWriteResult {
   added: boolean;
   response?: unknown;
 }
+interface ScribdFinishResult {
+  id: number;
+  finished: boolean;
+  response?: unknown;
+}
+interface ScribdCreatedList {
+  id: number | string | null;
+  name: string;
+  privacy: "private" | "public";
+  response?: unknown;
+}
 
   /**
    * Scribd, the document-sharing library: search user-uploaded documents, read a document's
@@ -83232,6 +83369,27 @@ interface ScribdListWriteResult {
      * returns both ids with added: true. Needs the caller signed in to Scribd.
      */
     addDocumentToList(list: string | number, document: string | number, opts?: ConnectionOption): Promise<ScribdListWriteResult>;
+
+    /**
+     * Removes a Scribd document from one of the signed-in caller's own lists, taking the list's
+     * scribd.com/lists/<id>/<slug> url or id (from listMyLists) and the document's url or id, and
+     * returns both ids with added: false. Needs the caller signed in to Scribd.
+     */
+    removeDocumentFromList(list: string | number, document: string | number, opts?: ConnectionOption): Promise<ScribdListWriteResult>;
+
+    /**
+     * Creates a new list (collection) on the signed-in caller's Scribd account with the given
+     * name, private unless privacy: 'public' is passed, optionally starting it with one document
+     * (url or id), and returns the new list's id. Needs the caller signed in to Scribd.
+     */
+    createList(name: string, options?: { privacy?: 'private' | 'public'; document?: string | number }, opts?: ConnectionOption): Promise<ScribdCreatedList>;
+
+    /**
+     * Marks a document in the signed-in caller's Scribd library as finished reading (or, with
+     * finished: false, back to just saved), from a scribd.com/document/<id>/<slug> url or the
+     * numeric id. Needs the caller signed in to Scribd.
+     */
+    markDocumentFinished(document: string | number, finished?: boolean, opts?: ConnectionOption): Promise<ScribdFinishResult>;
 
     /**
      * Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
@@ -90553,6 +90711,23 @@ interface PostCommentResult {
   posted: true;
 }
 
+interface GetPlayTimeArgs {
+  appId?: string | number;
+}
+
+interface PlayTimeEntry {
+  appId: number;
+  name: string | null;
+  hoursTotal: number;
+  hoursLastTwoWeeks: number;
+  lastPlayed: string | null;
+}
+
+interface GetPlayTimeResult {
+  gameCount: number;
+  games: PlayTimeEntry[];
+}
+
 interface ViewMarketHistoryArgs {
   start?: number;
   count?: number;
@@ -90815,6 +90990,13 @@ interface GetCommunityHubResponse {
      * write: it appears on that person's profile.
      */
     postComment(args: PostCommentArgs, opts?: ConnectionOption): Promise<PostCommentResult>;
+
+    /**
+     * Lists the signed-in caller's own playtime per owned game — lifetime hours, hours in the last
+     * two weeks and last played — or one game's with { appId }, off the store's own web-API token
+     * and Steam's GetOwnedGames. NEEDS A SIGN-IN — the caller signs in, not us.
+     */
+    getPlayTime(args: GetPlayTimeArgs, opts?: ConnectionOption): Promise<GetPlayTimeResult>;
 
     /**
      * Lists the signed-in caller's own Steam Community Market history — item, game, bought/sold,
@@ -91848,6 +92030,79 @@ interface SurfsharkDedicatedIp {
   }
 }
 
+declare namespace BowmarkProvider_surveymonkey {
+  // ── SurveyMonkey — the unit's own declarations, verbatim ──
+interface SurveyMonkeySurvey {
+  id: string;
+  title: string | null;
+  nickname: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  createdAt: string | null;
+  modifiedAt: string | null;
+  questionCount: number | null;
+}
+interface SurveyMonkeySurveyList {
+  totalCount: number;
+  surveys: SurveyMonkeySurvey[];
+}
+interface SurveyMonkeySurveyDetail extends SurveyMonkeySurvey {
+  questions: { id: string; position: number | null }[];
+}
+interface SurveyMonkeyCollector {
+  id: string;
+  name: string | null;
+  type: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  responseCount: number | null;
+  createdAt: string | null;
+  modifiedAt: string | null;
+}
+interface SurveyMonkeyAccount {
+  id: string | null;
+  username: string | null;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  packageId: string | null;
+  language: string | null;
+}
+interface SurveyMonkeyListSurveysArgs {
+  page?: number;
+  pageSize?: number;
+  sortBy?: "modified" | "title" | "responses";
+}
+interface SurveyMonkeySurveyArgs {
+  surveyId: string;
+}
+
+  /** Build, send, and analyze surveys; view responses and collector status. */
+  interface Unit {
+    /**
+     * The signed-in caller's own SurveyMonkey account: id, username, email, name, plan package id
+     * and language. Needs the caller signed in to SurveyMonkey.
+     */
+    getAccountInfo(opts?: ConnectionOption): Promise<SurveyMonkeyAccount>;
+
+    /**
+     * One of the caller's surveys by id (from listSurveys): title, nickname, status, created and
+     * modified dates, question count and its question ids in order. Needs the caller signed in.
+     */
+    getSurvey(args: SurveyMonkeySurveyArgs, opts?: ConnectionOption): Promise<SurveyMonkeySurveyDetail>;
+
+    /**
+     * Every collector (web link, email, SMS, social) on one of the caller's surveys, with its
+     * type, status and response count. Needs the caller signed in.
+     */
+    listCollectors(args: SurveyMonkeySurveyArgs, opts?: ConnectionOption): Promise<SurveyMonkeyCollector[]>;
+
+    /**
+     * The signed-in caller's surveys, one page at a time (pageSize up to 100, default 25), sorted
+     * by last modified, title or response count, with the total. Needs the caller signed in.
+     */
+    listSurveys(args?: SurveyMonkeyListSurveysArgs, opts?: ConnectionOption): Promise<SurveyMonkeySurveyList>;
+  }
+}
+
 declare namespace BowmarkProvider_sweathouz {
   // ── SWTHZ (Sweathouz) — the unit's own declarations, verbatim ──
 interface SweathouzListStudiosArgs {
@@ -92649,10 +92904,10 @@ interface TargetAddToListResult {
      * Reads the customer Q&A on a product page — the questions shoppers asked ("does it fit…", "is
      * it dishwasher safe") with every answer, each marked whether it came from a brand expert or
      * another shopper — which `listReviews`/`reviewPhotos` do not cover. Takes a TCIN from
-     * `search`. `limit` defaults to 10, max 100; `sortBy` defaults to the site's own newest-first
-     * order.
+     * `search`. `limit` defaults to 10, max 100; `sortBy` defaults to newest first;
+     * `"most_answers"` puts the questions shoppers answered most at the top.
      */
-    listQuestions(args: { tcin: string; limit?: number; sortBy?: "most_recent" | "most_helpful" }): Promise<TargetQuestions>;
+    listQuestions(args: { tcin: string; limit?: number; sortBy?: "most_recent" | "most_helpful" | "most_answers" }): Promise<TargetQuestions>;
 
     /**
      * Reads the CALLER's own Target order history — each order's id, date, status, items and
@@ -99535,7 +99790,7 @@ interface UpsSimpleRateQuote {
   serviceName: string;
   cost: number;
   currency: string;
-  daysInTransit: number;
+  daysInTransit: number | null;  // null on an international lane: that page prints only the date
   deliveredBy: string | null;  // the site's own words, e.g. "By End of Day Monday October 26, 2026"
   guaranteed: boolean;
 }
@@ -99637,9 +99892,13 @@ interface UpsServiceAlerts {
      * Air Saver, etc.) with cost, days in transit and the site's own delivery-date wording. A
      * DIFFERENT product from `getRate` (negotiated, weight-based pricing through the keyed Rating
      * API) — this is the flat retail price any anonymous visitor sees. No key needed; drives the
-     * calculator's own multi-step wizard in a headless browser.
+     * calculator's own multi-step wizard in a headless browser. International: pass `toCountry`
+     * (ISO 2-letter, default "US"), the destination postal code as `toZip`, ideally `toCity`, and
+     * instead of `packageSize` give `weightLbs`, `lengthIn`, `widthIn`, `heightIn` and
+     * `customsValue` (USD) — Simple Rate is US-only, so those lanes are priced by weight and box,
+     * and `daysInTransit` comes back null.
      */
-    calculateShippingCost(args: { fromZip: string; toZip: string; packageSize: "extraSmall" | "small" | "medium" | "large" | "extraLarge"; shipDate?: string }): Promise<UpsSimpleRateQuote[]>;
+    calculateShippingCost(args: { fromZip: string; toZip: string; toCountry?: string; toCity?: string; packageSize?: "extraSmall" | "small" | "medium" | "large" | "extraLarge"; weightLbs?: number; lengthIn?: number; widthIn?: number; heightIn?: number; customsValue?: number; shipDate?: string }): Promise<UpsSimpleRateQuote[]>;
 
     /**
      * Finds UPS drop-off/pickup locations near a ZIP Code or street/city address — UPS Customer
@@ -102829,6 +103088,42 @@ interface TropicalForecastPathResult {
   units: "imperial";
 }
 
+interface TropicalTrackPoint {
+  advisoryNumber: string | null;
+  time: string | null;
+  source: string | null;
+  stormType: string | null;
+  category: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  maxSustainedWind: number | null;
+  windGust: number | null;
+  /** Inches of mercury. */
+  minPressure: number | null;
+  heading: string | null;
+  speed: number | null;
+  headline: string[];
+}
+
+interface TropicalTrackStorm {
+  stormId: string;
+  stormName: string;
+  startedAt: string | null;
+  lastReportedAt: string | null;
+  peakStormType: string | null;
+  peakCategory: string | null;
+  highestMaxSustainedWind: number | null;
+  lowestMinPressure: number | null;
+  track: TropicalTrackPoint[];
+}
+
+interface TropicalTrackResult {
+  basin: string;
+  year: number;
+  storms: TropicalTrackStorm[];
+  units: "imperial";
+}
+
 interface HistoricalHour {
   observedTime: string;
   temperature: number | null;
@@ -103171,6 +103466,15 @@ interface CMSContent {
      * getCurrentTropicalPosition to narrow to one. Empty `storms` when nothing is active.
      */
     getTropicalForecastPath(stormId?: string): Promise<TropicalForecastPathResult>;
+
+    /**
+     * Where a tropical storm/hurricane HAS BEEN — every advisory position with time, storm type,
+     * category, max wind/gust (mph), pressure (inHg) and heading, plus the storm's peak. Pass a
+     * storm id (`"AL132025"`, from getCurrentTropicalPosition) for one storm, or a basin code
+     * (`"AL"` Atlantic, `"EP"`, `"CP"`, `"WP"`, `"IO"`, `"SH"`) and a year for that whole season.
+     * Empty `storms` for a season the site has nothing for.
+     */
+    getTropicalTrack(stormIdOrBasin: string, year?: number): Promise<TropicalTrackResult>;
   }
 }
 
@@ -111247,6 +111551,7 @@ interface BowmarkProviders {
   mcp_so: BowmarkProvider_mcp_so.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
+  medium: BowmarkProvider_medium.Unit;
   meetup: BowmarkProvider_meetup.Unit;
   menards: BowmarkProvider_menards.Unit;
   mercari: BowmarkProvider_mercari.Unit;
@@ -111447,6 +111752,7 @@ interface BowmarkProviders {
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   sunlighten: BowmarkProvider_sunlighten.Unit;
   surfshark: BowmarkProvider_surfshark.Unit;
+  surveymonkey: BowmarkProvider_surveymonkey.Unit;
   sweathouz: BowmarkProvider_sweathouz.Unit;
   tagtrans_net: BowmarkProvider_tagtrans_net.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
