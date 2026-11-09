@@ -198,7 +198,7 @@ cigna.com — cigna_directory: findProviders
 classichome.com — classichome: addToCart, getProduct, searchProducts
 classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) — classicrockfab: checkAvailability, listAppointmentTypes
 classpass.com — classpass: addFavorite, checkAvailability, checkIn, findLocation, findStudio, getBillingHistory, getBookingQuote, getClass, getClassReviews, getCreditBalance, getMyProfile, getMySubscription, getReservation, getSchedule, getStudio, getStudioReviews, getVideo, listCategories, listFavorites, listMarkets, listMyReservations, listOnDemandVideos, listSimilarStudios, listStudioBranches, listStudioClasses, removeFavorite, search (+13 planned)
-claude.ai — claude: continueSharedConversation, createProject, deleteSharedLink, getAccount, getConversation, getMemory, getPreferences, getProject, getPublishedArtifact, getSharedConversation, getUsage, listArtifacts, listConnectors, listConversations, listModels, listProjects, listSharedLinks, listSkills, moveConversationToProject, publishArtifact, rateResponse, renameConversation, searchConversations, sendMessage, shareConversation, starConversation, updateMemory, updatePreferences, updateProfile (+5 planned)
+claude.ai — claude: continueSharedConversation, createProject, deleteSharedLink, getAccount, getConversation, getMemory, getPreferences, getProject, getPublishedArtifact, getSharedConversation, getUsage, listArtifacts, listConnectors, listConversations, listModels, listProjects, listSharedLinks, listSkills, moveConversationToProject, publishArtifact, rateResponse, renameConversation, searchConversations, sendMessage, shareConversation, starConversation, updateMemory, updatePreferences, updateProfile, uploadFile (+4 planned)
 claude.com — claude_com: getDoc, listDocPages
 claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
 clboyd.com — clboyd: searchUsedEquipment
@@ -355,7 +355,7 @@ goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, 
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaces (+3 planned)
-google.com/maps/reserve — reserve_with_google: bookReservation, cancelBooking, findBookablePlaces, getBooking, getBookingOptions, getMerchant, getSettings, listMyBookings, listMyPacks, listPartners, updateSettings (+3 planned)
+google.com/maps/reserve — reserve_with_google: bookReservation, cancelBooking, findBookablePlaces, getBooking, getBookingOptions, getMerchant, getSettings, joinWaitlist, listMyBookings, listMyPacks, listPartners, modifyBooking, updateSettings (+1 planned)
 goremutual.ca — goremutual: getProductOverview
 gostoreit.com — gostoreit: findFacilities, getFacilityUnits
 gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
@@ -475,6 +475,7 @@ marketplace.visualstudio.com — marketplace_visualstudio: getExtensionStats, se
 marketplace.vts.com — vts_marketplace: getListing, listMarkets, searchListings
 marriott.com — marriott: findHotels (+5 planned)
 mcdonalds.com — mcdonalds: findStores, getMenu, getMenuItem (+2 planned)
+mcp.directory — mcp_directory: search
 mcp.so — mcp_so: search
 medicalguardian.com — medicalguardian: assessFallRisk, getRiskAssessmentQuestions
 medicare.gov — medicare: findDoctors, findHospitals, findNursingHomes, getCosts, getPlan, searchDrugPlans, searchMedigapPlans (+12 planned)
@@ -802,7 +803,7 @@ www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends,
 www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getCancellationPolicy, getClass, getOpenTimes, getService, getStaffMember, listAddOns, listClasses, listPhotos, listPromotions, listReviews, listServices, listStaff, searchBusinesses (+19 planned)
 www.walmart.ca — walmart_ca: search
 www.wixapis.com — wix_bookings: bookAppointment, cancelBooking, findSite, getOpenTimes, getService, listCategories, listLocations, listServices, listStaff, searchServices (+11 planned)
-x.com — x: bookmarkPost, createPost, deletePost, followUser, getConversation, getListPosts, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listNotifications, listTrending, post, profile, quotePost, replyToPost, repost, search, sendDirectMessage, updateProfile, uploadProfilePicture, userTimeline
+x.com — x: blockUser, bookmarkPost, createPost, deletePost, followUser, getConversation, getListPosts, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listNotifications, listTrending, muteUser, post, profile, quotePost, replyToPost, repost, search, sendDirectMessage, updateProfile, uploadProfilePicture, userTimeline
 xola.com — xola: findSeller, getAvailability, getExperience, getPriceQuote, listExperiences, listWaivers (+3 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search

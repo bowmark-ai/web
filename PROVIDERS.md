@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6158 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6161 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1165,7 +1165,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude.updatePreferences` | claude.ai | Updates the CALLER's personal preferences — what Claude should call them, their work… | 🟢 |
 | `claude.updateProfile` | claude.ai | Updates the CALLER's Claude profile — full name, display name and profile picture. | 🟢 |
 | `claude.updateProjectInstructions` | claude.ai | Sets the custom instructions on one of the CALLER's projects. | 🔴 |
-| `claude.uploadFile` | claude.ai | Uploads a file (PDF, image, text) to the CALLER's account so `sendMessage` can attach… | ⚪ |
+| `claude.uploadFile` | claude.ai | Uploads a file (PDF, image, text) to the CALLER's account so `sendMessage` can attach… | 🟢 |
 | `claudemarketplaces_com.getListing` | claudemarketplaces.com | Fetches one MCP server listing page (`/mcp/<publisher>/<slug>`) from… | 🟢 |
 | `claudemarketplaces_com.searchListings` | claudemarketplaces.com | Finds MCP server listings whose publisher or slug matches every word in a search… | 🟢 |
 | `clboyd.searchUsedEquipment` | clboyd.com | Runs CL Boyd's live used-equipment inventory filter. | 🟢 |
@@ -3244,6 +3244,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mcdonalds.getDeals` | mcdonalds.com | Reads the current public deals, value-menu items and promotions McDonald's is… | ⚪ |
 | `mcdonalds.getMenu` | mcdonalds.com | Returns McDonald's national menu — every item's internal id, name, the category it is… | 🟢 |
 | `mcdonalds.getMenuItem` | mcdonalds.com | Returns one McDonald's menu item in full — its marketing name, description, FDA-style… | 🟢 |
+| `mcp_directory.search` | mcp.directory | Searches MCP.Directory's public catalogue of MCP servers by keyword, or browses its… | 🟢 |
 | `mcp_registry.search` | registry.modelcontextprotocol.io | Lists or searches the official MCP server registry (registry.modelcontextprotocol.io)… | 🟢 |
 | `mcp_so.search` | mcp.so | Searches the mcp.so directory of published MCP servers by a slug/name substring and… | 🟢 |
 | `medicalguardian.assessFallRisk` | medicalguardian.com | Runs Medical Guardian's own fall-risk scoring — 9 yes/no + one 3-way activity-level… | 🟢 |
@@ -4236,11 +4237,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists the booking action one place offers on Google — "Reserve a table", "Book online"… | 🟡 |
 | `reserve_with_google.getMerchant` | google.com/maps/reserve | Reads one Google-hosted booking page by merchant id or its… | 🟢 |
 | `reserve_with_google.getSettings` | google.com/maps/reserve | Reads the caller's Reserve with Google Settings page and returns the page's own data… | 🟢 |
-| `reserve_with_google.joinWaitlist` | google.com/maps/reserve | Adds the caller's name to a restaurant's waitlist through Google, where the venue… | ⚪ |
+| `reserve_with_google.joinWaitlist` | google.com/maps/reserve | Adds the caller to a Google-hosted restaurant's waitlist with a party size, where the… | 🟢 |
 | `reserve_with_google.listMyBookings` | google.com/maps/reserve | Lists the venues of the caller's Reserve with Google bookings off their own Bookings… | 🟢 |
 | `reserve_with_google.listMyPacks` | google.com/maps/reserve | Lists the venues the caller holds class packs or memberships at, off their own Reserve… | 🟢 |
 | `reserve_with_google.listPartners` | google.com/maps/reserve | Lists every booking provider connected to Reserve with Google (Booksy, OpenTable… | 🟢 |
-| `reserve_with_google.modifyBooking` | google.com/maps/reserve | Changes the time or party size of one of the caller's bookings, where the partner… | ⚪ |
+| `reserve_with_google.modifyBooking` | google.com/maps/reserve | Changes the time or party size of the caller's booking at one venue, found by the… | 🟢 |
 | `reserve_with_google.updateSettings` | google.com/maps/reserve | Changes the contact name, phone or email on the caller's Reserve with Google Settings… | 🟢 |
 | `resy.cancelBooking` | resy.com | Cancels one of the diner's reservations by its resyToken, under the diner's sign-in in… | 🟢 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟢 |
@@ -5924,6 +5925,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.searchArticles` | wsj.com | Searches WSJ's own site search for a keyword and returns matching articles with… | 🟢 |
 | `wsj.unsaveArticle` | wsj.com | Removes an article from the caller's own My WSJ saved list, through their signed-in… | 🟢 |
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
+| `x.blockUser` | x.com | Block or unblock an account as the signed-in account — one `block` boolean argument… | 🟢 |
 | `x.bookmarkPost` | x.com | Bookmark or un-bookmark a post as the signed-in account — one `bookmark` boolean… | 🟢 |
 | `x.createPost` | x.com | Post a new tweet as the signed-in account. | 🟢 |
 | `x.deletePost` | x.com | Delete one of the signed-in account's own posts. | 🟢 |
@@ -5939,6 +5941,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.listHomeFeed` | x.com | The signed-in account's personalized home timeline, in X's own order. | 🟢 |
 | `x.listNotifications` | x.com | The signed-in account's notifications — likes, replies, reposts, follows and mentions. | 🟢 |
 | `x.listTrending` | x.com | The site's current trending topics, the /explore page. | 🟢 |
+| `x.muteUser` | x.com | Mute or unmute an account as the signed-in account — one `mute` boolean argument picks… | 🟢 |
 | `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |
 | `x.profile` | x.com | Reads an X (Twitter) profile by handle or profile URL — display name, bio text… | 🟢 |
 | `x.quotePost` | x.com | Quote-repost a post with the signed-in account's own added comment. | 🟢 |
