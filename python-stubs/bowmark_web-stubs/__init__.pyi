@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 247ea4addf6ee7dab99500d7c7a103742dd84d71769340da1f68978560d53f6c
-# 97 capabilities, 785 providers, 4691 typed functions, 20 refused.
+# Manifest version: 1b45e0002fb179bfed4206e846554c3098865d82d3731db4520cf553482b42a3
+# 97 capabilities, 789 providers, 4714 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7777,6 +7777,14 @@ class Prv_article_com_ArticleProduct_Out_variants_item_Out(TypedDict):
     finish: str | None
     title: str
 
+class Prv_artificialanalysis_ai_ArtificialAnalysisEvaluationRow_Out(TypedDict):
+    model: str
+    provider: str | None
+    score: float
+    inputPricePerMillionTokens: float | None
+    outputPricePerMillionTokens: float | None
+    outputTokensPerSecond: float | None
+
 class Prv_artpix3d_Artpix3dShape_Out(TypedDict):
     slug: str
     name: str
@@ -10658,6 +10666,31 @@ class Prv_bluesky_markNotificationsRead_opts_In(TypedDict):
 
 class Prv_bluesky_BlueskyMarkSeenResult_Out(TypedDict):
     seenAt: str
+
+class Prv_bluesky_BlueskyUpdateProfileArgs_In(TypedDict):
+    displayName: NotRequired[str]
+    bio: NotRequired[str]
+
+class Prv_bluesky_BlueskyCreateListArgs_In(TypedDict):
+    name: str
+    description: NotRequired[str]
+    purpose: NotRequired[Literal["curate"] | Literal["moderate"]]
+
+class Prv_bluesky_BlueskyAddToListArgs_In(TypedDict):
+    list: str
+    actor: str
+    undo: NotRequired[bool]
+
+class Prv_bluesky_BlueskySaveFeedArgs_In(TypedDict):
+    feed: str
+    pinned: NotRequired[bool]
+    undo: NotRequired[bool]
+
+class Prv_bluesky_BlueskySaveFeedResult_Out(TypedDict):
+    feed: str
+    saved: bool
+    pinned: bool
+    changed: bool
 
 class Prv_bluesky_BlueskyActorActionArgs_In(TypedDict):
     actor: str
@@ -17367,6 +17400,89 @@ class Prv_cnbc_com_cnbc_comNewsItem_Out(TypedDict):
     type: str | None
     sponsored: bool
 
+class Prv_cnbc_com_SearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_cnbc_com_search_return_Out(TypedDict):
+    total: float
+    results: list[Prv_cnbc_com_cnbc_comSearchResult_Out]
+
+class Prv_cnbc_com_cnbc_comSearchResult_Out(TypedDict):
+    id: str | None
+    title: str | None
+    url: str | None
+    summary: str | None
+    author: str | None
+    section: str | None
+    type: str | None
+    published: str | None
+    image: str | None
+
+class Prv_cnbc_com_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_cnbc_com_cnbc_comArticle_Out(TypedDict):
+    url: str | None
+    title: str | None
+    description: str | None
+    authors: list[str]
+    published: str | None
+    modified: str | None
+    section: str | None
+    keywords: list[str]
+    image: str | None
+    isAccessibleForFree: bool | None
+    body: list[str]
+
+class Prv_cnbc_com_GetMarketDataArgs_In(TypedDict):
+    symbol: str
+    range: NotRequired[str]
+
+class Prv_cnbc_com_cnbc_comMarketData_Out(TypedDict):
+    symbol: str
+    name: NotRequired[str]
+    price: NotRequired[str]
+    change: NotRequired[str]
+    changePercent: NotRequired[str]
+    open: NotRequired[str]
+    high: NotRequired[str]
+    low: NotRequired[str]
+    fiftyTwoWeekHigh: NotRequired[str]
+    fiftyTwoWeekLow: NotRequired[str]
+    marketCap: NotRequired[str]
+    peRatio: NotRequired[str]
+    dividend: NotRequired[str]
+    previousClose: NotRequired[str]
+    volume: NotRequired[str]
+    range: str
+    bars: list[Prv_cnbc_com_cnbc_comPriceBar_Out]
+
+class Prv_cnbc_com_cnbc_comPriceBar_Out(TypedDict):
+    time: str
+    open: float
+    high: float
+    low: float
+    close: float
+    volume: float | None
+
+class Prv_cnbc_com_cnbc_comSector_Out(TypedDict):
+    symbol: str
+    name: NotRequired[str]
+    price: NotRequired[str]
+    change: NotRequired[str]
+    changePercent: NotRequired[str]
+    open: NotRequired[str]
+    high: NotRequired[str]
+    low: NotRequired[str]
+    fiftyTwoWeekHigh: NotRequired[str]
+    fiftyTwoWeekLow: NotRequired[str]
+    marketCap: NotRequired[str]
+    peRatio: NotRequired[str]
+    dividend: NotRequired[str]
+    sector: str
+
 class Prv_cnbc_com_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -18855,6 +18971,15 @@ class Prv_dailymotion_DailymotionMyLikedVideosResult_Out(TypedDict):
     hasMore: bool
     videos: list[Prv_dailymotion_DailymotionVideo_Out]
 
+class Prv_dailymotion_ListMyVideosArgs_In(TypedDict):
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionMyVideosResult_Out(TypedDict):
+    page: float
+    hasMore: bool
+    videos: list[Prv_dailymotion_DailymotionVideo_Out]
+
 class Prv_dailymotion_ListFollowedChannelsArgs_In(TypedDict):
     limit: NotRequired[float]
     page: NotRequired[float]
@@ -18908,6 +19033,29 @@ class Prv_dailymotion_DailymotionPlaylistEntryResult_Out(TypedDict):
     playlist: str
     video: str
     inPlaylist: bool
+
+class Prv_dailymotion_UploadVideoArgs_In(TypedDict):
+    fileUrl: str
+    title: str
+    description: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    category: NotRequired[str]
+    private: NotRequired[bool]
+
+class Prv_dailymotion_UpdateVideoArgs_In(TypedDict):
+    video: str
+    title: NotRequired[str]
+    description: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    category: NotRequired[str]
+    private: NotRequired[bool]
+
+class Prv_dailymotion_DeleteVideoArgs_In(TypedDict):
+    video: str
+
+class Prv_dailymotion_DailymotionDeletedVideo_Out(TypedDict):
+    video: str
+    deleted: Literal[True]
 
 class Prv_dailymotion_DeletePlaylistArgs_In(TypedDict):
     playlist: str
@@ -19254,6 +19402,32 @@ class Prv_decksdirect_DdCartHandoff_Out(TypedDict):
 class Prv_decksdirect_DdCartHandoff_Out_applied_item_Out(TypedDict):
     group: str
     choice: str
+
+class Prv_deepmind_ListPublicationsArgs_In(TypedDict):
+    page: NotRequired[float]
+    query: NotRequired[str]
+
+class Prv_deepmind_DeepMindPublicationsPage_Out(TypedDict):
+    page: float
+    total: float | None
+    publications: list[Prv_deepmind_DeepMindPublication_Out]
+
+class Prv_deepmind_DeepMindPublication_Out(TypedDict):
+    id: str
+    title: str
+    date: str
+    isoDate: str | None
+    url: str
+
+class Prv_deepmind_ListBlogPostsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_deepmind_DeepMindBlogPost_Out(TypedDict):
+    title: str
+    url: str
+    summary: str | None
+    publishedAt: str | None
+    thumbnailUrl: str | None
 
 class Prv_delaware_corps_SearchEntityArgs_In(TypedDict):
     name: NotRequired[str]
@@ -39037,6 +39211,15 @@ class Prv_mcpmarket_McpMarketServer_Out(TypedDict):
     authorUrl: str | None
     keywords: list[str]
     likes: float | None
+    category: str | None
+    url: str
+
+class Prv_mcptrove_com_search_query_u1_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_mcptrove_com_McpTroveServer_Out(TypedDict):
+    name: str
+    description: str
     category: str | None
     url: str
 
@@ -59148,6 +59331,62 @@ class Prv_teneohg_TeneohgRfpHandoff_Out(TypedDict):
     url: str
     hotelsOfInterestValue: str
 
+class Prv_thataicollection_com_browseCategory_linkName_u1_In(TypedDict):
+    linkName: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_thataicollection_com_AiCollectionCategoryPage_Out(TypedDict):
+    category: Prv_thataicollection_com_AiCollectionCategoryPage_Out_category_u0_Out | None
+    returnedCount: float
+    applications: list[Prv_thataicollection_com_AiCollectionTool_Out]
+
+class Prv_thataicollection_com_AiCollectionCategoryPage_Out_category_u0_Out(TypedDict):
+    name: str
+    url: str
+
+class Prv_thataicollection_com_AiCollectionTool_Out(TypedDict):
+    name: str
+    linkName: str
+    url: str
+    shortDescription: str
+    categoryName: str | None
+
+class Prv_thataicollection_com_compareTools_linkNames_In(TypedDict):
+    linkNameA: str
+    linkNameB: str
+
+class Prv_thataicollection_com_AiCollectionComparison_Out(TypedDict):
+    a: Prv_thataicollection_com_AiCollectionDetail_Out
+    b: Prv_thataicollection_com_AiCollectionDetail_Out
+    comparePageUrl: str | None
+
+class Prv_thataicollection_com_AiCollectionDetail_Out(TypedDict):
+    name: str
+    url: str
+    description: str
+    category: str | None
+    screenshot: str | None
+    additionalInformation: str | None
+
+class Prv_thataicollection_com_getAlternatives_linkName_u1_In(TypedDict):
+    linkName: str
+    limit: NotRequired[float]
+
+class Prv_thataicollection_com_getTopPicks_category_u1_In(TypedDict):
+    category: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_thataicollection_com_AiCollectionCategory_Out(TypedDict):
+    name: str
+    linkName: str
+    url: str
+
+class Prv_thataicollection_com_searchTools_query_u1_In(TypedDict):
+    query: str
+    category: NotRequired[str]
+    limit: NotRequired[float]
+
 class Prv_thefork_TheforkSearchArgs_In(TypedDict):
     query: str
     near: NotRequired[str]
@@ -74500,6 +74739,14 @@ class Prv_article_com(Protocol):
         colourways.
         """
 
+class Prv_artificialanalysis_ai(Protocol):
+    """Read Artificial Analysis's public AutomationBench-AA model leaderboard."""
+
+    async def getEvaluation(self, evaluation: str | None = None, /) -> list[Prv_artificialanalysis_ai_ArtificialAnalysisEvaluationRow_Out]:
+        """Returns the public AutomationBench-AA leaderboard. Call without an argument for
+        AutomationBench-AA, or pass its evaluation slug or URL.
+        """
+
 class Prv_artpix3d(Protocol):
     """Reads ArtPix 3D's own live product configurator — every crystal shape, and for a chosen
     shape, every size's real current price (with active sale discounts) and
@@ -76261,6 +76508,38 @@ class Prv_bluesky(Protocol):
         date-time), clearing the unread count. Returns the instant used. Needs the caller signed
         in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
         `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
+    async def updateProfile(self, args: Prv_bluesky_BlueskyUpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyPostActionResult_Out:
+        """Changes the signed-in caller's display name (max 64 characters) and/or bio (max 256). A
+        field left out is kept, avatar and banner included; an empty string clears it. `changed:
+        false` when nothing differed. Needs the caller signed in to bsky.app — the run pauses
+        for a sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has
+        expired; sign in again.
+        """
+
+    async def createList(self, args: Prv_bluesky_BlueskyCreateListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyCreatedRecord_Out:
+        """Creates a list owned by the signed-in caller — `purpose: "curate"` (default, a feed of
+        people) or `"moderate"` (a mute/block list) — and returns its at:// URI and bsky.app
+        URL. Add people with addToList. Needs the caller signed in to bsky.app — the run pauses
+        for a sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has
+        expired; sign in again.
+        """
+
+    async def addToList(self, args: Prv_bluesky_BlueskyAddToListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyPostActionResult_Out:
+        """Adds a person (handle, DID or profile URL) to one of the signed-in caller's OWN lists
+        (at:// URI or bsky.app list URL); `undo: true` removes them. Adding someone already on
+        the list returns the existing entry with `changed: false`. Refuses a list somebody else
+        owns. Needs the caller signed in to bsky.app — the run pauses for a sign-in link when
+        they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
+    async def saveFeed(self, args: Prv_bluesky_BlueskySaveFeedArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskySaveFeedResult_Out:
+        """Saves a custom feed (at:// URI or bsky.app feed URL) to the signed-in caller's feeds;
+        `pinned: true` also pins it to the home tabs, `pinned: false` unpins it, `undo: true`
+        removes it. Returns the feed's resulting state. Needs the caller signed in to bsky.app —
+        the run pauses for a sign-in link when they are not. THROWS `blueskyError` when the
+        saved sign-in has expired; sign in again.
         """
 
     async def followUser(self, args: Prv_bluesky_BlueskyActorActionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyPostActionResult_Out:
@@ -79811,6 +80090,27 @@ class Prv_cnbc_com(Protocol):
         date and story type — from CNBC's own RSS feed.
         """
 
+    async def search(self, args: Prv_cnbc_com_SearchArgs_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_search_return_Out:
+        """Searches CNBC's articles and videos for a keyword and returns them by relevance — title,
+        link, summary, author, section, type and publication date — from the site's own search
+        service.
+        """
+
+    async def getArticle(self, args: Prv_cnbc_com_GetArticleArgs_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_cnbc_comArticle_Out:
+        """Returns a CNBC article by URL — headline, authors, publication and update dates,
+        section, keywords, lead image and the body as paragraphs.
+        """
+
+    async def getMarketData(self, args: Prv_cnbc_com_GetMarketDataArgs_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_cnbc_comMarketData_Out:
+        """Returns one stock, index, commodity or yield's current quote plus its price history for
+        a range (1 day to all time) as open/high/low/close/volume bars.
+        """
+
+    async def listSectors(self, opts: ConnectionOption | None = None, /) -> list[Prv_cnbc_com_cnbc_comSector_Out]:
+        """Returns today's performance of the eleven S&P 500 sectors, each through its SPDR sector
+        ETF — price, change and percent change.
+        """
+
     async def signup(self, args: Any, /) -> Prv_cnbc_com_signup_return_u0_Out | Prv_cnbc_com_signup_return_u1_Out | Prv_cnbc_com_signup_return_u2_Out | Prv_cnbc_com_signup_return_u3_Out:
         """Makes a NEW CNBC account with the person's own email and password, in a session. Pauses
         with `needs_code` / `needs_phone` whenever the site wants something only the person has;
@@ -80683,6 +80983,11 @@ class Prv_dailymotion(Protocol):
         the caller signed in.
         """
 
+    async def listMyVideos(self, args: Prv_dailymotion_ListMyVideosArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionMyVideosResult_Out:
+        """List the videos the signed-in caller has uploaded, private ones included, paged — same
+        fields as getVideo. Needs the caller signed in.
+        """
+
     async def listFollowedChannels(self, args: Prv_dailymotion_ListFollowedChannelsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionListFollowedChannelsResult_Out:
         """List the channels the signed-in caller follows, paged — same fields as getChannel. Needs
         the caller signed in.
@@ -80712,6 +81017,20 @@ class Prv_dailymotion(Protocol):
         """Add a video to one of the signed-in caller's own playlists, or pass add: false to remove
         it. Needs the caller signed in.
         """
+
+    async def uploadVideo(self, args: Prv_dailymotion_UploadVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionVideo_Out:
+        """Publish a video to the signed-in caller's Dailymotion channel from a public file URL,
+        with title, description, tags and category — private unless private: false. Needs the
+        caller signed in.
+        """
+
+    async def updateVideo(self, args: Prv_dailymotion_UpdateVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionVideo_Out:
+        """Edit one of the signed-in caller's own videos — title, description, tags, category or
+        visibility. Needs the caller signed in.
+        """
+
+    async def deleteVideo(self, args: Prv_dailymotion_DeleteVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionDeletedVideo_Out:
+        """Delete one of the signed-in caller's own videos. Needs the caller signed in."""
 
     async def deletePlaylist(self, args: Prv_dailymotion_DeletePlaylistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionDeletedPlaylist_Out:
         """Delete one of the signed-in caller's own Dailymotion playlists. Needs the caller signed
@@ -80936,6 +81255,22 @@ class Prv_decksdirect(Protocol):
         and applied choices alongside the URL. NOTHING IS CREATED SERVER-SIDE and nothing is
         bought — this provider never posts to the site's own add-to-cart endpoint, which
         requires a session-bound form key this stateless call does not hold.
+        """
+
+class Prv_deepmind(Protocol):
+    """Google DeepMind's research publications index and blog posts as typed rows (title, date,
+    url).
+    """
+
+    async def listPublications(self, args: Prv_deepmind_ListPublicationsArgs_In | None = None, /) -> Prv_deepmind_DeepMindPublicationsPage_Out:
+        """One page (30 rows, newest first) of DeepMind's research publications index at
+        deepmind.google/research — title, date, url. `query` filters that page's titles by
+        substring.
+        """
+
+    async def listBlogPosts(self, args: Prv_deepmind_ListBlogPostsArgs_In | None = None, /) -> list[Prv_deepmind_DeepMindBlogPost_Out]:
+        """The latest DeepMind blog/news posts from the site's own RSS feed — title, url, summary,
+        published time, thumbnail.
         """
 
 class Prv_delaware_corps(Protocol):
@@ -92293,6 +92628,17 @@ class Prv_mcpmarket(Protocol):
         and category.
         """
 
+class Prv_mcptrove_com(Protocol):
+    """Search MCP Trove's public directory of MCP servers by keyword, or browse its current
+    listings.
+    """
+
+    async def search(self, query: str | Prv_mcptrove_com_search_query_u1_In | None = None, /) -> list[Prv_mcptrove_com_McpTroveServer_Out]:
+        """Searches MCP Trove's public MCP-server directory by keyword, or browses current listings
+        when called with no argument. Each result includes the displayed name, description,
+        category and detail-page URL.
+        """
+
 class Prv_medicalguardian(Protocol):
     """Medical Guardian's own fall-risk assessment (medicalguardian.com/risk-assessment) — a
     real 0-9 score and low/medium/high risk level computed exactly as the site computes it,
@@ -102744,6 +103090,32 @@ class Prv_teneohg(Protocol):
         to find current ones.
         """
 
+class Prv_thataicollection_com(Protocol):
+    """Search AI Collection's public AI-tool directory, inspect tools, browse categories, find
+    alternatives and compare tools.
+    """
+
+    async def browseCategory(self, linkName: str | Prv_thataicollection_com_browseCategory_linkName_u1_In, limit: float | None = None, offset: float | None = None, /) -> Prv_thataicollection_com_AiCollectionCategoryPage_Out:
+        """Browses tools in one category by linkName."""
+
+    async def compareTools(self, linkNames: Prv_thataicollection_com_compareTools_linkNames_In, /) -> Prv_thataicollection_com_AiCollectionComparison_Out:
+        """Compares two tools by linkName, including their available structured attributes."""
+
+    async def getAlternatives(self, linkName: str | Prv_thataicollection_com_getAlternatives_linkName_u1_In, limit: float | None = None, /) -> list[Prv_thataicollection_com_AiCollectionTool_Out]:
+        """Finds same-category alternatives to one listed tool."""
+
+    async def getTool(self, linkName: str, /) -> Prv_thataicollection_com_AiCollectionDetail_Out:
+        """Reads one AI tool's public detail record by linkName."""
+
+    async def getTopPicks(self, category: str | Prv_thataicollection_com_getTopPicks_category_u1_In | None = None, limit: float | None = None, /) -> list[Prv_thataicollection_com_AiCollectionTool_Out]:
+        """Returns editorial top picks, optionally in one category."""
+
+    async def listCategories(self, /) -> list[Prv_thataicollection_com_AiCollectionCategory_Out]:
+        """Lists the directory's public categories and linkNames."""
+
+    async def searchTools(self, query: str | Prv_thataicollection_com_searchTools_query_u1_In, limit: float | None = None, /) -> list[Prv_thataicollection_com_AiCollectionTool_Out]:
+        """Searches AI Collection's public directory by query, optionally scoped to a category."""
+
 class Prv_thefork(Protocol):
     """TheFork — Europe's restaurant reservation site (Spain, France, Italy, Portugal…): find a
     restaurant by name, e.g. a tapas bar in Barcelona, and get its booking page.
@@ -108796,6 +109168,7 @@ class BowmarkProviders(Protocol):
     archive_org: Prv_archive_org
     arketa: Prv_arketa
     article_com: Prv_article_com
+    artificialanalysis_ai: Prv_artificialanalysis_ai
     artpix3d: Prv_artpix3d
     arxiv: Prv_arxiv
     ashby: Prv_ashby
@@ -108975,6 +109348,7 @@ class BowmarkProviders(Protocol):
     deangroup: Prv_deangroup
     decked: Prv_decked
     decksdirect: Prv_decksdirect
+    deepmind: Prv_deepmind
     delaware_corps: Prv_delaware_corps
     dell: Prv_dell
     deltadentalma: Prv_deltadentalma
@@ -109200,6 +109574,7 @@ class BowmarkProviders(Protocol):
     mcp_registry: Prv_mcp_registry
     mcp_so: Prv_mcp_so
     mcpmarket: Prv_mcpmarket
+    mcptrove_com: Prv_mcptrove_com
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
     medium: Prv_medium
@@ -109416,6 +109791,7 @@ class BowmarkProviders(Protocol):
     temu: Prv_temu
     tenders_go_ke: Prv_tenders_go_ke
     teneohg: Prv_teneohg
+    thataicollection_com: Prv_thataicollection_com
     thefork: Prv_thefork
     theguardian_com: Prv_theguardian_com
     therabody: Prv_therabody

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 247ea4addf6ee7dab99500d7c7a103742dd84d71769340da1f68978560d53f6c
-// 97 capabilities, 785 providers, 4709 typed functions, 20 refused.
+// Manifest version: 1b45e0002fb179bfed4206e846554c3098865d82d3731db4520cf553482b42a3
+// 97 capabilities, 789 providers, 4732 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12885,6 +12885,27 @@ interface ArticleProduct {
   }
 }
 
+declare namespace BowmarkProvider_artificialanalysis_ai {
+  // ── Artificial Analysis — the unit's own declarations, verbatim ──
+interface ArtificialAnalysisEvaluationRow {
+  model: string;
+  provider: string | null;
+  score: number;
+  inputPricePerMillionTokens: number | null;
+  outputPricePerMillionTokens: number | null;
+  outputTokensPerSecond: number | null;
+}
+
+  /** Read Artificial Analysis's public AutomationBench-AA model leaderboard. */
+  interface Unit {
+    /**
+     * Returns the public AutomationBench-AA leaderboard. Call without an argument for
+     * AutomationBench-AA, or pass its evaluation slug or URL.
+     */
+    getEvaluation(evaluation?: string): Promise<ArtificialAnalysisEvaluationRow[]>;
+  }
+}
+
 declare namespace BowmarkProvider_artpix3d {
   // ── ArtPix 3D — the unit's own declarations, verbatim ──
 // ArtPix 3D's OWN shapes — not a capability contract.
@@ -17309,6 +17330,35 @@ interface BlueskyActorActionArgs {
   actor: string;
   undo?: boolean;
 }
+interface BlueskyUpdateProfileArgs {
+  displayName?: string;
+  bio?: string;
+}
+
+interface BlueskyCreateListArgs {
+  name: string;
+  description?: string;
+  purpose?: "curate" | "moderate";
+}
+
+interface BlueskyAddToListArgs {
+  list: string;
+  actor: string;
+  undo?: boolean;
+}
+
+interface BlueskySaveFeedArgs {
+  feed: string;
+  pinned?: boolean;
+  undo?: boolean;
+}
+
+interface BlueskySaveFeedResult {
+  feed: string;
+  saved: boolean;
+  pinned: boolean;
+  changed: boolean;
+}
 
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
@@ -17672,6 +17722,42 @@ interface BlueskyActorActionArgs {
      * when the saved sign-in has expired; sign in again.
      */
     markNotificationsRead(opts?: { seenAt?: string }, connectionOpts?: ConnectionOption): Promise<BlueskyMarkSeenResult>;
+
+    /**
+     * Changes the signed-in caller's display name (max 64 characters) and/or bio (max 256). A
+     * field left out is kept, avatar and banner included; an empty string clears it. `changed:
+     * false` when nothing differed. Needs the caller signed in to bsky.app — the run pauses for a
+     * sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has expired;
+     * sign in again.
+     */
+    updateProfile(args: BlueskyUpdateProfileArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Creates a list owned by the signed-in caller — `purpose: "curate"` (default, a feed of
+     * people) or `"moderate"` (a mute/block list) — and returns its at:// URI and bsky.app URL.
+     * Add people with addToList. Needs the caller signed in to bsky.app — the run pauses for a
+     * sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has expired;
+     * sign in again.
+     */
+    createList(args: BlueskyCreateListArgs, opts?: ConnectionOption): Promise<BlueskyCreatedRecord>;
+
+    /**
+     * Adds a person (handle, DID or profile URL) to one of the signed-in caller's OWN lists (at://
+     * URI or bsky.app list URL); `undo: true` removes them. Adding someone already on the list
+     * returns the existing entry with `changed: false`. Refuses a list somebody else owns. Needs
+     * the caller signed in to bsky.app — the run pauses for a sign-in link when they are not.
+     * THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    addToList(args: BlueskyAddToListArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Saves a custom feed (at:// URI or bsky.app feed URL) to the signed-in caller's feeds;
+     * `pinned: true` also pins it to the home tabs, `pinned: false` unpins it, `undo: true`
+     * removes it. Returns the feed's resulting state. Needs the caller signed in to bsky.app — the
+     * run pauses for a sign-in link when they are not. THROWS `blueskyError` when the saved
+     * sign-in has expired; sign in again.
+     */
+    saveFeed(args: BlueskySaveFeedArgs, opts?: ConnectionOption): Promise<BlueskySaveFeedResult>;
 
     /**
      * Follows a person (handle, DID or bsky.app profile URL) as the signed-in caller; `undo: true`
@@ -28211,6 +28297,75 @@ interface cnbc_comNewsItem {
   type: string | null;
   sponsored: boolean;
 }
+interface SearchArgs {
+  query: string;
+  /** results per page, default 10, max 100 */
+  limit?: number;
+  /** 1-based page, default 1 */
+  page?: number;
+}
+
+interface cnbc_comSearchResult {
+  id: string | null;
+  title: string | null;
+  url: string | null;
+  summary: string | null;
+  author: string | null;
+  section: string | null;
+  /** cnbcnewsstory, cnbcvideo, … */
+  type: string | null;
+  published: string | null;
+  image: string | null;
+}
+
+interface GetArticleArgs {
+  /** a www.cnbc.com/YYYY/MM/DD/<slug>.html URL, e.g. one listNews or search returned */
+  url: string;
+}
+
+interface cnbc_comArticle {
+  url: string | null;
+  title: string | null;
+  description: string | null;
+  authors: string[];
+  published: string | null;
+  modified: string | null;
+  section: string | null;
+  keywords: string[];
+  image: string | null;
+  /** false on CNBC Pro articles, whose body is a teaser */
+  isAccessibleForFree: boolean | null;
+  /** paragraphs, in order */
+  body: string[];
+}
+
+interface GetMarketDataArgs {
+  /** any CNBC symbol: "AAPL", ".SPX", "@CL.1", "US10Y" */
+  symbol: string;
+  /** 1D, 5D, 1M (default), 3M, 6M, YTD, 1Y, 5Y, ALL */
+  range?: string;
+}
+
+interface cnbc_comPriceBar {
+  /** ISO instant of the bar */
+  time: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number | null;
+}
+
+interface cnbc_comMarketData extends cnbc_comRow {
+  previousClose?: string;
+  volume?: string;
+  range: string;
+  bars: cnbc_comPriceBar[];
+}
+
+interface cnbc_comSector extends cnbc_comRow {
+  sector: string;
+}
 
   /** Stock quotes, market data, news, videos and analysis from CNBC. */
   interface Unit {
@@ -28236,6 +28391,31 @@ interface cnbc_comNewsItem {
      * type — from CNBC's own RSS feed.
      */
     listNews(args?: ListNewsArgs, opts?: ConnectionOption): Promise<cnbc_comNewsItem[]>;
+
+    /**
+     * Searches CNBC's articles and videos for a keyword and returns them by relevance — title,
+     * link, summary, author, section, type and publication date — from the site's own search
+     * service.
+     */
+    search(args: SearchArgs, opts?: ConnectionOption): Promise<{ total: number; results: cnbc_comSearchResult[] }>;
+
+    /**
+     * Returns a CNBC article by URL — headline, authors, publication and update dates, section,
+     * keywords, lead image and the body as paragraphs.
+     */
+    getArticle(args: GetArticleArgs, opts?: ConnectionOption): Promise<cnbc_comArticle>;
+
+    /**
+     * Returns one stock, index, commodity or yield's current quote plus its price history for a
+     * range (1 day to all time) as open/high/low/close/volume bars.
+     */
+    getMarketData(args: GetMarketDataArgs, opts?: ConnectionOption): Promise<cnbc_comMarketData>;
+
+    /**
+     * Returns today's performance of the eleven S&P 500 sectors, each through its SPDR sector ETF
+     * — price, change and percent change.
+     */
+    listSectors(opts?: ConnectionOption): Promise<cnbc_comSector[]>;
 
     /**
      * Makes a NEW CNBC account with the person's own email and password, in a session. Pauses with
@@ -30561,6 +30741,15 @@ interface DailymotionMyLikedVideosResult {
   hasMore: boolean;
   videos: DailymotionVideo[];
 }
+interface ListMyVideosArgs {
+  limit?: number;
+  page?: number;
+}
+interface DailymotionMyVideosResult {
+  page: number;
+  hasMore: boolean;
+  videos: DailymotionVideo[];
+}
 interface ListFollowedChannelsArgs {
   limit?: number;
   page?: number;
@@ -30579,6 +30768,29 @@ interface DailymotionPlaylistEntryResult {
   playlist: string;
   video: string;
   inPlaylist: boolean;
+}
+interface UploadVideoArgs {
+  fileUrl: string;
+  title: string;
+  description?: string;
+  tags?: string[];
+  category?: string;
+  private?: boolean;
+}
+interface UpdateVideoArgs {
+  video: string;
+  title?: string;
+  description?: string;
+  tags?: string[];
+  category?: string;
+  private?: boolean;
+}
+interface DeleteVideoArgs {
+  video: string;
+}
+interface DailymotionDeletedVideo {
+  video: string;
+  deleted: true;
 }
 interface DeletePlaylistArgs {
   playlist: string;
@@ -30781,6 +30993,12 @@ interface DailymotionListMyPlaylistsResult {
     listMyLikedVideos(args?: ListMyLikedVideosArgs, opts?: ConnectionOption): Promise<DailymotionMyLikedVideosResult>;
 
     /**
+     * List the videos the signed-in caller has uploaded, private ones included, paged — same
+     * fields as getVideo. Needs the caller signed in.
+     */
+    listMyVideos(args?: ListMyVideosArgs, opts?: ConnectionOption): Promise<DailymotionMyVideosResult>;
+
+    /**
      * List the channels the signed-in caller follows, paged — same fields as getChannel. Needs the
      * caller signed in.
      */
@@ -30815,6 +31033,22 @@ interface DailymotionListMyPlaylistsResult {
      * Needs the caller signed in.
      */
     addToPlaylist(args: AddToPlaylistArgs, opts?: ConnectionOption): Promise<DailymotionPlaylistEntryResult>;
+
+    /**
+     * Publish a video to the signed-in caller's Dailymotion channel from a public file URL, with
+     * title, description, tags and category — private unless private: false. Needs the caller
+     * signed in.
+     */
+    uploadVideo(args: UploadVideoArgs, opts?: ConnectionOption): Promise<DailymotionVideo>;
+
+    /**
+     * Edit one of the signed-in caller's own videos — title, description, tags, category or
+     * visibility. Needs the caller signed in.
+     */
+    updateVideo(args: UpdateVideoArgs, opts?: ConnectionOption): Promise<DailymotionVideo>;
+
+    /** Delete one of the signed-in caller's own videos. Needs the caller signed in. */
+    deleteVideo(args: DeleteVideoArgs, opts?: ConnectionOption): Promise<DailymotionDeletedVideo>;
 
     /** Delete one of the signed-in caller's own Dailymotion playlists. Needs the caller signed in. */
     deletePlaylist(args: DeletePlaylistArgs, opts?: ConnectionOption): Promise<DailymotionDeletedPlaylist>;
@@ -31376,6 +31610,55 @@ interface DdCartHandoff {
      * session-bound form key this stateless call does not hold.
      */
     addToCart(urlKey: string, selections: Record<string, string>): Promise<DdCartHandoff>;
+  }
+}
+
+declare namespace BowmarkProvider_deepmind {
+  // ── Google DeepMind — the unit's own declarations, verbatim ──
+interface DeepMindPublication {
+  id: string;
+  title: string;
+  date: string;
+  isoDate: string | null;
+  url: string;
+}
+interface DeepMindPublicationsPage {
+  page: number;
+  total: number | null;
+  publications: DeepMindPublication[];
+}
+interface ListPublicationsArgs {
+  page?: number;
+  query?: string;
+}
+interface ListBlogPostsArgs {
+  limit?: number;
+}
+interface DeepMindBlogPost {
+  title: string;
+  url: string;
+  summary: string | null;
+  publishedAt: string | null;
+  thumbnailUrl: string | null;
+}
+
+  /**
+   * Google DeepMind's research publications index and blog posts as typed rows (title, date,
+   * url).
+   */
+  interface Unit {
+    /**
+     * One page (30 rows, newest first) of DeepMind's research publications index at
+     * deepmind.google/research — title, date, url. `query` filters that page's titles by
+     * substring.
+     */
+    listPublications(args?: ListPublicationsArgs): Promise<DeepMindPublicationsPage>;
+
+    /**
+     * The latest DeepMind blog/news posts from the site's own RSS feed — title, url, summary,
+     * published time, thumbnail.
+     */
+    listBlogPosts(args?: ListBlogPostsArgs): Promise<DeepMindBlogPost[]>;
   }
 }
 
@@ -63326,6 +63609,24 @@ interface McpMarketServer { slug: string; name: string; description: string; sou
   }
 }
 
+declare namespace BowmarkProvider_mcptrove_com {
+  // ── MCP Trove — the unit's own declarations, verbatim ──
+interface McpTroveServer { name: string; description: string; category: string | null; url: string; }
+
+  /**
+   * Search MCP Trove's public directory of MCP servers by keyword, or browse its current
+   * listings.
+   */
+  interface Unit {
+    /**
+     * Searches MCP Trove's public MCP-server directory by keyword, or browses current listings
+     * when called with no argument. Each result includes the displayed name, description, category
+     * and detail-page URL.
+     */
+    search(query?: string | { query?: string }): Promise<McpTroveServer[]>;
+  }
+}
+
 declare namespace BowmarkProvider_medicalguardian {
   // ── Medical Guardian — the unit's own declarations, verbatim ──
 // Medical Guardian's OWN shapes — not a capability contract.
@@ -93753,6 +94054,42 @@ interface TeneohgHotelDetail {
   }
 }
 
+declare namespace BowmarkProvider_thataicollection_com {
+  // ── AI Collection — the unit's own declarations, verbatim ──
+interface AiCollectionTool { name: string; linkName: string; url: string; shortDescription: string; categoryName: string | null; }
+interface AiCollectionCategory { name: string; linkName: string; url: string; }
+interface AiCollectionDetail { name: string; url: string; description: string; category: string | null; screenshot: string | null; additionalInformation: string | null; }
+interface AiCollectionCategoryPage { category: { name: string; url: string } | null; returnedCount: number; applications: AiCollectionTool[]; }
+interface AiCollectionComparison { a: AiCollectionDetail; b: AiCollectionDetail; comparePageUrl: string | null; }
+
+  /**
+   * Search AI Collection's public AI-tool directory, inspect tools, browse categories, find
+   * alternatives and compare tools.
+   */
+  interface Unit {
+    /** Browses tools in one category by linkName. */
+    browseCategory(linkName: string | { linkName: string; limit?: number; offset?: number }, limit?: number, offset?: number): Promise<AiCollectionCategoryPage>;
+
+    /** Compares two tools by linkName, including their available structured attributes. */
+    compareTools(linkNames: { linkNameA: string; linkNameB: string }): Promise<AiCollectionComparison>;
+
+    /** Finds same-category alternatives to one listed tool. */
+    getAlternatives(linkName: string | { linkName: string; limit?: number }, limit?: number): Promise<AiCollectionTool[]>;
+
+    /** Reads one AI tool's public detail record by linkName. */
+    getTool(linkName: string): Promise<AiCollectionDetail>;
+
+    /** Returns editorial top picks, optionally in one category. */
+    getTopPicks(category?: string | { category?: string; limit?: number }, limit?: number): Promise<AiCollectionTool[]>;
+
+    /** Lists the directory's public categories and linkNames. */
+    listCategories(): Promise<AiCollectionCategory[]>;
+
+    /** Searches AI Collection's public directory by query, optionally scoped to a category. */
+    searchTools(query: string | { query: string; category?: string; limit?: number }, limit?: number): Promise<AiCollectionTool[]>;
+  }
+}
+
 declare namespace BowmarkProvider_thefork {
   // ── TheFork — the unit's own declarations, verbatim ──
 interface TheforkSearchArgs {
@@ -111580,6 +111917,7 @@ interface BowmarkProviders {
   archive_org: BowmarkProvider_archive_org.Unit;
   arketa: BowmarkProvider_arketa.Unit;
   article_com: BowmarkProvider_article_com.Unit;
+  artificialanalysis_ai: BowmarkProvider_artificialanalysis_ai.Unit;
   artpix3d: BowmarkProvider_artpix3d.Unit;
   arxiv: BowmarkProvider_arxiv.Unit;
   ashby: BowmarkProvider_ashby.Unit;
@@ -111759,6 +112097,7 @@ interface BowmarkProviders {
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
   decksdirect: BowmarkProvider_decksdirect.Unit;
+  deepmind: BowmarkProvider_deepmind.Unit;
   delaware_corps: BowmarkProvider_delaware_corps.Unit;
   dell: BowmarkProvider_dell.Unit;
   deltadentalma: BowmarkProvider_deltadentalma.Unit;
@@ -111984,6 +112323,7 @@ interface BowmarkProviders {
   mcp_registry: BowmarkProvider_mcp_registry.Unit;
   mcp_so: BowmarkProvider_mcp_so.Unit;
   mcpmarket: BowmarkProvider_mcpmarket.Unit;
+  mcptrove_com: BowmarkProvider_mcptrove_com.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
   medium: BowmarkProvider_medium.Unit;
@@ -112200,6 +112540,7 @@ interface BowmarkProviders {
   temu: BowmarkProvider_temu.Unit;
   tenders_go_ke: BowmarkProvider_tenders_go_ke.Unit;
   teneohg: BowmarkProvider_teneohg.Unit;
+  thataicollection_com: BowmarkProvider_thataicollection_com.Unit;
   thefork: BowmarkProvider_thefork.Unit;
   theguardian_com: BowmarkProvider_theguardian_com.Unit;
   therabody: BowmarkProvider_therabody.Unit;

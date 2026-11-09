@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6174 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6179 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1086,7 +1086,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `circl.search` | cve.circl.lu | Full-text search of CVE records by keyword, product or phrase through CIRCL's… | 🟢 |
 | `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟢 |
 | `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟢 |
-| `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟢 |
+| `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟡 |
 | `classicrockfab.checkAvailability` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Given an appointmentTypeId from listAppointmentTypes, returns real currently-open time… | 🟢 |
 | `classicrockfab.listAppointmentTypes` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Lists Classic Rock's public design-center appointment types across all four locations… | 🟢 |
 | `classpass.addFavorite` | classpass.com | Saves a studio to the signed-in member's favourites. | 🟢 |
@@ -1239,10 +1239,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | ⚪ |
 | `cnbc_com.followTopic` | cnbc.com | Follows a CNBC news topic to receive articles about it. | ⚪ |
-| `cnbc_com.getArticle` | cnbc.com | Returns the full text of a CNBC news article — title, author, publication date, body… | ⚪ |
+| `cnbc_com.getArticle` | cnbc.com | Returns a CNBC article by URL — headline, authors, dates, section, keywords, lead… | 🟢 |
 | `cnbc_com.getAuthor` | cnbc.com | Returns details about a CNBC journalist or contributor — name, bio, photo and link to… | ⚪ |
 | `cnbc_com.getInvestingClubContent` | cnbc.com | Returns Investing Club portfolio recommendations and analysis. | ⚪ |
-| `cnbc_com.getMarketData` | cnbc.com | Returns detailed data for one market index or commodity — price, high, low, open… | ⚪ |
+| `cnbc_com.getMarketData` | cnbc.com | Returns one stock, index, commodity or yield's current quote plus its price history… | 🟢 |
 | `cnbc_com.getPremiumContent` | cnbc.com | Returns CNBC Pro premium articles and analysis. | ⚪ |
 | `cnbc_com.getQuote` | cnbc.com | Returns the current stock quote for one symbol — price, change, percent change, open… | 🟢 |
 | `cnbc_com.getVideo` | cnbc.com | Returns details of a CNBC video — title, description, duration, transcript (if… | ⚪ |
@@ -1254,10 +1254,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnbc_com.listMarkets` | cnbc.com | Returns the current state of all major market indices — Dow Jones, S&P 500, Nasdaq… | 🟢 |
 | `cnbc_com.listNews` | cnbc.com | Returns the latest news and articles from CNBC — headlines, publication date, author… | 🟢 |
 | `cnbc_com.listQuotes` | cnbc.com | Returns stock quotes for multiple symbols in one call — the same fields as getQuote… | 🟢 |
-| `cnbc_com.listSectors` | cnbc.com | Lists S&P 500 sector performance — sector name, price change, percent change, and top… | ⚪ |
+| `cnbc_com.listSectors` | cnbc.com | Returns today's performance of the eleven S&P 500 sectors, each through its SPDR… | 🟢 |
 | `cnbc_com.listVideosByCategory` | cnbc.com | Lists CNBC videos by category (latest, trending, live, channels) — title, description… | ⚪ |
 | `cnbc_com.removeFromWatchlist` | cnbc.com | Removes a stock symbol from the user's watchlist. | ⚪ |
-| `cnbc_com.search` | cnbc.com | Searches CNBC's news, articles and quotes for a keyword and returns results across the… | ⚪ |
+| `cnbc_com.search` | cnbc.com | Searches CNBC's articles and videos for a keyword and returns them by relevance —… | 🟢 |
 | `cnbc_com.subscribeToNewsletter` | cnbc.com | Subscribes to a CNBC newsletter (Markets, Tech, Earnings, etc). | ⚪ |
 | `cnbc_com.unfollowTopic` | cnbc.com | Unfollows a CNBC news topic. | ⚪ |
 | `cnbc_com.unsubscribeFromNewsletter` | cnbc.com | Unsubscribes from a CNBC newsletter. | ⚪ |
@@ -1386,7 +1386,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.addToWatchLater` | dailymotion.com | Save a Dailymotion video to the signed-in caller's Watch Later, or pass add: false to… | 🟢 |
 | `dailymotion.createPlaylist` | dailymotion.com | Create a playlist on the signed-in caller's Dailymotion account — name, optional… | 🟢 |
 | `dailymotion.deletePlaylist` | dailymotion.com | Delete one of the signed-in caller's playlists. | 🟢 |
-| `dailymotion.deleteVideo` | dailymotion.com | Delete one of the signed-in caller's videos. | ⚪ |
+| `dailymotion.deleteVideo` | dailymotion.com | Delete one of the signed-in caller's videos. | 🟢 |
 | `dailymotion.followChannel` | dailymotion.com | Follow a Dailymotion channel as the signed-in caller, or pass follow: false to unfollow. | 🟢 |
 | `dailymotion.getChannel` | dailymotion.com | Read one Dailymotion channel from its id, username or dailymotion.com/<username> URL —… | 🟢 |
 | `dailymotion.getMyProfile` | dailymotion.com | Read the signed-in caller's own Dailymotion account — username, display name, avatar… | 🟢 |
@@ -1405,7 +1405,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listLiveStreams` | dailymotion.com | List Dailymotion live streams on air right now, optionally matching a keyword or from… | 🟢 |
 | `dailymotion.listMyLikedVideos` | dailymotion.com | List the videos the signed-in caller has liked, paged. | 🟢 |
 | `dailymotion.listMyPlaylists` | dailymotion.com | List the signed-in caller's own playlists, private ones included. | 🟢 |
-| `dailymotion.listMyVideos` | dailymotion.com | List the videos the signed-in caller has uploaded, private and draft ones included. | ⚪ |
+| `dailymotion.listMyVideos` | dailymotion.com | List the videos the signed-in caller has uploaded, private and draft ones included. | 🟢 |
 | `dailymotion.listPlaylistVideos` | dailymotion.com | List the videos in one Dailymotion playlist, in playlist order, paged — same fields as… | 🟢 |
 | `dailymotion.listRelatedVideos` | dailymotion.com | List the videos Dailymotion recommends alongside one video. | 🟢 |
 | `dailymotion.listStreamFormats` | dailymotion.com | List the stream qualities one Dailymotion video is encoded in — quality label… | 🟢 |
@@ -1416,8 +1416,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.searchPlaylists` | dailymotion.com | Search Dailymotion playlists by keyword ("cats", "music"), as the site's own search… | 🟢 |
 | `dailymotion.searchVideos` | dailymotion.com | Search Dailymotion videos by keyword — title, uploader, duration, views, publish date… | 🟢 |
 | `dailymotion.updateProfile` | dailymotion.com | Edit the signed-in caller's own profile — display name, description, avatar. | ⚪ |
-| `dailymotion.updateVideo` | dailymotion.com | Edit one of the signed-in caller's videos — title, description, tags, category… | ⚪ |
-| `dailymotion.uploadVideo` | dailymotion.com | Upload a video file to the signed-in caller's channel with title, description, tags… | ⚪ |
+| `dailymotion.updateVideo` | dailymotion.com | Edit one of the signed-in caller's videos — title, description, tags, category… | 🟢 |
+| `dailymotion.uploadVideo` | dailymotion.com | Publish a video to the signed-in caller's channel from a public file URL, with title… | 🟢 |
 | `dangotecement.findDistributors` | dangotecement.com | Searches Dangote Cement's authorised distributor & retailer directory for Nigeria… | 🟢 |
 | `dangotecement.getPriceList` | dangotecement.com | Would return current cement price list from Dangote Cement with prices per bag size… | ⚪ |
 | `dangotecement.searchNews` | dangotecement.com | Searches Dangote Cement's own news and press releases (newest first when no query) —… | 🟢 |
@@ -1441,6 +1441,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `decksdirect.getProduct` | decksdirect.com | Reads one product's full configurable-option set (e.g. Pack Size, Color) with every… | 🟢 |
 | `decksdirect.priceConfiguration` | decksdirect.com | Resolves a specific configuration (a choice per option group, e.g. { Color: "Havana… | 🟢 |
 | `decksdirect.searchProducts` | decksdirect.com | Searches DecksDirect's decking/railing/hardware catalog by free text and returns each… | 🟢 |
+| `deepmind.listBlogPosts` | deepmind.google | The latest DeepMind blog/news posts from the site's own RSS feed — title, url… | 🟢 |
+| `deepmind.listPublications` | deepmind.google | One page (30 rows, newest first) of DeepMind's research publications index at… | 🟢 |
 | `delaware_corps.getEntityDetails` | icis.corp.delaware.gov | One Delaware entity's details page: incorporation date, entity kind and type, state of… | ⚪ |
 | `delaware_corps.searchEntity` | icis.corp.delaware.gov | Search Delaware's Division of Corporations register by entity name or file number… | 🟢 |
 | `dell.getOrderDetails` | dell.com | Retrieves detailed information about a specific order, including items, pricing, and… | 🟢 |
@@ -1525,7 +1527,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `direct_book.listRoomTypes` | direct-book.com | Lists a hotel's room types with their ids, names, category (room or suite), beds… | 🟢 |
 | `direct_book.sendEnquiry` | direct-book.com | Sends a question to a hotel through its booking page's contact form. | 🟢 |
 | `discord.acceptFriendRequest` | discord.com | Accepts a pending incoming friend request. | ⚪ |
-| `discord.addReaction` | discord.com | Adds an emoji reaction to a message as the caller. | ⚪ |
+| `discord.addReaction` | discord.com | Adds an emoji reaction to a message as the caller. | 🟢 |
 | `discord.blockUser` | discord.com | Blocks a user. | ⚪ |
 | `discord.createInvite` | discord.com | Creates an invite link to a channel the caller may invite to, with an optional expiry… | ⚪ |
 | `discord.createServer` | discord.com | Creates a new server owned by the caller, with a name and optional icon. | ⚪ |
@@ -1563,14 +1565,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.listThreads` | discord.com | Lists the active threads in a channel, or the posts in a forum channel — title… | 🟢 |
 | `discord.listTrendingGames` | discord.com | Lists the games trending on Discord this week (discord.com/trending-games), overall or… | 🟢 |
 | `discord.removeFriend` | discord.com | Removes a friend, or cancels or declines a pending request. | ⚪ |
-| `discord.removeReaction` | discord.com | Removes the caller's own emoji reaction from a message. | ⚪ |
+| `discord.removeReaction` | discord.com | Removes the caller's own emoji reaction from a message. | 🟢 |
 | `discord.searchApps` | discord.com | Searches Discord's App Directory (discord.com/discovery/applications) for bots, games… | 🟢 |
 | `discord.searchMessages` | discord.com | Searches the messages in one joined server (or the caller's DMs) by text, author… | 🟢 |
 | `discord.searchServerMembers` | discord.com | Finds members of a joined server by name — user id, username, nickname, roles and join… | 🟢 |
 | `discord.searchServers` | discord.com | Searches Discord's public server directory (discord.com/servers) by keyword… | 🟢 |
-| `discord.sendDirectMessage` | discord.com | Sends a direct message to one user by username or user id, opening the DM if none… | ⚪ |
+| `discord.sendDirectMessage` | discord.com | Sends a direct message to one user by username or user id, opening the DM if none… | 🟢 |
 | `discord.sendFriendRequest` | discord.com | Sends a friend request to a user by username. | ⚪ |
-| `discord.sendMessage` | discord.com | Posts a message as the signed-in caller to a channel or DM, optionally as a reply to… | ⚪ |
+| `discord.sendMessage` | discord.com | Posts a message as the signed-in caller to a channel or DM, optionally as a reply to… | 🟢 |
 | `discord.setAvatar` | discord.com | Changes the caller's profile picture. | ⚪ |
 | `discord.setStatus` | discord.com | Sets the caller's presence (online, idle, do not disturb, invisible) and custom status… | ⚪ |
 | `discord.updateProfile` | discord.com | Changes the caller's display name, bio (About Me) or pronouns. | ⚪ |
@@ -1865,6 +1867,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `evag.listDepartures` | evag.de | Real-time transit departure information and schedules for Essen public transportation… | 🟢 |
 | `evag.listDisruptions` | evag.de | Network-wide Essen transit disruptions from Ruhrbahn/EVAG Verkehrsinfos — short-notice… | 🟢 |
 | `evag.searchStop` | evag.de | Search for Essen transit stops and stations by name or partial name; returns matching… | 🟢 |
+| `eventbrite.cancelRegistration` | eventbrite.com | Cancels one of the signed-in caller's FREE registrations by order id (from… | 🟢 |
 | `eventbrite.followOrganizer` | eventbrite.com | Follows an organizer from the signed-in caller's account, taking an organizer url or id. | 🟢 |
 | `eventbrite.getEvent` | eventbrite.com | Returns one event in full: title, description, start/end time, venue (name, address… | 🟢 |
 | `eventbrite.getFollowedOrganizers` | eventbrite.com | Lists the organizers the signed-in caller follows (id, name, url) — the list… | 🟢 |
@@ -1873,6 +1876,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventbrite.getOwnProfile` | eventbrite.com | Reads the signed-in caller's own account profile (name, email on file, location). | 🟢 |
 | `eventbrite.getSavedEvents` | eventbrite.com | Reads the signed-in caller's saved ('liked') events. | 🟢 |
 | `eventbrite.getVenue` | eventbrite.com | Reads one event's venue — name, address, city/region/country and coordinates — taking… | 🟢 |
+| `eventbrite.joinWaitlist` | eventbrite.com | Puts a name and email on a sold-out event's waitlist (a write); works signed out like… | 🟢 |
 | `eventbrite.listTicketClasses` | eventbrite.com | Reads one event's per-tier ticket breakdown — name, price, fees and sold-out state —… | 🟡 |
 | `eventbrite.registerForEvent` | eventbrite.com | Registers the signed-in caller for an event on a FREE ticket class (ids from… | 🟢 |
 | `eventbrite.saveEvent` | eventbrite.com | Saves ('likes') an event to the signed-in caller's account, taking an event url or id. | 🟢 |
@@ -2566,11 +2570,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grammarly.detectPlagiarism` | www.grammarly.com | Counts how many passages of a text Grammarly's free scan matches against web and… | 🟢 |
 | `grammarly.detectTone` | www.grammarly.com | Reads how a text sounds to a reader with Grammarly's tone detector, e.g. appreciative… | 🟢 |
 | `grammarly.getAccount` | www.grammarly.com | Returns the signed-in account's profile: name, email, plan (Free or Premium) and… | 🟢 |
-| `grammarly.getDocument` | www.grammarly.com | Returns one saved document's title and full text from the signed-in account, by the id… | ⚪ |
+| `grammarly.getDocument` | www.grammarly.com | Returns one saved document's title and full plain text from the caller's own account… | 🟢 |
 | `grammarly.getPersonalDictionary` | www.grammarly.com | Retrieves custom words and phrases saved in the account's personal dictionary. | ⚪ |
 | `grammarly.humanize` | www.grammarly.com | Rewrites AI-sounding text to read more naturally with Grammarly's free AI humanizer. | 🟢 |
-| `grammarly.listDocuments` | www.grammarly.com | Lists saved documents in a signed-in account. | ⚪ |
-| `grammarly.listGoals` | www.grammarly.com | Lists writing goals (audience, tone, formality, domain) for the account. | ⚪ |
+| `grammarly.listDocuments` | www.grammarly.com | Lists the saved documents in the caller's own Grammarly account, with title, preview… | 🟢 |
+| `grammarly.listGoals` | www.grammarly.com | Lists the writing goals (goals, domain, audience, formality, dialect) set on each… | 🟢 |
 | `grammarly.listPlans` | www.grammarly.com | Lists Grammarly's subscription plans with their prices for the visitor's country. | 🟢 |
 | `grammarly.paraphrase` | www.grammarly.com | Rewrites text in different words with the same meaning, logged out (up to 625… | 🟢 |
 | `grammarly.removeFromDictionary` | www.grammarly.com | Removes a word or phrase from the signed-in account's personal dictionary. | ⚪ |
@@ -3852,9 +3856,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.deleteBoard` | pinterest.com | Delete one of the caller's own boards — what makes every board test write reversible. | 🟢 |
 | `pinterest.deletePin` | pinterest.com | Delete a pin the caller created or saved — the undo that makes `createPin` and… | 🟢 |
 | `pinterest.findVisuallySimilar` | pinterest.com | Find pins that look like a region of an image — Pinterest's lens, the thing the site… | ⚪ |
-| `pinterest.followBoard` | pinterest.com | Follow a single board rather than everything its owner posts. | ⚪ |
+| `pinterest.followBoard` | pinterest.com | Follow a single board rather than everything its owner posts. | 🟢 |
 | `pinterest.followTopic` | pinterest.com | Follow one of Pinterest's idea topics, which is what steers the caller's home feed. | 🟢 |
-| `pinterest.followUser` | pinterest.com | Follow a person or a brand on the caller's behalf. | ⚪ |
+| `pinterest.followUser` | pinterest.com | Follow a person or a brand on the caller's behalf. | 🟢 |
 | `pinterest.getBoard` | pinterest.com | Read one board: name, description, owner, pin count, follower count, section count… | 🟢 |
 | `pinterest.getCurrentUser` | pinterest.com | Who the caller is signed in as — username, display name, counts. | 🟢 |
 | `pinterest.getHomeFeed` | pinterest.com | The caller's own personalised Pinterest home feed, same row shape as `searchPins`… | 🟢 |
@@ -3888,9 +3892,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.searchVideos` | pinterest.com | Search only the video pins — Pinterest's own `videos` search scope, for a caller who… | 🟢 |
 | `pinterest.sendPin` | pinterest.com | Send a pin to somebody in a Pinterest message — the site's own share action. | ⚪ |
 | `pinterest.suggestSearches` | pinterest.com | Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre"… | 🟢 |
-| `pinterest.unfollowBoard` | pinterest.com | Stop following a board. | ⚪ |
+| `pinterest.unfollowBoard` | pinterest.com | Stop following a board. | 🟢 |
 | `pinterest.unfollowTopic` | pinterest.com | Stop following an idea topic. | 🟢 |
-| `pinterest.unfollowUser` | pinterest.com | Stop following a person or a brand. | ⚪ |
+| `pinterest.unfollowUser` | pinterest.com | Stop following a person or a brand. | 🟢 |
 | `pinterest.updateBoard` | pinterest.com | Rename a board, change its description, or flip it between public and secret. | 🟢 |
 | `pinterest.updateProfile` | pinterest.com | Edit the caller's own profile — display name, bio, website, and the profile picture. | ⚪ |
 | `pirateship.getRates` | pirateship.com | Compares live shipping rates across USPS and UPS for a package — given a from/to… | 🟢 |
@@ -4027,6 +4031,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pullandbear.searchProducts` | pullandbear.com | Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer… | 🟢 |
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
+| `pulsemcp_com.search` | pulsemcp.com | Searches PulseMCP's public MCP-server directory by keyword, or browses its current… | 🟢 |
 | `punchpass.addChild` | punchpass.com | Adds a child to the signed-in caller's family account at a studio, on studios that use… | ⚪ |
 | `punchpass.bookClass` | punchpass.com | Books the signed-in caller (or one of their children on a family account) into a class… | ⚪ |
 | `punchpass.bookClassAsGuest` | punchpass.com | Books a spot in a class the studio has opened to 'open form' booking, with just a… | ⚪ |
@@ -4091,9 +4096,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.calculateSalesTax` | quickbooks.intuit.com | Estimates the combined sales tax rate and amount for a purchase price at a US address… | ⚪ |
 | `quickbooks.contactAccountant` | quickbooks.intuit.com | Sends a ProAdvisor the directory's contact request (name, email, phone, what you need… | ⚪ |
 | `quickbooks.estimatePaymentFees` | quickbooks.intuit.com | Estimates what QuickBooks Payments would charge on a given monthly volume split across… | ⚪ |
-| `quickbooks.findAccountants` | quickbooks.intuit.com | Searches the QuickBooks ProAdvisor directory for certified accountants and bookkeepers… | ⚪ |
+| `quickbooks.findAccountants` | quickbooks.intuit.com | Searches the QuickBooks ProAdvisor directory for certified accountants and bookkeepers… | 🟢 |
 | `quickbooks.generateInvoice` | quickbooks.intuit.com | Builds an invoice PDF (seller, customer, line items, tax, discount) the way… | 🟢 |
-| `quickbooks.getAccountant` | quickbooks.intuit.com | Reads one ProAdvisor's public profile by the searchId findAccountants returns (or the… | ⚪ |
+| `quickbooks.getAccountant` | quickbooks.intuit.com | Reads one ProAdvisor's public profile by the searchId findAccountants returns (or the… | 🟢 |
 | `quickbooks.getApp` | quickbooks.intuit.com | Reads one App Store listing by the id a searchApps result returns: full description… | 🟢 |
 | `quickbooks.getDesktopPlans` | quickbooks.intuit.com | Lists the QuickBooks Desktop Enterprise editions with their annual subscription prices… | ⚪ |
 | `quickbooks.getEvent` | quickbooks.intuit.com | Reads one Community event's title, start and end time (with the site's own UTC… | 🟢 |
@@ -4576,7 +4581,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getProductReviews` | shop.app | A product's reviews, a page at a time — each with its rating, title, text, reviewer… | 🟢 |
 | `shop_app.getSharedList` | shop.app | Reads a product list someone shared from Shop (a shop.app/collections/<id> link) — the… | ⚪ |
 | `shop_app.getShopCash` | shop.app | Reads the caller's Shop Cash balance and its recent activity. | ⚪ |
-| `shop_app.getStore` | shop.app | Reads one store's Shop page — name, logo, description, rating and review count… | 🟢 |
+| `shop_app.getStore` | shop.app | Reads one store's Shop page — name, logo, description, rating and review count… | 🟡 |
 | `shop_app.getStoreCollection` | shop.app | Lists the products in one of a store's collections ("Best Sellers", "Sugar-Free")… | 🟡 |
 | `shop_app.getStoreContacts` | shop.app | Reads how to reach a store — its support email, phone, website, contact page, social… | 🟢 |
 | `shop_app.getStorePolicies` | shop.app | Reads a store's refund, shipping and privacy policies as plain text — the policy sheet… | 🟡 |
