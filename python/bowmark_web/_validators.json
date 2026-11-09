@@ -1,5 +1,5 @@
 {
-  "version": "1b45e0002fb179bfed4206e846554c3098865d82d3731db4520cf553482b42a3",
+  "version": "44dde02ac354922d359a915e0ab72f950d425af699720b77d0423b03a8929491",
   "units": {
     "address_validation": {
       "defs": {
@@ -41999,6 +41999,191 @@
             "optional": true
           }
         ],
+        "sendMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "channelId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "content",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "replyToMessageId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendDirectMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "userId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "content",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addReaction": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "channelId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "messageId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "emoji",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeReaction": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "channelId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "messageId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "emoji",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listQuests": [
           {
             "name": "opts",
@@ -42796,6 +42981,173 @@
     "providers.dropbox": {
       "defs": {},
       "functions": {
+        "createSharedLink": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "access",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "viewer"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "editor"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "revokeSharedLink": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "restoreFile": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "rev",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "restoreFileVersion": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "rev",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "deleteFile": [
           {
             "name": "input",
@@ -47496,6 +47848,100 @@
               ]
             },
             "optional": true
+          }
+        ],
+        "cancelRegistration": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "orderId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "joinWaitlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "eventIdOrUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "firstName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "lastName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "email",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "phone",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "ticketClassId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ],
         "listTicketClasses": [
@@ -64045,6 +64491,56 @@
             }
           ]
         },
+        "GetDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListDocumentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "search",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "trash",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListGoalsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "documentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ParaphraseArgs": {
           "k": "object",
           "props": [
@@ -64142,6 +64638,84 @@
           }
         ],
         "getAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDocumentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listDocuments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListDocumentsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listGoals": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListGoalsArgs"
+            },
+            "optional": true
+          },
           {
             "name": "opts",
             "schema": {
@@ -85830,6 +86404,44 @@
     },
     "providers.msn": {
       "defs": {
+        "MsnConvertCurrencyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "amount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MsnHourlyOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hours",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MsnSaveArticleArgs": {
           "k": "object",
           "props": [
@@ -85904,6 +86516,56 @@
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "MsnStandingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "epl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "laliga"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "bundesliga"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "seriea"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ligue1"
+                  }
+                ]
+              },
+              "optional": false
             }
           ]
         },
@@ -86060,11 +86722,31 @@
             "optional": false
           }
         ],
+        "getStandings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MsnStandingsArgs"
+            },
+            "optional": false
+          }
+        ],
         "getStockQuote": [
           {
             "name": "symbol",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "convertCurrency": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MsnConvertCurrencyArgs"
             },
             "optional": false
           }
@@ -86077,6 +86759,23 @@
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getHourlyForecast": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "MsnHourlyOptions"
+            },
+            "optional": true
           }
         ],
         "listSavedArticles": [
@@ -94612,6 +95311,18 @@
             }
           ]
         },
+        "DeleteCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "commentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "FollowCreatorArgs": {
           "k": "object",
           "props": [
@@ -94692,6 +95403,25 @@
           ]
         },
         "ListCreatorPostsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "vanity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListCreatorShopArgs": {
           "k": "object",
           "props": [
             {
@@ -94791,6 +95521,18 @@
           "props": [
             {
               "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "UnlikePostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "postId",
               "schema": {
                 "k": "string"
               },
@@ -95008,6 +95750,68 @@
             "schema": {
               "k": "ref",
               "name": "FollowCreatorArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listCreatorShop": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCreatorShopArgs"
+            },
+            "optional": false
+          }
+        ],
+        "unlikePost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UnlikePostArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeleteCommentArgs"
             },
             "optional": false
           },
@@ -97982,6 +98786,106 @@
         "unfollowTopic": [
           {
             "name": "topicId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followUser": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowUser": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followBoard": [
+          {
+            "name": "boardId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowBoard": [
+          {
+            "name": "boardId",
             "schema": {
               "k": "string"
             },
@@ -102448,6 +103352,37 @@
         ]
       }
     },
+    "providers.pulsemcp_com": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.punchpass": {
       "defs": {
         "PunchpassScheduleOptions": {
@@ -103402,6 +104337,39 @@
             }
           ]
         },
+        "QuickbooksFindAccountantsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "QuickbooksGenerateInvoiceArgs": {
           "k": "object",
           "props": [
@@ -103910,6 +104878,33 @@
                   "name": "QuickbooksListAppReviewsArgs"
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "findAccountants": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "QuickbooksFindAccountantsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getAccountant": [
+          {
+            "name": "searchId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -118513,6 +119508,18 @@
     },
     "providers.spectrum": {
       "defs": {
+        "SpectrumRestartEquipmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "equipmentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SpectrumScheduleAppointmentArgs": {
           "k": "object",
           "props": [
@@ -118707,6 +119714,68 @@
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOutageStatus": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "restartEquipment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpectrumRestartEquipmentArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listServiceAppointments": [
           {
             "name": "opts",
             "schema": {
@@ -126549,6 +127618,39 @@
               "optional": true
             }
           ]
+        },
+        "WriteReviewArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "orderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "rating",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -126726,6 +127828,32 @@
             "schema": {
               "k": "ref",
               "name": "RemoveFromCartArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "writeReview": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WriteReviewArgs"
             },
             "optional": false
           },
@@ -128801,6 +129929,58 @@
           }
         ],
         "unblockUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ThreadsUserRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "muteUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ThreadsUserRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unmuteUser": [
           {
             "name": "args",
             "schema": {
@@ -132356,6 +133536,25 @@
             }
           ]
         },
+        "TumblrFeedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TumblrFindTagArgs": {
           "k": "object",
           "props": [
@@ -132400,6 +133599,25 @@
               },
               "optional": false
             },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TumblrFollowingArgs": {
+          "k": "object",
+          "props": [
             {
               "name": "limit",
               "schema": {
@@ -132465,6 +133683,25 @@
                 "k": "string"
               },
               "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TumblrNotificationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "blog",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             },
             {
               "name": "cursor",
@@ -133071,6 +134308,110 @@
             "schema": {
               "k": "ref",
               "name": "TumblrSendMessageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getDashboard": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrFeedArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrFollowingArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listLikes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrFeedArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listNotifications": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrNotificationsArgs"
             },
             "optional": false
           },
@@ -135417,6 +136758,23 @@
               "optional": true
             },
             {
+              "name": "market",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "com"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
               "name": "country",
               "schema": {
                 "k": "union",
@@ -135661,6 +137019,23 @@
                       "name": "priceGroup",
                       "schema": {
                         "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "market",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "com"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
                       },
                       "optional": true
                     },
@@ -141410,6 +142785,74 @@
           }
         ],
         "listFollowedChannels": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCommunity": [
+          {
+            "name": "communityName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getChannelUpdates": [
+          {
+            "name": "channelName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listStatusUpdates": [
           {
             "name": "opts",
             "schema": {

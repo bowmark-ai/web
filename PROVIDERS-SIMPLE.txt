@@ -504,7 +504,7 @@ mossyoak.com — mossyoak: getMossyoakCheckoutLink, getMossyoakProduct, listMoss
 msc.com — msc: trackShipment
 msc.fema.gov — msc_fema: getFloodZone
 msccruzeiros.com.br — msccruzeiros: quoteCabins, searchCruises (+1 planned)
-msn.com — msn: getArticle, getMarketSummary, getScores, getSectionFeed, getStockQuote, getTopStories, getVideoFeed, getWeatherForecast, listSavedArticles, saveArticle, searchNews, searchVideos
+msn.com — msn: convertCurrency, getArticle, getHourlyForecast, getMarketSummary, getScores, getSectionFeed, getStandings, getStockQuote, getTopStories, getVideoFeed, getWeatherForecast, listSavedArticles, saveArticle, searchNews, searchVideos
 muze.gov.tr — muze_gov_tr: getVisitingHours
 my.auroramedicalspa.com — my_auroramedicalspa_com: getProviders, getServiceCategories, getServices, listLocations
 mybeststudio.us — my_best_studio: bookClass, cancelBooking, findStudio, getClass, joinWaitlist, listClasses, listInstructors, listMemberships, listMyBookings (+2 planned)
@@ -716,7 +716,7 @@ therabody.com — therabody: getTheragunProduct, listTheragunProducts, recommend
 therowhouse.com — therowhouse: getSchedule, listLocations
 thezebra.com — thezebra: getCarrierRates, getCityRates, getRatesByDriverProfile, getRentersQuotes, getStateRates, getStateRequirements, getVehicleRates (+11 planned)
 thibautdesign.com — thibautdesign: calculateRollsNeeded
-threads.com — threads: blockUser, createPost, deletePost, followUser, getActivity, getCustomFeed, getHomeFeed, getMe, getPost, getProfile, getProfileMedia, getProfilePosts, getProfileReplies, getProfileReposts, getRelatedPosts, getSavedPosts, likePost, listCustomFeeds, quotePost, replyToPost, repostPost, searchAccounts, searchPosts, searchTopics, unblockUser, unfollowUser, unlikePost, unrepostPost (+13 planned)
+threads.com — threads: blockUser, createPost, deletePost, followUser, getActivity, getCustomFeed, getHomeFeed, getMe, getPost, getProfile, getProfileMedia, getProfilePosts, getProfileReplies, getProfileReposts, getRelatedPosts, getSavedPosts, likePost, listCustomFeeds, muteUser, quotePost, replyToPost, repostPost, searchAccounts, searchPosts, searchTopics, unblockUser, unfollowUser, unlikePost, unmuteUser, unrepostPost (+11 planned)
 ticketmaster.com — ticketmaster: nothing callable yet (+5 planned)
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
@@ -740,7 +740,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
-tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, getBlogInfo, getBlogPosts, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listBlogFollowers, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unlikePost, unreblogPost
+tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, getBlogInfo, getBlogPosts, getDashboard, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listBlogFollowers, listFollowing, listLikes, listNotifications, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unlikePost, unreblogPost
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
@@ -782,7 +782,7 @@ wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getCla
 westelm.com — westelm: searchProducts (+1 planned)
 whatsapp.com — whatsapp: checkNumber, createClickToChatLink, downloadMedia, findContact, getBlogPost, getChannel, getChannelUpdates, getChatMessages, getCommunity, getGroupInfo, getGroupInviteLink, getHelpArticle, getMyProfile, listBlogPosts, listChats, listContacts, listFollowedChannels, listStatusUpdates, previewBusinessCatalog, previewGroupInvite, searchChannels, searchHelpCenter, searchMessages (+21 planned)
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
-wikipedia.org — wikipedia: compareRevisions, createPage, editPage, getArticle, getArticleHtml, getCurrentUser, getFeaturedContent, getImage, getInfobox, getOnThisDay, getPageviews, getRandomArticle, getRevision, getSection, getSections, getSummary, getUser, getWikitext, listBacklinks, listCategories, listCategoryMembers, listExternalLinks, listImages, listLanguages, listLinks, listMostViewed, listNotifications, listRecentChanges, listRelated, listRevisions, listUserContributions, listWatchlist, postTalkMessage, search, searchNearby, suggestTitles, thankUser, undoRevision, unwatchPage, watchPage
+wikipedia.org — wikipedia: 40 functions — ask get_library
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)
 windscribe.com — windscribe: getDedicatedIp (+1 planned)
 winestyles.com — winestyles: listStores, searchStoreInventory

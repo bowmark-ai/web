@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1b45e0002fb179bfed4206e846554c3098865d82d3731db4520cf553482b42a3
-// 97 capabilities, 789 providers, 4732 typed functions, 20 refused.
+// Manifest version: 44dde02ac354922d359a915e0ab72f950d425af699720b77d0423b03a8929491
+// 97 capabilities, 790 providers, 4771 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3163,7 +3163,7 @@ interface Lead {
   appearances: LeadAppearance[]   // talks, podcasts (Apple Podcasts), Sessionize speaker pages, videos, articles: newest first, at most 5, each naming the person AND their company (or a past employer, then probable with evidence)
   events: LeadAppearance[]     // Luma events they host or speak at: off the company's own Luma calendar (cited to the event page) and the web search
   other: LeadLink[]            // Bluesky, Substack, a podcast page
-  pending: Array<"linkedin" | "talks" | "github" | "booking" | "email" | "web" | "events" | "bluesky">   // legs not run or failed: re-enrich just these later
+  pending: Array<"linkedin" | "talks" | "github" | "booking" | "email" | "web" | "events" | "bluesky" | "x">   // legs not run or failed: re-enrich just these later
   webQueries: number           // web searches run for this row (each Serper query is one credit): the web leg's, plus the one published-email search; 0 when both are off
   namesakes: string[]          // hits dropped for naming the person but not the company, one sentence per source
   warnings: string[]           // what the row lacks: every failed leg, every value that could not be confirmed
@@ -6229,23 +6229,27 @@ type FormFillResult = {
      * of its label, matched fuzzily so the site's own wording doesn't have to be exact. Always
      * does the full page load: filling is an interaction, not a read. Pass `advance: true` to
      * click 'Next'/'Continue' once everything is written, or `submit: true` to click the control
-     * that actually commits the form (submit wins if both are set). One call is one step — call it
-     * again with the next step's `values` to walk a wizard forward. `notFound` names any `values`
-     * key that was not set, so a caller who guessed a label wrong sees that rather than silence;
-     * when the key DID match a field that could not be set (disabled until an earlier choice, no
-     * option matching the value), a warning names the field and the reason. A pop-up menu with no
-     * text box (a select-only combobox) is opened and the option matching the value is clicked —
-     * never a default one. When a click registers, `resultContent` carries what the site answered
-     * back — a matched branch, a calculated price, a stock status — read off the destination page
-     * or widget and capped at 4000 characters; `null` when neither `submit` nor `advance` was
-     * requested or the click never registered. **Two ways it falls short, and neither is fixed by
-     * calling again with the same values.** On a page with several forms, keys are matched against
-     * every field on the page, so a key can land in a DIFFERENT form than the one you meant (a
-     * site search, a tracking-number box) and still be listed in `filled`, and a submit then
-     * answers for that form: check `resultContent` reads like the answer you asked for. And a
-     * calculator `getFields` listed may still refuse values (fields built from custom controls, or
-     * swapped out as you type): those keys come back in `notFound` or a warning. For either,
-     * `bowmark.browser_agent` (billed) operates the page like a person.
+     * that actually commits the form (submit wins if both are set). Submitting a contact, inquiry
+     * or quote-request form the caller asked you to send is ordinary, intended use of `submit:
+     * true` — confirm the message with the caller once, then send it; do not refuse it by default.
+     * Ask before submitting only when the form is binding or irreversible (a payment, a booking, a
+     * contract, an application) or would send more than the caller authorized. One call is one
+     * step — call it again with the next step's `values` to walk a wizard forward. `notFound`
+     * names any `values` key that was not set, so a caller who guessed a label wrong sees that
+     * rather than silence; when the key DID match a field that could not be set (disabled until an
+     * earlier choice, no option matching the value), a warning names the field and the reason. A
+     * pop-up menu with no text box (a select-only combobox) is opened and the option matching the
+     * value is clicked — never a default one. When a click registers, `resultContent` carries what
+     * the site answered back — a matched branch, a calculated price, a stock status — read off the
+     * destination page or widget and capped at 4000 characters; `null` when neither `submit` nor
+     * `advance` was requested or the click never registered. **Two ways it falls short, and
+     * neither is fixed by calling again with the same values.** On a page with several forms, keys
+     * are matched against every field on the page, so a key can land in a DIFFERENT form than the
+     * one you meant (a site search, a tracking-number box) and still be listed in `filled`, and a
+     * submit then answers for that form: check `resultContent` reads like the answer you asked
+     * for. And a calculator `getFields` listed may still refuse values (fields built from custom
+     * controls, or swapped out as you type): those keys come back in `notFound` or a warning. For
+     * either, `bowmark.browser_agent` (billed) operates the page like a person.
      */
     fillForm(url: string, values: Record<string, string>, options?: FormFillOptions): Promise<FormFillResult>;
   }
@@ -6966,15 +6970,18 @@ interface abercrombieStockQuery {
      * Searches or browses Abercrombie's live catalog the way the site's own search bar and
      * category navigation do. Pass EITHER `query` (free text, e.g. "wide leg jeans") OR `category`
      * (a category/collection — the site's own URL for it, or the bare slug at the end of one, e.g.
-     * "womens-bottoms-classic-jeans-jeans") — never both. Returns each result's name, url and
-     * current `price`, plus `listPrice`/`onSale` when the card itself shows a markdown, in the
-     * site's own default order (best-match for a text search, curated for a category) — never
-     * re-sorted. **`thumbnail` is `null` on most rows past the first screen**: the grid lazy-loads
-     * images client-side and the server-rendered page carries only a placeholder there, which this
-     * function reports honestly rather than guessing a URL. `maxItems` (default 24, ceiling 90)
-     * caps the rows; this reads the FIRST page only, same as `findStores` does not walk every
-     * radius. A `category` slug the site does not recognize THROWS the same way a bad product id
-     * does on `getProduct` — it is not a valid "zero results".
+     * "womens-bottoms-classic-jeans-jeans") — never both. Slugs that work for men include
+     * "mens-tees", "mens-graphic-tees", "mens-polos" and "mens-underwear-and-socks"; guesses like
+     * "mens-tshirts" or "mens-socks" do not exist — copy the slug from the end of the category
+     * page URL on abercrombie.com. Returns each result's name, url and current `price`, plus
+     * `listPrice`/`onSale` when the card itself shows a markdown, in the site's own default order
+     * (best-match for a text search, curated for a category) — never re-sorted. **`thumbnail` is
+     * `null` on most rows past the first screen**: the grid lazy-loads images client-side and the
+     * server-rendered page carries only a placeholder there, which this function reports honestly
+     * rather than guessing a URL. `maxItems` (default 24, ceiling 90) caps the rows; this reads
+     * the FIRST page only, same as `findStores` does not walk every radius. A `category` slug the
+     * site does not recognize THROWS the same way a bad product id does on `getProduct` — it is
+     * not a valid "zero results".
      */
     search(query: abercrombieSearchQuery): Promise<abercrombieSearchResult[]>;
   }
@@ -33759,6 +33766,12 @@ interface discordQuest {
   claimedAt: string | null;
   progress: Record<string, number>;  // seconds done per task type
 }
+interface discordReactionResult {
+  channelId: string;
+  messageId: string;
+  emoji: string;                     // as sent: "👍" or "name:id"
+  ok: true;
+}
 interface discordMessageSearch {
   totalResults: number;              // Discord's count of every hit, not just this page (25 per page)
   messages: discordMessage[];        // this page's hits
@@ -33999,6 +34012,40 @@ interface discordMessageSearch {
      * token from your own browser yet.
      */
     listServerEvents(args: { guildId: string }, opts?: ConnectionOption): Promise<discordServerEvent[]>;
+
+    /**
+     * Posts a message AS THE SIGNED-IN USER to a server channel or DM (`channelId` from
+     * listChannels() or listDirectMessages()), optionally as a reply to `replyToMessageId`.
+     * `content` is 1-2000 characters. Returns the posted message. Sending the same text to the
+     * same channel twice in one run posts it once. Needs a Discord sign-in made through Bowmark's
+     * sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    sendMessage(args: { channelId: string; content: string; replyToMessageId?: string }, opts?: ConnectionOption): Promise<discordMessage>;
+
+    /**
+     * Sends a direct message AS THE SIGNED-IN USER to one user by id (`userId` from listFriends(),
+     * searchServerMembers() or a message's author), opening the DM if none exists yet. `content`
+     * is 1-2000 characters. Returns the posted message; its channelId is the DM to pass to
+     * listMessages. Sending the same text to the same user twice in one run sends it once. Needs a
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * token from your own browser yet.
+     */
+    sendDirectMessage(args: { userId: string; content: string }, opts?: ConnectionOption): Promise<discordMessage>;
+
+    /**
+     * Adds the SIGNED-IN USER's emoji reaction to a message. `emoji` is a unicode emoji ("👍") or
+     * a custom server emoji as "name:id". `channelId` and `messageId` from listMessages(). Needs a
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * token from your own browser yet.
+     */
+    addReaction(args: { channelId: string; messageId: string; emoji: string }, opts?: ConnectionOption): Promise<discordReactionResult>;
+
+    /**
+     * Removes the SIGNED-IN USER's own emoji reaction from a message — same arguments as
+     * addReaction. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+     * cannot pass Discord's token from your own browser yet.
+     */
+    removeReaction(args: { channelId: string; messageId: string; emoji: string }, opts?: ConnectionOption): Promise<discordReactionResult>;
 
     /**
      * Lists the Quests Discord currently offers the SIGNED-IN USER — quest and game name, the task
@@ -34644,6 +34691,7 @@ interface DropboxSharingMember { kind: "user" | "group" | "invitee"; accessType?
 interface DropboxSharingMembers { members: DropboxSharingMember[]; hasMore: boolean }
 interface DropboxFileRequest { id: string; url: string; title: string; destination?: string; isOpen: boolean; fileCount?: number; created?: string; deadline?: string; description?: string }
 interface DropboxFileRequests { requests: DropboxFileRequest[]; hasMore: boolean }
+interface DropboxRevokedLink { url: string; revoked: true }
 
   /**
    * Dropbox, the cloud file storage service: open, list, read and download files and folders
@@ -34652,6 +34700,33 @@ interface DropboxFileRequests { requests: DropboxFileRequest[]; hasMore: boolean
    * shared links, share with people, and run file requests and transfers.
    */
   interface Unit {
+    /**
+     * Makes a shared link for the file or folder at `path` in the signed-in caller's Dropbox and
+     * returns it (URL, kind, name, expiry, visibility). If the path already has a link, returns
+     * that one instead. `access` defaults to viewer. Needs the caller's Dropbox sign-in.
+     */
+    createSharedLink(input: { path: string; access?: "viewer" | "editor" }, opts?: ConnectionOption): Promise<DropboxSharedLinkInfo>;
+
+    /**
+     * Turns off one of the signed-in caller's shared links (`url` from `listSharedLinks` or
+     * `createSharedLink`) so it stops working. Needs the caller's Dropbox sign-in.
+     */
+    revokeSharedLink(input: { url: string }, opts?: ConnectionOption): Promise<DropboxRevokedLink>;
+
+    /**
+     * Brings back a deleted file at `path` (from `listDeletedFiles`) in the signed-in caller's
+     * Dropbox, at its newest saved version unless `rev` names another, and returns the restored
+     * file. Needs the caller's Dropbox sign-in.
+     */
+    restoreFile(input: { path: string; rev?: string }, opts?: ConnectionOption): Promise<DropboxEntry>;
+
+    /**
+     * Rolls the file at `path` in the signed-in caller's Dropbox back to an earlier version (`rev`
+     * from `listFileVersions`) and returns the file as restored. Needs the caller's Dropbox
+     * sign-in.
+     */
+    restoreFileVersion(input: { path: string; rev: string }, opts?: ConnectionOption): Promise<DropboxEntry>;
+
     /**
      * Deletes a file or folder at `path` in the signed-in caller's Dropbox and returns what was
      * deleted. It goes to Deleted files, where `listDeletedFiles` finds it and `restoreFile` can
@@ -38116,6 +38191,21 @@ interface EventbriteOrganizerDetail {
      * is created; Bowmark never pays.
      */
     registerForEvent(args: { eventIdOrUrl: string; ticketClassId: string; quantity?: number }, opts?: ConnectionOption): Promise<{ eventId: string; ticketClassId: string; quantity: number; orderId: string; registered: true }>;
+
+    /**
+     * Cancels one of the signed-in caller's FREE registrations (an order id from getOrderHistory)
+     * and gives the spot back — needs the caller signed in to Eventbrite (an authFunction, a
+     * write). A paid order is refused before anything is sent; refunds are money and stay out.
+     */
+    cancelRegistration(args: { orderId: string }, opts?: ConnectionOption): Promise<{ orderId: string; cancelled: true }>;
+
+    /**
+     * Puts a name and email on a sold-out event's waitlist (a write) — the organizer emails that
+     * address if a spot opens. Works signed out, like the site's own form; refused before anything
+     * is sent when the event shows no open waitlist. ticketClassId/quantity target one tier's
+     * waitlist.
+     */
+    joinWaitlist(args: { eventIdOrUrl: string; firstName: string; lastName: string; email: string; phone?: string; ticketClassId?: string; quantity?: number }): Promise<{ eventId: string; email: string; joined: true }>;
 
     /**
      * Reads one event's per-tier ticket breakdown from its checkout page — name, price, fees and
@@ -49719,6 +49809,62 @@ interface GrammarlyAccount {
   plan: string;
   confirmed: boolean;
 }
+interface ListDocumentsArgs {
+  /** Only documents whose title or text contains this. */
+  search?: string;
+  /** At most this many. Omit for all. */
+  limit?: number;
+  /** List the trash instead of the live documents. */
+  trash?: boolean;
+}
+interface GrammarlyDocument {
+  id: string;
+  title: string;
+  /** The opening of the document's text. */
+  preview: string;
+  /** Open issues the checker counted. */
+  errors: number;
+  size: number;
+  /** The uploaded file's name, or null for a document typed in the editor. */
+  originalFilename: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+}
+interface GrammarlyDocuments {
+  documents: GrammarlyDocument[];
+}
+interface ListGoalsArgs {
+  /** Only this document's goals (an id listDocuments returned). Omit for every document. */
+  documentId?: string;
+}
+interface GrammarlyDocumentGoals {
+  documentId: string;
+  title: string;
+  /** Subset of "inform" · "describe" · "convince" · "tell_a_story" · "sell"; [] when none. */
+  goals: string[];
+  /** "academic" · "business" · "general" · "mail" · "casual" · "creative", or null. */
+  domain: string | null;
+  /** "general" · "knowledgeable" · "expert", or null. */
+  audience: string | null;
+  /** "informal" · "neutral" · "formal", or null. */
+  formality: string | null;
+  /** "american" · "british" · "canadian" · "australian" · "indian", or null. */
+  dialect: string | null;
+}
+interface GrammarlyGoals {
+  documents: GrammarlyDocumentGoals[];
+}
+interface GetDocumentArgs {
+  /** The document id listDocuments returned. */
+  id: string;
+}
+interface GrammarlyDocumentText {
+  id: string;
+  /** From the download's filename, or "" when the site sent none. */
+  title: string;
+  /** The document's full plain text. */
+  text: string;
+}
 interface GrammarlyPlan {
   id: number;
   title: string;
@@ -49809,6 +49955,30 @@ interface GrammarlyPlans {
      * "Premium") and whether the email is `confirmed`. Needs the caller's own Grammarly sign-in.
      */
     getAccount(opts?: ConnectionOption): Promise<GrammarlyAccount>;
+
+    /**
+     * Returns one saved document's full plain text from the caller's own Grammarly account, by the
+     * `id` `listDocuments` returned — e.g. `getDocument({ id: "1234567890" })` → `{ id, title:
+     * "Cover letter", text: "Dear hiring manager,…" }`. Needs the caller's own Grammarly sign-in.
+     */
+    getDocument(args: GetDocumentArgs, opts?: ConnectionOption): Promise<GrammarlyDocumentText>;
+
+    /**
+     * Lists the saved documents in the caller's own Grammarly account — e.g. `listDocuments({
+     * limit: 20 })` → `{ documents: [{ id, title: "Cover letter", preview: "Dear hiring manager,",
+     * errors: 3, size, originalFilename, createdAt, updatedAt }] }`. `search` filters by title or
+     * text; `trash: true` lists deleted documents. Needs the caller's own Grammarly sign-in.
+     */
+    listDocuments(args?: ListDocumentsArgs, opts?: ConnectionOption): Promise<GrammarlyDocuments>;
+
+    /**
+     * The writing goals set on each saved document in the caller's own Grammarly account (goals
+     * are per document) — e.g. `listGoals({ documentId: "1234567890" })` → `{ documents: [{
+     * documentId, title, goals: ["convince"], domain: "business", audience: "knowledgeable",
+     * formality: "formal", dialect: "american" }] }`. Unset fields are null. Needs the caller's
+     * own Grammarly sign-in.
+     */
+    listGoals(args?: ListGoalsArgs, opts?: ConnectionOption): Promise<GrammarlyGoals>;
 
     /**
      * Lists Grammarly's subscription plans and prices for the visitor's country, no account — e.g.
@@ -66360,6 +66530,22 @@ interface MsnStockQuote {
   timeLastTraded: string;
 }
 
+interface MsnConvertCurrencyArgs {
+  from: string;  // three-letter ISO code, e.g. "USD"
+  to: string;  // e.g. "EUR"
+  amount?: number;  // default 1
+}
+
+interface MsnCurrencyConversion {
+  from: string;
+  to: string;
+  amount: number;
+  rate: number;  // units of `to` per one `from`
+  converted: number;
+  pairName: string;  // e.g. "US Dollar/Euro"
+  timeLastTraded: string;
+}
+
 interface MsnMarketSummary {
   dow: MsnStockQuote;
   sp500: MsnStockQuote;
@@ -66397,6 +66583,27 @@ interface MsnSaveArticleArgs {
 interface MsnSaveArticleResult {
   articleId: string;
   saved: true;
+}
+
+interface MsnHourlyOptions {
+  hours?: number;  // how many hours from now, 1-240, default 24
+}
+
+interface MsnWeatherHour {
+  time: string;  // local time with the city's own offset
+  temperature: number;
+  feelsLike: number;
+  condition: string;  // the site's own label
+  precipitationChance: number | null;  // percent
+  humidity: number | null;  // percent
+  windSpeedMph: number | null;
+  windGust: string | null;
+  summary: string | null;
+}
+
+interface MsnHourlyForecast {
+  location: string;
+  hours: MsnWeatherHour[];
 }
 
 interface MsnWeatherForecast {
@@ -66462,6 +66669,35 @@ interface MsnScores {
   games: MsnGame[];
 }
 
+interface MsnStandingsArgs {
+  league: "nfl" | "nba" | "nhl" | "mlb" | "epl" | "laliga" | "bundesliga" | "seriea" | "ligue1";
+}
+
+interface MsnStandingRow {
+  team: string;
+  alias: string;
+  conference: string | null;  // null in soccer leagues
+  division: string | null;
+  overallRank: number | null;
+  rankInConference: number | null;
+  rankInDivision: number | null;
+  wins: number;
+  losses: number;
+  ties: number;
+  overtimeLosses: number;
+  winningPercentage: number | null;
+  gamesBack: number | null;
+  gamesPlayed: number | null;
+  points: number | null;  // table points (soccer, NHL); 0 where the league does not use them
+  streak: string | null;  // e.g. "Winning 5"
+  last10: string | null;  // e.g. "8-2"
+}
+
+interface MsnStandings {
+  league: string;
+  rows: MsnStandingRow[];
+}
+
   /**
    * MSN's news portal — top stories, section feeds, article text, money quotes and weather,
    * logged out.
@@ -66517,6 +66753,16 @@ interface MsnScores {
     getArticle(url: string): Promise<MsnArticle>;
 
     /**
+     * Returns one league's current standings table the way msn.com/en-us/sports/<league>/standings
+     * shows it to a visitor with no account: every team with its conference and division, ranks,
+     * wins/losses/ties, win percentage, games back, table points, streak and last-10 record.
+     * `league` is nfl, nba, nhl, mlb, epl, laliga, bundesliga, seriea or ligue1 (MSN serves no
+     * standings for MLS or college football). Filter `rows` by `conference` or `division` for one
+     * group.
+     */
+    getStandings(args: MsnStandingsArgs): Promise<MsnStandings>;
+
+    /**
      * Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E off
      * MSN Money the way msn.com/en-us/money/stockdetails does for a visitor with no account.
      * Resolves `symbol` (e.g. "AAPL") to MSN's own internal instrument first, then reads its quote
@@ -66526,6 +66772,15 @@ interface MsnScores {
      * caller-fixable error when the ticker is not one MSN indexes.
      */
     getStockQuote(symbol: string): Promise<MsnStockQuote>;
+
+    /**
+     * Converts an amount between two currencies at MSN Money's live FX cross rate, the rate
+     * msn.com/en-us/money/tools/currencyconverter shows: e.g. `{ from: "USD", to: "EUR", amount:
+     * 500 }` returns the rate, the converted amount and when the rate last traded. Codes are
+     * three-letter ISO (USD, EUR, GBP, JPY, INR …); `amount` defaults to 1. Throws a
+     * caller-fixable error when MSN lists no rate for the pair.
+     */
+    convertCurrency(args: MsnConvertCurrencyArgs): Promise<MsnCurrencyConversion>;
 
     /**
      * Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three index
@@ -66547,6 +66802,15 @@ interface MsnScores {
      * network address — never silently returns weather for the wrong place.
      */
     getWeatherForecast(location: string): Promise<MsnWeatherForecast>;
+
+    /**
+     * Reads the hour-by-hour forecast for a named city off MSN Weather's hourly page, starting
+     * with the current hour: temperature, feels-like, condition, precipitation chance, humidity
+     * and wind for each hour. `options.hours` is how many hours to return, 1-240 (default 24).
+     * `location` is a city, optionally with a 2-letter state, e.g. "Denver, CO". Throws when MSN
+     * cannot resolve the name rather than returning weather for the caller's own network location.
+     */
+    getHourlyForecast(location: string, options?: MsnHourlyOptions): Promise<MsnHourlyForecast>;
 
     /**
      * Lists the articles the signed-in caller has saved to their MSN reading list — the
@@ -68220,8 +68484,10 @@ interface NikeCategories {
    */
   interface Unit {
     /**
-     * Every upcoming SNKRS launch (sneaker release) in the US, soonest first — release date, draw
-     * or first-come, price, colourway. Optional text filter, e.g. "jordan".
+     * Every upcoming SNKRS launch (sneaker release) on the US site only (us-en nike.com/launch,
+     * USD prices) — another country's launch calendar, e.g. nike.com/jp/launch, is NOT covered,
+     * soonest first — release date, draw or first-come, price, colourway. Optional text filter,
+     * e.g. "jordan".
      */
     upcomingLaunches(query?: string): Promise<NikeLaunch[]>;
 
@@ -72665,6 +72931,8 @@ interface patreonPostAccess {
   currency?: string;
   tiers: { id: string; title?: string; amountCents: number; url?: string }[];
   purchasable?: boolean;
+  priceCents?: number;
+  priceCurrency?: string;
 }
 
 interface patreonPostDetail extends patreonPost {
@@ -72771,6 +73039,42 @@ interface FollowCreatorResult {
   startedAt?: string;
 }
 
+interface ListCreatorShopArgs {
+  vanity: string;
+  cursor?: string;
+}
+
+interface patreonShopItem {
+  id: string;
+  name?: string;
+  description?: string;
+  priceCents?: number;
+  currency?: string;
+  contentType?: string;
+  postId?: string;
+  url?: string;
+  publishedAt?: string;
+}
+
+interface ListCreatorShopResult {
+  items: patreonShopItem[];
+  total?: number;
+  nextCursor?: string;
+}
+
+interface UnlikePostArgs {
+  postId: string;
+}
+
+interface DeleteCommentArgs {
+  commentId: string;
+}
+
+interface DeleteCommentResult {
+  commentId: string;
+  deleted: boolean;
+}
+
   /**
    * Reads a Patreon creator's page, tiers, and public posts and comments — logged out. With the
    * caller signed in: their memberships, their home feed, and a creator's member-only posts.
@@ -72852,6 +73156,19 @@ interface FollowCreatorResult {
      * no money. Needs the caller signed in.
      */
     followCreator(args: FollowCreatorArgs, opts?: ConnectionOption): Promise<FollowCreatorResult>;
+
+    /**
+     * List what a creator sells one-off in their shop — single posts and digital downloads — each
+     * with its price, newest first, with the total and the site's own cursor. A post row carries
+     * its postId for getPost.
+     */
+    listCreatorShop(args: ListCreatorShopArgs): Promise<ListCreatorShopResult>;
+
+    /** Take back the signed-in caller's like on a post. Needs the caller signed in. */
+    unlikePost(args: UnlikePostArgs, opts?: ConnectionOption): Promise<LikePostResult>;
+
+    /** Delete one of the signed-in caller's own comments, by its id. Needs the caller signed in. */
+    deleteComment(args: DeleteCommentArgs, opts?: ConnectionOption): Promise<DeleteCommentResult>;
 
     /**
      * Makes a NEW Patreon account with the person's own email and password, in a session. Pauses
@@ -74684,6 +75001,37 @@ interface PinterestNotification {
      * sign-in).
      */
     unfollowTopic(topicId: string, opts?: ConnectionOption): Promise<{ topicId: string; following: boolean }>;
+
+    /**
+     * Follow a person or brand (the numeric `id` from `getUser` or `searchUsers`) for the
+     * signed-in caller. NOTIFIES that account. `ApiResource` update proxying `PUT
+     * /v3/users/<id>/follow/`. THROWS `PinterestInputError` on a non-numeric user id, and when the
+     * saved session is refused (the run asks for a fresh sign-in).
+     */
+    followUser(userId: string, opts?: ConnectionOption): Promise<{ userId: string; following: boolean }>;
+
+    /**
+     * Stop following a person or brand — the undo for `followUser`. `ApiResource` delete proxying
+     * `DELETE /v3/users/<id>/follow/`. THROWS `PinterestInputError` on a non-numeric user id, and
+     * when the saved session is refused (the run asks for a fresh sign-in).
+     */
+    unfollowUser(userId: string, opts?: ConnectionOption): Promise<{ userId: string; following: boolean }>;
+
+    /**
+     * Follow one board (the numeric `id` from `getBoard`, `searchBoards` or `listUserBoards`) for
+     * the signed-in caller, so its new pins reach their home feed. NOTIFIES the board's owner.
+     * `ApiResource` update proxying `PUT /v3/boards/<id>/follow/`. THROWS `PinterestInputError` on
+     * a non-numeric board id, and when the saved session is refused (the run asks for a fresh
+     * sign-in).
+     */
+    followBoard(boardId: string, opts?: ConnectionOption): Promise<{ boardId: string; following: boolean }>;
+
+    /**
+     * Stop following a board — the undo for `followBoard`. `ApiResource` delete proxying `DELETE
+     * /v3/boards/<id>/follow/`. THROWS `PinterestInputError` on a non-numeric board id, and when
+     * the saved session is refused (the run asks for a fresh sign-in).
+     */
+    unfollowBoard(boardId: string, opts?: ConnectionOption): Promise<{ boardId: string; following: boolean }>;
 
     /**
      * The caller's own notifications — who saved, commented on or followed them, newest first,
@@ -77207,6 +77555,25 @@ interface GetRepairQuoteResult {
   }
 }
 
+declare namespace BowmarkProvider_pulsemcp_com {
+  // ── PulseMCP — the unit's own declarations, verbatim ──
+interface PulseMcpServer { slug: string; name: string; publisher: string | null; description: string; classification: string | null; weeklyVisitors: number | null; releaseDate: string | null; url: string; }
+
+  /**
+   * Search PulseMCP's public directory of MCP servers by keyword, or browse its current
+   * listings.
+   */
+  interface Unit {
+    /**
+     * Searches PulseMCP's public MCP-server directory by keyword, or browses current listings when
+     * called with no argument. Each result has the server's name, publisher, description,
+     * classification (official/community), estimated weekly visitors, release date and detail-page
+     * URL.
+     */
+    search(query?: string | { query?: string }): Promise<PulseMcpServer[]>;
+  }
+}
+
 declare namespace BowmarkProvider_punchpass {
   // ── Punchpass — the unit's own declarations, verbatim ──
 interface punchpassRow {
@@ -78062,7 +78429,7 @@ interface QuickbooksFeaturedAccountant {
   rating: number | null;
   reviewCount: number | null;
   badge: string | null;
-  /** The searchId getAccountant will take, once it is built. */
+  /** The searchId getAccountant takes. */
   searchId: string | null;
   profileUrl: string | null;
 }
@@ -78384,6 +78751,94 @@ interface QuickbooksGeneratedInvoice {
   warnings: string[];
 }
 
+interface QuickbooksFindAccountantsArgs {
+  /** A city and state, ZIP or street address, e.g. "Austin, TX" or "80202". */
+  location: string;
+  /** Search radius in miles, 1-500. Default 25. */
+  radiusMiles?: number;
+  /** 1-50, default 10. */
+  limit?: number;
+  /** The `nextCursor` a previous page returned. */
+  cursor?: string;
+}
+
+/** One ProAdvisor search result. Call `getAccountant` with its `searchId`. */
+interface QuickbooksAccountantSummary {
+  searchId: string;
+  name: string | null;
+  firm: string | null;
+  summary: string | null;
+  city: string | null;
+  state: string | null;
+  zipCode: string | null;
+  distanceMiles: number | null;
+  /** The directory's own service codes, e.g. "BOOKKEEPING_US". */
+  services: string[];
+  professionalDesignations: string[];
+  /** Certification abbreviations, e.g. "QBOADV". */
+  certifications: string[];
+  /** 0 = offers a free consultation. */
+  consultationPrice: number | null;
+  rating: number | null;
+  reviewCount: number;
+  profileUrl: string;
+}
+
+interface QuickbooksAccountantSearch {
+  totalCount: number;
+  accountants: QuickbooksAccountantSummary[];
+  /** Pass back as `cursor` for the next page; null on the last one. */
+  nextCursor: string | null;
+}
+
+interface QuickbooksAccountantReview {
+  id: string;
+  title: string | null;
+  text: string | null;
+  rating: number | null;
+  recommended: boolean | null;
+  reviewer: string | null;
+  date: string | null;
+  services: string[];
+  /** The ProAdvisor's own replies. */
+  replies: { text: string; date: string | null }[];
+}
+
+/** One ProAdvisor's public profile. */
+interface QuickbooksAccountant {
+  searchId: string;
+  name: string | null;
+  firm: string | null;
+  summary: string | null;
+  website: string | null;
+  phones: { type: string | null; number: string; extension: string | null }[];
+  city: string | null;
+  state: string | null;
+  zipCode: string | null;
+  services: string[];
+  industries: string[];
+  /** Product codes, e.g. "QBO_US". */
+  softwareExpertise: string[];
+  languages: string[];
+  professionalDesignations: string[];
+  certifications: { name: string; advanced: boolean | null; expired: boolean | null }[];
+  yearsInBusiness: number | null;
+  numberOfPartners: number | null;
+  consultationPrice: number | null;
+  socialLinks: { name: string | null; url: string }[];
+  rating: number | null;
+  reviewCount: number;
+  ratings: {
+    responsiveness: number | null;
+    professionalism: number | null;
+    expertise: number | null;
+    helpfulness: number | null;
+  };
+  /** Up to the 100 newest reviews. */
+  reviews: QuickbooksAccountantReview[];
+  profileUrl: string;
+}
+
   /**
    * QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators, the
    * ProAdvisor accountant directory, the App Store, Community answers, help articles and service
@@ -78473,6 +78928,18 @@ interface QuickbooksGeneratedInvoice {
      * replies
      */
     listAppReviews(args: string | QuickbooksListAppReviewsArgs): Promise<QuickbooksAppReviews>;
+
+    /**
+     * Searches the ProAdvisor directory for accountants and bookkeepers near a location, with
+     * firm, certifications, rating and the searchId getAccountant takes
+     */
+    findAccountants(args: string | QuickbooksFindAccountantsArgs): Promise<QuickbooksAccountantSearch>;
+
+    /**
+     * One ProAdvisor's public profile: firm, bio, phone, website, services, industries, software,
+     * certifications and reviews
+     */
+    getAccountant(searchId: string): Promise<QuickbooksAccountant>;
 
     /**
      * Builds an invoice PDF (seller, customer, line items, tax, discount) like QuickBooks' free
@@ -84280,7 +84747,9 @@ interface seatgeekOrder {
     /**
      * Searches live events — concerts, sports, comedy, theater and family — by keyword, location,
      * date range and category. Returns event id, title, performers, venue, datetime and price
-     * stats.
+     * stats. A keyword `q` alone is NOT location-scoped — to get one city's events pass `lat`,
+     * `lon` and `range` too, e.g. { q: "Amanda Marshall", lat: 43.65, lon: -79.38, range: "50mi"
+     * }.
      */
     searchEvents(args: SearchEventsArgs): Promise<seatgeekEvent[]>;
 
@@ -88520,6 +88989,40 @@ interface SpectrumWifiUpdate {
   equipmentId: string | null;
   wifiNetworks: SpectrumWifiAccessPoint[];  // what the router reports after the change — never the password
 }
+interface SpectrumOutage {
+  id: string | null;
+  problemType: string | null;  // spectrum.net's own type, verbatim
+  servicesAffected: string[];
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  startedAt: string | null;
+  estimatedResolution: string | null;  // estimated restoration time; null when none given
+  cause: string | null;
+  message: string | null;
+  creditEligible: boolean | null;
+}
+interface SpectrumRestartEquipmentArgs {
+  equipmentId?: string;  // from getEquipmentStatus; omit to restart the account's one modem
+}
+interface SpectrumEquipmentRestart {
+  equipmentId: string;
+  restarted: boolean;
+  expectedBackInSeconds: number | null;
+}
+interface SpectrumAppointmentListing {
+  id: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  orderClass: string | null;
+  workOrderType: string | null;
+  reasonCodes: string[];
+  startTime: string | null;
+  endTime: string | null;
+  timezone: string | null;
+  past: boolean | null;
+  cancelAllowed: boolean | null;
+  rescheduleAllowed: boolean | null;
+  technicianTrackingUrl: string | null;  // live "where is my technician" link
+  createdAt: string | null;
+}
 
   /**
    * Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check address
@@ -88536,12 +89039,12 @@ interface SpectrumWifiUpdate {
     listInternetPlans(): Promise<SpectrumInternetPlan[]>;
 
     /**
-     * Every premium channel and add-on package Spectrum advertises on
-     * spectrum.com/cable-tv/add-ons (Sports View, Entertainment Pack +, HBO MAX, Paramount+ with
-     * Showtime, Starz + Starz Encore, Cinemax, The Movie Channel, MGM+, International Channels) —
-     * name and description, with a monthly price where the page states one inline (most premium
-     * channel add-ons require entering the cart to see a price, so those come back with
-     * monthlyPrice: null).
+     * Every premium channel Spectrum TV sells as an add-on, read off
+     * spectrum.com/cable-tv/premium-channels (Paramount+ with Showtime, HBO Max, Starz & Starz
+     * Encore, Cinemax, The Movie Channel, MGM+) — name and the shows it features. monthlyPrice is
+     * null: the page sends a shopper to the cart for prices. The old /cable-tv/add-ons page
+     * (Sports View, Entertainment Pack +) was retired by Spectrum in November 2026 and now
+     * redirects to the TV landing page.
      */
     listTvAddOns(): Promise<SpectrumTvAddOn[]>;
 
@@ -88637,6 +89140,32 @@ interface SpectrumWifiUpdate {
      * reconnected. Never returns the password. Needs the caller signed in to spectrum.net.
      */
     updateWifiNetwork(args: SpectrumUpdateWifiArgs, opts?: ConnectionOption): Promise<SpectrumWifiUpdate>;
+
+    /**
+     * Is Spectrum down where I live? Every open outage or maintenance event on the signed-in
+     * caller's Spectrum account — which services it hits, when it started, the estimated
+     * restoration time and whether a credit applies — read off spectrum.net's own account GraphQL
+     * (the same call as its outage banner). An empty list means Spectrum knows of no outage at the
+     * caller's address. Needs the caller signed in to spectrum.net.
+     */
+    getOutageStatus(opts?: ConnectionOption): Promise<SpectrumOutage[]>;
+
+    /**
+     * Restart the signed-in caller's Spectrum modem (or another device, by equipmentId from
+     * getEquipmentStatus) remotely, through spectrum.net's own account GraphQL — the same call as
+     * its "Restart modem" troubleshooting step. The connection drops for a few minutes while it
+     * reboots; returns roughly how long until it is back. Needs the caller signed in to
+     * spectrum.net.
+     */
+    restartEquipment(args?: SpectrumRestartEquipmentArgs, opts?: ConnectionOption): Promise<SpectrumEquipmentRestart>;
+
+    /**
+     * The signed-in caller's Spectrum technician visits — upcoming and recent — with each one's
+     * time window, status, reason, whether it can still be cancelled or rescheduled, and the live
+     * technician-tracking link when there is one, read off spectrum.net's own account GraphQL.
+     * Needs the caller signed in to spectrum.net.
+     */
+    listServiceAppointments(opts?: ConnectionOption): Promise<SpectrumAppointmentListing[]>;
 
     /**
      * The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with each
@@ -91994,7 +92523,10 @@ interface stubhubFavoritesResult {
      * highest of those prices and the currency. A general-admission page (a festival or pass)
      * sells by tier instead, so it returns `tiers` (name, "From" price, sold out) and an empty
      * `listings`. Takes a search() event `id` or a stubhub.com / viagogo.com event URL; `site`
-     * picks which site's prices. Opens a browser to clear the site's bot wall, so expect 10-25s.
+     * picks which site's prices. Opens a browser to clear the site's bot wall, so expect 25-85s —
+     * call events one after another rather than batching many into one run. The ~10 rows are a
+     * fixed snapshot: there is no pagination, and sort or URL parameters do not change which
+     * listings come back.
      */
     getEventListings(args: { eventId: string; site?: "stubhub" | "viagogo" } | { url: string } | string): Promise<stubhubEventPage>;
 
@@ -93865,6 +94397,8 @@ interface AddToCartArgs { productId?: string; url?: string; skuId: string; quant
 interface UpdateCartArgs { productId?: string; url?: string; skuId: string; quantity: number; fromQuantity?: number; }
 interface RemoveFromCartArgs { productId?: string; url?: string; skuId: string; quantity?: number; }
 interface TemuCartChange { productId: string; skuId: string; quantity: number; operation: "add" | "update" | "remove"; }
+interface WriteReviewArgs { orderId: string; productId: string; rating: number; text?: string; }
+interface TemuReview { orderId: string; productId: string; rating: number; reviewIds: string[]; }
 
   /** Shop Temu — search, product detail, cart and order functions on the marketplace app. */
   interface Unit {
@@ -93918,6 +94452,12 @@ interface TemuCartChange { productId: string; skuId: string; quantity: number; o
      * current count (default 1). Needs the caller signed in.
      */
     removeFromCart(args: RemoveFromCartArgs, opts?: ConnectionOption): Promise<TemuCartChange>;
+
+    /**
+     * Posts a 1-5 star review, with optional text, on a product from one of the caller's own Temu
+     * orders (orderId from listOrders, productId the goods_id). Needs the caller signed in.
+     */
+    writeReview(args: WriteReviewArgs, opts?: ConnectionOption): Promise<TemuReview>;
   }
 }
 
@@ -95665,6 +96205,19 @@ interface ThreadsActivity {
      * from getProfile or searchAccounts. Needs the caller signed in to Threads.
      */
     unblockUser(args: ThreadsUserRef, opts?: ConnectionOption): Promise<ThreadsUserActionResult>;
+
+    /**
+     * Mutes a Threads account so the signed-in caller stops seeing its posts, without unfollowing.
+     * userId is the account's numeric id from getProfile or searchAccounts. Needs the caller
+     * signed in to Threads.
+     */
+    muteUser(args: ThreadsUserRef, opts?: ConnectionOption): Promise<ThreadsUserActionResult>;
+
+    /**
+     * Unmutes a Threads account the signed-in caller muted. userId is the account's numeric id
+     * from getProfile or searchAccounts. Needs the caller signed in to Threads.
+     */
+    unmuteUser(args: ThreadsUserRef, opts?: ConnectionOption): Promise<ThreadsUserActionResult>;
 
     /**
      * Reads the posts the signed-in caller has saved on Threads (first page) — author, text, media
@@ -98676,6 +99229,63 @@ interface TumblrComposeResult {
   id: string | null;
 }
 
+interface TumblrFeedArgs {
+  limit?: number;
+  /** nextCursor off the previous page. */
+  cursor?: string;
+}
+
+interface TumblrFeedPage {
+  posts: TumblrPost[];
+  /** Pass back as cursor for the next page; null on the last. */
+  nextCursor: string | null;
+}
+
+interface TumblrLikesPage {
+  posts: TumblrPost[];
+  totalLikes: number;
+  nextCursor: string | null;
+}
+
+interface TumblrFollowingArgs {
+  limit?: number;
+  offset?: number;
+}
+
+interface TumblrFollowedBlog {
+  name: string;
+  title: string;
+  url: string;
+  updatedAt: string | null;
+}
+
+interface TumblrFollowingPage {
+  totalBlogs: number;
+  blogs: TumblrFollowedBlog[];
+  /** Pass as offset for the next page, or null on the last. */
+  nextOffset: number | null;
+}
+
+interface TumblrNotificationsArgs {
+  /** The signed-in caller's own blog. */
+  blog: string;
+  cursor?: string;
+}
+
+interface TumblrNotification {
+  /** like, reblog, follow, reply, ask, mention — Tumblr's own type string. */
+  type: string;
+  fromBlog: string;
+  postId: string | null;
+  text: string;
+  at: string | null;
+}
+
+interface TumblrNotificationsPage {
+  notifications: TumblrNotification[];
+  nextCursor: string | null;
+}
+
   /**
    * Tumblr's public API — blog info, posts, tag timelines, trending, and site-wide or
    * blog-scoped search.
@@ -98788,6 +99398,24 @@ interface TumblrComposeResult {
 
     /** Sends an ask (a question) from the signed-in caller to another blog's inbox. */
     sendMessage(args: TumblrSendMessageArgs, opts?: ConnectionOption): Promise<TumblrComposeResult>;
+
+    /**
+     * The signed-in caller's dashboard — the newest posts from the blogs and tags they follow,
+     * cursor paged.
+     */
+    getDashboard(args: TumblrFeedArgs, opts?: ConnectionOption): Promise<TumblrFeedPage>;
+
+    /** The blogs the signed-in caller follows, paged by offset. */
+    listFollowing(args: TumblrFollowingArgs, opts?: ConnectionOption): Promise<TumblrFollowingPage>;
+
+    /** The posts the signed-in caller has liked, newest first, cursor paged. */
+    listLikes(args: TumblrFeedArgs, opts?: ConnectionOption): Promise<TumblrLikesPage>;
+
+    /**
+     * Activity on the signed-in caller's own blog — who liked, reblogged, replied to or followed
+     * it — cursor paged.
+     */
+    listNotifications(args: TumblrNotificationsArgs, opts?: ConnectionOption): Promise<TumblrNotificationsPage>;
   }
 }
 
@@ -100267,7 +100895,8 @@ interface UniqloSearchArgs {
   department?: "men" | "women" | "kids" | "baby"; // department alone lists the whole department
   onSaleOnly?: boolean; // the site's own Sale filter
   limit?: number; // default 24, max 1000; the search walks result pages until it has this many
-  country?: "us" | "ca"; // which store: "us" (default, USD) or "ca" (Canada, CAD prices and Canadian stock)
+  market?: "com" | "ca"; // which storefront: "com" (US, default) or "ca" (Canada, CAD prices and Canadian stock)
+  country?: "us" | "ca"; // compatibility alias for market: "us" or "ca"
 }
 interface UniqloColorRef {
   code: string; // color display code, e.g. "69"
@@ -100348,7 +100977,7 @@ interface UniqloProduct {
 }
 
   /**
-   * Uniqlo clothing store, US (uniqlo.com/us, USD) or Canada (uniqlo.com/ca, CAD) via country.
+   * Uniqlo clothing store, US (uniqlo.com/us, USD) or Canada (uniqlo.com/ca, CAD) via market.
    * Searches the live catalog by keyword and/or department (men's, women's, kids, baby), Sale
    * items only if asked, every page; reads one product's per-color, per-size price, live stock
    * with quantity, and photos.
@@ -100356,21 +100985,22 @@ interface UniqloProduct {
   interface Unit {
     /**
      * Searches Uniqlo's live catalog the way a shopper would ("button up shirt"), US store by
-     * default or Canada with country: "ca" (CAD prices), narrowed to a department
-     * (men/women/kids/baby) and optionally Sale only — or lists a whole department with no query —
-     * walking result pages until `limit` is met. One row per product with price, Sale flag, every
-     * color with its photo, and the sizes it comes in. The way in.
+     * default or Canada with market: "ca" (CAD prices; country: "ca" remains a compatibility
+     * alias), narrowed to a department (men/women/kids/baby) and optionally Sale only — or lists a
+     * whole department with no query — walking result pages until `limit` is met. One row per
+     * product with price, Sale flag, every color with its photo, and the sizes it comes in. The
+     * way in.
      */
     searchProducts(args: UniqloSearchArgs | string): Promise<UniqloSearchResult>;
 
     /**
      * Reads one Uniqlo product's every color × size with its price, Sale flag, live stock status
      * and unit count, plus per-color in-stock and sold-out size lists, photos, and a URL that
-     * opens that exact color and size. Takes a productId (US store, or { productId, country: "ca"
-     * } for Canada), a search hit (read from the hit's own store), or a uniqlo.com/us or /ca
-     * product url.
+     * opens that exact color and size. Takes a productId (US store by default, or { productId,
+     * market: "ca" } for Canada; country: "ca" remains a compatibility alias), a search hit (read
+     * from the hit's own store), or a uniqlo.com/us or /ca product url.
      */
-    getProduct(product: string | { productId: string; priceGroup?: string; country?: "us" | "ca" } | UniqloSearchHit): Promise<UniqloProduct>;
+    getProduct(product: string | { productId: string; priceGroup?: string; market?: "com" | "ca"; country?: "us" | "ca" } | UniqloSearchHit): Promise<UniqloProduct>;
   }
 }
 
@@ -104818,6 +105448,24 @@ interface WhatsappFollowedChannel {
   time: string | null;
   verified: boolean;
 }
+interface WhatsappCommunity {
+  name: string;
+  description: string | null;
+  announcementGroup: string | null;
+  groups: string[];
+}
+interface WhatsappChannelUpdate {
+  id: string | null;
+  text: string | null;
+  time: string | null;
+  type: "text" | "image" | "video" | "poll" | "other";
+  reactions: string[];
+}
+interface WhatsappStatusUpdate {
+  name: string;
+  time: string | null;
+  viewed: boolean;
+}
 interface WhatsappBlogPost {
   slug: string;
   title: string;
@@ -104966,6 +105614,27 @@ interface WhatsappBlogPost {
      * state. Needs the caller signed in.
      */
     listFollowedChannels(opts?: ConnectionOption): Promise<WhatsappFollowedChannel[]>;
+
+    /**
+     * Reads a WhatsApp Community the caller belongs to, opened by its exact displayed name in the
+     * Communities tab: its description, its announcement group and the names of the other groups
+     * inside it. Needs the caller signed in.
+     */
+    getCommunity(communityName: string, opts?: ConnectionOption): Promise<WhatsappCommunity>;
+
+    /**
+     * Reads the updates a channel the caller follows shows in WhatsApp Web, opened by its exact
+     * displayed name (from listFollowedChannels): each update's id, text, time label, type (text,
+     * image, video, poll) and reactions, oldest to newest. Needs the caller signed in.
+     */
+    getChannelUpdates(channelName: string, opts?: ConnectionOption): Promise<WhatsappChannelUpdate[]>;
+
+    /**
+     * Lists the contacts who have a Status up in the caller's WhatsApp Web Status tab: each
+     * poster's displayed name, the row's time label and whether the caller has already viewed it.
+     * Never opens a Status, so nobody is shown as seen. Needs the caller signed in.
+     */
+    listStatusUpdates(opts?: ConnectionOption): Promise<WhatsappStatusUpdate[]>;
 
     /**
      * Reads the current chat.whatsapp.com invite link of a group the caller administers, opened by
@@ -112431,6 +113100,7 @@ interface BowmarkProviders {
   prusa3d: BowmarkProvider_prusa3d.Unit;
   pullandbear: BowmarkProvider_pullandbear.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
+  pulsemcp_com: BowmarkProvider_pulsemcp_com.Unit;
   punchpass: BowmarkProvider_punchpass.Unit;
   purevpn: BowmarkProvider_purevpn.Unit;
   pushpress: BowmarkProvider_pushpress.Unit;

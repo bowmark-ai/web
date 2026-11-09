@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6185 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6192 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1057,7 +1057,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chesmar.searchQuickMoveInHomes` | chesmar.com | Runs Chesmar Homes' quick-move-in home search against the site's own live inventory… | 🟢 |
 | `chipotle.getBowlBuilder` | chipotle.com | Reads chipotle.com's own universal menu rules and returns every burrito-bowl protein… | 🟢 |
 | `chownow.findRestaurant` | chownow.com | Resolves a ChowNow ordering URL (www/order/direct/eat subdomain, or the bare apex)… | 🟢 |
-| `chownow.getMenu` | chownow.com | Reads one restaurant's complete menu: categories with items, descriptions, prices… | 🟢 |
+| `chownow.getMenu` | chownow.com | Reads one restaurant's complete menu: categories with items, descriptions, prices… | 🟡 |
 | `chownow.getMenuItem` | chownow.com | Reads details for one menu item: name, description, price, and its modifier groups… | 🟢 |
 | `chownow.getOrderDetails` | chownow.com | Reads one order's full details: items ordered, customizations, prices, fees, status… | 🟢 |
 | `chownow.getPickupTimes` | chownow.com | Lists the order-ahead time slots a restaurant offers over its coming days, per… | 🟢 |
@@ -3393,10 +3393,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `msccruzeiros.bookCruise` | msccruzeiros.com.br | Reserve a cabin on a sailing and pay for it through the site's booking funnel. | ⚪ |
 | `msccruzeiros.quoteCabins` | msccruzeiros.com.br | Cruise quote for one MSC Cruzeiros sailing: the price of every cabin category (inside… | 🟢 |
 | `msccruzeiros.searchCruises` | msccruzeiros.com.br | Search MSC Cruzeiros (Brazil) cruise sailings by destination, departure port, ship… | 🟢 |
+| `msn.convertCurrency` | msn.com | Converts an amount between two currencies at MSN Money's live FX cross rate, the rate… | 🟢 |
 | `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟡 |
+| `msn.getHourlyForecast` | msn.com | Reads the hour-by-hour forecast for a named city off MSN Weather's hourly page… | 🟢 |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
 | `msn.getScores` | msn.com | Returns one league's games on one date the way MSN Sports' scores page does for a… | 🟢 |
 | `msn.getSectionFeed` | msn.com | Returns a top-stories feed scoped to one of six sections — sports, entertainment… | 🟢 |
+| `msn.getStandings` | msn.com | Returns one league's current standings table the way MSN Sports' standings page does… | 🟢 |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E… | 🟢 |
 | `msn.getTopStories` | msn.com | Returns the top stories the MSN front page is showing right now, the way www.msn.com… | 🟢 |
 | `msn.getVideoFeed` | msn.com | Lists the videos MSN's video section (www.msn.com/en-us/video) shows a visitor with no… | 🟢 |
@@ -4571,7 +4574,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | ⚪ |
 | `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart, or changes its quantity (0 removes… | ⚪ |
 | `shop_app.addToProductList` | shop.app | Adds a product to one of the caller's lists, or removes it (remove: true). | ⚪ |
-| `shop_app.browseCategory` | shop.app | Browses one Shop product category by the id listCategories returns — its name and… | 🟢 |
+| `shop_app.browseCategory` | shop.app | Browses one Shop product category by the id listCategories returns — its name and… | 🟡 |
 | `shop_app.claimOffer` | shop.app | Claims a Shop offer or Shop Cash reward for the caller. | ⚪ |
 | `shop_app.createProductList` | shop.app | Creates a new named product list for the caller. | ⚪ |
 | `shop_app.followStore` | shop.app | Follows a store on Shop for the caller, or unfollows it (follow: false). | ⚪ |
@@ -4589,9 +4592,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getStoreContacts` | shop.app | Reads how to reach a store — its support email, phone, website, contact page, social… | 🟢 |
 | `shop_app.getStorePolicies` | shop.app | Reads a store's refund, shipping and privacy policies as plain text — the policy sheet… | 🟡 |
 | `shop_app.getStoreReviews` | shop.app | Lists the reviews left across a whole store — rating, text, product, author and date —… | 🟡 |
-| `shop_app.getVariant` | shop.app | Picks one variant of a product by its options ({ Size: "Large", Color: "Powder Blue"… | 🟢 |
+| `shop_app.getVariant` | shop.app | Picks one variant of a product by its options ({ Size: "Large", Color: "Powder Blue"… | 🟡 |
 | `shop_app.listAddresses` | shop.app | Lists the caller's saved shipping addresses on Shop. | ⚪ |
-| `shop_app.listCategories` | shop.app | Lists Shop's product categories (Women, Men, Beauty, Home, Fitness, Baby, Food …) —… | 🟢 |
+| `shop_app.listCategories` | shop.app | Lists Shop's product categories (Women, Men, Beauty, Home, Fitness, Baby, Food …) —… | 🟡 |
 | `shop_app.listFollowedStores` | shop.app | Lists the stores the signed-in caller follows on Shop, a page at a time. | 🟢 |
 | `shop_app.listOffers` | shop.app | Lists the current Shop offers and promotions — store discounts and Shop Cash rewards —… | 🟢 |
 | `shop_app.listOrders` | shop.app | Lists the signed-in caller's orders from every store they bought from with Shop —… | 🟢 |
@@ -5173,7 +5176,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.likePost` | threads.com | Likes a post as the CALLER. | 🟢 |
 | `threads.listConversations` | threads.com | Lists the CALLER's Threads direct-message conversations, newest first, with their ids… | ⚪ |
 | `threads.listCustomFeeds` | threads.com | Lists the custom feeds the CALLER has built or pinned, with their ids — the finder for… | 🟢 |
-| `threads.muteUser` | threads.com | Mutes an account so the CALLER stops seeing its posts, without unfollowing. | ⚪ |
+| `threads.muteUser` | threads.com | Mutes an account so the CALLER stops seeing its posts, without unfollowing. | 🟢 |
 | `threads.quotePost` | threads.com | Quotes a post as the CALLER, with their own text above it. | 🟢 |
 | `threads.replyToPost` | threads.com | Replies to a post as the CALLER. | 🟢 |
 | `threads.repostPost` | threads.com | Reposts a post to the CALLER's profile. | 🟢 |
@@ -5185,7 +5188,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.unblockUser` | threads.com | Unblocks an account the CALLER blocked. | 🟢 |
 | `threads.unfollowUser` | threads.com | Unfollows an account as the CALLER. | 🟢 |
 | `threads.unlikePost` | threads.com | Removes the CALLER's like from a post. | 🟢 |
-| `threads.unmuteUser` | threads.com | Unmutes an account the CALLER muted. | ⚪ |
+| `threads.unmuteUser` | threads.com | Unmutes an account the CALLER muted, so its posts show again. | 🟢 |
 | `threads.unrepostPost` | threads.com | Removes the CALLER's repost of a post. | 🟢 |
 | `threads.unsavePost` | threads.com | Removes a post from the CALLER's saved list. | ⚪ |
 | `threads.updateProfile` | threads.com | Edits the CALLER's Threads profile — bio, links and whether the profile is private. | ⚪ |
@@ -5406,6 +5409,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.followBlog` | tumblr.com | Follow a blog from the signed-in account. | 🟢 |
 | `tumblr.getBlogInfo` | tumblr.com | Get metadata for a blog: name, title, url, post count, description, last-post time… | 🟢 |
 | `tumblr.getBlogPosts` | tumblr.com | List posts from a blog, newest first. | 🟢 |
+| `tumblr.getDashboard` | tumblr.com | The signed-in caller's dashboard feed. | 🟢 |
 | `tumblr.getPost` | tumblr.com | Get a single post by ID with its content and metadata. | 🟢 |
 | `tumblr.getPostNotes` | tumblr.com | Get notes (likes and reblogs) on a post with the blog names that interacted with it. | 🟢 |
 | `tumblr.getTagTimeline` | tumblr.com | Get posts tagged with a specific tag. | 🟢 |
@@ -5413,6 +5417,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.getTrendingTags` | tumblr.com | Get tags that are currently trending on Tumblr. | 🟢 |
 | `tumblr.likePost` | tumblr.com | Like a post from the signed-in account. | 🟢 |
 | `tumblr.listBlogFollowers` | tumblr.com | List followers of a blog; caller must own the blog. | 🟢 |
+| `tumblr.listFollowing` | tumblr.com | List the blogs the signed-in caller follows. | 🟢 |
+| `tumblr.listLikes` | tumblr.com | List the signed-in caller's own likes. | 🟢 |
+| `tumblr.listNotifications` | tumblr.com | Activity on the signed-in caller's own blog. | 🟢 |
 | `tumblr.reblogPost` | tumblr.com | Reblog a post to the signed-in account's blog. | 🟢 |
 | `tumblr.searchBlogPosts` | tumblr.com | Search posts within a specific blog. | 🟢 |
 | `tumblr.searchPosts` | tumblr.com | Search all posts across Tumblr by keyword or phrase. | 🟢 |
