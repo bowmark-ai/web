@@ -5505,8 +5505,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ulrichlifestyle.getConfigurator` | ulrichlifestyle.com | Reads one model's default configurator: its base price (before delivery/tax) plus… | 🟢 |
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
 | `ulrichlifestyle.priceConfiguration` | ulrichlifestyle.com | Configures and prices one specific build (dimensions, wall height, siding, delivery… | 🟢 |
-| `uniqlo.getProduct` | uniqlo.com | Reads one Uniqlo product's every color × size with its price, live stock status and… | 🟢 |
-| `uniqlo.searchProducts` | uniqlo.com | Searches Uniqlo's live clothing catalog, the US store (uniqlo.com/us, USD) by default… | 🟢 |
+| `uniqlo.getProduct` | uniqlo.com | Reads one Uniqlo product's every color × size with its price, live stock status and… | 🔴 |
+| `uniqlo.searchProducts` | uniqlo.com | Searches Uniqlo's live clothing catalog, the US store (uniqlo.com/us, USD) by default… | 🔴 |
 | `unsplash.search` | unsplash.com | Searches Unsplash's photo library by keyword and returns the first page of photos with… | 🟢 |
 | `upkeepstl_com.estimatePlanCost` | upkeepstl.com | Computes the total contract price and per-year price for one plan selection (home… | 🟢 |
 | `upkeepstl_com.getPlanBuilder` | upkeepstl.com | Reads UPKEEP's public 'Build Your Plan' quote-form schema: the home-warranty plan… | 🟢 |

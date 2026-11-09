@@ -749,7 +749,7 @@ ubereats.com — ubereats: addToCart, applyPromoCode, browseStores, checkDeliver
 uhaul.com — uhaul: getRates
 uhc.com — uhc_directory: findProviders
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration
-uniqlo.com — uniqlo: getProduct, searchProducts
+uniqlo.com — uniqlo: nothing callable yet (+2 planned)
 unsplash.com — unsplash: search
 upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
 ups.com — ups: calculateShippingCost, estimateDeliveryDate, findNearbyLocation, getRate, getServiceAlerts, schedulePickup, trackShipment, validateAddress
