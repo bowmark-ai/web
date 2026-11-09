@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fd228a727f787a8816a884f12ce6f2f86a6bf9e7a188396c5fa7c7c77c9b4b32
-// 97 capabilities, 785 providers, 4704 typed functions, 20 refused.
+// Manifest version: 247ea4addf6ee7dab99500d7c7a103742dd84d71769340da1f68978560d53f6c
+// 97 capabilities, 785 providers, 4709 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36981,6 +36981,35 @@ interface FantasyTransactionResult {
   raw: unknown;
 }
 
+interface CreateFantasyLeagueArgs {
+  sport: "football" | "baseball" | "basketball" | "hockey";
+  name: string;
+  size?: number;          // 4-20, default 10
+  scoringType?: string;   // e.g. "H2H_POINTS" (default), "H2H_CATEGORY", "ROTO"
+  draftType?: string;     // "SNAKE" (default), "AUCTION", "OFFLINE"
+  draftDate?: string;     // ISO instant
+  season?: number;
+}
+
+interface CreateFantasyLeagueResult {
+  leagueId: string | null;
+  url: string | null;
+  inviteUrl: string | null;
+  raw: unknown;
+}
+
+interface SubmitPicksArgs {
+  challenge: string;      // e.g. "nfl-pickem-2026" — gambit-api.fantasy.espn.com/apis/v1/challenges/ lists them
+  picks: { propositionId: string; outcomeId: string }[];
+  entryName?: string;
+}
+
+interface SubmitPicksResult {
+  entryId: string | null;
+  picksSaved: number | null;
+  raw: unknown;
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -37150,6 +37179,20 @@ interface FantasyTransactionResult {
      * ESPN sign-in.
      */
     proposeFantasyTrade(args: ProposeFantasyTradeArgs, opts?: ConnectionOption): Promise<FantasyTransactionResult>;
+
+    /**
+     * Creates a new free, private ESPN fantasy league (football, baseball, basketball or hockey)
+     * owned by the CALLER, with its name, size, scoring and draft type, and returns its id, page
+     * and invite link. Needs the caller's ESPN sign-in.
+     */
+    createFantasyLeague(args: CreateFantasyLeagueArgs, opts?: ConnectionOption): Promise<CreateFantasyLeagueResult>;
+
+    /**
+     * Enters the CALLER's picks in one of ESPN's free prediction games (NFL Pick'em, Survivor,
+     * college Pick'em, Bowl Mania, Tournament Challenge) by challenge key, each pick a proposition
+     * id and the chosen outcome id. Needs the caller's ESPN sign-in.
+     */
+    submitPicks(args: SubmitPicksArgs, opts?: ConnectionOption): Promise<SubmitPicksResult>;
 
     /**
      * Adds a team, league or player to the CALLER's My ESPN favourites and returns the updated
@@ -67021,6 +67064,48 @@ interface NetflixTitleMatch {
   url: string;
 }
 
+interface NetflixAccount {
+  name?: string;
+  email?: string;
+  /** e.g. "CURRENT_MEMBER". */
+  membershipStatus: string;
+  /** Two-letter country, e.g. "US". */
+  countryOfSignup?: string;
+  currentCountry?: string;
+  memberSince?: string | number;
+  isInFreeTrial?: boolean;
+  isKids?: boolean;
+  /** e.g. "en-US". */
+  locale?: string;
+}
+
+interface NetflixEpisode {
+  id: string;
+  number: number;
+  title: string;
+  synopsis?: string;
+  runtimeSeconds?: number;
+  imageUrl?: string;
+}
+
+interface NetflixSeason {
+  /** The season's own video id. */
+  id: string;
+  /** 1-based position in the title's season list. */
+  number: number;
+  /** e.g. "Season 1", "Part 2" or "Limited Series". */
+  label?: string;
+  title?: string;
+  episodes: NetflixEpisode[];
+}
+
+interface NetflixEpisodeList {
+  id: string;
+  title?: string;
+  url: string;
+  seasons: NetflixSeason[];
+}
+
 interface NetflixTitleSearch {
   query: string;
   matches: NetflixTitleMatch[];
@@ -67183,6 +67268,20 @@ interface NetflixTudumSearchResult {
      * Netflix lacks the title. No sign-in.
      */
     findTitles(query: string): Promise<NetflixTitleSearch>;
+
+    /**
+     * Reads the signed-in caller's own Netflix account — name, email, membership status, sign-up
+     * country, member-since, free-trial and kids flags, and locale. Needs the caller signed in to
+     * their own Netflix account.
+     */
+    getAccount(opts?: ConnectionOption): Promise<NetflixAccount>;
+
+    /**
+     * Lists a Netflix series' episodes by its numeric title id — e.g. getEpisodes("80057281") for
+     * every season of Stranger Things, or getEpisodes("80057281", 2) for season 2 only — each
+     * episode's id, number, title, synopsis, runtime and still. No sign-in.
+     */
+    getEpisodes(titleId: string, season?: number): Promise<NetflixEpisodeList>;
 
     /**
      * Reads a public Netflix title page by its numeric id (the number in netflix.com/title/<id>) —
@@ -102466,6 +102565,26 @@ interface walmartBrand {
   url: string;
 }
 
+interface walmartWeeklyAdItem {
+  id: number;
+  name: string;
+  brand: string | null;
+  priceText: string | null;
+  discountPercent: number | null;
+  validFrom: string | null;
+  validTo: string | null;
+  imageUrl: string | null;
+}
+
+interface walmartWeeklyAd {
+  zip: string;
+  flyerId: number | null;
+  validFrom: string | null;
+  validTo: string | null;
+  items: walmartWeeklyAdItem[];
+  warnings: string[];
+}
+
 interface walmartSeller {
   sellerId: string;
   name: string;
@@ -102492,6 +102611,14 @@ interface walmartSeller {
      * site's own default relevance order.
      */
     search(args: { query: string; limit?: number }): Promise<walmartSearchResult[]>;
+
+    /**
+     * Reads the Walmart weekly ad live at a 5-digit US ZIP — the flyer's valid dates and every
+     * item on it with its sale price as printed and percent off. Read through Flipp, the flyer
+     * platform Walmart publishes it on, because walmart.com's own weekly-ad page is behind a bot
+     * wall.
+     */
+    getWeeklyAd(args: { zip: string }): Promise<walmartWeeklyAd>;
 
     /**
      * Finds nearby Walmart stores for a 5-digit US ZIP code — address, phone, hours,

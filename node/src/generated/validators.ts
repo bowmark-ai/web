@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fd228a727f787a8816a884f12ce6f2f86a6bf9e7a188396c5fa7c7c77c9b4b32
-// 4686 checked, 20 unchecked.
+// Manifest version: 247ea4addf6ee7dab99500d7c7a103742dd84d71769340da1f68978560d53f6c
+// 4691 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fd228a727f787a8816a884f12ce6f2f86a6bf9e7a188396c5fa7c7c77c9b4b32",
+  "version": "247ea4addf6ee7dab99500d7c7a103742dd84d71769340da1f68978560d53f6c",
   "units": {
     "address_validation": {
       "defs": {
@@ -44655,6 +44655,78 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "CreateFantasyLeagueArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sport",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "baseball"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "basketball"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "hockey"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "scoringType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "draftType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "draftDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "DraftPicksArgs": {
           "k": "object",
           "props": [
@@ -45324,6 +45396,51 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SubmitPicksArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "challenge",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "picks",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "propositionId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "outcomeId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "entryName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TeamDepthChartArgs": {
           "k": "object",
           "props": [
@@ -45717,6 +45834,58 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ProposeFantasyTradeArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createFantasyLeague": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CreateFantasyLeagueArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "submitPicks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SubmitPicksArgs"
             },
             "optional": false
           },
@@ -86247,6 +86416,40 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getEpisodes": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "season",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ],
         "getTitle": [
@@ -137784,6 +137987,24 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getWeeklyAd": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },

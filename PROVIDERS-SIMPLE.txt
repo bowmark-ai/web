@@ -67,6 +67,7 @@ archipelago.gg — archipelago: getClientRelease, getGameOptions
 archive.org — archive_org: checkLendingAvailability, downloadFile, getItem, getSnapshot, searchItems, searchScholar (+2 planned)
 arketa.co — arketa: bookClass, bookPrivateSession, cancelBooking, findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listOnDemandVideos, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters, updateMyProfile (+1 planned)
 article.com — article_com: getProduct, searchProducts (+2 planned)
+artificialanalysis.ai — artificialanalysis_ai: getEvaluation
 artpix3d.com — artpix3d: getSizePricing, listPhotoCrystalShapes, listShapes
 arxiv.org — arxiv: getPaper, search
 ashbyhq.com — ashby: listJobs
@@ -138,7 +139,7 @@ breezy.hr — breezyhq: listJobs
 brixton.com — brixton: getBrixtonCheckoutLink, getBrixtonProduct, listBrixtonProducts
 browser-use.com — browser_use: cancelRun, createRun, findSessionBrowser, getBrowser, getRun, getRunStatus, getSession, listRunEvents, listSessionRuns, queueMessage, stopBrowser
 bsb.de — bodensee_schiffsbetriebe_berths: searchHarbors (+1 planned)
-bsky.app — bluesky: 51 functions — ask get_library (+6 planned)
+bsky.app — bluesky: 55 functions — ask get_library (+2 planned)
 buacement.com — buacement: nothing callable yet (+1 planned)
 builder.strucsure.com — builder_strucsure_com: getNewConstructionRegistrationFields, listRegistrationStates
 buildingengines.com — buildingengines: getAccessRequestStatus
@@ -283,7 +284,7 @@ epromos.com — epromos: getProductConfiguration, listCategoryProducts, quoteBul
 eq3.com — eq3: getSofaConfiguration, listSofas (+1 planned)
 equinox-hotels.com — equinox_hotels: listRooms, searchRates
 erieinsurance.com — erieinsurance: findAgent (+18 planned)
-espn.com — espn: addDropFantasyPlayer, addFavorite, draftPicks, fantasyPlayers, getArticle, getFantasyLeague, getFantasyTeam, getGame, getPlayer, getTeam, injuries, listFavorites, listLeagues, listMyFantasyTeams, listTeams, listVideos, news, odds, playerGameLog, playerStats, proposeFantasyTrade, rankings, removeFavorite, scoreboard, search, setFantasyLineup, standings, statLeaders, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions (+2 planned)
+espn.com — espn: addDropFantasyPlayer, addFavorite, createFantasyLeague, draftPicks, fantasyPlayers, getArticle, getFantasyLeague, getFantasyTeam, getGame, getPlayer, getTeam, injuries, listFavorites, listLeagues, listMyFantasyTeams, listTeams, listVideos, news, odds, playerGameLog, playerStats, proposeFantasyTrade, rankings, removeFavorite, scoreboard, search, setFantasyLineup, standings, statLeaders, submitPicks, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions
 estes-express.com — estes_express: estimateFreightQuote
 ethos.com — ethos: nothing callable yet (+1 planned)
 etsy.com — etsy: browseCategory, estimateShipping, findRegistry, getListing, getRegistry, getShop, getUserProfile, listCategories, listEditorsPicks, listListingReviews, listShopListings, listShopReviews, listTrendingSearches, search, searchShops, suggestSearches (+19 planned)
@@ -478,6 +479,7 @@ mcdonalds.com — mcdonalds: findStores, getMenu, getMenuItem (+2 planned)
 mcp.directory — mcp_directory: search
 mcp.so — mcp_so: search
 mcpmarket.com — mcpmarket: search, server
+mcptrove.com — mcptrove_com: search
 medicalguardian.com — medicalguardian: assessFallRisk, getRiskAssessmentQuestions
 medicare.gov — medicare: findDoctors, findHospitals, findNursingHomes, getCosts, getPlan, searchDrugPlans, searchMedigapPlans (+12 planned)
 medium.com — medium: authorPosts, publicationPosts, tagPosts
@@ -705,6 +707,7 @@ teamtailor.com — teamtailor: listJobs
 teladochealth.com — teladoc: getInsurancePricing, getPricing (+2 planned)
 tenders.go.ke — tenders_go_ke: getTender, listTenders
 teneohg.com — teneohg: getMemberHotel, searchMemberHotels
+thataicollection.com — thataicollection_com: browseCategory, compareTools, getAlternatives, getTool, getTopPicks, listCategories, searchTools
 thefork.com — thefork: search (+2 planned)
 theguardian.com — theguardian_com: getArticle, getArticleComments, getContributorArticles, getCrossword, getFootballTable, getLiveBlog, getMostRead, getPhotoGallery, getReview, getTopicArticles, getVideo, listArticlesBySection, listBreakingNews, listContributors, listFootballMatches, listLiveBlogs, listNewsletters, listOpinionPieces, listPhotos, listPodcastEpisodes, listReviews, listSections, listTopics, listVideos (+2 planned)
 therabody.com — therabody: getTheragunProduct, listTheragunProducts, recommendTheragun
@@ -765,7 +768,7 @@ visit.barnesfoundation.org — barnesfoundation: getAdmissionCalendar, priceAdmi
 vistaprint.com — vistaprint: getShippingBoxPrice (+1 planned)
 voluspa.com — voluspa: nothing callable yet (+2 planned)
 walkerhughes.com — walkerhughes: findNearestOffice, listOffices, listQuoteProducts (+1 planned)
-walmart.com — walmart: addAddress, addToCart, addToList, browseBrand, browseCategory, createList, findBrand, getAccountProfile, getCart, getList, getOrder, getPickupDeliverySlots, getProduct, getSeller, getStore, listAddresses, listDeals, listDepartments, listLists, listOrders, listPurchasedItems, listReviews, listSellerOffers, removeFromCart, removeFromList, search, setPreferredStore, suggestSearches, updateCartItem, updateProfile (+8 planned)
+walmart.com — walmart: addAddress, addToCart, addToList, browseBrand, browseCategory, createList, findBrand, getAccountProfile, getCart, getList, getOrder, getPickupDeliverySlots, getProduct, getSeller, getStore, getWeeklyAd, listAddresses, listDeals, listDepartments, listLists, listOrders, listPurchasedItems, listReviews, listSellerOffers, removeFromCart, removeFromList, search, setPreferredStore, suggestSearches, updateCartItem, updateProfile (+7 planned)
 washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getLiveBlog, getNewsletter, getPodcast, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listEpisodes, listNewsletters, listPodcasts, listSavedArticles, listSections, listTopics, listTrending, saveArticle, searchWriters, unsaveArticle (+1 planned)
 waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)

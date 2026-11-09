@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6165 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6174 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -341,6 +341,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `article_com.getDeliveryEstimate` | article.com | Returns the delivery window and shipping cost for one product to a postal code. | ⚪ |
 | `article_com.getProduct` | article.com | Reads one Article product by id or article.com URL: USD and CAD list price and sale… | 🟢 |
 | `article_com.searchProducts` | article.com | Searches Article's furniture catalog by free text — the same Bloomreach-backed search… | 🟢 |
+| `artificialanalysis_ai.getEvaluation` | artificialanalysis.ai | Returns Artificial Analysis's public AutomationBench-AA model leaderboard, including… | 🟢 |
 | `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟡 |
 | `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟡 |
 | `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟡 |
@@ -522,10 +523,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesignal.applyToJob` | bluesignal.com | Would submit a job application (name/email/phone/resume) to the site's own per-job… | ⚪ |
 | `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟢 |
 | `bluesignal.searchJobs` | bluesignal.com | Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by a… | 🟢 |
-| `bluesky.addToList` | bsky.app | Add a person to one of the caller's lists, or remove them. | ⚪ |
+| `bluesky.addToList` | bsky.app | Add a person to one of the caller's lists, or remove them. | 🟢 |
 | `bluesky.blockUser` | bsky.app | Block a person as the caller, or unblock them. | 🟢 |
 | `bluesky.bookmarkPost` | bsky.app | Save a post to the caller's Bookmarks, or remove it. | 🟢 |
-| `bluesky.createList` | bsky.app | Create a curation or moderation list owned by the caller. | ⚪ |
+| `bluesky.createList` | bsky.app | Create a curation or moderation list owned by the caller. | 🟢 |
 | `bluesky.createPost` | bsky.app | Publish a post as the caller: text with links and mentions resolved into facets… | 🟢 |
 | `bluesky.deletePost` | bsky.app | Delete one of the caller's own posts. | 🟢 |
 | `bluesky.followUser` | bsky.app | Follow a person as the caller, or unfollow them. | 🟢 |
@@ -570,7 +571,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.replyToPost` | bsky.app | Reply to a post as the caller, threaded under it. | 🟢 |
 | `bluesky.repost` | bsky.app | Repost a post as the caller, or undo the repost. | 🟢 |
 | `bluesky.resolveHandle` | bsky.app | Turn a Bluesky handle (alice.bsky.social, or a custom domain handle) into its… | 🟢 |
-| `bluesky.saveFeed` | bsky.app | Save or pin a custom feed to the caller's feed list, or remove it. | ⚪ |
+| `bluesky.saveFeed` | bsky.app | Save or pin a custom feed to the caller's feed list, or remove it. | 🟢 |
 | `bluesky.searchFeeds` | bsky.app | Find custom feeds by words (e.g. 'science', 'art'), the way Explore's feed search… | 🟢 |
 | `bluesky.searchPosts` | bsky.app | Search all public posts by words, with the Search tab's Top/Latest sort and its… | 🟢 |
 | `bluesky.searchStarterPacks` | bsky.app | Find starter packs by words. | 🟢 |
@@ -578,7 +579,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.sendMessage` | bsky.app | Send a direct message as the caller to a person who accepts DMs from them. | ⚪ |
 | `bluesky.setAvatar` | bsky.app | Change the caller's profile picture (or banner) from an image. | ⚪ |
 | `bluesky.suggestUsers` | bsky.app | Handle autocomplete: the few accounts that best match a partial name, as the compose… | 🟢 |
-| `bluesky.updateProfile` | bsky.app | Change the caller's display name and bio. | ⚪ |
+| `bluesky.updateProfile` | bsky.app | Change the caller's display name and bio. | 🟢 |
 | `bmwusa.buildVehicle` | bmwusa.com | Runs BMW's own Build Your Own configurator for a model code (read off /all-bmws.html's… | 🟢 |
 | `bmwusa.checkRecalls` | bmwusa.com | Checks open safety and emissions recalls for a specific BMW by VIN — each campaign's… | ⚪ |
 | `bmwusa.estimatePayment` | bmwusa.com | Estimates a monthly lease or finance payment for a given BMW at a given price, term… | ⚪ |
@@ -926,7 +927,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.searchGraphics` | canva.com | Searches Canva's graphics and illustrations library (stickers, icons, illustrations)… | 🟢 |
 | `canva.searchMyDesigns` | canva.com | Searches the signed-in caller's designs by title or content (or lists the most recent… | ⚪ |
 | `canva.searchPhotos` | canva.com | Searches Canva's stock photo library by keyword — photo id, title (when the photo has… | 🟢 |
-| `canva.searchTemplates` | canva.com | Searches Canva's template library by keyword — title, template id, url and preview… | 🟡 |
+| `canva.searchTemplates` | canva.com | Searches Canva's template library by keyword — title, template id, url and preview… | 🟢 |
 | `canva.searchVideos` | canva.com | Searches Canva's stock video library by keyword — clip id, title, duration, licence… | ⚪ |
 | `canva.setProfilePicture` | canva.com | Replaces the signed-in caller's profile picture with an image from a url. | ⚪ |
 | `canva.shareDesign` | canva.com | Shares one of the caller's designs — turns on a view or edit link, or invites a… | ⚪ |
@@ -1791,7 +1792,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `erieinsurance.getWorkersCompensationQuote` | erieinsurance.com | Returns a workers' compensation insurance premium quote for a business's payroll… | ⚪ |
 | `espn.addDropFantasyPlayer` | espn.com | Adds a free agent to the CALLER's own ESPN fantasy team, dropping one of theirs if the… | 🟢 |
 | `espn.addFavorite` | espn.com | Adds a team, league or player to the CALLER's My ESPN favourites. | 🟢 |
-| `espn.createFantasyLeague` | espn.com | Creates a new ESPN fantasy league (football, baseball, basketball or hockey) owned by… | ⚪ |
+| `espn.createFantasyLeague` | espn.com | Creates a new free, private ESPN fantasy league (football, baseball, basketball or… | 🟢 |
 | `espn.draftPicks` | espn.com | A league's draft pick by pick — round, pick, overall number, drafting team, the player… | 🟢 |
 | `espn.fantasyPlayers` | espn.com | ESPN Fantasy's public player board for fantasy football, baseball, basketball or… | 🟢 |
 | `espn.getArticle` | espn.com | The full text of one ESPN story — headline, byline, published and updated times, body… | 🟢 |
@@ -1818,7 +1819,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.setFantasyLineup` | espn.com | Moves players between the CALLER's starting lineup and bench in one of their own ESPN… | 🟢 |
 | `espn.standings` | espn.com | A league's current standings by conference and division — wins, losses, ties, win… | 🟢 |
 | `espn.statLeaders` | espn.com | A league's season leaderboard — every stat category (passing yards, points per game… | 🟢 |
-| `espn.submitPicks` | espn.com | Enters the CALLER's picks in one of ESPN's free prediction games — Pigskin Pick'em… | ⚪ |
+| `espn.submitPicks` | espn.com | Enters the CALLER's picks in one of ESPN's free prediction games (NFL Pick'em… | 🟢 |
 | `espn.teamDepthChart` | espn.com | One team's depth chart — every formation ESPN publishes (offense, base defense… | 🟢 |
 | `espn.teamRoster` | espn.com | One team's current roster — every player with jersey number, position, age, height… | 🟢 |
 | `espn.teamSchedule` | espn.com | One team's full season schedule — every game with date, opponent, home or away, TV… | 🟢 |
@@ -2554,7 +2555,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🔴 |
 | `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟢 |
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟡 |
-| `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟢 |
+| `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟡 |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
 | `grammarly.addToDictionary` | www.grammarly.com | Adds a word or phrase to the signed-in account's personal dictionary so the checker… | ⚪ |
 | `grammarly.checkGrammar` | www.grammarly.com | Checks text for grammar, spelling and punctuation problems and returns each alert with… | 🟢 |
@@ -3249,6 +3250,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mcp_so.search` | mcp.so | Searches the mcp.so directory of published MCP servers by a slug/name substring and… | 🟢 |
 | `mcpmarket.search` | mcpmarket.com | Searches mcpmarket.com's MCP server marketplace by keyword, exactly as its own search… | 🟢 |
 | `mcpmarket.server` | mcpmarket.com | Reads one MCP server listing on mcpmarket.com by slug or page url and returns its… | 🟢 |
+| `mcptrove_com.search` | mcptrove.com | Searches MCP Trove's public MCP-server directory by keyword, or browses current… | 🟢 |
 | `medicalguardian.assessFallRisk` | medicalguardian.com | Runs Medical Guardian's own fall-risk scoring — 9 yes/no + one 3-way activity-level… | 🟢 |
 | `medicalguardian.getRiskAssessmentQuestions` | medicalguardian.com | Returns the 9 scored questions from Medical Guardian's own fall-risk assessment… | 🟢 |
 | `medicare.checkCoverage` | medicare.gov | Answers the question this site gets asked most: is a specific test, item or service… | ⚪ |
@@ -5075,6 +5077,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tenders_go_ke.listTenders` | tenders.go.ke | List Kenya government procurement tenders from the Public Procurement Information… | 🟢 |
 | `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
 | `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
+| `thataicollection_com.browseCategory` | thataicollection.com | Browses AI tools in one category by linkName, with pagination. | 🟢 |
+| `thataicollection_com.compareTools` | thataicollection.com | Compares two listed AI tools and returns available structured attributes. | 🟢 |
+| `thataicollection_com.getAlternatives` | thataicollection.com | Lists same-category alternatives to one AI tool. | 🟢 |
+| `thataicollection_com.getTool` | thataicollection.com | Reads one AI tool's public detail record by linkName. | 🟢 |
+| `thataicollection_com.getTopPicks` | thataicollection.com | Lists editorial top picks, optionally within a category. | 🟢 |
+| `thataicollection_com.listCategories` | thataicollection.com | Lists AI Collection's public AI-tool categories. | 🟢 |
+| `thataicollection_com.searchTools` | thataicollection.com | Searches AI Collection's public directory for AI tools by query and optional category. | 🟢 |
 | `thefork.book` | thefork.com | Books a table at a restaurant for a slot, date and party size. | ⚪ |
 | `thefork.checkAvailability` | thefork.com | Reads the open reservation slots for one restaurant on a date and party size. | ⚪ |
 | `thefork.search` | thefork.com | Finds restaurants on TheFork by name, optionally near a city — a Barcelona tapas bar… | 🟡 |
@@ -5635,7 +5644,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getRegistry` | walmart.com | Reads one public registry — the items on it, how many are wanted and how many were… | ⚪ |
 | `walmart.getSeller` | walmart.com | Reads a Marketplace seller's page — name, rating, review count — for the… | 🟢 |
 | `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | 🟡 |
-| `walmart.getWeeklyAd` | walmart.com | Reads the current local weekly ad / rollback & clearance circular for a store or zip —… | ⚪ |
+| `walmart.getWeeklyAd` | walmart.com | Reads the Walmart weekly ad live at a 5-digit US ZIP — the flyer's valid dates and… | 🟢 |
 | `walmart.listAddresses` | walmart.com | Lists the delivery addresses saved on the signed-in account. | 🟢 |
 | `walmart.listDeals` | walmart.com | Lists what is on sale right now — Rollbacks, clearance and the site's current deal… | 🟢 |
 | `walmart.listDepartments` | walmart.com | Lists Walmart's departments and their sub-categories with the browse id each one opens… | 🟢 |

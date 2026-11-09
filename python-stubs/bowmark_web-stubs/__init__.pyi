@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fd228a727f787a8816a884f12ce6f2f86a6bf9e7a188396c5fa7c7c77c9b4b32
-# 97 capabilities, 785 providers, 4686 typed functions, 20 refused.
+# Manifest version: 247ea4addf6ee7dab99500d7c7a103742dd84d71769340da1f68978560d53f6c
+# 97 capabilities, 785 providers, 4691 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23178,6 +23178,35 @@ class Prv_espn_ProposeFantasyTradeArgs_In(TypedDict):
     sendPlayerIds: Sequence[float]
     receivePlayerIds: Sequence[float]
 
+class Prv_espn_CreateFantasyLeagueArgs_In(TypedDict):
+    sport: Literal["football"] | Literal["baseball"] | Literal["basketball"] | Literal["hockey"]
+    name: str
+    size: NotRequired[float]
+    scoringType: NotRequired[str]
+    draftType: NotRequired[str]
+    draftDate: NotRequired[str]
+    season: NotRequired[float]
+
+class Prv_espn_CreateFantasyLeagueResult_Out(TypedDict):
+    leagueId: str | None
+    url: str | None
+    inviteUrl: str | None
+    raw: Any
+
+class Prv_espn_SubmitPicksArgs_In(TypedDict):
+    challenge: str
+    picks: Sequence[Prv_espn_SubmitPicksArgs_In_picks_item_In]
+    entryName: NotRequired[str]
+
+class Prv_espn_SubmitPicksArgs_In_picks_item_In(TypedDict):
+    propositionId: str
+    outcomeId: str
+
+class Prv_espn_SubmitPicksResult_Out(TypedDict):
+    entryId: str | None
+    picksSaved: float | None
+    raw: Any
+
 class Prv_espn_AddFavoriteArgs_In(TypedDict):
     id: str
     kind: str
@@ -41048,6 +41077,38 @@ class Prv_netflix_NetflixTitleSearch_Out(TypedDict):
     query: str
     matches: list[Prv_netflix_NetflixTitleMatch_Out]
     searched: float
+
+class Prv_netflix_NetflixAccount_Out(TypedDict):
+    name: NotRequired[str]
+    email: NotRequired[str]
+    membershipStatus: str
+    countryOfSignup: NotRequired[str]
+    currentCountry: NotRequired[str]
+    memberSince: NotRequired[str | float]
+    isInFreeTrial: NotRequired[bool]
+    isKids: NotRequired[bool]
+    locale: NotRequired[str]
+
+class Prv_netflix_NetflixEpisodeList_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    url: str
+    seasons: list[Prv_netflix_NetflixSeason_Out]
+
+class Prv_netflix_NetflixSeason_Out(TypedDict):
+    id: str
+    number: float
+    label: NotRequired[str]
+    title: NotRequired[str]
+    episodes: list[Prv_netflix_NetflixEpisode_Out]
+
+class Prv_netflix_NetflixEpisode_Out(TypedDict):
+    id: str
+    number: float
+    title: str
+    synopsis: NotRequired[str]
+    runtimeSeconds: NotRequired[float]
+    imageUrl: NotRequired[str]
 
 class Prv_netflix_NetflixTitle_Out(TypedDict):
     id: str
@@ -64668,6 +64729,27 @@ class Prv_walmart_walmartSearchResult_Out(TypedDict):
     sponsored: bool
     totalMatches: float
 
+class Prv_walmart_getWeeklyAd_args_In(TypedDict):
+    zip: str
+
+class Prv_walmart_walmartWeeklyAd_Out(TypedDict):
+    zip: str
+    flyerId: float | None
+    validFrom: str | None
+    validTo: str | None
+    items: list[Prv_walmart_walmartWeeklyAdItem_Out]
+    warnings: list[str]
+
+class Prv_walmart_walmartWeeklyAdItem_Out(TypedDict):
+    id: float
+    name: str
+    brand: str | None
+    priceText: str | None
+    discountPercent: float | None
+    validFrom: str | None
+    validTo: str | None
+    imageUrl: str | None
+
 class Prv_walmart_findStores_args_In(TypedDict):
     zip: str
 
@@ -82652,6 +82734,18 @@ class Prv_espn(Protocol):
         caller's ESPN sign-in.
         """
 
+    async def createFantasyLeague(self, args: Prv_espn_CreateFantasyLeagueArgs_In, opts: ConnectionOption | None = None, /) -> Prv_espn_CreateFantasyLeagueResult_Out:
+        """Creates a new free, private ESPN fantasy league (football, baseball, basketball or
+        hockey) owned by the CALLER, with its name, size, scoring and draft type, and returns
+        its id, page and invite link. Needs the caller's ESPN sign-in.
+        """
+
+    async def submitPicks(self, args: Prv_espn_SubmitPicksArgs_In, opts: ConnectionOption | None = None, /) -> Prv_espn_SubmitPicksResult_Out:
+        """Enters the CALLER's picks in one of ESPN's free prediction games (NFL Pick'em, Survivor,
+        college Pick'em, Bowl Mania, Tournament Challenge) by challenge key, each pick a
+        proposition id and the chosen outcome id. Needs the caller's ESPN sign-in.
+        """
+
     async def addFavorite(self, args: Prv_espn_AddFavoriteArgs_In, opts: ConnectionOption | None = None, /) -> Prv_espn_ListFavoritesResult_Out:
         """Adds a team, league or player to the CALLER's My ESPN favourites and returns the updated
         list. Needs the caller's own ESPN sign-in.
@@ -93534,6 +93628,18 @@ class Prv_netflix(Protocol):
         match's id, name, series/movie and URL, to pass to getTitle. Searches the ~1,100 titles
         Netflix lists on its public TV Shows, Movies and Only on Netflix pages, so a miss does
         not mean Netflix lacks the title. No sign-in.
+        """
+
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_netflix_NetflixAccount_Out:
+        """Reads the signed-in caller's own Netflix account — name, email, membership status,
+        sign-up country, member-since, free-trial and kids flags, and locale. Needs the caller
+        signed in to their own Netflix account.
+        """
+
+    async def getEpisodes(self, titleId: str, season: float | None = None, /) -> Prv_netflix_NetflixEpisodeList_Out:
+        """Lists a Netflix series' episodes by its numeric title id — e.g. getEpisodes("80057281")
+        for every season of Stranger Things, or getEpisodes("80057281", 2) for season 2 only —
+        each episode's id, number, title, synopsis, runtime and still. No sign-in.
         """
 
     async def getTitle(self, titleId: str, /) -> Prv_netflix_NetflixTitle_Out:
@@ -105625,6 +105731,13 @@ class Prv_walmart(Protocol):
         whether the row is a sponsored placement — the way the site's own search bar does.
         Returns the site's own first results page (organic rows only, its own trending/related
         carousels excluded) in the site's own default relevance order.
+        """
+
+    async def getWeeklyAd(self, args: Prv_walmart_getWeeklyAd_args_In, /) -> Prv_walmart_walmartWeeklyAd_Out:
+        """Reads the Walmart weekly ad live at a 5-digit US ZIP — the flyer's valid dates and every
+        item on it with its sale price as printed and percent off. Read through Flipp, the flyer
+        platform Walmart publishes it on, because walmart.com's own weekly-ad page is behind a
+        bot wall.
         """
 
     async def findStores(self, args: Prv_walmart_findStores_args_In, /) -> list[Prv_walmart_walmartStore_Out]:
