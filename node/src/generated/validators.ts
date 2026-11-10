@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 44d4cba902e23c947f73e7393f60ab262a90c23311b1531a32c2d767a6164622
-// 4833 checked, 20 unchecked.
+// Manifest version: 3349e9335b2fcbf10b76137121413cf5e7f314054598412f95ae916e9e17b05f
+// 4836 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "44d4cba902e23c947f73e7393f60ab262a90c23311b1531a32c2d767a6164622",
+  "version": "3349e9335b2fcbf10b76137121413cf5e7f314054598412f95ae916e9e17b05f",
   "units": {
     "address_validation": {
       "defs": {
@@ -127610,6 +127610,106 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.substack": {
+      "defs": {
+        "SubstackPostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "publication",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SubstackPostsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "publication",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SubstackSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SubstackSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "posts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SubstackPostsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "post": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SubstackPostArgs"
+            },
+            "optional": false
           }
         ]
       }

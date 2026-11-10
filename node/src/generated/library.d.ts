@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 44d4cba902e23c947f73e7393f60ab262a90c23311b1531a32c2d767a6164622
-// 97 capabilities, 797 providers, 4851 typed functions, 20 refused.
+// Manifest version: 3349e9335b2fcbf10b76137121413cf5e7f314054598412f95ae916e9e17b05f
+// 97 capabilities, 798 providers, 4854 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -93903,6 +93903,115 @@ interface StyleseatLeftReview { providerId: number; submitted: boolean; }
   }
 }
 
+declare namespace BowmarkProvider_substack {
+  // ── Substack — the unit's own declarations, verbatim ──
+interface SubstackSearchArgs {
+  /** A topic, newsletter or writer name, e.g. "product management". */
+  query: string;
+}
+
+interface SubstackPostsArgs {
+  /** "lenny", "lenny.substack.com", "www.lennysnewsletter.com" or any URL on the newsletter. */
+  publication: string;
+  /** 1-50, default 12. */
+  limit?: number;
+  /** The nextCursor a previous posts() call returned, for the next, older page. */
+  cursor?: string;
+}
+
+interface SubstackPostArgs {
+  /** A post URL, e.g. "https://lenny.substack.com/p/some-post". Or pass publication + slug. */
+  url?: string;
+  publication?: string;
+  slug?: string;
+}
+
+interface SubstackPublication {
+  id: number | null;
+  name: string;
+  /** Pass as posts({ publication }). */
+  subdomain: string | null;
+  customDomain: string | null;
+  url: string | null;
+}
+
+interface SubstackPostSummary {
+  id: number;
+  title: string;
+  subtitle: string | null;
+  slug: string;
+  url: string;
+  publishedAt: string | null;
+  /** "everyone" is free; "only_paid" / "founding" are paywalled. */
+  audience: string | null;
+  type: string | null;
+  likes: number | null;
+  comments: number | null;
+  wordCount: number | null;
+  coverImage: string | null;
+  publication: SubstackPublication | null;
+}
+
+interface SubstackWriter {
+  id: number;
+  name: string;
+  handle: string;
+  bio: string | null;
+  photo: string | null;
+  /** e.g. "1.2M+ subscribers". */
+  subscribers: string | null;
+  profileUrl: string;
+  publication: SubstackPublication | null;
+}
+
+interface SubstackSearchResult {
+  writers: SubstackWriter[];
+  posts: SubstackPostSummary[];
+}
+
+interface SubstackPostsResult {
+  publication: string;
+  posts: SubstackPostSummary[];
+  /** Pass back as cursor for the next, older page. Null at the end. */
+  nextCursor: string | null;
+}
+
+interface SubstackPost extends SubstackPostSummary {
+  authors: { name: string; handle: string | null }[];
+  /** For a paywalled post, only the free preview. */
+  bodyHtml: string | null;
+  bodyText: string | null;
+  paywalled: boolean;
+}
+
+  /**
+   * Substack — newsletters and their writers. Search newsletters, writers and posts, list a
+   * newsletter's posts, and read a post's full text.
+   */
+  interface Unit {
+    /**
+     * Searches Substack for newsletters, writers and posts by keyword or name ('product
+     * management', 'Lenny') through substack.com's own search box API, returning matching writers
+     * with their publication and matching posts with title, date, likes and URL.
+     */
+    search(args: SubstackSearchArgs): Promise<SubstackSearchResult>;
+
+    /**
+     * Lists a Substack newsletter's posts, newest first, from the publication's own archive — by
+     * subdomain ('lenny'), custom domain or URL — with title, subtitle, date, paywall status,
+     * likes, comments and slug.
+     */
+    posts(args: SubstackPostsArgs): Promise<SubstackPostsResult>;
+
+    /**
+     * Reads one Substack post by URL (or publication + slug): title, authors, date, likes,
+     * comments and the full body as HTML and plain text — only the free preview when the post is
+     * paywalled.
+     */
+    post(args: SubstackPostArgs): Promise<SubstackPost>;
+  }
+}
+
 declare namespace BowmarkProvider_suitsupply {
   // ── Suitsupply — the unit's own declarations, verbatim ──
 interface SuitsupplyProductCard {
@@ -114385,6 +114494,7 @@ interface BowmarkProviders {
   stickergiant: BowmarkProvider_stickergiant.Unit;
   stubhub: BowmarkProvider_stubhub.Unit;
   styleseat: BowmarkProvider_styleseat.Unit;
+  substack: BowmarkProvider_substack.Unit;
   suitsupply: BowmarkProvider_suitsupply.Unit;
   summerfridaysquiz: BowmarkProvider_summerfridaysquiz.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;

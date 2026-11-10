@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 44d4cba902e23c947f73e7393f60ab262a90c23311b1531a32c2d767a6164622
-# 97 capabilities, 797 providers, 4833 typed functions, 20 refused.
+# Manifest version: 3349e9335b2fcbf10b76137121413cf5e7f314054598412f95ae916e9e17b05f
+# 97 capabilities, 798 providers, 4836 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -59196,6 +59196,83 @@ class Prv_styleseat_StyleseatLeftReview_Out(TypedDict):
     providerId: float
     submitted: bool
 
+class Prv_substack_SubstackSearchArgs_In(TypedDict):
+    query: str
+
+class Prv_substack_SubstackSearchResult_Out(TypedDict):
+    writers: list[Prv_substack_SubstackWriter_Out]
+    posts: list[Prv_substack_SubstackPostSummary_Out]
+
+class Prv_substack_SubstackWriter_Out(TypedDict):
+    id: float
+    name: str
+    handle: str
+    bio: str | None
+    photo: str | None
+    subscribers: str | None
+    profileUrl: str
+    publication: Prv_substack_SubstackPublication_Out | None
+
+class Prv_substack_SubstackPublication_Out(TypedDict):
+    id: float | None
+    name: str
+    subdomain: str | None
+    customDomain: str | None
+    url: str | None
+
+class Prv_substack_SubstackPostSummary_Out(TypedDict):
+    id: float
+    title: str
+    subtitle: str | None
+    slug: str
+    url: str
+    publishedAt: str | None
+    audience: str | None
+    type: str | None
+    likes: float | None
+    comments: float | None
+    wordCount: float | None
+    coverImage: str | None
+    publication: Prv_substack_SubstackPublication_Out | None
+
+class Prv_substack_SubstackPostsArgs_In(TypedDict):
+    publication: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_substack_SubstackPostsResult_Out(TypedDict):
+    publication: str
+    posts: list[Prv_substack_SubstackPostSummary_Out]
+    nextCursor: str | None
+
+class Prv_substack_SubstackPostArgs_In(TypedDict):
+    url: NotRequired[str]
+    publication: NotRequired[str]
+    slug: NotRequired[str]
+
+class Prv_substack_SubstackPost_Out(TypedDict):
+    id: float
+    title: str
+    subtitle: str | None
+    slug: str
+    url: str
+    publishedAt: str | None
+    audience: str | None
+    type: str | None
+    likes: float | None
+    comments: float | None
+    wordCount: float | None
+    coverImage: str | None
+    publication: Prv_substack_SubstackPublication_Out | None
+    authors: list[Prv_substack_SubstackPost_Out_authors_item_Out]
+    bodyHtml: str | None
+    bodyText: str | None
+    paywalled: bool
+
+class Prv_substack_SubstackPost_Out_authors_item_Out(TypedDict):
+    name: str
+    handle: str | None
+
 class Prv_suitsupply_SuitsupplyListArgs_In(TypedDict):
     cursor: NotRequired[str]
     inStockOnly: NotRequired[bool]
@@ -104343,6 +104420,29 @@ class Prv_styleseat(Protocol):
         link when they are not.
         """
 
+class Prv_substack(Protocol):
+    """Substack — newsletters and their writers. Search newsletters, writers and posts, list a
+    newsletter's posts, and read a post's full text.
+    """
+
+    async def search(self, args: Prv_substack_SubstackSearchArgs_In, /) -> Prv_substack_SubstackSearchResult_Out:
+        """Searches Substack for newsletters, writers and posts by keyword or name ('product
+        management', 'Lenny') through substack.com's own search box API, returning matching
+        writers with their publication and matching posts with title, date, likes and URL.
+        """
+
+    async def posts(self, args: Prv_substack_SubstackPostsArgs_In, /) -> Prv_substack_SubstackPostsResult_Out:
+        """Lists a Substack newsletter's posts, newest first, from the publication's own archive —
+        by subdomain ('lenny'), custom domain or URL — with title, subtitle, date, paywall
+        status, likes, comments and slug.
+        """
+
+    async def post(self, args: Prv_substack_SubstackPostArgs_In, /) -> Prv_substack_SubstackPost_Out:
+        """Reads one Substack post by URL (or publication + slug): title, authors, date, likes,
+        comments and the full body as HTML and plain text — only the free preview when the post
+        is paywalled.
+        """
+
 class Prv_suitsupply(Protocol):
     """Suitsupply (suitsupply.com, US store) men's clothing catalog, keyless: search or list a
     category (suits, knitwear/sweaters, shirts, jackets, coats, trousers, shoes) for priced,
@@ -111740,6 +111840,7 @@ class BowmarkProviders(Protocol):
     stickergiant: Prv_stickergiant
     stubhub: Prv_stubhub
     styleseat: Prv_styleseat
+    substack: Prv_substack
     suitsupply: Prv_suitsupply
     summerfridaysquiz: Prv_summerfridaysquiz
     sunhomesaunas: Prv_sunhomesaunas

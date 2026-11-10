@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6240 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6267 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -104,6 +104,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aetna_directory.findProviders` | aetna.com | In-network providers near one US ZIP code for one Aetna commercial plan, by specialty… | 🟢 |
 | `agakhanhospitals.getHospitalInfo` | agakhanhospitals.org | Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services… | 🟢 |
 | `agakhanhospitals.listSpecialties` | agakhanhospitals.org | Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics… | 🟢 |
+| `agentskill.getSkill` | agentskill.sh | Reads one agentskill.sh skill by its owner/skill slug through the site's public JSON… | 🟢 |
+| `agentskill.listSkills` | agentskill.sh | Lists agentskill.sh skills through the site's public JSON API, filtered by owner… | 🟢 |
+| `agentskill.searchSkills` | agentskill.sh | Keyword search over agentskill.sh's skill directory. | ⚪ |
 | `agentstatus.getServer` | agentstatus.dev | Reads one server's entry on the index by slug, including every tool the index probed… | 🟡 |
 | `agentstatus.searchServers` | agentstatus.dev | Searches the Public MCP Score index (agentstatus.dev/mcp-index) by server name, slug… | 🟡 |
 | `agentstatus.submitServer` | agentstatus.dev | Would submit a public MCP server URL plus an email to the index's "Submit Your MCP… | ⚪ |
@@ -778,7 +781,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `builder_strucsure_com.getNewConstructionRegistrationFields` | builder.strucsure.com | Returns the foundation-type, home-type and warranty-term (enrollment-type) choices for… | 🟢 |
 | `builder_strucsure_com.listRegistrationStates` | builder.strucsure.com | Lists the states StrucSure Home Warranty's builder registration portal recognizes, and… | 🟢 |
 | `buildingengines.getAccessRequestStatus` | buildingengines.com | Retrieves the status of after-hours vendor and cleaning-crew access requests from the… | 🟢 |
-| `bulletproof.findStores` | bulletproof.com | Finds real physical retailers near a US zip code that carry Bulletproof products… | 🟡 |
+| `bulletproof.findStores` | bulletproof.com | Finds real physical retailers near a US zip code that carry Bulletproof products… | 🟢 |
 | `bungalow.getListing` | bungalow.com | Returns one listing's full detail — every room with its own rent and availability… | 🟢 |
 | `bungalow.listMarkets` | bungalow.com | Lists every market Bungalow currently operates in — city, region and country, plus the… | 🟢 |
 | `bungalow.searchListings` | bungalow.com | Searches Bungalow's live, priced room and whole-home rental inventory in one market —… | 🟢 |
@@ -3760,6 +3763,27 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `olo.toggleFavoriteLocation` | olo.com | Marks or unmarks a location as one of the caller's favourites. | ⚪ |
 | `olo.updateBasketItem` | olo.com | Changes a basket item's quantity, options or instructions, by the item's id off… | 🟢 |
 | `olo.updateProfile` | olo.com | Updates the caller's account profile at a chain: name, phone, email and marketing… | ⚪ |
+| `onlyfans.addComment` | onlyfans.com | Posts a text comment on a post as the signed-in member. | ⚪ |
+| `onlyfans.bookmarkPost` | onlyfans.com | Bookmarks a post for the signed-in member; a no-op when already bookmarked. | ⚪ |
+| `onlyfans.deleteChat` | onlyfans.com | Deletes one of the signed-in member's chats from their chat list. | ⚪ |
+| `onlyfans.getChatMessages` | onlyfans.com | Reads the latest messages of one of the signed-in member's chats; opening it marks the… | ⚪ |
+| `onlyfans.getPost` | onlyfans.com | Reads one OnlyFans post as its page loads it: author, date, text, like and media… | ⚪ |
+| `onlyfans.getProfile` | onlyfans.com | Reads an OnlyFans creator's public profile by username — display name, bio, verified… | 🟢 |
+| `onlyfans.getSubscriptionCounts` | onlyfans.com | Counts the signed-in member's subscriptions, subscribers and bookmarks by state… | ⚪ |
+| `onlyfans.likePost` | onlyfans.com | Likes a post as the signed-in member; a no-op when already liked. | ⚪ |
+| `onlyfans.listChats` | onlyfans.com | Lists the signed-in member's chats, newest first, with the other person, unread count… | ⚪ |
+| `onlyfans.listFeed` | onlyfans.com | Lists the signed-in member's home feed of posts from creators they subscribe to… | ⚪ |
+| `onlyfans.listLists` | onlyfans.com | Lists the signed-in member's user lists (Collections) with user and post counts. | ⚪ |
+| `onlyfans.listNotifications` | onlyfans.com | Lists the signed-in member's latest notifications with unread counts per tab; opening… | ⚪ |
+| `onlyfans.listSubscribers` | onlyfans.com | Lists the signed-in creator's active fans with subscription dates and what each has… | ⚪ |
+| `onlyfans.listSubscriptions` | onlyfans.com | Lists the creators the signed-in member subscribes to (active, expired or needing… | ⚪ |
+| `onlyfans.listUserPosts` | onlyfans.com | Lists a creator's latest posts as their profile page loads them for the signed-in… | ⚪ |
+| `onlyfans.pinPost` | onlyfans.com | Pins one of the signed-in creator's own posts to their profile; a no-op when already… | ⚪ |
+| `onlyfans.sendMessage` | onlyfans.com | Sends a free text-only chat message as the signed-in member; never attaches media or… | ⚪ |
+| `onlyfans.subscribeFree` | onlyfans.com | Subscribes the signed-in member to a creator only when both the regular and current… | ⚪ |
+| `onlyfans.unbookmarkPost` | onlyfans.com | Removes a post from the signed-in member's bookmarks; a no-op when not bookmarked. | ⚪ |
+| `onlyfans.unlikePost` | onlyfans.com | Removes the signed-in member's like from a post; a no-op when not liked. | ⚪ |
+| `onlyfans.unpinPost` | onlyfans.com | Unpins one of the signed-in creator's own posts; a no-op when not pinned. | ⚪ |
 | `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟢 |
 | `openai_com.listPosts` | openai.com | Search OpenAI's research and blog posts by keyword or category (Research, Product… | 🟢 |
 | `openai_com.readPost` | openai.com | Read the complete text of any OpenAI research paper or blog post from openai.com by… | 🟢 |
@@ -4309,7 +4333,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.followTopic` | www.reuters.com | Follow a Reuters topic, section, company, law firm or author in the reader's My News. | 🟢 |
 | `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | 🟢 |
 | `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, bio, photo, social links, how many stories… | 🟢 |
-| `reuters.getCompanyEvents` | www.reuters.com | A company's next scheduled event (typically its next earnings release) and any recent… | 🟢 |
+| `reuters.getCompanyEvents` | www.reuters.com | A company's next scheduled event (typically its next earnings release) and any recent… | 🟡 |
 | `reuters.getCompanyFinancials` | www.reuters.com | A company's income statement, balance sheet and cash-flow statement, annual and… | ⚪ |
 | `reuters.getCompanyKeyMetrics` | www.reuters.com | A company's key ratios on Reuters — valuation, profitability, growth, dividends and… | 🟢 |
 | `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile — description, website, sector, industry, head office… | 🟢 |
@@ -5034,6 +5058,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `styleseat.searchProfessionals` | styleseat.com | Searches StyleSeat for hair stylists, barbers, braiders, nail techs, lash and brow… | 🟢 |
 | `styleseat.sendMessageToProfessional` | styleseat.com | Opens a chat conversation with a pro (the door StyleSeat's own messaging goes through). | 🟢 |
 | `styleseat.updateMyProfile` | styleseat.com | Changes the signed-in caller's profile details: first name, last name, phone. | 🟢 |
+| `substack.post` | substack.com | Reads one Substack post by URL (or publication + slug): title, authors, date, likes… | 🟢 |
+| `substack.posts` | substack.com | Lists a Substack newsletter's posts, newest first, from the publication's own archive… | 🟢 |
+| `substack.search` | substack.com | Searches Substack for newsletters, writers and posts by keyword or name ('product… | 🟢 |
 | `suitsupply.getProduct` | suitsupply.com | Reads one product page's stock check: every size variant with in-stock flag, max… | 🟢 |
 | `suitsupply.listCategory` | suitsupply.com | Lists one men's category grid (suits, jackets, coats, knitwear, shirts, trousers… | 🟢 |
 | `suitsupply.search` | suitsupply.com | Keyword search of Suitsupply's US men's clothing store — suits, sweaters/knitwear… | 🟢 |
@@ -6104,7 +6131,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.getMenu` | yelp.com | Reads a restaurant's menu from its /menu/<alias> page's own ld+json Menu block: each… | 🟢 |
 | `yelp.getMessages` | yelp.com | Lists the signed-in caller's Yelp inbox: quote and business threads and their messages. | ⚪ |
 | `yelp.getOwnProfile` | yelp.com | Reads the signed-in caller's own profile and their own reviews, photos and check-in… | ⚪ |
-| `yelp.getPhotos` | yelp.com | Lists a business's photos from its /biz_photos/<alias> page, 30 at a time (optionally… | 🟢 |
+| `yelp.getPhotos` | yelp.com | Lists a business's photos from its /biz_photos/<alias> page, 30 at a time (optionally… | 🟡 |
 | `yelp.getQuestions` | yelp.com | Reads a business's Ask the Community questions from its /questions/ page: each… | 🔴 |
 | `yelp.getReservationAvailability` | yelp.com | Reads the open reservation slots a restaurant offers through Yelp Reservations for a… | ⚪ |
 | `yelp.getReviews` | yelp.com | Lists a business's reviews a page at a time with Yelp's own sorts (relevance, newest… | 🟢 |

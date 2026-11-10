@@ -29,6 +29,7 @@ adsmanager.facebook.com — adsmanager_facebook: getAccountInsights, listAdAccou
 adstransparency.google.com — google_ads_transparency: getAds, searchAdvertisers (+1 planned)
 aetna.com — aetna_directory: findProviders
 agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
+agentskill.sh — agentskill: getSkill, listSkills (+1 planned)
 agentstatus.dev — agentstatus: getServer, searchServers (+1 planned)
 agoda.com — agoda: findDestinations, searchHotels (+4 planned)
 ahrefs.com — ahrefs: getDomainRating
@@ -543,6 +544,7 @@ oldnavy.gap.com — old_navy: getProduct, searchProducts
 oliverwinery.com — oliverwinery: checkShippingAvailability, getWine, listWines
 olo.com — olo: addToBasket, applyCoupon, checkOrderAvailability, findBrand, getBasket, getLocation, getMenu, getOrderStatus, getProductOptions, listOrderDays, listRegions, listTimeSlots, removeBasketItem, searchLocations, setHandoff, startCheckout, startOrder, updateBasketItem (+15 planned)
 onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
+onlyfans.com — onlyfans: getProfile (+20 planned)
 onthemarket.com — onthemarket: search
 open.spotify.com — spotify: 33 functions — ask get_library (+3 planned)
 openai.com — openai_com: listPosts, readPost
@@ -696,6 +698,7 @@ store.google.com — google_store: getProduct, listProducts, searchProducts (+1 
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
 styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, cancelAppointmentByLink, getAppointmentByLink, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+2 planned)
+substack.com — substack: post, posts, search
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
 sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches, getSaunaFinderQuestions
