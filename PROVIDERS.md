@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6237 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6238 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -5173,6 +5173,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `therowhouse.getSchedule` | therowhouse.com | Reads one studio's live class schedule — real class names, instructor, start/end time… | 🟢 |
 | `therowhouse.listLocations` | therowhouse.com | Lists every Row House studio's slug and canonical page URL, enumerated from the site's… | 🟢 |
 | `thestowcompany.getSampleClosetEstimate` | easyclosets.com | Copies EasyClosets' own popular sample layout for a given closet shape (reach-in or… | 🟢 |
+| `theweathernetwork_com.getCurrentConditions` | theweathernetwork.com | Current conditions at a latitude/longitude — temperature, feels-like, wind, humidity… | 🟢 |
 | `thezebra.estimateCoverageCost` | thezebra.com | Returns The Zebra's own estimate of what a driver should expect to pay, and what… | ⚪ |
 | `thezebra.getAutoQuotes` | thezebra.com | Returns real side-by-side auto insurance rates from the carriers that will write a… | 🔴 |
 | `thezebra.getCarrierRates` | thezebra.com | Returns what a named insurance company charges relative to its competitors — its own… | 🟢 |
