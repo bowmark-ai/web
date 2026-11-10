@@ -233,7 +233,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol_mail.moveMessage` | mail.aol.com | Moves one of the CALLER's own AOL Mail messages to another folder (archive, spam… | 🟢 |
 | `aol_mail.searchMessages` | mail.aol.com | Searches the CALLER's own AOL Mail by sender, recipient, subject, read/flagged state… | 🟢 |
 | `aol_mail.sendMessage` | mail.aol.com | Sends an email from the CALLER's own AOL Mail account. | 🟢 |
-| `aol_mail.updateAccountProfile` | mail.aol.com | Updates the CALLER's own AOL account profile — display name or profile photo — the way… | ⚪ |
+| `aol_mail.updateAccountProfile` | mail.aol.com | Changes the first and/or last name on the CALLER's own AOL account by filling the… | 🟢 |
 | `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | 🟢 |
 | `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | 🟢 |
 | `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter name, text, time, likes… | 🟢 |
@@ -833,7 +833,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `calendly.getEventTypes` | calendly.com | Lists every event type a Calendly profile currently offers — the entry point. | 🟢 |
 | `calendly.getLandingPage` | calendly.com | Reads a Calendly team or organization page — the page that lists several people's or… | ⚪ |
 | `calendly.getMyAccount` | calendly.com | The signed-in caller's own Calendly account — name, email, scheduling-page url and… | ⚪ |
-| `calendly.getRoutingForm` | calendly.com | Reads a Calendly routing form — the questions an organization asks before it decides… | ⚪ |
+| `calendly.getRoutingForm` | calendly.com | Reads a Calendly routing form — the questions an organization asks before it decides… | 🟢 |
 | `calendly.getScheduledEvent` | calendly.com | One meeting booked with the caller in full — every invitee, their answers to the… | ⚪ |
 | `calendly.inviteOrganizationMember` | calendly.com | Invites someone by email to the caller's Calendly organization. | ⚪ |
 | `calendly.listAvailabilitySchedules` | calendly.com | The caller's working-hours schedules — the weekly hours they take meetings and any… | ⚪ |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bfc57df506bc2ac06c3f97e6fc1f7cc5123fe7edd53d9135360494c15685137e
-# 97 capabilities, 790 providers, 4758 typed functions, 20 refused.
+# Manifest version: ffc85f22046940c43071e502b42138ffafb5846c32242ce6f0cf47baa0ee6147
+# 97 capabilities, 791 providers, 4767 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -41883,6 +41883,131 @@ class Prv_nike_NikeLaunchProduct_Out(TypedDict):
     available: bool | None
     imageUrl: str | None
 
+class Prv_nike_NikeStoreArgs_In(TypedDict):
+    zip: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    radiusMiles: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_nike_NikeStore_Out(TypedDict):
+    id: str
+    storeNumber: str
+    name: str
+    concept: str
+    status: str
+    phone: str | None
+    address: Prv_nike_NikeStore_Out_address_Out
+    latitude: float | None
+    longitude: float | None
+    distanceMiles: float | None
+    timezone: str | None
+    hours: list[Prv_nike_NikeStore_Out_hours_item_Out]
+    services: list[str]
+    url: str | None
+    imageUrl: str | None
+
+class Prv_nike_NikeStore_Out_address_Out(TypedDict):
+    line1: str
+    line2: str
+    city: str
+    state: str
+    postalCode: str
+    country: str
+
+class Prv_nike_NikeStore_Out_hours_item_Out(TypedDict):
+    day: str
+    opens: str
+    closes: str
+
+class Prv_nike_NikeStoreAvailabilityArgs_In(TypedDict):
+    zip: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    radiusMiles: NotRequired[float]
+    limit: NotRequired[float]
+    product: str
+    size: str
+
+class Prv_nike_NikeStoreAvailability_Out(TypedDict):
+    styleColor: str
+    title: str
+    size: str
+    stores: list[Prv_nike_NikeStoreAvailability_Out_stores_item_Out]
+
+class Prv_nike_NikeStoreAvailability_Out_stores_item_Out(TypedDict):
+    store: Prv_nike_NikeStore_Out
+    available: bool
+    readyBy: str | None
+
+class Prv_nike_NikeProduct_Out(TypedDict):
+    styleColor: str
+    styleCode: str
+    groupKey: str
+    title: str
+    subtitle: str
+    colorway: str
+    description: str
+    features: list[Prv_nike_NikeProduct_Out_features_item_Out]
+    details: list[str]
+    price: float | None
+    fullPrice: float | None
+    discountPercent: float | None
+    currency: str
+    badge: str | None
+    productType: str
+    genders: list[str]
+    sports: list[str]
+    status: str
+    availabilityDate: str | None
+    sizes: list[Prv_nike_NikeSize_Out]
+    sizeChartUrl: str | None
+    url: str
+    images: list[str]
+    colorways: list[Prv_nike_NikeColorway_Out]
+
+class Prv_nike_NikeProduct_Out_features_item_Out(TypedDict):
+    header: str
+    body: list[str]
+
+class Prv_nike_NikeSize_Out(TypedDict):
+    label: str
+    localizedLabel: str
+    gtin: str | None
+    skuId: str | None
+
+class Prv_nike_NikeColorway_Out(TypedDict):
+    styleColor: str
+    colorway: str
+    group: str
+    price: float | None
+    fullPrice: float | None
+    url: str
+    imageUrl: str | None
+    buyable: bool
+
+class Prv_nike_NikeSizeAvailability_Out(TypedDict):
+    styleColor: str
+    title: str
+    colorway: str
+    price: float | None
+    url: str
+    status: str
+    anyAvailable: bool
+    sizes: list[Prv_nike_NikeSizeStock_Out]
+
+class Prv_nike_NikeSizeStock_Out(TypedDict):
+    label: str
+    localizedLabel: str
+    gtin: str | None
+    skuId: str | None
+    available: bool
+    level: str | None
+
 class Prv_nike_NikeCategories_Out(TypedDict):
     path: str
     categories: list[Prv_nike_NikeCategoryOption_Out]
@@ -54272,6 +54397,15 @@ class Prv_sixflags_SixFlagsPassRow_Out(TypedDict):
     strikethroughPrice: str | None
     buyUrl: str | None
 
+class Prv_skills_rest_ListSkillsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_skills_rest_SkillsRestSkill_Out(TypedDict):
+    slug: str
+    name: str
+    description: str
+    url: str
+
 class Prv_slice_SliceLocation_Out(TypedDict):
     address: str
     latitude: float
@@ -58829,6 +58963,18 @@ class Prv_surfshark_SurfsharkDedicatedIpPlan_Out(TypedDict):
     priceUsd: float
     per: str
 
+class Prv_surveymonkey_SurveyMonkeyCreateSurveyArgs_In(TypedDict):
+    title: str
+
+class Prv_surveymonkey_SurveyMonkeySurvey_Out(TypedDict):
+    id: str
+    title: str | None
+    nickname: str | None
+    status: str | None
+    createdAt: str | None
+    modifiedAt: str | None
+    questionCount: float | None
+
 class Prv_surveymonkey_SurveyMonkeyAccount_Out(TypedDict):
     id: str | None
     username: str | None
@@ -58837,6 +58983,18 @@ class Prv_surveymonkey_SurveyMonkeyAccount_Out(TypedDict):
     lastName: str | None
     packageId: str | None
     language: str | None
+
+class Prv_surveymonkey_SurveyMonkeyCollectorArgs_In(TypedDict):
+    collectorId: str
+
+class Prv_surveymonkey_SurveyMonkeyCollector_Out(TypedDict):
+    id: str
+    name: str | None
+    type: str | None
+    status: str | None
+    responseCount: float | None
+    createdAt: str | None
+    modifiedAt: str | None
 
 class Prv_surveymonkey_SurveyMonkeySurveyArgs_In(TypedDict):
     surveyId: str
@@ -58855,14 +59013,26 @@ class Prv_surveymonkey_SurveyMonkeySurveyDetail_Out_questions_item_Out(TypedDict
     id: str
     position: float | None
 
-class Prv_surveymonkey_SurveyMonkeyCollector_Out(TypedDict):
+class Prv_surveymonkey_SurveyMonkeyResultsArgs_In(TypedDict):
+    surveyId: str
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+
+class Prv_surveymonkey_SurveyMonkeySurveyResults_Out(TypedDict):
+    surveyId: str
+    totalResponses: float | None
+    totalCount: float
+    respondents: list[Prv_surveymonkey_SurveyMonkeyRespondent_Out]
+
+class Prv_surveymonkey_SurveyMonkeyRespondent_Out(TypedDict):
     id: str
-    name: str | None
-    type: str | None
     status: str | None
-    responseCount: float | None
-    createdAt: str | None
-    modifiedAt: str | None
+    email: str | None
+    firstName: str | None
+    lastName: str | None
+    ipAddress: str | None
+    startedAt: str | None
+    collectorId: str | None
 
 class Prv_surveymonkey_SurveyMonkeyListSurveysArgs_In(TypedDict):
     page: NotRequired[float]
@@ -58873,13 +59043,18 @@ class Prv_surveymonkey_SurveyMonkeySurveyList_Out(TypedDict):
     totalCount: float
     surveys: list[Prv_surveymonkey_SurveyMonkeySurvey_Out]
 
-class Prv_surveymonkey_SurveyMonkeySurvey_Out(TypedDict):
+class Prv_surveymonkey_SurveyMonkeyListTemplatesArgs_In(TypedDict):
+    languageId: NotRequired[float]
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+
+class Prv_surveymonkey_SurveyMonkeyTemplateList_Out(TypedDict):
+    totalCount: float
+    templates: list[Prv_surveymonkey_SurveyMonkeyTemplate_Out]
+
+class Prv_surveymonkey_SurveyMonkeyTemplate_Out(TypedDict):
     id: str
     title: str | None
-    nickname: str | None
-    status: str | None
-    createdAt: str | None
-    modifiedAt: str | None
     questionCount: float | None
 
 class Prv_sweathouz_SweathouzListStudiosArgs_In(TypedDict):
@@ -94835,9 +95010,32 @@ class Prv_nike(Protocol):
         price, colourway. Optional text filter, e.g. "jordan".
         """
 
+    async def findStores(self, near: str | Prv_nike_NikeStoreArgs_In, /) -> list[Prv_nike_NikeStore_Out]:
+        """Nike and Nike Factory stores near a US ZIP, city + state, or coordinates, nearest first
+        — name, store type, address, phone, weekly hours, distance in miles and services such as
+        in-store pickup. e.g. findStores("90012").
+        """
+
+    async def checkStoreAvailability(self, args: Prv_nike_NikeStoreAvailabilityArgs_In, /) -> Prv_nike_NikeStoreAvailability_Out:
+        """Whether one size of one nike.com product can be picked up at each of the nearest Nike
+        stores (in-store pickup), with when it would be ready — e.g. { product: "DC0774-101",
+        size: "10", zip: "10001" }.
+        """
+
     async def getLaunch(self, slug: str, /) -> Prv_nike_NikeLaunch_Out:
         """One SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in the drop
         with release time, entry method, price and availability.
+        """
+
+    async def getProduct(self, product: str, /) -> Prv_nike_NikeProduct_Out:
+        """One nike.com US product by its URL or style-colour code (e.g. "IB1873-105") — name,
+        description, features, price and sale price, status, every size, images and every other
+        colourway with its price.
+        """
+
+    async def checkSizeAvailability(self, product: str, /) -> Prv_nike_NikeSizeAvailability_Out:
+        """Which sizes of one nike.com US product (URL or style-colour code) can be bought online
+        right now, each with Nike's stock level (HIGH, MEDIUM, LOW).
         """
 
     async def listCategories(self, category: str | None = None, /) -> Prv_nike_NikeCategories_Out:
@@ -101298,6 +101496,14 @@ class Prv_sixflags(Protocol):
         Throws if the slug does not resolve to a real park page on the site.
         """
 
+class Prv_skills_rest(Protocol):
+    """Lists the public skill cards currently featured by skills.rest."""
+
+    async def listSkills(self, args: Prv_skills_rest_ListSkillsArgs_In | None = None, /) -> list[Prv_skills_rest_SkillsRestSkill_Out]:
+        """Lists skills.rest's public homepage cards, with each card's slug, name, description and
+        detail-page URL.
+        """
+
 class Prv_slice(Protocol):
     """Slice online ordering for independent pizzerias: find the pizzerias that deliver to an
     address or sit in a city, a shop's menu, sizes, add-on choices, prices, hours, delivery
@@ -103360,15 +103566,32 @@ class Prv_surfshark(Protocol):
 class Prv_surveymonkey(Protocol):
     """Build, send, and analyze surveys; view responses and collector status."""
 
+    async def createSurvey(self, args: Prv_surveymonkey_SurveyMonkeyCreateSurveyArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeySurvey_Out:
+        """Creates a new, empty survey with the given title on the signed-in caller's own account
+        and returns it (id, title, status). Add questions in SurveyMonkey afterwards. Needs the
+        caller signed in.
+        """
+
     async def getAccountInfo(self, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyAccount_Out:
         """The signed-in caller's own SurveyMonkey account: id, username, email, name, plan package
         id and language. Needs the caller signed in to SurveyMonkey.
+        """
+
+    async def getCollectorStatus(self, args: Prv_surveymonkey_SurveyMonkeyCollectorArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyCollector_Out:
+        """One collector by id (from listCollectors): its name, type, status and response count.
+        Needs the caller signed in.
         """
 
     async def getSurvey(self, args: Prv_surveymonkey_SurveyMonkeySurveyArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeySurveyDetail_Out:
         """One of the caller's surveys by id (from listSurveys): title, nickname, status, created
         and modified dates, question count and its question ids in order. Needs the caller
         signed in.
+        """
+
+    async def getSurveyResults(self, args: Prv_surveymonkey_SurveyMonkeyResultsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeySurveyResults_Out:
+        """One of the caller's surveys' responses: the survey's total response count and its
+        respondents one page at a time (status, email, name, IP, start time, collector id).
+        Answer text per question is not included. Needs the caller signed in.
         """
 
     async def listCollectors(self, args: Prv_surveymonkey_SurveyMonkeySurveyArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_surveymonkey_SurveyMonkeyCollector_Out]:
@@ -103379,6 +103602,12 @@ class Prv_surveymonkey(Protocol):
     async def listSurveys(self, args: Prv_surveymonkey_SurveyMonkeyListSurveysArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeySurveyList_Out:
         """The signed-in caller's surveys, one page at a time (pageSize up to 100, default 25),
         sorted by last modified, title or response count, with the total. Needs the caller
+        signed in.
+        """
+
+    async def listTemplates(self, args: Prv_surveymonkey_SurveyMonkeyListTemplatesArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyTemplateList_Out:
+        """SurveyMonkey's pre-built survey templates for the signed-in caller, one page at a time,
+        with title and question count. languageId defaults to 1 (English). Needs the caller
         signed in.
         """
 
@@ -110526,6 +110755,7 @@ class BowmarkProviders(Protocol):
     shop_app: Prv_shop_app
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
+    skills_rest: Prv_skills_rest
     slice: Prv_slice
     slickdeals: Prv_slickdeals
     smartrecruiters: Prv_smartrecruiters

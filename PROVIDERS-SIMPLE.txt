@@ -150,7 +150,7 @@ bykoket.com — bykoket: addToCart, getProduct, searchProducts
 byltbasics.com — byltbasics: buildPackHandoff, getPackOptions, listBundlePacks
 cabinsforyou.com — cabinsforyou: getCabinDetail, search
 cal.com — cal_com: findProfiles, getAvailability, getBookingForm, getEventTypes
-calendly.com — calendly: findProfiles, getAvailability, getBooking, getBookingForm, getEventTypes (+33 planned)
+calendly.com — calendly: findProfiles, getAvailability, getBooking, getBookingForm, getEventTypes, getRoutingForm (+32 planned)
 caliberhealth.com — caliberhealth: getJob, search
 califloors.com — califloors: getProduct, listCategories, searchProducts
 camelcamelcamel.com — camelcamelcamel: getPriceHistory, search
@@ -468,7 +468,7 @@ m365.cloud.microsoft.com — microsoft_365: createDocument, deleteDocument, getD
 maersk.com — maersk: track
 magicmadhouse.co.uk — magicmadhouse: searchProducts (+1 planned)
 maidenhome.com — maidenhome: getProduct, resolveVariant, searchConfigurations
-mail.aol.com — aol_mail: deleteMessage, getAccountProfile, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage (+1 planned)
+mail.aol.com — aol_mail: deleteMessage, getAccountProfile, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage, updateAccountProfile
 mail.yahoo.com — yahoo_mail: deleteMessage, flagMessage, getAttachment, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage
 mailchimp.com — mailchimp: getPlanPricing
 mango.com — mango: getProduct, listCategories, searchProducts (+1 planned)

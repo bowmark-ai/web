@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bfc57df506bc2ac06c3f97e6fc1f7cc5123fe7edd53d9135360494c15685137e
-// 97 capabilities, 790 providers, 4776 typed functions, 20 refused.
+// Manifest version: ffc85f22046940c43071e502b42138ffafb5846c32242ce6f0cf47baa0ee6147
+// 97 capabilities, 791 providers, 4785 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -68499,6 +68499,115 @@ interface NikeCategories {
   categories: NikeCategoryOption[];
   filters: NikeCategoryGroup[];
 }
+interface NikeSize {
+  label: string;
+  localizedLabel: string;
+  gtin: string | null;
+  skuId: string | null;
+}
+interface NikeColorway {
+  styleColor: string;
+  colorway: string;
+  /** "Regular", "Wide" … */
+  group: string;
+  price: number | null;
+  fullPrice: number | null;
+  url: string;
+  imageUrl: string | null;
+  buyable: boolean;
+}
+interface NikeProduct {
+  styleColor: string;
+  styleCode: string;
+  groupKey: string;
+  title: string;
+  subtitle: string;
+  colorway: string;
+  description: string;
+  features: { header: string; body: string[] }[];
+  details: string[];
+  price: number | null;
+  fullPrice: number | null;
+  discountPercent: number | null;
+  currency: string;
+  badge: string | null;
+  productType: string;
+  genders: string[];
+  sports: string[];
+  /** e.g. "BUYABLE_BUY", "SOLD_OUT", "COMING_SOON". */
+  status: string;
+  availabilityDate: string | null;
+  /** Every size Nike makes in this colourway; stock is checkSizeAvailability. */
+  sizes: NikeSize[];
+  sizeChartUrl: string | null;
+  url: string;
+  images: string[];
+  colorways: NikeColorway[];
+}
+interface NikeSizeStock {
+  label: string;
+  localizedLabel: string;
+  gtin: string | null;
+  skuId: string | null;
+  available: boolean;
+  /** "HIGH" | "MEDIUM" | "LOW" while in stock, else null. */
+  level: string | null;
+}
+interface NikeSizeAvailability {
+  styleColor: string;
+  title: string;
+  colorway: string;
+  price: number | null;
+  url: string;
+  status: string;
+  anyAvailable: boolean;
+  sizes: NikeSizeStock[];
+}
+interface NikeStoreArgs {
+  zip?: string;
+  city?: string;
+  /** Two-letter state, with city. */
+  state?: string;
+  latitude?: number;
+  longitude?: number;
+  /** 1-500, default 25. */
+  radiusMiles?: number;
+  /** 1-50, default 10. */
+  limit?: number;
+}
+interface NikeStore {
+  id: string;
+  storeNumber: string;
+  name: string;
+  /** "FACTORY", "BEACON" (full-price Nike store), "COMMUNITY" … */
+  concept: string;
+  status: string;
+  phone: string | null;
+  address: { line1: string; line2: string; city: string; state: string; postalCode: string; country: string };
+  latitude: number | null;
+  longitude: number | null;
+  distanceMiles: number | null;
+  timezone: string | null;
+  /** Regular weekly hours, local time. */
+  hours: { day: string; opens: string; closes: string }[];
+  /** e.g. "BOPIS" (buy online, pick up in store). */
+  services: string[];
+  url: string | null;
+  imageUrl: string | null;
+}
+interface NikeStoreAvailabilityArgs extends NikeStoreArgs {
+  /** URL or style-colour code. */
+  product: string;
+  /** The size label as Nike shows it, e.g. "10" or "M 10 / W 11.5". */
+  size: string;
+}
+interface NikeStoreAvailability {
+  styleColor: string;
+  title: string;
+  size: string;
+  /** Nearest first; readyBy is when Nike says a pickup order would be ready. */
+  stores: { store: NikeStore; available: boolean; readyBy: string | null }[];
+}
 
   /**
    * Nike SNKRS launch calendar — the sneaker drops coming up on nike.com/launch, each with
@@ -68515,10 +68624,37 @@ interface NikeCategories {
     upcomingLaunches(query?: string): Promise<NikeLaunch[]>;
 
     /**
+     * Nike and Nike Factory stores near a US ZIP, city + state, or coordinates, nearest first —
+     * name, store type, address, phone, weekly hours, distance in miles and services such as
+     * in-store pickup. e.g. findStores("90012").
+     */
+    findStores(near: string | NikeStoreArgs): Promise<NikeStore[]>;
+
+    /**
+     * Whether one size of one nike.com product can be picked up at each of the nearest Nike stores
+     * (in-store pickup), with when it would be ready — e.g. { product: "DC0774-101", size: "10",
+     * zip: "10001" }.
+     */
+    checkStoreAvailability(args: NikeStoreAvailabilityArgs): Promise<NikeStoreAvailability>;
+
+    /**
      * One SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in the drop with
      * release time, entry method, price and availability.
      */
     getLaunch(slug: string): Promise<NikeLaunch>;
+
+    /**
+     * One nike.com US product by its URL or style-colour code (e.g. "IB1873-105") — name,
+     * description, features, price and sale price, status, every size, images and every other
+     * colourway with its price.
+     */
+    getProduct(product: string): Promise<NikeProduct>;
+
+    /**
+     * Which sizes of one nike.com US product (URL or style-colour code) can be bought online right
+     * now, each with Nike's stock level (HIGH, MEDIUM, LOW).
+     */
+    checkSizeAvailability(product: string): Promise<NikeSizeAvailability>;
 
     /**
      * The sub-categories and every filter (gender, sport, colour, price, size, brand) of one
@@ -87026,6 +87162,29 @@ interface SixFlagsTicketsResult {
   }
 }
 
+declare namespace BowmarkProvider_skills_rest {
+  // ── skills.rest — the unit's own declarations, verbatim ──
+interface ListSkillsArgs {
+  /** Return at most this many cards (1-200). Omit for every card on the homepage. */
+  limit?: number;
+}
+interface SkillsRestSkill {
+  slug: string;
+  name: string;
+  description: string;
+  url: string;
+}
+
+  /** Lists the public skill cards currently featured by skills.rest. */
+  interface Unit {
+    /**
+     * Lists skills.rest's public homepage cards, with each card's slug, name, description and
+     * detail-page URL.
+     */
+    listSkills(args?: ListSkillsArgs): Promise<SkillsRestSkill[]>;
+  }
+}
+
 declare namespace BowmarkProvider_slice {
   // ── Slice — the unit's own declarations, verbatim ──
 interface SliceLocation {
@@ -93370,9 +93529,57 @@ interface SurveyMonkeyListSurveysArgs {
 interface SurveyMonkeySurveyArgs {
   surveyId: string;
 }
+interface SurveyMonkeyResultsArgs {
+  surveyId: string;
+  page?: number;
+  pageSize?: number;  // up to 100, default 25
+}
+interface SurveyMonkeyRespondent {
+  id: string;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  ipAddress: string | null;
+  startedAt: string | null;
+  collectorId: string | null;
+}
+interface SurveyMonkeySurveyResults {
+  surveyId: string;
+  totalResponses: number | null;
+  totalCount: number;  // respondents across every page
+  respondents: SurveyMonkeyRespondent[];
+}
+interface SurveyMonkeyCreateSurveyArgs {
+  title: string;
+}
+interface SurveyMonkeyCollectorArgs {
+  collectorId: string;
+}
+interface SurveyMonkeyTemplate {
+  id: string;
+  title: string | null;
+  questionCount: number | null;
+}
+interface SurveyMonkeyTemplateList {
+  totalCount: number;
+  templates: SurveyMonkeyTemplate[];
+}
+interface SurveyMonkeyListTemplatesArgs {
+  languageId?: number;  // SurveyMonkey's numeric language id, default 1 (English)
+  page?: number;
+  pageSize?: number;
+}
 
   /** Build, send, and analyze surveys; view responses and collector status. */
   interface Unit {
+    /**
+     * Creates a new, empty survey with the given title on the signed-in caller's own account and
+     * returns it (id, title, status). Add questions in SurveyMonkey afterwards. Needs the caller
+     * signed in.
+     */
+    createSurvey(args: SurveyMonkeyCreateSurveyArgs, opts?: ConnectionOption): Promise<SurveyMonkeySurvey>;
+
     /**
      * The signed-in caller's own SurveyMonkey account: id, username, email, name, plan package id
      * and language. Needs the caller signed in to SurveyMonkey.
@@ -93380,10 +93587,23 @@ interface SurveyMonkeySurveyArgs {
     getAccountInfo(opts?: ConnectionOption): Promise<SurveyMonkeyAccount>;
 
     /**
+     * One collector by id (from listCollectors): its name, type, status and response count. Needs
+     * the caller signed in.
+     */
+    getCollectorStatus(args: SurveyMonkeyCollectorArgs, opts?: ConnectionOption): Promise<SurveyMonkeyCollector>;
+
+    /**
      * One of the caller's surveys by id (from listSurveys): title, nickname, status, created and
      * modified dates, question count and its question ids in order. Needs the caller signed in.
      */
     getSurvey(args: SurveyMonkeySurveyArgs, opts?: ConnectionOption): Promise<SurveyMonkeySurveyDetail>;
+
+    /**
+     * One of the caller's surveys' responses: the survey's total response count and its
+     * respondents one page at a time (status, email, name, IP, start time, collector id). Answer
+     * text per question is not included. Needs the caller signed in.
+     */
+    getSurveyResults(args: SurveyMonkeyResultsArgs, opts?: ConnectionOption): Promise<SurveyMonkeySurveyResults>;
 
     /**
      * Every collector (web link, email, SMS, social) on one of the caller's surveys, with its
@@ -93396,6 +93616,12 @@ interface SurveyMonkeySurveyArgs {
      * by last modified, title or response count, with the total. Needs the caller signed in.
      */
     listSurveys(args?: SurveyMonkeyListSurveysArgs, opts?: ConnectionOption): Promise<SurveyMonkeySurveyList>;
+
+    /**
+     * SurveyMonkey's pre-built survey templates for the signed-in caller, one page at a time, with
+     * title and question count. languageId defaults to 1 (English). Needs the caller signed in.
+     */
+    listTemplates(args?: SurveyMonkeyListTemplatesArgs, opts?: ConnectionOption): Promise<SurveyMonkeyTemplateList>;
   }
 }
 
@@ -113241,6 +113467,7 @@ interface BowmarkProviders {
   shop_app: BowmarkProvider_shop_app.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
+  skills_rest: BowmarkProvider_skills_rest.Unit;
   slice: BowmarkProvider_slice.Unit;
   slickdeals: BowmarkProvider_slickdeals.Unit;
   smartrecruiters: BowmarkProvider_smartrecruiters.Unit;

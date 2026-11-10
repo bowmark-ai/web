@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bfc57df506bc2ac06c3f97e6fc1f7cc5123fe7edd53d9135360494c15685137e
-// 4758 checked, 20 unchecked.
+// Manifest version: ffc85f22046940c43071e502b42138ffafb5846c32242ce6f0cf47baa0ee6147
+// 4767 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bfc57df506bc2ac06c3f97e6fc1f7cc5123fe7edd53d9135360494c15685137e",
+  "version": "ffc85f22046940c43071e502b42138ffafb5846c32242ce6f0cf47baa0ee6147",
   "units": {
     "address_validation": {
       "defs": {
@@ -88601,6 +88601,128 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "NikeStoreArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "NikeStoreAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -88613,9 +88735,55 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "findStores": [
+          {
+            "name": "near",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "NikeStoreArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "checkStoreAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NikeStoreAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
         "getLaunch": [
           {
             "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "checkSizeAvailability": [
+          {
+            "name": "product",
             "schema": {
               "k": "string"
             },
@@ -117017,6 +117185,34 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.skills_rest": {
+      "defs": {
+        "ListSkillsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listSkills": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSkillsArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.slice": {
       "defs": {
         "ListPizzeriasInCityArgs": {
@@ -126148,6 +126344,30 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.surveymonkey": {
       "defs": {
+        "SurveyMonkeyCollectorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "collectorId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SurveyMonkeyCreateSurveyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SurveyMonkeyListSurveysArgs": {
           "k": "object",
           "props": [
@@ -126188,6 +126408,58 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SurveyMonkeyListTemplatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "languageId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "pageSize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SurveyMonkeyResultsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "surveyId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "pageSize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SurveyMonkeySurveyArgs": {
           "k": "object",
           "props": [
@@ -126202,7 +126474,59 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "createSurvey": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyCreateSurveyArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getAccountInfo": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCollectorStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyCollectorArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -126226,6 +126550,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SurveyMonkeySurveyArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSurveyResults": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyResultsArgs"
             },
             "optional": false
           },
@@ -126278,6 +126628,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SurveyMonkeyListSurveysArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listTemplates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyListTemplatesArgs"
             },
             "optional": true
           },
