@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ffc85f22046940c43071e502b42138ffafb5846c32242ce6f0cf47baa0ee6147
-// 4767 checked, 20 unchecked.
+// Manifest version: 8862d4bfa0418fc4e9ece7fbd898fd22b927ff42cb040d08487baf8c76a405c3
+// 4797 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ffc85f22046940c43071e502b42138ffafb5846c32242ce6f0cf47baa0ee6147",
+  "version": "8862d4bfa0418fc4e9ece7fbd898fd22b927ff42cb040d08487baf8c76a405c3",
   "units": {
     "address_validation": {
       "defs": {
@@ -13582,6 +13582,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "UpdateAccountProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -13698,6 +13717,32 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "updateAccountProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpdateAccountProfileArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -13722,6 +13767,38 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.apidirectory_com": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": []
       }
     },
     "providers.apify": {
@@ -16468,6 +16545,45 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "limit",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTradeInQuote": [
+          {
+            "name": "device",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "condition",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "powersOn",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "activationLockOff",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "screenIntact",
+                  "schema": {
+                    "k": "boolean"
                   },
                   "optional": true
                 }
@@ -26355,6 +26471,15 @@ export const VALIDATORS: ValidatorTable = {
         "getBooking": [
           {
             "name": "link",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getRoutingForm": [
+          {
+            "name": "form",
             "schema": {
               "k": "string"
             },
@@ -72868,6 +72993,219 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.kaggle_com": {
+      "defs": {
+        "KaggleRequest": {
+          "k": "object",
+          "props": [],
+          "index": {
+            "k": "any"
+          }
+        }
+      },
+      "functions": {
+        "searchAll": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getSearchAutocomplete": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "searchDatasets": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "searchKernels": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "searchSuggestions": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "listCompetitions": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "listModels": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getTrendingSearches": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "listPopularTags": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getCompetition": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getCompetitionLeaderboard": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getModel": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getBenchmarkLeaderboard": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getBenchmark": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getDatasetBasics": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getKernel": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getBenchmarkLeaderboard2": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getForumTopic": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getForumMessages": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ],
+        "getKernelListDetails": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "KaggleRequest"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.kaiser_directory": {
       "defs": {},
       "functions": {
@@ -114175,6 +114513,140 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "askDocument": [
+          {
+            "name": "document",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "question",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "downloadDocument": [
+          {
+            "name": "document",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "format",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "rateDocument": [
+          {
+            "name": "document",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "rating",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "up"
+                },
+                {
+                  "k": "literal",
+                  "v": "down"
+                },
+                {
+                  "k": "literal",
+                  "v": "clear"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listCategories": [],
         "getTrendingDocuments": [
           {
@@ -116479,6 +116951,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinGetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSizeGuide": [
           {
             "name": "args",
             "schema": {
@@ -148975,6 +149457,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.yelp": {
       "defs": {
+        "YelpCategoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "parent",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "YelpPhotosArgs": {
           "k": "object",
           "props": [
@@ -149260,6 +149768,16 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "YelpCategoriesArgs"
+            },
+            "optional": true
           }
         ],
         "getBookmarks": [

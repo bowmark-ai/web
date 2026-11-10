@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6194 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6222 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -255,6 +255,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.subscribeNewsletter` | aol.com | Subscribes an email address to one aol.com newsletter, as the site's own sign-up box… | 🟢 |
 | `aosom.getProduct` | aosom.com | Reads one product's live price and the site's own buyability flag straight off its… | 🟢 |
 | `aosom.searchProducts` | aosom.com | Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query… | 🟢 |
+| `apidirectory_com.listApis` | apidirectory.com | Would list the whole APIDirectory registry without a search term. | ⚪ |
+| `apidirectory_com.listCategories` | apidirectory.com | Lists APIDirectory's public API categories with category slugs, displayed names and… | 🟢 |
+| `apidirectory_com.search` | apidirectory.com | Searches APIDirectory's public registry by topic and returns each API's registry ID… | 🟢 |
 | `apify.store` | apify.com | Search Apify Store actors by what they scrape or automate. | 🟢 |
 | `app_store.getApp` | apps.apple.com | Read one app the way its store listing reads: name, developer and seller, price… | 🟢 |
 | `app_store.getAppDetails` | apps.apple.com | Everything the store page shows that the API does not: the five-star histogram behind… | 🟢 |
@@ -368,6 +371,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `att.getDevicePricing` | att.com | AT&T's current device price and financing for a phone (e.g. iPhone 16 Pro): full… | 🟢 |
 | `att.getMonthlyBill` | att.com | A specific month's bill: total due, due date, and auto-pay status. | 🟢 |
 | `att.getPlanTotal` | att.com | Walks AT&T's new-line plan-builder / order flow (att.com/plans/unlimited-data-plans/ →… | ⚪ |
+| `att.getTradeInQuote` | att.com | What AT&T pays for this phone in its condition (powers on, activation lock off, screen… | 🟢 |
 | `att.getTradeInValue` | att.com | What an old phone is worth toward AT&T, off AT&T's own trade-in tool… | 🟢 |
 | `att.getUsage` | att.com | Data and voice usage on a line: current month's data used (MB/GB), talk minutes used… | 🟢 |
 | `att.listDeals` | att.com | The current offers on AT&T's own deals page (att.com/deals/): headline, audience… | 🟢 |
@@ -2626,7 +2630,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `handypro.searchServiceCategories` | handypro.com | Lists HandyPro's real service categories (grab bars, appliance install, TV mounting… | 🟢 |
 | `hansons.bookEstimate` | hansons.com | Would submit the final booking (name/phone/email/address + chosen slot) and return the… | ⚪ |
 | `hansons.checkAvailability` | hansons.com | Checks a ZIP code against Hansons' real Free Estimate scheduler and returns the actual… | 🟢 |
-| `harmar.findCompatibleLifts` | harmar.com | The whole goal-flow in one call: takes a plain vehicle year/make/model and… | 🔴 |
+| `harmar.findCompatibleLifts` | harmar.com | The whole goal-flow in one call: takes a plain vehicle year/make/model and… | 🟢 |
 | `harmar.getCompatibleLifts` | harmar.com | Runs the calculator's actual 'Lift Lookup' — given a model year, the calculator's own… | 🔴 |
 | `harmar.searchChairModels` | harmar.com | Looks up every wheelchair/scooter model the calculator has data for under a given… | 🔴 |
 | `harmar.searchVehicleModels` | harmar.com | Looks up every vehicle (make + model, with the calculator's own internal model id)… | 🟢 |
@@ -2790,10 +2794,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imgur.getMyFavorites` | imgur.com | Lists the signed-in account's favorites, including private ones. | ⚪ |
 | `imgur.getMyPosts` | imgur.com | Lists the signed-in account's posts and uploads, including hidden ones. | ⚪ |
 | `imgur.getNotifications` | imgur.com | Lists the signed-in account's notifications (replies, votes, follows). | ⚪ |
-| `imgur.getPost` | imgur.com | Gets one post by id or URL: title, description, media items, counts and tags. | ⚪ |
-| `imgur.getPostComments` | imgur.com | Lists a post's comments with their replies, sorted best/new/top. | ⚪ |
-| `imgur.getTag` | imgur.com | Gets one tag (name, followers, total posts) and its posts, with sort and paging. | ⚪ |
-| `imgur.getUser` | imgur.com | Gets a user's public profile by username: bio, reputation, avatar, joined date. | ⚪ |
+| `imgur.getPost` | imgur.com | Gets one post by id or URL: title, description, media items, counts and author. | 🟢 |
+| `imgur.getPostComments` | imgur.com | Lists a post's comments with their replies, sorted best/new/top. | 🟢 |
+| `imgur.getTag` | imgur.com | Gets one tag (name, followers, total posts) and its posts, with sort and paging. | 🟢 |
+| `imgur.getUser` | imgur.com | Gets a user's public profile by username: bio, reputation, avatar, joined date. | 🟢 |
 | `imgur.getUserComments` | imgur.com | Lists a user's public comments. | ⚪ |
 | `imgur.getUserFavorites` | imgur.com | Lists a user's public favorites. | ⚪ |
 | `imgur.getUserPosts` | imgur.com | Lists a user's public submitted posts. | ⚪ |
@@ -2955,6 +2959,29 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `junkluggers.getServiceTypes` | junkluggers.com | Lists the service types the zip's resolved franchise offers, each flagged isOnline for… | 🟢 |
 | `justinwine.checkTastingAvailability` | justinwine.com | Checks real open reservation slots for a given date and party size at JUSTIN's… | ⚪ |
 | `justinwine.listClubTiers` | justinwine.com | Lists the JUSTIN Wine Society club tiers (Red Wines, Red and White Wines, Isosceles… | 🟢 |
+| `kaggle_com.getBenchmark` | kaggle.com | Gets a Kaggle benchmark record. | 🟢 |
+| `kaggle_com.getBenchmarkLeaderboard` | kaggle.com | Gets a Kaggle benchmark leaderboard. | 🟢 |
+| `kaggle_com.getBenchmarkLeaderboard2` | kaggle.com | Gets a Kaggle unified benchmark leaderboard. | 🟢 |
+| `kaggle_com.getCompetition` | kaggle.com | Gets a Kaggle competition detail record. | 🟢 |
+| `kaggle_com.getCompetitionLeaderboard` | kaggle.com | Gets a Kaggle competition leaderboard. | 🟢 |
+| `kaggle_com.getDatasetBasics` | kaggle.com | Gets Kaggle dataset metadata. | 🟢 |
+| `kaggle_com.getDatasetData` | kaggle.com | Gets a Kaggle dataset file preview. | ⚪ |
+| `kaggle_com.getForumMessages` | kaggle.com | Gets Kaggle forum messages. | 🟢 |
+| `kaggle_com.getForumTopic` | kaggle.com | Gets a Kaggle forum topic. | 🟢 |
+| `kaggle_com.getKernel` | kaggle.com | Gets a Kaggle notebook view model. | 🟢 |
+| `kaggle_com.getKernelListDetails` | kaggle.com | Gets detailed Kaggle notebook metadata. | 🟢 |
+| `kaggle_com.getModel` | kaggle.com | Gets a Kaggle model detail record. | 🟢 |
+| `kaggle_com.getSearchAutocomplete` | kaggle.com | Gets Kaggle search autocomplete suggestions. | 🟢 |
+| `kaggle_com.getTrendingSearches` | kaggle.com | Gets current trending Kaggle searches. | 🟢 |
+| `kaggle_com.listCompetitions` | kaggle.com | Lists or searches public Kaggle competitions. | 🟢 |
+| `kaggle_com.listModels` | kaggle.com | Lists or searches public Kaggle models. | 🟢 |
+| `kaggle_com.listPopularTags` | kaggle.com | Lists Kaggle's popular tags. | 🟢 |
+| `kaggle_com.listRecentSearches` | kaggle.com | Lists recent searches for a signed-in account when available. | ⚪ |
+| `kaggle_com.searchAll` | kaggle.com | Full-text searches Kaggle content. | 🟢 |
+| `kaggle_com.searchDatasets` | kaggle.com | Searches public Kaggle datasets. | 🟢 |
+| `kaggle_com.searchKernels` | kaggle.com | Searches public Kaggle notebooks. | 🟢 |
+| `kaggle_com.searchSuggestions` | kaggle.com | Gets grouped Kaggle search suggestions. | 🟢 |
+| `kaggle_com.searchTags` | kaggle.com | Searches Kaggle tags and usage metadata. | ⚪ |
 | `kaiser_directory.findProviders` | kp.org | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
 | `kaiser_permanente.getServiceArea` | healthy.kaiserpermanente.org | Says whether a ZIP is inside a Kaiser Permanente plan service area, using the 2026… | 🟢 |
 | `kaiser_permanente.listSearchSuggestions` | healthy.kaiserpermanente.org | Reads the plan-shopping page's own ZIP / county / state suggestion dataset, filtered… | 🟢 |
@@ -3254,6 +3281,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mcp_so.search` | mcp.so | Searches the mcp.so directory of published MCP servers by a slug/name substring and… | 🟢 |
 | `mcpmarket.search` | mcpmarket.com | Searches mcpmarket.com's MCP server marketplace by keyword, exactly as its own search… | 🟢 |
 | `mcpmarket.server` | mcpmarket.com | Reads one MCP server listing on mcpmarket.com by slug or page url and returns its… | 🟢 |
+| `mcpserverhub_com.search` | mcpserverhub.com | Searches MCP Server Hub's public MCP-server directory by keyword, or browses current… | 🟢 |
 | `mcptrove_com.search` | mcptrove.com | Searches MCP Trove's public MCP-server directory by keyword, or browses current… | 🟢 |
 | `medicalguardian.assessFallRisk` | medicalguardian.com | Runs Medical Guardian's own fall-risk scoring — 9 yes/no + one 3-way activity-level… | 🟢 |
 | `medicalguardian.getRiskAssessmentQuestions` | medicalguardian.com | Returns the 9 scored questions from Medical Guardian's own fall-risk assessment… | 🟢 |
@@ -4423,10 +4451,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟢 |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
 | `scribd.addDocumentToList` | scribd.com | Adds a document to one of the signed-in caller's lists. | 🟢 |
-| `scribd.askDocument` | scribd.com | Asks Scribd's AI assistant a question about one document and returns its answer, as… | ⚪ |
+| `scribd.askDocument` | scribd.com | Asks Scribd's AI assistant a question about one document and returns its answer, as… | 🟢 |
 | `scribd.createList` | scribd.com | Creates a new list (collection) on the signed-in caller's account, private unless… | 🟢 |
 | `scribd.deleteDocument` | scribd.com | Deletes one of the signed-in caller's own uploaded documents. | ⚪ |
-| `scribd.downloadDocument` | scribd.com | Downloads a document's file (PDF, DOCX, TXT … as its formats list offers) for the… | ⚪ |
+| `scribd.downloadDocument` | scribd.com | Downloads a document's file (PDF, DOCX, TXT … as its formats list offers) for the… | 🟢 |
 | `scribd.getDocument` | scribd.com | Reads one document's metadata — title, uploader (name and profile url), description… | 🟢 |
 | `scribd.getDocumentText` | scribd.com | Reads the full extracted text of a public document, page by page where the site marks… | 🟢 |
 | `scribd.getEmbedCode` | scribd.com | Returns Scribd's documented, keyless oEmbed for a public document — the iframe html… | 🟢 |
@@ -4439,7 +4467,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `scribd.listSavedDocuments` | scribd.com | Lists the documents in the signed-in caller's library — saved and finished — with id… | 🟢 |
 | `scribd.listUserUploads` | scribd.com | Lists every document one uploader has published, newest first, a page at a time — each… | ⚪ |
 | `scribd.markDocumentFinished` | scribd.com | Marks a document in the signed-in caller's library as finished reading, or back to… | 🟢 |
-| `scribd.rateDocument` | scribd.com | Rates a document helpful or not helpful (Scribd's thumbs up / thumbs down) as the… | ⚪ |
+| `scribd.rateDocument` | scribd.com | Rates a document helpful or not helpful (Scribd's thumbs up / thumbs down) as the… | 🟢 |
 | `scribd.removeDocumentFromList` | scribd.com | Removes a document from one of the signed-in caller's lists. | 🟢 |
 | `scribd.saveDocument` | scribd.com | Saves a document to the signed-in caller's library (the bookmark icon on every… | 🟢 |
 | `scribd.searchDocuments` | scribd.com | Searches Scribd's user-uploaded documents by free text ("python tutorial", "lease… | 🟢 |
@@ -4550,7 +4578,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.getProfile` | shein.com | Returns the signed-in caller's profile: nickname, email, birthday and the body… | ⚪ |
 | `shein.getSearchSuggestions` | shein.com | Returns the keyword suggestions Shein's search box offers while typing (the dropdown… | ⚪ |
 | `shein.getSimilarProducts` | shein.com | Returns the 'similar items' and 'customers also viewed' products shown under a product. | ⚪ |
-| `shein.getSizeGuide` | shein.com | Returns a product's size chart (bust, waist, hip, length per size, in inches and cm)… | ⚪ |
+| `shein.getSizeGuide` | shein.com | Returns a product's size chart: the measurement columns (bust, waist, hip, length) and… | 🟢 |
 | `shein.getStore` | shein.com | Returns a marketplace store's profile — name, rating, follower count, items sold —… | ⚪ |
 | `shein.listAddresses` | shein.com | Lists the shipping addresses saved on the signed-in caller's account. | ⚪ |
 | `shein.listCategories` | shein.com | Lists the top-level product categories on Shein. | 🟢 |
@@ -4604,7 +4632,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's Shop deliveries as delivered, or un-marks it (delivered… | 🟢 |
 | `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | ⚪ |
 | `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | 🟡 |
-| `shop_app.searchStore` | shop.app | Searches inside one store for products matching free text ("strawberry" in Liquid… | 🟢 |
+| `shop_app.searchStore` | shop.app | Searches inside one store for products matching free text ("strawberry" in Liquid… | 🟡 |
 | `shop_app.startCheckout` | shop.app | Opens a checkout for the caller's cart at one store and returns the checkout url for… | ⚪ |
 | `shop_app.suggestSearches` | shop.app | Autocompletes a partial search ("running sh") into Shop's own query suggestions plus… | 🟡 |
 | `shop_app.trackPackage` | shop.app | Adds a package to the caller's Shop by its tracking number and carrier, so Shop tracks… | 🟢 |
@@ -5368,7 +5396,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟢 |
 | `tripadvisor.askQuestion` | tripadvisor.com | Posts a question to a listing's Q&A from the signed-in caller's account. | ⚪ |
 | `tripadvisor.createTrip` | tripadvisor.com | Creates a new Trip on the signed-in caller's account with a name and optional dates. | ⚪ |
-| `tripadvisor.getAttraction` | tripadvisor.com | Reads one attraction in full: name, description, address, phone, website, opening… | 🟢 |
+| `tripadvisor.getAttraction` | tripadvisor.com | Reads one attraction in full: name, description, address, phone, website, opening… | 🟡 |
 | `tripadvisor.getDestination` | tripadvisor.com | Reads a city or region's overview page (/Tourism-g<geoId>-…): its name, parent places… | 🟡 |
 | `tripadvisor.getForumThread` | tripadvisor.com | Reads one forum thread — the opening post and every reply, with author, date and text… | ⚪ |
 | `tripadvisor.getForumTopics` | tripadvisor.com | Lists a destination's travel-forum topics — title, author, reply count, last post date… | ⚪ |
@@ -6065,7 +6093,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.getUser` | yelp.com | Reads a public Yelp member profile from /user_details?userid=<id>: name, location… | 🟢 |
 | `yelp.getWaitlist` | yelp.com | Reads a restaurant's current Yelp Waitlist estimate — whether it is taking parties now… | ⚪ |
 | `yelp.joinWaitlist` | yelp.com | Joins a restaurant's Yelp Waitlist remotely for the signed-in caller, or leaves it. | ⚪ |
-| `yelp.listCategories` | yelp.com | Lists Yelp's business categories with their aliases and parents — the finder for… | ⚪ |
+| `yelp.listCategories` | yelp.com | Lists Yelp's business categories (about 1,600) from Yelp's own published category… | 🟢 |
 | `yelp.makeReservation` | yelp.com | Books a table through Yelp Reservations for the signed-in caller at a slot from… | ⚪ |
 | `yelp.messageBusiness` | yelp.com | Sends a message to a business from the signed-in caller, or replies in an existing… | ⚪ |
 | `yelp.reactToReview` | yelp.com | Marks a review Helpful, Thanks, Love this or Oh no from the signed-in caller's account. | ⚪ |

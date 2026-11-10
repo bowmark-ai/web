@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ffc85f22046940c43071e502b42138ffafb5846c32242ce6f0cf47baa0ee6147
-// 97 capabilities, 791 providers, 4785 typed functions, 20 refused.
+// Manifest version: 8862d4bfa0418fc4e9ece7fbd898fd22b927ff42cb040d08487baf8c76a405c3
+// 97 capabilities, 793 providers, 4815 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10831,6 +10831,17 @@ interface AolAccountProfile {
   components: object[]; // every client-component props object the page server-rendered, verbatim — field names UNMEASURED signed in
 }
 
+interface UpdateAccountProfileArgs {
+  firstName?: string; // at least one of the two
+  lastName?: string;
+}
+
+interface AolProfileUpdateResult {
+  saved: boolean; // the page's save request answered 2xx
+  status: number | null; // that request's HTTP status
+  saveUrl: string | null; // that request's URL
+}
+
   /**
    * Reads and changes mail in the CALLER's own AOL Mail account — folders, the inbox, search,
    * full messages, mark read, move, delete — over IMAP with the caller's address and an AOL app
@@ -10904,6 +10915,14 @@ interface AolAccountProfile {
      * unmeasured signed in.
      */
     getAccountProfile(opts?: ConnectionOption): Promise<AolAccountProfile>;
+
+    /**
+     * Changes the first and/or last name on the CALLER's own AOL account
+     * (login.aol.com/myaccount/personalinfo) by filling the page's name fields and pressing Save
+     * in a browser, through their signed-in session. Returns whether the page's save request
+     * succeeded, its status and URL.
+     */
+    updateAccountProfile(args: UpdateAccountProfileArgs, opts?: ConnectionOption): Promise<AolProfileUpdateResult>;
   }
 }
 
@@ -10956,6 +10975,31 @@ interface AosomProduct {
      * block is missing or unparseable — never silently returns a stale or wrong variant.
      */
     getProduct(url: string): Promise<AosomProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_apidirectory_com {
+  // ── APIDirectory — the unit's own declarations, verbatim ──
+interface ApiDirectoryApi { no: string; slug: string; name: string; description: string; url: string; auth: string; spec: string; pricingModel: string; status: string; categories: string[]; page: string; }
+interface ApiDirectoryCategory { slug: string; name: string; listings: number; }
+
+  /**
+   * Search APIDirectory's public API registry by topic, or list its categories and current API
+   * counts.
+   */
+  interface Unit {
+    /**
+     * Searches APIDirectory's public API registry by topic. Each result includes its registry ID
+     * and slug, description, upstream URL, auth and spec labels, pricing/status labels, categories
+     * and detail-page URL.
+     */
+    search(query: string | { query: string }): Promise<ApiDirectoryApi[]>;
+
+    /**
+     * Lists APIDirectory's public API categories with each category's slug, displayed name and
+     * current listing count.
+     */
+    listCategories(): Promise<ApiDirectoryCategory[]>;
   }
 }
 
@@ -13463,6 +13507,15 @@ interface AttTradeInValue {
   recycleOnly: boolean;
   imageUrl: string | null;
 }
+interface AttTradeInQuote {
+  modelCode: string; // "2380451"
+  name: string; // "iPhone 14 128GB"
+  valueUsd: number; // what AT&T pays in THIS condition: 90 for a cracked iPhone 14 128GB
+  baseValueUsd: number | null; // the value before the condition questions: 180
+  answers: { question: string; code: string; answer: string }[]; // the condition answers sent
+  promotions: { description: string; code: string; billCreditUsd: number | null }[]; // new-phone promos, top 20 by credit
+  promotionCount: number;
+}
 interface AttDeal {
   section: string; // "featured" | "top" | "bundles" | "accessories"
   audience: string | null; // "New & existing customers"
@@ -13582,6 +13635,16 @@ interface AttMonthlyBill {
      * 50); an empty array means AT&T lists no model by that name.
      */
     getTradeInValue(device: string, options?: { limit?: number }): Promise<AttTradeInValue[]>;
+
+    /**
+     * What AT&T pays for THIS phone in ITS condition, off AT&T's own trade-in tool
+     * (tradein.att.com): the best match for device ("iPhone 14 128GB"), AT&T's condition questions
+     * answered from condition (each defaults to true, the good answer), and the resulting price in
+     * USD beside the before-condition value (iPhone 14 128GB: 180 good, 90 with screenIntact
+     * false). Also the trade-in promotions AT&T offers on a new phone, biggest bill credit first.
+     * Throws when AT&T lists no model by that name; use getTradeInValue to see the candidates.
+     */
+    getTradeInQuote(device: string, condition?: { powersOn?: boolean; activationLockOff?: boolean; screenIntact?: boolean }): Promise<AttTradeInQuote>;
 
     /**
      * The signed-in caller's current AT&T account balance — amount due, due date and account
@@ -21711,6 +21774,23 @@ interface CalendlyBookingForm {
   warnings: string[];
 }
 
+interface CalendlyRoutingFormField {
+  id: string | null;
+  label: string;
+  type: string;
+  required: boolean;
+  choices: string[];
+}
+
+interface CalendlyRoutingForm {
+  uuid: string;
+  name: string;
+  organization: { uuid: string | null; ownerName: string | null; logoUrl: string | null };
+  fields: CalendlyRoutingFormField[];   // [] when the form routes an external (HubSpot/Marketo) form
+  submitText: string | null;
+  unavailableReason: string | null;     // Calendly's own reason the form cannot be used
+}
+
 interface CalendlyBooking {
   uuid: string;
   eventType: CalendlyBookingEvent;    // the booked event's details
@@ -21787,6 +21867,16 @@ interface CalendlyFindProfilesResult {
      * cancelled.
      */
     getBooking(link: string): Promise<CalendlyBooking>;
+
+    /**
+     * Reads a Calendly routing form, the questions an organization asks before it decides whose
+     * calendar you land on: its name, the organization behind it, each question with its type,
+     * choices and whether it is required, and Calendly's own reason when it cannot be used. Takes
+     * the form uuid or any url carrying it (a "request a demo" page embeds
+     * "calendly.com/api/form_builder/forms/<uuid>/submissions"). A form that routes an external
+     * HubSpot or Marketo form has no questions of its own. Never submits anything.
+     */
+    getRoutingForm(form: string): Promise<CalendlyRoutingForm>;
 
     /**
      * Finds a person's own Calendly page from their full name, and optionally their company (pass
@@ -47183,6 +47273,8 @@ interface GoodreadsBook {
   averageRating?: number;
   ratingsCount?: number;
   textReviewsCount?: number;
+  /** The series this book belongs to, with its position; pass its url to getSeries. Empty for a standalone book. */
+  series: { title: string; url: string; position?: string }[];
 }
 interface GoodreadsListBook {
   legacyId: string;
@@ -57523,6 +57615,143 @@ interface JustinwineClubTier {
   }
 }
 
+declare namespace BowmarkProvider_kaggle_com {
+  // ── Kaggle — the unit's own declarations, verbatim ──
+interface KaggleRequest { [key: string]: unknown; }
+interface KaggleResponse { [key: string]: unknown; }
+
+  /**
+   * Searches and reads Kaggle's public datasets, competitions, notebooks, models, benchmarks,
+   * tags and discussions — no login.
+   */
+  interface Unit {
+    /**
+     * Calls Kaggle's public search.SearchWebService/FullSearchWeb RPC and returns its JSON
+     * verbatim. Example request: {"query":"titanic","page":1,"resultsPerPage":5}.
+     */
+    searchAll(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public search.SearchWebService/GetAutoCompleteSuggestions RPC and returns its
+     * JSON verbatim. Example request: {"prefix":"tita"}.
+     */
+    getSearchAutocomplete(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public datasets.DatasetService/SearchDatasets RPC and returns its JSON
+     * verbatim. Example request: {"filters":{"query":"titanic"}}.
+     */
+    searchDatasets(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public kernels.KernelsService/SearchKernelIds RPC and returns its JSON
+     * verbatim. Example request: {"listRequest":{"search":"titanic","pageSize":5}}.
+     */
+    searchKernels(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public search.SearchWebService/SuggestedSearchWeb RPC and returns its JSON
+     * verbatim. Example request: {"query":"titanic"}.
+     */
+    searchSuggestions(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public competitions.CompetitionService/ListCompetitions RPC and returns its
+     * JSON verbatim. Example request:
+     * {"selector":{"searchQuery":"titanic","listOption":"LIST_OPTION_DEFAULT"},"pageSize":3}.
+     */
+    listCompetitions(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public models.ModelService/ListModels RPC and returns its JSON verbatim.
+     * Example request: {"search":"gemma","pageSize":3}.
+     */
+    listModels(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public search.SearchWebService/GetTrendingSearches RPC and returns its JSON
+     * verbatim. Example request: {}.
+     */
+    getTrendingSearches(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public search.SearchWebService/GetPopularTags RPC and returns its JSON
+     * verbatim. Example request: {}.
+     */
+    listPopularTags(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public competitions.CompetitionService/GetCompetition RPC and returns its
+     * JSON verbatim. Example request: {"competitionName":"titanic"}.
+     */
+    getCompetition(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public competitions.LeaderboardService/GetLeaderboard RPC and returns its
+     * JSON verbatim. Example request: {"competitionId":3136}.
+     */
+    getCompetitionLeaderboard(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public models.ModelService/GetModel RPC and returns its JSON verbatim.
+     * Example request: {"ownerSlug":"google","modelSlug":"gemma"}.
+     */
+    getModel(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public benchmarks.BenchmarkService/GetBenchmarkLeaderboard RPC and returns
+     * its JSON verbatim. Example request:
+     * {"versionIdentifier":{"benchmarkSlugSelector":{"ownerSlug":"kaggle","benchmarkSlug":"game-arena"}}}.
+     */
+    getBenchmarkLeaderboard(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public benchmarks.BenchmarkService/GetBenchmark RPC and returns its JSON
+     * verbatim. Example request:
+     * {"benchmarkIdentifier":{"slugIdentifier":{"ownerSlug":"kaggle","benchmarkSlug":"game-arena"}}}.
+     */
+    getBenchmark(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public datasets.DatasetDetailService/GetDatasetBasics RPC and returns its
+     * JSON verbatim. Example request: {"ownerSlug":"heptapod","datasetSlug":"titanic"}.
+     */
+    getDatasetBasics(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public kernels.LegacyKernelsService/GetKernelViewModel RPC and returns its
+     * JSON verbatim. Example request:
+     * {"authorUserName":"alexisbcook","kernelSlug":"titanic-tutorial"}.
+     */
+    getKernel(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public benchmarks.BenchmarkService/GetUnifiedBenchmarkLeaderboard RPC and
+     * returns its JSON verbatim. Example request:
+     * {"versionIdentifier":{"benchmarkSlugSelector":{"ownerSlug":"kaggle","benchmarkSlug":"game-arena"}}}.
+     */
+    getBenchmarkLeaderboard2(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public discussions.DiscussionsService/GetForumTopicById RPC and returns its
+     * JSON verbatim. Example request: {"forumTopicId":1}.
+     */
+    getForumTopic(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public discussions.DiscussionsService/BatchGetForumMessages RPC and returns
+     * its JSON verbatim. Example request: {"topicId":1,"messageIds":[1]}.
+     */
+    getForumMessages(request?: KaggleRequest): Promise<KaggleResponse>;
+
+    /**
+     * Calls Kaggle's public kernels.KernelsService/GetKernelListDetails RPC and returns its JSON
+     * verbatim. Example request: {"kernelIds":[5660537]}.
+     */
+    getKernelListDetails(request?: KaggleRequest): Promise<KaggleResponse>;
+  }
+}
+
 declare namespace BowmarkProvider_kaiser_directory {
   // ── Kaiser Permanente — provider directory — the unit's own declarations, verbatim ──
 interface kaiser_directoryProvider {
@@ -63814,7 +64043,7 @@ interface McpTroveServer { name: string; description: string; category: string |
     /**
      * Searches MCP Trove's public MCP-server directory by keyword, or browses current listings
      * when called with no argument. Each result includes the displayed name, description, category
-     * and detail-page URL.
+     * and detail-page URL. A query MCP Trove reports 0 results for returns [].
      */
     search(query?: string | { query?: string }): Promise<McpTroveServer[]>;
   }
@@ -84481,6 +84710,28 @@ interface ScribdFinishResult {
   finished: boolean;
   response?: unknown;
 }
+interface ScribdAnswer {
+  id: number;
+  question: string;
+  answer: string | null;
+  sources: unknown[];
+  suggestions: string[];
+  chatGuid: string | null;
+  raw: unknown;
+}
+interface ScribdDownload {
+  id: number;
+  format: string;
+  fileName: string | null;
+  contentType: string | null;
+  size: number;
+  base64: string;
+}
+interface ScribdRatingResult {
+  id: number;
+  rating: "up" | "down" | "clear";
+  response?: unknown;
+}
 interface ScribdCreatedList {
   id: number | string | null;
   name: string;
@@ -84605,6 +84856,30 @@ interface ScribdCreatedList {
      * numeric id. Needs the caller signed in to Scribd.
      */
     markDocumentFinished(document: string | number, finished?: boolean, opts?: ConnectionOption): Promise<ScribdFinishResult>;
+
+    /**
+     * Asks Scribd's AI assistant (Ask AI) a question about one document, from a
+     * scribd.com/document/<id>/<slug> url or the numeric id, and returns its answer text, the
+     * source passages it cites and its suggested follow-up questions. Needs the caller signed in
+     * to Scribd; Scribd may limit how many questions an account without a subscription can ask.
+     */
+    askDocument(document: string | number, question: string, opts?: ConnectionOption): Promise<ScribdAnswer>;
+
+    /**
+     * Downloads a Scribd document's file as the signed-in caller, in one of the formats
+     * getDocument lists (format defaults to 'pdf'), from a scribd.com/document/<id>/<slug> url or
+     * the numeric id, and returns the file as base64 with its name, content type and size. Never
+     * buys a plan: a caller whose account has no download access gets Scribd's own refusal as an
+     * error. Needs the caller signed in to Scribd.
+     */
+    downloadDocument(document: string | number, format?: string, opts?: ConnectionOption): Promise<ScribdDownload>;
+
+    /**
+     * Rates a Scribd document helpful ('up', a thumbs up) or not helpful ('down') as the signed-in
+     * caller, or clears the caller's rating ('clear'), from a scribd.com/document/<id>/<slug> url
+     * or the numeric id. Needs the caller signed in to Scribd.
+     */
+    rateDocument(document: string | number, rating: 'up' | 'down' | 'clear', opts?: ConnectionOption): Promise<ScribdRatingResult>;
 
     /**
      * Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
@@ -86511,6 +86786,16 @@ interface sheinProductDetail {
 interface SheinGetProductArgs {
   productId: string;
 }
+interface sheinSizeRow {
+  size: string;
+  measurements: Record<string, string>;
+}
+interface sheinSizeGuide {
+  productId: string;
+  dimensions: string[];
+  sizes: sheinSizeRow[];
+  sizeGuideUrl: string | null;
+}
 
   /**
    * Shein — search, categories and products read past its risk wall with a home-warmed browser;
@@ -86532,6 +86817,13 @@ interface SheinGetProductArgs {
      * return.
      */
     getProduct(args: SheinGetProductArgs): Promise<sheinProductDetail>;
+
+    /**
+     * A product's size chart: the measurement columns (bust, waist, hip, length…) and each size's
+     * values in cm, as the Size Guide panel shows them. An empty `sizes` means the product has no
+     * chart (one-size items).
+     */
+    getSizeGuide(args: SheinGetProductArgs): Promise<sheinSizeGuide>;
   }
 }
 
@@ -109749,6 +110041,19 @@ interface YelpUser {
   recentReviews: YelpUserReview[]; // the latest 5 the profile shows
 }
 
+interface YelpCategoriesArgs {
+  parent?: string; // a category alias — only its direct children, e.g. "japanese"
+  query?: string; // case-insensitive match on title or alias, e.g. "ramen"
+  country?: string; // ISO code, e.g. "US" — only categories Yelp lists there
+}
+interface YelpCategory {
+  alias: string; // pass as search's category
+  title: string;
+  parent: string | null; // parent's alias; null at the top level
+  depth: number; // 0 = top level
+  countries: "all" | string[]; // ISO codes
+}
+
 interface YelpSuggestArgs {
   prefix: string; // what has been typed so far, e.g. "tera"
   location: string; // e.g. "Philadelphia, PA"
@@ -109868,6 +110173,14 @@ interface YelpBookmarks {
      * userId is a getReviews row's author.id, or the userid in a profile url. Read-only.
      */
     getUser(userId: string): Promise<YelpUser>;
+
+    /**
+     * Lists Yelp's business categories (about 1,600) from Yelp's own published category list: each
+     * one's alias (what search's category filter takes), title, parent alias, depth and the
+     * countries it is used in. Narrow with parent (direct children of one alias), query (title or
+     * alias contains) or country. Read-only.
+     */
+    listCategories(args?: YelpCategoriesArgs): Promise<YelpCategory[]>;
 
     /**
      * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
@@ -112879,6 +113192,7 @@ interface BowmarkProviders {
   aol: BowmarkProvider_aol.Unit;
   aol_mail: BowmarkProvider_aol_mail.Unit;
   aosom: BowmarkProvider_aosom.Unit;
+  apidirectory_com: BowmarkProvider_apidirectory_com.Unit;
   apify: BowmarkProvider_apify.Unit;
   app_store: BowmarkProvider_app_store.Unit;
   apple: BowmarkProvider_apple.Unit;
@@ -113241,6 +113555,7 @@ interface BowmarkProviders {
   joycefactorydirect: BowmarkProvider_joycefactorydirect.Unit;
   junkluggers: BowmarkProvider_junkluggers.Unit;
   justinwine: BowmarkProvider_justinwine.Unit;
+  kaggle_com: BowmarkProvider_kaggle_com.Unit;
   kaiser_directory: BowmarkProvider_kaiser_directory.Unit;
   kaiser_permanente: BowmarkProvider_kaiser_permanente.Unit;
   kaleidescape: BowmarkProvider_kaleidescape.Unit;

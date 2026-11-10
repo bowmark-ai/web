@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ffc85f22046940c43071e502b42138ffafb5846c32242ce6f0cf47baa0ee6147
-# 97 capabilities, 791 providers, 4767 typed functions, 20 refused.
+# Manifest version: 8862d4bfa0418fc4e9ece7fbd898fd22b927ff42cb040d08487baf8c76a405c3
+# 97 capabilities, 793 providers, 4797 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6483,6 +6483,15 @@ class Prv_aol_mail_AolAccountProfile_Out_ctx_u0_Out(TypedDict):
     crumb: NotRequired[str]
     locale: NotRequired[str]
 
+class Prv_aol_mail_UpdateAccountProfileArgs_In(TypedDict):
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+
+class Prv_aol_mail_AolProfileUpdateResult_Out(TypedDict):
+    saved: bool
+    status: float | None
+    saveUrl: str | None
+
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
     sku: str
@@ -6507,6 +6516,27 @@ class Prv_aosom_AosomProduct_Out(TypedDict):
     originalPrice: float | None
     inStock: bool
     url: str
+
+class Prv_apidirectory_com_search_query_u1_In(TypedDict):
+    query: str
+
+class Prv_apidirectory_com_ApiDirectoryApi_Out(TypedDict):
+    no: str
+    slug: str
+    name: str
+    description: str
+    url: str
+    auth: str
+    spec: str
+    pricingModel: str
+    status: str
+    categories: list[str]
+    page: str
+
+class Prv_apidirectory_com_ApiDirectoryCategory_Out(TypedDict):
+    slug: str
+    name: str
+    listings: float
 
 class Prv_apify_StoreArgs_In(TypedDict):
     query: str
@@ -8173,6 +8203,30 @@ class Prv_att_AttTradeInValue_Out(TypedDict):
     valueUsd: float | None
     recycleOnly: bool
     imageUrl: str | None
+
+class Prv_att_getTradeInQuote_condition_In(TypedDict):
+    powersOn: NotRequired[bool]
+    activationLockOff: NotRequired[bool]
+    screenIntact: NotRequired[bool]
+
+class Prv_att_AttTradeInQuote_Out(TypedDict):
+    modelCode: str
+    name: str
+    valueUsd: float
+    baseValueUsd: float | None
+    answers: list[Prv_att_AttTradeInQuote_Out_answers_item_Out]
+    promotions: list[Prv_att_AttTradeInQuote_Out_promotions_item_Out]
+    promotionCount: float
+
+class Prv_att_AttTradeInQuote_Out_answers_item_Out(TypedDict):
+    question: str
+    code: str
+    answer: str
+
+class Prv_att_AttTradeInQuote_Out_promotions_item_Out(TypedDict):
+    description: str
+    code: str
+    billCreditUsd: float | None
 
 class Prv_att_AttAccountBalance_Out(TypedDict):
     amountDueUsd: float | None
@@ -13347,6 +13401,26 @@ class Prv_calendly_CalendlyBooking_Out(TypedDict):
 class Prv_calendly_CalendlyBooking_Out_invitee_Out(TypedDict):
     name: str
     email: str
+
+class Prv_calendly_CalendlyRoutingForm_Out(TypedDict):
+    uuid: str
+    name: str
+    organization: Prv_calendly_CalendlyRoutingForm_Out_organization_Out
+    fields: list[Prv_calendly_CalendlyRoutingFormField_Out]
+    submitText: str | None
+    unavailableReason: str | None
+
+class Prv_calendly_CalendlyRoutingForm_Out_organization_Out(TypedDict):
+    uuid: str | None
+    ownerName: str | None
+    logoUrl: str | None
+
+class Prv_calendly_CalendlyRoutingFormField_Out(TypedDict):
+    id: str | None
+    label: str
+    type: str
+    required: bool
+    choices: list[str]
 
 class Prv_calendly_CalendlyFindProfilesResult_Out(TypedDict):
     name: str
@@ -29549,6 +29623,12 @@ class Prv_goodreads_GoodreadsBook_Out(TypedDict):
     averageRating: NotRequired[float]
     ratingsCount: NotRequired[float]
     textReviewsCount: NotRequired[float]
+    series: list[Prv_goodreads_GoodreadsBook_Out_series_item_Out]
+
+class Prv_goodreads_GoodreadsBook_Out_series_item_Out(TypedDict):
+    title: str
+    url: str
+    position: NotRequired[str]
 
 class Prv_goodreads_GoodreadsReviewRow_Out(TypedDict):
     id: str
@@ -35547,6 +35627,12 @@ class Prv_justinwine_JustinwineClubPriceRange_Out(TypedDict):
     min: float
     max: float
     checkoutUrl: str
+
+class Prv_kaggle_com_KaggleRequest_In(TypedDict):
+    pass
+
+class Prv_kaggle_com_KaggleResponse_Out(TypedDict):
+    pass
 
 class Prv_kaiser_directory_findProviders_query_u1_In(TypedDict):
     zip: str
@@ -52660,6 +52746,28 @@ class Prv_scribd_ScribdFinishResult_Out(TypedDict):
     finished: bool
     response: NotRequired[Any]
 
+class Prv_scribd_ScribdAnswer_Out(TypedDict):
+    id: float
+    question: str
+    answer: str | None
+    sources: list[Any]
+    suggestions: list[str]
+    chatGuid: str | None
+    raw: Any
+
+class Prv_scribd_ScribdDownload_Out(TypedDict):
+    id: float
+    format: str
+    fileName: str | None
+    contentType: str | None
+    size: float
+    base64: str
+
+class Prv_scribd_ScribdRatingResult_Out(TypedDict):
+    id: float
+    rating: Literal["up"] | Literal["down"] | Literal["clear"]
+    response: NotRequired[Any]
+
 class Prv_scribd_ScribdCategory_Out(TypedDict):
     name: str
     slug: str
@@ -53921,6 +54029,16 @@ class Prv_shein_sheinProductVariant_Out(TypedDict):
 class Prv_shein_sheinProductDetail_Out_breadcrumbs_item_Out(TypedDict):
     name: str
     url: str
+
+class Prv_shein_sheinSizeGuide_Out(TypedDict):
+    productId: str
+    dimensions: list[str]
+    sizes: list[Prv_shein_sheinSizeRow_Out]
+    sizeGuideUrl: str | None
+
+class Prv_shein_sheinSizeRow_Out(TypedDict):
+    size: str
+    measurements: Mapping[str, str]
 
 class Prv_shop_app_ShopAppListPageArgs_In(TypedDict):
     first: NotRequired[float]
@@ -69599,6 +69717,18 @@ class Prv_yelp_YelpUserReview_Out_business_Out(TypedDict):
     name: str | None
     city: str | None
 
+class Prv_yelp_YelpCategoriesArgs_In(TypedDict):
+    parent: NotRequired[str]
+    query: NotRequired[str]
+    country: NotRequired[str]
+
+class Prv_yelp_YelpCategory_Out(TypedDict):
+    alias: str
+    title: str
+    parent: str | None
+    depth: float
+    countries: Literal["all"] | list[str]
+
 class Prv_yelp_YelpBookmarks_Out(TypedDict):
     bookmarks: list[Prv_yelp_YelpBookmark_Out]
 
@@ -74692,6 +74822,13 @@ class Prv_aol_mail(Protocol):
         names are unmeasured signed in.
         """
 
+    async def updateAccountProfile(self, args: Prv_aol_mail_UpdateAccountProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_aol_mail_AolProfileUpdateResult_Out:
+        """Changes the first and/or last name on the CALLER's own AOL account
+        (login.aol.com/myaccount/personalinfo) by filling the page's name fields and pressing
+        Save in a browser, through their signed-in session. Returns whether the page's save
+        request succeeded, its status and URL.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -74711,6 +74848,22 @@ class Prv_aosom(Protocol):
         URL (searchProducts' `url` field). THROWS rather than guessing when the page's own
         product-data block is missing or unparseable — never silently returns a stale or wrong
         variant.
+        """
+
+class Prv_apidirectory_com(Protocol):
+    """Search APIDirectory's public API registry by topic, or list its categories and current
+    API counts.
+    """
+
+    async def search(self, query: str | Prv_apidirectory_com_search_query_u1_In, /) -> list[Prv_apidirectory_com_ApiDirectoryApi_Out]:
+        """Searches APIDirectory's public API registry by topic. Each result includes its registry
+        ID and slug, description, upstream URL, auth and spec labels, pricing/status labels,
+        categories and detail-page URL.
+        """
+
+    async def listCategories(self, /) -> list[Prv_apidirectory_com_ApiDirectoryCategory_Out]:
+        """Lists APIDirectory's public API categories with each category's slug, displayed name and
+        current listing count.
         """
 
 class Prv_apify(Protocol):
@@ -75641,6 +75794,16 @@ class Prv_att(Protocol):
         before the condition questions (a cracked or locked phone is worth less, and AT&T asks
         those on its site). valueUsd 0 / recycleOnly true means AT&T only recycles it. limit
         defaults to 10 (max 50); an empty array means AT&T lists no model by that name.
+        """
+
+    async def getTradeInQuote(self, device: str, condition: Prv_att_getTradeInQuote_condition_In | None = None, /) -> Prv_att_AttTradeInQuote_Out:
+        """What AT&T pays for THIS phone in ITS condition, off AT&T's own trade-in tool
+        (tradein.att.com): the best match for device ("iPhone 14 128GB"), AT&T's condition
+        questions answered from condition (each defaults to true, the good answer), and the
+        resulting price in USD beside the before-condition value (iPhone 14 128GB: 180 good, 90
+        with screenIntact false). Also the trade-in promotions AT&T offers on a new phone,
+        biggest bill credit first. Throws when AT&T lists no model by that name; use
+        getTradeInValue to see the candidates.
         """
 
     async def getAccountBalance(self, opts: ConnectionOption | None = None, /) -> Prv_att_AttAccountBalance_Out:
@@ -78384,6 +78547,15 @@ class Prv_calendly(Protocol):
         "https://calendly.com/user/cancellations/<uuid>") and returns the event details, invitee
         name and email, the booked time, and any cancellation reason if the booking has been
         cancelled.
+        """
+
+    async def getRoutingForm(self, form: str, /) -> Prv_calendly_CalendlyRoutingForm_Out:
+        """Reads a Calendly routing form, the questions an organization asks before it decides
+        whose calendar you land on: its name, the organization behind it, each question with its
+        type, choices and whether it is required, and Calendly's own reason when it cannot be
+        used. Takes the form uuid or any url carrying it (a "request a demo" page embeds
+        "calendly.com/api/form_builder/forms/<uuid>/submissions"). A form that routes an
+        external HubSpot or Marketo form has no questions of its own. Never submits anything.
         """
 
     async def findProfiles(self, name: str, company: str | None = None, /) -> Prv_calendly_CalendlyFindProfilesResult_Out:
@@ -90861,6 +91033,116 @@ class Prv_justinwine(Protocol):
         (e.g. "Isosceles Only") to filter to one tier.
         """
 
+class Prv_kaggle_com(Protocol):
+    """Searches and reads Kaggle's public datasets, competitions, notebooks, models,
+    benchmarks, tags and discussions — no login.
+    """
+
+    async def searchAll(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public search.SearchWebService/FullSearchWeb RPC and returns its JSON
+        verbatim. Example request: {"query":"titanic","page":1,"resultsPerPage":5}.
+        """
+
+    async def getSearchAutocomplete(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public search.SearchWebService/GetAutoCompleteSuggestions RPC and returns
+        its JSON verbatim. Example request: {"prefix":"tita"}.
+        """
+
+    async def searchDatasets(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public datasets.DatasetService/SearchDatasets RPC and returns its JSON
+        verbatim. Example request: {"filters":{"query":"titanic"}}.
+        """
+
+    async def searchKernels(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public kernels.KernelsService/SearchKernelIds RPC and returns its JSON
+        verbatim. Example request: {"listRequest":{"search":"titanic","pageSize":5}}.
+        """
+
+    async def searchSuggestions(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public search.SearchWebService/SuggestedSearchWeb RPC and returns its
+        JSON verbatim. Example request: {"query":"titanic"}.
+        """
+
+    async def listCompetitions(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public competitions.CompetitionService/ListCompetitions RPC and returns
+        its JSON verbatim. Example request:
+        {"selector":{"searchQuery":"titanic","listOption":"LIST_OPTION_DEFAULT"},"pageSize":3}.
+        """
+
+    async def listModels(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public models.ModelService/ListModels RPC and returns its JSON verbatim.
+        Example request: {"search":"gemma","pageSize":3}.
+        """
+
+    async def getTrendingSearches(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public search.SearchWebService/GetTrendingSearches RPC and returns its
+        JSON verbatim. Example request: {}.
+        """
+
+    async def listPopularTags(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public search.SearchWebService/GetPopularTags RPC and returns its JSON
+        verbatim. Example request: {}.
+        """
+
+    async def getCompetition(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public competitions.CompetitionService/GetCompetition RPC and returns its
+        JSON verbatim. Example request: {"competitionName":"titanic"}.
+        """
+
+    async def getCompetitionLeaderboard(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public competitions.LeaderboardService/GetLeaderboard RPC and returns its
+        JSON verbatim. Example request: {"competitionId":3136}.
+        """
+
+    async def getModel(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public models.ModelService/GetModel RPC and returns its JSON verbatim.
+        Example request: {"ownerSlug":"google","modelSlug":"gemma"}.
+        """
+
+    async def getBenchmarkLeaderboard(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public benchmarks.BenchmarkService/GetBenchmarkLeaderboard RPC and
+        returns its JSON verbatim. Example request:
+        {"versionIdentifier":{"benchmarkSlugSelector":{"ownerSlug":"kaggle","benchmarkSlug":"game-arena"}}}.
+        """
+
+    async def getBenchmark(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public benchmarks.BenchmarkService/GetBenchmark RPC and returns its JSON
+        verbatim. Example request:
+        {"benchmarkIdentifier":{"slugIdentifier":{"ownerSlug":"kaggle","benchmarkSlug":"game-arena"}}}.
+        """
+
+    async def getDatasetBasics(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public datasets.DatasetDetailService/GetDatasetBasics RPC and returns its
+        JSON verbatim. Example request: {"ownerSlug":"heptapod","datasetSlug":"titanic"}.
+        """
+
+    async def getKernel(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public kernels.LegacyKernelsService/GetKernelViewModel RPC and returns
+        its JSON verbatim. Example request:
+        {"authorUserName":"alexisbcook","kernelSlug":"titanic-tutorial"}.
+        """
+
+    async def getBenchmarkLeaderboard2(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public benchmarks.BenchmarkService/GetUnifiedBenchmarkLeaderboard RPC and
+        returns its JSON verbatim. Example request:
+        {"versionIdentifier":{"benchmarkSlugSelector":{"ownerSlug":"kaggle","benchmarkSlug":"game-arena"}}}.
+        """
+
+    async def getForumTopic(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public discussions.DiscussionsService/GetForumTopicById RPC and returns
+        its JSON verbatim. Example request: {"forumTopicId":1}.
+        """
+
+    async def getForumMessages(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public discussions.DiscussionsService/BatchGetForumMessages RPC and
+        returns its JSON verbatim. Example request: {"topicId":1,"messageIds":[1]}.
+        """
+
+    async def getKernelListDetails(self, request: Prv_kaggle_com_KaggleRequest_In | None = None, /) -> Prv_kaggle_com_KaggleResponse_Out:
+        """Calls Kaggle's public kernels.KernelsService/GetKernelListDetails RPC and returns its
+        JSON verbatim. Example request: {"kernelIds":[5660537]}.
+        """
+
 class Prv_kaiser_directory(Protocol):
     """Doctors and other practitioners in Kaiser Permanente's network near a US ZIP code, from
     Kaiser Permanente's public CMS provider directory: name, specialty, office address,
@@ -93396,7 +93678,7 @@ class Prv_mcptrove_com(Protocol):
     async def search(self, query: str | Prv_mcptrove_com_search_query_u1_In | None = None, /) -> list[Prv_mcptrove_com_McpTroveServer_Out]:
         """Searches MCP Trove's public MCP-server directory by keyword, or browses current listings
         when called with no argument. Each result includes the displayed name, description,
-        category and detail-page URL.
+        category and detail-page URL. A query MCP Trove reports 0 results for returns [].
         """
 
 class Prv_medicalguardian(Protocol):
@@ -100708,6 +100990,29 @@ class Prv_scribd(Protocol):
         numeric id. Needs the caller signed in to Scribd.
         """
 
+    async def askDocument(self, document: str | float, question: str, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdAnswer_Out:
+        """Asks Scribd's AI assistant (Ask AI) a question about one document, from a
+        scribd.com/document/<id>/<slug> url or the numeric id, and returns its answer text, the
+        source passages it cites and its suggested follow-up questions. Needs the caller signed
+        in to Scribd; Scribd may limit how many questions an account without a subscription can
+        ask.
+        """
+
+    async def downloadDocument(self, document: str | float, format: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdDownload_Out:
+        """Downloads a Scribd document's file as the signed-in caller, in one of the formats
+        getDocument lists (format defaults to 'pdf'), from a scribd.com/document/<id>/<slug> url
+        or the numeric id, and returns the file as base64 with its name, content type and size.
+        Never buys a plan: a caller whose account has no download access gets Scribd's own
+        refusal as an error. Needs the caller signed in to Scribd.
+        """
+
+    async def rateDocument(self, document: str | float, rating: Literal["up"] | Literal["down"] | Literal["clear"], opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdRatingResult_Out:
+        """Rates a Scribd document helpful ('up', a thumbs up) or not helpful ('down') as the
+        signed-in caller, or clears the caller's rating ('clear'), from a
+        scribd.com/document/<id>/<slug> url or the numeric id. Needs the caller signed in to
+        Scribd.
+        """
+
     async def listCategories(self, /) -> list[Prv_scribd_ScribdCategory_Out]:
         """Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
         Management, Law, Science & Mathematics, Teaching Methods & Materials, Technology &
@@ -101312,6 +101617,12 @@ class Prv_shein(Protocol):
         """One product's page: title, description, brand, colour, images, price, stock and every
         size variant with its SKU and price. Takes the id or url `search` /
         `listProductsByCategory` return.
+        """
+
+    async def getSizeGuide(self, args: Prv_shein_SheinGetProductArgs_In, /) -> Prv_shein_sheinSizeGuide_Out:
+        """A product's size chart: the measurement columns (bust, waist, hip, length…) and each
+        size's values in cm, as the Size Guide panel shows them. An empty `sizes` means the
+        product has no chart (one-size items).
         """
 
 class Prv_shop_app(Protocol):
@@ -109240,6 +109551,13 @@ class Prv_yelp(Protocol):
         Read-only.
         """
 
+    async def listCategories(self, args: Prv_yelp_YelpCategoriesArgs_In | None = None, /) -> list[Prv_yelp_YelpCategory_Out]:
+        """Lists Yelp's business categories (about 1,600) from Yelp's own published category list:
+        each one's alias (what search's category filter takes), title, parent alias, depth and
+        the countries it is used in. Narrow with parent (direct children of one alias), query
+        (title or alias contains) or country. Read-only.
+        """
+
     async def getBookmarks(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpBookmarks_Out:
         """Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
         page): each business's alias, name and url, in the order the page shows them, [] when
@@ -110167,6 +110485,7 @@ class BowmarkProviders(Protocol):
     aol: Prv_aol
     aol_mail: Prv_aol_mail
     aosom: Prv_aosom
+    apidirectory_com: Prv_apidirectory_com
     apify: Prv_apify
     app_store: Prv_app_store
     apple: Prv_apple
@@ -110529,6 +110848,7 @@ class BowmarkProviders(Protocol):
     joycefactorydirect: Prv_joycefactorydirect
     junkluggers: Prv_junkluggers
     justinwine: Prv_justinwine
+    kaggle_com: Prv_kaggle_com
     kaiser_directory: Prv_kaiser_directory
     kaiser_permanente: Prv_kaiser_permanente
     kaleidescape: Prv_kaleidescape
