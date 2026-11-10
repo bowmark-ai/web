@@ -1,5 +1,5 @@
 {
-  "version": "3349e9335b2fcbf10b76137121413cf5e7f314054598412f95ae916e9e17b05f",
+  "version": "25ca6fda160f5f184884b59d93122d861b351665c591e33aecd1416b3674f3c9",
   "units": {
     "address_validation": {
       "defs": {
@@ -10177,6 +10177,134 @@
         "listSpecialties": []
       }
     },
+    "providers.agentskill": {
+      "defs": {
+        "GetSkillArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListSkillsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "owner",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "tool",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "platform",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "jobCategory",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "role",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "topScore"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "trendingScore"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "hotScore"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "createdAt"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "installCount"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getSkill": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSkillArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSkills": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSkillsArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.agentstatus": {
       "defs": {
         "AgentStatusGetServerArgs": {
@@ -17199,6 +17327,13 @@
                   "name": "includePlanned",
                   "schema": {
                     "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
                   },
                   "optional": true
                 }
@@ -95377,6 +95512,42 @@
         ]
       }
     },
+    "providers.onlyfans": {
+      "defs": {
+        "GetProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "GetProfileArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.onthemarket": {
       "defs": {
         "SearchArgs": {
@@ -100817,6 +100988,103 @@
             "name": "postcode",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.posthog": {
+      "defs": {
+        "PostHogInsightArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "projectId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "insightId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PostHogProjectArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "projectId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PostHogRetentionQueryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "projectId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "any"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getInsight": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostHogInsightArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listInsights": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostHogProjectArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listProjects": [],
+        "runRetentionQuery": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostHogRetentionQueryArgs"
             },
             "optional": false
           }

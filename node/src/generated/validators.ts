@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3349e9335b2fcbf10b76137121413cf5e7f314054598412f95ae916e9e17b05f
-// 4836 checked, 20 unchecked.
+// Manifest version: 25ca6fda160f5f184884b59d93122d861b351665c591e33aecd1416b3674f3c9
+// 4843 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3349e9335b2fcbf10b76137121413cf5e7f314054598412f95ae916e9e17b05f",
+  "version": "25ca6fda160f5f184884b59d93122d861b351665c591e33aecd1416b3674f3c9",
   "units": {
     "address_validation": {
       "defs": {
@@ -10189,6 +10189,134 @@ export const VALIDATORS: ValidatorTable = {
         "listSpecialties": []
       }
     },
+    "providers.agentskill": {
+      "defs": {
+        "GetSkillArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListSkillsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "owner",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "tool",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "platform",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "jobCategory",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "role",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "topScore"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "trendingScore"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "hotScore"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "createdAt"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "installCount"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getSkill": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSkillArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSkills": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSkillsArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.agentstatus": {
       "defs": {
         "AgentStatusGetServerArgs": {
@@ -17211,6 +17339,13 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "includePlanned",
                   "schema": {
                     "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
                   },
                   "optional": true
                 }
@@ -95389,6 +95524,42 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.onlyfans": {
+      "defs": {
+        "GetProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "GetProfileArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.onthemarket": {
       "defs": {
         "SearchArgs": {
@@ -100829,6 +101000,103 @@ export const VALIDATORS: ValidatorTable = {
             "name": "postcode",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.posthog": {
+      "defs": {
+        "PostHogInsightArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "projectId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "insightId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PostHogProjectArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "projectId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PostHogRetentionQueryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "projectId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "any"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getInsight": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostHogInsightArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listInsights": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostHogProjectArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listProjects": [],
+        "runRetentionQuery": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostHogRetentionQueryArgs"
             },
             "optional": false
           }

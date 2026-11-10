@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3349e9335b2fcbf10b76137121413cf5e7f314054598412f95ae916e9e17b05f
-// 97 capabilities, 798 providers, 4854 typed functions, 20 refused.
+// Manifest version: 25ca6fda160f5f184884b59d93122d861b351665c591e33aecd1416b3674f3c9
+// 97 capabilities, 801 providers, 4861 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4455,9 +4455,14 @@ type ContactsResult = {
      * urls only, never page content. Each row says whether it came from a sitemap, a link or both,
      * how many hops from the start page, and the sitemap's `lastmod`. Bounded three ways —
      * `maxUrls` (500), `maxPages` (20 fetched for links) and `timeoutMs` (45,000) — and every
-     * bound that cut the list short is named in `warnings`. A start page that renders its
-     * navigation in JavaScript under-lists links, and `warnings` says so; the sitemap half is
-     * unaffected. `pathPrefix: "/blog/"` scopes the list to one section. RUN-ONLY, same as `page`.
+     * bound that cut the list short is named in `warnings`. Those are the CALL's bounds; the RUN
+     * has its own time and memory ceiling above them, and a big crawl (`depth: 2`+, a high
+     * `maxPages`) on a large site can hit it — the run then comes back `status: "partial"` with
+     * `result: null` and `incomplete.cutOff.by` = `"time"` or `"memory"`, never a `warnings`
+     * entry. Check `status` before reading `result.urls`, and start narrow (`pathPrefix`, `depth:
+     * 1`). A start page that renders its navigation in JavaScript under-lists links, and
+     * `warnings` says so; the sitemap half is unaffected. `pathPrefix: "/blog/"` scopes the list
+     * to one section. RUN-ONLY, same as `page`.
      */
     urls(url: string, options?: UrlsOptions): Promise<UrlsResult>;
   }
@@ -8423,6 +8428,77 @@ interface AgakhanhospitalsSpecialty {
      * an honest answer.
      */
     listSpecialties(): Promise<AgakhanhospitalsSpecialty[]>;
+  }
+}
+
+declare namespace BowmarkProvider_agentskill {
+  // ── AgentSkill — the unit's own declarations, verbatim ──
+interface GetSkillArgs {
+  /** "owner/skill", e.g. "anthropics/docx" — or the https://agentskill.sh/<owner>/<skill> URL. */
+  slug: string;
+}
+interface ListSkillsArgs {
+  /** Only skills published by this owner (GitHub user/org), e.g. "anthropics". */
+  owner?: string;
+  /** Only skills tagged with this tool, e.g. "microsoft-word". */
+  tool?: string;
+  /** Only skills for this platform, e.g. "claude-code", "cursor", "codex". */
+  platform?: string;
+  /** Only skills in this job category, e.g. "marketing". */
+  jobCategory?: string;
+  /** Only skills for this job role, e.g. "copywriter". */
+  role?: string;
+  /** Only skills of this type, e.g. "docx". */
+  type?: string;
+  /** Default "topScore". */
+  sort?: "topScore" | "trendingScore" | "hotScore" | "createdAt" | "installCount";
+  /** 1-100, default 20. */
+  limit?: number;
+  offset?: number;
+}
+interface AgentskillSkill {
+  slug: string;
+  name: string;
+  owner: string;
+  description: string;
+  category: string | null;
+  platforms: string[];
+  tools: string[];
+  installCount: number;
+  githubStars: number | null;
+  score: number | null;
+  securityScore: number | null;
+  repositoryUrl: string | null;
+  url: string;
+}
+interface AgentskillSkillDetail extends AgentskillSkill {
+  /** The skill's SKILL.md body. */
+  skillMd: string;
+  files: { path: string; size: number | null }[];
+  updatedAt: string | null;
+}
+interface AgentskillPage {
+  skills: AgentskillSkill[];
+  total: number;
+  hasMore: boolean;
+}
+
+  /**
+   * agentskill.sh's directory of AI agent skills: list skills by owner, tool or platform, and
+   * read one skill's SKILL.md and metadata.
+   */
+  interface Unit {
+    /**
+     * Reads one agentskill.sh skill by owner/skill slug: description, SKILL.md body, file list,
+     * platforms, installs, rating and security score. null when it does not exist.
+     */
+    getSkill(args: GetSkillArgs): Promise<AgentskillSkillDetail | null>;
+
+    /**
+     * Lists agentskill.sh skills, filtered by owner, tool, platform, job category, role or type,
+     * sorted by top score, trending, newest or installs.
+     */
+    listSkills(args?: ListSkillsArgs): Promise<AgentskillPage>;
   }
 }
 
@@ -14244,6 +14320,14 @@ interface DisruptionRow {
   states: string[];           // German federal states affected
   affectedRoutes: string[];  // e.g. ["Mainz Hbf – Bingen(Rhein) Hbf"]
 }
+interface BahnDisruptionsResult {
+  disruptions: DisruptionRow[];
+  offset: number;
+  /** True when the listing continues past what this call read. */
+  hasMore: boolean;
+  /** Pass as offset to read on; null when the listing is exhausted. */
+  nextOffset: number | null;
+}
 
   /**
    * Lists current long-distance (ICE/IC/EC) train disruptions across the Deutsche Bahn network —
@@ -14257,9 +14341,10 @@ interface DisruptionRow {
      * effect, affected train categories, states and named railway sections — read live off the
      * same API bahn.de's own disruption map calls. By default returns only disruptions that have
      * started (begin <= now). Pass includePlanned: true to include announced future disruptions,
-     * or trainCategory (e.g. "ICE") to narrow to disruptions affecting that category.
+     * or trainCategory (e.g. "ICE") to narrow to disruptions affecting that category. Page through
+     * results with offset: result.nextOffset while result.hasMore is true.
      */
-    listDisruptions(options?: { trainCategory?: string; includePlanned?: boolean }): Promise<DisruptionRow[]>;
+    listDisruptions(options?: { trainCategory?: string; includePlanned?: boolean; offset?: number }): Promise<BahnDisruptionsResult>;
   }
 }
 
@@ -25886,6 +25971,13 @@ interface ClassicHomeProductDetail {
   variants: ClassicHomeVariant[];
 }
 
+interface ClassicHomeSearchResult {
+  products: ClassicHomeProduct[];
+  offset: number;
+  hasMore: boolean;
+  nextOffset: number | null;
+}
+
 interface ClassicHomeCartHandoff {
   handle: string;
   optionValue: string;
@@ -25906,9 +25998,10 @@ interface ClassicHomeCartHandoff {
      * Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the site's
      * own Shopify collection JSON, optionally filtered by a free-text query against the product
      * title. Returns real products with a real price range read off their own fabric/leather
-     * variants.
+     * variants. The hasMore field indicates when a collection hit its page limit and paging
+     * through all collections is incomplete.
      */
-    searchProducts(query?: string): Promise<ClassicHomeProduct[]>;
+    searchProducts(query?: string): Promise<ClassicHomeSearchResult>;
 
     /**
      * Reads one product's real live fabric/leather picker: every real color/material choice with
@@ -37998,9 +38091,9 @@ interface EtsyShippingEstimate {
      * Searches Etsy's live catalog of active listings by keyword and returns the matching listings
      * — id, title, price, currency, quantity available, tags and the listing's own etsy.com URL.
      * `limit` caps the row count (default 10, Etsy's own ceiling 100 when a key is held). Takes a
-     * key optionally: with one (yours, on `x-bowmark-vendor-key-etsy`, or Bowmark's own) it calls
-     * Etsy's documented Open API v3; with none it reads www.etsy.com's own search page instead,
-     * which carries a quantity of `null` and no tags.
+     * key optionally: with one (yours, on `x-bowmark-vendor-key-etsy`) it calls Etsy's documented
+     * Open API v3; with none it reads www.etsy.com's own search page instead, which carries a
+     * quantity of `null` and no tags.
      */
     search(args: string | { query: string; limit?: number }): Promise<etsyListing[]>;
 
@@ -72611,6 +72704,45 @@ interface OloHandoffResult extends OloBasket {
   }
 }
 
+declare namespace BowmarkProvider_onlyfans {
+  // ── OnlyFans — the unit's own declarations, verbatim ──
+interface GetProfileArgs {
+  /** The part after onlyfans.com/, e.g. "onlyfans". A bare string works too. */
+  username: string;
+}
+interface OnlyfansProfile {
+  userId: string;
+  username: string;
+  displayName: string;
+  about: string | null;
+  isVerified: boolean;
+  subscribePrice: number | null;
+  currentSubscribePrice: number | null;
+  postsCount: number | null;
+  photosCount: number | null;
+  videosCount: number | null;
+  favoritedCount: number | null;
+  joinDate: string | null;
+  lastSeen: string | null;
+  location: string | null;
+  website: string | null;
+  avatar: string | null;
+  url: string;
+}
+
+  /**
+   * OnlyFans (onlyfans.com): read any creator's public profile — bio, price, verified badge,
+   * post/photo/video counts — by username, no login.
+   */
+  interface Unit {
+    /**
+     * An OnlyFans creator's public profile by username: display name, bio, verified badge,
+     * subscription price, post/photo/video counts, likes, join date.
+     */
+    getProfile(args: GetProfileArgs | string): Promise<OnlyfansProfile>;
+  }
+}
+
 declare namespace BowmarkProvider_onthemarket {
   // ── OnTheMarket — the unit's own declarations, verbatim ──
 interface SearchArgs {
@@ -76340,6 +76472,46 @@ interface postcodes_ioLookup {
      * 1AA")
      */
     lookup(postcode: string): Promise<postcodes_ioLookup>;
+  }
+}
+
+declare namespace BowmarkProvider_posthog {
+  // ── PostHog — the unit's own declarations, verbatim ──
+interface PostHogProject { id: number; name: string; [key: string]: unknown; }
+interface PostHogInsight { id: number; short_id?: string; name?: string; [key: string]: unknown; }
+interface PostHogPage<T> { results: T[]; next: string | null; previous: string | null; [key: string]: unknown; }
+interface PostHogProjectArgs { projectId: number; }
+interface PostHogInsightArgs extends PostHogProjectArgs { insightId: number; }
+interface PostHogRetentionQueryArgs extends PostHogProjectArgs { query: Record<string, unknown>; name?: string; }
+
+  /**
+   * Read projects, saved insights, and retention analysis from the caller's own PostHog account
+   * with a personal API key.
+   */
+  interface Unit {
+    /**
+     * Reads one saved PostHog insight, including its definition and most recent result. Needs a
+     * PostHog personal API key with insight read access.
+     */
+    getInsight(args: PostHogInsightArgs): Promise<PostHogInsight>;
+
+    /**
+     * Lists saved insights in one of the caller's PostHog projects. Needs a PostHog personal API
+     * key with insight read access.
+     */
+    listInsights(args: PostHogProjectArgs): Promise<PostHogPage<PostHogInsight>>;
+
+    /**
+     * Lists projects the caller can access in their PostHog account. Needs a PostHog personal API
+     * key.
+     */
+    listProjects(): Promise<PostHogPage<PostHogProject>>;
+
+    /**
+     * Runs a caller-supplied PostHog RetentionQuery without saving or changing it. Needs a PostHog
+     * personal API key with query read access.
+     */
+    runRetentionQuery(args: PostHogRetentionQueryArgs): Promise<Record<string, unknown>>;
   }
 }
 
@@ -113843,6 +114015,7 @@ interface BowmarkProviders {
   adsmanager_facebook: BowmarkProvider_adsmanager_facebook.Unit;
   aetna_directory: BowmarkProvider_aetna_directory.Unit;
   agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
+  agentskill: BowmarkProvider_agentskill.Unit;
   agentstatus: BowmarkProvider_agentstatus.Unit;
   agoda: BowmarkProvider_agoda.Unit;
   ahrefs: BowmarkProvider_ahrefs.Unit;
@@ -114349,6 +114522,7 @@ interface BowmarkProviders {
   old_navy: BowmarkProvider_old_navy.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
   olo: BowmarkProvider_olo.Unit;
+  onlyfans: BowmarkProvider_onlyfans.Unit;
   onthemarket: BowmarkProvider_onthemarket.Unit;
   openai: BowmarkProvider_openai.Unit;
   openai_com: BowmarkProvider_openai_com.Unit;
@@ -114385,6 +114559,7 @@ interface BowmarkProviders {
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
   postcodes_io: BowmarkProvider_postcodes_io.Unit;
+  posthog: BowmarkProvider_posthog.Unit;
   potterybarn: BowmarkProvider_potterybarn.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
   preppednplated: BowmarkProvider_preppednplated.Unit;

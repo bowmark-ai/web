@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3349e9335b2fcbf10b76137121413cf5e7f314054598412f95ae916e9e17b05f
-# 97 capabilities, 798 providers, 4836 typed functions, 20 refused.
+# Manifest version: 25ca6fda160f5f184884b59d93122d861b351665c591e33aecd1416b3674f3c9
+# 97 capabilities, 801 providers, 4843 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4898,6 +4898,62 @@ class Prv_agakhanhospitals_AgakhanhospitalsSpecialty_Out(TypedDict):
     contact: str | None
     services: list[str]
 
+class Prv_agentskill_GetSkillArgs_In(TypedDict):
+    slug: str
+
+class Prv_agentskill_AgentskillSkillDetail_Out(TypedDict):
+    slug: str
+    name: str
+    owner: str
+    description: str
+    category: str | None
+    platforms: list[str]
+    tools: list[str]
+    installCount: float
+    githubStars: float | None
+    score: float | None
+    securityScore: float | None
+    repositoryUrl: str | None
+    url: str
+    skillMd: str
+    files: list[Prv_agentskill_AgentskillSkillDetail_Out_files_item_Out]
+    updatedAt: str | None
+
+class Prv_agentskill_AgentskillSkillDetail_Out_files_item_Out(TypedDict):
+    path: str
+    size: float | None
+
+class Prv_agentskill_ListSkillsArgs_In(TypedDict):
+    owner: NotRequired[str]
+    tool: NotRequired[str]
+    platform: NotRequired[str]
+    jobCategory: NotRequired[str]
+    role: NotRequired[str]
+    type: NotRequired[str]
+    sort: NotRequired[Literal["topScore"] | Literal["trendingScore"] | Literal["hotScore"] | Literal["createdAt"] | Literal["installCount"]]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_agentskill_AgentskillPage_Out(TypedDict):
+    skills: list[Prv_agentskill_AgentskillSkill_Out]
+    total: float
+    hasMore: bool
+
+class Prv_agentskill_AgentskillSkill_Out(TypedDict):
+    slug: str
+    name: str
+    owner: str
+    description: str
+    category: str | None
+    platforms: list[str]
+    tools: list[str]
+    installCount: float
+    githubStars: float | None
+    score: float | None
+    securityScore: float | None
+    repositoryUrl: str | None
+    url: str
+
 class Prv_agentstatus_AgentStatusSearchServersArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -8586,6 +8642,13 @@ class Prv_azure_AzureService_Out(TypedDict):
 class Prv_bahn_listDisruptions_options_In(TypedDict):
     trainCategory: NotRequired[str]
     includePlanned: NotRequired[bool]
+    offset: NotRequired[float]
+
+class Prv_bahn_BahnDisruptionsResult_Out(TypedDict):
+    disruptions: list[Prv_bahn_DisruptionRow_Out]
+    offset: float
+    hasMore: bool
+    nextOffset: float | None
 
 class Prv_bahn_DisruptionRow_Out(TypedDict):
     id: str
@@ -15906,6 +15969,12 @@ class Prv_circl_circlSearchArgs_In(TypedDict):
 class Prv_circl_circlSearchResult_Out(TypedDict):
     total: float
     results: list[Prv_circl_circlCve_Out]
+
+class Prv_classichome_ClassicHomeSearchResult_Out(TypedDict):
+    products: list[Prv_classichome_ClassicHomeProduct_Out]
+    offset: float
+    hasMore: bool
+    nextOffset: float | None
 
 class Prv_classichome_ClassicHomeProduct_Out(TypedDict):
     handle: str
@@ -44536,6 +44605,28 @@ class Prv_olo_OloOrderStatus_Out_items_item_Out(TypedDict):
     name: str
     quantity: float
 
+class Prv_onlyfans_GetProfileArgs_In(TypedDict):
+    username: str
+
+class Prv_onlyfans_OnlyfansProfile_Out(TypedDict):
+    userId: str
+    username: str
+    displayName: str
+    about: str | None
+    isVerified: bool
+    subscribePrice: float | None
+    currentSubscribePrice: float | None
+    postsCount: float | None
+    photosCount: float | None
+    videosCount: float | None
+    favoritedCount: float | None
+    joinDate: str | None
+    lastSeen: str | None
+    location: str | None
+    website: str | None
+    avatar: str | None
+    url: str
+
 class Prv_onthemarket_SearchArgs_In(TypedDict):
     location: str
     type: Literal["sale"] | Literal["rent"]
@@ -47114,6 +47205,23 @@ class Prv_postcodes_io_postcodes_ioLookup_Out(TypedDict):
     incode: str | None
     quality: float | None
     terminated: str | None
+
+class Prv_posthog_PostHogInsightArgs_In(TypedDict):
+    projectId: float
+    insightId: float
+
+class Prv_posthog_PostHogInsight_Out(TypedDict):
+    id: float
+    short_id: NotRequired[str]
+    name: NotRequired[str]
+
+class Prv_posthog_PostHogProjectArgs_In(TypedDict):
+    projectId: float
+
+class Prv_posthog_PostHogRetentionQueryArgs_In(TypedDict):
+    projectId: float
+    query: Mapping[str, Any]
+    name: NotRequired[str]
 
 class Prv_potterybarn_WsgcSearchArgs_In(TypedDict):
     query: str
@@ -72964,10 +73072,14 @@ class Cap_read(Protocol):
         links). Returns urls only, never page content. Each row says whether it came from a
         sitemap, a link or both, how many hops from the start page, and the sitemap's `lastmod`.
         Bounded three ways — `maxUrls` (500), `maxPages` (20 fetched for links) and `timeoutMs`
-        (45,000) — and every bound that cut the list short is named in `warnings`. A start page
-        that renders its navigation in JavaScript under-lists links, and `warnings` says so; the
-        sitemap half is unaffected. `pathPrefix: "/blog/"` scopes the list to one section.
-        RUN-ONLY, same as `page`.
+        (45,000) — and every bound that cut the list short is named in `warnings`. Those are the
+        CALL's bounds; the RUN has its own time and memory ceiling above them, and a big crawl
+        (`depth: 2`+, a high `maxPages`) on a large site can hit it — the run then comes back
+        `status: "partial"` with `result: null` and `incomplete.cutOff.by` = `"time"` or
+        `"memory"`, never a `warnings` entry. Check `status` before reading `result.urls`, and
+        start narrow (`pathPrefix`, `depth: 1`). A start page that renders its navigation in
+        JavaScript under-lists links, and `warnings` says so; the sitemap half is unaffected.
+        `pathPrefix: "/blog/"` scopes the list to one section. RUN-ONLY, same as `page`.
         """
 
 class Cap_restaurant_booking(Protocol):
@@ -74383,6 +74495,21 @@ class Prv_agakhanhospitals(Protocol):
         list (e.g. Cardiology: 30 named services). THROWS rather than returning [] when the page
         answers without its payload or lists no clinics — 23 is the measured count and zero is
         never an honest answer.
+        """
+
+class Prv_agentskill(Protocol):
+    """agentskill.sh's directory of AI agent skills: list skills by owner, tool or platform,
+    and read one skill's SKILL.md and metadata.
+    """
+
+    async def getSkill(self, args: Prv_agentskill_GetSkillArgs_In, /) -> Prv_agentskill_AgentskillSkillDetail_Out | None:
+        """Reads one agentskill.sh skill by owner/skill slug: description, SKILL.md body, file
+        list, platforms, installs, rating and security score. null when it does not exist.
+        """
+
+    async def listSkills(self, args: Prv_agentskill_ListSkillsArgs_In | None = None, /) -> Prv_agentskill_AgentskillPage_Out:
+        """Lists agentskill.sh skills, filtered by owner, tool, platform, job category, role or
+        type, sorted by top score, trending, newest or installs.
         """
 
 class Prv_agentstatus(Protocol):
@@ -76496,13 +76623,14 @@ class Prv_bahn(Protocol):
     client-side-rendered map.
     """
 
-    async def listDisruptions(self, options: Prv_bahn_listDisruptions_options_In | None = None, /) -> list[Prv_bahn_DisruptionRow_Out]:
+    async def listDisruptions(self, options: Prv_bahn_listDisruptions_options_In | None = None, /) -> Prv_bahn_BahnDisruptionsResult_Out:
         """Lists current Deutsche Bahn long-distance (ICE/IC/EC) disruptions network-wide — cause,
         effect, affected train categories, states and named railway sections — read live off the
         same API bahn.de's own disruption map calls. By default returns only disruptions that
         have started (begin <= now). Pass includePlanned: true to include announced future
         disruptions, or trainCategory (e.g. "ICE") to narrow to disruptions affecting that
-        category.
+        category. Page through results with offset: result.nextOffset while result.hasMore is
+        true.
         """
 
 class Prv_bamboohr(Protocol):
@@ -80396,11 +80524,12 @@ class Prv_classichome(Protocol):
     SKU, price and availability.
     """
 
-    async def searchProducts(self, query: str | None = None, /) -> list[Prv_classichome_ClassicHomeProduct_Out]:
+    async def searchProducts(self, query: str | None = None, /) -> Prv_classichome_ClassicHomeSearchResult_Out:
         """Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the
         site's own Shopify collection JSON, optionally filtered by a free-text query against the
         product title. Returns real products with a real price range read off their own
-        fabric/leather variants.
+        fabric/leather variants. The hasMore field indicates when a collection hit its page
+        limit and paging through all collections is incomplete.
         """
 
     async def getProduct(self, handle: str, /) -> Prv_classichome_ClassicHomeProductDetail_Out:
@@ -84574,9 +84703,9 @@ class Prv_etsy(Protocol):
         """Searches Etsy's live catalog of active listings by keyword and returns the matching
         listings — id, title, price, currency, quantity available, tags and the listing's own
         etsy.com URL. `limit` caps the row count (default 10, Etsy's own ceiling 100 when a key
-        is held). Takes a key optionally: with one (yours, on `x-bowmark-vendor-key-etsy`, or
-        Bowmark's own) it calls Etsy's documented Open API v3; with none it reads www.etsy.com's
-        own search page instead, which carries a quantity of `null` and no tags.
+        is held). Takes a key optionally: with one (yours, on `x-bowmark-vendor-key-etsy`) it
+        calls Etsy's documented Open API v3; with none it reads www.etsy.com's own search page
+        instead, which carries a quantity of `null` and no tags.
         """
 
     async def getListing(self, idOrUrl: float | str, /) -> Prv_etsy_EtsyListingDetail_Out:
@@ -97118,6 +97247,16 @@ class Prv_olo(Protocol):
         items, total and pickup time.
         """
 
+class Prv_onlyfans(Protocol):
+    """OnlyFans (onlyfans.com): read any creator's public profile — bio, price, verified badge,
+    post/photo/video counts — by username, no login.
+    """
+
+    async def getProfile(self, args: Prv_onlyfans_GetProfileArgs_In | str, /) -> Prv_onlyfans_OnlyfansProfile_Out:
+        """An OnlyFans creator's public profile by username: display name, bio, verified badge,
+        subscription price, post/photo/video counts, likes, join date.
+        """
+
 class Prv_onthemarket(Protocol):
     """Search for residential property listings for sale or rent in the UK, paged, with bedroom
     and price filters. `location` is a fuzzy area match (a town, a postcode district, a
@@ -98584,6 +98723,31 @@ class Prv_postcodes_io(Protocol):
     async def lookup(self, postcode: str, /) -> Prv_postcodes_io_postcodes_ioLookup_Out:
         """Latitude, longitude, grid reference and ward/district/region/country of a UK postcode
         ("SW1A 1AA")
+        """
+
+class Prv_posthog(Protocol):
+    """Read projects, saved insights, and retention analysis from the caller's own PostHog
+    account with a personal API key.
+    """
+
+    async def getInsight(self, args: Prv_posthog_PostHogInsightArgs_In, /) -> Prv_posthog_PostHogInsight_Out:
+        """Reads one saved PostHog insight, including its definition and most recent result. Needs
+        a PostHog personal API key with insight read access.
+        """
+
+    async def listInsights(self, args: Prv_posthog_PostHogProjectArgs_In, /) -> Any:
+        """Lists saved insights in one of the caller's PostHog projects. Needs a PostHog personal
+        API key with insight read access.
+        """
+
+    async def listProjects(self, /) -> Any:
+        """Lists projects the caller can access in their PostHog account. Needs a PostHog personal
+        API key.
+        """
+
+    async def runRetentionQuery(self, args: Prv_posthog_PostHogRetentionQueryArgs_In, /) -> Mapping[str, Any]:
+        """Runs a caller-supplied PostHog RetentionQuery without saving or changing it. Needs a
+        PostHog personal API key with query read access.
         """
 
 class Prv_potterybarn(Protocol):
@@ -111189,6 +111353,7 @@ class BowmarkProviders(Protocol):
     adsmanager_facebook: Prv_adsmanager_facebook
     aetna_directory: Prv_aetna_directory
     agakhanhospitals: Prv_agakhanhospitals
+    agentskill: Prv_agentskill
     agentstatus: Prv_agentstatus
     agoda: Prv_agoda
     ahrefs: Prv_ahrefs
@@ -111695,6 +111860,7 @@ class BowmarkProviders(Protocol):
     old_navy: Prv_old_navy
     oliverwinery: Prv_oliverwinery
     olo: Prv_olo
+    onlyfans: Prv_onlyfans
     onthemarket: Prv_onthemarket
     openai: Prv_openai
     openai_com: Prv_openai_com
@@ -111731,6 +111897,7 @@ class BowmarkProviders(Protocol):
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
     postcodes_io: Prv_postcodes_io
+    posthog: Prv_posthog
     potterybarn: Prv_potterybarn
     premierbuildings: Prv_premierbuildings
     preppednplated: Prv_preppednplated
