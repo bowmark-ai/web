@@ -2570,8 +2570,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grammarly.addToDictionary` | www.grammarly.com | Adds a word or phrase to the signed-in account's personal dictionary so the checker… | ⚪ |
 | `grammarly.checkGrammar` | www.grammarly.com | Checks text for grammar, spelling and punctuation problems and returns each alert with… | 🟢 |
 | `grammarly.countWords` | www.grammarly.com | Returns word/character/sentence/paragraph counts, reading and speaking time, and a… | 🟢 |
-| `grammarly.createDocument` | www.grammarly.com | Saves a new document (title and text) in the signed-in account, the way… | ⚪ |
-| `grammarly.deleteDocument` | www.grammarly.com | Deletes one saved document from the signed-in account, by the id listDocuments returns. | ⚪ |
+| `grammarly.createDocument` | www.grammarly.com | Saves a new document (title and text) in the signed-in account, the way… | 🟢 |
+| `grammarly.deleteDocument` | www.grammarly.com | Deletes one saved document from the signed-in account, by the id listDocuments returns. | 🟢 |
 | `grammarly.detectAI` | www.grammarly.com | Scores 0-100 how much of a text Grammarly's AI detector judges AI-written, with the… | 🟢 |
 | `grammarly.detectPlagiarism` | www.grammarly.com | Counts how many passages of a text Grammarly's free scan matches against web and… | 🟢 |
 | `grammarly.detectTone` | www.grammarly.com | Reads how a text sounds to a reader with Grammarly's tone detector, e.g. appreciative… | 🟢 |
