@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 898dddcfebcbba6ed7920affddc15cc2a9a971b8d915cdb4890c19ba3b27dc2b
-// 4807 checked, 20 unchecked.
+// Manifest version: baee85b1e409c6a3595377890be6fb9e26ced87527b2a222d4ca806426427948
+// 4816 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "898dddcfebcbba6ed7920affddc15cc2a9a971b8d915cdb4890c19ba3b27dc2b",
+  "version": "baee85b1e409c6a3595377890be6fb9e26ced87527b2a222d4ca806426427948",
   "units": {
     "address_validation": {
       "defs": {
@@ -28437,6 +28437,154 @@ export const VALIDATORS: ValidatorTable = {
     "providers.chatgpt": {
       "defs": {},
       "functions": {
+        "renameConversation": [
+          {
+            "name": "conversation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "title",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "archiveConversation": [
+          {
+            "name": "conversation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "archived",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "connectionOpts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteConversation": [
+          {
+            "name": "conversation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteMemory": [
+          {
+            "name": "memoryId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteSharedLink": [
+          {
+            "name": "share",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getSharedConversation": [
           {
             "name": "url",
@@ -117190,6 +117338,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ShopAppFollowStoreArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "follow",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ShopAppGetProductReviewsArgs": {
           "k": "object",
           "props": [
@@ -117436,6 +117603,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ShopAppListPageArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followStore": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppFollowStoreArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -131873,6 +132066,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListPlaylistVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playlist",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSoundVideosArgs": {
           "k": "object",
           "props": [
@@ -131882,6 +132094,32 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListUserPlaylistsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "secUid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -132092,6 +132330,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListUserVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listUserPlaylists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListUserPlaylistsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPlaylistVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPlaylistVideosArgs"
             },
             "optional": false
           }
@@ -147285,6 +147543,47 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "listId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listLists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "handle",
                   "schema": {
                     "k": "string"
                   },

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 898dddcfebcbba6ed7920affddc15cc2a9a971b8d915cdb4890c19ba3b27dc2b
-# 97 capabilities, 794 providers, 4807 typed functions, 20 refused.
+# Manifest version: baee85b1e409c6a3595377890be6fb9e26ced87527b2a222d4ca806426427948
+# 97 capabilities, 794 providers, 4816 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14890,6 +14890,13 @@ class Prv_chase_ChaseSearchResult_Out(TypedDict):
     title: str
     description: str | None
     url: str
+
+class Prv_chatgpt_WriteResult_Out(TypedDict):
+    ok: bool
+    id: str
+
+class Prv_chatgpt_archiveConversation_opts_In(TypedDict):
+    archived: NotRequired[bool]
 
 class Prv_chatgpt_SharedConversation_Out(TypedDict):
     shareId: str
@@ -54204,6 +54211,15 @@ class Prv_shop_app_ShopAppFollowedStore_Out(TypedDict):
     logo: str | None
     followedByMe: bool | None
 
+class Prv_shop_app_ShopAppFollowStoreArgs_In(TypedDict):
+    store: str
+    follow: NotRequired[bool]
+
+class Prv_shop_app_ShopAppFollowState_Out(TypedDict):
+    storeId: str
+    following: bool
+    warnings: list[str]
+
 class Prv_shop_app_ShopAppMarkDeliveredArgs_In(TypedDict):
     deliveryId: str
     delivered: NotRequired[bool]
@@ -61272,6 +61288,22 @@ class Prv_tiktok_tiktokVideoSummary_Out(TypedDict):
     coverUrl: NotRequired[str]
     playAddr: NotRequired[str]
 
+class Prv_tiktok_ListUserPlaylistsArgs_In(TypedDict):
+    username: NotRequired[str]
+    secUid: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_tiktok_tiktokPlaylist_Out(TypedDict):
+    id: str
+    name: str
+    videoCount: float
+    coverUrl: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_tiktok_ListPlaylistVideosArgs_In(TypedDict):
+    playlist: str
+    limit: NotRequired[float]
+
 class Prv_tiktok_ListCommentsArgs_In(TypedDict):
     video: str
 
@@ -68254,6 +68286,7 @@ class Prv_wodify_listInstructors_args_In(TypedDict):
 class Prv_wodify_WodifyCoachRoster_Out(TypedDict):
     gymHost: str
     locationId: float
+    count: float
     coaches: list[Prv_wodify_WodifyCoach_Out]
 
 class Prv_wodify_WodifyCoach_Out(TypedDict):
@@ -68629,6 +68662,18 @@ class Prv_x_listBookmarks_args_In(TypedDict):
 class Prv_x_getListPosts_args_In(TypedDict):
     listId: str
     limit: NotRequired[float]
+
+class Prv_x_listLists_args_In(TypedDict):
+    handle: str
+    limit: NotRequired[float]
+
+class Prv_x_XListSummary_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    memberCount: float | None
+    ownerHandle: str | None
+    description: str
 
 class Prv_x_listNotifications_args_In(TypedDict):
     limit: NotRequired[float]
@@ -79537,6 +79582,39 @@ class Prv_chatgpt(Protocol):
     signed in as the CALLER through the relay, read their own account. The rest of the
     declared surface awaits a caller-reachable implementation.
     """
+
+    async def renameConversation(self, conversation: str, title: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Renames one of the caller's conversations (id or chatgpt.com/c/ url — listConversations
+        finds one). Needs the caller signed in to chatgpt.com through the relay; the run pauses
+        for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+        sign-in has expired.
+        """
+
+    async def archiveConversation(self, conversation: str, opts: Prv_chatgpt_archiveConversation_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Archives one of the caller's conversations, or unarchives it with { archived: false }.
+        Needs the caller signed in to chatgpt.com through the relay; the run pauses for a
+        sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has
+        expired.
+        """
+
+    async def deleteConversation(self, conversation: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Deletes one of the caller's conversations from their history. Needs the caller signed in
+        to chatgpt.com through the relay; the run pauses for a sign-in link when they are not.
+        THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def deleteMemory(self, memoryId: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Deletes one saved memory by the id getMemories returns. Needs the caller signed in to
+        chatgpt.com through the relay; the run pauses for a sign-in link when they are not.
+        THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def deleteSharedLink(self, share: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Deletes one of the caller's public share links (share id or chatgpt.com/share/ url —
+        listSharedLinks finds one); the link stops working. Needs the caller signed in to
+        chatgpt.com through the relay; the run pauses for a sign-in link when they are not.
+        THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+        """
 
     async def getSharedConversation(self, url: str, /) -> Prv_chatgpt_SharedConversation_Out:
         """Reads a public shared ChatGPT conversation from its share link (chatgpt.com/share/<id>,
@@ -91822,10 +91900,10 @@ class Prv_landsend(Protocol):
         pre-pick from a link.
         """
 
-    async def getActivePromo(self, /) -> Prv_landsend_LandsEndPromo_Out:
+    async def getActivePromo(self, /) -> Prv_landsend_LandsEndPromo_Out | None:
         """Reads the sitewide promo code Lands' End is running right now (e.g. MALLARDS — 40% off),
-        with its name, terms, dates and free-shipping threshold, from the same endpoint the
-        site's header banner uses.
+        with its name, terms, dates and free-shipping threshold, from the endpoint the site's
+        header banner uses. Returns null if the endpoint is blocked by Akamai's defense.
         """
 
 class Prv_lasikplus(Protocol):
@@ -101874,6 +101952,12 @@ class Prv_shop_app(Protocol):
         at a time. Pauses for the caller to sign in to Shop.
         """
 
+    async def followStore(self, args: Prv_shop_app_ShopAppFollowStoreArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppFollowState_Out:
+        """Follows a store on Shop for the signed-in caller (or unfollows it with follow: false) by
+        its Shop store id — listFollowedStores' id — or its handle, and returns the new follow
+        state. Pauses for the caller to sign in to Shop.
+        """
+
     async def markOrderDelivered(self, args: Prv_shop_app_ShopAppMarkDeliveredArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppDeliveryState_Out:
         """Marks one of the signed-in caller's Shop deliveries as delivered (or un-marks it with
         delivered: false) by the deliveryId trackPackage returns or its shop.app/deliveries/<id>
@@ -105330,6 +105414,21 @@ class Prv_tiktok(Protocol):
         does not answer, and says so in the run's notes. A private account returns [] with a
         note. Like/comment counts are not returned; each id resolves through getVideo for full
         stats. Paging past the first 15 is unmeasured.
+        """
+
+    async def listUserPlaylists(self, args: Prv_tiktok_ListUserPlaylistsArgs_In, /) -> list[Prv_tiktok_tiktokPlaylist_Out]:
+        """The playlists a TikTok creator shows on their profile — id, name, video count, cover and
+        URL. Takes a username or a secUid; a username costs one profile page first. Reads the
+        unsigned `/api/user/playlist/` door, no browser, no login. Up to 100 with limit (default
+        20). Throws when the account is private. Pass an id to listPlaylistVideos for the
+        videos.
+        """
+
+    async def listPlaylistVideos(self, args: Prv_tiktok_ListPlaylistVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+        """The videos in one TikTok playlist, in the creator's order — id, caption, play count,
+        cover and play address. Takes the playlist id from listUserPlaylists or its
+        tiktok.com/@<handle>/playlist/<name>-<id> URL. Reads the unsigned `/api/mix/item_list/`
+        door, no browser, no login. 30 by default, up to 200 with limit.
         """
 
     async def listComments(self, args: Prv_tiktok_ListCommentsArgs_In, /) -> list[Prv_tiktok_tiktokComment_Out]:
@@ -109176,6 +109275,11 @@ class Prv_x(Protocol):
     async def getListPosts(self, args: Prv_x_getListPosts_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_x_XTweet_Out]:
         """Reads the posts in an X List (by id or x.com/i/lists/<id> url) as the signed-in caller,
         scrolling until `limit` is met.
+        """
+
+    async def listLists(self, args: Prv_x_listLists_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_x_XListSummary_Out]:
+        """Reads the X Lists an account owns, follows or belongs to (x.com/<handle>/lists) as the
+        signed-in caller — each List's id, name, member count and owner, ready for getListPosts.
         """
 
     async def listNotifications(self, args: Prv_x_listNotifications_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XNotification_Out]:

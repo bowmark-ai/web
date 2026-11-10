@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6227 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6230 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4170,7 +4170,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary off /settings. | 🟢 |
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
 | `quora.getProfileAnswers` | quora.com | Reads what a member has answered — the first page of their profile's Answers tab, each… | 🟢 |
-| `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟡 |
+| `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🔴 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟢 |
 | `quora.getSpacePosts` | quora.com | Reads the posts in a Space's feed — most of what a Space holds, and what getSpace… | 🟢 |
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟢 |
@@ -5258,7 +5258,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | 🟢 |
 | `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟢 |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | 🟢 |
+| `tiktok.listPlaylistVideos` | tiktok.com | The videos in one playlist, in the creator's order (id, caption, play count, cover… | 🟢 |
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟢 |
+| `tiktok.listUserPlaylists` | tiktok.com | The playlists a creator shows on their profile (id, name, video count, cover, URL).… | 🟢 |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id, caption, play count, cover and play address for each —… | 🟢 |
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | 🟢 |
 | `tiktok.searchUsers` | tiktok.com | Find creators matching a name or a topic and get back handle, nickname, bio, avatar… | 🟡 |
@@ -5906,9 +5908,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `windscribe.getServerLocations` | windscribe.com | Windscribe's full shared VPN server-location list (windscribe.com/status). | ⚪ |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
-| `wix_bookings.bookAppointment` | www.wixapis.com | Books an appointment as a guest for a service at an open time, with the customer's… | 🟢 |
+| `wix_bookings.bookAppointment` | www.wixapis.com | Books an appointment as a guest for a service at an open time, with the customer's… | 🟡 |
 | `wix_bookings.bookClass` | www.wixapis.com | Books a spot in a class session as a guest. | ⚪ |
-| `wix_bookings.cancelBooking` | www.wixapis.com | Cancels a guest booking with no sign-in, given the booking's id and current revision… | 🟢 |
+| `wix_bookings.cancelBooking` | www.wixapis.com | Cancels a guest booking with no sign-in, given the booking's id and current revision… | 🟡 |
 | `wix_bookings.cancelMyBooking` | www.wixapis.com | Cancels one of the caller's bookings from the site's Members Area. | ⚪ |
 | `wix_bookings.findSite` | www.wixapis.com | Resolves what a caller has (a Wix business's website URL, a wixsite.com or… | 🟢 |
 | `wix_bookings.getBookingForm` | www.wixapis.com | Returns the details a business asks for when booking a service (name, email, phone… | ⚪ |
@@ -6005,6 +6007,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.listFollowers` | x.com | A user's followers list. | 🟢 |
 | `x.listFollowing` | x.com | Who a user follows. | 🟢 |
 | `x.listHomeFeed` | x.com | The signed-in account's personalized home timeline, in X's own order. | 🟢 |
+| `x.listLists` | x.com | The X Lists an account owns, follows or belongs to, each with the id getListPosts takes. | 🟢 |
 | `x.listNotifications` | x.com | The signed-in account's notifications — likes, replies, reposts, follows and mentions. | 🟢 |
 | `x.listTrending` | x.com | The site's current trending topics, the /explore page. | 🟢 |
 | `x.muteUser` | x.com | Mute or unmute an account as the signed-in account — one `mute` boolean argument picks… | 🟢 |

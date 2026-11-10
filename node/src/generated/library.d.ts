@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 898dddcfebcbba6ed7920affddc15cc2a9a971b8d915cdb4890c19ba3b27dc2b
-// 97 capabilities, 794 providers, 4825 typed functions, 20 refused.
+// Manifest version: baee85b1e409c6a3595377890be6fb9e26ced87527b2a222d4ca806426427948
+// 97 capabilities, 794 providers, 4834 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -24159,6 +24159,12 @@ interface ChaseSearchResult { title: string; description: string | null; url: st
 
 declare namespace BowmarkProvider_chatgpt {
   // ── ChatGPT — the unit's own declarations, verbatim ──
+interface WriteResult {
+  ok: boolean;
+  /** The conversation, memory or share id the write acted on. */
+  id: string;
+}
+
 interface ChatGPTAccount {
   id: string | null;
   email: string | null;
@@ -24341,6 +24347,43 @@ interface SharedConversation {
    * awaits a caller-reachable implementation.
    */
   interface Unit {
+    /**
+     * Renames one of the caller's conversations (id or chatgpt.com/c/ url — listConversations
+     * finds one). Needs the caller signed in to chatgpt.com through the relay; the run pauses for
+     * a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has
+     * expired.
+     */
+    renameConversation(conversation: string, title: string, opts?: ConnectionOption): Promise<WriteResult>;
+
+    /**
+     * Archives one of the caller's conversations, or unarchives it with { archived: false }. Needs
+     * the caller signed in to chatgpt.com through the relay; the run pauses for a sign-in link
+     * when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    archiveConversation(conversation: string, opts?: { archived?: boolean }, connectionOpts?: ConnectionOption): Promise<WriteResult>;
+
+    /**
+     * Deletes one of the caller's conversations from their history. Needs the caller signed in to
+     * chatgpt.com through the relay; the run pauses for a sign-in link when they are not. THROWS
+     * `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    deleteConversation(conversation: string, opts?: ConnectionOption): Promise<WriteResult>;
+
+    /**
+     * Deletes one saved memory by the id getMemories returns. Needs the caller signed in to
+     * chatgpt.com through the relay; the run pauses for a sign-in link when they are not. THROWS
+     * `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    deleteMemory(memoryId: string, opts?: ConnectionOption): Promise<WriteResult>;
+
+    /**
+     * Deletes one of the caller's public share links (share id or chatgpt.com/share/ url —
+     * listSharedLinks finds one); the link stops working. Needs the caller signed in to
+     * chatgpt.com through the relay; the run pauses for a sign-in link when they are not. THROWS
+     * `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    deleteSharedLink(share: string, opts?: ConnectionOption): Promise<WriteResult>;
+
     /**
      * Reads a public shared ChatGPT conversation from its share link (chatgpt.com/share/<id>, or
      * the bare id) — title, every user and assistant message in order, and the model that
@@ -59020,10 +59063,10 @@ interface LandsEndPromo {
 
     /**
      * Reads the sitewide promo code Lands' End is running right now (e.g. MALLARDS — 40% off),
-     * with its name, terms, dates and free-shipping threshold, from the same endpoint the site's
-     * header banner uses.
+     * with its name, terms, dates and free-shipping threshold, from the endpoint the site's header
+     * banner uses. Returns null if the endpoint is blocked by Akamai's defense.
      */
-    getActivePromo(): Promise<LandsEndPromo>;
+    getActivePromo(): Promise<LandsEndPromo | null>;
   }
 }
 
@@ -87276,6 +87319,15 @@ interface ShopAppCart {
   totalItemCount: number | null;
   warnings: string[];
 }
+interface ShopAppFollowStoreArgs {
+  store: string;
+  follow?: boolean;
+}
+interface ShopAppFollowState {
+  storeId: string;
+  following: boolean;
+  warnings: string[];
+}
 interface ShopAppMarkDeliveredArgs {
   deliveryId: string;
   delivered?: boolean;
@@ -87330,6 +87382,13 @@ interface ShopAppListOrdersArgs {
      * a time. Pauses for the caller to sign in to Shop.
      */
     listFollowedStores(args?: ShopAppListPageArgs, opts?: ConnectionOption): Promise<ShopAppFollowedStores>;
+
+    /**
+     * Follows a store on Shop for the signed-in caller (or unfollows it with follow: false) by its
+     * Shop store id — listFollowedStores' id — or its handle, and returns the new follow state.
+     * Pauses for the caller to sign in to Shop.
+     */
+    followStore(args: ShopAppFollowStoreArgs, opts?: ConnectionOption): Promise<ShopAppFollowState>;
 
     /**
      * Marks one of the signed-in caller's Shop deliveries as delivered (or un-marks it with
@@ -97265,6 +97324,22 @@ interface tiktokVideoSummary {
 interface ListUserVideosArgs {
   username: string;
 }
+interface tiktokPlaylist {
+  id: string;
+  name: string;
+  videoCount: number;
+  coverUrl?: string;
+  url?: string;
+}
+interface ListUserPlaylistsArgs {
+  username?: string;
+  secUid?: string;
+  limit?: number;
+}
+interface ListPlaylistVideosArgs {
+  playlist: string;
+  limit?: number;
+}
 interface tiktokComment {
   id: string;
   text: string;
@@ -97492,6 +97567,22 @@ type UploadVideoArgs = {
      * Paging past the first 15 is unmeasured.
      */
     listUserVideos(args: ListUserVideosArgs): Promise<tiktokVideoSummary[]>;
+
+    /**
+     * The playlists a TikTok creator shows on their profile — id, name, video count, cover and
+     * URL. Takes a username or a secUid; a username costs one profile page first. Reads the
+     * unsigned `/api/user/playlist/` door, no browser, no login. Up to 100 with limit (default
+     * 20). Throws when the account is private. Pass an id to listPlaylistVideos for the videos.
+     */
+    listUserPlaylists(args: ListUserPlaylistsArgs): Promise<tiktokPlaylist[]>;
+
+    /**
+     * The videos in one TikTok playlist, in the creator's order — id, caption, play count, cover
+     * and play address. Takes the playlist id from listUserPlaylists or its
+     * tiktok.com/@<handle>/playlist/<name>-<id> URL. Reads the unsigned `/api/mix/item_list/`
+     * door, no browser, no login. 30 by default, up to 200 with limit.
+     */
+    listPlaylistVideos(args: ListPlaylistVideosArgs): Promise<tiktokVideoSummary[]>;
 
     /**
      * The first 20 comments on a video — text, author (id, handle, nickname, secUid, avatar), like
@@ -107631,6 +107722,8 @@ interface WodifyHeldPlan {
 interface WodifyCoachRoster {
   gymHost: string;
   locationId: number;
+  /** coaches.length — 0 when the gym publishes nobody */
+  count: number;
   coaches: WodifyCoach[];
 }
 
@@ -108273,6 +108366,15 @@ interface ListFollowersArgs {
   limit?: number;
 }
 
+interface XListSummary {
+  id: string; // pass to getListPosts
+  name: string;
+  url: string;
+  memberCount: number | null;
+  ownerHandle: string | null; // no @
+  description: string;
+}
+
 interface XUserSummary {
   handle: string; // no @
   name: string;
@@ -108454,6 +108556,12 @@ interface XUploadProfilePictureResult {
      * scrolling until `limit` is met.
      */
     getListPosts(args: { listId: string; limit?: number }, opts?: ConnectionOption): Promise<XTweet[]>;
+
+    /**
+     * Reads the X Lists an account owns, follows or belongs to (x.com/<handle>/lists) as the
+     * signed-in caller — each List's id, name, member count and owner, ready for getListPosts.
+     */
+    listLists(args: { handle: string; limit?: number }, opts?: ConnectionOption): Promise<XListSummary[]>;
 
     /**
      * Reads the signed-in caller's notifications — likes, reposts, follows, replies, mentions and

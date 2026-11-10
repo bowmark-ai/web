@@ -603,7 +603,7 @@ pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyPr
 pypi.org — pypi: getProject
 quickbooks.intuit.com — quickbooks: calculatePaycheck, findAccountants, generateInvoice, getAccountant, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getResourceArticle, getServiceStatus, getStatePayrollTaxes, getThread, listAppCategories, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listResourceArticles, listTemplates, searchApps, searchCommunity, searchHelpArticles (+9 planned)
 quince.com — quince: getProduct, searchProducts
-quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfile, getProfileAnswers, getQuestion, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+5 planned)
+quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+6 planned)
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
 rakuten.com — rakuten: getStore, search (+2 planned)
 reboot.floathelm.com — floathelm: createAccount, findStudio, getRoom, listAvailableSlots, listGiftCards, listLocations, listRooms, listStoreItems (+10 planned)
@@ -726,7 +726,7 @@ ticketmaster.com — ticketmaster: nothing callable yet (+5 planned)
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
 tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getHighTideFloodingHistory, getMeteorologicalObservations, getMonthlyMeanWaterLevel, getSeaLevelTrend, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
-tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listBookmarkedVideos, listCaptionTracks, listCommentReplies, listComments, listConversations, listFollowers, listFollowing, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listSoundVideos, listUserVideos, postComment, searchUsers, searchVideos, sendDirectMessage, unfollowUser, unlikeVideo, uploadVideo
+tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listBookmarkedVideos, listCaptionTracks, listCommentReplies, listComments, listConversations, listFollowers, listFollowing, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listPlaylistVideos, listSoundVideos, listUserPlaylists, listUserVideos, postComment, searchUsers, searchVideos, sendDirectMessage, unfollowUser, unlikeVideo, uploadVideo
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
 toasttab.com — toast: getMenu, getMenuItem, getOrderingOptions, getPopularItems, getReservationAvailability, getRestaurant, listCities, listCityRestaurants, searchMenu, searchRestaurants (+47 planned)
@@ -814,7 +814,7 @@ www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends,
 www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getCancellationPolicy, getClass, getOpenTimes, getService, getStaffMember, listAddOns, listClasses, listPhotos, listPromotions, listReviews, listServices, listStaff, searchBusinesses (+19 planned)
 www.walmart.ca — walmart_ca: search
 www.wixapis.com — wix_bookings: bookAppointment, cancelBooking, findSite, getOpenTimes, getService, listCategories, listLocations, listServices, listStaff, searchServices (+11 planned)
-x.com — x: blockUser, bookmarkPost, createPost, deletePost, followUser, getConversation, getListPosts, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listNotifications, listTrending, muteUser, post, profile, quotePost, replyToPost, repost, search, sendDirectMessage, updateProfile, uploadProfilePicture, userTimeline
+x.com — x: blockUser, bookmarkPost, createPost, deletePost, followUser, getConversation, getListPosts, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listLists, listNotifications, listTrending, muteUser, post, profile, quotePost, replyToPost, repost, search, sendDirectMessage, updateProfile, uploadProfilePicture, userTimeline
 xola.com — xola: findSeller, getAvailability, getExperience, getPriceQuote, listExperiences, listWaivers (+3 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search

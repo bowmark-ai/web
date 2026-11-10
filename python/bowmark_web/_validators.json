@@ -1,5 +1,5 @@
 {
-  "version": "898dddcfebcbba6ed7920affddc15cc2a9a971b8d915cdb4890c19ba3b27dc2b",
+  "version": "baee85b1e409c6a3595377890be6fb9e26ced87527b2a222d4ca806426427948",
   "units": {
     "address_validation": {
       "defs": {
@@ -28425,6 +28425,154 @@
     "providers.chatgpt": {
       "defs": {},
       "functions": {
+        "renameConversation": [
+          {
+            "name": "conversation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "title",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "archiveConversation": [
+          {
+            "name": "conversation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "archived",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "connectionOpts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteConversation": [
+          {
+            "name": "conversation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteMemory": [
+          {
+            "name": "memoryId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteSharedLink": [
+          {
+            "name": "share",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getSharedConversation": [
           {
             "name": "url",
@@ -117178,6 +117326,25 @@
             }
           ]
         },
+        "ShopAppFollowStoreArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "follow",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ShopAppGetProductReviewsArgs": {
           "k": "object",
           "props": [
@@ -117424,6 +117591,32 @@
               "name": "ShopAppListPageArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followStore": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppFollowStoreArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -131861,6 +132054,25 @@
             }
           ]
         },
+        "ListPlaylistVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playlist",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSoundVideosArgs": {
           "k": "object",
           "props": [
@@ -131870,6 +132082,32 @@
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListUserPlaylistsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "secUid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -132080,6 +132318,26 @@
             "schema": {
               "k": "ref",
               "name": "ListUserVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listUserPlaylists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListUserPlaylistsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPlaylistVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPlaylistVideosArgs"
             },
             "optional": false
           }
@@ -147273,6 +147531,47 @@
               "props": [
                 {
                   "name": "listId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listLists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "handle",
                   "schema": {
                     "k": "string"
                   },
