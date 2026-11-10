@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: baee85b1e409c6a3595377890be6fb9e26ced87527b2a222d4ca806426427948
-// 97 capabilities, 794 providers, 4834 typed functions, 20 refused.
+// Manifest version: 10399b49a7882ea96e40c419a25a5e582d4c1914a51bab2ab6d1f450b2368f33
+// 97 capabilities, 794 providers, 4839 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17398,6 +17398,22 @@ interface BlueskyAddToListArgs {
   undo?: boolean;
 }
 
+interface BlueskySetAvatarArgs {
+  image: string;
+  banner?: boolean;
+}
+
+interface BlueskySendMessageArgs {
+  to?: string;
+  conversationId?: string;
+  text: string;
+}
+
+interface BlueskySentMessage {
+  conversationId: string;
+  message: BlueskyChatMessage;
+}
+
 interface BlueskySaveFeedArgs {
   feed: string;
   pinned?: boolean;
@@ -17782,6 +17798,25 @@ interface BlueskySaveFeedResult {
      * sign in again.
      */
     updateProfile(args: BlueskyUpdateProfileArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Sends a direct message as the signed-in caller — to a person (`to`: handle, DID or bsky.app
+     * profile URL; the conversation is found or opened) or into an existing `conversationId` from
+     * listConversations. Text up to 1000 characters; links and @mentions become rich text. THROWS
+     * `blueskyInputError` when the recipient does not accept messages from the caller. Needs the
+     * caller signed in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+     * `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    sendMessage(args: BlueskySendMessageArgs, opts?: ConnectionOption): Promise<BlueskySentMessage>;
+
+    /**
+     * Sets the signed-in caller's profile picture from an image — an https URL or a
+     * data:image/...;base64 URI, PNG or JPEG, at most 1 MB; `banner: true` sets the header banner
+     * instead. Display name, bio and the other image are kept. Needs the caller signed in to
+     * bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError` when
+     * the saved sign-in has expired; sign in again.
+     */
+    setAvatar(args: BlueskySetAvatarArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
 
     /**
      * Creates a list owned by the signed-in caller — `purpose: "curate"` (default, a feed of
@@ -30907,6 +30942,11 @@ interface UpdateVideoArgs {
   category?: string;
   private?: boolean;
 }
+interface UpdateProfileArgs {
+  displayName?: string;
+  description?: string;
+  website?: string;
+}
 interface DeleteVideoArgs {
   video: string;
 }
@@ -31168,6 +31208,12 @@ interface DailymotionListMyPlaylistsResult {
      * visibility. Needs the caller signed in.
      */
     updateVideo(args: UpdateVideoArgs, opts?: ConnectionOption): Promise<DailymotionVideo>;
+
+    /**
+     * Edit the signed-in caller's own Dailymotion profile — display name, description or website —
+     * and return the updated profile. Needs the caller signed in.
+     */
+    updateProfile(args: UpdateProfileArgs, opts?: ConnectionOption): Promise<DailymotionChannel>;
 
     /** Delete one of the signed-in caller's own videos. Needs the caller signed in. */
     deleteVideo(args: DeleteVideoArgs, opts?: ConnectionOption): Promise<DailymotionDeletedVideo>;
@@ -50050,6 +50096,21 @@ interface GrammarlyDocumentText {
   /** The document's full plain text. */
   text: string;
 }
+interface CreateDocumentArgs {
+  /** The document's text. */
+  text: string;
+  /** The title shown in the documents list. Omit for an untitled document. */
+  title?: string;
+}
+interface DeleteDocumentArgs {
+  /** The id listDocuments or createDocument returned. */
+  id: string;
+}
+interface DeletedDocument {
+  id: string;
+  /** Always true: the document went to the trash (listDocuments({ trash: true })). */
+  trashed: boolean;
+}
 interface GrammarlyPlan {
   id: number;
   title: string;
@@ -50134,6 +50195,22 @@ interface GrammarlyPlans {
      * text.
      */
     paraphrase(args: ParaphraseArgs): Promise<Paraphrased>;
+
+    /**
+     * Saves a new document in the caller's own Grammarly account and returns it as `listDocuments`
+     * would — e.g. `createDocument({ title: "Cover letter", text: "Dear hiring manager," })` → `{
+     * id: "1234567890", title: "Cover letter", preview, errors, size, … }`. Needs the caller's own
+     * Grammarly sign-in.
+     */
+    createDocument(args: CreateDocumentArgs, opts?: ConnectionOption): Promise<GrammarlyDocument>;
+
+    /**
+     * Moves one saved document to the trash in the caller's own Grammarly account, by the `id`
+     * `listDocuments` returned — e.g. `deleteDocument({ id: "1234567890" })` → `{ id:
+     * "1234567890", trashed: true }`. `listDocuments({ trash: true })` still lists it. Needs the
+     * caller's own Grammarly sign-in.
+     */
+    deleteDocument(args: DeleteDocumentArgs, opts?: ConnectionOption): Promise<DeletedDocument>;
 
     /**
      * Returns the signed-in account's profile: `email`, `name` ("" when unset), `plan` ("Free" or

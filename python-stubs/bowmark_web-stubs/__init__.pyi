@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: baee85b1e409c6a3595377890be6fb9e26ced87527b2a222d4ca806426427948
-# 97 capabilities, 794 providers, 4816 typed functions, 20 refused.
+# Manifest version: 10399b49a7882ea96e40c419a25a5e582d4c1914a51bab2ab6d1f450b2368f33
+# 97 capabilities, 794 providers, 4821 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10704,6 +10704,19 @@ class Prv_bluesky_BlueskyUpdateProfileArgs_In(TypedDict):
     displayName: NotRequired[str]
     bio: NotRequired[str]
 
+class Prv_bluesky_BlueskySendMessageArgs_In(TypedDict):
+    to: NotRequired[str]
+    conversationId: NotRequired[str]
+    text: str
+
+class Prv_bluesky_BlueskySentMessage_Out(TypedDict):
+    conversationId: str
+    message: Prv_bluesky_BlueskyChatMessage_Out
+
+class Prv_bluesky_BlueskySetAvatarArgs_In(TypedDict):
+    image: str
+    banner: NotRequired[bool]
+
 class Prv_bluesky_BlueskyCreateListArgs_In(TypedDict):
     name: str
     description: NotRequired[str]
@@ -19109,6 +19122,11 @@ class Prv_dailymotion_UpdateVideoArgs_In(TypedDict):
     tags: NotRequired[Sequence[str]]
     category: NotRequired[str]
     private: NotRequired[bool]
+
+class Prv_dailymotion_UpdateProfileArgs_In(TypedDict):
+    displayName: NotRequired[str]
+    description: NotRequired[str]
+    website: NotRequired[str]
 
 class Prv_dailymotion_DeleteVideoArgs_In(TypedDict):
     video: str
@@ -31245,6 +31263,27 @@ class Prv_grammarly_ParaphraseArgs_In(TypedDict):
 class Prv_grammarly_Paraphrased_Out(TypedDict):
     text: str
 
+class Prv_grammarly_CreateDocumentArgs_In(TypedDict):
+    text: str
+    title: NotRequired[str]
+
+class Prv_grammarly_GrammarlyDocument_Out(TypedDict):
+    id: str
+    title: str
+    preview: str
+    errors: float
+    size: float
+    originalFilename: str | None
+    createdAt: str | None
+    updatedAt: str | None
+
+class Prv_grammarly_DeleteDocumentArgs_In(TypedDict):
+    id: str
+
+class Prv_grammarly_DeletedDocument_Out(TypedDict):
+    id: str
+    trashed: bool
+
 class Prv_grammarly_GrammarlyAccount_Out(TypedDict):
     email: str
     name: str
@@ -31266,16 +31305,6 @@ class Prv_grammarly_ListDocumentsArgs_In(TypedDict):
 
 class Prv_grammarly_GrammarlyDocuments_Out(TypedDict):
     documents: list[Prv_grammarly_GrammarlyDocument_Out]
-
-class Prv_grammarly_GrammarlyDocument_Out(TypedDict):
-    id: str
-    title: str
-    preview: str
-    errors: float
-    size: float
-    originalFilename: str | None
-    createdAt: str | None
-    updatedAt: str | None
 
 class Prv_grammarly_ListGoalsArgs_In(TypedDict):
     documentId: NotRequired[str]
@@ -77562,6 +77591,24 @@ class Prv_bluesky(Protocol):
         expired; sign in again.
         """
 
+    async def sendMessage(self, args: Prv_bluesky_BlueskySendMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskySentMessage_Out:
+        """Sends a direct message as the signed-in caller — to a person (`to`: handle, DID or
+        bsky.app profile URL; the conversation is found or opened) or into an existing
+        `conversationId` from listConversations. Text up to 1000 characters; links and @mentions
+        become rich text. THROWS `blueskyInputError` when the recipient does not accept messages
+        from the caller. Needs the caller signed in to bsky.app — the run pauses for a sign-in
+        link when they are not. THROWS `blueskyError` when the saved sign-in has expired; sign
+        in again.
+        """
+
+    async def setAvatar(self, args: Prv_bluesky_BlueskySetAvatarArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyPostActionResult_Out:
+        """Sets the signed-in caller's profile picture from an image — an https URL or a
+        data:image/...;base64 URI, PNG or JPEG, at most 1 MB; `banner: true` sets the header
+        banner instead. Display name, bio and the other image are kept. Needs the caller signed
+        in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+        `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
     async def createList(self, args: Prv_bluesky_BlueskyCreateListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyCreatedRecord_Out:
         """Creates a list owned by the signed-in caller — `purpose: "curate"` (default, a feed of
         people) or `"moderate"` (a mute/block list) — and returns its at:// URI and bsky.app
@@ -82115,6 +82162,11 @@ class Prv_dailymotion(Protocol):
     async def updateVideo(self, args: Prv_dailymotion_UpdateVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionVideo_Out:
         """Edit one of the signed-in caller's own videos — title, description, tags, category or
         visibility. Needs the caller signed in.
+        """
+
+    async def updateProfile(self, args: Prv_dailymotion_UpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionChannel_Out:
+        """Edit the signed-in caller's own Dailymotion profile — display name, description or
+        website — and return the updated profile. Needs the caller signed in.
         """
 
     async def deleteVideo(self, args: Prv_dailymotion_DeleteVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionDeletedVideo_Out:
@@ -88838,6 +88890,20 @@ class Prv_grammarly(Protocol):
         home and watch movies all day." })` → `{ text: "The weather was quite terrible, so we
         chose to stay indoors and binge-watch movies throughout the day." }`. Up to 625
         characters per call; split longer text.
+        """
+
+    async def createDocument(self, args: Prv_grammarly_CreateDocumentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_grammarly_GrammarlyDocument_Out:
+        """Saves a new document in the caller's own Grammarly account and returns it as
+        `listDocuments` would — e.g. `createDocument({ title: "Cover letter", text: "Dear hiring
+        manager," })` → `{ id: "1234567890", title: "Cover letter", preview, errors, size, … }`.
+        Needs the caller's own Grammarly sign-in.
+        """
+
+    async def deleteDocument(self, args: Prv_grammarly_DeleteDocumentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_grammarly_DeletedDocument_Out:
+        """Moves one saved document to the trash in the caller's own Grammarly account, by the `id`
+        `listDocuments` returned — e.g. `deleteDocument({ id: "1234567890" })` → `{ id:
+        "1234567890", trashed: true }`. `listDocuments({ trash: true })` still lists it. Needs
+        the caller's own Grammarly sign-in.
         """
 
     async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_grammarly_GrammarlyAccount_Out:

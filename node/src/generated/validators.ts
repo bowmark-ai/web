@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: baee85b1e409c6a3595377890be6fb9e26ced87527b2a222d4ca806426427948
-// 4816 checked, 20 unchecked.
+// Manifest version: 10399b49a7882ea96e40c419a25a5e582d4c1914a51bab2ab6d1f450b2368f33
+// 4821 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "baee85b1e409c6a3595377890be6fb9e26ced87527b2a222d4ca806426427948",
+  "version": "10399b49a7882ea96e40c419a25a5e582d4c1914a51bab2ab6d1f450b2368f33",
   "units": {
     "address_validation": {
       "defs": {
@@ -19981,6 +19981,51 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BlueskySendMessageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "BlueskySetAvatarArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "image",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "banner",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "BlueskyUpdateProfileArgs": {
           "k": "object",
           "props": [
@@ -21480,6 +21525,58 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BlueskyUpdateProfileArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskySendMessageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setAvatar": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskySetAvatarArgs"
             },
             "optional": false
           },
@@ -38134,6 +38231,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "UpdateProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "displayName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "website",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "UpdateVideoArgs": {
           "k": "object",
           "props": [
@@ -38711,6 +38834,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "UpdateVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpdateProfileArgs"
             },
             "optional": false
           },
@@ -64860,6 +65009,37 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "CreateDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "DeleteDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetDocumentArgs": {
           "k": "object",
           "props": [
@@ -65004,6 +65184,58 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ParaphraseArgs"
             },
             "optional": false
+          }
+        ],
+        "createDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CreateDocumentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeleteDocumentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getAccount": [

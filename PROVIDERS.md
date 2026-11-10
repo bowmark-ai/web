@@ -581,8 +581,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.searchPosts` | bsky.app | Search all public posts by words, with the Search tab's Top/Latest sort and its… | 🟢 |
 | `bluesky.searchStarterPacks` | bsky.app | Find starter packs by words. | 🟢 |
 | `bluesky.searchUsers` | bsky.app | Search people by name, handle or bio words, the way the Search tab's People list does… | 🟢 |
-| `bluesky.sendMessage` | bsky.app | Send a direct message as the caller to a person who accepts DMs from them. | ⚪ |
-| `bluesky.setAvatar` | bsky.app | Change the caller's profile picture (or banner) from an image. | ⚪ |
+| `bluesky.sendMessage` | bsky.app | Send a direct message as the caller to a person who accepts DMs from them. | 🟢 |
+| `bluesky.setAvatar` | bsky.app | Change the caller's profile picture (or banner) from an image. | 🟢 |
 | `bluesky.suggestUsers` | bsky.app | Handle autocomplete: the few accounts that best match a partial name, as the compose… | 🟢 |
 | `bluesky.updateProfile` | bsky.app | Change the caller's display name and bio. | 🟢 |
 | `bmwusa.buildVehicle` | bmwusa.com | Runs BMW's own Build Your Own configurator for a model code (read off /all-bmws.html's… | 🟢 |
@@ -1420,7 +1420,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion channels (uploaders) by name — id, username, display name, follower… | 🟢 |
 | `dailymotion.searchPlaylists` | dailymotion.com | Search Dailymotion playlists by keyword ("cats", "music"), as the site's own search… | 🟢 |
 | `dailymotion.searchVideos` | dailymotion.com | Search Dailymotion videos by keyword — title, uploader, duration, views, publish date… | 🟢 |
-| `dailymotion.updateProfile` | dailymotion.com | Edit the signed-in caller's own profile — display name, description, avatar. | ⚪ |
+| `dailymotion.updateProfile` | dailymotion.com | Edit the signed-in caller's own profile — display name, description, website. | 🟢 |
 | `dailymotion.updateVideo` | dailymotion.com | Edit one of the signed-in caller's videos — title, description, tags, category… | 🟢 |
 | `dailymotion.uploadVideo` | dailymotion.com | Publish a video to the signed-in caller's channel from a public file URL, with title… | 🟢 |
 | `dangotecement.findDistributors` | dangotecement.com | Searches Dangote Cement's authorised distributor & retailer directory for Nigeria… | 🟢 |
