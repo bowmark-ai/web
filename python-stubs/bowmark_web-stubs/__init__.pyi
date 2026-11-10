@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4f09f4d8dc48133dffe195e69b1aa8aceaf9dcf1dc92be5ca62366322576cbff
-# 97 capabilities, 796 providers, 4831 typed functions, 20 refused.
+# Manifest version: 44d4cba902e23c947f73e7393f60ab262a90c23311b1531a32c2d767a6164622
+# 97 capabilities, 797 providers, 4833 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -36624,6 +36624,50 @@ class Prv_lasikplus_LasikPlusDaySlots_Out(TypedDict):
     date: str
     times: list[str]
 
+class Prv_lcsc_LcscSearchArgs_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_lcsc_LcscPart_Out(TypedDict):
+    code: str
+    model: str
+    brand: str | None
+    description: str | None
+    category: str | None
+    package: str | None
+    stock: float | None
+    minOrder: float | None
+    prices: list[Prv_lcsc_LcscPriceBreak_Out]
+    datasheetUrl: str | None
+    imageUrl: str | None
+    url: str
+
+class Prv_lcsc_LcscPriceBreak_Out(TypedDict):
+    quantity: float
+    usd: float
+
+class Prv_lcsc_LcscProductArgs_u1_In(TypedDict):
+    code: str
+
+class Prv_lcsc_LcscProduct_Out(TypedDict):
+    code: str
+    model: str
+    brand: str | None
+    description: str | None
+    category: str | None
+    package: str | None
+    stock: float | None
+    minOrder: float | None
+    prices: list[Prv_lcsc_LcscPriceBreak_Out]
+    datasheetUrl: str | None
+    imageUrl: str | None
+    url: str
+    attributes: list[Prv_lcsc_LcscProduct_Out_attributes_item_Out]
+
+class Prv_lcsc_LcscProduct_Out_attributes_item_Out(TypedDict):
+    name: str
+    value: str
+
 class Prv_legacyhomesal_LegacyHomesalAvailability_Out(TypedDict):
     repSlug: str
     repName: str | None
@@ -71527,7 +71571,7 @@ class Cap_cars(Protocol):
 
     async def search(self, query: Cap_cars_CarQuery_In, limit: float | None = None, options: Cap_cars_CallOptions_In | None = None, /) -> Cap_cars_CarSearchResult_Out:
         """Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate:
-        "2026-09-01", dropoffDate: "2026-09-05" }` — and returns up to `limit` normalized offers
+        "2027-09-01", dropoffDate: "2027-09-05" }` — and returns up to `limit` normalized offers
         (default and max 50), cheapest TOTAL first, with unpriced offers last. Set `dropoff` for
         a one-way hire, `pickupHour`/`dropoffHour` (0-23) to move off the site's default 10:00,
         and `driverAge` when the driver is under 25, which changes which fleet is quotable at
@@ -72535,7 +72579,7 @@ class Cap_movie_showtimes(Protocol):
     async def search(self, args: str | Cap_movie_showtimes_MovieShowtimesArgs_In, options: Cap_movie_showtimes_CallOptions_In | None = None, /) -> Cap_movie_showtimes_movie_showtimesResult_Out:
         """Lists movie showtimes at a theater, optionally for one film and one date —
         `bowmark.movie_showtimes.search({ theater: "Alamo Drafthouse Valley Fair", film: "You
-        Can See Everything", date: "2026-10-26" })`. Each showing carries its theater-local date
+        Can See Everything", date: "2027-10-26" })`. Each showing carries its theater-local date
         and start time, format, sale status and ticket page. Covers Alamo Drafthouse Cinema;
         `warnings` says when a theater is outside that.
         """
@@ -86713,7 +86757,7 @@ class Prv_gasbuddy(Protocol):
 
     async def findCheapestNearby(self, args: Prv_gasbuddy_GasbuddyFindCheapestNearbyArgs_In, /) -> list[Prv_gasbuddy_GasbuddyStation_Out]:
         """Runs GasBuddy's own ZIP-radius station search and returns real, currently-reported
-        stations (brand, address, regular-gas price, when it was reported), sorted cheapest
+        stations (brand, address, requested-grade price, when it was reported), sorted cheapest
         first. Read-only.
         """
 
@@ -92076,6 +92120,23 @@ class Prv_lasikplus(Protocol):
     async def getAvailability(self, centerCode: str, /) -> Prv_lasikplus_LasikPlusAvailability_Out:
         """Given a centerCode from findCenters, returns the live, computed in-center and virtual
         consultation slot calendar.
+        """
+
+class Prv_lcsc(Protocol):
+    """Search LCSC Electronics' component catalog by part number or description, with stock,
+    USD price breaks and datasheets.
+    """
+
+    async def search(self, args: str | Prv_lcsc_LcscSearchArgs_u1_In, /) -> list[Prv_lcsc_LcscPart_Out]:
+        """Searches LCSC's electronic-components catalog. Pass a manufacturer part number
+        ("STM32F103C8T6") for exact matches, or a phrase ("10k resistor 0603") for the
+        best-matching category's parts. Each part has its LCSC code (C…), model, brand, package,
+        stock, minimum order, USD price breaks and datasheet URL.
+        """
+
+    async def product(self, args: str | Prv_lcsc_LcscProductArgs_u1_In, /) -> Prv_lcsc_LcscProduct_Out:
+        """Reads one LCSC part by its code ("C8734"): everything search returns plus the parametric
+        attributes (resistance, tolerance, voltage, …).
         """
 
 class Prv_legacyhomesal(Protocol):
@@ -111442,6 +111503,7 @@ class BowmarkProviders(Protocol):
     landmarkhw_com: Prv_landmarkhw_com
     landsend: Prv_landsend
     lasikplus: Prv_lasikplus
+    lcsc: Prv_lcsc
     legacyhomesal: Prv_legacyhomesal
     letterboxd: Prv_letterboxd
     lever: Prv_lever

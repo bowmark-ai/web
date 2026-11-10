@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4f09f4d8dc48133dffe195e69b1aa8aceaf9dcf1dc92be5ca62366322576cbff
-// 4831 checked, 20 unchecked.
+// Manifest version: 44d4cba902e23c947f73e7393f60ab262a90c23311b1531a32c2d767a6164622
+// 4833 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4f09f4d8dc48133dffe195e69b1aa8aceaf9dcf1dc92be5ca62366322576cbff",
+  "version": "44d4cba902e23c947f73e7393f60ab262a90c23311b1531a32c2d767a6164622",
   "units": {
     "address_validation": {
       "defs": {
@@ -76097,6 +76097,79 @@ export const VALIDATORS: ValidatorTable = {
             "name": "centerCode",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.lcsc": {
+      "defs": {
+        "LcscProductArgs": {
+          "k": "union",
+          "of": [
+            {
+              "k": "string"
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "code",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            }
+          ]
+        },
+        "LcscSearchArgs": {
+          "k": "union",
+          "of": [
+            {
+              "k": "string"
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LcscSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "product": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LcscProductArgs"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4f09f4d8dc48133dffe195e69b1aa8aceaf9dcf1dc92be5ca62366322576cbff
-// 97 capabilities, 796 providers, 4849 typed functions, 20 refused.
+// Manifest version: 44d4cba902e23c947f73e7393f60ab262a90c23311b1531a32c2d767a6164622
+// 97 capabilities, 797 providers, 4851 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -777,7 +777,7 @@ declare namespace BowmarkCapability_cars {
 type CarQuery = {
   pickup: string        // IATA airport code ("SFO") — the vertical is airport-first
   dropoff?: string      // defaults to pickup; set it for a one-way hire
-  pickupDate: string    // ISO date "2026-09-01"
+  pickupDate: string    // ISO date "2027-09-01"
   dropoffDate: string
   pickupHour?: number   // 0-23, defaults to the site's own 10:00
   dropoffHour?: number
@@ -831,7 +831,7 @@ type CallOptions = {
   interface Unit {
     /**
      * Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate:
-     * "2026-09-01", dropoffDate: "2026-09-05" }` — and returns up to `limit` normalized offers
+     * "2027-09-01", dropoffDate: "2027-09-05" }` — and returns up to `limit` normalized offers
      * (default and max 50), cheapest TOTAL first, with unpriced offers last. Set `dropoff` for a
      * one-way hire, `pickupHour`/`dropoffHour` (0-23) to move off the site's default 10:00, and
      * `driverAge` when the driver is under 25, which changes which fleet is quotable at all.
@@ -1836,7 +1836,7 @@ type PriceGraph = {
 type FlightQuery = {
   from: string          // IATA ("SFO") — best for cross-provider matching
   to: string
-  depart: string        // ISO date "2026-09-01"
+  depart: string        // ISO date "2027-09-01"
   return?: string       // omit for one-way
   cabin?: "economy" | "premium" | "business" | "first"
   stops?: "any" | "nonstop" | "1"
@@ -2364,7 +2364,7 @@ type HotelQuery = {
   location: string   // IATA airport code ("SFO") — the measured form — or a bare city
                      // name ("San Jose"). NOT "City, State": the sites send that to
                      // their stays home page and search nothing, so it is refused
-  checkIn: string    // ISO date "2026-08-29"
+  checkIn: string    // ISO date "2027-08-29"
   checkOut: string   // strictly after checkIn
   adults?: number    // total guests; the sites' own default is 2
   rooms?: number     // defaults to 1; two rooms for four guests prices differently
@@ -3573,7 +3573,7 @@ type CallOptions = {
     /**
      * Lists movie showtimes at a theater, optionally for one film and one date —
      * `bowmark.movie_showtimes.search({ theater: "Alamo Drafthouse Valley Fair", film: "You Can
-     * See Everything", date: "2026-10-26" })`. Each showing carries its theater-local date and
+     * See Everything", date: "2027-10-26" })`. Each showing carries its theater-local date and
      * start time, format, sale status and ticket page. Covers Alamo Drafthouse Cinema; `warnings`
      * says when a theater is outside that.
      */
@@ -44430,7 +44430,8 @@ interface GasbuddyStation {
   interface Unit {
     /**
      * Runs GasBuddy's own ZIP-radius station search and returns real, currently-reported stations
-     * (brand, address, regular-gas price, when it was reported), sorted cheapest first. Read-only.
+     * (brand, address, requested-grade price, when it was reported), sorted cheapest first.
+     * Read-only.
      */
     findCheapestNearby(args: GasbuddyFindCheapestNearbyArgs): Promise<GasbuddyStation[]>;
   }
@@ -59204,6 +59205,35 @@ interface LasikPlusAvailability {
      * consultation slot calendar.
      */
     getAvailability(centerCode: string): Promise<LasikPlusAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_lcsc {
+  // ── LCSC Electronics — the unit's own declarations, verbatim ──
+interface LcscPriceBreak { quantity: number; usd: number; }
+interface LcscPart { code: string; model: string; brand: string | null; description: string | null; category: string | null; package: string | null; stock: number | null; minOrder: number | null; prices: LcscPriceBreak[]; datasheetUrl: string | null; imageUrl: string | null; url: string; }
+interface LcscProduct extends LcscPart { attributes: { name: string; value: string }[]; }
+type LcscSearchArgs = string | { query: string; limit?: number };
+type LcscProductArgs = string | { code: string };
+
+  /**
+   * Search LCSC Electronics' component catalog by part number or description, with stock, USD
+   * price breaks and datasheets.
+   */
+  interface Unit {
+    /**
+     * Searches LCSC's electronic-components catalog. Pass a manufacturer part number
+     * ("STM32F103C8T6") for exact matches, or a phrase ("10k resistor 0603") for the best-matching
+     * category's parts. Each part has its LCSC code (C…), model, brand, package, stock, minimum
+     * order, USD price breaks and datasheet URL.
+     */
+    search(args: LcscSearchArgs): Promise<LcscPart[]>;
+
+    /**
+     * Reads one LCSC part by its code ("C8734"): everything search returns plus the parametric
+     * attributes (resistance, tolerance, voltage, …).
+     */
+    product(args: LcscProductArgs): Promise<LcscProduct>;
   }
 }
 
@@ -114118,6 +114148,7 @@ interface BowmarkProviders {
   landmarkhw_com: BowmarkProvider_landmarkhw_com.Unit;
   landsend: BowmarkProvider_landsend.Unit;
   lasikplus: BowmarkProvider_lasikplus.Unit;
+  lcsc: BowmarkProvider_lcsc.Unit;
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   letterboxd: BowmarkProvider_letterboxd.Unit;
   lever: BowmarkProvider_lever.Unit;
