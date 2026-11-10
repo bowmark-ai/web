@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6193 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6194 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4627,6 +4627,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shopify.searchProducts` | shopify.com (49875 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
+| `skills_rest.listSkills` | skills.rest | Lists the public skill cards currently featured on skills.rest, returning each card's… | 🟢 |
 | `slice.addMyAddress` | slicelife.com | Saves a new delivery address to the signed-in caller's Slice account. | ⚪ |
 | `slice.addPaymentMethod` | slicelife.com | Saves a new card or PayPal account to the caller's Slice account. | ⚪ |
 | `slice.checkDelivery` | slicelife.com | Checks whether a pizzeria delivers to an address and, if it does, the delivery fee… | 🟢 |
@@ -5008,19 +5009,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `surfshark.getDedicatedIp` | surfshark.com | Reads Surfshark's own dedicated / static IP page and returns every country and city it… | 🟢 |
 | `surfshark.getPlans` | surfshark.com | Surfshark's VPN subscription plans and prices (surfshark.com/pricing). | ⚪ |
 | `surveymonkey.createCollector` | surveymonkey.com | Creates a new collector (web link, email invite, SMS, or social) to distribute one… | ⚪ |
-| `surveymonkey.createSurvey` | surveymonkey.com | Creates a new survey with title, questions, and initial settings. | ⚪ |
+| `surveymonkey.createSurvey` | surveymonkey.com | Creates a new survey with title, questions, and initial settings. | 🟢 |
 | `surveymonkey.deleteCollector` | surveymonkey.com | Stops collecting responses through one collector on one survey. | ⚪ |
 | `surveymonkey.deleteSurvey` | surveymonkey.com | Permanently deletes one survey and all its responses. | ⚪ |
 | `surveymonkey.downloadSurveyData` | surveymonkey.com | Exports all responses to one survey as a CSV or Excel file. | ⚪ |
 | `surveymonkey.editSurvey` | surveymonkey.com | Updates an existing survey's title, description, questions, or settings. | ⚪ |
 | `surveymonkey.getAccountInfo` | surveymonkey.com | Retrieves the signed-in user's account details: name, email, plan tier, response limits. | 🟢 |
-| `surveymonkey.getCollectorStatus` | surveymonkey.com | Retrieves the response count and status for one collector on one survey. | ⚪ |
+| `surveymonkey.getCollectorStatus` | surveymonkey.com | Retrieves the response count and status for one collector on one survey. | 🟢 |
 | `surveymonkey.getSurvey` | surveymonkey.com | Retrieves one survey's full details: title, description, questions, and settings. | 🟢 |
 | `surveymonkey.getSurveyAnalytics` | surveymonkey.com | Retrieves high-level analytics for one survey: response rate, completion time… | ⚪ |
-| `surveymonkey.getSurveyResults` | surveymonkey.com | Fetches all responses submitted to one survey, with respondent answers per question. | ⚪ |
+| `surveymonkey.getSurveyResults` | surveymonkey.com | Fetches all responses submitted to one survey, with respondent answers per question. | 🟢 |
 | `surveymonkey.listCollectors` | surveymonkey.com | Lists all collectors (email, link, SMS, etc.) set up for one survey with response… | 🟢 |
 | `surveymonkey.listSurveys` | surveymonkey.com | Lists the signed-in user's surveys with titles, creation dates, and response counts. | 🟢 |
-| `surveymonkey.listTemplates` | surveymonkey.com | Lists pre-built survey templates available to the signed-in user. | ⚪ |
+| `surveymonkey.listTemplates` | surveymonkey.com | Lists pre-built survey templates available to the signed-in user. | 🟢 |
 | `surveymonkey.sendSurveyInvite` | surveymonkey.com | Sends survey invitations via email to one or more email addresses. | ⚪ |
 | `surveymonkey.shareSurvey` | surveymonkey.com | Shares one survey with a team member or colleague for collaboration. | ⚪ |
 | `sweathouz.addToCart` | sweathouz.com | Adds a package or membership to the customer's cart. | ⚪ |
