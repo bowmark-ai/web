@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8862d4bfa0418fc4e9ece7fbd898fd22b927ff42cb040d08487baf8c76a405c3
-// 4797 checked, 20 unchecked.
+// Manifest version: 898dddcfebcbba6ed7920affddc15cc2a9a971b8d915cdb4890c19ba3b27dc2b
+// 4807 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8862d4bfa0418fc4e9ece7fbd898fd22b927ff42cb040d08487baf8c76a405c3",
+  "version": "898dddcfebcbba6ed7920affddc15cc2a9a971b8d915cdb4890c19ba3b27dc2b",
   "units": {
     "address_validation": {
       "defs": {
@@ -12405,87 +12405,6 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
-    "providers.amazon_ca": {
-      "defs": {
-        "GetProductArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "asin",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        },
-        "SearchProductsArgs": {
-          "k": "union",
-          "of": [
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "keywords",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "page",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "query",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "page",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": true
-                }
-              ]
-            }
-          ]
-        }
-      },
-      "functions": {
-        "searchProducts": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "SearchProductsArgs"
-            },
-            "optional": false
-          }
-        ],
-        "getProduct": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetProductArgs"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
     "providers.americandreamvacations": {
       "defs": {},
       "functions": {
@@ -19047,6 +18966,20 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bestmcp_dev": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }
@@ -50450,6 +50383,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetDiscussionThreadArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "wiki",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "threadId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetImageArgs": {
           "k": "object",
           "props": [
@@ -50625,6 +50577,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -50642,6 +50601,13 @@ export const VALIDATORS: ValidatorTable = {
               "name": "wiki",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -50663,6 +50629,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -50675,6 +50648,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -50692,6 +50672,13 @@ export const VALIDATORS: ValidatorTable = {
               "name": "wiki",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -50713,6 +50700,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -50732,6 +50726,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -50744,6 +50745,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -50761,6 +50769,13 @@ export const VALIDATORS: ValidatorTable = {
               "name": "wiki",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -50782,6 +50797,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -51142,6 +51164,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetDiscussionPostArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDiscussionThread": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDiscussionThreadArgs"
             },
             "optional": false
           }
@@ -69099,6 +69131,46 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.imgur": {
       "defs": {
+        "ImgurCommentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "best"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "new"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "top"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ImgurGalleryArgs": {
           "k": "object",
           "props": [
@@ -69221,6 +69293,46 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ImgurTagArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "tag",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "viral"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "top"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -69232,6 +69344,60 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ImgurGalleryArgs"
             },
             "optional": true
+          }
+        ],
+        "getPost": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPostComments": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ImgurCommentsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getTag": [
+          {
+            "name": "tag",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ImgurTagArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getUser": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ],
         "searchPosts": [
@@ -82920,6 +83086,37 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.mcpserverhub_com": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -118736,6 +118933,108 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "removeFriend": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "userId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "username",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "blockUser": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "userId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "username",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "updateDisplayName": [
           {
             "name": "input",
@@ -124465,6 +124764,40 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchMarketArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "appId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "start",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchNewsArgs": {
           "k": "object",
           "props": [
@@ -125037,6 +125370,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetMarketPriceArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchMarket": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchMarketArgs"
             },
             "optional": false
           }
@@ -142871,6 +143214,25 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMinutelyPrecipitation": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          }
+        ],
+        "getPlayback": [
+          {
+            "name": "urlOrPath",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getWeatherInsights": [
           {
             "name": "location",
             "schema": {

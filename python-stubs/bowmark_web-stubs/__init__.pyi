@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8862d4bfa0418fc4e9ece7fbd898fd22b927ff42cb040d08487baf8c76a405c3
-# 97 capabilities, 793 providers, 4797 typed functions, 20 refused.
+# Manifest version: 898dddcfebcbba6ed7920affddc15cc2a9a971b8d915cdb4890c19ba3b27dc2b
+# 97 capabilities, 794 providers, 4807 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5821,39 +5821,6 @@ class Prv_amazon_br_AmazonBrProductDetail_Out(TypedDict):
     availability: str | None
     inStock: bool
 
-class Prv_amazon_ca_SearchProductsArgs_u0_In(TypedDict):
-    keywords: str
-    page: NotRequired[float]
-
-class Prv_amazon_ca_SearchProductsArgs_u1_In(TypedDict):
-    query: str
-    page: NotRequired[float]
-
-class Prv_amazon_ca_AmazonCaSearchResult_Out(TypedDict):
-    products: list[Prv_amazon_ca_AmazonCaProduct_Out]
-    totalResultCount: float
-
-class Prv_amazon_ca_AmazonCaProduct_Out(TypedDict):
-    asin: str
-    title: str
-    url: str
-    price: float | None
-    rating: float | None
-    ratingCount: float | None
-    sponsored: bool
-
-class Prv_amazon_ca_GetProductArgs_In(TypedDict):
-    asin: str
-
-class Prv_amazon_ca_AmazonCaProductDetail_Out(TypedDict):
-    asin: str
-    title: str
-    url: str
-    price: float | None
-    rating: float | None
-    ratingCount: float | None
-    inStock: bool
-
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
     name: str
@@ -9692,6 +9659,18 @@ class Prv_bestbuy_ca_BestBuyCaProduct_Out(TypedDict):
     onlineQuantity: float | None
     inStoreAvailability: str | None
     description: str | None
+
+class Prv_bestmcp_dev_search_return_Out(TypedDict):
+    results: list[Prv_bestmcp_dev_BestMcpDevServer_Out]
+    warnings: list[str]
+
+class Prv_bestmcp_dev_BestMcpDevServer_Out(TypedDict):
+    name: str
+    description: str
+    category: str | None
+    stars: float | None
+    language: str | None
+    url: str
 
 class Prv_bhphoto_StoreOffer_Out(TypedDict):
     title: str
@@ -25168,6 +25147,7 @@ class Prv_fandom_Infobox_Out(TypedDict):
 class Prv_fandom_ListLinksArgs_In(TypedDict):
     title: str
     wiki: NotRequired[str]
+    limit: NotRequired[float]
 
 class Prv_fandom_LinkedPage_Out(TypedDict):
     title: str
@@ -25176,6 +25156,7 @@ class Prv_fandom_LinkedPage_Out(TypedDict):
 class Prv_fandom_ListBacklinksArgs_In(TypedDict):
     title: str
     wiki: NotRequired[str]
+    limit: NotRequired[float]
 
 class Prv_fandom_Backlink_Out(TypedDict):
     id: str
@@ -25185,6 +25166,7 @@ class Prv_fandom_Backlink_Out(TypedDict):
 class Prv_fandom_ListExternalLinksArgs_In(TypedDict):
     title: str
     wiki: NotRequired[str]
+    limit: NotRequired[float]
 
 class Prv_fandom_ExternalLink_Out(TypedDict):
     url: str
@@ -25192,6 +25174,7 @@ class Prv_fandom_ExternalLink_Out(TypedDict):
 class Prv_fandom_ListCategoriesArgs_In(TypedDict):
     title: str
     wiki: NotRequired[str]
+    limit: NotRequired[float]
 
 class Prv_fandom_WikiCategory_Out(TypedDict):
     title: str
@@ -25199,6 +25182,7 @@ class Prv_fandom_WikiCategory_Out(TypedDict):
 class Prv_fandom_ListCategoryMembersArgs_In(TypedDict):
     category: str
     wiki: str
+    limit: NotRequired[float]
 
 class Prv_fandom_CategoryMember_Out(TypedDict):
     title: str
@@ -25208,6 +25192,7 @@ class Prv_fandom_CategoryMember_Out(TypedDict):
 class Prv_fandom_ListImagesArgs_In(TypedDict):
     title: str
     wiki: NotRequired[str]
+    limit: NotRequired[float]
 
 class Prv_fandom_WikiImage_Out(TypedDict):
     title: str
@@ -25227,6 +25212,7 @@ class Prv_fandom_ImageInfo_Out(TypedDict):
 class Prv_fandom_ListRevisionsArgs_In(TypedDict):
     title: str
     wiki: NotRequired[str]
+    limit: NotRequired[float]
 
 class Prv_fandom_Revision_Out(TypedDict):
     id: str
@@ -25241,6 +25227,7 @@ class Prv_fandom_GetRevisionArgs_In(TypedDict):
 
 class Prv_fandom_ListRecentChangesArgs_In(TypedDict):
     wiki: str
+    limit: NotRequired[float]
 
 class Prv_fandom_RecentChange_Out(TypedDict):
     type: str
@@ -25281,6 +25268,7 @@ class Prv_fandom_FandomUser_Out(TypedDict):
 class Prv_fandom_ListUserContributionsArgs_In(TypedDict):
     wiki: str
     username: str
+    limit: NotRequired[float]
 
 class Prv_fandom_UserContribution_Out(TypedDict):
     pageid: str
@@ -25292,12 +25280,14 @@ class Prv_fandom_UserContribution_Out(TypedDict):
 
 class Prv_fandom_ListDiscussionPostsArgs_In(TypedDict):
     wiki: str
+    limit: NotRequired[float]
 
 class Prv_fandom_DiscussionPost_Out(TypedDict):
     id: str
     author: str
     text: str
     forumName: str
+    threadId: str
     createdAt: str
     replyCount: float
 
@@ -25312,6 +25302,20 @@ class Prv_fandom_DiscussionPostDetail_Out(TypedDict):
     createdAt: str
     threadId: str
     upvoteCount: float
+
+class Prv_fandom_GetDiscussionThreadArgs_In(TypedDict):
+    wiki: str
+    threadId: str
+
+class Prv_fandom_DiscussionThread_Out(TypedDict):
+    id: str
+    title: str
+    forumName: str
+    author: str
+    createdAt: str
+    postCount: float
+    upvoteCount: float
+    posts: list[Prv_fandom_DiscussionPostDetail_Out]
 
 class Prv_fandom_FandomCurrentUser_Out(TypedDict):
     id: float
@@ -33649,6 +33653,81 @@ class Prv_imgur_ImgurMedia_Out(TypedDict):
     isAnimated: bool
     duration: float | None
 
+class Prv_imgur_ImgurPostDetail_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    url: str
+    accountId: float | None
+    createdAt: str | None
+    views: float
+    upvotes: float
+    downvotes: float
+    points: float
+    comments: float
+    favorites: float
+    imageCount: float
+    isAlbum: bool
+    isMature: bool
+    cover: Prv_imgur_ImgurMedia_Out | None
+    author: Prv_imgur_ImgurAuthor_Out | None
+    media: list[Prv_imgur_ImgurMedia_Out]
+
+class Prv_imgur_ImgurAuthor_Out(TypedDict):
+    id: float | None
+    username: str
+    avatarUrl: str | None
+
+class Prv_imgur_ImgurCommentsArgs_In(TypedDict):
+    id: str
+    sort: NotRequired[Literal["best"] | Literal["new"] | Literal["top"]]
+    page: NotRequired[float]
+
+class Prv_imgur_ImgurComment_Out(TypedDict):
+    id: float
+    parentId: float | None
+    text: str
+    author: Prv_imgur_ImgurAuthor_Out | None
+    postId: str
+    upvotes: float
+    downvotes: float
+    points: float
+    platform: str | None
+    createdAt: str | None
+    deleted: bool
+    replies: list[Prv_imgur_ImgurComment_Out]
+
+class Prv_imgur_ImgurTagArgs_In(TypedDict):
+    tag: str
+    sort: NotRequired[Literal["viral"] | Literal["top"] | Literal["newest"]]
+    page: NotRequired[float]
+
+class Prv_imgur_ImgurTag_Out(TypedDict):
+    name: str
+    displayName: str
+    description: str | None
+    followers: float
+    totalPosts: float
+    url: str
+    posts: list[Prv_imgur_ImgurPost_Out]
+
+class Prv_imgur_ImgurUser_Out(TypedDict):
+    id: float
+    username: str
+    bio: str | None
+    reputation: float
+    reputationName: str | None
+    avatarUrl: str | None
+    coverUrl: str | None
+    createdAt: str | None
+    url: str
+    trophies: list[Prv_imgur_ImgurUser_Out_trophies_item_Out]
+
+class Prv_imgur_ImgurUser_Out_trophies_item_Out(TypedDict):
+    name: str
+    description: str | None
+    imageUrl: str | None
+
 class Prv_imgur_ImgurSearchArgs_In(TypedDict):
     query: str
     window: NotRequired[Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
@@ -39413,6 +39492,17 @@ class Prv_mcpmarket_McpMarketServer_Out(TypedDict):
     keywords: list[str]
     likes: float | None
     category: str | None
+    url: str
+
+class Prv_mcpserverhub_com_search_query_u1_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_mcpserverhub_com_McpServerHubServer_Out(TypedDict):
+    slug: str
+    name: str
+    description: str
+    tags: list[str]
+    published: str | None
     url: str
 
 class Prv_mcptrove_com_search_query_u1_In(TypedDict):
@@ -55203,6 +55293,25 @@ class Prv_snapchat_SnapchatFriendActionResult_Out(TypedDict):
     message: NotRequired[str]
     username: NotRequired[str]
 
+class Prv_snapchat_removeFriend_input_u0_In(TypedDict):
+    userId: str
+
+class Prv_snapchat_removeFriend_input_u1_In(TypedDict):
+    username: str
+
+class Prv_snapchat_SnapchatFriendChangeResult_Out(TypedDict):
+    userId: str
+    username: NotRequired[str]
+    done: bool
+    failureReason: NotRequired[float]
+    message: NotRequired[str]
+
+class Prv_snapchat_blockUser_input_u0_In(TypedDict):
+    userId: str
+
+class Prv_snapchat_blockUser_input_u1_In(TypedDict):
+    username: str
+
 class Prv_snapchat_updateDisplayName_input_In(TypedDict):
     displayName: str
 
@@ -58253,6 +58362,29 @@ class Prv_steam_GetMarketPriceResponse_Out(TypedDict):
     lowestPrice: str | None
     medianPrice: str | None
     volume: float | None
+
+class Prv_steam_SearchMarketArgs_In(TypedDict):
+    query: str
+    appId: NotRequired[str | float]
+    start: NotRequired[float]
+
+class Prv_steam_SearchMarketResponse_Out(TypedDict):
+    query: str
+    totalCount: float
+    start: float
+    listings: list[Prv_steam_SteamMarketListing_Out]
+    hasMore: bool
+
+class Prv_steam_SteamMarketListing_Out(TypedDict):
+    name: str
+    hashName: str
+    appId: str | None
+    appName: str | None
+    type: str | None
+    sellListings: float
+    sellPriceText: str | None
+    url: str
+    iconUrl: str | None
 
 class Prv_steam_GetCommunityHubArgs_In(TypedDict):
     appId: str | float
@@ -66522,6 +66654,53 @@ class Prv_weather_channel_MinutelyPrecipRow_Out(TypedDict):
     intensityCode: float | None
     dBZ: float | None
 
+class Prv_weather_channel_Playback_Out(TypedDict):
+    videoId: str
+    title: str | None
+    durationMs: float | None
+    live: bool
+    embed: Prv_weather_channel_Playback_Out_embed_u0_Out | None
+    files: Prv_weather_channel_Playback_Out_files_Out
+    hls: str | None
+    expiresAt: str | None
+    referrer: str
+    warnings: list[str]
+
+class Prv_weather_channel_Playback_Out_embed_u0_Out(TypedDict):
+    url: str
+    hasAds: bool | Literal["unknown"]
+    note: str
+
+class Prv_weather_channel_Playback_Out_files_Out(TypedDict):
+    muxed: list[Prv_weather_channel_PlaybackFile_Out]
+    videoOnly: list[Prv_weather_channel_PlaybackFile_Out]
+    audioOnly: list[Prv_weather_channel_PlaybackFile_Out]
+
+class Prv_weather_channel_PlaybackFile_Out(TypedDict):
+    itag: str | None
+    url: str
+    mimeType: str
+    codecs: str | None
+    width: float | None
+    height: float | None
+    fps: float | None
+    bitrate: float | None
+    bytes: float | None
+    qualityLabel: str | None
+
+class Prv_weather_channel_WeatherInsightsResult_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    insights: list[Prv_weather_channel_WeatherInsightsResult_Out_insights_item_Out]
+
+class Prv_weather_channel_WeatherInsightsResult_Out_insights_item_Out(TypedDict):
+    type: str | None
+    headline: str | None
+    text: str | None
+    priority: float | None
+    validAt: str | None
+    value: str | None
+    url: str | None
+
 class Prv_weather_channel_HealthRiskResult_Out(TypedDict):
     location: Prv_weather_channel_WeatherLocation_Out | None
     condition: Literal["coldAndFlu"] | Literal["migraine"]
@@ -74422,17 +74601,6 @@ class Prv_amazon_br(Protocol):
         URL.
         """
 
-class Prv_amazon_ca(Protocol):
-    """Search products and check pricing on Amazon Canada (amazon.ca)"""
-
-    async def searchProducts(self, args: Prv_amazon_ca_SearchProductsArgs_u0_In | Prv_amazon_ca_SearchProductsArgs_u1_In, /) -> Prv_amazon_ca_AmazonCaSearchResult_Out:
-        """Search Amazon Canada for products by keywords. Takes { keywords: string }; `query` is
-        accepted as an alias.
-        """
-
-    async def getProduct(self, args: Prv_amazon_ca_GetProductArgs_In, /) -> Prv_amazon_ca_AmazonCaProductDetail_Out:
-        """Get product details from Amazon Canada by ASIN"""
-
 class Prv_americandreamvacations(Protocol):
     """American Dream Vacations' own RV rental inventory search (americandreamvacations.net) —
     given one of their 10 store locations and an RV class (Class A/B/C or Trailer), returns
@@ -76586,6 +76754,19 @@ class Prv_bestbuy_ca(Protocol):
 
     async def getProduct(self, args: Prv_bestbuy_ca_getProduct_args_In, /) -> Prv_bestbuy_ca_BestBuyCaProduct_Out | None:
         """Read one bestbuy.ca product by sku: CAD price, sale state, online and in-store stock"""
+
+class Prv_bestmcp_dev(Protocol):
+    """bestmcp.dev's own top-ranked MCP-server listing — name, description, category, GitHub
+    stars and language — filtered locally since the site's own search box does not filter.
+    """
+
+    async def search(self, query: str | None = None, /) -> Prv_bestmcp_dev_search_return_Out:
+        """Searches bestmcp.dev's top-ranked MCP-server listing by keyword against name,
+        description and category, or returns the full top-ranked listing with no argument.
+        bestmcp.dev's own `?q=` parameter does not filter (measured 2026-11-09), so this filters
+        locally over the site's visible top 24 of its 143 indexed servers — `warnings` says when
+        the real catalogue is larger than what was searched.
+        """
 
 class Prv_bhphoto(Protocol):
     """B&H Photo (bhphotovideo.com) — live product search over this store's own catalogue,
@@ -84823,6 +85004,13 @@ class Prv_fandom(Protocol):
         /wikia.php?controller=DiscussionPost&method=getPost`.
         """
 
+    async def getDiscussionThread(self, args: Prv_fandom_GetDiscussionThreadArgs_In, /) -> Prv_fandom_DiscussionThread_Out:
+        """A whole Discussions thread: its title, forum, the opening post and every reply oldest
+        first (up to 100). Takes the `threadId` a `listDiscussionPosts` or `getDiscussionPost`
+        row carries. `GET
+        /wikia.php?controller=DiscussionThread&method=getThread&responseGroup=full`.
+        """
+
     async def getCurrentUser(self, wiki: str, opts: ConnectionOption | None = None, /) -> Prv_fandom_FandomCurrentUser_Out:
         """Who the caller is signed in as on this wiki — username, global user id, edit count and
         which rights they hold. The entry point to every other signed-in read here. `GET
@@ -89900,6 +90088,26 @@ class Prv_imgur(Protocol):
         "top" }).
         """
 
+    async def getPost(self, idOrUrl: str, /) -> Prv_imgur_ImgurPostDetail_Out:
+        """One imgur post by id or URL: title, description, every image/video in it, counts and
+        author. Example: getPost("https://imgur.com/gallery/sound-effects-U8yV7IH").
+        """
+
+    async def getPostComments(self, idOrUrl: str | Prv_imgur_ImgurCommentsArgs_In, /) -> list[Prv_imgur_ImgurComment_Out]:
+        """A post's comment threads (replies nested), "best" first by default. Example:
+        getPostComments({ id: "U8yV7IH", sort: "new" }).
+        """
+
+    async def getTag(self, tag: str | Prv_imgur_ImgurTagArgs_In, /) -> Prv_imgur_ImgurTag_Out:
+        """One imgur tag (followers, total posts) with a page of about 60 of its posts. Example:
+        getTag("aww") or getTag({ tag: "aww", sort: "top" }).
+        """
+
+    async def getUser(self, username: str, /) -> Prv_imgur_ImgurUser_Out:
+        """A user's public profile: bio, reputation, avatar, joined date, trophies. Example:
+        getUser("imgur").
+        """
+
     async def searchPosts(self, query: str | Prv_imgur_ImgurSearchArgs_In, /) -> list[Prv_imgur_ImgurPost_Out]:
         """Searches public imgur posts (about 60 a page), top-scored first by default. Example:
         searchPosts("cats") or searchPosts({ query: "cats", window: "week" }).
@@ -93668,6 +93876,17 @@ class Prv_mcpmarket(Protocol):
         """Reads one MCP server listing on mcpmarket.com — by slug from search() or by its page url
         — and returns its name, description, source repository url, author, keywords, like count
         and category.
+        """
+
+class Prv_mcpserverhub_com(Protocol):
+    """Search MCP Server Hub's public directory of MCP servers by keyword, or browse its
+    current listings.
+    """
+
+    async def search(self, query: str | Prv_mcpserverhub_com_search_query_u1_In | None = None, /) -> list[Prv_mcpserverhub_com_McpServerHubServer_Out]:
+        """Searches MCP Server Hub's public MCP-server directory by keyword, or browses current
+        listings when called with no argument. Each result has the server's name, short
+        description, tags, publish date and detail-page URL.
         """
 
 class Prv_mcptrove_com(Protocol):
@@ -102098,6 +102317,16 @@ class Prv_snapchat(Protocol):
         first. NEEDS A SIGN-IN.
         """
 
+    async def removeFriend(self, input: Prv_snapchat_removeFriend_input_u0_In | Prv_snapchat_removeFriend_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatFriendChangeResult_Out:
+        """Removes one Snapchat user from the signed-in caller's friends, by user id (a uuid, e.g.
+        off listFriends) or username. NEEDS A SIGN-IN.
+        """
+
+    async def blockUser(self, input: Prv_snapchat_blockUser_input_u0_In | Prv_snapchat_blockUser_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatFriendChangeResult_Out:
+        """Blocks one Snapchat account from contacting the signed-in caller, by user id (a uuid) or
+        username. NEEDS A SIGN-IN.
+        """
+
     async def updateDisplayName(self, input: Prv_snapchat_updateDisplayName_input_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatDisplayNameResult_Out:
         """Changes the signed-in caller's Snapchat display name (the name friends see, not the
         username). NEEDS A SIGN-IN.
@@ -103472,6 +103701,12 @@ class Prv_steam(Protocol):
         (viewInventory's marketHashName): lowest listing price, median sale price and 24-hour
         volume, pre-formatted in the requested currency (1 = USD, default). No sign-in. An item
         with no listing answers listed:false.
+        """
+
+    async def searchMarket(self, args: Prv_steam_SearchMarketArgs_In, /) -> Prv_steam_SearchMarketResponse_Out:
+        """Searches the Steam Community Market by keyword, optionally within one game (appId): each
+        row's name, exact market hash name (what getMarketPrice takes), game, item type, listing
+        count and lowest listing price, 10 per page (page with start). No sign-in.
         """
 
     async def getCommunityHub(self, args: Prv_steam_GetCommunityHubArgs_In, /) -> Prv_steam_GetCommunityHubResponse_Out:
@@ -107894,6 +108129,23 @@ class Prv_weather_channel(Protocol):
         says so; use getFifteenMinuteForecast or getRainTiming then.
         """
 
+    async def getPlayback(self, urlOrPath: str, /) -> Prv_weather_channel_Playback_Out:
+        """Plays one weather.com video — pass the `url` of a `searchNews()` row whose collection is
+        `"videos"`. Returns the site's own MP4 in `files.muxed` (plays alone in a `<video src>`,
+        no ads, any referrer, never expires) and the `hls` playlist (360p-1080p ladder; Safari
+        plays it natively, elsewhere use hls.js). weather.com has no embeddable player, so
+        `embed` is null: pick the MP4 unless the user asks for a specific resolution, then use
+        `hls`. Throws on a page that is not a video.
+        """
+
+    async def getWeatherInsights(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_WeatherInsightsResult_Out:
+        """The "anything I should know today?" cards at the top of weather.com's Today page — e.g.
+        `{ type: "chancePrecipInsight", headline: "Rain Coming", text: "Rain likely Wednesday
+        afternoon", value: "66%" }`, plus temperature change, sunrise, pollen and the trending
+        video. Sorted by the site's priority, most important first. Empty `insights` when the
+        site has nothing for the place.
+        """
+
     async def getPollenHealth(self, location: str | Prv_weather_channel_Location_u1_In, condition: Literal["coldAndFlu"] | Literal["migraine"] | None = None, /) -> Prv_weather_channel_HealthRiskResult_Out:
         """weather.com's 5-day health-risk forecast — cold & flu risk by default, or migraine risk
         — one `riskLevel` per day (0 = lowest). The only two condition types the site's API
@@ -110469,7 +110721,6 @@ class BowmarkProviders(Protocol):
     alphavantage: Prv_alphavantage
     amazon: Prv_amazon
     amazon_br: Prv_amazon_br
-    amazon_ca: Prv_amazon_ca
     americandreamvacations: Prv_americandreamvacations
     americanstandard: Prv_americanstandard
     americanvisionwindows: Prv_americanvisionwindows
@@ -110534,6 +110785,7 @@ class BowmarkProviders(Protocol):
     bennington: Prv_bennington
     bestbuy: Prv_bestbuy
     bestbuy_ca: Prv_bestbuy_ca
+    bestmcp_dev: Prv_bestmcp_dev
     bhphoto: Prv_bhphoto
     bigairusa: Prv_bigairusa
     bigjoeforklifts: Prv_bigjoeforklifts
@@ -110902,6 +111154,7 @@ class BowmarkProviders(Protocol):
     mcp_registry: Prv_mcp_registry
     mcp_so: Prv_mcp_so
     mcpmarket: Prv_mcpmarket
+    mcpserverhub_com: Prv_mcpserverhub_com
     mcptrove_com: Prv_mcptrove_com
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6223 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6227 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -478,6 +478,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bestbuy.getProduct` | bestbuy.com | Looks up one product by Best Buy's own numeric SKU and returns its full detail — the… | 🟢 |
 | `bestbuy.getStoreAvailability` | bestbuy.com | Whether a specific SKU is in stock at a SPECIFIC physical store (vs.… | ⚪ |
 | `bestbuy.search` | bestbuy.com | Runs a Best Buy product search the way bestbuy.com's own search box does and returns… | 🟡 |
+| `bestmcp_dev.search` | bestmcp.dev | Searches bestmcp.dev's top-ranked MCP-server listing by keyword against name… | 🟢 |
 | `bhphoto.checkStock` | bhphotovideo.com | Answers whether a specific item is actually gettable right now, rather than merely… | 🟢 |
 | `bhphoto.getProduct` | bhphotovideo.com | Reads one product page in full — the identity a search row cannot carry (SKU… | 🟢 |
 | `bhphoto.search` | bhphotovideo.com | Searches bhphotovideo.com for a part and returns matching rows cheapest-first… | 🟡 |
@@ -1004,15 +1005,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `charterhomes.getScheduleVisitOptions` | charterhomes.com | Reads Charter's live schedule-a-visit page and returns every bookable neighborhood… | 🟢 |
 | `charterhomes.searchHomes` | charterhomes.com | Searches Charter Homes & Neighborhoods' live for-sale home inventory by… | 🟢 |
 | `chase.search` | chase.com | Searches Chase's public site for products, rates, branches and help pages, returning… | 🟢 |
-| `chatgpt.archiveConversation` | chatgpt.com | Archives (or un-archives) one of the CALLER's conversations. | ⚪ |
+| `chatgpt.archiveConversation` | chatgpt.com | Archives (or un-archives) one of the CALLER's conversations. | 🟢 |
 | `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | ⚪ |
 | `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | 🟢 |
 | `chatgpt.createGPT` | chatgpt.com | Creates a custom GPT in the CALLER's account — name, description, instructions… | ⚪ |
 | `chatgpt.createProject` | chatgpt.com | Creates a new project in the CALLER's account with a name and optional instructions. | ⚪ |
-| `chatgpt.deleteConversation` | chatgpt.com | Deletes one of the CALLER's conversations. | ⚪ |
-| `chatgpt.deleteMemory` | chatgpt.com | Deletes one saved memory (or all of them) from the CALLER's ChatGPT memory. | ⚪ |
+| `chatgpt.deleteConversation` | chatgpt.com | Deletes one of the CALLER's conversations. | 🟢 |
+| `chatgpt.deleteMemory` | chatgpt.com | Deletes one saved memory from the CALLER's ChatGPT memory. | 🟢 |
 | `chatgpt.deleteScheduledTask` | chatgpt.com | Deletes (or pauses) one of the CALLER's scheduled tasks. | ⚪ |
-| `chatgpt.deleteSharedLink` | chatgpt.com | Deletes one of the CALLER's public share links so the url stops working. | ⚪ |
+| `chatgpt.deleteSharedLink` | chatgpt.com | Deletes one of the CALLER's public share links so the url stops working. | 🟢 |
 | `chatgpt.generateImage` | chatgpt.com | Asks ChatGPT to create an image from a prompt as the CALLER and returns the image… | ⚪ |
 | `chatgpt.getAccount` | chatgpt.com | Reads the CALLER's account — name, email, plan (Free, Plus, Pro, Business) and the… | 🟢 |
 | `chatgpt.getConversation` | chatgpt.com | Reads one of the CALLER's conversations in full — every message in order, which model… | 🟢 |
@@ -1031,7 +1032,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.moveConversationToProject` | chatgpt.com | Files one of the CALLER's conversations under one of their projects. | ⚪ |
 | `chatgpt.pinGPT` | chatgpt.com | Pins a GPT to (or unpins it from) the CALLER's sidebar. | ⚪ |
 | `chatgpt.rateResponse` | chatgpt.com | Gives a thumbs up or thumbs down on one of ChatGPT's replies in the CALLER's… | ⚪ |
-| `chatgpt.renameConversation` | chatgpt.com | Renames one of the CALLER's conversations. | ⚪ |
+| `chatgpt.renameConversation` | chatgpt.com | Renames one of the CALLER's conversations. | 🟢 |
 | `chatgpt.requestDataExport` | chatgpt.com | Requests an export of the CALLER's ChatGPT data (Settings → Data controls → Export)… | ⚪ |
 | `chatgpt.searchConversations` | chatgpt.com | Searches the CALLER's chat history by keyword, the way the sidebar's search does, and… | 🟢 |
 | `chatgpt.searchGPTs` | chatgpt.com | Searches the GPT Store by keyword and returns matching custom GPTs with their id… | 🟢 |
@@ -1965,6 +1966,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.getArticle` | fandom.com | A wiki article in full — title, the body as plain text with wiki markup stripped, the… | 🟢 |
 | `fandom.getCurrentUser` | fandom.com | Who the caller is signed in as on this wiki — username, global user id, edit count and… | 🟢 |
 | `fandom.getDiscussionPost` | fandom.com | One Discussions post by id, with its full text, author and the thread it belongs to. | 🟢 |
+| `fandom.getDiscussionThread` | fandom.com | A whole Discussions thread: its title, forum, the opening post and every reply oldest… | 🟢 |
 | `fandom.getImage` | fandom.com | One image file's real details — full-size url, width, height, MIME type and licensing… | 🟢 |
 | `fandom.getInfobox` | fandom.com | The fact box at the top of an article, as key/value pairs — a character's species and… | 🟢 |
 | `fandom.getRevision` | fandom.com | One specific revision of an article by id, rendered as of that edit. | 🟢 |
@@ -4605,7 +4607,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.browseCategory` | shop.app | Browses one Shop product category by the id listCategories returns — its name and… | 🟡 |
 | `shop_app.claimOffer` | shop.app | Claims a Shop offer or Shop Cash reward for the caller. | ⚪ |
 | `shop_app.createProductList` | shop.app | Creates a new named product list for the caller. | ⚪ |
-| `shop_app.followStore` | shop.app | Follows a store on Shop for the caller, or unfollows it (follow: false). | ⚪ |
+| `shop_app.followStore` | shop.app | Follows a store on Shop for the caller, or unfollows it (follow: false), by its Shop… | 🟢 |
 | `shop_app.getAccount` | shop.app | Reads the caller's Shop profile — name, email and privacy settings. | ⚪ |
 | `shop_app.getCart` | shop.app | Reads the caller's Shop cart: one cart per store with its lines and the store's… | 🟢 |
 | `shop_app.getDeliveryEstimate` | shop.app | Says when a product variant would arrive — the delivery promise Shop shows under the… | ⚪ |
@@ -5757,6 +5759,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getLocation` | weather.com | Gets location details by place name, postal code, or coordinates — returns full… | 🟢 |
 | `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-by-minute precipitation for the next hour where weather.com has coverage; an… | 🟢 |
 | `weather_channel.getObservations` | weather.com | Live readings from personal weather stations near a place — the site's own 'Weather… | 🟢 |
+| `weather_channel.getPlayback` | weather.com | Plays a weather.com video: its own MP4 file and the HLS playlist, no ads, no expiry. | 🟢 |
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
 | `weather_channel.getPollenHealth` | weather.com | 5-day cold & flu or migraine risk for a place — weather.com's health forecast. | 🟢 |
 | `weather_channel.getRadarTiles` | weather.com | Radar map layers weather.com's own map draws — latest frame timestamps and a tile URL… | 🔴 |
@@ -5764,6 +5767,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | 🟢 |
 | `weather_channel.getTropicalForecastPath` | weather.com | Where each active hurricane/tropical storm is forecast to be over the coming days, and… | 🟢 |
 | `weather_channel.getTropicalTrack` | weather.com | Where a tropical storm/hurricane has been — its advisory-by-advisory past track and… | 🟢 |
+| `weather_channel.getWeatherInsights` | weather.com | The 'Rain Coming' / 'Tomorrow's Temperature' / pollen cards at the top of the Today… | 🟢 |
 | `weather_channel.getWeeklyAd` | weather.com | Weekly promotional content and special notices — featured forecasts or seasonal alerts. | ⚪ |
 | `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | 🟢 |
 | `weather_channel.searchLocations` | weather.com | Autocomplete for location names (cities, ZIP codes) — returns matching locations with… | 🟢 |

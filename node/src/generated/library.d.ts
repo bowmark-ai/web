@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8862d4bfa0418fc4e9ece7fbd898fd22b927ff42cb040d08487baf8c76a405c3
-// 97 capabilities, 793 providers, 4815 typed functions, 20 refused.
+// Manifest version: 898dddcfebcbba6ed7920affddc15cc2a9a971b8d915cdb4890c19ba3b27dc2b
+// 97 capabilities, 794 providers, 4825 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9804,53 +9804,6 @@ interface AmazonBrProductDetail {
   }
 }
 
-declare namespace BowmarkProvider_amazon_ca {
-  // ── Amazon Canada — the unit's own declarations, verbatim ──
-// `query` is the same field as `keywords`: the runtime reads either, so the type admits either.
-type SearchProductsArgs = { keywords: string; page?: number } | { query: string; page?: number };
-
-interface GetProductArgs {
-  asin: string;
-}
-
-interface AmazonCaProduct {
-  asin: string;
-  title: string;
-  url: string;
-  price: number | null;
-  rating: number | null;
-  ratingCount: number | null;
-  sponsored: boolean;
-}
-
-interface AmazonCaSearchResult {
-  products: AmazonCaProduct[];
-  totalResultCount: number;
-}
-
-interface AmazonCaProductDetail {
-  asin: string;
-  title: string;
-  url: string;
-  price: number | null;
-  rating: number | null;
-  ratingCount: number | null;
-  inStock: boolean;
-}
-
-  /** Search products and check pricing on Amazon Canada (amazon.ca) */
-  interface Unit {
-    /**
-     * Search Amazon Canada for products by keywords. Takes { keywords: string }; `query` is
-     * accepted as an alias.
-     */
-    searchProducts(args: SearchProductsArgs): Promise<AmazonCaSearchResult>;
-
-    /** Get product details from Amazon Canada by ASIN */
-    getProduct(args: GetProductArgs): Promise<AmazonCaProductDetail>;
-  }
-}
-
 declare namespace BowmarkProvider_americandreamvacations {
   // ── American Dream Vacations — the unit's own declarations, verbatim ──
 interface AdvLocation {
@@ -15968,6 +15921,33 @@ interface BestBuyCaProduct extends BestBuyCaSearchResult {
 
     /** Read one bestbuy.ca product by sku: CAD price, sale state, online and in-store stock */
     getProduct(args: { sku: string }): Promise<BestBuyCaProduct | null>;
+  }
+}
+
+declare namespace BowmarkProvider_bestmcp_dev {
+  // ── Best MCP — the unit's own declarations, verbatim ──
+interface BestMcpDevServer {
+  name: string;
+  description: string;
+  category: string | null;
+  stars: number | null;        // GitHub star count, as bestmcp.dev displays it
+  language: string | null;     // primary repo language, as bestmcp.dev displays it
+  url: string;                 // the server's detail page on bestmcp.dev
+}
+
+  /**
+   * bestmcp.dev's own top-ranked MCP-server listing — name, description, category, GitHub stars
+   * and language — filtered locally since the site's own search box does not filter.
+   */
+  interface Unit {
+    /**
+     * Searches bestmcp.dev's top-ranked MCP-server listing by keyword against name, description
+     * and category, or returns the full top-ranked listing with no argument. bestmcp.dev's own
+     * `?q=` parameter does not filter (measured 2026-11-09), so this filters locally over the
+     * site's visible top 24 of its 143 indexed servers — `warnings` says when the real catalogue
+     * is larger than what was searched.
+     */
+    search(query?: string): Promise<{ results: BestMcpDevServer[]; warnings: string[] }>;
   }
 }
 
@@ -39838,6 +39818,8 @@ interface Infobox {
 interface ListLinksArgs {
   title: string;
   wiki?: string;
+  /** How many rows to return (default 50, at most 5000). Paging stops there. */
+  limit?: number;
 }
 
 interface LinkedPage {
@@ -39848,6 +39830,8 @@ interface LinkedPage {
 interface ListBacklinksArgs {
   title: string;
   wiki?: string;
+  /** How many rows to return (default 50, at most 5000). Paging stops there. */
+  limit?: number;
 }
 
 interface Backlink {
@@ -39859,6 +39843,8 @@ interface Backlink {
 interface ListExternalLinksArgs {
   title: string;
   wiki?: string;
+  /** How many rows to return (default 50, at most 5000). Paging stops there. */
+  limit?: number;
 }
 
 interface ExternalLink {
@@ -39868,6 +39854,8 @@ interface ExternalLink {
 interface ListCategoriesArgs {
   title: string;
   wiki?: string;
+  /** How many rows to return (default 50, at most 5000). Paging stops there. */
+  limit?: number;
 }
 
 interface WikiCategory {
@@ -39877,6 +39865,8 @@ interface WikiCategory {
 interface ListCategoryMembersArgs {
   category: string;
   wiki: string;
+  /** How many rows to return (default 50, at most 5000). Paging stops there. */
+  limit?: number;
 }
 
 interface CategoryMember {
@@ -39888,6 +39878,8 @@ interface CategoryMember {
 interface ListImagesArgs {
   title: string;
   wiki?: string;
+  /** How many rows to return (default 50, at most 5000). Paging stops there. */
+  limit?: number;
 }
 
 interface WikiImage {
@@ -39911,6 +39903,8 @@ interface ImageInfo {
 interface ListRevisionsArgs {
   title: string;
   wiki?: string;
+  /** How many rows to return (default 50, at most 5000). Paging stops there. */
+  limit?: number;
 }
 
 interface Revision {
@@ -39928,6 +39922,8 @@ interface GetRevisionArgs {
 
 interface ListRecentChangesArgs {
   wiki: string;
+  /** How many rows to return (default 50, at most 5000). Paging stops there. */
+  limit?: number;
 }
 
 interface RecentChange {
@@ -39974,6 +39970,8 @@ interface FandomUser {
 interface ListUserContributionsArgs {
   wiki: string;
   username: string;
+  /** How many rows to return (default 50, at most 5000). Paging stops there. */
+  limit?: number;
 }
 
 interface UserContribution {
@@ -39987,6 +39985,8 @@ interface UserContribution {
 
 interface ListDiscussionPostsArgs {
   wiki: string;
+  /** How many rows to return (default 50, at most 1000). Paging stops there. */
+  limit?: number;
 }
 
 interface DiscussionPost {
@@ -39994,8 +39994,28 @@ interface DiscussionPost {
   author: string;
   text: string;
   forumName: string;
+  /** The thread this post belongs to — what getDiscussionThread takes. */
+  threadId: string;
   createdAt: string;
   replyCount: number;
+}
+
+interface GetDiscussionThreadArgs {
+  wiki: string;
+  /** The thread id — `threadId` off a listDiscussionPosts or getDiscussionPost row. */
+  threadId: string;
+}
+
+interface DiscussionThread {
+  id: string;
+  title: string;
+  forumName: string;
+  author: string;
+  createdAt: string;
+  postCount: number;
+  upvoteCount: number;
+  /** The opening post, then every reply, oldest first. */
+  posts: DiscussionPostDetail[];
 }
 
 interface GetDiscussionPostArgs {
@@ -40243,6 +40263,13 @@ interface WatchResult {
      * /wikia.php?controller=DiscussionPost&method=getPost`.
      */
     getDiscussionPost(args: GetDiscussionPostArgs): Promise<DiscussionPostDetail>;
+
+    /**
+     * A whole Discussions thread: its title, forum, the opening post and every reply oldest first
+     * (up to 100). Takes the `threadId` a `listDiscussionPosts` or `getDiscussionPost` row
+     * carries. `GET /wikia.php?controller=DiscussionThread&method=getThread&responseGroup=full`.
+     */
+    getDiscussionThread(args: GetDiscussionThreadArgs): Promise<DiscussionThread>;
 
     /**
      * Who the caller is signed in as on this wiki — username, global user id, edit count and which
@@ -54363,6 +54390,25 @@ interface ImgurSearchArgs {
   sort?: "newest" | "top" | "viral";
   page?: number;
 }
+interface ImgurAuthor { id: number | null; username: string; avatarUrl: string | null }
+interface ImgurPostDetail extends ImgurPost { author: ImgurAuthor | null; media: ImgurMedia[] }
+interface ImgurComment { id: number; parentId: number | null; text: string; author: ImgurAuthor | null; postId: string; upvotes: number; downvotes: number; points: number; platform: string | null; createdAt: string | null; deleted: boolean; replies: ImgurComment[] }
+interface ImgurUser { id: number; username: string; bio: string | null; reputation: number; reputationName: string | null; avatarUrl: string | null; coverUrl: string | null; createdAt: string | null; url: string; trophies: { name: string; description: string | null; imageUrl: string | null }[] }
+interface ImgurTag { name: string; displayName: string; description: string | null; followers: number; totalPosts: number; url: string; posts: ImgurPost[] }
+interface ImgurCommentsArgs {
+  /** post id or URL */
+  id: string;
+  /** default "best" */
+  sort?: "best" | "new" | "top";
+  page?: number;
+}
+interface ImgurTagArgs {
+  /** tag name or imgur.com/t/<tag> URL */
+  tag: string;
+  /** default "viral" */
+  sort?: "viral" | "top" | "newest";
+  page?: number;
+}
 
   /**
    * Image and meme hosting. Browsing, search and gallery feeds all work with no account —
@@ -54376,6 +54422,30 @@ interface ImgurSearchArgs {
      * has its title, url, counts and cover image. Example: getGalleryPosts({ section: "top" }).
      */
     getGalleryPosts(args?: ImgurGalleryArgs): Promise<ImgurPost[]>;
+
+    /**
+     * One imgur post by id or URL: title, description, every image/video in it, counts and author.
+     * Example: getPost("https://imgur.com/gallery/sound-effects-U8yV7IH").
+     */
+    getPost(idOrUrl: string): Promise<ImgurPostDetail>;
+
+    /**
+     * A post's comment threads (replies nested), "best" first by default. Example:
+     * getPostComments({ id: "U8yV7IH", sort: "new" }).
+     */
+    getPostComments(idOrUrl: string | ImgurCommentsArgs): Promise<ImgurComment[]>;
+
+    /**
+     * One imgur tag (followers, total posts) with a page of about 60 of its posts. Example:
+     * getTag("aww") or getTag({ tag: "aww", sort: "top" }).
+     */
+    getTag(tag: string | ImgurTagArgs): Promise<ImgurTag>;
+
+    /**
+     * A user's public profile: bio, reputation, avatar, joined date, trophies. Example:
+     * getUser("imgur").
+     */
+    getUser(username: string): Promise<ImgurUser>;
 
     /**
      * Searches public imgur posts (about 60 a page), top-scored first by default. Example:
@@ -64028,6 +64098,24 @@ interface McpMarketServer { slug: string; name: string; description: string; sou
      * category.
      */
     server(slug: string | { slug?: string; url?: string }): Promise<McpMarketServer>;
+  }
+}
+
+declare namespace BowmarkProvider_mcpserverhub_com {
+  // ── MCP Server Hub — the unit's own declarations, verbatim ──
+interface McpServerHubServer { slug: string; name: string; description: string; tags: string[]; published: string | null; url: string; }
+
+  /**
+   * Search MCP Server Hub's public directory of MCP servers by keyword, or browse its current
+   * listings.
+   */
+  interface Unit {
+    /**
+     * Searches MCP Server Hub's public MCP-server directory by keyword, or browses current
+     * listings when called with no argument. Each result has the server's name, short description,
+     * tags, publish date and detail-page URL.
+     */
+    search(query?: string | { query?: string }): Promise<McpServerHubServer[]>;
   }
 }
 
@@ -88331,6 +88419,13 @@ interface SnapchatFriendActionResult {
   message?: string;
   username?: string; // set when the add was made by username
 }
+interface SnapchatFriendChangeResult {
+  userId: string;
+  username?: string; // set when called by username
+  done: boolean; // Snapchat accepted the remove / block
+  failureReason?: number; // Snapchat's own refusal enum, when it refused
+  message?: string;
+}
 
   /**
    * Snapchat, the photo and video messaging app: search accounts, lenses, topics, shows and
@@ -88462,6 +88557,18 @@ interface SnapchatFriendActionResult {
      * A SIGN-IN.
      */
     addFriend(input: { userId: string } | { username: string }, opts?: ConnectionOption): Promise<SnapchatFriendActionResult>;
+
+    /**
+     * Removes one Snapchat user from the signed-in caller's friends, by user id (a uuid, e.g. off
+     * listFriends) or username. NEEDS A SIGN-IN.
+     */
+    removeFriend(input: { userId: string } | { username: string }, opts?: ConnectionOption): Promise<SnapchatFriendChangeResult>;
+
+    /**
+     * Blocks one Snapchat account from contacting the signed-in caller, by user id (a uuid) or
+     * username. NEEDS A SIGN-IN.
+     */
+    blockUser(input: { userId: string } | { username: string }, opts?: ConnectionOption): Promise<SnapchatFriendChangeResult>;
 
     /**
      * Changes the signed-in caller's Snapchat display name (the name friends see, not the
@@ -92550,6 +92657,32 @@ interface GetMarketPriceResponse {
   volume: number | null;
 }
 
+interface SearchMarketArgs {
+  query: string;
+  appId?: string | number;
+  start?: number;
+}
+
+interface SteamMarketListing {
+  name: string;
+  hashName: string;
+  appId: string | null;
+  appName: string | null;
+  type: string | null;
+  sellListings: number;
+  sellPriceText: string | null;
+  url: string;
+  iconUrl: string | null;
+}
+
+interface SearchMarketResponse {
+  query: string;
+  totalCount: number;
+  start: number;
+  listings: SteamMarketListing[];
+  hasMore: boolean;
+}
+
 interface GetCommunityHubArgs {
   appId: string | number;
 }
@@ -92764,6 +92897,13 @@ interface GetCommunityHubResponse {
      * no listing answers listed:false.
      */
     getMarketPrice(args: GetMarketPriceArgs): Promise<GetMarketPriceResponse>;
+
+    /**
+     * Searches the Steam Community Market by keyword, optionally within one game (appId): each
+     * row's name, exact market hash name (what getMarketPrice takes), game, item type, listing
+     * count and lowest listing price, 10 per page (page with start). No sign-in.
+     */
+    searchMarket(args: SearchMarketArgs): Promise<SearchMarketResponse>;
 
     /**
      * Reads the first page of a game's public Steam Community hub by appid: announcements,
@@ -105020,6 +105160,45 @@ interface MinutelyPrecipitationResult {
   note: string | null;
 }
 
+interface PlaybackFile {
+  itag: string | null;
+  url: string;
+  mimeType: string;
+  codecs: string | null;
+  width: number | null;
+  height: number | null;
+  fps: number | null;
+  bitrate: number | null;
+  bytes: number | null;
+  qualityLabel: string | null;
+}
+
+interface Playback {
+  videoId: string;
+  title: string | null;
+  durationMs: number | null;
+  live: boolean;
+  embed: { url: string; hasAds: boolean | "unknown"; note: string } | null;
+  files: { muxed: PlaybackFile[]; videoOnly: PlaybackFile[]; audioOnly: PlaybackFile[] };
+  hls: string | null;
+  expiresAt: string | null;
+  referrer: string;
+  warnings: string[];
+}
+
+interface WeatherInsightsResult {
+  location: WeatherLocation | null;
+  insights: {
+    type: string | null;
+    headline: string | null;
+    text: string | null;
+    priority: number | null;
+    validAt: string | null;
+    value: string | null;
+    url: string | null;
+  }[];
+}
+
 interface HealthRiskResult {
   location: WeatherLocation | null;
   condition: "coldAndFlu" | "migraine";
@@ -105419,6 +105598,25 @@ interface CMSContent {
      * getFifteenMinuteForecast or getRainTiming then.
      */
     getMinutelyPrecipitation(location: Location): Promise<MinutelyPrecipitationResult>;
+
+    /**
+     * Plays one weather.com video — pass the `url` of a `searchNews()` row whose collection is
+     * `"videos"`. Returns the site's own MP4 in `files.muxed` (plays alone in a `<video src>`, no
+     * ads, any referrer, never expires) and the `hls` playlist (360p-1080p ladder; Safari plays it
+     * natively, elsewhere use hls.js). weather.com has no embeddable player, so `embed` is null:
+     * pick the MP4 unless the user asks for a specific resolution, then use `hls`. Throws on a
+     * page that is not a video.
+     */
+    getPlayback(urlOrPath: string): Promise<Playback>;
+
+    /**
+     * The "anything I should know today?" cards at the top of weather.com's Today page — e.g. `{
+     * type: "chancePrecipInsight", headline: "Rain Coming", text: "Rain likely Wednesday
+     * afternoon", value: "66%" }`, plus temperature change, sunrise, pollen and the trending
+     * video. Sorted by the site's priority, most important first. Empty `insights` when the site
+     * has nothing for the place.
+     */
+    getWeatherInsights(location: Location): Promise<WeatherInsightsResult>;
 
     /**
      * weather.com's 5-day health-risk forecast — cold & flu risk by default, or migraine risk —
@@ -113176,7 +113374,6 @@ interface BowmarkProviders {
   alphavantage: BowmarkProvider_alphavantage.Unit;
   amazon: BowmarkProvider_amazon.Unit;
   amazon_br: BowmarkProvider_amazon_br.Unit;
-  amazon_ca: BowmarkProvider_amazon_ca.Unit;
   americandreamvacations: BowmarkProvider_americandreamvacations.Unit;
   americanstandard: BowmarkProvider_americanstandard.Unit;
   americanvisionwindows: BowmarkProvider_americanvisionwindows.Unit;
@@ -113241,6 +113438,7 @@ interface BowmarkProviders {
   bennington: BowmarkProvider_bennington.Unit;
   bestbuy: BowmarkProvider_bestbuy.Unit;
   bestbuy_ca: BowmarkProvider_bestbuy_ca.Unit;
+  bestmcp_dev: BowmarkProvider_bestmcp_dev.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;
   bigairusa: BowmarkProvider_bigairusa.Unit;
   bigjoeforklifts: BowmarkProvider_bigjoeforklifts.Unit;
@@ -113609,6 +113807,7 @@ interface BowmarkProviders {
   mcp_registry: BowmarkProvider_mcp_registry.Unit;
   mcp_so: BowmarkProvider_mcp_so.Unit;
   mcpmarket: BowmarkProvider_mcpmarket.Unit;
+  mcpserverhub_com: BowmarkProvider_mcpserverhub_com.Unit;
   mcptrove_com: BowmarkProvider_mcptrove_com.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;

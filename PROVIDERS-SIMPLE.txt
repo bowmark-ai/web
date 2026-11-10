@@ -104,6 +104,7 @@ beltservice.com — beltservice: browseCatalog, getBelt
 benelliusa.com — benelliusa: findDealers
 benningtonmarine.com — bennington: search
 bestbuy.com — bestbuy: getProduct, search (+1 planned)
+bestmcp.dev — bestmcp_dev: search
 bhphotovideo.com — bhphoto: checkStock, getProduct, search
 bigairusa.com — bigairusa: listLocations, listPasses
 bigjoeforklifts.com — bigjoeforklifts: listForkliftModels, prepareQuoteRequest (+2 planned)
@@ -187,7 +188,7 @@ chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
 chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
 chase.com — chase: search
-chatgpt.com — chatgpt: browseGPTStore, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getProject, getSharedConversation, listConversations, listLibraryImages, listModels, listMyGPTs, listProjects, listScheduledTasks, listSharedLinks, searchConversations, searchGPTs (+18 planned)
+chatgpt.com — chatgpt: archiveConversation, browseGPTStore, deleteConversation, deleteMemory, deleteSharedLink, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getProject, getSharedConversation, listConversations, listLibraryImages, listModels, listMyGPTs, listProjects, listScheduledTasks, listSharedLinks, renameConversation, searchConversations, searchGPTs (+13 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
@@ -306,7 +307,7 @@ extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planne
 facebook.com — facebook: 43 functions — ask get_library
 faceforwardaesthetics.com — faceforwardaesthetics: checkAvailability, listLocations, listServices
 facerealityskincare.com — facerealityskincare: searchAcneExperts
-fandom.com — fandom: createPage, editPage, findWiki, getArticle, getCurrentUser, getDiscussionPost, getImage, getInfobox, getRevision, getSection, getSections, getSummary, getUser, getWikiInfo, getWikitext, listBacklinks, listCategories, listCategoryMembers, listDiscussionPosts, listExternalLinks, listImages, listLinks, listRecentChanges, listRevisions, listUserContributions, listWatchlist, postDiscussionPost, search, suggestTitles, undoRevision, unwatchPage, watchPage
+fandom.com — fandom: createPage, editPage, findWiki, getArticle, getCurrentUser, getDiscussionPost, getDiscussionThread, getImage, getInfobox, getRevision, getSection, getSections, getSummary, getUser, getWikiInfo, getWikitext, listBacklinks, listCategories, listCategoryMembers, listDiscussionPosts, listExternalLinks, listImages, listLinks, listRecentChanges, listRevisions, listUserContributions, listWatchlist, postDiscussionPost, search, suggestTitles, undoRevision, unwatchPage, watchPage
 fareharbor.com — fareharbor: createBooking, getAvailabilitySlot, getItem, listAvailability, quoteBooking, searchItems (+3 planned)
 fbsappliance.com — fbsappliance: nothing callable yet (+2 planned)
 fedex.com — fedex: getRate
@@ -658,7 +659,7 @@ sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
 shein.com — shein: getProduct, getSizeGuide, listCategories, listProductsByCategory, search (+29 planned)
-shop.app — shop_app: browseCategory, getCart, getDiscoveryFeed, getOrder, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listFollowedStores, listOffers, listOrders, listProductLists, listSavedProducts, listStoreProducts, markOrderDelivered, searchProducts, searchStore, suggestSearches, trackPackage (+15 planned)
+shop.app — shop_app: browseCategory, followStore, getCart, getDiscoveryFeed, getOrder, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listFollowedStores, listOffers, listOrders, listProductLists, listSavedProducts, listStoreProducts, markOrderDelivered, searchProducts, searchStore, suggestSearches, trackPackage (+14 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopify.com (49875 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
@@ -779,7 +780,7 @@ washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getLiveBl
 waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)
 wearehirschfeld.com — wearehirschfeld: getContactForm, listPages
-weather.com — weather_channel: getAirQuality, getAlertDetails, getAlmanac, getCMSContent, getCurrentConditions, getCurrentTropicalPosition, getDailyForecast, getFifteenMinuteForecast, getHistoricalDaily, getHistoricalDailySummary, getHistoricalHourly, getHourlyAirQuality, getHourlyForecast, getLocation, getMinutelyPrecipitation, getObservations, getPollenForecast, getPollenHealth, getRainTiming, getTropicalCone, getTropicalForecastPath, getTropicalTrack, listAlerts, searchLocations, searchNews (+2 planned)
+weather.com — weather_channel: getAirQuality, getAlertDetails, getAlmanac, getCMSContent, getCurrentConditions, getCurrentTropicalPosition, getDailyForecast, getFifteenMinuteForecast, getHistoricalDaily, getHistoricalDailySummary, getHistoricalHourly, getHourlyAirQuality, getHourlyForecast, getLocation, getMinutelyPrecipitation, getObservations, getPlayback, getPollenForecast, getPollenHealth, getRainTiming, getTropicalCone, getTropicalForecastPath, getTropicalTrack, getWeatherInsights, listAlerts, searchLocations, searchNews (+2 planned)
 webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)
