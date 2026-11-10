@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6222 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6223 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -175,8 +175,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
 | `amazon_br.getProduct` | www.amazon.com.br | Get an amazon.com.br product's title, BRL price, rating and stock text by ASIN or… | 🟢 |
 | `amazon_br.searchProducts` | www.amazon.com.br | Search amazon.com.br for products by keywords (or a pasted /s?k= URL) with BRL price… | 🟢 |
-| `amazon_ca.getProduct` | www.amazon.ca | Get product details from amazon.ca including title, price, availability, and rating… | 🟡 |
-| `amazon_ca.searchProducts` | www.amazon.ca | Search amazon.ca for products by keywords and return matching results with price… | 🟢 |
+| `amazon_ca.getProduct` | www.amazon.ca | Get product details from Amazon Canada by ASIN. | ⚪ |
+| `amazon_ca.searchProducts` | www.amazon.ca | Search Amazon Canada for products by keywords. | ⚪ |
 | `amazon.addToCart` | www.amazon.com | Put one unit of a product in the cart and report what the cart then holds. | 🟢 |
 | `amazon.getCart` | www.amazon.com | Read what is in the cart — line items, quantities, per-item and total price — so an… | 🟢 |
 | `amazon.getDeliveryEstimate` | www.amazon.com | When a product would actually arrive at a given US ZIP, and what it costs to get it… | 🟢 |
@@ -4978,6 +4978,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.removeFriend` | steampowered.com | Removes a user from the signed-in caller's Steam friends list by steamid64, off the… | 🟢 |
 | `steam.removeFromWishlist` | steampowered.com | Removes a game from the signed-in caller's wishlist by appid, off the store's own… | 🟢 |
 | `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | 🟢 |
+| `steam.searchMarket` | steampowered.com | Searches the Steam Community Market by keyword, optionally within one game (appId)… | 🟢 |
 | `steam.searchNews` | steampowered.com | Searches a game's recent news items by keyword and/or date range. | 🟢 |
 | `steam.viewFriends` | steampowered.com | Lists the signed-in caller's Steam friends — name, profile url, avatar, and… | 🟢 |
 | `steam.viewInventory` | steampowered.com | Reads a PUBLIC Steam profile's inventory by steamid64, appid and context — no sign-in… | 🟢 |

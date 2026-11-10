@@ -688,7 +688,7 @@ stackoverflow.com — stackoverflow: getQuestion, searchQuestions
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments
 statefarm.com — statefarm: findAgent, getBusinessQuote, getLifeQuote, getRentersQuote (+14 planned)
-steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getCommunityHub, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getMarketPrice, getNewsItem, getPlayTime, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, postComment, removeFriend, removeFromWishlist, searchGames, searchNews, viewFriends, viewInventory, viewMarketHistory
+steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getCommunityHub, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getMarketPrice, getNewsItem, getPlayTime, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, postComment, removeFriend, removeFromWishlist, searchGames, searchMarket, searchNews, viewFriends, viewInventory, viewMarketHistory
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
@@ -794,7 +794,7 @@ wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, get
 workable.com — workable: listJobs
 wsj.com — wsj: addToWatchlist, getArticle, getArticleFullText, getAuthor, getNewsletter, getPodcast, getQuote, getWatchlist, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSavedArticles, listSections, listTrending, removeFromWatchlist, saveArticle, searchArticles, unsaveArticle
 wunderflats.com — wunderflats: search
-www.amazon.ca — amazon_ca: getProduct, searchProducts
+www.amazon.ca — amazon_ca: nothing callable yet (+2 planned)
 www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getReviewSummary, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listNewReleases, listOrders, listRelatedProducts, listReviews, listSellerOffers, listVariations, searchProducts, searchWholeFoods, suggestKeywords (+5 planned)
 www.amazon.com.br — amazon_br: getProduct, searchProducts
 www.bestbuy.ca — bestbuy_ca: getProduct, search
