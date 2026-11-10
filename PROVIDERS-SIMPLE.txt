@@ -371,7 +371,7 @@ grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate
 hamptonwaterwine.com — hamptonwaterwine: findNearbyRetailers
 handypro.com — handypro: checkServiceArea, searchServiceCategories (+2 planned)
 hansons.com — hansons: checkAvailability (+1 planned)
-harmar.com — harmar: nothing callable yet (+4 planned)
+harmar.com — harmar: searchVehicleModels (+3 planned)
 hauslabs.com — hauslabs: getHauslabsProduct, listHauslabsProducts, runFoundationShadeFinder
 havenenergy.com — havenenergy: getPricingPrograms, getPropertyDetails, listPricingPrograms
 hayden-homes.com — haydenhomes: searchQuickMoveIns (+2 planned)
