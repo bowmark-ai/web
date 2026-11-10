@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 10399b49a7882ea96e40c419a25a5e582d4c1914a51bab2ab6d1f450b2368f33
-// 97 capabilities, 794 providers, 4839 typed functions, 20 refused.
+// Manifest version: 8e347b33ca5239b27a279a0c1d1b4cccf2d2b8de363da4b28497887a29afb289
+// 97 capabilities, 794 providers, 4844 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -68185,6 +68185,26 @@ interface NetflixProfile {
   email?: string;
 }
 
+interface NetflixAccountProfile {
+  guid: string;
+  avatarTitle?: string;
+  avatarKey?: string;
+  avatarUrl?: string;
+}
+
+interface NetflixProfileList {
+  canCreateProfile?: boolean;
+  profiles: NetflixAccountProfile[];
+}
+
+interface NetflixTudumArticleLink {
+  slug: string;
+  url: string;
+  headline: string;
+  summary?: string;
+  imageUrl?: string;
+}
+
 interface NetflixTudumArticle {
   slug: string;
   url: string;
@@ -68309,6 +68329,26 @@ interface NetflixTudumSearchResult {
     getEpisodes(titleId: string, season?: number): Promise<NetflixEpisodeList>;
 
     /**
+     * Lists what Netflix shows in its New on Netflix row right now, TV shows then films — each
+     * title's id, name, series/movie and URL, for getTitle. No sign-in.
+     */
+    getNewOnNetflix(): Promise<NetflixTitleMatch[]>;
+
+    /**
+     * Lists the profiles on the signed-in caller's own Netflix account — each profile's id and
+     * avatar, and whether another profile can be added. Profile names are not in this read. Needs
+     * the caller signed in to their own Netflix account.
+     */
+    getProfiles(opts?: ConnectionOption): Promise<NetflixProfileList>;
+
+    /**
+     * Lists the titles Netflix recommends alongside one title (its "More Like This" picks) by
+     * numeric title id — e.g. getSimilarTitles("80057281") for shows like Stranger Things — each
+     * with id, name, series/movie and URL, for getTitle. No sign-in.
+     */
+    getSimilarTitles(titleId: string): Promise<NetflixTitleMatch[]>;
+
+    /**
      * Reads a public Netflix title page by its numeric id (the number in netflix.com/title/<id>) —
      * name, synopsis, release year, maturity rating, genres, season count, cast, creators and hero
      * image. No sign-in.
@@ -68326,6 +68366,12 @@ interface NetflixTudumSearchResult {
      * netflix.com/browse/genre/<id>, e.g. browseGenre("11714") for TV Dramas. No sign-in.
      */
     browseGenre(genreId: string): Promise<NetflixTitleMatch[]>;
+
+    /**
+     * Lists the articles on Netflix's Tudum front page right now — each headline, sub-headline,
+     * image and the slug getTudumArticle reads. No sign-in.
+     */
+    listTudumArticles(): Promise<NetflixTudumArticleLink[]>;
 
     /**
      * Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only on
@@ -81423,6 +81469,7 @@ interface Merchant {
   serviceWindowSeconds: [number, number] | null;
   room: string | null;
   bookableDays: number[];
+  deposit: { text: string; amountUsd: number | null; perPerson: boolean } | null;
 }
 
 interface Partner {
@@ -81484,6 +81531,13 @@ interface BookReservationResult {
   partySize: number;
   /** True once Google's own endpoint answered OK to Reserve. */
   confirmed: boolean;
+}
+
+interface LeaveWaitlistResult {
+  featureId: string;
+  /** The venue whose waitlist the caller left. */
+  venue: string;
+  left: boolean;
 }
 
 interface CancelBookingResult {
@@ -81570,7 +81624,7 @@ interface Availability {
 
     /**
      * Reads one Google-hosted booking page by merchant id: the venue's details, the fulfilling
-     * partner, party sizes, time zone, bookable room and bookable days.
+     * partner, party sizes, time zone, bookable room, bookable days and any stated deposit.
      */
     getMerchant(merchantId: string): Promise<Merchant>;
 
@@ -81629,6 +81683,13 @@ interface Availability {
      * Cancel.
      */
     cancelBooking(featureId: string, opts?: ConnectionOption): Promise<CancelBookingResult>;
+
+    /**
+     * Takes the caller off a venue's waitlist that joinWaitlist put them on (needs the caller's
+     * Google sign-in), found by the venue feature id listMyBookings returns, by opening the entry
+     * on the Bookings page and confirming Leave waitlist.
+     */
+    leaveWaitlist(featureId: string, opts?: ConnectionOption): Promise<LeaveWaitlistResult>;
 
     /**
      * Changes the time or party size of the caller's booking at one venue (needs the caller's

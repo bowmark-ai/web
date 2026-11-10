@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 10399b49a7882ea96e40c419a25a5e582d4c1914a51bab2ab6d1f450b2368f33
-# 97 capabilities, 794 providers, 4821 typed functions, 20 refused.
+# Manifest version: 8e347b33ca5239b27a279a0c1d1b4cccf2d2b8de363da4b28497887a29afb289
+# 97 capabilities, 794 providers, 4826 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -41686,6 +41686,16 @@ class Prv_netflix_NetflixEpisode_Out(TypedDict):
     runtimeSeconds: NotRequired[float]
     imageUrl: NotRequired[str]
 
+class Prv_netflix_NetflixProfileList_Out(TypedDict):
+    canCreateProfile: NotRequired[bool]
+    profiles: list[Prv_netflix_NetflixAccountProfile_Out]
+
+class Prv_netflix_NetflixAccountProfile_Out(TypedDict):
+    guid: str
+    avatarTitle: NotRequired[str]
+    avatarKey: NotRequired[str]
+    avatarUrl: NotRequired[str]
+
 class Prv_netflix_NetflixTitle_Out(TypedDict):
     id: str
     title: str
@@ -41707,6 +41717,13 @@ class Prv_netflix_NetflixTop10Entry_Out(TypedDict):
     title: str
     weeklyViews: NotRequired[float]
     weeklyHours: NotRequired[float]
+
+class Prv_netflix_NetflixTudumArticleLink_Out(TypedDict):
+    slug: str
+    url: str
+    headline: str
+    summary: NotRequired[str]
+    imageUrl: NotRequired[str]
 
 class Prv_netflix_NetflixGenre_Out(TypedDict):
     id: str
@@ -50559,10 +50576,16 @@ class Prv_reserve_with_google_Merchant_Out(TypedDict):
     serviceWindowSeconds: tuple[float, float] | None
     room: str | None
     bookableDays: list[float]
+    deposit: Prv_reserve_with_google_Merchant_Out_deposit_u0_Out | None
 
 class Prv_reserve_with_google_Merchant_Out_coordinates_u0_Out(TypedDict):
     lat: float
     lng: float
+
+class Prv_reserve_with_google_Merchant_Out_deposit_u0_Out(TypedDict):
+    text: str
+    amountUsd: float | None
+    perPerson: bool
 
 class Prv_reserve_with_google_CheckAvailabilityArgs_In(TypedDict):
     merchantId: str
@@ -50620,6 +50643,11 @@ class Prv_reserve_with_google_CancelBookingResult_Out(TypedDict):
     featureId: str
     venue: str
     cancelled: bool
+
+class Prv_reserve_with_google_LeaveWaitlistResult_Out(TypedDict):
+    featureId: str
+    venue: str
+    left: bool
 
 class Prv_reserve_with_google_ModifyBookingArgs_In(TypedDict):
     featureId: str
@@ -95419,6 +95447,23 @@ class Prv_netflix(Protocol):
         each episode's id, number, title, synopsis, runtime and still. No sign-in.
         """
 
+    async def getNewOnNetflix(self, /) -> list[Prv_netflix_NetflixTitleMatch_Out]:
+        """Lists what Netflix shows in its New on Netflix row right now, TV shows then films — each
+        title's id, name, series/movie and URL, for getTitle. No sign-in.
+        """
+
+    async def getProfiles(self, opts: ConnectionOption | None = None, /) -> Prv_netflix_NetflixProfileList_Out:
+        """Lists the profiles on the signed-in caller's own Netflix account — each profile's id and
+        avatar, and whether another profile can be added. Profile names are not in this read.
+        Needs the caller signed in to their own Netflix account.
+        """
+
+    async def getSimilarTitles(self, titleId: str, /) -> list[Prv_netflix_NetflixTitleMatch_Out]:
+        """Lists the titles Netflix recommends alongside one title (its "More Like This" picks) by
+        numeric title id — e.g. getSimilarTitles("80057281") for shows like Stranger Things —
+        each with id, name, series/movie and URL, for getTitle. No sign-in.
+        """
+
     async def getTitle(self, titleId: str, /) -> Prv_netflix_NetflixTitle_Out:
         """Reads a public Netflix title page by its numeric id (the number in
         netflix.com/title/<id>) — name, synopsis, release year, maturity rating, genres, season
@@ -95433,6 +95478,11 @@ class Prv_netflix(Protocol):
     async def browseGenre(self, genreId: str, /) -> list[Prv_netflix_NetflixTitleMatch_Out]:
         """Lists the titles in one Netflix genre — the id from listGenres or the number in
         netflix.com/browse/genre/<id>, e.g. browseGenre("11714") for TV Dramas. No sign-in.
+        """
+
+    async def listTudumArticles(self, /) -> list[Prv_netflix_NetflixTudumArticleLink_Out]:
+        """Lists the articles on Netflix's Tudum front page right now — each headline,
+        sub-headline, image and the slug getTudumArticle reads. No sign-in.
         """
 
     async def listGenres(self, /) -> list[Prv_netflix_NetflixGenre_Out]:
@@ -100209,7 +100259,7 @@ class Prv_reserve_with_google(Protocol):
 
     async def getMerchant(self, merchantId: str, /) -> Prv_reserve_with_google_Merchant_Out:
         """Reads one Google-hosted booking page by merchant id: the venue's details, the fulfilling
-        partner, party sizes, time zone, bookable room and bookable days.
+        partner, party sizes, time zone, bookable room, bookable days and any stated deposit.
         """
 
     async def checkAvailability(self, args: Prv_reserve_with_google_CheckAvailabilityArgs_In, /) -> Prv_reserve_with_google_Availability_Out:
@@ -100259,6 +100309,12 @@ class Prv_reserve_with_google(Protocol):
         """Cancels the caller's booking at one venue (needs the caller's Google sign-in), found by
         the venue feature id listMyBookings returns, by opening it on the Bookings page and
         confirming Cancel.
+        """
+
+    async def leaveWaitlist(self, featureId: str, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_LeaveWaitlistResult_Out:
+        """Takes the caller off a venue's waitlist that joinWaitlist put them on (needs the
+        caller's Google sign-in), found by the venue feature id listMyBookings returns, by
+        opening the entry on the Bookings page and confirming Leave waitlist.
         """
 
     async def modifyBooking(self, args: Prv_reserve_with_google_ModifyBookingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_ModifyBookingResult_Out:

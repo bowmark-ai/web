@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 10399b49a7882ea96e40c419a25a5e582d4c1914a51bab2ab6d1f450b2368f33
-// 4821 checked, 20 unchecked.
+// Manifest version: 8e347b33ca5239b27a279a0c1d1b4cccf2d2b8de363da4b28497887a29afb289
+// 4826 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "10399b49a7882ea96e40c419a25a5e582d4c1914a51bab2ab6d1f450b2368f33",
+  "version": "8e347b33ca5239b27a279a0c1d1b4cccf2d2b8de363da4b28497887a29afb289",
   "units": {
     "address_validation": {
       "defs": {
@@ -88819,6 +88819,34 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getNewOnNetflix": [],
+        "getProfiles": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSimilarTitles": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getTitle": [
           {
             "name": "titleId",
@@ -88838,6 +88866,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listTudumArticles": [],
         "listGenres": []
       }
     },
@@ -110484,6 +110513,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "cancelBooking": [
+          {
+            "name": "featureId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "leaveWaitlist": [
           {
             "name": "featureId",
             "schema": {

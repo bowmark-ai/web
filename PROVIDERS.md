@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6231 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6237 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -943,8 +943,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `capitaloneshopping.getStoreRate` | capitaloneshopping.com | Reads one store's Capital One Shopping reward rate, coupon codes with success rates… | 🟡 |
 | `capitaloneshopping.searchStores` | capitaloneshopping.com | Searches Capital One Shopping's stores by name and returns each match's domain and… | 🟢 |
 | `caraway.getCarawayProduct` | carawayhome.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
-| `caraway.listCarawayProducts` | carawayhome.com | Reads the live Caraway catalogue as Caraway publishes it — every ceramic cookware… | 🟢 |
-| `caraway.runCarawayQuiz` | carawayhome.com | Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended… | 🟢 |
+| `caraway.listCarawayProducts` | carawayhome.com | Reads the live Caraway catalogue as Caraway publishes it — every ceramic cookware… | 🟡 |
+| `caraway.runCarawayQuiz` | carawayhome.com | Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended… | 🟡 |
 | `carepatrol.findLocalAdvisor` | carepatrol.com | Runs the site's own zip/state locator at carepatrol.com/locations/ — given a US ZIP… | 🟢 |
 | `carlsgolfland.addToCart` | carlsgolfland.com | Hands the shopper the entry-point link for a priced configuration plus the exact… | 🟢 |
 | `carlsgolfland.checkout` | carlsgolfland.com | Would place a priced configuration into Carl's Golfland's cart and return a checkout… | ⚪ |
@@ -3481,11 +3481,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.getContinueWatching` | www.netflix.com | Reads the signed-in caller's own Netflix Continue Watching row — the titles they are… | 🟢 |
 | `netflix.getEpisodes` | www.netflix.com | Lists a Netflix series' episodes by its numeric title id — e.g.… | 🟢 |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's own Netflix My List — each saved title's id, name… | 🟢 |
+| `netflix.getNewOnNetflix` | www.netflix.com | Lists what Netflix shows in its New on Netflix row right now, TV shows then films —… | 🟢 |
+| `netflix.getProfiles` | www.netflix.com | Lists the profiles on the signed-in caller's own Netflix account — each profile's id… | 🟢 |
+| `netflix.getSimilarTitles` | www.netflix.com | Lists the titles Netflix recommends alongside one title (its "More Like This" picks)… | 🟢 |
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
 | `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10… | 🟢 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads one article on Tudum, Netflix's editorial site, by its slug or URL — headline… | 🟢 |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's own Netflix viewing history, most recent first, 100 per… | 🟢 |
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
+| `netflix.listTudumArticles` | www.netflix.com | Lists the articles on Netflix's Tudum front page right now — each headline… | 🟢 |
 | `netflix.rateTitle` | www.netflix.com | Rates a title on the signed-in caller's own Netflix account by its numeric id — "up"… | 🟢 |
 | `netflix.removeFromMyList` | www.netflix.com | Removes a title from the signed-in caller's own Netflix My List by its numeric id… | 🟢 |
 | `netflix.search` | www.netflix.com | Searches the whole Netflix catalogue the way the site's own search box does — e.g.… | 🟢 |
@@ -5076,6 +5080,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sweathouz.listStudios` | sweathouz.com | Lists SWTHZ studios: id, name, address, coordinates, opening hours and booking link… | 🟢 |
 | `sweathouz.myBookings` | sweathouz.com | Reads the signed-in customer's sweathouz.com/account/ page. | 🟢 |
 | `sweathouz.reserveMembership` | sweathouz.com | Pre-reserves a membership for an upcoming opening. | ⚪ |
+| `szukajwarchiwach_gov_pl.getFond` | szukajwarchiwach.gov.pl | Reads one numbered archive fond's title, reference code, number of series and number… | 🟢 |
+| `szukajwarchiwach_gov_pl.searchFonds` | szukajwarchiwach.gov.pl | Searches the archive portal for fonds and returns each matching fond's title, id and… | 🟢 |
 | `tagtrans_net.createShipmentRateEmail` | tagtrans.net | Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request… | 🟢 |
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
@@ -5298,7 +5304,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `toast.getOrderingOptions` | toasttab.com | Says how a restaurant takes online orders right now: takeout, delivery and catering on… | 🟢 |
 | `toast.getOrderReceipt` | toasttab.com | Gets the receipt for one of the signed-in guest's orders as a PDF file. | ⚪ |
 | `toast.getPopularItems` | toasttab.com | Lists a restaurant's most-ordered items with price and guid. | 🟢 |
-| `toast.getReservationAvailability` | toasttab.com | Reads a Toast Tables restaurant's open reservation times for a party size across a… | 🟢 |
+| `toast.getReservationAvailability` | toasttab.com | Reads a Toast Tables restaurant's open reservation times for a party size across a… | 🟡 |
 | `toast.getRestaurant` | toasttab.com | Reads one Toast restaurant by its toast.app URL, slug ("bombaytandoor") or guid: name… | 🟢 |
 | `toast.getRestaurantLocations` | toasttab.com | Lists the other locations of the same restaurant group (a chain's sister restaurants… | ⚪ |
 | `toast.getRestaurantOffers` | toasttab.com | Lists the offers a restaurant is running on Toast (discounts, free delivery… | ⚪ |

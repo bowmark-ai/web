@@ -703,6 +703,7 @@ support.claude.com — claude_support: getArticle, listArticles
 surfshark.com — surfshark: getDedicatedIp (+1 planned)
 surveymonkey.com — surveymonkey: createSurvey, getAccountInfo, getCollectorStatus, getSurvey, getSurveyResults, listCollectors, listSurveys, listTemplates (+8 planned)
 sweathouz.com — sweathouz: book, cancel, findStudio, getAvailability, getPricing, getPromoCode, getStudioHours, listCredits, listMemberships, listPacks, listStudios, myBookings (+8 planned)
+szukajwarchiwach.gov.pl — szukajwarchiwach_gov_pl: getFond, searchFonds
 t-mobile.com — tmobile: getUpgradeOffer
 tagtrans.net — tagtrans_net: createShipmentRateEmail, getShipmentRateForm
 tamarackidaho.com — tamarackidaho: searchLodging
@@ -804,7 +805,7 @@ www.cnn.com — cnn: followTopic, getArticle, getMarketsData, getVideo, listCate
 www.gap.com — gap: getProduct, searchProducts
 www.grammarly.com — grammarly: checkGrammar, countWords, createDocument, deleteDocument, detectAI, detectPlagiarism, detectTone, getAccount, getDocument, humanize, listDocuments, listGoals, listPlans, paraphrase (+5 planned)
 www.marks.com — marks: findStores, getProduct, searchProducts
-www.netflix.com — netflix: addToMyList, browseGenre, findTitles, getAccount, getContinueWatching, getEpisodes, getMyList, getTitle, getTop10, getTudumArticle, getViewingHistory, listGenres, rateTitle, removeFromMyList, search, searchTudum
+www.netflix.com — netflix: addToMyList, browseGenre, findTitles, getAccount, getContinueWatching, getEpisodes, getMyList, getNewOnNetflix, getProfiles, getSimilarTitles, getTitle, getTop10, getTudumArticle, getViewingHistory, listGenres, listTudumArticles, rateTitle, removeFromMyList, search, searchTudum
 www.nintendo.com — nintendo: browseCategory, getMyNintendoRewardsBalance, getProduct, getSupportArticle, listCategories, listDeals, listNews, searchProducts, searchSupport (+1 planned)
 www.primevideo.com — prime_video: getChannel, getLiveSchedule, getPerson, getTitle, getWatchlist, getWatchOptions, listCategories, listCategoryTitles, listChannels, listContinueWatching, listDeals, listEpisodes, listFreeToWatch, listLiveChannels, listLiveSports, listNewReleases, listPurchases, listRelatedTitles, listSeasons, listTop10, searchTitles, suggestTitles, toggleWatchlist
 www.reuters.com — reuters: 36 functions — ask get_library (+2 planned)
