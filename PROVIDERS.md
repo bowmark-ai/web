@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6267 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6271 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3986,6 +3986,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `postcodes_io.autocomplete` | postcodes.io | Would complete a partial UK postcode, via GET /postcodes/<partial>/autocomplete | ⚪ |
 | `postcodes_io.lookup` | postcodes.io | Look up a UK postcode: its latitude and longitude, OS grid eastings/northings, and the… | 🟢 |
 | `postcodes_io.reverseGeocode` | postcodes.io | Would list the postcodes nearest a latitude/longitude, via GET /postcodes?lon=&lat= | ⚪ |
+| `posthog.getInsight` | us.posthog.com | Reads one saved PostHog insight, including its definition and latest result. | 🟢 |
+| `posthog.listInsights` | us.posthog.com | Lists saved insights in one caller-selected PostHog project. | 🟢 |
+| `posthog.listProjects` | us.posthog.com | Lists projects the caller can access in their PostHog account. | 🟢 |
+| `posthog.runRetentionQuery` | us.posthog.com | Runs a caller-supplied PostHog RetentionQuery without saving or changing it. | 🟢 |
 | `potterybarn.getProduct` | potterybarn.com | Reads one product page: every size/colour SKU with its own price, stock and delivery… | ⚪ |
 | `potterybarn.searchProducts` | potterybarn.com | Searches the Pottery Barn catalog the way its own search box does ("sofa") and returns… | 🟢 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |

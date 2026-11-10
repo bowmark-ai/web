@@ -765,6 +765,7 @@ unsplash.com — unsplash: search
 upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
 ups.com — ups: calculateShippingCost, estimateDeliveryDate, findNearbyLocation, getRate, getServiceAlerts, schedulePickup, trackShipment, validateAddress
 urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
+us.posthog.com — posthog: getInsight, listInsights, listProjects, runRetentionQuery
 usatoday.com — usatoday: browseSection, getArticle, getPuzzle, getScores, getVideo, listHomepageHeadlines, listPuzzles, listSections, listVideos, searchNews (+2 planned)
 uscis.gov — uscis: caseStatus
 usps.com — usps: getRate, trackPackage
