@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 25ca6fda160f5f184884b59d93122d861b351665c591e33aecd1416b3674f3c9
+// Manifest version: 742dd2749d925dae98cd0c0742d3769d59d3494b8d9dbf48409a672507badf31
 // 97 capabilities, 801 providers, 4861 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -512,8 +512,11 @@ type CallOptions = {
    * polling forever — the session stays open, so `send` a narrower instruction or `stop` it.
    * **One task = one independent goal. Do not bundle multiple date ranges, SKUs, or queries into
    * one task — the agent may silently reuse a single search result across all of them with no
-   * warning. Start separate sessions for each.** RUN-ONLY: a typed session cannot call it —
-   * start in one run and poll status from later runs, never in a loop.
+   * warning. Start separate sessions for each.** Reading every row of ONE list under ONE filter
+   * (one date range on one orders page, paged) is one goal, not a bundle; a few pages is
+   * ordinary, and how many one session gets through is not measured, so test it on the target
+   * before relying on hundreds of rows. RUN-ONLY: a typed session cannot call it — start in one
+   * run and poll status from later runs, never in a loop.
    */
   interface Unit {
     /**
@@ -534,15 +537,15 @@ type CallOptions = {
      * URL in `task`, not just the site — a site with two ways to search can otherwise be entered
      * differently each run and give two different answers. **One session = one independent goal**
      * — never bundle multiple date ranges, SKUs or queries into one session; the agent silently
-     * reuses results across them. Start a separate session for each distinct query. Then
-     * `status(id)` from later runs (each `run()` is capped at 90s; the agent is not — a task
-     * normally takes 1-3 minutes, so do not give up on it before 5); on `needs_input` relay
-     * `question` and `send` the answer; on `idle` read `result` and `stop(id)`. A login persists
-     * for the life of the session, so later `send()` calls into the same session do not need
-     * re-authentication. Always stop sessions when done — idle browsers keep costing money.
-     * Account limit: 3 open sessions, counting ones still starting — start 9 at once and 3 run
-     * while 6 are refused with the limit error, so start at most 3 and `stop()` one before
-     * starting the next.
+     * reuses results across them. Start a separate session for each distinct query. One list read
+     * in full under one filter, across its pages, is ONE goal. Then `status(id)` from later runs
+     * (each `run()` is capped at 90s; the agent is not — a task normally takes 1-3 minutes, so do
+     * not give up on it before 5); on `needs_input` relay `question` and `send` the answer; on
+     * `idle` read `result` and `stop(id)`. A login persists for the life of the session, so later
+     * `send()` calls into the same session do not need re-authentication. Always stop sessions
+     * when done — idle browsers keep costing money. Account limit: 3 open sessions, counting ones
+     * still starting — start 9 at once and 3 run while 6 are refused with the limit error, so
+     * start at most 3 and `stop()` one before starting the next.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -30623,7 +30626,12 @@ interface CurrysListing {
      * Lists Currys' clearance / outlet / reduced-price deals (its clearance-all category),
      * optionally filtered to one or more product types such as Laptops or Air fryers, with each
      * listing's current price, was-price, stock status and link, plus the full list of
-     * product-type filters available. A real browser load, so expect 15-40 s.
+     * product-type filters available. **The valid `productTypes` values are Currys' own filter
+     * names, returned as `productTypes` on every call** — call `listClearance({})` once to get
+     * them (about 110), since there is no umbrella name like "small kitchen appliances". Currys
+     * tags loosely: a filter like Coffee machines also returns accessories (milk jugs, frothers)
+     * whose `category` reads e.g. `SDA ACCESSORIES`, so filter on each row's `category` if you
+     * need only the appliances. A real browser load, so expect 15-40 s.
      */
     listClearance(args?: CurrysClearanceArgs): Promise<CurrysListing>;
 
@@ -40752,10 +40760,12 @@ interface fedexRatedShipment {
    */
   interface Unit {
     /**
-     * Prices a domestic shipment across every FedEx service level that quotes it, between two
-     * 5-digit ZIP Codes, for a weight in ounces. `accountNumber` is a FedEx shipping account
-     * number tied to the caller's own FedEx developer application — published rates vary by
-     * whether one is sent. Requires a FedEx OAuth2 bearer token — see this provider's `auth`.
+     * **Needs your own FedEx developer API key, and US 5-digit ZIP Codes only** — this is FedEx's
+     * keyed Rating API, not its public rate calculator. Prices a domestic shipment across every
+     * FedEx service level that quotes it, between two 5-digit ZIP Codes, for a weight in ounces.
+     * `accountNumber` is a FedEx shipping account number tied to the caller's own FedEx developer
+     * application — published rates vary by whether one is sent. Requires a FedEx OAuth2 bearer
+     * token — see this provider's `auth`.
      */
     getRate(args: { fromZip: string; toZip: string; weightOz: number; accountNumber?: string }): Promise<fedexRatedShipment[]>;
   }
@@ -60273,11 +60283,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Returns the signed-in caller's own LinkedIn member record — name, headline, profile URL and
      * photo, and whether the account is Premium. Signed in: acts as the caller's own LinkedIn
      * account; with no saved sign-in the run pauses and hands back a link where they sign in.
-     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
-     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
-     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
-     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
-     * last argument; ask them first.
+     * Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
      */
     getMyProfile(opts?: ConnectionOption): Promise<LinkedinMe>;
 
@@ -60287,11 +60297,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * (default 40). A headline usually names the person's title and employer, so this answers
      * "where do my connections work" 100 people per request, where getProfileDetails answers one.
      * Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses
-     * and hands back a link where they sign in. Paced per LinkedIn account across runs so it never
-     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
-     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
-     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * and hands back a link where they sign in. Paced per LinkedIn account across runs to keep the
+     * account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that
+     * refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
+     * pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
+     * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     listConnections(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ connections: LinkedinConnection[]; start: number; nextStart: number | null }>;
 
@@ -60305,10 +60315,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * read the headline listConnections returns (up to 100 people per call) and call this only for
      * the rest. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the
      * run pauses and hands back a link where they sign in. Paced per LinkedIn account across runs
-     * so it never looks automated — 6 requests a minute, and a reserve of 400 that refills about
-     * 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
-     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * to keep the account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400
+     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
+     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+     * first.
      */
     getProfileDetails(profile: string, opts?: ConnectionOption): Promise<LinkedinMemberProfile>;
 
@@ -60322,11 +60333,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * run. To learn where many connections work, read the headline listConnections returns (up to
      * 100 people per call) and call this only for the rest. Signed in: acts as the caller's own
      * LinkedIn account; with no saved sign-in the run pauses and hands back a link where they sign
-     * in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
-     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
-     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
-     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
-     * extra last argument; ask them first.
+     * in. Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits
+     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
+     * "fast" } as an extra last argument; ask them first.
      */
     getProfileSkills(profile: string, opts?: ConnectionOption): Promise<LinkedinMemberSkills>;
 
@@ -60337,11 +60348,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * location, profile URL and the caller's degree of connection. Unlike searchPeople, which
      * needs no sign-in and relies on a web index, this is LinkedIn's ranking and filters. Signed
      * in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
-     * hands back a link where they sign in. Paced per LinkedIn account across runs so it never
-     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
-     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
-     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * hands back a link where they sign in. Paced per LinkedIn account across runs to keep the
+     * account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that
+     * refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
+     * pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
+     * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     searchMembers(input: string | { keywords: string; currentCompany?: string | string[]; title?: string; location?: string; network?: string | string[]; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember>>;
 
@@ -60350,11 +60361,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * with each one's handle, numeric id, industry, location and follower count. The handle feeds
      * getCompany; the id feeds listCompanyEmployees and searchMembers. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
-     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
-     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
-     * as an extra last argument; ask them first.
+     * where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     searchCompanies(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchCompany>>;
 
@@ -60364,11 +60375,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * optionally narrowed by keywords or job title. It is LinkedIn's people search with the
      * current-company filter applied. Signed in: acts as the caller's own LinkedIn account; with
      * no saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
-     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
-     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
-     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
-     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
-     * first.
+     * account across runs to keep the account inside LinkedIn's own limits — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
      */
     listCompanyEmployees(input: string | { company: string; keywords?: string; title?: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember> & { companyId: string }>;
 
@@ -60376,11 +60387,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Searches LinkedIn posts by keyword and returns them with author, text, how long ago each was
      * posted, its reaction, comment and repost counts, and its URL. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
-     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
-     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
-     * as an extra last argument; ask them first.
+     * where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     searchPosts(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinFeedPost>>;
 
@@ -60388,11 +60399,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL for
      * each post. Promoted posts are left out. `count` up to 100 (default 10). Signed in: acts as
      * the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-     * link where they sign in. Paced per LinkedIn account across runs so it never looks automated
-     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
-     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
-     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
-     * "fast" } as an extra last argument; ask them first.
+     * link where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     getHomeFeed(input?: { count?: number; start?: number }, opts?: ConnectionOption): Promise<{ posts: LinkedinFeedPost[]; start: number; nextStart: number | null }>;
 
@@ -60400,11 +60411,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Lists the caller's LinkedIn message threads, most recent first, with the other participants,
      * unread count and the latest message in each. Signed in: acts as the caller's own LinkedIn
      * account; with no saved sign-in the run pauses and hands back a link where they sign in.
-     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
-     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
-     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
-     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
-     * last argument; ask them first.
+     * Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
      */
     listConversations(opts?: ConnectionOption): Promise<{ conversations: LinkedinConversation[] }>;
 
@@ -60412,11 +60423,12 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Reads one LinkedIn message thread in order, oldest first — who sent each message, its text
      * and when — from a conversation id or urn out of listConversations, or a /messaging/thread/
      * URL. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run
-     * pauses and hands back a link where they sign in. Paced per LinkedIn account across runs so
-     * it never looks automated — 6 requests a minute, and a reserve of 400 that refills about 17
-     * an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
-     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * pauses and hands back a link where they sign in. Paced per LinkedIn account across runs to
+     * keep the account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400
+     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
+     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+     * first.
      */
     getConversation(conversation: string, opts?: ConnectionOption): Promise<{ conversationUrn: string; messages: LinkedinMessage[] }>;
 
@@ -60424,11 +60436,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Lists the connection invitations the caller has received and not yet answered — who sent
      * each, their note if any, and when. Signed in: acts as the caller's own LinkedIn account;
      * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
-     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
-     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
-     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
-     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
-     * argument; ask them first.
+     * LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
      */
     listInvitations(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ invitations: LinkedinInvitation[]; start: number; nextStart: number | null }>;
 
@@ -60436,11 +60448,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Lists the connection invitations the caller has sent that are still pending — who each went
      * to, the note, and when it was sent. Signed in: acts as the caller's own LinkedIn account;
      * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
-     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
-     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
-     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
-     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
-     * argument; ask them first.
+     * LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
      */
     listSentInvitations(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ invitations: LinkedinInvitation[]; start: number; nextStart: number | null }>;
 
@@ -60449,10 +60461,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * viewers it names. Without Premium LinkedIn names only a few of them, so `viewers` can be
      * shorter than `views`. Signed in: acts as the caller's own LinkedIn account; with no saved
      * sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn account
-     * across runs so it never looks automated — 6 requests a minute, and a reserve of 400 that
-     * refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
-     * pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
-     * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * across runs to keep the account inside LinkedIn's own limits — 6 requests a minute, and a
+     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
+     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
+     * argument; ask them first.
      */
     getProfileViews(opts?: ConnectionOption): Promise<{ views: number | null; viewers: LinkedinMember[] }>;
 
@@ -60462,11 +60475,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * common to every card type LinkedIn renders (a headline/body, a click target and a publish
      * time); `count` up to 100 per page (default 20). Signed in: acts as the caller's own LinkedIn
      * account; with no saved sign-in the run pauses and hands back a link where they sign in.
-     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
-     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
-     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
-     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
-     * last argument; ask them first.
+     * Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
      */
     listNotifications(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ notifications: LinkedinNotification[]; start: number; nextStart: number | null }>;
 
@@ -60475,11 +60488,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * headline, profile URL and the reason given, such as a shared employer or school, where
      * LinkedIn names one. `count` up to 100 per page (default 20). Signed in: acts as the caller's
      * own LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
-     * sign in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
-     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
-     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
-     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
-     * extra last argument; ask them first.
+     * sign in. Paced per LinkedIn account across runs to keep the account inside LinkedIn's own
+     * limits — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held
+     * 30 minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
+     * saying when to retry: wait that long. The account owner may opt into faster pacing with {
+     * pacing: "fast" } as an extra last argument; ask them first.
      */
     listSuggestedConnections(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ suggestions: LinkedinSuggestedConnection[]; start: number; nextStart: number | null }>;
 
@@ -60487,11 +60500,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Lists the members, companies and newsletters the caller follows, with each one's name, URL
      * and kind. `count` up to 100 per page (default 20). Signed in: acts as the caller's own
      * LinkedIn account; with no saved sign-in the run pauses and hands back a link where they sign
-     * in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
-     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
-     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
-     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
-     * extra last argument; ask them first.
+     * in. Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits
+     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
+     * "fast" } as an extra last argument; ask them first.
      */
     listFollowing(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ following: LinkedinFollowedEntity[]; start: number; nextStart: number | null }>;
 
@@ -60499,11 +60512,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Lists the jobs the caller has saved, newest first — each posting's id (for getJob), title,
      * company, location and LinkedIn's status line, such as when it was saved. Signed in: acts as
      * the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-     * link where they sign in. Paced per LinkedIn account across runs so it never looks automated
-     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
-     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
-     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
-     * "fast" } as an extra last argument; ask them first.
+     * link where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     listSavedJobs(input?: { start?: number }, opts?: ConnectionOption): Promise<{ jobs: LinkedinTrackedJob[]; total: number | null; start: number; nextStart: number | null }>;
 
@@ -60512,11 +60525,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * getJob), title, company, location and the status LinkedIn shows (applied, application
      * viewed, no longer accepting). Signed in: acts as the caller's own LinkedIn account; with no
      * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
-     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
-     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
-     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
-     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
-     * first.
+     * account across runs to keep the account inside LinkedIn's own limits — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
      */
     listAppliedJobs(input?: { start?: number }, opts?: ConnectionOption): Promise<{ jobs: LinkedinTrackedJob[]; total: number | null; start: number; nextStart: number | null }>;
 
@@ -60524,11 +60537,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Lists the posts and articles the caller has saved, newest first — each one's author, the
      * author's headline, its text and URL. Signed in: acts as the caller's own LinkedIn account;
      * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
-     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
-     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
-     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
-     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
-     * argument; ask them first.
+     * LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
      */
     listSavedPosts(input?: { start?: number }, opts?: ConnectionOption): Promise<{ posts: LinkedinSavedPost[]; total: number | null; start: number; nextStart: number | null }>;
 
@@ -60536,11 +60549,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Searches LinkedIn groups by keyword, 10 per page — each group's id (for getGroup and
      * joinGroup), name, member count, description and URL. Signed in: acts as the caller's own
      * LinkedIn account; with no saved sign-in the run pauses and hands back a link where they sign
-     * in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
-     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
-     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
-     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
-     * extra last argument; ask them first.
+     * in. Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits
+     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
+     * "fast" } as an extra last argument; ask them first.
      */
     searchGroups(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchGroup>>;
 
@@ -60548,11 +60561,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Returns one LinkedIn group by its URL or numeric id (from searchGroups or listMyGroups) —
      * name, description and LinkedIn's member line. Signed in: acts as the caller's own LinkedIn
      * account; with no saved sign-in the run pauses and hands back a link where they sign in.
-     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
-     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
-     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
-     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
-     * last argument; ask them first.
+     * Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
      */
     getGroup(input: string | { group: string }, opts?: ConnectionOption): Promise<LinkedinGroupDetail>;
 
@@ -60560,11 +60573,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Lists the groups the caller belongs to — each one's id (for getGroup), name, description and
      * LinkedIn's member line. `count` up to 100 per page (default 10). Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
-     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
-     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
-     * as an extra last argument; ask them first.
+     * where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     listMyGroups(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ groups: LinkedinGroupDetail[]; start: number; nextStart: number | null }>;
 
@@ -60572,11 +60585,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Searches LinkedIn schools and universities by name, 10 per page — each one's handle (for
      * getSchool), name, location and URL. Signed in: acts as the caller's own LinkedIn account;
      * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
-     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
-     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
-     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
-     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
-     * argument; ask them first.
+     * LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
      */
     searchSchools(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchSchool>>;
 
@@ -60584,11 +60597,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Searches LinkedIn events by keyword, 10 per page — each one's id, name, organizer,
      * LinkedIn's own time/format line and URL. The door to getEvent. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
-     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
-     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
-     * as an extra last argument; ask them first.
+     * where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     searchEvents(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchEvent>>;
 
@@ -60597,10 +60610,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * description, start and end time, timezone, online or in-person with the venue, and the
      * attendee count. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in
      * the run pauses and hands back a link where they sign in. Paced per LinkedIn account across
-     * runs so it never looks automated — 6 requests a minute, and a reserve of 400 that refills
-     * about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
-     * throws LinkedinRateLimited saying when to retry: wait that long. The account owner may opt
-     * into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * runs to keep the account inside LinkedIn's own limits — 6 requests a minute, and a reserve
+     * of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a
+     * call over the pace throws LinkedinRateLimited saying when to retry: wait that long. The
+     * account owner may opt into faster pacing with { pacing: "fast" } as an extra last argument;
+     * ask them first.
      */
     getEvent(input: string | { event: string }, opts?: ConnectionOption): Promise<LinkedinEventDetail>;
 
@@ -60610,11 +60624,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * for `deletePost`, `commentOnPost` and `reactToPost` where LinkedIn's answer carries one —
      * otherwise `id` is null and the write still happened. Signed in: acts as the caller's own
      * LinkedIn account; with no saved sign-in the run pauses and hands back a link where they sign
-     * in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
-     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
-     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
-     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
-     * extra last argument; ask them first.
+     * in. Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits
+     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
+     * "fast" } as an extra last argument; ask them first.
      */
     createPost(input: { text: string; visibility?: "public" | "connections" }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
 
@@ -60622,11 +60636,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Deletes a post the caller owns, by the id createPost returned or the post's urn — the
      * clean-up half of createPost. Signed in: acts as the caller's own LinkedIn account; with no
      * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
-     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
-     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
-     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
-     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
-     * first.
+     * account across runs to keep the account inside LinkedIn's own limits — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
      */
     deletePost(post: string, opts?: ConnectionOption): Promise<{ deleted: true }>;
 
@@ -60634,11 +60648,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Comments on a post, by the id createPost/getPost returned or the post's urn. Returns the new
      * comment's id for deleteComment where LinkedIn's answer carries one. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
-     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
-     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
-     * as an extra last argument; ask them first.
+     * where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     commentOnPost(input: { post: string; text: string }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
 
@@ -60646,11 +60660,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Deletes a comment the caller wrote, by the id commentOnPost returned or the comment's urn —
      * the clean-up half of commentOnPost. Signed in: acts as the caller's own LinkedIn account;
      * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
-     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
-     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
-     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
-     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
-     * argument; ask them first.
+     * LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
      */
     deleteComment(comment: string, opts?: ConnectionOption): Promise<{ deleted: true }>;
 
@@ -60658,11 +60672,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Reacts to a post as the caller — "LIKE" by default, or one of the other five LinkedIn
      * offers. `post` is the id createPost/getPost returned, a bare activity id, or the post's urn.
      * Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses
-     * and hands back a link where they sign in. Paced per LinkedIn account across runs so it never
-     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
-     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
-     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * and hands back a link where they sign in. Paced per LinkedIn account across runs to keep the
+     * account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that
+     * refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
+     * pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
+     * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     reactToPost(input: { post: string; reaction?: "LIKE" | "PRAISE" | "APPRECIATION" | "EMPATHY" | "INTEREST" | "ENTERTAINMENT" }, opts?: ConnectionOption): Promise<LinkedinReactToPostResult>;
 
@@ -60670,11 +60684,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Reposts a post to the caller's own feed, with or without their own text on top. `post` is
      * the id createPost/getPost returned, a bare activity id, or the post's urn. Signed in: acts
      * as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-     * link where they sign in. Paced per LinkedIn account across runs so it never looks automated
-     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
-     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
-     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
-     * "fast" } as an extra last argument; ask them first.
+     * link where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     repostPost(input: { post: string; text?: string }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
 
@@ -60683,10 +60697,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Private to the caller. `post` is the id createPost/getPost returned, a bare activity id, or
      * the post's urn. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in
      * the run pauses and hands back a link where they sign in. Paced per LinkedIn account across
-     * runs so it never looks automated — 6 requests a minute, and a reserve of 400 that refills
-     * about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
-     * throws LinkedinRateLimited saying when to retry: wait that long. The account owner may opt
-     * into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * runs to keep the account inside LinkedIn's own limits — 6 requests a minute, and a reserve
+     * of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a
+     * call over the pace throws LinkedinRateLimited saying when to retry: wait that long. The
+     * account owner may opt into faster pacing with { pacing: "fast" } as an extra last argument;
+     * ask them first.
      */
     savePost(input: { post: string; save?: boolean }, opts?: ConnectionOption): Promise<{ saved: boolean }>;
 
@@ -60694,11 +60709,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Saves a job posting to the caller's saved jobs (listSavedJobs), or unsaves it when `save:
      * false`. Private to the caller. Takes a job URL or its numeric posting id. Signed in: acts as
      * the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-     * link where they sign in. Paced per LinkedIn account across runs so it never looks automated
-     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
-     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
-     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
-     * "fast" } as an extra last argument; ask them first.
+     * link where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     saveJob(input: string | { job: string; save?: boolean }, opts?: ConnectionOption): Promise<{ saved: boolean }>;
 
@@ -60707,10 +60722,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * is the numeric companyId getCompany, searchCompanies or listCompanyEmployees returns — not
      * the URL handle. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in
      * the run pauses and hands back a link where they sign in. Paced per LinkedIn account across
-     * runs so it never looks automated — 6 requests a minute, and a reserve of 400 that refills
-     * about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
-     * throws LinkedinRateLimited saying when to retry: wait that long. The account owner may opt
-     * into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * runs to keep the account inside LinkedIn's own limits — 6 requests a minute, and a reserve
+     * of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a
+     * call over the pace throws LinkedinRateLimited saying when to retry: wait that long. The
+     * account owner may opt into faster pacing with { pacing: "fast" } as an extra last argument;
+     * ask them first.
      */
     followCompany(input: { company: string; follow?: boolean }, opts?: ConnectionOption): Promise<{ following: boolean }>;
 
@@ -60719,11 +60735,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * without a connection; unfollows when `follow: false`. `member` is the numeric profile id a
      * member record's `id` field carries, not the `/in/<slug>` URL slug. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
-     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
-     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
-     * as an extra last argument; ask them first.
+     * where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     followMember(input: { member: string; follow?: boolean }, opts?: ConnectionOption): Promise<{ following: boolean }>;
 
@@ -60732,10 +60748,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * characters. `member` is the numeric profile id a member record's `id` field carries, not the
      * `/in/<slug>` URL slug. Signed in: acts as the caller's own LinkedIn account; with no saved
      * sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn account
-     * across runs so it never looks automated — 6 requests a minute, and a reserve of 400 that
-     * refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
-     * pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
-     * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * across runs to keep the account inside LinkedIn's own limits — 6 requests a minute, and a
+     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
+     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
+     * argument; ask them first.
      */
     sendConnectionRequest(input: { member: string; message?: string }, opts?: ConnectionOption): Promise<{ sent: true }>;
 
@@ -60743,11 +60760,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Withdraws a connection invitation the caller sent and is still pending, by the id
      * listSentInvitations returned — the clean-up half of sendConnectionRequest. Signed in: acts
      * as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-     * link where they sign in. Paced per LinkedIn account across runs so it never looks automated
-     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
-     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
-     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
-     * "fast" } as an extra last argument; ask them first.
+     * link where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     withdrawInvitation(invitation: string, opts?: ConnectionOption): Promise<{ withdrawn: true }>;
 
@@ -60755,11 +60772,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Accepts a connection invitation the caller received, by the id and sharedSecret
      * listInvitations returned. Signed in: acts as the caller's own LinkedIn account; with no
      * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
-     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
-     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
-     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
-     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
-     * first.
+     * account across runs to keep the account inside LinkedIn's own limits — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
      */
     acceptInvitation(input: { invitation: string; sharedSecret: string }, opts?: ConnectionOption): Promise<{ accepted: true }>;
 
@@ -60767,11 +60784,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Ignores a connection invitation the caller received, without telling the sender, by the id
      * and sharedSecret listInvitations returned. Signed in: acts as the caller's own LinkedIn
      * account; with no saved sign-in the run pauses and hands back a link where they sign in.
-     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
-     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
-     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
-     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
-     * last argument; ask them first.
+     * Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
      */
     ignoreInvitation(input: { invitation: string; sharedSecret: string }, opts?: ConnectionOption): Promise<{ ignored: true }>;
 
@@ -60779,11 +60796,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Removes a member from the caller's connections, by the `publicIdentifier` (the /in/<slug>) a
      * member record carries. LinkedIn does not tell the other member. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
-     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
-     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
-     * as an extra last argument; ask them first.
+     * where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     removeConnection(member: string, opts?: ConnectionOption): Promise<{ removed: true }>;
 
@@ -60792,11 +60809,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * id/urn/`/messaging/thread/` URL listConversations or getConversation returns), or to a
      * member as a new one (`member`, the numeric profile id a member record's `id` field carries).
      * Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses
-     * and hands back a link where they sign in. Paced per LinkedIn account across runs so it never
-     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
-     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
-     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * and hands back a link where they sign in. Paced per LinkedIn account across runs to keep the
+     * account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that
+     * refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
+     * pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
+     * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     sendMessage(input: { conversation?: string; member?: string; text: string }, opts?: ConnectionOption): Promise<{ sent: true }>;
 
@@ -60804,22 +60821,22 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Joins a LinkedIn group as the caller, or asks to join one that needs approval — from a group
      * URL or the numeric id getGroup/searchGroups/listMyGroups return. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
-     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
-     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
-     * as an extra last argument; ask them first.
+     * where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     joinGroup(group: string | { group: string }, opts?: ConnectionOption): Promise<{ joined: true }>;
 
     /**
      * Leaves a LinkedIn group the caller belongs to — the clean-up half of joinGroup. Signed in:
      * acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands
-     * back a link where they sign in. Paced per LinkedIn account across runs so it never looks
-     * automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and
-     * held 30 minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
-     * saying when to retry: wait that long. The account owner may opt into faster pacing with {
-     * pacing: "fast" } as an extra last argument; ask them first.
+     * back a link where they sign in. Paced per LinkedIn account across runs to keep the account
+     * inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about
+     * 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     leaveGroup(group: string | { group: string }, opts?: ConnectionOption): Promise<{ left: true }>;
 
@@ -60827,22 +60844,22 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Edits the caller's own profile headline and About text; only the fields passed are changed,
      * and `updated` names them. Signed in: acts as the caller's own LinkedIn account; with no
      * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
-     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
-     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
-     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
-     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
-     * first.
+     * account across runs to keep the account inside LinkedIn's own limits — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
      */
     updateProfile(input: { headline?: string; about?: string }, opts?: ConnectionOption): Promise<{ updated: string[] }>;
 
     /**
      * Replaces the caller's own profile photo with an image from a URL or uploaded (base64) file.
      * Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses
-     * and hands back a link where they sign in. Paced per LinkedIn account across runs so it never
-     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
-     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
-     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * and hands back a link where they sign in. Paced per LinkedIn account across runs to keep the
+     * account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that
+     * refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
+     * pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
+     * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     setProfilePhoto(input: { base64: string; mimeType: "image/jpeg" | "image/png" } | { url: string }, opts?: ConnectionOption): Promise<{ updated: true }>;
 
@@ -60852,11 +60869,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * question label). Returns the required questions it could not answer instead of submitting;
      * `submit: false` stops at the form. Signed in: acts as the caller's own LinkedIn account;
      * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
-     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
-     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
-     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
-     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
-     * argument; ask them first.
+     * LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
      */
     applyToJob(input: { job: string; answers?: Record<string, string | number>; submit?: boolean }, opts?: ConnectionOption): Promise<{ submitted: boolean; unanswered: string[]; questions: string[] }>;
 
@@ -60864,11 +60881,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * RSVPs the caller to a LinkedIn event (LinkedIn's Attend button), or withdraws the RSVP when
      * `attend: false`. Takes the event URL or the numeric id searchEvents/getEvent return. Signed
      * in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
-     * hands back a link where they sign in. Paced per LinkedIn account across runs so it never
-     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
-     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
-     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * hands back a link where they sign in. Paced per LinkedIn account across runs to keep the
+     * account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that
+     * refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
+     * pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
+     * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     attendEvent(input: string | { event: string; attend?: boolean }, opts?: ConnectionOption): Promise<{ attending: boolean }>;
 
@@ -60877,11 +60894,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * numeric id searchGroups/listMyGroups return. Returns the post's id for deletePost where
      * LinkedIn's answer carries one. Signed in: acts as the caller's own LinkedIn account; with no
      * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
-     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
-     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
-     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
-     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
-     * first.
+     * account across runs to keep the account inside LinkedIn's own limits — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
      */
     createGroupPost(input: { group: string; text: string }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
 
@@ -60889,22 +60906,22 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Subscribes the caller to a LinkedIn newsletter, or unsubscribes when `subscribe: false`.
      * Takes the newsletter URL or its numeric id. Signed in: acts as the caller's own LinkedIn
      * account; with no saved sign-in the run pauses and hands back a link where they sign in.
-     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
-     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
-     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
-     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
-     * last argument; ask them first.
+     * Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
      */
     subscribeToNewsletter(input: string | { newsletter: string; subscribe?: boolean }, opts?: ConnectionOption): Promise<{ subscribed: boolean }>;
 
     /**
      * Adds one skill to the caller's own profile — the write half of getProfileSkills. Signed in:
      * acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands
-     * back a link where they sign in. Paced per LinkedIn account across runs so it never looks
-     * automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and
-     * held 30 minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
-     * saying when to retry: wait that long. The account owner may opt into faster pacing with {
-     * pacing: "fast" } as an extra last argument; ask them first.
+     * back a link where they sign in. Paced per LinkedIn account across runs to keep the account
+     * inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about
+     * 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     addProfileSkill(input: string | { skill: string }, opts?: ConnectionOption): Promise<{ added: string; id: string | null }>;
 
@@ -60913,11 +60930,11 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * is the full comment urn, "urn:li:comment:(urn:li:activity:<post>,<comment>)". Returns the
      * reply's id for deleteComment where LinkedIn's answer carries one. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
-     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
-     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
-     * as an extra last argument; ask them first.
+     * where they sign in. Paced per LinkedIn account across runs to keep the account inside
+     * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     replyToComment(input: { comment: string; text: string }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
 
@@ -102576,12 +102593,13 @@ interface UpsServiceAlerts {
    */
   interface Unit {
     /**
-     * Prices a domestic shipment across every UPS service level that quotes it, between two
-     * 5-digit ZIP Codes, for a weight in ounces and optional length/width/height in inches (all
-     * three or none). `accountNumber` is a UPS shipper number tied to the caller's own UPS
-     * developer account — published rates vary by whether one is sent, and UPS's own response
-     * passes straight through either way. Requires a UPS OAuth2 client-credentials token — see
-     * this provider's `auth`.
+     * **Needs your own UPS developer API key, and US 5-digit ZIP Codes only** — for a no-key
+     * retail quote (including international) use `calculateShippingCost`. Prices a domestic
+     * shipment across every UPS service level that quotes it, between two 5-digit ZIP Codes, for a
+     * weight in ounces and optional length/width/height in inches (all three or none).
+     * `accountNumber` is a UPS shipper number tied to the caller's own UPS developer account —
+     * published rates vary by whether one is sent, and UPS's own response passes straight through
+     * either way. Requires a UPS OAuth2 client-credentials token — see this provider's `auth`.
      */
     getRate(args: { fromZip: string; toZip: string; weightOz: number; length?: number; width?: number; height?: number; accountNumber?: string }): Promise<upsRatedShipment[]>;
 
