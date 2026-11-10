@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6238 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6240 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3062,6 +3062,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `landsend.searchProducts` | landsend.com | Searches the Lands' End catalog the way the site's own search box does ("mens linen… | 🟢 |
 | `lasikplus.findCenters` | lasikplus.com | Runs the site's own iSchedule center locator (lasikplus.com/ischedule/) — given a US… | 🟢 |
 | `lasikplus.getAvailability` | lasikplus.com | Runs the site's own iSchedule appointment lookup for a given centerCode — returns the… | 🟢 |
+| `lcsc.product` | lcsc.com | Reads one LCSC part by its C-code, including its parametric attributes, stock, price… | 🟢 |
+| `lcsc.search` | lcsc.com | Searches LCSC's electronic-components catalog by part number or description, returning… | 🟢 |
 | `legacyhomesal.getAvailability` | legacyhomesal.com | Reads a Legacy Homes AL community sales rep's real open tour-appointment slots… | 🟢 |
 | `legacyhomesal.listCommunities` | legacyhomesal.com | Lists every Legacy Homes AL community (name, area, sales status) paired with the rep… | 🟢 |
 | `letterboxd.film` | letterboxd.com | Reads one film's full record off its letterboxd page — title, year, directors, cast… | 🟢 |
@@ -4829,11 +4831,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotapps.getOnlineOrderMenu` | spotapps.co | Reads a restaurant's online-ordering menu: items, modifiers, prices, pickup/delivery… | 🟢 |
 | `spotapps.getPrivatePartyOptions` | spotapps.co | Reads a restaurant's private-party / event inquiry form: whether it's open, party-size… | 🟢 |
 | `spotapps.getReservationSettings` | spotapps.co | Reads one restaurant's reservation widget settings: whether online reservations are… | 🟢 |
-| `spotapps.joinMailingList` | spotapps.co | Signs an email or phone up for a restaurant's mailing list or texting list. | ⚪ |
+| `spotapps.joinMailingList` | spotapps.co | Signs an email (and optionally a phone, for texts) up for a restaurant's mailing list… | 🟢 |
 | `spotapps.listJobs` | spotapps.co | Reads a restaurant's job-application form: whether it's hiring, the position titles… | 🟢 |
 | `spotapps.requestCatering` | spotapps.co | Sends a catering inquiry (date, time, guest count, fulfilment type, contact details)… | 🟢 |
 | `spotapps.requestPrivateParty` | spotapps.co | Sends a private-party / group-event inquiry (date, time, guest count, occasion… | 🟢 |
-| `spotapps.startOnlineOrder` | spotapps.co | Builds an online pickup or delivery order up to the payment step and stops there. | ⚪ |
+| `spotapps.startOnlineOrder` | spotapps.co | Starts a scheduled pickup order on a restaurant's online-ordering widget and stops at… | 🟢 |
 | `spotify.browseCategory` | open.spotify.com | Browse a Spotify category's page (a genre or mood) as its sections of editorial… | 🟢 |
 | `spotify.getAlbum` | open.spotify.com | Get details about a specific album. | 🟢 |
 | `spotify.getArtist` | open.spotify.com | Get details about a specific artist. | 🟢 |

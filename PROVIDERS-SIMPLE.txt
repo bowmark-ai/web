@@ -448,6 +448,7 @@ labcorp.com — labcorp: getTest, search (+3 planned)
 landmarkhw.com — landmarkhw_com: getOrderFormOptions, listOrderStates
 landsend.com — landsend: getActivePromo, searchProducts (+2 planned)
 lasikplus.com — lasikplus: findCenters, getAvailability
+lcsc.com — lcsc: product, search
 learn.chatgpt.com — openai: helpArticle, plans
 legacyhomesal.com — legacyhomesal: getAvailability, listCommunities
 letterboxd.com — letterboxd: film, getOwnAccount, memberDiary, memberFilms
@@ -543,7 +544,7 @@ oliverwinery.com — oliverwinery: checkShippingAvailability, getWine, listWines
 olo.com — olo: addToBasket, applyCoupon, checkOrderAvailability, findBrand, getBasket, getLocation, getMenu, getOrderStatus, getProductOptions, listOrderDays, listRegions, listTimeSlots, removeBasketItem, searchLocations, setHandoff, startCheckout, startOrder, updateBasketItem (+15 planned)
 onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
 onthemarket.com — onthemarket: search
-open.spotify.com — spotify: browseCategory, getAlbum, getArtist, getAvailableMarkets, getChart, getCurrentPlayback, getDevices, getEpisode, getFeaturedPlaylists, getGenreSeeds, getLibraryAlbums, getLibraryArtists, getLibraryPlaylists, getLibraryTracks, getLyrics, getOEmbed, getPlaylist, getPlaylistCoverImage, getPodcast, getRecentlyPlayed, getRelatedArtists, getTopArtists, getTopTracks, getTrack, getUserProfile, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchMyLibrary, searchPlaylists (+3 planned)
+open.spotify.com — spotify: 33 functions — ask get_library (+3 planned)
 openai.com — openai_com: listPosts, readPost
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, listMyReservations, search, startBooking
 originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote
@@ -683,7 +684,7 @@ spectrum.com — spectrum: checkMobileCoverage, getAccountBalance, getBillingHis
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getPlayerNews, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, getTeamStats, listTeams, searchPlayers (+1 planned)
-spotapps.co — spotapps: applyForJob, bookReservation, checkAvailability, findRestaurant, getCateringOptions, getMenu, getOnlineOrderMenu, getPrivatePartyOptions, getReservationSettings, listJobs, requestCatering, requestPrivateParty (+3 planned)
+spotapps.co — spotapps: applyForJob, bookReservation, checkAvailability, findRestaurant, getCateringOptions, getMenu, getOnlineOrderMenu, getPrivatePartyOptions, getReservationSettings, joinMailingList, listJobs, requestCatering, requestPrivateParty, startOnlineOrder (+1 planned)
 square.site — square_online: getDeliveryTimes, getItemAvailability, getLoyaltyProgram, getMenuItem, getMyAccount, getPickupTimes, getSite, listCategories, listLocations, listMenuItems, listMyOrders, listMySubscriptions, listSubscriptionPlans (+6 planned)
 stackoverflow.com — stackoverflow: getQuestion, searchQuestions
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros

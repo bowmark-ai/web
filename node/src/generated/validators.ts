@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8e347b33ca5239b27a279a0c1d1b4cccf2d2b8de363da4b28497887a29afb289
-// 4826 checked, 20 unchecked.
+// Manifest version: 4f09f4d8dc48133dffe195e69b1aa8aceaf9dcf1dc92be5ca62366322576cbff
+// 4831 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8e347b33ca5239b27a279a0c1d1b4cccf2d2b8de363da4b28497887a29afb289",
+  "version": "4f09f4d8dc48133dffe195e69b1aa8aceaf9dcf1dc92be5ca62366322576cbff",
   "units": {
     "address_validation": {
       "defs": {
@@ -121750,6 +121750,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SpotappsJoinMailingListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spotId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "textingPermission",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SpotappsPrivatePartyArgs": {
           "k": "object",
           "props": [
@@ -121856,6 +121889,93 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "SpotappsStartOnlineOrderArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spotId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "items",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "uniqueId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "instructions",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         }
@@ -121977,6 +122097,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SpotappsApplyForJobArgs"
+            },
+            "optional": false
+          }
+        ],
+        "joinMailingList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsJoinMailingListArgs"
+            },
+            "optional": false
+          }
+        ],
+        "startOnlineOrder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsStartOnlineOrderArgs"
             },
             "optional": false
           }
@@ -128348,6 +128488,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.szukajwarchiwach_gov_pl": {
+      "defs": {},
+      "functions": {
+        "getFond": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchFonds": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.tagtrans_net": {
       "defs": {
         "CreateTagtransShipmentRateEmailArgs": {
@@ -130608,6 +130771,41 @@ export const VALIDATORS: ValidatorTable = {
                   "v": "walk-in"
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.theweathernetwork_com": {
+      "defs": {
+        "Coordinates": {
+          "k": "object",
+          "props": [
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getCurrentConditions": [
+          {
+            "name": "coordinates",
+            "schema": {
+              "k": "ref",
+              "name": "Coordinates"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8e347b33ca5239b27a279a0c1d1b4cccf2d2b8de363da4b28497887a29afb289
-# 97 capabilities, 794 providers, 4826 typed functions, 20 refused.
+# Manifest version: 4f09f4d8dc48133dffe195e69b1aa8aceaf9dcf1dc92be5ca62366322576cbff
+# 97 capabilities, 796 providers, 4831 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -56481,6 +56481,40 @@ class Prv_spotapps_SpotappsJobApplication_Out(TypedDict):
     accepted: bool
     applicationId: str | None
 
+class Prv_spotapps_SpotappsJoinMailingListArgs_In(TypedDict):
+    spotId: str
+    email: str
+    phone: NotRequired[str]
+    textingPermission: NotRequired[bool]
+
+class Prv_spotapps_SpotappsMailingListSignup_Out(TypedDict):
+    spotId: str
+    email: str
+    phone: str | None
+    textingPermission: bool
+    accepted: bool
+
+class Prv_spotapps_SpotappsStartOnlineOrderArgs_In(TypedDict):
+    spotId: str
+    items: Sequence[Prv_spotapps_SpotappsStartOnlineOrderArgs_In_items_item_In]
+    date: str
+    time: str
+    firstName: str
+    lastName: str
+    email: str
+    phone: str
+    instructions: NotRequired[str]
+
+class Prv_spotapps_SpotappsStartOnlineOrderArgs_In_items_item_In(TypedDict):
+    uniqueId: str
+    quantity: float
+
+class Prv_spotapps_SpotappsOnlineOrderStart_Out(TypedDict):
+    spotId: str
+    orderCode: str
+    paymentRequired: Literal[True]
+    subtotalCents: float
+
 class Prv_spotify_SpotifySearchOptions_In(TypedDict):
     types: NotRequired[Sequence[Literal["track"] | Literal["album"] | Literal["artist"] | Literal["playlist"] | Literal["show"] | Literal["episode"]]]
     limit: NotRequired[float]
@@ -59515,6 +59549,17 @@ class Prv_sweathouz_SweathouzCancelResult_Out(TypedDict):
     cancelled: bool
     message: str
 
+class Prv_szukajwarchiwach_gov_pl_SzukajFond_Out(TypedDict):
+    id: str
+    title: str
+    referenceCode: str | None
+    numberOfSeries: float | None
+    numberOfScans: float | None
+    url: str
+
+class Prv_szukajwarchiwach_gov_pl_SzukajFondSearchResult_Out(TypedDict):
+    fonds: list[Prv_szukajwarchiwach_gov_pl_SzukajFond_Out]
+
 class Prv_tagtrans_net_TagtransShipmentRateForm_Out(TypedDict):
     formUrl: str
     recipient: str
@@ -60695,6 +60740,23 @@ class Prv_thestowcompany_SampleClosetEstimate_Out(TypedDict):
     financingPerMonth: float | None
     designId: str
     designUrl: str
+
+class Prv_theweathernetwork_com_Coordinates_In(TypedDict):
+    latitude: float
+    longitude: float
+
+class Prv_theweathernetwork_com_CurrentConditions_Out(TypedDict):
+    observedAt: str
+    temperatureC: float
+    feelsLikeC: float
+    dewPointC: float
+    summary: str
+    windDirection: str
+    windSpeedKph: float
+    windGustKph: float
+    humidityPercent: float
+    pressureKpa: float
+    visibilityKm: float
 
 class Prv_thezebra_thezebraStateRatesQuery_In(TypedDict):
     state: str
@@ -86600,9 +86662,9 @@ class Prv_g2(Protocol):
 
     async def getProduct(self, args: Prv_g2_getProduct_args_u0_In | str, /) -> Prv_g2_G2Product_Out:
         """Reads one product's `/products/<slug>/reviews` page for its published aggregate rating
-        (out of 10 here — G2 renders a different scale on this page than on `search`'s), review
-        count and category tags, off the page's own schema.org `SoftwareApplication` block.
-        Takes the `url` a `search` row already carries.
+        (out of `bestRating` — read it, the scale has changed: 10 on 2026-08-29, 5 on
+        2026-11-10), review count and category tags, off the page's own schema.org
+        `SoftwareApplication` block. Takes the `url` a `search` row already carries.
         """
 
     async def listReviews(self, args: Prv_g2_listReviews_args_u0_In | str, /) -> Prv_g2_G2ReviewList_Out:
@@ -103119,6 +103181,17 @@ class Prv_spotapps(Protocol):
         resume link) through the restaurant's widget.
         """
 
+    async def joinMailingList(self, args: Prv_spotapps_SpotappsJoinMailingListArgs_In, /) -> Prv_spotapps_SpotappsMailingListSignup_Out:
+        """Signs an email (and optionally a phone, for texts) up for a restaurant's mailing list
+        through its widget.
+        """
+
+    async def startOnlineOrder(self, args: Prv_spotapps_SpotappsStartOnlineOrderArgs_In, /) -> Prv_spotapps_SpotappsOnlineOrderStart_Out:
+        """Starts a scheduled pickup order on a restaurant's online-ordering widget and stops at
+        the payment step; refuses spots that take payment at pickup, where starting would place
+        the order.
+        """
+
 class Prv_spotify(Protocol):
     """Search Spotify's catalog — tracks, albums, artists, playlists, podcasts — through
     Spotify's Web API with your own developer app key.
@@ -104457,6 +104530,21 @@ class Prv_sweathouz(Protocol):
         attempt.
         """
 
+class Prv_szukajwarchiwach_gov_pl(Protocol):
+    """Searches Poland's Szukaj w Archiwach archive portal and reads a fond's reference code,
+    series and scanned-page counts for monitoring.
+    """
+
+    async def getFond(self, id: str, /) -> Prv_szukajwarchiwach_gov_pl_SzukajFond_Out:
+        """Reads one numbered archive fond's title, reference code, number of series and number of
+        scanned pages for monitoring.
+        """
+
+    async def searchFonds(self, query: str, /) -> Prv_szukajwarchiwach_gov_pl_SzukajFondSearchResult_Out:
+        """Searches the archive portal for fonds and returns each matching fond's title, id and
+        detail-page URL.
+        """
+
 class Prv_tagtrans_net(Protocol):
     """TAG Trans's public freight shipment-rate request form: its current fields and services,
     plus a prefilled email handoff the site itself uses.
@@ -105044,6 +105132,14 @@ class Prv_thestowcompany(Protocol):
         """Copies EasyClosets' own popular sample layout for the given closet shape into a fresh
         anonymous design and returns the total EasyClosets' own pricer computes for it, plus a
         resumable design URL. Read-only — never saves to an account, adds to cart or checks out.
+        """
+
+class Prv_theweathernetwork_com(Protocol):
+    """Current conditions from The Weather Network for coordinates in Canada and worldwide."""
+
+    async def getCurrentConditions(self, coordinates: Prv_theweathernetwork_com_Coordinates_In, /) -> Prv_theweathernetwork_com_CurrentConditions_Out:
+        """The Weather Network's live current conditions at a latitude/longitude — temperature,
+        feels-like, wind, humidity, pressure and visibility.
         """
 
 class Prv_thezebra(Protocol):
@@ -111589,6 +111685,7 @@ class BowmarkProviders(Protocol):
     surfshark: Prv_surfshark
     surveymonkey: Prv_surveymonkey
     sweathouz: Prv_sweathouz
+    szukajwarchiwach_gov_pl: Prv_szukajwarchiwach_gov_pl
     tagtrans_net: Prv_tagtrans_net
     tamarackidaho: Prv_tamarackidaho
     tapfiliate: Prv_tapfiliate
@@ -111606,6 +111703,7 @@ class BowmarkProviders(Protocol):
     therabody: Prv_therabody
     therowhouse: Prv_therowhouse
     thestowcompany: Prv_thestowcompany
+    theweathernetwork_com: Prv_theweathernetwork_com
     thezebra: Prv_thezebra
     thibautdesign: Prv_thibautdesign
     threads: Prv_threads

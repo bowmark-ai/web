@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8e347b33ca5239b27a279a0c1d1b4cccf2d2b8de363da4b28497887a29afb289
-// 97 capabilities, 794 providers, 4844 typed functions, 20 refused.
+// Manifest version: 4f09f4d8dc48133dffe195e69b1aa8aceaf9dcf1dc92be5ca62366322576cbff
+// 97 capabilities, 796 providers, 4849 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -37093,7 +37093,7 @@ interface FantasyPlayer {
   percentStarted: number | null;
   averageDraftPosition: number | null;
   positionRank: number | null; // this season's PPR position rank, when ESPN publishes one
-  seasonPoints: number | null; // this season's actual fantasy points so far
+  seasonPoints: number | null; // this season's actual fantasy points so far — null where ESPN publishes none (basketball, hockey, most baseball: category-scored boards)
   projectedPoints: number | null; // this season's full-season projected fantasy points
 }
 
@@ -44268,9 +44268,9 @@ interface G2Review {
 
     /**
      * Reads one product's `/products/<slug>/reviews` page for its published aggregate rating (out
-     * of 10 here — G2 renders a different scale on this page than on `search`'s), review count and
-     * category tags, off the page's own schema.org `SoftwareApplication` block. Takes the `url` a
-     * `search` row already carries.
+     * of `bestRating` — read it, the scale has changed: 10 on 2026-08-29, 5 on 2026-11-10), review
+     * count and category tags, off the page's own schema.org `SoftwareApplication` block. Takes
+     * the `url` a `search` row already carries.
      */
     getProduct(args: { url: string } | string): Promise<G2Product>;
 
@@ -90306,6 +90306,43 @@ interface SpotappsJobApplication {
   accepted: boolean;
   applicationId: string | null;
 }
+interface SpotappsJoinMailingListArgs {
+  spotId: string;
+  email: string;
+  phone?: string;
+  /** Opt the phone into the spot's texting list; needs phone, refused where the spot runs none. */
+  textingPermission?: boolean;
+}
+interface SpotappsMailingListSignup {
+  spotId: string;
+  email: string;
+  phone: string | null;
+  textingPermission: boolean;
+  /** True when SpotHopper answered the submit with a 2xx — the widget reads nothing more back. */
+  accepted: boolean;
+}
+interface SpotappsStartOnlineOrderArgs {
+  spotId: string;
+  /** uniqueId off getOnlineOrderMenu().menus[].sections[].items[]; items needing options are refused. */
+  items: { uniqueId: string; quantity: number }[];
+  /** YYYY-MM-DD; a scheduled pickup. */
+  date: string;
+  /** One of getOnlineOrderMenu().pickupWeekdaySlots for that weekday, e.g. "12:00 PM". */
+  time: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  instructions?: string;
+}
+interface SpotappsOnlineOrderStart {
+  spotId: string;
+  /** The order code SpotHopper issued; the order waits on payment. */
+  orderCode: string;
+  /** Always true: stops before payment — nothing is charged or sent to the kitchen. */
+  paymentRequired: true;
+  subtotalCents: number;
+}
 interface SpotappsReservationRequest {
   spotId: string;
   date: string;
@@ -90414,6 +90451,19 @@ interface SpotappsJobListing {
      * link) through the restaurant's widget.
      */
     applyForJob(args: SpotappsApplyForJobArgs): Promise<SpotappsJobApplication>;
+
+    /**
+     * Signs an email (and optionally a phone, for texts) up for a restaurant's mailing list
+     * through its widget.
+     */
+    joinMailingList(args: SpotappsJoinMailingListArgs): Promise<SpotappsMailingListSignup>;
+
+    /**
+     * Starts a scheduled pickup order on a restaurant's online-ordering widget and stops at the
+     * payment step; refuses spots that take payment at pickup, where starting would place the
+     * order.
+     */
+    startOnlineOrder(args: SpotappsStartOnlineOrderArgs): Promise<SpotappsOnlineOrderStart>;
   }
 }
 
@@ -94508,6 +94558,40 @@ interface SweathouzCancelResult {
   }
 }
 
+declare namespace BowmarkProvider_szukajwarchiwach_gov_pl {
+  // ── Szukaj w Archiwach — the unit's own declarations, verbatim ──
+interface SzukajFond {
+  id: string;
+  title: string;
+  referenceCode: string | null;
+  numberOfSeries: number | null;
+  numberOfScans: number | null;
+  url: string;
+}
+
+interface SzukajFondSearchResult {
+  fonds: SzukajFond[];
+}
+
+  /**
+   * Searches Poland's Szukaj w Archiwach archive portal and reads a fond's reference code,
+   * series and scanned-page counts for monitoring.
+   */
+  interface Unit {
+    /**
+     * Reads one numbered archive fond's title, reference code, number of series and number of
+     * scanned pages for monitoring.
+     */
+    getFond(id: string): Promise<SzukajFond>;
+
+    /**
+     * Searches the archive portal for fonds and returns each matching fond's title, id and
+     * detail-page URL.
+     */
+    searchFonds(query: string): Promise<SzukajFondSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_tagtrans_net {
   // ── TAG Trans — the unit's own declarations, verbatim ──
 interface TagtransShipmentRateField { id: string; label: string; required: boolean; }
@@ -96257,6 +96341,21 @@ interface SampleClosetEstimate {
      * resumable design URL. Read-only — never saves to an account, adds to cart or checks out.
      */
     getSampleClosetEstimate(closetShape: "reach-in" | "walk-in"): Promise<SampleClosetEstimate>;
+  }
+}
+
+declare namespace BowmarkProvider_theweathernetwork_com {
+  // ── The Weather Network — the unit's own declarations, verbatim ──
+interface Coordinates { latitude: number; longitude: number }
+interface CurrentConditions { observedAt: string; temperatureC: number; feelsLikeC: number; dewPointC: number; summary: string; windDirection: string; windSpeedKph: number; windGustKph: number; humidityPercent: number; pressureKpa: number; visibilityKm: number }
+
+  /** Current conditions from The Weather Network for coordinates in Canada and worldwide. */
+  interface Unit {
+    /**
+     * The Weather Network's live current conditions at a latitude/longitude — temperature,
+     * feels-like, wind, humidity, pressure and visibility.
+     */
+    getCurrentConditions(coordinates: Coordinates): Promise<CurrentConditions>;
   }
 }
 
@@ -114262,6 +114361,7 @@ interface BowmarkProviders {
   surfshark: BowmarkProvider_surfshark.Unit;
   surveymonkey: BowmarkProvider_surveymonkey.Unit;
   sweathouz: BowmarkProvider_sweathouz.Unit;
+  szukajwarchiwach_gov_pl: BowmarkProvider_szukajwarchiwach_gov_pl.Unit;
   tagtrans_net: BowmarkProvider_tagtrans_net.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
   tapfiliate: BowmarkProvider_tapfiliate.Unit;
@@ -114279,6 +114379,7 @@ interface BowmarkProviders {
   therabody: BowmarkProvider_therabody.Unit;
   therowhouse: BowmarkProvider_therowhouse.Unit;
   thestowcompany: BowmarkProvider_thestowcompany.Unit;
+  theweathernetwork_com: BowmarkProvider_theweathernetwork_com.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   thibautdesign: BowmarkProvider_thibautdesign.Unit;
   threads: BowmarkProvider_threads.Unit;
