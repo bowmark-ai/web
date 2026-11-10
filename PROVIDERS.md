@@ -4697,7 +4697,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `smtp_probe.lookupMx` | gmail-smtp-in.l.google.com | Looks up a domain's mail hosts in DNS (MX records by preference, else the domain's own… | 🟢 |
 | `smtp_probe.probeMailboxes` | gmail-smtp-in.l.google.com | Holds one SMTP conversation with a domain's mail server on port 25 (EHLO, MAIL… | 🟢 |
 | `snapchat.addFriend` | snapchat.com | Sends a friend add from the signed-in caller's account to one Snapchat user by their… | 🟢 |
-| `snapchat.blockUser` | snapchat.com | Blocks an account from contacting the signed-in caller. | ⚪ |
+| `snapchat.blockUser` | snapchat.com | Blocks one Snapchat account from contacting the signed-in caller, by user id (a uuid)… | 🟢 |
 | `snapchat.getChatMessages` | snapchat.com | Reads the messages in one of the signed-in caller's conversations — sender, time… | ⚪ |
 | `snapchat.getEpisode` | snapchat.com | Reads one show episode's own page (www.snapchat.com/p/<publisherId>/<storyId>) —… | 🟢 |
 | `snapchat.getLens` | snapchat.com | Reads one Lens's own page (www.snapchat.com/lens/<scannableUuid>) — its name, creator… | 🟢 |
@@ -4722,7 +4722,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.listTopicSpotlights` | snapchat.com | Lists the Spotlight videos filed under one hashtag topic… | ⚪ |
 | `snapchat.postSpotlightComment` | snapchat.com | Posts a comment under a Spotlight video from the signed-in caller's account. | ⚪ |
 | `snapchat.postStory` | snapchat.com | Posts a photo to the signed-in caller's own Story. | ⚪ |
-| `snapchat.removeFriend` | snapchat.com | Removes an account from the signed-in caller's friends. | ⚪ |
+| `snapchat.removeFriend` | snapchat.com | Removes one Snapchat user from the signed-in caller's friends, by user id (a uuid) or… | 🟢 |
 | `snapchat.searchSnapchat` | snapchat.com | Searches Snapchat the way the site's own search page does —… | 🟢 |
 | `snapchat.sendChatMessage` | snapchat.com | Sends a text chat message to a friend or group from the signed-in caller's account, as… | ⚪ |
 | `snapchat.sendSnap` | snapchat.com | Sends a photo snap from the signed-in caller's account to one or more friends. | ⚪ |

@@ -568,7 +568,7 @@ personio.de — personio: listJobs
 pexels.com — pexels: search
 pike13.com — pike13: bookClass, cancelVisit, checkEnrollmentEligibility, findBusiness, getAppointmentAvailability, getAppointmentAvailabilitySummary, getBusiness, getClass, getMyProfile, getPlan, getSchedule, getScheduleSummary, getService, getWaitlistEligibility, joinWaitlist, leaveWaitlist, listClassSeries, listLocations, listMyBusinesses, listMyPlans, listMyVisits, listMyWaitlistEntries, listMyWaivers, listPlans, listServices, listStaff (+1 planned)
 pilotprotocol.network — pilotprotocol: getApp, listApps
-pinterest.com — pinterest: createBoard, deleteBoard, deletePin, followBoard, followTopic, followUser, getBoard, getCurrentUser, getHomeFeed, getPin, getProduct, getTopic, getUser, hidePin, listBoardPins, listBoardSectionPins, listBoardSections, listConversations, listNotifications, listTopicPins, listTopics, listUserBoards, listUserCreatedPins, listUserFollowers, listUserFollowing, listUserSavedPins, listVisualObjects, savePin, searchBoards, searchMyPins, searchPins, searchUsers, searchVideos, suggestSearches, unfollowBoard, unfollowTopic, unfollowUser, updateBoard (+9 planned)
+pinterest.com — pinterest: 38 functions — ask get_library (+9 planned)
 pirateship.com — pirateship: getRates (+2 planned)
 pitboss-grills.com — dansons: identifyProduct, listRegisterableProducts
 pizzahut.com — pizzahut: findStores, getDeals, getMenu, getMenuItem, priceOrder (+1 planned)
@@ -672,7 +672,7 @@ smartrecruiters.com — smartrecruiters: listJobs (+1 planned)
 smartsign.com — smartsign: nothing callable yet (+2 planned)
 smartwool.com — smartwool: getSockRecommendation
 smithery.ai — smithery: search
-snapchat.com — snapchat: addFriend, getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSpotlightVideo, listDiscoverStories, listFriends, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, searchSnapchat, updateDisplayName (+12 planned)
+snapchat.com — snapchat: addFriend, blockUser, getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSpotlightVideo, listDiscoverStories, listFriends, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, removeFriend, searchSnapchat, updateDisplayName (+10 planned)
 solidcore.co — solidcore: bookClass, checkAvailability, getClass, getCoach, getPack, getPricing, getSchedule, getStudio, joinWaitlist, listClassCategories, listCoaches, listMuscleGroups, listStudios, searchClasses (+10 planned)
 solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updatePreferences (+6 planned)
