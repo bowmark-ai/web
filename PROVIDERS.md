@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6230 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6231 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4285,6 +4285,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reserve_with_google.getMerchant` | google.com/maps/reserve | Reads one Google-hosted booking page by merchant id or its… | 🟢 |
 | `reserve_with_google.getSettings` | google.com/maps/reserve | Reads the caller's Reserve with Google Settings page and returns the page's own data… | 🟢 |
 | `reserve_with_google.joinWaitlist` | google.com/maps/reserve | Adds the caller to a Google-hosted restaurant's waitlist with a party size, where the… | 🟢 |
+| `reserve_with_google.leaveWaitlist` | google.com/maps/reserve | Takes the caller off a venue's waitlist that joinWaitlist put them on, found by the… | 🟢 |
 | `reserve_with_google.listMyBookings` | google.com/maps/reserve | Lists the venues of the caller's Reserve with Google bookings off their own Bookings… | 🟢 |
 | `reserve_with_google.listMyPacks` | google.com/maps/reserve | Lists the venues the caller holds class packs or memberships at, off their own Reserve… | 🟢 |
 | `reserve_with_google.listPartners` | google.com/maps/reserve | Lists every booking provider connected to Reserve with Google (Booksy, OpenTable… | 🟢 |

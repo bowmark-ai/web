@@ -359,7 +359,7 @@ goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, 
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: addMissingPlace, geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaceEdit, suggestPlaces, writeReview
-google.com/maps/reserve — reserve_with_google: bookReservation, cancelBooking, checkAvailability, findBookablePlaces, getBooking, getBookingOptions, getMerchant, getSettings, joinWaitlist, listMyBookings, listMyPacks, listPartners, modifyBooking, updateSettings
+google.com/maps/reserve — reserve_with_google: bookReservation, cancelBooking, checkAvailability, findBookablePlaces, getBooking, getBookingOptions, getMerchant, getSettings, joinWaitlist, leaveWaitlist, listMyBookings, listMyPacks, listPartners, modifyBooking, updateSettings
 goremutual.ca — goremutual: getProductOverview
 gostoreit.com — gostoreit: findFacilities, getFacilityUnits
 gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
