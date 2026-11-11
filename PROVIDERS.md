@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6275 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6277 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3291,6 +3291,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mcpmarket.search` | mcpmarket.com | Searches mcpmarket.com's MCP server marketplace by keyword, exactly as its own search… | 🟢 |
 | `mcpmarket.server` | mcpmarket.com | Reads one MCP server listing on mcpmarket.com by slug or page url and returns its… | 🟢 |
 | `mcpserverhub_com.search` | mcpserverhub.com | Searches MCP Server Hub's public MCP-server directory by keyword, or browses current… | 🟢 |
+| `mcpservers_org.search` | mcpservers.org | Searches mcpservers.org's public MCP-server directory by keyword and returns listing… | 🟢 |
+| `mcpservers_org.server` | mcpservers.org | Reads an MCP-server listing's public detail page by a slug returned from search(). | 🟢 |
 | `mcptrove_com.search` | mcptrove.com | Searches MCP Trove's public MCP-server directory by keyword, or browses current… | 🟢 |
 | `medicalguardian.assessFallRisk` | medicalguardian.com | Runs Medical Guardian's own fall-risk scoring — 9 yes/no + one 3-way activity-level… | 🟢 |
 | `medicalguardian.getRiskAssessmentQuestions` | medicalguardian.com | Returns the 9 scored questions from Medical Guardian's own fall-risk assessment… | 🟢 |
@@ -3792,7 +3794,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `openai.helpArticle` | learn.chatgpt.com | Retrieves the full text of a help article by its ID from OpenAI's documentation. | 🟢 |
 | `openai.plans` | learn.chatgpt.com | Returns per-(plan, model) usage limits from learn.chatgpt.com/docs/pricing. | 🟢 |
 | `opentable.cancelBooking` | opentable.com | Cancels a reservation from its OpenTable confirmation page: Cancel, then Confirm… | 🟢 |
-| `opentable.checkAvailability` | opentable.com | Reads one restaurant's open reservation times around a time on a date for a party… | 🟢 |
+| `opentable.checkAvailability` | opentable.com | Reads one restaurant's open reservation times around a time on a date for a party… | 🟡 |
 | `opentable.confirmBooking` | opentable.com | Finishes the booking startBooking began in the same session: enters the texted code… | 🟢 |
 | `opentable.getBooking` | opentable.com | Reads a reservation back from its OpenTable page link, from any later session: whether… | 🟢 |
 | `opentable.listMyReservations` | opentable.com | Lists the signed-in diner's own reservations from the dining dashboard, upcoming and… | 🟢 |

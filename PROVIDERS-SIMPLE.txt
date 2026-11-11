@@ -487,6 +487,7 @@ mcp.directory — mcp_directory: search
 mcp.so — mcp_so: search
 mcpmarket.com — mcpmarket: search, server
 mcpserverhub.com — mcpserverhub_com: search
+mcpservers.org — mcpservers_org: search, server
 mcptrove.com — mcptrove_com: search
 medicalguardian.com — medicalguardian: assessFallRisk, getRiskAssessmentQuestions
 medicare.gov — medicare: findDoctors, findHospitals, findNursingHomes, getCosts, getPlan, searchDrugPlans, searchMedigapPlans (+12 planned)
