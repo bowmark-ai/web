@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e6924eede173ada7353fe4a7e175231474602ed4a0d634e081d6393d2f9b4c45
+// Manifest version: b66f9c9382f5f19811f13fe97f4c38cf68896bea84b805340dd6281daa57e912
 // 97 capabilities, 808 providers, 4875 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -83846,7 +83846,7 @@ interface RtTitle {
     /**
      * Read one movie or TV series on Rotten Tomatoes: Tomatometer (critic %, average rating,
      * review count, liked/not-liked, Certified Fresh) and Popcornmeter (audience %, average
-     * rating, exact rating count, Verified Hot), plus year, release date, rating, genres and
+     * rating, rating-count band, Verified Hot), plus year, release date, rating, genres and
      * synopsis. Takes a /m/… or /tv/… path or its URL.
      */
     getTitle(path: string): Promise<RtTitle>;

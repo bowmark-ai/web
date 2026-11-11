@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e6924eede173ada7353fe4a7e175231474602ed4a0d634e081d6393d2f9b4c45
+# Manifest version: b66f9c9382f5f19811f13fe97f4c38cf68896bea84b805340dd6281daa57e912
 # 97 capabilities, 808 providers, 4857 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -101470,7 +101470,7 @@ class Prv_rottentomatoes(Protocol):
     async def getTitle(self, path: str, /) -> Prv_rottentomatoes_RtTitle_Out:
         """Read one movie or TV series on Rotten Tomatoes: Tomatometer (critic %, average rating,
         review count, liked/not-liked, Certified Fresh) and Popcornmeter (audience %, average
-        rating, exact rating count, Verified Hot), plus year, release date, rating, genres and
+        rating, rating-count band, Verified Hot), plus year, release date, rating, genres and
         synopsis. Takes a /m/… or /tv/… path or its URL.
         """
 
