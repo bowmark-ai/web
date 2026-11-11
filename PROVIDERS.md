@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6286 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6288 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -27,7 +27,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `abercrombie.checkStock` | abercrombie.com | Answers whether a specific size/color of a product is buyable right now — online, and… | 🟢 |
 | `abercrombie.findStores` | abercrombie.com | Finds physical Abercrombie/abercrombie kids stores near a zip code or city (state) the… | 🟢 |
 | `abercrombie.getDeals` | abercrombie.com | Reads Abercrombie's currently published sales and promotions — the site's own… | ⚪ |
-| `abercrombie.getProduct` | abercrombie.com | Reads one Abercrombie & Fitch product in full the way its own product detail page does… | 🟢 |
+| `abercrombie.getProduct` | abercrombie.com | Reads one Abercrombie & Fitch product in full the way its own product detail page does… | 🟡 |
 | `abercrombie.search` | abercrombie.com | Searches or browses Abercrombie's live catalog the way the site's own search bar and… | 🟢 |
 | `abqplumb.getAvailability` | abqplumb.com | Returns currently-open ABQ Plumb appointment slots for a service and issue type… | 🟢 |
 | `abqplumb.listServices` | abqplumb.com | Lists ABQ Plumb's public booking-widget services and their issue types — the entry… | 🟢 |
@@ -406,6 +406,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `azazie.getBuildYourOwnConfig` | azazie.com | Reads one bridesmaid-dress style's full Build Your Own configuration — every color… | 🟢 |
 | `azazie.getColorFamily` | azazie.com | Reads every dress style available in one named color, mirroring the product page's own… | ⚪ |
 | `azazie.search` | azazie.com | Searches Azazie's catalog by free text (style, color, fabric, occasion). | 🟢 |
+| `azblue.getPage` | azblue.com | Reads AZ Blue's public homepage by default, or a public page such as… | 🟢 |
 | `azure.checkRegionAvailability` | azure.microsoft.com | Answers whether a given Azure product is actually available in a given region, and in… | ⚪ |
 | `azure.estimateCost` | azure.microsoft.com | Prices a whole proposed deployment rather than one meter: the caller passes line items… | ⚪ |
 | `azure.getServiceHealth` | azure.microsoft.com | Returns the current operational status of Azure services by service and region — which… | ⚪ |
@@ -1603,6 +1604,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
 | `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟢 |
+| `dmv_virginia_gov.searchLocations` | dmv.virginia.gov | Finds Virginia DMV customer-service centers near a city, address, or ZIP and returns… | 🟢 |
 | `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🟢 |
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
 | `doordash.addAddress` | doordash.com | Saves a new delivery address (with apartment, drop-off instructions) to the signed-in… | ⚪ |
@@ -4216,7 +4218,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getProfileAnswers` | quora.com | Reads what a member has answered — the first page of their profile's Answers tab, each… | 🟢 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🔴 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟢 |
-| `quora.getSpacePosts` | quora.com | Reads the posts in a Space's feed — most of what a Space holds, and what getSpace… | 🟢 |
+| `quora.getSpacePosts` | quora.com | Reads the posts in a Space's feed — most of what a Space holds, and what getSpace… | 🟡 |
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟢 |
 | `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | 🟢 |
 | `quora.postComment` | quora.com | Posts a comment on an answer as the signed-in caller. | ⚪ |

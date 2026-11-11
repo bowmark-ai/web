@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b66f9c9382f5f19811f13fe97f4c38cf68896bea84b805340dd6281daa57e912
-# 97 capabilities, 808 providers, 4857 typed functions, 20 refused.
+# Manifest version: e3990cc90a227f027a8abf9db7a3be4d70c3077ef3d9d3dfa744fbf18b33cc47
+# 97 capabilities, 810 providers, 4859 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8611,6 +8611,18 @@ class Prv_azazie_AzazieFabricOption_Out(TypedDict):
     key: str
     name: str
     styleId: float
+
+class Prv_azblue_AzbluePageArgs_In(TypedDict):
+    path: NotRequired[str]
+
+class Prv_azblue_AzbluePage_Out(TypedDict):
+    path: str
+    locale: str | None
+    originalPath: str | None
+    siteName: str | None
+    itemPath: str | None
+    title: str | None
+    description: str | None
 
 class Prv_azure_AzurePricingFilters_In(TypedDict):
     serviceName: NotRequired[str]
@@ -21430,6 +21442,17 @@ class Prv_disney_DisneyTicketPrice_Out_child_u0_Out(TypedDict):
     subtotal: float
     tax: float
     total: float
+
+class Prv_dmv_virginia_gov_DmvVirginiaGovSearchLocationsArgs_In(TypedDict):
+    near: str
+    radiusMiles: NotRequired[Literal[5] | Literal[10] | Literal[20] | Literal[50]]
+
+class Prv_dmv_virginia_gov_DmvVirginiaGovLocation_Out(TypedDict):
+    name: str
+    address: str
+    hours: list[str]
+    distance: str | None
+    locationUrl: str
 
 class Prv_donsappliances_DonsAppliancesSearchArgs_In(TypedDict):
     category: str
@@ -76732,6 +76755,17 @@ class Prv_azazie(Protocol):
         no Add to Bag, no checkout, no account.
         """
 
+class Prv_azblue(Protocol):
+    """AZ Blue (Blue Cross Blue Shield of Arizona) public marketing pages. getPage reads a
+    page's own Next.js/Sitecore context and metadata by public path.
+    """
+
+    async def getPage(self, args: Prv_azblue_AzbluePageArgs_In | None = None, /) -> Prv_azblue_AzbluePage_Out:
+        """Reads AZ Blue's public homepage by default, or a public page such as
+        /medicare/medicare-advantage, returning its own Next.js/Sitecore page context and
+        metadata.
+        """
+
 class Prv_azure(Protocol):
     """Microsoft Azure — the public cloud's own pricing, catalogue and status surfaces. Built:
     retail service pricing and the service catalogue, off Microsoft's own unauthenticated
@@ -83814,6 +83848,16 @@ class Prv_disney(Protocol):
         figure for that length — the cheapest currently-open date-tier — carried alongside the
         dates it applies to; it is not a lookup for a caller-supplied date (see
         get-ticket-price.ts).
+        """
+
+class Prv_dmv_virginia_gov(Protocol):
+    """Find Virginia DMV customer-service centers by city, address, or ZIP, with published
+    hours and distance.
+    """
+
+    async def searchLocations(self, args: Prv_dmv_virginia_gov_DmvVirginiaGovSearchLocationsArgs_In, /) -> list[Prv_dmv_virginia_gov_DmvVirginiaGovLocation_Out]:
+        """Finds Virginia DMV customer service centers near a city, address, or ZIP and returns
+        their published address, hours, distance, and location page.
         """
 
 class Prv_donsappliances(Protocol):
@@ -111684,6 +111728,7 @@ class BowmarkProviders(Protocol):
     avocatparis_org: Prv_avocatparis_org
     ayreshotels: Prv_ayreshotels
     azazie: Prv_azazie
+    azblue: Prv_azblue
     azure: Prv_azure
     bahn: Prv_bahn
     bamboohr: Prv_bamboohr
@@ -111864,6 +111909,7 @@ class BowmarkProviders(Protocol):
     discord: Prv_discord
     discounttire: Prv_discounttire
     disney: Prv_disney
+    dmv_virginia_gov: Prv_dmv_virginia_gov
     donsappliances: Prv_donsappliances
     doordash: Prv_doordash
     drafthouse: Prv_drafthouse

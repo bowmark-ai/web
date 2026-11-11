@@ -89,6 +89,7 @@ avis.com — avis: getLocation, searchLocations (+3 planned)
 avocatparis.org — avocatparis_org: getLawyer, searchLawyers
 ayreshotels.com — ayreshotels: checkRates
 azazie.com — azazie: getBuildYourOwnConfig, search (+1 planned)
+azblue.com — azblue: getPage
 azure.microsoft.com — azure: getServicePricing, listServices (+6 planned)
 bahn.de — bahn: listDisruptions
 bamboohr.com — bamboohr: listJobs
@@ -267,6 +268,7 @@ direct-book.com — direct_book: cancelReservation, checkAvailability, checkProm
 discord.com — discord: 36 functions — ask get_library (+14 planned)
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
+dmv.virginia.gov — dmv_virginia_gov: searchLocations
 docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 planned)
 donsappliances.com — donsappliances: getProduct, search
 doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getRetailStore, getStore, getStoreReviews, listCuisines, listOrders, search, searchDishes (+23 planned)

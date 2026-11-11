@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b66f9c9382f5f19811f13fe97f4c38cf68896bea84b805340dd6281daa57e912
-// 97 capabilities, 808 providers, 4875 typed functions, 20 refused.
+// Manifest version: e3990cc90a227f027a8abf9db7a3be4d70c3077ef3d9d3dfa744fbf18b33cc47
+// 97 capabilities, 810 providers, 4877 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14249,6 +14249,24 @@ interface AzazieBuildYourOwnConfig {
      * Add to Bag, no checkout, no account.
      */
     getBuildYourOwnConfig(goodsId: string | number): Promise<AzazieBuildYourOwnConfig>;
+  }
+}
+
+declare namespace BowmarkProvider_azblue {
+  // ── AZ Blue — the unit's own declarations, verbatim ──
+interface AzbluePageArgs { path?: string; }
+interface AzbluePage { path: string; locale: string | null; originalPath: string | null; siteName: string | null; itemPath: string |null; title: string | null; description: string | null; }
+
+  /**
+   * AZ Blue (Blue Cross Blue Shield of Arizona) public marketing pages. getPage reads a page's
+   * own Next.js/Sitecore context and metadata by public path.
+   */
+  interface Unit {
+    /**
+     * Reads AZ Blue's public homepage by default, or a public page such as
+     * /medicare/medicare-advantage, returning its own Next.js/Sitecore page context and metadata.
+     */
+    getPage(args?: AzbluePageArgs): Promise<AzbluePage>;
   }
 }
 
@@ -34591,6 +34609,24 @@ interface DisneyTicketPrice {
      * to; it is not a lookup for a caller-supplied date (see get-ticket-price.ts).
      */
     getTicketPrice(args: DisneyGetTicketPriceArgs): Promise<DisneyTicketPrice>;
+  }
+}
+
+declare namespace BowmarkProvider_dmv_virginia_gov {
+  // ── Virginia Department of Motor Vehicles — the unit's own declarations, verbatim ──
+interface DmvVirginiaGovLocation { name: string; address: string; hours: string[]; distance: string | null; locationUrl: string; }
+interface DmvVirginiaGovSearchLocationsArgs { near: string; radiusMiles?: 5 | 10 | 20 | 50; }
+
+  /**
+   * Find Virginia DMV customer-service centers by city, address, or ZIP, with published hours
+   * and distance.
+   */
+  interface Unit {
+    /**
+     * Finds Virginia DMV customer service centers near a city, address, or ZIP and returns their
+     * published address, hours, distance, and location page.
+     */
+    searchLocations(args: DmvVirginiaGovSearchLocationsArgs): Promise<DmvVirginiaGovLocation[]>;
   }
 }
 
@@ -114280,6 +114316,7 @@ interface BowmarkProviders {
   avocatparis_org: BowmarkProvider_avocatparis_org.Unit;
   ayreshotels: BowmarkProvider_ayreshotels.Unit;
   azazie: BowmarkProvider_azazie.Unit;
+  azblue: BowmarkProvider_azblue.Unit;
   azure: BowmarkProvider_azure.Unit;
   bahn: BowmarkProvider_bahn.Unit;
   bamboohr: BowmarkProvider_bamboohr.Unit;
@@ -114460,6 +114497,7 @@ interface BowmarkProviders {
   discord: BowmarkProvider_discord.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
   disney: BowmarkProvider_disney.Unit;
+  dmv_virginia_gov: BowmarkProvider_dmv_virginia_gov.Unit;
   donsappliances: BowmarkProvider_donsappliances.Unit;
   doordash: BowmarkProvider_doordash.Unit;
   drafthouse: BowmarkProvider_drafthouse.Unit;

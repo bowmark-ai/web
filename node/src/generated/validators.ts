@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b66f9c9382f5f19811f13fe97f4c38cf68896bea84b805340dd6281daa57e912
-// 4857 checked, 20 unchecked.
+// Manifest version: e3990cc90a227f027a8abf9db7a3be4d70c3077ef3d9d3dfa744fbf18b33cc47
+// 4859 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b66f9c9382f5f19811f13fe97f4c38cf68896bea84b805340dd6281daa57e912",
+  "version": "e3990cc90a227f027a8abf9db7a3be4d70c3077ef3d9d3dfa744fbf18b33cc47",
   "units": {
     "address_validation": {
       "defs": {
@@ -17261,6 +17261,34 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.azblue": {
+      "defs": {
+        "AzbluePageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "path",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AzbluePageArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -43175,6 +43203,59 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "DisneyGetTicketPriceArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dmv_virginia_gov": {
+      "defs": {
+        "DmvVirginiaGovSearchLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "near",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 5
+                  },
+                  {
+                    "k": "literal",
+                    "v": 10
+                  },
+                  {
+                    "k": "literal",
+                    "v": 20
+                  },
+                  {
+                    "k": "literal",
+                    "v": 50
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DmvVirginiaGovSearchLocationsArgs"
             },
             "optional": false
           }
