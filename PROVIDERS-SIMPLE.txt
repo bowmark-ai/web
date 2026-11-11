@@ -614,6 +614,7 @@ quickbooks.intuit.com — quickbooks: calculatePaycheck, findAccountants, genera
 quince.com — quince: getProduct, searchProducts
 quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+6 planned)
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
+raisingcanes.com — raisingcanes: location, locations (+1 planned)
 rakuten.com — rakuten: getStore, search (+2 planned)
 reboot.floathelm.com — floathelm: createAccount, findStudio, getRoom, listAvailableSlots, listGiftCards, listLocations, listRooms, listStoreItems (+10 planned)
 recreation.gov — recreation_gov: campgroundAvailability, searchCampgrounds

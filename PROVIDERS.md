@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6290 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6293 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4227,6 +4227,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.writeAnswer` | quora.com | Posts a text answer to a question as the signed-in caller. | ⚪ |
 | `raadvanstate_nl.getRuling` | raadvanstate.nl | Reads one Council of State ruling in full by ECLI — case number, dates, procedure… | 🟡 |
 | `raadvanstate_nl.searchRulings` | raadvanstate.nl | Searches the Council of State's case register (raadvanstate.nl/uitspraken) by keyword… | 🟢 |
+| `raisingcanes.location` | raisingcanes.com | Returns one Raising Cane's restaurant from its locator page: address, phone… | 🟢 |
+| `raisingcanes.locations` | raisingcanes.com | Lists Raising Cane's Chicken Fingers restaurants from the store locator's sitemap… | 🟢 |
+| `raisingcanes.menu` | raisingcanes.com | Returns the Raising Cane's menu (combos, items, sauces) from raisingcanes.com/menu. | ⚪ |
 | `rakuten.getCashBackBalance` | rakuten.com | Reads the signed-in member's pending and paid cash-back balance. | ⚪ |
 | `rakuten.getStore` | rakuten.com | Reads one Rakuten store page — the store's name and today's cash-back rate — by the… | 🟢 |
 | `rakuten.listStoreCoupons` | rakuten.com | Lists the coupon codes and deals Rakuten shows on one store's page. | ⚪ |

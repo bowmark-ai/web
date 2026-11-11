@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9e843fc7e917ba084d4c8e5a660368d4bd733ec35719420ed5158d45dcdfa64f
-# 97 capabilities, 811 providers, 4861 typed functions, 20 refused.
+# Manifest version: 2e4ce17520eaa3eeb7c9122481ebdd2a83d2c30297c370f3fd9779a3c466ccd7
+# 97 capabilities, 812 providers, 4863 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -49652,6 +49652,37 @@ class Prv_raadvanstate_nl_RaadvanstateRuling_Out(TypedDict):
     summary: str | None
     text: str
     url: str
+
+class Prv_raisingcanes_LocationsArgs_In(TypedDict):
+    state: NotRequired[str]
+    city: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_raisingcanes_LocationSummary_Out(TypedDict):
+    url: str
+    state: str
+    city: str
+    slug: str
+
+class Prv_raisingcanes_Location_Out(TypedDict):
+    url: str
+    name: str
+    phone: str | None
+    street: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    country: str | None
+    latitude: float | None
+    longitude: float | None
+    hours: list[Prv_raisingcanes_LocationHours_Out]
+    mapUrl: str | None
+    menuUrl: str | None
+
+class Prv_raisingcanes_LocationHours_Out(TypedDict):
+    days: list[str]
+    opens: str
+    closes: str
 
 class Prv_rakuten_RakutenSearchArgs_In(TypedDict):
     query: str
@@ -100299,6 +100330,21 @@ class Prv_raadvanstate_nl(Protocol):
         summary and the complete ruling text, from the Dutch judiciary's open-data service.
         """
 
+class Prv_raisingcanes(Protocol):
+    """Raising Cane's Chicken Fingers restaurants: list stores by state/city and read one
+    store's address, phone, coordinates and opening hours.
+    """
+
+    async def locations(self, args: Prv_raisingcanes_LocationsArgs_In | None = None, /) -> list[Prv_raisingcanes_LocationSummary_Out]:
+        """Lists Raising Cane's restaurants, optionally filtered by two-letter state and city
+        (default limit 50).
+        """
+
+    async def location(self, url: str, /) -> Prv_raisingcanes_Location_Out:
+        """One Raising Cane's restaurant: address, phone, coordinates, opening hours, Google Maps
+        link.
+        """
+
 class Prv_rakuten(Protocol):
     """Rakuten (formerly Ebates), the US cash-back shopping portal — find which stores Rakuten
     pays cash back at and the current rate for each, then read one store's offer.
@@ -112281,6 +112327,7 @@ class BowmarkProviders(Protocol):
     quince: Prv_quince
     quora: Prv_quora
     raadvanstate_nl: Prv_raadvanstate_nl
+    raisingcanes: Prv_raisingcanes
     rakuten: Prv_rakuten
     recreation_gov: Prv_recreation_gov
     recruitee: Prv_recruitee

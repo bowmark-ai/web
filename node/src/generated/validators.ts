@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9e843fc7e917ba084d4c8e5a660368d4bd733ec35719420ed5158d45dcdfa64f
-// 4861 checked, 20 unchecked.
+// Manifest version: 2e4ce17520eaa3eeb7c9122481ebdd2a83d2c30297c370f3fd9779a3c466ccd7
+// 4863 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9e843fc7e917ba084d4c8e5a660368d4bd733ec35719420ed5158d45dcdfa64f",
+  "version": "2e4ce17520eaa3eeb7c9122481ebdd2a83d2c30297c370f3fd9779a3c466ccd7",
   "units": {
     "address_validation": {
       "defs": {
@@ -107248,6 +107248,57 @@ export const VALIDATORS: ValidatorTable = {
         "getRuling": [
           {
             "name": "ecli",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.raisingcanes": {
+      "defs": {
+        "LocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "locations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "location": [
+          {
+            "name": "url",
             "schema": {
               "k": "string"
             },

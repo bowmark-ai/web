@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9e843fc7e917ba084d4c8e5a660368d4bd733ec35719420ed5158d45dcdfa64f
-// 97 capabilities, 811 providers, 4879 typed functions, 20 refused.
+// Manifest version: 2e4ce17520eaa3eeb7c9122481ebdd2a83d2c30297c370f3fd9779a3c466ccd7
+// 97 capabilities, 812 providers, 4881 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -80359,6 +80359,56 @@ interface RaadvanstateRuling {
   }
 }
 
+declare namespace BowmarkProvider_raisingcanes {
+  // ── Raising Cane's — the unit's own declarations, verbatim ──
+interface LocationsArgs {
+  state?: string;
+  city?: string;
+  limit?: number;
+}
+interface LocationSummary {
+  url: string;
+  state: string;
+  city: string;
+  slug: string;
+}
+interface LocationHours {
+  days: string[];
+  opens: string;
+  closes: string;
+}
+interface Location {
+  url: string;
+  name: string;
+  phone: string | null;
+  street: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  hours: LocationHours[];
+  mapUrl: string | null;
+  menuUrl: string | null;
+}
+
+  /**
+   * Raising Cane's Chicken Fingers restaurants: list stores by state/city and read one store's
+   * address, phone, coordinates and opening hours.
+   */
+  interface Unit {
+    /**
+     * Lists Raising Cane's restaurants, optionally filtered by two-letter state and city (default
+     * limit 50).
+     */
+    locations(args?: LocationsArgs): Promise<LocationSummary[]>;
+
+    /** One Raising Cane's restaurant: address, phone, coordinates, opening hours, Google Maps link. */
+    location(url: string): Promise<Location>;
+  }
+}
+
 declare namespace BowmarkProvider_rakuten {
   // ── Rakuten — the unit's own declarations, verbatim ──
 interface RakutenStore {
@@ -114857,6 +114907,7 @@ interface BowmarkProviders {
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;
   raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
+  raisingcanes: BowmarkProvider_raisingcanes.Unit;
   rakuten: BowmarkProvider_rakuten.Unit;
   recreation_gov: BowmarkProvider_recreation_gov.Unit;
   recruitee: BowmarkProvider_recruitee.Unit;
