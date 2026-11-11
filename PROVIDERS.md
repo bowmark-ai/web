@@ -5323,7 +5323,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listUserPlaylists` | tiktok.com | The playlists a creator shows on their profile (id, name, video count, cover, URL).… | 🟢 |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id, caption, play count, cover and play address for each —… | 🟢 |
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | 🟢 |
-| `tiktok.searchUsers` | tiktok.com | Find creators matching a name or a topic and get back handle, nickname, bio, avatar… | 🟡 |
+| `tiktok.searchUsers` | tiktok.com | Find creators matching a name or a topic and get back handle, nickname, bio, avatar… | 🟢 |
 | `tiktok.searchVideos` | tiktok.com | Find TikTok videos on a topic and get back the top posts — id, caption, author… | 🟡 |
 | `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller to a TikTok account, by handle — drives TikTok's own… | 🟢 |
 | `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | 🟢 |
@@ -5665,7 +5665,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `vagaro.listMyMembershipsAndPackages` | www.vagaro.com | Lists the memberships, packages and gift cards the signed-in caller holds, with what… | ⚪ |
 | `vagaro.listPhotos` | www.vagaro.com | Lists a business's portfolio photos: title, description, image url, like count, and… | 🟢 |
 | `vagaro.listProducts` | www.vagaro.com | Lists the retail products a business sells through its Vagaro store, with price, brand… | ⚪ |
-| `vagaro.listPromotions` | www.vagaro.com | Lists a business's current deals and promotions: discount, the services it applies to… | 🟢 |
+| `vagaro.listPromotions` | www.vagaro.com | Lists a business's current deals and promotions: discount, the services it applies to… | 🟡 |
 | `vagaro.listReviews` | www.vagaro.com | Lists a business's customer reviews, newest first, with rating, text, the staff member… | 🟢 |
 | `vagaro.listServices` | www.vagaro.com | Lists a business's bookable services by category: name, description, price (and… | 🟢 |
 | `vagaro.listStaff` | www.vagaro.com | Lists the staff a customer can book at a business, with photo, title, rating and… | 🟢 |
