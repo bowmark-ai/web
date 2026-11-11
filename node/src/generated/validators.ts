@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e3990cc90a227f027a8abf9db7a3be4d70c3077ef3d9d3dfa744fbf18b33cc47
-// 4859 checked, 20 unchecked.
+// Manifest version: 9e843fc7e917ba084d4c8e5a660368d4bd733ec35719420ed5158d45dcdfa64f
+// 4861 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e3990cc90a227f027a8abf9db7a3be4d70c3077ef3d9d3dfa744fbf18b33cc47",
+  "version": "9e843fc7e917ba084d4c8e5a660368d4bd733ec35719420ed5158d45dcdfa64f",
   "units": {
     "address_validation": {
       "defs": {
@@ -125609,6 +125609,63 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "StatefarmBusinessQuoteQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.statista": {
+      "defs": {
+        "StatistaSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "StatistaStatisticArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StatistaSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStatistic": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StatistaStatisticArgs"
             },
             "optional": false
           }

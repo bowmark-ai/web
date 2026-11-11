@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e3990cc90a227f027a8abf9db7a3be4d70c3077ef3d9d3dfa744fbf18b33cc47
-# 97 capabilities, 810 providers, 4859 typed functions, 20 refused.
+# Manifest version: 9e843fc7e917ba084d4c8e5a660368d4bd733ec35719420ed5158d45dcdfa64f
+# 97 capabilities, 811 providers, 4861 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -58336,6 +58336,28 @@ class Prv_statefarm_StatefarmBusinessCoverage_Out(TypedDict):
     selected: bool
     required: bool
 
+class Prv_statista_StatistaSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_statista_StatistaSearchResult_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_statista_StatistaStatisticArgs_In(TypedDict):
+    url: str
+
+class Prv_statista_StatistaStatistic_Out(TypedDict):
+    title: str
+    url: str
+    description: str | None
+    publishedAt: str | None
+    updatedAt: str | None
+    publisher: str | None
+    source: str | None
+    headlineFigure: str | None
+    isAccessibleForFree: bool | None
+
 class Prv_steam_SearchGamesArgs_In(TypedDict):
     query: str
 
@@ -104437,6 +104459,22 @@ class Prv_statefarm(Protocol):
         workers' comp, contractors or farm-and-ranch.
         """
 
+class Prv_statista(Protocol):
+    """Search Statista's public statistic index and read each statistic's public title,
+    summary, dates and publisher metadata without inventing paywalled values.
+    """
+
+    async def search(self, args: Prv_statista_StatistaSearchArgs_In, /) -> list[Prv_statista_StatistaSearchResult_Out]:
+        """Searches Statista's public statistic results and returns their titles and statistic-page
+        URLs.
+        """
+
+    async def getStatistic(self, args: Prv_statista_StatistaStatisticArgs_In, /) -> Prv_statista_StatistaStatistic_Out:
+        """Reads a Statista statistic's public title, description, publication dates, publisher and
+        any unmasked headline figure; source and paywalled values remain null rather than
+        guessed.
+        """
+
 class Prv_steam(Protocol):
     """Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and
     the community market. Most functions are still declared stubs.
@@ -112326,6 +112364,7 @@ class BowmarkProviders(Protocol):
     starlighthomes: Prv_starlighthomes
     start_gg: Prv_start_gg
     statefarm: Prv_statefarm
+    statista: Prv_statista
     steam: Prv_steam
     stickergiant: Prv_stickergiant
     stubhub: Prv_stubhub

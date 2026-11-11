@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e3990cc90a227f027a8abf9db7a3be4d70c3077ef3d9d3dfa744fbf18b33cc47
-// 97 capabilities, 810 providers, 4877 typed functions, 20 refused.
+// Manifest version: 9e843fc7e917ba084d4c8e5a660368d4bd733ec35719420ed5158d45dcdfa64f
+// 97 capabilities, 811 providers, 4879 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -92849,6 +92849,32 @@ interface StatefarmBusinessCoverage {
   }
 }
 
+declare namespace BowmarkProvider_statista {
+  // ── Statista — the unit's own declarations, verbatim ──
+interface StatistaSearchArgs { query: string; limit?: number; }
+interface StatistaStatisticArgs { url: string; }
+interface StatistaSearchResult { title: string; url: string; }
+interface StatistaStatistic { title: string; url: string; description: string | null; publishedAt: string | null; updatedAt: string | null; publisher: string | null; source: string | null; headlineFigure: string | null; isAccessibleForFree: boolean | null; }
+
+  /**
+   * Search Statista's public statistic index and read each statistic's public title, summary,
+   * dates and publisher metadata without inventing paywalled values.
+   */
+  interface Unit {
+    /**
+     * Searches Statista's public statistic results and returns their titles and statistic-page
+     * URLs.
+     */
+    search(args: StatistaSearchArgs): Promise<StatistaSearchResult[]>;
+
+    /**
+     * Reads a Statista statistic's public title, description, publication dates, publisher and any
+     * unmasked headline figure; source and paywalled values remain null rather than guessed.
+     */
+    getStatistic(args: StatistaStatisticArgs): Promise<StatistaStatistic>;
+  }
+}
+
 declare namespace BowmarkProvider_steam {
   // ── Steam — the unit's own declarations, verbatim ──
 interface steamRow {
@@ -114914,6 +114940,7 @@ interface BowmarkProviders {
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   start_gg: BowmarkProvider_start_gg.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
+  statista: BowmarkProvider_statista.Unit;
   steam: BowmarkProvider_steam.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
   stubhub: BowmarkProvider_stubhub.Unit;

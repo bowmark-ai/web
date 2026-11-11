@@ -1570,7 +1570,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.listPinnedMessages` | discord.com | Lists the messages pinned in a channel. | 🟢 |
 | `discord.listQuests` | discord.com | Lists the Quests currently offered to the caller — game, task, reward and expiry — and… | 🟢 |
 | `discord.listServerAnnouncements` | discord.com | Lists the posts a server publishes to its public announcements page… | 🟢 |
-| `discord.listServerCategories` | discord.com | Lists the public server directory's categories (Gaming, Entertainment, Education… | 🟢 |
+| `discord.listServerCategories` | discord.com | Lists the public server directory's categories (Gaming, Entertainment, Education… | 🟡 |
 | `discord.listServerEvents` | discord.com | Lists a joined server's scheduled events — name, description, start and end time… | 🟢 |
 | `discord.listServers` | discord.com | Browses Discord's public server directory with no keyword, in the directory's own… | 🟢 |
 | `discord.listSimilarApps` | discord.com | Lists the apps the App Directory shows as similar to one app — the same full shape… | 🟢 |
