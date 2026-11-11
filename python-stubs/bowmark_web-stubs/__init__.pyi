@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 341d8edb2606185a3dad267ef6a29d630b429a93c0f3a85ecfa6c6630c64d80e
-# 97 capabilities, 813 providers, 4868 typed functions, 20 refused.
+# Manifest version: 0e01980e2f4907e8eeaf9b4b943611ef5ce14163a412129d0d8bffbec087b4a4
+# 97 capabilities, 814 providers, 4871 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19473,6 +19473,25 @@ class Prv_davidsonhomes_DavidsonhomesHomeDetail_Out(TypedDict):
 class Prv_davidsonhomes_DavidsonhomesHomeDetail_Out_coordinates_u0_Out(TypedDict):
     lat: float
     lng: float
+
+class Prv_dblp_dblpSearchOptions_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_dblp_dblpPublication_Out(TypedDict):
+    key: str
+    title: str
+    authors: list[str]
+    venue: str | None
+    year: float | None
+    type: str | None
+    doi: str | None
+    url: str
+
+class Prv_dblp_dblpAuthor_Out(TypedDict):
+    pid: str
+    name: str
+    publicationCount: float
+    url: str
 
 class Prv_deangroup_DeangroupProperty_Out(TypedDict):
     hotelId: float
@@ -53850,6 +53869,23 @@ class Prv_serper_SerperOrganicResult_Out(TypedDict):
     snippet: str | None
     date: str | None
 
+class Prv_serper_SerperShoppingSearchResult_Out(TypedDict):
+    query: str
+    results: list[Prv_serper_SerperShoppingResult_Out]
+    credits: float | None
+    warnings: list[str]
+
+class Prv_serper_SerperShoppingResult_Out(TypedDict):
+    position: float
+    title: str
+    source: str | None
+    link: str
+    price: str | None
+    imageUrl: str | None
+    rating: float | None
+    ratingCount: float | None
+    productId: str | None
+
 class Prv_sessionize_SessionizeSpeakerSearch_Out(TypedDict):
     speakers: list[Prv_sessionize_SessionizeSpeakerSearch_Out_speakers_item_Out]
     count: float
@@ -74952,35 +74988,35 @@ class Prv_alibaba(Protocol):
     and supplier information.
     """
 
-    async def searchProducts(self, args: Prv_alibaba_searchProducts_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaSearchRow_Out]:
+    async def searchProducts(self, args: Prv_alibaba_searchProducts_args_In, /) -> list[Prv_alibaba_alibabaSearchRow_Out]:
         """Search for products by keyword, with an optional price range and page number."""
 
-    async def getProduct(self, idOrUrl: str | float, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaProductRow_Out:
+    async def getProduct(self, idOrUrl: str | float, /) -> Prv_alibaba_alibabaProductRow_Out:
         """Get detailed information for a single product by ID or URL, including title, price and
         its unit, MOQ, images, spec table, variant options and supplier.
         """
 
-    async def listCategories(self, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaCategoryRow_Out]:
+    async def listCategories(self, /) -> list[Prv_alibaba_alibabaCategoryRow_Out]:
         """List the marketplace's top-level product categories."""
 
-    async def getSuggestions(self, keyword: str, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaSuggestionRow_Out]:
+    async def getSuggestions(self, keyword: str, /) -> list[Prv_alibaba_alibabaSuggestionRow_Out]:
         """Get search suggestions and autocomplete hints based on partial keyword."""
 
-    async def listSuppliers(self, args: Prv_alibaba_listSuppliers_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaSupplierRow_Out]:
+    async def listSuppliers(self, args: Prv_alibaba_listSuppliers_args_In, /) -> list[Prv_alibaba_alibabaSupplierRow_Out]:
         """Search for suppliers by company name or product type."""
 
-    async def getSupplier(self, profileUrl: str, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaSupplierProfileRow_Out:
+    async def getSupplier(self, profileUrl: str, /) -> Prv_alibaba_alibabaSupplierProfileRow_Out:
         """Get a supplier's storefront profile — company info, verification status, rating and
         contact address — from its listSuppliers() profileUrl.
         """
 
-    async def getProductReviews(self, product: str | float | Prv_alibaba_alibabaProductReviewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaProductReviews_Out:
+    async def getProductReviews(self, product: str | float | Prv_alibaba_alibabaProductReviewsArgs_In, /) -> Prv_alibaba_alibabaProductReviews_Out:
         """One page of a product's buyer reviews — stars, text, date, masked reviewer and country,
         verified-purchase flag — plus the total count. Pass supplierId from getProduct to skip a
         page load.
         """
 
-    async def listSupplierProducts(self, profileUrl: str, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaSupplierProductRow_Out]:
+    async def listSupplierProducts(self, profileUrl: str, /) -> list[Prv_alibaba_alibabaSupplierProductRow_Out]:
         """List the other products a supplier's storefront carries, from its listSuppliers()
         profileUrl.
         """
@@ -81849,46 +81885,46 @@ class Prv_clubready(Protocol):
 class Prv_cnbc_com(Protocol):
     """Stock quotes, market data, news, videos and analysis from CNBC."""
 
-    async def getQuote(self, args: Prv_cnbc_com_GetQuoteArgs_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_cnbc_comRow_Out:
+    async def getQuote(self, args: Prv_cnbc_com_GetQuoteArgs_In, /) -> Prv_cnbc_com_cnbc_comRow_Out:
         """Returns the current stock quote for one symbol — price, change, percent change, open,
         high, low, 52-week high/low, market cap, P/E ratio and dividend, read from
         quote.cnbc.com's keyless JSON quote service.
         """
 
-    async def listQuotes(self, args: Prv_cnbc_com_ListQuotesArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
+    async def listQuotes(self, args: Prv_cnbc_com_ListQuotesArgs_In, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
         """Returns current stock quotes for multiple symbols as an array, with same fields as
         getQuote.
         """
 
-    async def listMarkets(self, opts: ConnectionOption | None = None, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
+    async def listMarkets(self, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
         """Returns CNBC's market banner — Dow, S&P 500, Nasdaq, VIX, WTI crude, gold, 10-year
         Treasury yield and the US Dollar Index — with price, change and percent change, in one
         call.
         """
 
-    async def listNews(self, args: Prv_cnbc_com_ListNewsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_cnbc_com_cnbc_comNewsItem_Out]:
+    async def listNews(self, args: Prv_cnbc_com_ListNewsArgs_In | None = None, /) -> list[Prv_cnbc_com_cnbc_comNewsItem_Out]:
         """Returns the latest CNBC headlines for a section (top news by default, or world,
         business, investing, technology, economy and others) — title, link, teaser, publication
         date and story type — from CNBC's own RSS feed.
         """
 
-    async def search(self, args: Prv_cnbc_com_SearchArgs_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_search_return_Out:
+    async def search(self, args: Prv_cnbc_com_SearchArgs_In, /) -> Prv_cnbc_com_search_return_Out:
         """Searches CNBC's articles and videos for a keyword and returns them by relevance — title,
         link, summary, author, section, type and publication date — from the site's own search
         service.
         """
 
-    async def getArticle(self, args: Prv_cnbc_com_GetArticleArgs_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_cnbc_comArticle_Out:
+    async def getArticle(self, args: Prv_cnbc_com_GetArticleArgs_In, /) -> Prv_cnbc_com_cnbc_comArticle_Out:
         """Returns a CNBC article by URL — headline, authors, publication and update dates,
         section, keywords, lead image and the body as paragraphs.
         """
 
-    async def getMarketData(self, args: Prv_cnbc_com_GetMarketDataArgs_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_cnbc_comMarketData_Out:
+    async def getMarketData(self, args: Prv_cnbc_com_GetMarketDataArgs_In, /) -> Prv_cnbc_com_cnbc_comMarketData_Out:
         """Returns one stock, index, commodity or yield's current quote plus its price history for
         a range (1 day to all time) as open/high/low/close/volume bars.
         """
 
-    async def listSectors(self, opts: ConnectionOption | None = None, /) -> list[Prv_cnbc_com_cnbc_comSector_Out]:
+    async def listSectors(self, /) -> list[Prv_cnbc_com_cnbc_comSector_Out]:
         """Returns today's performance of the eleven S&P 500 sectors, each through its SPDR sector
         ETF — price, change and percent change.
         """
@@ -82939,6 +82975,24 @@ class Prv_davidsonhomes(Protocol):
         `getCommunity()` or `getRegion()`'s community list, e.g.
         "…/bailey-park/available-homes/28-aurora-circle". THROWS on an unknown path, naming
         `getCommunity()` as the way to find current ones.
+        """
+
+class Prv_dblp(Protocol):
+    """dblp, the computer-science bibliography — search papers by title words (authors, venue,
+    year, DOI) and find researchers with their publication counts.
+    """
+
+    async def searchPublications(self, query: str, opts: Prv_dblp_dblpSearchOptions_In | None = None, /) -> list[Prv_dblp_dblpPublication_Out]:
+        """Searches dblp's computer-science bibliography for papers whose TITLE contains every word
+        of the query ("attention is all you need", "graph neural network survey"), closest title
+        first. Each record carries authors in order, venue, year, type, DOI and its dblp url.
+        Slow — a query takes 5-30 s.
+        """
+
+    async def searchAuthors(self, query: str, opts: Prv_dblp_dblpSearchOptions_In | None = None, /) -> list[Prv_dblp_dblpAuthor_Out]:
+        """Finds computer-science researchers on dblp whose name contains every word of the query
+        ("knuth", "yann lecun"), most-published first, with their dblp person id, publication
+        count and profile url.
         """
 
 class Prv_deangroup(Protocol):
@@ -102573,6 +102627,12 @@ class Prv_serper(Protocol):
         operator honoured.
         """
 
+    async def searchShopping(self, query: str, opts: Prv_serper_SerperSearchOptions_In | None = None, /) -> Prv_serper_SerperShoppingSearchResult_Out:
+        """Searches Google Shopping and returns its product rows — title, seller, price as Google
+        prints it, rating, link — to compare prices for a product across sellers. `num` caps the
+        rows (default 20). Keyed and metered like `search`.
+        """
+
 class Prv_sessionize(Protocol):
     """Read a conference speaker's public Sessionize profile: name, tagline, bio, links, talks
     and events
@@ -108048,52 +108108,52 @@ class Prv_ups(Protocol):
 class Prv_usatoday(Protocol):
     """USA Today news site — articles, sections, search, sports scores and puzzles."""
 
-    async def listSections(self, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodaySection_Out]:
+    async def listSections(self, /) -> list[Prv_usatoday_usatodaySection_Out]:
         """Lists USA Today's main news sections (news, sports, money, life, tech, opinion), each
         with a section ID and display name. This is the door for browsing a section.
         """
 
-    async def browseSection(self, args: Prv_usatoday_BrowseSectionArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayArticle_Out]:
+    async def browseSection(self, args: Prv_usatoday_BrowseSectionArgs_In, /) -> list[Prv_usatoday_usatodayArticle_Out]:
         """Lists articles in one USA Today section, paginated, showing headline, summary, URL, date
         and image. Uses the section IDs from listSections.
         """
 
-    async def searchNews(self, args: Prv_usatoday_SearchNewsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayArticle_Out]:
+    async def searchNews(self, args: Prv_usatoday_SearchNewsArgs_In, /) -> list[Prv_usatoday_usatodayArticle_Out]:
         """Searches USA Today's news archive for articles matching a free-text query, returning
         headline, summary, URL, date and image. Paginated results sorted by relevance.
         """
 
-    async def listHomepageHeadlines(self, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayArticle_Out]:
+    async def listHomepageHeadlines(self, /) -> list[Prv_usatoday_usatodayArticle_Out]:
         """Reads the USA Today homepage and returns the top headlines currently displayed — the
         lead stories, top news items, and featured sections.
         """
 
-    async def getArticle(self, args: Prv_usatoday_GetArticleArgs_In, opts: ConnectionOption | None = None, /) -> Prv_usatoday_usatodayFullArticle_Out:
+    async def getArticle(self, args: Prv_usatoday_GetArticleArgs_In, /) -> Prv_usatoday_usatodayFullArticle_Out:
         """Reads the full text of one USA Today article, returning headline, byline, body text,
         publication and update dates, section, image, and whether it is free to read.
         """
 
-    async def getScores(self, args: Prv_usatoday_GetScoresArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayScore_Out]:
+    async def getScores(self, args: Prv_usatoday_GetScoresArgs_In, /) -> list[Prv_usatoday_usatodayScore_Out]:
         """Reads sports scores from USA Today's scores section — given a sport like NFL, NBA, MLB,
         MLS — returning game results with home and away teams, scores, date and status.
         """
 
-    async def listPuzzles(self, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayPuzzle_Out]:
+    async def listPuzzles(self, /) -> list[Prv_usatoday_usatodayPuzzle_Out]:
         """Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games and
         more), each with an id, display name and play URL.
         """
 
-    async def getPuzzle(self, args: Prv_usatoday_GetPuzzleArgs_In, opts: ConnectionOption | None = None, /) -> Prv_usatoday_usatodayPuzzleDetail_Out:
+    async def getPuzzle(self, args: Prv_usatoday_GetPuzzleArgs_In, /) -> Prv_usatoday_usatodayPuzzleDetail_Out:
         """Reads the details of one USA Today puzzle — given a puzzle ID — returning the puzzle
         type, difficulty, date created, and play URL.
         """
 
-    async def listVideos(self, opts: ConnectionOption | None = None, /) -> list[Prv_usatoday_usatodayVideo_Out]:
+    async def listVideos(self, /) -> list[Prv_usatoday_usatodayVideo_Out]:
         """Lists the videos on USA Today's videos hub, each with a title, description, thumbnail
         URL and publish date. Duration is not shown on the hub page.
         """
 
-    async def getVideo(self, args: Prv_usatoday_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_usatoday_usatodayVideoDetail_Out:
+    async def getVideo(self, args: Prv_usatoday_GetVideoArgs_In, /) -> Prv_usatoday_usatodayVideoDetail_Out:
         """Reads one USA Today video — given the url a listVideos row returns — returning its
         title, description, duration, publish date, thumbnail and video file URL.
         """
@@ -112032,6 +112092,7 @@ class BowmarkProviders(Protocol):
     dansons: Prv_dansons
     data_cms: Prv_data_cms
     davidsonhomes: Prv_davidsonhomes
+    dblp: Prv_dblp
     deangroup: Prv_deangroup
     decked: Prv_decked
     decksdirect: Prv_decksdirect

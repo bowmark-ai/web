@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6298 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6308 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -169,7 +169,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
 | `aliexpress.addToCart` | aliexpress.us | Adds one variant (productId + skuId from getProduct) to the CALLER's own AliExpress… | 🟢 |
-| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including the price of every variant (size… | 🟢 |
+| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including the price of every variant (size… | 🟡 |
 | `aliexpress.getStore` | aliexpress.us | Fetches a seller's store info — name, logo, follower count and open/closed status — by… | 🟡 |
 | `aliexpress.listCart` | aliexpress.us | Lists items in the CALLER's own AliExpress shopping cart — product id, title, price… | 🟢 |
 | `aliexpress.listCategories` | aliexpress.us | Lists AliExpress's own category navigation menu — the 24 top-level categories, or one… | 🟢 |
@@ -462,9 +462,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.subscribeNewsletter` | bbc.com | Sign the signed-in reader up to a BBC newsletter. | 🟢 |
 | `bbc.unfollowPodcast` | bbc.com | Stop following a BBC podcast or series for the signed-in reader. | 🟢 |
 | `bbc.unsubscribeNewsletter` | bbc.com | Take the signed-in reader off a BBC newsletter. | 🟢 |
+| `bcbsri.getApplicationFormPages` | bcbsri.com | Reads the rendered Direct Pay enrollment application form pages for a plan-shopping… | ⚪ |
 | `bcbsri.getApplicationPage` | bcbsri.com | Reads the public shell for a BCBSRI individual plan-shopping application; it does not… | 🟢 |
+| `bcbsri.getCoverageQuote` | bcbsri.com | Reads the coverage quote for the current shopping session: who is covered and the… | ⚪ |
 | `bcbsri.getDentalPlan` | bcbsri.com | Reads one BCBSRI individual dental plan's published name, description and document… | 🟢 |
 | `bcbsri.getDentalShopPage` | bcbsri.com | Reads BCBSRI's public individual dental shopping page for a plan year. | 🟢 |
+| `bcbsri.getFormConfig` | bcbsri.com | Reads the individual and direct-pay shopping form configuration: date formats… | ⚪ |
+| `bcbsri.getPlanDetails` | bcbsri.com | Reads the medical and dental plan the current shopping session has selected, with its… | ⚪ |
+| `bcbsri.getPlanDocuments` | bcbsri.com | Lists the documents published for one BCBSRI individual plan: benefits summary… | ⚪ |
+| `bcbsri.getPlanPricing` | bcbsri.com | Computes shop quote pricing for the plans chosen in the current shopping session. | ⚪ |
+| `bcbsri.getQuote` | bcbsri.com | Retrieves the shopping quote for the current shopping session. | ⚪ |
 | `bcbsri.getQuotePage` | bcbsri.com | Reads BCBSRI's public individual-plan quote page for a plan year; it does not save or… | 🟢 |
 | `bcbsri.listDentalPlans` | bcbsri.com | Lists the individual dental plans published for a BCBSRI plan year, with each plan's… | 🟢 |
 | `bcparkscamping.checkAvailability` | camping.bcparks.ca | Given a campground's resourceLocationId (from searchCampgrounds) and a date range… | 🟢 |
@@ -631,7 +638,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bookedin.getClassDates` | bookedin.com | Lists which days in a date range have open class sessions at a business that runs… | 🟢 |
 | `bookedin.getClassSession` | bookedin.com | Reads one class session's details — class, category, price, description, instructor… | 🟢 |
 | `bookedin.getMerchant` | bookedin.com | Retrieves one business's record from its booking token or its… | 🟢 |
-| `bookedin.listClassSessions` | bookedin.com | Lists the class sessions on one day with their class, category, price, instructor… | 🟢 |
+| `bookedin.listClassSessions` | bookedin.com | Lists the class sessions on one day with their class, category, price, instructor… | 🟡 |
 | `bookedin.listRegions` | bookedin.com | Lists the countries Bookedin's public directory covers (AU, CA, GB, IE, NZ, SE, US)… | 🟢 |
 | `bookedin.listServices` | bookedin.com | Lists every appointment service a business offers, grouped by category, with price… | 🟢 |
 | `bookedin.listStaff` | bookedin.com | Lists the staff members (resources) a caller can book with at a business, with names… | 🟢 |
@@ -1446,6 +1453,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `davidsonhomes.getHome` | davidsonhomes.com | Reads one specific home's own listing page: address, price, sqft, bed/bath count… | 🟡 |
 | `davidsonhomes.getRegion` | davidsonhomes.com | Reads one region's own page: every community in it with a real live price/bed/sqft… | 🟢 |
 | `davidsonhomes.listRegions` | davidsonhomes.com | Lists every market region Davidson Homes currently builds in — state/metro area, live… | 🟢 |
+| `dblp.searchAuthors` | dblp.org | Finds computer-science researchers on dblp by name, most-published first, with their… | 🟢 |
+| `dblp.searchPublications` | dblp.org | Searches dblp's computer-science bibliography for papers whose title contains every… | 🟢 |
 | `deangroup.getRateCalendar` | deangroup.com | Reads 36 consecutive nights of per-night pricing and sold-out flags for one property… | 🟢 |
 | `deangroup.listProperties` | deangroup.com | Lists every Dean Group hotel — Dublin Centre, Cork, Galway, Dublin Docklands, Berlin —… | 🟢 |
 | `deangroup.searchAvailability` | deangroup.com | Searches one property for a date range and party size and returns every bookable rate… | 🟢 |
@@ -1528,7 +1537,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dillards.checkStock` | dillards.com | Answers whether one exact size/color of a product is available right now — both for… | 🟢 |
 | `dillards.findStores` | dillards.com | Finds nearby Dillard's store locations the way the site's own /stores locator does —… | 🟢 |
 | `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟢 |
-| `dillards.search` | dillards.com | Searches dillards.com's catalog for a keyword and returns the matching products the… | 🟢 |
+| `dillards.search` | dillards.com | Searches dillards.com's catalog for a keyword and returns the matching products the… | 🟡 |
 | `dillards.searchRegistry` | dillards.com | Searches Dillard's wedding/gift registry (dillards.com/registry) — a distinctive… | 🟢 |
 | `direct_book.cancelReservation` | direct-book.com | Cancels a guest's booking by its reservation code from the confirmation email —… | 🟢 |
 | `direct_book.checkAvailability` | direct-book.com | Checks which room types a hotel has free for a check-in and check-out date and party… | 🟢 |
@@ -1853,33 +1862,33 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.estimateShipping` | etsy.com | What one Etsy listing costs to ship and when it would arrive at a destination — a US… | 🟡 |
 | `etsy.favoriteListing` | etsy.com | Hearts a listing for the signed-in caller, or un-hearts it. | ⚪ |
 | `etsy.favoriteShop` | etsy.com | Favorites (follows) a shop for the signed-in caller, or unfollows it. | ⚪ |
-| `etsy.findRegistry` | etsy.com | Finds Etsy gift registries (wedding, baby, gift) by the registrant's first and last… | 🟢 |
+| `etsy.findRegistry` | etsy.com | Finds Etsy gift registries (wedding, baby, gift) by the registrant's first and last… | 🟡 |
 | `etsy.getAccount` | etsy.com | The signed-in caller's own Etsy profile and settings — display name, about, location… | ⚪ |
 | `etsy.getCart` | etsy.com | The signed-in caller's Etsy cart — each item, its variation, quantity, price, the shop… | ⚪ |
 | `etsy.getConversation` | etsy.com | Every message in one of the caller's threads with a shop. | ⚪ |
 | `etsy.getListing` | etsy.com | One Etsy listing by its id or etsy.com/listing URL — title, description, price… | 🟡 |
 | `etsy.getPurchase` | etsy.com | One of the caller's orders — items, receipt total, shipping address and the carrier… | ⚪ |
 | `etsy.getRegistry` | etsy.com | One Etsy gift registry by the id `findRegistry` returns or its URL — name, event type… | 🟢 |
-| `etsy.getShop` | etsy.com | One Etsy shop by its name or etsy.com/shop URL — tagline, location, logo, star rating… | 🟢 |
+| `etsy.getShop` | etsy.com | One Etsy shop by its name or etsy.com/shop URL — tagline, location, logo, star rating… | 🟡 |
 | `etsy.getUserProfile` | etsy.com | A member's public Etsy profile by username or etsy.com/people URL — display name… | 🟡 |
 | `etsy.leaveReview` | etsy.com | Leaves a star rating and written review on an item the caller bought and received. | ⚪ |
-| `etsy.listCategories` | etsy.com | Etsy's category tree — top-level departments and their subcategories with their /c/… | 🟢 |
+| `etsy.listCategories` | etsy.com | Etsy's category tree — top-level departments and their subcategories with their /c/… | 🟡 |
 | `etsy.listCollections` | etsy.com | The signed-in caller's collections (the named lists they save favorites into) and what… | ⚪ |
 | `etsy.listConversations` | etsy.com | The signed-in caller's Etsy message threads with shops, newest first, with the last… | ⚪ |
-| `etsy.listEditorsPicks` | etsy.com | Etsy's Editors' Picks. | 🟢 |
+| `etsy.listEditorsPicks` | etsy.com | Etsy's Editors' Picks. | 🟡 |
 | `etsy.listFavoriteItems` | etsy.com | The listings the signed-in caller has favorited (hearted), newest first. | ⚪ |
 | `etsy.listFavoriteShops` | etsy.com | The shops the signed-in caller has favorited. | ⚪ |
 | `etsy.listListingReviews` | etsy.com | The reviews on one Etsy listing, as the listing page's own `Product` structured data… | 🟡 |
 | `etsy.listPurchases` | etsy.com | The signed-in caller's Etsy orders, newest first — shop, items, total, order date and… | ⚪ |
 | `etsy.listShopListings` | etsy.com | The items on the first page of an Etsy shop, from the shop page's own `ItemList`… | 🟡 |
-| `etsy.listShopReviews` | etsy.com | One page of the reviews an Etsy shop has received across all its listings, newest… | 🟢 |
+| `etsy.listShopReviews` | etsy.com | One page of the reviews an Etsy shop has received across all its listings, newest… | 🟡 |
 | `etsy.listShopSoldItems` | etsy.com | The items a shop has already sold, newest first — what actually sells there, with… | ⚪ |
-| `etsy.listTrendingSearches` | etsy.com | What people are searching for on Etsy this week — the 'Top searches this week' list… | 🟢 |
+| `etsy.listTrendingSearches` | etsy.com | What people are searching for on Etsy this week — the 'Top searches this week' list… | 🟡 |
 | `etsy.removeFromCart` | etsy.com | Removes an item from the caller's cart. | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword and returns each matching… | 🟡 |
-| `etsy.searchShops` | etsy.com | Finds Etsy shops whose name contains a word — the door from a shop name a person… | 🟢 |
+| `etsy.searchShops` | etsy.com | Finds Etsy shops whose name contains a word — the door from a shop name a person… | 🟡 |
 | `etsy.sendMessage` | etsy.com | Sends a message from the signed-in caller to a shop — a new question about an item, or… | ⚪ |
-| `etsy.suggestSearches` | etsy.com | Etsy's search-box suggestions for what a person has typed so far, including 'find shop… | 🟢 |
+| `etsy.suggestSearches` | etsy.com | Etsy's search-box suggestions for what a person has typed so far, including 'find shop… | 🟡 |
 | `etsy.updateCartItem` | etsy.com | Changes the quantity or variation of an item already in the caller's cart. | ⚪ |
 | `etsy.updateProfile` | etsy.com | Edits the signed-in caller's public profile — display name, about/bio, location, and… | ⚪ |
 | `evag.listDepartures` | evag.de | Real-time transit departure information and schedules for Essen public transportation… | 🟢 |
@@ -2472,7 +2481,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.listGenreBooks` | goodreads.com | Browses one genre shelf — the books Goodreads itself files under that genre tag… | 🟢 |
 | `goodreads.rateBook` | goodreads.com | Sets the signed-in caller's own star rating (1-5) on a book. | 🟢 |
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | 🟢 |
-| `goodreads.searchAuthors` | goodreads.com | Finds Goodreads authors by name; returns each match's id, url, books-on-shelf count… | 🟢 |
+| `goodreads.searchAuthors` | goodreads.com | Finds Goodreads authors by name; returns each match's id, url, books-on-shelf count… | 🟡 |
 | `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | 🟢 |
 | `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | 🟢 |
 | `goodreads.unfollowUser` | goodreads.com | Stops following another member as the signed-in caller — the pair of followUser. | 🟢 |
@@ -4578,6 +4587,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |
 | `serper.search` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
 | `serper.searchGoogle` | serper.dev | Alias for `search()`, kept for backward compatibility. | 🟢 |
+| `serper.searchShopping` | serper.dev | Searches Google Shopping through Serper's API and returns Google Shopping's product… | 🟢 |
 | `sessionize.getSpeaker` | sessionize.com | Reads a speaker's public Sessionize profile by slug: name, tagline, bio, links… | 🟢 |
 | `sessionize.searchSpeakers` | sessionize.com | Searches the Sessionize speakers directory by a name or topic and returns each… | 🟢 |
 | `setmore.bookAppointment` | setmore.com | Books a service at a business for a guest -- the service, a slot time and staff member… | 🟢 |
@@ -4670,7 +4680,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getDiscoveryFeed` | shop.app | Reads Shop's home discovery feed — the sections of trending stores and products… | 🟢 |
 | `shop_app.getOrder` | shop.app | Reads one of the caller's orders — items, totals, the shipping address, the receipt… | 🟢 |
 | `shop_app.getProduct` | shop.app | One product by its numeric id or a shop.app/products/<id>/<slug> url: title… | 🟢 |
-| `shop_app.getProductReviews` | shop.app | A product's reviews, a page at a time — each with its rating, title, text, reviewer… | 🟢 |
+| `shop_app.getProductReviews` | shop.app | A product's reviews, a page at a time — each with its rating, title, text, reviewer… | 🟡 |
 | `shop_app.getSharedList` | shop.app | Reads a product list someone shared from Shop (a shop.app/collections/<id> link) — the… | ⚪ |
 | `shop_app.getShopCash` | shop.app | Reads the caller's Shop Cash balance and its recent activity. | ⚪ |
 | `shop_app.getStore` | shop.app | Reads one store's Shop page — name, logo, description, rating and review count… | 🟡 |
@@ -4721,7 +4731,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `slice.checkDelivery` | slicelife.com | Checks whether a pizzeria delivers to an address and, if it does, the delivery fee… | 🟢 |
 | `slice.getDeliveryEstimate` | slicelife.com | Gets the delivery fee and pickup/dropoff times a third-party courier (Uber Direct… | 🟢 |
 | `slice.getHours` | slicelife.com | Gets when a pizzeria takes delivery and pickup orders over the coming days, as… | 🟢 |
-| `slice.getLoyaltyProgram` | slicelife.com | Gets a pizzeria's Slice rewards program, if it runs one: points per dollar and the… | 🟢 |
+| `slice.getLoyaltyProgram` | slicelife.com | Gets a pizzeria's Slice rewards program, if it runs one: points per dollar and the… | 🟡 |
 | `slice.getMenu` | slicelife.com | Gets a pizzeria's full menu: categories, items with descriptions, photos and… | 🟢 |
 | `slice.getMenuItemOptions` | slicelife.com | Gets the choices for one menu item and size: required and optional add-on groups… | 🟢 |
 | `slice.getMyAccount` | slicelife.com | Gets the signed-in caller's Slice profile: name, email, phone, marketing preferences… | ⚪ |
@@ -4785,7 +4795,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.postSpotlightComment` | snapchat.com | Posts a comment under a Spotlight video from the signed-in caller's account. | ⚪ |
 | `snapchat.postStory` | snapchat.com | Posts a photo to the signed-in caller's own Story. | ⚪ |
 | `snapchat.removeFriend` | snapchat.com | Removes one Snapchat user from the signed-in caller's friends, by user id (a uuid) or… | 🟢 |
-| `snapchat.searchSnapchat` | snapchat.com | Searches Snapchat the way the site's own search page does —… | 🟢 |
+| `snapchat.searchSnapchat` | snapchat.com | Searches Snapchat the way the site's own search page does —… | 🟡 |
 | `snapchat.sendChatMessage` | snapchat.com | Sends a text chat message to a friend or group from the signed-in caller's account, as… | ⚪ |
 | `snapchat.sendSnap` | snapchat.com | Sends a photo snap from the signed-in caller's account to one or more friends. | ⚪ |
 | `snapchat.subscribeToProfile` | snapchat.com | Subscribes the signed-in caller to a public profile or Discover show — the Subscribe… | ⚪ |

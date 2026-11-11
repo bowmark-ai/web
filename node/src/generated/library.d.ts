@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 341d8edb2606185a3dad267ef6a29d630b429a93c0f3a85ecfa6c6630c64d80e
-// 97 capabilities, 813 providers, 4886 typed functions, 20 refused.
+// Manifest version: 0e01980e2f4907e8eeaf9b4b943611ef5ce14163a412129d0d8bffbec087b4a4
+// 97 capabilities, 814 providers, 4889 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9140,41 +9140,41 @@ interface alibabaSupplierProductRow {
    */
   interface Unit {
     /** Search for products by keyword, with an optional price range and page number. */
-    searchProducts(args: { query: string, language?: string, country?: string, priceMin?: number, priceMax?: number, page?: number }, opts?: ConnectionOption): Promise<alibabaSearchRow[]>;
+    searchProducts(args: { query: string, language?: string, country?: string, priceMin?: number, priceMax?: number, page?: number }): Promise<alibabaSearchRow[]>;
 
     /**
      * Get detailed information for a single product by ID or URL, including title, price and its
      * unit, MOQ, images, spec table, variant options and supplier.
      */
-    getProduct(idOrUrl: string | number, opts?: ConnectionOption): Promise<alibabaProductRow>;
+    getProduct(idOrUrl: string | number): Promise<alibabaProductRow>;
 
     /** List the marketplace's top-level product categories. */
-    listCategories(opts?: ConnectionOption): Promise<alibabaCategoryRow[]>;
+    listCategories(): Promise<alibabaCategoryRow[]>;
 
     /** Get search suggestions and autocomplete hints based on partial keyword. */
-    getSuggestions(keyword: string, opts?: ConnectionOption): Promise<alibabaSuggestionRow[]>;
+    getSuggestions(keyword: string): Promise<alibabaSuggestionRow[]>;
 
     /** Search for suppliers by company name or product type. */
-    listSuppliers(args: { query: string }, opts?: ConnectionOption): Promise<alibabaSupplierRow[]>;
+    listSuppliers(args: { query: string }): Promise<alibabaSupplierRow[]>;
 
     /**
      * Get a supplier's storefront profile — company info, verification status, rating and contact
      * address — from its listSuppliers() profileUrl.
      */
-    getSupplier(profileUrl: string, opts?: ConnectionOption): Promise<alibabaSupplierProfileRow>;
+    getSupplier(profileUrl: string): Promise<alibabaSupplierProfileRow>;
 
     /**
      * One page of a product's buyer reviews — stars, text, date, masked reviewer and country,
      * verified-purchase flag — plus the total count. Pass supplierId from getProduct to skip a
      * page load.
      */
-    getProductReviews(product: string | number | alibabaProductReviewsArgs, opts?: ConnectionOption): Promise<alibabaProductReviews>;
+    getProductReviews(product: string | number | alibabaProductReviewsArgs): Promise<alibabaProductReviews>;
 
     /**
      * List the other products a supplier's storefront carries, from its listSuppliers()
      * profileUrl.
      */
-    listSupplierProducts(profileUrl: string, opts?: ConnectionOption): Promise<alibabaSupplierProductRow[]>;
+    listSupplierProducts(profileUrl: string): Promise<alibabaSupplierProductRow[]>;
 
     /**
      * Makes a NEW Alibaba.com account with the person's own email and password, in a session.
@@ -28725,48 +28725,48 @@ interface cnbc_comSector extends cnbc_comRow {
      * low, 52-week high/low, market cap, P/E ratio and dividend, read from quote.cnbc.com's
      * keyless JSON quote service.
      */
-    getQuote(args: GetQuoteArgs, opts?: ConnectionOption): Promise<cnbc_comRow>;
+    getQuote(args: GetQuoteArgs): Promise<cnbc_comRow>;
 
     /** Returns current stock quotes for multiple symbols as an array, with same fields as getQuote. */
-    listQuotes(args: ListQuotesArgs, opts?: ConnectionOption): Promise<cnbc_comRow[]>;
+    listQuotes(args: ListQuotesArgs): Promise<cnbc_comRow[]>;
 
     /**
      * Returns CNBC's market banner — Dow, S&P 500, Nasdaq, VIX, WTI crude, gold, 10-year Treasury
      * yield and the US Dollar Index — with price, change and percent change, in one call.
      */
-    listMarkets(opts?: ConnectionOption): Promise<cnbc_comRow[]>;
+    listMarkets(): Promise<cnbc_comRow[]>;
 
     /**
      * Returns the latest CNBC headlines for a section (top news by default, or world, business,
      * investing, technology, economy and others) — title, link, teaser, publication date and story
      * type — from CNBC's own RSS feed.
      */
-    listNews(args?: ListNewsArgs, opts?: ConnectionOption): Promise<cnbc_comNewsItem[]>;
+    listNews(args?: ListNewsArgs): Promise<cnbc_comNewsItem[]>;
 
     /**
      * Searches CNBC's articles and videos for a keyword and returns them by relevance — title,
      * link, summary, author, section, type and publication date — from the site's own search
      * service.
      */
-    search(args: SearchArgs, opts?: ConnectionOption): Promise<{ total: number; results: cnbc_comSearchResult[] }>;
+    search(args: SearchArgs): Promise<{ total: number; results: cnbc_comSearchResult[] }>;
 
     /**
      * Returns a CNBC article by URL — headline, authors, publication and update dates, section,
      * keywords, lead image and the body as paragraphs.
      */
-    getArticle(args: GetArticleArgs, opts?: ConnectionOption): Promise<cnbc_comArticle>;
+    getArticle(args: GetArticleArgs): Promise<cnbc_comArticle>;
 
     /**
      * Returns one stock, index, commodity or yield's current quote plus its price history for a
      * range (1 day to all time) as open/high/low/close/volume bars.
      */
-    getMarketData(args: GetMarketDataArgs, opts?: ConnectionOption): Promise<cnbc_comMarketData>;
+    getMarketData(args: GetMarketDataArgs): Promise<cnbc_comMarketData>;
 
     /**
      * Returns today's performance of the eleven S&P 500 sectors, each through its SPDR sector ETF
      * — price, change and percent change.
      */
-    listSectors(opts?: ConnectionOption): Promise<cnbc_comSector[]>;
+    listSectors(): Promise<cnbc_comSector[]>;
 
     /**
      * Makes a NEW CNBC account with the person's own email and password, in a session. Pauses with
@@ -31702,6 +31702,52 @@ interface DavidsonhomesHomeDetail extends DavidsonhomesHomeSummary {
      * `getCommunity()` as the way to find current ones.
      */
     getHome(path: string): Promise<DavidsonhomesHomeDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_dblp {
+  // ── dblp computer science bibliography — the unit's own declarations, verbatim ──
+interface dblpPublication {
+  key: string;                  // dblp record key, e.g. "conf/nips/VaswaniSPUJGKP17"
+  title: string;
+  authors: string[];            // in author order
+  venue: string | null;         // e.g. "NIPS", "CoRR"
+  year: number | null;
+  type: string | null;          // "Inproceedings" | "Article" | "Informal" (preprint) | …
+  doi: string | null;           // bare DOI, e.g. "10.48550/ARXIV.1706.03762"
+  url: string;                  // https://dblp.org/rec/<key>.html
+}
+
+interface dblpAuthor {
+  pid: string;                  // dblp person id, e.g. "k/DonaldEKnuth"
+  name: string;
+  publicationCount: number;
+  url: string;                  // https://dblp.org/pid/<pid>.html
+}
+
+interface dblpSearchOptions {
+  limit?: number;               // 1-50, default 10
+}
+
+  /**
+   * dblp, the computer-science bibliography — search papers by title words (authors, venue,
+   * year, DOI) and find researchers with their publication counts.
+   */
+  interface Unit {
+    /**
+     * Searches dblp's computer-science bibliography for papers whose TITLE contains every word of
+     * the query ("attention is all you need", "graph neural network survey"), closest title first.
+     * Each record carries authors in order, venue, year, type, DOI and its dblp url. Slow — a
+     * query takes 5-30 s.
+     */
+    searchPublications(query: string, opts?: dblpSearchOptions): Promise<dblpPublication[]>;
+
+    /**
+     * Finds computer-science researchers on dblp whose name contains every word of the query
+     * ("knuth", "yann lecun"), most-published first, with their dblp person id, publication count
+     * and profile url.
+     */
+    searchAuthors(query: string, opts?: dblpSearchOptions): Promise<dblpAuthor[]>;
   }
 }
 
@@ -86601,6 +86647,25 @@ interface SerperSearchResult {
   warnings: string[];
 }
 
+interface SerperShoppingResult {
+  position: number;
+  title: string;
+  source: string | null;     // the seller, e.g. "Best Buy"
+  link: string;              // the product / offer page
+  price: string | null;      // as Google prints it, e.g. "$249.99"
+  imageUrl: string | null;
+  rating: number | null;
+  ratingCount: number | null;
+  productId: string | null;
+}
+
+interface SerperShoppingSearchResult {
+  query: string;
+  results: SerperShoppingResult[];  // num caps it, default 20
+  credits: number | null;
+  warnings: string[];
+}
+
   /**
    * Google's own search results as JSON through Serper's API — honours site:, quoted phrases and
    * every other Google operator, in about a second.
@@ -86622,6 +86687,13 @@ interface SerperSearchResult {
      * operator honoured.
      */
     searchGoogle(query: string, opts?: SerperSearchOptions): Promise<SerperSearchResult>;
+
+    /**
+     * Searches Google Shopping and returns its product rows — title, seller, price as Google
+     * prints it, rating, link — to compare prices for a product across sellers. `num` caps the
+     * rows (default 20). Keyed and metered like `search`.
+     */
+    searchShopping(query: string, opts?: SerperSearchOptions): Promise<SerperShoppingSearchResult>;
   }
 }
 
@@ -103124,61 +103196,61 @@ interface usatodayVideoDetail {
      * Lists USA Today's main news sections (news, sports, money, life, tech, opinion), each with a
      * section ID and display name. This is the door for browsing a section.
      */
-    listSections(opts?: ConnectionOption): Promise<usatodaySection[]>;
+    listSections(): Promise<usatodaySection[]>;
 
     /**
      * Lists articles in one USA Today section, paginated, showing headline, summary, URL, date and
      * image. Uses the section IDs from listSections.
      */
-    browseSection(args: BrowseSectionArgs, opts?: ConnectionOption): Promise<usatodayArticle[]>;
+    browseSection(args: BrowseSectionArgs): Promise<usatodayArticle[]>;
 
     /**
      * Searches USA Today's news archive for articles matching a free-text query, returning
      * headline, summary, URL, date and image. Paginated results sorted by relevance.
      */
-    searchNews(args: SearchNewsArgs, opts?: ConnectionOption): Promise<usatodayArticle[]>;
+    searchNews(args: SearchNewsArgs): Promise<usatodayArticle[]>;
 
     /**
      * Reads the USA Today homepage and returns the top headlines currently displayed — the lead
      * stories, top news items, and featured sections.
      */
-    listHomepageHeadlines(opts?: ConnectionOption): Promise<usatodayArticle[]>;
+    listHomepageHeadlines(): Promise<usatodayArticle[]>;
 
     /**
      * Reads the full text of one USA Today article, returning headline, byline, body text,
      * publication and update dates, section, image, and whether it is free to read.
      */
-    getArticle(args: GetArticleArgs, opts?: ConnectionOption): Promise<usatodayFullArticle>;
+    getArticle(args: GetArticleArgs): Promise<usatodayFullArticle>;
 
     /**
      * Reads sports scores from USA Today's scores section — given a sport like NFL, NBA, MLB, MLS
      * — returning game results with home and away teams, scores, date and status.
      */
-    getScores(args: GetScoresArgs, opts?: ConnectionOption): Promise<usatodayScore[]>;
+    getScores(args: GetScoresArgs): Promise<usatodayScore[]>;
 
     /**
      * Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games and
      * more), each with an id, display name and play URL.
      */
-    listPuzzles(opts?: ConnectionOption): Promise<usatodayPuzzle[]>;
+    listPuzzles(): Promise<usatodayPuzzle[]>;
 
     /**
      * Reads the details of one USA Today puzzle — given a puzzle ID — returning the puzzle type,
      * difficulty, date created, and play URL.
      */
-    getPuzzle(args: GetPuzzleArgs, opts?: ConnectionOption): Promise<usatodayPuzzleDetail>;
+    getPuzzle(args: GetPuzzleArgs): Promise<usatodayPuzzleDetail>;
 
     /**
      * Lists the videos on USA Today's videos hub, each with a title, description, thumbnail URL
      * and publish date. Duration is not shown on the hub page.
      */
-    listVideos(opts?: ConnectionOption): Promise<usatodayVideo[]>;
+    listVideos(): Promise<usatodayVideo[]>;
 
     /**
      * Reads one USA Today video — given the url a listVideos row returns — returning its title,
      * description, duration, publish date, thumbnail and video file URL.
      */
-    getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<usatodayVideoDetail>;
+    getVideo(args: GetVideoArgs): Promise<usatodayVideoDetail>;
 
     /**
      * Makes a NEW USA Today account with the person's own email and password, in a session. Pauses
@@ -114587,6 +114659,7 @@ interface BowmarkProviders {
   dansons: BowmarkProvider_dansons.Unit;
   data_cms: BowmarkProvider_data_cms.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
+  dblp: BowmarkProvider_dblp.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
   decksdirect: BowmarkProvider_decksdirect.Unit;
