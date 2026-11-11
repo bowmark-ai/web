@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: db48a6fdadc6a095eb8613dcb6d8ea519e27779ad9d543f50b6af5ae634aa63f
-// 97 capabilities, 812 providers, 4881 typed functions, 20 refused.
+// Manifest version: 341d8edb2606185a3dad267ef6a29d630b429a93c0f3a85ecfa6c6630c64d80e
+// 97 capabilities, 813 providers, 4886 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15557,6 +15557,36 @@ interface BbcFollowStatus {
      * NEEDS A SIGN-IN — the caller signs in, not us.
      */
     unsubscribeNewsletter(newsletterId: string, opts?: ConnectionOption): Promise<BbcNewsletterStatus>;
+  }
+}
+
+declare namespace BowmarkProvider_bcbsri {
+  // ── Blue Cross & Blue Shield of Rhode Island — individual plans — the unit's own declarations, verbatim ──
+interface bcbsriDentalPlan { name: string; url: string; }
+interface bcbsriPage { title: string; url: string; text: string; }
+interface bcbsriDentalPlanDetail extends bcbsriPage { description: string; documents: Array<{ title: string; url: string }>; }
+interface bcbsriDentalPlanArgs { year: number; plan: string; }
+interface bcbsriApplicationPageArgs { year: number; product: string; }
+
+  /**
+   * Public BCBSRI individual and dental plan-shopping pages. Read-only: never starts, saves or
+   * submits an enrollment.
+   */
+  interface Unit {
+    /** Lists public individual dental plans for a plan year. */
+    listDentalPlans(year: number): Promise<bcbsriDentalPlan[]>;
+
+    /** Reads one public individual dental plan. */
+    getDentalPlan(args: bcbsriDentalPlanArgs): Promise<bcbsriDentalPlanDetail>;
+
+    /** Reads BCBSRI's public dental shopping page. */
+    getDentalShopPage(year: number): Promise<bcbsriPage>;
+
+    /** Reads the public application shell without starting an application. */
+    getApplicationPage(args: bcbsriApplicationPageArgs): Promise<bcbsriPage>;
+
+    /** Reads the public individual-plan quote page. */
+    getQuotePage(year: number): Promise<bcbsriPage>;
   }
 }
 
@@ -114406,6 +114436,7 @@ interface BowmarkProviders {
   barnesfoundation: BowmarkProvider_barnesfoundation.Unit;
   baublebar: BowmarkProvider_baublebar.Unit;
   bbc: BowmarkProvider_bbc.Unit;
+  bcbsri: BowmarkProvider_bcbsri.Unit;
   bcparkscamping: BowmarkProvider_bcparkscamping.Unit;
   beaconfunding: BowmarkProvider_beaconfunding.Unit;
   beatthebomb: BowmarkProvider_beatthebomb.Unit;

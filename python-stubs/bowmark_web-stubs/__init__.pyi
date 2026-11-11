@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: db48a6fdadc6a095eb8613dcb6d8ea519e27779ad9d543f50b6af5ae634aa63f
-# 97 capabilities, 812 providers, 4863 typed functions, 20 refused.
+# Manifest version: 341d8edb2606185a3dad267ef6a29d630b429a93c0f3a85ecfa6c6630c64d80e
+# 97 capabilities, 813 providers, 4868 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9469,6 +9469,34 @@ class Prv_bbc_BbcFollowStatus_Out(TypedDict):
 class Prv_bbc_BbcNewsletterStatus_Out(TypedDict):
     newsletterId: str
     subscribed: bool
+
+class Prv_bcbsri_bcbsriDentalPlan_Out(TypedDict):
+    name: str
+    url: str
+
+class Prv_bcbsri_bcbsriDentalPlanArgs_In(TypedDict):
+    year: float
+    plan: str
+
+class Prv_bcbsri_bcbsriDentalPlanDetail_Out(TypedDict):
+    title: str
+    url: str
+    text: str
+    description: str
+    documents: list[Prv_bcbsri_bcbsriDentalPlanDetail_Out_documents_item_Out]
+
+class Prv_bcbsri_bcbsriDentalPlanDetail_Out_documents_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_bcbsri_bcbsriPage_Out(TypedDict):
+    title: str
+    url: str
+    text: str
+
+class Prv_bcbsri_bcbsriApplicationPageArgs_In(TypedDict):
+    year: float
+    product: str
 
 class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
     resourceLocationId: float
@@ -77234,6 +77262,26 @@ class Prv_bbc(Protocol):
         listNewsletters. NEEDS A SIGN-IN — the caller signs in, not us.
         """
 
+class Prv_bcbsri(Protocol):
+    """Public BCBSRI individual and dental plan-shopping pages. Read-only: never starts, saves
+    or submits an enrollment.
+    """
+
+    async def listDentalPlans(self, year: float, /) -> list[Prv_bcbsri_bcbsriDentalPlan_Out]:
+        """Lists public individual dental plans for a plan year."""
+
+    async def getDentalPlan(self, args: Prv_bcbsri_bcbsriDentalPlanArgs_In, /) -> Prv_bcbsri_bcbsriDentalPlanDetail_Out:
+        """Reads one public individual dental plan."""
+
+    async def getDentalShopPage(self, year: float, /) -> Prv_bcbsri_bcbsriPage_Out:
+        """Reads BCBSRI's public dental shopping page."""
+
+    async def getApplicationPage(self, args: Prv_bcbsri_bcbsriApplicationPageArgs_In, /) -> Prv_bcbsri_bcbsriPage_Out:
+        """Reads the public application shell without starting an application."""
+
+    async def getQuotePage(self, year: float, /) -> Prv_bcbsri_bcbsriPage_Out:
+        """Reads the public individual-plan quote page."""
+
 class Prv_bcparkscamping(Protocol):
     """camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
     campground by name, then read its real per-site, per-night availability for a stay.
@@ -111833,6 +111881,7 @@ class BowmarkProviders(Protocol):
     barnesfoundation: Prv_barnesfoundation
     baublebar: Prv_baublebar
     bbc: Prv_bbc
+    bcbsri: Prv_bcbsri
     bcparkscamping: Prv_bcparkscamping
     beaconfunding: Prv_beaconfunding
     beatthebomb: Prv_beatthebomb

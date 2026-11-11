@@ -67,7 +67,7 @@ apple.com — apple: 32 functions — ask get_library
 apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCategories, listDeveloperApps, listPurchasedApps, listReviews, listSimilarApps, listSubscriptions, listTodayStories, listTopCharts, searchApps (+1 planned)
 arajet.com — arajet: search
 archipelago.gg — archipelago: getClientRelease, getGameOptions
-archive.org — archive_org: checkLendingAvailability, downloadFile, getItem, getSnapshot, searchItems, searchScholar (+2 planned)
+archive.org — archive_org: checkAvailability, checkLendingAvailability, downloadFile, getItem, getSnapshot, searchItems, searchScholar (+1 planned)
 arketa.co — arketa: bookClass, bookPrivateSession, cancelBooking, findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listOnDemandVideos, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters, updateMyProfile (+1 planned)
 article.com — article_com: getProduct, searchProducts (+2 planned)
 artificialanalysis.ai — artificialanalysis_ai: getEvaluation
@@ -98,6 +98,7 @@ bankmycell.com — bankmycell: getTradeInQuote, searchDevices
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
 bbc.com — bbc: followPodcast, getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listFollowedPodcasts, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations, subscribeNewsletter, unfollowPodcast, unsubscribeNewsletter
+bcbsri.com — bcbsri: getApplicationPage, getDentalPlan, getDentalShopPage, getQuotePage, listDentalPlans
 beaconfunding.com — beaconfunding: getApplicationFields
 beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
 bedbathandbeyond.com — bedbathandbeyond: search (+2 planned)

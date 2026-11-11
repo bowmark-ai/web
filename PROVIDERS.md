@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6293 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6298 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -315,7 +315,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `arajet.search` | arajet.com | Runs Arajet's own flight-schedule search (origin, destination, date, passengers) and… | 🟢 |
 | `archipelago.getClientRelease` | archipelago.gg | Returns the latest published Archipelago client release — the version tag, the GitHub… | 🟢 |
 | `archipelago.getGameOptions` | archipelago.gg | Returns one game's per-player randomizer options — the commented YAML template… | 🟢 |
-| `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🔴 |
+| `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🟢 |
 | `archive_org.checkLendingAvailability` | archive.org | Checks whether a book item is available to borrow from the Internet Archive right now… | 🟢 |
 | `archive_org.downloadFile` | archive.org | Builds a download URL for one file within an item — a book PDF, an audio file, a… | 🟢 |
 | `archive_org.getItem` | archive.org | Fetches one item's full metadata — title, creator, description, date, mediatype… | 🟢 |
@@ -462,6 +462,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.subscribeNewsletter` | bbc.com | Sign the signed-in reader up to a BBC newsletter. | 🟢 |
 | `bbc.unfollowPodcast` | bbc.com | Stop following a BBC podcast or series for the signed-in reader. | 🟢 |
 | `bbc.unsubscribeNewsletter` | bbc.com | Take the signed-in reader off a BBC newsletter. | 🟢 |
+| `bcbsri.getApplicationPage` | bcbsri.com | Reads the public shell for a BCBSRI individual plan-shopping application; it does not… | 🟢 |
+| `bcbsri.getDentalPlan` | bcbsri.com | Reads one BCBSRI individual dental plan's published name, description and document… | 🟢 |
+| `bcbsri.getDentalShopPage` | bcbsri.com | Reads BCBSRI's public individual dental shopping page for a plan year. | 🟢 |
+| `bcbsri.getQuotePage` | bcbsri.com | Reads BCBSRI's public individual-plan quote page for a plan year; it does not save or… | 🟢 |
+| `bcbsri.listDentalPlans` | bcbsri.com | Lists the individual dental plans published for a BCBSRI plan year, with each plan's… | 🟢 |
 | `bcparkscamping.checkAvailability` | camping.bcparks.ca | Given a campground's resourceLocationId (from searchCampgrounds) and a date range… | 🟢 |
 | `bcparkscamping.searchCampgrounds` | camping.bcparks.ca | Given a free-text substring, returns every BC Parks campground (Discover Camping… | 🟢 |
 | `beaconfunding.getApplicationFields` | beaconfunding.com | Reads beaconfunding.com's own credit application and returns the fields it declares… | 🟢 |
@@ -4217,7 +4222,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
 | `quora.getProfileAnswers` | quora.com | Reads what a member has answered — the first page of their profile's Answers tab, each… | 🟢 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🔴 |
-| `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟢 |
+| `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟡 |
 | `quora.getSpacePosts` | quora.com | Reads the posts in a Space's feed — most of what a Space holds, and what getSpace… | 🟡 |
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟢 |
 | `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | 🟢 |

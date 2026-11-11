@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: db48a6fdadc6a095eb8613dcb6d8ea519e27779ad9d543f50b6af5ae634aa63f
-// 4863 checked, 20 unchecked.
+// Manifest version: 341d8edb2606185a3dad267ef6a29d630b429a93c0f3a85ecfa6c6630c64d80e
+// 4868 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "db48a6fdadc6a095eb8613dcb6d8ea519e27779ad9d543f50b6af5ae634aa63f",
+  "version": "341d8edb2606185a3dad267ef6a29d630b429a93c0f3a85ecfa6c6630c64d80e",
   "units": {
     "address_validation": {
       "defs": {
@@ -18679,6 +18679,97 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.bcbsri": {
+      "defs": {
+        "bcbsriApplicationPageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "bcbsriDentalPlanArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "plan",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listDentalPlans": [
+          {
+            "name": "year",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "getDentalPlan": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "bcbsriDentalPlanArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDentalShopPage": [
+          {
+            "name": "year",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "getApplicationPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "bcbsriApplicationPageArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getQuotePage": [
+          {
+            "name": "year",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
           }
         ]
       }
