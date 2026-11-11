@@ -5473,14 +5473,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.getDestination` | tripadvisor.com | Reads a city or region's overview page (/Tourism-g<geoId>-…): its name, parent places… | 🟡 |
 | `tripadvisor.getForumThread` | tripadvisor.com | Reads one forum thread — the opening post and every reply, with author, date and text… | ⚪ |
 | `tripadvisor.getForumTopics` | tripadvisor.com | Lists a destination's travel-forum topics — title, author, reply count, last post date… | ⚪ |
-| `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟢 |
+| `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟡 |
 | `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | 🟡 |
 | `tripadvisor.getMemberProfile` | tripadvisor.com | Reads a member's public profile — handle, display name, home town, join date… | ⚪ |
 | `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a listing (/HotelsNear-… | 🟡 |
 | `tripadvisor.getOwnProfile` | tripadvisor.com | Reads the signed-in caller's own profile — handle, display name, home town… | ⚪ |
 | `tripadvisor.getPhotos` | tripadvisor.com | Lists a listing's photos — the gallery's albums (all photos, traveller, dining… | 🟢 |
 | `tripadvisor.getQuestions` | tripadvisor.com | Reads a listing's travellers' Q&A questions, newest first — each question's id, text… | 🟢 |
-| `tripadvisor.getRestaurant` | tripadvisor.com | Reads one restaurant in full: name, address, phone, cuisines, price range, opening… | 🟢 |
+| `tripadvisor.getRestaurant` | tripadvisor.com | Reads one restaurant in full: name, address, phone, cuisines, price range, opening… | 🟡 |
 | `tripadvisor.getRestaurantAvailability` | tripadvisor.com | Reads a restaurant's open reservation times for a date and party size, from the… | ⚪ |
 | `tripadvisor.getReview` | tripadvisor.com | Reads one review on its own page — rating, title, full text, date of visit, date… | 🟢 |
 | `tripadvisor.getReviews` | tripadvisor.com | Reads one page of a hotel's, restaurant's or attraction's reviews in the site's own… | 🟡 |
@@ -5491,7 +5491,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
 | `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟢 |
 | `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank… | 🟡 |
-| `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟢 |
+| `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟡 |
 | `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | 🟡 |
 | `tripadvisor.writeReview` | tripadvisor.com | Posts a review of a listing from the signed-in caller's account — rating, title, text… | ⚪ |
 | `trojanstorage.getFacilityUnits` | trojanstorage.com | Reads one Trojan Storage facility's currently-listed units (from `listFacilities`'s… | 🟢 |
