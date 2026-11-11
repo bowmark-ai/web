@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b57760a36e780e62cd0944fe8c5160a661586e3bf0520a8822beacff8fe5a986
-// 4854 checked, 20 unchecked.
+// Manifest version: e6924eede173ada7353fe4a7e175231474602ed4a0d634e081d6393d2f9b4c45
+// 4857 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b57760a36e780e62cd0944fe8c5160a661586e3bf0520a8822beacff8fe5a986",
+  "version": "e6924eede173ada7353fe4a7e175231474602ed4a0d634e081d6393d2f9b4c45",
   "units": {
     "address_validation": {
       "defs": {
@@ -83754,6 +83754,72 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.mcpcollection_com": {
+      "defs": {},
+      "functions": {
+        "list": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "server": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

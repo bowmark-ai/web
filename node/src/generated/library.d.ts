@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b57760a36e780e62cd0944fe8c5160a661586e3bf0520a8822beacff8fe5a986
-// 97 capabilities, 807 providers, 4872 typed functions, 20 refused.
+// Manifest version: e6924eede173ada7353fe4a7e175231474602ed4a0d634e081d6393d2f9b4c45
+// 97 capabilities, 808 providers, 4875 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -64408,6 +64408,37 @@ interface McpSoSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_mcpcollection_com {
+  // ── MCP Collection — the unit's own declarations, verbatim ──
+interface McpCollectionServer {
+  slug: string; name: string; url: string; tagline: string | null; description: string;
+  category: string; categoryLabel: string; repositoryUrl: string | null; homepageUrl: string | null;
+  setup: string; endpointUrl: string | null; license: string | null; inBundle: boolean;
+  featured: boolean; listedAt: string | null;
+}
+
+  /**
+   * Browse MCP Collection's verified public MCP-server directory, search servers by keyword, and
+   * get their connection or repository details.
+   */
+  interface Unit {
+    /**
+     * Lists MCP Collection's newest directory entries; use this zero-input browse door when a
+     * caller only names the site.
+     */
+    list(args?: { limit?: number }): Promise<McpCollectionServer[]>;
+
+    /**
+     * Searches MCP Collection's public MCP-server directory across server names, descriptions and
+     * categories.
+     */
+    search(args: { query: string; limit?: number }): Promise<McpCollectionServer[]>;
+
+    /** Reads one MCP Collection server listing by the slug returned from list() or search(). */
+    server(args: { slug: string }): Promise<McpCollectionServer>;
+  }
+}
+
 declare namespace BowmarkProvider_mcpmarket {
   // ── MCP Market — the unit's own declarations, verbatim ──
 interface McpMarketSearchResult { slug: string; name: string; description: string; category: string | null; url: string; }
@@ -114639,6 +114670,7 @@ interface BowmarkProviders {
   mcp_directory: BowmarkProvider_mcp_directory.Unit;
   mcp_registry: BowmarkProvider_mcp_registry.Unit;
   mcp_so: BowmarkProvider_mcp_so.Unit;
+  mcpcollection_com: BowmarkProvider_mcpcollection_com.Unit;
   mcpmarket: BowmarkProvider_mcpmarket.Unit;
   mcpserverhub_com: BowmarkProvider_mcpserverhub_com.Unit;
   mcpservers_org: BowmarkProvider_mcpservers_org.Unit;

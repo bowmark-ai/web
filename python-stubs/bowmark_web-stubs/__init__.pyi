@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b57760a36e780e62cd0944fe8c5160a661586e3bf0520a8822beacff8fe5a986
-# 97 capabilities, 807 providers, 4854 typed functions, 20 refused.
+# Manifest version: e6924eede173ada7353fe4a7e175231474602ed4a0d634e081d6393d2f9b4c45
+# 97 capabilities, 808 providers, 4857 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -39661,6 +39661,33 @@ class Prv_mcp_so_McpSoListing_Out(TypedDict):
     author: str | None
     url: str
     imageUrl: str | None
+
+class Prv_mcpcollection_com_list_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_mcpcollection_com_McpCollectionServer_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    tagline: str | None
+    description: str
+    category: str
+    categoryLabel: str
+    repositoryUrl: str | None
+    homepageUrl: str | None
+    setup: str
+    endpointUrl: str | None
+    license: str | None
+    inBundle: bool
+    featured: bool
+    listedAt: str | None
+
+class Prv_mcpcollection_com_search_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_mcpcollection_com_server_args_In(TypedDict):
+    slug: str
 
 class Prv_mcpmarket_search_query_u1_In(TypedDict):
     query: str
@@ -94541,6 +94568,24 @@ class Prv_mcp_so(Protocol):
         detail page this call could not reach, and is empty on a fully healthy call.
         """
 
+class Prv_mcpcollection_com(Protocol):
+    """Browse MCP Collection's verified public MCP-server directory, search servers by keyword,
+    and get their connection or repository details.
+    """
+
+    async def list(self, args: Prv_mcpcollection_com_list_args_In | None = None, /) -> list[Prv_mcpcollection_com_McpCollectionServer_Out]:
+        """Lists MCP Collection's newest directory entries; use this zero-input browse door when a
+        caller only names the site.
+        """
+
+    async def search(self, args: Prv_mcpcollection_com_search_args_In, /) -> list[Prv_mcpcollection_com_McpCollectionServer_Out]:
+        """Searches MCP Collection's public MCP-server directory across server names, descriptions
+        and categories.
+        """
+
+    async def server(self, args: Prv_mcpcollection_com_server_args_In, /) -> Prv_mcpcollection_com_McpCollectionServer_Out:
+        """Reads one MCP Collection server listing by the slug returned from list() or search()."""
+
 class Prv_mcpmarket(Protocol):
     """mcpmarket.com, a marketplace of MCP servers — search listings by keyword and read one
     server's details (repository, author, keywords, likes).
@@ -112029,6 +112074,7 @@ class BowmarkProviders(Protocol):
     mcp_directory: Prv_mcp_directory
     mcp_registry: Prv_mcp_registry
     mcp_so: Prv_mcp_so
+    mcpcollection_com: Prv_mcpcollection_com
     mcpmarket: Prv_mcpmarket
     mcpserverhub_com: Prv_mcpserverhub_com
     mcpservers_org: Prv_mcpservers_org

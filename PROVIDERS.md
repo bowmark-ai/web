@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6283 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6286 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3291,6 +3291,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mcp_directory.search` | mcp.directory | Searches MCP.Directory's public catalogue of MCP servers by keyword, or browses its… | 🟢 |
 | `mcp_registry.search` | registry.modelcontextprotocol.io | Lists or searches the official MCP server registry (registry.modelcontextprotocol.io)… | 🟢 |
 | `mcp_so.search` | mcp.so | Searches the mcp.so directory of published MCP servers by a slug/name substring and… | 🟢 |
+| `mcpcollection_com.list` | mcpcollection.com | Lists MCP Collection's newest public server directory entries. | 🟢 |
+| `mcpcollection_com.search` | mcpcollection.com | Searches MCP Collection's public MCP-server directory by keyword. | 🟢 |
+| `mcpcollection_com.server` | mcpcollection.com | Reads one public MCP Collection server listing by its slug. | 🟢 |
 | `mcpmarket.search` | mcpmarket.com | Searches mcpmarket.com's MCP server marketplace by keyword, exactly as its own search… | 🟢 |
 | `mcpmarket.server` | mcpmarket.com | Reads one MCP server listing on mcpmarket.com by slug or page url and returns its… | 🟢 |
 | `mcpserverhub_com.search` | mcpserverhub.com | Searches MCP Server Hub's public MCP-server directory by keyword, or browses current… | 🟢 |

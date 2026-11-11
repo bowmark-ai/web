@@ -486,6 +486,7 @@ marriott.com — marriott: findHotels (+5 planned)
 mcdonalds.com — mcdonalds: findStores, getMenu, getMenuItem (+2 planned)
 mcp.directory — mcp_directory: search
 mcp.so — mcp_so: search
+mcpcollection.com — mcpcollection_com: list, search, server
 mcpmarket.com — mcpmarket: search, server
 mcpserverhub.com — mcpserverhub_com: search
 mcpservers.org — mcpservers_org: search, server
