@@ -3116,7 +3116,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listAppliedJobs` | linkedin.com | Lists the jobs the caller has applied to on LinkedIn, newest first — each posting's id… | 🟢 |
 | `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟢 |
 | `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | 🟡 |
-| `linkedin.listCompanyPosts` | linkedin.com | Lists a company page's recent posts, as LinkedIn itself samples them on the company… | 🟢 |
+| `linkedin.listCompanyPosts` | linkedin.com | Lists a company page's recent posts, as LinkedIn itself samples them on the company… | 🟡 |
 | `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟢 |
 | `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟢 |
 | `linkedin.listFollowing` | linkedin.com | Lists the members, companies and newsletters the caller follows, with each one's name… | 🟢 |
