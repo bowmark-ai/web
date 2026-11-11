@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6288 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6290 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -5008,6 +5008,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `statefarm.getRentalPropertyQuote` | statefarm.com | Returns a landlord insurance quote for a rented-out property — dwelling coverage plus… | ⚪ |
 | `statefarm.getRentersQuote` | statefarm.com | Returns State Farm's own monthly renters insurance estimate for a US ZIP — a low and a… | 🟢 |
 | `statefarm.getUmbrellaQuote` | statefarm.com | Returns a personal umbrella liability quote — the excess liability layer above the… | ⚪ |
+| `statista.getStatistic` | statista.com | Reads a Statista statistic's public title, description, dates, publisher and unmasked… | 🟢 |
+| `statista.search` | statista.com | Searches Statista's public statistic results and returns their titles and… | 🟢 |
 | `steam.addFriend` | steampowered.com | Sends a friend request to another Steam user by steamid64, off the friends page's own… | 🟢 |
 | `steam.addToWishlist` | steampowered.com | Adds a game to the signed-in caller's wishlist, off the store's own addtowishlist door. | 🟢 |
 | `steam.editProfile` | steampowered.com | Updates the signed-in caller's own persona name and/or profile summary off the… | 🟢 |
