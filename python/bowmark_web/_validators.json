@@ -1,5 +1,5 @@
 {
-  "version": "742dd2749d925dae98cd0c0742d3769d59d3494b8d9dbf48409a672507badf31",
+  "version": "873b37dc44282c2b0b7c23afd044467d1cf4fc785850d06db08284c008543b64",
   "units": {
     "address_validation": {
       "defs": {
@@ -118698,6 +118698,13 @@
             "optional": true
           }
         ]
+      }
+    },
+    "providers.sleeper": {
+      "defs": {},
+      "functions": {
+        "getNFLState": [],
+        "listTrendingPlayers": []
       }
     },
     "providers.slice": {

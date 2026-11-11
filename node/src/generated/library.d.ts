@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 742dd2749d925dae98cd0c0742d3769d59d3494b8d9dbf48409a672507badf31
-// 97 capabilities, 801 providers, 4861 typed functions, 20 refused.
+// Manifest version: 873b37dc44282c2b0b7c23afd044467d1cf4fc785850d06db08284c008543b64
+// 97 capabilities, 802 providers, 4863 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4056,10 +4056,12 @@ interface ProductAvailability {
      * schema.org Product/Offer markup when it carries one (no browser, no per-site adapter), and
      * otherwise, for a handful of stores this library already has a provider for (today: Target,
      * Amazon), by reading that store's own product-detail function instead of reporting "no data".
-     * `source` says which one answered. Reports a failure or an unread page IN the result rather
-     * than throwing. If the caller hasn't named a specific product page yet, DO NOT ask them for a
-     * url first — immediately `run` the worked example below, which is a real, live product page,
-     * to demonstrate a genuine price+stock read, THEN ask which product url to check next.
+     * That list is the whole fallback: any other page with no schema.org markup comes back `ok:
+     * false`, `source: "none"`, with no price or stock. `source` says which one answered. Reports
+     * a failure or an unread page IN the result rather than throwing. If the caller hasn't named a
+     * specific product page yet, DO NOT ask them for a url first — immediately `run` the worked
+     * example below, which is a real, live product page, to demonstrate a genuine price+stock
+     * read, THEN ask which product url to check next.
      */
     getAvailability(url: string): Promise<ProductAvailability>;
   }
@@ -6979,18 +6981,15 @@ interface abercrombieStockQuery {
      * Searches or browses Abercrombie's live catalog the way the site's own search bar and
      * category navigation do. Pass EITHER `query` (free text, e.g. "wide leg jeans") OR `category`
      * (a category/collection — the site's own URL for it, or the bare slug at the end of one, e.g.
-     * "womens-bottoms-classic-jeans-jeans") — never both. Slugs that work for men include
-     * "mens-tees", "mens-graphic-tees", "mens-polos" and "mens-underwear-and-socks"; guesses like
-     * "mens-tshirts" or "mens-socks" do not exist — copy the slug from the end of the category
-     * page URL on abercrombie.com. Returns each result's name, url and current `price`, plus
-     * `listPrice`/`onSale` when the card itself shows a markdown, in the site's own default order
-     * (best-match for a text search, curated for a category) — never re-sorted. **`thumbnail` is
-     * `null` on most rows past the first screen**: the grid lazy-loads images client-side and the
-     * server-rendered page carries only a placeholder there, which this function reports honestly
-     * rather than guessing a URL. `maxItems` (default 24, ceiling 90) caps the rows; this reads
-     * the FIRST page only, same as `findStores` does not walk every radius. A `category` slug the
-     * site does not recognize THROWS the same way a bad product id does on `getProduct` — it is
-     * not a valid "zero results".
+     * "womens-bottoms-classic-jeans-jeans") — never both. Returns each result's name, url and
+     * current `price`, plus `listPrice`/`onSale` when the card itself shows a markdown, in the
+     * site's own default order (best-match for a text search, curated for a category) — never
+     * re-sorted. **`thumbnail` is `null` on most rows past the first screen**: the grid lazy-loads
+     * images client-side and the server-rendered page carries only a placeholder there, which this
+     * function reports honestly rather than guessing a URL. `maxItems` (default 24, ceiling 90)
+     * caps the rows; this reads the FIRST page only, same as `findStores` does not walk every
+     * radius. A `category` slug the site does not recognize THROWS the same way a bad product id
+     * does on `getProduct` — it is not a valid "zero results".
      */
     search(query: abercrombieSearchQuery): Promise<abercrombieSearchResult[]>;
   }
@@ -49049,8 +49048,9 @@ interface SheetValues {
 }
 
   /**
-   * Google Sheets spreadsheets: find public sheets by topic, list a spreadsheet's tabs, and read
-   * a tab or an A1 range as rows.
+   * Google Sheets spreadsheets, READ-ONLY: find public sheets by topic, list a spreadsheet's
+   * tabs, and read a tab or an A1 range as rows. It cannot create a sheet or write cells; to
+   * hand back data a run made, save it with bowmark.files (a CSV link).
    */
   interface Unit {
     /**
@@ -87981,6 +87981,21 @@ interface SkillsRestSkill {
   }
 }
 
+declare namespace BowmarkProvider_sleeper {
+  // ── Sleeper — the unit's own declarations, verbatim ──
+interface SleeperNFLState { week: number; leg: number; season: string; seasonType: string; leagueSeason: string; previousSeason: string; seasonStartDate: string; displayWeek: number; seasonHasScores: boolean }
+interface TrendingPlayer { playerId: string; count: number }
+
+  /** Sleeper fantasy football's live NFL season state and most-added players. */
+  interface Unit {
+    /** Sleeper's live NFL season, week and scoring state. Call with no arguments. */
+    getNFLState(): Promise<SleeperNFLState>;
+
+    /** Sleeper's 25 most-added fantasy football players over the last 24 hours. */
+    listTrendingPlayers(): Promise<TrendingPlayer[]>;
+  }
+}
+
 declare namespace BowmarkProvider_slice {
   // ── Slice — the unit's own declarations, verbatim ──
 interface SliceLocation {
@@ -114660,6 +114675,7 @@ interface BowmarkProviders {
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
   skills_rest: BowmarkProvider_skills_rest.Unit;
+  sleeper: BowmarkProvider_sleeper.Unit;
   slice: BowmarkProvider_slice.Unit;
   slickdeals: BowmarkProvider_slickdeals.Unit;
   smartrecruiters: BowmarkProvider_smartrecruiters.Unit;

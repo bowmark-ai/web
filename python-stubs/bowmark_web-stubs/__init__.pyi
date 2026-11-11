@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 742dd2749d925dae98cd0c0742d3769d59d3494b8d9dbf48409a672507badf31
-# 97 capabilities, 801 providers, 4843 typed functions, 20 refused.
+# Manifest version: 873b37dc44282c2b0b7c23afd044467d1cf4fc785850d06db08284c008543b64
+# 97 capabilities, 802 providers, 4845 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -54839,6 +54839,21 @@ class Prv_skills_rest_SkillsRestSkill_Out(TypedDict):
     description: str
     url: str
 
+class Prv_sleeper_SleeperNFLState_Out(TypedDict):
+    week: float
+    leg: float
+    season: str
+    seasonType: str
+    leagueSeason: str
+    previousSeason: str
+    seasonStartDate: str
+    displayWeek: float
+    seasonHasScores: bool
+
+class Prv_sleeper_TrendingPlayer_Out(TypedDict):
+    playerId: str
+    count: float
+
 class Prv_slice_SliceLocation_Out(TypedDict):
     address: str
     latitude: float
@@ -72940,11 +72955,13 @@ class Cap_products(Protocol):
         schema.org Product/Offer markup when it carries one (no browser, no per-site adapter),
         and otherwise, for a handful of stores this library already has a provider for (today:
         Target, Amazon), by reading that store's own product-detail function instead of
-        reporting "no data". `source` says which one answered. Reports a failure or an unread
-        page IN the result rather than throwing. If the caller hasn't named a specific product
-        page yet, DO NOT ask them for a url first — immediately `run` the worked example below,
-        which is a real, live product page, to demonstrate a genuine price+stock read, THEN ask
-        which product url to check next.
+        reporting "no data". That list is the whole fallback: any other page with no schema.org
+        markup comes back `ok: false`, `source: "none"`, with no price or stock. `source` says
+        which one answered. Reports a failure or an unread page IN the result rather than
+        throwing. If the caller hasn't named a specific product page yet, DO NOT ask them for a
+        url first — immediately `run` the worked example below, which is a real, live product
+        page, to demonstrate a genuine price+stock read, THEN ask which product url to check
+        next.
         """
 
 class Cap_promocodes(Protocol):
@@ -74005,10 +74022,7 @@ class Prv_abercrombie(Protocol):
         """Searches or browses Abercrombie's live catalog the way the site's own search bar and
         category navigation do. Pass EITHER `query` (free text, e.g. "wide leg jeans") OR
         `category` (a category/collection — the site's own URL for it, or the bare slug at the
-        end of one, e.g. "womens-bottoms-classic-jeans-jeans") — never both. Slugs that work for
-        men include "mens-tees", "mens-graphic-tees", "mens-polos" and
-        "mens-underwear-and-socks"; guesses like "mens-tshirts" or "mens-socks" do not exist —
-        copy the slug from the end of the category page URL on abercrombie.com. Returns each
+        end of one, e.g. "womens-bottoms-classic-jeans-jeans") — never both. Returns each
         result's name, url and current `price`, plus `listPrice`/`onSale` when the card itself
         shows a markdown, in the site's own default order (best-match for a text search, curated
         for a category) — never re-sorted. **`thumbnail` is `null` on most rows past the first
@@ -88777,8 +88791,9 @@ class Prv_google_play(Protocol):
         """
 
 class Prv_google_sheets(Protocol):
-    """Google Sheets spreadsheets: find public sheets by topic, list a spreadsheet's tabs, and
-    read a tab or an A1 range as rows.
+    """Google Sheets spreadsheets, READ-ONLY: find public sheets by topic, list a spreadsheet's
+    tabs, and read a tab or an A1 range as rows. It cannot create a sheet or write cells; to
+    hand back data a run made, save it with bowmark.files (a CSV link).
     """
 
     async def findSpreadsheets(self, query: str, /) -> list[Prv_google_sheets_SpreadsheetHit_Out]:
@@ -102633,6 +102648,15 @@ class Prv_skills_rest(Protocol):
         detail-page URL.
         """
 
+class Prv_sleeper(Protocol):
+    """Sleeper fantasy football's live NFL season state and most-added players."""
+
+    async def getNFLState(self, /) -> Prv_sleeper_SleeperNFLState_Out:
+        """Sleeper's live NFL season, week and scoring state. Call with no arguments."""
+
+    async def listTrendingPlayers(self, /) -> list[Prv_sleeper_TrendingPlayer_Out]:
+        """Sleeper's 25 most-added fantasy football players over the last 24 hours."""
+
 class Prv_slice(Protocol):
     """Slice online ordering for independent pizzerias: find the pizzerias that deliver to an
     address or sit in a city, a shop's menu, sizes, add-on choices, prices, hours, delivery
@@ -112011,6 +112035,7 @@ class BowmarkProviders(Protocol):
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
     skills_rest: Prv_skills_rest
+    sleeper: Prv_sleeper
     slice: Prv_slice
     slickdeals: Prv_slickdeals
     smartrecruiters: Prv_smartrecruiters

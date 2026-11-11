@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6271 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6275 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -104,6 +104,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aetna_directory.findProviders` | aetna.com | In-network providers near one US ZIP code for one Aetna commercial plan, by specialty… | 🟢 |
 | `agakhanhospitals.getHospitalInfo` | agakhanhospitals.org | Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services… | 🟢 |
 | `agakhanhospitals.listSpecialties` | agakhanhospitals.org | Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics… | 🟢 |
+| `agenticskills.get` | agenticskills.io | Reads one agenticskills.io skill, MCP server, tool or workflow page by kind+slug or… | 🟢 |
+| `agenticskills.search` | agenticskills.io | Finds agenticskills.io directory entries (skills, MCP servers, tools, workflows) whose… | 🟢 |
 | `agentskill.getSkill` | agentskill.sh | Reads one agentskill.sh skill by its owner/skill slug through the site's public JSON… | 🟢 |
 | `agentskill.listSkills` | agentskill.sh | Lists agentskill.sh skills through the site's public JSON API, filtered by owner… | 🟢 |
 | `agentskill.searchSkills` | agentskill.sh | Keyword search over agentskill.sh's skill directory. | ⚪ |
@@ -2374,7 +2376,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.watchRepository` | github.com | Watches a repository (all activity) for the signed-in caller, off github.com's own… | 🟢 |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassdoor.getEmployerReviews` | glassdoor.com | An employer's Glassdoor review summary — overall rating, review count, the scale's… | 🟢 |
-| `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
+| `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟡 |
 | `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟢 |
 | `glofox.bookClass` | glofox.com | Books the signed-in member into one class, spending a credit or membership they… | 🟢 |
 | `glofox.bookCourse` | glofox.com | Books the signed-in member onto a course from listCourses; stops at the payment step. | 🟢 |
@@ -4693,6 +4695,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
 | `skills_rest.listSkills` | skills.rest | Lists the public skill cards currently featured on skills.rest, returning each card's… | 🟢 |
+| `sleeper.getNFLState` | sleeper.com | Sleeper's live NFL season, week and scoring state. | 🟢 |
+| `sleeper.listTrendingPlayers` | sleeper.com | Sleeper's 25 most-added fantasy football players over the last 24 hours. | 🟢 |
 | `slice.addMyAddress` | slicelife.com | Saves a new delivery address to the signed-in caller's Slice account. | ⚪ |
 | `slice.addPaymentMethod` | slicelife.com | Saves a new card or PayPal account to the caller's Slice account. | ⚪ |
 | `slice.checkDelivery` | slicelife.com | Checks whether a pizzeria delivers to an address and, if it does, the delivery fee… | 🟢 |

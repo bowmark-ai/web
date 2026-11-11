@@ -29,6 +29,7 @@ adsmanager.facebook.com — adsmanager_facebook: getAccountInsights, listAdAccou
 adstransparency.google.com — google_ads_transparency: getAds, searchAdvertisers (+1 planned)
 aetna.com — aetna_directory: findProviders
 agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
+agenticskills.io — agenticskills: get, search
 agentskill.sh — agentskill: getSkill, listSkills (+1 planned)
 agentstatus.dev — agentstatus: getServer, searchServers (+1 planned)
 agoda.com — agoda: findDestinations, searchHotels (+4 planned)
@@ -669,6 +670,7 @@ shopify.com (49875 stores) — shopify: addToCart, getCart, getCollection, getPr
 sitmeanssit.com — sitmeanssit: findNearestLocations
 sixflags.com — sixflags: getTickets
 skills.rest — skills_rest: listSkills
+sleeper.com — sleeper: getNFLState, listTrendingPlayers
 slicelife.com — slice: checkDelivery, getDeliveryEstimate, getHours, getLoyaltyProgram, getMenu, getMenuItemOptions, getPizzeria, getRecommendedAddOns, getReviews, listPizzeriasInCity, priceCart, resolveAddress, searchPizzerias, validatePromoCode (+15 planned)
 slickdeals.net — slickdeals: getFrontpageDeals, searchDeals (+1 planned)
 smallbusiness.uhc.com — uhc_smallbusiness: getGroupHealthQuote
