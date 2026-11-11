@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6277 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6283 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -370,6 +370,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `atlasseniorliving.searchCommunities` | atlasseniorliving.com | Runs the site's own 'Find a Community' search at… | 🟢 |
 | `att.addLine` | att.com | Add a new line to the caller's existing AT&T family plan. | ⚪ |
 | `att.changePlan` | att.com | Switch a line to a different AT&T wireless plan. | ⚪ |
+| `att.checkInternetAvailability` | att.com | Checks which AT&T home internet service (Fiber, Internet Air, DSL) is available at a… | ⚪ |
 | `att.findDevices` | att.com | Every phone on AT&T's own phones listing (att.com/buy/phones/) - name, brand, product… | 🟢 |
 | `att.findStores` | att.com | AT&T stores near a US ZIP or "city, state", nearest first, off AT&T's own store… | 🟢 |
 | `att.getAccountBalance` | att.com | The signed-in caller's current AT&T account balance — amount due, due date and account… | 🟢 |
@@ -3034,6 +3035,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kenko.setMarketingPreferences` | gokenko.com | Update marketing and communication preferences for the signed-in member. | ⚪ |
 | `kenko.setProfilePicture` | gokenko.com | Upload or change the signed-in member's profile picture. | ⚪ |
 | `kenko.updateMyProfile` | gokenko.com | Update the signed-in member's profile information. | 🟢 |
+| `kickstarter.project` | kickstarter.com | Reads a Kickstarter project's creator, funding goal, pledged USD amount, backer count… | 🟢 |
+| `kickstarter.search` | kickstarter.com | Searches live Kickstarter projects by keyword and returns their titles and project URLs. | 🟢 |
 | `kijiji.getListing` | kijiji.ca | Reads one Kijiji ad in full — whole description, every image, attributes such as… | 🟢 |
 | `kijiji.postAd` | kijiji.ca | Posts a new classified ad from the signed-in caller's account. | ⚪ |
 | `kijiji.search` | kijiji.ca | Searches all of Kijiji Canada's classifieds by keyword the way its search box does —… | 🟢 |
@@ -4203,7 +4206,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quince.searchProducts` | quince.com | Searches Quince's live apparel catalog (quince.com clothing store) for what a shopper… | 🟢 |
 | `quora.askQuestion` | quora.com | Posts a new question as the signed-in caller. | ⚪ |
 | `quora.followEntity` | quora.com | Follows a person, a topic, or a Space as the signed-in caller, taking that entity's… | ⚪ |
-| `quora.getAnswers` | quora.com | Pages through a question's answers beyond the first page getQuestion embeds, using the… | 🟢 |
+| `quora.getAnswers` | quora.com | Pages through a question's answers beyond the first page getQuestion embeds, using the… | 🟡 |
 | `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | 🟢 |
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary off /settings. | 🟢 |
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
@@ -4539,6 +4542,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seatgeek.transferTicket` | seatgeek.com | Transfers a purchased ticket to another person's SeatGeek account. | ⚪ |
 | `seatgeek.unfollowPerformer` | seatgeek.com | Unfollows a performer on the signed-in caller's account. | 🟢 |
 | `seatgeek.untrackEvent` | seatgeek.com | Removes a tracked event from the signed-in caller's account. | 🟢 |
+| `seblabs.demo` | seblabs.dev | Seb Labs' free fixed illustrative decision distribution for enterprise, finance… | 🟢 |
 | `sec_edgar.companyFacts` | sec.gov | A public company's own reported XBRL facts from its 10-K / 10-Q filings — revenue, net… | 🟢 |
 | `sec_edgar.findCompany` | sec.gov | Find SEC-registered public companies by ticker, CIK or name from EDGAR's own… | 🟢 |
 | `sec_edgar.fullTextSearch` | sec.gov | Search the text of every EDGAR filing since 2001 for a phrase, via… | ⚪ |
@@ -4737,6 +4741,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `smartsign.search` | smartsign.com | Searches SmartSign's own custom-sign template catalog by free-text query. | ⚪ |
 | `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the socks it… | 🟢 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
+| `smry_ai.listDocPages` | smry.ai | Lists smry's public documentation pages from its first-party index, providing a… | 🟢 |
+| `smry_ai.readArticle` | smry.ai | Reads a public article through smry's clean reader and returns its source metadata… | 🟢 |
 | `smtp_probe.lookupMx` | gmail-smtp-in.l.google.com | Looks up a domain's mail hosts in DNS (MX records by preference, else the domain's own… | 🟢 |
 | `smtp_probe.probeMailboxes` | gmail-smtp-in.l.google.com | Holds one SMTP conversation with a domain's mail server on port 25 (EHLO, MAIL… | 🟢 |
 | `snapchat.addFriend` | snapchat.com | Sends a friend add from the signed-in caller's account to one Snapchat user by their… | 🟢 |

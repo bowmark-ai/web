@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 50b11146e96566db6cd293d3bafa9018ee3cf03ca345ebf18e65cef7cda621e9
-# 97 capabilities, 803 providers, 4847 typed functions, 20 refused.
+# Manifest version: b57760a36e780e62cd0944fe8c5160a661586e3bf0520a8822beacff8fe5a986
+# 97 capabilities, 807 providers, 4854 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -36432,6 +36432,23 @@ class Prv_kenko_KenkoAccountRow_Out(TypedDict):
     status: str | None
     raw: Mapping[str, Any]
 
+class Prv_kickstarter_KickstarterSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_kickstarter_KickstarterProject_Out(TypedDict):
+    title: str
+    url: str
+    creator: str | None
+    goalUsd: float | None
+    pledgedUsd: float | None
+    backers: float | None
+    deadline: str | None
+    state: str | None
+
+class Prv_kickstarter_KickstarterProjectArgs_In(TypedDict):
+    url: str
+
 class Prv_kijiji_KijijiSearchArgs_In(TypedDict):
     query: str
     page: NotRequired[float]
@@ -39682,6 +39699,21 @@ class Prv_mcpserverhub_com_McpServerHubServer_Out(TypedDict):
     tags: list[str]
     published: str | None
     url: str
+
+class Prv_mcpservers_org_search_args_In(TypedDict):
+    query: str
+
+class Prv_mcpservers_org_McpServersOrgServer_Out(TypedDict):
+    slug: str
+    name: str
+    category: str | None
+    description: str
+    stars: float | None
+    repository: str | None
+    url: str
+
+class Prv_mcpservers_org_server_args_In(TypedDict):
+    slug: str
 
 class Prv_mcptrove_com_search_query_u1_In(TypedDict):
     query: NotRequired[str]
@@ -53375,6 +53407,19 @@ class Prv_seatgeek_seatgeekOrder_Out_event_Out(TypedDict):
 class Prv_seatgeek_GetOrderArgs_In(TypedDict):
     id: float
 
+class Prv_seblabs_SeblabsDemo_Out(TypedDict):
+    mode: Literal["illustrative"]
+    model: str
+    state: float
+    stateLabel: str
+    options: list[Prv_seblabs_SeblabsDemo_Out_options_item_Out]
+    choice: str
+    note: str
+
+class Prv_seblabs_SeblabsDemo_Out_options_item_Out(TypedDict):
+    label: str
+    probability: float
+
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -55260,6 +55305,34 @@ class Prv_smithery_SmitherySearchResult_Out_pagination_Out(TypedDict):
     pageSize: float
     totalPages: float
     totalCount: float
+
+class Prv_smry_ai_SmryDocLink_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_smry_ai_SmryReadArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_smry_ai_SmryArticle_Out(TypedDict):
+    sourceUrl: str
+    readerUrl: str
+    title: str | None
+    publisher: str | None
+    blocks: float | None
+    characters: float
+    file: Prv_smry_ai_smry_aiSavedFile_Out | None
+    preview: str | None
+    truncated: bool
+    warnings: list[str]
+
+class Prv_smry_ai_smry_aiSavedFile_Out(TypedDict):
+    id: str
+    name: str
+    contentType: str
+    bytes: float
+    url: str
+    expiresAt: str
+    keepUntil: NotRequired[str | None]
 
 class Prv_smtp_probe_LookupMxArgs_In(TypedDict):
     domain: str
@@ -80411,8 +80484,9 @@ class Prv_chownow(Protocol):
         """Reads a ChowNow restaurant's full menu: categories, each item's name, description and
         price, size pickers (`isSizePicker` items whose `sizeItemIds` are the priced sizes), and
         every modifier group ("Bread", "Add-ons") with its min/max picks and each option's
-        price. `at` is the order time as `"YYYYMMDDHHmm"` (default now) — the menu live at that
-        time. Returns `menuId`, the id ChowNow's order validation is keyed on.
+        price. `at` is the order time as `"YYYYMMDDHHmm"` in the restaurant's LOCAL time
+        (default: the soonest time it takes orders) — the menu live at that time; a time it is
+        closed has no menu. Returns `menuId`, the id ChowNow's order validation is keyed on.
         """
 
     async def listMenuCategories(self, restaurantId: str, at: str | None = None, /) -> list[Prv_chownow_ChownowMenuCategorySummary_Out]:
@@ -92193,6 +92267,19 @@ class Prv_kenko(Protocol):
         in. Takes { urlPrefix, regionId } from findStudio.
         """
 
+class Prv_kickstarter(Protocol):
+    """Search Kickstarter projects and read a project's live funding goal, pledged amount,
+    backers and deadline.
+    """
+
+    async def search(self, args: Prv_kickstarter_KickstarterSearchArgs_In, /) -> list[Prv_kickstarter_KickstarterProject_Out]:
+        """Searches live Kickstarter projects by keyword and returns their titles and project URLs."""
+
+    async def project(self, args: Prv_kickstarter_KickstarterProjectArgs_In, /) -> Prv_kickstarter_KickstarterProject_Out:
+        """Reads a Kickstarter project's creator, funding goal, pledged USD amount, backer count
+        and deadline.
+        """
+
 class Prv_kijiji(Protocol):
     """Kijiji, Canada's classifieds marketplace — search used/for-sale listings (cars,
     furniture, electronics, housing) by keyword with price, location and posted date, then
@@ -94481,6 +94568,15 @@ class Prv_mcpserverhub_com(Protocol):
         listings when called with no argument. Each result has the server's name, short
         description, tags, publish date and detail-page URL.
         """
+
+class Prv_mcpservers_org(Protocol):
+    """Search mcpservers.org's public MCP-server directory and read a listing's details."""
+
+    async def search(self, args: Prv_mcpservers_org_search_args_In, /) -> list[Prv_mcpservers_org_McpServersOrgServer_Out]:
+        """Searches mcpservers.org's public MCP-server directory by keyword."""
+
+    async def server(self, args: Prv_mcpservers_org_server_args_In, /) -> Prv_mcpservers_org_McpServersOrgServer_Out:
+        """Reads one mcpservers.org listing by the slug returned from search()."""
 
 class Prv_mcptrove_com(Protocol):
     """Search MCP Trove's public directory of MCP servers by keyword, or browse its current
@@ -102060,6 +102156,17 @@ class Prv_seatgeek(Protocol):
         still throws rather than guess.
         """
 
+class Prv_seblabs(Protocol):
+    """Get Seb Labs' free illustrative decision distributions; they are explicitly not live
+    inference.
+    """
+
+    async def demo(self, preset: Literal["enterprise"] | Literal["finance"] | Literal["robotics"] | Literal["handoff"] | None = None, /) -> Prv_seblabs_SeblabsDemo_Out:
+        """Returns Seb Labs' free illustrative decision distribution for enterprise (default),
+        finance, robotics, or handoff. These fixed examples are not live inference, a benchmark,
+        or calibration evidence.
+        """
+
 class Prv_sec_edgar(Protocol):
     """A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
     assets, shares outstanding), from SEC EDGAR
@@ -102850,6 +102957,21 @@ class Prv_smithery(Protocol):
         While Smithery's own search answers HTTP 500 (since 2026-11-02), results are matched
         client-side against the ~500 most-used servers its unfiltered list still exposes, and
         `warnings` says so.
+        """
+
+class Prv_smry_ai(Protocol):
+    """Extract a public article as smry's clean, paragraph-anchored text and save the full
+    result to the caller's run files.
+    """
+
+    async def listDocPages(self, /) -> list[Prv_smry_ai_SmryDocLink_Out]:
+        """Lists smry's first-party documentation pages from its public index. Use this
+        zero-argument discovery door for a bare smry.ai request.
+        """
+
+    async def readArticle(self, args: Prv_smry_ai_SmryReadArticleArgs_In, /) -> Prv_smry_ai_SmryArticle_Out:
+        """Reads a public article through smry's clean reader. The complete paragraph-anchored text
+        is saved as a run file; a no-file run receives a bounded preview instead.
         """
 
 class Prv_smtp_probe(Protocol):
@@ -111862,6 +111984,7 @@ class BowmarkProviders(Protocol):
     kbb: Prv_kbb
     keepa: Prv_keepa
     kenko: Prv_kenko
+    kickstarter: Prv_kickstarter
     kijiji: Prv_kijiji
     kingsdown: Prv_kingsdown
     kitchentuneup: Prv_kitchentuneup
@@ -111908,6 +112031,7 @@ class BowmarkProviders(Protocol):
     mcp_so: Prv_mcp_so
     mcpmarket: Prv_mcpmarket
     mcpserverhub_com: Prv_mcpserverhub_com
+    mcpservers_org: Prv_mcpservers_org
     mcptrove_com: Prv_mcptrove_com
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
@@ -112067,6 +112191,7 @@ class BowmarkProviders(Protocol):
     seakeeper: Prv_seakeeper
     sears: Prv_sears
     seatgeek: Prv_seatgeek
+    seblabs: Prv_seblabs
     sec_edgar: Prv_sec_edgar
     secondswing: Prv_secondswing
     sede_valencia_es: Prv_sede_valencia_es
@@ -112090,6 +112215,7 @@ class BowmarkProviders(Protocol):
     smartrecruiters: Prv_smartrecruiters
     smartwool: Prv_smartwool
     smithery: Prv_smithery
+    smry_ai: Prv_smry_ai
     smtp_probe: Prv_smtp_probe
     snapchat: Prv_snapchat
     solidcore: Prv_solidcore

@@ -63,7 +63,7 @@ api.weather.gov — nws: findRadarStations, findStations, findZones, getActiveAl
 apidirectory.com — apidirectory_com: listCategories, search (+1 planned)
 apify.com — apify: store
 app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchDeals (+2 planned)
-apple.com — apple: addToBag, bookGeniusBarAppointment, checkCoverage, compareModels, findStoresNear, getBag, getConfigurationOptions, getDeliveryEstimate, getNewsroomPost, getOrderStatus, getPickupAvailability, getProduct, getProductByPartNumber, getPurchaseOptions, getRepairPricing, getStore, getSupportArticle, getSystemStatus, getTradeInEstimate, listAccessories, listFamilyModels, listNewsroomPosts, listOrders, listRefurbished, listStores, listTodaySessions, listTradeInValues, removeFromBag, resolveLocation, search, searchSupport, suggestSearches
+apple.com — apple: 32 functions — ask get_library
 apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCategories, listDeveloperApps, listPurchasedApps, listReviews, listSimilarApps, listSubscriptions, listTodayStories, listTopCharts, searchApps (+1 planned)
 arajet.com — arajet: search
 archipelago.gg — archipelago: getClientRelease, getGameOptions
@@ -79,7 +79,7 @@ asppoolco.com — asppoolco: findLocationByZip, listLocations
 astoundgroup.com — astoundgroup: getContactForm, listPages
 atlasoceanvoyages.com — atlasoceanvoyages: getVoyage, searchVoyages
 atlasseniorliving.com — atlasseniorliving: searchCommunities
-att.com — att: findDevices, findStores, getAccountBalance, getDevicePricing, getMonthlyBill, getTradeInQuote, getTradeInValue, getUsage, listDeals, listInternetPlans, listLines, listPlans, listPrepaidPlans, viewBillHistory, viewOrderHistory (+4 planned)
+att.com — att: findDevices, findStores, getAccountBalance, getDevicePricing, getMonthlyBill, getTradeInQuote, getTradeInValue, getUsage, listDeals, listInternetPlans, listLines, listPlans, listPrepaidPlans, viewBillHistory, viewOrderHistory (+5 planned)
 audibel.com — audibel: findClinics
 autocamp.com — autocamp: listProperties, searchAvailability
 avalonmalibu.com — avalonmalibu_com: getInsuranceForm
@@ -438,6 +438,7 @@ kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct (+1 planned)
 keyserver.ubuntu.com — ubuntu_keyserver: searchKeys
+kickstarter.com — kickstarter: project, search
 kijiji.ca — kijiji: getListing, search (+2 planned)
 kingsdown.com — kingsdown: getBedMatchResult
 kitchentuneup.com — kitchentuneup: listCabinetStyles, visualizeKitchen
@@ -651,6 +652,7 @@ scribd.com — scribd: addDocumentToList, askDocument, createList, downloadDocum
 seakeeper.com — seakeeper: findNearestDealers, listAllDealers
 sears.com — sears: checkStock, getProduct, search (+1 planned)
 seatgeek.com — seatgeek: findPerformers, findVenues, followPerformer, getEvent, getOrder, getPerformer, getVenue, listFollowedPerformers, listMyOrders, listTaxonomies, listTrackedEvents, searchEvents, trackEvent, unfollowPerformer, untrackEvent (+3 planned)
+seblabs.dev — seblabs: demo
 sec.gov — sec_edgar: companyFacts, findCompany, listFilings (+1 planned)
 sede.valencia.es — sede_valencia_es: getParkingTariff
 seegarsfence.com — seegarsfence: checkServiceArea (+1 planned)
@@ -679,6 +681,7 @@ smartrecruiters.com — smartrecruiters: listJobs (+1 planned)
 smartsign.com — smartsign: nothing callable yet (+2 planned)
 smartwool.com — smartwool: getSockRecommendation
 smithery.ai — smithery: search
+smry.ai — smry_ai: listDocPages, readArticle
 snapchat.com — snapchat: addFriend, blockUser, getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSpotlightVideo, listDiscoverStories, listFriends, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, removeFriend, searchSnapchat, updateDisplayName (+10 planned)
 solidcore.co — solidcore: bookClass, checkAvailability, getClass, getCoach, getPack, getPricing, getSchedule, getStudio, joinWaitlist, listClassCategories, listCoaches, listMuscleGroups, listStudios, searchClasses (+10 planned)
 solostove.com — solostove: checkBundle, listBundles

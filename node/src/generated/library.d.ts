@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 50b11146e96566db6cd293d3bafa9018ee3cf03ca345ebf18e65cef7cda621e9
-// 97 capabilities, 803 providers, 4865 typed functions, 20 refused.
+// Manifest version: b57760a36e780e62cd0944fe8c5160a661586e3bf0520a8822beacff8fe5a986
+// 97 capabilities, 807 providers, 4872 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -25608,7 +25608,8 @@ interface ChownowOrderValidation {
      * Reads a ChowNow restaurant's full menu: categories, each item's name, description and price,
      * size pickers (`isSizePicker` items whose `sizeItemIds` are the priced sizes), and every
      * modifier group ("Bread", "Add-ons") with its min/max picks and each option's price. `at` is
-     * the order time as `"YYYYMMDDHHmm"` (default now) — the menu live at that time. Returns
+     * the order time as `"YYYYMMDDHHmm"` in the restaurant's LOCAL time (default: the soonest time
+     * it takes orders) — the menu live at that time; a time it is closed has no menu. Returns
      * `menuId`, the id ChowNow's order validation is keyed on.
      */
     getMenu(restaurantId: string, at?: string): Promise<ChownowMenu>;
@@ -58791,6 +58792,28 @@ interface KenkoWriteResult { ok: true; raw: unknown }
   }
 }
 
+declare namespace BowmarkProvider_kickstarter {
+  // ── Kickstarter — the unit's own declarations, verbatim ──
+interface KickstarterSearchArgs { query: string; limit?: number; }
+interface KickstarterProjectArgs { url: string; }
+interface KickstarterProject { title: string; url: string; creator: string | null; goalUsd: number | null; pledgedUsd: number | null; backers: number | null; deadline: string | null; state: string | null; }
+
+  /**
+   * Search Kickstarter projects and read a project's live funding goal, pledged amount, backers
+   * and deadline.
+   */
+  interface Unit {
+    /** Searches live Kickstarter projects by keyword and returns their titles and project URLs. */
+    search(args: KickstarterSearchArgs): Promise<KickstarterProject[]>;
+
+    /**
+     * Reads a Kickstarter project's creator, funding goal, pledged USD amount, backer count and
+     * deadline.
+     */
+    project(args: KickstarterProjectArgs): Promise<KickstarterProject>;
+  }
+}
+
 declare namespace BowmarkProvider_kijiji {
   // ── Kijiji — the unit's own declarations, verbatim ──
 interface KijijiListing {
@@ -64426,6 +64449,20 @@ interface McpServerHubServer { slug: string; name: string; description: string; 
      * tags, publish date and detail-page URL.
      */
     search(query?: string | { query?: string }): Promise<McpServerHubServer[]>;
+  }
+}
+
+declare namespace BowmarkProvider_mcpservers_org {
+  // ── MCP Servers — the unit's own declarations, verbatim ──
+interface McpServersOrgServer { slug: string; name: string; category: string | null; description: string; stars: number | null; repository: string | null; url: string; }
+
+  /** Search mcpservers.org's public MCP-server directory and read a listing's details. */
+  interface Unit {
+    /** Searches mcpservers.org's public MCP-server directory by keyword. */
+    search(args: { query: string }): Promise<McpServersOrgServer[]>;
+
+    /** Reads one mcpservers.org listing by the slug returned from search(). */
+    server(args: { slug: string }): Promise<McpServersOrgServer>;
   }
 }
 
@@ -85830,6 +85867,33 @@ interface seatgeekOrder {
   }
 }
 
+declare namespace BowmarkProvider_seblabs {
+  // ── Seb Labs — the unit's own declarations, verbatim ──
+type SeblabsDemoPreset = "enterprise" | "finance" | "robotics" | "handoff";
+interface SeblabsDemo {
+  mode: "illustrative";
+  model: string;
+  state: number;
+  stateLabel: string;
+  options: Array<{ label: string; probability: number }>;
+  choice: string;
+  note: string;
+}
+
+  /**
+   * Get Seb Labs' free illustrative decision distributions; they are explicitly not live
+   * inference.
+   */
+  interface Unit {
+    /**
+     * Returns Seb Labs' free illustrative decision distribution for enterprise (default), finance,
+     * robotics, or handoff. These fixed examples are not live inference, a benchmark, or
+     * calibration evidence.
+     */
+    demo(preset?: SeblabsDemoPreset): Promise<SeblabsDemo>;
+  }
+}
+
 declare namespace BowmarkProvider_sec_edgar {
   // ── SEC EDGAR — the unit's own declarations, verbatim ──
 interface sec_edgarCompany {
@@ -88553,6 +88617,32 @@ interface SmitherySearchResult {
      * ~500 most-used servers its unfiltered list still exposes, and `warnings` says so.
      */
     search(query: string | ({ query: string } & SmitherySearchOptions), options?: SmitherySearchOptions): Promise<SmitherySearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_smry_ai {
+  // ── smry — the unit's own declarations, verbatim ──
+interface SmryReadArticleArgs { url: string; }
+interface smry_aiSavedFile { id: string; name: string; contentType: string; bytes: number; url: string; expiresAt: string; keepUntil?: string | null; }
+interface SmryArticle { sourceUrl: string; readerUrl: string; title: string | null; publisher: string | null; blocks: number | null; characters: number; file: smry_aiSavedFile | null; preview: string | null; truncated: boolean; warnings: string[]; }
+interface SmryDocLink { title: string; url: string; }
+
+  /**
+   * Extract a public article as smry's clean, paragraph-anchored text and save the full result
+   * to the caller's run files.
+   */
+  interface Unit {
+    /**
+     * Lists smry's first-party documentation pages from its public index. Use this zero-argument
+     * discovery door for a bare smry.ai request.
+     */
+    listDocPages(): Promise<SmryDocLink[]>;
+
+    /**
+     * Reads a public article through smry's clean reader. The complete paragraph-anchored text is
+     * saved as a run file; a no-file run receives a bounded preview instead.
+     */
+    readArticle(args: SmryReadArticleArgs): Promise<SmryArticle>;
   }
 }
 
@@ -114504,6 +114594,7 @@ interface BowmarkProviders {
   kbb: BowmarkProvider_kbb.Unit;
   keepa: BowmarkProvider_keepa.Unit;
   kenko: BowmarkProvider_kenko.Unit;
+  kickstarter: BowmarkProvider_kickstarter.Unit;
   kijiji: BowmarkProvider_kijiji.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
@@ -114550,6 +114641,7 @@ interface BowmarkProviders {
   mcp_so: BowmarkProvider_mcp_so.Unit;
   mcpmarket: BowmarkProvider_mcpmarket.Unit;
   mcpserverhub_com: BowmarkProvider_mcpserverhub_com.Unit;
+  mcpservers_org: BowmarkProvider_mcpservers_org.Unit;
   mcptrove_com: BowmarkProvider_mcptrove_com.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
@@ -114709,6 +114801,7 @@ interface BowmarkProviders {
   seakeeper: BowmarkProvider_seakeeper.Unit;
   sears: BowmarkProvider_sears.Unit;
   seatgeek: BowmarkProvider_seatgeek.Unit;
+  seblabs: BowmarkProvider_seblabs.Unit;
   sec_edgar: BowmarkProvider_sec_edgar.Unit;
   secondswing: BowmarkProvider_secondswing.Unit;
   sede_valencia_es: BowmarkProvider_sede_valencia_es.Unit;
@@ -114732,6 +114825,7 @@ interface BowmarkProviders {
   smartrecruiters: BowmarkProvider_smartrecruiters.Unit;
   smartwool: BowmarkProvider_smartwool.Unit;
   smithery: BowmarkProvider_smithery.Unit;
+  smry_ai: BowmarkProvider_smry_ai.Unit;
   smtp_probe: BowmarkProvider_smtp_probe.Unit;
   snapchat: BowmarkProvider_snapchat.Unit;
   solidcore: BowmarkProvider_solidcore.Unit;

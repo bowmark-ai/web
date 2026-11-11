@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 50b11146e96566db6cd293d3bafa9018ee3cf03ca345ebf18e65cef7cda621e9
-// 4847 checked, 20 unchecked.
+// Manifest version: b57760a36e780e62cd0944fe8c5160a661586e3bf0520a8822beacff8fe5a986
+// 4854 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "50b11146e96566db6cd293d3bafa9018ee3cf03ca345ebf18e65cef7cda621e9",
+  "version": "b57760a36e780e62cd0944fe8c5160a661586e3bf0520a8822beacff8fe5a986",
   "units": {
     "address_validation": {
       "defs": {
@@ -75604,6 +75604,63 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.kickstarter": {
+      "defs": {
+        "KickstarterProjectArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "KickstarterSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickstarterSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "project": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickstarterProjectArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.kijiji": {
       "defs": {
         "KijijiSearchArgs": {
@@ -83806,6 +83863,47 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.mcpservers_org": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "server": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -116294,6 +116392,43 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.seblabs": {
+      "defs": {
+        "SeblabsDemoPreset": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "enterprise"
+            },
+            {
+              "k": "literal",
+              "v": "finance"
+            },
+            {
+              "k": "literal",
+              "v": "robotics"
+            },
+            {
+              "k": "literal",
+              "v": "handoff"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "demo": [
+          {
+            "name": "preset",
+            "schema": {
+              "k": "ref",
+              "name": "SeblabsDemoPreset"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.sec_edgar": {
       "defs": {
         "sec_edgarFactsArgs": {
@@ -119561,6 +119696,35 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SmitherySearchOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.smry_ai": {
+      "defs": {
+        "SmryReadArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listDocPages": [],
+        "readArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SmryReadArticleArgs"
+            },
+            "optional": false
           }
         ]
       }
