@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2e4ce17520eaa3eeb7c9122481ebdd2a83d2c30297c370f3fd9779a3c466ccd7
+// Manifest version: db48a6fdadc6a095eb8613dcb6d8ea519e27779ad9d543f50b6af5ae634aa63f
 // 97 capabilities, 812 providers, 4881 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -35872,31 +35872,34 @@ interface ebaySellerProfile {
 }
 
   /**
-   * Live eBay listings — search by keyword, category or seller, read one listing, autosuggest
-   * and deals — returning title, price, condition, buying option, seller and the item's own
-   * ebay.com URL. No key needed: it reads eBay's own pages, and uses eBay's documented Browse
-   * API instead when a caller brings an OAuth key.
+   * Live eBay listings on ebay.com or the German marketplace ebay.de — search by keyword,
+   * category or seller, read one listing, autosuggest and deals — returning title, price,
+   * condition, buying option, seller and the item's own ebay.com URL. No key needed: it reads
+   * eBay's own pages, and uses eBay's documented Browse API instead when a caller brings an
+   * OAuth key.
    */
   interface Unit {
     /**
      * Runs an eBay item search the way ebay.com's own search box does and returns the matching
      * listings — title, price, condition, buying option (auction/fixed-price/best-offer), seller
      * and the item's own ebay.com URL. `limit` caps the row count (default 20, ceiling 200).
-     * `seller` is null on rows where the results page does not print it. Works with no key:
+     * `marketplace: "DE"` searches the German marketplace, ebay.de, instead — euro prices, ebay.de
+     * URLs. `seller` is null on rows where the results page does not print it. Works with no key:
      * without one it reads eBay's own page, which walls most requests and was open only for a
      * window when last measured; with an eBay OAuth key it uses the Browse API instead.
      */
-    search(args: string | { query: string; limit?: number }): Promise<ebayItem[]>;
+    search(args: string | { query: string; limit?: number; marketplace?: "US" | "DE" }): Promise<ebayItem[]>;
 
     /**
      * Reads one eBay listing by the `itemId` `search` returns (`137474897118`, or the Browse API's
      * `v1|110034424734|0`, or an ebay.com/itm/ URL) — title, price, condition, buying options,
      * seller feedback, item location, the site's own default shipping option, and current bid /
-     * bid count for an active auction. Works with no key: without one it reads eBay's own page,
-     * which walls most requests and was open only for a window when last measured; with an eBay
-     * OAuth key it uses the Browse API instead.
+     * bid count for an active auction. An ebay.de/itm/ URL, or `{ itemId, marketplace: "DE" }`,
+     * reads the listing on ebay.de. Works with no key: without one it reads eBay's own page, which
+     * walls most requests and was open only for a window when last measured; with an eBay OAuth
+     * key it uses the Browse API instead.
      */
-    getItem(itemId: string): Promise<ebayItemDetail>;
+    getItem(args: string | { itemId: string; marketplace?: "US" | "DE" }): Promise<ebayItemDetail>;
 
     /**
      * Searches one eBay category by id (e.g. `"15709"` for Men's Athletic Shoes, as eBay's own
@@ -35932,10 +35935,11 @@ interface ebaySellerProfile {
      * Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's search
      * field would show — via `autosug.ebay.com/autosug`, eBay's undocumented but keyless
      * autocomplete endpoint. Needs no eBay OAuth key, unlike every other function on this
-     * provider. Returns an empty `suggestions`/`categories` pair when eBay has nothing to suggest
-     * for the prefix.
+     * provider. `marketplace: "DE"` returns ebay.de's German suggestions and category names.
+     * Returns an empty `suggestions`/`categories` pair when eBay has nothing to suggest for the
+     * prefix.
      */
-    searchAutocomplete(args: string | { query: string }): Promise<ebayAutocompleteResult>;
+    searchAutocomplete(args: string | { query: string; marketplace?: "US" | "DE" }): Promise<ebayAutocompleteResult>;
 
     /**
      * Reads eBay's own `/deals` page — the same spotlight, trending and featured deals a shopper

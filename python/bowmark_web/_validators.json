@@ -1,5 +1,5 @@
 {
-  "version": "2e4ce17520eaa3eeb7c9122481ebdd2a83d2c30297c370f3fd9779a3c466ccd7",
+  "version": "db48a6fdadc6a095eb8613dcb6d8ea519e27779ad9d543f50b6af5ae634aa63f",
   "units": {
     "address_validation": {
       "defs": {
@@ -45163,6 +45163,23 @@
                         "k": "number"
                       },
                       "optional": true
+                    },
+                    {
+                      "name": "marketplace",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "US"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "DE"
+                          }
+                        ]
+                      },
+                      "optional": true
                     }
                   ]
                 }
@@ -45173,9 +45190,43 @@
         ],
         "getItem": [
           {
-            "name": "itemId",
+            "name": "args",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "itemId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "marketplace",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "US"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "DE"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -45296,6 +45347,23 @@
                         "k": "string"
                       },
                       "optional": false
+                    },
+                    {
+                      "name": "marketplace",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "US"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "DE"
+                          }
+                        ]
+                      },
+                      "optional": true
                     }
                   ]
                 }

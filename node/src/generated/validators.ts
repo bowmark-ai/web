@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2e4ce17520eaa3eeb7c9122481ebdd2a83d2c30297c370f3fd9779a3c466ccd7
+// Manifest version: db48a6fdadc6a095eb8613dcb6d8ea519e27779ad9d543f50b6af5ae634aa63f
 // 4863 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2e4ce17520eaa3eeb7c9122481ebdd2a83d2c30297c370f3fd9779a3c466ccd7",
+  "version": "db48a6fdadc6a095eb8613dcb6d8ea519e27779ad9d543f50b6af5ae634aa63f",
   "units": {
     "address_validation": {
       "defs": {
@@ -45175,6 +45175,23 @@ export const VALIDATORS: ValidatorTable = {
                         "k": "number"
                       },
                       "optional": true
+                    },
+                    {
+                      "name": "marketplace",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "US"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "DE"
+                          }
+                        ]
+                      },
+                      "optional": true
                     }
                   ]
                 }
@@ -45185,9 +45202,43 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getItem": [
           {
-            "name": "itemId",
+            "name": "args",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "itemId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "marketplace",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "US"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "DE"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -45308,6 +45359,23 @@ export const VALIDATORS: ValidatorTable = {
                         "k": "string"
                       },
                       "optional": false
+                    },
+                    {
+                      "name": "marketplace",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "US"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "DE"
+                          }
+                        ]
+                      },
+                      "optional": true
                     }
                   ]
                 }

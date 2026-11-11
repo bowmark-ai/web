@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2e4ce17520eaa3eeb7c9122481ebdd2a83d2c30297c370f3fd9779a3c466ccd7
+# Manifest version: db48a6fdadc6a095eb8613dcb6d8ea519e27779ad9d543f50b6af5ae634aa63f
 # 97 capabilities, 812 providers, 4863 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -22329,6 +22329,7 @@ class Prv_dumpsters_DumpstersSizeQuote_Out(TypedDict):
 class Prv_ebay_search_args_u1_In(TypedDict):
     query: str
     limit: NotRequired[float]
+    marketplace: NotRequired[Literal["US"] | Literal["DE"]]
 
 class Prv_ebay_ebayItem_Out(TypedDict):
     itemId: str
@@ -22343,6 +22344,10 @@ class Prv_ebay_ebayItem_Out(TypedDict):
 class Prv_ebay_ebayItem_Out_price_u0_Out(TypedDict):
     value: str
     currency: str
+
+class Prv_ebay_getItem_args_u1_In(TypedDict):
+    itemId: str
+    marketplace: NotRequired[Literal["US"] | Literal["DE"]]
 
 class Prv_ebay_ebayItemDetail_Out(TypedDict):
     itemId: str
@@ -22410,6 +22415,7 @@ class Prv_ebay_ebaySellerProfile_Out(TypedDict):
 
 class Prv_ebay_searchAutocomplete_args_u1_In(TypedDict):
     query: str
+    marketplace: NotRequired[Literal["US"] | Literal["DE"]]
 
 class Prv_ebay_ebayAutocompleteResult_Out(TypedDict):
     suggestions: list[str]
@@ -84353,28 +84359,32 @@ class Prv_dumpsters(Protocol):
         """
 
 class Prv_ebay(Protocol):
-    """Live eBay listings — search by keyword, category or seller, read one listing,
-    autosuggest and deals — returning title, price, condition, buying option, seller and the
-    item's own ebay.com URL. No key needed: it reads eBay's own pages, and uses eBay's
-    documented Browse API instead when a caller brings an OAuth key.
+    """Live eBay listings on ebay.com or the German marketplace ebay.de — search by keyword,
+    category or seller, read one listing, autosuggest and deals — returning title, price,
+    condition, buying option, seller and the item's own ebay.com URL. No key needed: it
+    reads eBay's own pages, and uses eBay's documented Browse API instead when a caller
+    brings an OAuth key.
     """
 
     async def search(self, args: str | Prv_ebay_search_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
         """Runs an eBay item search the way ebay.com's own search box does and returns the matching
         listings — title, price, condition, buying option (auction/fixed-price/best-offer),
         seller and the item's own ebay.com URL. `limit` caps the row count (default 20, ceiling
-        200). `seller` is null on rows where the results page does not print it. Works with no
-        key: without one it reads eBay's own page, which walls most requests and was open only
-        for a window when last measured; with an eBay OAuth key it uses the Browse API instead.
+        200). `marketplace: "DE"` searches the German marketplace, ebay.de, instead — euro
+        prices, ebay.de URLs. `seller` is null on rows where the results page does not print it.
+        Works with no key: without one it reads eBay's own page, which walls most requests and
+        was open only for a window when last measured; with an eBay OAuth key it uses the Browse
+        API instead.
         """
 
-    async def getItem(self, itemId: str, /) -> Prv_ebay_ebayItemDetail_Out:
+    async def getItem(self, args: str | Prv_ebay_getItem_args_u1_In, /) -> Prv_ebay_ebayItemDetail_Out:
         """Reads one eBay listing by the `itemId` `search` returns (`137474897118`, or the Browse
         API's `v1|110034424734|0`, or an ebay.com/itm/ URL) — title, price, condition, buying
         options, seller feedback, item location, the site's own default shipping option, and
-        current bid / bid count for an active auction. Works with no key: without one it reads
-        eBay's own page, which walls most requests and was open only for a window when last
-        measured; with an eBay OAuth key it uses the Browse API instead.
+        current bid / bid count for an active auction. An ebay.de/itm/ URL, or `{ itemId,
+        marketplace: "DE" }`, reads the listing on ebay.de. Works with no key: without one it
+        reads eBay's own page, which walls most requests and was open only for a window when
+        last measured; with an eBay OAuth key it uses the Browse API instead.
         """
 
     async def searchByCategory(self, args: str | Prv_ebay_searchByCategory_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
@@ -84408,8 +84418,9 @@ class Prv_ebay(Protocol):
         """Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's
         search field would show — via `autosug.ebay.com/autosug`, eBay's undocumented but
         keyless autocomplete endpoint. Needs no eBay OAuth key, unlike every other function on
-        this provider. Returns an empty `suggestions`/`categories` pair when eBay has nothing to
-        suggest for the prefix.
+        this provider. `marketplace: "DE"` returns ebay.de's German suggestions and category
+        names. Returns an empty `suggestions`/`categories` pair when eBay has nothing to suggest
+        for the prefix.
         """
 
     async def getDeals(self, /) -> list[Prv_ebay_ebayDeal_Out]:
