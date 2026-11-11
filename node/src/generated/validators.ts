@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 873b37dc44282c2b0b7c23afd044467d1cf4fc785850d06db08284c008543b64
-// 4845 checked, 20 unchecked.
+// Manifest version: 50b11146e96566db6cd293d3bafa9018ee3cf03ca345ebf18e65cef7cda621e9
+// 4847 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "873b37dc44282c2b0b7c23afd044467d1cf4fc785850d06db08284c008543b64",
+  "version": "50b11146e96566db6cd293d3bafa9018ee3cf03ca345ebf18e65cef7cda621e9",
   "units": {
     "address_validation": {
       "defs": {
@@ -10187,6 +10187,107 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listSpecialties": []
+      }
+    },
+    "providers.agenticskills": {
+      "defs": {
+        "EntryKind": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "skills"
+            },
+            {
+              "k": "literal",
+              "v": "mcp"
+            },
+            {
+              "k": "literal",
+              "v": "tools"
+            },
+            {
+              "k": "literal",
+              "v": "workflows"
+            }
+          ]
+        },
+        "GetArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "kind",
+              "schema": {
+                "k": "ref",
+                "name": "EntryKind"
+              },
+              "optional": true
+            },
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "kind",
+              "schema": {
+                "k": "ref",
+                "name": "EntryKind"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
+            },
+            "optional": true
+          }
+        ],
+        "get": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.agentskill": {

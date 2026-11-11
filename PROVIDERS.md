@@ -4552,7 +4552,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `selectblinds.priceConfiguration` | selectblinds.com | Prices one exact build (a blind style + chosen feature option ids + a real… | 🟢 |
 | `sellcell.getTradeInOffers` | sellcell.com | Returns every buyback vendor's current cash offer for one iPhone — a specific model… | 🟢 |
 | `semihandmade.getPartOptions` | semihandmade.com | Reads one part's real live size grid: every real size combination with its own real… | 🟢 |
-| `semihandmade.priceConfiguration` | semihandmade.com | Resolves one exact size selection to Semihandmade's own real price, availability and… | 🟢 |
+| `semihandmade.priceConfiguration` | semihandmade.com | Resolves one exact size selection to Semihandmade's own real price, availability and… | 🟡 |
 | `semihandmade.searchParts` | semihandmade.com | Searches Semihandmade's real catalog for one IKEA cabinet system (Sektion, Akurum… | 🟡 |
 | `seoulfood.getBoothQuote` | seoulfood.kotra.or.kr | A list-price exhibitor booth quote for N booths of one package (Space Only, Walk on… | 🟢 |
 | `seoulfood.getExhibitorPricing` | seoulfood.kotra.or.kr | Reads the organizer's published exhibitor booth rate card (trade show booth quote)… | 🟢 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 873b37dc44282c2b0b7c23afd044467d1cf4fc785850d06db08284c008543b64
-// 97 capabilities, 802 providers, 4863 typed functions, 20 refused.
+// Manifest version: 50b11146e96566db6cd293d3bafa9018ee3cf03ca345ebf18e65cef7cda621e9
+// 97 capabilities, 803 providers, 4865 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8430,6 +8430,56 @@ interface AgakhanhospitalsSpecialty {
      * an honest answer.
      */
     listSpecialties(): Promise<AgakhanhospitalsSpecialty[]>;
+  }
+}
+
+declare namespace BowmarkProvider_agenticskills {
+  // ── Agentic Skills — the unit's own declarations, verbatim ──
+type EntryKind = "skills" | "mcp" | "tools" | "workflows";
+interface AgenticSkillsEntry {
+  kind: EntryKind;
+  slug: string;
+  url: string;
+  lastModified: string | null;
+  name: string;
+  description: string | null;
+  author: { name: string; url: string | null } | null;
+  license: string | null;
+  keywords: string[];
+  category: string | null;
+  subCategory: string | null;  // an MCP server's transport, e.g. "Streamable HTTP"
+  worksWith: string[];          // e.g. ["claude-code", "claude-ai"]
+  dateModified: string | null;
+}
+interface SearchArgs {
+  query?: string;   // matched against entry slugs; omit to list
+  kind?: EntryKind;
+  limit?: number;   // 1-25, default 10
+}
+interface GetArgs {
+  kind?: EntryKind;
+  slug?: string;
+  url?: string;     // or an agenticskills.io entry URL instead of kind+slug
+}
+
+  /**
+   * agenticskills.io — directory of AI agent skills (Claude Code / Codex SKILL.md packs), MCP
+   * servers, agent tools and workflows. search finds entries by keyword; get reads one entry's
+   * name, description, author, license, keywords, category and MCP transport.
+   */
+  interface Unit {
+    /**
+     * Finds agenticskills.io directory entries (skills, MCP servers, tools, workflows) whose slug
+     * matches the query keywords, read off the site's own sitemap, and returns each one's details
+     * from its page.
+     */
+    search(args?: SearchArgs): Promise<AgenticSkillsEntry[]>;
+
+    /**
+     * Reads one agenticskills.io skill, MCP server, tool or workflow page by kind+slug or URL —
+     * name, description, author, license, keywords, category, MCP transport and supported hosts.
+     */
+    get(args: GetArgs): Promise<AgenticSkillsEntry>;
   }
 }
 
@@ -21642,8 +21692,8 @@ interface CabinsforyouCabinDetail {
 }
 
 interface CabinsforyouSearchArgs {
-  checkIn: string;   // MM/DD/YYYY
-  checkOut: string;  // MM/DD/YYYY
+  checkIn: string;   // YYYY-MM-DD, or the site's MM/DD/YYYY spelling
+  checkOut: string;  // YYYY-MM-DD, or the site's MM/DD/YYYY spelling
   guests?: number;
   bedrooms?: number;
 }
@@ -21656,8 +21706,8 @@ interface CabinsforyouSearchArgs {
   interface Unit {
     /**
      * Runs Cabins For You's own homepage cabin-availability search and returns the real matching
-     * cabins, priced. `args.checkIn` / `args.checkOut` are MM/DD/YYYY (the site's own date
-     * format); `guests` and `bedrooms` are optional minimums.
+     * cabins, priced. `args.checkIn` / `args.checkOut` are YYYY-MM-DD (the library spelling; the
+     * site's MM/DD/YYYY spelling is also accepted); `guests` and `bedrooms` are optional minimums.
      */
     search(args: CabinsforyouSearchArgs): Promise<CabinsforyouSearchResult>;
 
@@ -114048,6 +114098,7 @@ interface BowmarkProviders {
   adsmanager_facebook: BowmarkProvider_adsmanager_facebook.Unit;
   aetna_directory: BowmarkProvider_aetna_directory.Unit;
   agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
+  agenticskills: BowmarkProvider_agenticskills.Unit;
   agentskill: BowmarkProvider_agentskill.Unit;
   agentstatus: BowmarkProvider_agentstatus.Unit;
   agoda: BowmarkProvider_agoda.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 873b37dc44282c2b0b7c23afd044467d1cf4fc785850d06db08284c008543b64
-# 97 capabilities, 802 providers, 4845 typed functions, 20 refused.
+# Manifest version: 50b11146e96566db6cd293d3bafa9018ee3cf03ca345ebf18e65cef7cda621e9
+# 97 capabilities, 803 providers, 4847 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4897,6 +4897,35 @@ class Prv_agakhanhospitals_AgakhanhospitalsSpecialty_Out(TypedDict):
     operatingHours: str | None
     contact: str | None
     services: list[str]
+
+class Prv_agenticskills_SearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    kind: NotRequired[Literal["skills"] | Literal["mcp"] | Literal["tools"] | Literal["workflows"]]
+    limit: NotRequired[float]
+
+class Prv_agenticskills_AgenticSkillsEntry_Out(TypedDict):
+    kind: Literal["skills"] | Literal["mcp"] | Literal["tools"] | Literal["workflows"]
+    slug: str
+    url: str
+    lastModified: str | None
+    name: str
+    description: str | None
+    author: Prv_agenticskills_AgenticSkillsEntry_Out_author_u0_Out | None
+    license: str | None
+    keywords: list[str]
+    category: str | None
+    subCategory: str | None
+    worksWith: list[str]
+    dateModified: str | None
+
+class Prv_agenticskills_AgenticSkillsEntry_Out_author_u0_Out(TypedDict):
+    name: str
+    url: str | None
+
+class Prv_agenticskills_GetArgs_In(TypedDict):
+    kind: NotRequired[Literal["skills"] | Literal["mcp"] | Literal["tools"] | Literal["workflows"]]
+    slug: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_agentskill_GetSkillArgs_In(TypedDict):
     slug: str
@@ -74514,6 +74543,24 @@ class Prv_agakhanhospitals(Protocol):
         never an honest answer.
         """
 
+class Prv_agenticskills(Protocol):
+    """agenticskills.io — directory of AI agent skills (Claude Code / Codex SKILL.md packs),
+    MCP servers, agent tools and workflows. search finds entries by keyword; get reads one
+    entry's name, description, author, license, keywords, category and MCP transport.
+    """
+
+    async def search(self, args: Prv_agenticskills_SearchArgs_In | None = None, /) -> list[Prv_agenticskills_AgenticSkillsEntry_Out]:
+        """Finds agenticskills.io directory entries (skills, MCP servers, tools, workflows) whose
+        slug matches the query keywords, read off the site's own sitemap, and returns each one's
+        details from its page.
+        """
+
+    async def get(self, args: Prv_agenticskills_GetArgs_In, /) -> Prv_agenticskills_AgenticSkillsEntry_Out:
+        """Reads one agenticskills.io skill, MCP server, tool or workflow page by kind+slug or URL
+        — name, description, author, license, keywords, category, MCP transport and supported
+        hosts.
+        """
+
 class Prv_agentskill(Protocol):
     """agentskill.sh's directory of AI agent skills: list skills by owner, tool or platform,
     and read one skill's SKILL.md and metadata.
@@ -79086,8 +79133,9 @@ class Prv_cabinsforyou(Protocol):
 
     async def search(self, args: Prv_cabinsforyou_CabinsforyouSearchArgs_In, /) -> Prv_cabinsforyou_CabinsforyouSearchResult_Out:
         """Runs Cabins For You's own homepage cabin-availability search and returns the real
-        matching cabins, priced. `args.checkIn` / `args.checkOut` are MM/DD/YYYY (the site's own
-        date format); `guests` and `bedrooms` are optional minimums.
+        matching cabins, priced. `args.checkIn` / `args.checkOut` are YYYY-MM-DD (the library
+        spelling; the site's MM/DD/YYYY spelling is also accepted); `guests` and `bedrooms` are
+        optional minimums.
         """
 
     async def getCabinDetail(self, url: str, /) -> Prv_cabinsforyou_CabinsforyouCabinDetail_Out:
@@ -111408,6 +111456,7 @@ class BowmarkProviders(Protocol):
     adsmanager_facebook: Prv_adsmanager_facebook
     aetna_directory: Prv_aetna_directory
     agakhanhospitals: Prv_agakhanhospitals
+    agenticskills: Prv_agenticskills
     agentskill: Prv_agentskill
     agentstatus: Prv_agentstatus
     agoda: Prv_agoda
