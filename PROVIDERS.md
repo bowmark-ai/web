@@ -160,7 +160,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.listRfqs` | alibaba.com | Get list of RFQs (Requests for Quote) created by the user. | ⚪ |
 | `alibaba.listSavedItems` | alibaba.com | Get list of saved/favorited products. | ⚪ |
 | `alibaba.listSupplierProducts` | alibaba.com | Lists the other products a supplier's storefront carries, so a buyer vetting a company… | 🟢 |
-| `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | 🟡 |
+| `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | 🟢 |
 | `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
 | `alibaba.removeFromCart` | alibaba.com | Remove a product from the shopping cart. | ⚪ |
 | `alibaba.saveProduct` | alibaba.com | Add a product to saved items/favorites. | ⚪ |
