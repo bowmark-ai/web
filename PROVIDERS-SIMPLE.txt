@@ -299,7 +299,7 @@ estes-express.com — estes_express: estimateFreightQuote
 ethos.com — ethos: nothing callable yet (+1 planned)
 etsy.com — etsy: browseCategory, estimateShipping, findRegistry, getListing, getRegistry, getShop, getUserProfile, listCategories, listEditorsPicks, listListingReviews, listShopListings, listShopReviews, listTrendingSearches, search, searchShops, suggestSearches (+19 planned)
 evag.de — evag: listDepartures, listDisruptions, searchStop
-eventbrite.com — eventbrite: cancelRegistration, followOrganizer, getEvent, getFollowedOrganizers, getOrderHistory, getOrganizer, getOwnProfile, getSavedEvents, getVenue, joinWaitlist, listTicketClasses, registerForEvent, saveEvent, searchEvents, unfollowOrganizer, unsaveEvent
+eventbrite.com — eventbrite: cancelRegistration, followOrganizer, getEvent, getEventAttendees, getFollowedOrganizers, getOrderHistory, getOrganizer, getOwnProfile, getSavedEvents, getVenue, joinWaitlist, listMyOrganizedEvents, listTicketClasses, registerForEvent, saveEvent, searchEvents, unfollowOrganizer, unsaveEvent
 eventim.com — eventim: search (+1 planned)
 eventsource.com — eventsource: getShowroom, getShowroomInquiryContact, getShowroomVenue
 evolutionofsmooth.com — evolutionofsmooth: answerShadeQuizQuestion, startShadeQuiz

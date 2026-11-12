@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6325 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6327 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1900,6 +1900,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventbrite.cancelRegistration` | eventbrite.com | Cancels one of the signed-in caller's FREE registrations by order id (from… | 🟢 |
 | `eventbrite.followOrganizer` | eventbrite.com | Follows an organizer from the signed-in caller's account, taking an organizer url or id. | 🟢 |
 | `eventbrite.getEvent` | eventbrite.com | Returns one event in full: title, description, start/end time, venue (name, address… | 🟢 |
+| `eventbrite.getEventAttendees` | eventbrite.com | Lists who is registered for one of the signed-in caller's own events (name, email… | 🟢 |
 | `eventbrite.getFollowedOrganizers` | eventbrite.com | Lists the organizers the signed-in caller follows (id, name, url) — the list… | 🟢 |
 | `eventbrite.getOrderHistory` | eventbrite.com | Reads the signed-in caller's past and upcoming ticket orders from their account's 'My… | 🟢 |
 | `eventbrite.getOrganizer` | eventbrite.com | Reads an organizer's public page — name, bio, verification status, website… | 🟢 |
@@ -1907,6 +1908,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventbrite.getSavedEvents` | eventbrite.com | Reads the signed-in caller's saved ('liked') events. | 🟢 |
 | `eventbrite.getVenue` | eventbrite.com | Reads one event's venue — name, address, city/region/country and coordinates — taking… | 🟢 |
 | `eventbrite.joinWaitlist` | eventbrite.com | Puts a name and email on a sold-out event's waitlist (a write); works signed out like… | 🟢 |
+| `eventbrite.listMyOrganizedEvents` | eventbrite.com | Lists the events the signed-in caller organizes (id, title, url, start/end, status… | 🟢 |
 | `eventbrite.listTicketClasses` | eventbrite.com | Reads one event's per-tier ticket breakdown — name, price, fees and sold-out state —… | 🟡 |
 | `eventbrite.registerForEvent` | eventbrite.com | Registers the signed-in caller for an event on a FREE ticket class (ids from… | 🟢 |
 | `eventbrite.saveEvent` | eventbrite.com | Saves ('likes') an event to the signed-in caller's account, taking an event url or id. | 🟢 |
