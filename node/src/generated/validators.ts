@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 581e4da60c00c82059982115101b2298c45f0ad9f3cf7adb7bfad32f9b587e64
-// 4916 checked, 20 unchecked.
+// Manifest version: 51d8ed14a3e286d414810f944eb8de34984c3b6840472b310194bb6eed810fa3
+// 4919 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "581e4da60c00c82059982115101b2298c45f0ad9f3cf7adb7bfad32f9b587e64",
+  "version": "51d8ed14a3e286d414810f944eb8de34984c3b6840472b310194bb6eed810fa3",
   "units": {
     "address_validation": {
       "defs": {
@@ -46035,6 +46035,74 @@ export const VALIDATORS: ValidatorTable = {
     "providers.epicgames": {
       "defs": {},
       "functions": {
+        "listTags": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "group",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGameRatings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getAchievements": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "namespace",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listFreeGames": [
           {
             "name": "country",

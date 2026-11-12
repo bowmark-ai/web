@@ -245,6 +245,7 @@ curiocity.com — curiocity: listEvents
 currys.co.uk — currys: listClearance, search (+2 planned)
 cve.circl.lu — circl: getCve, search
 cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuild
+dailymail.com — dailymail: nothing callable yet (+24 planned)
 dailymotion.com — dailymotion: 36 functions — ask get_library
 dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
 data.cms.gov — data_cms: getRows, searchDatasets
@@ -616,7 +617,7 @@ pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyPr
 pypi.org — pypi: getProject
 quickbooks.intuit.com — quickbooks: calculateEmployeeCost, calculatePaycheck, findAccountants, generateInvoice, getAccountant, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getResourceArticle, getServiceStatus, getStatePayrollTaxes, getThread, listAppCategories, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listResourceArticles, listTemplates, searchApps, searchCommunity, searchHelpArticles (+8 planned)
 quince.com — quince: getProduct, searchProducts
-quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+6 planned)
+quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+7 planned)
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
 raisingcanes.com — raisingcanes: location, locations (+1 planned)
 rakuten.com — rakuten: getStore, search (+2 planned)

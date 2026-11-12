@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6358 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6382 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -88,7 +88,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | ⚪ |
 | `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an image (public https URL, under 5 MB) into the signed-in caller's own Creative… | 🟢 |
 | `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟢 |
-| `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟡 |
+| `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟢 |
 | `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text, optionally… | 🟡 |
 | `adobe.sendForSignature` | adobe.com | Sends a PDF out for e-signature from the caller's own Adobe account through Acrobat… | 🟢 |
 | `adorama.checkStock` | adorama.com | Answers whether one product is in stock and its availability wording. | ⚪ |
@@ -887,7 +887,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `califloors.getProduct` | califloors.com | Reads one product's own detail page — its real current price, live stock status… | 🟢 |
 | `califloors.listCategories` | califloors.com | Lists CALI's own flooring and decking category tree — Vinyl, Hardwood, Laminate… | 🟢 |
 | `califloors.searchProducts` | califloors.com | Browses one category (from `listCategories`, e.g. the free-sample category or a… | 🟢 |
-| `camelcamelcamel.getPriceHistory` | camelcamelcamel.com | Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the… | 🟢 |
+| `camelcamelcamel.getPriceHistory` | camelcamelcamel.com | Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the… | 🟡 |
 | `camelcamelcamel.search` | camelcamelcamel.com | Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title… | 🟢 |
 | `campspot.findCampgrounds` | campspot.com | Given a free-text region (a US state, a Canadian province, or one of Campspot's own… | 🟢 |
 | `campspot.getCampground` | campspot.com | Given a campspot.com/park/<slug> url (from findCampgrounds), returns that campground's… | 🟢 |
@@ -1409,6 +1409,30 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cyberpowerpc.priceBuild` | cyberpowerpc.com | Prices an exact build for one configurator given a caller's part selections (one part… | 🟢 |
 | `dahlconsulting.getJob` | careers.dahlconsulting.com | Reads one job posting's full detail — the complete description, industry… | 🟢 |
 | `dahlconsulting.searchJobs` | careers.dahlconsulting.com | Searches Dahl Consulting's live job board — every open role at… | 🟢 |
+| `dailymail.browseSection` | dailymail.com | Lists the articles on one Daily Mail section front — headline, summary, url, article… | ⚪ |
+| `dailymail.browseTopic` | dailymail.com | Lists the articles on one Daily Mail topic page, newest first, given a topic url from… | ⚪ |
+| `dailymail.getArticle` | dailymail.com | Reads one Daily Mail article in full — headline, standfirst bullets, byline, published… | ⚪ |
+| `dailymail.getArticleComments` | dailymail.com | Reads the reader comments on one Daily Mail article — author, text, time, up/down… | ⚪ |
+| `dailymail.getAuthor` | dailymail.com | Reads one Daily Mail author or columnist page — name, bio and their recent articles —… | ⚪ |
+| `dailymail.getCommentReplies` | dailymail.com | Reads the replies under one reader comment on a Daily Mail article, given the comment… | ⚪ |
+| `dailymail.getCurrentUser` | dailymail.com | Reads the signed-in caller's Daily Mail account — display name, email, location and… | ⚪ |
+| `dailymail.getHoroscope` | dailymail.com | Reads this week's or today's horoscope for one star sign from Daily Mail's astrology… | ⚪ |
+| `dailymail.getVideo` | dailymail.com | Reads one Daily Mail video — title, description, duration, date, thumbnail and the… | ⚪ |
+| `dailymail.listColumnists` | dailymail.com | Lists Daily Mail's columnists with name, profile url and their latest column. | ⚪ |
+| `dailymail.listGames` | dailymail.com | Lists the puzzles and games on Daily Mail's games hub (sudoku, kenken, kakuro… | ⚪ |
+| `dailymail.listLatest` | dailymail.com | Lists Daily Mail's newest articles across the site, newest first, with headline, url… | ⚪ |
+| `dailymail.listMyComments` | dailymail.com | Lists the comments the signed-in caller has posted on Daily Mail, with article and… | ⚪ |
+| `dailymail.listNewsletters` | dailymail.com | Lists Daily Mail's email newsletters with name, description and list id. | ⚪ |
+| `dailymail.listPodcasts` | dailymail.com | Lists Daily Mail's podcasts with title, description and episode links. | ⚪ |
+| `dailymail.listSections` | dailymail.com | Lists Daily Mail's sections and sub-sections (US home, News, U.S. Showbiz, Sport… | ⚪ |
+| `dailymail.listTopics` | dailymail.com | Lists Daily Mail topic pages (people, events, teams) matching a name, so an agent can… | ⚪ |
+| `dailymail.listVideos` | dailymail.com | Lists Daily Mail videos from the video hub or one video channel (news, showbiz, sport… | ⚪ |
+| `dailymail.postComment` | dailymail.com | Posts a reader comment on a Daily Mail article as the signed-in caller, given an… | ⚪ |
+| `dailymail.replyToComment` | dailymail.com | Replies to one reader comment on a Daily Mail article as the signed-in caller. | ⚪ |
+| `dailymail.searchArticles` | dailymail.com | Searches Daily Mail articles by phrase, with optional section and sort, returning… | ⚪ |
+| `dailymail.subscribeToNewsletter` | dailymail.com | Subscribes or unsubscribes the signed-in caller to one Daily Mail newsletter, given a… | ⚪ |
+| `dailymail.updateProfile` | dailymail.com | Edits the signed-in caller's Daily Mail profile — display name, location and avatar. | ⚪ |
+| `dailymail.voteOnComment` | dailymail.com | Votes a reader comment up or down as the signed-in caller. | ⚪ |
 | `dailymotion.addToPlaylist` | dailymotion.com | Add a video to one of the signed-in caller's own playlists, or pass add: false to… | 🟢 |
 | `dailymotion.addToWatchLater` | dailymotion.com | Save a Dailymotion video to the signed-in caller's Watch Later, or pass add: false to… | 🟢 |
 | `dailymotion.createPlaylist` | dailymotion.com | Create a playlist on the signed-in caller's Dailymotion account — name, optional… | 🟢 |
@@ -4264,7 +4288,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getAnswers` | quora.com | Pages through a question's answers beyond the first page getQuestion embeds, using the… | 🟡 |
 | `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | 🟢 |
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary off /settings. | 🟢 |
-| `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
+| `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🔴 |
 | `quora.getProfileAnswers` | quora.com | Reads what a member has answered — the first page of their profile's Answers tab, each… | 🟢 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🔴 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟡 |
@@ -5910,7 +5934,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellfound.searchJobs` | wellfound.com | Searches Wellfound's startup job board — by role (`/role/<slug>`) or by city… | 🟢 |
 | `wellnessliving.bookClass` | wellnessliving.com | Books a customer into an available class slot | ⚪ |
 | `wellnessliving.cancelBooking` | wellnessliving.com | Cancels an existing class booking for the customer | ⚪ |
-| `wellnessliving.getClassCapacity` | wellnessliving.com | Checks capacity, booked spots, and waitlist status for one class | 🟢 |
+| `wellnessliving.getClassCapacity` | wellnessliving.com | Checks capacity, booked spots, and waitlist status for one class | 🟡 |
 | `wellnessliving.getClassDetails` | wellnessliving.com | Reads full details for one class including instructor, duration, capacity, pricing | 🟢 |
 | `wellnessliving.getClassPackages` | wellnessliving.com | Lists available class packages for purchase | ⚪ |
 | `wellnessliving.getClassTypes` | wellnessliving.com | Lists all available class types (yoga, pilates, etc) | 🟢 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 581e4da60c00c82059982115101b2298c45f0ad9f3cf7adb7bfad32f9b587e64
-// 97 capabilities, 817 providers, 4934 typed functions, 20 refused.
+// Manifest version: 51d8ed14a3e286d414810f944eb8de34984c3b6840472b310194bb6eed810fa3
+// 97 capabilities, 817 providers, 4937 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36666,12 +36666,71 @@ interface GetAchievementProgressResult {
   totalUnlocked: number;
   achievements: AchievementProgressEntry[];
 }
+interface StoreTag {
+  id: string;
+  name: string;
+  group: string | null; // the site's own group labels ("genre", "feature", "platform", "event", "usersay", …) — read them off a result
+  gameCount: number;
+}
+
+interface ListTagsResult {
+  tags: StoreTag[];
+}
+
+interface PlayerPollResult {
+  title: string;
+  phrase: string;
+  votes: number;
+  tagId: number;
+}
+
+interface GetGameRatingsResult {
+  namespace: string;
+  averageRating: number | null;
+  polls: PlayerPollResult[];
+}
+
+interface StoreAchievement {
+  name: string;
+  displayName: string;
+  description: string;
+  hidden: boolean;
+  xp: number;
+  unlockedPercent: number | null;
+  iconUrl: string | null;
+  isBase: boolean;
+}
+
+interface GetAchievementsResult {
+  namespace: string;
+  totalXP: number;
+  achievements: StoreAchievement[];
+}
 
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
    */
   interface Unit {
+    /**
+     * The store's browse tags — genres, features, platforms, events and player-poll tags — each
+     * with its id, group and how many games carry it. Optional group filter (e.g. "genre").
+     */
+    listTags(args?: { group?: string }): Promise<ListTagsResult>;
+
+    /**
+     * How players rate a game on the Epic Games Store: the average star rating and the store's
+     * player-poll results ("This game has Diverse Characters") with vote counts. Takes a product
+     * slug or offer id.
+     */
+    getGameRatings(args: { slug?: string; offerId?: string }): Promise<GetGameRatingsResult>;
+
+    /**
+     * A game's achievement list as the store shows it — name, description, icon, XP, and the share
+     * of players who unlocked it. Takes a product slug or namespace.
+     */
+    getAchievements(args: { slug?: string; namespace?: string }): Promise<GetAchievementsResult>;
+
     /**
      * The Epic Games Store's free-game rotation: the games free to claim right now and the ones
      * announced as free next, each with title, slug, original price, and the start/end instants of

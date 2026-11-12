@@ -1,5 +1,5 @@
 {
-  "version": "581e4da60c00c82059982115101b2298c45f0ad9f3cf7adb7bfad32f9b587e64",
+  "version": "51d8ed14a3e286d414810f944eb8de34984c3b6840472b310194bb6eed810fa3",
   "units": {
     "address_validation": {
       "defs": {
@@ -46023,6 +46023,74 @@
     "providers.epicgames": {
       "defs": {},
       "functions": {
+        "listTags": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "group",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGameRatings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getAchievements": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "namespace",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listFreeGames": [
           {
             "name": "country",

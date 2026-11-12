@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 581e4da60c00c82059982115101b2298c45f0ad9f3cf7adb7bfad32f9b587e64
-# 97 capabilities, 817 providers, 4916 typed functions, 20 refused.
+# Manifest version: 51d8ed14a3e286d414810f944eb8de34984c3b6840472b310194bb6eed810fa3
+# 97 capabilities, 817 providers, 4919 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22731,6 +22731,52 @@ class Prv_emirates_emiratesFlightTimes_Out(TypedDict):
     scheduled: str | None
     estimated: str | None
     actual: str | None
+
+class Prv_epicgames_listTags_args_In(TypedDict):
+    group: NotRequired[str]
+
+class Prv_epicgames_ListTagsResult_Out(TypedDict):
+    tags: list[Prv_epicgames_StoreTag_Out]
+
+class Prv_epicgames_StoreTag_Out(TypedDict):
+    id: str
+    name: str
+    group: str | None
+    gameCount: float
+
+class Prv_epicgames_getGameRatings_args_In(TypedDict):
+    slug: NotRequired[str]
+    offerId: NotRequired[str]
+
+class Prv_epicgames_GetGameRatingsResult_Out(TypedDict):
+    namespace: str
+    averageRating: float | None
+    polls: list[Prv_epicgames_PlayerPollResult_Out]
+
+class Prv_epicgames_PlayerPollResult_Out(TypedDict):
+    title: str
+    phrase: str
+    votes: float
+    tagId: float
+
+class Prv_epicgames_getAchievements_args_In(TypedDict):
+    slug: NotRequired[str]
+    namespace: NotRequired[str]
+
+class Prv_epicgames_GetAchievementsResult_Out(TypedDict):
+    namespace: str
+    totalXP: float
+    achievements: list[Prv_epicgames_StoreAchievement_Out]
+
+class Prv_epicgames_StoreAchievement_Out(TypedDict):
+    name: str
+    displayName: str
+    description: str
+    hidden: bool
+    xp: float
+    unlockedPercent: float | None
+    iconUrl: str | None
+    isBase: bool
 
 class Prv_epicgames_ListFreeGamesResult_Out(TypedDict):
     elements: list[Prv_epicgames_FreeGame_Out]
@@ -85213,6 +85259,23 @@ class Prv_epicgames(Protocol):
     """The Epic Games Store — catalogue search, game pages, prices, sales, the free-games
     rotation, and the signed-in library and wishlist.
     """
+
+    async def listTags(self, args: Prv_epicgames_listTags_args_In | None = None, /) -> Prv_epicgames_ListTagsResult_Out:
+        """The store's browse tags — genres, features, platforms, events and player-poll tags —
+        each with its id, group and how many games carry it. Optional group filter (e.g.
+        "genre").
+        """
+
+    async def getGameRatings(self, args: Prv_epicgames_getGameRatings_args_In, /) -> Prv_epicgames_GetGameRatingsResult_Out:
+        """How players rate a game on the Epic Games Store: the average star rating and the store's
+        player-poll results ("This game has Diverse Characters") with vote counts. Takes a
+        product slug or offer id.
+        """
+
+    async def getAchievements(self, args: Prv_epicgames_getAchievements_args_In, /) -> Prv_epicgames_GetAchievementsResult_Out:
+        """A game's achievement list as the store shows it — name, description, icon, XP, and the
+        share of players who unlocked it. Takes a product slug or namespace.
+        """
 
     async def listFreeGames(self, country: str | None = None, /) -> Prv_epicgames_ListFreeGamesResult_Out:
         """The Epic Games Store's free-game rotation: the games free to claim right now and the
