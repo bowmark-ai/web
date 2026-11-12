@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 51d8ed14a3e286d414810f944eb8de34984c3b6840472b310194bb6eed810fa3
-// 4919 checked, 20 unchecked.
+// Manifest version: 66f4b9021f4757eb89e561c980c6f1439ec57d3c99e6886e6296ef4ce4bb7a86
+// 4938 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "51d8ed14a3e286d414810f944eb8de34984c3b6840472b310194bb6eed810fa3",
+  "version": "66f4b9021f4757eb89e561c980c6f1439ec57d3c99e6886e6296ef4ce4bb7a86",
   "units": {
     "address_validation": {
       "defs": {
@@ -9791,6 +9791,58 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.adoptapet": {
+      "defs": {
+        "adoptapetListPetsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "species",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "dog"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "cat"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listPets": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "adoptapetListPetsArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.adorama": {
       "defs": {
         "AdoramaSearchArgs": {
@@ -13402,6 +13454,60 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "FlagMessageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "credentials",
+              "schema": {
+                "k": "ref",
+                "name": "MailboxCredentials"
+              },
+              "optional": false
+            },
+            {
+              "name": "messageId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "flagged",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetAttachmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "credentials",
+              "schema": {
+                "k": "ref",
+                "name": "MailboxCredentials"
+              },
+              "optional": false
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "index",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetMessageArgs": {
           "k": "object",
           "props": [
@@ -13669,6 +13775,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "MarkAsReadArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAttachment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAttachmentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "flagMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FlagMessageArgs"
             },
             "optional": false
           }
@@ -26856,6 +26982,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listPackages": [
+          {
+            "name": "profile",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "findProfiles": [
           {
             "name": "name",
@@ -27168,6 +27303,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listTemplateCategories": [],
+        "getMyProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getCreator": [
           {
             "name": "handleOrUrl",
@@ -28874,6 +29027,153 @@ export const VALIDATORS: ValidatorTable = {
     "providers.chatgpt": {
       "defs": {},
       "functions": {
+        "shareConversation": [
+          {
+            "name": "conversation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createProject": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateCustomInstructions": [
+          {
+            "name": "update",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "aboutUser",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "responseStyle",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "enabled",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "rateResponse": [
+          {
+            "name": "conversation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "rating",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "thumbsUp"
+                },
+                {
+                  "k": "literal",
+                  "v": "thumbsDown"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "renameConversation": [
           {
             "name": "conversation",
@@ -70651,6 +70951,54 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ImgurUserListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "oldest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "top"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "best"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "worst"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -70714,6 +71062,70 @@ export const VALIDATORS: ValidatorTable = {
             "name": "username",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getImage": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listTags": [],
+        "getUserPosts": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ImgurUserListArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getUserFavorites": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ImgurUserListArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getUserComments": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ImgurUserListArgs"
+                }
+              ]
             },
             "optional": false
           }
@@ -114432,6 +114844,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -117063,6 +117493,39 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteDocument": [
+          {
+            "name": "document",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -142271,6 +142734,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetStandingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -142353,6 +142828,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getStandings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStandingsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listNewsletters": [],
         "listPuzzles": [],
         "getPuzzle": [
           {

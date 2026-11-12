@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 51d8ed14a3e286d414810f944eb8de34984c3b6840472b310194bb6eed810fa3
-// 97 capabilities, 817 providers, 4937 typed functions, 20 refused.
+// Manifest version: 66f4b9021f4757eb89e561c980c6f1439ec57d3c99e6886e6296ef4ce4bb7a86
+// 97 capabilities, 818 providers, 4956 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8178,6 +8178,25 @@ interface adobeRow {
   }
 }
 
+declare namespace BowmarkProvider_adoptapet {
+  // ── Adopt a Pet — the unit's own declarations, verbatim ──
+interface adoptapetPet { id: string; name: string; species: "dog" | "cat"; breed: string | null; sex: string | null; age: string | null; city: string | null; state: string | null; shelter: string | null; photoUrl: string | null; url: string; description: string | null; }
+interface adoptapetListPetsArgs { state: string; species?: "dog" | "cat"; limit?: number; }
+
+  /**
+   * Adopt a Pet (adoptapet.com) — list public dog or cat adoption listings in a US state, with
+   * breed, age, shelter, location and listing URL.
+   */
+  interface Unit {
+    /**
+     * Lists public dog or cat adoption listings in a US state (for example, { state: \"Texas\",
+     * species: \"dog\" }): name, breed, age, city, shelter, photo, description and listing URL.
+     * Default species is dog; default limit is 20.
+     */
+    listPets(args: adoptapetListPetsArgs): Promise<adoptapetPet[]>;
+  }
+}
+
 declare namespace BowmarkProvider_adorama {
   // ── Adorama — the unit's own declarations, verbatim ──
 interface AdoramaSearchArgs {
@@ -10867,6 +10886,33 @@ interface MarkAsReadArgs {
   read?: boolean; // default true; false marks it unread
 }
 
+interface GetAttachmentArgs {
+  credentials: MailboxCredentials;
+  id: string; // a row's id
+  index: number; // the attachment's position in getMessage's attachments list, from 0
+}
+
+interface AolMailAttachment {
+  id: string;
+  index: number;
+  filename: string | null;
+  contentType: string;
+  sizeBytes: number; // decoded
+  file?: { id: string; name: string; contentType: string; bytes: number; url: string; expiresAt: string }; // saved to the run's files; absent when the run has no account
+  warnings: string[];
+}
+
+interface FlagMessageArgs {
+  credentials: MailboxCredentials;
+  messageId: string; // a row's id
+  flagged?: boolean; // default true (stars it); false unstars it
+}
+
+interface AolMailFlagResult {
+  id: string;
+  flagged: boolean;
+}
+
 interface MoveMessageArgs {
   credentials: MailboxCredentials;
   messageId: string;
@@ -10966,6 +11012,23 @@ interface AolProfileUpdateResult {
      * as secrets.
      */
     markAsRead(args: MarkAsReadArgs): Promise<AolMailReadResult>;
+
+    /**
+     * Saves one attachment of the CALLER's own AOL Mail message — a PDF statement, a photo — to
+     * the run's files, given the message's row `id` and the attachment's position in getMessage's
+     * `attachments` list. Returns the saved `file` (name, type, size, a signed url), not inline
+     * bytes. Does not mark the message read. Takes the caller's address and app password, as
+     * secrets.
+     */
+    getAttachment(args: GetAttachmentArgs): Promise<AolMailAttachment>;
+
+    /**
+     * Stars (flags) one of the CALLER's own AOL Mail messages, or unstars it with `flagged:
+     * false`, given a row `id` from listMessages or searchMessages. Rows report the result as
+     * `flagged`, and searchMessages finds them with `is:flagged`. Takes the caller's address and
+     * app password, as secrets.
+     */
+    flagMessage(args: FlagMessageArgs): Promise<AolMailFlagResult>;
 
     /**
      * Moves one of the CALLER's own AOL Mail messages to another folder — a folder `id` from
@@ -22073,6 +22136,28 @@ interface CalendlyRoutingForm {
   unavailableReason: string | null;     // Calendly's own reason the form cannot be used
 }
 
+interface CalendlyPackageSession {
+  eventTypeUuid: string;
+  eventTypeName: string | null;       // null when the event type is secret
+  count: number | null;
+  unit: string;                       // "SESSIONS"
+}
+
+interface CalendlyPackage {
+  id: string;
+  name: string;
+  description: string | null;
+  offeringType: string;               // "MEETING_PACKAGE" or "PAYMENT_LINK"
+  price: { amount: number | null; currency: string | null };  // major unit: dollars, not cents
+  sessions: CalendlyPackageSession[];
+  url: string;                        // where a person would buy it; never bought here
+}
+
+interface CalendlyPackagesResult {
+  profileSlug: string;
+  packages: CalendlyPackage[];        // [] when the profile sells none
+}
+
 interface CalendlyBooking {
   uuid: string;
   eventType: CalendlyBookingEvent;    // the booked event's details
@@ -22159,6 +22244,15 @@ interface CalendlyFindProfilesResult {
      * HubSpot or Marketo form has no questions of its own. Never submits anything.
      */
     getRoutingForm(form: string): Promise<CalendlyRoutingForm>;
+
+    /**
+     * Lists the prepaid session packages a Calendly profile sells (several meetings bought
+     * together, or a one-off payment link): name, description, price in the currency's major unit,
+     * how many sessions of which event type, and the url where a person would buy it. Takes a
+     * profile slug or url ("https://calendly.com/colleendelv"). A profile that sells none returns
+     * `packages: []`. Never buys anything.
+     */
+    listPackages(profile: string): Promise<CalendlyPackagesResult>;
 
     /**
      * Finds a person's own Calendly page from their full name, and optionally their company (pass
@@ -22651,6 +22745,12 @@ interface CanvaCreatorMedia {
   images: CanvaCreatorMediaImage[];
 }
 
+interface CanvaMyProfile {
+  /** Canva's account id. */
+  id: string;
+  name: string;
+  handle: string;
+}
 interface CanvaCreator {
   id: string;
   handle: string;
@@ -22886,6 +22986,12 @@ interface CanvaColorCombinations {
      * resumes, presentations, …) with each one's template-listing url.
      */
     listTemplateCategories(): Promise<{ categories: CanvaTemplateCategory[]; warnings: string[] }>;
+
+    /**
+     * Reads the signed-in caller's Canva profile — account id, display name and handle. Needs the
+     * caller signed in to canva.com.
+     */
+    getMyProfile(opts?: ConnectionOption): Promise<{ profile: CanvaMyProfile; warnings: string[] }>;
 
     /**
      * Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower count and
@@ -24467,6 +24573,18 @@ interface WriteResult {
   id: string;
 }
 
+interface ShareLink {
+  shareId: string;
+  /** chatgpt.com/share/<id> — readable by getSharedConversation. */
+  url: string;
+}
+
+interface CreatedProject {
+  /** The g-p-… id getProject and listProjects use. */
+  id: string;
+  name: string;
+}
+
 interface ChatGPTAccount {
   id: string | null;
   email: string | null;
@@ -24649,6 +24767,38 @@ interface SharedConversation {
    * awaits a caller-reachable implementation.
    */
   interface Unit {
+    /**
+     * Creates a public share link for one of the caller's conversations (id or chatgpt.com/c/ url)
+     * and returns its chatgpt.com/share/ url — anyone with the link can read it; deleteSharedLink
+     * revokes it. Needs the caller signed in to chatgpt.com through the relay; the run pauses for
+     * a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has
+     * expired.
+     */
+    shareConversation(conversation: string, opts?: ConnectionOption): Promise<ShareLink>;
+
+    /**
+     * Creates a new, private project in the caller's sidebar and returns its g-p- id. Needs the
+     * caller signed in to chatgpt.com through the relay; the run pauses for a sign-in link when
+     * they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    createProject(name: string, opts?: ConnectionOption): Promise<CreatedProject>;
+
+    /**
+     * Sets the caller's custom instructions — what ChatGPT should know about them (aboutUser) and
+     * how it should respond (responseStyle). getCustomInstructions reads them back. Needs the
+     * caller signed in to chatgpt.com through the relay; the run pauses for a sign-in link when
+     * they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    updateCustomInstructions(update: { aboutUser?: string; responseStyle?: string; enabled?: boolean }, opts?: ConnectionOption): Promise<WriteResult>;
+
+    /**
+     * Gives a thumbs up or down to one assistant reply in the caller's conversation (message ids
+     * come from getConversation). Needs the caller signed in to chatgpt.com through the relay; the
+     * run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+     * sign-in has expired.
+     */
+    rateResponse(conversation: string, messageId: string, rating: "thumbsUp" | "thumbsDown", opts?: ConnectionOption): Promise<WriteResult>;
+
     /**
      * Renames one of the caller's conversations (id or chatgpt.com/c/ url — listConversations
      * finds one). Needs the caller signed in to chatgpt.com through the relay; the run pauses for
@@ -55040,6 +55190,16 @@ interface ImgurPostDetail extends ImgurPost { author: ImgurAuthor | null; media:
 interface ImgurComment { id: number; parentId: number | null; text: string; author: ImgurAuthor | null; postId: string; upvotes: number; downvotes: number; points: number; platform: string | null; createdAt: string | null; deleted: boolean; replies: ImgurComment[] }
 interface ImgurUser { id: number; username: string; bio: string | null; reputation: number; reputationName: string | null; avatarUrl: string | null; coverUrl: string | null; createdAt: string | null; url: string; trophies: { name: string; description: string | null; imageUrl: string | null }[] }
 interface ImgurTag { name: string; displayName: string; description: string | null; followers: number; totalPosts: number; url: string; posts: ImgurPost[] }
+interface ImgurImage { id: string; url: string; mimeType: string; width: number | null; height: number | null; size: number | null; views: number; title: string | null; description: string | null; isAnimated: boolean; mp4Url: string | null; createdAt: string | null }
+interface ImgurTagSummary { name: string; displayName: string; description: string | null; followers: number; totalPosts: number; url: string }
+interface ImgurUserComment { id: number; postId: string; text: string; author: string | null; upvotes: number; downvotes: number; points: number; platform: string | null; createdAt: string | null; parentId: number | null; deleted: boolean }
+interface ImgurUserListArgs {
+  username: string;
+  /** "newest" (default), "oldest" or "top" (posts); "best"/"worst" for comments */
+  sort?: "newest" | "oldest" | "top" | "best" | "worst";
+  /** 1-50, default 1 */
+  page?: number;
+}
 interface ImgurCommentsArgs {
   /** post id or URL */
   id: string;
@@ -55091,6 +55251,30 @@ interface ImgurTagArgs {
      * getUser("imgur").
      */
     getUser(username: string): Promise<ImgurUser>;
+
+    /**
+     * One imgur image or video file by id or i.imgur.com URL: direct link, type, dimensions, size,
+     * views. Example: getImage("https://i.imgur.com/xfwvhd6.png").
+     */
+    getImage(idOrUrl: string): Promise<ImgurImage>;
+
+    /** The popular imgur tags with followers and post totals; pass a name to getTag for its posts. */
+    listTags(): Promise<ImgurTagSummary[]>;
+
+    /**
+     * A user's public gallery submissions, newest first by default. Example: getUserPosts({
+     * username: "J3lek", sort: "top" }).
+     */
+    getUserPosts(username: string | ImgurUserListArgs): Promise<ImgurPost[]>;
+
+    /** The posts a user has publicly favorited. Example: getUserFavorites("J3lek"). */
+    getUserFavorites(username: string | ImgurUserListArgs): Promise<ImgurPost[]>;
+
+    /**
+     * A user's public comments, each with the id of the post it was left on. Example:
+     * getUserComments({ username: "J3lek", sort: "best" }).
+     */
+    getUserComments(username: string | ImgurUserListArgs): Promise<ImgurUserComment[]>;
 
     /**
      * Searches public imgur posts (about 60 a page), top-scored first by default. Example:
@@ -83954,6 +84138,20 @@ interface RingProduct { name: string; url: string; price: number | null; wasPric
 
     /** Read a Ring product's live offer and technical specifications. */
     getProduct(url: string): Promise<RingProduct>;
+
+    /**
+     * Makes a NEW Ring account with the person's own email and password, in a session. Pauses with
+     * `needs_code` / `needs_phone` whenever the site wants something only the person has; continue
+     * with `confirmSignup` in the same session. Ends `signed_up` with the login saved and the
+     * credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -85750,6 +85948,11 @@ interface ScentbirdCatalogueResult {
 
 declare namespace BowmarkProvider_scribd {
   // ── Scribd — the unit's own declarations, verbatim ──
+interface ScribdDeleteResult {
+  id: number;
+  deleted: true;
+  response?: unknown;
+}
 interface ScribdDocumentRow {
   id: number;
   title: string;
@@ -86075,6 +86278,13 @@ interface ScribdCreatedList {
      * error. Needs the caller signed in to Scribd.
      */
     downloadDocument(document: string | number, format?: string, opts?: ConnectionOption): Promise<ScribdDownload>;
+
+    /**
+     * Deletes one of the signed-in caller's own uploaded Scribd documents, from its
+     * scribd.com/document/<id>/<slug> url or numeric id. Irreversible; Scribd refuses a document
+     * the caller does not own. Needs the caller signed in to Scribd.
+     */
+    deleteDocument(document: string | number, opts?: ConnectionOption): Promise<ScribdDeleteResult>;
 
     /**
      * Rates a Scribd document helpful ('up', a thumbs up) or not helpful ('down') as the signed-in
@@ -103721,6 +103931,38 @@ interface GetScoresArgs {
   sport: string;
 }
 
+interface GetStandingsArgs {
+  /** "NFL", "NBA", "MLB", "NHL", "NCAAF", "NCAAM", "NCAAW", "WNBA", "MLS" or "EPL". */
+  league: string;
+}
+
+interface usatodayStanding {
+  team: string;
+  abbreviation?: string;
+  conference?: string;
+  division?: string;
+  divisionRank?: number;
+  gamesBehind?: number;
+  wins: number;
+  losses: number;
+  ties?: number;
+  pct?: string;
+  pointsFor?: number;
+  pointsAgainst?: number;
+  /** e.g. "W4" or "L2". */
+  streak?: string;
+}
+
+interface usatodayNewsletter {
+  id: string;
+  name: string;
+  description?: string;
+  group?: string;
+  frequency?: string;
+  popular?: boolean;
+  url?: string;
+}
+
 interface usatodayPuzzle {
   id: string;
   name: string;
@@ -103771,8 +104013,9 @@ interface usatodayVideoDetail {
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
   interface Unit {
     /**
-     * Lists USA Today's main news sections (news, sports, money, life, tech, opinion), each with a
-     * section ID and display name. This is the door for browsing a section.
+     * Lists the sections in USA Today's own navigation (news, politics, sports, entertainment,
+     * money, travel, tech, opinion and more), each with a section ID and display name. This is the
+     * door for browsing a section.
      */
     listSections(): Promise<usatodaySection[]>;
 
@@ -103805,6 +104048,19 @@ interface usatodayVideoDetail {
      * — returning game results with home and away teams, scores, date and status.
      */
     getScores(args: GetScoresArgs): Promise<usatodayScore[]>;
+
+    /**
+     * Reads the current league standings from USA Today Sports — given a league like NFL, NBA,
+     * MLB, NHL — returning each team's conference, division, rank, wins, losses, ties, win
+     * percentage, games behind and streak.
+     */
+    getStandings(args: GetStandingsArgs): Promise<usatodayStanding[]>;
+
+    /**
+     * Lists every USA Today email newsletter, each with an id, name, description, topic group, how
+     * often it is sent and a sign-up page URL.
+     */
+    listNewsletters(): Promise<usatodayNewsletter[]>;
 
     /**
      * Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games and
@@ -115196,6 +115452,7 @@ interface BowmarkProviders {
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
   acuityscheduling: BowmarkProvider_acuityscheduling.Unit;
   adobe: BowmarkProvider_adobe.Unit;
+  adoptapet: BowmarkProvider_adoptapet.Unit;
   adorama: BowmarkProvider_adorama.Unit;
   ads_google: BowmarkProvider_ads_google.Unit;
   adsmanager_facebook: BowmarkProvider_adsmanager_facebook.Unit;

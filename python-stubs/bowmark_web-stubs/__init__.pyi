@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 51d8ed14a3e286d414810f944eb8de34984c3b6840472b310194bb6eed810fa3
-# 97 capabilities, 817 providers, 4919 typed functions, 20 refused.
+# Manifest version: 66f4b9021f4757eb89e561c980c6f1439ec57d3c99e6886e6296ef4ce4bb7a86
+# 97 capabilities, 818 providers, 4938 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4741,6 +4741,25 @@ class Prv_adobe_SignatureRequest_Out(TypedDict):
     status: Literal["OUT_FOR_SIGNATURE"]
     webAccessPoint: str | None
 
+class Prv_adoptapet_adoptapetListPetsArgs_In(TypedDict):
+    state: str
+    species: NotRequired[Literal["dog"] | Literal["cat"]]
+    limit: NotRequired[float]
+
+class Prv_adoptapet_adoptapetPet_Out(TypedDict):
+    id: str
+    name: str
+    species: Literal["dog"] | Literal["cat"]
+    breed: str | None
+    sex: str | None
+    age: str | None
+    city: str | None
+    state: str | None
+    shelter: str | None
+    photoUrl: str | None
+    url: str
+    description: str | None
+
 class Prv_adorama_AdoramaSearchArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -6491,6 +6510,37 @@ class Prv_aol_mail_MarkAsReadArgs_In(TypedDict):
 class Prv_aol_mail_AolMailReadResult_Out(TypedDict):
     id: str
     read: bool
+
+class Prv_aol_mail_GetAttachmentArgs_In(TypedDict):
+    credentials: Prv_aol_mail_MailboxCredentials_In
+    id: str
+    index: float
+
+class Prv_aol_mail_AolMailAttachment_Out(TypedDict):
+    id: str
+    index: float
+    filename: str | None
+    contentType: str
+    sizeBytes: float
+    file: NotRequired[Prv_aol_mail_AolMailAttachment_Out_file_Out]
+    warnings: list[str]
+
+class Prv_aol_mail_AolMailAttachment_Out_file_Out(TypedDict):
+    id: str
+    name: str
+    contentType: str
+    bytes: float
+    url: str
+    expiresAt: str
+
+class Prv_aol_mail_FlagMessageArgs_In(TypedDict):
+    credentials: Prv_aol_mail_MailboxCredentials_In
+    messageId: str
+    flagged: NotRequired[bool]
+
+class Prv_aol_mail_AolMailFlagResult_Out(TypedDict):
+    id: str
+    flagged: bool
 
 class Prv_aol_mail_MoveMessageArgs_In(TypedDict):
     credentials: Prv_aol_mail_MailboxCredentials_In
@@ -13605,6 +13655,29 @@ class Prv_calendly_CalendlyRoutingFormField_Out(TypedDict):
     required: bool
     choices: list[str]
 
+class Prv_calendly_CalendlyPackagesResult_Out(TypedDict):
+    profileSlug: str
+    packages: list[Prv_calendly_CalendlyPackage_Out]
+
+class Prv_calendly_CalendlyPackage_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    offeringType: str
+    price: Prv_calendly_CalendlyPackage_Out_price_Out
+    sessions: list[Prv_calendly_CalendlyPackageSession_Out]
+    url: str
+
+class Prv_calendly_CalendlyPackage_Out_price_Out(TypedDict):
+    amount: float | None
+    currency: str | None
+
+class Prv_calendly_CalendlyPackageSession_Out(TypedDict):
+    eventTypeUuid: str
+    eventTypeName: str | None
+    count: float | None
+    unit: str
+
 class Prv_calendly_CalendlyFindProfilesResult_Out(TypedDict):
     name: str
     company: str | None
@@ -13934,6 +14007,15 @@ class Prv_canva_CanvaTemplateCategoryThumbnail_Out(TypedDict):
     url: str
     width: float
     height: float
+
+class Prv_canva_getMyProfile_return_Out(TypedDict):
+    profile: Prv_canva_CanvaMyProfile_Out
+    warnings: list[str]
+
+class Prv_canva_CanvaMyProfile_Out(TypedDict):
+    id: str
+    name: str
+    handle: str
 
 class Prv_canva_getCreator_return_Out(TypedDict):
     creator: Prv_canva_CanvaCreator_Out
@@ -15094,6 +15176,19 @@ class Prv_chase_ChaseSearchResult_Out(TypedDict):
     title: str
     description: str | None
     url: str
+
+class Prv_chatgpt_ShareLink_Out(TypedDict):
+    shareId: str
+    url: str
+
+class Prv_chatgpt_CreatedProject_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_chatgpt_updateCustomInstructions_update_In(TypedDict):
+    aboutUser: NotRequired[str]
+    responseStyle: NotRequired[str]
+    enabled: NotRequired[bool]
 
 class Prv_chatgpt_WriteResult_Out(TypedDict):
     ok: bool
@@ -34143,6 +34238,46 @@ class Prv_imgur_ImgurUser_Out_trophies_item_Out(TypedDict):
     description: str | None
     imageUrl: str | None
 
+class Prv_imgur_ImgurImage_Out(TypedDict):
+    id: str
+    url: str
+    mimeType: str
+    width: float | None
+    height: float | None
+    size: float | None
+    views: float
+    title: str | None
+    description: str | None
+    isAnimated: bool
+    mp4Url: str | None
+    createdAt: str | None
+
+class Prv_imgur_ImgurTagSummary_Out(TypedDict):
+    name: str
+    displayName: str
+    description: str | None
+    followers: float
+    totalPosts: float
+    url: str
+
+class Prv_imgur_ImgurUserListArgs_In(TypedDict):
+    username: str
+    sort: NotRequired[Literal["newest"] | Literal["oldest"] | Literal["top"] | Literal["best"] | Literal["worst"]]
+    page: NotRequired[float]
+
+class Prv_imgur_ImgurUserComment_Out(TypedDict):
+    id: float
+    postId: str
+    text: str
+    author: str | None
+    upvotes: float
+    downvotes: float
+    points: float
+    platform: str | None
+    createdAt: str | None
+    parentId: float | None
+    deleted: bool
+
 class Prv_imgur_ImgurSearchArgs_In(TypedDict):
     query: str
     window: NotRequired[Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
@@ -52253,6 +52388,46 @@ class Prv_ring_RingProduct_Out(TypedDict):
     images: list[str]
     specs: Mapping[str, str]
 
+class Prv_ring_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_ring_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_ring_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_ring_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_ring_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_ring_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_ring_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_ring_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_rippling_RipplingBoard_Out(TypedDict):
     board: str
     boardUrl: str
@@ -53586,6 +53761,11 @@ class Prv_scribd_ScribdDownload_Out(TypedDict):
     contentType: str | None
     size: float
     base64: str
+
+class Prv_scribd_ScribdDeleteResult_Out(TypedDict):
+    id: float
+    deleted: Literal[True]
+    response: NotRequired[Any]
 
 class Prv_scribd_ScribdRatingResult_Out(TypedDict):
     id: float
@@ -65501,6 +65681,33 @@ class Prv_usatoday_usatodayScore_Out(TypedDict):
     date: str
     status: str
 
+class Prv_usatoday_GetStandingsArgs_In(TypedDict):
+    league: str
+
+class Prv_usatoday_usatodayStanding_Out(TypedDict):
+    team: str
+    abbreviation: NotRequired[str]
+    conference: NotRequired[str]
+    division: NotRequired[str]
+    divisionRank: NotRequired[float]
+    gamesBehind: NotRequired[float]
+    wins: float
+    losses: float
+    ties: NotRequired[float]
+    pct: NotRequired[str]
+    pointsFor: NotRequired[float]
+    pointsAgainst: NotRequired[float]
+    streak: NotRequired[str]
+
+class Prv_usatoday_usatodayNewsletter_Out(TypedDict):
+    id: str
+    name: str
+    description: NotRequired[str]
+    group: NotRequired[str]
+    frequency: NotRequired[str]
+    popular: NotRequired[bool]
+    url: NotRequired[str]
+
 class Prv_usatoday_usatodayPuzzle_Out(TypedDict):
     id: str
     name: str
@@ -75227,6 +75434,17 @@ class Prv_adobe(Protocol):
         signed in to their own Adobe ID, and it really emails the signers.
         """
 
+class Prv_adoptapet(Protocol):
+    """Adopt a Pet (adoptapet.com) — list public dog or cat adoption listings in a US state,
+    with breed, age, shelter, location and listing URL.
+    """
+
+    async def listPets(self, args: Prv_adoptapet_adoptapetListPetsArgs_In, /) -> list[Prv_adoptapet_adoptapetPet_Out]:
+        """Lists public dog or cat adoption listings in a US state (for example, { state:
+        \\"Texas\\", species: \\"dog\\" }): name, breed, age, city, shelter, photo, description
+        and listing URL. Default species is dog; default limit is 20.
+        """
+
 class Prv_adorama(Protocol):
     """Adorama, the New York camera, photo, video and electronics retailer: find a product by
     name, brand, model or SKU across its whole catalog (url + SKU), and list its
@@ -76224,6 +76442,21 @@ class Prv_aol_mail(Protocol):
         """Marks one of the CALLER's own AOL Mail messages read (or unread with `read: false`),
         given a row `id` from listMessages or searchMessages. Takes the caller's address and app
         password, as secrets.
+        """
+
+    async def getAttachment(self, args: Prv_aol_mail_GetAttachmentArgs_In, /) -> Prv_aol_mail_AolMailAttachment_Out:
+        """Saves one attachment of the CALLER's own AOL Mail message — a PDF statement, a photo —
+        to the run's files, given the message's row `id` and the attachment's position in
+        getMessage's `attachments` list. Returns the saved `file` (name, type, size, a signed
+        url), not inline bytes. Does not mark the message read. Takes the caller's address and
+        app password, as secrets.
+        """
+
+    async def flagMessage(self, args: Prv_aol_mail_FlagMessageArgs_In, /) -> Prv_aol_mail_AolMailFlagResult_Out:
+        """Stars (flags) one of the CALLER's own AOL Mail messages, or unstars it with `flagged:
+        false`, given a row `id` from listMessages or searchMessages. Rows report the result as
+        `flagged`, and searchMessages finds them with `is:flagged`. Takes the caller's address
+        and app password, as secrets.
         """
 
     async def moveMessage(self, args: Prv_aol_mail_MoveMessageArgs_In, /) -> Prv_aol_mail_AolMailMoveResult_Out:
@@ -80076,6 +80309,14 @@ class Prv_calendly(Protocol):
         external HubSpot or Marketo form has no questions of its own. Never submits anything.
         """
 
+    async def listPackages(self, profile: str, /) -> Prv_calendly_CalendlyPackagesResult_Out:
+        """Lists the prepaid session packages a Calendly profile sells (several meetings bought
+        together, or a one-off payment link): name, description, price in the currency's major
+        unit, how many sessions of which event type, and the url where a person would buy it.
+        Takes a profile slug or url ("https://calendly.com/colleendelv"). A profile that sells
+        none returns `packages: []`. Never buys anything.
+        """
+
     async def findProfiles(self, name: str, company: str | None = None, /) -> Prv_calendly_CalendlyFindProfilesResult_Out:
         """Finds a person's own Calendly page from their full name, and optionally their company
         (pass it — "caleb-firecrawl" is found only by the company shape). Checks the slug shapes
@@ -80272,6 +80513,11 @@ class Prv_canva(Protocol):
     async def listTemplateCategories(self, /) -> Prv_canva_listTemplateCategories_return_Out:
         """Lists the design types Canva groups templates under (flyers, posters, Instagram posts,
         resumes, presentations, …) with each one's template-listing url.
+        """
+
+    async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_canva_getMyProfile_return_Out:
+        """Reads the signed-in caller's Canva profile — account id, display name and handle. Needs
+        the caller signed in to canva.com.
         """
 
     async def getCreator(self, handleOrUrl: str, /) -> Prv_canva_getCreator_return_Out:
@@ -80874,6 +81120,34 @@ class Prv_chatgpt(Protocol):
     signed in as the CALLER through the relay, read their own account. The rest of the
     declared surface awaits a caller-reachable implementation.
     """
+
+    async def shareConversation(self, conversation: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_ShareLink_Out:
+        """Creates a public share link for one of the caller's conversations (id or chatgpt.com/c/
+        url) and returns its chatgpt.com/share/ url — anyone with the link can read it;
+        deleteSharedLink revokes it. Needs the caller signed in to chatgpt.com through the
+        relay; the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError`
+        when the saved sign-in has expired.
+        """
+
+    async def createProject(self, name: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_CreatedProject_Out:
+        """Creates a new, private project in the caller's sidebar and returns its g-p- id. Needs
+        the caller signed in to chatgpt.com through the relay; the run pauses for a sign-in link
+        when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def updateCustomInstructions(self, update: Prv_chatgpt_updateCustomInstructions_update_In, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Sets the caller's custom instructions — what ChatGPT should know about them (aboutUser)
+        and how it should respond (responseStyle). getCustomInstructions reads them back. Needs
+        the caller signed in to chatgpt.com through the relay; the run pauses for a sign-in link
+        when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def rateResponse(self, conversation: str, messageId: str, rating: Literal["thumbsUp"] | Literal["thumbsDown"], opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Gives a thumbs up or down to one assistant reply in the caller's conversation (message
+        ids come from getConversation). Needs the caller signed in to chatgpt.com through the
+        relay; the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError`
+        when the saved sign-in has expired.
+        """
 
     async def renameConversation(self, conversation: str, title: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
         """Renames one of the caller's conversations (id or chatgpt.com/c/ url — listConversations
@@ -91629,6 +91903,29 @@ class Prv_imgur(Protocol):
         getUser("imgur").
         """
 
+    async def getImage(self, idOrUrl: str, /) -> Prv_imgur_ImgurImage_Out:
+        """One imgur image or video file by id or i.imgur.com URL: direct link, type, dimensions,
+        size, views. Example: getImage("https://i.imgur.com/xfwvhd6.png").
+        """
+
+    async def listTags(self, /) -> list[Prv_imgur_ImgurTagSummary_Out]:
+        """The popular imgur tags with followers and post totals; pass a name to getTag for its
+        posts.
+        """
+
+    async def getUserPosts(self, username: str | Prv_imgur_ImgurUserListArgs_In, /) -> list[Prv_imgur_ImgurPost_Out]:
+        """A user's public gallery submissions, newest first by default. Example: getUserPosts({
+        username: "J3lek", sort: "top" }).
+        """
+
+    async def getUserFavorites(self, username: str | Prv_imgur_ImgurUserListArgs_In, /) -> list[Prv_imgur_ImgurPost_Out]:
+        """The posts a user has publicly favorited. Example: getUserFavorites("J3lek")."""
+
+    async def getUserComments(self, username: str | Prv_imgur_ImgurUserListArgs_In, /) -> list[Prv_imgur_ImgurUserComment_Out]:
+        """A user's public comments, each with the id of the post it was left on. Example:
+        getUserComments({ username: "J3lek", sort: "best" }).
+        """
+
     async def searchPosts(self, query: str | Prv_imgur_ImgurSearchArgs_In, /) -> list[Prv_imgur_ImgurPost_Out]:
         """Searches public imgur posts (about 60 a page), top-scored first by default. Example:
         searchPosts("cats") or searchPosts({ query: "cats", window: "week" }).
@@ -102258,6 +102555,18 @@ class Prv_ring(Protocol):
     async def getProduct(self, url: str, /) -> Prv_ring_RingProduct_Out:
         """Read a Ring product's live offer and technical specifications."""
 
+    async def signup(self, args: Any, /) -> Prv_ring_signup_return_u0_Out | Prv_ring_signup_return_u1_Out | Prv_ring_signup_return_u2_Out | Prv_ring_signup_return_u3_Out:
+        """Makes a NEW Ring account with the person's own email and password, in a session. Pauses
+        with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+        continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved
+        and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_ring_confirmSignup_return_u0_Out | Prv_ring_confirmSignup_return_u1_Out | Prv_ring_confirmSignup_return_u2_Out | Prv_ring_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_rippling(Protocol):
     """Every open job on a company's Rippling job board — title, location, department and link
     — live off the JSON the board page itself renders from.
@@ -102958,6 +103267,12 @@ class Prv_scribd(Protocol):
         or the numeric id, and returns the file as base64 with its name, content type and size.
         Never buys a plan: a caller whose account has no download access gets Scribd's own
         refusal as an error. Needs the caller signed in to Scribd.
+        """
+
+    async def deleteDocument(self, document: str | float, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdDeleteResult_Out:
+        """Deletes one of the signed-in caller's own uploaded Scribd documents, from its
+        scribd.com/document/<id>/<slug> url or numeric id. Irreversible; Scribd refuses a
+        document the caller does not own. Needs the caller signed in to Scribd.
         """
 
     async def rateDocument(self, document: str | float, rating: Literal["up"] | Literal["down"] | Literal["clear"], opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdRatingResult_Out:
@@ -108886,8 +109201,9 @@ class Prv_usatoday(Protocol):
     """USA Today news site — articles, sections, search, sports scores and puzzles."""
 
     async def listSections(self, /) -> list[Prv_usatoday_usatodaySection_Out]:
-        """Lists USA Today's main news sections (news, sports, money, life, tech, opinion), each
-        with a section ID and display name. This is the door for browsing a section.
+        """Lists the sections in USA Today's own navigation (news, politics, sports, entertainment,
+        money, travel, tech, opinion and more), each with a section ID and display name. This is
+        the door for browsing a section.
         """
 
     async def browseSection(self, args: Prv_usatoday_BrowseSectionArgs_In, /) -> list[Prv_usatoday_usatodayArticle_Out]:
@@ -108913,6 +109229,17 @@ class Prv_usatoday(Protocol):
     async def getScores(self, args: Prv_usatoday_GetScoresArgs_In, /) -> list[Prv_usatoday_usatodayScore_Out]:
         """Reads sports scores from USA Today's scores section — given a sport like NFL, NBA, MLB,
         MLS — returning game results with home and away teams, scores, date and status.
+        """
+
+    async def getStandings(self, args: Prv_usatoday_GetStandingsArgs_In, /) -> list[Prv_usatoday_usatodayStanding_Out]:
+        """Reads the current league standings from USA Today Sports — given a league like NFL, NBA,
+        MLB, NHL — returning each team's conference, division, rank, wins, losses, ties, win
+        percentage, games behind and streak.
+        """
+
+    async def listNewsletters(self, /) -> list[Prv_usatoday_usatodayNewsletter_Out]:
+        """Lists every USA Today email newsletter, each with an id, name, description, topic group,
+        how often it is sent and a sign-up page URL.
         """
 
     async def listPuzzles(self, /) -> list[Prv_usatoday_usatodayPuzzle_Out]:
@@ -112714,6 +113041,7 @@ class BowmarkProviders(Protocol):
     acqualinaresort: Prv_acqualinaresort
     acuityscheduling: Prv_acuityscheduling
     adobe: Prv_adobe
+    adoptapet: Prv_adoptapet
     adorama: Prv_adorama
     ads_google: Prv_ads_google
     adsmanager_facebook: Prv_adsmanager_facebook
