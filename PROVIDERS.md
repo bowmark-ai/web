@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6320 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6319 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3102,7 +3102,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lime.cityPricing` | li.me | Reads one city's Lime ride pricing from its li.me city page: unlock fee, per-minute… | 🟢 |
 | `lime.listCities` | li.me | Lists every city Lime operates e-scooters and e-bikes in, grouped by region, from… | 🟢 |
 | `linkedin.acceptInvitation` | linkedin.com | Accepts a connection invitation the signed-in caller received, by the id and… | 🟢 |
-| `linkedin.addProfileSkill` | linkedin.com | Adds one skill to the signed-in caller's own LinkedIn profile — the write half of… | 🟢 |
+| `linkedin.addProfileSkill` | linkedin.com | Adds one skill to the signed-in caller's own LinkedIn profile. | 🟢 |
 | `linkedin.applyToJob` | linkedin.com | Submits an Easy Apply application to a job posting as the signed-in caller, using the… | 🟢 |
 | `linkedin.attendEvent` | linkedin.com | RSVPs the signed-in caller to a LinkedIn event (the Attend button), or withdraws the… | 🟢 |
 | `linkedin.commentOnPost` | linkedin.com | Comments on a post as the signed-in caller. | 🟢 |
@@ -3124,7 +3124,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getPost` | linkedin.com | Reads one public LinkedIn post — the author, the written text in full, any attached… | 🟢 |
 | `linkedin.getProfile` | linkedin.com | Returns the public professional record of one person from their profile URL — full… | 🟢 |
 | `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟢 |
-| `linkedin.getProfileSkills` | linkedin.com | Returns the skills and the licences and certifications one member lists on their… | 🟢 |
 | `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟢 |
 | `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | 🟢 |
 | `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | 🟢 |

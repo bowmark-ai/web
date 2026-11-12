@@ -462,7 +462,7 @@ legacyhomesal.com — legacyhomesal: getAvailability, listCommunities
 letterboxd.com — letterboxd: film, getOwnAccount, memberDiary, memberFilms
 lever.co — lever: listJobs (+1 planned)
 li.me — lime: cityPricing, listCities
-linkedin.com — linkedin: 67 functions — ask get_library
+linkedin.com — linkedin: 66 functions — ask get_library
 liquiddeath.com — liquiddeath: addToCart, getCart, getProduct, listProducts, searchProducts (+1 planned)
 liquidspace.com — liquidspace: getListingDetails, search
 littlewordsproject.com — littlewordsproject: getLittleWordsProjectCheckoutLink, getLittleWordsProjectProduct, listLittleWordsProjectCollections, listLittleWordsProjectProducts
