@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8bdfb9bfd13d9272f3d328f0513152ccf7f9472bf9deec1de24ad8c9ffd930e1
-# 98 capabilities, 822 providers, 4992 typed functions, 20 refused.
+# Manifest version: 84fdd55836d25a6f5bfcb7fc3cdff65d8921648c27a446839d6d82ab7416b535
+# 98 capabilities, 822 providers, 4993 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -47755,6 +47755,13 @@ class Prv_pinterest_reactToPin_return_Out(TypedDict):
 
 class Prv_pinterest_commentOnPin_options_In(TypedDict):
     aggregatedPinDataId: NotRequired[str]
+
+class Prv_pinterest_sendPin_recipients_In(TypedDict):
+    userIds: NotRequired[Sequence[str]]
+    emails: NotRequired[Sequence[str]]
+
+class Prv_pinterest_sendPin_options_In(TypedDict):
+    message: NotRequired[str]
 
 class Prv_pinterest_followTopic_return_Out(TypedDict):
     topicId: str
@@ -100781,6 +100788,15 @@ class Prv_pinterest(Protocol):
         /resource/AggregatedCommentResource/create/`. THROWS `PinterestInputError` on a
         non-numeric pin id or empty text, and when the saved session is refused (the run asks
         for a fresh sign-in).
+        """
+
+    async def sendPin(self, pinId: str, recipients: Prv_pinterest_sendPin_recipients_In, options: Prv_pinterest_sendPin_options_In | None = None, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
+        """Send a pin to one or more people in a Pinterest message as the signed-in caller
+        (recipients are Pinterest user ids from `getUser` / `searchUsers`, or email addresses),
+        with an optional note. It REACHES REAL PEOPLE. `POST
+        /resource/ConversationsResource/create/`. THROWS `PinterestInputError` on a non-numeric
+        pin id, no recipient, or a malformed recipient, and when the saved session is refused
+        (the run asks for a fresh sign-in).
         """
 
     async def followTopic(self, topicId: str, opts: ConnectionOption | None = None, /) -> Prv_pinterest_followTopic_return_Out:

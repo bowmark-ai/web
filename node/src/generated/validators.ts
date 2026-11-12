@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8bdfb9bfd13d9272f3d328f0513152ccf7f9472bf9deec1de24ad8c9ffd930e1
-// 4992 checked, 20 unchecked.
+// Manifest version: 84fdd55836d25a6f5bfcb7fc3cdff65d8921648c27a446839d6d82ab7416b535
+// 4993 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8bdfb9bfd13d9272f3d328f0513152ccf7f9472bf9deec1de24ad8c9ffd930e1",
+  "version": "84fdd55836d25a6f5bfcb7fc3cdff65d8921648c27a446839d6d82ab7416b535",
   "units": {
     "address_validation": {
       "defs": {
@@ -102801,6 +102801,76 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "aggregatedPinDataId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendPin": [
+          {
+            "name": "pinId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "recipients",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "userIds",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "emails",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "message",
                   "schema": {
                     "k": "string"
                   },

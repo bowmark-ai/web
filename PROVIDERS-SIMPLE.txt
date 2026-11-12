@@ -66,7 +66,7 @@ apidirectory.com — apidirectory_com: listCategories, search (+1 planned)
 apify.com — apify: store
 app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchDeals (+2 planned)
 apple.com — apple: 32 functions — ask get_library
-apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listAppEvents, listArcadeGames, listCategories, listDeveloperApps, listPurchasedApps, listReviews, listSimilarApps, listSubscriptions, listTodayStories, listTopCharts, listVersionHistory, searchApps (+1 planned)
+apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listAppEvents, listArcadeGames, listCategories, listCollections, listDeveloperApps, listPurchasedApps, listReviews, listSimilarApps, listSubscriptions, listTodayStories, listTopCharts, listVersionHistory, searchApps (+1 planned)
 arajet.com — arajet: search
 archipelago.gg — archipelago: getClientRelease, getGameOptions
 archive.org — archive_org: checkAvailability, checkLendingAvailability, downloadFile, getItem, getSnapshot, searchItems, searchScholar (+1 planned)
@@ -366,7 +366,7 @@ gobrightwing.com — gobrightwing: getJobDetails, searchJobs (+2 planned)
 gokenko.com — kenko: cancelBooking, cancelMembership, findStudio, getAppointmentAvailability, getClass, getClassSpots, getMyProfile, listAppointmentTypes, listClasses, listGiftCards, listInstructors, listMyBookings, listMyMemberships, listMyPurchases, listPricing, listProducts, listScheduleFilters, pauseMembership, updateMyProfile (+8 planned)
 golf.com — golf_com: nothing callable yet (+2 planned)
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
-goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, unfollowUser, writeReview
+goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, unfollowUser, writeReview (+1 planned)
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: addMissingPlace, geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaceEdit, suggestPlaces, writeReview
@@ -587,7 +587,7 @@ personio.de — personio: listJobs
 pexels.com — pexels: search
 pike13.com — pike13: bookClass, cancelVisit, checkEnrollmentEligibility, findBusiness, getAppointmentAvailability, getAppointmentAvailabilitySummary, getBusiness, getClass, getMyProfile, getPlan, getSchedule, getScheduleSummary, getService, getWaitlistEligibility, joinWaitlist, leaveWaitlist, listClassSeries, listLocations, listMyBusinesses, listMyPlans, listMyVisits, listMyWaitlistEntries, listMyWaivers, listPlans, listServices, listStaff (+1 planned)
 pilotprotocol.network — pilotprotocol: getApp, listApps
-pinterest.com — pinterest: 42 functions — ask get_library (+5 planned)
+pinterest.com — pinterest: 43 functions — ask get_library (+4 planned)
 pirateship.com — pirateship: getRates (+2 planned)
 pitboss-grills.com — dansons: identifyProduct, listRegisterableProducts
 pizzahut.com — pizzahut: findStores, getDeals, getMenu, getMenuItem, priceOrder (+1 planned)
@@ -857,5 +857,5 @@ youtube.com — youtube: 45 functions — ask get_library (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
 zenoti.com — zenoti: bookAppointment, cancelAppointment, findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, rescheduleAppointment, searchServices (+4 planned)
 zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDetails, getMemberInfo, getMembershipStatus, getPrice, listClasses, listMyBookings, listPackages, listScheduleSlots, searchSchedule, updateMemberInfo (+2 planned)
-zoom.us — zoom: deleteMeeting, downloadRecording, getContactInfo, getContacts, getDownloadLinks, getMarketplaceApp, getMeeting, getMeetingInfo, getMeetingParticipants, getPricing, getProfile, getRecording, getRecordingTranscript, getSystemStatus, getWebinar, joinMeeting, listMeetings, listRecordings, listRecordingTranscripts, listWebinars, scheduleMeeting, searchContacts, searchHelpArticles, searchMarketplaceApps, updateMeeting, updateProfile, updateProfilePicture
+zoom.us — zoom: deleteMeeting, downloadRecording, getContactInfo, getContacts, getDownloadLinks, getHelpArticle, getMarketplaceApp, getMeeting, getMeetingInfo, getMeetingParticipants, getPricing, getProfile, getRecording, getRecordingTranscript, getSystemStatus, getWebinar, joinMeeting, listMeetings, listRecordings, listRecordingTranscripts, listWebinars, scheduleMeeting, searchContacts, searchHelpArticles, searchMarketplaceApps, updateMeeting, updateProfile, updateProfilePicture
 zoopla.co.uk — zoopla: search (+1 planned)

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6466 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6469 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -277,13 +277,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listAppEvents` | apps.apple.com | List the in-app events an app is running or about to run — a game's weekend event, a… | 🟢 |
 | `app_store.listArcadeGames` | apps.apple.com | List the games on Apple's Apple Arcade page — what a subscription gets you… | 🟢 |
 | `app_store.listCategories` | apps.apple.com | List every category and subcategory the App Store sorts apps into — Business… | 🟢 |
+| `app_store.listCollections` | apps.apple.com | List the named collections on the App Store's Games tab or Apps tab — Apple's own… | 🟢 |
 | `app_store.listDeveloperApps` | apps.apple.com | List every app one developer has on the store — from the developer's numeric artist… | 🟢 |
 | `app_store.listPurchasedApps` | apps.apple.com | List the apps the caller's own Apple Account has bought or downloaded, with what was… | 🟢 |
 | `app_store.listReviews` | apps.apple.com | Read what people actually wrote about an app — the review body, its title, the star… | 🟢 |
 | `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | 🟢 |
 | `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions the caller's own Apple Account is paying for —… | 🟢 |
 | `app_store.listTodayStories` | apps.apple.com | List the editorial stories Apple is featuring on the Today tab right now — the page a… | 🟢 |
-| `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | 🟢 |
+| `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad… | 🟢 |
 | `app_store.listVersionHistory` | apps.apple.com | Read an app's update history from its store page — about 25 recent releases, newest… | 🟢 |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
@@ -2547,6 +2548,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | 🟢 |
 | `goodreads.getOwnProfile` | goodreads.com | Reads the signed-in caller's own profile — their shelves with counts, friend list, and… | 🟢 |
 | `goodreads.getSeries` | goodreads.com | Reads a book series' reading order — each book's position number, title, author… | 🟢 |
+| `goodreads.getSimilarBooks` | goodreads.com | Lists the books Goodreads suggests next to one book — the 'readers also enjoyed' list… | ⚪ |
 | `goodreads.listGenreBooks` | goodreads.com | Browses one genre shelf — the books Goodreads itself files under that genre tag… | 🟢 |
 | `goodreads.rateBook` | goodreads.com | Sets the signed-in caller's own star rating (1-5) on a book. | 🟢 |
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | 🟢 |
@@ -4086,7 +4088,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.searchPins` | pinterest.com | Search Pinterest the way a person types into its search box and get the pins back… | 🟢 |
 | `pinterest.searchUsers` | pinterest.com | Search for people and brands by name and get their account back — the door that turns… | 🟢 |
 | `pinterest.searchVideos` | pinterest.com | Search only the video pins — Pinterest's own `videos` search scope, for a caller who… | 🟢 |
-| `pinterest.sendPin` | pinterest.com | Send a pin to somebody in a Pinterest message — the site's own share action. | ⚪ |
+| `pinterest.sendPin` | pinterest.com | Send a pin to somebody in a Pinterest message — the site's own share action. | 🟢 |
 | `pinterest.suggestSearches` | pinterest.com | Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre"… | 🟢 |
 | `pinterest.unfollowBoard` | pinterest.com | Stop following a board. | 🟢 |
 | `pinterest.unfollowTopic` | pinterest.com | Stop following an idea topic. | 🟢 |
@@ -6450,6 +6452,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getContactInfo` | zoom.us | Returns details of one contact. | 🟢 |
 | `zoom.getContacts` | zoom.us | The signed-in caller's contact list. | 🟢 |
 | `zoom.getDownloadLinks` | zoom.us | Returns current Zoom installer links and versions per OS. | 🟢 |
+| `zoom.getHelpArticle` | zoom.us | Reads one Zoom Help Center article's full text, with its steps, by the KB number… | 🟢 |
 | `zoom.getMarketplaceApp` | zoom.us | Returns details of one Zoom Marketplace app. | 🟢 |
 | `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | 🟢 |
 | `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | 🟢 |

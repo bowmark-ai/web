@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8bdfb9bfd13d9272f3d328f0513152ccf7f9472bf9deec1de24ad8c9ffd930e1
-// 98 capabilities, 822 providers, 5010 typed functions, 20 refused.
+// Manifest version: 84fdd55836d25a6f5bfcb7fc3cdff65d8921648c27a446839d6d82ab7416b535
+// 98 capabilities, 822 providers, 5011 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -77179,6 +77179,15 @@ interface PinterestNotification {
      * sign-in).
      */
     commentOnPin(pinId: string, text: string, options?: { aggregatedPinDataId?: string }, opts?: ConnectionOption): Promise<Record<string, unknown>>;
+
+    /**
+     * Send a pin to one or more people in a Pinterest message as the signed-in caller (recipients
+     * are Pinterest user ids from `getUser` / `searchUsers`, or email addresses), with an optional
+     * note. It REACHES REAL PEOPLE. `POST /resource/ConversationsResource/create/`. THROWS
+     * `PinterestInputError` on a non-numeric pin id, no recipient, or a malformed recipient, and
+     * when the saved session is refused (the run asks for a fresh sign-in).
+     */
+    sendPin(pinId: string, recipients: { userIds?: string[]; emails?: string[] }, options?: { message?: string }, opts?: ConnectionOption): Promise<Record<string, unknown>>;
 
     /**
      * Follow one of Pinterest's idea topics (an id from `listTopics` or `getTopic`) for the
