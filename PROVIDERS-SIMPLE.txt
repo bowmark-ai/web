@@ -216,7 +216,7 @@ clubchampion.com — clubchampion: checkAvailability, getFittings, listFitters, 
 clubpilates.com — clubpilates: bookClass, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, joinWaitlist, listClassCategories, listClasses, listClassTypes, listInstructors, listMyBookings, listPricing, updateProfile (+1 planned)
 clubready.com — clubready: bookClass, bookService, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, getWorkoutStats, joinWaitlist, listBrands, listClassCategories, listClasses, listClassTypes, listInstructors, listInvoices, listMyBookings, listPricing, listServiceAvailability, listServiceTypes, updateProfile (+1 planned)
 cnb.avocat.fr — cnb_avocat_fr: nothing callable yet (+1 planned)
-cnbc.com — cnbc_com: getArticle, getMarketData, getQuote, listMarkets, listNews, listQuotes, listSectors, search (+16 planned)
+cnbc.com — cnbc_com: getArticle, getMarketData, getQuote, listCommodities, listCurrencies, listMarkets, listNews, listQuotes, listSectors, search (+14 planned)
 coastpay.com — coast: getFleetCardPricing, getFuelRebate
 code.claude.com — code_claude_com: getDoc, listDocPages
 code.visualstudio.com — vscode: getDoc, listDocPages
@@ -250,6 +250,7 @@ dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
 data.cms.gov — data_cms: getRows, searchDatasets
 davidsonhomes.com — davidsonhomes: getCommunity, getHome, getRegion, listRegions
 dblp.org — dblp: searchAuthors, searchPublications
+de.vestiairecollective.com — vestiaire_collective: search
 deangroup.com — deangroup: getRateCalendar, listProperties, searchAvailability
 decked.com — decked: getVehicleClass, priceCabSideOption, resolveFitment, searchFits
 decksdirect.com — decksdirect: addToCart, getProduct, priceConfiguration, searchProducts (+1 planned)
@@ -267,7 +268,7 @@ dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listExtras, listRoomTypes, sendEnquiry (+1 planned)
-discord.com — discord: 36 functions — ask get_library (+14 planned)
+discord.com — discord: 39 functions — ask get_library (+11 planned)
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
 dmv.virginia.gov — dmv_virginia_gov: searchLocations
@@ -580,7 +581,7 @@ personio.de — personio: listJobs
 pexels.com — pexels: search
 pike13.com — pike13: bookClass, cancelVisit, checkEnrollmentEligibility, findBusiness, getAppointmentAvailability, getAppointmentAvailabilitySummary, getBusiness, getClass, getMyProfile, getPlan, getSchedule, getScheduleSummary, getService, getWaitlistEligibility, joinWaitlist, leaveWaitlist, listClassSeries, listLocations, listMyBusinesses, listMyPlans, listMyVisits, listMyWaitlistEntries, listMyWaivers, listPlans, listServices, listStaff (+1 planned)
 pilotprotocol.network — pilotprotocol: getApp, listApps
-pinterest.com — pinterest: 38 functions — ask get_library (+9 planned)
+pinterest.com — pinterest: 42 functions — ask get_library (+5 planned)
 pirateship.com — pirateship: getRates (+2 planned)
 pitboss-grills.com — dansons: identifyProduct, listRegisterableProducts
 pizzahut.com — pizzahut: findStores, getDeals, getMenu, getMenuItem, priceOrder (+1 planned)
@@ -612,7 +613,7 @@ punchpass.com — punchpass: getCalendarFeed, getClass, getMyClassHistory, getMy
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
 pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyDocuments, listMyInvoices, listMyPlans, listPlans (+8 planned)
 pypi.org — pypi: getProject
-quickbooks.intuit.com — quickbooks: calculatePaycheck, findAccountants, generateInvoice, getAccountant, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getResourceArticle, getServiceStatus, getStatePayrollTaxes, getThread, listAppCategories, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listResourceArticles, listTemplates, searchApps, searchCommunity, searchHelpArticles (+9 planned)
+quickbooks.intuit.com — quickbooks: calculateEmployeeCost, calculatePaycheck, findAccountants, generateInvoice, getAccountant, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getResourceArticle, getServiceStatus, getStatePayrollTaxes, getThread, listAppCategories, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listResourceArticles, listTemplates, searchApps, searchCommunity, searchHelpArticles (+8 planned)
 quince.com — quince: getProduct, searchProducts
 quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+6 planned)
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings

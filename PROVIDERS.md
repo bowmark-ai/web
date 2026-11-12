@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6308 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6309 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1273,8 +1273,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnbc_com.getWatchlist` | cnbc.com | Returns the user's saved watchlist of stocks — symbols, current price, change and… | ⚪ |
 | `cnbc_com.listArticlesByAuthor` | cnbc.com | Lists all articles published by a specific CNBC journalist or contributor, with… | ⚪ |
 | `cnbc_com.listCategories` | cnbc.com | Lists CNBC's news categories and sections — Markets, Investing, Earnings, Economy… | ⚪ |
-| `cnbc_com.listCommodities` | cnbc.com | Lists commodity prices — crude oil, natural gas, gold, silver, copper, wheat and other… | ⚪ |
-| `cnbc_com.listCurrencies` | cnbc.com | Lists major currency exchange rates — USD/EUR, USD/GBP, USD/JPY and others — with… | ⚪ |
+| `cnbc_com.listCommodities` | cnbc.com | Lists commodity prices — crude oil, natural gas, gold, silver, copper, wheat and other… | 🟢 |
+| `cnbc_com.listCurrencies` | cnbc.com | Lists major currency exchange rates — USD/EUR, USD/GBP, USD/JPY and others — with… | 🟢 |
 | `cnbc_com.listMarkets` | cnbc.com | Returns the current state of all major market indices — Dow Jones, S&P 500, Nasdaq… | 🟢 |
 | `cnbc_com.listNews` | cnbc.com | Returns the latest news and articles from CNBC — headlines, publication date, author… | 🟢 |
 | `cnbc_com.listQuotes` | cnbc.com | Returns stock quotes for multiple symbols in one call — the same fields as getQuote… | 🟢 |
@@ -1534,7 +1534,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dickssportinggoods.getProduct` | dickssportinggoods.com | Reads one product's full page — price, available options (size, color), images, brand… | ⚪ |
 | `dickssportinggoods.getWeeklyAd` | dickssportinggoods.com | Reads the current local weekly ad / deals circular for a store or zip — the… | ⚪ |
 | `dickssportinggoods.search` | dickssportinggoods.com | Searches dickssportinggoods.com's catalog for a keyword (optionally scoped by sport… | ⚪ |
-| `dillards.checkStock` | dillards.com | Answers whether one exact size/color of a product is available right now — both for… | 🟢 |
+| `dillards.checkStock` | dillards.com | Answers whether one exact size/color of a product is available right now — both for… | 🟡 |
 | `dillards.findStores` | dillards.com | Finds nearby Dillard's store locations the way the site's own /stores locator does —… | 🟢 |
 | `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟢 |
 | `dillards.search` | dillards.com | Searches dillards.com's catalog for a keyword and returns the matching products the… | 🟡 |
@@ -1557,9 +1557,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.blockUser` | discord.com | Blocks a user. | ⚪ |
 | `discord.createInvite` | discord.com | Creates an invite link to a channel the caller may invite to, with an optional expiry… | ⚪ |
 | `discord.createServer` | discord.com | Creates a new server owned by the caller, with a name and optional icon. | ⚪ |
-| `discord.createThread` | discord.com | Starts a thread from a message, or a new post in a forum channel, as the caller. | ⚪ |
-| `discord.deleteMessage` | discord.com | Deletes a message the caller sent (or, with the permission, anyone's in a server they… | ⚪ |
-| `discord.editMessage` | discord.com | Edits the text of a message the caller sent. | ⚪ |
+| `discord.createThread` | discord.com | Starts a thread from a message, or a new post in a forum channel, as the caller. | 🟢 |
+| `discord.deleteMessage` | discord.com | Deletes a message the caller sent (or, with the permission, anyone's in a server they… | 🟢 |
+| `discord.editMessage` | discord.com | Edits the text of a message the caller sent. | 🟢 |
 | `discord.getAnnouncement` | discord.com | Reads one public announcement post (discord.com/announcements/<serverId>/<postId>) —… | 🟢 |
 | `discord.getApp` | discord.com | Reads one App Directory listing (discord.com/discovery/applications/<id>) — name… | 🟢 |
 | `discord.getDocPage` | discord.com | Reads one Discord developer docs page by url or path (e.g.… | 🟢 |
@@ -3942,9 +3942,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pike13.listStaff` | pike13.com | Lists a studio's staff members with bio and photo (GET /api/v2/front/staff_members)… | 🟢 |
 | `pilotprotocol.getApp` | pilotprotocol.network | Reads one app's detail page (/apps/<id>) — vendor, tagline, description, category… | 🟢 |
 | `pilotprotocol.listApps` | pilotprotocol.network | Lists every app in Pilot Protocol's app store (id, name, vendor, category, tagline… | 🟢 |
-| `pinterest.commentOnPin` | pinterest.com | Leave a comment on a pin as the caller. | ⚪ |
+| `pinterest.commentOnPin` | pinterest.com | Leave a comment on a pin as the caller. | 🟢 |
 | `pinterest.createBoard` | pinterest.com | Make a new board on the caller's account, public or secret, with a name and description. | 🟢 |
-| `pinterest.createPin` | pinterest.com | Create a new pin on the caller's account from an image and a destination link, with a… | ⚪ |
+| `pinterest.createPin` | pinterest.com | Create a new pin on the caller's account from an image and a destination link, with a… | 🟢 |
 | `pinterest.deleteBoard` | pinterest.com | Delete one of the caller's own boards — what makes every board test write reversible. | 🟢 |
 | `pinterest.deletePin` | pinterest.com | Delete a pin the caller created or saved — the undo that makes `createPin` and… | 🟢 |
 | `pinterest.findVisuallySimilar` | pinterest.com | Find pins that look like a region of an image — Pinterest's lens, the thing the site… | ⚪ |
@@ -3975,7 +3975,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listUserFollowing` | pinterest.com | Who this person follows — people, boards and topics, as the caller's own signed-in… | 🟢 |
 | `pinterest.listUserSavedPins` | pinterest.com | The pins a person has saved, newest first, across all their boards — what… | 🟢 |
 | `pinterest.listVisualObjects` | pinterest.com | The objects Pinterest's own computer vision found inside a pin's image — each with a… | 🟢 |
-| `pinterest.reactToPin` | pinterest.com | React to a pin as the caller — Pinterest's good-idea / love / thanks set, which… | ⚪ |
+| `pinterest.reactToPin` | pinterest.com | React to a pin as the caller — Pinterest's good-idea / love / thanks set, which… | 🟢 |
 | `pinterest.savePin` | pinterest.com | Save an existing pin to one of the caller's boards — the repin, which is the single… | 🟢 |
 | `pinterest.searchBoards` | pinterest.com | Search for boards rather than pins — "espresso machine" comes back as 49 boards with… | 🟢 |
 | `pinterest.searchMyPins` | pinterest.com | Search only inside the caller's own saved pins — Pinterest's `my_pins` search scope… | 🟢 |
@@ -3988,7 +3988,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.unfollowTopic` | pinterest.com | Stop following an idea topic. | 🟢 |
 | `pinterest.unfollowUser` | pinterest.com | Stop following a person or a brand. | 🟢 |
 | `pinterest.updateBoard` | pinterest.com | Rename a board, change its description, or flip it between public and secret. | 🟢 |
-| `pinterest.updateProfile` | pinterest.com | Edit the caller's own profile — display name, bio, website, and the profile picture. | ⚪ |
+| `pinterest.updateProfile` | pinterest.com | Edit the caller's own profile — display name, bio, website, and the profile picture. | 🟢 |
 | `pirateship.getRates` | pirateship.com | Compares live shipping rates across USPS and UPS for a package — given a from/to… | 🟢 |
 | `pirateship.trackShipment` | pirateship.com | Looks up delivery status for a shipment by tracking number, the way… | ⚪ |
 | `pirateship.validateAddress` | pirateship.com | Validates and standardizes a US shipping address the way Pirate Ship checks an address… | ⚪ |
@@ -4187,7 +4187,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pushpress.signWaiver` | pushpress.com | Signs an outstanding gym waiver or agreement as the signed-in member, only when the… | ⚪ |
 | `pushpress.updateProfile` | pushpress.com | Updates the signed-in member's profile fields (name, phone, emergency contact, photo). | ⚪ |
 | `pypi.getProject` | pypi.org | Reads one PyPI project's current metadata off PyPI's documented JSON API: version… | 🟢 |
-| `quickbooks.calculateEmployeeCost` | quickbooks.intuit.com | Estimates the full yearly cost of one employee (salary plus payroll taxes, benefits… | ⚪ |
+| `quickbooks.calculateEmployeeCost` | quickbooks.intuit.com | Estimates the full yearly cost of one employee (salary plus payroll taxes, benefits… | 🟢 |
 | `quickbooks.calculatePaycheck` | quickbooks.intuit.com | Computes a US employee's take-home pay for one paycheck from gross pay, pay frequency… | 🟢 |
 | `quickbooks.calculateSalesTax` | quickbooks.intuit.com | Estimates the combined sales tax rate and amount for a purchase price at a US address… | ⚪ |
 | `quickbooks.contactAccountant` | quickbooks.intuit.com | Sends a ProAdvisor the directory's contact request (name, email, phone, what you need… | ⚪ |
@@ -4521,7 +4521,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `scribd.createList` | scribd.com | Creates a new list (collection) on the signed-in caller's account, private unless… | 🟢 |
 | `scribd.deleteDocument` | scribd.com | Deletes one of the signed-in caller's own uploaded documents. | ⚪ |
 | `scribd.downloadDocument` | scribd.com | Downloads a document's file (PDF, DOCX, TXT … as its formats list offers) for the… | 🟢 |
-| `scribd.getDocument` | scribd.com | Reads one document's metadata — title, uploader (name and profile url), description… | 🟢 |
+| `scribd.getDocument` | scribd.com | Reads one document's metadata — title, uploader (name and profile url), description… | 🟡 |
 | `scribd.getDocumentText` | scribd.com | Reads the full extracted text of a public document, page by page where the site marks… | 🟢 |
 | `scribd.getEmbedCode` | scribd.com | Returns Scribd's documented, keyless oEmbed for a public document — the iframe html… | 🟢 |
 | `scribd.getList` | scribd.com | Reads a public Scribd list (a curated collection of documents) from a… | 🟢 |
@@ -5282,7 +5282,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.getProfilePosts` | threads.com | Lists a profile's own threads, newest first, with text, media, like, reply, repost and… | 🟢 |
 | `threads.getProfileReplies` | threads.com | Lists the replies a profile has posted (its Replies tab), each with the post it… | 🟢 |
 | `threads.getProfileReposts` | threads.com | Lists the posts a profile has reposted (its Reposts tab). | 🟢 |
-| `threads.getRelatedPosts` | threads.com | Lists the posts Threads suggests beside one post to a logged-out reader ("related… | 🟢 |
+| `threads.getRelatedPosts` | threads.com | Lists the posts Threads suggests beside one post to a logged-out reader ("related… | 🟡 |
 | `threads.getSavedPosts` | threads.com | Lists the posts the CALLER has saved. | 🟢 |
 | `threads.likePost` | threads.com | Likes a post as the CALLER. | 🟢 |
 | `threads.listConversations` | threads.com | Lists the CALLER's Threads direct-message conversations, newest first, with their ids… | ⚪ |
@@ -5704,6 +5704,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `vessi.getProduct` | vessi.com | Reads one product's complete colorway x size grid with live price, SKU and availability. | 🟢 |
 | `vessi.listProducts` | vessi.com | Lists every Vessi product from the storefront's own live catalog, optionally narrowed… | 🟡 |
 | `vessi.searchProducts` | vessi.com | Searches the live catalog by a fuzzy match on product title or handle. | 🟡 |
+| `vestiaire_collective.search` | de.vestiairecollective.com | Searches Vestiaire Collective's pre-owned luxury fashion listings by keyword or by a… | 🟢 |
 | `viewrail.getDesignEstimate` | viewrail.com | Submits a drawn Victor layout (posts, runs, materials, mounting style) and returns the… | ⚪ |
 | `viewrail.listInfillOptions` | viewrail.com | Lists Victor's infill choices for a run — stainless cable, rod, or glass panel — with… | ⚪ |
 | `viewrail.listMaterials` | viewrail.com | Lists the metal and metal-look composite families Victor's cable railing configurator… | 🟡 |
