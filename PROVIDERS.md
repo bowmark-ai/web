@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6312 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6313 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1663,9 +1663,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `drafthouse.getShowtimes` | drafthouse.com | Lists movie showtimes at an Alamo Drafthouse theater or market, optionally for one… | 🟢 |
 | `dropbox.addFileComment` | dropbox.com | Adds a comment to a file in the caller's Dropbox. | ⚪ |
 | `dropbox.changeProfilePhoto` | dropbox.com | Changes the signed-in caller's profile photo. | ⚪ |
-| `dropbox.closeFileRequest` | dropbox.com | Closes one of the caller's file requests so it stops accepting uploads. | ⚪ |
+| `dropbox.closeFileRequest` | dropbox.com | Closes one of the caller's file requests so it stops accepting uploads. | 🟢 |
 | `dropbox.copyFile` | dropbox.com | Copies a file or folder to another place in the caller's Dropbox. | 🟢 |
-| `dropbox.createFileRequest` | dropbox.com | Creates a file request — a link anyone can upload files to, landing in a folder of the… | ⚪ |
+| `dropbox.createFileRequest` | dropbox.com | Creates a file request — a link anyone can upload files to, landing in a folder of the… | 🟢 |
 | `dropbox.createFolder` | dropbox.com | Creates a new folder in the caller's Dropbox. | 🟢 |
 | `dropbox.createSharedLink` | dropbox.com | Creates (or returns the existing) shared link for a file or folder in the caller's… | 🟢 |
 | `dropbox.createTransfer` | dropbox.com | Creates a Dropbox Transfer from files in the caller's Dropbox or uploaded with it, and… | ⚪ |
@@ -1692,13 +1692,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.listTransfers` | dropbox.com | Lists the transfers the caller has sent, with their links, view and download counts… | ⚪ |
 | `dropbox.moveFile` | dropbox.com | Moves or renames a file or folder in the caller's Dropbox. | 🟢 |
 | `dropbox.readSharedFile` | dropbox.com | Returns the text of a shared document (PDF, Word, slides, text) the way Dropbox's own… | 🟢 |
-| `dropbox.removeSharingMember` | dropbox.com | Removes a person's access to a shared file or folder in the caller's Dropbox. | ⚪ |
+| `dropbox.removeSharingMember` | dropbox.com | Removes a person's access to a shared file or folder in the caller's Dropbox. | 🟢 |
 | `dropbox.restoreFile` | dropbox.com | Restores a deleted file or folder in the caller's Dropbox. | 🟢 |
 | `dropbox.restoreFileVersion` | dropbox.com | Restores a file in the caller's Dropbox to one of its earlier versions. | 🟢 |
 | `dropbox.revokeSharedLink` | dropbox.com | Turns off one of the caller's shared links so it stops working. | 🟢 |
 | `dropbox.saveSharedLinkToDropbox` | dropbox.com | Saves the file or folder behind a shared link into the caller's own Dropbox (the 'Save… | ⚪ |
 | `dropbox.searchFiles` | dropbox.com | Searches the caller's Dropbox by file name and content, as the search box at the top… | 🟢 |
-| `dropbox.shareWithPeople` | dropbox.com | Invites people by email to a file or folder in the caller's Dropbox, as viewers or… | ⚪ |
+| `dropbox.shareWithPeople` | dropbox.com | Invites people by email to a file or folder in the caller's Dropbox, as viewers or… | 🟢 |
 | `dropbox.starFile` | dropbox.com | Stars or unstars a file or folder in the caller's Dropbox. | ⚪ |
 | `dropbox.updateProfileName` | dropbox.com | Changes the signed-in caller's display name (first and last name) in their Dropbox… | ⚪ |
 | `dropbox.uploadFile` | dropbox.com | Uploads a file into a folder in the caller's Dropbox. | ⚪ |
@@ -6296,6 +6296,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.downloadRecording` | zoom.us | Reads the download/play info for one recording from the site's own recording play-info… | 🟢 |
 | `zoom.getContactInfo` | zoom.us | Returns details of one contact. | 🟢 |
 | `zoom.getContacts` | zoom.us | The signed-in caller's contact list. | 🟢 |
+| `zoom.getDownloadLinks` | zoom.us | Returns current Zoom installer links and versions per OS. | 🟢 |
 | `zoom.getMarketplaceApp` | zoom.us | Returns details of one Zoom Marketplace app. | 🟢 |
 | `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | 🟢 |
 | `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | 🟢 |
