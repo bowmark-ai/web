@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 66f4b9021f4757eb89e561c980c6f1439ec57d3c99e6886e6296ef4ce4bb7a86
-// 4938 checked, 20 unchecked.
+// Manifest version: 4cc26eef085e809218e67973cdfc30e4f1871f9c24f13210ecafeb3a7fd9868e
+// 4950 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "66f4b9021f4757eb89e561c980c6f1439ec57d3c99e6886e6296ef4ce4bb7a86",
+  "version": "4cc26eef085e809218e67973cdfc30e4f1871f9c24f13210ecafeb3a7fd9868e",
   "units": {
     "address_validation": {
       "defs": {
@@ -2971,6 +2971,41 @@ export const VALIDATORS: ValidatorTable = {
       },
       "functions": {
         "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "google": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchShopping": [
           {
             "name": "query",
             "schema": {
@@ -119980,6 +120015,39 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.shop_app": {
       "defs": {
+        "ShopAppAddToProductListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "variantId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "remove",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ShopAppBrowseCategoryArgs": {
           "k": "object",
           "props": [
@@ -119994,6 +120062,35 @@ export const VALIDATORS: ValidatorTable = {
               "name": "after",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ShopAppCreateProductListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "privacy",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "PRIVATE"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "PUBLIC"
+                  }
+                ]
               },
               "optional": true
             }
@@ -120151,6 +120248,44 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ShopAppSaveProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "variantId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "saved",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ShopAppStartCheckoutArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ShopAppTrackPackageArgs": {
           "k": "object",
           "props": [
@@ -120264,6 +120399,110 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ShopAppListPageArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createProductList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppCreateProductListArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "saveProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppSaveProductArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToProductList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppAddToProductListArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "startCheckout": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppStartCheckoutArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -121650,6 +121889,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listSpotlightFeed": [],
+        "listTopicSpotlights": [
+          {
+            "name": "hashtag",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getSpotlightVideo": [
           {
             "name": "url",
@@ -121875,6 +122123,57 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "blockUser": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "userId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "username",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unblockUser": [
           {
             "name": "input",
             "schema": {
@@ -127491,6 +127790,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetGameDlcArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetGameReviewsArgs": {
           "k": "object",
           "props": [
@@ -127710,6 +128029,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetSteamDeckCompatibilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetWishlistArgs": {
           "k": "object",
           "props": []
@@ -127814,6 +128153,18 @@ export const VALIDATORS: ValidatorTable = {
               "name": "maxLength",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListStoreSpecialsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "countryCode",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -128524,6 +128875,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCommunityHubArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listStoreSpecials": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListStoreSpecialsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getGameDlc": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameDlcArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSteamDeckCompatibility": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSteamDeckCompatibilityArgs"
             },
             "optional": false
           }
@@ -154127,6 +154508,24 @@ export const VALIDATORS: ValidatorTable = {
         "getUser": [
           {
             "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getCollection": [
+          {
+            "name": "ref",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getWaitlist": [
+          {
+            "name": "ref",
             "schema": {
               "k": "string"
             },

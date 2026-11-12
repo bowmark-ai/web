@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 66f4b9021f4757eb89e561c980c6f1439ec57d3c99e6886e6296ef4ce4bb7a86
-# 97 capabilities, 818 providers, 4938 typed functions, 20 refused.
+# Manifest version: 4cc26eef085e809218e67973cdfc30e4f1871f9c24f13210ecafeb3a7fd9868e
+# 98 capabilities, 818 providers, 4950 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1589,6 +1589,26 @@ class Cap_goal_diff_StandingsRow_Out(TypedDict):
     goalsAgainst: float
     goalDiff: float
     points: NotRequired[float]
+
+class Cap_google_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_google_GoogleShoppingSearchResult_Out(TypedDict):
+    query: str
+    results: list[Cap_google_GoogleShoppingResult_Out]
+    credits: float | None
+    warnings: list[str]
+
+class Cap_google_GoogleShoppingResult_Out(TypedDict):
+    position: float
+    title: str
+    seller: str | None
+    link: str
+    price: str | None
+    imageUrl: str | None
+    rating: float | None
+    ratingCount: float | None
+    productId: str | None
 
 class Cap_gstin_verification_gstin_verificationResult_Out(TypedDict):
     gstin: str
@@ -55148,6 +55168,44 @@ class Prv_shop_app_ShopAppFollowedStore_Out(TypedDict):
     logo: str | None
     followedByMe: bool | None
 
+class Prv_shop_app_ShopAppCreateProductListArgs_In(TypedDict):
+    name: str
+    privacy: NotRequired[Literal["PRIVATE"] | Literal["PUBLIC"]]
+
+class Prv_shop_app_ShopAppCreatedProductList_Out(TypedDict):
+    id: str
+    name: str | None
+    publicId: str | None
+    privacy: Literal["PRIVATE"] | Literal["PUBLIC"]
+    inviteUrl: str | None
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppSaveProductArgs_In(TypedDict):
+    variantId: str
+    store: NotRequired[str]
+    saved: NotRequired[bool]
+
+class Prv_shop_app_ShopAppListItemState_Out(TypedDict):
+    variantId: str
+    listId: str | None
+    inList: bool
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppAddToProductListArgs_In(TypedDict):
+    listId: str
+    variantId: str
+    store: NotRequired[str]
+    remove: NotRequired[bool]
+
+class Prv_shop_app_ShopAppStartCheckoutArgs_In(TypedDict):
+    store: str
+
+class Prv_shop_app_ShopAppCheckout_Out(TypedDict):
+    storeId: str
+    checkoutId: str | None
+    url: str
+    warnings: list[str]
+
 class Prv_shop_app_ShopAppFollowStoreArgs_In(TypedDict):
     store: str
     follow: NotRequired[bool]
@@ -56076,6 +56134,11 @@ class Prv_snapchat_SnapchatSpotlightVideo_Out(TypedDict):
     creatorUrl: NotRequired[str]
     canonicalUrl: NotRequired[str]
 
+class Prv_snapchat_SnapchatTopicSpotlights_Out(TypedDict):
+    hashtag: str
+    videos: list[Prv_snapchat_SnapchatSpotlightVideo_Out]
+    relatedTopics: list[str]
+
 class Prv_snapchat_SnapchatSpotlightVideoDetail_Out(TypedDict):
     name: NotRequired[str]
     description: NotRequired[str]
@@ -56305,6 +56368,12 @@ class Prv_snapchat_blockUser_input_u0_In(TypedDict):
     userId: str
 
 class Prv_snapchat_blockUser_input_u1_In(TypedDict):
+    username: str
+
+class Prv_snapchat_unblockUser_input_u0_In(TypedDict):
+    userId: str
+
+class Prv_snapchat_unblockUser_input_u1_In(TypedDict):
     username: str
 
 class Prv_snapchat_updateDisplayName_input_In(TypedDict):
@@ -59484,6 +59553,77 @@ class Prv_steam_SteamHubItem_Out(TypedDict):
     imageUrl: str | None
     commentCount: float | None
     rating: float | None
+
+class Prv_steam_ListStoreSpecialsArgs_In(TypedDict):
+    countryCode: NotRequired[str]
+
+class Prv_steam_ListStoreSpecialsResponse_Out(TypedDict):
+    specials: list[Prv_steam_StoreSpecialsGame_Out]
+    topSellers: list[Prv_steam_StoreSpecialsGame_Out]
+    newReleases: list[Prv_steam_StoreSpecialsGame_Out]
+    comingSoon: list[Prv_steam_StoreSpecialsGame_Out]
+    dailyDeal: list[Prv_steam_StoreSpecialsGame_Out]
+
+class Prv_steam_StoreSpecialsGame_Out(TypedDict):
+    appid: str
+    name: str | None
+    price: Prv_steam_StoreSpecialsGame_Out_price_u0_Out | None
+    discountExpiration: float | None
+    headerImage: str | None
+    platforms: Prv_steam_StoreSpecialsGame_Out_platforms_Out
+    url: str
+
+class Prv_steam_StoreSpecialsGame_Out_price_u0_Out(TypedDict):
+    currency: str
+    initial: float
+    final: float
+    discountPercent: float
+
+class Prv_steam_StoreSpecialsGame_Out_platforms_Out(TypedDict):
+    windows: bool
+    mac: bool
+    linux: bool
+
+class Prv_steam_GetGameDlcArgs_In(TypedDict):
+    appid: str | float
+
+class Prv_steam_GetGameDlcResponse_Out(TypedDict):
+    appid: str
+    gameName: str | None
+    dlc: list[Prv_steam_SteamDlc_Out]
+
+class Prv_steam_SteamDlc_Out(TypedDict):
+    appid: str
+    name: str | None
+    price: Prv_steam_SteamDlc_Out_price_u0_Out | None
+    releasedAt: float | None
+    headerImage: str | None
+    platforms: Prv_steam_SteamDlc_Out_platforms_Out
+    url: str
+
+class Prv_steam_SteamDlc_Out_price_u0_Out(TypedDict):
+    currency: str
+    initial: float
+    final: float
+    discountPercent: float
+
+class Prv_steam_SteamDlc_Out_platforms_Out(TypedDict):
+    windows: bool
+    mac: bool
+    linux: bool
+
+class Prv_steam_GetSteamDeckCompatibilityArgs_In(TypedDict):
+    appid: str | float
+
+class Prv_steam_GetSteamDeckCompatibilityResponse_Out(TypedDict):
+    appid: str
+    rating: Literal["verified"] | Literal["playable"] | Literal["unsupported"] | Literal["unknown"]
+    category: float
+    results: list[Prv_steam_SteamDeckTestResult_Out]
+
+class Prv_steam_SteamDeckTestResult_Out(TypedDict):
+    result: str
+    kind: Literal["pass"] | Literal["caveat"] | Literal["fail"] | Literal["info"] | Literal["other"]
 
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
@@ -71313,6 +71453,37 @@ class Prv_yelp_YelpUserReview_Out_business_Out(TypedDict):
     name: str | None
     city: str | None
 
+class Prv_yelp_YelpCollection_Out(TypedDict):
+    id: str
+    title: str | None
+    url: str | None
+    description: str | None
+    ownerId: str | None
+    ownerName: str | None
+    followerCount: float | None
+    placeCount: float | None
+    businesses: list[Prv_yelp_YelpCollectionBusiness_Out]
+
+class Prv_yelp_YelpCollectionBusiness_Out(TypedDict):
+    alias: str | None
+    name: str
+    url: str | None
+    rating: float | None
+    reviewCount: float | None
+    city: str | None
+    region: str | None
+    imageUrl: str | None
+
+class Prv_yelp_YelpWaitlist_Out(TypedDict):
+    onWaitlist: bool
+    open: bool | None
+    status: str | None
+    minWaitMinutes: float | None
+    maxWaitMinutes: float | None
+    closedText: str | None
+    bizId: str | None
+    bizName: str | None
+
 class Prv_yelp_YelpCategoriesArgs_In(TypedDict):
     parent: NotRequired[str]
     query: NotRequired[str]
@@ -73336,6 +73507,19 @@ class Cap_goal_diff(Protocol):
     async def search(self, query: str, options: Cap_goal_diff_CallOptions_In | None = None, /) -> Cap_goal_diff_goal_diffResult_Out:
         """Search for sports standings with goal differential data. `options.timeoutMs` sets the
         budget (default 30000).
+        """
+
+class Cap_google(Protocol):
+    """Google Shopping product comparisons — search a product and get Google's listed sellers,
+    prices, ratings and offer links through Serper.
+    """
+
+    async def searchShopping(self, query: str, options: Cap_google_CallOptions_In | None = None, /) -> Cap_google_GoogleShoppingSearchResult_Out:
+        """Searches Google Shopping for a product and returns Google's product rows — title,
+        seller, price, rating and offer link — so compare sellers for one product. Give the
+        product you want to compare, for example `"sony wh-1000xm5"`; a site name alone
+        identifies this tool but not a product to search. Uses Serper's keyed, metered Google
+        Shopping API, so a caller account pays for the request or may send its own Serper key.
         """
 
 class Cap_gstin_verification(Protocol):
@@ -103946,6 +104130,30 @@ class Prv_shop_app(Protocol):
         at a time. Pauses for the caller to sign in to Shop.
         """
 
+    async def createProductList(self, args: Prv_shop_app_ShopAppCreateProductListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppCreatedProductList_Out:
+        """Creates a new named product list on the signed-in caller's Shop account (private unless
+        privacy: "PUBLIC") and returns its id — the id listProductLists shows. Pauses for the
+        caller to sign in to Shop.
+        """
+
+    async def saveProduct(self, args: Prv_shop_app_ShopAppSaveProductArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppListItemState_Out:
+        """Saves a product variant to the signed-in caller's Shop favourites (or removes it with
+        saved: false), by its numeric variant id and the store selling it. Pauses for the caller
+        to sign in to Shop.
+        """
+
+    async def addToProductList(self, args: Prv_shop_app_ShopAppAddToProductListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppListItemState_Out:
+        """Adds a product variant to one of the signed-in caller's Shop lists (listProductLists' or
+        createProductList's id), or removes it with remove: true. Pauses for the caller to sign
+        in to Shop.
+        """
+
+    async def startCheckout(self, args: Prv_shop_app_ShopAppStartCheckoutArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppCheckout_Out:
+        """Opens a checkout for the signed-in caller's Shop cart at one store (its Shop id or
+        handle) and returns the checkout url for the caller to review and pay. Never pays — it
+        stops before payment, always. Pauses for the caller to sign in to Shop.
+        """
+
     async def followStore(self, args: Prv_shop_app_ShopAppFollowStoreArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppFollowState_Out:
         """Follows a store on Shop for the signed-in caller (or unfollows it with follow: false) by
         its Shop store id — listFollowedStores' id — or its handle, and returns the new follow
@@ -104338,6 +104546,12 @@ class Prv_snapchat(Protocol):
         duration, upload date and video url.
         """
 
+    async def listTopicSpotlights(self, hashtag: str, /) -> Prv_snapchat_SnapchatTopicSpotlights_Out:
+        """Lists the Spotlight videos filed under one hashtag topic
+        (www.snapchat.com/tag/<hashtag>), the feed a person opens by tapping a hashtag — each
+        with its creator, title, view count, duration, upload date and video url.
+        """
+
     async def getSpotlightVideo(self, url: str, /) -> Prv_snapchat_SnapchatSpotlightVideoDetail_Out:
         """Reads one Spotlight video by its share url (or a bare snap id off
         listSpotlightFeed/searchSnapchat) — creator, caption, view count, upload date, duration,
@@ -104428,6 +104642,11 @@ class Prv_snapchat(Protocol):
 
     async def blockUser(self, input: Prv_snapchat_blockUser_input_u0_In | Prv_snapchat_blockUser_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatFriendChangeResult_Out:
         """Blocks one Snapchat account from contacting the signed-in caller, by user id (a uuid) or
+        username. NEEDS A SIGN-IN.
+        """
+
+    async def unblockUser(self, input: Prv_snapchat_unblockUser_input_u0_In | Prv_snapchat_unblockUser_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatFriendChangeResult_Out:
+        """Unblocks one Snapchat account the signed-in caller blocked, by user id (a uuid) or
         username. NEEDS A SIGN-IN.
         """
 
@@ -105859,6 +106078,24 @@ class Prv_steam(Protocol):
         """Reads the first page of a game's public Steam Community hub by appid: announcements,
         discussions, reviews, screenshots, artwork, workshop items, guides and videos, each with
         its kind, link, title, text, author, image, comment count and rating.
+        """
+
+    async def listStoreSpecials(self, args: Prv_steam_ListStoreSpecialsArgs_In, /) -> Prv_steam_ListStoreSpecialsResponse_Out:
+        """Lists what the Steam store is promoting right now: games on sale (specials), top
+        sellers, new releases, coming soon and the daily deal, each with price in cents,
+        discount percent, discount end time and platforms. Prices for countryCode (default US).
+        No sign-in.
+        """
+
+    async def getGameDlc(self, args: Prv_steam_GetGameDlcArgs_In, /) -> Prv_steam_GetGameDlcResponse_Out:
+        """Lists a game's DLC by appid: each add-on's appid, name, US price in cents (null when
+        free), discount, release time and platforms, in one request. No sign-in.
+        """
+
+    async def getSteamDeckCompatibility(self, args: Prv_steam_GetSteamDeckCompatibilityArgs_In, /) -> Prv_steam_GetSteamDeckCompatibilityResponse_Out:
+        """Reads a game's Steam Deck rating by appid (verified, playable, unsupported or unknown)
+        and Valve's individual test results behind it, each a pass, caveat, fail or info. No
+        sign-in.
         """
 
 class Prv_stickergiant(Protocol):
@@ -112138,6 +112375,21 @@ class Prv_yelp(Protocol):
         Read-only.
         """
 
+    async def getCollection(self, ref: str, /) -> Prv_yelp_YelpCollection_Out:
+        """Reads a public Yelp collection (a member's named list of places) from its
+        /collection/<id> url: title, description, owner (id for getUser, name), follower count,
+        how many places it holds, and the first page of up to 30 businesses (alias for
+        getBusiness, name, rating, review count, city, photo). Takes the share url or the bare
+        id. Read-only.
+        """
+
+    async def getWaitlist(self, ref: str, /) -> Prv_yelp_YelpWaitlist_Out:
+        """Reads a restaurant's Yelp Waitlist state off its business page: whether it is on Yelp
+        Waitlist at all, whether it is taking parties right now, the quoted wait range in
+        minutes when open, and Yelp's own line when closed (e.g. when it usually opens). Takes a
+        /biz/ url or bare alias from search. Read-only.
+        """
+
     async def listCategories(self, args: Prv_yelp_YelpCategoriesArgs_In | None = None, /) -> list[Prv_yelp_YelpCategory_Out]:
         """Lists Yelp's business categories (about 1,600) from Yelp's own published category list:
         each one's alias (what search's category filter takes), title, parent alias, depth and
@@ -113893,6 +114145,7 @@ class Bowmark(Protocol):
     git_commit_history: Cap_git_commit_history
     git_release_notes: Cap_git_release_notes
     goal_diff: Cap_goal_diff
+    google: Cap_google
     gstin_verification: Cap_gstin_verification
     hotels: Cap_hotels
     hvac: Cap_hvac

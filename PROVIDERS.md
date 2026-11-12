@@ -4759,10 +4759,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.writeReview` | shein.com | Writes a review of a product the signed-in caller bought and received. | ⚪ |
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | ⚪ |
 | `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart, or changes its quantity (0 removes… | ⚪ |
-| `shop_app.addToProductList` | shop.app | Adds a product to one of the caller's lists, or removes it (remove: true). | ⚪ |
+| `shop_app.addToProductList` | shop.app | Adds a product to one of the caller's lists, or removes it (remove: true). | 🟢 |
 | `shop_app.browseCategory` | shop.app | Browses one Shop product category by the id listCategories returns — its name and… | 🟡 |
 | `shop_app.claimOffer` | shop.app | Claims a Shop offer or Shop Cash reward for the caller. | ⚪ |
-| `shop_app.createProductList` | shop.app | Creates a new named product list for the caller. | ⚪ |
+| `shop_app.createProductList` | shop.app | Creates a new named product list for the caller. | 🟢 |
 | `shop_app.followStore` | shop.app | Follows a store on Shop for the caller, or unfollows it (follow: false), by its Shop… | 🟢 |
 | `shop_app.getAccount` | shop.app | Reads the caller's Shop profile — name, email and privacy settings. | ⚪ |
 | `shop_app.getCart` | shop.app | Reads the caller's Shop cart: one cart per store with its lines and the store's… | 🟢 |
@@ -4788,10 +4788,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.listSavedProducts` | shop.app | Lists the products the signed-in caller has saved (hearted) on Shop, a page at a time. | 🟢 |
 | `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | 🟡 |
 | `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's Shop deliveries as delivered, or un-marks it (delivered… | 🟢 |
-| `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | ⚪ |
+| `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | 🟢 |
 | `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | 🟡 |
 | `shop_app.searchStore` | shop.app | Searches inside one store for products matching free text ("strawberry" in Liquid… | 🟡 |
-| `shop_app.startCheckout` | shop.app | Opens a checkout for the caller's cart at one store and returns the checkout url for… | ⚪ |
+| `shop_app.startCheckout` | shop.app | Opens a checkout for the caller's cart at one store and returns the checkout url for… | 🟢 |
 | `shop_app.suggestSearches` | shop.app | Autocompletes a partial search ("running sh") into Shop's own query suggestions plus… | 🟡 |
 | `shop_app.trackPackage` | shop.app | Adds a package to the caller's Shop by its tracking number and carrier, so Shop tracks… | 🟢 |
 | `shop_app.updatePrivacySettings` | shop.app | Changes the caller's Shop privacy settings (personalised recommendations, data sharing). | ⚪ |
@@ -5746,7 +5746,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
 | `usatoday.getStandings` | usatoday.com | Reads the current league standings from USA Today Sports — given a league like NFL… | 🟢 |
-| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given the url a listVideos row returns — returning its… | 🟡 |
+| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given the url a listVideos row returns — returning its… | 🟢 |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
 | `usatoday.listNewsletters` | usatoday.com | Lists every USA Today email newsletter, each with an id, name, description, topic… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |

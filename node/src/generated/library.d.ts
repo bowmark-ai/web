@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 66f4b9021f4757eb89e561c980c6f1439ec57d3c99e6886e6296ef4ce4bb7a86
-// 97 capabilities, 818 providers, 4956 typed functions, 20 refused.
+// Manifest version: 4cc26eef085e809218e67973cdfc30e4f1871f9c24f13210ecafeb3a7fd9868e
+// 98 capabilities, 818 providers, 4968 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2338,6 +2338,48 @@ type CallOptions = {
      * (default 30000).
      */
     search(query: string, options?: CallOptions): Promise<goal_diffResult>;
+  }
+}
+
+declare namespace BowmarkCapability_google {
+  // ── Google Shopping — the unit's own declarations, verbatim ──
+type GoogleShoppingResult = {
+  position: number
+  title: string
+  seller: string | null
+  link: string
+  price: string | null
+  imageUrl: string | null
+  rating: number | null
+  ratingCount: number | null
+  productId: string | null
+}
+type GoogleShoppingSearchResult = {
+  query: string
+  results: GoogleShoppingResult[] // Google Shopping rows; empty only when Google matched nothing
+  credits: number | null
+  warnings: string[] // always present; Serper did not answer when this route throws
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Google Shopping product comparisons — search a product and get Google's listed sellers,
+   * prices, ratings and offer links through Serper.
+   */
+  interface Unit {
+    /**
+     * Searches Google Shopping for a product and returns Google's product rows — title, seller,
+     * price, rating and offer link — so compare sellers for one product. Give the product you want
+     * to compare, for example `"sony wh-1000xm5"`; a site name alone identifies this tool but not
+     * a product to search. Uses Serper's keyed, metered Google Shopping API, so a caller account
+     * pays for the request or may send its own Serper key.
+     */
+    searchShopping(query: string, options?: CallOptions): Promise<GoogleShoppingSearchResult>;
   }
 }
 
@@ -88663,6 +88705,44 @@ interface ShopAppFollowStoreArgs {
   store: string;
   follow?: boolean;
 }
+interface ShopAppCreateProductListArgs {
+  name: string;
+  privacy?: "PRIVATE" | "PUBLIC";
+}
+interface ShopAppCreatedProductList {
+  id: string;
+  name: string | null;
+  publicId: string | null;
+  privacy: "PRIVATE" | "PUBLIC";
+  inviteUrl: string | null;
+  warnings: string[];
+}
+interface ShopAppStartCheckoutArgs {
+  store: string;
+}
+interface ShopAppSaveProductArgs {
+  variantId: string;
+  store?: string;
+  saved?: boolean;
+}
+interface ShopAppAddToProductListArgs {
+  listId: string;
+  variantId: string;
+  store?: string;
+  remove?: boolean;
+}
+interface ShopAppListItemState {
+  variantId: string;
+  listId: string | null;
+  inList: boolean;
+  warnings: string[];
+}
+interface ShopAppCheckout {
+  storeId: string;
+  checkoutId: string | null;
+  url: string;
+  warnings: string[];
+}
 interface ShopAppFollowState {
   storeId: string;
   following: boolean;
@@ -88722,6 +88802,34 @@ interface ShopAppListOrdersArgs {
      * a time. Pauses for the caller to sign in to Shop.
      */
     listFollowedStores(args?: ShopAppListPageArgs, opts?: ConnectionOption): Promise<ShopAppFollowedStores>;
+
+    /**
+     * Creates a new named product list on the signed-in caller's Shop account (private unless
+     * privacy: "PUBLIC") and returns its id — the id listProductLists shows. Pauses for the caller
+     * to sign in to Shop.
+     */
+    createProductList(args: ShopAppCreateProductListArgs, opts?: ConnectionOption): Promise<ShopAppCreatedProductList>;
+
+    /**
+     * Saves a product variant to the signed-in caller's Shop favourites (or removes it with saved:
+     * false), by its numeric variant id and the store selling it. Pauses for the caller to sign in
+     * to Shop.
+     */
+    saveProduct(args: ShopAppSaveProductArgs, opts?: ConnectionOption): Promise<ShopAppListItemState>;
+
+    /**
+     * Adds a product variant to one of the signed-in caller's Shop lists (listProductLists' or
+     * createProductList's id), or removes it with remove: true. Pauses for the caller to sign in
+     * to Shop.
+     */
+    addToProductList(args: ShopAppAddToProductListArgs, opts?: ConnectionOption): Promise<ShopAppListItemState>;
+
+    /**
+     * Opens a checkout for the signed-in caller's Shop cart at one store (its Shop id or handle)
+     * and returns the checkout url for the caller to review and pay. Never pays — it stops before
+     * payment, always. Pauses for the caller to sign in to Shop.
+     */
+    startCheckout(args: ShopAppStartCheckoutArgs, opts?: ConnectionOption): Promise<ShopAppCheckout>;
 
     /**
      * Follows a store on Shop for the signed-in caller (or unfollows it with follow: false) by its
@@ -89631,6 +89739,11 @@ interface SnapchatSpotlightVideo {
   canonicalUrl?: string; // www.snapchat.com/@<creator>/spotlight/<storyId> — what getSpotlightVideo takes
 }
 
+interface SnapchatTopicSpotlights {
+  hashtag: string;
+  videos: SnapchatSpotlightVideo[];
+  relatedTopics: string[];
+}
 interface SnapchatSpotlightFeed {
   videos: SnapchatSpotlightVideo[];
 }
@@ -89903,6 +90016,13 @@ interface SnapchatFriendChangeResult {
     listSpotlightFeed(): Promise<SnapchatSpotlightFeed>;
 
     /**
+     * Lists the Spotlight videos filed under one hashtag topic (www.snapchat.com/tag/<hashtag>),
+     * the feed a person opens by tapping a hashtag — each with its creator, title, view count,
+     * duration, upload date and video url.
+     */
+    listTopicSpotlights(hashtag: string): Promise<SnapchatTopicSpotlights>;
+
+    /**
      * Reads one Spotlight video by its share url (or a bare snap id off
      * listSpotlightFeed/searchSnapchat) — creator, caption, view count, upload date, duration,
      * dimensions, the video url, and a handful of related videos the page ranks beside it.
@@ -90010,6 +90130,12 @@ interface SnapchatFriendChangeResult {
      * username. NEEDS A SIGN-IN.
      */
     blockUser(input: { userId: string } | { username: string }, opts?: ConnectionOption): Promise<SnapchatFriendChangeResult>;
+
+    /**
+     * Unblocks one Snapchat account the signed-in caller blocked, by user id (a uuid) or username.
+     * NEEDS A SIGN-IN.
+     */
+    unblockUser(input: { userId: string } | { username: string }, opts?: ConnectionOption): Promise<SnapchatFriendChangeResult>;
 
     /**
      * Changes the signed-in caller's Snapchat display name (the name friends see, not the
@@ -94270,6 +94396,63 @@ interface GetCommunityHubResponse {
   gameName: string | null;
   items: SteamHubItem[];
 }
+interface ListStoreSpecialsArgs {
+  countryCode?: string;
+}
+
+interface StoreSpecialsGame {
+  appid: string;
+  name: string | null;
+  price: { currency: string; initial: number; final: number; discountPercent: number } | null;
+  discountExpiration: number | null;
+  headerImage: string | null;
+  platforms: { windows: boolean; mac: boolean; linux: boolean };
+  url: string;
+}
+
+interface ListStoreSpecialsResponse {
+  specials: StoreSpecialsGame[];
+  topSellers: StoreSpecialsGame[];
+  newReleases: StoreSpecialsGame[];
+  comingSoon: StoreSpecialsGame[];
+  dailyDeal: StoreSpecialsGame[];
+}
+
+interface GetGameDlcArgs {
+  appid: string | number;
+}
+
+interface SteamDlc {
+  appid: string;
+  name: string | null;
+  price: { currency: string; initial: number; final: number; discountPercent: number } | null;
+  releasedAt: number | null;
+  headerImage: string | null;
+  platforms: { windows: boolean; mac: boolean; linux: boolean };
+  url: string;
+}
+
+interface GetGameDlcResponse {
+  appid: string;
+  gameName: string | null;
+  dlc: SteamDlc[];
+}
+
+interface GetSteamDeckCompatibilityArgs {
+  appid: string | number;
+}
+
+interface SteamDeckTestResult {
+  result: string;
+  kind: "pass" | "caveat" | "fail" | "info" | "other";
+}
+
+interface GetSteamDeckCompatibilityResponse {
+  appid: string;
+  rating: "verified" | "playable" | "unsupported" | "unknown";
+  category: number;
+  results: SteamDeckTestResult[];
+}
 
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
@@ -94466,6 +94649,25 @@ interface GetCommunityHubResponse {
      * kind, link, title, text, author, image, comment count and rating.
      */
     getCommunityHub(args: GetCommunityHubArgs): Promise<GetCommunityHubResponse>;
+
+    /**
+     * Lists what the Steam store is promoting right now: games on sale (specials), top sellers,
+     * new releases, coming soon and the daily deal, each with price in cents, discount percent,
+     * discount end time and platforms. Prices for countryCode (default US). No sign-in.
+     */
+    listStoreSpecials(args: ListStoreSpecialsArgs): Promise<ListStoreSpecialsResponse>;
+
+    /**
+     * Lists a game's DLC by appid: each add-on's appid, name, US price in cents (null when free),
+     * discount, release time and platforms, in one request. No sign-in.
+     */
+    getGameDlc(args: GetGameDlcArgs): Promise<GetGameDlcResponse>;
+
+    /**
+     * Reads a game's Steam Deck rating by appid (verified, playable, unsupported or unknown) and
+     * Valve's individual test results behind it, each a pass, caveat, fail or info. No sign-in.
+     */
+    getSteamDeckCompatibility(args: GetSteamDeckCompatibilityArgs): Promise<GetSteamDeckCompatibilityResponse>;
   }
 }
 
@@ -112312,6 +112514,39 @@ interface YelpUser {
   recentReviews: YelpUserReview[]; // the latest 5 the profile shows
 }
 
+interface YelpCollectionBusiness {
+  alias: string | null; // → getBusiness
+  name: string;
+  url: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  city: string | null;
+  region: string | null;
+  imageUrl: string | null;
+}
+interface YelpCollection {
+  id: string;
+  title: string | null;
+  url: string | null;
+  description: string | null;
+  ownerId: string | null; // → getUser
+  ownerName: string | null;
+  followerCount: number | null;
+  placeCount: number | null; // the whole list; businesses holds the first page (up to 30)
+  businesses: YelpCollectionBusiness[];
+}
+
+interface YelpWaitlist {
+  onWaitlist: boolean; // false = not on Yelp Waitlist; every other field is then null
+  open: boolean | null; // taking waitlist parties right now
+  status: string | null; // Yelp's own status word, e.g. "restaurant_closed" — the site's own labels, read the values off a result, never guess one from prose
+  minWaitMinutes: number | null; // quoted wait, when open
+  maxWaitMinutes: number | null;
+  closedText: string | null; // Yelp's own line when closed, e.g. "Waitlist usually opens at 11:00 am"
+  bizId: string | null; // Yelp's encrypted business id
+  bizName: string | null;
+}
+
 interface YelpCategoriesArgs {
   parent?: string; // a category alias — only its direct children, e.g. "japanese"
   query?: string; // case-insensitive match on title or alias, e.g. "ramen"
@@ -112444,6 +112679,22 @@ interface YelpBookmarks {
      * userId is a getReviews row's author.id, or the userid in a profile url. Read-only.
      */
     getUser(userId: string): Promise<YelpUser>;
+
+    /**
+     * Reads a public Yelp collection (a member's named list of places) from its /collection/<id>
+     * url: title, description, owner (id for getUser, name), follower count, how many places it
+     * holds, and the first page of up to 30 businesses (alias for getBusiness, name, rating,
+     * review count, city, photo). Takes the share url or the bare id. Read-only.
+     */
+    getCollection(ref: string): Promise<YelpCollection>;
+
+    /**
+     * Reads a restaurant's Yelp Waitlist state off its business page: whether it is on Yelp
+     * Waitlist at all, whether it is taking parties right now, the quoted wait range in minutes
+     * when open, and Yelp's own line when closed (e.g. when it usually opens). Takes a /biz/ url
+     * or bare alias from search. Read-only.
+     */
+    getWaitlist(ref: string): Promise<YelpWaitlist>;
 
     /**
      * Lists Yelp's business categories (about 1,600) from Yelp's own published category list: each
@@ -166178,6 +166429,7 @@ interface BowmarkLibrary {
   git_commit_history: BowmarkCapability_git_commit_history.Unit;
   git_release_notes: BowmarkCapability_git_release_notes.Unit;
   goal_diff: BowmarkCapability_goal_diff.Unit;
+  google: BowmarkCapability_google.Unit;
   gstin_verification: BowmarkCapability_gstin_verification.Unit;
   hotels: BowmarkCapability_hotels.Unit;
   hvac: BowmarkCapability_hvac.Unit;
