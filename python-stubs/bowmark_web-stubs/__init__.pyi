@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4cc26eef085e809218e67973cdfc30e4f1871f9c24f13210ecafeb3a7fd9868e
-# 98 capabilities, 818 providers, 4950 typed functions, 20 refused.
+# Manifest version: 734103afdec9ffdd47686f67a524a53687b5bce01dd1fd12721dd0e3adb79146
+# 98 capabilities, 821 providers, 4985 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4723,6 +4723,37 @@ class Prv_adobe_StockAsset_Out(TypedDict):
     orientation: NotRequired[Literal["landscape"] | Literal["portrait"] | Literal["square"]]
     licensingPriceTier: NotRequired[str]
 
+class Prv_adobe_AgreementStatus_Out(TypedDict):
+    agreementId: str
+    name: str
+    status: str
+    signed: bool
+    participants: list[Prv_adobe_AgreementStatus_Out_participants_item_Out]
+    signedDocumentUrl: str | None
+
+class Prv_adobe_AgreementStatus_Out_participants_item_Out(TypedDict):
+    email: str
+    role: str
+    order: float | None
+
+class Prv_adobe_StockLicenseQuote_Out(TypedDict):
+    id: str
+    title: str
+    mediaType: Any
+    url: str
+    licenses: list[Prv_adobe_StockLicenseQuote_Out_licenses_item_Out]
+    selected: Prv_adobe_StockLicenseQuote_Out_selected_u0_Out | None
+    charged: Literal[False]
+    warnings: list[str]
+
+class Prv_adobe_StockLicenseQuote_Out_licenses_item_Out(TypedDict):
+    name: str
+    price: str
+
+class Prv_adobe_StockLicenseQuote_Out_selected_u0_Out(TypedDict):
+    name: str
+    price: str
+
 class Prv_adobe_StockAssetDetail_Out(TypedDict):
     id: str
     title: str
@@ -5349,6 +5380,56 @@ class Prv_ajmadison_AjmadisonSearchResult_Out(TypedDict):
     wasPrice: float | None
     url: str
 
+class Prv_akc_org_searchBreeds_args_In(TypedDict):
+    query: str
+
+class Prv_akc_org_AkcBreedHit_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+
+class Prv_akc_org_breed_args_u0_In(TypedDict):
+    slug: str
+
+class Prv_akc_org_breed_args_u1_In(TypedDict):
+    url: str
+
+class Prv_akc_org_breed_args_u2_In(TypedDict):
+    name: str
+
+class Prv_akc_org_AkcBreed_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    group: str | None
+    temperament: str | None
+    height: str | None
+    weight: str | None
+    lifeExpectancy: str | None
+    popularityRank: float | None
+    popularityYear: float | None
+    origin: str | None
+    yearRecognized: float | None
+    nicknames: str | None
+    relatedBreeds: list[str]
+    blurb: str | None
+    about: str | None
+    health: str | None
+    healthStatementUrl: str | None
+    colors: list[str]
+    traits: list[Prv_akc_org_AkcTrait_Out]
+    nationalBreedClub: str | None
+    nationalBreedClubUrl: str | None
+    rescueUrl: str | None
+
+class Prv_akc_org_AkcTrait_Out(TypedDict):
+    name: str
+    category: str | None
+    score: float | None
+    selected: list[str]
+    low: str | None
+    high: str | None
+
 class Prv_alibaba_searchProducts_args_In(TypedDict):
     query: str
     language: NotRequired[str]
@@ -5438,6 +5519,14 @@ class Prv_alibaba_alibabaSupplierProductRow_Out(TypedDict):
     moq: str | None
     imageUrl: str | None
     url: str | None
+
+class Prv_alibaba_alibabaAccountPage_Out(TypedDict):
+    url: str
+    title: str | None
+    html: str
+
+class Prv_alibaba_alibabaGetOrderArgs_In(TypedDict):
+    orderId: str
 
 class Prv_alibaba_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -10987,6 +11076,40 @@ class Prv_bluesky_BlueskyAddToListArgs_In(TypedDict):
     list: str
     actor: str
     undo: NotRequired[bool]
+
+class Prv_bluesky_BlueskyCreatePostWithImagesArgs_In(TypedDict):
+    text: NotRequired[str]
+    images: Sequence[Prv_bluesky_BlueskyPostImage_In]
+    langs: NotRequired[Sequence[str]]
+
+class Prv_bluesky_BlueskyPostImage_In(TypedDict):
+    image: str
+    alt: NotRequired[str]
+
+class Prv_bluesky_BlueskyDeleteListArgs_In(TypedDict):
+    list: str
+
+class Prv_bluesky_BlueskyMuteWordArgs_In(TypedDict):
+    word: str
+    targets: NotRequired[Sequence[Literal["content"] | Literal["tag"]]]
+    excludeFollowing: NotRequired[bool]
+    expiresAt: NotRequired[str]
+    undo: NotRequired[bool]
+
+class Prv_bluesky_BlueskyMuteWordResult_Out(TypedDict):
+    word: str
+    muted: bool
+    changed: bool
+
+class Prv_bluesky_BlueskyMutedWordList_Out(TypedDict):
+    words: list[Prv_bluesky_BlueskyMutedWord_Out]
+
+class Prv_bluesky_BlueskyMutedWord_Out(TypedDict):
+    id: str | None
+    value: str
+    targets: list[str]
+    excludeFollowing: bool
+    expiresAt: str | None
 
 class Prv_bluesky_BlueskySaveFeedArgs_In(TypedDict):
     feed: str
@@ -17868,6 +17991,52 @@ class Prv_cnbc_com_cnbc_comSector_Out(TypedDict):
     dividend: NotRequired[str]
     sector: str
 
+class Prv_cnbc_com_cnbc_comCategory_Out(TypedDict):
+    name: str
+    label: str
+    url: str
+    subcategories: list[Prv_cnbc_com_cnbc_comCategory_Out_subcategories_item_Out]
+
+class Prv_cnbc_com_cnbc_comCategory_Out_subcategories_item_Out(TypedDict):
+    label: str
+    url: str
+
+class Prv_cnbc_com_GetAuthorArgs_In(TypedDict):
+    author: str
+
+class Prv_cnbc_com_cnbc_comAuthor_Out(TypedDict):
+    url: str | None
+    name: str | None
+    jobTitle: str | None
+    description: str | None
+    bio: list[str]
+    image: str | None
+    twitter: str | None
+
+class Prv_cnbc_com_ListArticlesByAuthorArgs_In(TypedDict):
+    author: str
+    limit: NotRequired[float]
+
+class Prv_cnbc_com_listArticlesByAuthor_return_Out(TypedDict):
+    total: float | None
+    items: list[Prv_cnbc_com_cnbc_comListItem_Out]
+
+class Prv_cnbc_com_cnbc_comListItem_Out(TypedDict):
+    id: float | None
+    type: str | None
+    url: str | None
+    title: str | None
+    description: str | None
+    published: str | None
+    section: str | None
+    image: str | None
+    premium: bool
+    duration: float | None
+
+class Prv_cnbc_com_ListVideosByCategoryArgs_In(TypedDict):
+    category: NotRequired[str]
+    limit: NotRequired[float]
+
 class Prv_cnbc_com_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -19317,6 +19486,39 @@ class Prv_dailymotion_DailymotionTranscriptSegment_Out(TypedDict):
     endSeconds: float
     text: str
 
+class Prv_dailymotion_DailymotionPlayback_Out(TypedDict):
+    videoId: str
+    title: str | None
+    durationMs: float | None
+    live: bool
+    embed: Prv_dailymotion_DailymotionPlayback_Out_embed_u0_Out | None
+    files: Prv_dailymotion_DailymotionPlayback_Out_files_Out
+    expiresAt: str | None
+    referrer: str
+    warnings: list[str]
+
+class Prv_dailymotion_DailymotionPlayback_Out_embed_u0_Out(TypedDict):
+    url: str
+    hasAds: bool | Literal["unknown"]
+    note: str
+
+class Prv_dailymotion_DailymotionPlayback_Out_files_Out(TypedDict):
+    muxed: list[Prv_dailymotion_DailymotionPlaybackFile_Out]
+    videoOnly: list[Prv_dailymotion_DailymotionPlaybackFile_Out]
+    audioOnly: list[Prv_dailymotion_DailymotionPlaybackFile_Out]
+
+class Prv_dailymotion_DailymotionPlaybackFile_Out(TypedDict):
+    itag: str
+    url: str
+    mimeType: str
+    codecs: str | None
+    width: float | None
+    height: float | None
+    fps: float | None
+    bitrate: float | None
+    bytes: float | None
+    qualityLabel: str | None
+
 class Prv_dailymotion_DailymotionStreamFormatsResult_Out(TypedDict):
     video: str
     manifestUrl: str
@@ -19894,6 +20096,46 @@ class Prv_dell_DellSupportArticle_Out(TypedDict):
     url: str
     summary: str | None
     articleType: str | None
+
+class Prv_dell_GetForumThreadArgs_In(TypedDict):
+    url: str
+
+class Prv_dell_DellForumThreadDetail_Out(TypedDict):
+    threadId: str
+    url: str
+    title: str
+    author: str | None
+    createdAt: str | None
+    updatedAt: str | None
+    solved: bool
+    commentCount: float
+    posts: list[Prv_dell_DellForumPost_Out]
+    truncated: bool
+
+class Prv_dell_DellForumPost_Out(TypedDict):
+    postId: str
+    parentId: str | None
+    author: str | None
+    createdAt: str | None
+    text: str
+    likeCount: float
+    accepted: bool
+
+class Prv_dell_GetSupportArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_dell_DellSupportArticleDetail_Out(TypedDict):
+    url: str
+    title: str
+    articleNumber: str | None
+    articleType: str | None
+    lastUpdated: str | None
+    summary: str | None
+    sections: list[Prv_dell_DellSupportArticleSection_Out]
+
+class Prv_dell_DellSupportArticleSection_Out(TypedDict):
+    heading: str | None
+    text: str
 
 class Prv_dell_DellSupportCategory_Out(TypedDict):
     name: str
@@ -20507,9 +20749,11 @@ class Prv_devto_DevtoProfile_Out(TypedDict):
 
 class Prv_dhl_dhlQuoteArgs_In(TypedDict):
     originCountry: str
-    originPostalCode: str
+    originPostalCode: NotRequired[str]
+    originCity: NotRequired[str]
     destinationCountry: str
-    destinationPostalCode: str
+    destinationPostalCode: NotRequired[str]
+    destinationCity: NotRequired[str]
     weight: float
     length: float
     width: float
@@ -20523,6 +20767,7 @@ class Prv_dhl_dhlQuoteArgs_In(TypedDict):
 class Prv_dhl_dhlQuote_Out(TypedDict):
     shippingDate: str | None
     offers: list[Prv_dhl_dhlOffer_Out]
+    warnings: list[str]
 
 class Prv_dhl_dhlOffer_Out(TypedDict):
     service: str
@@ -31778,6 +32023,17 @@ class Prv_grammarly_DeletedDocument_Out(TypedDict):
     id: str
     trashed: bool
 
+class Prv_grammarly_DictionaryWordArgs_In(TypedDict):
+    word: str
+
+class Prv_grammarly_DictionaryAdded_Out(TypedDict):
+    word: str
+    added: bool
+
+class Prv_grammarly_DictionaryRemoved_Out(TypedDict):
+    word: str
+    removed: bool
+
 class Prv_grammarly_GrammarlyAccount_Out(TypedDict):
     email: str
     name: str
@@ -35772,6 +36028,7 @@ class Prv_ivoryhomes_IvoryHomesFloorPlan_Out(TypedDict):
     finishedSqft: float | None
     beds: float | None
     baths: float | None
+    stories: float | None
     imageUrl: str | None
     detailUrl: str
 
@@ -42337,6 +42594,28 @@ class Prv_netflix_NetflixTop10Entry_Out(TypedDict):
     weeklyViews: NotRequired[float]
     weeklyHours: NotRequired[float]
 
+class Prv_netflix_NetflixCountryTop10_Out(TypedDict):
+    country: str
+    countrySlug: str
+    week: NotRequired[str]
+    films: NotRequired[list[Prv_netflix_NetflixCountryTop10Entry_Out]]
+    tv: NotRequired[list[Prv_netflix_NetflixCountryTop10Entry_Out]]
+
+class Prv_netflix_NetflixCountryTop10Entry_Out(TypedDict):
+    rank: float
+    title: str
+    weeksInTop10: NotRequired[float]
+
+class Prv_netflix_NetflixMostPopularEntry_Out(TypedDict):
+    category: Literal["TV"] | Literal["Films"]
+    language: Literal["English"] | Literal["Non-English"]
+    rank: float
+    title: str
+    seasonTitle: NotRequired[str]
+    views: NotRequired[float]
+    hoursViewed: NotRequired[float]
+    runtimeHours: NotRequired[float]
+
 class Prv_netflix_NetflixTudumArticleLink_Out(TypedDict):
     slug: str
     url: str
@@ -45204,6 +45483,48 @@ class Prv_onthemarket_OnTheMarketProperty_Out(TypedDict):
     bathrooms: NotRequired[float]
     description: NotRequired[str]
     url: NotRequired[str]
+
+class Prv_open_library_open_librarySearchOptions_In(TypedDict):
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_open_library_open_librarySearchResults_Out(TypedDict):
+    query: str
+    totalResults: float
+    works: list[Prv_open_library_open_librarySearchHit_Out]
+
+class Prv_open_library_open_librarySearchHit_Out(TypedDict):
+    workId: str
+    title: str
+    authors: list[str]
+    authorIds: list[str]
+    firstPublishYear: float | None
+    editionCount: float | None
+    subjects: list[str]
+    languages: list[str]
+    ebookAccess: str | None
+    coverUrl: str | None
+    url: str
+
+class Prv_open_library_open_libraryWork_Out(TypedDict):
+    workId: str
+    title: str
+    subtitle: str | None
+    authors: list[Prv_open_library_open_libraryAuthorRef_Out]
+    description: str | None
+    firstPublishDate: str | None
+    subjects: list[str]
+    subjectPlaces: list[str]
+    subjectPeople: list[str]
+    subjectTimes: list[str]
+    coverIds: list[float]
+    coverUrl: str | None
+    url: str
+
+class Prv_open_library_open_libraryAuthorRef_Out(TypedDict):
+    authorId: str
+    name: str | None
+    url: str
 
 class Prv_openai_openaiPlanLimit_Out(TypedDict):
     plan: str
@@ -49437,6 +49758,17 @@ class Prv_quickbooks_QuickbooksPlan_Out(TypedDict):
     recommended: bool
     features: list[str]
 
+class Prv_quickbooks_QuickbooksTimeTrackingPlan_Out(TypedDict):
+    id: str
+    name: str
+    tagline: str | None
+    bundle: bool
+    monthlyPrice: float | None
+    promoPrice: float | None
+    promoPercentOff: float | None
+    promoDuration: str | None
+    perUserPrice: float | None
+
 class Prv_quickbooks_QuickbooksServiceStatus_Out(TypedDict):
     indicator: str
     description: str
@@ -51415,11 +51747,15 @@ class Prv_reserve_with_google_Merchant_Out_deposit_u0_Out(TypedDict):
 class Prv_reserve_with_google_CheckAvailabilityArgs_In(TypedDict):
     merchantId: str
     partySize: NotRequired[float]
+    date: NotRequired[str]
+    time: NotRequired[str]
 
 class Prv_reserve_with_google_Availability_Out(TypedDict):
     merchantId: str
     partySize: float
     bookableDates: list[str]
+    date: NotRequired[str]
+    time: NotRequired[str]
     slots: list[Prv_reserve_with_google_AvailabilitySlot_Out]
 
 class Prv_reserve_with_google_AvailabilitySlot_Out(TypedDict):
@@ -56936,6 +57272,49 @@ class Prv_soundcloud_ScPlaylist_Out(TypedDict):
     likeCount: float | None
     createdAt: str | None
     tracks: list[Prv_soundcloud_ScTrack_Out]
+
+class Prv_sourceforge_SourceForgeProjectArgs_In(TypedDict):
+    project: str
+
+class Prv_sourceforge_SourceForgeProject_Out(TypedDict):
+    shortname: str
+    name: str
+    summary: str | None
+    description: str | None
+    url: str
+    homepage: str | None
+    createdOn: str | None
+    status: str | None
+    developers: list[Prv_sourceforge_SourceForgeProject_Out_developers_item_Out]
+    categories: Mapping[str, list[str]]
+    labels: list[str]
+    iconUrl: str | None
+
+class Prv_sourceforge_SourceForgeProject_Out_developers_item_Out(TypedDict):
+    username: str
+    name: str | None
+
+class Prv_sourceforge_SourceForgeRelease_Out(TypedDict):
+    path: str
+    filename: str
+    url: str
+    date: str | None
+    bytes: float | None
+    md5: str | None
+    sha256: str | None
+    platforms: Mapping[str, str]
+
+class Prv_sourceforge_SourceForgeListFilesArgs_In(TypedDict):
+    project: str
+    path: NotRequired[str]
+
+class Prv_sourceforge_SourceForgeFile_Out(TypedDict):
+    path: str
+    filename: str
+    url: str
+    date: str | None
+    bytes: float | None
+    md5: str | None
 
 class Prv_spectrum_SpectrumInternetPlan_Out(TypedDict):
     name: str
@@ -62757,6 +63136,9 @@ class Prv_tiktok_tiktokHashtag_Out(TypedDict):
 class Prv_tiktok_ListHashtagVideosArgs_In(TypedDict):
     name: str
 
+class Prv_tiktok_ListTrendingVideosArgs_In(TypedDict):
+    limit: NotRequired[float]
+
 class Prv_tiktok_GetSoundArgs_In(TypedDict):
     soundId: str
 
@@ -67808,6 +68190,27 @@ class Prv_weather_channel_CMSContentBlock_Out(TypedDict):
     type: Literal["heading"] | Literal["paragraph"] | Literal["list"]
     text: str
 
+class Prv_weather_channel_LiveBlog_Out(TypedDict):
+    title: str
+    subheadline: str | None
+    url: str
+    authors: list[str]
+    publishDate: str | None
+    updatedAt: str | None
+    coverageStart: str | None
+    coverageEnd: str | None
+    articleSection: str | None
+    imageUrl: str | None
+    updates: list[Prv_weather_channel_LiveBlogUpdate_Out]
+
+class Prv_weather_channel_LiveBlogUpdate_Out(TypedDict):
+    headline: str
+    url: str | None
+    publishDate: str | None
+    updatedAt: str | None
+    authors: list[str]
+    body: str
+
 class Prv_weather_channel_Location_u1_In(TypedDict):
     latitude: float
     longitude: float
@@ -69924,6 +70327,30 @@ class Prv_wsj_WsjSearchResult_Out(TypedDict):
     publishedAt: str | None
     url: str
 
+class Prv_wsj_WsjMarketInstrument_Out(TypedDict):
+    name: str
+    fullName: str | None
+    symbol: str
+    kind: str
+    price: float
+    change: float
+    changePercent: float
+    dailyHigh: float | None
+    dailyLow: float | None
+    timestamp: str | None
+    url: str | None
+
+class Prv_wsj_WsjTreasuryYield_Out(TypedDict):
+    maturity: str
+    symbol: str
+    yieldPercent: float
+    yieldChange: float
+    price: float | None
+    priceChange: str | None
+    couponRate: float | None
+    timestamp: str | None
+    url: str | None
+
 class Prv_wsj_GetQuoteArgs_In(TypedDict):
     symbol: str
 
@@ -70206,6 +70633,14 @@ class Prv_x_XDirectMessageRow_Out(TypedDict):
 
 class Prv_x_createPost_args_In(TypedDict):
     text: str
+    images: NotRequired[Sequence[Prv_x_XPostImage_u0_In | Prv_x_XPostImage_u1_In]]
+
+class Prv_x_XPostImage_u0_In(TypedDict):
+    imageUrl: str
+
+class Prv_x_XPostImage_u1_In(TypedDict):
+    base64: str
+    mimeType: NotRequired[str]
 
 class Prv_x_XPostWriteResult_Out(TypedDict):
     posted: Literal[True]
@@ -70217,6 +70652,7 @@ class Prv_x_replyToPost_args_In(TypedDict):
     url: NotRequired[str]
     id: NotRequired[str]
     text: str
+    images: NotRequired[Sequence[Prv_x_XPostImage_u0_In | Prv_x_XPostImage_u1_In]]
 
 class Prv_x_likePost_args_In(TypedDict):
     url: NotRequired[str]
@@ -75597,6 +76033,21 @@ class Prv_adobe(Protocol):
         Stock function: nothing on Stock can be read without an asset id.
         """
 
+    async def getAgreementStatus(self, agreementId: str, opts: ConnectionOption | None = None, /) -> Prv_adobe_AgreementStatus_Out:
+        """Reads back one Acrobat Sign agreement the caller sent (the agreementId sendForSignature
+        returns): its state (OUT_FOR_SIGNATURE, SIGNED, …), whether it is signed, who it went
+        to, and once signed a short-lived download URL of the signed PDF. Needs the caller
+        signed in to their own Adobe ID.
+        """
+
+    async def licenseStockAsset(self, idOrUrl: str, license: str | None = None, /) -> Prv_adobe_StockLicenseQuote_Out:
+        """Takes an Adobe Stock asset (id or URL from searchStockAssets) up to the payment step of
+        licensing it and stops there: returns every licence tier the asset offers with its
+        price, the tier asked for (e.g. "Extended License", default the first) with what the
+        caller would be charged, and the asset page URL whose License button the caller presses
+        in their own browser. Never charges — `charged` is always false.
+        """
+
     async def getStockAsset(self, idOrUrl: str, /) -> Prv_adobe_StockAssetDetail_Out:
         """Returns one Adobe Stock asset's detail — title, media type, dimensions, keywords,
         contributor name and every licensing tier's price — from the asset id or stock.adobe.com
@@ -75925,6 +76376,19 @@ class Prv_ajmadison(Protocol):
         product's own AJ Madison URL). Read-only — never adds to cart or checks out.
         """
 
+class Prv_akc_org(Protocol):
+    """Search the American Kennel Club's dog breeds and read a breed's profile: size,
+    temperament, 1-5 trait scores, health, colours and parent club.
+    """
+
+    async def searchBreeds(self, args: Prv_akc_org_searchBreeds_args_In, /) -> list[Prv_akc_org_AkcBreedHit_Out]:
+        """Searches AKC's dog breed library by name or keyword, e.g. 'retriever'."""
+
+    async def breed(self, args: Prv_akc_org_breed_args_u0_In | Prv_akc_org_breed_args_u1_In | Prv_akc_org_breed_args_u2_In, /) -> Prv_akc_org_AkcBreed_Out:
+        """Reads one AKC breed profile: group, height, weight, life expectancy, popularity rank,
+        temperament, trait scores, health, colours, parent club.
+        """
+
 class Prv_alibaba(Protocol):
     """Search and browse products on Alibaba's B2B marketplace; read product details, reviews,
     and supplier information.
@@ -75961,6 +76425,26 @@ class Prv_alibaba(Protocol):
     async def listSupplierProducts(self, profileUrl: str, /) -> list[Prv_alibaba_alibabaSupplierProductRow_Out]:
         """List the other products a supplier's storefront carries, from its listSuppliers()
         profileUrl.
+        """
+
+    async def getProfile(self, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaAccountPage_Out:
+        """The signed-in caller's own Alibaba.com profile page (raw). Pauses for sign-in when the
+        caller has none.
+        """
+
+    async def listMessages(self, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaAccountPage_Out:
+        """The signed-in caller's Alibaba.com message centre (raw), where supplier conversations
+        live. Pauses for sign-in when needed.
+        """
+
+    async def listOrders(self, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaAccountPage_Out:
+        """The signed-in caller's buyer order list (raw). Pauses for sign-in when the caller has
+        none.
+        """
+
+    async def getOrder(self, args: Prv_alibaba_alibabaGetOrderArgs_In, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaAccountPage_Out:
+        """One of the signed-in caller's orders by order number (raw detail page). Pauses for
+        sign-in when needed.
         """
 
     async def signup(self, args: Any, /) -> Prv_alibaba_signup_return_u0_Out | Prv_alibaba_signup_return_u1_Out | Prv_alibaba_signup_return_u2_Out | Prv_alibaba_signup_return_u3_Out:
@@ -79284,6 +79768,47 @@ class Prv_bluesky(Protocol):
         the list returns the existing entry with `changed: false`. Refuses a list somebody else
         owns. Needs the caller signed in to bsky.app — the run pauses for a sign-in link when
         they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
+    async def createPostWithImages(self, args: Prv_bluesky_BlueskyCreatePostWithImagesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyCreatedRecord_Out:
+        """Publishes a post with 1-4 images as the signed-in caller — each an https URL or a
+        data:image/...;base64 URI, PNG or JPEG, at most 1 MB, with optional `alt` text — plus
+        optional text (300 characters; links and @mentions become rich text). Returns the post's
+        at:// URI and bsky.app URL. Needs the caller signed in to bsky.app — the run pauses for
+        a sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has
+        expired; sign in again.
+        """
+
+    async def pinPost(self, args: Prv_bluesky_BlueskyPostActionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyPostActionResult_Out:
+        """Pins one of the signed-in caller's OWN posts (at:// URI or bsky.app post URL) to the top
+        of their profile, replacing any pinned post; `undo: true` unpins it. Pinning the post
+        already pinned returns `changed: false`. Display name, bio and images are kept. Needs
+        the caller signed in to bsky.app — the run pauses for a sign-in link when they are not.
+        THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
+    async def deleteList(self, args: Prv_bluesky_BlueskyDeleteListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyPostActionResult_Out:
+        """Deletes one of the signed-in caller's OWN lists (at:// URI or bsky.app list URL), with
+        its member entries, as the app's Delete list does. Refuses a list somebody else owns.
+        Cannot be undone. Needs the caller signed in to bsky.app — the run pauses for a sign-in
+        link when they are not. THROWS `blueskyError` when the saved sign-in has expired; sign
+        in again.
+        """
+
+    async def muteWord(self, args: Prv_bluesky_BlueskyMuteWordArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyMuteWordResult_Out:
+        """Mutes a word, phrase or #tag for the signed-in caller — `targets` ["content", "tag"]
+        (default both), optional `excludeFollowing` and `expiresAt` — so matching posts are
+        hidden; `undo: true` unmutes it. A word already muted returns `changed: false`. Other
+        preferences are kept. Needs the caller signed in to bsky.app — the run pauses for a
+        sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has
+        expired; sign in again.
+        """
+
+    async def listMutedWords(self, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyMutedWordList_Out:
+        """Lists the words and #tags the signed-in caller has muted, with what each applies to and
+        when it expires. Needs the caller signed in to bsky.app — the run pauses for a sign-in
+        link when they are not. THROWS `blueskyError` when the saved sign-in has expired; sign
+        in again.
         """
 
     async def saveFeed(self, args: Prv_bluesky_BlueskySaveFeedArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskySaveFeedResult_Out:
@@ -82961,6 +83486,27 @@ class Prv_cnbc_com(Protocol):
         AUD/USD, USD/CNY and USD/MXN — with rate, change and percent change.
         """
 
+    async def listCategories(self, /) -> list[Prv_cnbc_com_cnbc_comCategory_Out]:
+        """Lists CNBC's sections from the site's own navigation — Markets, Business, Investing,
+        Tech, Politics, Video and others — each with its URL and subsections.
+        """
+
+    async def getAuthor(self, args: Prv_cnbc_com_GetAuthorArgs_In, /) -> Prv_cnbc_com_cnbc_comAuthor_Out:
+        """Returns a CNBC journalist's profile — name, job title, bio paragraphs and headshot —
+        from their author page.
+        """
+
+    async def listArticlesByAuthor(self, args: Prv_cnbc_com_ListArticlesByAuthorArgs_In, /) -> Prv_cnbc_com_listArticlesByAuthor_return_Out:
+        """Lists a CNBC journalist's latest stories, newest first — title, link, description, date
+        and section — plus how many they have published in total.
+        """
+
+    async def listVideosByCategory(self, args: Prv_cnbc_com_ListVideosByCategoryArgs_In | None = None, /) -> list[Prv_cnbc_com_cnbc_comListItem_Out]:
+        """Lists CNBC videos from a video page (the video hub by default, or latest video, CEO
+        interviews, digital originals) — title, link, description, duration in seconds, show and
+        thumbnail.
+        """
+
     async def signup(self, args: Any, /) -> Prv_cnbc_com_signup_return_u0_Out | Prv_cnbc_com_signup_return_u1_Out | Prv_cnbc_com_signup_return_u2_Out | Prv_cnbc_com_signup_return_u3_Out:
         """Makes a NEW CNBC account with the person's own email and password, in a session. Pauses
         with `needs_code` / `needs_phone` whenever the site wants something only the person has;
@@ -83811,6 +84357,14 @@ class Prv_dailymotion(Protocol):
         at all, or none in the requested language — a real, honest answer, not a failure.
         """
 
+    async def getPlayback(self, video: str, /) -> Prv_dailymotion_DailymotionPlayback_Out:
+        """The playable menu for one Dailymotion video: its embed (Dailymotion's own player, with
+        ads, captions and quality menu) and `files`, which is always empty because Dailymotion
+        serves video only as an HLS stream signed to the address that requested it. Use the
+        embed to play a Dailymotion video in a page; a live, private or password-protected video
+        adds a warning.
+        """
+
     async def listStreamFormats(self, video: str, /) -> Prv_dailymotion_DailymotionStreamFormatsResult_Out:
         """List the stream qualities one Dailymotion video is encoded in — quality label ("380",
         "720", "1080"), resolution, bitrate and codecs — read off its HLS manifest. The manifest
@@ -84192,6 +84746,18 @@ class Prv_dell(Protocol):
         matching a query — returns article titles, URLs, and summaries.
         """
 
+    async def getForumThread(self, args: Prv_dell_GetForumThreadArgs_In, /) -> Prv_dell_DellForumThreadDetail_Out:
+        """Reads one Dell Community thread by the url searchForumThreads returns — the opening
+        question and its comments and nested replies, each with author, date, text, likes and
+        whether it is the accepted solution.
+        """
+
+    async def getSupportArticle(self, args: Prv_dell_GetSupportArticleArgs_In, /) -> Prv_dell_DellSupportArticleDetail_Out:
+        """Reads the full body of one Dell support article — a knowledge-base doc or a Support by
+        Topic page, by the url searchSupport returns or a KB number — as heading-delimited
+        sections of text, with its number, type and last-updated date.
+        """
+
     async def listSupportCategories(self, /) -> list[Prv_dell_DellSupportCategory_Out]:
         """Lists the main support categories on Dell's support site (e.g., Drivers & Downloads,
         BIOS & Firmware, Documentation) with URLs into each category.
@@ -84498,14 +85064,16 @@ class Prv_devto(Protocol):
 
 class Prv_dhl(Protocol):
     """DHL's own Get a Quote tool, no login: shipping price, service and transit time for a
-    parcel or pallet between two postal codes.
+    parcel or pallet between postal codes or city-addressed countries.
     """
 
     async def getQuote(self, args: Prv_dhl_dhlQuoteArgs_In, /) -> Prv_dhl_dhlQuote_Out:
         """Gets an instant DHL shipping quote without logging in — the same answer dhl.com's Get a
-        Quote calculator gives: every service offered between two postal codes for a parcel or
-        pallet of the given weight and dimensions, each with its price, currency, estimated
-        delivery date/time and a booking link.
+        Quote calculator gives: every service offered between postal codes or city-addressed
+        countries for a parcel or pallet of the given weight and dimensions, each with its
+        price, currency, estimated delivery date/time and a booking link. Pass originCity or
+        destinationCity when DHL addresses that side by city; warnings explains an otherwise
+        ambiguous empty answer.
         """
 
 class Prv_dice(Protocol):
@@ -90739,6 +91307,19 @@ class Prv_grammarly(Protocol):
         `listDocuments` returned — e.g. `deleteDocument({ id: "1234567890" })` → `{ id:
         "1234567890", trashed: true }`. `listDocuments({ trash: true })` still lists it. Needs
         the caller's own Grammarly sign-in.
+        """
+
+    async def addToDictionary(self, args: Prv_grammarly_DictionaryWordArgs_In, opts: ConnectionOption | None = None, /) -> Prv_grammarly_DictionaryAdded_Out:
+        """Adds a word to the caller's own Grammarly personal dictionary so the checker stops
+        flagging it — e.g. `addToDictionary({ word: "Bowmark" })` → `{ word: "Bowmark", added:
+        true }`. `added: false` means Grammarly did not flag the word in the first place. Needs
+        the caller's own Grammarly sign-in.
+        """
+
+    async def removeFromDictionary(self, args: Prv_grammarly_DictionaryWordArgs_In, opts: ConnectionOption | None = None, /) -> Prv_grammarly_DictionaryRemoved_Out:
+        """Removes a word from the caller's own Grammarly personal dictionary, so the checker flags
+        it again — e.g. `removeFromDictionary({ word: "Bowmark" })` → `{ word: "Bowmark",
+        removed: true }`. Needs the caller's own Grammarly sign-in.
         """
 
     async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_grammarly_GrammarlyAccount_Out:
@@ -97362,6 +97943,19 @@ class Prv_netflix(Protocol):
         separately for English and non-English titles, by views. No sign-in.
         """
 
+    async def getTop10ByCountry(self, country: str, category: Literal["films"] | Literal["tv"] | None = None, /) -> Prv_netflix_NetflixCountryTop10_Out:
+        """Gets this week's Netflix Top 10 in one country — e.g. getTop10ByCountry("United
+        Kingdom") — films and TV (or just one with category "films" / "tv"), each ranked 1-10
+        with weeks on the list. Takes a country name or Netflix's slug (united-kingdom); an
+        unknown country lists the 94 Netflix publishes. No sign-in.
+        """
+
+    async def getMostPopular(self, /) -> list[Prv_netflix_NetflixMostPopularEntry_Out]:
+        """Gets Netflix's all-time Most Popular lists — Films and TV, English and non-English, each
+        ranked 1-10 by views in a title's first 91 days, with views, hours viewed and runtime.
+        No sign-in.
+        """
+
     async def browseGenre(self, genreId: str, /) -> list[Prv_netflix_NetflixTitleMatch_Out]:
         """Lists the titles in one Netflix genre — the id from listGenres or the number in
         netflix.com/browse/genre/<id>, e.g. browseGenre("11714") for TV Dramas. No sign-in.
@@ -98846,6 +99440,23 @@ class Prv_onthemarket(Protocol):
     async def search(self, args: Prv_onthemarket_SearchArgs_In, /) -> Prv_onthemarket_OnTheMarketSearchResult_Out:
         """Search for residential properties by location and type (sale or rent), with paging and
         bedroom/price filters. location is a fuzzy area match, not a postcode boundary.
+        """
+
+class Prv_open_library(Protocol):
+    """Open Library (Internet Archive) books — search works by title, author or subject, and
+    read one work's description, authors, subjects and cover.
+    """
+
+    async def search(self, query: str, opts: Prv_open_library_open_librarySearchOptions_In | None = None, /) -> Prv_open_library_open_librarySearchResults_Out:
+        """Searches Open Library's book catalogue by title, author, subject or ISBN ("fantastic mr
+        fox", "roald dahl"), returning each work's id, authors, first publish year, edition
+        count, subjects, ebook access and cover. Its `workId` goes to getWork.
+        """
+
+    async def getWork(self, workId: str, /) -> Prv_open_library_open_libraryWork_Out:
+        """Reads one Open Library work — title, authors (with names), description, subjects,
+        places, people, first publish date and cover. Takes a work id ("OL45804W") or an
+        openlibrary.org/works/... url. Throws when no work has that id.
         """
 
 class Prv_openai(Protocol):
@@ -101410,6 +102021,11 @@ class Prv_quickbooks(Protocol):
         and headline features
         """
 
+    async def getTimeTrackingPlans(self, /) -> list[Prv_quickbooks_QuickbooksTimeTrackingPlan_Out]:
+        """QuickBooks Time plans (and the Payroll bundles that include Time) with monthly base fee,
+        per-user price and current promo
+        """
+
     async def getServiceStatus(self, /) -> Prv_quickbooks_QuickbooksServiceStatus_Out:
         """QuickBooks' current service status per product and region, and any open incident"""
 
@@ -102280,7 +102896,8 @@ class Prv_reserve_with_google(Protocol):
 
     async def checkAvailability(self, args: Prv_reserve_with_google_CheckAvailabilityArgs_In, /) -> Prv_reserve_with_google_Availability_Out:
         """For a Google-hosted merchant and party size: every bookable day, plus the time slots
-        (open or taken) for the nearest bookable day.
+        (open or taken) for the nearest bookable day, or for a venue-local date and time the
+        caller picks (the hour either side of it).
         """
 
     async def listPartners(self, /) -> list[Prv_reserve_with_google_Partner_Out]:
@@ -102522,9 +103139,9 @@ class Prv_reuters(Protocol):
 
     async def listCompanyNews(self, args: Prv_reuters_ListCompanyNewsArgs_In, /) -> list[Prv_reuters_ReutersLatestStory_Out]:
         """The latest Reuters stories about one company, newest first — headline, url, section,
-        published time, lead image and tickers — filtered off the site's own news sitemap by
-        RIC. Covers roughly the last two days, the same window listLatestNews reaches. Takes a
-        RIC from searchCompanies.
+        published time, lead image and tickers — read from the company page's own news feed on
+        Reuters, so it reaches back well beyond the last two days. Takes a RIC from
+        searchCompanies.
         """
 
     async def getMarketOverview(self, args: Prv_reuters_GetMarketOverviewArgs_In, /) -> list[Prv_reuters_ReutersMarketRow_Out]:
@@ -104975,6 +105592,28 @@ class Prv_soundcloud(Protocol):
         27-track set is 2 calls and a 200-track set is 5. THROWS when the URL resolves to a
         track or an account, when the set is gone, or when the set lists tracks and none of them
         could be read — an empty track list would be a failed read wearing a success costume.
+        """
+
+class Prv_sourceforge(Protocol):
+    """SourceForge open-source projects: description, developers, categories, latest release
+    and downloadable files.
+    """
+
+    async def getProject(self, args: Prv_sourceforge_SourceForgeProjectArgs_In, /) -> Prv_sourceforge_SourceForgeProject_Out:
+        """One SourceForge project's name, summary, description, homepage, developers, categories
+        (license, OS, language) and creation date. `project` is a shortname ("sevenzip") or a
+        sourceforge.net project URL.
+        """
+
+    async def getLatestRelease(self, args: Prv_sourceforge_SourceForgeProjectArgs_In, /) -> Prv_sourceforge_SourceForgeRelease_Out | None:
+        """The download SourceForge offers as a project's latest release: file path, download URL,
+        date, size, checksums and the per-OS default files. null when the project publishes no
+        files.
+        """
+
+    async def listFiles(self, args: Prv_sourceforge_SourceForgeListFilesArgs_In, /) -> list[Prv_sourceforge_SourceForgeFile_Out]:
+        """A SourceForge project's most recent downloadable files, newest first, with download URL,
+        date, size and md5. `path` narrows to a folder such as "/7-Zip/26.06".
         """
 
 class Prv_spectrum(Protocol):
@@ -107869,6 +108508,13 @@ class Prv_tiktok(Protocol):
         or top, depending on the sort option).
         """
 
+    async def listTrendingVideos(self, args: Prv_tiktok_ListTrendingVideosArgs_In | None = None, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+        """What is trending on TikTok right now — the Explore page's own grid, in TikTok's order:
+        id, caption, play count, cover and play address per video. Uses the browser to load
+        /explore and read the list it fetches, scrolling for more. Default 6, up to 60 with
+        limit. No login.
+        """
+
     async def getSound(self, args: Prv_tiktok_GetSoundArgs_In, /) -> Prv_tiktok_tiktokSound_Out:
         """A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed
         by the music id getVideo carries on `music.id`. Uses the browser to load the sound's
@@ -110493,6 +111139,16 @@ class Prv_weather_channel(Protocol):
         Throws if the page is not an article.
         """
 
+    async def getLiveBlog(self, urlOrPath: str, /) -> Prv_weather_channel_LiveBlog_Out:
+        """Reads one weather.com live-updates page (the rolling coverage it runs during hurricanes
+        and major storms) by URL or path — e.g.
+        `getLiveBlog("/2026/10/10/storms/hurricane/liveblogs/live-updates-isaias-pushes-across-southeast")`,
+        typically the `url` of a `searchNews()` row whose URL contains `/liveblogs/`. Returns
+        the headline, description, authors, coverage window, and every update (headline, time,
+        authors, permalink, full text), newest first. Use `getCMSContent` for an ordinary
+        article; throws if the page is not a live blog.
+        """
+
     async def getLocation(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_WeatherLocation_Out:
         """Gets detailed location information for a place name, postal code, or coordinates — e.g.
         `getLocation("Toronto")`, `getLocation("10001")`, or `getLocation({ latitude: 40.7,
@@ -111629,6 +112285,23 @@ class Prv_wsj(Protocol):
         Market Index — with price, net change and percent change.
         """
 
+    async def listCommodities(self, /) -> list[Prv_wsj_WsjMarketInstrument_Out]:
+        """Lists the commodity futures on WSJ's Commodities and Futures page — crude oil, Brent,
+        natural gas, gold, silver, copper, corn, wheat and the rest of its energy, metals and
+        agriculture tables — with last price, change, day range and each contract's quote page.
+        """
+
+    async def listTreasuryYields(self, /) -> list[Prv_wsj_WsjTreasuryYield_Out]:
+        """Lists U.S. Treasury yields by maturity, 1-month bill to 30-year bond, off WSJ's Bonds
+        and Rates page — yield, yield change, price and coupon.
+        """
+
+    async def listCurrencies(self, /) -> list[Prv_wsj_WsjMarketInstrument_Out]:
+        """Lists exchange rates off WSJ's Currencies page — the major pairs such as EUR/USD and
+        USD/JPY, its Asian, Americas and European tables, and the cryptocurrency table (Bitcoin,
+        Ether) — with last rate, change and day range.
+        """
+
     async def getQuote(self, args: Prv_wsj_GetQuoteArgs_In, /) -> Prv_wsj_WsjQuote_Out:
         """Gets one US-listed symbol's current quote — price, open, high, low, net change and
         percent change — off WSJ's own market-data JSON door.
@@ -111764,10 +112437,14 @@ class Prv_x(Protocol):
         """
 
     async def createPost(self, args: Prv_x_createPost_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XPostWriteResult_Out:
-        """Posts a new tweet on X / Twitter as the signed-in caller."""
+        """Posts a new tweet on X / Twitter as the signed-in caller, optionally with up to four
+        photos.
+        """
 
     async def replyToPost(self, args: Prv_x_replyToPost_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XPostWriteResult_Out:
-        """Replies to an X / Twitter post, by url or id, as the signed-in caller."""
+        """Replies to an X / Twitter post, by url or id, as the signed-in caller, optionally with
+        up to four photos.
+        """
 
     async def likePost(self, args: Prv_x_likePost_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XToggleResult_Out:
         """Likes (like: true, the default) or unlikes (like: false) an X post as the signed-in
@@ -113310,6 +113987,7 @@ class BowmarkProviders(Protocol):
     airchina: Prv_airchina
     airtable: Prv_airtable
     ajmadison: Prv_ajmadison
+    akc_org: Prv_akc_org
     alibaba: Prv_alibaba
     aliexpress: Prv_aliexpress
     allied: Prv_allied
@@ -113816,6 +114494,7 @@ class BowmarkProviders(Protocol):
     olo: Prv_olo
     onlyfans: Prv_onlyfans
     onthemarket: Prv_onthemarket
+    open_library: Prv_open_library
     openai: Prv_openai
     openai_com: Prv_openai_com
     opentable: Prv_opentable
@@ -113950,6 +114629,7 @@ class BowmarkProviders(Protocol):
     solostove: Prv_solostove
     soulcycle: Prv_soulcycle
     soundcloud: Prv_soundcloud
+    sourceforge: Prv_sourceforge
     spectrum: Prv_spectrum
     speedrun: Prv_speedrun
     spirithalloween: Prv_spirithalloween

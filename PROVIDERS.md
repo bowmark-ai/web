@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6445 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6465 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -80,11 +80,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
 | `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟢 |
+| `adobe.getAgreementStatus` | adobe.com | Reads back one Acrobat Sign agreement the caller sent (the agreementId… | 🟢 |
 | `adobe.getCreativeCloudPlans` | adobe.com | Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html… | 🟢 |
 | `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | 🟢 |
 | `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail — title, media type, dimensions, keywords… | 🟢 |
 | `adobe.getTemplate` | adobe.com | Returns one Adobe Express template's detail — title, category, dimensions, whether it… | 🟡 |
-| `adobe.licenseStockAsset` | adobe.com | Buys a license for an Adobe Stock asset on the signed-in caller's own account — the… | ⚪ |
+| `adobe.licenseStockAsset` | adobe.com | Takes an Adobe Stock asset (id or URL from searchStockAssets) up to the payment step… | 🟢 |
 | `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | ⚪ |
 | `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an image (public https URL, under 5 MB) into the signed-in caller's own Creative… | 🟢 |
 | `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟢 |
@@ -560,6 +561,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.bookmarkPost` | bsky.app | Save a post to the caller's Bookmarks, or remove it. | 🟢 |
 | `bluesky.createList` | bsky.app | Create a curation or moderation list owned by the caller. | 🟢 |
 | `bluesky.createPost` | bsky.app | Publish a post as the caller: text with links and mentions resolved into facets… | 🟢 |
+| `bluesky.createPostWithImages` | bsky.app | Publish a post with up to four images and their alt text. | 🟢 |
+| `bluesky.deleteList` | bsky.app | Delete one of the caller's own lists. | 🟢 |
 | `bluesky.deletePost` | bsky.app | Delete one of the caller's own posts. | 🟢 |
 | `bluesky.followUser` | bsky.app | Follow a person as the caller, or unfollow them. | 🟢 |
 | `bluesky.getConversation` | bsky.app | The messages in one of the caller's DM conversations, page by page, with a finder from… | 🟢 |
@@ -596,9 +599,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.listBookmarks` | bsky.app | The posts the caller has saved to Bookmarks. | 🟢 |
 | `bluesky.listConversations` | bsky.app | The caller's direct-message conversations, most recent first, with the last message… | 🟢 |
 | `bluesky.listMutedUsers` | bsky.app | The accounts the caller has muted. | 🟢 |
+| `bluesky.listMutedWords` | bsky.app | List the words and tags the caller has muted. | 🟢 |
 | `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | 🟢 |
 | `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | 🟢 |
 | `bluesky.muteUser` | bsky.app | Mute a person for the caller, or unmute them. | 🟢 |
+| `bluesky.muteWord` | bsky.app | Mute a word or tag so matching posts are hidden, or unmute it. | 🟢 |
+| `bluesky.pinPost` | bsky.app | Pin one of the caller's own posts to the top of their profile, or unpin it. | 🟢 |
 | `bluesky.quotePost` | bsky.app | Quote-post an existing post with the caller's own text. | 🟢 |
 | `bluesky.replyToPost` | bsky.app | Reply to a post as the caller, threaded under it. | 🟢 |
 | `bluesky.repost` | bsky.app | Repost a post as the caller, or undo the repost. | 🟢 |
@@ -1298,22 +1304,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | ⚪ |
 | `cnbc_com.followTopic` | cnbc.com | Follows a CNBC news topic to receive articles about it. | ⚪ |
 | `cnbc_com.getArticle` | cnbc.com | Returns a CNBC article by URL — headline, authors, dates, section, keywords, lead… | 🟢 |
-| `cnbc_com.getAuthor` | cnbc.com | Returns details about a CNBC journalist or contributor — name, bio, photo and link to… | ⚪ |
+| `cnbc_com.getAuthor` | cnbc.com | Returns details about a CNBC journalist or contributor — name, bio, photo and link to… | 🟢 |
 | `cnbc_com.getInvestingClubContent` | cnbc.com | Returns Investing Club portfolio recommendations and analysis. | ⚪ |
 | `cnbc_com.getMarketData` | cnbc.com | Returns one stock, index, commodity or yield's current quote plus its price history… | 🟢 |
 | `cnbc_com.getPremiumContent` | cnbc.com | Returns CNBC Pro premium articles and analysis. | ⚪ |
 | `cnbc_com.getQuote` | cnbc.com | Returns the current stock quote for one symbol — price, change, percent change, open… | 🟢 |
 | `cnbc_com.getVideo` | cnbc.com | Returns details of a CNBC video — title, description, duration, transcript (if… | ⚪ |
 | `cnbc_com.getWatchlist` | cnbc.com | Returns the user's saved watchlist of stocks — symbols, current price, change and… | ⚪ |
-| `cnbc_com.listArticlesByAuthor` | cnbc.com | Lists all articles published by a specific CNBC journalist or contributor, with… | ⚪ |
-| `cnbc_com.listCategories` | cnbc.com | Lists CNBC's news categories and sections — Markets, Investing, Earnings, Economy… | ⚪ |
+| `cnbc_com.listArticlesByAuthor` | cnbc.com | Lists all articles published by a specific CNBC journalist or contributor, with… | 🟢 |
+| `cnbc_com.listCategories` | cnbc.com | Lists CNBC's news categories and sections — Markets, Investing, Earnings, Economy… | 🟢 |
 | `cnbc_com.listCommodities` | cnbc.com | Lists commodity prices — crude oil, natural gas, gold, silver, copper, wheat and other… | 🟢 |
 | `cnbc_com.listCurrencies` | cnbc.com | Lists major currency exchange rates — USD/EUR, USD/GBP, USD/JPY and others — with… | 🟢 |
 | `cnbc_com.listMarkets` | cnbc.com | Returns the current state of all major market indices — Dow Jones, S&P 500, Nasdaq… | 🟢 |
 | `cnbc_com.listNews` | cnbc.com | Returns the latest news and articles from CNBC — headlines, publication date, author… | 🟢 |
 | `cnbc_com.listQuotes` | cnbc.com | Returns stock quotes for multiple symbols in one call — the same fields as getQuote… | 🟢 |
 | `cnbc_com.listSectors` | cnbc.com | Returns today's performance of the eleven S&P 500 sectors, each through its SPDR… | 🟢 |
-| `cnbc_com.listVideosByCategory` | cnbc.com | Lists CNBC videos by category (latest, trending, live, channels) — title, description… | ⚪ |
+| `cnbc_com.listVideosByCategory` | cnbc.com | Lists CNBC videos by category (latest, trending, live, channels) — title, description… | 🟢 |
 | `cnbc_com.removeFromWatchlist` | cnbc.com | Removes a stock symbol from the user's watchlist. | ⚪ |
 | `cnbc_com.search` | cnbc.com | Searches CNBC's articles and videos for a keyword and returns them by relevance —… | 🟢 |
 | `cnbc_com.subscribeToNewsletter` | cnbc.com | Subscribes to a CNBC newsletter (Markets, Tech, Earnings, etc). | ⚪ |
@@ -1472,6 +1478,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.followChannel` | dailymotion.com | Follow a Dailymotion channel as the signed-in caller, or pass follow: false to unfollow. | 🟢 |
 | `dailymotion.getChannel` | dailymotion.com | Read one Dailymotion channel from its id, username or dailymotion.com/<username> URL —… | 🟢 |
 | `dailymotion.getMyProfile` | dailymotion.com | Read the signed-in caller's own Dailymotion account — username, display name, avatar… | 🟢 |
+| `dailymotion.getPlayback` | dailymotion.com | The playable menu for one Dailymotion video: its embed (Dailymotion's own player, with… | 🟢 |
 | `dailymotion.getPlaylist` | dailymotion.com | Read one Dailymotion playlist from its id or URL — name, description, owner, video… | 🟢 |
 | `dailymotion.getTranscript` | dailymotion.com | Read a Dailymotion video's captions as timed text — the uploader's track or the… | 🟢 |
 | `dailymotion.getVideo` | dailymotion.com | Read one Dailymotion video from its id or a dailymotion.com / dai.ly URL: title… | 🟢 |
@@ -1529,11 +1536,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deepmind.listPublications` | deepmind.google | One page (30 rows, newest first) of DeepMind's research publications index at… | 🟢 |
 | `delaware_corps.getEntityDetails` | icis.corp.delaware.gov | One Delaware entity's details page: incorporation date, entity kind and type, state of… | ⚪ |
 | `delaware_corps.searchEntity` | icis.corp.delaware.gov | Search Delaware's Division of Corporations register by entity name or file number… | 🟢 |
+| `dell.getForumThread` | dell.com | Reads one Dell Community thread by the url searchForumThreads returns — the opening… | 🟢 |
 | `dell.getOrderDetails` | dell.com | Retrieves detailed information about a specific order, including items, pricing, and… | 🟢 |
 | `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟢 |
 | `dell.getProductDrivers` | dell.com | Lists drivers and downloads for a Dell product by its URL slug, optionally narrowed to… | 🟢 |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves details for a specific registered product. | 🟢 |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | 🟢 |
+| `dell.getSupportArticle` | dell.com | Reads the full body of one Dell support article — a knowledge-base doc or a Support by… | 🟢 |
 | `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag, returning… | ⚪ |
 | `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | 🟡 |
 | `dell.listMyOrders` | dell.com | Retrieves the signed-in user's order history with order numbers, dates, and status. | 🟢 |
@@ -2649,7 +2658,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟡 |
 | `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟡 |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
-| `grammarly.addToDictionary` | www.grammarly.com | Adds a word or phrase to the signed-in account's personal dictionary so the checker… | ⚪ |
+| `grammarly.addToDictionary` | www.grammarly.com | Adds a word or phrase to the signed-in account's personal dictionary so the checker… | 🟢 |
 | `grammarly.checkGrammar` | www.grammarly.com | Checks text for grammar, spelling and punctuation problems and returns each alert with… | 🟢 |
 | `grammarly.countWords` | www.grammarly.com | Returns word/character/sentence/paragraph counts, reading and speaking time, and a… | 🟢 |
 | `grammarly.createDocument` | www.grammarly.com | Saves a new document (title and text) in the signed-in account, the way… | 🟢 |
@@ -2665,7 +2674,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grammarly.listGoals` | www.grammarly.com | Lists the writing goals (goals, domain, audience, formality, dialect) set on each… | 🟢 |
 | `grammarly.listPlans` | www.grammarly.com | Lists Grammarly's subscription plans with their prices for the visitor's country. | 🟢 |
 | `grammarly.paraphrase` | www.grammarly.com | Rewrites text in different words with the same meaning, logged out (up to 625… | 🟢 |
-| `grammarly.removeFromDictionary` | www.grammarly.com | Removes a word or phrase from the signed-in account's personal dictionary. | ⚪ |
+| `grammarly.removeFromDictionary` | www.grammarly.com | Removes a word or phrase from the signed-in account's personal dictionary. | 🟢 |
 | `grammarly.setGoals` | www.grammarly.com | Sets the writing goals (audience, formality, domain, intent) the checker tunes its… | ⚪ |
 | `grammarly.updateProfile` | www.grammarly.com | Changes the signed-in account's display name. | ⚪ |
 | `grandwelcome.getRentalDetail` | grandwelcome.com | Reads one rental's own detail page in full — name, description, photos and the site's… | 🟢 |
@@ -3011,7 +3020,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
 | `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟢 |
 | `itunes.searchPodcastEpisodes` | itunes.apple.com | Searches Apple Podcasts episodes by words (a guest's name, a company) and returns each… | 🟢 |
-| `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' home-design floor-plan search against the site's own live inventory… | 🟡 |
+| `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' floor-plan search against the site's own live catalogue — filterable… | 🟡 |
 | `iyc.checkCharterAvailability` | iyc.com | Reads one yacht's real charter calendar (the site's own booked/unavailable date list)… | 🟢 |
 | `iyc.searchCharterYachts` | iyc.com | Searches IYC's live superyacht charter fleet by destination, guest count, length and… | 🟢 |
 | `jasmine_dilucci.getApplicationFormSchema` | jasminedilucci.com | Returns the structure of the application funnel's DQ (disqualification) step: field… | 🟢 |
@@ -3601,12 +3610,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.getAccount` | www.netflix.com | Reads the signed-in caller's own Netflix account — name, email, membership status… | 🟢 |
 | `netflix.getContinueWatching` | www.netflix.com | Reads the signed-in caller's own Netflix Continue Watching row — the titles they are… | 🟢 |
 | `netflix.getEpisodes` | www.netflix.com | Lists a Netflix series' episodes by its numeric title id — e.g.… | 🟢 |
+| `netflix.getMostPopular` | www.netflix.com | Gets Netflix's all-time Most Popular lists — Films and TV, English and non-English… | 🟢 |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's own Netflix My List — each saved title's id, name… | 🟢 |
 | `netflix.getNewOnNetflix` | www.netflix.com | Lists what Netflix shows in its New on Netflix row right now, TV shows then films —… | 🟢 |
 | `netflix.getProfiles` | www.netflix.com | Lists the profiles on the signed-in caller's own Netflix account — each profile's id… | 🟢 |
 | `netflix.getSimilarTitles` | www.netflix.com | Lists the titles Netflix recommends alongside one title (its "More Like This" picks)… | 🟢 |
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
 | `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10… | 🟢 |
+| `netflix.getTop10ByCountry` | www.netflix.com | Gets this week's Netflix Top 10 in one country — films and TV, each ranked 1-10 with… | 🟢 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads one article on Tudum, Netflix's editorial site, by its slug or URL — headline… | 🟢 |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's own Netflix viewing history, most recent first, 100 per… | 🟢 |
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
@@ -3901,6 +3912,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `onlyfans.unlikePost` | onlyfans.com | Removes the signed-in member's like from a post; a no-op when not liked. | ⚪ |
 | `onlyfans.unpinPost` | onlyfans.com | Unpins one of the signed-in creator's own posts; a no-op when not pinned. | ⚪ |
 | `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟢 |
+| `open_library.getWork` | openlibrary.org | Reads one Open Library work by its id or openlibrary.org/works url — title, authors… | 🟢 |
+| `open_library.search` | openlibrary.org | Searches Open Library's book catalogue by title, author, subject or ISBN through its… | 🟢 |
 | `openai_com.listPosts` | openai.com | Search OpenAI's research and blog posts by keyword or category (Research, Product… | 🟢 |
 | `openai_com.readPost` | openai.com | Read the complete text of any OpenAI research paper or blog post from openai.com by… | 🟢 |
 | `openai.helpArticle` | learn.chatgpt.com | Retrieves the full text of a help article by its ID from OpenAI's documentation. | 🟢 |
@@ -4298,7 +4311,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.getServiceStatus` | quickbooks.intuit.com | Returns QuickBooks' current service status per region and component (operational… | 🟢 |
 | `quickbooks.getStatePayrollTaxes` | quickbooks.intuit.com | Returns one US state's income-tax rate range as /payroll/tools/tax-map/'s own state… | 🟢 |
 | `quickbooks.getThread` | quickbooks.intuit.com | Reads one Community thread's question and its accepted (or top suggested) answer, with… | 🟢 |
-| `quickbooks.getTimeTrackingPlans` | quickbooks.intuit.com | Lists the QuickBooks Time plans with base and per-user monthly prices and their… | ⚪ |
+| `quickbooks.getTimeTrackingPlans` | quickbooks.intuit.com | Lists the QuickBooks Time plans (Premium, Elite) and the two Payroll Workforce bundles… | 🟢 |
 | `quickbooks.listAppCategories` | quickbooks.intuit.com | Lists the QuickBooks App Store's categories (e.g. Invoicing and Payments, Inventory… | 🟢 |
 | `quickbooks.listAppReviews` | quickbooks.intuit.com | Lists the user reviews on one App Store listing by the id searchApps or getApp… | 🔴 |
 | `quickbooks.listBoardThreads` | quickbooks.intuit.com | Lists one Community board's threads, most-recently-active first, with title, snippet… | 🟢 |
@@ -4975,6 +4988,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
+| `sourceforge.getLatestRelease` | sourceforge.net | The file SourceForge offers as a project's latest release download, with date, size… | 🟢 |
+| `sourceforge.getProject` | sourceforge.net | One SourceForge open-source project's name, summary, description, homepage, developers… | 🟢 |
+| `sourceforge.listFiles` | sourceforge.net | A SourceForge project's most recent downloadable files with download URL, date, size… | 🟢 |
+| `sourceforge.search` | sourceforge.net | Searches SourceForge's software directory by keyword. | ⚪ |
 | `spacest.search` | spacest.com | Searches furnished apartments and corporate rentals by city and optional dates… | ⚪ |
 | `spectrum.cancelServiceAppointment` | spectrum.com | Cancel one of the signed-in caller's Spectrum technician visits, by the appointmentId… | 🟢 |
 | `spectrum.checkMobileCoverage` | spectrum.com | Spectrum Mobile's network coverage at an address, city or ZIP, off the raster overlay… | 🟢 |
@@ -6192,6 +6209,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.getWatchlist` | wsj.com | Gets the caller's own WSJ stock watchlist through their signed-in WSJ session — never… | 🟢 |
 | `wsj.listArticles` | wsj.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | 🟢 |
 | `wsj.listArticlesByAuthor` | wsj.com | Lists a journalist's own articles off their byline page, newest first, 50 a page via… | 🟢 |
+| `wsj.listCommodities` | wsj.com | Lists the commodity futures on WSJ's Commodities and Futures page — crude oil, Brent… | 🟢 |
+| `wsj.listCurrencies` | wsj.com | Lists exchange rates off WSJ's Currencies page — the major pairs such as EUR/USD and… | 🟢 |
 | `wsj.listEpisodes` | wsj.com | Lists a podcast's own episodes, newest first, off the show's RSS feed on Dow Jones'… | 🟢 |
 | `wsj.listMarketIndices` | wsj.com | Lists the major indices WSJ's own Markets front ships inline — Dow Jones Industrial… | 🟢 |
 | `wsj.listNewsletters` | wsj.com | Lists WSJ's own email newsletters off its newsletter catalog — name, description… | 🟢 |
@@ -6199,6 +6218,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.listQuotes` | wsj.com | Gets quotes for several US-listed symbols in one call — the same fields as getQuote… | 🟢 |
 | `wsj.listSavedArticles` | wsj.com | Lists the articles the caller has saved to their own My WSJ account, through the… | 🟢 |
 | `wsj.listSections` | wsj.com | Lists WSJ's own news sections and verticals (World, Business, Markets, Tech, Opinion… | 🟡 |
+| `wsj.listTreasuryYields` | wsj.com | Lists U.S. Treasury yields by maturity, 1-month bill to 30-year bond, off WSJ's Bonds… | 🟢 |
 | `wsj.listTrending` | wsj.com | Lists WSJ's own Most Popular articles right now — the homepage's top news and top… | 🟢 |
 | `wsj.removeFromWatchlist` | wsj.com | Removes a stock from the caller's own WSJ watchlist through their signed-in WSJ… | 🟢 |
 | `wsj.saveArticle` | wsj.com | Saves an article to the caller's own My WSJ saved list, through their signed-in WSJ… | 🟢 |
@@ -6207,7 +6227,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
 | `x.blockUser` | x.com | Block or unblock an account as the signed-in account — one `block` boolean argument… | 🟢 |
 | `x.bookmarkPost` | x.com | Bookmark or un-bookmark a post as the signed-in account — one `bookmark` boolean… | 🟢 |
-| `x.createPost` | x.com | Post a new tweet as the signed-in account. | 🟢 |
+| `x.createPost` | x.com | Post a new tweet as the signed-in account, optionally with up to four photos. | 🟢 |
 | `x.deletePost` | x.com | Delete one of the signed-in account's own posts. | 🟢 |
 | `x.followUser` | x.com | Follow or unfollow a user as the signed-in account — one `follow` boolean argument… | 🟢 |
 | `x.getConversation` | x.com | The messages inside one of the signed-in account's DM conversations. | 🟢 |
@@ -6226,7 +6246,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |
 | `x.profile` | x.com | Reads an X (Twitter) profile by handle or profile URL — display name, bio text… | 🟢 |
 | `x.quotePost` | x.com | Quote-repost a post with the signed-in account's own added comment. | 🟢 |
-| `x.replyToPost` | x.com | Reply to another post as the signed-in account. | 🟢 |
+| `x.replyToPost` | x.com | Reply to another post as the signed-in account, optionally with up to four photos. | 🟢 |
 | `x.repost` | x.com | Repost (retweet) or un-repost a post as the signed-in account — one `repost` boolean… | 🟢 |
 | `x.search` | x.com | Runs the site's own search across posts, scrolling until the limit is met or results… | 🟢 |
 | `x.sendDirectMessage` | x.com | Send a direct message (DM) to an X user by handle as the signed-in account, starting a… | 🟢 |

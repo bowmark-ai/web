@@ -1,5 +1,5 @@
 {
-  "version": "4cc26eef085e809218e67973cdfc30e4f1871f9c24f13210ecafeb3a7fd9868e",
+  "version": "734103afdec9ffdd47686f67a524a53687b5bce01dd1fd12721dd0e3adb79146",
   "units": {
     "address_validation": {
       "defs": {
@@ -9751,6 +9751,47 @@
             "optional": false
           }
         ],
+        "getAgreementStatus": [
+          {
+            "name": "agreementId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "licenseStockAsset": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "license",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
         "getStockAsset": [
           {
             "name": "idOrUrl",
@@ -11163,8 +11204,90 @@
         ]
       }
     },
+    "providers.akc_org": {
+      "defs": {},
+      "functions": {
+        "searchBreeds": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "breed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "slug",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "name",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.alibaba": {
       "defs": {
+        "alibabaGetOrderArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "orderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "alibabaProductReviewsArgs": {
           "k": "object",
           "props": [
@@ -11351,6 +11474,86 @@
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMessages": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOrder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "alibabaGetOrderArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "signup": [
@@ -20334,6 +20537,51 @@
             }
           ]
         },
+        "BlueskyCreatePostWithImagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "images",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "BlueskyPostImage"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "langs",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BlueskyDeleteListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "list",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "BlueskyGetConversationArgs": {
           "k": "object",
           "props": [
@@ -20367,6 +20615,59 @@
             }
           ]
         },
+        "BlueskyMuteWordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "word",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "targets",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "union",
+                  "of": [
+                    {
+                      "k": "literal",
+                      "v": "content"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "tag"
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "excludeFollowing",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "expiresAt",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "undo",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "BlueskyPostActionArgs": {
           "k": "object",
           "props": [
@@ -20381,6 +20682,25 @@
               "name": "undo",
               "schema": {
                 "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BlueskyPostImage": {
+          "k": "object",
+          "props": [
+            {
+              "name": "image",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "alt",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -22121,6 +22441,128 @@
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createPostWithImages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyCreatePostWithImagesArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "pinPost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyPostActionArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyDeleteListArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "muteWord": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyMuteWordArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMutedWords": [
           {
             "name": "opts",
             "schema": {
@@ -35596,6 +36038,18 @@
             }
           ]
         },
+        "GetAuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "author",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetMarketDataArgs": {
           "k": "object",
           "props": [
@@ -35624,6 +36078,25 @@
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListArticlesByAuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "author",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -35658,6 +36131,25 @@
                 }
               },
               "optional": false
+            }
+          ]
+        },
+        "ListVideosByCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -35753,6 +36245,37 @@
         "listSectors": [],
         "listCommodities": [],
         "listCurrencies": [],
+        "listCategories": [],
+        "getAuthor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAuthorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listArticlesByAuthor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListArticlesByAuthorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVideosByCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosByCategoryArgs"
+            },
+            "optional": true
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -39050,6 +39573,15 @@
             "optional": false
           }
         ],
+        "getPlayback": [
+          {
+            "name": "video",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listStreamFormats": [
           {
             "name": "video",
@@ -40135,6 +40667,18 @@
     },
     "providers.dell": {
       "defs": {
+        "GetForumThreadArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetOrderDetailsArgs": {
           "k": "object",
           "props": [
@@ -40195,6 +40739,18 @@
           "props": [
             {
               "name": "cartId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetSupportArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
               "schema": {
                 "k": "string"
               },
@@ -40268,6 +40824,26 @@
             "schema": {
               "k": "ref",
               "name": "SearchSupportArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getForumThread": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetForumThreadArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSupportArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSupportArticleArgs"
             },
             "optional": false
           }
@@ -41566,7 +42142,14 @@
               "schema": {
                 "k": "string"
               },
-              "optional": false
+              "optional": true
+            },
+            {
+              "name": "originCity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             },
             {
               "name": "destinationCountry",
@@ -41580,7 +42163,14 @@
               "schema": {
                 "k": "string"
               },
-              "optional": false
+              "optional": true
+            },
+            {
+              "name": "destinationCity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             },
             {
               "name": "weight",
@@ -66301,6 +66891,18 @@
             }
           ]
         },
+        "DictionaryWordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "word",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetDocumentArgs": {
           "k": "object",
           "props": [
@@ -66479,6 +67081,58 @@
             "schema": {
               "k": "ref",
               "name": "DeleteDocumentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToDictionary": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DictionaryWordArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromDictionary": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DictionaryWordArgs"
             },
             "optional": false
           },
@@ -90442,6 +91096,33 @@
           }
         ],
         "getTop10": [],
+        "getTop10ByCountry": [
+          {
+            "name": "country",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "category",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "films"
+                },
+                {
+                  "k": "literal",
+                  "v": "tv"
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMostPopular": [],
         "browseGenre": [
           {
             "name": "genreId",
@@ -97099,6 +97780,57 @@
             "schema": {
               "k": "ref",
               "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.open_library": {
+      "defs": {
+        "open_librarySearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "open_librarySearchOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getWork": [
+          {
+            "name": "workId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -108039,6 +108771,7 @@
         ],
         "getPayrollPlans": [],
         "getPlans": [],
+        "getTimeTrackingPlans": [],
         "getServiceStatus": [],
         "listIncidents": [
           {
@@ -112582,6 +113315,20 @@
               "name": "partySize",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -123720,6 +124467,73 @@
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.sourceforge": {
+      "defs": {
+        "SourceForgeListFilesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "project",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "path",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SourceForgeProjectArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "project",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProject": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SourceForgeProjectArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLatestRelease": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SourceForgeProjectArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listFiles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SourceForgeListFilesArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -135856,6 +136670,18 @@
             }
           ]
         },
+        "ListTrendingVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListUserPlaylistsArgs": {
           "k": "object",
           "props": [
@@ -136191,6 +137017,16 @@
               "name": "ListHashtagVideosArgs"
             },
             "optional": false
+          }
+        ],
+        "listTrendingVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTrendingVideosArgs"
+            },
+            "optional": true
           }
         ],
         "getSound": [
@@ -147051,6 +147887,15 @@
             "optional": false
           }
         ],
+        "getLiveBlog": [
+          {
+            "name": "urlOrPath",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getLocation": [
           {
             "name": "location",
@@ -151056,6 +151901,9 @@
           }
         ],
         "listMarketIndices": [],
+        "listCommodities": [],
+        "listTreasuryYields": [],
+        "listCurrencies": [],
         "getQuote": [
           {
             "name": "args",
@@ -151333,6 +152181,42 @@
                 "k": "number"
               },
               "optional": true
+            }
+          ]
+        },
+        "XPostImage": {
+          "k": "union",
+          "of": [
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "imageUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "base64",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "mimeType",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
             }
           ]
         }
@@ -151771,6 +152655,17 @@
                     "k": "string"
                   },
                   "optional": false
+                },
+                {
+                  "name": "images",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "XPostImage"
+                    }
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -151819,6 +152714,17 @@
                     "k": "string"
                   },
                   "optional": false
+                },
+                {
+                  "name": "images",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "XPostImage"
+                    }
+                  },
+                  "optional": true
                 }
               ]
             },

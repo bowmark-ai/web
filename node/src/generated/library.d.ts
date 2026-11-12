@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4cc26eef085e809218e67973cdfc30e4f1871f9c24f13210ecafeb3a7fd9868e
-// 98 capabilities, 818 providers, 4968 typed functions, 20 refused.
+// Manifest version: 734103afdec9ffdd47686f67a524a53687b5bce01dd1fd12721dd0e3adb79146
+// 98 capabilities, 821 providers, 5003 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8127,6 +8127,32 @@ interface SignatureRequest {
   webAccessPoint: string | null;
 }
 
+interface AgreementStatus {
+  agreementId: string;
+  name: string;
+  /** Acrobat Sign's own state: OUT_FOR_SIGNATURE, SIGNED, CANCELLED, EXPIRED, … */
+  status: string;
+  signed: boolean;
+  participants: Array<{ email: string; role: string; order: number | null }>;
+  /** Short-lived download URL of the signed PDF, once status is SIGNED. */
+  signedDocumentUrl: string | null;
+}
+
+interface StockLicenseQuote {
+  id: string;
+  title: string;
+  mediaType: StockAssetDetail["mediaType"];
+  /** The asset page; its License button is where the caller pays, in their own browser. */
+  url: string;
+  /** Every licence tier the page offers, with the price shown logged out. */
+  licenses: Array<{ name: string; price: string }>;
+  /** The tier asked for (or the first offered), with what the caller would be charged. */
+  selected: { name: string; price: string } | null;
+  /** Always false: Bowmark stops at the payment step and never charges. */
+  charged: false;
+  warnings: string[];
+}
+
 interface adobeRow {
   id: string;
 }
@@ -8193,6 +8219,23 @@ interface adobeRow {
      * function: nothing on Stock can be read without an asset id.
      */
     searchStockAssets(query: string): Promise<StockAsset[]>;
+
+    /**
+     * Reads back one Acrobat Sign agreement the caller sent (the agreementId sendForSignature
+     * returns): its state (OUT_FOR_SIGNATURE, SIGNED, …), whether it is signed, who it went to,
+     * and once signed a short-lived download URL of the signed PDF. Needs the caller signed in to
+     * their own Adobe ID.
+     */
+    getAgreementStatus(agreementId: string, opts?: ConnectionOption): Promise<AgreementStatus>;
+
+    /**
+     * Takes an Adobe Stock asset (id or URL from searchStockAssets) up to the payment step of
+     * licensing it and stops there: returns every licence tier the asset offers with its price,
+     * the tier asked for (e.g. "Extended License", default the first) with what the caller would
+     * be charged, and the asset page URL whose License button the caller presses in their own
+     * browser. Never charges — `charged` is always false.
+     */
+    licenseStockAsset(idOrUrl: string, license?: string): Promise<StockLicenseQuote>;
 
     /**
      * Returns one Adobe Stock asset's detail — title, media type, dimensions, keywords,
@@ -9100,6 +9143,28 @@ interface AjmadisonSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_akc_org {
+  // ── American Kennel Club (akc.org) — the unit's own declarations, verbatim ──
+interface AkcBreedHit { slug: string; name: string; url: string; }
+interface AkcTrait { name: string; category: string | null; score: number | null; selected: string[]; low: string | null; high: string | null; }
+interface AkcBreed { slug: string; name: string; url: string; group: string | null; temperament: string | null; height: string | null; weight: string | null; lifeExpectancy: string | null; popularityRank: number | null; popularityYear: number | null; origin: string | null; yearRecognized: number | null; nicknames: string | null; relatedBreeds: string[]; blurb: string | null; about: string | null; health: string | null; healthStatementUrl: string | null; colors: string[]; traits: AkcTrait[]; nationalBreedClub: string | null; nationalBreedClubUrl: string | null; rescueUrl: string | null; }
+
+  /**
+   * Search the American Kennel Club's dog breeds and read a breed's profile: size, temperament,
+   * 1-5 trait scores, health, colours and parent club.
+   */
+  interface Unit {
+    /** Searches AKC's dog breed library by name or keyword, e.g. 'retriever'. */
+    searchBreeds(args: { query: string }): Promise<AkcBreedHit[]>;
+
+    /**
+     * Reads one AKC breed profile: group, height, weight, life expectancy, popularity rank,
+     * temperament, trait scores, health, colours, parent club.
+     */
+    breed(args: { slug: string } | { url: string } | { name: string }): Promise<AkcBreed>;
+  }
+}
+
 declare namespace BowmarkProvider_alibaba {
   // ── Alibaba.com — the unit's own declarations, verbatim ──
 interface alibabaSearchRow {
@@ -9195,6 +9260,16 @@ interface alibabaSupplierProductRow {
   url: string | null;
 }
 
+interface alibabaAccountPage {
+  url: string;           // where the page finally answered
+  title: string | null;
+  html: string;          // the signed-in page, raw: its shape is not yet measured
+}
+
+interface alibabaGetOrderArgs {
+  orderId: string;
+}
+
   /**
    * Search and browse products on Alibaba's B2B marketplace; read product details, reviews, and
    * supplier information.
@@ -9236,6 +9311,27 @@ interface alibabaSupplierProductRow {
      * profileUrl.
      */
     listSupplierProducts(profileUrl: string): Promise<alibabaSupplierProductRow[]>;
+
+    /**
+     * The signed-in caller's own Alibaba.com profile page (raw). Pauses for sign-in when the
+     * caller has none.
+     */
+    getProfile(opts?: ConnectionOption): Promise<alibabaAccountPage>;
+
+    /**
+     * The signed-in caller's Alibaba.com message centre (raw), where supplier conversations live.
+     * Pauses for sign-in when needed.
+     */
+    listMessages(opts?: ConnectionOption): Promise<alibabaAccountPage>;
+
+    /** The signed-in caller's buyer order list (raw). Pauses for sign-in when the caller has none. */
+    listOrders(opts?: ConnectionOption): Promise<alibabaAccountPage>;
+
+    /**
+     * One of the signed-in caller's orders by order number (raw detail page). Pauses for sign-in
+     * when needed.
+     */
+    getOrder(args: alibabaGetOrderArgs, opts?: ConnectionOption): Promise<alibabaAccountPage>;
 
     /**
      * Makes a NEW Alibaba.com account with the person's own email and password, in a session.
@@ -17770,6 +17866,47 @@ interface BlueskyAddToListArgs {
   undo?: boolean;
 }
 
+interface BlueskyPostImage {
+  image: string;
+  alt?: string;
+}
+
+interface BlueskyCreatePostWithImagesArgs {
+  text?: string;
+  images: BlueskyPostImage[];
+  langs?: string[];
+}
+
+interface BlueskyDeleteListArgs {
+  list: string;
+}
+
+interface BlueskyMuteWordArgs {
+  word: string;
+  targets?: ("content" | "tag")[];
+  excludeFollowing?: boolean;
+  expiresAt?: string;
+  undo?: boolean;
+}
+
+interface BlueskyMutedWord {
+  id: string | null;
+  value: string;
+  targets: string[];
+  excludeFollowing: boolean;
+  expiresAt: string | null;
+}
+
+interface BlueskyMuteWordResult {
+  word: string;
+  muted: boolean;
+  changed: boolean;
+}
+
+interface BlueskyMutedWordList {
+  words: BlueskyMutedWord[];
+}
+
 interface BlueskySetAvatarArgs {
   image: string;
   banner?: boolean;
@@ -18207,6 +18344,49 @@ interface BlueskySaveFeedResult {
      * THROWS `blueskyError` when the saved sign-in has expired; sign in again.
      */
     addToList(args: BlueskyAddToListArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Publishes a post with 1-4 images as the signed-in caller — each an https URL or a
+     * data:image/...;base64 URI, PNG or JPEG, at most 1 MB, with optional `alt` text — plus
+     * optional text (300 characters; links and @mentions become rich text). Returns the post's
+     * at:// URI and bsky.app URL. Needs the caller signed in to bsky.app — the run pauses for a
+     * sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has expired;
+     * sign in again.
+     */
+    createPostWithImages(args: BlueskyCreatePostWithImagesArgs, opts?: ConnectionOption): Promise<BlueskyCreatedRecord>;
+
+    /**
+     * Pins one of the signed-in caller's OWN posts (at:// URI or bsky.app post URL) to the top of
+     * their profile, replacing any pinned post; `undo: true` unpins it. Pinning the post already
+     * pinned returns `changed: false`. Display name, bio and images are kept. Needs the caller
+     * signed in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+     * `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    pinPost(args: BlueskyPostActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Deletes one of the signed-in caller's OWN lists (at:// URI or bsky.app list URL), with its
+     * member entries, as the app's Delete list does. Refuses a list somebody else owns. Cannot be
+     * undone. Needs the caller signed in to bsky.app — the run pauses for a sign-in link when they
+     * are not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    deleteList(args: BlueskyDeleteListArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Mutes a word, phrase or #tag for the signed-in caller — `targets` ["content", "tag"]
+     * (default both), optional `excludeFollowing` and `expiresAt` — so matching posts are hidden;
+     * `undo: true` unmutes it. A word already muted returns `changed: false`. Other preferences
+     * are kept. Needs the caller signed in to bsky.app — the run pauses for a sign-in link when
+     * they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    muteWord(args: BlueskyMuteWordArgs, opts?: ConnectionOption): Promise<BlueskyMuteWordResult>;
+
+    /**
+     * Lists the words and #tags the signed-in caller has muted, with what each applies to and when
+     * it expires. Needs the caller signed in to bsky.app — the run pauses for a sign-in link when
+     * they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    listMutedWords(opts?: ConnectionOption): Promise<BlueskyMutedWordList>;
 
     /**
      * Saves a custom feed (at:// URI or bsky.app feed URL) to the signed-in caller's feeds;
@@ -28943,6 +29123,58 @@ interface cnbc_comSearchResult {
   image: string | null;
 }
 
+interface cnbc_comCategory {
+  /** CNBC's own menu key, e.g. "markets" */
+  name: string;
+  label: string;
+  url: string;
+  subcategories: { label: string; url: string }[];
+}
+
+interface cnbc_comAuthor {
+  url: string | null;
+  name: string | null;
+  jobTitle: string | null;
+  description: string | null;
+  /** the bio as paragraphs */
+  bio: string[];
+  image: string | null;
+  twitter: string | null;
+}
+
+interface cnbc_comListItem {
+  id: number | null;
+  /** "cnbcnewsstory", "cnbcvideo", "live_story", … */
+  type: string | null;
+  url: string | null;
+  title: string | null;
+  description: string | null;
+  published: string | null;
+  section: string | null;
+  image: string | null;
+  premium: boolean;
+  /** seconds; videos only */
+  duration: number | null;
+}
+
+interface GetAuthorArgs {
+  /** the author page URL (an article byline link) or its slug, e.g. "jeff-cox" */
+  author: string;
+}
+
+interface ListArticlesByAuthorArgs {
+  /** the author page URL or slug, e.g. "jeff-cox" */
+  author: string;
+  /** at most 12, the page's first batch */
+  limit?: number;
+}
+
+interface ListVideosByCategoryArgs {
+  /** a video page slug or URL: "video" (default, the video hub), "latest-video", "video-ceo-interviews", "digital-original" */
+  category?: string;
+  limit?: number;
+}
+
 interface GetArticleArgs {
   /** a www.cnbc.com/YYYY/MM/DD/<slug>.html URL, e.g. one listNews or search returned */
   url: string;
@@ -29053,6 +29285,31 @@ interface cnbc_comSector extends cnbc_comRow {
      * AUD/USD, USD/CNY and USD/MXN — with rate, change and percent change.
      */
     listCurrencies(): Promise<cnbc_comRow[]>;
+
+    /**
+     * Lists CNBC's sections from the site's own navigation — Markets, Business, Investing, Tech,
+     * Politics, Video and others — each with its URL and subsections.
+     */
+    listCategories(): Promise<cnbc_comCategory[]>;
+
+    /**
+     * Returns a CNBC journalist's profile — name, job title, bio paragraphs and headshot — from
+     * their author page.
+     */
+    getAuthor(args: GetAuthorArgs): Promise<cnbc_comAuthor>;
+
+    /**
+     * Lists a CNBC journalist's latest stories, newest first — title, link, description, date and
+     * section — plus how many they have published in total.
+     */
+    listArticlesByAuthor(args: ListArticlesByAuthorArgs): Promise<{ total: number | null; items: cnbc_comListItem[] }>;
+
+    /**
+     * Lists CNBC videos from a video page (the video hub by default, or latest video, CEO
+     * interviews, digital originals) — title, link, description, duration in seconds, show and
+     * thumbnail.
+     */
+    listVideosByCategory(args?: ListVideosByCategoryArgs): Promise<cnbc_comListItem[]>;
 
     /**
      * Makes a NEW CNBC account with the person's own email and password, in a session. Pauses with
@@ -31319,6 +31576,29 @@ interface DailymotionCaptionTrack {
   label: string;
   autoGenerated: boolean;
 }
+interface DailymotionPlaybackFile {
+  itag: string;
+  url: string;
+  mimeType: string;
+  codecs: string | null;
+  width: number | null;
+  height: number | null;
+  fps: number | null;
+  bitrate: number | null;
+  bytes: number | null;
+  qualityLabel: string | null;
+}
+interface DailymotionPlayback {
+  videoId: string;
+  title: string | null;
+  durationMs: number | null; // null for a live stream
+  live: boolean;
+  embed: { url: string; hasAds: boolean | "unknown"; note: string } | null; // Dailymotion's own player
+  files: { muxed: DailymotionPlaybackFile[]; videoOnly: DailymotionPlaybackFile[]; audioOnly: DailymotionPlaybackFile[] }; // always empty: Dailymotion serves only IP-bound HLS
+  expiresAt: string | null;
+  referrer: string;
+  warnings: string[];
+}
 interface DailymotionCaptionTracksResult {
   video: string;
   tracks: DailymotionCaptionTrack[];
@@ -31606,6 +31886,14 @@ interface DailymotionListMyPlaylistsResult {
      * all, or none in the requested language — a real, honest answer, not a failure.
      */
     getTranscript(args: GetTranscriptArgs): Promise<DailymotionTranscript>;
+
+    /**
+     * The playable menu for one Dailymotion video: its embed (Dailymotion's own player, with ads,
+     * captions and quality menu) and `files`, which is always empty because Dailymotion serves
+     * video only as an HLS stream signed to the address that requested it. Use the embed to play a
+     * Dailymotion video in a page; a live, private or password-protected video adds a warning.
+     */
+    getPlayback(video: string): Promise<DailymotionPlayback>;
 
     /**
      * List the stream qualities one Dailymotion video is encoded in — quality label ("380", "720",
@@ -32403,6 +32691,52 @@ interface SearchEntityArgs {
 
 declare namespace BowmarkProvider_dell {
   // ── Dell — the unit's own declarations, verbatim ──
+interface GetForumThreadArgs {
+  url: string;
+}
+
+interface DellForumPost {
+  postId: string;
+  parentId: string | null;
+  author: string | null;
+  createdAt: string | null;
+  text: string;
+  likeCount: number;
+  accepted: boolean;
+}
+
+interface DellForumThreadDetail {
+  threadId: string;
+  url: string;
+  title: string;
+  author: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  solved: boolean;
+  commentCount: number;
+  posts: DellForumPost[];
+  truncated: boolean;
+}
+
+interface GetSupportArticleArgs {
+  url: string;
+}
+
+interface DellSupportArticleSection {
+  heading: string | null;
+  text: string;
+}
+
+interface DellSupportArticleDetail {
+  url: string;
+  title: string;
+  articleNumber: string | null;
+  articleType: string | null;
+  lastUpdated: string | null;
+  summary: string | null;
+  sections: DellSupportArticleSection[];
+}
+
 interface SearchProductsArgs {
   query: string;
 }
@@ -32570,6 +32904,20 @@ interface DellDriver {
      * matching a query — returns article titles, URLs, and summaries.
      */
     searchSupport(args: SearchSupportArgs): Promise<DellSupportArticle[]>;
+
+    /**
+     * Reads one Dell Community thread by the url searchForumThreads returns — the opening question
+     * and its comments and nested replies, each with author, date, text, likes and whether it is
+     * the accepted solution.
+     */
+    getForumThread(args: GetForumThreadArgs): Promise<DellForumThreadDetail>;
+
+    /**
+     * Reads the full body of one Dell support article — a knowledge-base doc or a Support by Topic
+     * page, by the url searchSupport returns or a KB number — as heading-delimited sections of
+     * text, with its number, type and last-updated date.
+     */
+    getSupportArticle(args: GetSupportArticleArgs): Promise<DellSupportArticleDetail>;
 
     /**
      * Lists the main support categories on Dell's support site (e.g., Drivers & Downloads, BIOS &
@@ -33292,9 +33640,11 @@ declare namespace BowmarkProvider_dhl {
   // ── DHL — the unit's own declarations, verbatim ──
 interface dhlQuoteArgs {
   originCountry: string;          // ISO-2, e.g. "US"
-  originPostalCode: string;
+  originPostalCode?: string;      // required unless originCity is supplied
+  originCity?: string;            // required for some DHL city-addressed origins
   destinationCountry: string;     // ISO-2
-  destinationPostalCode: string;
+  destinationPostalCode?: string; // required unless destinationCity is supplied
+  destinationCity?: string;       // required for some DHL city-addressed destinations
   weight: number;                 // per piece; lb when imperial, kg when metric
   length: number;                 // in when imperial, cm when metric
   width: number;
@@ -33322,18 +33672,21 @@ interface dhlOffer {
 interface dhlQuote {
   shippingDate: string | null;
   offers: dhlOffer[];
+  warnings: string[];             // empty unless a city-less lane returned no offers
 }
 
   /**
    * DHL's own Get a Quote tool, no login: shipping price, service and transit time for a parcel
-   * or pallet between two postal codes.
+   * or pallet between postal codes or city-addressed countries.
    */
   interface Unit {
     /**
      * Gets an instant DHL shipping quote without logging in — the same answer dhl.com's Get a
-     * Quote calculator gives: every service offered between two postal codes for a parcel or
-     * pallet of the given weight and dimensions, each with its price, currency, estimated delivery
-     * date/time and a booking link.
+     * Quote calculator gives: every service offered between postal codes or city-addressed
+     * countries for a parcel or pallet of the given weight and dimensions, each with its price,
+     * currency, estimated delivery date/time and a booking link. Pass originCity or
+     * destinationCity when DHL addresses that side by city; warnings explains an otherwise
+     * ambiguous empty answer.
      */
     getQuote(args: dhlQuoteArgs): Promise<dhlQuote>;
   }
@@ -50823,6 +51176,19 @@ interface DeleteDocumentArgs {
   /** The id listDocuments or createDocument returned. */
   id: string;
 }
+interface DictionaryWordArgs {
+  /** One word or short phrase, exactly as it should be accepted. */
+  word: string;
+}
+interface DictionaryAdded {
+  word: string;
+  /** false when Grammarly did not flag the word at all (already accepted or already in the dictionary). */
+  added: boolean;
+}
+interface DictionaryRemoved {
+  word: string;
+  removed: boolean;
+}
 interface DeletedDocument {
   id: string;
   /** Always true: the document went to the trash (listDocuments({ trash: true })). */
@@ -50928,6 +51294,21 @@ interface GrammarlyPlans {
      * caller's own Grammarly sign-in.
      */
     deleteDocument(args: DeleteDocumentArgs, opts?: ConnectionOption): Promise<DeletedDocument>;
+
+    /**
+     * Adds a word to the caller's own Grammarly personal dictionary so the checker stops flagging
+     * it — e.g. `addToDictionary({ word: "Bowmark" })` → `{ word: "Bowmark", added: true }`.
+     * `added: false` means Grammarly did not flag the word in the first place. Needs the caller's
+     * own Grammarly sign-in.
+     */
+    addToDictionary(args: DictionaryWordArgs, opts?: ConnectionOption): Promise<DictionaryAdded>;
+
+    /**
+     * Removes a word from the caller's own Grammarly personal dictionary, so the checker flags it
+     * again — e.g. `removeFromDictionary({ word: "Bowmark" })` → `{ word: "Bowmark", removed: true
+     * }`. Needs the caller's own Grammarly sign-in.
+     */
+    removeFromDictionary(args: DictionaryWordArgs, opts?: ConnectionOption): Promise<DictionaryRemoved>;
 
     /**
      * Returns the signed-in account's profile: `email`, `name` ("" when unset), `plan` ("Free" or
@@ -57661,6 +58042,7 @@ interface IvoryHomesFloorPlan {
   finishedSqft: number | null;
   beds: number | null;
   baths: number | null;
+  stories: number | null;
   imageUrl: string | null;
   detailUrl: string;      // the plan's own detail page
 }
@@ -68981,6 +69363,37 @@ interface NetflixTop10Entry {
   weeklyHours?: number;
 }
 
+interface NetflixCountryTop10Entry {
+  rank: number;
+  /** As Netflix lists it; a show carries its season, e.g. "Black Doves: Season 2". */
+  title: string;
+  /** How many weeks this title has spent in this country's Top 10. */
+  weeksInTop10?: number;
+}
+
+interface NetflixCountryTop10 {
+  country: string;
+  /** The country slug Netflix uses in /tudum/top10/<slug>. */
+  countrySlug: string;
+  /** The week the list covers, as Netflix labels it, e.g. "11/2/26 - 11/8/26". */
+  week?: string;
+  films?: NetflixCountryTop10Entry[];
+  tv?: NetflixCountryTop10Entry[];
+}
+
+interface NetflixMostPopularEntry {
+  category: "TV" | "Films";
+  language: "English" | "Non-English";
+  rank: number;
+  title: string;
+  seasonTitle?: string;
+  /** Views in the title's first 91 days (hours viewed divided by runtime). */
+  views?: number;
+  hoursViewed?: number;
+  /** Runtime in hours. */
+  runtimeHours?: number;
+}
+
 interface NetflixSearchResult {
   query: string;
   results: NetflixTitleMatch[];
@@ -69188,6 +69601,21 @@ interface NetflixTudumSearchResult {
      * for English and non-English titles, by views. No sign-in.
      */
     getTop10(): Promise<NetflixTop10Entry[]>;
+
+    /**
+     * Gets this week's Netflix Top 10 in one country — e.g. getTop10ByCountry("United Kingdom") —
+     * films and TV (or just one with category "films" / "tv"), each ranked 1-10 with weeks on the
+     * list. Takes a country name or Netflix's slug (united-kingdom); an unknown country lists the
+     * 94 Netflix publishes. No sign-in.
+     */
+    getTop10ByCountry(country: string, category?: "films" | "tv"): Promise<NetflixCountryTop10>;
+
+    /**
+     * Gets Netflix's all-time Most Popular lists — Films and TV, English and non-English, each
+     * ranked 1-10 by views in a title's first 91 days, with views, hours viewed and runtime. No
+     * sign-in.
+     */
+    getMostPopular(): Promise<NetflixMostPopularEntry[]>;
 
     /**
      * Lists the titles in one Netflix genre — the id from listGenres or the number in
@@ -73552,6 +73980,76 @@ interface OnTheMarketSearchResult {
      * bedroom/price filters. location is a fuzzy area match, not a postcode boundary.
      */
     search(args: SearchArgs): Promise<OnTheMarketSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_open_library {
+  // ── Open Library — the unit's own declarations, verbatim ──
+interface open_librarySearchOptions {
+  limit?: number;               // 1-100, default 10
+  page?: number;                // 1-based, default 1
+}
+
+interface open_librarySearchHit {
+  workId: string;               // "OL45804W" — pass to getWork
+  title: string;
+  authors: string[];
+  authorIds: string[];          // "OL34184A"
+  firstPublishYear: number | null;
+  editionCount: number | null;
+  subjects: string[];           // first 15
+  languages: string[];          // MARC codes, e.g. "eng"
+  ebookAccess: string | null;   // "public" | "borrowable" | "printdisabled" | "no_ebook"
+  coverUrl: string | null;
+  url: string;                  // https://openlibrary.org/works/<id>
+}
+
+interface open_librarySearchResults {
+  query: string;
+  totalResults: number;
+  works: open_librarySearchHit[];
+}
+
+interface open_libraryAuthorRef {
+  authorId: string;
+  name: string | null;          // null only past the first 5 authors
+  url: string;
+}
+
+interface open_libraryWork {
+  workId: string;
+  title: string;
+  subtitle: string | null;
+  authors: open_libraryAuthorRef[];
+  description: string | null;
+  firstPublishDate: string | null;
+  subjects: string[];
+  subjectPlaces: string[];
+  subjectPeople: string[];
+  subjectTimes: string[];
+  coverIds: number[];
+  coverUrl: string | null;
+  url: string;
+}
+
+  /**
+   * Open Library (Internet Archive) books — search works by title, author or subject, and read
+   * one work's description, authors, subjects and cover.
+   */
+  interface Unit {
+    /**
+     * Searches Open Library's book catalogue by title, author, subject or ISBN ("fantastic mr
+     * fox", "roald dahl"), returning each work's id, authors, first publish year, edition count,
+     * subjects, ebook access and cover. Its `workId` goes to getWork.
+     */
+    search(query: string, opts?: open_librarySearchOptions): Promise<open_librarySearchResults>;
+
+    /**
+     * Reads one Open Library work — title, authors (with names), description, subjects, places,
+     * people, first publish date and cover. Takes a work id ("OL45804W") or an
+     * openlibrary.org/works/... url. Throws when no work has that id.
+     */
+    getWork(workId: string): Promise<open_libraryWork>;
   }
 }
 
@@ -80008,6 +80506,23 @@ interface QuickbooksPlan {
   features: string[]; // "Run enhanced reports", "Automated bookkeeping"
 }
 
+/** One QuickBooks Time plan off /time-tracking/pricing/ (the page also sells Time inside two
+ * Payroll "Workforce" bundles, returned here too with "bundle: true"). */
+interface QuickbooksTimeTrackingPlan {
+  id: string;
+  name: string;
+  tagline: string | null;
+  /** True when the plan is a Payroll bundle that includes Time, not Time on its own. */
+  bundle: boolean;
+  /** Monthly base fee in dollars (Time's includes one admin). */
+  monthlyPrice: number | null;
+  promoPrice: number | null;
+  promoPercentOff: number | null;
+  promoDuration: string | null;
+  /** The monthly charge per extra user (Time) or per employee (bundle), in dollars. */
+  perUserPrice: number | null;
+}
+
 /** One QuickBooks Payroll bundle (payroll plus a QuickBooks Online plan) off /payroll/pricing/. */
 interface QuickbooksPayrollPlan {
   id: string;
@@ -80560,6 +81075,12 @@ interface QuickbooksAccountant {
      * headline features
      */
     getPlans(): Promise<QuickbooksPlan[]>;
+
+    /**
+     * QuickBooks Time plans (and the Payroll bundles that include Time) with monthly base fee,
+     * per-user price and current promo
+     */
+    getTimeTrackingPlans(): Promise<QuickbooksTimeTrackingPlan[]>;
 
     /** QuickBooks' current service status per product and region, and any open incident */
     getServiceStatus(): Promise<QuickbooksServiceStatus>;
@@ -82742,6 +83263,10 @@ interface CheckAvailabilityArgs {
   merchantId: string;
   /** Party size; defaults to 2. */
   partySize?: number;
+  /** Venue-local day to read the slots for, "YYYY-MM-DD", e.g. "2026-11-20". Omit for the nearest bookable day. */
+  date?: string;
+  /** Venue-local time the slots are centred on, "HH:MM" 24-hour, used with date; defaults to "19:00". The page shows the hour either side of it. */
+  time?: string;
 }
 
 interface AvailabilitySlot {
@@ -82757,7 +83282,11 @@ interface Availability {
   partySize: number;
   /** Every day with an opening for this party size, "YYYY-MM-DD", venue-local. */
   bookableDates: string[];
-  /** Time slots for the nearest bookable day only — the page renders no other day. */
+  /** The venue-local day asked for, echoed back; absent when none was asked. */
+  date?: string;
+  /** The venue-local time the slots are centred on, with date. */
+  time?: string;
+  /** Time slots: for the nearest bookable day, or the hour either side of date and time when given. */
   slots: AvailabilitySlot[];
 }
 
@@ -82789,7 +83318,8 @@ interface Availability {
 
     /**
      * For a Google-hosted merchant and party size: every bookable day, plus the time slots (open
-     * or taken) for the nearest bookable day.
+     * or taken) for the nearest bookable day, or for a venue-local date and time the caller picks
+     * (the hour either side of it).
      */
     checkAvailability(args: CheckAvailabilityArgs): Promise<Availability>;
 
@@ -83294,7 +83824,7 @@ interface GetQuoteArgs {
 }
 interface ListCompanyNewsArgs {
   ric: string;                     // a RIC from searchCompanies, e.g. "AAPL.O"
-  limit?: number;                   // 1-200, default 50
+  limit?: number;                   // 1-100, default 50
 }
 interface ReutersMarketRow {
   name: string;                     // e.g. "FTSE 100", "US Dollar", "Brent Crude"
@@ -83599,9 +84129,8 @@ interface GetMyNewsFeedArgs {
 
     /**
      * The latest Reuters stories about one company, newest first — headline, url, section,
-     * published time, lead image and tickers — filtered off the site's own news sitemap by RIC.
-     * Covers roughly the last two days, the same window listLatestNews reaches. Takes a RIC from
-     * searchCompanies.
+     * published time, lead image and tickers — read from the company page's own news feed on
+     * Reuters, so it reaches back well beyond the last two days. Takes a RIC from searchCompanies.
      */
     listCompanyNews(args: ListCompanyNewsArgs): Promise<ReutersLatestStory[]>;
 
@@ -90957,6 +91486,41 @@ interface ScPlaylist {
      * track list would be a failed read wearing a success costume.
      */
     getPlaylist(playlist: string | ScPlaylist, limit?: number): Promise<ScPlaylist>;
+  }
+}
+
+declare namespace BowmarkProvider_sourceforge {
+  // ── SourceForge — the unit's own declarations, verbatim ──
+interface SourceForgeProject { shortname: string; name: string; summary: string | null; description: string | null; url: string; homepage: string | null; createdOn: string | null; status: string | null; developers: { username: string; name: string | null }[]; categories: Record<string, string[]>; labels: string[]; iconUrl: string | null }
+interface SourceForgeFile { path: string; filename: string; url: string; date: string | null; bytes: number | null; md5: string | null }
+interface SourceForgeRelease extends SourceForgeFile { sha256: string | null; platforms: Record<string, string> }
+interface SourceForgeProjectArgs { project: string }
+interface SourceForgeListFilesArgs { project: string; path?: string }
+
+  /**
+   * SourceForge open-source projects: description, developers, categories, latest release and
+   * downloadable files.
+   */
+  interface Unit {
+    /**
+     * One SourceForge project's name, summary, description, homepage, developers, categories
+     * (license, OS, language) and creation date. `project` is a shortname ("sevenzip") or a
+     * sourceforge.net project URL.
+     */
+    getProject(args: SourceForgeProjectArgs): Promise<SourceForgeProject>;
+
+    /**
+     * The download SourceForge offers as a project's latest release: file path, download URL,
+     * date, size, checksums and the per-OS default files. null when the project publishes no
+     * files.
+     */
+    getLatestRelease(args: SourceForgeProjectArgs): Promise<SourceForgeRelease | null>;
+
+    /**
+     * A SourceForge project's most recent downloadable files, newest first, with download URL,
+     * date, size and md5. `path` narrows to a folder such as "/7-Zip/26.06".
+     */
+    listFiles(args: SourceForgeListFilesArgs): Promise<SourceForgeFile[]>;
   }
 }
 
@@ -99362,6 +99926,9 @@ interface GetHashtagArgs {
 interface ListHashtagVideosArgs {
   name: string;
 }
+interface ListTrendingVideosArgs {
+  limit?: number;
+}
 interface tiktokSound {
   id: string;
   title: string;
@@ -99577,6 +100144,13 @@ type UploadVideoArgs = {
      * top, depending on the sort option).
      */
     listHashtagVideos(args: ListHashtagVideosArgs): Promise<tiktokVideoSummary[]>;
+
+    /**
+     * What is trending on TikTok right now — the Explore page's own grid, in TikTok's order: id,
+     * caption, play count, cover and play address per video. Uses the browser to load /explore and
+     * read the list it fetches, scrolling for more. Default 6, up to 60 with limit. No login.
+     */
+    listTrendingVideos(args?: ListTrendingVideosArgs): Promise<tiktokVideoSummary[]>;
 
     /**
      * A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed by
@@ -107522,6 +108096,29 @@ interface CMSContent {
   body: CMSContentBlock[];
 }
 
+interface LiveBlogUpdate {
+  headline: string;
+  url: string | null;
+  publishDate: string | null;
+  updatedAt: string | null;
+  authors: string[];
+  body: string;
+}
+
+interface LiveBlog {
+  title: string;
+  subheadline: string | null;
+  url: string;
+  authors: string[];
+  publishDate: string | null;
+  updatedAt: string | null;
+  coverageStart: string | null;
+  coverageEnd: string | null;
+  articleSection: string | null;
+  imageUrl: string | null;
+  updates: LiveBlogUpdate[];
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -107553,6 +108150,17 @@ interface CMSContent {
      * if the page is not an article.
      */
     getCMSContent(urlOrPath: string): Promise<CMSContent>;
+
+    /**
+     * Reads one weather.com live-updates page (the rolling coverage it runs during hurricanes and
+     * major storms) by URL or path — e.g.
+     * `getLiveBlog("/2026/10/10/storms/hurricane/liveblogs/live-updates-isaias-pushes-across-southeast")`,
+     * typically the `url` of a `searchNews()` row whose URL contains `/liveblogs/`. Returns the
+     * headline, description, authors, coverage window, and every update (headline, time, authors,
+     * permalink, full text), newest first. Use `getCMSContent` for an ordinary article; throws if
+     * the page is not a live blog.
+     */
+    getLiveBlog(urlOrPath: string): Promise<LiveBlog>;
 
     /**
      * Gets detailed location information for a place name, postal code, or coordinates — e.g.
@@ -110125,6 +110733,32 @@ interface WsjMarketIndex {
   changePercent: number; // e.g. 0.59 for "+0.59%"
 }
 
+interface WsjMarketInstrument {
+  name: string; // the table's label, e.g. "Crude Oil Futures", "Euro (EUR/USD)"
+  fullName: string | null; // e.g. "Crude Oil WTI (NYM $/bbl) Front Month"
+  symbol: string; // WSJ's ticker, e.g. "CL.1", "EURUSD"
+  kind: string; // "Future" | "Currency" | "CryptoCurrency"
+  price: number;
+  change: number;
+  changePercent: number;
+  dailyHigh: number | null;
+  dailyLow: number | null;
+  timestamp: string | null;
+  url: string | null; // the instrument's own WSJ quote page
+}
+
+interface WsjTreasuryYield {
+  maturity: string; // "30-Year Bond", "10-Year Note", "3-Month Bill", …
+  symbol: string; // e.g. "TMUBMUSD10Y"
+  yieldPercent: number; // e.g. 5.04
+  yieldChange: number; // percentage points
+  price: number | null; // trade price, e.g. 96.1
+  priceChange: string | null; // in 32nds as WSJ shows it, e.g. "-2/32"
+  couponRate: number | null;
+  timestamp: string | null;
+  url: string | null;
+}
+
 interface WsjQuote {
   symbol: string; // e.g. "AAPL"
   name: string; // e.g. "Apple Inc."
@@ -110331,6 +110965,26 @@ interface WsjTrendingArticle {
     listMarketIndices(): Promise<WsjMarketIndex[]>;
 
     /**
+     * Lists the commodity futures on WSJ's Commodities and Futures page — crude oil, Brent,
+     * natural gas, gold, silver, copper, corn, wheat and the rest of its energy, metals and
+     * agriculture tables — with last price, change, day range and each contract's quote page.
+     */
+    listCommodities(): Promise<WsjMarketInstrument[]>;
+
+    /**
+     * Lists U.S. Treasury yields by maturity, 1-month bill to 30-year bond, off WSJ's Bonds and
+     * Rates page — yield, yield change, price and coupon.
+     */
+    listTreasuryYields(): Promise<WsjTreasuryYield[]>;
+
+    /**
+     * Lists exchange rates off WSJ's Currencies page — the major pairs such as EUR/USD and
+     * USD/JPY, its Asian, Americas and European tables, and the cryptocurrency table (Bitcoin,
+     * Ether) — with last rate, change and day range.
+     */
+    listCurrencies(): Promise<WsjMarketInstrument[]>;
+
+    /**
      * Gets one US-listed symbol's current quote — price, open, high, low, net change and percent
      * change — off WSJ's own market-data JSON door.
      */
@@ -110511,6 +111165,8 @@ interface XDirectMessageRow {
   createdAt: string | null;
 }
 
+/** One photo for a post: an https URL, or the bytes base64-encoded (jpeg/png/webp/gif). */
+type XPostImage = { imageUrl: string } | { base64: string; mimeType?: string };
 interface XPostWriteResult {
   posted: true;
   text: string;
@@ -110703,11 +111359,14 @@ interface XUploadProfilePictureResult {
      */
     getConversation(args: GetConversationArgs, opts?: ConnectionOption): Promise<XDirectMessageRow[]>;
 
-    /** Posts a new tweet on X / Twitter as the signed-in caller. */
-    createPost(args: { text: string }, opts?: ConnectionOption): Promise<XPostWriteResult>;
+    /** Posts a new tweet on X / Twitter as the signed-in caller, optionally with up to four photos. */
+    createPost(args: { text: string; images?: XPostImage[] }, opts?: ConnectionOption): Promise<XPostWriteResult>;
 
-    /** Replies to an X / Twitter post, by url or id, as the signed-in caller. */
-    replyToPost(args: { url?: string; id?: string; text: string }, opts?: ConnectionOption): Promise<XPostWriteResult>;
+    /**
+     * Replies to an X / Twitter post, by url or id, as the signed-in caller, optionally with up to
+     * four photos.
+     */
+    replyToPost(args: { url?: string; id?: string; text: string; images?: XPostImage[] }, opts?: ConnectionOption): Promise<XPostWriteResult>;
 
     /**
      * Likes (like: true, the default) or unlikes (like: false) an X post as the signed-in caller —
@@ -115720,6 +116379,7 @@ interface BowmarkProviders {
   airchina: BowmarkProvider_airchina.Unit;
   airtable: BowmarkProvider_airtable.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
+  akc_org: BowmarkProvider_akc_org.Unit;
   alibaba: BowmarkProvider_alibaba.Unit;
   aliexpress: BowmarkProvider_aliexpress.Unit;
   allied: BowmarkProvider_allied.Unit;
@@ -116226,6 +116886,7 @@ interface BowmarkProviders {
   olo: BowmarkProvider_olo.Unit;
   onlyfans: BowmarkProvider_onlyfans.Unit;
   onthemarket: BowmarkProvider_onthemarket.Unit;
+  open_library: BowmarkProvider_open_library.Unit;
   openai: BowmarkProvider_openai.Unit;
   openai_com: BowmarkProvider_openai_com.Unit;
   opentable: BowmarkProvider_opentable.Unit;
@@ -116360,6 +117021,7 @@ interface BowmarkProviders {
   solostove: BowmarkProvider_solostove.Unit;
   soulcycle: BowmarkProvider_soulcycle.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
+  sourceforge: BowmarkProvider_sourceforge.Unit;
   spectrum: BowmarkProvider_spectrum.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;
   spirithalloween: BowmarkProvider_spirithalloween.Unit;
