@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6472 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6506 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2911,6 +2911,40 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `indeed.searchCompanies` | indeed.com | Searches Indeed's own company directory by name or keyword and returns each match's… | 🟢 |
 | `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |
 | `indeed.searchSalaries` | indeed.com | Searches Indeed's own salary data by job title and location, returning salary ranges… | 🟢 |
+| `independent.bookmarkArticle` | independent.co.uk | Bookmarks an article to the signed-in caller's Bookmarks page. | ⚪ |
+| `independent.browseSection` | independent.co.uk | Lists the latest articles on one section front, e.g. /news/uk, /climate-change or… | ⚪ |
+| `independent.deleteComment` | independent.co.uk | Deletes one of the signed-in caller's own comments. | ⚪ |
+| `independent.donate` | independent.co.uk | Makes a donation to The Independent, stopping at the payment step. | ⚪ |
+| `independent.getAccount` | independent.co.uk | Reads the signed-in caller's Independent account profile and membership status. | ⚪ |
+| `independent.getArticle` | independent.co.uk | Gets one article: headline, standfirst, byline, dates, section, body text and images. | ⚪ |
+| `independent.getArticleComments` | independent.co.uk | Reads the reader comments on an article. | ⚪ |
+| `independent.getAuthorArticles` | independent.co.uk | Gets one writer's profile and their latest articles from /author/<slug>. | ⚪ |
+| `independent.getHomepageHeadlines` | independent.co.uk | Lists the top stories on The Independent's front page for one edition (UK, US or Asia). | ⚪ |
+| `independent.getLiveBlog` | independent.co.uk | Gets a live blog with its timestamped updates, newest first. | ⚪ |
+| `independent.getMostPopular` | independent.co.uk | Lists the most-read Independent articles right now, overall or for one area (articles… | ⚪ |
+| `independent.getQuiz` | independent.co.uk | Gets one quiz's questions and answer options. | ⚪ |
+| `independent.getTopicArticles` | independent.co.uk | Lists the latest articles on one topic page (/topic/<slug>). | ⚪ |
+| `independent.getVideo` | independent.co.uk | Gets one Independent TV video: title, description, date, duration and stream where… | ⚪ |
+| `independent.getVoucherCodes` | independent.co.uk | Lists the current discount codes and offers for one shop, e.g. /vouchercodes/very. | ⚪ |
+| `independent.listArticlesByDate` | independent.co.uk | Lists every article The Independent published on one date, back to 1995. | ⚪ |
+| `independent.listAuthors` | independent.co.uk | Finds Independent writers by name; the door for getAuthorArticles. | ⚪ |
+| `independent.listBookmarks` | independent.co.uk | Lists the signed-in caller's bookmarked articles. | ⚪ |
+| `independent.listCompetitions` | independent.co.uk | Lists the open reader competitions and prize draws. | ⚪ |
+| `independent.listLatestNews` | independent.co.uk | Lists the newest stories from an Independent RSS feed: the whole site (/rss) or one… | ⚪ |
+| `independent.listNewsletters` | independent.co.uk | Lists The Independent's email newsletters with description, frequency, author and… | ⚪ |
+| `independent.listNewsletterSubscriptions` | independent.co.uk | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
+| `independent.listQuizzes` | independent.co.uk | Lists the quizzes in Puzzles and Games. | ⚪ |
+| `independent.listSections` | independent.co.uk | Lists The Independent's sections and subsections (News, Sport, Voices, Culture… | ⚪ |
+| `independent.listTopics` | independent.co.uk | Lists or finds Independent topic pages (e.g. climate-change, brexit) by name or first… | ⚪ |
+| `independent.listVideos` | independent.co.uk | Lists Independent TV videos, overall or for one series or channel (culture, lifestyle… | ⚪ |
+| `independent.listVoucherStores` | independent.co.uk | Lists the shops The Independent's voucher-codes pages cover; the door for… | ⚪ |
+| `independent.postComment` | independent.co.uk | Posts a comment on an article as the signed-in caller (Viafoura). | ⚪ |
+| `independent.removeBookmark` | independent.co.uk | Removes an article from the signed-in caller's bookmarks. | ⚪ |
+| `independent.searchArticles` | independent.co.uk | Searches Independent articles by keyword. | ⚪ |
+| `independent.subscribeToNewsletter` | independent.co.uk | Signs an email address up to one Independent newsletter. | ⚪ |
+| `independent.subscribeToPremium` | independent.co.uk | Starts an Independent Premium membership for the signed-in caller, stopping at the… | ⚪ |
+| `independent.unsubscribeFromNewsletter` | independent.co.uk | Unsubscribes the signed-in caller from one newsletter. | ⚪ |
+| `independent.updateProfile` | independent.co.uk | Updates the signed-in caller's profile details (name, year of birth). | ⚪ |
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
 | `instacart.addAddress` | instacart.com | Saves a new delivery address to the signed-in customer's account. | ⚪ |
 | `instacart.addToCart` | instacart.com | Adds a product to the signed-in customer's cart at a store, or sets its quantity if it… | ⚪ |
@@ -4336,7 +4370,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | 🟢 |
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary off /settings. | 🟢 |
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🔴 |
-| `quora.getProfileAnswers` | quora.com | Reads what a member has answered — the first page of their profile's Answers tab, each… | 🟢 |
+| `quora.getProfileAnswers` | quora.com | Reads what a member has answered — the first page of their profile's Answers tab, each… | 🟡 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🔴 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟡 |
 | `quora.getSpacePosts` | quora.com | Reads the posts in a Space's feed — most of what a Space holds, and what getSpace… | 🟡 |
