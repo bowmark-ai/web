@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6328 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6358 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3056,7 +3056,37 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kenko.setMarketingPreferences` | gokenko.com | Update marketing and communication preferences for the signed-in member. | ⚪ |
 | `kenko.setProfilePicture` | gokenko.com | Upload or change the signed-in member's profile picture. | ⚪ |
 | `kenko.updateMyProfile` | gokenko.com | Update the signed-in member's profile information. | 🟢 |
-| `kick.search` | kick.com | Searches kick for channels, categories and live streams. | ⚪ |
+| `kick.blockUser` | kick.com | Blocks or unblocks a user for the signed-in caller, so their chat messages are hidden. | ⚪ |
+| `kick.createClip` | kick.com | Clips the last seconds of a channel's live stream as the signed-in caller, with a… | ⚪ |
+| `kick.deleteChatMessage` | kick.com | Deletes one of the signed-in caller's own chat messages. | ⚪ |
+| `kick.followChannel` | kick.com | Follows a channel as the signed-in caller. | ⚪ |
+| `kick.getCategory` | kick.com | One category's record by slug: name, group, tags, description, live viewers, follower… | ⚪ |
+| `kick.getChannel` | kick.com | A channel's public record by slug: display name, bio, follower count, verified flag… | ⚪ |
+| `kick.getChannelLeaderboard` | kick.com | A channel's gifted-subscription leaderboard: who gifted most, this week, this month… | ⚪ |
+| `kick.getChannelUser` | kick.com | How one user appears inside one channel: profile picture, badges (subscriber… | ⚪ |
+| `kick.getChatMessages` | kick.com | The most recent messages in a channel's chat, with sender, badges and time, plus the… | ⚪ |
+| `kick.getChatroomSettings` | kick.com | A channel's chat rules and modes: slow mode, followers-only (and how long)… | ⚪ |
+| `kick.getClip` | kick.com | One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration… | ⚪ |
+| `kick.getCurrentUser` | kick.com | The signed-in caller's own Kick account: username, email-verified flag, profile… | ⚪ |
+| `kick.getLivestream` | kick.com | What a channel is streaming right now: title, category, viewer count, start time… | ⚪ |
+| `kick.getVideo` | kick.com | One VOD by uuid: title, channel, category, duration, views, created date and its HLS… | ⚪ |
+| `kick.listCategories` | kick.com | Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest… | ⚪ |
+| `kick.listChannelClips` | kick.com | A channel's clips, by most viewed or newest, within a time window (day, week, month… | ⚪ |
+| `kick.listChannelEmotes` | kick.com | The emotes a channel offers (its own and subscriber-only), plus Kick's global set. | ⚪ |
+| `kick.listChannelLinks` | kick.com | The link panels under a channel (socials, tip pages, sponsors) with their titles and… | ⚪ |
+| `kick.listChannelVideos` | kick.com | A channel's past broadcasts (VODs), newest first: title, category, duration, views… | ⚪ |
+| `kick.listFeaturedLivestreams` | kick.com | The streams Kick features on its homepage carousel right now, for one language. | ⚪ |
+| `kick.listFollowedChannels` | kick.com | The channels the signed-in caller follows, live ones first, with what each is streaming. | ⚪ |
+| `kick.listLiveStreams` | kick.com | Browses who is live now, biggest first, optionally within one category (the slug… | ⚪ |
+| `kick.listSubscriptions` | kick.com | The channels the signed-in caller pays a subscription to, with tier and renewal date. | ⚪ |
+| `kick.listTopClips` | kick.com | The most-viewed or newest clips across all of Kick, or within one category, for a time… | ⚪ |
+| `kick.search` | kick.com | Searches Kick for channels (and the categories and live streams the same box returns)… | ⚪ |
+| `kick.sendChatMessage` | kick.com | Posts a message in a channel's chat as the signed-in caller, optionally as a reply to… | ⚪ |
+| `kick.subscribeToChannel` | kick.com | Subscribes the signed-in caller to a channel (paid), stopping at Kick's payment step. | ⚪ |
+| `kick.unfollowChannel` | kick.com | Unfollows a channel as the signed-in caller. | ⚪ |
+| `kick.updateProfile` | kick.com | Edits the signed-in caller's profile: bio and social links. | ⚪ |
+| `kick.updateProfilePicture` | kick.com | Replaces the signed-in caller's profile picture with an image they supply. | ⚪ |
+| `kick.updateStreamInfo` | kick.com | Sets the signed-in streamer's own stream title, category, language and mature flag. | ⚪ |
 | `kickstarter.project` | kickstarter.com | Reads a Kickstarter project's creator, funding goal, pledged USD amount, backer count… | 🟢 |
 | `kickstarter.search` | kickstarter.com | Searches live Kickstarter projects by keyword and returns their titles and project URLs. | 🟢 |
 | `kijiji.getListing` | kijiji.ca | Reads one Kijiji ad in full — whole description, every image, attributes such as… | 🟢 |

@@ -443,7 +443,7 @@ kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct (+1 planned)
 keyserver.ubuntu.com — ubuntu_keyserver: searchKeys
-kick.com — kick: nothing callable yet (+1 planned)
+kick.com — kick: nothing callable yet (+31 planned)
 kickstarter.com — kickstarter: project, search
 kijiji.ca — kijiji: getListing, search (+2 planned)
 kingsdown.com — kingsdown: getBedMatchResult
