@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6469 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6471 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4837,6 +4837,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.trackPackage` | shop.app | Adds a package to the caller's Shop by its tracking number and carrier, so Shop tracks… | 🟢 |
 | `shop_app.updatePrivacySettings` | shop.app | Changes the caller's Shop privacy settings (personalised recommendations, data sharing). | ⚪ |
 | `shop_app.writeReview` | shop.app | Leaves a star rating and review on a product the caller bought through Shop. | ⚪ |
+| `shopdisney.getProduct` | shopdisney.com | Reads one shopDisney / Disney Store product page by URL or id and returns its title… | 🟢 |
+| `shopdisney.search` | shopdisney.com | Searches shopDisney / Disney Store (shopdisney.com → disneystore.com) for merchandise… | 🟢 |
 | `shopify.addToCart` | shopify.com (49875 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
 | `shopify.getCart` | shopify.com (49875 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
 | `shopify.getCollection` | shopify.com (49875 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
