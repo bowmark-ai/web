@@ -98,7 +98,7 @@ bananarepublic.gap.com — banana_republic: getProduct, searchProducts
 bankmycell.com — bankmycell: getTradeInQuote, searchDevices
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
-bbc.com — bbc: 31 functions — ask get_library
+bbc.com — bbc: followPodcast, getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listFollowedPodcasts, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations, subscribeNewsletter, unfollowPodcast, unsubscribeNewsletter
 bcbsri.com — bcbsri: getApplicationPage, getDentalPlan, getDentalShopPage, getPlanDocuments, getQuotePage, listDentalPlans (+6 planned)
 beaconfunding.com — beaconfunding: getApplicationFields
 beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
@@ -711,7 +711,7 @@ starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments
 statefarm.com — statefarm: findAgent, getBusinessQuote, getLifeQuote, getRentersQuote (+14 planned)
 statista.com — statista: getStatistic, search
-steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getCommunityHub, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getMarketPrice, getNewsItem, getPlayTime, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, postComment, removeFriend, removeFromWishlist, searchGames, searchMarket, searchNews, viewFriends, viewInventory, viewMarketHistory
+steampowered.com — steam: 32 functions — ask get_library
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard

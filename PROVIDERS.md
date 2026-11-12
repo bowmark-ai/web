@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6414 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6417 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -5126,6 +5126,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getAchievements` | steampowered.com | Reads a game's achievement list from its public Steam Community page by appid: name… | 🟡 |
 | `steam.getCommunityHub` | steampowered.com | Reads the first page of a game's public Steam Community hub by appid: announcements… | 🟢 |
 | `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | 🟢 |
+| `steam.getGameDlc` | steampowered.com | Lists a game's DLC by appid: each add-on's appid, name, US price in cents (null when… | 🟢 |
 | `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | 🟡 |
 | `steam.getGameScreenshots` | steampowered.com | Fetches a game's screenshots and promotional images, returning image URLs, captions… | 🟢 |
 | `steam.getGameStats` | steampowered.com | Reads a game's current concurrent player count and its global achievement completion… | 🟢 |
@@ -5135,11 +5136,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by appid and id (both from listNews… | 🟢 |
 | `steam.getPlayTime` | steampowered.com | Lists the signed-in caller's own playtime per owned game — lifetime hours, hours in… | 🟢 |
 | `steam.getProfile` | steampowered.com | Reads a Steam profile by steamid64 or vanity name off the site's own public profile… | 🟢 |
+| `steam.getSteamDeckCompatibility` | steampowered.com | Reads a game's Steam Deck rating by appid (verified, playable, unsupported or unknown)… | 🟢 |
 | `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | 🟢 |
 | `steam.listFeaturedGames` | steampowered.com | Fetches the current list of featured games displayed on the Steam store homepage… | 🟢 |
 | `steam.listGamesByCategory` | steampowered.com | Lists games filtered by one of Steam's own genre/category tags (Action, Adventure… | 🟢 |
 | `steam.listGameTags` | steampowered.com | Lists every tag users can apply to games on the Steam store, in the site's own… | 🟢 |
 | `steam.listNews` | steampowered.com | Lists a game's news and updates by appid, from both official announcements and… | 🟢 |
+| `steam.listStoreSpecials` | steampowered.com | Lists what the Steam store is promoting right now: games on sale, top sellers, new… | 🟢 |
 | `steam.postComment` | steampowered.com | Posts a comment on a Steam user's profile by steamid64 (max 1000 characters), off the… | 🟢 |
 | `steam.removeFriend` | steampowered.com | Removes a user from the signed-in caller's Steam friends list by steamid64, off the… | 🟢 |
 | `steam.removeFromWishlist` | steampowered.com | Removes a game from the signed-in caller's wishlist by appid, off the store's own… | 🟢 |
