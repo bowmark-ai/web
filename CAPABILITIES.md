@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 160 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 161 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -71,6 +71,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `git_commit_history.commitHistory` | Returns a public GitHub repository's commit log — each commit's sha (full and short)… | 1 | 🟢 |
 | `git_release_notes.releaseNotes` | Returns a public GitHub repository's own release history — each release's tag, display… | 1 | 🟢 |
 | `goal_diff.search` | Search for sports standings with goal differential data. `options.timeoutMs` sets the… | 1 | 🟢 |
+| `google.searchShopping` | Searches Google Shopping for a product and returns Google's product rows — title… | 1 | 🟢 |
 | `gstin_verification.lookup` | Verifies a GSTIN and returns the registrant's legal name, registration status… | 1 | 🟢 |
 | `hotels.search` | Metasearch across agencies for hotel stays in a location — NOT a single-property… | 2 | 🟢 |
 | `hvac.getCostEstimate` | Calls the manufacturer's own published cost-guide table and returns a real… | 1 | 🟢 |

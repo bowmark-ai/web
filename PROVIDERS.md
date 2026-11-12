@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6412 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6414 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -91,6 +91,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟢 |
 | `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text, optionally… | 🟡 |
 | `adobe.sendForSignature` | adobe.com | Sends a PDF out for e-signature from the caller's own Adobe account through Acrobat… | 🟢 |
+| `adoptapet.listPets` | adoptapet.com | Lists public dog or cat adoption listings in a US state, with the pet's name, breed… | 🟢 |
 | `adorama.checkStock` | adorama.com | Answers whether one product is in stock and its availability wording. | ⚪ |
 | `adorama.getProduct` | adorama.com | Reads one product page — typeset title, current price, specs, rating. | ⚪ |
 | `adorama.listCategories` | adorama.com | Lists every Adorama department and sub-category with its full path and url, from its… | 🟢 |
@@ -870,7 +871,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `calendly.listContacts` | calendly.com | The people in the caller's Calendly contacts — everyone who has booked with them, with… | ⚪ |
 | `calendly.listMyEventTypes` | calendly.com | Every event type the signed-in caller hosts, including secret and turned-off ones that… | ⚪ |
 | `calendly.listOrganizationMembers` | calendly.com | The people in the caller's Calendly organization, with their role and scheduling url. | ⚪ |
-| `calendly.listPackages` | calendly.com | Lists the paid session packages a Calendly profile sells (several meetings bought… | ⚪ |
+| `calendly.listPackages` | calendly.com | Lists the prepaid session packages a Calendly profile sells (several meetings bought… | 🟢 |
 | `calendly.listRoutingForms` | calendly.com | The routing forms the caller's organization owns. | ⚪ |
 | `calendly.listRoutingFormSubmissions` | calendly.com | The answers people have submitted to one of the caller's routing forms, and where each… | ⚪ |
 | `calendly.listScheduledEvents` | calendly.com | The meetings booked with the signed-in caller — upcoming, past or a date range — with… | ⚪ |
@@ -2871,7 +2872,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imgur.followTag` | imgur.com | Follows a tag. | ⚪ |
 | `imgur.followUser` | imgur.com | Follows a user. | ⚪ |
 | `imgur.getGalleryPosts` | imgur.com | Lists the gallery feed (most viral, user submitted, or top) with sort and paging… | 🟢 |
-| `imgur.getImage` | imgur.com | Resolves a direct image/video id or i.imgur.com link to its media URL, size and type. | ⚪ |
+| `imgur.getImage` | imgur.com | Resolves a direct image/video id or i.imgur.com link to its media URL, size and type. | 🟢 |
 | `imgur.getMyFavorites` | imgur.com | Lists the signed-in account's favorites, including private ones. | ⚪ |
 | `imgur.getMyPosts` | imgur.com | Lists the signed-in account's posts and uploads, including hidden ones. | ⚪ |
 | `imgur.getNotifications` | imgur.com | Lists the signed-in account's notifications (replies, votes, follows). | ⚪ |
@@ -2879,10 +2880,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imgur.getPostComments` | imgur.com | Lists a post's comments with their replies, sorted best/new/top. | 🟢 |
 | `imgur.getTag` | imgur.com | Gets one tag (name, followers, total posts) and its posts, with sort and paging. | 🟢 |
 | `imgur.getUser` | imgur.com | Gets a user's public profile by username: bio, reputation, avatar, joined date. | 🟢 |
-| `imgur.getUserComments` | imgur.com | Lists a user's public comments. | ⚪ |
-| `imgur.getUserFavorites` | imgur.com | Lists a user's public favorites. | ⚪ |
-| `imgur.getUserPosts` | imgur.com | Lists a user's public submitted posts. | ⚪ |
-| `imgur.listTags` | imgur.com | Lists trending and featured tags, the door to a tag's posts. | ⚪ |
+| `imgur.getUserComments` | imgur.com | Lists a user's public comments. | 🟢 |
+| `imgur.getUserFavorites` | imgur.com | Lists a user's public favorites. | 🟢 |
+| `imgur.getUserPosts` | imgur.com | Lists a user's public submitted posts. | 🟢 |
+| `imgur.listTags` | imgur.com | Lists trending and featured tags, the door to a tag's posts. | 🟢 |
 | `imgur.searchPosts` | imgur.com | Searches imgur's gallery for posts matching a query, logged out. | 🟢 |
 | `imgur.unfavoritePost` | imgur.com | Removes a post from favorites. | ⚪ |
 | `imgur.unfollowTag` | imgur.com | Unfollows a tag. | ⚪ |
@@ -4608,7 +4609,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `scribd.addDocumentToList` | scribd.com | Adds a document to one of the signed-in caller's lists. | 🟢 |
 | `scribd.askDocument` | scribd.com | Asks Scribd's AI assistant a question about one document and returns its answer, as… | 🟢 |
 | `scribd.createList` | scribd.com | Creates a new list (collection) on the signed-in caller's account, private unless… | 🟢 |
-| `scribd.deleteDocument` | scribd.com | Deletes one of the signed-in caller's own uploaded documents. | ⚪ |
+| `scribd.deleteDocument` | scribd.com | Deletes one of the signed-in caller's own uploaded documents. | 🟢 |
 | `scribd.downloadDocument` | scribd.com | Downloads a document's file (PDF, DOCX, TXT … as its formats list offers) for the… | 🟢 |
 | `scribd.getDocument` | scribd.com | Reads one document's metadata — title, uploader (name and profile url), description… | 🟡 |
 | `scribd.getDocumentText` | scribd.com | Reads the full extracted text of a public document, page by page where the site marks… | 🟢 |
@@ -4880,7 +4881,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.listProfileStory` | snapchat.com | Lists the snaps in a public profile's current Story — media url, preview url, media… | 🟢 |
 | `snapchat.listSpotlightComments` | snapchat.com | Reads the public comments under one Spotlight video — comment text, commenter and time… | 🟡 |
 | `snapchat.listSpotlightFeed` | snapchat.com | Reads the Spotlight feed — Snapchat's public short-video feed at… | 🟡 |
-| `snapchat.listTopicSpotlights` | snapchat.com | Lists the Spotlight videos filed under one hashtag topic… | ⚪ |
+| `snapchat.listTopicSpotlights` | snapchat.com | Lists the Spotlight videos filed under one hashtag topic… | 🟢 |
 | `snapchat.postSpotlightComment` | snapchat.com | Posts a comment under a Spotlight video from the signed-in caller's account. | ⚪ |
 | `snapchat.postStory` | snapchat.com | Posts a photo to the signed-in caller's own Story. | ⚪ |
 | `snapchat.removeFriend` | snapchat.com | Removes one Snapchat user from the signed-in caller's friends, by user id (a uuid) or… | 🟢 |
@@ -4888,6 +4889,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.sendChatMessage` | snapchat.com | Sends a text chat message to a friend or group from the signed-in caller's account, as… | ⚪ |
 | `snapchat.sendSnap` | snapchat.com | Sends a photo snap from the signed-in caller's account to one or more friends. | ⚪ |
 | `snapchat.subscribeToProfile` | snapchat.com | Subscribes the signed-in caller to a public profile or Discover show — the Subscribe… | ⚪ |
+| `snapchat.unblockUser` | snapchat.com | Unblocks one Snapchat account the signed-in caller blocked, by user id (a uuid) or… | 🟢 |
 | `snapchat.updateDisplayName` | snapchat.com | Changes the signed-in caller's Snapchat display name — the name friends see, not the… | 🟢 |
 | `solidcore.bookClass` | solidcore.co | Books the signed-in member into a class off getSchedule, spending a pass or membership… | 🟢 |
 | `solidcore.cancelBooking` | solidcore.co | Cancels a signed-in member's class booking. | ⚪ |
@@ -6270,7 +6272,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.followUser` | yelp.com | Follows or unfollows a Yelp member from the signed-in caller's account. | ⚪ |
 | `yelp.getBookmarks` | yelp.com | Lists the businesses the signed-in caller has bookmarked on Yelp (their own My… | 🟢 |
 | `yelp.getBusiness` | yelp.com | Reads one business's own schema.org listing off its /biz/<alias> page: name, phone… | 🟢 |
-| `yelp.getCollection` | yelp.com | Reads a public Yelp collection (a member's named list of businesses) from its share… | ⚪ |
+| `yelp.getCollection` | yelp.com | Reads a public Yelp collection (a member's named list of places) from its… | 🟢 |
 | `yelp.getCollections` | yelp.com | Lists the signed-in caller's own collections and the businesses in each. | ⚪ |
 | `yelp.getMenu` | yelp.com | Reads a restaurant's menu from its /menu/<alias> page's own ld+json Menu block: each… | 🟢 |
 | `yelp.getMessages` | yelp.com | Lists the signed-in caller's Yelp inbox: quote and business threads and their messages. | ⚪ |
@@ -6280,7 +6282,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.getReservationAvailability` | yelp.com | Reads the open reservation slots a restaurant offers through Yelp Reservations for a… | ⚪ |
 | `yelp.getReviews` | yelp.com | Lists a business's reviews a page at a time with Yelp's own sorts (relevance, newest… | 🟢 |
 | `yelp.getUser` | yelp.com | Reads a public Yelp member profile from /user_details?userid=<id>: name, location… | 🟢 |
-| `yelp.getWaitlist` | yelp.com | Reads a restaurant's current Yelp Waitlist estimate — whether it is taking parties now… | ⚪ |
+| `yelp.getWaitlist` | yelp.com | Reads a restaurant's Yelp Waitlist state off its business page: whether it is on Yelp… | 🟢 |
 | `yelp.joinWaitlist` | yelp.com | Joins a restaurant's Yelp Waitlist remotely for the signed-in caller, or leaves it. | ⚪ |
 | `yelp.listCategories` | yelp.com | Lists Yelp's business categories (about 1,600) from Yelp's own published category… | 🟢 |
 | `yelp.makeReservation` | yelp.com | Books a table through Yelp Reservations for the signed-in caller at a slot from… | ⚪ |
