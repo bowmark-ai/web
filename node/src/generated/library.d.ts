@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 84fdd55836d25a6f5bfcb7fc3cdff65d8921648c27a446839d6d82ab7416b535
-// 98 capabilities, 822 providers, 5011 typed functions, 20 refused.
+// Manifest version: 587c82b2d8941003ca1af190b615a1de6da8cf0f56b44ca28f60c1d303403ca0
+// 98 capabilities, 823 providers, 5016 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11420,7 +11420,8 @@ interface AppStoreCategory {
 interface ListCategoriesResult {
   categories: AppStoreCategory[];
 }
-type AppStoreChartDevice = "iphone" | "ipad" | "mac";
+type AppStoreDevice = "iphone" | "ipad" | "mac";
+type AppStoreChartDevice = AppStoreDevice | "watch" | "tv";
 type AppStoreChartKind = "free" | "paid";
 interface ListTopChartsArgs {
   device?: AppStoreChartDevice;
@@ -11449,6 +11450,31 @@ interface ListTopChartsResult {
   country: string;
   source: "page" | "feed";
   apps: AppStoreChartApp[];
+}
+type AppStoreCollectionTab = "games" | "apps";
+type AppStoreCollectionDevice = "iphone" | "ipad";
+interface ListCollectionsArgs {
+  tab: AppStoreCollectionTab;
+  device?: AppStoreCollectionDevice;
+  country?: string;
+}
+interface AppStoreCollectionApp {
+  id: string;
+  name: string;
+  developer: string | null;
+  subtitle: string | null;
+  ageRating: string | null;
+  rating: { average: number; countLabel: string } | null;
+}
+interface AppStoreCollection {
+  title: string;
+  apps: AppStoreCollectionApp[];
+}
+interface ListCollectionsResult {
+  tab: AppStoreCollectionTab;
+  device: AppStoreCollectionDevice;
+  country: string;
+  collections: AppStoreCollection[];
 }
 interface ListDeveloperAppsArgs {
   developer?: string | number;
@@ -11481,7 +11507,7 @@ interface AppStoreSimilarAppsResult {
 }
 interface GetStoryArgs {
   story: string | number;
-  platform?: AppStoreChartDevice;
+  platform?: AppStoreDevice;
   country?: string;
 }
 interface AppStoreStoryApp {
@@ -11506,7 +11532,7 @@ interface AppStoreStory {
   apps: AppStoreStoryApp[];
 }
 interface ListTodayStoriesArgs {
-  device?: AppStoreChartDevice;
+  device?: AppStoreDevice;
   country?: string;
 }
 interface AppStoreTodayStory {
@@ -11515,7 +11541,7 @@ interface AppStoreTodayStory {
   url: string;
 }
 interface ListTodayStoriesResult {
-  device: AppStoreChartDevice;
+  device: AppStoreDevice;
   country: string;
   stories: AppStoreTodayStory[];
 }
@@ -11555,7 +11581,7 @@ interface ListAppEventsResult {
   events: AppStoreAppEvent[];
 }
 interface ListArcadeGamesArgs {
-  device?: AppStoreChartDevice;
+  device?: AppStoreDevice;
   country?: string;
 }
 interface AppStoreArcadeGame {
@@ -11569,7 +11595,7 @@ interface AppStoreArcadeGame {
   availability: string | null; // "Expected Dec 3, 2026" on a coming-soon game
 }
 interface ListArcadeGamesResult {
-  device: AppStoreChartDevice;
+  device: AppStoreDevice;
   country: string;
   games: AppStoreArcadeGame[];
 }
@@ -11684,11 +11710,20 @@ interface ListReviewsResult {
     listCategories(): Promise<ListCategoriesResult>;
 
     /**
-     * What is charting on the App Store right now — top free or top paid, on iPhone, iPad or Mac,
-     * for the whole store or narrowed to any genre id listCategories returns — in rank order, each
-     * entry with its position, name, tagline, developer, age rating, price and the id every other
-     * function here takes. The question this provider exists to answer that no search engine
-     * answers, because the answer changes every day.
+     * List the named collections on the App Store's Games tab or Apps tab — Apple's own shelves
+     * such as "Must-Play Games", "New Games We Love" and "Editors' Choice" — each with its title
+     * and the apps on it, every app carrying the id getApps and getApp take. The door to what
+     * Apple is pushing in games or apps right now, which the Today tab and the charts do not
+     * carry. Takes tab "games" or "apps"; device is iPhone (default) or iPad.
+     */
+    listCollections(args: ListCollectionsArgs): Promise<ListCollectionsResult>;
+
+    /**
+     * What is charting on the App Store right now — top free or top paid, on iPhone, iPad, Mac,
+     * Apple Watch or Apple TV, for the whole store or narrowed to any genre id listCategories
+     * returns — in rank order, each entry with its position, name, tagline, developer, age rating,
+     * price and the id every other function here takes. The question this provider exists to
+     * answer that no search engine answers, because the answer changes every day.
      */
     listTopCharts(args?: ListTopChartsArgs): Promise<ListTopChartsResult>;
 
@@ -26553,8 +26588,10 @@ interface ClassicHomeCartHandoff {
      * Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the site's
      * own Shopify collection JSON, optionally filtered by a free-text query against the product
      * title. Returns real products with a real price range read off their own fabric/leather
-     * variants. The hasMore field indicates when a collection hit its page limit and paging
-     * through all collections is incomplete.
+     * variants. hasMore is true when a collection was cut short (its page limit, or a page the
+     * site refused) and the list is incomplete; there is no offset to page with and nextOffset is
+     * always null, so never loop on it; a list cut short by the site's rate limit is complete
+     * again once that limit clears.
      */
     searchProducts(query?: string): Promise<ClassicHomeSearchResult>;
 
@@ -35861,6 +35898,7 @@ interface DropboxFileRequest { id: string; url: string; title: string; destinati
 interface DropboxFileRequests { requests: DropboxFileRequest[]; hasMore: boolean }
 interface DropboxRevokedLink { url: string; revoked: true }
 interface DropboxSharingChange { target: string; members: string[]; done: true; results?: Array<{ member: string; ok: boolean; error?: string }> }
+interface DropboxSaveResult { status: "complete" | "in_progress"; entry: DropboxEntry | null; jobId: string | null }
 
   /**
    * Dropbox, the cloud file storage service: open, list, read and download files and folders
@@ -35883,6 +35921,14 @@ interface DropboxSharingChange { target: string; members: string[]; done: true; 
      * the caller's Dropbox sign-in.
      */
     removeSharingMember(input: { file?: string; sharedFolderId?: string; member: string }, opts?: ConnectionOption): Promise<DropboxSharingChange>;
+
+    /**
+     * Saves the file behind a Dropbox shared link `url` (https://www.dropbox.com/…) into the
+     * signed-in caller's own Dropbox at `path` (a full path including the file name). Returns
+     * status "complete" with the saved `entry`, or "in_progress" with a `jobId` while Dropbox is
+     * still copying. Needs the caller's Dropbox sign-in.
+     */
+    saveSharedLinkToDropbox(input: { url: string; path: string }, opts?: ConnectionOption): Promise<DropboxSaveResult>;
 
     /**
      * Makes a file request in the signed-in caller's Dropbox: a link (`url`) anyone can upload
@@ -89590,6 +89636,67 @@ interface ShopAppListOrdersArgs {
   }
 }
 
+declare namespace BowmarkProvider_shopdisney {
+  // ── shopDisney — the unit's own declarations, verbatim ──
+interface ShopDisneyProduct {
+  id: string;
+  title: string;
+  url: string;
+  imageUrl: string | null;
+  /** USD, the price the shopper pays today. */
+  price: number | null;
+  originalPrice: number | null;
+  onSale: boolean;
+  /** The site's own string, e.g. "online - in_stock". */
+  availability: string | null;
+  inStock: boolean;
+  category: string | null;
+  subcategory: string | null;
+  /** e.g. "Mickey Mouse", "Stitch". */
+  character: string | null;
+  /** e.g. "Adults", "Kids". */
+  targetAge: string | null;
+  rating: number | null;
+}
+
+interface ShopDisneySearchResult {
+  query: string;
+  searchUrl: string;
+  products: ShopDisneyProduct[];
+}
+
+interface ShopDisneySearchArgs {
+  query: string;
+  limit?: number;
+}
+
+interface ShopDisneyProductArgs {
+  /** A product URL from search() (shopdisney.com or disneystore.com), or use id. */
+  url?: string;
+  id?: string;
+}
+
+  /**
+   * shopDisney / Disney Store (shopdisney.com, now disneystore.com) — Disney's official
+   * merchandise store. search() finds products (plush, toys, apparel, MagicBands, collectibles)
+   * with USD price, sale price and stock; getProduct() reads one product page.
+   */
+  interface Unit {
+    /**
+     * Searches shopDisney / Disney Store (shopdisney.com → disneystore.com) for merchandise, e.g.
+     * "stitch plush", and returns the first page of products: title, id, URL, image, USD price,
+     * original price and sale flag, stock, category, character and rating.
+     */
+    search(args: ShopDisneySearchArgs | string): Promise<ShopDisneySearchResult>;
+
+    /**
+     * Reads one shopDisney / Disney Store product page by URL or id and returns its title, USD
+     * price, original price, stock, category, character, rating and image.
+     */
+    getProduct(args: ShopDisneyProductArgs | string): Promise<ShopDisneyProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_sitmeanssit {
   // ── Sit Means Sit — the unit's own declarations, verbatim ──
 interface SitmeanssitLocation {
@@ -115242,6 +115349,14 @@ interface ZoomSearchHelpArticlesResult {
   articles: ZoomHelpArticle[];
 }
 
+interface ZoomHelpArticlePage {
+  id: string; // the KB number, e.g. KB0062000 — the same id searchHelpArticles returns
+  title: string | null; // the article's own short description
+  url: string;
+  updated: string | null; // the site's last-updated stamp, as the article page carries it
+  text: string; // the body as plain text, one block per line; numbered steps keep their numbers
+}
+
 interface ZoomMeetingList {
   raw: string; // signed-in response shape is UNMEASURED — see manifest.json
 }
@@ -115346,6 +115461,12 @@ interface ZoomProfile {
 
     /** Search the Zoom Help Center for articles by keyword */
     searchHelpArticles(query: string): Promise<ZoomSearchHelpArticlesResult>;
+
+    /**
+     * Read one Zoom Help Center article's full text, with its steps, by the KB number
+     * searchHelpArticles returns
+     */
+    getHelpArticle(id: string): Promise<ZoomHelpArticlePage>;
 
     /**
      * Read the signed-in caller's upcoming meetings from the signed-in caller's meeting list page
@@ -117107,6 +117228,7 @@ interface BowmarkProviders {
   sevenrooms: BowmarkProvider_sevenrooms.Unit;
   shein: BowmarkProvider_shein.Unit;
   shop_app: BowmarkProvider_shop_app.Unit;
+  shopdisney: BowmarkProvider_shopdisney.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
   skills_rest: BowmarkProvider_skills_rest.Unit;

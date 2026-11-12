@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 84fdd55836d25a6f5bfcb7fc3cdff65d8921648c27a446839d6d82ab7416b535
-// 4993 checked, 20 unchecked.
+// Manifest version: 587c82b2d8941003ca1af190b615a1de6da8cf0f56b44ca28f60c1d303403ca0
+// 4998 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "84fdd55836d25a6f5bfcb7fc3cdff65d8921648c27a446839d6d82ab7416b535",
+  "version": "587c82b2d8941003ca1af190b615a1de6da8cf0f56b44ca28f60c1d303403ca0",
   "units": {
     "address_validation": {
       "defs": {
@@ -14225,16 +14225,16 @@ export const VALIDATORS: ValidatorTable = {
           "k": "union",
           "of": [
             {
-              "k": "literal",
-              "v": "iphone"
+              "k": "ref",
+              "name": "AppStoreDevice"
             },
             {
               "k": "literal",
-              "v": "ipad"
+              "v": "watch"
             },
             {
               "k": "literal",
-              "v": "mac"
+              "v": "tv"
             }
           ]
         },
@@ -14248,6 +14248,49 @@ export const VALIDATORS: ValidatorTable = {
             {
               "k": "literal",
               "v": "paid"
+            }
+          ]
+        },
+        "AppStoreCollectionDevice": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "iphone"
+            },
+            {
+              "k": "literal",
+              "v": "ipad"
+            }
+          ]
+        },
+        "AppStoreCollectionTab": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "games"
+            },
+            {
+              "k": "literal",
+              "v": "apps"
+            }
+          ]
+        },
+        "AppStoreDevice": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "iphone"
+            },
+            {
+              "k": "literal",
+              "v": "ipad"
+            },
+            {
+              "k": "literal",
+              "v": "mac"
             }
           ]
         },
@@ -14387,7 +14430,7 @@ export const VALIDATORS: ValidatorTable = {
               "name": "platform",
               "schema": {
                 "k": "ref",
-                "name": "AppStoreChartDevice"
+                "name": "AppStoreDevice"
               },
               "optional": true
             },
@@ -14434,7 +14477,35 @@ export const VALIDATORS: ValidatorTable = {
               "name": "device",
               "schema": {
                 "k": "ref",
-                "name": "AppStoreChartDevice"
+                "name": "AppStoreDevice"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListCollectionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "tab",
+              "schema": {
+                "k": "ref",
+                "name": "AppStoreCollectionTab"
+              },
+              "optional": false
+            },
+            {
+              "name": "device",
+              "schema": {
+                "k": "ref",
+                "name": "AppStoreCollectionDevice"
               },
               "optional": true
             },
@@ -14591,7 +14662,7 @@ export const VALIDATORS: ValidatorTable = {
               "name": "device",
               "schema": {
                 "k": "ref",
-                "name": "AppStoreChartDevice"
+                "name": "AppStoreDevice"
               },
               "optional": true
             },
@@ -14793,6 +14864,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCategories": [],
+        "listCollections": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCollectionsArgs"
+            },
+            "optional": false
+          }
+        ],
         "listTopCharts": [
           {
             "name": "args",
@@ -45016,6 +45097,47 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "member",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "saveSharedLinkToDropbox": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "path",
                   "schema": {
                     "k": "string"
                   },
@@ -121914,6 +122036,86 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.shopdisney": {
+      "defs": {
+        "ShopDisneyProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ShopDisneySearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "ShopDisneySearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "ShopDisneyProductArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.sitmeanssit": {
       "defs": {},
       "functions": {
@@ -158718,6 +158920,15 @@ export const VALIDATORS: ValidatorTable = {
         "searchHelpArticles": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getHelpArticle": [
+          {
+            "name": "id",
             "schema": {
               "k": "string"
             },

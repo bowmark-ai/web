@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 84fdd55836d25a6f5bfcb7fc3cdff65d8921648c27a446839d6d82ab7416b535
-# 98 capabilities, 822 providers, 4993 typed functions, 20 refused.
+# Manifest version: 587c82b2d8941003ca1af190b615a1de6da8cf0f56b44ca28f60c1d303403ca0
+# 98 capabilities, 823 providers, 4998 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6935,15 +6935,42 @@ class Prv_app_store_AppStoreCategory_Out(TypedDict):
     name: str
     parentId: str | None
 
+class Prv_app_store_ListCollectionsArgs_In(TypedDict):
+    tab: Literal["games"] | Literal["apps"]
+    device: NotRequired[Literal["iphone"] | Literal["ipad"]]
+    country: NotRequired[str]
+
+class Prv_app_store_ListCollectionsResult_Out(TypedDict):
+    tab: Literal["games"] | Literal["apps"]
+    device: Literal["iphone"] | Literal["ipad"]
+    country: str
+    collections: list[Prv_app_store_AppStoreCollection_Out]
+
+class Prv_app_store_AppStoreCollection_Out(TypedDict):
+    title: str
+    apps: list[Prv_app_store_AppStoreCollectionApp_Out]
+
+class Prv_app_store_AppStoreCollectionApp_Out(TypedDict):
+    id: str
+    name: str
+    developer: str | None
+    subtitle: str | None
+    ageRating: str | None
+    rating: Prv_app_store_AppStoreCollectionApp_Out_rating_u0_Out | None
+
+class Prv_app_store_AppStoreCollectionApp_Out_rating_u0_Out(TypedDict):
+    average: float
+    countLabel: str
+
 class Prv_app_store_ListTopChartsArgs_In(TypedDict):
-    device: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"]]
+    device: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"] | Literal["watch"] | Literal["tv"]]
     chart: NotRequired[Literal["free"] | Literal["paid"]]
     genreId: NotRequired[str | float]
     country: NotRequired[str]
     limit: NotRequired[float]
 
 class Prv_app_store_ListTopChartsResult_Out(TypedDict):
-    device: Literal["iphone"] | Literal["ipad"] | Literal["mac"]
+    device: Literal["iphone"] | Literal["ipad"] | Literal["mac"] | Literal["watch"] | Literal["tv"]
     chart: Literal["free"] | Literal["paid"]
     genreId: str
     country: str
@@ -22307,6 +22334,25 @@ class Prv_dropbox_removeSharingMember_input_In(TypedDict):
     sharedFolderId: NotRequired[str]
     member: str
 
+class Prv_dropbox_saveSharedLinkToDropbox_input_In(TypedDict):
+    url: str
+    path: str
+
+class Prv_dropbox_DropboxSaveResult_Out(TypedDict):
+    status: Literal["complete"] | Literal["in_progress"]
+    entry: Prv_dropbox_DropboxEntry_Out | None
+    jobId: str | None
+
+class Prv_dropbox_DropboxEntry_Out(TypedDict):
+    kind: Literal["file"] | Literal["folder"] | Literal["deleted"]
+    name: str
+    path: str
+    id: NotRequired[str]
+    sizeBytes: NotRequired[float]
+    modified: NotRequired[str]
+    rev: NotRequired[str]
+    contentHash: NotRequired[str]
+
 class Prv_dropbox_createFileRequest_input_In(TypedDict):
     title: str
     destination: str
@@ -22351,16 +22397,6 @@ class Prv_dropbox_DropboxRevokedLink_Out(TypedDict):
 class Prv_dropbox_restoreFile_input_In(TypedDict):
     path: str
     rev: NotRequired[str]
-
-class Prv_dropbox_DropboxEntry_Out(TypedDict):
-    kind: Literal["file"] | Literal["folder"] | Literal["deleted"]
-    name: str
-    path: str
-    id: NotRequired[str]
-    sizeBytes: NotRequired[float]
-    modified: NotRequired[str]
-    rev: NotRequired[str]
-    contentHash: NotRequired[str]
 
 class Prv_dropbox_restoreFileVersion_input_In(TypedDict):
     path: str
@@ -56011,6 +56047,35 @@ class Prv_shop_app_ShopAppStoreContact_Out(TypedDict):
     method: str
     target: str
 
+class Prv_shopdisney_ShopDisneySearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_shopdisney_ShopDisneySearchResult_Out(TypedDict):
+    query: str
+    searchUrl: str
+    products: list[Prv_shopdisney_ShopDisneyProduct_Out]
+
+class Prv_shopdisney_ShopDisneyProduct_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    imageUrl: str | None
+    price: float | None
+    originalPrice: float | None
+    onSale: bool
+    availability: str | None
+    inStock: bool
+    category: str | None
+    subcategory: str | None
+    character: str | None
+    targetAge: str | None
+    rating: float | None
+
+class Prv_shopdisney_ShopDisneyProductArgs_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+
 class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
     zip: str
     locations: list[Prv_sitmeanssit_SitmeanssitLocation_Out]
@@ -73108,6 +73173,13 @@ class Prv_zoom_ZoomHelpArticle_Out(TypedDict):
     url: str
     categories: list[str]
 
+class Prv_zoom_ZoomHelpArticlePage_Out(TypedDict):
+    id: str
+    title: str | None
+    url: str
+    updated: str | None
+    text: str
+
 class Prv_zoom_ZoomMeetingList_Out(TypedDict):
     raw: str
 
@@ -77380,12 +77452,21 @@ class Prv_app_store(Protocol):
         reach a real listing without being told an id.
         """
 
+    async def listCollections(self, args: Prv_app_store_ListCollectionsArgs_In, /) -> Prv_app_store_ListCollectionsResult_Out:
+        """List the named collections on the App Store's Games tab or Apps tab — Apple's own
+        shelves such as "Must-Play Games", "New Games We Love" and "Editors' Choice" — each with
+        its title and the apps on it, every app carrying the id getApps and getApp take. The
+        door to what Apple is pushing in games or apps right now, which the Today tab and the
+        charts do not carry. Takes tab "games" or "apps"; device is iPhone (default) or iPad.
+        """
+
     async def listTopCharts(self, args: Prv_app_store_ListTopChartsArgs_In | None = None, /) -> Prv_app_store_ListTopChartsResult_Out:
-        """What is charting on the App Store right now — top free or top paid, on iPhone, iPad or
-        Mac, for the whole store or narrowed to any genre id listCategories returns — in rank
-        order, each entry with its position, name, tagline, developer, age rating, price and the
-        id every other function here takes. The question this provider exists to answer that no
-        search engine answers, because the answer changes every day.
+        """What is charting on the App Store right now — top free or top paid, on iPhone, iPad,
+        Mac, Apple Watch or Apple TV, for the whole store or narrowed to any genre id
+        listCategories returns — in rank order, each entry with its position, name, tagline,
+        developer, age rating, price and the id every other function here takes. The question
+        this provider exists to answer that no search engine answers, because the answer changes
+        every day.
         """
 
     async def getStory(self, args: Prv_app_store_GetStoryArgs_In, /) -> Prv_app_store_AppStoreStory_Out:
@@ -82529,8 +82610,10 @@ class Prv_classichome(Protocol):
         """Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the
         site's own Shopify collection JSON, optionally filtered by a free-text query against the
         product title. Returns real products with a real price range read off their own
-        fabric/leather variants. The hasMore field indicates when a collection hit its page
-        limit and paging through all collections is incomplete.
+        fabric/leather variants. hasMore is true when a collection was cut short (its page
+        limit, or a page the site refused) and the list is incomplete; there is no offset to
+        page with and nextOffset is always null, so never loop on it; a list cut short by the
+        site's rate limit is complete again once that limit clears.
         """
 
     async def getProduct(self, handle: str, /) -> Prv_classichome_ClassicHomeProductDetail_Out:
@@ -85926,6 +86009,13 @@ class Prv_dropbox(Protocol):
         """Takes one person's access (`member`: email or dbid:… from `listSharingMembers`) away
         from a file (`file`) or shared folder (`sharedFolderId`) in the signed-in caller's
         Dropbox. Needs the caller's Dropbox sign-in.
+        """
+
+    async def saveSharedLinkToDropbox(self, input: Prv_dropbox_saveSharedLinkToDropbox_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxSaveResult_Out:
+        """Saves the file behind a Dropbox shared link `url` (https://www.dropbox.com/…) into the
+        signed-in caller's own Dropbox at `path` (a full path including the file name). Returns
+        status "complete" with the saved `entry`, or "in_progress" with a `jobId` while Dropbox
+        is still copying. Needs the caller's Dropbox sign-in.
         """
 
     async def createFileRequest(self, input: Prv_dropbox_createFileRequest_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxFileRequest_Out:
@@ -105062,6 +105152,23 @@ class Prv_shop_app(Protocol):
         address.
         """
 
+class Prv_shopdisney(Protocol):
+    """shopDisney / Disney Store (shopdisney.com, now disneystore.com) — Disney's official
+    merchandise store. search() finds products (plush, toys, apparel, MagicBands,
+    collectibles) with USD price, sale price and stock; getProduct() reads one product page.
+    """
+
+    async def search(self, args: Prv_shopdisney_ShopDisneySearchArgs_In | str, /) -> Prv_shopdisney_ShopDisneySearchResult_Out:
+        """Searches shopDisney / Disney Store (shopdisney.com → disneystore.com) for merchandise,
+        e.g. "stitch plush", and returns the first page of products: title, id, URL, image, USD
+        price, original price and sale flag, stock, category, character and rating.
+        """
+
+    async def getProduct(self, args: Prv_shopdisney_ShopDisneyProductArgs_In | str, /) -> Prv_shopdisney_ShopDisneyProduct_Out:
+        """Reads one shopDisney / Disney Store product page by URL or id and returns its title, USD
+        price, original price, stock, category, character, rating and image.
+        """
+
 class Prv_sitmeanssit(Protocol):
     """Reads Sit Means Sit's own real-time Dog Training Locator directly (the same admin-ajax
     endpoint the site's /locations/ map runs) — the nearest real franchise locations to a US
@@ -114018,6 +114125,11 @@ class Prv_zoom(Protocol):
     async def searchHelpArticles(self, query: str, /) -> Prv_zoom_ZoomSearchHelpArticlesResult_Out:
         """Search the Zoom Help Center for articles by keyword"""
 
+    async def getHelpArticle(self, id: str, /) -> Prv_zoom_ZoomHelpArticlePage_Out:
+        """Read one Zoom Help Center article's full text, with its steps, by the KB number
+        searchHelpArticles returns
+        """
+
     async def listMeetings(self, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomMeetingList_Out:
         """Read the signed-in caller's upcoming meetings from the signed-in caller's meeting list
         page — needs the caller signed in
@@ -114786,6 +114898,7 @@ class BowmarkProviders(Protocol):
     sevenrooms: Prv_sevenrooms
     shein: Prv_shein
     shop_app: Prv_shop_app
+    shopdisney: Prv_shopdisney
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
     skills_rest: Prv_skills_rest

@@ -1761,7 +1761,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.restoreFile` | dropbox.com | Restores a deleted file or folder in the caller's Dropbox. | 🟢 |
 | `dropbox.restoreFileVersion` | dropbox.com | Restores a file in the caller's Dropbox to one of its earlier versions. | 🟢 |
 | `dropbox.revokeSharedLink` | dropbox.com | Turns off one of the caller's shared links so it stops working. | 🟢 |
-| `dropbox.saveSharedLinkToDropbox` | dropbox.com | Saves the file or folder behind a shared link into the caller's own Dropbox (the 'Save… | ⚪ |
+| `dropbox.saveSharedLinkToDropbox` | dropbox.com | Saves the file or folder behind a shared link into the caller's own Dropbox (the 'Save… | 🟢 |
 | `dropbox.searchFiles` | dropbox.com | Searches the caller's Dropbox by file name and content, as the search box at the top… | 🟢 |
 | `dropbox.shareWithPeople` | dropbox.com | Invites people by email to a file or folder in the caller's Dropbox, as viewers or… | 🟢 |
 | `dropbox.starFile` | dropbox.com | Stars or unstars a file or folder in the caller's Dropbox. | ⚪ |
@@ -4781,7 +4781,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.getStore` | shein.com | Returns a marketplace store's profile — name, rating, follower count, items sold —… | ⚪ |
 | `shein.listAddresses` | shein.com | Lists the shipping addresses saved on the signed-in caller's account. | ⚪ |
 | `shein.listCategories` | shein.com | Lists the top-level product categories on Shein. | 🟢 |
-| `shein.listFlashSale` | shein.com | Lists the products in Shein's current Flash Sale, with the deal price, list price and… | ⚪ |
+| `shein.listFlashSale` | shein.com | Lists the products on Shein's Sale tab (its discounted grid; the site has no separate… | 🟢 |
 | `shein.listFollowedStores` | shein.com | Lists the marketplace stores the signed-in caller follows. | ⚪ |
 | `shein.listMyCoupons` | shein.com | Lists the coupons on the signed-in caller's account, with the discount, minimum spend… | ⚪ |
 | `shein.listNewArrivals` | shein.com | Lists Shein's New In products (the /recommend/New-In-sc-<id>.html selection). | 🟢 |
@@ -6054,9 +6054,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.checkNumber` | whatsapp.com | Says whether a phone number (international format, digits only) has a WhatsApp… | 🟢 |
 | `whatsapp.createClickToChatLink` | whatsapp.com | Builds WhatsApp's documented click-to-chat link for a phone number in international… | 🟢 |
 | `whatsapp.createGroup` | whatsapp.com | Creates a WhatsApp group as the caller with a name and the starting participants, and… | ⚪ |
-| `whatsapp.deleteMessage` | whatsapp.com | Deletes a message — for the caller only, or for everyone when it is the caller's own… | ⚪ |
+| `whatsapp.deleteMessage` | whatsapp.com | Deletes a message the caller sent, for everyone when WhatsApp still offers that and… | 🟢 |
 | `whatsapp.downloadMedia` | whatsapp.com | Downloads the attachment on one message (image, video, voice note, sticker or… | 🟢 |
-| `whatsapp.editMessage` | whatsapp.com | Edits the text of a message the caller sent, inside the window WhatsApp allows edits. | ⚪ |
+| `whatsapp.editMessage` | whatsapp.com | Edits the text of a message the caller sent, inside the window WhatsApp allows edits. | 🟢 |
 | `whatsapp.findContact` | whatsapp.com | Finds people and chats in the caller's WhatsApp by name, phone number or username, the… | 🟢 |
 | `whatsapp.followChannel` | whatsapp.com | Follows a Channel as the caller. | ⚪ |
 | `whatsapp.forwardMessage` | whatsapp.com | Forwards one of the caller's messages to another chat. | ⚪ |
@@ -6080,12 +6080,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.postStatus` | whatsapp.com | Posts a text or image Status update as the caller, and deletes one. | ⚪ |
 | `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟡 |
 | `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | 🟢 |
-| `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message with an emoji as the caller, or removes the caller's reaction. | ⚪ |
+| `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message as the caller with an emoji, or removes the caller's reaction when… | 🟢 |
 | `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | ⚪ |
 | `whatsapp.searchChannels` | whatsapp.com | Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does, by… | 🟢 |
 | `whatsapp.searchHelpCenter` | whatsapp.com | Searches WhatsApp's Help Center (faq.whatsapp.com) the way its search box does and… | 🟢 |
 | `whatsapp.searchMessages` | whatsapp.com | Searches the caller's WhatsApp messages the way WhatsApp Web's search box does: each… | 🟢 |
-| `whatsapp.sendMedia` | whatsapp.com | Sends a file to a chat as the caller — an image or video with an optional caption, a… | ⚪ |
+| `whatsapp.sendMedia` | whatsapp.com | Sends a file as the caller to a chat opened by its exact displayed name: an image or… | 🟢 |
 | `whatsapp.sendMessage` | whatsapp.com | Sends a text message as the caller to a chat opened by its exact displayed name (from… | 🟢 |
 | `whatsapp.sendPoll` | whatsapp.com | Creates a poll in a chat as the caller: a question, its options and whether several… | ⚪ |
 | `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | ⚪ |
