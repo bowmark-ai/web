@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6471 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6472 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3400,6 +3400,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marriott.getHotelDetails` | marriott.com | Reads one Marriott-family property in full — full address, phone number, brand… | ⚪ |
 | `marriott.getReservation` | marriott.com | Reads an existing Marriott reservation the way the site's own "Find Reservations" page… | ⚪ |
 | `marriott.search` | marriott.com | Searches Marriott's live cash room availability the way its own booking widget does —… | ⚪ |
+| `mayoclinic.search` | mayoclinic.org | Searches Mayo Clinic's diseases and conditions library for a health topic and returns… | 🟢 |
 | `mcdonalds.checkDeliveryAvailability` | mcdonalds.com | Answers whether McDelivery (McDonald's own delivery, fulfilled through Uber Eats /… | ⚪ |
 | `mcdonalds.findStores` | mcdonalds.com | Finds McDonald's restaurants near a location — pass EITHER a 5-digit US `zip`… | 🟢 |
 | `mcdonalds.getDeals` | mcdonalds.com | Reads the current public deals, value-menu items and promotions McDonald's is… | ⚪ |
@@ -5446,7 +5447,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.unmuteUser` | threads.com | Unmutes an account the CALLER muted, so its posts show again. | 🟢 |
 | `threads.unrepostPost` | threads.com | Removes the CALLER's repost of a post. | 🟢 |
 | `threads.unsavePost` | threads.com | Removes a post from the CALLER's saved list. | ⚪ |
-| `threads.updateProfile` | threads.com | Edits the CALLER's Threads profile — bio, links and whether the profile is private. | ⚪ |
+| `threads.updateProfile` | threads.com | Sets the CALLER's own Threads bio. | 🟢 |
 | `threads.updateProfilePicture` | threads.com | Changes the CALLER's Threads profile picture. | ⚪ |
 | `ticketmaster_mx.getEvent` | ticketmaster.com.mx | Retrieves complete details for a specific Ticketmaster México event: ticket… | 🟢 |
 | `ticketmaster_mx.search` | ticketmaster.com.mx | Finds upcoming events on Ticketmaster México matching a search term (e.g., artist… | 🟢 |

@@ -493,6 +493,7 @@ marianatek.com — marianatek: 34 functions — ask get_library (+1 planned)
 marketplace.visualstudio.com — marketplace_visualstudio: getExtensionStats, searchExtensions
 marketplace.vts.com — vts_marketplace: getListing, listMarkets, searchListings
 marriott.com — marriott: findHotels (+5 planned)
+mayoclinic.org — mayoclinic: search
 mcdonalds.com — mcdonalds: findStores, getMenu, getMenuItem (+2 planned)
 mcp.directory — mcp_directory: search
 mcp.so — mcp_so: search
@@ -750,7 +751,7 @@ therowhouse.com — therowhouse: getSchedule, listLocations
 theweathernetwork.com — theweathernetwork_com: getCurrentConditions
 thezebra.com — thezebra: getCarrierRates, getCityRates, getRatesByDriverProfile, getRentersQuotes, getStateRates, getStateRequirements, getVehicleRates (+11 planned)
 thibautdesign.com — thibautdesign: calculateRollsNeeded
-threads.com — threads: blockUser, createPost, deletePost, followUser, getActivity, getCustomFeed, getHomeFeed, getMe, getPost, getProfile, getProfileMedia, getProfilePosts, getProfileReplies, getProfileReposts, getRelatedPosts, getSavedPosts, likePost, listCustomFeeds, muteUser, quotePost, replyToPost, repostPost, searchAccounts, searchPosts, searchTopics, unblockUser, unfollowUser, unlikePost, unmuteUser, unrepostPost (+11 planned)
+threads.com — threads: blockUser, createPost, deletePost, followUser, getActivity, getCustomFeed, getHomeFeed, getMe, getPost, getProfile, getProfileMedia, getProfilePosts, getProfileReplies, getProfileReposts, getRelatedPosts, getSavedPosts, likePost, listCustomFeeds, muteUser, quotePost, replyToPost, repostPost, searchAccounts, searchPosts, searchTopics, unblockUser, unfollowUser, unlikePost, unmuteUser, unrepostPost, updateProfile (+10 planned)
 ticketmaster.com — ticketmaster: nothing callable yet (+5 planned)
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
