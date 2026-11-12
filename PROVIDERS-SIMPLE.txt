@@ -97,7 +97,7 @@ bananarepublic.gap.com — banana_republic: getProduct, searchProducts
 bankmycell.com — bankmycell: getTradeInQuote, searchDevices
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
-bbc.com — bbc: followPodcast, getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listFollowedPodcasts, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations, subscribeNewsletter, unfollowPodcast, unsubscribeNewsletter
+bbc.com — bbc: 31 functions — ask get_library
 bcbsri.com — bcbsri: getApplicationPage, getDentalPlan, getDentalShopPage, getPlanDocuments, getQuotePage, listDentalPlans (+6 planned)
 beaconfunding.com — beaconfunding: getApplicationFields
 beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
@@ -164,7 +164,7 @@ camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
-canva.com — canva: browseTemplates, getApp, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getGraphic, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignSizes, listPrintProducts, listTemplateCategories, searchApps, searchGraphics, searchPhotos, searchTemplates (+34 planned)
+canva.com — canva: browseTemplates, getApp, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getGraphic, getMyProfile, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignSizes, listPrintProducts, listTemplateCategories, searchApps, searchGraphics, searchPhotos, searchTemplates (+33 planned)
 capitaloneshopping.com — capitaloneshopping: getStoreRate, searchStores
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
 careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs
@@ -185,6 +185,7 @@ cb2.com — cb2: searchProducts (+1 planned)
 cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
 cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
+cbsnews.com — cbsnews: nothing callable yet (+26 planned)
 cerebralvalley.ai — cerebralvalley: getEvent, listEvents
 cftc.gov — cftc: searchRules
 champxpress.com — champxpress: nothing callable yet (+2 planned)
@@ -192,7 +193,7 @@ chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
 chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
 chase.com — chase: search
-chatgpt.com — chatgpt: archiveConversation, browseGPTStore, deleteConversation, deleteMemory, deleteSharedLink, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getProject, getSharedConversation, listConversations, listLibraryImages, listModels, listMyGPTs, listProjects, listScheduledTasks, listSharedLinks, renameConversation, searchConversations, searchGPTs (+13 planned)
+chatgpt.com — chatgpt: archiveConversation, browseGPTStore, createProject, deleteConversation, deleteMemory, deleteSharedLink, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getProject, getSharedConversation, listConversations, listLibraryImages, listModels, listMyGPTs, listProjects, listScheduledTasks, listSharedLinks, rateResponse, renameConversation, searchConversations, searchGPTs, shareConversation, updateCustomInstructions (+9 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
@@ -482,7 +483,7 @@ m365.cloud.microsoft.com — microsoft_365: createDocument, deleteDocument, getD
 maersk.com — maersk: track
 magicmadhouse.co.uk — magicmadhouse: searchProducts (+1 planned)
 maidenhome.com — maidenhome: getProduct, resolveVariant, searchConfigurations
-mail.aol.com — aol_mail: deleteMessage, getAccountProfile, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage, updateAccountProfile
+mail.aol.com — aol_mail: deleteMessage, flagMessage, getAccountProfile, getAttachment, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage, updateAccountProfile
 mail.yahoo.com — yahoo_mail: deleteMessage, flagMessage, getAttachment, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage
 mailchimp.com — mailchimp: getPlanPricing
 mango.com — mango: getProduct, listCategories, searchProducts (+1 planned)
@@ -783,7 +784,7 @@ upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
 ups.com — ups: calculateShippingCost, estimateDeliveryDate, findNearbyLocation, getRate, getServiceAlerts, schedulePickup, trackShipment, validateAddress
 urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
 us.posthog.com — posthog: getInsight, listInsights, listProjects, runRetentionQuery
-usatoday.com — usatoday: browseSection, getArticle, getPuzzle, getScores, getVideo, listHomepageHeadlines, listPuzzles, listSections, listVideos, searchNews (+2 planned)
+usatoday.com — usatoday: browseSection, getArticle, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+2 planned)
 uscis.gov — uscis: caseStatus
 usps.com — usps: getRate, trackPackage
 va.gov — va_gov: findFacilities

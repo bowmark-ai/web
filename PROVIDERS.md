@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6382 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6412 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -230,7 +230,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `anthropic_com.listDocs` | anthropic.com | Lists every engineering-blog and legal-terms page anthropic.com publishes — url… | 🟢 |
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
 | `aol_mail.deleteMessage` | mail.aol.com | Deletes one of the CALLER's own AOL Mail messages the way the site's own delete button… | 🟢 |
+| `aol_mail.flagMessage` | mail.aol.com | Stars (flags) one of the CALLER's own AOL Mail messages, or unstars it, given a row id… | 🟢 |
 | `aol_mail.getAccountProfile` | mail.aol.com | Reads the CALLER's own AOL account page (login.aol.com/myaccount/personalinfo) and… | 🟢 |
+| `aol_mail.getAttachment` | mail.aol.com | Saves one attachment of the CALLER's own AOL Mail message to the run's files, given… | 🟢 |
 | `aol_mail.getMessage` | mail.aol.com | Reads one of the CALLER's own AOL Mail messages in full — sender, recipients, subject… | 🟢 |
 | `aol_mail.listFolders` | mail.aol.com | Lists the CALLER's own AOL Mail folders — Inbox, Sent, Drafts, Spam, Trash and custom… | 🟢 |
 | `aol_mail.listMessages` | mail.aol.com | Lists the newest messages in one of the CALLER's own AOL Mail folders (Inbox by… | 🟢 |
@@ -927,7 +929,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.getDesign` | canva.com | Reads one of the caller's designs by id or edit url — title, owner, created and… | ⚪ |
 | `canva.getDesignContent` | canva.com | Reads the full text and the images on every page (or one page) of one of the caller's… | ⚪ |
 | `canva.getGraphic` | canva.com | Reads one graphic by id or url — title, description, category, free or Pro, the… | 🟢 |
-| `canva.getMyProfile` | canva.com | Reads the signed-in caller's Canva profile — display name, email, account id, plan… | ⚪ |
+| `canva.getMyProfile` | canva.com | Reads the signed-in caller's Canva profile — account id, display name and handle. | 🟢 |
 | `canva.getPhoto` | canva.com | Reads one stock photo by id or url — title, description, free-or-Pro licence, the… | 🟢 |
 | `canva.getPresenterNotes` | canva.com | Reads the presenter notes on each slide of one of the caller's presentations. | ⚪ |
 | `canva.getPricing` | canva.com | Reads Canva's paid plans (Pro, Business) with each one's monthly and yearly price… | 🟢 |
@@ -1012,6 +1014,32 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbhhomes.getInquiryFormSchema` | cbhhomes.com | Reads the site's own live 'get in touch about a home' Gravity Forms inquiry form… | 🟢 |
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
 | `cbp.waitTimes` | cbp.gov | Current wait in minutes and lanes open at US land border crossings with Canada and… | 🟢 |
+| `cbsnews.getAccount` | cbsnews.com | Reads the signed-in caller's CBS News account profile. | ⚪ |
+| `cbsnews.getArticle` | cbsnews.com | Gets one article: headline, byline, dates, body text, images and tags. | ⚪ |
+| `cbsnews.getAuthor` | cbsnews.com | Gets a correspondent's or writer's profile from /team/<slug>/. | ⚪ |
+| `cbsnews.getLiveStream` | cbsnews.com | Gets the CBS News 24/7 live stream and the current broadcast from /live/. | ⚪ |
+| `cbsnews.getLiveUpdates` | cbsnews.com | Gets a live-updates page (/live-updates/<slug>/) with its timestamped posts. | ⚪ |
+| `cbsnews.getLocalWeather` | cbsnews.com | Gets a local station's current conditions and forecast. | ⚪ |
+| `cbsnews.getVideo` | cbsnews.com | Gets one video page: title, description, duration, date and stream URL where exposed. | ⚪ |
+| `cbsnews.listArticlesByAuthor` | cbsnews.com | Lists the stories by one author. | ⚪ |
+| `cbsnews.listLatestNews` | cbsnews.com | Lists the latest stories from a CBS News RSS feed (main, a section or a show). | ⚪ |
+| `cbsnews.listLocalNews` | cbsnews.com | Lists the stories on a local station's front, e.g. /newyork/. | ⚪ |
+| `cbsnews.listLocalStations` | cbsnews.com | Lists the CBS local stations (New York, Los Angeles, Chicago, Boston, Texas …). | ⚪ |
+| `cbsnews.listNewsletters` | cbsnews.com | Lists the newsletters on /newsletters (breaking news, exclusives, uplift …). | ⚪ |
+| `cbsnews.listNewsletterSubscriptions` | cbsnews.com | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
+| `cbsnews.listPodcastEpisodes` | cbsnews.com | Lists the episodes of one podcast. | ⚪ |
+| `cbsnews.listPodcasts` | cbsnews.com | Lists CBS News podcasts from /podcasts/. | ⚪ |
+| `cbsnews.listRssFeeds` | cbsnews.com | Lists every RSS feed CBS News publishes, from /rss/. | ⚪ |
+| `cbsnews.listSectionArticles` | cbsnews.com | Lists the stories on a section front such as /politics/ or /moneywatch/. | ⚪ |
+| `cbsnews.listSections` | cbsnews.com | Lists the site's sections and topic hubs (politics, world, moneywatch, crime, space …). | ⚪ |
+| `cbsnews.listShowEpisodes` | cbsnews.com | Lists a programme's recent segments and full episodes. | ⚪ |
+| `cbsnews.listShows` | cbsnews.com | Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings… | ⚪ |
+| `cbsnews.listTagArticles` | cbsnews.com | Lists the stories filed under a tag (/tag/<slug>/). | ⚪ |
+| `cbsnews.listVideos` | cbsnews.com | Lists videos from /video/ or a video category. | ⚪ |
+| `cbsnews.search` | cbsnews.com | Searches CBS News stories and videos by keyword, as /search/?q= does. | ⚪ |
+| `cbsnews.subscribeToNewsletter` | cbsnews.com | Subscribes an email address to a CBS News newsletter. | ⚪ |
+| `cbsnews.unsubscribeFromNewsletter` | cbsnews.com | Unsubscribes the signed-in caller from a newsletter. | ⚪ |
+| `cbsnews.updateProfile` | cbsnews.com | Edits the signed-in caller's profile (name, zip code). | ⚪ |
 | `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | ⚪ |
 | `census_api.validateAddress` | api.census.gov | Validates and standardizes a US street address against the Census Geocoder… | 🟢 |
 | `cerebralvalley.getEvent` | cerebralvalley.ai | Reads one cerebralvalley.ai event page (/e/<slug>) and returns its name, date and time… | 🟢 |
@@ -1031,7 +1059,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | ⚪ |
 | `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | 🟢 |
 | `chatgpt.createGPT` | chatgpt.com | Creates a custom GPT in the CALLER's account — name, description, instructions… | ⚪ |
-| `chatgpt.createProject` | chatgpt.com | Creates a new project in the CALLER's account with a name and optional instructions. | ⚪ |
+| `chatgpt.createProject` | chatgpt.com | Creates a new project in the CALLER's account with a name and optional instructions. | 🟢 |
 | `chatgpt.deleteConversation` | chatgpt.com | Deletes one of the CALLER's conversations. | 🟢 |
 | `chatgpt.deleteMemory` | chatgpt.com | Deletes one saved memory from the CALLER's ChatGPT memory. | 🟢 |
 | `chatgpt.deleteScheduledTask` | chatgpt.com | Deletes (or pauses) one of the CALLER's scheduled tasks. | ⚪ |
@@ -1053,14 +1081,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.listSharedLinks` | chatgpt.com | Lists the public share links the CALLER has created, with the conversation each points… | 🟢 |
 | `chatgpt.moveConversationToProject` | chatgpt.com | Files one of the CALLER's conversations under one of their projects. | ⚪ |
 | `chatgpt.pinGPT` | chatgpt.com | Pins a GPT to (or unpins it from) the CALLER's sidebar. | ⚪ |
-| `chatgpt.rateResponse` | chatgpt.com | Gives a thumbs up or thumbs down on one of ChatGPT's replies in the CALLER's… | ⚪ |
+| `chatgpt.rateResponse` | chatgpt.com | Gives a thumbs up or thumbs down on one of ChatGPT's replies in the CALLER's… | 🟢 |
 | `chatgpt.renameConversation` | chatgpt.com | Renames one of the CALLER's conversations. | 🟢 |
 | `chatgpt.requestDataExport` | chatgpt.com | Requests an export of the CALLER's ChatGPT data (Settings → Data controls → Export)… | ⚪ |
 | `chatgpt.searchConversations` | chatgpt.com | Searches the CALLER's chat history by keyword, the way the sidebar's search does, and… | 🟢 |
 | `chatgpt.searchGPTs` | chatgpt.com | Searches the GPT Store by keyword and returns matching custom GPTs with their id… | 🟢 |
 | `chatgpt.sendMessage` | chatgpt.com | Sends a message as the CALLER and returns ChatGPT's reply — starting a new… | ⚪ |
-| `chatgpt.shareConversation` | chatgpt.com | Creates a public share link for one of the CALLER's conversations and returns the… | ⚪ |
-| `chatgpt.updateCustomInstructions` | chatgpt.com | Updates the CALLER's personalization — what ChatGPT calls them, their occupation, the… | ⚪ |
+| `chatgpt.shareConversation` | chatgpt.com | Creates a public share link for one of the CALLER's conversations and returns the… | 🟢 |
+| `chatgpt.updateCustomInstructions` | chatgpt.com | Updates the CALLER's personalization — what ChatGPT calls them, their occupation, the… | 🟢 |
 | `chatgpt.uploadFile` | chatgpt.com | Uploads a file to the CALLER's account — into a project's files, or as an attachment… | ⚪ |
 | `cheapflights.getBookingOptions` | cheapflights.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `cheapflights.search` | cheapflights.com | Runs the itinerary search on cheapflights.com and returns its result rows… | 🟢 |
@@ -5712,11 +5740,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟡 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
+| `usatoday.getStandings` | usatoday.com | Reads the current league standings from USA Today Sports — given a league like NFL… | 🟢 |
 | `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given the url a listVideos row returns — returning its… | 🟡 |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
+| `usatoday.listNewsletters` | usatoday.com | Lists every USA Today email newsletter, each with an id, name, description, topic… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
 | `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |
-| `usatoday.listSections` | usatoday.com | Lists USA Today's main news sections — news, sports, money, life, tech, opinion — each… | 🟢 |
+| `usatoday.listSections` | usatoday.com | Lists the sections in USA Today's own navigation (news, politics, sports… | 🟢 |
 | `usatoday.listVideos` | usatoday.com | Lists the videos on USA Today's videos hub, each with a title, description, thumbnail… | 🟢 |
 | `usatoday.saveArticle` | usatoday.com | Saves an article to the signed-in user's reading list. | ⚪ |
 | `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | 🟢 |
