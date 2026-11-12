@@ -1622,8 +1622,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.acceptFriendRequest` | discord.com | Accepts a pending incoming friend request. | ⚪ |
 | `discord.addReaction` | discord.com | Adds an emoji reaction to a message as the caller. | 🟢 |
 | `discord.blockUser` | discord.com | Blocks a user. | ⚪ |
-| `discord.createInvite` | discord.com | Creates an invite link to a channel the caller may invite to, with an optional expiry… | ⚪ |
-| `discord.createServer` | discord.com | Creates a new server owned by the caller, with a name and optional icon. | ⚪ |
+| `discord.createInvite` | discord.com | Creates an invite link to a channel the caller may invite to, with an optional expiry… | 🟢 |
+| `discord.createServer` | discord.com | Creates a new server owned by the caller, with a name and optional icon. | 🟢 |
 | `discord.createThread` | discord.com | Starts a thread from a message, or a new post in a forum channel, as the caller. | 🟢 |
 | `discord.deleteMessage` | discord.com | Deletes a message the caller sent (or, with the permission, anyone's in a server they… | 🟢 |
 | `discord.editMessage` | discord.com | Edits the text of a message the caller sent. | 🟢 |
@@ -1635,8 +1635,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | 🟢 |
 | `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | 🟡 |
 | `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | 🟢 |
-| `discord.joinServer` | discord.com | Joins a server from an invite code or link as the caller. | ⚪ |
-| `discord.leaveServer` | discord.com | Leaves a server the caller has joined. | ⚪ |
+| `discord.joinServer` | discord.com | Joins a server from an invite code or link as the caller. | 🟢 |
+| `discord.leaveServer` | discord.com | Leaves a server the caller has joined. | 🟢 |
 | `discord.listAppCategories` | discord.com | Lists the App Directory's categories (Games, Entertainment, Moderation and Tools… | 🟢 |
 | `discord.listBlogPosts` | discord.com | Lists Discord's own blog posts (discord.com/blog) — title, link, date and summary… | 🟢 |
 | `discord.listChannels` | discord.com | Lists one joined server's channels the caller can see — id, name, type (text, voice… | 🟢 |
