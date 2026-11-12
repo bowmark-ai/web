@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6417 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6445 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -137,6 +137,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `airtable.updateRecord` | airtable.com | Updates an existing record by its ID. | 🟢 |
 | `ajmadison.checkStock` | ajmadison.com | Reads one product's detail page for its real, current stock/availability message. | ⚪ |
 | `ajmadison.search` | ajmadison.com | Runs AJ Madison's own category + facet filter (brand, size/capacity, price band… | 🟡 |
+| `akc_org.breed` | akc.org | Reads one AKC dog breed profile: group, height, weight, life expectancy, popularity… | 🟢 |
+| `akc_org.searchBreeds` | akc.org | Searches the American Kennel Club's dog breed library by name or keyword and returns… | 🟢 |
 | `alibaba.addToCart` | alibaba.com | Add a product to the shopping cart with specified quantity. | ⚪ |
 | `alibaba.cancelOrder` | alibaba.com | Cancel an order (if eligible). | ⚪ |
 | `alibaba.contactSupplier` | alibaba.com | Send a message to a supplier asking about products or availability. | ⚪ |
@@ -145,18 +147,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getAccountRating` | alibaba.com | Get the account's seller/buyer rating and reputation score. | ⚪ |
 | `alibaba.getCart` | alibaba.com | Get current shopping cart contents and totals. | ⚪ |
 | `alibaba.getInvoice` | alibaba.com | Get details of a specific invoice. | ⚪ |
-| `alibaba.getOrder` | alibaba.com | Get details for a specific order including tracking, payment status and items. | ⚪ |
+| `alibaba.getOrder` | alibaba.com | Get details for a specific order including tracking, payment status and items. | 🟢 |
 | `alibaba.getProduct` | alibaba.com | Get detailed information for a single product by ID, including specs, images, pricing… | 🟢 |
 | `alibaba.getProductReviews` | alibaba.com | One page of a product's buyer reviews — star rating, text, date, masked reviewer… | 🟡 |
-| `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | ⚪ |
+| `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | 🟢 |
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
 | `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | 🟢 |
 | `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | 🟢 |
 | `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟢 |
 | `alibaba.listInvoices` | alibaba.com | Get list of invoices for past orders. | ⚪ |
-| `alibaba.listMessages` | alibaba.com | Get inbox of messages from suppliers and other contacts. | ⚪ |
-| `alibaba.listOrders` | alibaba.com | Get list of past orders with status, date and items. | ⚪ |
+| `alibaba.listMessages` | alibaba.com | Get inbox of messages from suppliers and other contacts. | 🟢 |
+| `alibaba.listOrders` | alibaba.com | Get list of past orders with status, date and items. | 🟢 |
 | `alibaba.listRfqProfessions` | alibaba.com | Get list of available industry/profession categories for RFQ. | ⚪ |
 | `alibaba.listRfqs` | alibaba.com | Get list of RFQs (Requests for Quote) created by the user. | ⚪ |
 | `alibaba.listSavedItems` | alibaba.com | Get list of saved/favorited products. | ⚪ |
@@ -4505,8 +4507,32 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rezdy.listProducts` | rezdy.com | Lists an operator's bookable products (tours, activities, rentals, transfers, gift… | 🟢 |
 | `rezdy.sendEnquiry` | rezdy.com | Sends the operator a question through its booking site's contact form (name, email… | ⚪ |
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
+| `ring.addToCart` | ring.com | Adds a Ring product, by its url and quantity, to the guest cart. | ⚪ |
+| `ring.checkout` | ring.com | Reads the order summary up to the payment step. | ⚪ |
+| `ring.compareProducts` | ring.com | Reads a Ring product category's comparison, the specifications of each model side by… | ⚪ |
+| `ring.findRetailer` | ring.com | Lists Ring's authorized retail partners that carry Ring hardware. | ⚪ |
+| `ring.getAlarmMode` | ring.com | Reads the signed-in account's current alarm mode, such as home, away or disarmed. | ⚪ |
+| `ring.getCart` | ring.com | Reads the guest cart's lines, quantities and totals before checkout. | ⚪ |
+| `ring.getDevice` | ring.com | Reads one signed-in device's status, battery, firmware and settings snapshot. | ⚪ |
+| `ring.getPlan` | ring.com | Reads the signed-in account's current Ring Protect plan and its renewal date. | ⚪ |
+| `ring.getPlans` | ring.com | Reads Ring Protect's subscription plans with their prices and what each one includes. | ⚪ |
+| `ring.getPlayback` | ring.com | Returns one recorded event's playback menu: the site's embedded player and its own… | ⚪ |
 | `ring.getProduct` | ring.com | Reads a Ring product page's live offer, availability, SKUs, images and server-rendered… | 🟢 |
+| `ring.getProductReviews` | ring.com | Reads a Ring product's customer reviews with their ratings and text. | ⚪ |
+| `ring.getSupportArticle` | ring.com | Reads one Ring support article by the url searchSupport returned. | ⚪ |
+| `ring.listCollection` | ring.com | Reads one collection's product grid by its handle, with each card's name, url, price… | ⚪ |
+| `ring.listCollections` | ring.com | Lists Ring's product collections (category and shelf pages) with their handles and… | ⚪ |
+| `ring.listDevices` | ring.com | Lists the Ring devices on the signed-in account: doorbells, cameras, the alarm base… | ⚪ |
+| `ring.listEvents` | ring.com | Lists the signed-in account's doorbell, motion and alarm events, newest first, with… | ⚪ |
+| `ring.listSharedUsers` | ring.com | Lists the people the signed-in account has shared its Ring devices with. | ⚪ |
+| `ring.removeFromCart` | ring.com | Removes one line from the guest cart. | ⚪ |
 | `ring.search` | ring.com | Searches Ring's public catalog by a product name or family and returns matching… | 🟢 |
+| `ring.searchSupport` | ring.com | Searches Ring's support center and returns matching help articles with their titles… | ⚪ |
+| `ring.setAlarmMode` | ring.com | Switches the signed-in account's alarm to a mode such as home, away or disarmed. | ⚪ |
+| `ring.shareUser` | ring.com | Invites a person by email to share the signed-in account's Ring devices. | ⚪ |
+| `ring.subscribePlan` | ring.com | Starts or changes the signed-in account's Ring Protect plan. | ⚪ |
+| `ring.updateAccountProfile` | ring.com | Changes the signed-in account's name or contact details. | ⚪ |
+| `ring.updateDeviceSettings` | ring.com | Changes one of the signed-in account's device settings, such as motion sensitivity or… | ⚪ |
 | `rippling.listJobs` | rippling.com | Lists every open job on one company's Rippling job board — title, work location… | 🟢 |
 | `rishitea.getTeaFinderQuiz` | rishi-tea.com | Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —… | 🟢 |
 | `rishitea.matchTeaFinderQuiz` | rishi-tea.com | Submits a full set of answers to Okendo's quiz engine and returns the same… | 🟢 |
@@ -5435,6 +5461,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | 🟢 |
 | `tiktok.listPlaylistVideos` | tiktok.com | The videos in one playlist, in the creator's order (id, caption, play count, cover… | 🟢 |
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟢 |
+| `tiktok.listTrendingVideos` | tiktok.com | What is trending on TikTok right now — the Explore page's own grid, in TikTok's order. | 🟢 |
 | `tiktok.listUserPlaylists` | tiktok.com | The playlists a creator shows on their profile (id, name, video count, cover, URL).… | 🟢 |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id, caption, play count, cover and play address for each —… | 🟢 |
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | 🟢 |
@@ -5939,6 +5966,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | 🟡 |
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | 🟢 |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
+| `weather_channel.getLiveBlog` | weather.com | A hurricane or storm live-updates page — every update's headline, time, authors and… | 🟢 |
 | `weather_channel.getLocation` | weather.com | Gets location details by place name, postal code, or coordinates — returns full… | 🟢 |
 | `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-by-minute precipitation for the next hour where weather.com has coverage; an… | 🟡 |
 | `weather_channel.getObservations` | weather.com | Live readings from personal weather stations near a place — the site's own 'Weather… | 🟢 |
