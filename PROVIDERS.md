@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6313 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6320 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -223,7 +223,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `andersenwindows.findDealers` | andersenwindows.com | Finds Andersen-certified dealers and contractors near a US ZIP code — the entry point… | 🟢 |
 | `andstr.getListing` | booking.andstr.com | One listing's full detail page — bedrooms/bathrooms/max guests, description… | 🟢 |
 | `andstr.getQuote` | booking.andstr.com | The real, date-priced quote for one listing — per-night breakdown, service fee… | 🟢 |
-| `andstr.search` | booking.andstr.com | Runs stayAndes's own search-and-book portal (booking.andstr.com) — filters by market… | 🟢 |
+| `andstr.search` | booking.andstr.com | Runs stayAndes's own search-and-book portal (booking.andstr.com) — filters by market… | 🟡 |
 | `angussystems.listAccessRequests` | angus-systems.com | Lists the after-hours access requests for a client's portal, showing the status… | ⚪ |
 | `anthem_directory.findProviders` | anthem.com | In-network doctors near one US ZIP code for one Anthem plan (the state's first… | 🟢 |
 | `anthropic_com.getDoc` | anthropic.com | Reads one page of anthropic.com's engineering blog (/engineering/...) or legal terms… | 🟢 |
@@ -1494,9 +1494,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dentalplans.getPlan` | dentalplans.com | Reads one plan's own detail page — its marketing description and the site's own… | 🟢 |
 | `dentalplans.search` | dentalplans.com | Runs DentalPlans.com's own live plan search for a 5-digit US zip, off the site's own… | 🟢 |
 | `detailxperts.bookAppointment` | detailxperts.com | Submits the booking form (name, phone, email, service address, vehicle, chosen… | ⚪ |
-| `detailxperts.checkServiceArea` | detailxperts.com | Checks whether a service address is inside a DetailXPerts franchise's mobile service… | 🟡 |
-| `detailxperts.getQuote` | detailxperts.com | Prices a mobile detail for one vehicle type and dirt/pet-hair/interior-dirt condition… | 🟡 |
-| `detailxperts.listVehicleTypes` | detailxperts.com | Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …)… | 🟡 |
+| `detailxperts.checkServiceArea` | detailxperts.com | Checks whether a service address is inside a DetailXPerts franchise's mobile service… | 🔴 |
+| `detailxperts.getQuote` | detailxperts.com | Prices a mobile detail for one vehicle type and dirt/pet-hair/interior-dirt condition… | 🔴 |
+| `detailxperts.listVehicleTypes` | detailxperts.com | Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …)… | 🔴 |
 | `deutschepost.getDialogpostRates` | deutschepost.de | Retrieves Deutsche Post Dialogpost pricing rates by weight category and format type. | 🟢 |
 | `developersopenai.getDocPage` | developers.openai.com | Reads one page of OpenAI's own developer documentation (e.g. the MCP connector / OAuth… | 🟢 |
 | `deviantart.browseTag` | deviantart.com | Lists the deviations filed under one tag ("landscape", "fanart", "oc"), as the site's… | 🟢 |
@@ -1539,7 +1539,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dickssportinggoods.search` | dickssportinggoods.com | Searches dickssportinggoods.com's catalog for a keyword (optionally scoped by sport… | ⚪ |
 | `dillards.checkStock` | dillards.com | Answers whether one exact size/color of a product is available right now — both for… | 🟡 |
 | `dillards.findStores` | dillards.com | Finds nearby Dillard's store locations the way the site's own /stores locator does —… | 🟢 |
-| `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟢 |
+| `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟡 |
 | `dillards.search` | dillards.com | Searches dillards.com's catalog for a keyword and returns the matching products the… | 🟡 |
 | `dillards.searchRegistry` | dillards.com | Searches Dillard's wedding/gift registry (dillards.com/registry) — a distinctive… | 🟢 |
 | `direct_book.cancelReservation` | direct-book.com | Cancels a guest's booking by its reservation code from the confirmation email —… | 🟢 |
@@ -4254,6 +4254,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `recreation_gov.campgroundAvailability` | recreation.gov | Campsite availability at one recreation.gov campground for a range of nights: a… | 🟢 |
 | `recreation_gov.searchCampgrounds` | recreation.gov | Search recreation.gov for campgrounds by name, park or place; returns each… | 🟢 |
 | `recruitee.listJobs` | recruitee.com | Lists every published offer on one company's Recruitee careers site — title, location… | 🟢 |
+| `redbull.listEvents` | redbull.com | Lists Red Bull's own events (races, competitions, festivals — superbike, Rookies Cup… | 🟢 |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
 | `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | 🟢 |
 | `reddit.browseSubreddits` | reddit.com | Lists communities without a query — Reddit's own most-popular and newest communities… | 🟢 |
@@ -4862,6 +4863,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
 | `spacest.search` | spacest.com | Searches furnished apartments and corporate rentals by city and optional dates… | ⚪ |
+| `spectrum.cancelServiceAppointment` | spectrum.com | Cancel one of the signed-in caller's Spectrum technician visits, by the appointmentId… | 🟢 |
 | `spectrum.checkMobileCoverage` | spectrum.com | Spectrum Mobile's network coverage at an address, city or ZIP, off the raster overlay… | 🟢 |
 | `spectrum.checkServiceAvailability` | spectrum.com | What Spectrum offers at a residential street address — which internet/TV/mobile plans… | ⚪ |
 | `spectrum.getAccountBalance` | spectrum.com | The signed-in caller's current Spectrum account balance: amount due, due date and… | 🟢 |
@@ -5841,7 +5843,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | 🟢 |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
 | `weather_channel.getLocation` | weather.com | Gets location details by place name, postal code, or coordinates — returns full… | 🟢 |
-| `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-by-minute precipitation for the next hour where weather.com has coverage; an… | 🟢 |
+| `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-by-minute precipitation for the next hour where weather.com has coverage; an… | 🟡 |
 | `weather_channel.getObservations` | weather.com | Live readings from personal weather stations near a place — the site's own 'Weather… | 🟢 |
 | `weather_channel.getPlayback` | weather.com | Plays a weather.com video: its own MP4 file and the HLS playlist, no ads, no expiry. | 🟢 |
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
@@ -5856,6 +5858,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | 🟢 |
 | `weather_channel.searchLocations` | weather.com | Autocomplete for location names (cities, ZIP codes) — returns matching locations with… | 🟢 |
 | `weather_channel.searchNews` | weather.com | Weather-related articles and videos from the site's content — search by keyword. | 🟢 |
+| `webpt.getPage` | webpt.com | Reads one webpt.com page as title, meta description, headings and body text, and flags… | 🟢 |
+| `webpt.listPages` | webpt.com | Lists pages from WebPT's own sitemap (~2,000: products, pricing, blog, webinars… | 🟢 |
+| `webpt.searchPages` | webpt.com | Finds WebPT pages whose URL matches the query's words (online scheduling, billing… | 🟢 |
 | `webshare.getPlans` | webshare.io | Reads Webshare's own published proxy pricing — rotating residential (per GB), static… | 🟢 |
 | `wellfound.getCompany` | wellfound.com | Reads one startup's `/company/<slug>` profile — the longer product description (HTML)… | ⚪ |
 | `wellfound.getJob` | wellfound.com | Reads one job posting in full the way its own detail page does — takes the `url` a… | 🟢 |
@@ -5920,7 +5925,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.joinGroupByInvite` | whatsapp.com | Joins a group from its chat.whatsapp.com invite link as the caller, and returns the… | ⚪ |
 | `whatsapp.leaveGroup` | whatsapp.com | Leaves a group as the caller. | ⚪ |
 | `whatsapp.listBlogPosts` | whatsapp.com | Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's slug, title… | 🟢 |
-| `whatsapp.listCatalogProducts` | whatsapp.com | Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the… | ⚪ |
+| `whatsapp.listCatalogProducts` | whatsapp.com | Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the… | 🟢 |
 | `whatsapp.listChats` | whatsapp.com | Lists the signed-in caller's chats off WhatsApp Web's own sidebar, newest activity… | 🟢 |
 | `whatsapp.listContacts` | whatsapp.com | Lists the caller's contacts off WhatsApp Web's own new-chat panel: each contact's… | 🟢 |
 | `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows as WhatsApp Web's Channels tab shows them: each… | 🟢 |
@@ -5934,7 +5939,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.searchHelpCenter` | whatsapp.com | Searches WhatsApp's Help Center (faq.whatsapp.com) the way its search box does and… | 🟢 |
 | `whatsapp.searchMessages` | whatsapp.com | Searches the caller's WhatsApp messages the way WhatsApp Web's search box does: each… | 🟢 |
 | `whatsapp.sendMedia` | whatsapp.com | Sends a file to a chat as the caller — an image or video with an optional caption, a… | ⚪ |
-| `whatsapp.sendMessage` | whatsapp.com | Sends a text message to a chat or contact as the caller, optionally as a reply quoting… | ⚪ |
+| `whatsapp.sendMessage` | whatsapp.com | Sends a text message as the caller to a chat opened by its exact displayed name (from… | 🟢 |
 | `whatsapp.sendPoll` | whatsapp.com | Creates a poll in a chat as the caller: a question, its options and whether several… | ⚪ |
 | `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | ⚪ |
 | `whatsapp.updateChat` | whatsapp.com | Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive… | ⚪ |
@@ -6150,11 +6155,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getOdds` | sports.yahoo.com | Reads a league's current betting lines off the site's own Odds page — spread, total… | 🟢 |
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and current-season stat line off their own player page —… | 🟢 |
 | `yahoo_sports.getPlayerNews` | sports.yahoo.com | Reads one player's News tab — the stories about that player (headline, Yahoo url… | 🟢 |
+| `yahoo_sports.getRankings` | sports.yahoo.com | Reads a college poll — who is ranked — off Yahoo's own Rankings page and the rankings… | 🟢 |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | 🟢 |
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟢 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads games for one league — NFL, NBA, MLB, NHL, college football, college basketball… | 🟢 |
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟢 |
 | `yahoo_sports.getStatLeaders` | sports.yahoo.com | Reads the season-to-date individual leaderboard for one category off the site's own… | 🟢 |
+| `yahoo_sports.getTeamNews` | sports.yahoo.com | Reads one team's own News tab — the latest stories about that team (headline, Yahoo… | 🟢 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
 | `yahoo_sports.getTeamStats` | sports.yahoo.com | Reads one team's season stats off its own Stats page — every category the site… | 🟢 |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟢 |

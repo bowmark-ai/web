@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 38389fdb9ef6595d7fd96c89d517fb8bbd37963e9c6e3e96429db11b820e5bbb
-# 97 capabilities, 815 providers, 4882 typed functions, 20 refused.
+# Manifest version: 2c52f13b3453b99fe8ac0d7bdca6da4c646a2aa774597a489a169f3889bf1b1f
+# 97 capabilities, 816 providers, 4891 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6879,6 +6879,60 @@ class Prv_app_store_AppStoreTodayStory_Out(TypedDict):
     id: str
     title: str
     url: str
+
+class Prv_app_store_ListVersionHistoryArgs_In(TypedDict):
+    app: str | float
+    country: NotRequired[str]
+
+class Prv_app_store_ListVersionHistoryResult_Out(TypedDict):
+    id: str
+    country: str
+    url: str
+    versions: list[Prv_app_store_AppStoreVersionHistoryEntry_Out]
+
+class Prv_app_store_AppStoreVersionHistoryEntry_Out(TypedDict):
+    version: str
+    releaseDate: str | None
+    notes: str
+
+class Prv_app_store_ListAppEventsArgs_In(TypedDict):
+    app: str | float
+    country: NotRequired[str]
+
+class Prv_app_store_ListAppEventsResult_Out(TypedDict):
+    id: str
+    country: str
+    url: str
+    events: list[Prv_app_store_AppStoreAppEvent_Out]
+
+class Prv_app_store_AppStoreAppEvent_Out(TypedDict):
+    id: str
+    title: str
+    subtitle: str | None
+    detail: str | None
+    kind: str | None
+    startDate: str | None
+    endDate: str | None
+    url: str | None
+
+class Prv_app_store_ListArcadeGamesArgs_In(TypedDict):
+    device: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"]]
+    country: NotRequired[str]
+
+class Prv_app_store_ListArcadeGamesResult_Out(TypedDict):
+    device: Literal["iphone"] | Literal["ipad"] | Literal["mac"]
+    country: str
+    games: list[Prv_app_store_AppStoreArcadeGame_Out]
+
+class Prv_app_store_AppStoreArcadeGame_Out(TypedDict):
+    id: str
+    name: str
+    developer: str | None
+    tagline: str | None
+    ageRating: str | None
+    rating: float | None
+    shelf: str | None
+    availability: str | None
 
 class Prv_app_store_ListPurchasedAppsArgs_In(TypedDict):
     batchId: NotRequired[str]
@@ -21784,6 +21838,49 @@ class Prv_drafthouse_DrafthouseShowtime_Out(TypedDict):
     status: str
     url: str
 
+class Prv_dropbox_shareWithPeople_input_In(TypedDict):
+    file: NotRequired[str]
+    sharedFolderId: NotRequired[str]
+    members: Sequence[str]
+    access: NotRequired[Literal["viewer"] | Literal["editor"]]
+    message: NotRequired[str]
+
+class Prv_dropbox_DropboxSharingChange_Out(TypedDict):
+    target: str
+    members: list[str]
+    done: Literal[True]
+    results: NotRequired[list[Prv_dropbox_DropboxSharingChange_Out_results_item_Out]]
+
+class Prv_dropbox_DropboxSharingChange_Out_results_item_Out(TypedDict):
+    member: str
+    ok: bool
+    error: NotRequired[str]
+
+class Prv_dropbox_removeSharingMember_input_In(TypedDict):
+    file: NotRequired[str]
+    sharedFolderId: NotRequired[str]
+    member: str
+
+class Prv_dropbox_createFileRequest_input_In(TypedDict):
+    title: str
+    destination: str
+    deadline: NotRequired[str]
+    description: NotRequired[str]
+
+class Prv_dropbox_DropboxFileRequest_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    destination: NotRequired[str]
+    isOpen: bool
+    fileCount: NotRequired[float]
+    created: NotRequired[str]
+    deadline: NotRequired[str]
+    description: NotRequired[str]
+
+class Prv_dropbox_closeFileRequest_input_In(TypedDict):
+    id: str
+
 class Prv_dropbox_createSharedLink_input_In(TypedDict):
     path: str
     access: NotRequired[Literal["viewer"] | Literal["editor"]]
@@ -21868,17 +21965,6 @@ class Prv_dropbox_DropboxSharingMember_Out(TypedDict):
 class Prv_dropbox_DropboxFileRequests_Out(TypedDict):
     requests: list[Prv_dropbox_DropboxFileRequest_Out]
     hasMore: bool
-
-class Prv_dropbox_DropboxFileRequest_Out(TypedDict):
-    id: str
-    url: str
-    title: str
-    destination: NotRequired[str]
-    isOpen: bool
-    fileCount: NotRequired[float]
-    created: NotRequired[str]
-    deadline: NotRequired[str]
-    description: NotRequired[str]
 
 class Prv_dropbox_listSharedLinks_input_In(TypedDict):
     path: NotRequired[str]
@@ -49919,6 +50005,31 @@ class Prv_recruitee_RecruiteeSalary_Out(TypedDict):
     currency: str | None
     period: str | None
 
+class Prv_redbull_RedbullListEventsArgs_In(TypedDict):
+    query: NotRequired[str]
+    country: NotRequired[str]
+    when: NotRequired[Literal["upcoming"] | Literal["past"] | Literal["all"]]
+    limit: NotRequired[float]
+
+class Prv_redbull_RedbullEventList_Out(TypedDict):
+    total: float | None
+    events: list[Prv_redbull_RedbullEvent_Out]
+    hasMore: bool
+
+class Prv_redbull_RedbullEvent_Out(TypedDict):
+    id: str
+    name: str
+    discipline: str | None
+    description: str | None
+    startDate: str | None
+    endDate: str | None
+    status: str | None
+    place: str | None
+    address: str | None
+    countryCode: str | None
+    countryName: str | None
+    url: str
+
 class Prv_reddit_search_query_u1_In(TypedDict):
     query: str
     subreddit: NotRequired[str]
@@ -71693,6 +71804,19 @@ class Prv_zoom_ZoomPricingPlan_Out(TypedDict):
     currency: str
     features: list[str]
 
+class Prv_zoom_ZoomDownloadLinksResult_Out(TypedDict):
+    downloads: list[Prv_zoom_ZoomDownload_Out]
+
+class Prv_zoom_ZoomDownload_Out(TypedDict):
+    product: str
+    os: Literal["mac"] | Literal["windows"] | Literal["linux"]
+    version: str
+    displayVersion: str | None
+    archType: str | None
+    installer: str
+    url: str
+    itUrl: str | None
+
 class Prv_zoom_ZoomSystemStatusResult_Out(TypedDict):
     indicator: str
     description: str
@@ -75965,6 +76089,27 @@ class Prv_app_store(Protocol):
         person actually sees when they open the App Store — each with the id and URL getStory
         takes. The door into getStory for an agent that holds no app yet, rather than one that
         already does.
+        """
+
+    async def listVersionHistory(self, args: Prv_app_store_ListVersionHistoryArgs_In, /) -> Prv_app_store_ListVersionHistoryResult_Out:
+        """Read an app's update history the way its store page shows it — every recent release
+        (about 25), newest first, each with its version number, release date and what the
+        developer said changed. The read behind "did the last update break this" and "when did
+        they add X". Shares getAppDetails' page cache, so calling both costs one fetch.
+        """
+
+    async def listAppEvents(self, args: Prv_app_store_ListAppEventsArgs_In, /) -> Prv_app_store_ListAppEventsResult_Out:
+        """List the in-app events an app is running or about to run — a game's weekend event, a
+        challenge, a premiere — each with its title, description, Apple's label for it, start
+        and end time and link. Answers "is anything on in this game this week". An app running
+        no events returns an empty list.
+        """
+
+    async def listArcadeGames(self, args: Prv_app_store_ListArcadeGamesArgs_In | None = None, /) -> Prv_app_store_ListArcadeGamesResult_Out:
+        """List the games Apple is showing on its Apple Arcade page — what a subscription gets you,
+        including games marked coming soon — each with its name, developer, tagline, age rating,
+        star rating, the shelf it sits on, and the id getApp and getApps take. For iPhone, iPad
+        or Mac, in any storefront.
         """
 
     async def listPurchasedApps(self, args: Prv_app_store_ListPurchasedAppsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_app_store_ListPurchasedAppsResult_Out:
@@ -84278,6 +84423,31 @@ class Prv_dropbox(Protocol):
     in, browse, search, upload, move, delete and restore the caller's own files, create and
     manage shared links, share with people, and run file requests and transfers.
     """
+
+    async def shareWithPeople(self, input: Prv_dropbox_shareWithPeople_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxSharingChange_Out:
+        """Invites people (emails, or dbid:… account ids) to a file (`file`, a path or id:…) or a
+        shared folder (`sharedFolderId`) in the signed-in caller's Dropbox, as viewers (default)
+        or editors, with an optional message. Dropbox emails each invitee. For a file, `results`
+        says per person whether it worked. Needs the caller's Dropbox sign-in.
+        """
+
+    async def removeSharingMember(self, input: Prv_dropbox_removeSharingMember_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxSharingChange_Out:
+        """Takes one person's access (`member`: email or dbid:… from `listSharingMembers`) away
+        from a file (`file`) or shared folder (`sharedFolderId`) in the signed-in caller's
+        Dropbox. Needs the caller's Dropbox sign-in.
+        """
+
+    async def createFileRequest(self, input: Prv_dropbox_createFileRequest_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxFileRequest_Out:
+        """Makes a file request in the signed-in caller's Dropbox: a link (`url`) anyone can upload
+        files to, landing in the folder `destination` (a full path). `deadline` is an ISO
+        date-time. Returns the request with its id. Needs the caller's Dropbox sign-in.
+        """
+
+    async def closeFileRequest(self, input: Prv_dropbox_closeFileRequest_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxFileRequest_Out:
+        """Closes one of the signed-in caller's file requests (`id` from `listFileRequests` or
+        `createFileRequest`) so its link stops accepting uploads, and returns it with isOpen
+        false. Needs the caller's Dropbox sign-in.
+        """
 
     async def createSharedLink(self, input: Prv_dropbox_createSharedLink_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxSharedLinkInfo_Out:
         """Makes a shared link for the file or folder at `path` in the signed-in caller's Dropbox
@@ -100681,6 +100851,21 @@ class Prv_recruitee(Protocol):
         different ATS (`bowmark.job_search.atCompany` finds which).
         """
 
+class Prv_redbull(Protocol):
+    """Red Bull (redbull.com) — list Red Bull's own events (races, competitions, festivals:
+    superbike, Rookies Cup, cliff diving, rally, surfing…) with name, discipline, dates,
+    venue and country, filtered by country and free text, upcoming or past.
+    """
+
+    async def listEvents(self, args: Prv_redbull_RedbullListEventsArgs_In | None = None, /) -> Prv_redbull_RedbullEventList_Out:
+        """Lists Red Bull's own events from redbull.com — races, competitions and festivals
+        (superbike, motorbike racing, Red Bull Rookies Cup, rally, cliff diving, surfing,
+        padel…) — with name, discipline, start and end date, venue, country and event page link.
+        Filter by `country` (ISO code, e.g. "IT" for Italy), by free-text `query` matched
+        against name, discipline, description and venue, and by `when` (upcoming by default, or
+        past / all). Canceled events are left out. A real browser load, so expect 15-40 s.
+        """
+
 class Prv_reddit(Protocol):
     """Communities, threads and comment trees, and the signed-in account. Public reads need
     nothing: find communities, qualify one (subscribers, activity, whether you may read it),
@@ -108608,8 +108793,10 @@ class Prv_vestiaire_collective(Protocol):
         """Searches Vestiaire Collective listings by keyword, or by a Vestiaire search URL
         (https://de.vestiairecollective.com/search/?q=…), on the German storefront in EUR unless
         the URL or country/currency/language say otherwise. Returns each listing's name, brand,
-        condition, seller country, price, sold flag and product URL, plus the total hit count.
-        limit 1-100 (default 48), offset for paging.
+        condition, seller country, price, sold flag and product URL, plus `total`, the site's
+        own hit count — capped at 10,000, so a lower bound, not an exact count. A keyword with
+        no real matches can still return unrelated listings, so check the names. limit 1-100
+        (default 48), offset for paging.
         """
 
 class Prv_viewrail(Protocol):
@@ -111913,6 +112100,11 @@ class Prv_zoom(Protocol):
     async def getPricing(self, /) -> Prv_zoom_ZoomPricingResult_Out:
         """Read Zoom Workplace pricing plans and features"""
 
+    async def getDownloadLinks(self, os: Literal["mac"] | Literal["windows"] | Literal["linux"] | None = None, /) -> Prv_zoom_ZoomDownloadLinksResult_Out:
+        """Get the current Zoom desktop app, Zoom Rooms and plugin installer links and versions for
+        Mac, Windows or Linux
+        """
+
     async def getSystemStatus(self, /) -> Prv_zoom_ZoomSystemStatusResult_Out:
         """Read Zoom's current system status and per-component health"""
 
@@ -112645,6 +112837,7 @@ class BowmarkProviders(Protocol):
     rakuten: Prv_rakuten
     recreation_gov: Prv_recreation_gov
     recruitee: Prv_recruitee
+    redbull: Prv_redbull
     reddit: Prv_reddit
     redfin: Prv_redfin
     rei: Prv_rei

@@ -258,7 +258,7 @@ deepmind.google — deepmind: listBlogPosts, listPublications
 dell.com — dell: getOrderDetails, getProduct, getProductDrivers, getRegisteredProductDetails, getSavedCartDetails, listDealProducts, listMyOrders, listMyRegisteredProducts, listMySavedCarts, listProductCategories, listSupportCategories, searchForumThreads, searchProducts, searchSupport (+1 planned)
 deltadentalma.com — deltadentalma: lastUpdated, search
 dentalplans.com — dentalplans: getPlan, search
-detailxperts.com — detailxperts: checkServiceArea, getQuote, listVehicleTypes (+1 planned)
+detailxperts.com — detailxperts: nothing callable yet (+4 planned)
 deutschepost.de — deutschepost: getDialogpostRates
 dev.to — devto: getProfile, searchArticles
 developers.openai.com — developersopenai: getDocPage
@@ -622,6 +622,7 @@ rakuten.com — rakuten: getStore, search (+2 planned)
 reboot.floathelm.com — floathelm: createAccount, findStudio, getRoom, listAvailableSlots, listGiftCards, listLocations, listRooms, listStoreItems (+10 planned)
 recreation.gov — recreation_gov: campgroundAvailability, searchCampgrounds
 recruitee.com — recruitee: listJobs
+redbull.com — redbull: listEvents
 reddit.com — reddit: 40 functions — ask get_library (+2 planned)
 redfin.com — redfin: search
 registry.modelcontextprotocol.io — mcp_registry: search
@@ -695,10 +696,10 @@ solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updatePreferences (+6 planned)
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 spacest.com — spacest: nothing callable yet (+1 planned)
-spectrum.com — spectrum: checkMobileCoverage, getAccountBalance, getBillingHistory, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getOutageStatus, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listServiceAppointments, listTvAddOns, listTvPlans, restartEquipment, scheduleServiceAppointment, updateWifiNetwork (+2 planned)
+spectrum.com — spectrum: cancelServiceAppointment, checkMobileCoverage, getAccountBalance, getBillingHistory, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getOutageStatus, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listServiceAppointments, listTvAddOns, listTvPlans, restartEquipment, scheduleServiceAppointment, updateWifiNetwork (+2 planned)
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
-sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getPlayerNews, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, getTeamStats, listTeams, searchPlayers (+1 planned)
+sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getPlayerNews, getRankings, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamNews, getTeamRoster, getTeamStats, listTeams, searchPlayers (+1 planned)
 spotapps.co — spotapps: applyForJob, bookReservation, checkAvailability, findRestaurant, getCateringOptions, getMenu, getOnlineOrderMenu, getPrivatePartyOptions, getReservationSettings, joinMailingList, listJobs, requestCatering, requestPrivateParty, startOnlineOrder (+1 planned)
 square.site — square_online: getDeliveryTimes, getItemAvailability, getLoyaltyProgram, getMenuItem, getMyAccount, getPickupTimes, getSite, listCategories, listLocations, listMenuItems, listMyOrders, listMySubscriptions, listSubscriptionPlans (+6 planned)
 stackoverflow.com — stackoverflow: getQuestion, searchQuestions
@@ -802,11 +803,12 @@ waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)
 wearehirschfeld.com — wearehirschfeld: getContactForm, listPages
 weather.com — weather_channel: 27 functions — ask get_library (+2 planned)
+webpt.com — webpt: getPage, listPages, searchPages
 webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)
 westelm.com — westelm: searchProducts (+1 planned)
-whatsapp.com — whatsapp: checkNumber, createClickToChatLink, downloadMedia, findContact, getBlogPost, getChannel, getChannelUpdates, getChatMessages, getCommunity, getGroupInfo, getGroupInviteLink, getHelpArticle, getMyProfile, listBlogPosts, listChats, listContacts, listFollowedChannels, listStatusUpdates, previewBusinessCatalog, previewGroupInvite, searchChannels, searchHelpCenter, searchMessages (+21 planned)
+whatsapp.com — whatsapp: checkNumber, createClickToChatLink, downloadMedia, findContact, getBlogPost, getChannel, getChannelUpdates, getChatMessages, getCommunity, getGroupInfo, getGroupInviteLink, getHelpArticle, getMyProfile, listBlogPosts, listCatalogProducts, listChats, listContacts, listFollowedChannels, listStatusUpdates, previewBusinessCatalog, previewGroupInvite, searchChannels, searchHelpCenter, searchMessages, sendMessage (+19 planned)
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
 wikipedia.org — wikipedia: 40 functions — ask get_library
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)

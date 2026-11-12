@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 38389fdb9ef6595d7fd96c89d517fb8bbd37963e9c6e3e96429db11b820e5bbb
-// 97 capabilities, 815 providers, 4900 typed functions, 20 refused.
+// Manifest version: 2c52f13b3453b99fe8ac0d7bdca6da4c646a2aa774597a489a169f3889bf1b1f
+// 97 capabilities, 816 providers, 4909 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11318,6 +11318,60 @@ interface ListTodayStoriesResult {
   country: string;
   stories: AppStoreTodayStory[];
 }
+interface ListVersionHistoryArgs {
+  app: string | number;
+  country?: string;
+}
+interface AppStoreVersionHistoryEntry {
+  version: string;
+  releaseDate: string | null; // ISO 8601
+  notes: string;
+}
+interface ListVersionHistoryResult {
+  id: string;
+  country: string;
+  url: string;
+  versions: AppStoreVersionHistoryEntry[]; // newest first
+}
+interface ListAppEventsArgs {
+  app: string | number;
+  country?: string;
+}
+interface AppStoreAppEvent {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  detail: string | null;
+  kind: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  url: string | null;
+}
+interface ListAppEventsResult {
+  id: string;
+  country: string;
+  url: string;
+  events: AppStoreAppEvent[];
+}
+interface ListArcadeGamesArgs {
+  device?: AppStoreChartDevice;
+  country?: string;
+}
+interface AppStoreArcadeGame {
+  id: string;
+  name: string;
+  developer: string | null;
+  tagline: string | null;
+  ageRating: string | null;
+  rating: number | null;
+  shelf: string | null;
+  availability: string | null; // "Expected Dec 3, 2026" on a coming-soon game
+}
+interface ListArcadeGamesResult {
+  device: AppStoreChartDevice;
+  country: string;
+  games: AppStoreArcadeGame[];
+}
 type AppStoreReviewSort = "mostRecent" | "mostHelpful";
 interface ListReviewsArgs {
   app: string | number; // numeric id, bundle id, or apps.apple.com URL (its country segment picks the storefront)
@@ -11462,6 +11516,30 @@ interface ListReviewsResult {
      * door into getStory for an agent that holds no app yet, rather than one that already does.
      */
     listTodayStories(args?: ListTodayStoriesArgs): Promise<ListTodayStoriesResult>;
+
+    /**
+     * Read an app's update history the way its store page shows it — every recent release (about
+     * 25), newest first, each with its version number, release date and what the developer said
+     * changed. The read behind "did the last update break this" and "when did they add X". Shares
+     * getAppDetails' page cache, so calling both costs one fetch.
+     */
+    listVersionHistory(args: ListVersionHistoryArgs): Promise<ListVersionHistoryResult>;
+
+    /**
+     * List the in-app events an app is running or about to run — a game's weekend event, a
+     * challenge, a premiere — each with its title, description, Apple's label for it, start and
+     * end time and link. Answers "is anything on in this game this week". An app running no events
+     * returns an empty list.
+     */
+    listAppEvents(args: ListAppEventsArgs): Promise<ListAppEventsResult>;
+
+    /**
+     * List the games Apple is showing on its Apple Arcade page — what a subscription gets you,
+     * including games marked coming soon — each with its name, developer, tagline, age rating,
+     * star rating, the shelf it sits on, and the id getApp and getApps take. For iPhone, iPad or
+     * Mac, in any storefront.
+     */
+    listArcadeGames(args?: ListArcadeGamesArgs): Promise<ListArcadeGamesResult>;
 
     /**
      * List the apps the caller's own Apple Account has bought or downloaded, with what was paid
@@ -35159,6 +35237,7 @@ interface DropboxSharingMembers { members: DropboxSharingMember[]; hasMore: bool
 interface DropboxFileRequest { id: string; url: string; title: string; destination?: string; isOpen: boolean; fileCount?: number; created?: string; deadline?: string; description?: string }
 interface DropboxFileRequests { requests: DropboxFileRequest[]; hasMore: boolean }
 interface DropboxRevokedLink { url: string; revoked: true }
+interface DropboxSharingChange { target: string; members: string[]; done: true; results?: Array<{ member: string; ok: boolean; error?: string }> }
 
   /**
    * Dropbox, the cloud file storage service: open, list, read and download files and folders
@@ -35167,6 +35246,35 @@ interface DropboxRevokedLink { url: string; revoked: true }
    * shared links, share with people, and run file requests and transfers.
    */
   interface Unit {
+    /**
+     * Invites people (emails, or dbid:… account ids) to a file (`file`, a path or id:…) or a
+     * shared folder (`sharedFolderId`) in the signed-in caller's Dropbox, as viewers (default) or
+     * editors, with an optional message. Dropbox emails each invitee. For a file, `results` says
+     * per person whether it worked. Needs the caller's Dropbox sign-in.
+     */
+    shareWithPeople(input: { file?: string; sharedFolderId?: string; members: string[]; access?: "viewer" | "editor"; message?: string }, opts?: ConnectionOption): Promise<DropboxSharingChange>;
+
+    /**
+     * Takes one person's access (`member`: email or dbid:… from `listSharingMembers`) away from a
+     * file (`file`) or shared folder (`sharedFolderId`) in the signed-in caller's Dropbox. Needs
+     * the caller's Dropbox sign-in.
+     */
+    removeSharingMember(input: { file?: string; sharedFolderId?: string; member: string }, opts?: ConnectionOption): Promise<DropboxSharingChange>;
+
+    /**
+     * Makes a file request in the signed-in caller's Dropbox: a link (`url`) anyone can upload
+     * files to, landing in the folder `destination` (a full path). `deadline` is an ISO date-time.
+     * Returns the request with its id. Needs the caller's Dropbox sign-in.
+     */
+    createFileRequest(input: { title: string; destination: string; deadline?: string; description?: string }, opts?: ConnectionOption): Promise<DropboxFileRequest>;
+
+    /**
+     * Closes one of the signed-in caller's file requests (`id` from `listFileRequests` or
+     * `createFileRequest`) so its link stops accepting uploads, and returns it with isOpen false.
+     * Needs the caller's Dropbox sign-in.
+     */
+    closeFileRequest(input: { id: string }, opts?: ConnectionOption): Promise<DropboxFileRequest>;
+
     /**
      * Makes a shared link for the file or folder at `path` in the signed-in caller's Dropbox and
      * returns it (URL, kind, name, expiry, visibility). If the path already has a link, returns
@@ -80794,6 +80902,52 @@ interface RecruiteeBoard {
   }
 }
 
+declare namespace BowmarkProvider_redbull {
+  // ── Red Bull — the unit's own declarations, verbatim ──
+interface RedbullListEventsArgs {
+  query?: string;   // words that must all appear in the name, discipline, description or venue, e.g. "superbike"
+  country?: string; // two-letter ISO code of the event's country, e.g. "IT"
+  when?: "upcoming" | "past" | "all"; // default "upcoming" (not yet ended)
+  limit?: number;   // 1-200, default 20
+}
+interface RedbullEvent {
+  id: string;
+  name: string;
+  discipline: string | null;  // Red Bull's tag, e.g. "Superbike", "Red Bull Rookies Cup"
+  description: string | null;
+  startDate: string | null;   // ISO 8601
+  endDate: string | null;
+  status: string | null;      // e.g. "confirmed"
+  place: string | null;       // venue, e.g. "Mugello Circuit"
+  address: string | null;
+  countryCode: string | null; // e.g. "IT"
+  countryName: string | null;
+  url: string;                // the event page on redbull.com
+}
+interface RedbullEventList {
+  total: number | null;       // rows matching country/when before the text match
+  events: RedbullEvent[];
+  hasMore: boolean;
+}
+
+  /**
+   * Red Bull (redbull.com) — list Red Bull's own events (races, competitions, festivals:
+   * superbike, Rookies Cup, cliff diving, rally, surfing…) with name, discipline, dates, venue
+   * and country, filtered by country and free text, upcoming or past.
+   */
+  interface Unit {
+    /**
+     * Lists Red Bull's own events from redbull.com — races, competitions and festivals (superbike,
+     * motorbike racing, Red Bull Rookies Cup, rally, cliff diving, surfing, padel…) — with name,
+     * discipline, start and end date, venue, country and event page link. Filter by `country` (ISO
+     * code, e.g. "IT" for Italy), by free-text `query` matched against name, discipline,
+     * description and venue, and by `when` (upcoming by default, or past / all). Canceled events
+     * are left out. A real browser load, so expect 15-40 s.
+     */
+    listEvents(args?: RedbullListEventsArgs): Promise<RedbullEventList>;
+  }
+}
+
 declare namespace BowmarkProvider_reddit {
   // ── Reddit — the unit's own declarations, verbatim ──
 interface RedditPost {
@@ -104205,8 +104359,10 @@ interface VestiaireSearchResult { query: string; storefront: string; total: numb
      * Searches Vestiaire Collective listings by keyword, or by a Vestiaire search URL
      * (https://de.vestiairecollective.com/search/?q=…), on the German storefront in EUR unless the
      * URL or country/currency/language say otherwise. Returns each listing's name, brand,
-     * condition, seller country, price, sold flag and product URL, plus the total hit count. limit
-     * 1-100 (default 48), offset for paging.
+     * condition, seller country, price, sold flag and product URL, plus `total`, the site's own
+     * hit count — capped at 10,000, so a lower bound, not an exact count. A keyword with no real
+     * matches can still return unrelated listings, so check the names. limit 1-100 (default 48),
+     * offset for paging.
      */
     search(args: string | VestiaireSearchArgs): Promise<VestiaireSearchResult>;
   }
@@ -113297,6 +113453,25 @@ interface ZoomStatusComponent {
   status: string; // the site's own label, e.g. "operational"
 }
 
+interface ZoomDownload {
+  // the download centre's own product key, e.g. "zoom", "zoomArm64", "outlookPlugin"
+  product: string;
+  os: "mac" | "windows" | "linux";
+  version: string;
+  displayVersion: string | null;
+  archType: string | null;
+  // the installer file name, e.g. "zoomusInstallerFull.pkg"
+  installer: string;
+  // zoom.us/client/<version>/<installer>, which 302s to cdn.zoom.us
+  url: string;
+  // the admin (IT) installer, e.g. the .msi beside the .exe, when one exists
+  itUrl: string | null;
+}
+
+interface ZoomDownloadLinksResult {
+  downloads: ZoomDownload[];
+}
+
 interface ZoomSystemStatusResult {
   indicator: string; // "none" | "minor" | "major" | "critical" — the site's own rollup
   description: string;
@@ -113438,6 +113613,12 @@ interface ZoomProfile {
   interface Unit {
     /** Read Zoom Workplace pricing plans and features */
     getPricing(): Promise<ZoomPricingResult>;
+
+    /**
+     * Get the current Zoom desktop app, Zoom Rooms and plugin installer links and versions for
+     * Mac, Windows or Linux
+     */
+    getDownloadLinks(os?: "mac" | "windows" | "linux"): Promise<ZoomDownloadLinksResult>;
 
     /** Read Zoom's current system status and per-component health */
     getSystemStatus(): Promise<ZoomSystemStatusResult>;
@@ -115161,6 +115342,7 @@ interface BowmarkProviders {
   rakuten: BowmarkProvider_rakuten.Unit;
   recreation_gov: BowmarkProvider_recreation_gov.Unit;
   recruitee: BowmarkProvider_recruitee.Unit;
+  redbull: BowmarkProvider_redbull.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   redfin: BowmarkProvider_redfin.Unit;
   rei: BowmarkProvider_rei.Unit;

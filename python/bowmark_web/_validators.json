@@ -1,5 +1,5 @@
 {
-  "version": "38389fdb9ef6595d7fd96c89d517fb8bbd37963e9c6e3e96429db11b820e5bbb",
+  "version": "2c52f13b3453b99fe8ac0d7bdca6da4c646a2aa774597a489a169f3889bf1b1f",
   "units": {
     "address_validation": {
       "defs": {
@@ -14024,6 +14024,53 @@
             }
           ]
         },
+        "ListAppEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "app",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListArcadeGamesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "device",
+              "schema": {
+                "k": "ref",
+                "name": "AppStoreChartDevice"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListDeveloperAppsArgs": {
           "k": "object",
           "props": [
@@ -14231,6 +14278,33 @@
             }
           ]
         },
+        "ListVersionHistoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "app",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchAppsArgs": {
           "k": "object",
           "props": [
@@ -14379,6 +14453,36 @@
             "schema": {
               "k": "ref",
               "name": "ListTodayStoriesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listVersionHistory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVersionHistoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listAppEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListAppEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listArcadeGames": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListArcadeGamesArgs"
             },
             "optional": true
           }
@@ -43693,6 +43797,218 @@
     "providers.dropbox": {
       "defs": {},
       "functions": {
+        "shareWithPeople": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "file",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sharedFolderId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "members",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "access",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "viewer"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "editor"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "message",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeSharingMember": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "file",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sharedFolderId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "member",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createFileRequest": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "destination",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "deadline",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "closeFileRequest": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "createSharedLink": [
           {
             "name": "input",
@@ -107866,6 +108182,69 @@
         ]
       }
     },
+    "providers.redbull": {
+      "defs": {
+        "RedbullListEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "when",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "upcoming"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "past"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RedbullListEventsArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.reddit": {
       "defs": {},
       "functions": {
@@ -155151,6 +155530,29 @@
       "defs": {},
       "functions": {
         "getPricing": [],
+        "getDownloadLinks": [
+          {
+            "name": "os",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "mac"
+                },
+                {
+                  "k": "literal",
+                  "v": "windows"
+                },
+                {
+                  "k": "literal",
+                  "v": "linux"
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getSystemStatus": [],
         "joinMeeting": [
           {
