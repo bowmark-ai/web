@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2c52f13b3453b99fe8ac0d7bdca6da4c646a2aa774597a489a169f3889bf1b1f
-# 97 capabilities, 816 providers, 4891 typed functions, 20 refused.
+# Manifest version: bb172fd6edd49d98ceff7a1996dd5bd68703ad763e673db0709a25958a2b9e59
+# 97 capabilities, 817 providers, 4905 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -37404,24 +37404,6 @@ class Prv_linkedin_LinkedinMemberProfile_Out_education_item_Out(TypedDict):
     startDate: str | None
     endDate: str | None
 
-class Prv_linkedin_LinkedinMemberSkills_Out(TypedDict):
-    slug: str
-    profileUrn: str
-    skills: list[Prv_linkedin_LinkedinMemberSkills_Out_skills_item_Out]
-    certifications: list[Prv_linkedin_LinkedinMemberSkills_Out_certifications_item_Out]
-
-class Prv_linkedin_LinkedinMemberSkills_Out_skills_item_Out(TypedDict):
-    name: str
-    endorsements: float | None
-
-class Prv_linkedin_LinkedinMemberSkills_Out_certifications_item_Out(TypedDict):
-    name: str
-    issuer: str | None
-    issued: str | None
-    expires: str | None
-    credentialId: str | None
-    url: str | None
-
 class Prv_linkedin_searchMembers_input_u1_In(TypedDict):
     keywords: str
     currentCompany: NotRequired[str | Sequence[str]]
@@ -45676,6 +45658,15 @@ class Prv_patreon_DeleteCommentArgs_In(TypedDict):
 class Prv_patreon_DeleteCommentResult_Out(TypedDict):
     commentId: str
     deleted: bool
+
+class Prv_patreon_UnfollowCreatorArgs_In(TypedDict):
+    vanity: str
+
+class Prv_patreon_UnfollowCreatorResult_Out(TypedDict):
+    vanity: str
+    creatorId: str
+    following: Literal[False]
+    wasFollowing: bool
 
 class Prv_patreon_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -56736,6 +56727,14 @@ class Prv_spectrum_SpectrumAppointmentListing_Out(TypedDict):
     technicianTrackingUrl: str | None
     createdAt: str | None
 
+class Prv_spectrum_SpectrumCancelAppointmentArgs_In(TypedDict):
+    appointmentId: str
+
+class Prv_spectrum_SpectrumAppointmentCancellation_Out(TypedDict):
+    appointmentId: str
+    cancelled: bool
+    message: str | None
+
 class Prv_spectrum_SpectrumEquipment_Out(TypedDict):
     id: str | None
     connectionState: str | None
@@ -60852,6 +60851,28 @@ class Prv_temu_TemuWishlistSave_Out(TypedDict):
     productId: str
     saved: Literal[True]
 
+class Prv_temu_ListWishlistArgs_In(TypedDict):
+    cursor: NotRequired[str]
+
+class Prv_temu_TemuWishlist_Out(TypedDict):
+    items: list[Prv_temu_TemuWishlistItem_Out]
+    cursor: NotRequired[str]
+
+class Prv_temu_TemuWishlistItem_Out(TypedDict):
+    productId: str
+    title: str
+    url: NotRequired[str]
+    price: NotRequired[str]
+    imageUrl: NotRequired[str]
+
+class Prv_temu_RemoveFromWishlistArgs_In(TypedDict):
+    productId: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_temu_TemuWishlistRemoval_Out(TypedDict):
+    productId: str
+    removed: Literal[True]
+
 class Prv_temu_AddToCartArgs_In(TypedDict):
     productId: NotRequired[str]
     url: NotRequired[str]
@@ -63990,6 +64011,22 @@ class Prv_tumblr_TumblrNotification_Out(TypedDict):
     postId: str | None
     text: str
     at: str | None
+
+class Prv_tumblr_TumblrAsksArgs_In(TypedDict):
+    blog: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_tumblr_TumblrAsksPage_Out(TypedDict):
+    asks: list[Prv_tumblr_TumblrPost_Out]
+    nextOffset: float | None
+
+class Prv_tumblr_TumblrTagArgs_In(TypedDict):
+    tag: str
+
+class Prv_tumblr_TumblrTagResult_Out(TypedDict):
+    ok: Literal[True]
+    tag: str
 
 class Prv_turbotax_TurboTaxEdition_Out(TypedDict):
     id: str
@@ -67665,6 +67702,40 @@ class Prv_weather_channel_TropicalTrackPoint_Out(TypedDict):
     speed: float | None
     headline: list[str]
 
+class Prv_webpt_webptListPagesArgs_In(TypedDict):
+    section: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_webpt_webptPageRef_Out(TypedDict):
+    url: str
+    path: str
+    section: str
+    slugTitle: str
+    lastModified: str | None
+
+class Prv_webpt_webptSearchPagesArgs_In(TypedDict):
+    query: str
+    section: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_webpt_webptGetPageArgs_u1_In(TypedDict):
+    url: str
+
+class Prv_webpt_webptPage_Out(TypedDict):
+    requestedUrl: str
+    url: str
+    redirected: bool
+    redirectedToHome: bool
+    title: str
+    description: str | None
+    h1: str | None
+    headings: list[Prv_webpt_webptHeading_Out]
+    text: str
+
+class Prv_webpt_webptHeading_Out(TypedDict):
+    level: float
+    text: str
+
 class Prv_webshare_WebsharePlanTier_Out(TypedDict):
     productType: Literal["residential"] | Literal["staticResidential"] | Literal["datacenter"]
     tab: str
@@ -68079,6 +68150,18 @@ class Prv_whatsapp_WhatsappChannelUpdate_Out(TypedDict):
     time: str | None
     type: Literal["text"] | Literal["image"] | Literal["video"] | Literal["poll"] | Literal["other"]
     reactions: list[str]
+
+class Prv_whatsapp_WhatsappSentMessage_Out(TypedDict):
+    chat: str
+    text: str
+    id: str | None
+    time: str | None
+
+class Prv_whatsapp_WhatsappCatalogProduct_Out(TypedDict):
+    name: str
+    price: str | None
+    description: str | None
+    imageUrl: str | None
 
 class Prv_whatsapp_WhatsappStatusUpdate_Out(TypedDict):
     name: str
@@ -70319,6 +70402,48 @@ class Prv_yahoo_sports_YahooSportsRosterRow_Out(TypedDict):
     jerseyNumber: str | None
     url: str
 
+class Prv_yahoo_sports_GetRankingsArgs_In(TypedDict):
+    league: NotRequired[Literal["college-football"] | Literal["college-basketball"]]
+    poll: NotRequired[str]
+    date: NotRequired[str]
+
+class Prv_yahoo_sports_YahooSportsRankings_Out(TypedDict):
+    league: str
+    poll: str
+    pollName: str | None
+    date: str | None
+    week: float | None
+    rankings: list[Prv_yahoo_sports_YahooSportsRankingRow_Out]
+
+class Prv_yahoo_sports_YahooSportsRankingRow_Out(TypedDict):
+    rank: float
+    previousRank: float | None
+    team: str
+    teamId: str | None
+    teamUrl: str | None
+    wins: float | None
+    losses: float | None
+    points: float | None
+
+class Prv_yahoo_sports_GetTeamNewsArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    teamSlug: str
+
+class Prv_yahoo_sports_YahooSportsTeamNews_Out(TypedDict):
+    league: str
+    teamSlug: str
+    stories: list[Prv_yahoo_sports_YahooSportsPlayerNewsItem_Out]
+    videos: list[Prv_yahoo_sports_YahooSportsPlayerNewsItem_Out]
+
+class Prv_yahoo_sports_YahooSportsPlayerNewsItem_Out(TypedDict):
+    headline: str
+    url: str
+    sourceUrl: str | None
+    provider: str | None
+    author: str | None
+    published: str | None
+    summary: str | None
+
 class Prv_yahoo_sports_GetTeamStatsArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
     teamSlug: str
@@ -70351,15 +70476,6 @@ class Prv_yahoo_sports_YahooSportsPlayerNews_Out(TypedDict):
     playerUrl: str
     stories: list[Prv_yahoo_sports_YahooSportsPlayerNewsItem_Out]
     videos: list[Prv_yahoo_sports_YahooSportsPlayerNewsItem_Out]
-
-class Prv_yahoo_sports_YahooSportsPlayerNewsItem_Out(TypedDict):
-    headline: str
-    url: str
-    sourceUrl: str | None
-    provider: str | None
-    author: str | None
-    published: str | None
-    summary: str | None
 
 class Prv_yahoo_sports_FindPlayersArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -93476,24 +93592,6 @@ class Prv_linkedin(Protocol):
         { pacing: "fast" } as an extra last argument; ask them first.
         """
 
-    async def getProfileSkills(self, profile: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinMemberSkills_Out:
-        """Returns the skills and the licences and certifications one member lists on their
-        LinkedIn profile, from a profile URL or slug: each skill by name with its endorsement
-        count, and each certification with its issuer, issue and expiry month, credential id and
-        link. The read a recruiter vetting a candidate needs — getProfile and getProfileDetails
-        both leave it out. Three requests: the profile lookup, then its skills, then its
-        certifications. Full profiles draw on a per-account reserve of 80 that refills about 3
-        an hour, and about 7 fit in one run. To learn where many connections work, read the
-        headline listConnections returns (up to 100 people per call) and call this only for the
-        rest. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the
-        run pauses and hands back a link where they sign in. Paced per LinkedIn account across
-        runs to keep the account inside LinkedIn's own limits — 6 requests a minute, and a
-        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
-        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
-        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
-        extra last argument; ask them first.
-        """
-
     async def searchMembers(self, input: str | Prv_linkedin_searchMembers_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
         """LinkedIn's own people search, run as the caller: keywords plus optional filters —
         current company (numeric ids from searchCompanies), job title, a location by name, and
@@ -94044,14 +94142,13 @@ class Prv_linkedin(Protocol):
         """
 
     async def addProfileSkill(self, input: str | Prv_linkedin_addProfileSkill_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_addProfileSkill_return_Out:
-        """Adds one skill to the caller's own profile — the write half of getProfileSkills. Signed
-        in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
-        hands back a link where they sign in. Paced per LinkedIn account across runs to keep the
-        account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that
-        refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
-        the pace throws LinkedinRateLimited saying when to retry: wait that long. The account
-        owner may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask
-        them first.
+        """Adds one skill to the caller's own profile. Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits
+        — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+        minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
+        saying when to retry: wait that long. The account owner may opt into faster pacing with
+        { pacing: "fast" } as an extra last argument; ask them first.
         """
 
     async def replyToComment(self, input: Prv_linkedin_replyToComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinPostResult_Out:
@@ -98402,6 +98499,11 @@ class Prv_patreon(Protocol):
     async def deleteComment(self, args: Prv_patreon_DeleteCommentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_patreon_DeleteCommentResult_Out:
         """Delete one of the signed-in caller's own comments, by its id. Needs the caller signed
         in.
+        """
+
+    async def unfollowCreator(self, args: Prv_patreon_UnfollowCreatorArgs_In, opts: ConnectionOption | None = None, /) -> Prv_patreon_UnfollowCreatorResult_Out:
+        """Stop following a creator as the signed-in caller — ends Patreon's free membership; says
+        whether there was one. Needs the caller signed in.
         """
 
     async def signup(self, args: Any, /) -> Prv_patreon_signup_return_u0_Out | Prv_patreon_signup_return_u1_Out | Prv_patreon_signup_return_u2_Out | Prv_patreon_signup_return_u3_Out:
@@ -103246,6 +103348,11 @@ class Prv_shein(Protocol):
         product has no chart (one-size items).
         """
 
+    async def listNewArrivals(self, /) -> list[Prv_shein_sheinProduct_Out]:
+        """The products on Shein's New In page — title, price, image and product page URL for each,
+        newest first as the page orders them.
+        """
+
 class Prv_shop_app(Protocol):
     """Shop (Shopify's shopping app) — search products across every Shopify store, read a
     product with its variants, reviews and delivery estimate, and browse a store's
@@ -104218,6 +104325,13 @@ class Prv_spectrum(Protocol):
         one's time window, status, reason, whether it can still be cancelled or rescheduled, and
         the live technician-tracking link when there is one, read off spectrum.net's own account
         GraphQL. Needs the caller signed in to spectrum.net.
+        """
+
+    async def cancelServiceAppointment(self, args: Prv_spectrum_SpectrumCancelAppointmentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_spectrum_SpectrumAppointmentCancellation_Out:
+        """Cancel one of the signed-in caller's Spectrum technician visits, by the appointmentId
+        listServiceAppointments returns, through spectrum.net's own account GraphQL — the same
+        call as its "Cancel appointment" button. Only a visit listServiceAppointments marks
+        cancelAllowed can be cancelled. Needs the caller signed in to spectrum.net.
         """
 
     async def getEquipmentStatus(self, opts: ConnectionOption | None = None, /) -> list[Prv_spectrum_SpectrumEquipment_Out]:
@@ -106023,6 +106137,16 @@ class Prv_temu(Protocol):
         product url. Needs the caller signed in.
         """
 
+    async def listWishlist(self, args: Prv_temu_ListWishlistArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_temu_TemuWishlist_Out:
+        """The products the caller saved to their Temu wishlist, 20 a page; pass the answer's
+        cursor back for the next page. Needs the caller signed in.
+        """
+
+    async def removeFromWishlist(self, args: Prv_temu_RemoveFromWishlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_temu_TemuWishlistRemoval_Out:
+        """Removes one Temu product from the caller's own wishlist, by its productId (goods_id) or
+        product url. Needs the caller signed in.
+        """
+
     async def addToCart(self, args: Prv_temu_AddToCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_temu_TemuCartChange_Out:
         """Adds one Temu product variant (productId or product url, plus its skuId) to the caller's
         own cart, quantity 1 unless given. Needs the caller signed in; never checks out.
@@ -107801,6 +107925,17 @@ class Prv_tumblr(Protocol):
         """Activity on the signed-in caller's own blog — who liked, reblogged, replied to or
         followed it — cursor paged.
         """
+
+    async def listAsks(self, args: Prv_tumblr_TumblrAsksArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrAsksPage_Out:
+        """The asks and submissions waiting in the signed-in caller's own blog inbox, paged by
+        offset.
+        """
+
+    async def followTag(self, args: Prv_tumblr_TumblrTagArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrTagResult_Out:
+        """Follow a hashtag so its posts show on the signed-in caller's dashboard."""
+
+    async def unfollowTag(self, args: Prv_tumblr_TumblrTagArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrTagResult_Out:
+        """Stop following a hashtag on the signed-in caller's account."""
 
 class Prv_turbotax(Protocol):
     """List TurboTax editions, compare pricing, search help articles, and find local tax
@@ -109713,6 +109848,31 @@ class Prv_weather_channel(Protocol):
         whole season. Empty `storms` for a season the site has nothing for.
         """
 
+class Prv_webpt(Protocol):
+    """WebPT (webpt.com), the physical-therapy EMR vendor: list/search every public page on its
+    site (products, pricing, blog, webinars, guides) and read any page as clean text,
+    flagging retired URLs that redirect to the homepage.
+    """
+
+    async def listPages(self, args: Prv_webpt_webptListPagesArgs_In | None = None, /) -> list[Prv_webpt_webptPageRef_Out]:
+        """Lists pages from WebPT's own sitemap (~2,000), optionally one section: "pages"
+        (top-level product/pricing pages), "products", "blog", "webinars", "downloads",
+        "guides", "customers", "podcast", "about". Default limit 200.
+        """
+
+    async def searchPages(self, args: Prv_webpt_webptSearchPagesArgs_In, /) -> list[Prv_webpt_webptPageRef_Out]:
+        """Finds WebPT pages whose URL matches the query's words (e.g. 'online scheduling',
+        'billing', 'medicare'), ranked by how many of the words the URL carries; among equal
+        matches, product and pricing pages come before blog posts. Default limit 20. Read one
+        with getPage.
+        """
+
+    async def getPage(self, args: str | Prv_webpt_webptGetPageArgs_u1_In, /) -> Prv_webpt_webptPage_Out:
+        """Reads one webpt.com page (URL or path): title, meta description, headings and body text.
+        `redirected`/`redirectedToHome` say when a retired URL was sent elsewhere instead of
+        returning the homepage as if it were the page.
+        """
+
 class Prv_webshare(Protocol):
     """Webshare's own published proxy pricing (webshare.io) — rotating residential, static
     residential and datacenter plan tiers, every pricing tab without clicking.
@@ -109983,6 +110143,18 @@ class Prv_whatsapp(Protocol):
         exact displayed name (from listFollowedChannels): each update's id, text, time label,
         type (text, image, video, poll) and reactions, oldest to newest. Needs the caller signed
         in.
+        """
+
+    async def sendMessage(self, chatName: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMessage_Out:
+        """Sends a text message as the caller to a chat opened by its exact displayed name (from
+        listChats or findContact), and returns the sent row's id and time label. A retried run
+        never sends twice. Needs the caller signed in.
+        """
+
+    async def listCatalogProducts(self, numberOrUrl: str, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappCatalogProduct_Out]:
+        """Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the
+        number) as WhatsApp Web's catalog panel shows them: each product's name, price label,
+        description and image. Needs the caller signed in.
         """
 
     async def listStatusUpdates(self, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappStatusUpdate_Out]:
@@ -111162,6 +111334,21 @@ class Prv_yahoo_sports(Protocol):
         position, jersey number and status. Takes league and team slug. teamSlug is a slug
         (listTeams/getStandings `slug`, getPlayer/getInjuries `teamSlug`) or an exact team
         name/abbreviation such as getOdds' `abbr` ("IND").
+        """
+
+    async def getRankings(self, args: Prv_yahoo_sports_GetRankingsArgs_In, /) -> Prv_yahoo_sports_YahooSportsRankings_Out:
+        """Reads a college poll — who is ranked — the way Yahoo's own Rankings page does:
+        college-football AP Top 25 (default), Coaches or CFB (the College Football Playoff
+        selection committee); college-basketball AP Top 25 or USA_TODAY_ESPN. Each row has rank,
+        last week's rank, team, record and poll points. Optional date (YYYY-MM-DD) reads the
+        poll in force that day.
+        """
+
+    async def getTeamNews(self, args: Prv_yahoo_sports_GetTeamNewsArgs_In, /) -> Prv_yahoo_sports_YahooSportsTeamNews_Out:
+        """Reads one team's own News tab — the latest stories about that team (headline, Yahoo url,
+        publisher, author, time, summary; the first page, about five) and the team's video rail.
+        Answers "any Chiefs news". teamSlug is listTeams/getStandings `slug` or an exact team
+        name/abbreviation. For a whole league use getNews; for one player use getPlayerNews.
         """
 
     async def getTeamStats(self, args: Prv_yahoo_sports_GetTeamStatsArgs_In, /) -> Prv_yahoo_sports_YahooSportsTeamStats_Out:
@@ -113018,6 +113205,7 @@ class BowmarkProviders(Protocol):
     wayfair: Prv_wayfair
     wearehirschfeld: Prv_wearehirschfeld
     weather_channel: Prv_weather_channel
+    webpt: Prv_webpt
     webshare: Prv_webshare
     wellfound: Prv_wellfound
     wellnessliving: Prv_wellnessliving

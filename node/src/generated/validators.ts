@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2c52f13b3453b99fe8ac0d7bdca6da4c646a2aa774597a489a169f3889bf1b1f
-// 4891 checked, 20 unchecked.
+// Manifest version: bb172fd6edd49d98ceff7a1996dd5bd68703ad763e673db0709a25958a2b9e59
+// 4905 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2c52f13b3453b99fe8ac0d7bdca6da4c646a2aa774597a489a169f3889bf1b1f",
+  "version": "bb172fd6edd49d98ceff7a1996dd5bd68703ad763e673db0709a25958a2b9e59",
   "units": {
     "address_validation": {
       "defs": {
@@ -77551,31 +77551,6 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
-        "getProfileSkills": [
-          {
-            "name": "profile",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
-          }
-        ],
         "searchMembers": [
           {
             "name": "input",
@@ -97718,6 +97693,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "UnfollowCreatorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "vanity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "UnlikePostArgs": {
           "k": "object",
           "props": [
@@ -98002,6 +97989,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "DeleteCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowCreator": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UnfollowCreatorArgs"
             },
             "optional": false
           },
@@ -119206,7 +119219,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listNewArrivals": []
       }
     },
     "providers.shop_app": {
@@ -122670,6 +122684,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.spectrum": {
       "defs": {
+        "SpectrumCancelAppointmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appointmentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SpectrumRestartEquipmentArgs": {
           "k": "object",
           "props": [
@@ -122938,6 +122964,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listServiceAppointments": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelServiceAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpectrumCancelAppointmentArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -131259,6 +131311,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListWishlistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "RemoveFromCartArgs": {
           "k": "object",
           "props": [
@@ -131287,6 +131351,25 @@ export const VALIDATORS: ValidatorTable = {
               "name": "quantity",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "RemoveFromWishlistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -131475,6 +131558,58 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AddToWishlistArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWishlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListWishlistArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromWishlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RemoveFromWishlistArgs"
             },
             "optional": false
           },
@@ -137194,6 +137329,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.tumblr": {
       "defs": {
+        "TumblrAsksArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "blog",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TumblrBlogPostsArgs": {
           "k": "object",
           "props": [
@@ -137679,6 +137840,18 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "TumblrTagArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "tag",
               "schema": {
                 "k": "string"
               },
@@ -138237,6 +138410,84 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "TumblrNotificationsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listAsks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrAsksArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followTag": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrTagArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowTag": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrTagArgs"
             },
             "optional": false
           },
@@ -145761,6 +146012,107 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.webpt": {
+      "defs": {
+        "webptGetPageArgs": {
+          "k": "union",
+          "of": [
+            {
+              "k": "string"
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            }
+          ]
+        },
+        "webptListPagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "webptSearchPagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listPages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "webptListPagesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchPages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "webptSearchPagesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "webptGetPageArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.webshare": {
       "defs": {
         "WebshareProductType": {
@@ -146588,6 +146940,63 @@ export const VALIDATORS: ValidatorTable = {
         "getChannelUpdates": [
           {
             "name": "channelName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendMessage": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listCatalogProducts": [
+          {
+            "name": "numberOrUrl",
             "schema": {
               "k": "string"
             },
@@ -151500,6 +151909,42 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetRankingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "poll",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetRssFeedArgs": {
           "k": "object",
           "props": [
@@ -151711,6 +152156,51 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetTeamNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "teamSlug",
               "schema": {
                 "k": "string"
               },
@@ -151979,6 +152469,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetTeamRosterArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRankings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetRankingsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTeamNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTeamNewsArgs"
             },
             "optional": false
           }

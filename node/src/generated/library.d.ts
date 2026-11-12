@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2c52f13b3453b99fe8ac0d7bdca6da4c646a2aa774597a489a169f3889bf1b1f
-// 97 capabilities, 816 providers, 4909 typed functions, 20 refused.
+// Manifest version: bb172fd6edd49d98ceff7a1996dd5bd68703ad763e673db0709a25958a2b9e59
+// 97 capabilities, 817 providers, 4923 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -60190,14 +60190,6 @@ interface LinkedinMemberProfile extends LinkedinMember {
                fieldOfStudy: string | null; startDate: string | null; endDate: string | null }[];
 }
 
-interface LinkedinMemberSkills {
-  slug: string;
-  profileUrn: string;
-  skills: { name: string; endorsements: number | null }[];
-  certifications: { name: string; issuer: string | null; issued: string | null;  // "2021-06" or "2021"
-                    expires: string | null; credentialId: string | null; url: string | null }[];
-}
-
 interface LinkedinSearchMember {
   id: string | null;
   publicIdentifier: string | null;
@@ -60662,24 +60654,6 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * first.
      */
     getProfileDetails(profile: string, opts?: ConnectionOption): Promise<LinkedinMemberProfile>;
-
-    /**
-     * Returns the skills and the licences and certifications one member lists on their LinkedIn
-     * profile, from a profile URL or slug: each skill by name with its endorsement count, and each
-     * certification with its issuer, issue and expiry month, credential id and link. The read a
-     * recruiter vetting a candidate needs — getProfile and getProfileDetails both leave it out.
-     * Three requests: the profile lookup, then its skills, then its certifications. Full profiles
-     * draw on a per-account reserve of 80 that refills about 3 an hour, and about 7 fit in one
-     * run. To learn where many connections work, read the headline listConnections returns (up to
-     * 100 people per call) and call this only for the rest. Signed in: acts as the caller's own
-     * LinkedIn account; with no saved sign-in the run pauses and hands back a link where they sign
-     * in. Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits
-     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
-     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
-     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
-     * "fast" } as an extra last argument; ask them first.
-     */
-    getProfileSkills(profile: string, opts?: ConnectionOption): Promise<LinkedinMemberSkills>;
 
     /**
      * LinkedIn's own people search, run as the caller: keywords plus optional filters — current
@@ -61255,13 +61229,13 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
     subscribeToNewsletter(input: string | { newsletter: string; subscribe?: boolean }, opts?: ConnectionOption): Promise<{ subscribed: boolean }>;
 
     /**
-     * Adds one skill to the caller's own profile — the write half of getProfileSkills. Signed in:
-     * acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands
-     * back a link where they sign in. Paced per LinkedIn account across runs to keep the account
-     * inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about
-     * 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
-     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * Adds one skill to the caller's own profile. Signed in: acts as the caller's own LinkedIn
+     * account; with no saved sign-in the run pauses and hands back a link where they sign in.
+     * Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
      */
     addProfileSkill(input: string | { skill: string }, opts?: ConnectionOption): Promise<{ added: string; id: string | null }>;
 
@@ -74245,6 +74219,17 @@ interface FollowCreatorResult {
   startedAt?: string;
 }
 
+interface UnfollowCreatorArgs {
+  vanity: string;
+}
+
+interface UnfollowCreatorResult {
+  vanity: string;
+  creatorId: string;
+  following: false;
+  wasFollowing: boolean;
+}
+
 interface ListCreatorShopArgs {
   vanity: string;
   cursor?: string;
@@ -74375,6 +74360,12 @@ interface DeleteCommentResult {
 
     /** Delete one of the signed-in caller's own comments, by its id. Needs the caller signed in. */
     deleteComment(args: DeleteCommentArgs, opts?: ConnectionOption): Promise<DeleteCommentResult>;
+
+    /**
+     * Stop following a creator as the signed-in caller — ends Patreon's free membership; says
+     * whether there was one. Needs the caller signed in.
+     */
+    unfollowCreator(args: UnfollowCreatorArgs, opts?: ConnectionOption): Promise<UnfollowCreatorResult>;
 
     /**
      * Makes a NEW Patreon account with the person's own email and password, in a session. Pauses
@@ -87922,6 +87913,12 @@ interface sheinSizeGuide {
      * chart (one-size items).
      */
     getSizeGuide(args: SheinGetProductArgs): Promise<sheinSizeGuide>;
+
+    /**
+     * The products on Shein's New In page — title, price, image and product page URL for each,
+     * newest first as the page orders them.
+     */
+    listNewArrivals(): Promise<sheinProduct[]>;
   }
 }
 
@@ -90672,6 +90669,14 @@ interface SpectrumAppointmentListing {
   technicianTrackingUrl: string | null;  // live "where is my technician" link
   createdAt: string | null;
 }
+interface SpectrumCancelAppointmentArgs {
+  appointmentId: string;  // the id listServiceAppointments returns
+}
+interface SpectrumAppointmentCancellation {
+  appointmentId: string;
+  cancelled: boolean;
+  message: string | null;  // spectrum.net's own message, when it sends one
+}
 
   /**
    * Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check address
@@ -90815,6 +90820,14 @@ interface SpectrumAppointmentListing {
      * Needs the caller signed in to spectrum.net.
      */
     listServiceAppointments(opts?: ConnectionOption): Promise<SpectrumAppointmentListing[]>;
+
+    /**
+     * Cancel one of the signed-in caller's Spectrum technician visits, by the appointmentId
+     * listServiceAppointments returns, through spectrum.net's own account GraphQL — the same call
+     * as its "Cancel appointment" button. Only a visit listServiceAppointments marks cancelAllowed
+     * can be cancelled. Needs the caller signed in to spectrum.net.
+     */
+    cancelServiceAppointment(args: SpectrumCancelAppointmentArgs, opts?: ConnectionOption): Promise<SpectrumAppointmentCancellation>;
 
     /**
      * The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with each
@@ -96414,6 +96427,11 @@ interface TemuPackage { packageId?: string; carrier?: string; trackingNumber?: s
 interface TemuTracking { orderId: string; packages: TemuPackage[]; }
 interface AddToWishlistArgs { productId?: string; url?: string; }
 interface TemuWishlistSave { productId: string; saved: true; }
+interface ListWishlistArgs { cursor?: string; }
+interface TemuWishlistItem { productId: string; title: string; url?: string; price?: string; imageUrl?: string; }
+interface TemuWishlist { items: TemuWishlistItem[]; cursor?: string; }
+interface RemoveFromWishlistArgs { productId?: string; url?: string; }
+interface TemuWishlistRemoval { productId: string; removed: true; }
 interface AddToCartArgs { productId?: string; url?: string; skuId: string; quantity?: number; }
 interface UpdateCartArgs { productId?: string; url?: string; skuId: string; quantity: number; fromQuantity?: number; }
 interface RemoveFromCartArgs { productId?: string; url?: string; skuId: string; quantity?: number; }
@@ -96455,6 +96473,18 @@ interface TemuReview { orderId: string; productId: string; rating: number; revie
      * url. Needs the caller signed in.
      */
     addToWishlist(args: AddToWishlistArgs, opts?: ConnectionOption): Promise<TemuWishlistSave>;
+
+    /**
+     * The products the caller saved to their Temu wishlist, 20 a page; pass the answer's cursor
+     * back for the next page. Needs the caller signed in.
+     */
+    listWishlist(args?: ListWishlistArgs, opts?: ConnectionOption): Promise<TemuWishlist>;
+
+    /**
+     * Removes one Temu product from the caller's own wishlist, by its productId (goods_id) or
+     * product url. Needs the caller signed in.
+     */
+    removeFromWishlist(args: RemoveFromWishlistArgs, opts?: ConnectionOption): Promise<TemuWishlistRemoval>;
 
     /**
      * Adds one Temu product variant (productId or product url, plus its skuId) to the caller's own
@@ -101354,6 +101384,31 @@ interface TumblrNotificationsPage {
   nextCursor: string | null;
 }
 
+interface TumblrAsksArgs {
+  /** The signed-in caller's own blog. */
+  blog: string;
+  limit?: number;
+  offset?: number;
+}
+
+interface TumblrAsksPage {
+  /** Asks and submissions waiting in the inbox, as post rows. */
+  asks: TumblrPost[];
+  /** Pass as offset for the next page, or null on the last. */
+  nextOffset: number | null;
+}
+
+interface TumblrTagArgs {
+  /** The hashtag, "cats" or "#cats". */
+  tag: string;
+}
+
+interface TumblrTagResult {
+  ok: true;
+  /** The tag as sent, without the "#". */
+  tag: string;
+}
+
   /**
    * Tumblr's public API — blog info, posts, tag timelines, trending, and site-wide or
    * blog-scoped search.
@@ -101484,6 +101539,15 @@ interface TumblrNotificationsPage {
      * it — cursor paged.
      */
     listNotifications(args: TumblrNotificationsArgs, opts?: ConnectionOption): Promise<TumblrNotificationsPage>;
+
+    /** The asks and submissions waiting in the signed-in caller's own blog inbox, paged by offset. */
+    listAsks(args: TumblrAsksArgs, opts?: ConnectionOption): Promise<TumblrAsksPage>;
+
+    /** Follow a hashtag so its posts show on the signed-in caller's dashboard. */
+    followTag(args: TumblrTagArgs, opts?: ConnectionOption): Promise<TumblrTagResult>;
+
+    /** Stop following a hashtag on the signed-in caller's account. */
+    unfollowTag(args: TumblrTagArgs, opts?: ConnectionOption): Promise<TumblrTagResult>;
   }
 }
 
@@ -107011,6 +107075,60 @@ interface CMSContent {
   }
 }
 
+declare namespace BowmarkProvider_webpt {
+  // ── WebPT — the unit's own declarations, verbatim ──
+interface webptPageRef {
+  url: string;
+  path: string;
+  section: string;
+  slugTitle: string;
+  lastModified: string | null;
+}
+interface webptHeading { level: number; text: string; }
+interface webptPage {
+  requestedUrl: string;
+  url: string;
+  redirected: boolean;
+  redirectedToHome: boolean;
+  title: string;
+  description: string | null;
+  h1: string | null;
+  headings: webptHeading[];
+  text: string;
+}
+interface webptListPagesArgs { section?: string; limit?: number; }
+interface webptSearchPagesArgs { query: string; section?: string; limit?: number; }
+type webptGetPageArgs = string | { url: string };
+
+  /**
+   * WebPT (webpt.com), the physical-therapy EMR vendor: list/search every public page on its
+   * site (products, pricing, blog, webinars, guides) and read any page as clean text, flagging
+   * retired URLs that redirect to the homepage.
+   */
+  interface Unit {
+    /**
+     * Lists pages from WebPT's own sitemap (~2,000), optionally one section: "pages" (top-level
+     * product/pricing pages), "products", "blog", "webinars", "downloads", "guides", "customers",
+     * "podcast", "about". Default limit 200.
+     */
+    listPages(args?: webptListPagesArgs): Promise<webptPageRef[]>;
+
+    /**
+     * Finds WebPT pages whose URL matches the query's words (e.g. 'online scheduling', 'billing',
+     * 'medicare'), ranked by how many of the words the URL carries; among equal matches, product
+     * and pricing pages come before blog posts. Default limit 20. Read one with getPage.
+     */
+    searchPages(args: webptSearchPagesArgs): Promise<webptPageRef[]>;
+
+    /**
+     * Reads one webpt.com page (URL or path): title, meta description, headings and body text.
+     * `redirected`/`redirectedToHome` say when a retired URL was sent elsewhere instead of
+     * returning the homepage as if it were the page.
+     */
+    getPage(args: webptGetPageArgs): Promise<webptPage>;
+  }
+}
+
 declare namespace BowmarkProvider_webshare {
   // ── Webshare — the unit's own declarations, verbatim ──
 type WebshareProductType = "residential" | "staticResidential" | "datacenter";
@@ -107617,6 +107735,18 @@ interface WhatsappStatusUpdate {
   time: string | null;
   viewed: boolean;
 }
+interface WhatsappSentMessage {
+  chat: string;
+  text: string;
+  id: string | null;
+  time: string | null;
+}
+interface WhatsappCatalogProduct {
+  name: string;
+  price: string | null;
+  description: string | null;
+  imageUrl: string | null;
+}
 interface WhatsappBlogPost {
   slug: string;
   title: string;
@@ -107779,6 +107909,20 @@ interface WhatsappBlogPost {
      * image, video, poll) and reactions, oldest to newest. Needs the caller signed in.
      */
     getChannelUpdates(channelName: string, opts?: ConnectionOption): Promise<WhatsappChannelUpdate[]>;
+
+    /**
+     * Sends a text message as the caller to a chat opened by its exact displayed name (from
+     * listChats or findContact), and returns the sent row's id and time label. A retried run never
+     * sends twice. Needs the caller signed in.
+     */
+    sendMessage(chatName: string, text: string, opts?: ConnectionOption): Promise<WhatsappSentMessage>;
+
+    /**
+     * Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the
+     * number) as WhatsApp Web's catalog panel shows them: each product's name, price label,
+     * description and image. Needs the caller signed in.
+     */
+    listCatalogProducts(numberOrUrl: string, opts?: ConnectionOption): Promise<WhatsappCatalogProduct[]>;
 
     /**
      * Lists the contacts who have a Status up in the caller's WhatsApp Web Status tab: each
@@ -111119,6 +111263,46 @@ interface YahooSportsPlayerNews {
   videos: YahooSportsPlayerNewsItem[]; // the player's video rail (about thirty) — team-level clips mixed in
 }
 
+interface GetRankingsArgs {
+  league?: "college-football" | "college-basketball"; // default "college-football"
+  // college-football: "AP_TOP_25" (default) | "COACHES" | "CFB" (CFP selection committee);
+  // college-basketball: "AP_TOP_25" (default) | "USA_TODAY_ESPN"
+  poll?: string;
+  date?: string; // YYYY-MM-DD — the poll in force that day; default the latest
+}
+
+interface YahooSportsRankingRow {
+  rank: number;
+  previousRank: number | null; // null when unranked last week
+  team: string;
+  teamId: string | null;
+  teamUrl: string | null; // the team's page
+  wins: number | null;
+  losses: number | null;
+  points: number | null; // poll points (AP, Coaches); null for the CFP
+}
+
+interface YahooSportsRankings {
+  league: string;
+  poll: string; // e.g. "AP_TOP_25"
+  pollName: string | null; // e.g. "AP Top 25"
+  date: string | null; // the poll's release date, YYYY-MM-DD
+  week: number | null;
+  rankings: YahooSportsRankingRow[]; // rank order, usually 25
+}
+
+interface GetTeamNewsArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  teamSlug: string; // listTeams()' slug, e.g. "kansas-city", or an exact team name/abbreviation
+}
+
+interface YahooSportsTeamNews {
+  league: string;
+  teamSlug: string;
+  stories: YahooSportsPlayerNewsItem[]; // the team's story stream, newest first (the first page, about five)
+  videos: YahooSportsPlayerNewsItem[]; // the team's video rail (about thirty)
+}
+
 interface GetFantasyLeagueArgs {
   // The league's numeric id off its own URL (football.fantasysports.yahoo.com/f1/<leagueId>).
   leagueId: string;
@@ -111259,6 +111443,23 @@ interface YahooFantasyTeamDetail {
      * name/abbreviation such as getOdds' `abbr` ("IND").
      */
     getTeamRoster(args: GetTeamRosterArgs): Promise<YahooSportsRosterRow[]>;
+
+    /**
+     * Reads a college poll — who is ranked — the way Yahoo's own Rankings page does:
+     * college-football AP Top 25 (default), Coaches or CFB (the College Football Playoff selection
+     * committee); college-basketball AP Top 25 or USA_TODAY_ESPN. Each row has rank, last week's
+     * rank, team, record and poll points. Optional date (YYYY-MM-DD) reads the poll in force that
+     * day.
+     */
+    getRankings(args: GetRankingsArgs): Promise<YahooSportsRankings>;
+
+    /**
+     * Reads one team's own News tab — the latest stories about that team (headline, Yahoo url,
+     * publisher, author, time, summary; the first page, about five) and the team's video rail.
+     * Answers "any Chiefs news". teamSlug is listTeams/getStandings `slug` or an exact team
+     * name/abbreviation. For a whole league use getNews; for one player use getPlayerNews.
+     */
+    getTeamNews(args: GetTeamNewsArgs): Promise<YahooSportsTeamNews>;
 
     /**
      * Reads one team's season stats off its own Stats page — every category the site publishes
@@ -115523,6 +115724,7 @@ interface BowmarkProviders {
   wayfair: BowmarkProvider_wayfair.Unit;
   wearehirschfeld: BowmarkProvider_wearehirschfeld.Unit;
   weather_channel: BowmarkProvider_weather_channel.Unit;
+  webpt: BowmarkProvider_webpt.Unit;
   webshare: BowmarkProvider_webshare.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
   wellnessliving: BowmarkProvider_wellnessliving.Unit;

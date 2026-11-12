@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6323 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6325 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -170,7 +170,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
 | `aliexpress.addToCart` | aliexpress.us | Adds one variant (productId + skuId from getProduct) to the CALLER's own AliExpress… | 🟢 |
 | `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including the price of every variant (size… | 🟡 |
-| `aliexpress.getStore` | aliexpress.us | Fetches a seller's store info — name, logo, follower count and open/closed status — by… | 🟡 |
+| `aliexpress.getStore` | aliexpress.us | Fetches a seller's store info — name, logo, follower count and open/closed status — by… | 🟢 |
 | `aliexpress.listCart` | aliexpress.us | Lists items in the CALLER's own AliExpress shopping cart — product id, title, price… | 🟢 |
 | `aliexpress.listCategories` | aliexpress.us | Lists AliExpress's own category navigation menu — the 24 top-level categories, or one… | 🟢 |
 | `aliexpress.listOrders` | aliexpress.us | Lists the CALLER's own AliExpress orders, 10 a page — order id, status, total, store… | 🟢 |
@@ -472,7 +472,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bcbsri.getDentalShopPage` | bcbsri.com | Reads BCBSRI's public individual dental shopping page for a plan year. | 🟢 |
 | `bcbsri.getFormConfig` | bcbsri.com | Reads the individual and direct-pay shopping form configuration: date formats… | ⚪ |
 | `bcbsri.getPlanDetails` | bcbsri.com | Reads the medical and dental plan the current shopping session has selected, with its… | ⚪ |
-| `bcbsri.getPlanDocuments` | bcbsri.com | Lists the documents published for one BCBSRI individual plan: benefits summary… | ⚪ |
+| `bcbsri.getPlanDocuments` | bcbsri.com | Lists the documents published for one BCBSRI individual plan: benefits summary… | 🟢 |
 | `bcbsri.getPlanPricing` | bcbsri.com | Computes shop quote pricing for the plans chosen in the current shopping session. | ⚪ |
 | `bcbsri.getQuote` | bcbsri.com | Retrieves the shopping quote for the current shopping session. | ⚪ |
 | `bcbsri.getQuotePage` | bcbsri.com | Reads BCBSRI's public individual-plan quote page for a plan year; it does not save or… | 🟢 |
@@ -1503,7 +1503,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.favouriteDeviation` | deviantart.com | Adds a deviation to the signed-in caller's Favourites, taking the deviation url or id. | 🟢 |
 | `deviantart.getComments` | deviantart.com | Reads a deviation's comment thread — each comment's author, posted time, text and… | 🟢 |
 | `deviantart.getDailyDeviations` | deviantart.com | Lists the Daily Deviations — the artworks DeviantArt's staff feature each day — for… | 🟢 |
-| `deviantart.getDeviation` | deviantart.com | Reads one deviation in full — title, author, published time, description text, tags… | 🟡 |
+| `deviantart.getDeviation` | deviantart.com | Reads one deviation in full — title, author, published time, description text, a poem… | 🟡 |
 | `deviantart.getNotifications` | deviantart.com | Reads the signed-in caller's notifications — comments, favourites, new watchers and… | 🟢 |
 | `deviantart.getRelatedDeviations` | deviantart.com | Lists the deviations an art page shows under one artwork — more by the same artist… | 🟢 |
 | `deviantart.getUserFavourites` | deviantart.com | Lists the deviations an artist has favourited — their public 'Favourites' collections… | 🟢 |
@@ -3174,7 +3174,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `liquiddeath.searchPolicies` | liquiddeath.com | Answers questions about shipping, returns, subscriptions and the store's own FAQs… | ⚪ |
 | `liquiddeath.searchProducts` | liquiddeath.com | Searches the live catalogue and returns matching products with their real variants… | 🟢 |
 | `liquidspace.getListingDetails` | liquidspace.com | Reads one workspace's own LiquidSpace listing page (a `bookingUrl` from `search`) and… | 🟢 |
-| `liquidspace.search` | liquidspace.com | Reads LiquidSpace's own city-listing page for a US city/state and returns every… | 🟢 |
+| `liquidspace.search` | liquidspace.com | Reads LiquidSpace's own city-listing page for a US city/state and returns every… | 🟡 |
 | `littlewordsproject.getLittleWordsProjectCheckoutLink` | littlewordsproject.com | Resolves a product handle + chosen options (bead pattern / letter color / size… | 🟢 |
 | `littlewordsproject.getLittleWordsProjectProduct` | littlewordsproject.com | Reads one custom-bracelet product by its handle — every bead-pattern/letter-color/size… | 🟢 |
 | `littlewordsproject.listLittleWordsProjectCollections` | littlewordsproject.com | The entry door: reads the storefront's own published collection index… | 🟢 |
@@ -4236,7 +4236,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🔴 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟡 |
 | `quora.getSpacePosts` | quora.com | Reads the posts in a Space's feed — most of what a Space holds, and what getSpace… | 🟡 |
-| `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟢 |
+| `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟡 |
 | `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | 🟢 |
 | `quora.postComment` | quora.com | Posts a comment on an answer as the signed-in caller. | ⚪ |
 | `quora.searchQuestions` | quora.com | Runs Quora's own search and returns matching questions with their urls — the finder a… | 🟢 |
@@ -4926,7 +4926,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.getPlaylistCoverImage` | open.spotify.com | Get a playlist's cover image urls, largest first. | 🟢 |
 | `spotify.getPodcast` | open.spotify.com | Get details about a specific podcast show. | 🟢 |
 | `spotify.getRecentlyPlayed` | open.spotify.com | Get the signed-in user's recently played tracks. | 🟢 |
-| `spotify.getRecommendations` | open.spotify.com | Get track recommendations based on seeds. | ⚪ |
+| `spotify.getRecommendations` | open.spotify.com | Get the tracks Spotify recommends for a seed track. | 🟢 |
 | `spotify.getRelatedArtists` | open.spotify.com | Get the artists Spotify lists as "Fans also like" for an artist. | 🟢 |
 | `spotify.getTopArtists` | open.spotify.com | Get the signed-in user's top artists. | 🟢 |
 | `spotify.getTopTracks` | open.spotify.com | Get the signed-in user's top tracks. | 🟢 |
@@ -5196,7 +5196,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `temu.getProductReviews` | www.temu.com | Read a product's customer reviews and rating breakdown by its product url. | ⚪ |
 | `temu.listCategories` | www.temu.com | List Temu's top-level shopping categories (Women's Clothing, Home & Kitchen… | 🟢 |
 | `temu.listOrders` | www.temu.com | The caller's own order history — what they bought, when, for how much, and where each… | 🟢 |
+| `temu.listWishlist` | www.temu.com | List the products saved to the caller's wishlist, 20 a page with a cursor for the next. | 🟢 |
 | `temu.removeFromCart` | www.temu.com | Remove one line from the cart. | 🟢 |
+| `temu.removeFromWishlist` | www.temu.com | Remove a product from the caller's wishlist by its productId (goods_id) or product url. | 🟢 |
 | `temu.searchProducts` | www.temu.com | Search Temu's catalog by keyword and return matching products (title, price, image… | ⚪ |
 | `temu.trackOrder` | www.temu.com | Where a specific order's package is and when it is due — the follow-up to listOrders. | 🟢 |
 | `temu.updateCart` | www.temu.com | Change a cart line's quantity or chosen variant. | 🟢 |

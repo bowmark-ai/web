@@ -98,7 +98,7 @@ bankmycell.com — bankmycell: getTradeInQuote, searchDevices
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
 bbc.com — bbc: followPodcast, getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listFollowedPodcasts, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations, subscribeNewsletter, unfollowPodcast, unsubscribeNewsletter
-bcbsri.com — bcbsri: getApplicationPage, getDentalPlan, getDentalShopPage, getQuotePage, listDentalPlans (+7 planned)
+bcbsri.com — bcbsri: getApplicationPage, getDentalPlan, getDentalShopPage, getPlanDocuments, getQuotePage, listDentalPlans (+6 planned)
 beaconfunding.com — beaconfunding: getApplicationFields
 beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
 bedbathandbeyond.com — bedbathandbeyond: search (+2 planned)
@@ -555,7 +555,7 @@ olo.com — olo: addToBasket, applyCoupon, checkOrderAvailability, findBrand, ge
 onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
 onlyfans.com — onlyfans: getProfile (+20 planned)
 onthemarket.com — onthemarket: search
-open.spotify.com — spotify: 33 functions — ask get_library (+3 planned)
+open.spotify.com — spotify: 34 functions — ask get_library (+2 planned)
 openai.com — openai_com: listPosts, readPost
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, listMyReservations, search, startBooking
 originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote
@@ -832,7 +832,7 @@ www.nintendo.com — nintendo: browseCategory, getMyNintendoRewardsBalance, getP
 www.primevideo.com — prime_video: getChannel, getLiveSchedule, getPerson, getTitle, getWatchlist, getWatchOptions, listCategories, listCategoryTitles, listChannels, listContinueWatching, listDeals, listEpisodes, listFreeToWatch, listLiveChannels, listLiveSports, listNewReleases, listPurchases, listRelatedTitles, listSeasons, listTop10, searchTitles, suggestTitles, toggleWatchlist
 www.reuters.com — reuters: 36 functions — ask get_library (+2 planned)
 www.speedrun.com — speedrun: categories, findGame, platforms (+1 planned)
-www.temu.com — temu: addToCart, addToWishlist, checkout, listCategories, listOrders, removeFromCart, trackOrder, updateCart, viewCart, writeReview (+3 planned)
+www.temu.com — temu: addToCart, addToWishlist, checkout, listCategories, listOrders, listWishlist, removeFromCart, removeFromWishlist, trackOrder, updateCart, viewCart, writeReview (+3 planned)
 www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends, getEarnings, getEconomicCalendar, getFinancials, getMarketOverview, getNews, getOptionChain, getQuote, getScreenerResults, getTechnicalAnalysis, listIdeas, searchSymbols
 www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getCancellationPolicy, getClass, getOpenTimes, getService, getStaffMember, listAddOns, listClasses, listPhotos, listPromotions, listReviews, listServices, listStaff, searchBusinesses (+19 planned)
 www.walmart.ca — walmart_ca: search

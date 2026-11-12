@@ -31,7 +31,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `corporate_facts.findCompany` | Find SEC-registered public companies by ticker or name ("apple") — name, ticker and CIK. | 1 | 🟢 |
 | `corporate_facts.lookup` | A company's reported financial facts by ticker, CIK or name ("AAPL", "Microsoft") —… | 1 | 🟢 |
 | `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟢 |
-| `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
+| `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟡 |
 | `crypto_exchange.getRate` | Current price of a cryptocurrency (symbol or name: "BTC", "bitcoin") in a quote… | 1 | 🟢 |
 | `currency_exchange.getRate` | Returns the current exchange rate between two currencies | 1 | 🟢 |
 | `custom_packaging_quote.quoteCustomBox` | Gets a real, quantity-tiered price for a custom printed box from every supplier that… | 2 | 🟢 |
