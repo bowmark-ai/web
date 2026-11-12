@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6319 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6323 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3864,6 +3864,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.listPostComments` | patreon.com | List all comments on a post. | 🟢 |
 | `patreon.searchCreatorPosts` | patreon.com | Search inside one creator's posts — titles and body text — newest first, with the… | 🟢 |
 | `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | 🟢 |
+| `patreon.unfollowCreator` | patreon.com | Stop following a creator as the signed-in caller — ends Patreon's free membership… | 🟢 |
 | `patreon.unlikePost` | patreon.com | Take back the signed-in caller's like on a post. | 🟢 |
 | `pausestudio.bookAppointment` | pausestudio.com | Books one service at one location at a time listAvailableSlots() returned, on the… | 🟢 |
 | `pausestudio.cancelBooking` | pausestudio.com | Cancels one of the caller's own appointments by its id — requires the caller's own… | 🟢 |
@@ -4656,7 +4657,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.listFlashSale` | shein.com | Lists the products in Shein's current Flash Sale, with the deal price, list price and… | ⚪ |
 | `shein.listFollowedStores` | shein.com | Lists the marketplace stores the signed-in caller follows. | ⚪ |
 | `shein.listMyCoupons` | shein.com | Lists the coupons on the signed-in caller's account, with the discount, minimum spend… | ⚪ |
-| `shein.listNewArrivals` | shein.com | Lists Shein's New In products (the /recommend/New-In-sc-<id>.html selection)… | ⚪ |
+| `shein.listNewArrivals` | shein.com | Lists Shein's New In products (the /recommend/New-In-sc-<id>.html selection). | 🟢 |
 | `shein.listOrders` | shein.com | Lists the signed-in caller's orders with status (processing, shipped, delivered), date… | ⚪ |
 | `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | 🟢 |
 | `shein.listStoreProducts` | shein.com | Lists the products a marketplace store sells. | ⚪ |
@@ -5524,6 +5525,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.findBlog` | tumblr.com | Find a blog by name. | 🟢 |
 | `tumblr.findTag` | tumblr.com | Find posts by searching a tag. | 🟢 |
 | `tumblr.followBlog` | tumblr.com | Follow a blog from the signed-in account. | 🟢 |
+| `tumblr.followTag` | tumblr.com | Follow a hashtag on the signed-in caller's account. | 🟢 |
 | `tumblr.getBlogInfo` | tumblr.com | Get metadata for a blog: name, title, url, post count, description, last-post time… | 🟢 |
 | `tumblr.getBlogPosts` | tumblr.com | List posts from a blog, newest first. | 🟢 |
 | `tumblr.getDashboard` | tumblr.com | The signed-in caller's dashboard feed. | 🟢 |
@@ -5533,6 +5535,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.getTrendingPosts` | tumblr.com | Get posts that are currently trending on Tumblr. | 🟢 |
 | `tumblr.getTrendingTags` | tumblr.com | Get tags that are currently trending on Tumblr. | 🟢 |
 | `tumblr.likePost` | tumblr.com | Like a post from the signed-in account. | 🟢 |
+| `tumblr.listAsks` | tumblr.com | Asks and submissions waiting in the signed-in caller's own blog inbox. | 🟢 |
 | `tumblr.listBlogFollowers` | tumblr.com | List followers of a blog; caller must own the blog. | 🟢 |
 | `tumblr.listFollowing` | tumblr.com | List the blogs the signed-in caller follows. | 🟢 |
 | `tumblr.listLikes` | tumblr.com | List the signed-in caller's own likes. | 🟢 |
@@ -5542,6 +5545,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.searchPosts` | tumblr.com | Search all posts across Tumblr by keyword or phrase. | 🟢 |
 | `tumblr.sendMessage` | tumblr.com | Send an ask (public or anonymous) to a blog. | 🟢 |
 | `tumblr.unfollowBlog` | tumblr.com | Unfollow a blog from the signed-in account. | 🟢 |
+| `tumblr.unfollowTag` | tumblr.com | Stop following a hashtag on the signed-in caller's account. | 🟢 |
 | `tumblr.unlikePost` | tumblr.com | Remove a like from a post on the signed-in account. | 🟢 |
 | `tumblr.unreblogPost` | tumblr.com | Remove a reblog from the signed-in account's blog. | 🟢 |
 | `turbotax.compareEditions` | turbotax.intuit.com | Compare TurboTax editions side by side, showing which features each includes. | 🟢 |

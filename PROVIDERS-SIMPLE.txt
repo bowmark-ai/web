@@ -570,7 +570,7 @@ pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
 packlane.com — packlane: getQuote
 pallet2ship.co.uk — pallet2ship: getQuote
 partiful.com — partiful: discoverEvents, getEvent
-patreon.com — patreon: commentOnPost, deleteComment, followCreator, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorShop, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators, unlikePost
+patreon.com — patreon: commentOnPost, deleteComment, followCreator, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorShop, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators, unfollowCreator, unlikePost
 pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, getServiceDetails, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listMyMemberships, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, getServiceStatus, searchHelp, searchShoppingOffers (+2 planned)
@@ -673,7 +673,7 @@ services.gst.gov.in — gst_india: lookup
 sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
-shein.com — shein: getProduct, getSizeGuide, listCategories, listProductsByCategory, search (+29 planned)
+shein.com — shein: getProduct, getSizeGuide, listCategories, listNewArrivals, listProductsByCategory, search (+28 planned)
 shop.app — shop_app: browseCategory, followStore, getCart, getDiscoveryFeed, getOrder, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listFollowedStores, listOffers, listOrders, listProductLists, listSavedProducts, listStoreProducts, markOrderDelivered, searchProducts, searchStore, suggestSearches, trackPackage (+14 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
@@ -747,7 +747,7 @@ ticketmaster.com — ticketmaster: nothing callable yet (+5 planned)
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
 tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getHighTideFloodingHistory, getMeteorologicalObservations, getMonthlyMeanWaterLevel, getSeaLevelTrend, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
-tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listBookmarkedVideos, listCaptionTracks, listCommentReplies, listComments, listConversations, listFollowers, listFollowing, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listPlaylistVideos, listSoundVideos, listUserPlaylists, listUserVideos, postComment, searchUsers, searchVideos, sendDirectMessage, unfollowUser, unlikeVideo, uploadVideo
+tiktok.com — tiktok: 34 functions — ask get_library
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
 toasttab.com — toast: getMenu, getMenuItem, getOrderingOptions, getPopularItems, getReservationAvailability, getRestaurant, listCities, listCityRestaurants, searchMenu, searchRestaurants (+47 planned)
@@ -766,7 +766,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
-tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, getBlogInfo, getBlogPosts, getDashboard, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listBlogFollowers, listFollowing, listLikes, listNotifications, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unlikePost, unreblogPost
+tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, followTag, getBlogInfo, getBlogPosts, getDashboard, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listAsks, listBlogFollowers, listFollowing, listLikes, listNotifications, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unfollowTag, unlikePost, unreblogPost
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
