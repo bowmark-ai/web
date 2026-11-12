@@ -767,6 +767,7 @@ travelocity.com — travelocity: nothing callable yet (+7 planned)
 trawickinternational.com — trawickinternational: getPlanPremium, getQuote
 trektravel.com — trektravel: getDeparturePricing, searchTours
 trends.google.com — google_trends: trending (+1 planned)
+trip.com — trip: searchFlights
 tripadvisor.com — tripadvisor: getAttraction, getDestination, getHotel, getHotelPrices, getNearby, getPhotos, getQuestions, getRestaurant, getReview, getReviews, search, searchAttractions, searchHotels, searchRestaurants (+13 planned)
 trojanstorage.com — trojanstorage: getFacilityUnits, listFacilities
 trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, searchHomes (+1 planned)

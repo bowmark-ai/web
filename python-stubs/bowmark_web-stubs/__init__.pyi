@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 734103afdec9ffdd47686f67a524a53687b5bce01dd1fd12721dd0e3adb79146
-# 98 capabilities, 821 providers, 4985 typed functions, 20 refused.
+# Manifest version: 8bdfb9bfd13d9272f3d328f0513152ccf7f9472bf9deec1de24ad8c9ffd930e1
+# 98 capabilities, 822 providers, 4992 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16960,6 +16960,46 @@ class Prv_claude_ClaudeConversationDeleteAck_Out(TypedDict):
     conversationId: str
     ok: Literal[True]
 
+class Prv_claude_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_claude_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_claude_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_claude_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_claude_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_claude_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_claude_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_claude_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_claude_com_claude_comDoc_Out(TypedDict):
     url: str
     title: str | None
@@ -21744,6 +21784,47 @@ class Prv_discord_discordDeleteResult_Out(TypedDict):
     channelId: str
     messageId: str
     deleted: Literal[True]
+
+class Prv_discord_joinServer_args_In(TypedDict):
+    invite: str
+
+class Prv_discord_discordJoinResult_Out(TypedDict):
+    code: str
+    guildId: str | None
+    guildName: str | None
+    channelId: str | None
+    newMember: bool | None
+
+class Prv_discord_leaveServer_args_In(TypedDict):
+    guildId: str
+
+class Prv_discord_discordLeaveResult_Out(TypedDict):
+    guildId: str
+    left: Literal[True]
+
+class Prv_discord_createServer_args_In(TypedDict):
+    name: str
+    icon: NotRequired[str]
+
+class Prv_discord_discordCreatedServer_Out(TypedDict):
+    id: str
+    name: str
+    ownerId: str | None
+    systemChannelId: str | None
+
+class Prv_discord_createInvite_args_In(TypedDict):
+    channelId: str
+    expiresInSeconds: NotRequired[float]
+    useLimit: NotRequired[float]
+
+class Prv_discord_discordCreatedInvite_Out(TypedDict):
+    code: str
+    url: str
+    channelId: str
+    guildId: str | None
+    expiresAt: str | None
+    expiresInSeconds: float | None
+    useLimit: float | None
 
 class Prv_discord_createThread_args_In(TypedDict):
     channelId: str
@@ -64163,6 +64244,29 @@ class Prv_trektravel_TrekTravelDeparture_Out(TypedDict):
     hotels: list[str]
     bookingUrl: str
 
+class Prv_trip_TripSearchFlightsArgs_In(TypedDict):
+    origin: str
+    destination: str
+    limit: NotRequired[float]
+
+class Prv_trip_TripFlightSearch_Out(TypedDict):
+    origin: str
+    destination: str
+    flights: list[Prv_trip_TripFlight_Out]
+    url: str
+
+class Prv_trip_TripFlight_Out(TypedDict):
+    origin: str
+    destination: str
+    departureTime: str | None
+    arrivalTime: str | None
+    duration: str | None
+    stops: str | None
+    departureDate: str | None
+    airline: str | None
+    price: str | None
+    url: str
+
 class Prv_tripadvisor_SearchArgs_In(TypedDict):
     query: str
 
@@ -82927,6 +83031,18 @@ class Prv_claude(Protocol):
         reversible. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
         """
 
+    async def signup(self, args: Any, /) -> Prv_claude_signup_return_u0_Out | Prv_claude_signup_return_u1_Out | Prv_claude_signup_return_u2_Out | Prv_claude_signup_return_u3_Out:
+        """Makes a NEW Claude account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_claude_confirmSignup_return_u0_Out | Prv_claude_confirmSignup_return_u1_Out | Prv_claude_confirmSignup_return_u2_Out | Prv_claude_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_claude_com(Protocol):
     """Reads one page of claude.com's own documentation (claude.com/docs/...) by URL and
     returns its title, description and body as clean markdown — the site's own
@@ -85540,6 +85656,35 @@ class Prv_discord(Protocol):
         """Deletes a message AS THE SIGNED-IN USER — their own, or anyone's in a server where they
         can manage messages (`channelId` and `messageId` from listMessages()). Cannot be undone.
         Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+        Discord's token from your own browser yet.
+        """
+
+    async def joinServer(self, args: Prv_discord_joinServer_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordJoinResult_Out:
+        """Joins a server AS THE SIGNED-IN USER from an invite code or link (`invite`: "N8AWaBP6"
+        or discord.gg/N8AWaBP6). Returns the server id and name and the channel the invite lands
+        on. Discord sometimes demands an hCaptcha for a join; that comes back as an error saying
+        so. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot
+        pass Discord's token from your own browser yet.
+        """
+
+    async def leaveServer(self, args: Prv_discord_leaveServer_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordLeaveResult_Out:
+        """Leaves a server the SIGNED-IN USER is in (`guildId` from listServers() or joinServer()).
+        An owner cannot leave their own server. Needs a Discord sign-in made through Bowmark's
+        sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+        """
+
+    async def createServer(self, args: Prv_discord_createServer_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordCreatedServer_Out:
+        """Creates a new server owned by the SIGNED-IN USER. `name` is 2-100 characters; `icon` is
+        an optional image as a data: URI. Returns the server id and its first text channel
+        (systemChannelId). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark
+        Link cannot pass Discord's token from your own browser yet.
+        """
+
+    async def createInvite(self, args: Prv_discord_createInvite_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordCreatedInvite_Out:
+        """Creates an invite link to a channel AS THE SIGNED-IN USER (`channelId` from
+        listChannels()). `expiresInSeconds` 0-604800 (default 7 days, 0 = never expires),
+        `useLimit` 0-100 (default 0 = unlimited). Returns the code and its discord.gg url. Needs
+        a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
         Discord's token from your own browser yet.
         """
 
@@ -109113,6 +109258,18 @@ class Prv_trektravel(Protocol):
         find current ones.
         """
 
+class Prv_trip(Protocol):
+    """Trip.com flight route recommendations: current airline, times, duration, stops,
+    displayed fare and a Trip.com route page for two IATA codes.
+    """
+
+    async def searchFlights(self, args: Prv_trip_TripSearchFlightsArgs_In, /) -> Prv_trip_TripFlightSearch_Out:
+        """Reads Trip.com's current route recommendations — `bowmark.providers.trip.searchFlights({
+        origin: "SFO", destination: "NYC" })` — returning displayed fare, airline, times,
+        duration, stops and date. These are Trip.com's next-three-month route recommendations,
+        not a bookable quote for caller-selected dates.
+        """
+
 class Prv_tripadvisor(Protocol):
     """Travel data worldwide — find a city, hotel, restaurant or attraction by name; list and
     read hotels and restaurants with ratings, review counts, and booking prices.
@@ -114692,6 +114849,7 @@ class BowmarkProviders(Protocol):
     travelinsured: Prv_travelinsured
     trawickinternational: Prv_trawickinternational
     trektravel: Prv_trektravel
+    trip: Prv_trip
     tripadvisor: Prv_tripadvisor
     trojanstorage: Prv_trojanstorage
     trophysignaturehomes: Prv_trophysignaturehomes

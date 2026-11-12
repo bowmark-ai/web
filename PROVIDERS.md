@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6465 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6466 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1705,7 +1705,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `doordash.getRetailStore` | doordash.com | Returns a grocery, convenience or retail store on DoorDash (7-Eleven, CVS, ALDI…) with… | 🟢 |
 | `doordash.getStore` | doordash.com | Returns one restaurant by its DoorDash store id or store URL: name, address… | 🟢 |
 | `doordash.getStoreReviews` | doordash.com | Returns a store's rating summary (average, count, per-star counts, public review… | 🟢 |
-| `doordash.listCuisines` | doordash.com | Lists the cuisine filters DoorDash offers in one US city (American, Thai, Pizza…)… | 🟢 |
+| `doordash.listCuisines` | doordash.com | Lists the cuisine filters DoorDash offers in one US city (American, Thai, Pizza…)… | 🟡 |
 | `doordash.listDeals` | doordash.com | Lists the deals and promotions running near an address — store offers like '20% off… | ⚪ |
 | `doordash.listMyAddresses` | doordash.com | Lists the signed-in customer's saved delivery addresses with their ids and which one… | ⚪ |
 | `doordash.listNotifications` | doordash.com | Lists the signed-in customer's DoorDash notifications (order updates, offers) and… | ⚪ |
@@ -5618,6 +5618,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trawickinternational.getQuote` | trawickinternational.com | Submits Trawick's own homepage 'Get a Quote' travel-insurance form (destination… | 🟡 |
 | `trektravel.getDeparturePricing` | trektravel.com | Reads one trip's real scheduled departure dates straight off its own page: each date's… | 🟢 |
 | `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟢 |
+| `trip.searchFlights` | trip.com | Reads Trip.com's current route recommendations for two IATA codes: airline, times… | 🟢 |
 | `tripadvisor.askQuestion` | tripadvisor.com | Posts a question to a listing's Q&A from the signed-in caller's account. | ⚪ |
 | `tripadvisor.createTrip` | tripadvisor.com | Creates a new Trip on the signed-in caller's account with a name and optional dates. | ⚪ |
 | `tripadvisor.getAttraction` | tripadvisor.com | Reads one attraction in full: name, description, address, phone, website, opening… | 🟡 |

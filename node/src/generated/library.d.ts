@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 734103afdec9ffdd47686f67a524a53687b5bce01dd1fd12721dd0e3adb79146
-// 98 capabilities, 821 providers, 5003 typed functions, 20 refused.
+// Manifest version: 8bdfb9bfd13d9272f3d328f0513152ccf7f9472bf9deec1de24ad8c9ffd930e1
+// 98 capabilities, 822 providers, 5010 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -27792,6 +27792,20 @@ interface MoveConversationToProjectArgs {
      * reversible. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
      */
     deleteConversation(args: DeleteConversationArgs, opts?: ConnectionOption): Promise<ClaudeConversationDeleteAck>;
+
+    /**
+     * Makes a NEW Claude account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -34825,6 +34839,32 @@ interface discordDeleteResult {
   messageId: string;
   deleted: true;
 }
+interface discordJoinResult {
+  code: string;
+  guildId: string | null;
+  guildName: string | null;
+  channelId: string | null;          // the channel the invite lands on
+  newMember: boolean | null;         // false when the caller was already a member
+}
+interface discordLeaveResult {
+  guildId: string;
+  left: true;
+}
+interface discordCreatedServer {
+  id: string;
+  name: string;
+  ownerId: string | null;
+  systemChannelId: string | null;    // the first text channel — pass to sendMessage or createInvite
+}
+interface discordCreatedInvite {
+  code: string;
+  url: string;                       // https://discord.gg/<code>
+  channelId: string;
+  guildId: string | null;
+  expiresAt: string | null;          // ISO, null = never expires
+  expiresInSeconds: number | null;
+  useLimit: number | null;            // 0 = unlimited
+}
 interface discordMessageSearch {
   totalResults: number;              // Discord's count of every hit, not just this page (25 per page)
   messages: discordMessage[];        // this page's hits
@@ -35115,6 +35155,38 @@ interface discordMessageSearch {
      * token from your own browser yet.
      */
     deleteMessage(args: { channelId: string; messageId: string }, opts?: ConnectionOption): Promise<discordDeleteResult>;
+
+    /**
+     * Joins a server AS THE SIGNED-IN USER from an invite code or link (`invite`: "N8AWaBP6" or
+     * discord.gg/N8AWaBP6). Returns the server id and name and the channel the invite lands on.
+     * Discord sometimes demands an hCaptcha for a join; that comes back as an error saying so.
+     * Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+     * Discord's token from your own browser yet.
+     */
+    joinServer(args: { invite: string }, opts?: ConnectionOption): Promise<discordJoinResult>;
+
+    /**
+     * Leaves a server the SIGNED-IN USER is in (`guildId` from listServers() or joinServer()). An
+     * owner cannot leave their own server. Needs a Discord sign-in made through Bowmark's sign-in
+     * link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    leaveServer(args: { guildId: string }, opts?: ConnectionOption): Promise<discordLeaveResult>;
+
+    /**
+     * Creates a new server owned by the SIGNED-IN USER. `name` is 2-100 characters; `icon` is an
+     * optional image as a data: URI. Returns the server id and its first text channel
+     * (systemChannelId). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+     * cannot pass Discord's token from your own browser yet.
+     */
+    createServer(args: { name: string; icon?: string }, opts?: ConnectionOption): Promise<discordCreatedServer>;
+
+    /**
+     * Creates an invite link to a channel AS THE SIGNED-IN USER (`channelId` from listChannels()).
+     * `expiresInSeconds` 0-604800 (default 7 days, 0 = never expires), `useLimit` 0-100 (default 0
+     * = unlimited). Returns the code and its discord.gg url. Needs a Discord sign-in made through
+     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    createInvite(args: { channelId: string; expiresInSeconds?: number; useLimit?: number }, opts?: ConnectionOption): Promise<discordCreatedInvite>;
 
     /**
      * Starts a thread AS THE SIGNED-IN USER: off one message with `messageId`, as a new forum post
@@ -101641,6 +101713,27 @@ interface TrekTravelSearchFilters {
   }
 }
 
+declare namespace BowmarkProvider_trip {
+  // ── Trip.com — the unit's own declarations, verbatim ──
+interface TripSearchFlightsArgs { origin: string; destination: string; limit?: number }
+interface TripFlight { origin: string; destination: string; departureTime: string | null; arrivalTime: string | null; duration: string | null; stops: string | null; departureDate: string | null; airline: string | null; price: string | null; url: string }
+interface TripFlightSearch { origin: string; destination: string; flights: TripFlight[]; url: string }
+
+  /**
+   * Trip.com flight route recommendations: current airline, times, duration, stops, displayed
+   * fare and a Trip.com route page for two IATA codes.
+   */
+  interface Unit {
+    /**
+     * Reads Trip.com's current route recommendations — `bowmark.providers.trip.searchFlights({
+     * origin: "SFO", destination: "NYC" })` — returning displayed fare, airline, times, duration,
+     * stops and date. These are Trip.com's next-three-month route recommendations, not a bookable
+     * quote for caller-selected dates.
+     */
+    searchFlights(args: TripSearchFlightsArgs): Promise<TripFlightSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_tripadvisor {
   // ── Tripadvisor — the unit's own declarations, verbatim ──
 interface TripadvisorLocation {
@@ -117084,6 +117177,7 @@ interface BowmarkProviders {
   travelinsured: BowmarkProvider_travelinsured.Unit;
   trawickinternational: BowmarkProvider_trawickinternational.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
+  trip: BowmarkProvider_trip.Unit;
   tripadvisor: BowmarkProvider_tripadvisor.Unit;
   trojanstorage: BowmarkProvider_trojanstorage.Unit;
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
