@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0e01980e2f4907e8eeaf9b4b943611ef5ce14163a412129d0d8bffbec087b4a4
-# 97 capabilities, 814 providers, 4871 typed functions, 20 refused.
+# Manifest version: 38389fdb9ef6595d7fd96c89d517fb8bbd37963e9c6e3e96429db11b820e5bbb
+# 97 capabilities, 815 providers, 4882 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6927,6 +6927,7 @@ class Prv_apple_AppleProduct_Out(TypedDict):
     priceCurrency: str | None
     image: str | None
     description: str | None
+    partNumber: str | None
 
 class Prv_apple_AppleConfigurationOptions_Out(TypedDict):
     url: str
@@ -21310,6 +21311,27 @@ class Prv_discord_removeReaction_args_In(TypedDict):
     channelId: str
     messageId: str
     emoji: str
+
+class Prv_discord_editMessage_args_In(TypedDict):
+    channelId: str
+    messageId: str
+    content: str
+
+class Prv_discord_deleteMessage_args_In(TypedDict):
+    channelId: str
+    messageId: str
+
+class Prv_discord_discordDeleteResult_Out(TypedDict):
+    channelId: str
+    messageId: str
+    deleted: Literal[True]
+
+class Prv_discord_createThread_args_In(TypedDict):
+    channelId: str
+    name: str
+    messageId: NotRequired[str]
+    content: NotRequired[str]
+    tagIds: NotRequired[Sequence[str]]
 
 class Prv_discord_discordQuest_Out(TypedDict):
     id: str
@@ -46931,6 +46953,31 @@ class Prv_pinterest_deletePin_return_Out(TypedDict):
     pinId: str
     deleted: bool
 
+class Prv_pinterest_createPin_pin_In(TypedDict):
+    imageUrl: str
+    link: NotRequired[str]
+    title: NotRequired[str]
+    description: NotRequired[str]
+    sectionId: NotRequired[str]
+
+class Prv_pinterest_updateProfile_changes_In(TypedDict):
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+    about: NotRequired[str]
+    websiteUrl: NotRequired[str]
+
+class Prv_pinterest_reactToPin_options_In(TypedDict):
+    reactionType: NotRequired[float]
+    undo: NotRequired[bool]
+
+class Prv_pinterest_reactToPin_return_Out(TypedDict):
+    pinId: str
+    reactionType: float
+    reacted: bool
+
+class Prv_pinterest_commentOnPin_options_In(TypedDict):
+    aggregatedPinDataId: NotRequired[str]
+
 class Prv_pinterest_followTopic_return_Out(TypedDict):
     topicId: str
     following: bool
@@ -49348,6 +49395,36 @@ class Prv_quickbooks_QuickbooksAccountantReview_Out(TypedDict):
 class Prv_quickbooks_QuickbooksAccountantReview_Out_replies_item_Out(TypedDict):
     text: str
     date: str | None
+
+class Prv_quickbooks_QuickbooksEmployeeCostArgs_In(TypedDict):
+    payType: NotRequired[Literal["hourly"] | Literal["salary"]]
+    rate: float
+    hoursPerWeek: NotRequired[float]
+    state: str
+    retirementContribution: NotRequired[float]
+    health: NotRequired[float]
+    dental: NotRequired[float]
+    vision: NotRequired[float]
+    otherExpenses: NotRequired[Sequence[Prv_quickbooks_QuickbooksEmployeeCostArgs_In_otherExpenses_item_In]]
+
+class Prv_quickbooks_QuickbooksEmployeeCostArgs_In_otherExpenses_item_In(TypedDict):
+    label: NotRequired[str]
+    amount: float
+
+class Prv_quickbooks_QuickbooksEmployeeCost_Out(TypedDict):
+    state: str
+    payType: Literal["hourly"] | Literal["salary"]
+    annualWages: float
+    medicare: float
+    socialSecurity: float
+    futa: float
+    suta: float
+    payrollTaxes: float
+    retirement: float
+    insurance: float
+    otherExpenses: float
+    totalAnnualCost: float
+    warnings: list[str]
 
 Prv_quickbooks_QuickbooksGenerateInvoiceArgs_In = TypedDict(
     "Prv_quickbooks_QuickbooksGenerateInvoiceArgs_In",
@@ -55516,8 +55593,7 @@ class Prv_snapchat_SnapchatSearchResult_Out(TypedDict):
 
 class Prv_snapchat_SnapchatSearchResult_Out_sections_item_Out(TypedDict):
     section: str
-    sectionType: float
-    endOfResults: bool
+    kind: str
     items: list[Prv_snapchat_SnapchatSearchItem_Out]
 
 class Prv_snapchat_SnapchatSearchItem_Out(TypedDict):
@@ -65738,6 +65814,37 @@ class Prv_vessi_VessiFitGuide_Out_returnData_Out(TypedDict):
     ratioLabel: str
     window: str
     returnedUnits: float
+
+class Prv_vestiaire_collective_VestiaireSearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    url: NotRequired[str]
+    country: NotRequired[str]
+    currency: NotRequired[str]
+    language: NotRequired[str]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_vestiaire_collective_VestiaireSearchResult_Out(TypedDict):
+    query: str
+    storefront: str
+    total: float | None
+    listings: list[Prv_vestiaire_collective_VestiaireListing_Out]
+
+class Prv_vestiaire_collective_VestiaireListing_Out(TypedDict):
+    id: str
+    name: str
+    brand: str | None
+    condition: str | None
+    sellerCountry: str | None
+    price: Prv_vestiaire_collective_VestiaireListing_Out_price_u0_Out | None
+    sold: bool
+    url: str
+    picturePath: str | None
+
+class Prv_vestiaire_collective_VestiaireListing_Out_price_u0_Out(TypedDict):
+    amount: float
+    currency: str
+    formatted: str
 
 class Prv_viewrail_ViewrailMaterial_Out(TypedDict):
     slug: str
@@ -81929,6 +82036,16 @@ class Prv_cnbc_com(Protocol):
         ETF — price, change and percent change.
         """
 
+    async def listCommodities(self, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
+        """Returns front-month futures prices for crude oil, gold, silver, platinum, copper,
+        natural gas, corn and soybeans — price, change and percent change.
+        """
+
+    async def listCurrencies(self, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
+        """Returns major currency exchange rates — EUR/USD, GBP/USD, USD/JPY, USD/CAD, USD/CHF,
+        AUD/USD, USD/CNY and USD/MXN — with rate, change and percent change.
+        """
+
     async def signup(self, args: Any, /) -> Prv_cnbc_com_signup_return_u0_Out | Prv_cnbc_com_signup_return_u1_Out | Prv_cnbc_com_signup_return_u2_Out | Prv_cnbc_com_signup_return_u3_Out:
         """Makes a NEW CNBC account with the person's own email and password, in a session. Pauses
         with `needs_code` / `needs_phone` whenever the site wants something only the person has;
@@ -83926,6 +84043,29 @@ class Prv_discord(Protocol):
         """Removes the SIGNED-IN USER's own emoji reaction from a message — same arguments as
         addReaction. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
         cannot pass Discord's token from your own browser yet.
+        """
+
+    async def editMessage(self, args: Prv_discord_editMessage_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordMessage_Out:
+        """Replaces the text of a message the SIGNED-IN USER sent (`channelId` and `messageId` from
+        listMessages() or sendMessage()). `content` is 1-2000 characters. Returns the edited
+        message. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+        cannot pass Discord's token from your own browser yet.
+        """
+
+    async def deleteMessage(self, args: Prv_discord_deleteMessage_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordDeleteResult_Out:
+        """Deletes a message AS THE SIGNED-IN USER — their own, or anyone's in a server where they
+        can manage messages (`channelId` and `messageId` from listMessages()). Cannot be undone.
+        Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+        Discord's token from your own browser yet.
+        """
+
+    async def createThread(self, args: Prv_discord_createThread_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordThread_Out:
+        """Starts a thread AS THE SIGNED-IN USER: off one message with `messageId`, as a new forum
+        post with `content` (its first message, optional forum `tagIds`), or as an empty thread
+        in a text channel with neither. `name` is 1-100 characters. Returns the thread; its id
+        is the channelId to pass to sendMessage or listMessages. Needs a Discord sign-in made
+        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        browser yet.
         """
 
     async def listQuests(self, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordQuest_Out]:
@@ -98854,6 +98994,38 @@ class Prv_pinterest(Protocol):
         saved session is refused (the run asks for a fresh sign-in).
         """
 
+    async def createPin(self, boardId: str, pin: Prv_pinterest_createPin_pin_In, opts: ConnectionOption | None = None, /) -> Prv_pinterest_PinterestPin_Out:
+        """Publish a new pin on one of the signed-in caller's boards from a public image URL, with
+        an optional destination link, title, description and section. A Bowmark file works as
+        the image: `bowmark.files.makePublic(id)` returns the URL. `POST
+        /resource/PinResource/create/` with `{ board_id, image_url, … }`. THROWS
+        `PinterestInputError` on a non-numeric board or section id or a missing image URL, and
+        when the saved session is refused (the run asks for a fresh sign-in).
+        """
+
+    async def updateProfile(self, changes: Prv_pinterest_updateProfile_changes_In, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
+        """Edit the signed-in caller's own profile text — display name, bio and website — and get
+        the saved settings back. `POST /resource/UserSettingsResource/update/`. THROWS
+        `PinterestInputError` when no field is given or one is not a string, and when the saved
+        session is refused (the run asks for a fresh sign-in).
+        """
+
+    async def reactToPin(self, pinId: str, options: Prv_pinterest_reactToPin_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pinterest_reactToPin_return_Out:
+        """React to a pin as the signed-in caller (`reactionType` is a key of `getPin`'s
+        `reaction_counts`; 1, the heart, by default), or take it back with `{ undo: true }`. The
+        pin's owner sees it. `ApiResource` create / delete proxying `/v3/pins/<id>/react/`.
+        THROWS `PinterestInputError` on a non-numeric pin id or a bad reaction type, and when
+        the saved session is refused (the run asks for a fresh sign-in).
+        """
+
+    async def commentOnPin(self, pinId: str, text: str, options: Prv_pinterest_commentOnPin_options_In | None = None, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
+        """Post a PUBLIC comment on a pin as the signed-in caller; the owner is notified. Looks up
+        the pin's `aggregated_pin_data.id` itself unless you pass it. `POST
+        /resource/AggregatedCommentResource/create/`. THROWS `PinterestInputError` on a
+        non-numeric pin id or empty text, and when the saved session is refused (the run asks
+        for a fresh sign-in).
+        """
+
     async def followTopic(self, topicId: str, opts: ConnectionOption | None = None, /) -> Prv_pinterest_followTopic_return_Out:
         """Follow one of Pinterest's idea topics (an id from `listTopics` or `getTopic`) for the
         signed-in caller, which steers their home feed. Nobody is notified. `ApiResource` update
@@ -100309,6 +100481,12 @@ class Prv_quickbooks(Protocol):
     async def getAccountant(self, searchId: str, /) -> Prv_quickbooks_QuickbooksAccountant_Out:
         """One ProAdvisor's public profile: firm, bio, phone, website, services, industries,
         software, certifications and reviews
+        """
+
+    async def calculateEmployeeCost(self, args: Prv_quickbooks_QuickbooksEmployeeCostArgs_In, /) -> Prv_quickbooks_QuickbooksEmployeeCost_Out:
+        """Yearly cost of one employee: wages plus Medicare, Social Security, federal and state
+        unemployment tax, retirement, insurance and extras, like QuickBooks' employee cost
+        calculator
         """
 
     async def generateInvoice(self, args: Prv_quickbooks_QuickbooksGenerateInvoiceArgs_In, /) -> Prv_quickbooks_QuickbooksGeneratedInvoice_Out:
@@ -103281,8 +103459,10 @@ class Prv_snapchat(Protocol):
 
     async def searchSnapchat(self, query: str, /) -> Prv_snapchat_SnapchatSearchResult_Out:
         """Search Snapchat the way www.snapchat.com/explore/<query> does: every section it renders
-        (Lenses, Spotlight, Add Friends, Subscribe, Places, Topics, Episodes), each item with
-        its kind, id, title and username plus the site's own object.
+        (Lenses, Spotlight, Add Friends, Subscribe, Shows, Places, Episodes, and the Topics
+        tags), each item with its kind, id, title and username plus the site's own object. A
+        Spotlight item's id is the snap id getSpotlightVideo takes, a Show's the publisherId
+        getShow takes, and an episode's the storyId getEpisode takes.
         """
 
     async def getProfile(self, username: str, /) -> Prv_snapchat_SnapchatProfileRow_Out:
@@ -108419,6 +108599,19 @@ class Prv_vessi(Protocol):
         check productType is "Shoes".
         """
 
+class Prv_vestiaire_collective(Protocol):
+    """Search Vestiaire Collective's pre-owned luxury fashion marketplace (German storefront by
+    default) and get listings with brand, condition, price and link.
+    """
+
+    async def search(self, args: str | Prv_vestiaire_collective_VestiaireSearchArgs_In, /) -> Prv_vestiaire_collective_VestiaireSearchResult_Out:
+        """Searches Vestiaire Collective listings by keyword, or by a Vestiaire search URL
+        (https://de.vestiairecollective.com/search/?q=…), on the German storefront in EUR unless
+        the URL or country/currency/language say otherwise. Returns each listing's name, brand,
+        condition, seller country, price, sold flag and product URL, plus the total hit count.
+        limit 1-100 (default 48), offset for paging.
+        """
+
 class Prv_viewrail(Protocol):
     """Cable railing / floating-stair manufacturer — the material and mounting-style catalog
     behind Victor, Viewrail's own draw-and-quote design app (victor.viewrail.com).
@@ -112615,6 +112808,7 @@ class BowmarkProviders(Protocol):
     verizon: Prv_verizon
     vervecoffee: Prv_vervecoffee
     vessi: Prv_vessi
+    vestiaire_collective: Prv_vestiaire_collective
     viewrail: Prv_viewrail
     villagerealtyobx: Prv_villagerealtyobx
     visible: Prv_visible

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0e01980e2f4907e8eeaf9b4b943611ef5ce14163a412129d0d8bffbec087b4a4
-// 97 capabilities, 814 providers, 4889 typed functions, 20 refused.
+// Manifest version: 38389fdb9ef6595d7fd96c89d517fb8bbd37963e9c6e3e96429db11b820e5bbb
+// 97 capabilities, 815 providers, 4900 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11511,6 +11511,7 @@ interface AppleProduct {
   priceCurrency: string | null;
   image: string | null;
   description: string | null;
+  partNumber: string | null;
 }
 interface AppleProductPage {
   url: string;
@@ -28769,6 +28770,18 @@ interface cnbc_comSector extends cnbc_comRow {
     listSectors(): Promise<cnbc_comSector[]>;
 
     /**
+     * Returns front-month futures prices for crude oil, gold, silver, platinum, copper, natural
+     * gas, corn and soybeans — price, change and percent change.
+     */
+    listCommodities(): Promise<cnbc_comRow[]>;
+
+    /**
+     * Returns major currency exchange rates — EUR/USD, GBP/USD, USD/JPY, USD/CAD, USD/CHF,
+     * AUD/USD, USD/CNY and USD/MXN — with rate, change and percent change.
+     */
+    listCurrencies(): Promise<cnbc_comRow[]>;
+
+    /**
      * Makes a NEW CNBC account with the person's own email and password, in a session. Pauses with
      * `needs_code` / `needs_phone` whenever the site wants something only the person has; continue
      * with `confirmSignup` in the same session. Ends `signed_up` with the login saved and the
@@ -34178,6 +34191,11 @@ interface discordReactionResult {
   emoji: string;                     // as sent: "👍" or "name:id"
   ok: true;
 }
+interface discordDeleteResult {
+  channelId: string;
+  messageId: string;
+  deleted: true;
+}
 interface discordMessageSearch {
   totalResults: number;              // Discord's count of every hit, not just this page (25 per page)
   messages: discordMessage[];        // this page's hits
@@ -34452,6 +34470,31 @@ interface discordMessageSearch {
      * cannot pass Discord's token from your own browser yet.
      */
     removeReaction(args: { channelId: string; messageId: string; emoji: string }, opts?: ConnectionOption): Promise<discordReactionResult>;
+
+    /**
+     * Replaces the text of a message the SIGNED-IN USER sent (`channelId` and `messageId` from
+     * listMessages() or sendMessage()). `content` is 1-2000 characters. Returns the edited
+     * message. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot
+     * pass Discord's token from your own browser yet.
+     */
+    editMessage(args: { channelId: string; messageId: string; content: string }, opts?: ConnectionOption): Promise<discordMessage>;
+
+    /**
+     * Deletes a message AS THE SIGNED-IN USER — their own, or anyone's in a server where they can
+     * manage messages (`channelId` and `messageId` from listMessages()). Cannot be undone. Needs a
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * token from your own browser yet.
+     */
+    deleteMessage(args: { channelId: string; messageId: string }, opts?: ConnectionOption): Promise<discordDeleteResult>;
+
+    /**
+     * Starts a thread AS THE SIGNED-IN USER: off one message with `messageId`, as a new forum post
+     * with `content` (its first message, optional forum `tagIds`), or as an empty thread in a text
+     * channel with neither. `name` is 1-100 characters. Returns the thread; its id is the
+     * channelId to pass to sendMessage or listMessages. Needs a Discord sign-in made through
+     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    createThread(args: { channelId: string; name: string; messageId?: string; content?: string; tagIds?: string[] }, opts?: ConnectionOption): Promise<discordThread>;
 
     /**
      * Lists the Quests Discord currently offers the SIGNED-IN USER — quest and game name, the task
@@ -76041,6 +76084,42 @@ interface PinterestNotification {
     deletePin(pinId: string, opts?: ConnectionOption): Promise<{ pinId: string; deleted: boolean }>;
 
     /**
+     * Publish a new pin on one of the signed-in caller's boards from a public image URL, with an
+     * optional destination link, title, description and section. A Bowmark file works as the
+     * image: `bowmark.files.makePublic(id)` returns the URL. `POST /resource/PinResource/create/`
+     * with `{ board_id, image_url, … }`. THROWS `PinterestInputError` on a non-numeric board or
+     * section id or a missing image URL, and when the saved session is refused (the run asks for a
+     * fresh sign-in).
+     */
+    createPin(boardId: string, pin: { imageUrl: string; link?: string; title?: string; description?: string; sectionId?: string }, opts?: ConnectionOption): Promise<PinterestPin>;
+
+    /**
+     * Edit the signed-in caller's own profile text — display name, bio and website — and get the
+     * saved settings back. `POST /resource/UserSettingsResource/update/`. THROWS
+     * `PinterestInputError` when no field is given or one is not a string, and when the saved
+     * session is refused (the run asks for a fresh sign-in).
+     */
+    updateProfile(changes: { firstName?: string; lastName?: string; about?: string; websiteUrl?: string }, opts?: ConnectionOption): Promise<Record<string, unknown>>;
+
+    /**
+     * React to a pin as the signed-in caller (`reactionType` is a key of `getPin`'s
+     * `reaction_counts`; 1, the heart, by default), or take it back with `{ undo: true }`. The
+     * pin's owner sees it. `ApiResource` create / delete proxying `/v3/pins/<id>/react/`. THROWS
+     * `PinterestInputError` on a non-numeric pin id or a bad reaction type, and when the saved
+     * session is refused (the run asks for a fresh sign-in).
+     */
+    reactToPin(pinId: string, options?: { reactionType?: number; undo?: boolean }, opts?: ConnectionOption): Promise<{ pinId: string; reactionType: number; reacted: boolean }>;
+
+    /**
+     * Post a PUBLIC comment on a pin as the signed-in caller; the owner is notified. Looks up the
+     * pin's `aggregated_pin_data.id` itself unless you pass it. `POST
+     * /resource/AggregatedCommentResource/create/`. THROWS `PinterestInputError` on a non-numeric
+     * pin id or empty text, and when the saved session is refused (the run asks for a fresh
+     * sign-in).
+     */
+    commentOnPin(pinId: string, text: string, options?: { aggregatedPinDataId?: string }, opts?: ConnectionOption): Promise<Record<string, unknown>>;
+
+    /**
      * Follow one of Pinterest's idea topics (an id from `listTopics` or `getTopic`) for the
      * signed-in caller, which steers their home feed. Nobody is notified. `ApiResource` update
      * proxying `PUT /v3/users/me/interests/favorited/<id>/`. THROWS `PinterestInputError` on a
@@ -79846,6 +79925,39 @@ interface QuickbooksGeneratedInvoice {
   warnings: string[];
 }
 
+interface QuickbooksEmployeeCostArgs {
+  /** "hourly" (default) or "salary". */
+  payType?: "hourly" | "salary";
+  /** Hourly rate, or the annual salary when payType is "salary". */
+  rate: number;
+  /** Hours worked per week; required when payType is "hourly". */
+  hoursPerWeek?: number;
+  /** State name or two-letter code, e.g. "Texas" or "TX". */
+  state: string;
+  /** Employer retirement contribution for the year. */
+  retirementContribution?: number;
+  health?: number;
+  dental?: number;
+  vision?: number;
+  otherExpenses?: { label?: string; amount: number }[];
+}
+
+interface QuickbooksEmployeeCost {
+  state: string;
+  payType: "hourly" | "salary";
+  annualWages: number;
+  medicare: number;
+  socialSecurity: number;
+  futa: number;
+  suta: number;
+  payrollTaxes: number;
+  retirement: number;
+  insurance: number;
+  otherExpenses: number;
+  totalAnnualCost: number;
+  warnings: string[];
+}
+
 interface QuickbooksFindAccountantsArgs {
   /** A city and state, ZIP or street address, e.g. "Austin, TX" or "80202". */
   location: string;
@@ -80035,6 +80147,13 @@ interface QuickbooksAccountant {
      * certifications and reviews
      */
     getAccountant(searchId: string): Promise<QuickbooksAccountant>;
+
+    /**
+     * Yearly cost of one employee: wages plus Medicare, Social Security, federal and state
+     * unemployment tax, retirement, insurance and extras, like QuickBooks' employee cost
+     * calculator
+     */
+    calculateEmployeeCost(args: QuickbooksEmployeeCostArgs): Promise<QuickbooksEmployeeCost>;
 
     /**
      * Builds an invoice PDF (seller, customer, line items, tax, discount) like QuickBooks' free
@@ -88939,19 +89058,18 @@ interface SnapchatProfileRow {
 }
 
 interface SnapchatSearchItem {
-  kind: string; // the site's $case: "lens" | "storyCard" | "user" | "snapProEntity" | "place" | "topic" | "publisherEdition" | …
-  id: string; // lens id, story id, user id, profile id, place id, topic text or edition id
+  kind: string; // "lens" | "storyCard" (a Spotlight video) | "user" | "snapProEntity" | "show" | "place" | "publisherEdition" (an episode) | "topic" | …
+  id: string; // Spotlight snap id, user id, profile id, publisherId (show), storyId (episode), place id, topic text; a lens's id is its lensId (getLens takes the uuid in result.unlockUrl)
   title?: string;
   username?: string;
-  result: Record<string, unknown>; // the site's own object for that kind, untouched
+  result: Record<string, unknown>; // the site's own object for that item, untouched
 }
 
 interface SnapchatSearchResult {
   query: string;
   sections: Array<{
-    section: string; // "Lenses" | "Spotlight" | "Add Friends" | "Subscribe" | "Places" | "Topics" | "Episodes" | …
-    sectionType: number;
-    endOfResults: boolean;
+    section: string; // "Lenses" | "Spotlight" | "Add Friends" | "Subscribe" | "Shows" | "Places" | "Episodes" | "Topics"
+    kind: string; // the site's section kind: "lenses" | "spotlight" | "users" | "profiles" | "publishers" | "places" | "episodes" | "topics"
     items: SnapchatSearchItem[];
   }>;
 }
@@ -89230,8 +89348,10 @@ interface SnapchatFriendChangeResult {
   interface Unit {
     /**
      * Search Snapchat the way www.snapchat.com/explore/<query> does: every section it renders
-     * (Lenses, Spotlight, Add Friends, Subscribe, Places, Topics, Episodes), each item with its
-     * kind, id, title and username plus the site's own object.
+     * (Lenses, Spotlight, Add Friends, Subscribe, Shows, Places, Episodes, and the Topics tags),
+     * each item with its kind, id, title and username plus the site's own object. A Spotlight
+     * item's id is the snap id getSpotlightVideo takes, a Show's the publisherId getShow takes,
+     * and an episode's the storyId getEpisode takes.
      */
     searchSnapchat(query: string): Promise<SnapchatSearchResult>;
 
@@ -104070,6 +104190,28 @@ interface VessiFitGuide {
   }
 }
 
+declare namespace BowmarkProvider_vestiaire_collective {
+  // ── Vestiaire Collective — the unit's own declarations, verbatim ──
+interface VestiaireSearchArgs { query?: string; url?: string; country?: string; currency?: string; language?: string; limit?: number; offset?: number; }
+interface VestiaireListing { id: string; name: string; brand: string | null; condition: string | null; sellerCountry: string | null; price: { amount: number; currency: string; formatted: string } | null; sold: boolean; url: string; picturePath: string | null; }
+interface VestiaireSearchResult { query: string; storefront: string; total: number | null; listings: VestiaireListing[]; }
+
+  /**
+   * Search Vestiaire Collective's pre-owned luxury fashion marketplace (German storefront by
+   * default) and get listings with brand, condition, price and link.
+   */
+  interface Unit {
+    /**
+     * Searches Vestiaire Collective listings by keyword, or by a Vestiaire search URL
+     * (https://de.vestiairecollective.com/search/?q=…), on the German storefront in EUR unless the
+     * URL or country/currency/language say otherwise. Returns each listing's name, brand,
+     * condition, seller country, price, sold flag and product URL, plus the total hit count. limit
+     * 1-100 (default 48), offset for paging.
+     */
+    search(args: string | VestiaireSearchArgs): Promise<VestiaireSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_viewrail {
   // ── Viewrail — the unit's own declarations, verbatim ──
 interface ViewrailMaterial {
@@ -115182,6 +115324,7 @@ interface BowmarkProviders {
   verizon: BowmarkProvider_verizon.Unit;
   vervecoffee: BowmarkProvider_vervecoffee.Unit;
   vessi: BowmarkProvider_vessi.Unit;
+  vestiaire_collective: BowmarkProvider_vestiaire_collective.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;
   villagerealtyobx: BowmarkProvider_villagerealtyobx.Unit;
   visible: BowmarkProvider_visible.Unit;

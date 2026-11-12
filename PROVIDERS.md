@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6309 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6312 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -268,6 +268,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.getAppDetails` | apps.apple.com | Everything the store page shows that the API does not: the five-star histogram behind… | 🟢 |
 | `app_store.getApps` | apps.apple.com | Read up to fifty apps in ONE request, for when an agent already holds a list of ids —… | 🟢 |
 | `app_store.getStory` | apps.apple.com | Read an App Store editorial story — the Today-tab piece Apple's editors wrote ("Master… | 🟢 |
+| `app_store.listAppEvents` | apps.apple.com | List the in-app events an app is running or about to run — a game's weekend event, a… | 🟢 |
+| `app_store.listArcadeGames` | apps.apple.com | List the games on Apple's Apple Arcade page — what a subscription gets you… | 🟢 |
 | `app_store.listCategories` | apps.apple.com | List every category and subcategory the App Store sorts apps into — Business… | 🟢 |
 | `app_store.listDeveloperApps` | apps.apple.com | List every app one developer has on the store — from the developer's numeric artist… | 🟢 |
 | `app_store.listPurchasedApps` | apps.apple.com | List the apps the caller's own Apple Account has bought or downloaded, with what was… | 🟢 |
@@ -276,6 +278,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions the caller's own Apple Account is paying for —… | 🟢 |
 | `app_store.listTodayStories` | apps.apple.com | List the editorial stories Apple is featuring on the Today tab right now — the page a… | 🟢 |
 | `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | 🟢 |
+| `app_store.listVersionHistory` | apps.apple.com | Read an app's update history from its store page — about 25 recent releases, newest… | 🟢 |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
 | `apple.addToBag` | apple.com | Add a product to the shopping bag (cart) by part number. | 🟢 |

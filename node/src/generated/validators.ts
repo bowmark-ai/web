@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0e01980e2f4907e8eeaf9b4b943611ef5ce14163a412129d0d8bffbec087b4a4
-// 4871 checked, 20 unchecked.
+// Manifest version: 38389fdb9ef6595d7fd96c89d517fb8bbd37963e9c6e3e96429db11b820e5bbb
+// 4882 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0e01980e2f4907e8eeaf9b4b943611ef5ce14163a412129d0d8bffbec087b4a4",
+  "version": "38389fdb9ef6595d7fd96c89d517fb8bbd37963e9c6e3e96429db11b820e5bbb",
   "units": {
     "address_validation": {
       "defs": {
@@ -35314,6 +35314,8 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listSectors": [],
+        "listCommodities": [],
+        "listCurrencies": [],
         "signup": [
           {
             "name": "args",
@@ -42677,6 +42679,160 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "editMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "channelId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "messageId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "content",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "channelId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "messageId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createThread": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "channelId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "messageId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "content",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "tagIds",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -100476,6 +100632,226 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "createPin": [
+          {
+            "name": "boardId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pin",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "imageUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "link",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sectionId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "changes",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "firstName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "lastName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "about",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "websiteUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "reactToPin": [
+          {
+            "name": "pinId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "reactionType",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "undo",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "commentOnPin": [
+          {
+            "name": "pinId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "aggregatedPinDataId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "followTopic": [
           {
             "name": "topicId",
@@ -106152,6 +106528,103 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "QuickbooksEmployeeCostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "payType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "hourly"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "salary"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "rate",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "hoursPerWeek",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "retirementContribution",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "health",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "dental",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "vision",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "otherExpenses",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "label",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "amount",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
         "QuickbooksFindAccountantsArgs": {
           "k": "object",
           "props": [
@@ -106720,6 +107193,16 @@ export const VALIDATORS: ValidatorTable = {
             "name": "searchId",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "calculateEmployeeCost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "QuickbooksEmployeeCostArgs"
             },
             "optional": false
           }
@@ -141598,6 +142081,84 @@ export const VALIDATORS: ValidatorTable = {
             "name": "handle",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.vestiaire_collective": {
+      "defs": {
+        "VestiaireSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "VestiaireSearchArgs"
+                }
+              ]
             },
             "optional": false
           }

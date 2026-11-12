@@ -64,7 +64,7 @@ apidirectory.com — apidirectory_com: listCategories, search (+1 planned)
 apify.com — apify: store
 app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchDeals (+2 planned)
 apple.com — apple: 32 functions — ask get_library
-apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCategories, listDeveloperApps, listPurchasedApps, listReviews, listSimilarApps, listSubscriptions, listTodayStories, listTopCharts, searchApps (+1 planned)
+apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listAppEvents, listArcadeGames, listCategories, listDeveloperApps, listPurchasedApps, listReviews, listSimilarApps, listSubscriptions, listTodayStories, listTopCharts, listVersionHistory, searchApps (+1 planned)
 arajet.com — arajet: search
 archipelago.gg — archipelago: getClientRelease, getGameOptions
 archive.org — archive_org: checkAvailability, checkLendingAvailability, downloadFile, getItem, getSnapshot, searchItems, searchScholar (+1 planned)
