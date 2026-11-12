@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bb172fd6edd49d98ceff7a1996dd5bd68703ad763e673db0709a25958a2b9e59
-# 97 capabilities, 817 providers, 4905 typed functions, 20 refused.
+# Manifest version: 581e4da60c00c82059982115101b2298c45f0ad9f3cf7adb7bfad32f9b587e64
+# 97 capabilities, 817 providers, 4916 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9541,6 +9541,10 @@ class Prv_bcbsri_bcbsriDentalPlanDetail_Out(TypedDict):
     documents: list[Prv_bcbsri_bcbsriDentalPlanDetail_Out_documents_item_Out]
 
 class Prv_bcbsri_bcbsriDentalPlanDetail_Out_documents_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_bcbsri_getPlanDocuments_return_item_Out(TypedDict):
     title: str
     url: str
 
@@ -20004,6 +20008,7 @@ class Prv_deviantart_DeviantartDeviation_Out(TypedDict):
     originalWidth: NotRequired[float]
     originalHeight: NotRequired[float]
     description: NotRequired[str]
+    text: NotRequired[str]
     tags: NotRequired[list[str]]
     license: NotRequired[str]
     isMature: NotRequired[bool]
@@ -24250,6 +24255,7 @@ class Prv_evag_StopSearchResult_Out(TypedDict):
 class Prv_eventbrite_EventbriteSearchArgs_In(TypedDict):
     location: str
     category: NotRequired[str]
+    free: NotRequired[bool]
     startDate: NotRequired[str]
     endDate: NotRequired[str]
     page: NotRequired[float]
@@ -24365,6 +24371,51 @@ class Prv_eventbrite_unfollowOrganizer_return_Out(TypedDict):
     organizerId: str
     followed: Literal[False]
     numFollowers: float | None
+
+class Prv_eventbrite_listMyOrganizedEvents_args_In(TypedDict):
+    status: NotRequired[Literal["all"] | Literal["live"] | Literal["draft"] | Literal["started"] | Literal["ended"] | Literal["completed"] | Literal["canceled"]]
+    page: NotRequired[float]
+
+class Prv_eventbrite_listMyOrganizedEvents_return_Out(TypedDict):
+    events: list[Prv_eventbrite_EventbriteOrganizedEventRow_Out]
+    page: float | None
+    pageCount: float | None
+    totalCount: float | None
+    hasMore: bool
+
+class Prv_eventbrite_EventbriteOrganizedEventRow_Out(TypedDict):
+    id: str
+    title: str | None
+    url: str | None
+    start: str | None
+    end: str | None
+    timezone: str | None
+    status: str | None
+    isFree: bool | None
+    listed: bool | None
+    capacity: float | None
+
+class Prv_eventbrite_getEventAttendees_args_In(TypedDict):
+    eventIdOrUrl: str
+    page: NotRequired[float]
+
+class Prv_eventbrite_getEventAttendees_return_Out(TypedDict):
+    attendees: list[Prv_eventbrite_EventbriteAttendeeRow_Out]
+    page: float | None
+    pageCount: float | None
+    totalCount: float | None
+    hasMore: bool
+
+class Prv_eventbrite_EventbriteAttendeeRow_Out(TypedDict):
+    id: str
+    name: str | None
+    email: str | None
+    ticketClassName: str | None
+    status: str | None
+    checkedIn: bool | None
+    cancelled: bool | None
+    orderId: str | None
+    created: str | None
 
 class Prv_eventbrite_getFollowedOrganizers_return_Out(TypedDict):
     organizers: list[Prv_eventbrite_getFollowedOrganizers_return_Out_organizers_item_Out]
@@ -42586,6 +42637,53 @@ class Prv_nike_NikeColorway_Out(TypedDict):
     imageUrl: str | None
     buyable: bool
 
+class Prv_nike_NikeReviewArgs_In(TypedDict):
+    product: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_nike_NikeReviews_Out(TypedDict):
+    styleCode: str
+    title: str | None
+    averageRating: float | None
+    totalReviews: float
+    offset: float
+    reviews: list[Prv_nike_NikeReview_Out]
+
+class Prv_nike_NikeReview_Out(TypedDict):
+    id: float
+    rating: float
+    title: str
+    text: str
+    date: str
+    author: str | None
+    location: str | None
+    ratings: Mapping[str, str]
+    reviewer: Mapping[str, str]
+    helpfulVotes: float
+    unhelpfulVotes: float
+    incentivized: bool
+    imageUrls: list[str]
+
+class Prv_nike_getSizeChart_chart_u1_In(TypedDict):
+    product: str
+
+class Prv_nike_NikeSizeChart_Out(TypedDict):
+    chart: str
+    url: str
+    tables: list[Prv_nike_NikeSizeChart_Out_tables_item_Out]
+
+class Prv_nike_NikeSizeChart_Out_tables_item_Out(TypedDict):
+    rows: list[Prv_nike_NikeSizeChart_Out_tables_item_Out_rows_item_Out]
+
+class Prv_nike_NikeSizeChart_Out_tables_item_Out_rows_item_Out(TypedDict):
+    label: str
+    values: list[str]
+
+class Prv_nike_lookupGuestOrder_args_In(TypedDict):
+    orderNumber: str
+    email: str
+
 class Prv_nike_NikeSizeAvailability_Out(TypedDict):
     styleColor: str
     title: str
@@ -57419,6 +57517,27 @@ class Prv_spotify_SpotifyBrowseItem_Out(TypedDict):
 class Prv_spotify_SpotifyFeatured_Out(TypedDict):
     sections: list[Prv_spotify_SpotifyBrowseSection_Out]
 
+class Prv_spotify_SpotifyRecommendations_Out(TypedDict):
+    seedTrackId: str
+    tracks: list[Prv_spotify_SpotifyRecommendations_Out_tracks_item_Out]
+
+class Prv_spotify_SpotifyRecommendations_Out_tracks_item_Out(TypedDict):
+    id: str
+    uri: str
+    name: str
+    artists: list[Prv_spotify_SpotifyRecommendations_Out_tracks_item_Out_artists_item_Out]
+    album: Prv_spotify_SpotifyRecommendations_Out_tracks_item_Out_album_u0_Out | None
+    durationMs: float | None
+    playcount: float | None
+    imageUrl: str | None
+
+class Prv_spotify_SpotifyRecommendations_Out_tracks_item_Out_artists_item_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_spotify_SpotifyRecommendations_Out_tracks_item_Out_album_u0_Out(TypedDict):
+    id: str
+
 class Prv_spotify_SpotifyRelatedArtists_Out(TypedDict):
     artistId: str
     totalCount: float
@@ -60025,6 +60144,19 @@ class Prv_surfshark_SurfsharkDedicatedIpPlan_Out(TypedDict):
     priceUsd: float
     per: str
 
+class Prv_surveymonkey_SurveyMonkeyCreateCollectorArgs_In(TypedDict):
+    surveyId: str
+    type: NotRequired[Literal["weblink"] | Literal["email"] | Literal["sms"]]
+
+class Prv_surveymonkey_SurveyMonkeyCollector_Out(TypedDict):
+    id: str
+    name: str | None
+    type: str | None
+    status: str | None
+    responseCount: float | None
+    createdAt: str | None
+    modifiedAt: str | None
+
 class Prv_surveymonkey_SurveyMonkeyCreateSurveyArgs_In(TypedDict):
     title: str
 
@@ -60037,6 +60169,30 @@ class Prv_surveymonkey_SurveyMonkeySurvey_Out(TypedDict):
     modifiedAt: str | None
     questionCount: float | None
 
+class Prv_surveymonkey_SurveyMonkeyDeleteCollectorArgs_In(TypedDict):
+    surveyId: str
+    collectorId: str
+    type: NotRequired[Literal["weblink"] | Literal["email"] | Literal["sms"]]
+
+class Prv_surveymonkey_SurveyMonkeyDeleteCollectorResult_Out(TypedDict):
+    collectorId: str
+    deleted: Literal[True]
+
+class Prv_surveymonkey_SurveyMonkeyDeleteSurveyArgs_In(TypedDict):
+    surveyId: str
+
+class Prv_surveymonkey_SurveyMonkeyDeleteSurveyResult_Out(TypedDict):
+    surveyId: str
+    deleted: Literal[True]
+
+class Prv_surveymonkey_SurveyMonkeyEditSurveyArgs_In(TypedDict):
+    surveyId: str
+    title: str
+
+class Prv_surveymonkey_SurveyMonkeyEditSurveyResult_Out(TypedDict):
+    surveyId: str
+    title: str
+
 class Prv_surveymonkey_SurveyMonkeyAccount_Out(TypedDict):
     id: str | None
     username: str | None
@@ -60048,15 +60204,6 @@ class Prv_surveymonkey_SurveyMonkeyAccount_Out(TypedDict):
 
 class Prv_surveymonkey_SurveyMonkeyCollectorArgs_In(TypedDict):
     collectorId: str
-
-class Prv_surveymonkey_SurveyMonkeyCollector_Out(TypedDict):
-    id: str
-    name: str | None
-    type: str | None
-    status: str | None
-    responseCount: float | None
-    createdAt: str | None
-    modifiedAt: str | None
 
 class Prv_surveymonkey_SurveyMonkeySurveyArgs_In(TypedDict):
     surveyId: str
@@ -77677,6 +77824,9 @@ class Prv_bcbsri(Protocol):
     async def getDentalPlan(self, args: Prv_bcbsri_bcbsriDentalPlanArgs_In, /) -> Prv_bcbsri_bcbsriDentalPlanDetail_Out:
         """Reads one public individual dental plan."""
 
+    async def getPlanDocuments(self, args: Prv_bcbsri_bcbsriDentalPlanArgs_In, /) -> list[Prv_bcbsri_getPlanDocuments_return_item_Out]:
+        """Lists the public PDF documents published for one individual dental plan."""
+
     async def getDentalShopPage(self, year: float, /) -> Prv_bcbsri_bcbsriPage_Out:
         """Reads BCBSRI's public dental shopping page."""
 
@@ -83688,9 +83838,10 @@ class Prv_deviantart(Protocol):
         """
 
     async def getDeviation(self, args: Prv_deviantart_getDeviation_args_u0_In | Prv_deviantart_getDeviation_args_u1_In, /) -> Prv_deviantart_DeviantartDeviation_Out:
-        """Reads one deviation in full — title, author, published time, description text, tags,
-        media url and original dimensions, license, mature/AI flags, and stats — taking a
-        deviantart.com/<user>/art/<slug>-<id> url or the numeric id plus its author.
+        """Reads one deviation in full — title, author, published time, description text, a poem or
+        story's full text, tags, media url and original dimensions, license, mature/AI flags,
+        and stats — taking a deviantart.com/<user>/art/<slug>-<id> url or the numeric id plus
+        its author.
         """
 
     async def getUserProfile(self, args: Prv_deviantart_getUserProfile_args_In, /) -> Prv_deviantart_DeviantartUserProfile_Out:
@@ -85637,10 +85788,10 @@ class Prv_eventbrite(Protocol):
 
     async def searchEvents(self, args: Prv_eventbrite_EventbriteSearchArgs_In, /) -> Prv_eventbrite_EventbriteSearchResult_Out:
         """Searches live events by location (a city/region like "New York, NY", or the literal
-        string "online"), with an optional category or free-text keyword and an optional
-        start/end date range, and returns each match's id, title, url, start time, timezone and
-        venue. Paged (20/page); call again with "page" incremented. Ticket price is NOT on this
-        result — call getEvent for it.
+        string "online"), with an optional category or free-text keyword, an optional free: true
+        (free events only) and an optional start/end date range, and returns each match's id,
+        title, url, start time, timezone and venue. Paged (20/page); call again with "page"
+        incremented. Ticket price is NOT on this result — call getEvent for it.
         """
 
     async def getEvent(self, args: Prv_eventbrite_getEvent_args_In, /) -> Prv_eventbrite_EventbriteEventDetail_Out:
@@ -85689,6 +85840,20 @@ class Prv_eventbrite(Protocol):
         """Unfollows an organizer the signed-in caller follows on Eventbrite, taking an organizer
         url or its numeric id — the undo of followOrganizer; needs the caller signed in to
         Eventbrite (an authFunction, a write).
+        """
+
+    async def listMyOrganizedEvents(self, args: Prv_eventbrite_listMyOrganizedEvents_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_eventbrite_listMyOrganizedEvents_return_Out:
+        """Lists the events the signed-in caller ORGANIZES on Eventbrite (id, title, url,
+        start/end, status, free, listed, capacity), newest first — needs the caller signed in
+        (an authFunction). status narrows it (default all); paged by 'page'. Feed an id to
+        getEventAttendees.
+        """
+
+    async def getEventAttendees(self, args: Prv_eventbrite_getEventAttendees_args_In, opts: ConnectionOption | None = None, /) -> Prv_eventbrite_getEventAttendees_return_Out:
+        """Lists who is registered for one of the signed-in caller's OWN events (name, email,
+        ticket class, status, checked in, order id) — needs the caller signed in as that event's
+        organizer (an authFunction). An event the caller does not organize is refused by
+        Eventbrite.
         """
 
     async def getFollowedOrganizers(self, opts: ConnectionOption | None = None, /) -> Prv_eventbrite_getFollowedOrganizers_return_Out:
@@ -87337,9 +87502,8 @@ class Prv_fourseasonsyachts(Protocol):
 class Prv_foxnews(Protocol):
     """Fox News (foxnews.com) — search stories and clips, read an article in full, get the top
     stories, the latest news and any section's front, look up authors and Fox News Channel
-    shows, read videos, live-coverage blogs, comments, podcasts and Elections Center
-    results, and sign an email up to its newsletters; once a caller signs in, comment and
-    manage their Fox profile.
+    shows, read videos, live-coverage blogs, comments, podcasts, Elections Center results
+    and the newsletter list; once a caller signs in, comment and manage their Fox profile.
     """
 
     async def searchArticles(self, args: Prv_foxnews_SearchArticlesArgs_In, /) -> Prv_foxnews_searchArticles_return_Out:
@@ -96907,6 +97071,27 @@ class Prv_nike(Protocol):
         colourway with its price.
         """
 
+    async def getProductReviews(self, args: str | Prv_nike_NikeReviewArgs_In, /) -> Prv_nike_NikeReviews_Out:
+        """Customer reviews of one nike.com product (URL, style-colour code "DC0774-101" or style
+        code "DC0774"), newest first — the average rating and review count, then each review's
+        stars, title, text, date, fit and comfort ratings and the reviewer's usual size. Pooled
+        across every colourway of the style; paged with limit (1-50) and offset.
+        """
+
+    async def getSizeChart(self, chart: str | Prv_nike_getSizeChart_chart_u1_In, /) -> Prv_nike_NikeSizeChart_Out:
+        """Nike's own size chart, e.g. "mens-footwear" (US men/women/kids, UK, EU, cm),
+        "womens-footwear", "kids-footwear", "womens-tops-alpha", "mens-bottoms-numeric", or {
+        product } for the chart that product links. Each table is rows of a label ("US - Men",
+        "Waist (in)") and one value per size column, in inches.
+        """
+
+    async def lookupGuestOrder(self, args: Prv_nike_lookupGuestOrder_args_In, /) -> Mapping[str, Any]:
+        """Looks up one nike.com order the way the guest "find your order" form does — the order
+        number from the confirmation email plus the email it was placed with — and returns
+        Nike's own order summary JSON (status, items, shipping). An unknown pair throws Nike's
+        "Order Not Found".
+        """
+
     async def checkSizeAvailability(self, product: str, /) -> Prv_nike_NikeSizeAvailability_Out:
         """Which sizes of one nike.com US product (URL or style-colour code) can be bought online
         right now, each with Nike's stock level (HIGH, MEDIUM, LOW).
@@ -104574,6 +104759,14 @@ class Prv_spotify(Protocol):
         listPlaylistTracks.
         """
 
+    async def getRecommendations(self, trackId: str, /) -> Prv_spotify_SpotifyRecommendations_Out:
+        """Gets the tracks Spotify recommends for a seed track (id, uri or open.spotify.com url) —
+        the "Recommended" shelf on the track's own page, usually five tracks with artists,
+        album, duration and play count. Keyless and signed-out: it loads the web player's track
+        page in a browser, so it takes several seconds. Feed a returned id back in to walk
+        further.
+        """
+
     async def getRelatedArtists(self, id: str, /) -> Prv_spotify_SpotifyRelatedArtists_Out:
         """Gets the artists Spotify lists as "Fans also like" for an artist (id, uri or
         open.spotify.com url) — usually about 20-40, each with id and image. Keyless and
@@ -105710,10 +105903,31 @@ class Prv_surfshark(Protocol):
 class Prv_surveymonkey(Protocol):
     """Build, send, and analyze surveys; view responses and collector status."""
 
+    async def createCollector(self, args: Prv_surveymonkey_SurveyMonkeyCreateCollectorArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyCollector_Out:
+        """Creates a collector on one of the caller's surveys (surveyId from listSurveys) and
+        returns it (id, type, status). type is weblink (default), email or sms. Needs the caller
+        signed in.
+        """
+
     async def createSurvey(self, args: Prv_surveymonkey_SurveyMonkeyCreateSurveyArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeySurvey_Out:
         """Creates a new, empty survey with the given title on the signed-in caller's own account
         and returns it (id, title, status). Add questions in SurveyMonkey afterwards. Needs the
         caller signed in.
+        """
+
+    async def deleteCollector(self, args: Prv_surveymonkey_SurveyMonkeyDeleteCollectorArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyDeleteCollectorResult_Out:
+        """Deletes one collector from one of the caller's surveys (ids and type from
+        listCollectors); the link or invite stops taking responses. Needs the caller signed in.
+        """
+
+    async def deleteSurvey(self, args: Prv_surveymonkey_SurveyMonkeyDeleteSurveyArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyDeleteSurveyResult_Out:
+        """Deletes one of the caller's surveys by id (from listSurveys), including its responses.
+        Cannot be undone. Needs the caller signed in.
+        """
+
+    async def editSurvey(self, args: Prv_surveymonkey_SurveyMonkeyEditSurveyArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyEditSurveyResult_Out:
+        """Renames one of the caller's surveys (surveyId from listSurveys) to a new title.
+        Questions are not editable here. Needs the caller signed in.
         """
 
     async def getAccountInfo(self, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyAccount_Out:

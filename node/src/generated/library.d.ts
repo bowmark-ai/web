@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bb172fd6edd49d98ceff7a1996dd5bd68703ad763e673db0709a25958a2b9e59
-// 97 capabilities, 817 providers, 4923 typed functions, 20 refused.
+// Manifest version: 581e4da60c00c82059982115101b2298c45f0ad9f3cf7adb7bfad32f9b587e64
+// 97 capabilities, 817 providers, 4934 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15657,6 +15657,9 @@ interface bcbsriApplicationPageArgs { year: number; product: string; }
 
     /** Reads one public individual dental plan. */
     getDentalPlan(args: bcbsriDentalPlanArgs): Promise<bcbsriDentalPlanDetail>;
+
+    /** Lists the public PDF documents published for one individual dental plan. */
+    getPlanDocuments(args: bcbsriDentalPlanArgs): Promise<Array<{ title: string; url: string }>>;
 
     /** Reads BCBSRI's public dental shopping page. */
     getDentalShopPage(year: number): Promise<bcbsriPage>;
@@ -32688,6 +32691,8 @@ interface DeviantartDeviation {
   originalWidth?: number;
   originalHeight?: number;
   description?: string;
+  /** A literature or journal deviation's words, as plain text. */
+  text?: string;
   tags?: string[];
   license?: string;
   isMature?: boolean;
@@ -32905,9 +32910,10 @@ interface DeviantartPostedComment {
     searchDeviations(args: { query: string; cursor?: string }): Promise<DeviantartSearchResult>;
 
     /**
-     * Reads one deviation in full — title, author, published time, description text, tags, media
-     * url and original dimensions, license, mature/AI flags, and stats — taking a
-     * deviantart.com/<user>/art/<slug>-<id> url or the numeric id plus its author.
+     * Reads one deviation in full — title, author, published time, description text, a poem or
+     * story's full text, tags, media url and original dimensions, license, mature/AI flags, and
+     * stats — taking a deviantart.com/<user>/art/<slug>-<id> url or the numeric id plus its
+     * author.
      */
     getDeviation(args: { url: string } | { deviationId: string; username: string }): Promise<DeviantartDeviation>;
 
@@ -38606,6 +38612,29 @@ interface LineStatus {
 
 declare namespace BowmarkProvider_eventbrite {
   // ── Eventbrite — the unit's own declarations, verbatim ──
+interface EventbriteOrganizedEventRow {
+  id: string;
+  title: string | null;
+  url: string | null;
+  start: string | null;
+  end: string | null;
+  timezone: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  isFree: boolean | null;
+  listed: boolean | null;
+  capacity: number | null;
+}
+interface EventbriteAttendeeRow {
+  id: string;
+  name: string | null;
+  email: string | null;
+  ticketClassName: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  checkedIn: boolean | null;
+  cancelled: boolean | null;
+  orderId: string | null;
+  created: string | null;
+}
 interface EventbriteTicketClassRow {
   id: string;
   name: string;
@@ -38647,6 +38676,7 @@ interface EventbriteSearchResult {
 interface EventbriteSearchArgs {
   location: string;
   category?: string;
+  free?: boolean;
   startDate?: string;
   endDate?: string;
   page?: number;
@@ -38700,10 +38730,10 @@ interface EventbriteOrganizerDetail {
   interface Unit {
     /**
      * Searches live events by location (a city/region like "New York, NY", or the literal string
-     * "online"), with an optional category or free-text keyword and an optional start/end date
-     * range, and returns each match's id, title, url, start time, timezone and venue. Paged
-     * (20/page); call again with "page" incremented. Ticket price is NOT on this result — call
-     * getEvent for it.
+     * "online"), with an optional category or free-text keyword, an optional free: true (free
+     * events only) and an optional start/end date range, and returns each match's id, title, url,
+     * start time, timezone and venue. Paged (20/page); call again with "page" incremented. Ticket
+     * price is NOT on this result — call getEvent for it.
      */
     searchEvents(args: EventbriteSearchArgs): Promise<EventbriteSearchResult>;
 
@@ -38760,6 +38790,21 @@ interface EventbriteOrganizerDetail {
      * (an authFunction, a write).
      */
     unfollowOrganizer(args: { organizerIdOrUrl: string }, opts?: ConnectionOption): Promise<{ organizerId: string; followed: false; numFollowers: number | null }>;
+
+    /**
+     * Lists the events the signed-in caller ORGANIZES on Eventbrite (id, title, url, start/end,
+     * status, free, listed, capacity), newest first — needs the caller signed in (an
+     * authFunction). status narrows it (default all); paged by 'page'. Feed an id to
+     * getEventAttendees.
+     */
+    listMyOrganizedEvents(args?: { status?: 'all' | 'live' | 'draft' | 'started' | 'ended' | 'completed' | 'canceled'; page?: number }, opts?: ConnectionOption): Promise<{ events: EventbriteOrganizedEventRow[]; page: number | null; pageCount: number | null; totalCount: number | null; hasMore: boolean }>;
+
+    /**
+     * Lists who is registered for one of the signed-in caller's OWN events (name, email, ticket
+     * class, status, checked in, order id) — needs the caller signed in as that event's organizer
+     * (an authFunction). An event the caller does not organize is refused by Eventbrite.
+     */
+    getEventAttendees(args: { eventIdOrUrl: string; page?: number }, opts?: ConnectionOption): Promise<{ attendees: EventbriteAttendeeRow[]; page: number | null; pageCount: number | null; totalCount: number | null; hasMore: boolean }>;
 
     /**
      * Lists the organizers the signed-in caller follows on Eventbrite — the list followOrganizer
@@ -43741,9 +43786,8 @@ interface FoxnewsAccount {
   /**
    * Fox News (foxnews.com) — search stories and clips, read an article in full, get the top
    * stories, the latest news and any section's front, look up authors and Fox News Channel
-   * shows, read videos, live-coverage blogs, comments, podcasts and Elections Center results,
-   * and sign an email up to its newsletters; once a caller signs in, comment and manage their
-   * Fox profile.
+   * shows, read videos, live-coverage blogs, comments, podcasts, Elections Center results and
+   * the newsletter list; once a caller signs in, comment and manage their Fox profile.
    */
   interface Unit {
     /**
@@ -69409,6 +69453,46 @@ interface nhcReconObservation {
 
 declare namespace BowmarkProvider_nike {
   // ── Nike SNKRS — the unit's own declarations, verbatim ──
+interface NikeSizeChart {
+  chart: string;
+  url: string;
+  /** rows: a label ("US - Men", "Bust (in)") and one value per size column ("" = none) */
+  tables: { rows: { label: string; values: string[] }[] }[];
+}
+interface NikeReviewArgs {
+  /** nike.com product URL, style-colour code ("DC0774-101") or style code ("DC0774") */
+  product: string;
+  /** 1-50, default 10 */
+  limit?: number;
+  /** reviews to skip, default 0 */
+  offset?: number;
+}
+interface NikeReview {
+  id: number;
+  rating: number;
+  title: string;
+  text: string;
+  /** YYYY-MM-DD */
+  date: string;
+  author: string | null;
+  location: string | null;
+  /** e.g. { "How did this product fit?": "True to Size" } */
+  ratings: Record<string, string>;
+  /** e.g. { "Size you normally wear": "7.5" } */
+  reviewer: Record<string, string>;
+  helpfulVotes: number;
+  unhelpfulVotes: number;
+  incentivized: boolean;
+  imageUrls: string[];
+}
+interface NikeReviews {
+  styleCode: string;
+  title: string | null;
+  averageRating: number | null;
+  totalReviews: number;
+  offset: number;
+  reviews: NikeReview[];
+}
 interface NikeLaunchProduct {
   styleColor: string;
   title: string;
@@ -69631,6 +69715,29 @@ interface NikeStoreAvailability {
      * colourway with its price.
      */
     getProduct(product: string): Promise<NikeProduct>;
+
+    /**
+     * Customer reviews of one nike.com product (URL, style-colour code "DC0774-101" or style code
+     * "DC0774"), newest first — the average rating and review count, then each review's stars,
+     * title, text, date, fit and comfort ratings and the reviewer's usual size. Pooled across
+     * every colourway of the style; paged with limit (1-50) and offset.
+     */
+    getProductReviews(args: string | NikeReviewArgs): Promise<NikeReviews>;
+
+    /**
+     * Nike's own size chart, e.g. "mens-footwear" (US men/women/kids, UK, EU, cm),
+     * "womens-footwear", "kids-footwear", "womens-tops-alpha", "mens-bottoms-numeric", or {
+     * product } for the chart that product links. Each table is rows of a label ("US - Men",
+     * "Waist (in)") and one value per size column, in inches.
+     */
+    getSizeChart(chart: string | { product: string }): Promise<NikeSizeChart>;
+
+    /**
+     * Looks up one nike.com order the way the guest "find your order" form does — the order number
+     * from the confirmation email plus the email it was placed with — and returns Nike's own order
+     * summary JSON (status, items, shipping). An unknown pair throws Nike's "Order Not Found".
+     */
+    lookupGuestOrder(args: { orderNumber: string; email: string }): Promise<Record<string, unknown>>;
 
     /**
      * Which sizes of one nike.com US product (URL or style-colour code) can be bought online right
@@ -91374,6 +91481,20 @@ interface SpotifyBrowseCategory {
 interface SpotifyFeatured {
   sections: SpotifyBrowseSection[];
 }
+interface SpotifyRecommendations {
+  seedTrackId: string;
+  tracks: {
+    id: string;
+    uri: string;
+    name: string;
+    artists: { id: string; name: string }[];
+    album: { id: string } | null;
+    durationMs: number | null;
+    /** lifetime play count Spotify shows on the track */
+    playcount: number | null;
+    imageUrl: string | null;
+  }[];
+}
 interface SpotifyRelatedArtists {
   artistId: string;
   /** how many related artists Spotify reports */
@@ -91750,6 +91871,14 @@ interface SpotifyLyrics {
      * listPlaylistTracks.
      */
     getFeaturedPlaylists(): Promise<SpotifyFeatured>;
+
+    /**
+     * Gets the tracks Spotify recommends for a seed track (id, uri or open.spotify.com url) — the
+     * "Recommended" shelf on the track's own page, usually five tracks with artists, album,
+     * duration and play count. Keyless and signed-out: it loads the web player's track page in a
+     * browser, so it takes several seconds. Feed a returned id back in to walk further.
+     */
+    getRecommendations(trackId: string): Promise<SpotifyRecommendations>;
 
     /**
      * Gets the artists Spotify lists as "Fans also like" for an artist (id, uri or
@@ -95254,6 +95383,34 @@ interface SurveyMonkeyCreateSurveyArgs {
 interface SurveyMonkeyCollectorArgs {
   collectorId: string;
 }
+interface SurveyMonkeyCreateCollectorArgs {
+  surveyId: string;
+  type?: "weblink" | "email" | "sms";  // default "weblink"
+}
+interface SurveyMonkeyEditSurveyArgs {
+  surveyId: string;
+  title: string;
+}
+interface SurveyMonkeyEditSurveyResult {
+  surveyId: string;
+  title: string;
+}
+interface SurveyMonkeyDeleteSurveyArgs {
+  surveyId: string;
+}
+interface SurveyMonkeyDeleteSurveyResult {
+  surveyId: string;
+  deleted: true;
+}
+interface SurveyMonkeyDeleteCollectorArgs {
+  surveyId: string;
+  collectorId: string;
+  type?: "weblink" | "email" | "sms";  // the collector's type from listCollectors, default "weblink"
+}
+interface SurveyMonkeyDeleteCollectorResult {
+  collectorId: string;
+  deleted: true;
+}
 interface SurveyMonkeyTemplate {
   id: string;
   title: string | null;
@@ -95272,11 +95429,35 @@ interface SurveyMonkeyListTemplatesArgs {
   /** Build, send, and analyze surveys; view responses and collector status. */
   interface Unit {
     /**
+     * Creates a collector on one of the caller's surveys (surveyId from listSurveys) and returns
+     * it (id, type, status). type is weblink (default), email or sms. Needs the caller signed in.
+     */
+    createCollector(args: SurveyMonkeyCreateCollectorArgs, opts?: ConnectionOption): Promise<SurveyMonkeyCollector>;
+
+    /**
      * Creates a new, empty survey with the given title on the signed-in caller's own account and
      * returns it (id, title, status). Add questions in SurveyMonkey afterwards. Needs the caller
      * signed in.
      */
     createSurvey(args: SurveyMonkeyCreateSurveyArgs, opts?: ConnectionOption): Promise<SurveyMonkeySurvey>;
+
+    /**
+     * Deletes one collector from one of the caller's surveys (ids and type from listCollectors);
+     * the link or invite stops taking responses. Needs the caller signed in.
+     */
+    deleteCollector(args: SurveyMonkeyDeleteCollectorArgs, opts?: ConnectionOption): Promise<SurveyMonkeyDeleteCollectorResult>;
+
+    /**
+     * Deletes one of the caller's surveys by id (from listSurveys), including its responses.
+     * Cannot be undone. Needs the caller signed in.
+     */
+    deleteSurvey(args: SurveyMonkeyDeleteSurveyArgs, opts?: ConnectionOption): Promise<SurveyMonkeyDeleteSurveyResult>;
+
+    /**
+     * Renames one of the caller's surveys (surveyId from listSurveys) to a new title. Questions
+     * are not editable here. Needs the caller signed in.
+     */
+    editSurvey(args: SurveyMonkeyEditSurveyArgs, opts?: ConnectionOption): Promise<SurveyMonkeyEditSurveyResult>;
 
     /**
      * The signed-in caller's own SurveyMonkey account: id, username, email, name, plan package id

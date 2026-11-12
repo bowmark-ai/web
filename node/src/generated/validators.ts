@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bb172fd6edd49d98ceff7a1996dd5bd68703ad763e673db0709a25958a2b9e59
-// 4905 checked, 20 unchecked.
+// Manifest version: 581e4da60c00c82059982115101b2298c45f0ad9f3cf7adb7bfad32f9b587e64
+// 4916 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bb172fd6edd49d98ceff7a1996dd5bd68703ad763e673db0709a25958a2b9e59",
+  "version": "581e4da60c00c82059982115101b2298c45f0ad9f3cf7adb7bfad32f9b587e64",
   "units": {
     "address_validation": {
       "defs": {
@@ -18710,6 +18710,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getDentalPlan": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "bcbsriDentalPlanArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlanDocuments": [
           {
             "name": "args",
             "schema": {
@@ -48666,6 +48676,13 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             },
             {
+              "name": "free",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
               "name": "startDate",
               "schema": {
                 "k": "string"
@@ -48886,6 +48903,118 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyOrganizedEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "status",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "all"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "live"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "draft"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "started"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "ended"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "completed"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "canceled"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getEventAttendees": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "eventIdOrUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -90466,6 +90595,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NikeReviewArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "NikeSearchArgs": {
           "k": "object",
           "props": [
@@ -90674,6 +90829,75 @@ export const VALIDATORS: ValidatorTable = {
             "name": "product",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProductReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "NikeReviewArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getSizeChart": [
+          {
+            "name": "chart",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "product",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "lookupGuestOrder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "orderNumber",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "email",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
@@ -124285,6 +124509,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getFeaturedPlaylists": [],
+        "getRecommendations": [
+          {
+            "name": "trackId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getRelatedArtists": [
           {
             "name": "id",
@@ -129651,9 +129884,113 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SurveyMonkeyCreateCollectorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "surveyId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "weblink"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "email"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sms"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "SurveyMonkeyCreateSurveyArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SurveyMonkeyDeleteCollectorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "surveyId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "collectorId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "weblink"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "email"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sms"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SurveyMonkeyDeleteSurveyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "surveyId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SurveyMonkeyEditSurveyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "surveyId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
             {
               "name": "title",
               "schema": {
@@ -129769,12 +130106,116 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "createCollector": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyCreateCollectorArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "createSurvey": [
           {
             "name": "args",
             "schema": {
               "k": "ref",
               "name": "SurveyMonkeyCreateSurveyArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteCollector": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyDeleteCollectorArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteSurvey": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyDeleteSurveyArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "editSurvey": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyEditSurveyArgs"
             },
             "optional": false
           },

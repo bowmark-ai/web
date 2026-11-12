@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6327 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6328 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1768,10 +1768,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.claimFreeGame` | epicgames.com | Claim one of this week's free games into the signed-in caller's library — the $0… | 🟢 |
 | `epicgames.getAccount` | epicgames.com | The signed-in caller's own Epic Games account settings, returned raw — no fleet-held… | 🟢 |
 | `epicgames.getAchievementProgress` | epicgames.com | The signed-in caller's own achievements in one game — which are unlocked, when, their… | 🟢 |
-| `epicgames.getAchievements` | epicgames.com | A game's achievement list as the store shows it — name, description, icon, XP, and the… | ⚪ |
+| `epicgames.getAchievements` | epicgames.com | A game's achievement list as the store shows it — name, description, icon, XP, and the… | 🟢 |
 | `epicgames.getCart` | epicgames.com | The signed-in caller's cart — each line's offer, price and discount, and the cart total. | ⚪ |
 | `epicgames.getGame` | epicgames.com | One game's store page as data: title, description, developer, publisher, editions and… | 🟢 |
-| `epicgames.getGameRatings` | epicgames.com | How players rate a game on the Epic Games Store — the average star rating, the count… | ⚪ |
+| `epicgames.getGameRatings` | epicgames.com | How players rate a game on the Epic Games Store: the average star rating and the… | 🟢 |
 | `epicgames.getLibrary` | epicgames.com | The games the signed-in caller owns on Epic — title, namespace, slug, and when it was… | 🟢 |
 | `epicgames.getNewsArticle` | epicgames.com | One Epic Games Store news article's full text (HTML), date, author, category and images. | 🟢 |
 | `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | 🟢 |
@@ -1786,7 +1786,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | 🟡 |
 | `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | 🟢 |
 | `epicgames.listOrders` | epicgames.com | The signed-in caller's Epic purchase history, newest first, returned raw; pass the… | 🟢 |
-| `epicgames.listTags` | epicgames.com | The store's browse filters — genres, features, platforms and event tags with their ids… | ⚪ |
+| `epicgames.listTags` | epicgames.com | The store's browse tags — genres, features, platforms, events and player-poll tags —… | 🟢 |
 | `epicgames.redeemCode` | epicgames.com | Redeem a product code the caller holds into their Epic library. | 🟢 |
 | `epicgames.removeFriend` | epicgames.com | Remove someone from the signed-in caller's Epic friends, by their Epic display name. | 🟢 |
 | `epicgames.removeFromCart` | epicgames.com | Remove a line from the signed-in caller's cart. | ⚪ |
@@ -3056,6 +3056,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kenko.setMarketingPreferences` | gokenko.com | Update marketing and communication preferences for the signed-in member. | ⚪ |
 | `kenko.setProfilePicture` | gokenko.com | Upload or change the signed-in member's profile picture. | ⚪ |
 | `kenko.updateMyProfile` | gokenko.com | Update the signed-in member's profile information. | 🟢 |
+| `kick.search` | kick.com | Searches kick for channels, categories and live streams. | ⚪ |
 | `kickstarter.project` | kickstarter.com | Reads a Kickstarter project's creator, funding goal, pledged USD amount, backer count… | 🟢 |
 | `kickstarter.search` | kickstarter.com | Searches live Kickstarter projects by keyword and returns their titles and project URLs. | 🟢 |
 | `kijiji.getListing` | kijiji.ca | Reads one Kijiji ad in full — whole description, every image, attributes such as… | 🟢 |
@@ -3295,7 +3296,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marketplace_visualstudio.getExtensionStats` | marketplace.visualstudio.com | Looks up one VS Code extension by its "publisher.extension" id (the id shown in the… | 🟢 |
 | `marketplace_visualstudio.searchExtensions` | marketplace.visualstudio.com | Full-text searches the VS Code Marketplace for extensions matching a query, ordered by… | 🟢 |
 | `marks.findStores` | www.marks.com | Lists the Mark's stores nearest a latitude/longitude with address, distance, opening… | 🟢 |
-| `marks.getProduct` | www.marks.com | Reads one Mark's product's size and colour options and every SKU with its CAD price… | 🟢 |
+| `marks.getProduct` | www.marks.com | Reads one Mark's product's size and colour options and every SKU with its CAD price… | 🟡 |
 | `marks.searchProducts` | www.marks.com | Searches Mark's live clothing and workwear catalog (www.marks.com, Canada only) for… | 🟢 |
 | `marriott.findHotels` | marriott.com | Lists Marriott-family properties published on the site's own hotel-sitemap directory… | 🟢 |
 | `marriott.getAwardAvailability` | marriott.com | Searches Marriott's live award (Marriott Bonvoy points) availability for a property… | ⚪ |
@@ -3571,13 +3572,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nike.getMemberProfile` | nike.com | Reads the signed-in caller's Nike member profile — name, shoe size, preferences and… | ⚪ |
 | `nike.getOrder` | nike.com | Reads one of the caller's orders by order number — every item, shipping status… | ⚪ |
 | `nike.getProduct` | nike.com | Reads one nike.com product page by its URL or style-colour code — name, description… | 🟢 |
-| `nike.getProductReviews` | nike.com | Reads the customer reviews on one nike.com product — rating, title, text, fit feedback… | ⚪ |
-| `nike.getSizeChart` | nike.com | Reads Nike's size chart for a product type (men's shoes, women's tops, kids') with… | ⚪ |
+| `nike.getProductReviews` | nike.com | Reads the customer reviews on one nike.com product — average rating, count, and each… | 🟢 |
+| `nike.getSizeChart` | nike.com | Reads Nike's size chart for a product type (men's shoes, women's tops, kids') with… | 🟢 |
 | `nike.listCategories` | nike.com | Lists nike.com's shop navigation — the gender, sport and product-type categories and… | 🟢 |
 | `nike.listCategoryProducts` | nike.com | Lists the products on one nike.com category wall (a /w/ URL such as men's running… | 🟢 |
 | `nike.listFavorites` | nike.com | Lists the products the signed-in caller has favorited on nike.com. | ⚪ |
 | `nike.listOrders` | nike.com | Lists the signed-in caller's Nike orders — date, items, total and status — newest first. | ⚪ |
-| `nike.lookupGuestOrder` | nike.com | Looks up an order's status and tracking from an order number and the email it was… | ⚪ |
+| `nike.lookupGuestOrder` | nike.com | Looks up an order's status and tracking from an order number and the email it was… | 🟢 |
 | `nike.removeFavorite` | nike.com | Removes one product from the signed-in caller's nike.com favorites. | ⚪ |
 | `nike.removeFromCart` | nike.com | Removes or changes the quantity of one line in the caller's nike.com bag. | ⚪ |
 | `nike.searchProducts` | nike.com | Searches Nike's US store by text the way nike.com/w?q= does — every matching product… | 🟢 |
@@ -5121,12 +5122,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sunlighten.matchSauna` | sunlighten.com | Runs Sunlighten's own 'Find My Sauna' quiz match — the same wellness-goal +… | 🟡 |
 | `surfshark.getDedicatedIp` | surfshark.com | Reads Surfshark's own dedicated / static IP page and returns every country and city it… | 🟢 |
 | `surfshark.getPlans` | surfshark.com | Surfshark's VPN subscription plans and prices (surfshark.com/pricing). | ⚪ |
-| `surveymonkey.createCollector` | surveymonkey.com | Creates a new collector (web link, email invite, SMS, or social) to distribute one… | ⚪ |
+| `surveymonkey.createCollector` | surveymonkey.com | Creates a new collector (web link, email invite, SMS, or social) to distribute one… | 🟢 |
 | `surveymonkey.createSurvey` | surveymonkey.com | Creates a new survey with title, questions, and initial settings. | 🟢 |
-| `surveymonkey.deleteCollector` | surveymonkey.com | Stops collecting responses through one collector on one survey. | ⚪ |
-| `surveymonkey.deleteSurvey` | surveymonkey.com | Permanently deletes one survey and all its responses. | ⚪ |
+| `surveymonkey.deleteCollector` | surveymonkey.com | Stops collecting responses through one collector on one survey. | 🟢 |
+| `surveymonkey.deleteSurvey` | surveymonkey.com | Permanently deletes one survey and all its responses. | 🟢 |
 | `surveymonkey.downloadSurveyData` | surveymonkey.com | Exports all responses to one survey as a CSV or Excel file. | ⚪ |
-| `surveymonkey.editSurvey` | surveymonkey.com | Updates an existing survey's title, description, questions, or settings. | ⚪ |
+| `surveymonkey.editSurvey` | surveymonkey.com | Updates an existing survey's title, description, questions, or settings. | 🟢 |
 | `surveymonkey.getAccountInfo` | surveymonkey.com | Retrieves the signed-in user's account details: name, email, plan tier, response limits. | 🟢 |
 | `surveymonkey.getCollectorStatus` | surveymonkey.com | Retrieves the response count and status for one collector on one survey. | 🟢 |
 | `surveymonkey.getSurvey` | surveymonkey.com | Retrieves one survey's full details: title, description, questions, and settings. | 🟢 |
