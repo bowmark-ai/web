@@ -1551,7 +1551,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.listMySavedCarts` | dell.com | Retrieves the signed-in user's saved shopping carts. | 🟢 |
 | `dell.listProductCategories` | dell.com | Lists the main product categories (laptops, desktops, servers, peripherals, etc.). | 🟢 |
 | `dell.listSupportCategories` | dell.com | Lists the main support categories (drivers, firmware, manuals, community forum, etc.). | 🟢 |
-| `dell.searchForumThreads` | dell.com | Searches Dell's community forum for threads matching a query, returning titles, URLs… | 🟢 |
+| `dell.searchForumThreads` | dell.com | Searches Dell's community forum for threads matching a query, returning titles, URLs… | 🟡 |
 | `dell.searchProducts` | dell.com | Searches the Dell store for products by keyword, returning product names, URLs… | 🟢 |
 | `dell.searchSupport` | dell.com | Searches Dell's support knowledge base for articles, drivers, and troubleshooting… | 🟡 |
 | `deltadentalma.lastUpdated` | deltadentalma.com | Returns the timestamp the directory data was last refreshed, so a caller can say how… | 🟢 |
