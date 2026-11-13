@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3723d1a9c01ab0855bd621d7215ef6ab25384c23e57b8a669e642c39f8dbee68
-// 5077 checked, 20 unchecked.
+// Manifest version: 0352c3792e63042fff61d39cb904ab683f3af636f78e00cf63c143bea61fcae6
+// 5083 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3723d1a9c01ab0855bd621d7215ef6ab25384c23e57b8a669e642c39f8dbee68",
+  "version": "0352c3792e63042fff61d39cb904ab683f3af636f78e00cf63c143bea61fcae6",
   "units": {
     "address_validation": {
       "defs": {
@@ -20812,6 +20812,82 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BlueskyLeaveConversationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "BlueskyMuteConversationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "with",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "undo",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BlueskyMuteModerationListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "list",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "undo",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BlueskyMuteThreadArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "post",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "undo",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "BlueskyMuteWordArgs": {
           "k": "object",
           "props": [
@@ -22739,6 +22815,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BlueskyMuteWordArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "muteThread": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyMuteThreadArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "muteConversation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyMuteConversationArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "leaveConversation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyLeaveConversationArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "muteModerationList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyMuteModerationListArgs"
             },
             "optional": false
           },
@@ -46414,6 +46594,54 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "uploadFile": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "content",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "overwrite",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "createFileRequest": [
           {
             "name": "input",
@@ -65172,6 +65400,15 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ],
+        "getSimilarBooks": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ],
         "listGenreBooks": [

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6704 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6705 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3682,7 +3682,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mlb.getProbablePitchers` | mlb.com | Lists the announced starting pitchers for upcoming games, with their season records. | ⚪ |
 | `mlb.getProspectRankings` | mlb.com | Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30. | ⚪ |
 | `mlb.getRoster` | mlb.com | Gets a team's roster (active, 40-man, full season or depth chart) with each player's… | ⚪ |
-| `mlb.getSchedule` | mlb.com | Lists MLB games for a date or date range, optionally one team's: matchup, start time… | ⚪ |
+| `mlb.getSchedule` | mlb.com | Lists MLB games for a date or date range, optionally one team's: matchup, start time… | 🟢 |
 | `mlb.getStandings` | mlb.com | Gets the standings by division, league or wild card for a season: wins, losses… | ⚪ |
 | `mlb.getStartingLineups` | mlb.com | Gets the announced batting orders for a day's games. | ⚪ |
 | `mlb.getStatLeaders` | mlb.com | Lists the league leaders in a stat category for a season, MLB-wide or per league. | ⚪ |
@@ -3699,11 +3699,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mlb.listNews` | mlb.com | Lists the latest MLB.com news stories, league-wide or for one team: headline, link… | ⚪ |
 | `mlb.listNewsletterSubscriptions` | mlb.com | Lists the MLB and team newsletters the signed-in caller is subscribed to. | ⚪ |
 | `mlb.listPlayerStats` | mlb.com | Lists every qualified player's season stats, sortable by any column, as the /stats… | ⚪ |
-| `mlb.listTeams` | mlb.com | Lists the 30 MLB teams (or a minor league's teams) with ids, names, abbreviations… | ⚪ |
+| `mlb.listTeams` | mlb.com | Lists the 30 MLB teams (or a minor league's teams) with ids, names, abbreviations… | 🟢 |
 | `mlb.listTransactions` | mlb.com | Lists player transactions (trades, signings, injured list moves, call-ups) for a date… | ⚪ |
 | `mlb.removeFavorite` | mlb.com | Removes a team or player from the signed-in caller's favourites. | ⚪ |
 | `mlb.searchContent` | mlb.com | Searches MLB.com's news articles and videos by keyword, as the site search does. | ⚪ |
-| `mlb.searchPlayers` | mlb.com | Finds players by name, current or retired, and returns their ids, positions and teams. | ⚪ |
+| `mlb.searchPlayers` | mlb.com | Finds players by name, current or retired, and returns their ids, positions and teams. | 🟢 |
 | `mlb.searchVideos` | mlb.com | Searches MLB's video library (Film Room): highlights and every pitch, by player, team… | ⚪ |
 | `mlb.subscribeToMlbTv` | mlb.com | Starts an MLB.TV subscription for the signed-in caller, stopping at the payment step. | ⚪ |
 | `mlb.subscribeToNewsletter` | mlb.com | Signs an email address up to MLB or a team's newsletter. | ⚪ |
@@ -4732,8 +4732,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ring.getProduct` | ring.com | Reads a Ring product page's live offer, availability, SKUs, images and server-rendered… | 🟢 |
 | `ring.getProductReviews` | ring.com | Reads a Ring product's customer reviews with their ratings and text. | ⚪ |
 | `ring.getSupportArticle` | ring.com | Reads one Ring support article by the url searchSupport returned. | ⚪ |
-| `ring.listCollection` | ring.com | Reads one collection's product grid by its handle, with each card's name, url, price… | ⚪ |
-| `ring.listCollections` | ring.com | Lists Ring's product collections (category and shelf pages) with their handles and… | ⚪ |
+| `ring.listCollection` | ring.com | Reads one collection's product grid by its handle, with each card's name, url, price… | 🟢 |
+| `ring.listCollections` | ring.com | Lists Ring's product collections (category and shelf pages) with their handles and… | 🟢 |
 | `ring.listDevices` | ring.com | Lists the Ring devices on the signed-in account: doorbells, cameras, the alarm base… | ⚪ |
 | `ring.listEvents` | ring.com | Lists the signed-in account's doorbell, motion and alarm events, newest first, with… | ⚪ |
 | `ring.listSharedUsers` | ring.com | Lists the people the signed-in account has shared its Ring devices with. | ⚪ |
@@ -4975,7 +4975,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.getSearchSuggestions` | shein.com | Returns the keyword suggestions Shein's search box offers while typing (the dropdown… | ⚪ |
 | `shein.getSimilarProducts` | shein.com | Returns the 'similar items' and 'customers also viewed' products shown under a product. | ⚪ |
 | `shein.getSizeGuide` | shein.com | Returns a product's size chart: the measurement columns (bust, waist, hip, length) and… | 🟢 |
-| `shein.getStore` | shein.com | Returns a marketplace store's profile — name, rating, follower count, items sold —… | ⚪ |
+| `shein.getStore` | shein.com | Returns the marketplace store that sells a product: store code, name, logo… | 🟢 |
 | `shein.listAddresses` | shein.com | Lists the shipping addresses saved on the signed-in caller's account. | ⚪ |
 | `shein.listCategories` | shein.com | Lists the top-level product categories on Shein. | 🟢 |
 | `shein.listFlashSale` | shein.com | Lists the products on Shein's Sale tab (its discounted grid; the site has no separate… | 🟢 |
@@ -5789,7 +5789,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tock.startToGoOrder` | exploretock.com | Start a to-go order — guest checkout, stops before payment. | ⚪ |
 | `tock.transferReservation` | exploretock.com | Transfer one of the signed-in user's reservations to another person. | ⚪ |
 | `tock.updateProfile` | exploretock.com | Update the signed-in user's profile information. | ⚪ |
-| `tomsguide.search` | tomsguide.com | Searches Tom's Guide reviews, buying guides, how-tos, news and deals for a required… | 🟢 |
+| `tomsguide.search` | tomsguide.com | Searches Tom's Guide for a required article topic or keyword. | 🟢 |
 | `topcashback.getStoreRate` | topcashback.com | Reads a store's cashback rate on TopCashback — the base earn rate plus per-category… | 🟢 |
 | `topcashback.listOffers` | topcashback.com | Lists a store's current TopCashback deals and voucher codes alongside its cash back. | ⚪ |
 | `topcashback.searchStores` | topcashback.com | Searches for stores on TopCashback by name or keyword and returns matching stores with… | 🟢 |
@@ -6698,6 +6698,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | 🟢 |
 | `zoom.getSystemStatus` | zoom.us | Returns Zoom's current system status. | 🟢 |
 | `zoom.getWebinar` | zoom.us | Returns details of one webinar. | 🟢 |
+| `zoom.getWebinarRegistration` | zoom.us | Reads a Zoom webinar sign-up link: topic, agenda and start time. | 🟢 |
 | `zoom.joinMeeting` | zoom.us | Checks whether a Zoom meeting link is valid and joinable, reading the site's own join… | 🟢 |
 | `zoom.listMeetings` | zoom.us | The signed-in caller's upcoming meetings. | 🟢 |
 | `zoom.listRecordings` | zoom.us | The signed-in caller's recorded meetings and webinars. | 🟢 |

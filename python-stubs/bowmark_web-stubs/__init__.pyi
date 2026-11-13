@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3723d1a9c01ab0855bd621d7215ef6ab25384c23e57b8a669e642c39f8dbee68
-# 98 capabilities, 832 providers, 5077 typed functions, 20 refused.
+# Manifest version: 0352c3792e63042fff61d39cb904ab683f3af636f78e00cf63c143bea61fcae6
+# 98 capabilities, 832 providers, 5083 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11205,6 +11205,43 @@ class Prv_bluesky_BlueskyMuteWordArgs_In(TypedDict):
 
 class Prv_bluesky_BlueskyMuteWordResult_Out(TypedDict):
     word: str
+    muted: bool
+    changed: bool
+
+class Prv_bluesky_BlueskyMuteThreadArgs_In(TypedDict):
+    post: str
+    undo: NotRequired[bool]
+
+class Prv_bluesky_BlueskyThreadMuteResult_Out(TypedDict):
+    root: str
+    muted: bool
+    changed: bool
+
+Prv_bluesky_BlueskyMuteConversationArgs_In = TypedDict(
+    "Prv_bluesky_BlueskyMuteConversationArgs_In",
+    {
+    "conversationId": NotRequired[str],
+    "with": NotRequired[str],
+    "undo": NotRequired[bool],
+    },
+)
+
+class Prv_bluesky_BlueskyConversationMuteResult_Out(TypedDict):
+    conversationId: str
+    muted: bool
+
+class Prv_bluesky_BlueskyLeaveConversationArgs_In(TypedDict):
+    conversationId: str
+
+class Prv_bluesky_BlueskyLeftConversation_Out(TypedDict):
+    conversationId: str
+
+class Prv_bluesky_BlueskyMuteModerationListArgs_In(TypedDict):
+    list: str
+    undo: NotRequired[bool]
+
+class Prv_bluesky_BlueskyModerationListMuteResult_Out(TypedDict):
+    list: str
     muted: bool
     changed: bool
 
@@ -22753,6 +22790,11 @@ class Prv_dropbox_DropboxEntry_Out(TypedDict):
     rev: NotRequired[str]
     contentHash: NotRequired[str]
 
+class Prv_dropbox_uploadFile_input_In(TypedDict):
+    path: str
+    content: str
+    overwrite: NotRequired[bool]
+
 class Prv_dropbox_createFileRequest_input_In(TypedDict):
     title: str
     destination: str
@@ -30958,6 +31000,15 @@ class Prv_goodreads_GoodreadsReviewRow_Out(TypedDict):
     createdAt: NotRequired[float]
     reviewerName: NotRequired[str]
     reviewerUrl: NotRequired[str]
+
+class Prv_goodreads_GoodreadsSimilarBook_Out(TypedDict):
+    legacyId: str
+    title: str
+    url: str
+    imageUrl: NotRequired[str]
+    authorName: NotRequired[str]
+    averageRating: NotRequired[float]
+    ratingsCount: NotRequired[float]
 
 class Prv_goodreads_GoodreadsListBook_Out(TypedDict):
     legacyId: str
@@ -80819,6 +80870,41 @@ class Prv_bluesky(Protocol):
         expired; sign in again.
         """
 
+    async def muteThread(self, args: Prv_bluesky_BlueskyMuteThreadArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyThreadMuteResult_Out:
+        """Mutes the thread a post sits in for the signed-in caller, so its replies stop reaching
+        their notifications, as the app's Mute thread does. The post is an at:// URI or bsky.app
+        post URL; naming a reply mutes the thread's root. `undo: true` unmutes it. A thread
+        already in the requested state returns `changed: false`. Needs the caller signed in to
+        bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError`
+        when the saved sign-in has expired; sign in again.
+        """
+
+    async def muteConversation(self, args: Prv_bluesky_BlueskyMuteConversationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyConversationMuteResult_Out:
+        """Mutes a direct or group chat for the signed-in caller, so its new messages stop
+        notifying them, as the app's mute does; `undo: true` unmutes it. Takes a
+        `conversationId` from listConversations, or `with` a handle, DID or bsky.app profile URL
+        to find the conversation with that person (opened if none exists, as getConversation
+        does). Returns whether the conversation is muted once the call returns. Needs the caller
+        signed in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+        `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
+    async def leaveConversation(self, args: Prv_bluesky_BlueskyLeaveConversationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyLeftConversation_Out:
+        """Leaves a conversation for the signed-in caller, so it stops being among their chats.
+        Takes a `conversationId` from listConversations. There is no undo from this function.
+        Needs the caller signed in to bsky.app — the run pauses for a sign-in link when they are
+        not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
+    async def muteModerationList(self, args: Prv_bluesky_BlueskyMuteModerationListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyModerationListMuteResult_Out:
+        """Mutes a moderation list for the signed-in caller, so the accounts on it are hidden from
+        their feeds and notifications; `undo: true` unmutes it. Takes the list as an at:// URI
+        or bsky.app list URL. A curation list is refused, since only moderation lists can be
+        muted. A list already in the requested state returns `changed: false`. Needs the caller
+        signed in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+        `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
     async def listMutedWords(self, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyMutedWordList_Out:
         """Lists the words and #tags the signed-in caller has muted, with what each applies to and
         when it expires. Needs the caller signed in to bsky.app — the run pauses for a sign-in
@@ -87069,6 +87155,13 @@ class Prv_dropbox(Protocol):
         is still copying. Needs the caller's Dropbox sign-in.
         """
 
+    async def uploadFile(self, input: Prv_dropbox_uploadFile_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxEntry_Out:
+        """Uploads a text file into the signed-in caller's Dropbox: `path` is the full path
+        including the file name, `content` the text (up to 1,000,000 characters). A name already
+        taken gets a (1) suffix unless `overwrite` is true. Returns the saved file. Needs the
+        caller's Dropbox sign-in.
+        """
+
     async def createFileRequest(self, input: Prv_dropbox_createFileRequest_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxFileRequest_Out:
         """Makes a file request in the signed-in caller's Dropbox: a link (`url`) anyone can upload
         files to, landing in the folder `destination` (a full path). `deadline` is an ISO
@@ -91357,6 +91450,13 @@ class Prv_goodreads(Protocol):
         """Reads a page of member reviews for one book — reviewer name, review text, and creation
         timestamp per row. Takes the numeric id or the full URL searchBooks returns, and an
         optional 1-indexed page number (defaults to 1).
+        """
+
+    async def getSimilarBooks(self, idOrUrl: str, /) -> list[Prv_goodreads_GoodreadsSimilarBook_Out]:
+        """Lists the books Goodreads suggests next to one book — the 'readers also enjoyed'
+        carousel on its page: title, url, cover image, author, average rating and ratings count
+        per row. Takes the numeric id or the full URL searchBooks returns. Up to 20 rows, the
+        same list the page shows.
         """
 
     async def listGenreBooks(self, genre: str, /) -> list[Prv_goodreads_GoodreadsBookRow_Out]:

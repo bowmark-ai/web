@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3723d1a9c01ab0855bd621d7215ef6ab25384c23e57b8a669e642c39f8dbee68
-// 98 capabilities, 832 providers, 5095 typed functions, 20 refused.
+// Manifest version: 0352c3792e63042fff61d39cb904ab683f3af636f78e00cf63c143bea61fcae6
+// 98 capabilities, 832 providers, 5101 typed functions, 20 refused.
 // 50,272 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18013,6 +18013,47 @@ interface BlueskyMutedWordList {
   words: BlueskyMutedWord[];
 }
 
+interface BlueskyMuteThreadArgs {
+  post: string;
+  undo?: boolean;
+}
+
+interface BlueskyThreadMuteResult {
+  root: string;
+  muted: boolean;
+  changed: boolean;
+}
+
+interface BlueskyMuteConversationArgs {
+  conversationId?: string;
+  with?: string;
+  undo?: boolean;
+}
+
+interface BlueskyConversationMuteResult {
+  conversationId: string;
+  muted: boolean;
+}
+
+interface BlueskyLeaveConversationArgs {
+  conversationId: string;
+}
+
+interface BlueskyLeftConversation {
+  conversationId: string;
+}
+
+interface BlueskyMuteModerationListArgs {
+  list: string;
+  undo?: boolean;
+}
+
+interface BlueskyModerationListMuteResult {
+  list: string;
+  muted: boolean;
+  changed: boolean;
+}
+
 interface BlueskySetAvatarArgs {
   image: string;
   banner?: boolean;
@@ -18486,6 +18527,45 @@ interface BlueskySaveFeedResult {
      * they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
      */
     muteWord(args: BlueskyMuteWordArgs, opts?: ConnectionOption): Promise<BlueskyMuteWordResult>;
+
+    /**
+     * Mutes the thread a post sits in for the signed-in caller, so its replies stop reaching their
+     * notifications, as the app's Mute thread does. The post is an at:// URI or bsky.app post URL;
+     * naming a reply mutes the thread's root. `undo: true` unmutes it. A thread already in the
+     * requested state returns `changed: false`. Needs the caller signed in to bsky.app — the run
+     * pauses for a sign-in link when they are not. THROWS `blueskyError` when the saved sign-in
+     * has expired; sign in again.
+     */
+    muteThread(args: BlueskyMuteThreadArgs, opts?: ConnectionOption): Promise<BlueskyThreadMuteResult>;
+
+    /**
+     * Mutes a direct or group chat for the signed-in caller, so its new messages stop notifying
+     * them, as the app's mute does; `undo: true` unmutes it. Takes a `conversationId` from
+     * listConversations, or `with` a handle, DID or bsky.app profile URL to find the conversation
+     * with that person (opened if none exists, as getConversation does). Returns whether the
+     * conversation is muted once the call returns. Needs the caller signed in to bsky.app — the
+     * run pauses for a sign-in link when they are not. THROWS `blueskyError` when the saved
+     * sign-in has expired; sign in again.
+     */
+    muteConversation(args: BlueskyMuteConversationArgs, opts?: ConnectionOption): Promise<BlueskyConversationMuteResult>;
+
+    /**
+     * Leaves a conversation for the signed-in caller, so it stops being among their chats. Takes a
+     * `conversationId` from listConversations. There is no undo from this function. Needs the
+     * caller signed in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+     * `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    leaveConversation(args: BlueskyLeaveConversationArgs, opts?: ConnectionOption): Promise<BlueskyLeftConversation>;
+
+    /**
+     * Mutes a moderation list for the signed-in caller, so the accounts on it are hidden from
+     * their feeds and notifications; `undo: true` unmutes it. Takes the list as an at:// URI or
+     * bsky.app list URL. A curation list is refused, since only moderation lists can be muted. A
+     * list already in the requested state returns `changed: false`. Needs the caller signed in to
+     * bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError` when
+     * the saved sign-in has expired; sign in again.
+     */
+    muteModerationList(args: BlueskyMuteModerationListArgs, opts?: ConnectionOption): Promise<BlueskyModerationListMuteResult>;
 
     /**
      * Lists the words and #tags the signed-in caller has muted, with what each applies to and when
@@ -36475,6 +36555,14 @@ interface DropboxSaveResult { status: "complete" | "in_progress"; entry: Dropbox
     saveSharedLinkToDropbox(input: { url: string; path: string }, opts?: ConnectionOption): Promise<DropboxSaveResult>;
 
     /**
+     * Uploads a text file into the signed-in caller's Dropbox: `path` is the full path including
+     * the file name, `content` the text (up to 1,000,000 characters). A name already taken gets a
+     * (1) suffix unless `overwrite` is true. Returns the saved file. Needs the caller's Dropbox
+     * sign-in.
+     */
+    uploadFile(input: { path: string; content: string; overwrite?: boolean }, opts?: ConnectionOption): Promise<DropboxEntry>;
+
+    /**
      * Makes a file request in the signed-in caller's Dropbox: a link (`url`) anyone can upload
      * files to, landing in the folder `destination` (a full path). `deadline` is an ISO date-time.
      * Returns the request with its id. Needs the caller's Dropbox sign-in.
@@ -49067,6 +49155,16 @@ interface GoloadupServiceAvailability {
 
 declare namespace BowmarkProvider_goodreads {
   // ── Goodreads — the unit's own declarations, verbatim ──
+interface GoodreadsSimilarBook {
+  legacyId: string;
+  title: string;
+  url: string;
+  imageUrl?: string;
+  authorName?: string;
+  averageRating?: number;
+  ratingsCount?: number;
+}
+
 interface GoodreadsAuthorSearchRow {
   legacyId: string;
   name: string;
@@ -49249,6 +49347,14 @@ interface GoodreadsShelfBook {
      * 1-indexed page number (defaults to 1).
      */
     getBookReviews(idOrUrl: string, pageNumber?: number): Promise<GoodreadsReviewRow[]>;
+
+    /**
+     * Lists the books Goodreads suggests next to one book — the 'readers also enjoyed' carousel on
+     * its page: title, url, cover image, author, average rating and ratings count per row. Takes
+     * the numeric id or the full URL searchBooks returns. Up to 20 rows, the same list the page
+     * shows.
+     */
+    getSimilarBooks(idOrUrl: string): Promise<GoodreadsSimilarBook[]>;
 
     /**
      * Lists books in a Goodreads genre category — all public books on the genre browsing page.

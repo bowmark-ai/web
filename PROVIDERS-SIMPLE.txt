@@ -100,7 +100,7 @@ bananarepublic.gap.com — banana_republic: getProduct, searchProducts
 bankmycell.com — bankmycell: getTradeInQuote, searchDevices
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
-bbc.com — bbc: 31 functions — ask get_library
+bbc.com — bbc: followPodcast, getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listFollowedPodcasts, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations, subscribeNewsletter, unfollowPodcast, unsubscribeNewsletter
 bcbsri.com — bcbsri: getApplicationPage, getDentalPlan, getDentalShopPage, getPlanDocuments, getQuotePage, listDentalPlans (+6 planned)
 beaconfunding.com — beaconfunding: getApplicationFields
 beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
@@ -520,7 +520,7 @@ millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisiting
 mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
-mlb.com — mlb: nothing callable yet (+50 planned)
+mlb.com — mlb: getSchedule, listTeams, searchPlayers (+47 planned)
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
 modularclosets.com — modularclosets: getKitConfigurator, priceKitConfiguration, searchClosetKits
@@ -646,7 +646,7 @@ resy.com — resy: cancelBooking, checkAvailability, confirmBooking, confirmSign
 revisionskincare.com — revisionskincare: getSkincareQuizQuestions, takeSkincareQuiz
 rezdy.com — rezdy: bookSession, checkVoucher, findOperator, getAvailability, getPickupLocations, getPriceQuote, getProduct, listCatalogs, listProducts (+3 planned)
 rightmove.co.uk — rightmove: search
-ring.com — ring: getProduct, search (+24 planned)
+ring.com — ring: getProduct, listCollection, listCollections, search (+22 planned)
 rippling.com — rippling: listJobs
 rishi-tea.com — rishitea: getTeaFinderQuiz, matchTeaFinderQuiz
 ritani.com — ritani: getConfigurator, priceConfiguration
@@ -685,7 +685,7 @@ services.gst.gov.in — gst_india: lookup
 sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
-shein.com — shein: getProduct, getSizeGuide, listCategories, listFlashSale, listNewArrivals, listProductsByCategory, search (+27 planned)
+shein.com — shein: getProduct, getSizeGuide, getStore, listCategories, listFlashSale, listNewArrivals, listProductsByCategory, search (+26 planned)
 shop.app — shop_app: addToCart, addToProductList, browseCategory, createProductList, followStore, getCart, getDiscoveryFeed, getOrder, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listFollowedStores, listOffers, listOrders, listProductLists, listSavedProducts, listStoreProducts, markOrderDelivered, saveProduct, searchProducts, searchStore, startCheckout, suggestSearches, trackPackage (+9 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
@@ -868,5 +868,5 @@ zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, search
 zenoti.com — zenoti: bookAppointment, cancelAppointment, findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, rescheduleAppointment, searchServices (+4 planned)
 zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDetails, getMemberInfo, getMembershipStatus, getPrice, listClasses, listMyBookings, listPackages, listScheduleSlots, searchSchedule, updateMemberInfo (+2 planned)
 zillow.com — zillow: nothing callable yet (+24 planned)
-zoom.us — zoom: deleteMeeting, downloadRecording, getContactInfo, getContacts, getDownloadLinks, getHelpArticle, getMarketplaceApp, getMeeting, getMeetingInfo, getMeetingParticipants, getPricing, getProfile, getRecording, getRecordingTranscript, getSystemStatus, getWebinar, joinMeeting, listMeetings, listRecordings, listRecordingTranscripts, listWebinars, scheduleMeeting, searchContacts, searchHelpArticles, searchMarketplaceApps, updateMeeting, updateProfile, updateProfilePicture
+zoom.us — zoom: 29 functions — ask get_library
 zoopla.co.uk — zoopla: search (+1 planned)
