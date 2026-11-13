@@ -1265,7 +1265,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude.updateProfile` | claude.ai | Updates the CALLER's Claude profile — full name, display name and profile picture. | 🟢 |
 | `claude.updateProjectInstructions` | claude.ai | Sets the custom instructions on one of the CALLER's projects. | 🟢 |
 | `claude.uploadFile` | claude.ai | Uploads a file (PDF, image, text) to the CALLER's account so `sendMessage` can attach… | 🟢 |
-| `claudemarketplaces_com.getListing` | claudemarketplaces.com | Fetches one MCP server listing page (`/mcp/<publisher>/<slug>`) from… | 🟢 |
+| `claudemarketplaces_com.getListing` | claudemarketplaces.com | Fetches one MCP server listing page (`/mcp/<publisher>/<slug>`) from… | 🟡 |
 | `claudemarketplaces_com.searchListings` | claudemarketplaces.com | Finds MCP server listings whose publisher or slug matches every word in a search… | 🟢 |
 | `clboyd.searchUsedEquipment` | clboyd.com | Runs CL Boyd's live used-equipment inventory filter. | 🟢 |
 | `cleanairlawncare.checkServiceArea` | cleanairlawncare.com | Checks a 5-digit US zip against the caw-estimate-widget backend — the same live area… | 🟢 |
@@ -1836,7 +1836,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.shareWithPeople` | dropbox.com | Invites people by email to a file or folder in the caller's Dropbox, as viewers or… | 🟢 |
 | `dropbox.starFile` | dropbox.com | Stars or unstars a file or folder in the caller's Dropbox. | ⚪ |
 | `dropbox.updateProfileName` | dropbox.com | Changes the signed-in caller's display name (first and last name) in their Dropbox… | ⚪ |
-| `dropbox.uploadFile` | dropbox.com | Uploads a file into a folder in the caller's Dropbox. | ⚪ |
+| `dropbox.uploadFile` | dropbox.com | Uploads a text file into the caller's Dropbox at a full path, as the Upload button on… | 🟢 |
 | `dropbox.uploadToFileRequest` | dropbox.com | Uploads a file into a Dropbox file request link (www.dropbox.com/request/<id>) — the… | ⚪ |
 | `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | 🟢 |
 | `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | 🟢 |
@@ -3752,7 +3752,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `msccruzeiros.quoteCabins` | msccruzeiros.com.br | Cruise quote for one MSC Cruzeiros sailing: the price of every cabin category (inside… | 🟢 |
 | `msccruzeiros.searchCruises` | msccruzeiros.com.br | Search MSC Cruzeiros (Brazil) cruise sailings by destination, departure port, ship… | 🟢 |
 | `msn.convertCurrency` | msn.com | Converts an amount between two currencies at MSN Money's live FX cross rate, the rate… | 🟢 |
-| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟡 |
+| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟢 |
 | `msn.getHourlyForecast` | msn.com | Reads the hour-by-hour forecast for a named city off MSN Weather's hourly page… | 🟢 |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
 | `msn.getScores` | msn.com | Returns one league's games on one date the way MSN Sports' scores page does for a… | 🟢 |
@@ -4816,7 +4816,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `safeway.updateCartItem` | safeway.com | Changes an item's quantity, substitution preference or note in the signed-in… | 🟢 |
 | `safeway.updateMyProfile` | safeway.com | Changes the signed-in customer's name, phone or communication preferences. | ⚪ |
 | `saltandstone.getScentProducts` | saltandstone.com | Lists the real core products (body wash, body mist, body lotion, deodorant, hand… | 🟢 |
-| `saltandstone.listScentFamilies` | saltandstone.com | Lists Salt & Stone's real six named scent families (Santal & Vetiver, Bergamot &… | 🟢 |
+| `saltandstone.listScentFamilies` | saltandstone.com | Lists Salt & Stone's real six named scent families (Santal & Vetiver, Bergamot &… | 🟡 |
 | `saltandstone.matchScent` | saltandstone.com | Salt & Stone's own Scent Quiz, reimplemented: given a free-text scent preference… | 🟡 |
 | `samsclub.browseCategory` | samsclub.com | Reads the current live grid (~50 rows) for one of samsclub.com's own… | 🟢 |
 | `samsclub.checkStock` | samsclub.com | Answers whether one item is in stock right now, and at what price, at a SPECIFIC club… | 🟢 |
@@ -6266,7 +6266,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.editMessage` | whatsapp.com | Edits the text of a message the caller sent, inside the window WhatsApp allows edits. | 🟢 |
 | `whatsapp.findContact` | whatsapp.com | Finds people and chats in the caller's WhatsApp by name, phone number or username, the… | 🟢 |
 | `whatsapp.followChannel` | whatsapp.com | Follows a Channel as the caller. | ⚪ |
-| `whatsapp.forwardMessage` | whatsapp.com | Forwards one of the caller's messages to another chat. | ⚪ |
+| `whatsapp.forwardMessage` | whatsapp.com | Forwards one of the caller's messages (by the id getChatMessages returns) from one… | 🟢 |
 | `whatsapp.getBlogPost` | whatsapp.com | Reads one WhatsApp Blog post by slug or url: its title, publish date and body text. | 🟢 |
 | `whatsapp.getChannel` | whatsapp.com | Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the… | 🟢 |
 | `whatsapp.getChannelUpdates` | whatsapp.com | Reads the updates a channel the caller follows shows in WhatsApp Web, opened by its… | 🟢 |
@@ -6294,9 +6294,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.searchMessages` | whatsapp.com | Searches the caller's WhatsApp messages the way WhatsApp Web's search box does: each… | 🟢 |
 | `whatsapp.sendMedia` | whatsapp.com | Sends a file as the caller to a chat opened by its exact displayed name: an image or… | 🟢 |
 | `whatsapp.sendMessage` | whatsapp.com | Sends a text message as the caller to a chat opened by its exact displayed name (from… | 🟢 |
-| `whatsapp.sendPoll` | whatsapp.com | Creates a poll in a chat as the caller: a question, its options and whether several… | ⚪ |
+| `whatsapp.sendPoll` | whatsapp.com | Creates a poll in a chat as the caller: a question, its options and whether several… | 🟢 |
 | `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | ⚪ |
-| `whatsapp.updateChat` | whatsapp.com | Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive… | ⚪ |
+| `whatsapp.updateChat` | whatsapp.com | Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive… | 🟢 |
 | `whatsapp.updateGroup` | whatsapp.com | Changes a group the caller administers: its name, description, picture, and the… | ⚪ |
 | `whatsapp.updatePrivacySettings` | whatsapp.com | Reads and changes the caller's privacy settings: who sees last seen and online… | ⚪ |
 | `whatsapp.updateProfile` | whatsapp.com | Changes the caller's own profile: display name, about text or profile photo. | ⚪ |
