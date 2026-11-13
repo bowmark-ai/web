@@ -196,7 +196,7 @@ chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
 chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
 chase.com — chase: search
-chatgpt.com — chatgpt: archiveConversation, browseGPTStore, createProject, deleteConversation, deleteMemory, deleteSharedLink, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getProject, getSharedConversation, listConversations, listLibraryImages, listModels, listMyGPTs, listProjects, listScheduledTasks, listSharedLinks, rateResponse, renameConversation, searchConversations, searchGPTs, shareConversation, updateCustomInstructions (+9 planned)
+chatgpt.com — chatgpt: 29 functions — ask get_library (+6 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
@@ -380,7 +380,7 @@ goteamup.com — goteamup_classes: bookClass, cancelClass, checkBookingEligibili
 grainger.com — grainger: findBranch, getProduct, search (+2 planned)
 grandwelcome.com — grandwelcome: getRentalDetail, getRentalQuote, listGrandwelcomeDestinations, searchRentals
 gravatar.com — gravatar: getProfile
-greatlakesdentaltech.com — greatlakesdentaltech: getProduct, search
+greatlakesdentaltech.com — greatlakesdentaltech: search (+1 planned)
 greenhouse.io — greenhouse: listJobs (+1 planned)
 grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate, getFavoriteRestaurants, getMenu, getMenuItem, getOrderHistory, getOrderStatus, getPaymentMethods, getPromoOffers, getRestaurant, getRestaurantReviews, getSavedAddresses, listCuisines, removeFromCart, saveRestaurant, search, updateCartItem (+3 planned)
 hamptonwaterwine.com — hamptonwaterwine: findNearbyRetailers
@@ -417,7 +417,7 @@ identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
 ikea.com — ikea: addToCart, addToFavorites, bookPlanningAppointment, findStores, getCart, getDeliveryOptions, getFamilyMembership, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getProfile, getPurchase, listCategories, listCategoryProducts, listFamilyOffers, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem, updateProfile
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
-imgur.com — imgur: getGalleryPosts, getImage, getPost, getPostComments, getTag, getUser, getUserComments, getUserFavorites, getUserPosts, listTags, searchPosts (+18 planned)
+imgur.com — imgur: getGalleryPosts, getImage, getMyFavorites, getMyPosts, getPost, getPostComments, getTag, getUser, getUserComments, getUserFavorites, getUserPosts, listTags, searchPosts (+16 planned)
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 independent.co.uk — independent: nothing callable yet (+34 planned)
 inspirecommunities.com — inspirecommunities: searchHomes
@@ -689,7 +689,7 @@ shop.app — shop_app: addToProductList, browseCategory, createProductList, foll
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopdisney.com — shopdisney: getProduct, search
-shopify.com (49875 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
+shopify.com (50272 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
 sitmeanssit.com — sitmeanssit: findNearestLocations
 sixflags.com — sixflags: getTickets
 skills.rest — skills_rest: listSkills
@@ -725,7 +725,7 @@ stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
-styleseat.com — styleseat: 27 functions — ask get_library (+2 planned)
+styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, cancelAppointmentByLink, getAppointmentByLink, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+2 planned)
 substack.com — substack: post, posts, search
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine

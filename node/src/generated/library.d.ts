@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cb36dfbf43e4a6a6fe1b69198db2b48ce4c24a1077c100ba6545c4934e52c564
-// 98 capabilities, 828 providers, 5063 typed functions, 20 refused.
+// Manifest version: b275326b8edb2c443357bd4e182e5871879edcf164148aac863d390c5af29c12
+// 98 capabilities, 829 providers, 5069 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22460,6 +22460,27 @@ interface CalendlyPackagesResult {
   packages: CalendlyPackage[];        // [] when the profile sells none
 }
 
+interface CalendlyBookMeetingArgs {
+  url: string;                        // event url, profile url + event, or /d/ share link
+  startTime: string;                  // a slot's startTime exactly as getAvailability returned it
+  name: string;
+  email: string;
+  timezone?: string;
+  guests?: string[];
+  answers?: Record<string, string>;   // custom-question answers keyed by the question name
+  event?: string;
+}
+
+interface CalendlyBookMeetingResult {
+  uuid: string;
+  eventName: string;
+  startTime: string | null;
+  invitee: { name: string; email: string };
+  cancelUrl: string | null;
+  rescheduleUrl: string | null;
+  confirmationUrl: string | null;
+}
+
 interface CalendlyBooking {
   uuid: string;
   eventType: CalendlyBookingEvent;    // the booked event's details
@@ -22536,6 +22557,15 @@ interface CalendlyFindProfilesResult {
      * cancelled.
      */
     getBooking(link: string): Promise<CalendlyBooking>;
+
+    /**
+     * Books a slot on a Calendly event the way an invitee does: the event url (or a /d/ share
+     * link), a startTime exactly as getAvailability returned it, the invitee's name and email, and
+     * answers to the custom questions getBookingForm lists. Returns the booking with its cancel
+     * and reschedule links. Emails the host, so book only a slot you mean. Never pays for a paid
+     * event; reports when the host requires an SMS code.
+     */
+    bookMeeting(args: CalendlyBookMeetingArgs): Promise<CalendlyBookMeetingResult>;
 
     /**
      * Reads a Calendly routing form, the questions an organization asks before it decides whose
@@ -31502,6 +31532,62 @@ interface dahlconsultingSearchFilters { query?: string; location?: string; limit
      * THROWS on an unknown/removed url — call searchJobs() first.
      */
     getJob(url: string): Promise<dahlconsultingJob>;
+  }
+}
+
+declare namespace BowmarkProvider_dailymail {
+  // ── Daily Mail — the unit's own declarations, verbatim ──
+interface DailymailSection {
+  id: string;
+  title: string;
+  url: string;
+}
+
+interface BrowseSectionArgs {
+  id: string;
+  limit?: number;
+}
+
+interface DailymailArticle {
+  id: string;
+  title: string;
+  url: string;
+  summary: string | null;
+  image: string | null;
+  publishedDate: string | null;
+  section: string;
+}
+
+interface ListLatestArgs {
+  limit?: number;
+}
+
+  /**
+   * Daily Mail (MailOnline) — news, showbiz and sport articles, section fronts, search, reader
+   * comments and video.
+   */
+  interface Unit {
+    /**
+     * Every section and sub-section front Daily Mail publishes — its id (the value browseSection
+     * takes), the label the site prints ("Politics", "Premier League") and the front's url. Read
+     * off the site's own sitemap, so one call lists them all.
+     */
+    listSections(): Promise<DailymailSection[]>;
+
+    /**
+     * The stories on one Daily Mail section front, in the order the page lists them: article id,
+     * headline, url, standfirst and image where the card has them, the site's publish time where
+     * the card carries one, and the section. Takes an id from listSections ("news/us",
+     * "tvshowbiz"). Optional limit, 1–100, default 30.
+     */
+    browseSection(args: BrowseSectionArgs): Promise<DailymailArticle[]>;
+
+    /**
+     * The newest stories across Daily Mail, in the order its own latest list shows them: article
+     * id, headline, url, standfirst and image where the card has them, and the section. The list
+     * prints no timestamp, so publishedDate is null. Optional limit, 1–100, default 30.
+     */
+    listLatest(args?: ListLatestArgs): Promise<DailymailArticle[]>;
   }
 }
 
@@ -56042,6 +56128,18 @@ interface ImgurTagArgs {
      * getUserComments({ username: "J3lek", sort: "best" }).
      */
     getUserComments(username: string | ImgurUserListArgs): Promise<ImgurUserComment[]>;
+
+    /**
+     * The signed-in account's own posts and uploads, hidden ones included. Needs the caller signed
+     * in to imgur.
+     */
+    getMyPosts(input?: ImgurUserListArgs, opts?: ConnectionOption): Promise<ImgurPost[]>;
+
+    /**
+     * The signed-in account's favorites, private ones included. Needs the caller signed in to
+     * imgur.
+     */
+    getMyFavorites(input?: ImgurUserListArgs, opts?: ConnectionOption): Promise<ImgurPost[]>;
 
     /**
      * Searches public imgur posts (about 60 a page), top-scored first by default. Example:
@@ -117448,6 +117546,7 @@ interface BowmarkProviders {
   currys: BowmarkProvider_currys.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   dahlconsulting: BowmarkProvider_dahlconsulting.Unit;
+  dailymail: BowmarkProvider_dailymail.Unit;
   dailymotion: BowmarkProvider_dailymotion.Unit;
   dangotecement: BowmarkProvider_dangotecement.Unit;
   dansons: BowmarkProvider_dansons.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cb36dfbf43e4a6a6fe1b69198db2b48ce4c24a1077c100ba6545c4934e52c564
-// 5045 checked, 20 unchecked.
+// Manifest version: b275326b8edb2c443357bd4e182e5871879edcf164148aac863d390c5af29c12
+// 5051 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cb36dfbf43e4a6a6fe1b69198db2b48ce4c24a1077c100ba6545c4934e52c564",
+  "version": "b275326b8edb2c443357bd4e182e5871879edcf164148aac863d390c5af29c12",
   "units": {
     "address_validation": {
       "defs": {
@@ -27521,6 +27521,73 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "CalendlyBookMeetingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startTime",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "timezone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "guests",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "answers",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "event",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "CalendlyBookingFormOptions": {
           "k": "object",
           "props": [
@@ -27583,6 +27650,16 @@ export const VALIDATORS: ValidatorTable = {
             "name": "link",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "bookMeeting": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CalendlyBookMeetingArgs"
             },
             "optional": false
           }
@@ -38851,6 +38928,64 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dailymail": {
+      "defs": {
+        "BrowseSectionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListLatestArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listSections": [],
+        "browseSection": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowseSectionArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLatest": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLatestArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -72998,6 +73133,58 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ],
+        "getMyPosts": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "ImgurUserListArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMyFavorites": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "ImgurUserListArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "searchPosts": [

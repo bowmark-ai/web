@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cb36dfbf43e4a6a6fe1b69198db2b48ce4c24a1077c100ba6545c4934e52c564
-# 98 capabilities, 828 providers, 5045 typed functions, 20 refused.
+# Manifest version: b275326b8edb2c443357bd4e182e5871879edcf164148aac863d390c5af29c12
+# 98 capabilities, 829 providers, 5051 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13841,6 +13841,29 @@ class Prv_calendly_CalendlyBooking_Out_invitee_Out(TypedDict):
     name: str
     email: str
 
+class Prv_calendly_CalendlyBookMeetingArgs_In(TypedDict):
+    url: str
+    startTime: str
+    name: str
+    email: str
+    timezone: NotRequired[str]
+    guests: NotRequired[Sequence[str]]
+    answers: NotRequired[Mapping[str, str]]
+    event: NotRequired[str]
+
+class Prv_calendly_CalendlyBookMeetingResult_Out(TypedDict):
+    uuid: str
+    eventName: str
+    startTime: str | None
+    invitee: Prv_calendly_CalendlyBookMeetingResult_Out_invitee_Out
+    cancelUrl: str | None
+    rescheduleUrl: str | None
+    confirmationUrl: str | None
+
+class Prv_calendly_CalendlyBookMeetingResult_Out_invitee_Out(TypedDict):
+    name: str
+    email: str
+
 class Prv_calendly_CalendlyRoutingForm_Out(TypedDict):
     uuid: str
     name: str
@@ -19373,6 +19396,27 @@ class Prv_dahlconsulting_dahlconsultingJob_Out(TypedDict):
     validThrough: str
     description: str
     applyUrl: str
+
+class Prv_dailymail_DailymailSection_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+
+class Prv_dailymail_BrowseSectionArgs_In(TypedDict):
+    id: str
+    limit: NotRequired[float]
+
+class Prv_dailymail_DailymailArticle_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    summary: str | None
+    image: str | None
+    publishedDate: str | None
+    section: str
+
+class Prv_dailymail_ListLatestArgs_In(TypedDict):
+    limit: NotRequired[float]
 
 class Prv_dailymotion_SearchVideosArgs_In(TypedDict):
     query: str
@@ -81661,6 +81705,14 @@ class Prv_calendly(Protocol):
         cancelled.
         """
 
+    async def bookMeeting(self, args: Prv_calendly_CalendlyBookMeetingArgs_In, /) -> Prv_calendly_CalendlyBookMeetingResult_Out:
+        """Books a slot on a Calendly event the way an invitee does: the event url (or a /d/ share
+        link), a startTime exactly as getAvailability returned it, the invitee's name and email,
+        and answers to the custom questions getBookingForm lists. Returns the booking with its
+        cancel and reschedule links. Emails the host, so book only a slot you mean. Never pays
+        for a paid event; reports when the host requires an SMS code.
+        """
+
     async def getRoutingForm(self, form: str, /) -> Prv_calendly_CalendlyRoutingForm_Out:
         """Reads a Calendly routing form, the questions an organization asks before it decides
         whose calendar you land on: its name, the organization behind it, each question with its
@@ -84923,6 +84975,31 @@ class Prv_dahlconsulting(Protocol):
         """Reads one job posting's full detail off its own page — complete description, industry,
         posted/expiry dates and pay — plus a ready-to-open applyUrl on Dahl's own careers site.
         THROWS on an unknown/removed url — call searchJobs() first.
+        """
+
+class Prv_dailymail(Protocol):
+    """Daily Mail (MailOnline) — news, showbiz and sport articles, section fronts, search,
+    reader comments and video.
+    """
+
+    async def listSections(self, /) -> list[Prv_dailymail_DailymailSection_Out]:
+        """Every section and sub-section front Daily Mail publishes — its id (the value
+        browseSection takes), the label the site prints ("Politics", "Premier League") and the
+        front's url. Read off the site's own sitemap, so one call lists them all.
+        """
+
+    async def browseSection(self, args: Prv_dailymail_BrowseSectionArgs_In, /) -> list[Prv_dailymail_DailymailArticle_Out]:
+        """The stories on one Daily Mail section front, in the order the page lists them: article
+        id, headline, url, standfirst and image where the card has them, the site's publish time
+        where the card carries one, and the section. Takes an id from listSections ("news/us",
+        "tvshowbiz"). Optional limit, 1–100, default 30.
+        """
+
+    async def listLatest(self, args: Prv_dailymail_ListLatestArgs_In | None = None, /) -> list[Prv_dailymail_DailymailArticle_Out]:
+        """The newest stories across Daily Mail, in the order its own latest list shows them:
+        article id, headline, url, standfirst and image where the card has them, and the
+        section. The list prints no timestamp, so publishedDate is null. Optional limit, 1–100,
+        default 30.
         """
 
 class Prv_dailymotion(Protocol):
@@ -93509,6 +93586,16 @@ class Prv_imgur(Protocol):
     async def getUserComments(self, username: str | Prv_imgur_ImgurUserListArgs_In, /) -> list[Prv_imgur_ImgurUserComment_Out]:
         """A user's public comments, each with the id of the post it was left on. Example:
         getUserComments({ username: "J3lek", sort: "best" }).
+        """
+
+    async def getMyPosts(self, input: Prv_imgur_ImgurUserListArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_imgur_ImgurPost_Out]:
+        """The signed-in account's own posts and uploads, hidden ones included. Needs the caller
+        signed in to imgur.
+        """
+
+    async def getMyFavorites(self, input: Prv_imgur_ImgurUserListArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_imgur_ImgurPost_Out]:
+        """The signed-in account's favorites, private ones included. Needs the caller signed in to
+        imgur.
         """
 
     async def searchPosts(self, query: str | Prv_imgur_ImgurSearchArgs_In, /) -> list[Prv_imgur_ImgurPost_Out]:
@@ -115218,6 +115305,7 @@ class BowmarkProviders(Protocol):
     currys: Prv_currys
     cyberpowerpc: Prv_cyberpowerpc
     dahlconsulting: Prv_dahlconsulting
+    dailymail: Prv_dailymail
     dailymotion: Prv_dailymotion
     dangotecement: Prv_dangotecement
     dansons: Prv_dansons

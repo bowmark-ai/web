@@ -1090,11 +1090,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.listProjects` | chatgpt.com | Lists the CALLER's ChatGPT projects with their names and conversation counts — the… | 🟢 |
 | `chatgpt.listScheduledTasks` | chatgpt.com | Lists the CALLER's scheduled tasks (reminders and recurring prompts ChatGPT runs on a… | 🟢 |
 | `chatgpt.listSharedLinks` | chatgpt.com | Lists the public share links the CALLER has created, with the conversation each points… | 🟢 |
-| `chatgpt.moveConversationToProject` | chatgpt.com | Files one of the CALLER's conversations under one of their projects. | ⚪ |
-| `chatgpt.pinGPT` | chatgpt.com | Pins a GPT to (or unpins it from) the CALLER's sidebar. | ⚪ |
+| `chatgpt.moveConversationToProject` | chatgpt.com | Files one of the CALLER's conversations under one of their projects. | 🟢 |
+| `chatgpt.pinGPT` | chatgpt.com | Pins a GPT to (or unpins it from) the CALLER's sidebar. | 🟢 |
 | `chatgpt.rateResponse` | chatgpt.com | Gives a thumbs up or thumbs down on one of ChatGPT's replies in the CALLER's… | 🟢 |
 | `chatgpt.renameConversation` | chatgpt.com | Renames one of the CALLER's conversations. | 🟢 |
-| `chatgpt.requestDataExport` | chatgpt.com | Requests an export of the CALLER's ChatGPT data (Settings → Data controls → Export)… | ⚪ |
+| `chatgpt.requestDataExport` | chatgpt.com | Requests an export of the CALLER's ChatGPT data (Settings → Data controls → Export)… | 🟢 |
 | `chatgpt.searchConversations` | chatgpt.com | Searches the CALLER's chat history by keyword, the way the sidebar's search does, and… | 🟢 |
 | `chatgpt.searchGPTs` | chatgpt.com | Searches the GPT Store by keyword and returns matching custom GPTs with their id… | 🟢 |
 | `chatgpt.sendMessage` | chatgpt.com | Sends a message as the CALLER and returns ChatGPT's reply — starting a new… | ⚪ |
@@ -1831,9 +1831,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.getWatchlist` | ebay.com | Get the caller's watch list — items they are monitoring for price changes. | 🟢 |
 | `ebay.removeFromCart` | ebay.com | Remove an item from the caller's shopping cart. | ⚪ |
 | `ebay.removeFromWatchlist` | ebay.com | Remove an item from the caller's watch list. | ⚪ |
-| `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🔴 |
+| `ebay.search` | ebay.com | Runs an eBay item search through eBay's documented Browse API and returns the matching… | 🔴 |
 | `ebay.searchAutocomplete` | ebay.com | Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's… | 🟢 |
-| `ebay.searchByCategory` | ebay.com | Searches one eBay category by id, with an optional keyword narrowing within it — the… | 🟡 |
+| `ebay.searchByCategory` | ebay.com | Searches one eBay category through eBay's documented Browse API by id, with an… | 🟡 |
 | `ebay.searchSold` | ebay.com | Searches eBay's completed/SOLD listings (not live asking prices) for a query and… | ⚪ |
 | `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🔴 |
 | `elase.findLocation` | elase.com | Resolves a slug/neighborhood query to the matching real Elase location(s) — name… | 🟢 |
@@ -2708,7 +2708,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gravatar.getProfile` | gravatar.com | Reads the public Gravatar profile registered at an email address (display name, slug… | 🟢 |
 | `greatlakesbrewing.getEGiftCardOptions` | store.greatlakesbrewing.com | Reads Great Lakes Brewing Co.'s live eGift-card denominations, permitted custom range… | 🟢 |
 | `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
-| `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟡 |
+| `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🔴 |
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟡 |
 | `greenhouse.getJob` | greenhouse.io | Reads one posting's full description, pay-transparency ranges and application… | ⚪ |
 | `greenhouse.listJobs` | greenhouse.io | Lists every open job on one company's Greenhouse job board — title, location… | 🟢 |
@@ -2908,8 +2908,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imgur.followUser` | imgur.com | Follows a user. | ⚪ |
 | `imgur.getGalleryPosts` | imgur.com | Lists the gallery feed (most viral, user submitted, or top) with sort and paging… | 🟢 |
 | `imgur.getImage` | imgur.com | Resolves a direct image/video id or i.imgur.com link to its media URL, size and type. | 🟢 |
-| `imgur.getMyFavorites` | imgur.com | Lists the signed-in account's favorites, including private ones. | ⚪ |
-| `imgur.getMyPosts` | imgur.com | Lists the signed-in account's posts and uploads, including hidden ones. | ⚪ |
+| `imgur.getMyFavorites` | imgur.com | Lists the signed-in account's favorites, including private ones. | 🟢 |
+| `imgur.getMyPosts` | imgur.com | Lists the signed-in account's posts and uploads, including hidden ones. | 🟢 |
 | `imgur.getNotifications` | imgur.com | Lists the signed-in account's notifications (replies, votes, follows). | ⚪ |
 | `imgur.getPost` | imgur.com | Gets one post by id or URL: title, description, media items, counts and author. | 🟢 |
 | `imgur.getPostComments` | imgur.com | Lists a post's comments with their replies, sorted best/new/top. | 🟢 |
@@ -4947,21 +4947,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.writeReview` | shop.app | Leaves a star rating and review on a product the caller bought through Shop. | ⚪ |
 | `shopdisney.getProduct` | shopdisney.com | Reads one shopDisney / Disney Store product page by URL or id and returns its title… | 🟢 |
 | `shopdisney.search` | shopdisney.com | Searches shopDisney / Disney Store (shopdisney.com → disneystore.com) for merchandise… | 🟢 |
-| `shopify.addToCart` | shopify.com (49875 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
-| `shopify.getCart` | shopify.com (49875 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
-| `shopify.getCollection` | shopify.com (49875 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
-| `shopify.getProduct` | shopify.com (49875 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
-| `shopify.getProducts` | shopify.com (49875 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
-| `shopify.getSetEvidence` | shopify.com (49875 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
-| `shopify.getShippingRates` | shopify.com (49875 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
-| `shopify.getStyleDetails` | shopify.com (49875 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |
-| `shopify.listCollections` | shopify.com (49875 stores) | Lists EVERY one of the store's own merchandised collections, walked page by page… | 🟢 |
-| `shopify.listProducts` | shopify.com (49875 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
-| `shopify.removeFromCart` | shopify.com (49875 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
-| `shopify.resolveProductUrl` | shopify.com (49875 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
-| `shopify.search` | shopify.com (49875 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
-| `shopify.searchPolicies` | shopify.com (49875 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
-| `shopify.searchProducts` | shopify.com (49875 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
+| `shopify.addToCart` | shopify.com (50272 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
+| `shopify.getCart` | shopify.com (50272 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
+| `shopify.getCollection` | shopify.com (50272 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
+| `shopify.getProduct` | shopify.com (50272 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
+| `shopify.getProducts` | shopify.com (50272 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
+| `shopify.getSetEvidence` | shopify.com (50272 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
+| `shopify.getShippingRates` | shopify.com (50272 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
+| `shopify.getStyleDetails` | shopify.com (50272 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |
+| `shopify.listCollections` | shopify.com (50272 stores) | Lists EVERY one of the store's own merchandised collections, walked page by page… | 🟢 |
+| `shopify.listProducts` | shopify.com (50272 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
+| `shopify.removeFromCart` | shopify.com (50272 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
+| `shopify.resolveProductUrl` | shopify.com (50272 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
+| `shopify.search` | shopify.com (50272 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
+| `shopify.searchPolicies` | shopify.com (50272 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
+| `shopify.searchProducts` | shopify.com (50272 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
 | `skills_rest.listSkills` | skills.rest | Lists the public skill cards currently featured on skills.rest, returning each card's… | 🟢 |
