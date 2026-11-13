@@ -1173,7 +1173,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.getMySubscription` | classpass.com | Returns the signed-in member's plan: tier, monthly credits, price, renewal date, and… | 🟢 |
 | `classpass.getPricing` | classpass.com | Returns ClassPass's own membership/credit-plan pricing for a market — the monthly… | ⚪ |
 | `classpass.getReservation` | classpass.com | Returns one reservation in full — class, studio, spot, credits, cancellation window… | 🟢 |
-| `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
+| `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟡 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
 | `classpass.getStudioReviews` | classpass.com | Reads a studio's member reviews — rating, text, class taken and when — the page a… | 🟢 |
 | `classpass.getVideo` | classpass.com | Returns one on-demand video — title, instructor, length, and the stream a member plays. | 🟢 |
@@ -4251,7 +4251,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `provenwinners.getRecipeDetails` | provenwinners.com | Reads one container recipe's own combination page — its season(s), container size and… | 🟢 |
 | `provenwinners.searchContainerRecipes` | provenwinners.com | Runs Proven Winners' own Container Recipe Finder over its 1,074+ published… | 🟢 |
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
-| `proxy_cheap.listCoverage` | proxy-cheap.com | Lists the proxy locations (countries, by region) Proxy-Cheap features on its site. | 🟡 |
+| `proxy_cheap.listCoverage` | proxy-cheap.com | Lists the proxy locations (countries, by region) Proxy-Cheap features on its site. | 🟢 |
 | `proxy_cheap.listPlans` | proxy-cheap.com | Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting… | 🟡 |
 | `prusa3d.addToCart` | prusa3d.com | Add a product variant to the cart. | ⚪ |
 | `prusa3d.applyPromoCode` | prusa3d.com | Apply a promo code to the cart. | ⚪ |
