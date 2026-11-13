@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6611 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6612 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -233,6 +233,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `anthropic_com.getDoc` | anthropic.com | Reads one page of anthropic.com's engineering blog (/engineering/...) or legal terms… | 🟢 |
 | `anthropic_com.listDocs` | anthropic.com | Lists every engineering-blog and legal-terms page anthropic.com publishes — url… | 🟢 |
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
+| `aol_mail.createFolder` | mail.aol.com | Creates a new folder in the CALLER's own AOL Mail account and returns it in… | 🟢 |
 | `aol_mail.deleteMessage` | mail.aol.com | Deletes one of the CALLER's own AOL Mail messages the way the site's own delete button… | 🟢 |
 | `aol_mail.flagMessage` | mail.aol.com | Stars (flags) one of the CALLER's own AOL Mail messages, or unstars it, given a row id… | 🟢 |
 | `aol_mail.getAccountProfile` | mail.aol.com | Reads the CALLER's own AOL account page (login.aol.com/myaccount/personalinfo) and… | 🟢 |
@@ -1026,21 +1027,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
 | `cbp.waitTimes` | cbp.gov | Current wait in minutes and lanes open at US land border crossings with Canada and… | 🟢 |
 | `cbsnews.getAccount` | cbsnews.com | Reads the signed-in caller's CBS News account profile. | ⚪ |
-| `cbsnews.getArticle` | cbsnews.com | Gets one article: headline, byline, dates, body text, images and tags. | ⚪ |
+| `cbsnews.getArticle` | cbsnews.com | Reads one CBS News article: headline, description, the full body text, authors with… | 🟢 |
 | `cbsnews.getAuthor` | cbsnews.com | Gets a correspondent's or writer's profile from /team/<slug>/. | ⚪ |
 | `cbsnews.getLiveStream` | cbsnews.com | Gets the CBS News 24/7 live stream and the current broadcast from /live/. | ⚪ |
 | `cbsnews.getLiveUpdates` | cbsnews.com | Gets a live-updates page (/live-updates/<slug>/) with its timestamped posts. | ⚪ |
 | `cbsnews.getLocalWeather` | cbsnews.com | Gets a local station's current conditions and forecast. | ⚪ |
 | `cbsnews.getVideo` | cbsnews.com | Gets one video page: title, description, duration, date and stream URL where exposed. | ⚪ |
 | `cbsnews.listArticlesByAuthor` | cbsnews.com | Lists the stories by one author. | ⚪ |
-| `cbsnews.listLatestNews` | cbsnews.com | Lists the latest stories from a CBS News RSS feed (main, a section or a show). | ⚪ |
+| `cbsnews.listLatestNews` | cbsnews.com | Lists the latest stories from one CBS News RSS feed (main, or a section or show slug… | 🟢 |
 | `cbsnews.listLocalNews` | cbsnews.com | Lists the stories on a local station's front, e.g. /newyork/. | ⚪ |
 | `cbsnews.listLocalStations` | cbsnews.com | Lists the CBS local stations (New York, Los Angeles, Chicago, Boston, Texas …). | ⚪ |
 | `cbsnews.listNewsletters` | cbsnews.com | Lists the newsletters on /newsletters (breaking news, exclusives, uplift …). | ⚪ |
 | `cbsnews.listNewsletterSubscriptions` | cbsnews.com | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
 | `cbsnews.listPodcastEpisodes` | cbsnews.com | Lists the episodes of one podcast. | ⚪ |
 | `cbsnews.listPodcasts` | cbsnews.com | Lists CBS News podcasts from /podcasts/. | ⚪ |
-| `cbsnews.listRssFeeds` | cbsnews.com | Lists every RSS feed CBS News publishes, from /rss/. | ⚪ |
+| `cbsnews.listRssFeeds` | cbsnews.com | Lists every RSS feed CBS News publishes, from its /rss/ page, as slugs usable with… | 🟢 |
 | `cbsnews.listSectionArticles` | cbsnews.com | Lists the stories on a section front such as /politics/ or /moneywatch/. | ⚪ |
 | `cbsnews.listSections` | cbsnews.com | Lists the site's sections and topic hubs (politics, world, moneywatch, crime, space …). | ⚪ |
 | `cbsnews.listShowEpisodes` | cbsnews.com | Lists a programme's recent segments and full episodes. | ⚪ |
