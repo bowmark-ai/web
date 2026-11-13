@@ -237,7 +237,7 @@ cosign.co — cosign: job, searchJobs
 costco.com — costco: listGiftCards, search (+1 planned)
 countycourt.vic.gov.au — countycourt_vic_gov_au: dailyList
 couponfollow.com — couponfollow: getCodes
-craigslist.org — craigslist: getListing, searchListings
+craigslist.org — craigslist: getListing, searchListings (+19 planned)
 crateandbarrel.com — crateandbarrel: searchProducts (+1 planned)
 crecipr.gov.br — crecipr: searchCredenciados, verifyBroker
 credibly.com — credibly_com: getApplicationForm, getEligibilityRequirements
@@ -273,7 +273,7 @@ dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listExtras, listRoomTypes, sendEnquiry (+1 planned)
-discord.com — discord: 43 functions — ask get_library (+7 planned)
+discord.com — discord: 47 functions — ask get_library (+3 planned)
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
 dmv.virginia.gov — dmv_virginia_gov: searchLocations
@@ -762,7 +762,7 @@ ticketmaster.com — ticketmaster: nothing callable yet (+5 planned)
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
 tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getHighTideFloodingHistory, getMeteorologicalObservations, getMonthlyMeanWaterLevel, getSeaLevelTrend, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
-tiktok.com — tiktok: 35 functions — ask get_library
+tiktok.com — tiktok: 36 functions — ask get_library
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
 toasttab.com — toast: getMenu, getMenuItem, getOrderingOptions, getPopularItems, getReservationAvailability, getRestaurant, listCities, listCityRestaurants, searchMenu, searchRestaurants (+47 planned)

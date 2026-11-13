@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6680 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6700 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1445,8 +1445,27 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `costco.search` | costco.com | Costco's own search-bar autocomplete suggestions for a typed term — real phrases… | 🟢 |
 | `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
+| `craigslist.addFavorite` | craigslist.org | Favourite a listing, or remove it from favourites. | ⚪ |
+| `craigslist.createPosting` | craigslist.org | Post a new classified ad (free categories) and return the posting's edit link… | ⚪ |
+| `craigslist.deletePosting` | craigslist.org | Delete one of the caller's own postings. | ⚪ |
+| `craigslist.editPosting` | craigslist.org | Edit one of the caller's own postings (title, body, price, images). | ⚪ |
+| `craigslist.getAccountHome` | craigslist.org | Read the caller's account home: their active, draft and expired postings. | ⚪ |
 | `craigslist.getListing` | craigslist.org | Reads a public Craigslist listing URL from searchListings for its full description… | 🟢 |
+| `craigslist.getListingImages` | craigslist.org | Return the full-size image URLs of a public listing. | ⚪ |
+| `craigslist.getListingMap` | craigslist.org | Return a listing's map location (latitude, longitude, accuracy) and cross streets when… | ⚪ |
+| `craigslist.listAreas` | craigslist.org | List Craigslist areas (cities/regions) with their subdomain codes, so a caller holding… | ⚪ |
+| `craigslist.listCategories` | craigslist.org | List Craigslist's category tree (for sale, housing, jobs, services, gigs, community)… | ⚪ |
+| `craigslist.listFavorites` | craigslist.org | List the listings the caller has favourited. | ⚪ |
+| `craigslist.listSavedSearches` | craigslist.org | List the caller's saved searches with their alert settings. | ⚪ |
+| `craigslist.renewPosting` | craigslist.org | Renew one of the caller's own eligible postings to bump it back to the top. | ⚪ |
+| `craigslist.replyToListing` | craigslist.org | Send a message to a listing's poster through Craigslist's anonymised reply relay. | ⚪ |
+| `craigslist.repostPosting` | craigslist.org | Repost one of the caller's own expired or deleted postings. | ⚪ |
+| `craigslist.saveSearch` | craigslist.org | Save a search (query, area, category, filters) with optional email alerts, or delete… | ⚪ |
+| `craigslist.searchHousing` | craigslist.org | Search apartments, rooms and sublets in an area with housing filters: rent range… | ⚪ |
+| `craigslist.searchJobs` | craigslist.org | Search job postings in an area by keyword and job category, with employment type and… | ⚪ |
 | `craigslist.searchListings` | craigslist.org | Searches public Craigslist listings by keyword in an area (SF Bay Area by default)… | 🟢 |
+| `craigslist.searchNearby` | craigslist.org | Search listings within a radius of a ZIP code or lat/lon instead of a whole area. | ⚪ |
+| `craigslist.updateAccountSettings` | craigslist.org | Change the caller's account settings: handle, default site, email alert preferences. | ⚪ |
 | `crateandbarrel.getProduct` | crateandbarrel.com | Reads one product page: every size, fabric and finish option with its own price… | ⚪ |
 | `crateandbarrel.searchProducts` | crateandbarrel.com | Searches Crate & Barrel's furniture, kitchen and decor catalog the way its own search… | 🟢 |
 | `crecipr.searchCredenciados` | crecipr.gov.br | Searches CRECI-PR's accredited brokers registry by name or CRECI registration number. | 🟢 |
@@ -1650,9 +1669,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `direct_book.listExtras` | direct-book.com | Lists the add-ons a hotel sells with a stay — breakfast, parking, transfers — with… | 🟢 |
 | `direct_book.listRoomTypes` | direct-book.com | Lists a hotel's room types with their ids, names, category (room or suite), beds… | 🟢 |
 | `direct_book.sendEnquiry` | direct-book.com | Sends a question to a hotel through its booking page's contact form. | 🟢 |
-| `discord.acceptFriendRequest` | discord.com | Accepts a pending incoming friend request. | ⚪ |
+| `discord.acceptFriendRequest` | discord.com | Accepts a pending incoming friend request. | 🟢 |
 | `discord.addReaction` | discord.com | Adds an emoji reaction to a message as the caller. | 🟢 |
-| `discord.blockUser` | discord.com | Blocks a user. | ⚪ |
+| `discord.blockUser` | discord.com | Blocks a user. | 🟢 |
 | `discord.createInvite` | discord.com | Creates an invite link to a channel the caller may invite to, with an optional expiry… | 🟢 |
 | `discord.createServer` | discord.com | Creates a new server owned by the caller, with a name and optional icon. | 🟢 |
 | `discord.createThread` | discord.com | Starts a thread from a message, or a new post in a forum channel, as the caller. | 🟢 |
@@ -1688,14 +1707,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.listSimilarApps` | discord.com | Lists the apps the App Directory shows as similar to one app — the same full shape… | 🟢 |
 | `discord.listThreads` | discord.com | Lists the active threads in a channel, or the posts in a forum channel — title… | 🟢 |
 | `discord.listTrendingGames` | discord.com | Lists the games trending on Discord this week (discord.com/trending-games), overall or… | 🟢 |
-| `discord.removeFriend` | discord.com | Removes a friend, or cancels or declines a pending request. | ⚪ |
+| `discord.removeFriend` | discord.com | Removes a friend, or cancels or declines a pending request. | 🟢 |
 | `discord.removeReaction` | discord.com | Removes the caller's own emoji reaction from a message. | 🟢 |
 | `discord.searchApps` | discord.com | Searches Discord's App Directory (discord.com/discovery/applications) for bots, games… | 🟢 |
 | `discord.searchMessages` | discord.com | Searches the messages in one joined server (or the caller's DMs) by text, author… | 🟢 |
 | `discord.searchServerMembers` | discord.com | Finds members of a joined server by name — user id, username, nickname, roles and join… | 🟢 |
 | `discord.searchServers` | discord.com | Searches Discord's public server directory (discord.com/servers) by keyword… | 🟢 |
 | `discord.sendDirectMessage` | discord.com | Sends a direct message to one user by username or user id, opening the DM if none… | 🟢 |
-| `discord.sendFriendRequest` | discord.com | Sends a friend request to a user by username. | ⚪ |
+| `discord.sendFriendRequest` | discord.com | Sends a friend request to a user by username. | 🟢 |
 | `discord.sendMessage` | discord.com | Posts a message as the signed-in caller to a channel or DM, optionally as a reply to… | 🟢 |
 | `discord.setAvatar` | discord.com | Changes the caller's profile picture. | ⚪ |
 | `discord.setStatus` | discord.com | Sets the caller's presence (online, idle, do not disturb, invisible) and custom status… | ⚪ |
@@ -5658,6 +5677,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | 🟢 |
 | `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | 🟢 |
 | `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟢 |
+| `tiktok.listLikedVideos` | tiktok.com | The videos a creator has liked, from the public Liked tab on their profile (id… | 🟢 |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | 🟢 |
 | `tiktok.listPlaylistVideos` | tiktok.com | The videos in one playlist, in the creator's order (id, caption, play count, cover… | 🟢 |
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟢 |
@@ -6417,7 +6437,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
 | `x.blockUser` | x.com | Block or unblock an account as the signed-in account — one `block` boolean argument… | 🟢 |
 | `x.bookmarkPost` | x.com | Bookmark or un-bookmark a post as the signed-in account — one `bookmark` boolean… | 🟢 |
-| `x.createPost` | x.com | Post a new tweet as the signed-in account, optionally with up to four photos. | 🟢 |
+| `x.createPost` | x.com | Post a new tweet as the signed-in account, optionally with up to four photos. `text`… | 🟢 |
 | `x.deletePost` | x.com | Delete one of the signed-in account's own posts. | 🟢 |
 | `x.followUser` | x.com | Follow or unfollow a user as the signed-in account — one `follow` boolean argument… | 🟢 |
 | `x.getConversation` | x.com | The messages inside one of the signed-in account's DM conversations. | 🟢 |
@@ -6436,7 +6456,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |
 | `x.profile` | x.com | Reads an X (Twitter) profile by handle or profile URL — display name, bio text… | 🟢 |
 | `x.quotePost` | x.com | Quote-repost a post with the signed-in account's own added comment. | 🟢 |
-| `x.replyToPost` | x.com | Reply to another post as the signed-in account, optionally with up to four photos. | 🟢 |
+| `x.replyToPost` | x.com | Reply to another post as the signed-in account, optionally with up to four photos.… | 🟢 |
 | `x.repost` | x.com | Repost (retweet) or un-repost a post as the signed-in account — one `repost` boolean… | 🟢 |
 | `x.search` | x.com | Runs the site's own search across posts, scrolling until the limit is met or results… | 🟢 |
 | `x.sendDirectMessage` | x.com | Send a direct message (DM) to an X user by handle as the signed-in account, starting a… | 🟢 |
