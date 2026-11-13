@@ -724,6 +724,7 @@ steampowered.com — steam: 32 functions — ask get_library
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
+stripe.com — stripe: getDoc, searchDocs
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
 styleseat.com — styleseat: 27 functions — ask get_library (+2 planned)
 substack.com — substack: post, posts, search

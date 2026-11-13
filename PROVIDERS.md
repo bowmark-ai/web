@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6613 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6615 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -5313,6 +5313,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.viewMarketHistory` | steampowered.com | Lists the signed-in caller's own Steam Community Market history — item, game… | 🟢 |
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
+| `stripe.getDoc` | stripe.com | Reads one Stripe docs page by URL or path (docs.stripe.com/... or stripe.com/docs/...)… | 🟢 |
+| `stripe.searchDocs` | stripe.com | Searches Stripe's public documentation (docs.stripe.com, formerly stripe.com/docs) for… | 🟢 |
 | `stubhub.createListing` | stubhub.com | Publishes a ticket listing for sale on one of the caller's own events, at a given… | 🟢 |
 | `stubhub.findEventsToSell` | stubhub.com | The seller side of the marketplace: searches StubHub's own event-finder… | 🟡 |
 | `stubhub.findPerformers` | stubhub.com | Finds a performer, artist or sports team by name and returns its id, display name and… | 🟢 |
