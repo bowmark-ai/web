@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 999842880f12c2f4d06a674df17644e784b5bc875fc6e1f9b91e921beb804cc7
-// 5034 checked, 20 unchecked.
+// Manifest version: cb36dfbf43e4a6a6fe1b69198db2b48ce4c24a1077c100ba6545c4934e52c564
+// 5045 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "999842880f12c2f4d06a674df17644e784b5bc875fc6e1f9b91e921beb804cc7",
+  "version": "cb36dfbf43e4a6a6fe1b69198db2b48ce4c24a1077c100ba6545c4934e52c564",
   "units": {
     "address_validation": {
       "defs": {
@@ -14986,6 +14986,62 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.appfolio": {
+      "defs": {
+        "AppfolioListingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "portal",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxRent",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBeds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AppfolioListingsArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -41448,6 +41504,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getUserWatchers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getUserGallery": [
           {
             "name": "args",
@@ -48029,6 +48110,55 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ],
+        "browseGames": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tag",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "priceCeiling",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortBy",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "new"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "price"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "listDeals": [
@@ -78452,6 +78582,95 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.kick": {
+      "defs": {
+        "KickChannelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "KickListCategoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "KickSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getChannel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickChannelArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLivestream": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickChannelArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickListCategoriesArgs"
             },
             "optional": true
           }
@@ -133254,6 +133473,42 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SurveyMonkeyShareSurveyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "surveyId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "collaboratorId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "access",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "view"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "full"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "SurveyMonkeySurveyArgs": {
           "k": "object",
           "props": [
@@ -133554,6 +133809,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SurveyMonkeyListTemplatesArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "shareSurvey": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SurveyMonkeyShareSurveyArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -145443,6 +145724,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetCrosswordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetPuzzleArgs": {
           "k": "object",
           "props": [
@@ -145557,6 +145850,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetScoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCrossword": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCrosswordArgs"
             },
             "optional": false
           }
@@ -152463,6 +152766,29 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.wineaccess": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

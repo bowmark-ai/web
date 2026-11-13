@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6605 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6611 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -288,6 +288,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listVersionHistory` | apps.apple.com | Read an app's update history from its store page — about 25 recent releases, newest… | 🟢 |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
+| `appfolio.listings` | appfolio.com | Lists the available rentals on a property manager's AppFolio tenant site… | 🟢 |
 | `apple.addToBag` | apple.com | Add a product to the shopping bag (cart) by part number. | 🟢 |
 | `apple.bookGeniusBarAppointment` | apple.com | Submit a Genius Bar / repair reservation's confirmation step — NEEDS THE CALLER SIGNED… | 🟢 |
 | `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number — no… | 🟡 |
@@ -1447,7 +1448,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cyberpowerpc.priceBuild` | cyberpowerpc.com | Prices an exact build for one configurator given a caller's part selections (one part… | 🟢 |
 | `dahlconsulting.getJob` | careers.dahlconsulting.com | Reads one job posting's full detail — the complete description, industry… | 🟢 |
 | `dahlconsulting.searchJobs` | careers.dahlconsulting.com | Searches Dahl Consulting's live job board — every open role at… | 🟢 |
-| `dailymail.browseSection` | dailymail.com | Lists the articles on one Daily Mail section front — headline, summary, url, article… | ⚪ |
+| `dailymail.browseSection` | dailymail.com | The stories on one Daily Mail section front, in the order the page lists them: article… | 🟢 |
 | `dailymail.browseTopic` | dailymail.com | Lists the articles on one Daily Mail topic page, newest first, given a topic url from… | ⚪ |
 | `dailymail.getArticle` | dailymail.com | Reads one Daily Mail article in full — headline, standfirst bullets, byline, published… | ⚪ |
 | `dailymail.getArticleComments` | dailymail.com | Reads the reader comments on one Daily Mail article — author, text, time, up/down… | ⚪ |
@@ -1458,11 +1459,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymail.getVideo` | dailymail.com | Reads one Daily Mail video — title, description, duration, date, thumbnail and the… | ⚪ |
 | `dailymail.listColumnists` | dailymail.com | Lists Daily Mail's columnists with name, profile url and their latest column. | ⚪ |
 | `dailymail.listGames` | dailymail.com | Lists the puzzles and games on Daily Mail's games hub (sudoku, kenken, kakuro… | ⚪ |
-| `dailymail.listLatest` | dailymail.com | Lists Daily Mail's newest articles across the site, newest first, with headline, url… | ⚪ |
+| `dailymail.listLatest` | dailymail.com | The newest stories across Daily Mail, in the order its own latest list shows them… | 🟢 |
 | `dailymail.listMyComments` | dailymail.com | Lists the comments the signed-in caller has posted on Daily Mail, with article and… | ⚪ |
 | `dailymail.listNewsletters` | dailymail.com | Lists Daily Mail's email newsletters with name, description and list id. | ⚪ |
 | `dailymail.listPodcasts` | dailymail.com | Lists Daily Mail's podcasts with title, description and episode links. | ⚪ |
-| `dailymail.listSections` | dailymail.com | Lists Daily Mail's sections and sub-sections (US home, News, U.S. Showbiz, Sport… | ⚪ |
+| `dailymail.listSections` | dailymail.com | Lists Daily Mail's sections and sub-sections (US home, News, U.S. Showbiz, Sport… | 🟢 |
 | `dailymail.listTopics` | dailymail.com | Lists Daily Mail topic pages (people, events, teams) matching a name, so an agent can… | ⚪ |
 | `dailymail.listVideos` | dailymail.com | Lists Daily Mail videos from the video hub or one video channel (news, showbiz, sport… | ⚪ |
 | `dailymail.postComment` | dailymail.com | Posts a reader comment on a Daily Mail article as the signed-in caller, given an… | ⚪ |
@@ -1575,6 +1576,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.getUserGallery` | deviantart.com | Lists an artist's gallery — every deviation they posted, newest first, or one gallery… | 🟢 |
 | `deviantart.getUserPosts` | deviantart.com | Lists an artist's posts — journals, status updates and polls from their Posts tab —… | 🟢 |
 | `deviantart.getUserProfile` | deviantart.com | Reads an artist's public profile — display name, avatar, tagline, country, website… | 🟢 |
+| `deviantart.getUserWatchers` | deviantart.com | Lists the people who watch (follow) an artist — username, user id, avatar and account… | 🟢 |
 | `deviantart.getWatchFeed` | deviantart.com | Reads the signed-in caller's Watch feed — the newest deviations and posts from the… | 🟢 |
 | `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | 🟢 |
 | `deviantart.listNotes` | deviantart.com | Reads the signed-in caller's Notes inbox — each conversation's other participants… | 🟢 |
@@ -1847,6 +1849,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | ⚪ |
 | `epicgames.addToCart` | epicgames.com | Put a game or add-on in the signed-in caller's cart. | ⚪ |
 | `epicgames.addToWishlist` | epicgames.com | Add a game to the signed-in caller's wishlist. | ⚪ |
+| `epicgames.browseGames` | epicgames.com | Browse the store catalogue like its Browse page — base games in a tag (genre, feature… | 🟢 |
 | `epicgames.claimFreeGame` | epicgames.com | Claim one of this week's free games into the signed-in caller's library — the $0… | 🟢 |
 | `epicgames.getAccount` | epicgames.com | The signed-in caller's own Epic Games account settings, returned raw — no fleet-held… | 🟢 |
 | `epicgames.getAchievementProgress` | epicgames.com | The signed-in caller's own achievements in one game — which are unlocked, when, their… | 🟢 |
@@ -3088,7 +3091,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `jcrew.getProducts` | jcrew.com | Reads several J.Crew products in one call, given a list of style ids — the batch form… | 🟢 |
 | `jcrew.listCategories` | jcrew.com | Walks J.Crew's own category tree from a starting category down a requested number of… | 🟢 |
 | `jcrew.listProductReviews` | jcrew.com | Reads the customer reviews on one J.Crew product off Bazaarvoice, the site's… | 🟢 |
-| `jcrew.listSearchRefinements` | jcrew.com | Lists the filters J.Crew itself offers for a given search or category — size, colour… | 🟡 |
+| `jcrew.listSearchRefinements` | jcrew.com | Lists the filters J.Crew itself offers for a given search or category — size, colour… | 🟢 |
 | `jcrew.listSortOptions` | jcrew.com | Lists the sort orders J.Crew's own result pages offer — price low to high, newest… | 🟢 |
 | `jcrew.searchProducts` | jcrew.com | Searches J.Crew's live catalogue the way its own search bar does — a free-text query… | 🟢 |
 | `jcrew.startCheckout` | jcrew.com | Begins J.Crew's checkout for a filled bag. | ⚪ |
@@ -3180,16 +3183,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kick.deleteChatMessage` | kick.com | Deletes one of the signed-in caller's own chat messages. | ⚪ |
 | `kick.followChannel` | kick.com | Follows a channel as the signed-in caller. | ⚪ |
 | `kick.getCategory` | kick.com | One category's record by slug: name, group, tags, description, live viewers, follower… | ⚪ |
-| `kick.getChannel` | kick.com | A channel's public record by slug: display name, bio, follower count, verified flag… | ⚪ |
+| `kick.getChannel` | kick.com | A channel's public record by slug: display name, bio, follower count, verified flag… | 🟢 |
 | `kick.getChannelLeaderboard` | kick.com | A channel's gifted-subscription leaderboard: who gifted most, this week, this month… | ⚪ |
 | `kick.getChannelUser` | kick.com | How one user appears inside one channel: profile picture, badges (subscriber… | ⚪ |
 | `kick.getChatMessages` | kick.com | The most recent messages in a channel's chat, with sender, badges and time, plus the… | ⚪ |
 | `kick.getChatroomSettings` | kick.com | A channel's chat rules and modes: slow mode, followers-only (and how long)… | ⚪ |
 | `kick.getClip` | kick.com | One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration… | ⚪ |
 | `kick.getCurrentUser` | kick.com | The signed-in caller's own Kick account: username, email-verified flag, profile… | ⚪ |
-| `kick.getLivestream` | kick.com | What a channel is streaming right now: title, category, viewer count, start time… | ⚪ |
+| `kick.getLivestream` | kick.com | What a channel is streaming right now: title, category, viewer count, start time… | 🟢 |
 | `kick.getVideo` | kick.com | One VOD by uuid: title, channel, category, duration, views, created date and its HLS… | ⚪ |
-| `kick.listCategories` | kick.com | Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest… | ⚪ |
+| `kick.listCategories` | kick.com | Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest… | 🟢 |
 | `kick.listChannelClips` | kick.com | A channel's clips, by most viewed or newest, within a time window (day, week, month… | ⚪ |
 | `kick.listChannelEmotes` | kick.com | The emotes a channel offers (its own and subscriber-only), plus Kick's global set. | ⚪ |
 | `kick.listChannelLinks` | kick.com | The link panels under a channel (socials, tip pages, sponsors) with their titles and… | ⚪ |
@@ -3199,7 +3202,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kick.listLiveStreams` | kick.com | Browses who is live now, biggest first, optionally within one category (the slug… | ⚪ |
 | `kick.listSubscriptions` | kick.com | The channels the signed-in caller pays a subscription to, with tier and renewal date. | ⚪ |
 | `kick.listTopClips` | kick.com | The most-viewed or newest clips across all of Kick, or within one category, for a time… | ⚪ |
-| `kick.search` | kick.com | Searches Kick for channels (and the categories and live streams the same box returns)… | ⚪ |
+| `kick.search` | kick.com | Searches Kick for channels and categories by a word — the door to every channel slug… | 🟢 |
 | `kick.sendChatMessage` | kick.com | Posts a message in a channel's chat as the signed-in caller, optionally as a reply to… | ⚪ |
 | `kick.subscribeToChannel` | kick.com | Subscribes the signed-in caller to a channel (paid), stopping at Kick's payment step. | ⚪ |
 | `kick.unfollowChannel` | kick.com | Unfollows a channel as the signed-in caller. | ⚪ |
@@ -5900,6 +5903,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟡 |
+| `usatoday.getCrossword` | usatoday.com | Reads today's USA TODAY Crossword, or one by id: title, date, constructor, grid size… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
 | `usatoday.getStandings` | usatoday.com | Reads the current league standings from USA Today Sports — given a league like NFL… | 🟢 |
@@ -5982,7 +5986,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `visible.searchPhones` | visible.com | Returns the phones Visible currently sells, with the facts a purchase turns on —… | 🟡 |
 | `vistaprint.checkOrderDeadline` | vistaprint.com | Checks the order deadline and turnaround time for packaging or product orders at… | ⚪ |
 | `vistaprint.getShippingBoxPrice` | vistaprint.com | Prices Vistaprint's Full-Print Shipping Boxes (product PRD-Y1LEPL3MX) for a given box… | 🟢 |
-| `voluspa.getFragranceQuizIntro` | voluspa.com | Reads the "Find Your Fragrance" quiz suite's entry screen — the two branching paths… | 🔴 |
+| `voluspa.getFragranceQuizIntro` | voluspa.com | Reads the "Find Your Fragrance" quiz suite's entry screen — the two branching paths… | 🟢 |
 | `voluspa.matchFragranceQuiz` | voluspa.com | Drives the actual multi-step quiz end to end with a caller-supplied path and set of… | ⚪ |
 | `vscode.getDoc` | code.visualstudio.com | Returns one code.visualstudio.com documentation page's structured content by its URL —… | 🟢 |
 | `vscode.listDocPages` | code.visualstudio.com | Lists every doc page code.visualstudio.com publishes, parsed from the site's own… | 🟢 |
@@ -6250,6 +6254,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `williams_sonoma.searchProducts` | williams-sonoma.com | Searches the Williams Sonoma catalog the way its own search box does ("stand mixer")… | 🟢 |
 | `windscribe.getDedicatedIp` | windscribe.com | Reads Windscribe's own dedicated / static IP page and returns every country and city… | 🟢 |
 | `windscribe.getServerLocations` | windscribe.com | Windscribe's full shared VPN server-location list (windscribe.com/status). | ⚪ |
+| `wineaccess.getProduct` | wineaccess.com | Reads one Wine Access catalog listing's current USD price and descriptive product card… | 🟢 |
+| `wineaccess.searchProducts` | wineaccess.com | Free-text searches Wine Access's live public wine catalog, returning each matching… | 🟢 |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `wix_bookings.bookAppointment` | www.wixapis.com | Books an appointment as a guest for a service at an open time, with the customer's… | 🟡 |

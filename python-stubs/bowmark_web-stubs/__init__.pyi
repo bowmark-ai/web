@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 999842880f12c2f4d06a674df17644e784b5bc875fc6e1f9b91e921beb804cc7
-# 98 capabilities, 825 providers, 5034 typed functions, 20 refused.
+# Manifest version: cb36dfbf43e4a6a6fe1b69198db2b48ce4c24a1077c100ba6545c4934e52c564
+# 98 capabilities, 828 providers, 5045 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7147,6 +7147,26 @@ class Prv_app_store_ListPurchasedAppsResult_Out(TypedDict):
 class Prv_app_store_ListSubscriptionsResult_Out(TypedDict):
     url: str
     raw: str
+
+class Prv_appfolio_AppfolioListingsArgs_In(TypedDict):
+    portal: str
+    query: NotRequired[str]
+    maxRent: NotRequired[float]
+    minBeds: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_appfolio_AppfolioListing_Out(TypedDict):
+    id: str
+    title: str
+    address: str
+    rent: float | None
+    rentText: str | None
+    beds: float | None
+    baths: float | None
+    squareFeet: float | None
+    available: str | None
+    imageUrl: str | None
+    url: str
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -20489,6 +20509,23 @@ class Prv_deviantart_DeviantartUserProfile_Out_stats_Out(TypedDict):
     favourites: NotRequired[float]
     commentsReceivedProfile: NotRequired[float]
 
+class Prv_deviantart_getUserWatchers_args_In(TypedDict):
+    username: str
+    offset: NotRequired[float]
+
+class Prv_deviantart_DeviantartWatchersResult_Out(TypedDict):
+    watchers: list[Prv_deviantart_DeviantartWatcher_Out]
+    total: NotRequired[float]
+    hasMore: bool
+    nextOffset: NotRequired[float]
+
+class Prv_deviantart_DeviantartWatcher_Out(TypedDict):
+    userId: float
+    username: str
+    usericon: NotRequired[str]
+    accountType: NotRequired[str]
+    isGroup: bool
+
 class Prv_deviantart_getUserGallery_args_In(TypedDict):
     username: str
     folderId: NotRequired[str]
@@ -23492,6 +23529,16 @@ class Prv_epicgames_GameOffer_Out(TypedDict):
     title: str
     basePrice: float
     releaseDate: str | None
+
+class Prv_epicgames_browseGames_args_In(TypedDict):
+    tag: NotRequired[str]
+    priceCeiling: NotRequired[float]
+    sortBy: NotRequired[Literal["new"] | Literal["price"]]
+    limit: NotRequired[float]
+
+class Prv_epicgames_BrowseGamesResult_Out(TypedDict):
+    games: list[Prv_epicgames_GameSearchResult_Out]
+    total: float
 
 class Prv_epicgames_listDeals_args_In(TypedDict):
     tag: NotRequired[str]
@@ -37380,6 +37427,73 @@ class Prv_kenko_KenkoAccountRow_Out(TypedDict):
     date: str | None
     status: str | None
     raw: Mapping[str, Any]
+
+class Prv_kick_KickSearchArgs_In(TypedDict):
+    query: str
+
+class Prv_kick_KickSearchResult_Out(TypedDict):
+    channels: list[Prv_kick_KickChannel_Out]
+    categories: list[Prv_kick_KickSearchResult_Out_categories_item_Out]
+
+class Prv_kick_KickChannel_Out(TypedDict):
+    channelId: float
+    slug: str
+    username: NotRequired[str]
+    bio: NotRequired[str]
+    verified: bool
+    followers: NotRequired[float]
+    isLive: bool
+    subscriptionEnabled: bool
+    profilePicture: NotRequired[str]
+    socials: Mapping[str, str]
+    recentCategories: list[Prv_kick_KickChannel_Out_recentCategories_item_Out]
+    chatroomId: NotRequired[float]
+    url: str
+
+class Prv_kick_KickChannel_Out_recentCategories_item_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_kick_KickSearchResult_Out_categories_item_Out(TypedDict):
+    name: str
+    slug: str
+    viewers: NotRequired[float]
+
+class Prv_kick_KickChannelArgs_In(TypedDict):
+    channel: str
+
+class Prv_kick_KickLivestream_Out(TypedDict):
+    channel: str
+    live: bool
+    title: NotRequired[str]
+    viewers: NotRequired[float]
+    startedAt: NotRequired[str]
+    language: NotRequired[str]
+    mature: NotRequired[bool]
+    category: NotRequired[Prv_kick_KickLivestream_Out_category_Out]
+    thumbnailUrl: NotRequired[str]
+
+class Prv_kick_KickLivestream_Out_category_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_kick_KickListCategoriesArgs_In(TypedDict):
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_kick_KickListCategoriesResult_Out(TypedDict):
+    categories: list[Prv_kick_KickCategory_Out]
+    page: float
+    hasMore: bool
+
+class Prv_kick_KickCategory_Out(TypedDict):
+    name: str
+    slug: str
+    parent: NotRequired[str]
+    viewers: NotRequired[float]
+    tags: list[str]
+    imageUrl: NotRequired[str]
+    mature: bool
 
 class Prv_kickstarter_KickstarterSearchArgs_In(TypedDict):
     query: str
@@ -61406,6 +61520,16 @@ class Prv_surveymonkey_SurveyMonkeyTemplate_Out(TypedDict):
     title: str | None
     questionCount: float | None
 
+class Prv_surveymonkey_SurveyMonkeyShareSurveyArgs_In(TypedDict):
+    surveyId: str
+    collaboratorId: str
+    access: NotRequired[Literal["view"] | Literal["full"]]
+
+class Prv_surveymonkey_SurveyMonkeyShareSurveyResult_Out(TypedDict):
+    surveyId: str
+    collaboratorId: str
+    access: str
+
 class Prv_sweathouz_SweathouzListStudiosArgs_In(TypedDict):
     query: NotRequired[str]
     includeComingSoon: NotRequired[bool]
@@ -66628,6 +66752,26 @@ class Prv_usatoday_usatodayScore_Out(TypedDict):
     date: str
     status: str
 
+class Prv_usatoday_GetCrosswordArgs_In(TypedDict):
+    id: NotRequired[str]
+
+class Prv_usatoday_usatodayCrossword_Out(TypedDict):
+    id: str
+    title: str
+    date: str
+    author: NotRequired[str]
+    editor: NotRequired[str]
+    copyright: NotRequired[str]
+    width: float
+    height: float
+    across: list[Prv_usatoday_usatodayCrosswordClue_Out]
+    down: list[Prv_usatoday_usatodayCrosswordClue_Out]
+    url: str
+
+class Prv_usatoday_usatodayCrosswordClue_Out(TypedDict):
+    number: float
+    clue: str
+
 class Prv_usatoday_GetStandingsArgs_In(TypedDict):
     league: str
 
@@ -70276,6 +70420,14 @@ class Prv_windscribe_WindscribeDedicatedIpPlan_Out(TypedDict):
     name: str
     priceUsd: float
     per: str
+
+class Prv_wineaccess_WineAccessWine_Out(TypedDict):
+    name: str
+    price: float
+    currency: Literal["USD"]
+    url: str
+    imageUrl: str | None
+    narrative: str | None
 
 class Prv_winestyles_WinestylesStore_Out(TypedDict):
     storeId: str
@@ -77822,6 +77974,19 @@ class Prv_app_store(Protocol):
         own subscriptions page. NEEDS THE CALLER SIGNED IN to their Apple Account; the run
         pauses for that sign-in. Returns the page as raw (its signed-in shape is not yet
         measured). Read only: never cancels or starts a subscription.
+        """
+
+class Prv_appfolio(Protocol):
+    """AppFolio (appfolio.com) — property-management software. listings reads the available
+    rentals off a property manager's public AppFolio tenant site
+    (<portal>.appfolio.com/listings): rent, beds/baths, square feet, availability, address
+    and link.
+    """
+
+    async def listings(self, args: Prv_appfolio_AppfolioListingsArgs_In, /) -> list[Prv_appfolio_AppfolioListing_Out]:
+        """Lists the available rentals on a property manager's AppFolio tenant site
+        (<portal>.appfolio.com) — rent, beds/baths, square feet, availability, address and
+        listing link, filterable by text, max rent and min beds.
         """
 
 class Prv_apple(Protocol):
@@ -85422,6 +85587,12 @@ class Prv_deviantart(Protocol):
         (the name in deviantart.com/<username>).
         """
 
+    async def getUserWatchers(self, args: Prv_deviantart_getUserWatchers_args_In, /) -> Prv_deviantart_DeviantartWatchersResult_Out:
+        """Lists the people who watch (follow) an artist — each watcher's username, user id, avatar
+        and account tier — 24 at a time via offset/nextOffset, with the artist's total watcher
+        count. Use getUserProfile for the count alone.
+        """
+
     async def getUserGallery(self, args: Prv_deviantart_getUserGallery_args_In, /) -> Prv_deviantart_DeviantartGalleryResult_Out:
         """Lists an artist's gallery — every deviation they posted, newest first, or one gallery
         folder's contents when folderId is given — with each deviation's id, title, url, author,
@@ -86956,6 +87127,13 @@ class Prv_epicgames(Protocol):
     async def listGameOffers(self, args: Prv_epicgames_listGameOffers_args_In, /) -> Prv_epicgames_ListGameOffersResult_Out:
         """Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles —
         with offer type, title, base price and release date. Takes a product slug or namespace.
+        """
+
+    async def browseGames(self, args: Prv_epicgames_browseGames_args_In | None = None, /) -> Prv_epicgames_BrowseGamesResult_Out:
+        """Browse the Epic Games Store catalogue the way the store's Browse page does — base games
+        in a tag (genre, feature or platform, by name or id from listTags), on sale or not.
+        Optional price cap in dollars (priceCeiling: 10 means $10.00), sorted newest first
+        (default) or cheapest first, up to 100 per call. total is the size of the whole match.
         """
 
     async def listDeals(self, args: Prv_epicgames_listDeals_args_In | None = None, /) -> Prv_epicgames_ListDealsResult_Out:
@@ -94859,6 +95037,29 @@ class Prv_kenko(Protocol):
     async def listMyPurchases(self, studio: Prv_kenko_KenkoStudioRef_In, opts: ConnectionOption | None = None, /) -> list[Prv_kenko_KenkoAccountRow_Out]:
         """The signed-in member's own purchase/payment history at a studio. Needs the caller signed
         in. Takes { urlPrefix, regionId } from findStudio.
+        """
+
+class Prv_kick(Protocol):
+    """Kick, the live-streaming site — channels, categories, VODs and clips."""
+
+    async def search(self, args: Prv_kick_KickSearchArgs_In, /) -> Prv_kick_KickSearchResult_Out:
+        """Searches Kick for channels and categories by a word — the door to every channel slug the
+        other functions take.
+        """
+
+    async def getChannel(self, args: Prv_kick_KickChannelArgs_In, /) -> Prv_kick_KickChannel_Out:
+        """A channel's public record by slug: display name, bio, follower count, verified flag,
+        socials, recent categories, chatroom id and whether it is live.
+        """
+
+    async def getLivestream(self, args: Prv_kick_KickChannelArgs_In, /) -> Prv_kick_KickLivestream_Out:
+        """What a channel is streaming right now: title, category, viewer count, start time,
+        language, mature flag and thumbnail — or that it is offline.
+        """
+
+    async def listCategories(self, args: Prv_kick_KickListCategoriesArgs_In | None = None, /) -> Prv_kick_KickListCategoriesResult_Out:
+        """Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest
+        first, paged.
         """
 
 class Prv_kickstarter(Protocol):
@@ -107959,6 +108160,12 @@ class Prv_surveymonkey(Protocol):
         signed in.
         """
 
+    async def shareSurvey(self, args: Prv_surveymonkey_SurveyMonkeyShareSurveyArgs_In, opts: ConnectionOption | None = None, /) -> Prv_surveymonkey_SurveyMonkeyShareSurveyResult_Out:
+        """Shares one of the caller's surveys (surveyId from listSurveys) with a teammate by their
+        numeric SurveyMonkey user id, read only (default) or full access. Needs the caller
+        signed in.
+        """
+
 class Prv_sweathouz(Protocol):
     """SWTHZ (sweathouz.com) private contrast-therapy suites (sauna, cold plunge, shower)
     booked as timed 60-minute appointments: read studios, open suite times and pricing, and
@@ -110869,6 +111076,11 @@ class Prv_usatoday(Protocol):
         MLS — returning game results with home and away teams, scores, date and status.
         """
 
+    async def getCrossword(self, args: Prv_usatoday_GetCrosswordArgs_In, /) -> Prv_usatoday_usatodayCrossword_Out:
+        """Reads today's USA TODAY Crossword (or one by id): title, date, constructor, grid size
+        and every across and down clue with its number. The answer grid is not returned.
+        """
+
     async def getStandings(self, args: Prv_usatoday_GetStandingsArgs_In, /) -> list[Prv_usatoday_usatodayStanding_Out]:
         """Reads the current league standings from USA Today Sports — given a league like NFL, NBA,
         MLB, NHL — returning each team's conference, division, rank, wins, losses, ties, win
@@ -112796,6 +113008,21 @@ class Prv_windscribe(Protocol):
         """Every city Windscribe sells a static (dedicated) IP in — datacenter or residential — and
         the yearly price of each, optionally filtered to one `country`, read off
         windscribe.com/staticips.
+        """
+
+class Prv_wineaccess(Protocol):
+    """Searches Wine Access's live public wine catalog and reads a listed wine's current USD
+    price straight from server-rendered catalog pages.
+    """
+
+    async def searchProducts(self, query: str, /) -> list[Prv_wineaccess_WineAccessWine_Out]:
+        """Free-text searches Wine Access's live wine catalog, returning matching wines with their
+        current USD price and catalog URL.
+        """
+
+    async def getProduct(self, url: str, /) -> Prv_wineaccess_WineAccessWine_Out:
+        """Reads one Wine Access catalog listing's current USD price and descriptive card from a
+        URL returned by searchProducts.
         """
 
 class Prv_winestyles(Protocol):
@@ -114808,6 +115035,7 @@ class BowmarkProviders(Protocol):
     apidirectory_com: Prv_apidirectory_com
     apify: Prv_apify
     app_store: Prv_app_store
+    appfolio: Prv_appfolio
     apple: Prv_apple
     aquaphoenixsci: Prv_aquaphoenixsci
     arajet: Prv_arajet
@@ -115184,6 +115412,7 @@ class BowmarkProviders(Protocol):
     kbb: Prv_kbb
     keepa: Prv_keepa
     kenko: Prv_kenko
+    kick: Prv_kick
     kickstarter: Prv_kickstarter
     kijiji: Prv_kijiji
     kingsdown: Prv_kingsdown
@@ -115553,6 +115782,7 @@ class BowmarkProviders(Protocol):
     wikipedia_standings: Prv_wikipedia_standings
     williams_sonoma: Prv_williams_sonoma
     windscribe: Prv_windscribe
+    wineaccess: Prv_wineaccess
     winestyles: Prv_winestyles
     wix_bookings: Prv_wix_bookings
     wodify: Prv_wodify

@@ -65,6 +65,7 @@ api.weather.gov — nws: findRadarStations, findStations, findZones, getActiveAl
 apidirectory.com — apidirectory_com: listCategories, search (+1 planned)
 apify.com — apify: store
 app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchDeals (+2 planned)
+appfolio.com — appfolio: listings
 apple.com — apple: 32 functions — ask get_library
 apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listAppEvents, listArcadeGames, listCategories, listCollections, listDeveloperApps, listPurchasedApps, listReviews, listSimilarApps, listSubscriptions, listTodayStories, listTopCharts, listVersionHistory, searchApps (+1 planned)
 arajet.com — arajet: search
@@ -248,7 +249,7 @@ curiocity.com — curiocity: listEvents
 currys.co.uk — currys: listClearance, search (+2 planned)
 cve.circl.lu — circl: getCve, search
 cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuild
-dailymail.com — dailymail: nothing callable yet (+24 planned)
+dailymail.com — dailymail: browseSection, listLatest, listSections (+21 planned)
 dailymotion.com — dailymotion: 37 functions — ask get_library
 dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
 data.cms.gov — data_cms: getRows, searchDatasets
@@ -266,7 +267,7 @@ detailxperts.com — detailxperts: nothing callable yet (+4 planned)
 deutschepost.de — deutschepost: getDialogpostRates
 dev.to — devto: getProfile, searchArticles
 developers.openai.com — developersopenai: getDocPage
-deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getNotifications, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getWatchFeed, listGalleryFolders, listNotes, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateProfile, watchUser
+deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getNotifications, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getUserWatchers, getWatchFeed, listGalleryFolders, listNotes, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateProfile, watchUser
 dhl.com — dhl: getQuote
 dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
@@ -294,7 +295,7 @@ embroker.com — embroker: getQuoteEntryPoint, listCoverageLines (+1 planned)
 emirates.com — emirates: flightStatus
 en.wikipedia.org — wikipedia_standings: search
 energyaustralia.com.au — energyaustralia_com_au: nothing callable yet (+1 planned)
-epicgames.com — epicgames: claimFreeGame, getAccount, getAchievementProgress, getAchievements, getGame, getGameRatings, getLibrary, getNewsArticle, getPrice, getRewardsBalance, getServiceStatus, getStorefront, listCollection, listDeals, listFreeGames, listFriends, listGameOffers, listNews, listOrders, listTags, redeemCode, removeFriend, searchGames, sendFriendRequest, updateDisplayName (+6 planned)
+epicgames.com — epicgames: browseGames, claimFreeGame, getAccount, getAchievementProgress, getAchievements, getGame, getGameRatings, getLibrary, getNewsArticle, getPrice, getRewardsBalance, getServiceStatus, getStorefront, listCollection, listDeals, listFreeGames, listFriends, listGameOffers, listNews, listOrders, listTags, redeemCode, removeFriend, searchGames, sendFriendRequest, updateDisplayName (+6 planned)
 epromos.com — epromos: getProductConfiguration, listCategoryProducts, quoteBulkPrice (+1 planned)
 eq3.com — eq3: getSofaConfiguration, listSofas (+1 planned)
 equinox-hotels.com — equinox_hotels: listRooms, searchRates
@@ -449,7 +450,7 @@ kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct (+1 planned)
 keyserver.ubuntu.com — ubuntu_keyserver: searchKeys
-kick.com — kick: nothing callable yet (+31 planned)
+kick.com — kick: getChannel, getLivestream, listCategories, search (+27 planned)
 kickstarter.com — kickstarter: project, search
 kijiji.ca — kijiji: getListing, search (+2 planned)
 kingsdown.com — kingsdown: getBedMatchResult
@@ -794,7 +795,7 @@ upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
 ups.com — ups: calculateShippingCost, estimateDeliveryDate, findNearbyLocation, getRate, getServiceAlerts, schedulePickup, trackShipment, validateAddress
 urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
 us.posthog.com — posthog: getInsight, listInsights, listProjects, runRetentionQuery
-usatoday.com — usatoday: browseSection, getArticle, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+2 planned)
+usatoday.com — usatoday: browseSection, getArticle, getCrossword, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+2 planned)
 uscis.gov — uscis: caseStatus
 usps.com — usps: getRate, trackPackage
 va.gov — va_gov: findFacilities
@@ -808,7 +809,7 @@ villagerealtyobx.com — villagerealtyobx: getQuote, searchRentals
 visible.com — visible: checkCoverage, getPhone, getPlans, listDeals, searchPhones (+5 planned)
 visit.barnesfoundation.org — barnesfoundation: getAdmissionCalendar, priceAdmission
 vistaprint.com — vistaprint: getShippingBoxPrice (+1 planned)
-voluspa.com — voluspa: nothing callable yet (+2 planned)
+voluspa.com — voluspa: getFragranceQuizIntro (+1 planned)
 walkerhughes.com — walkerhughes: findNearestOffice, listOffices, listQuoteProducts (+1 planned)
 walmart.com — walmart: addAddress, addToCart, addToList, browseBrand, browseCategory, createList, findBrand, getAccountProfile, getCart, getList, getOrder, getPickupDeliverySlots, getProduct, getSeller, getStore, getWeeklyAd, listAddresses, listDeals, listDepartments, listLists, listOrders, listPurchasedItems, listReviews, listSellerOffers, removeFromCart, removeFromList, search, setPreferredStore, suggestSearches, updateCartItem, updateProfile (+7 planned)
 washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getElectionResults, getLiveBlog, getNewsletter, getPodcast, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listEpisodes, listNewsletters, listPodcasts, listSavedArticles, listSections, listTopics, listTrending, listVideos, saveArticle, searchWriters, unsaveArticle (+1 planned)
@@ -826,6 +827,7 @@ wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
 wikipedia.org — wikipedia: 40 functions — ask get_library
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)
 windscribe.com — windscribe: getDedicatedIp (+1 planned)
+wineaccess.com — wineaccess: getProduct, searchProducts
 winestyles.com — winestyles: listStores, searchStoreInventory
 wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, getMyBookings, getMyMembership, listGymSchedule, listInstructors, listMemberships, listPrices, listPrograms, readTerms (+26 planned)
 workable.com — workable: listJobs

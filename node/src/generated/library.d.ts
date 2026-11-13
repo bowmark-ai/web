@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 999842880f12c2f4d06a674df17644e784b5bc875fc6e1f9b91e921beb804cc7
-// 98 capabilities, 825 providers, 5052 typed functions, 20 refused.
+// Manifest version: cb36dfbf43e4a6a6fe1b69198db2b48ce4c24a1077c100ba6545c4934e52c564
+// 98 capabilities, 828 providers, 5063 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11800,6 +11800,44 @@ interface ListReviewsResult {
      * never cancels or starts a subscription.
      */
     listSubscriptions(opts?: ConnectionOption): Promise<ListSubscriptionsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_appfolio {
+  // ── AppFolio — the unit's own declarations, verbatim ──
+interface AppfolioListingsArgs {
+  portal: string;    // the property manager's subdomain: "summit" for summit.appfolio.com (a full URL works too)
+  query?: string;    // free text over title + address, e.g. a city or street
+  maxRent?: number;  // USD per month
+  minBeds?: number;
+  limit?: number;    // default 50, max 500
+}
+interface AppfolioListing {
+  id: string;              // the listing's UUID
+  title: string;
+  address: string;
+  rent: number | null;     // monthly, parsed from rentText
+  rentText: string | null; // as the site prints it, e.g. "$1,000"
+  beds: number | null;     // 0 for a studio
+  baths: number | null;
+  squareFeet: number | null;
+  available: string | null; // the site's own text: "NOW" or a date
+  imageUrl: string | null;
+  url: string;              // the listing's detail page
+}
+
+  /**
+   * AppFolio (appfolio.com) — property-management software. listings reads the available rentals
+   * off a property manager's public AppFolio tenant site (<portal>.appfolio.com/listings): rent,
+   * beds/baths, square feet, availability, address and link.
+   */
+  interface Unit {
+    /**
+     * Lists the available rentals on a property manager's AppFolio tenant site
+     * (<portal>.appfolio.com) — rent, beds/baths, square feet, availability, address and listing
+     * link, filterable by text, max rent and min beds.
+     */
+    listings(args: AppfolioListingsArgs): Promise<AppfolioListing[]>;
   }
 }
 
@@ -33412,6 +33450,21 @@ interface DeviantartPost {
   stats?: { views?: number; favourites?: number; comments?: number; downloads?: number };
 }
 
+interface DeviantartWatcher {
+  userId: number;
+  username: string;
+  usericon?: string;
+  accountType?: string;
+  isGroup: boolean;
+}
+
+interface DeviantartWatchersResult {
+  watchers: DeviantartWatcher[];
+  total?: number;
+  hasMore: boolean;
+  nextOffset?: number;
+}
+
 interface DeviantartPostsResult {
   total: number;
   counters?: { all?: number; journals?: number; polls?: number; statuses?: number };
@@ -33529,6 +33582,13 @@ interface DeviantartPostedComment {
      * name in deviantart.com/<username>).
      */
     getUserProfile(args: { username: string }): Promise<DeviantartUserProfile>;
+
+    /**
+     * Lists the people who watch (follow) an artist — each watcher's username, user id, avatar and
+     * account tier — 24 at a time via offset/nextOffset, with the artist's total watcher count.
+     * Use getUserProfile for the count alone.
+     */
+    getUserWatchers(args: { username: string; offset?: number }): Promise<DeviantartWatchersResult>;
 
     /**
      * Lists an artist's gallery — every deviation they posted, newest first, or one gallery
@@ -37223,6 +37283,11 @@ interface GameSearchResult {
   images: Array<{ type: string; url: string }>;
 }
 
+interface BrowseGamesResult {
+  games: GameSearchResult[];
+  total: number;
+}
+
 interface SearchGamesResult {
   games: GameSearchResult[];
   total: number;
@@ -37562,6 +37627,14 @@ interface GetAchievementsResult {
      * with offer type, title, base price and release date. Takes a product slug or namespace.
      */
     listGameOffers(args: { slug?: string; namespace?: string }): Promise<ListGameOffersResult>;
+
+    /**
+     * Browse the Epic Games Store catalogue the way the store's Browse page does — base games in a
+     * tag (genre, feature or platform, by name or id from listTags), on sale or not. Optional
+     * price cap in dollars (priceCeiling: 10 means $10.00), sorted newest first (default) or
+     * cheapest first, up to 100 per call. total is the size of the whole match.
+     */
+    browseGames(args?: { tag?: string; priceCeiling?: number; sortBy?: 'new' | 'price'; limit?: number }): Promise<BrowseGamesResult>;
 
     /**
      * Games on sale right now in the Epic Games Store's Special Offers — current price, original
@@ -60038,6 +60111,98 @@ interface KenkoWriteResult { ok: true; raw: unknown }
      * Takes { urlPrefix, regionId } from findStudio.
      */
     listMyPurchases(studio: KenkoStudioRef, opts?: ConnectionOption): Promise<KenkoAccountRow[]>;
+  }
+}
+
+declare namespace BowmarkProvider_kick {
+  // ── Kick — the unit's own declarations, verbatim ──
+interface KickChannel {
+  channelId: number;
+  slug: string;
+  username?: string;
+  bio?: string;
+  verified: boolean;
+  followers?: number;
+  isLive: boolean;
+  subscriptionEnabled: boolean;
+  profilePicture?: string;
+  socials: Record<string, string>;
+  recentCategories: { name: string; slug: string }[];
+  chatroomId?: number;
+  url: string;
+}
+
+interface KickSearchArgs {
+  query: string;
+}
+
+interface KickSearchResult {
+  channels: KickChannel[];
+  categories: { name: string; slug: string; viewers?: number }[];
+}
+
+interface KickChannelArgs {
+  channel: string;
+}
+
+interface KickLivestream {
+  channel: string;
+  live: boolean;
+  title?: string;
+  viewers?: number;
+  startedAt?: string;
+  language?: string;
+  mature?: boolean;
+  category?: { name: string; slug: string };
+  thumbnailUrl?: string;
+}
+
+interface KickCategory {
+  name: string;
+  slug: string;
+  parent?: string;
+  viewers?: number;
+  tags: string[];
+  imageUrl?: string;
+  mature: boolean;
+}
+
+interface KickListCategoriesArgs {
+  page?: number;
+  limit?: number;
+}
+
+interface KickListCategoriesResult {
+  categories: KickCategory[];
+  page: number;
+  hasMore: boolean;
+}
+
+  /** Kick, the live-streaming site — channels, categories, VODs and clips. */
+  interface Unit {
+    /**
+     * Searches Kick for channels and categories by a word — the door to every channel slug the
+     * other functions take.
+     */
+    search(args: KickSearchArgs): Promise<KickSearchResult>;
+
+    /**
+     * A channel's public record by slug: display name, bio, follower count, verified flag,
+     * socials, recent categories, chatroom id and whether it is live.
+     */
+    getChannel(args: KickChannelArgs): Promise<KickChannel>;
+
+    /**
+     * What a channel is streaming right now: title, category, viewer count, start time, language,
+     * mature flag and thumbnail — or that it is offline.
+     */
+    getLivestream(args: KickChannelArgs): Promise<KickLivestream>;
+
+    /**
+     * Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest
+     * first, paged.
+     */
+    listCategories(args?: KickListCategoriesArgs): Promise<KickListCategoriesResult>;
   }
 }
 
@@ -96931,6 +97096,16 @@ interface SurveyMonkeyDeleteCollectorResult {
   collectorId: string;
   deleted: true;
 }
+interface SurveyMonkeyShareSurveyArgs {
+  surveyId: string;
+  collaboratorId: string;  // numeric SurveyMonkey user id of a teammate
+  access?: "view" | "full";  // default "view"
+}
+interface SurveyMonkeyShareSurveyResult {
+  surveyId: string;
+  collaboratorId: string;
+  access: string;
+}
 interface SurveyMonkeyTemplate {
   id: string;
   title: string | null;
@@ -97021,6 +97196,13 @@ interface SurveyMonkeyListTemplatesArgs {
      * title and question count. languageId defaults to 1 (English). Needs the caller signed in.
      */
     listTemplates(args?: SurveyMonkeyListTemplatesArgs, opts?: ConnectionOption): Promise<SurveyMonkeyTemplateList>;
+
+    /**
+     * Shares one of the caller's surveys (surveyId from listSurveys) with a teammate by their
+     * numeric SurveyMonkey user id, read only (default) or full access. Needs the caller signed
+     * in.
+     */
+    shareSurvey(args: SurveyMonkeyShareSurveyArgs, opts?: ConnectionOption): Promise<SurveyMonkeyShareSurveyResult>;
   }
 }
 
@@ -105230,6 +105412,31 @@ interface GetScoresArgs {
   sport: string;
 }
 
+interface GetCrosswordArgs {
+  /** A crossword id (uuid) from an earlier result's `id`; omit for today's puzzle. */
+  id?: string;
+}
+
+interface usatodayCrosswordClue {
+  number: number;
+  clue: string;
+}
+
+interface usatodayCrossword {
+  id: string;
+  title: string;
+  date: string;
+  author?: string;
+  editor?: string;
+  copyright?: string;
+  width: number;
+  height: number;
+  across: usatodayCrosswordClue[];
+  down: usatodayCrosswordClue[];
+  /** The page a person plays it on. */
+  url: string;
+}
+
 interface GetStandingsArgs {
   /** "NFL", "NBA", "MLB", "NHL", "NCAAF", "NCAAM", "NCAAW", "WNBA", "MLS" or "EPL". */
   league: string;
@@ -105347,6 +105554,12 @@ interface usatodayVideoDetail {
      * — returning game results with home and away teams, scores, date and status.
      */
     getScores(args: GetScoresArgs): Promise<usatodayScore[]>;
+
+    /**
+     * Reads today's USA TODAY Crossword (or one by id): title, date, constructor, grid size and
+     * every across and down clue with its number. The answer grid is not returned.
+     */
+    getCrossword(args: GetCrosswordArgs): Promise<usatodayCrossword>;
 
     /**
      * Reads the current league standings from USA Today Sports — given a league like NFL, NBA,
@@ -110655,6 +110868,36 @@ interface WindscribeDedicatedIp {
      * windscribe.com/staticips.
      */
     getDedicatedIp(args?: { country?: string }): Promise<WindscribeDedicatedIp>;
+  }
+}
+
+declare namespace BowmarkProvider_wineaccess {
+  // ── Wine Access — the unit's own declarations, verbatim ──
+interface WineAccessWine {
+  name: string;
+  price: number;
+  currency: "USD";
+  url: string;
+  imageUrl: string | null;
+  narrative: string | null;
+}
+
+  /**
+   * Searches Wine Access's live public wine catalog and reads a listed wine's current USD price
+   * straight from server-rendered catalog pages.
+   */
+  interface Unit {
+    /**
+     * Free-text searches Wine Access's live wine catalog, returning matching wines with their
+     * current USD price and catalog URL.
+     */
+    searchProducts(query: string): Promise<WineAccessWine[]>;
+
+    /**
+     * Reads one Wine Access catalog listing's current USD price and descriptive card from a URL
+     * returned by searchProducts.
+     */
+    getProduct(url: string): Promise<WineAccessWine>;
   }
 }
 
@@ -117022,6 +117265,7 @@ interface BowmarkProviders {
   apidirectory_com: BowmarkProvider_apidirectory_com.Unit;
   apify: BowmarkProvider_apify.Unit;
   app_store: BowmarkProvider_app_store.Unit;
+  appfolio: BowmarkProvider_appfolio.Unit;
   apple: BowmarkProvider_apple.Unit;
   aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;
   arajet: BowmarkProvider_arajet.Unit;
@@ -117398,6 +117642,7 @@ interface BowmarkProviders {
   kbb: BowmarkProvider_kbb.Unit;
   keepa: BowmarkProvider_keepa.Unit;
   kenko: BowmarkProvider_kenko.Unit;
+  kick: BowmarkProvider_kick.Unit;
   kickstarter: BowmarkProvider_kickstarter.Unit;
   kijiji: BowmarkProvider_kijiji.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;
@@ -117767,6 +118012,7 @@ interface BowmarkProviders {
   wikipedia_standings: BowmarkProvider_wikipedia_standings.Unit;
   williams_sonoma: BowmarkProvider_williams_sonoma.Unit;
   windscribe: BowmarkProvider_windscribe.Unit;
+  wineaccess: BowmarkProvider_wineaccess.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
   wix_bookings: BowmarkProvider_wix_bookings.Unit;
   wodify: BowmarkProvider_wodify.Unit;
