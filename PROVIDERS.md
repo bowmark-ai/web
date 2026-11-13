@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6700 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6704 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -624,6 +624,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getUserLists` | bsky.app | The lists (curation and moderation lists) a person has made. | 🟢 |
 | `bluesky.getUserPosts` | bsky.app | A person's posts, newest first, as their profile tabs show them — posts only, posts… | 🟢 |
 | `bluesky.getUserStarterPacks` | bsky.app | The starter packs a person has made. | 🟢 |
+| `bluesky.leaveConversation` | bsky.app | Leaves a conversation for the signed-in caller, so it stops being among their chats. | 🟢 |
 | `bluesky.likePost` | bsky.app | Like a post as the caller, or undo the like. | 🟢 |
 | `bluesky.listBlockedUsers` | bsky.app | The accounts the caller has blocked. | 🟢 |
 | `bluesky.listBookmarks` | bsky.app | The posts the caller has saved to Bookmarks. | 🟢 |
@@ -632,6 +633,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.listMutedWords` | bsky.app | List the words and tags the caller has muted. | 🟢 |
 | `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | 🟢 |
 | `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | 🟢 |
+| `bluesky.muteConversation` | bsky.app | Mutes a direct or group chat for the signed-in caller, so its new messages stop… | 🟢 |
+| `bluesky.muteModerationList` | bsky.app | Mutes a moderation list for the signed-in caller, so the accounts on it are hidden… | 🟢 |
+| `bluesky.muteThread` | bsky.app | Mutes a thread for the signed-in caller, so its replies stop reaching their… | 🟢 |
 | `bluesky.muteUser` | bsky.app | Mute a person for the caller, or unmute them. | 🟢 |
 | `bluesky.muteWord` | bsky.app | Mute a word or tag so matching posts are hidden, or unmute it. | 🟢 |
 | `bluesky.pinPost` | bsky.app | Pin one of the caller's own posts to the top of their profile, or unpin it. | 🟢 |
@@ -2617,7 +2621,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | 🟢 |
 | `goodreads.getOwnProfile` | goodreads.com | Reads the signed-in caller's own profile — their shelves with counts, friend list, and… | 🟢 |
 | `goodreads.getSeries` | goodreads.com | Reads a book series' reading order — each book's position number, title, author… | 🟢 |
-| `goodreads.getSimilarBooks` | goodreads.com | Lists the books Goodreads suggests next to one book — the 'readers also enjoyed' list… | ⚪ |
+| `goodreads.getSimilarBooks` | goodreads.com | Lists the books Goodreads suggests next to one book — the 'readers also enjoyed'… | 🟢 |
 | `goodreads.listGenreBooks` | goodreads.com | Browses one genre shelf — the books Goodreads itself files under that genre tag… | 🟢 |
 | `goodreads.rateBook` | goodreads.com | Sets the signed-in caller's own star rating (1-5) on a book. | 🟢 |
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | 🟢 |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ea0226add443a4c8c103ec60a220226cff30ec7225970e5dd298b6600f73cfcf
-# 98 capabilities, 832 providers, 5070 typed functions, 20 refused.
+# Manifest version: 3723d1a9c01ab0855bd621d7215ef6ab25384c23e57b8a669e642c39f8dbee68
+# 98 capabilities, 832 providers, 5077 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18286,6 +18286,30 @@ class Prv_cnbc_com_cnbc_comListItem_Out(TypedDict):
     premium: bool
     duration: float | None
 
+class Prv_cnbc_com_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_cnbc_com_cnbc_comVideo_Out(TypedDict):
+    id: float | None
+    url: str | None
+    title: str | None
+    description: str | None
+    published: str | None
+    duration: float | None
+    show: str | None
+    thumbnail: str | None
+    premium: bool
+    hlsUrl: str | None
+    mp4: list[Prv_cnbc_com_cnbc_comVideo_Out_mp4_item_Out]
+    audioUrl: str | None
+    captionsUrl: str | None
+    tickers: list[str]
+    body: list[str]
+
+class Prv_cnbc_com_cnbc_comVideo_Out_mp4_item_Out(TypedDict):
+    url: str
+    bitrate: float | None
+
 class Prv_cnbc_com_ListVideosByCategoryArgs_In(TypedDict):
     category: NotRequired[str]
     limit: NotRequired[float]
@@ -22116,6 +22140,24 @@ class Prv_discord_discordCreatedInvite_Out(TypedDict):
     expiresAt: str | None
     expiresInSeconds: float | None
     useLimit: float | None
+
+class Prv_discord_sendFriendRequest_args_In(TypedDict):
+    username: NotRequired[str]
+    userId: NotRequired[str]
+
+class Prv_discord_discordRelationshipResult_Out(TypedDict):
+    userId: str | None
+    username: str | None
+    action: Literal["friend-request-sent"] | Literal["friend-request-accepted"] | Literal["friend-removed"] | Literal["blocked"]
+
+class Prv_discord_acceptFriendRequest_args_In(TypedDict):
+    userId: str
+
+class Prv_discord_removeFriend_args_In(TypedDict):
+    userId: str
+
+class Prv_discord_blockUser_args_In(TypedDict):
+    userId: str
 
 class Prv_discord_createThread_args_In(TypedDict):
     channelId: str
@@ -32577,6 +32619,30 @@ class Prv_grammarly_GrammarlyGoals_Out(TypedDict):
 class Prv_grammarly_GrammarlyDocumentGoals_Out(TypedDict):
     documentId: str
     title: str
+    goals: list[str]
+    domain: str | None
+    audience: str | None
+    formality: str | None
+    dialect: str | None
+
+class Prv_grammarly_SetGoalsArgs_In(TypedDict):
+    documentId: str
+    goals: NotRequired[Sequence[str]]
+    domain: NotRequired[str]
+    audience: NotRequired[str]
+    formality: NotRequired[str]
+    dialect: NotRequired[str]
+
+class Prv_grammarly_GoalsSet_Out(TypedDict):
+    goals: list[str]
+    domain: str | None
+    audience: str | None
+    formality: str | None
+    dialect: str | None
+    documentId: str
+    previous: Prv_grammarly_GoalsSnapshot_Out
+
+class Prv_grammarly_GoalsSnapshot_Out(TypedDict):
     goals: list[str]
     domain: str | None
     audience: str | None
@@ -63905,6 +63971,10 @@ class Prv_tiktok_ListHashtagVideosArgs_In(TypedDict):
 class Prv_tiktok_ListTrendingVideosArgs_In(TypedDict):
     limit: NotRequired[float]
 
+class Prv_tiktok_ListLikedVideosArgs_In(TypedDict):
+    username: str
+    limit: NotRequired[float]
+
 class Prv_tiktok_GetSoundArgs_In(TypedDict):
     soundId: str
 
@@ -71508,7 +71578,7 @@ class Prv_x_XDirectMessageRow_Out(TypedDict):
     createdAt: str | None
 
 class Prv_x_createPost_args_In(TypedDict):
-    text: str
+    text: NotRequired[str]
     images: NotRequired[Sequence[Prv_x_XPostImage_u0_In | Prv_x_XPostImage_u1_In]]
 
 class Prv_x_XPostImage_u0_In(TypedDict):
@@ -71527,7 +71597,7 @@ class Prv_x_XPostWriteResult_Out(TypedDict):
 class Prv_x_replyToPost_args_In(TypedDict):
     url: NotRequired[str]
     id: NotRequired[str]
-    text: str
+    text: NotRequired[str]
     images: NotRequired[Sequence[Prv_x_XPostImage_u0_In | Prv_x_XPostImage_u1_In]]
 
 class Prv_x_likePost_args_In(TypedDict):
@@ -84526,6 +84596,12 @@ class Prv_cnbc_com(Protocol):
         and section — plus how many they have published in total.
         """
 
+    async def getVideo(self, args: Prv_cnbc_com_GetVideoArgs_In, /) -> Prv_cnbc_com_cnbc_comVideo_Out:
+        """Returns one CNBC video — title, description, duration in seconds, show, publish time,
+        HLS stream, mp4 downloads, audio and captions links, and any transcript text — from its
+        video page URL.
+        """
+
     async def listVideosByCategory(self, args: Prv_cnbc_com_ListVideosByCategoryArgs_In | None = None, /) -> list[Prv_cnbc_com_cnbc_comListItem_Out]:
         """Lists CNBC videos from a video page (the video hub by default, or latest video, CEO
         interviews, digital originals) — title, link, description, duration in seconds, show and
@@ -85038,12 +85114,12 @@ class Prv_couponfollow(Protocol):
 class Prv_craigslist(Protocol):
     """Finds public Craigslist listings by keyword and reads a listing's full public details."""
 
-    async def getListing(self, url: str, opts: ConnectionOption | None = None, /) -> Prv_craigslist_CraigslistListing_Out:
+    async def getListing(self, url: str, /) -> Prv_craigslist_CraigslistListing_Out:
         """Reads a public Craigslist listing URL from searchListings for its full description,
         posted time and attributes.
         """
 
-    async def searchListings(self, query: str | Prv_craigslist_CraigslistSearchArgs_In, opts: ConnectionOption | None = None, /) -> Prv_craigslist_CraigslistSearchResult_Out:
+    async def searchListings(self, query: str | Prv_craigslist_CraigslistSearchArgs_In, /) -> Prv_craigslist_CraigslistSearchResult_Out:
         """Searches public Craigslist listings by keyword in an area (SF Bay Area by default),
         returning title, asking price, location and listing URL.
         """
@@ -86638,6 +86714,31 @@ class Prv_discord(Protocol):
         `useLimit` 0-100 (default 0 = unlimited). Returns the code and its discord.gg url. Needs
         a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
         Discord's token from your own browser yet.
+        """
+
+    async def sendFriendRequest(self, args: Prv_discord_sendFriendRequest_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordRelationshipResult_Out:
+        """Sends a friend request AS THE SIGNED-IN USER, by `username` (the new unique handle) or
+        `userId` (from getUserProfile()). Discord may ask for a captcha on a new account. Needs
+        a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+        Discord's token from your own browser yet.
+        """
+
+    async def acceptFriendRequest(self, args: Prv_discord_acceptFriendRequest_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordRelationshipResult_Out:
+        """Accepts an incoming friend request from `userId` (see listFriendRequests()). Needs a
+        Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+        token from your own browser yet.
+        """
+
+    async def removeFriend(self, args: Prv_discord_removeFriend_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordRelationshipResult_Out:
+        """Removes a friend, or cancels / declines a pending request, for `userId` (see
+        listFriends(), listFriendRequests()). Needs a Discord sign-in made through Bowmark's
+        sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+        """
+
+    async def blockUser(self, args: Prv_discord_blockUser_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordRelationshipResult_Out:
+        """Blocks `userId` for the signed-in user; this also ends any friendship. Needs a Discord
+        sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token
+        from your own browser yet.
         """
 
     async def createThread(self, args: Prv_discord_createThread_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordThread_Out:
@@ -92556,6 +92657,16 @@ class Prv_grammarly(Protocol):
         documents: [{ documentId, title, goals: ["convince"], domain: "business", audience:
         "knowledgeable", formality: "formal", dialect: "american" }] }`. Unset fields are null.
         Needs the caller's own Grammarly sign-in.
+        """
+
+    async def setGoals(self, args: Prv_grammarly_SetGoalsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_grammarly_GoalsSet_Out:
+        """Sets the writing goals on one saved document in the caller's own Grammarly account —
+        e.g. `setGoals({ documentId: "1234567890", goals: ["convince"], audience: "expert" })` →
+        `{ documentId, goals: ["convince"], domain: "business", audience: "expert", formality:
+        "formal", dialect: "american", previous: { … } }`. Only the fields named change;
+        `previous` holds what the document carried, so setting it back restores it. The write is
+        checked by reading the document back, and a mismatch is an error. Needs the caller's own
+        Grammarly sign-in.
         """
 
     async def listPlans(self, /) -> Prv_grammarly_GrammarlyPlans_Out:
@@ -109886,6 +109997,13 @@ class Prv_tiktok(Protocol):
         limit. No login.
         """
 
+    async def listLikedVideos(self, args: Prv_tiktok_ListLikedVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+        """The videos a creator has liked, from the public Liked tab on their profile: id, caption,
+        play count, cover and play address. Takes a username. Uses the browser (branded Chrome)
+        to open the tab and read the list the page fetches; the newest 15 at most. Throws when
+        the creator keeps their likes private. No login.
+        """
+
     async def getSound(self, args: Prv_tiktok_GetSoundArgs_In, /) -> Prv_tiktok_tiktokSound_Out:
         """A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed
         by the music id getVideo carries on `music.id`. Uses the browser to load the sound's
@@ -113892,12 +114010,14 @@ class Prv_x(Protocol):
 
     async def createPost(self, args: Prv_x_createPost_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XPostWriteResult_Out:
         """Posts a new tweet on X / Twitter as the signed-in caller, optionally with up to four
-        photos.
+        photos. `text` is required for a text-only post and may be left out when `images` is set
+        (a photo-only post).
         """
 
     async def replyToPost(self, args: Prv_x_replyToPost_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XPostWriteResult_Out:
         """Replies to an X / Twitter post, by url or id, as the signed-in caller, optionally with
-        up to four photos.
+        up to four photos. `text` is required for a text-only reply and may be left out when
+        `images` is set (a photo-only reply).
         """
 
     async def likePost(self, args: Prv_x_likePost_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XToggleResult_Out:

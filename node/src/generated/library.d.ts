@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ea0226add443a4c8c103ec60a220226cff30ec7225970e5dd298b6600f73cfcf
-// 98 capabilities, 832 providers, 5088 typed functions, 20 refused.
+// Manifest version: 3723d1a9c01ab0855bd621d7215ef6ab25384c23e57b8a669e642c39f8dbee68
+// 98 capabilities, 832 providers, 5095 typed functions, 20 refused.
 // 50,272 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29493,6 +29493,30 @@ interface ListVideosByCategoryArgs {
   limit?: number;
 }
 
+interface GetVideoArgs {
+  /** a www.cnbc.com/video/YYYY/MM/DD/<slug>.html URL, e.g. one listVideosByCategory returned */
+  url: string;
+}
+
+interface cnbc_comVideo {
+  id: number | null;
+  url: string | null;
+  title: string | null;
+  description: string | null;
+  published: string | null;
+  /** seconds */
+  duration: number | null;
+  show: string | null;
+  thumbnail: string | null;
+  premium: boolean;
+  hlsUrl: string | null;
+  mp4: { url: string; bitrate: number | null }[];
+  audioUrl: string | null;
+  captionsUrl: string | null;
+  tickers: string[];
+  body: string[];
+}
+
 interface GetArticleArgs {
   /** a www.cnbc.com/YYYY/MM/DD/<slug>.html URL, e.g. one listNews or search returned */
   url: string;
@@ -29621,6 +29645,13 @@ interface cnbc_comSector extends cnbc_comRow {
      * section — plus how many they have published in total.
      */
     listArticlesByAuthor(args: ListArticlesByAuthorArgs): Promise<{ total: number | null; items: cnbc_comListItem[] }>;
+
+    /**
+     * Returns one CNBC video — title, description, duration in seconds, show, publish time, HLS
+     * stream, mp4 downloads, audio and captions links, and any transcript text — from its video
+     * page URL.
+     */
+    getVideo(args: GetVideoArgs): Promise<cnbc_comVideo>;
 
     /**
      * Lists CNBC videos from a video page (the video hub by default, or latest video, CEO
@@ -31088,13 +31119,13 @@ interface CraigslistSearchResult { query: string; area: string; listings: Craigs
      * Reads a public Craigslist listing URL from searchListings for its full description, posted
      * time and attributes.
      */
-    getListing(url: string, opts?: ConnectionOption): Promise<CraigslistListing>;
+    getListing(url: string): Promise<CraigslistListing>;
 
     /**
      * Searches public Craigslist listings by keyword in an area (SF Bay Area by default),
      * returning title, asking price, location and listing URL.
      */
-    searchListings(query: string | CraigslistSearchArgs, opts?: ConnectionOption): Promise<CraigslistSearchResult>;
+    searchListings(query: string | CraigslistSearchArgs): Promise<CraigslistSearchResult>;
 
     /**
      * Makes a NEW Craigslist account with the person's own email and password, in a session.
@@ -35261,6 +35292,11 @@ interface discordCreatedInvite {
   expiresInSeconds: number | null;
   useLimit: number | null;            // 0 = unlimited
 }
+interface discordRelationshipResult {
+  userId: string | null;
+  username: string | null;
+  action: "friend-request-sent" | "friend-request-accepted" | "friend-removed" | "blocked";
+}
 interface discordMessageSearch {
   totalResults: number;              // Discord's count of every hit, not just this page (25 per page)
   messages: discordMessage[];        // this page's hits
@@ -35583,6 +35619,35 @@ interface discordMessageSearch {
      * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
      */
     createInvite(args: { channelId: string; expiresInSeconds?: number; useLimit?: number }, opts?: ConnectionOption): Promise<discordCreatedInvite>;
+
+    /**
+     * Sends a friend request AS THE SIGNED-IN USER, by `username` (the new unique handle) or
+     * `userId` (from getUserProfile()). Discord may ask for a captcha on a new account. Needs a
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * token from your own browser yet.
+     */
+    sendFriendRequest(args: { username?: string; userId?: string }, opts?: ConnectionOption): Promise<discordRelationshipResult>;
+
+    /**
+     * Accepts an incoming friend request from `userId` (see listFriendRequests()). Needs a Discord
+     * sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from
+     * your own browser yet.
+     */
+    acceptFriendRequest(args: { userId: string }, opts?: ConnectionOption): Promise<discordRelationshipResult>;
+
+    /**
+     * Removes a friend, or cancels / declines a pending request, for `userId` (see listFriends(),
+     * listFriendRequests()). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark
+     * Link cannot pass Discord's token from your own browser yet.
+     */
+    removeFriend(args: { userId: string }, opts?: ConnectionOption): Promise<discordRelationshipResult>;
+
+    /**
+     * Blocks `userId` for the signed-in user; this also ends any friendship. Needs a Discord
+     * sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from
+     * your own browser yet.
+     */
+    blockUser(args: { userId: string }, opts?: ConnectionOption): Promise<discordRelationshipResult>;
 
     /**
      * Starts a thread AS THE SIGNED-IN USER: off one message with `messageId`, as a new forum post
@@ -51814,6 +51879,32 @@ interface DeletedDocument {
   /** Always true: the document went to the trash (listDocuments({ trash: true })). */
   trashed: boolean;
 }
+interface SetGoalsArgs {
+  /** The document id listDocuments returned. */
+  documentId: string;
+  /** Replaces the document's goals. An empty list clears them. Any of inform, describe, convince, tell_a_story, sell. */
+  goals?: string[];
+  /** academic · business · general · mail · casual · creative */
+  domain?: string;
+  /** general · knowledgeable · expert */
+  audience?: string;
+  /** informal · neutral · formal */
+  formality?: string;
+  /** american · british · canadian · australian · indian */
+  dialect?: string;
+}
+interface GoalsSnapshot {
+  goals: string[];
+  domain: string | null;
+  audience: string | null;
+  formality: string | null;
+  dialect: string | null;
+}
+interface GoalsSet extends GoalsSnapshot {
+  documentId: string;
+  /** What the document carried before this call. Pass it back to restore the goals. */
+  previous: GoalsSnapshot;
+}
 interface GrammarlyPlan {
   id: number;
   title: string;
@@ -51959,6 +52050,17 @@ interface GrammarlyPlans {
      * own Grammarly sign-in.
      */
     listGoals(args?: ListGoalsArgs, opts?: ConnectionOption): Promise<GrammarlyGoals>;
+
+    /**
+     * Sets the writing goals on one saved document in the caller's own Grammarly account — e.g.
+     * `setGoals({ documentId: "1234567890", goals: ["convince"], audience: "expert" })` → `{
+     * documentId, goals: ["convince"], domain: "business", audience: "expert", formality:
+     * "formal", dialect: "american", previous: { … } }`. Only the fields named change; `previous`
+     * holds what the document carried, so setting it back restores it. The write is checked by
+     * reading the document back, and a mismatch is an error. Needs the caller's own Grammarly
+     * sign-in.
+     */
+    setGoals(args: SetGoalsArgs, opts?: ConnectionOption): Promise<GoalsSet>;
 
     /**
      * Lists Grammarly's subscription plans and prices for the visitor's country, no account — e.g.
@@ -100962,6 +101064,10 @@ interface ListHashtagVideosArgs {
 interface ListTrendingVideosArgs {
   limit?: number;
 }
+interface ListLikedVideosArgs {
+  username: string;
+  limit?: number;
+}
 interface tiktokSound {
   id: string;
   title: string;
@@ -101184,6 +101290,14 @@ type UploadVideoArgs = {
      * read the list it fetches, scrolling for more. Default 6, up to 60 with limit. No login.
      */
     listTrendingVideos(args?: ListTrendingVideosArgs): Promise<tiktokVideoSummary[]>;
+
+    /**
+     * The videos a creator has liked, from the public Liked tab on their profile: id, caption,
+     * play count, cover and play address. Takes a username. Uses the browser (branded Chrome) to
+     * open the tab and read the list the page fetches; the newest 15 at most. Throws when the
+     * creator keeps their likes private. No login.
+     */
+    listLikedVideos(args: ListLikedVideosArgs): Promise<tiktokVideoSummary[]>;
 
     /**
      * A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed by
@@ -112591,14 +112705,19 @@ interface XUploadProfilePictureResult {
      */
     getConversation(args: GetConversationArgs, opts?: ConnectionOption): Promise<XDirectMessageRow[]>;
 
-    /** Posts a new tweet on X / Twitter as the signed-in caller, optionally with up to four photos. */
-    createPost(args: { text: string; images?: XPostImage[] }, opts?: ConnectionOption): Promise<XPostWriteResult>;
+    /**
+     * Posts a new tweet on X / Twitter as the signed-in caller, optionally with up to four photos.
+     * `text` is required for a text-only post and may be left out when `images` is set (a
+     * photo-only post).
+     */
+    createPost(args: { text?: string; images?: XPostImage[] }, opts?: ConnectionOption): Promise<XPostWriteResult>;
 
     /**
      * Replies to an X / Twitter post, by url or id, as the signed-in caller, optionally with up to
-     * four photos.
+     * four photos. `text` is required for a text-only reply and may be left out when `images` is
+     * set (a photo-only reply).
      */
-    replyToPost(args: { url?: string; id?: string; text: string; images?: XPostImage[] }, opts?: ConnectionOption): Promise<XPostWriteResult>;
+    replyToPost(args: { url?: string; id?: string; text?: string; images?: XPostImage[] }, opts?: ConnectionOption): Promise<XPostWriteResult>;
 
     /**
      * Likes (like: true, the default) or unlikes (like: false) an X post as the signed-in caller —
