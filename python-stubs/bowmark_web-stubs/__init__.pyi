@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0352c3792e63042fff61d39cb904ab683f3af636f78e00cf63c143bea61fcae6
-# 98 capabilities, 832 providers, 5083 typed functions, 20 refused.
+# Manifest version: 4751f18b257e2c9a4fc3abd8e3c5a94010080b8bb22bf61608258bdee14eeb6b
+# 98 capabilities, 834 providers, 5122 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13945,6 +13945,15 @@ class Prv_calendly_CalendlyBookMeetingResult_Out_invitee_Out(TypedDict):
     name: str
     email: str
 
+class Prv_calendly_CalendlyCancelBookingArgs_In(TypedDict):
+    link: str
+    reason: NotRequired[str]
+
+class Prv_calendly_CalendlyCancelBookingResult_Out(TypedDict):
+    uuid: str
+    cancelled: Literal[True]
+    reason: str | None
+
 class Prv_calendly_CalendlyRoutingForm_Out(TypedDict):
     uuid: str
     name: str
@@ -15586,6 +15595,19 @@ class Prv_chatgpt_updateCustomInstructions_update_In(TypedDict):
 class Prv_chatgpt_WriteResult_Out(TypedDict):
     ok: bool
     id: str
+
+class Prv_chatgpt_sendMessage_opts_In(TypedDict):
+    conversation: NotRequired[str]
+    parentMessageId: NotRequired[str]
+    model: NotRequired[str]
+    gpt: NotRequired[str]
+    temporary: NotRequired[bool]
+
+class Prv_chatgpt_SentMessage_Out(TypedDict):
+    conversationId: str | None
+    messageId: str | None
+    reply: str
+    model: str | None
 
 class Prv_chatgpt_archiveConversation_opts_In(TypedDict):
     archived: NotRequired[bool]
@@ -19643,6 +19665,42 @@ class Prv_dailymail_DailymailArticle_Out(TypedDict):
 
 class Prv_dailymail_ListLatestArgs_In(TypedDict):
     limit: NotRequired[float]
+
+class Prv_dailymail_GetArticleArgs_In(TypedDict):
+    id: str
+
+class Prv_dailymail_DailymailArticleDetail_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    summary: str | None
+    byline: str | None
+    authorName: str | None
+    authorUrl: str | None
+    publishedDate: str | None
+    updatedDate: str | None
+    section: str
+    body: list[str]
+    images: list[Prv_dailymail_DailymailArticleDetail_Out_images_item_Out]
+
+class Prv_dailymail_DailymailArticleDetail_Out_images_item_Out(TypedDict):
+    url: str
+    caption: str | None
+
+class Prv_dailymail_SearchArticlesArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+    sort: NotRequired[Literal["relevance"] | Literal["mostRecent"] | Literal["oldest"]]
+
+class Prv_dailymail_DailymailSearchResult_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    summary: str | None
+    image: str | None
+    publishedDate: str | None
+    byline: str | None
+    section: str
 
 class Prv_dailymotion_SearchVideosArgs_In(TypedDict):
     query: str
@@ -23975,6 +24033,29 @@ class Prv_epicgames_getLibrary_opts_In(TypedDict):
 class Prv_epicgames_GetLibraryResult_Out(TypedDict):
     library: Any
 
+class Prv_epicgames_GetWishlistResult_Out(TypedDict):
+    wishlist: Any
+
+class Prv_epicgames_WishlistOfferArgs_In(TypedDict):
+    offerId: str
+    namespace: str
+
+class Prv_epicgames_WishlistWriteResult_Out(TypedDict):
+    result: Any
+
+class Prv_epicgames_GetCartResult_Out(TypedDict):
+    cart: Any
+
+class Prv_epicgames_CartOfferArgs_In(TypedDict):
+    offerId: str
+    namespace: str
+
+class Prv_epicgames_CartWriteResult_Out(TypedDict):
+    result: Any
+
+class Prv_epicgames_RemoveFromCartArgs_In(TypedDict):
+    cartItemId: str
+
 class Prv_epicgames_ListFriendsResult_Out(TypedDict):
     friends: Any
 
@@ -28282,6 +28363,16 @@ class Prv_foxnews_FoxnewsVideoRow_Out(TypedDict):
     publicationDate: NotRequired[str]
     duration: NotRequired[float]
     isEpisode: NotRequired[bool]
+    description: NotRequired[str]
+
+class Prv_foxnews_SearchVideosArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_foxnews_searchVideos_return_Out(TypedDict):
+    total: float
+    videos: list[Prv_foxnews_FoxnewsVideoRow_Out]
 
 class Prv_foxnews_GetVideoArgs_In(TypedDict):
     url: str
@@ -35183,6 +35274,15 @@ class Prv_imgur_ImgurUserComment_Out(TypedDict):
     parentId: float | None
     deleted: bool
 
+class Prv_imgur_ImgurNotification_Out(TypedDict):
+    id: str
+    kind: str
+    viewed: bool
+    text: str | None
+    postId: str | None
+    author: str | None
+    createdAt: str | None
+
 class Prv_imgur_ImgurSearchArgs_In(TypedDict):
     query: str
     window: NotRequired[Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
@@ -35358,6 +35458,46 @@ class Prv_indeed_IndeedRelatedTitle_Out(TypedDict):
     title: str
     salaryType: str | None
     salaryMean: float | None
+
+class Prv_independent_ListSectionsResult_Out(TypedDict):
+    sections: list[Prv_independent_IndependentSection_Out]
+
+class Prv_independent_IndependentSection_Out(TypedDict):
+    label: str
+    path: str
+    parent: str | None
+
+class Prv_independent_BrowseSectionArgs_In(TypedDict):
+    path: str
+    limit: NotRequired[float]
+
+class Prv_independent_BrowseSectionResult_Out(TypedDict):
+    path: str
+    stories: list[Prv_independent_IndependentStory_Out]
+
+class Prv_independent_IndependentStory_Out(TypedDict):
+    title: str
+    url: str
+    summary: str | None
+    published: str | None
+    articleId: str | None
+    imageUrl: str | None
+
+class Prv_independent_GetHomepageHeadlinesArgs_In(TypedDict):
+    edition: NotRequired[Literal["uk"] | Literal["us"] | Literal["asia"]]
+    limit: NotRequired[float]
+
+class Prv_independent_GetHomepageHeadlinesResult_Out(TypedDict):
+    edition: str
+    stories: list[Prv_independent_IndependentStory_Out]
+
+class Prv_independent_ListLatestNewsArgs_In(TypedDict):
+    section: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_independent_ListLatestNewsResult_Out(TypedDict):
+    feed: str
+    stories: list[Prv_independent_IndependentStory_Out]
 
 class Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In(TypedDict):
     state: NotRequired[str]
@@ -37820,6 +37960,72 @@ class Prv_kick_KickCategory_Out(TypedDict):
     tags: list[str]
     imageUrl: NotRequired[str]
     mature: bool
+
+class Prv_kick_KickListLiveStreamsArgs_In(TypedDict):
+    category: NotRequired[str]
+    language: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_kick_KickListLiveStreamsResult_Out(TypedDict):
+    streams: list[Prv_kick_KickStreamRow_Out]
+    page: float
+    hasMore: bool
+
+class Prv_kick_KickStreamRow_Out(TypedDict):
+    channel: str
+    channelId: NotRequired[float]
+    username: NotRequired[str]
+    title: NotRequired[str]
+    viewers: NotRequired[float]
+    startedAt: NotRequired[str]
+    language: NotRequired[str]
+    mature: bool
+    category: NotRequired[Prv_kick_KickStreamRow_Out_category_Out]
+    thumbnailUrl: NotRequired[str]
+
+class Prv_kick_KickStreamRow_Out_category_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_kick_KickListChannelVideosArgs_In(TypedDict):
+    channel: str
+
+class Prv_kick_KickListChannelVideosResult_Out(TypedDict):
+    videos: list[Prv_kick_KickVideo_Out]
+
+class Prv_kick_KickVideo_Out(TypedDict):
+    videoId: str
+    title: NotRequired[str]
+    channel: NotRequired[str]
+    category: NotRequired[Prv_kick_KickVideo_Out_category_Out]
+    durationSeconds: NotRequired[float]
+    views: NotRequired[float]
+    createdAt: NotRequired[str]
+    language: NotRequired[str]
+    mature: bool
+    thumbnailUrl: NotRequired[str]
+    playbackUrl: NotRequired[str]
+
+class Prv_kick_KickVideo_Out_category_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_kick_KickGetVideoArgs_In(TypedDict):
+    video: str
+
+class Prv_kick_KickGetCategoryArgs_In(TypedDict):
+    category: str
+
+class Prv_kick_KickCategoryDetail_Out(TypedDict):
+    name: str
+    slug: str
+    parent: NotRequired[str]
+    viewers: NotRequired[float]
+    tags: list[str]
+    imageUrl: NotRequired[str]
+    mature: bool
+    description: NotRequired[str]
+    followers: NotRequired[float]
 
 class Prv_kickstarter_KickstarterSearchArgs_In(TypedDict):
     query: str
@@ -42126,6 +42332,72 @@ class Prv_mixbook_MixbookPromotion_Out(TypedDict):
     code: str
     termsUrl: str
 
+class Prv_mlb_MlbListTeamsArgs_In(TypedDict):
+    season: NotRequired[float]
+    sportId: NotRequired[float]
+
+class Prv_mlb_MlbTeam_Out(TypedDict):
+    id: float
+    name: str
+    abbreviation: str | None
+    teamName: str | None
+    city: str | None
+    league: str | None
+    division: str | None
+    venueId: float | None
+    venue: str | None
+    firstYear: float | None
+    active: bool
+
+class Prv_mlb_MlbSearchPlayersArgs_In(TypedDict):
+    query: str
+    activeOnly: NotRequired[bool]
+
+class Prv_mlb_MlbPlayerHit_Out(TypedDict):
+    id: float
+    name: str
+    position: str | None
+    number: str | None
+    birthDate: str | None
+    birthCountry: str | None
+    active: bool
+    bats: str | None
+    throws: str | None
+    team: str | None
+    mlbDebut: str | None
+
+class Prv_mlb_MlbGetScheduleArgs_In(TypedDict):
+    date: NotRequired[str]
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+    teamId: NotRequired[float]
+    sportId: NotRequired[float]
+
+class Prv_mlb_MlbScheduledGame_Out(TypedDict):
+    gamePk: float
+    date: str
+    startTime: str
+    type: str | None
+    status: str | None
+    state: str | None
+    inning: str | None
+    venue: str | None
+    series: str | None
+    away: Prv_mlb_MlbGameSide_Out
+    home: Prv_mlb_MlbGameSide_Out
+
+class Prv_mlb_MlbGameSide_Out(TypedDict):
+    teamId: float | None
+    team: str | None
+    score: float | None
+    isWinner: bool | None
+    record: str | None
+    probablePitcher: Prv_mlb_MlbGameSide_Out_probablePitcher_u0_Out | None
+
+class Prv_mlb_MlbGameSide_Out_probablePitcher_u0_Out(TypedDict):
+    id: float
+    name: str
+
 class Prv_modernize_com_ModernizeProjectType_Out(TypedDict):
     value: str
     label: str
@@ -43863,6 +44135,31 @@ class Prv_nike_NikeSizeChart_Out_tables_item_Out(TypedDict):
 class Prv_nike_NikeSizeChart_Out_tables_item_Out_rows_item_Out(TypedDict):
     label: str
     values: list[str]
+
+class Prv_nike_addFavorite_args_In(TypedDict):
+    gtin: str
+    productCode: str
+
+class Prv_nike_addFavorite_return_Out(TypedDict):
+    added: bool
+    itemId: str
+    productCode: str
+    gtin: str
+
+class Prv_nike_removeFavorite_args_In(TypedDict):
+    itemId: str
+
+class Prv_nike_removeFavorite_return_Out(TypedDict):
+    removed: bool
+    itemId: str
+
+class Prv_nike_removeFromCart_args_In(TypedDict):
+    itemId: str
+
+class Prv_nike_removeFromCart_return_Out(TypedDict):
+    removed: bool
+    itemId: str
+    cart: Mapping[str, Any]
 
 class Prv_nike_listOrders_args_In(TypedDict):
     limit: NotRequired[float]
@@ -53491,6 +53788,14 @@ class Prv_ring_RingProduct_Out(TypedDict):
     images: list[str]
     specs: Mapping[str, str]
 
+class Prv_ring_RingCollection_Out(TypedDict):
+    handle: str
+    name: str
+    url: str
+
+class Prv_ring_listCollection_args_In(TypedDict):
+    handle: str
+
 class Prv_ring_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -56177,6 +56482,14 @@ class Prv_shein_sheinSizeRow_Out(TypedDict):
     size: str
     measurements: Mapping[str, str]
 
+class Prv_shein_sheinStore_Out(TypedDict):
+    storeCode: str
+    name: str
+    logoUrl: str | None
+    description: str | None
+    productCount: str | None
+    storeUrl: str
+
 class Prv_shop_app_ShopAppListPageArgs_In(TypedDict):
     first: NotRequired[float]
     cursor: NotRequired[str]
@@ -56292,6 +56605,30 @@ class Prv_shop_app_ShopAppAddedToCart_Out(TypedDict):
     quantity: float
     cartId: str | None
     lineCount: float
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppAddressList_Out(TypedDict):
+    addresses: list[Prv_shop_app_ShopAppAddress_Out]
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppAddress_Out(TypedDict):
+    id: str | None
+    firstName: str | None
+    lastName: str | None
+    company: str | None
+    address1: str | None
+    address2: str | None
+    city: str | None
+    zoneCode: str | None
+    postalCode: str | None
+    country: str | None
+    phone: str | None
+    formatted: list[str]
+    preferred: bool
+
+class Prv_shop_app_ShopAppShopCash_Out(TypedDict):
+    amount: float | None
+    currency: str | None
     warnings: list[str]
 
 class Prv_shop_app_ShopAppStartCheckoutArgs_In(TypedDict):
@@ -61370,6 +61707,7 @@ class Prv_styleseat_StyleseatClassTimesArgs_In(TypedDict):
 
 class Prv_styleseat_StyleseatClassTimes_Out(TypedDict):
     classTimes: list[Prv_styleseat_StyleseatClassTime_Out]
+    count: float
     nextOffset: float | None
 
 class Prv_styleseat_StyleseatClassTime_Out(TypedDict):
@@ -65787,6 +66125,7 @@ class Prv_tumblr_TumblrEditPostArgs_In(TypedDict):
 class Prv_tumblr_TumblrSendMessageArgs_In(TypedDict):
     blog: str
     text: str
+    anonymous: NotRequired[bool]
 
 class Prv_tumblr_TumblrFeedArgs_In(TypedDict):
     limit: NotRequired[float]
@@ -65816,8 +66155,18 @@ class Prv_tumblr_TumblrLikesPage_Out(TypedDict):
     totalLikes: float
     nextCursor: str | None
 
+class Prv_tumblr_TumblrMyBlogsPage_Out(TypedDict):
+    blogs: list[Prv_tumblr_TumblrMyBlog_Out]
+
+class Prv_tumblr_TumblrMyBlog_Out(TypedDict):
+    name: str
+    title: str
+    url: str
+    primary: bool
+
 class Prv_tumblr_TumblrNotificationsArgs_In(TypedDict):
     blog: str
+    limit: NotRequired[float]
     cursor: NotRequired[str]
 
 class Prv_tumblr_TumblrNotificationsPage_Out(TypedDict):
@@ -70089,6 +70438,29 @@ class Prv_whatsapp_WhatsappMessageChange_Out(TypedDict):
     action: Literal["edited"] | Literal["deleted"]
     text: str | None
 
+class Prv_whatsapp_WhatsappSentPoll_Out(TypedDict):
+    chat: str
+    question: str
+    options: list[str]
+    allowMultiple: bool
+    id: str | None
+    time: str | None
+
+class Prv_whatsapp_WhatsappForward_Out(TypedDict):
+    fromChat: str
+    toChat: str
+    messageId: str
+
+class Prv_whatsapp_updateChat_update_In(TypedDict):
+    archived: NotRequired[bool]
+    pinned: NotRequired[bool]
+    muted: NotRequired[Literal["8h"] | Literal["1w"] | Literal["always"] | Literal[False]]
+    read: NotRequired[bool]
+
+class Prv_whatsapp_WhatsappChatUpdate_Out(TypedDict):
+    chat: str
+    applied: list[str]
+
 class Prv_whatsapp_WhatsappCatalogProduct_Out(TypedDict):
     name: str
     price: str | None
@@ -74021,6 +74393,17 @@ class Prv_zoom_ZoomHelpArticlePage_Out(TypedDict):
     url: str
     updated: str | None
     text: str
+
+class Prv_zoom_ZoomWebinarRegistrationPage_Out(TypedDict):
+    id: str
+    url: str
+    topic: str
+    agenda: str | None
+    when: str | None
+    timezone: str | None
+    meetingNumber: str | None
+    requiresSignIn: bool
+    fee: float | None
 
 class Prv_zoom_ZoomMeetingList_Out(TypedDict):
     raw: str
@@ -82118,6 +82501,13 @@ class Prv_calendly(Protocol):
         for a paid event; reports when the host requires an SMS code.
         """
 
+    async def cancelBooking(self, args: Prv_calendly_CalendlyCancelBookingArgs_In, /) -> Prv_calendly_CalendlyCancelBookingResult_Out:
+        """Cancels a Calendly booking the way its invitee does, from the cancel or reschedule link
+        Calendly emailed (or the bare invitee uuid, e.g. the one bookMeeting returns), with an
+        optional reason. Emails the host, so cancel only a booking you mean to. Refuses a
+        booking that is already cancelled.
+        """
+
     async def getRoutingForm(self, form: str, /) -> Prv_calendly_CalendlyRoutingForm_Out:
         """Reads a Calendly routing form, the questions an organization asks before it decides
         whose calendar you land on: its name, the organization behind it, each question with its
@@ -82471,8 +82861,9 @@ class Prv_caraway(Protocol):
     async def listCarawayProducts(self, opts: Prv_caraway_listCarawayProducts_opts_In | None = None, /) -> list[Prv_caraway_CarawayProduct_Out]:
         """Reads the live Caraway catalogue as Caraway publishes it — every product, its handle,
         title, vendor, description, tags, images and the per-variant price the storefront is
-        quoting right now. Returns [] on a transport failure. The catalog page is the line and
-        the parse is the unit of work.
+        quoting right now. Throws when the storefront is unreachable or answers with something
+        other than the catalogue, rather than returning an empty list. The catalog page is the
+        line and the parse is the unit of work.
         """
 
     async def getCarawayProduct(self, handle: str, /) -> Prv_caraway_CarawayProduct_Out:
@@ -83003,6 +83394,14 @@ class Prv_chatgpt(Protocol):
         and listProjects find the ids). Needs the caller signed in to chatgpt.com through the
         relay; the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError`
         when the saved sign-in has expired.
+        """
+
+    async def sendMessage(self, text: str, opts: Prv_chatgpt_sendMessage_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_chatgpt_SentMessage_Out:
+        """Sends one message as the caller and returns ChatGPT's reply, starting a new conversation
+        or continuing `conversation`; `gpt` chats inside a GPT (g-…) or project (g-p-…),
+        `temporary` keeps it out of history. Needs the caller signed in to chatgpt.com through
+        the relay; the run pauses for a sign-in link when they are not. THROWS
+        `ChatGPTSessionError` when the saved sign-in has expired.
         """
 
     async def pinGPT(self, gpt: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
@@ -85482,6 +85881,18 @@ class Prv_dailymail(Protocol):
         default 30.
         """
 
+    async def getArticle(self, args: Prv_dailymail_GetArticleArgs_In, /) -> Prv_dailymail_DailymailArticleDetail_Out:
+        """Reads one Daily Mail article in full — headline, description, byline and author,
+        published and updated dates, section, body paragraphs and images with captions — given
+        its url or numeric article id.
+        """
+
+    async def searchArticles(self, args: Prv_dailymail_SearchArticlesArgs_In, /) -> list[Prv_dailymail_DailymailSearchResult_Out]:
+        """Searches Daily Mail articles by phrase, with optional page (1–20) and sort (relevance,
+        mostRecent, oldest), returning article id, headline, url, summary, image, date and
+        credit. Takes a browser: the site's search page renders client-side.
+        """
+
 class Prv_dailymotion(Protocol):
     """Search Dailymotion videos by keyword and read one video's title, channel, duration,
     views and watch URL — off Dailymotion's own keyless public API.
@@ -87773,6 +88184,36 @@ class Prv_epicgames(Protocol):
         cursor it returns as `cursor` for the next page. Needs the caller signed in.
         """
 
+    async def getWishlist(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_GetWishlistResult_Out:
+        """The signed-in caller's Epic Games Store wishlist, returned raw from the site's own
+        GraphQL (no fleet-held session exists to pin field names). Needs the caller signed in.
+        """
+
+    async def addToWishlist(self, args: Prv_epicgames_WishlistOfferArgs_In, opts: ConnectionOption | None = None, /) -> Prv_epicgames_WishlistWriteResult_Out:
+        """Add a game to the signed-in caller's wishlist by offer id and namespace. A private write
+        on the caller's own account. Needs the caller signed in.
+        """
+
+    async def removeFromWishlist(self, args: Prv_epicgames_WishlistOfferArgs_In, opts: ConnectionOption | None = None, /) -> Prv_epicgames_WishlistWriteResult_Out:
+        """Remove a game from the signed-in caller's wishlist by offer id and namespace. Needs the
+        caller signed in.
+        """
+
+    async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_GetCartResult_Out:
+        """The signed-in caller's cart, returned raw from the site's own GraphQL. Needs the caller
+        signed in.
+        """
+
+    async def addToCart(self, args: Prv_epicgames_CartOfferArgs_In, opts: ConnectionOption | None = None, /) -> Prv_epicgames_CartWriteResult_Out:
+        """Put a game in the signed-in caller's cart by offer id and namespace. Stops at the cart:
+        nothing here pays. Needs the caller signed in.
+        """
+
+    async def removeFromCart(self, args: Prv_epicgames_RemoveFromCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_epicgames_CartWriteResult_Out:
+        """Remove a line from the signed-in caller's cart by its cart item id (from getCart). Needs
+        the caller signed in.
+        """
+
     async def listFriends(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_ListFriendsResult_Out:
         """The signed-in caller's Epic friends summary — friends, incoming and outgoing requests —
         returned raw from Epic's friends service. Needs the caller signed in.
@@ -89995,9 +90436,8 @@ class Prv_foxnews(Protocol):
     """
 
     async def searchArticles(self, args: Prv_foxnews_SearchArticlesArgs_In, /) -> Prv_foxnews_searchArticles_return_Out:
-        """Searches Fox News for stories and video clips matching free text, returning each hit's
-        title, description, url, section, authors, publication date and image, newest first with
-        paging.
+        """Searches Fox News stories matching free text, returning each hit's title, description,
+        url, section, authors, publication date and image, newest first with paging.
         """
 
     async def getArticle(self, args: Prv_foxnews_getArticle_args_In, /) -> Prv_foxnews_FoxnewsArticle_Out:
@@ -90057,10 +90497,18 @@ class Prv_foxnews(Protocol):
         """
 
     async def listVideos(self, args: Prv_foxnews_ListVideosArgs_In, /) -> Prv_foxnews_listVideos_return_Out:
-        """Lists the recent clips of one Fox News show's Clips rail — taking a clips playlist id
-        from listVideoPlaylists — each clip's id, title, url and date. The list is the show
-        page's own recent clips (about 6-16), so total is that count, not a deeper archive; an
-        Episodes rail is refused.
+        """Lists one Fox News show's videos — taking a Clips or Episodes playlist id from
+        listVideoPlaylists — each one's id, title, url, date and (for episodes) duration. A
+        Clips rail is the show page's own recent clips (about 6-16), so total is that count; an
+        Episodes rail returns the show's full episodes (about 1,000 deep, newest first) with
+        total the real count.
+        """
+
+    async def searchVideos(self, args: Prv_foxnews_SearchVideosArgs_In, /) -> Prv_foxnews_searchVideos_return_Out:
+        """Searches Fox News's video catalogue — full episodes and clips — for free text ("Ingraham
+        Angle", "Hegseth hearing"), newest first with paging; each row has the clip id, title,
+        description, url, air date, duration in seconds and whether it is a full episode, and
+        its url goes to getVideo.
         """
 
     async def getVideo(self, args: Prv_foxnews_GetVideoArgs_In, /) -> Prv_foxnews_FoxnewsVideo_Out:
@@ -94119,6 +94567,11 @@ class Prv_imgur(Protocol):
         imgur.
         """
 
+    async def getNotifications(self, opts: ConnectionOption | None = None, /) -> list[Prv_imgur_ImgurNotification_Out]:
+        """The signed-in account's notifications: replies, mentions and messages. Needs the caller
+        signed in to imgur.
+        """
+
     async def searchPosts(self, query: str | Prv_imgur_ImgurSearchArgs_In, /) -> list[Prv_imgur_ImgurPost_Out]:
         """Searches public imgur posts (about 60 a page), top-scored first by default. Example:
         searchPosts("cats") or searchPosts({ query: "cats", window: "week" }).
@@ -94185,6 +94638,31 @@ class Prv_indeed(Protocol):
         top-paying companies and related titles. `location` is optional free text; omitting it
         returns the national estimate. Throws when Indeed has no salary model for the title at
         all.
+        """
+
+class Prv_independent(Protocol):
+    """The Independent (UK news): articles, live blogs, section and topic fronts, most-read,
+    writers, Independent TV video, quizzes, newsletters, voucher codes and comments.
+    """
+
+    async def listSections(self, /) -> Prv_independent_ListSectionsResult_Out:
+        """Lists The Independent's sections and subsections with their paths, read from the
+        masthead nav tree. Paths feed browseSection and listLatestNews.
+        """
+
+    async def browseSection(self, args: Prv_independent_BrowseSectionArgs_In, /) -> Prv_independent_BrowseSectionResult_Out:
+        """Lists the latest articles on one section front (e.g. /news/uk, /climate-change):
+        headline, URL, summary, date and image. Takes a listSections path.
+        """
+
+    async def getHomepageHeadlines(self, args: Prv_independent_GetHomepageHeadlinesArgs_In | None = None, /) -> Prv_independent_GetHomepageHeadlinesResult_Out:
+        """Lists the top stories on The Independent's front page for one edition: uk (default), us
+        or asia.
+        """
+
+    async def listLatestNews(self, args: Prv_independent_ListLatestNewsArgs_In | None = None, /) -> Prv_independent_ListLatestNewsResult_Out:
+        """Lists the newest stories from The Independent's RSS feed: the whole site, or one section
+        path.
         """
 
 class Prv_inspirecommunities(Protocol):
@@ -95668,6 +96146,26 @@ class Prv_kick(Protocol):
     async def listCategories(self, args: Prv_kick_KickListCategoriesArgs_In | None = None, /) -> Prv_kick_KickListCategoriesResult_Out:
         """Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest
         first, paged.
+        """
+
+    async def listLiveStreams(self, args: Prv_kick_KickListLiveStreamsArgs_In | None = None, /) -> Prv_kick_KickListLiveStreamsResult_Out:
+        """Browses who is live on Kick now, biggest first, optionally within one category slug
+        (from listCategories) and one language, paged.
+        """
+
+    async def listChannelVideos(self, args: Prv_kick_KickListChannelVideosArgs_In, /) -> Prv_kick_KickListChannelVideosResult_Out:
+        """A channel's past broadcasts (VODs), newest first: title, category, duration, views,
+        thumbnail, HLS playback URL and the video id getVideo takes.
+        """
+
+    async def getVideo(self, args: Prv_kick_KickGetVideoArgs_In, /) -> Prv_kick_KickVideo_Out:
+        """One VOD by uuid or kick.com video link: title, channel, category, duration, views,
+        created date and its HLS playback URL.
+        """
+
+    async def getCategory(self, args: Prv_kick_KickGetCategoryArgs_In, /) -> Prv_kick_KickCategoryDetail_Out:
+        """One category by slug: name, group, tags, description, live viewers, follower count and
+        banner.
         """
 
 class Prv_kickstarter(Protocol):
@@ -98606,6 +99104,28 @@ class Prv_mixbook(Protocol):
         Mixbook is showing right now. THROWS if no promotion banner is live.
         """
 
+class Prv_mlb(Protocol):
+    """MLB.com (Major League Baseball): schedules, scores, box scores, play-by-play, standings,
+    teams, rosters, player stats and leaders, transactions, the draft, awards, prospects,
+    news, Film Room video search, and the signed-in account's favourites and newsletters.
+    """
+
+    async def listTeams(self, args: Prv_mlb_MlbListTeamsArgs_In | None = None, /) -> list[Prv_mlb_MlbTeam_Out]:
+        """The 30 MLB teams (or a minor league's, via sportId) with id, name, abbreviation, league,
+        division and home ballpark. The door for every team id, e.g. listTeams().
+        """
+
+    async def searchPlayers(self, args: Prv_mlb_MlbSearchPlayersArgs_In | str, /) -> list[Prv_mlb_MlbPlayerHit_Out]:
+        """Finds players by name, current or retired: id, position, number, birth date, handedness
+        and current team. The door for every player id, e.g. searchPlayers("Aaron Judge").
+        """
+
+    async def getSchedule(self, args: Prv_mlb_MlbGetScheduleArgs_In | None = None, /) -> list[Prv_mlb_MlbScheduledGame_Out]:
+        """MLB games for a date or date range, optionally one team's: matchup, start time, venue,
+        status, score and probable pitchers. The door for every gamePk, e.g. getSchedule({ date:
+        "2026-09-20" }).
+        """
+
 class Prv_modernize_com(Protocol):
     """Home-improvement lead-gen site — listProjectTypes returns every trade its homeowner
     quote flow covers (roofing, HVAC, windows, …), and getQuoteFlow reads the multi-step
@@ -99685,6 +100205,28 @@ class Prv_nike(Protocol):
     async def getMemberProfile(self, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
         """The signed-in caller's Nike member profile as Nike returns it (name, shoe size,
         preferences). Needs the caller signed in to Nike.
+        """
+
+    async def listFavorites(self, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
+        """The products the signed-in caller has favorited on nike.com (Nike's default wishlist) as
+        Nike returns them; each row's id is what removeFavorite takes. Needs the caller signed
+        in to Nike.
+        """
+
+    async def addFavorite(self, args: Prv_nike_addFavorite_args_In, opts: ConnectionOption | None = None, /) -> Prv_nike_addFavorite_return_Out:
+        """Adds one product in one size to the signed-in caller's nike.com favorites. gtin is a
+        size's GTIN and productCode its style-colour code ("DC0774-101"), both from getProduct.
+        Needs the caller signed in to Nike.
+        """
+
+    async def removeFavorite(self, args: Prv_nike_removeFavorite_args_In, opts: ConnectionOption | None = None, /) -> Prv_nike_removeFavorite_return_Out:
+        """Removes one row from the signed-in caller's nike.com favorites; itemId is a row id from
+        listFavorites. Needs the caller signed in to Nike.
+        """
+
+    async def removeFromCart(self, args: Prv_nike_removeFromCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_nike_removeFromCart_return_Out:
+        """Removes one line from the signed-in caller's nike.com bag; itemId is an item's id from
+        getCart. Never checks out. Needs the caller signed in to Nike.
         """
 
     async def getCart(self, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
@@ -104856,6 +105398,12 @@ class Prv_ring(Protocol):
     async def getProduct(self, url: str, /) -> Prv_ring_RingProduct_Out:
         """Read a Ring product's live offer and technical specifications."""
 
+    async def listCollections(self, /) -> list[Prv_ring_RingCollection_Out]:
+        """List Ring's product collections with their handles and urls."""
+
+    async def listCollection(self, args: Prv_ring_listCollection_args_In, /) -> list[Prv_ring_RingSearchResult_Out]:
+        """Read one collection's product grid by handle: name, url, price and image per card."""
+
     async def signup(self, args: Any, /) -> Prv_ring_signup_return_u0_Out | Prv_ring_signup_return_u1_Out | Prv_ring_signup_return_u2_Out | Prv_ring_signup_return_u3_Out:
         """Makes a NEW Ring account with the person's own email and password, in a session. Pauses
         with `needs_code` / `needs_phone` whenever the site wants something only the person has;
@@ -105316,14 +105864,11 @@ class Prv_samsclub(Protocol):
         """
 
     async def checkStock(self, idOrUrl: str, location: Prv_samsclub_checkStock_location_u0_In | Prv_samsclub_checkStock_location_u1_In, /) -> Prv_samsclub_SamsclubStock_Out:
-        """Answers whether one item is in stock right now, and at what price, at a SPECIFIC club —
-        named directly (clubId) or as "whichever club the site considers nearest" (a 5-digit
-        zip). Sam's Club prices and stocks by club, not by region, so a listed item is not
-        guaranteed to be on the shelf or at the same price everywhere. The site picks the club
-        purely off the requesting session's own IP geolocation with no caller-side override
-        honoured, so this targets the fleet's own residential-proxy exit near the club/zip
-        rather than fighting the site — always read clubId/clubName back off the result, since
-        geo-targeting is nearest-available, not guaranteed-exact.
+        """Answers whether one item is in stock right now, and at what price, at a named club or
+        the club Sam's Club considers nearest to a 5-digit zip. A named-club request returns
+        only that exact club; if the site selects another club, it returns an unavailable error
+        instead of silently substituting it. Zip requests remain best-effort nearest-club
+        results and return the answered club id/name.
         """
 
     async def findClubs(self, zip: str, /) -> list[Prv_samsclub_SamsclubClub_Out]:
@@ -106212,6 +106757,11 @@ class Prv_shein(Protocol):
         product has no chart (one-size items).
         """
 
+    async def getStore(self, args: Prv_shein_SheinGetProductArgs_In, /) -> Prv_shein_sheinStore_Out:
+        """The marketplace store that sells a product: store code, name, logo, description and
+        Shein's rounded product count. Takes the product id or url `search` returns.
+        """
+
     async def listNewArrivals(self, /) -> list[Prv_shein_sheinProduct_Out]:
         """The products on Shein's New In page — title, price, image and product page URL for each,
         newest first as the page orders them.
@@ -106274,6 +106824,16 @@ class Prv_shop_app(Protocol):
         """Adds a product variant (getProduct / getVariant's id) to the signed-in caller's Shop
         cart at its store, quantity 1 by default. Stops at the cart: startCheckout opens the
         checkout and nothing here pays. Pauses for the caller to sign in to Shop.
+        """
+
+    async def listAddresses(self, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppAddressList_Out:
+        """Lists the signed-in caller's saved shipping addresses on Shop, with the one Shop prefers
+        marked. Pauses for the caller to sign in to Shop.
+        """
+
+    async def getShopCash(self, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppShopCash_Out:
+        """Reads the signed-in caller's spendable Shop Cash balance and its currency. Pauses for
+        the caller to sign in to Shop.
         """
 
     async def startCheckout(self, args: Prv_shop_app_ShopAppStartCheckoutArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppCheckout_Out:
@@ -110420,16 +110980,15 @@ class Prv_tock(Protocol):
         """
 
 class Prv_tomsguide(Protocol):
-    """Tom's Guide (tomsguide.com) — consumer-tech reviews, best-of buying guides, how-tos,
-    news and deals. search finds articles for an explicit topic or keyword; a bare site name
-    discovers this provider but is not a search query, so ask the caller for a topic rather
-    than calling search without one.
+    """Tom's Guide (tomsguide.com) — a bare site name discovers this provider but is not a
+    search query: do not choose a default topic; ask the caller for one. search then finds
+    consumer-tech articles for the explicit topic or keyword.
     """
 
     async def search(self, args: Prv_tomsguide_SearchArgs_In, /) -> list[Prv_tomsguide_TomsGuideArticle_Out]:
-        """Searches Tom's Guide reviews, buying guides, how-tos, news and deals for a required
-        article topic or keyword. A bare site name only finds this provider; ask the caller for
-        a topic rather than calling search without one.
+        """Searches Tom's Guide for a required article topic or keyword. A bare site name only
+        finds this provider: do not choose a default topic; ask the caller for one before
+        calling search.
         """
 
 class Prv_topcashback(Protocol):
@@ -111011,6 +111570,11 @@ class Prv_tumblr(Protocol):
 
     async def listLikes(self, args: Prv_tumblr_TumblrFeedArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrLikesPage_Out:
         """The posts the signed-in caller has liked, newest first, cursor paged."""
+
+    async def listMyBlogs(self, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrMyBlogsPage_Out:
+        """The blogs the signed-in caller owns — name, title, url — so a caller can pick the blog
+        to post on or read notifications for.
+        """
 
     async def listNotifications(self, args: Prv_tumblr_TumblrNotificationsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrNotificationsPage_Out:
         """Activity on the signed-in caller's own blog — who liked, reblogged, replied to or
@@ -112670,6 +113234,11 @@ class Prv_washingtonpost(Protocol):
         newest first — each post's time, text, authors and image.
         """
 
+    async def listHomepage(self, /) -> list[Prv_washingtonpost_WashingtonpostArticle_Out]:
+        """Lists the stories on the site's front page right now, each with the homepage module it
+        sits in (latest-from-the-post, national, sports, opinions…). Headline and url only.
+        """
+
     async def listNewsletters(self, /) -> list[Prv_washingtonpost_WashingtonpostNewsletter_Out]:
         """Lists the site's own newsletters off its newsletter directory."""
 
@@ -113297,6 +113866,24 @@ class Prv_whatsapp(Protocol):
         """Edits the text of a message the caller sent, inside the window WhatsApp allows edits.
         The chat is opened by its exact displayed name and the message by the id getChatMessages
         returns. Needs the caller signed in.
+        """
+
+    async def sendPoll(self, chatName: str, question: str, options: Sequence[str], allowMultiple: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentPoll_Out:
+        """Creates a poll in a chat as the caller: a question, two to twelve options and whether
+        several answers are allowed. Returns the sent row's id and time label; a retried run
+        never sends twice. Needs the caller signed in.
+        """
+
+    async def forwardMessage(self, fromChat: str, messageId: str, toChat: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappForward_Out:
+        """Forwards one of the caller's messages (by the id getChatMessages returns) from one chat
+        to another chat opened by its exact displayed name. A retried run never forwards twice.
+        Needs the caller signed in.
+        """
+
+    async def updateChat(self, chatName: str, update: Prv_whatsapp_updateChat_update_In, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChatUpdate_Out:
+        """Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive, pin
+        or unpin, mute (8 hours, 1 week or always) or unmute, mark read or unread. The chat is
+        opened by its exact displayed name. Needs the caller signed in.
         """
 
     async def deleteMessage(self, chatName: str, messageId: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMessageChange_Out:
@@ -114756,6 +115343,14 @@ class Prv_yelp(Protocol):
         (title or alias contains) or country. Read-only.
         """
 
+    async def getOwnProfile(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpUser_Out:
+        """Reads the signed-in caller's own Yelp profile from their /user_details page: name,
+        location, join month, tagline, photo, Elite years,
+        review/photo/friend/follower/compliment counts, filled-in About answers and latest
+        reviews (the same YelpUser getUser returns). Needs the caller signed in to Yelp; runs
+        through their own Chrome when Bowmark Link is attached. Read-only.
+        """
+
     async def getBookmarks(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpBookmarks_Out:
         """Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
         page): each business's alias, name and url, in the order the page shows them, [] when
@@ -115532,6 +116127,11 @@ class Prv_zoom(Protocol):
         searchHelpArticles returns
         """
 
+    async def getWebinarRegistration(self, link: str, /) -> Prv_zoom_ZoomWebinarRegistrationPage_Out:
+        """Read a Zoom webinar sign-up link: its topic, agenda and start time. Reads only — it
+        never registers anyone
+        """
+
     async def listMeetings(self, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomMeetingList_Out:
         """Read the signed-in caller's upcoming meetings from the signed-in caller's meeting list
         page — needs the caller signed in
@@ -116047,6 +116647,7 @@ class BowmarkProviders(Protocol):
     imdb: Prv_imdb
     imgur: Prv_imgur
     indeed: Prv_indeed
+    independent: Prv_independent
     inspirecommunities: Prv_inspirecommunities
     instacart: Prv_instacart
     instagram: Prv_instagram
@@ -116145,6 +116746,7 @@ class BowmarkProviders(Protocol):
     mindbodyonline: Prv_mindbodyonline
     minimax: Prv_minimax
     mixbook: Prv_mixbook
+    mlb: Prv_mlb
     modernize_com: Prv_modernize_com
     modularclosets: Prv_modularclosets
     momence: Prv_momence
