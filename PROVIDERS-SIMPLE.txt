@@ -724,7 +724,7 @@ stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
-styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, cancelAppointmentByLink, getAppointmentByLink, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+2 planned)
+styleseat.com — styleseat: 27 functions — ask get_library (+2 planned)
 substack.com — substack: post, posts, search
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
@@ -732,7 +732,7 @@ sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches
 sunlighten.com — sunlighten: getModelPricing, matchSauna
 support.claude.com — claude_support: getArticle, listArticles
 surfshark.com — surfshark: getDedicatedIp (+1 planned)
-surveymonkey.com — surveymonkey: createCollector, createSurvey, deleteCollector, deleteSurvey, editSurvey, getAccountInfo, getCollectorStatus, getSurvey, getSurveyResults, listCollectors, listSurveys, listTemplates (+4 planned)
+surveymonkey.com — surveymonkey: createCollector, createSurvey, deleteCollector, deleteSurvey, editSurvey, getAccountInfo, getCollectorStatus, getSurvey, getSurveyResults, listCollectors, listSurveys, listTemplates, shareSurvey (+3 planned)
 sweathouz.com — sweathouz: book, cancel, findStudio, getAvailability, getPricing, getPromoCode, getStudioHours, listCredits, listMemberships, listPacks, listStudios, myBookings (+8 planned)
 szukajwarchiwach.gov.pl — szukajwarchiwach_gov_pl: getFond, searchFonds
 t-mobile.com — tmobile: getUpgradeOffer
@@ -862,5 +862,6 @@ youtube.com — youtube: 45 functions — ask get_library (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
 zenoti.com — zenoti: bookAppointment, cancelAppointment, findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, rescheduleAppointment, searchServices (+4 planned)
 zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDetails, getMemberInfo, getMembershipStatus, getPrice, listClasses, listMyBookings, listPackages, listScheduleSlots, searchSchedule, updateMemberInfo (+2 planned)
+zillow.com — zillow: nothing callable yet (+24 planned)
 zoom.us — zoom: deleteMeeting, downloadRecording, getContactInfo, getContacts, getDownloadLinks, getHelpArticle, getMarketplaceApp, getMeeting, getMeetingInfo, getMeetingParticipants, getPricing, getProfile, getRecording, getRecordingTranscript, getSystemStatus, getWebinar, joinMeeting, listMeetings, listRecordings, listRecordingTranscripts, listWebinars, scheduleMeeting, searchContacts, searchHelpArticles, searchMarketplaceApps, updateMeeting, updateProfile, updateProfilePicture
 zoopla.co.uk — zoopla: search (+1 planned)

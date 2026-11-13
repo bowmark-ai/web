@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6581 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6605 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -5379,7 +5379,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `surveymonkey.listSurveys` | surveymonkey.com | Lists the signed-in user's surveys with titles, creation dates, and response counts. | 🟢 |
 | `surveymonkey.listTemplates` | surveymonkey.com | Lists pre-built survey templates available to the signed-in user. | 🟢 |
 | `surveymonkey.sendSurveyInvite` | surveymonkey.com | Sends survey invitations via email to one or more email addresses. | ⚪ |
-| `surveymonkey.shareSurvey` | surveymonkey.com | Shares one survey with a team member or colleague for collaboration. | ⚪ |
+| `surveymonkey.shareSurvey` | surveymonkey.com | Shares one survey with a team member or colleague for collaboration. | 🟢 |
 | `sweathouz.addToCart` | sweathouz.com | Adds a package or membership to the customer's cart. | ⚪ |
 | `sweathouz.book` | sweathouz.com | Books an appointment for the signed-in customer at a specific studio, date and time. | 🟢 |
 | `sweathouz.bookFirstVisit` | sweathouz.com | Books a first-time visitor appointment; stops before payment completion. | ⚪ |
@@ -6559,6 +6559,30 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zenoti.rescheduleAppointment` | zenoti.com | Moves the signed-in caller's appointment to another open time for the same service… | 🟢 |
 | `zenoti.searchServices` | zenoti.com | Lists or searches a center's bookable services: name, description, price, duration and… | 🟢 |
 | `zenoti.updateMyProfile` | zenoti.com | Updates the signed-in caller's name, phone or email preferences at that business. | ⚪ |
+| `zillow.applyToRental` | zillow.com | Submits a Zillow rental application for a listing. | ⚪ |
+| `zillow.calculateAffordability` | zillow.com | Estimates how much house a buyer can afford from income, monthly debts, down payment… | ⚪ |
+| `zillow.calculateMortgagePayment` | zillow.com | Computes a monthly payment from price, down payment, rate and term, broken into… | ⚪ |
+| `zillow.contactAgent` | zillow.com | Sends a question or tour request about a listing to its agent or landlord from the… | ⚪ |
+| `zillow.deleteSavedSearch` | zillow.com | Deletes one of the signed-in caller's saved searches. | ⚪ |
+| `zillow.getAccount` | zillow.com | Reads the signed-in caller's Zillow profile: name, email, phone and account settings. | ⚪ |
+| `zillow.getAgent` | zillow.com | Gets one agent's profile: brokerage, contact details shown publicly, specialties… | ⚪ |
+| `zillow.getBuilding` | zillow.com | Gets an apartment or condo building page: units and floor plans available, rent… | ⚪ |
+| `zillow.getHome` | zillow.com | Gets one home by zpid, URL or address: price or rent, status, beds/baths/sqft, lot… | ⚪ |
+| `zillow.getMarketOverview` | zillow.com | Gets a region's housing market: typical home value (ZHVI) and its one-year change… | ⚪ |
+| `zillow.getMortgageRates` | zillow.com | Gets today's average mortgage rates and APRs by loan program (30-year fixed, 15-year… | ⚪ |
+| `zillow.getNewConstructionCommunity` | zillow.com | Gets a new-construction community: builder, plans with base prices, available homes… | ⚪ |
+| `zillow.getZestimate` | zillow.com | Gets Zillow's estimated value (Zestimate) and Rent Zestimate for an address, with the… | ⚪ |
+| `zillow.hideHome` | zillow.com | Hides a home from the signed-in caller's search results. | ⚪ |
+| `zillow.listConversations` | zillow.com | Lists the signed-in caller's Zillow inbox: conversations with landlords and agents and… | ⚪ |
+| `zillow.listSavedHomes` | zillow.com | Lists the homes the signed-in caller has saved (hearted). | ⚪ |
+| `zillow.listSavedSearches` | zillow.com | Lists the signed-in caller's saved searches with their alert frequency. | ⚪ |
+| `zillow.saveHome` | zillow.com | Saves (hearts) a home to the signed-in caller's saved homes. | ⚪ |
+| `zillow.saveSearch` | zillow.com | Saves a search for the signed-in caller, with its filters and email alert frequency. | ⚪ |
+| `zillow.searchAgents` | zillow.com | Finds real estate agents serving a location, with name, brokerage, rating, review… | ⚪ |
+| `zillow.searchHomes` | zillow.com | Searches homes for sale, for rent or recently sold in a region, with price, beds… | ⚪ |
+| `zillow.searchLocations` | zillow.com | Turns a place name, ZIP, neighborhood or address into Zillow regions and addresses… | ⚪ |
+| `zillow.unsaveHome` | zillow.com | Removes a home from the signed-in caller's saved homes. | ⚪ |
+| `zillow.updateProfile` | zillow.com | Updates the signed-in caller's profile name, phone or photo. | ⚪ |
 | `zoom.deleteMeeting` | zoom.us | Cancels a scheduled meeting. | 🟢 |
 | `zoom.downloadRecording` | zoom.us | Reads the download/play info for one recording from the site's own recording play-info… | 🟢 |
 | `zoom.getContactInfo` | zoom.us | Returns details of one contact. | 🟢 |
