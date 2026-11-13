@@ -159,7 +159,7 @@ bykoket.com — bykoket: addToCart, getProduct, searchProducts
 byltbasics.com — byltbasics: buildPackHandoff, getPackOptions, listBundlePacks
 cabinsforyou.com — cabinsforyou: getCabinDetail, search
 cal.com — cal_com: findProfiles, getAvailability, getBookingForm, getEventTypes
-calendly.com — calendly: findProfiles, getAvailability, getBooking, getBookingForm, getEventTypes, getRoutingForm, listPackages (+31 planned)
+calendly.com — calendly: bookMeeting, findProfiles, getAvailability, getBooking, getBookingForm, getEventTypes, getRoutingForm, listPackages (+30 planned)
 caliberhealth.com — caliberhealth: getJob, search
 califloors.com — califloors: getProduct, listCategories, searchProducts
 camelcamelcamel.com — camelcamelcamel: getPriceHistory, search

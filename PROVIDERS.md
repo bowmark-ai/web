@@ -858,7 +858,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cal_com.getBookingForm` | cal.com | Reads what a Cal.com booking page will ask before anyone books — the event's title… | 🟢 |
 | `cal_com.getEventTypes` | cal.com | Lists every event type a Cal.com username currently publishes — the entry point. | 🟢 |
 | `calendly.addDateOverride` | calendly.com | Sets different hours, or no hours at all, for specific dates on the caller's… | ⚪ |
-| `calendly.bookMeeting` | calendly.com | Books a slot on a Calendly event the way an invitee does on the booking page — the… | ⚪ |
+| `calendly.bookMeeting` | calendly.com | Books a slot on a Calendly event the way an invitee does on the booking page — the… | 🟢 |
 | `calendly.cancelBooking` | calendly.com | Cancels a booking the caller made, from the cancel link Calendly emailed them… | ⚪ |
 | `calendly.cancelScheduledEvent` | calendly.com | Cancels a meeting someone booked with the caller, with a reason the invitee is told. | ⚪ |
 | `calendly.createEventType` | calendly.com | Creates a new event type on the caller's own Calendly — name, duration, location… | ⚪ |
