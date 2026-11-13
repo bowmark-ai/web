@@ -100,7 +100,7 @@ bananarepublic.gap.com — banana_republic: getProduct, searchProducts
 bankmycell.com — bankmycell: getTradeInQuote, searchDevices
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
-bbc.com — bbc: followPodcast, getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listFollowedPodcasts, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations, subscribeNewsletter, unfollowPodcast, unsubscribeNewsletter
+bbc.com — bbc: 31 functions — ask get_library
 bcbsri.com — bcbsri: getApplicationPage, getDentalPlan, getDentalShopPage, getPlanDocuments, getQuotePage, listDentalPlans (+6 planned)
 beaconfunding.com — beaconfunding: getApplicationFields
 beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
@@ -253,6 +253,7 @@ dailymail.com — dailymail: browseSection, getArticle, listLatest, listSections
 dailymotion.com — dailymotion: 37 functions — ask get_library
 dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
 data.cms.gov — data_cms: getRows, searchDatasets
+data.medicaid.gov — data_medicaid: getDataset, queryDataset, searchDatasets
 davidsonhomes.com — davidsonhomes: getCommunity, getHome, getRegion, listRegions
 dblp.org — dblp: searchAuthors, searchPublications
 de.vestiairecollective.com — vestiaire_collective: search
@@ -273,6 +274,7 @@ dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listExtras, listRoomTypes, sendEnquiry (+1 planned)
+discogs.com — discogs: getArtist, getLabel, getMaster, getRelease, listArtistReleases, listLabelReleases, searchDatabase
 discord.com — discord: 47 functions — ask get_library (+3 planned)
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
@@ -349,6 +351,7 @@ fred.stlouisfed.org — fred: browseCategory, getSeriesInfo, getSeriesObservatio
 fredericton.ca, dieppe.ca — municipal_recreation_fees_fetcher: getFeeSchedule
 freightliner.com — freightliner: nothing callable yet (+1 planned)
 fresha.com — fresha: getAvailability, getBookingQuote, getSearchSuggestions, getVenue, getVenuePhotos, getVenueReviews, searchVenues (+26 planned)
+frontiersin.org — frontiersin: searchArticles, searchJournals
 furniture.com — furniture: listCategories, listFilterOptions, searchProducts
 g2.com — g2: getProduct, listReviews, search
 games.nytimes.com — nyt_games: getConnections, getCrosswordArchive, getCrosswordDaily, getCrosswordMidi, getCrosswordMini, getLetterBoxed, getPips, getSpellingBee, getSportsConnections, getStrands, getSudoku, getTiles, getWordle, listBonusPuzzles, listCrosswordPuzzles, saveWordleGame (+2 planned)
@@ -489,7 +492,7 @@ m365.cloud.microsoft.com — microsoft_365: createDocument, deleteDocument, getD
 maersk.com — maersk: track
 magicmadhouse.co.uk — magicmadhouse: searchProducts (+1 planned)
 maidenhome.com — maidenhome: getProduct, resolveVariant, searchConfigurations
-mail.aol.com — aol_mail: createFolder, deleteMessage, flagMessage, getAccountProfile, getAttachment, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage, updateAccountProfile
+mail.aol.com — aol_mail: createFolder, deleteMessage, flagMessage, getAccountProfile, getAttachment, getMessage, listContacts, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage, updateAccountProfile
 mail.yahoo.com — yahoo_mail: deleteMessage, flagMessage, getAttachment, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage
 mailchimp.com — mailchimp: getPlanPricing
 mango.com — mango: getProduct, listCategories, searchProducts (+1 planned)
@@ -868,6 +871,7 @@ youtube.com — youtube: 45 functions — ask get_library (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
 zenoti.com — zenoti: bookAppointment, cancelAppointment, findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, rescheduleAppointment, searchServices (+4 planned)
 zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDetails, getMemberInfo, getMembershipStatus, getPrice, listClasses, listMyBookings, listPackages, listScheduleSlots, searchSchedule, updateMemberInfo (+2 planned)
+zepto.com — zepto: product, search
 zillow.com — zillow: nothing callable yet (+24 planned)
 zoom.us — zoom: 29 functions — ask get_library
 zoopla.co.uk — zoopla: search (+1 planned)

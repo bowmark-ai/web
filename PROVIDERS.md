@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6729 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6744 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -246,6 +246,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol_mail.getAccountProfile` | mail.aol.com | Reads the CALLER's own AOL account page (login.aol.com/myaccount/personalinfo) and… | 🟢 |
 | `aol_mail.getAttachment` | mail.aol.com | Saves one attachment of the CALLER's own AOL Mail message to the run's files, given… | 🟢 |
 | `aol_mail.getMessage` | mail.aol.com | Reads one of the CALLER's own AOL Mail messages in full — sender, recipients, subject… | 🟢 |
+| `aol_mail.listContacts` | mail.aol.com | Looks up contacts in the CALLER's own AOL address book over CardDAV, optionally… | 🟢 |
 | `aol_mail.listFolders` | mail.aol.com | Lists the CALLER's own AOL Mail folders — Inbox, Sent, Drafts, Spam, Trash and custom… | 🟢 |
 | `aol_mail.listMessages` | mail.aol.com | Lists the newest messages in one of the CALLER's own AOL Mail folders (Inbox by… | 🟢 |
 | `aol_mail.markAsRead` | mail.aol.com | Marks one of the CALLER's own AOL Mail messages read or unread, given a row id from… | 🟢 |
@@ -1574,6 +1575,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dansons.listRegisterableProducts` | pitboss-grills.com | Lists every Pit Boss product eligible for warranty registration — the exact catalog… | 🟢 |
 | `data_cms.getRows` | data.cms.gov | Read rows from one data.cms.gov dataset (its latest version), optionally filtered by… | 🟢 |
 | `data_cms.searchDatasets` | data.cms.gov | Search data.cms.gov's dataset catalog by keyword; returns each dataset's id (for… | 🟢 |
+| `data_medicaid.getDataset` | data.medicaid.gov | Read one data.medicaid.gov dataset's record by id: title, description, license… | 🟢 |
+| `data_medicaid.queryDataset` | data.medicaid.gov | Read rows from one data.medicaid.gov dataset's table, with exact-match or substring… | 🟢 |
+| `data_medicaid.searchDatasets` | data.medicaid.gov | Search data.medicaid.gov's dataset catalog by keyword; returns each dataset's id… | 🟢 |
 | `davidsonhomes.getCommunity` | davidsonhomes.com | Reads one community's own page: its ACTUAL available homes right now — real street… | 🟢 |
 | `davidsonhomes.getHome` | davidsonhomes.com | Reads one specific home's own listing page: address, price, sqft, bed/bath count… | 🟡 |
 | `davidsonhomes.getRegion` | davidsonhomes.com | Reads one region's own page: every community in it with a real live price/bed/sqft… | 🟢 |
@@ -1680,6 +1684,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `direct_book.listExtras` | direct-book.com | Lists the add-ons a hotel sells with a stay — breakfast, parking, transfers — with… | 🟢 |
 | `direct_book.listRoomTypes` | direct-book.com | Lists a hotel's room types with their ids, names, category (room or suite), beds… | 🟢 |
 | `direct_book.sendEnquiry` | direct-book.com | Sends a question to a hotel through its booking page's contact form. | 🟢 |
+| `discogs.getArtist` | discogs.com | Read one Discogs artist's profile by id: name, real name, biography text, links… | 🟢 |
+| `discogs.getLabel` | discogs.com | Read one Discogs record label by id: name, profile text, contact info, links, parent… | 🟢 |
+| `discogs.getMaster` | discogs.com | Read one Discogs master release (an album across all its editions) by id: title, year… | 🟢 |
+| `discogs.getRelease` | discogs.com | Read one Discogs release (a specific edition of an album, EP or single) by id… | 🟢 |
+| `discogs.listArtistReleases` | discogs.com | List an artist's discography and credits on Discogs, paged and sortable by year, title… | 🟢 |
+| `discogs.listLabelReleases` | discogs.com | List a record label's catalogue on Discogs, paged: one row per release with title… | 🟢 |
+| `discogs.searchDatabase` | discogs.com | Search the Discogs music database for artists, bands, labels, releases (albums… | 🟢 |
 | `discord.acceptFriendRequest` | discord.com | Accepts a pending incoming friend request. | 🟢 |
 | `discord.addReaction` | discord.com | Adds an emoji reaction to a message as the caller. | 🟢 |
 | `discord.blockUser` | discord.com | Blocks a user. | 🟢 |
@@ -2453,6 +2464,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fresha.updateMyProfile` | fresha.com | Edits the signed-in caller's profile details: name, birthday, gender, addresses. | ⚪ |
 | `fresha.updateProfilePicture` | fresha.com | Replaces the signed-in caller's profile photo. | ⚪ |
 | `fresha.writeReview` | fresha.com | Leaves a rating and review for one of the signed-in caller's completed appointments. | ⚪ |
+| `frontiersin.searchArticles` | frontiersin.org | Search Frontiers' open-access research articles by keyword, optionally within a… | 🟢 |
+| `frontiersin.searchJournals` | frontiersin.org | Search Frontiers' journals (Frontiers in Neuroscience, Psychology, Immunology, …) by… | 🟢 |
 | `furniture.listCategories` | furniture.com | Lists furniture.com's real category taxonomy (Sofas & Couches, Mattresses, Platform… | 🟢 |
 | `furniture.listFilterOptions` | furniture.com | Lists furniture.com's live filter facets and their real, currently offered values —… | 🟢 |
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟡 |
@@ -6132,7 +6145,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.addToCart` | walmart.com | Puts an item in the cart in the quantity asked for and reports what the cart then holds. | 🟢 |
 | `walmart.addToList` | walmart.com | Adds an item to one of the shopper's saved lists. | 🟢 |
 | `walmart.browseBrand` | walmart.com | Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a… | 🟡 |
-| `walmart.browseCategory` | walmart.com | Lists products under one of the site's own department/category pages (e.g.… | 🟡 |
+| `walmart.browseCategory` | walmart.com | Lists products under one of the site's own department/category pages (e.g.… | 🟢 |
 | `walmart.checkStock` | walmart.com | Answers whether a specific item is actually available right now at a given store or… | ⚪ |
 | `walmart.createList` | walmart.com | Creates a new saved list with a name. | 🟢 |
 | `walmart.findBrand` | walmart.com | Finds a brand's Walmart page by name (e.g. "Samsung") off the site's own brand… | 🟢 |
@@ -6682,6 +6695,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zenoti.rescheduleAppointment` | zenoti.com | Moves the signed-in caller's appointment to another open time for the same service… | 🟢 |
 | `zenoti.searchServices` | zenoti.com | Lists or searches a center's bookable services: name, description, price, duration and… | 🟢 |
 | `zenoti.updateMyProfile` | zenoti.com | Updates the signed-in caller's name, phone or email preferences at that business. | ⚪ |
+| `zepto.product` | zepto.com | Reads a Zepto product page (www.zepto.com/pn/<slug>/pvid/<id>) and returns its name… | 🟢 |
+| `zepto.search` | zepto.com | Searches Zepto's grocery catalogue and returns each product card's name, price and MRP… | 🟢 |
 | `zillow.applyToRental` | zillow.com | Submits a Zillow rental application for a listing. | ⚪ |
 | `zillow.calculateAffordability` | zillow.com | Estimates how much house a buyer can afford from income, monthly debts, down payment… | ⚪ |
 | `zillow.calculateMortgagePayment` | zillow.com | Computes a monthly payment from price, down payment, rate and term, broken into… | ⚪ |
