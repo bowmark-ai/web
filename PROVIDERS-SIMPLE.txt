@@ -167,7 +167,7 @@ camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
-canva.com — canva: browseTemplates, getApp, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getGraphic, getMyProfile, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignSizes, listPrintProducts, listTemplateCategories, searchApps, searchGraphics, searchPhotos, searchTemplates (+33 planned)
+canva.com — canva: browseTemplates, getApp, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getGraphic, getMyProfile, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignSizes, listPrintProducts, listTemplateCategories, searchApps, searchGraphics, searchMyDesigns, searchPhotos, searchTemplates (+32 planned)
 capitaloneshopping.com — capitaloneshopping: getStoreRate, searchStores
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
 careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs
@@ -188,7 +188,7 @@ cb2.com — cb2: searchProducts (+1 planned)
 cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
 cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
-cbsnews.com — cbsnews: getArticle, listLatestNews, listRssFeeds (+23 planned)
+cbsnews.com — cbsnews: getArticle, listLatestNews, listRssFeeds, listSections, search (+21 planned)
 cerebralvalley.ai — cerebralvalley: getEvent, listEvents
 cftc.gov — cftc: searchRules
 champxpress.com — champxpress: nothing callable yet (+2 planned)
@@ -685,7 +685,7 @@ sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
 shein.com — shein: getProduct, getSizeGuide, listCategories, listFlashSale, listNewArrivals, listProductsByCategory, search (+27 planned)
-shop.app — shop_app: addToProductList, browseCategory, createProductList, followStore, getCart, getDiscoveryFeed, getOrder, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listFollowedStores, listOffers, listOrders, listProductLists, listSavedProducts, listStoreProducts, markOrderDelivered, saveProduct, searchProducts, searchStore, startCheckout, suggestSearches, trackPackage (+10 planned)
+shop.app — shop_app: addToCart, addToProductList, browseCategory, createProductList, followStore, getCart, getDiscoveryFeed, getOrder, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listFollowedStores, listOffers, listOrders, listProductLists, listSavedProducts, listStoreProducts, markOrderDelivered, saveProduct, searchProducts, searchStore, startCheckout, suggestSearches, trackPackage (+9 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopdisney.com — shopdisney: getProduct, search
@@ -725,7 +725,7 @@ stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
-styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, cancelAppointmentByLink, getAppointmentByLink, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+2 planned)
+styleseat.com — styleseat: 27 functions — ask get_library (+2 planned)
 substack.com — substack: post, posts, search
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
@@ -764,6 +764,7 @@ tiktok.com — tiktok: 35 functions — ask get_library
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
 toasttab.com — toast: getMenu, getMenuItem, getOrderingOptions, getPopularItems, getReservationAvailability, getRestaurant, listCities, listCityRestaurants, searchMenu, searchRestaurants (+47 planned)
+tomsguide.com — tomsguide: search
 topcashback.com — topcashback: getStoreRate, searchStores (+1 planned)
 topviewtix.com — topviewtix: getPackageDetails, listPackages (+1 planned)
 totalplastics.com — totalplastics: getQuoteFormFieldOptions, getQuoteFormFields
@@ -856,7 +857,7 @@ x.com — x: blockUser, bookmarkPost, createPost, deletePost, followUser, getCon
 xola.com — xola: findSeller, getAvailability, getExperience, getPriceQuote, listExperiences, listWaivers (+3 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
-yelp.com — yelp: getBookmarks, getBusiness, getCollection, getMenu, getPhotos, getReviews, getUser, getWaitlist, listCategories, search, suggest (+19 planned)
+yelp.com — yelp: getBookmarks, getBusiness, getCollection, getMenu, getPhotos, getReviews, getUser, getWaitlist, listCategories, search, searchEvents, suggest (+18 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
 yorkwallcoverings.com — yorkwallcoverings: nothing callable yet (+3 planned)
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)

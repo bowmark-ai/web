@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6612 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6613 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -966,7 +966,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.searchAudio` | canva.com | Searches Canva's stock music and sound-effects library by keyword — track id, title… | ⚪ |
 | `canva.searchBrandTemplates` | canva.com | Searches the Brand Templates the caller's team has shared with them. | ⚪ |
 | `canva.searchGraphics` | canva.com | Searches Canva's graphics and illustrations library (stickers, icons, illustrations)… | 🟢 |
-| `canva.searchMyDesigns` | canva.com | Searches the signed-in caller's designs by title or content (or lists the most recent… | ⚪ |
+| `canva.searchMyDesigns` | canva.com | Searches the signed-in caller's designs by title or content (or lists the most recent… | 🟢 |
 | `canva.searchPhotos` | canva.com | Searches Canva's stock photo library by keyword — photo id, title (when the photo has… | 🟢 |
 | `canva.searchTemplates` | canva.com | Searches Canva's template library by keyword — title, template id, url and preview… | 🟢 |
 | `canva.searchVideos` | canva.com | Searches Canva's stock video library by keyword — clip id, title, duration, licence… | ⚪ |
@@ -1043,12 +1043,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbsnews.listPodcasts` | cbsnews.com | Lists CBS News podcasts from /podcasts/. | ⚪ |
 | `cbsnews.listRssFeeds` | cbsnews.com | Lists every RSS feed CBS News publishes, from its /rss/ page, as slugs usable with… | 🟢 |
 | `cbsnews.listSectionArticles` | cbsnews.com | Lists the stories on a section front such as /politics/ or /moneywatch/. | ⚪ |
-| `cbsnews.listSections` | cbsnews.com | Lists the site's sections and topic hubs (politics, world, moneywatch, crime, space …). | ⚪ |
+| `cbsnews.listSections` | cbsnews.com | Lists the site's sections and topic hubs (politics, world, moneywatch, crime, space …). | 🟢 |
 | `cbsnews.listShowEpisodes` | cbsnews.com | Lists a programme's recent segments and full episodes. | ⚪ |
 | `cbsnews.listShows` | cbsnews.com | Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings… | ⚪ |
 | `cbsnews.listTagArticles` | cbsnews.com | Lists the stories filed under a tag (/tag/<slug>/). | ⚪ |
 | `cbsnews.listVideos` | cbsnews.com | Lists videos from /video/ or a video category. | ⚪ |
-| `cbsnews.search` | cbsnews.com | Searches CBS News stories and videos by keyword, as /search/?q= does. | ⚪ |
+| `cbsnews.search` | cbsnews.com | Searches CBS News stories and videos by keyword, as /search/?q= does. | 🟢 |
 | `cbsnews.subscribeToNewsletter` | cbsnews.com | Subscribes an email address to a CBS News newsletter. | ⚪ |
 | `cbsnews.unsubscribeFromNewsletter` | cbsnews.com | Unsubscribes the signed-in caller from a newsletter. | ⚪ |
 | `cbsnews.updateProfile` | cbsnews.com | Edits the signed-in caller's profile (name, zip code). | ⚪ |
@@ -4908,7 +4908,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.updateProfile` | shein.com | Edits the signed-in caller's profile — nickname, birthday, or the body measurements… | ⚪ |
 | `shein.writeReview` | shein.com | Writes a review of a product the signed-in caller bought and received. | ⚪ |
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | ⚪ |
-| `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart, or changes its quantity (0 removes… | ⚪ |
+| `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart at its store (quantity 1 by default… | 🟢 |
 | `shop_app.addToProductList` | shop.app | Adds a product to one of the caller's lists, or removes it (remove: true). | 🟢 |
 | `shop_app.browseCategory` | shop.app | Browses one Shop product category by the id listCategories returns — its name and… | 🟡 |
 | `shop_app.claimOffer` | shop.app | Claims a Shop offer or Shop Cash reward for the caller. | ⚪ |
@@ -5698,6 +5698,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tock.startToGoOrder` | exploretock.com | Start a to-go order — guest checkout, stops before payment. | ⚪ |
 | `tock.transferReservation` | exploretock.com | Transfer one of the signed-in user's reservations to another person. | ⚪ |
 | `tock.updateProfile` | exploretock.com | Update the signed-in user's profile information. | ⚪ |
+| `tomsguide.search` | tomsguide.com | Searches Tom's Guide reviews, buying guides, how-tos, news and deals by keyword — each… | 🟢 |
 | `topcashback.getStoreRate` | topcashback.com | Reads a store's cashback rate on TopCashback — the base earn rate plus per-category… | 🟢 |
 | `topcashback.listOffers` | topcashback.com | Lists a store's current TopCashback deals and voucher codes alongside its cash back. | ⚪ |
 | `topcashback.searchStores` | topcashback.com | Searches for stores on TopCashback by name or keyword and returns matching stores with… | 🟢 |
@@ -6464,7 +6465,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.requestQuote` | yelp.com | Sends a home-services or local-business quote request (Request a Quote) from the… | ⚪ |
 | `yelp.saveBusiness` | yelp.com | Bookmarks a business for the signed-in caller, or removes the bookmark — a private… | ⚪ |
 | `yelp.search` | yelp.com | Runs Yelp's own business search for a term and location — with its sort (recommended… | 🟢 |
-| `yelp.searchEvents` | yelp.com | Lists local events Yelp hosts or lists for a city, with date, venue and url. | ⚪ |
+| `yelp.searchEvents` | yelp.com | Lists the events on a city's Yelp Events browse page (its first page, in the order the… | 🟢 |
 | `yelp.setProfilePhoto` | yelp.com | Changes the signed-in caller's own profile picture. | ⚪ |
 | `yelp.suggest` | yelp.com | Yelp's own search-as-you-type suggestions for a partial term or place — business names… | 🟡 |
 | `yelp.updateProfile` | yelp.com | Edits the signed-in caller's own profile: display name, location, 'things I love'… | ⚪ |

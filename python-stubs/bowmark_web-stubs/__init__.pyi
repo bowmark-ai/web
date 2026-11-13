@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b275326b8edb2c443357bd4e182e5871879edcf164148aac863d390c5af29c12
-# 98 capabilities, 829 providers, 5051 typed functions, 20 refused.
+# Manifest version: 845d1e13959dd367ccc8dbed88309d0db19f55012dde78f77921e87a97a5447d
+# 98 capabilities, 830 providers, 5063 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6719,6 +6719,10 @@ class Prv_aol_mail_AolProfileUpdateResult_Out(TypedDict):
     status: float | None
     saveUrl: str | None
 
+class Prv_aol_mail_CreateFolderArgs_In(TypedDict):
+    credentials: Prv_aol_mail_MailboxCredentials_In
+    name: str
+
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
     sku: str
@@ -10023,6 +10027,46 @@ class Prv_bestbuy_bestbuyProduct_Out(TypedDict):
     upc: str | None
     customerReviewAverage: float | None
     customerReviewCount: float | None
+
+class Prv_bestbuy_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_bestbuy_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_bestbuy_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_bestbuy_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_bestbuy_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_bestbuy_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_bestbuy_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_bestbuy_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_bestbuy_ca_SearchArgs_In(TypedDict):
     query: str
@@ -14248,6 +14292,15 @@ class Prv_canva_CanvaMyProfile_Out(TypedDict):
     name: str
     handle: str
 
+class Prv_canva_searchMyDesigns_return_Out(TypedDict):
+    designs: list[Prv_canva_CanvaMyDesign_Out]
+    warnings: list[str]
+
+class Prv_canva_CanvaMyDesign_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+
 class Prv_canva_getCreator_return_Out(TypedDict):
     creator: Prv_canva_CanvaCreator_Out
     warnings: list[str]
@@ -15245,6 +15298,49 @@ class Prv_cbp_cbpPort_Out_commercial_Out(TypedDict):
 class Prv_cbp_cbpPort_Out_pedestrian_Out(TypedDict):
     standard: Prv_cbp_cbpLane_Out | None
     ready: Prv_cbp_cbpLane_Out | None
+
+class Prv_cbsnews_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_cbsnews_CbsNewsArticle_Out(TypedDict):
+    url: str
+    headline: str
+    description: str | None
+    body: str
+    authors: list[Prv_cbsnews_CbsNewsAuthor_Out]
+    section: list[str]
+    keywords: list[str]
+    datePublished: str | None
+    dateModified: str | None
+    image: str | None
+
+class Prv_cbsnews_CbsNewsAuthor_Out(TypedDict):
+    name: str
+    url: str | None
+
+class Prv_cbsnews_ListLatestNewsArgs_In(TypedDict):
+    feed: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_cbsnews_listLatestNews_return_Out(TypedDict):
+    feed: str
+    articles: list[Prv_cbsnews_CbsNewsStory_Out]
+
+class Prv_cbsnews_CbsNewsStory_Out(TypedDict):
+    id: str | None
+    title: str
+    url: str
+    summary: str | None
+    published: str | None
+    image: str | None
+    categories: list[str]
+
+class Prv_cbsnews_listRssFeeds_return_Out(TypedDict):
+    feeds: list[Prv_cbsnews_CbsNewsFeed_Out]
+
+class Prv_cbsnews_CbsNewsFeed_Out(TypedDict):
+    slug: str
+    url: str
 
 class Prv_census_api_ValidateAddressArgs_In(TypedDict):
     address: str
@@ -55998,6 +56094,20 @@ class Prv_shop_app_ShopAppAddToProductListArgs_In(TypedDict):
     store: NotRequired[str]
     remove: NotRequired[bool]
 
+class Prv_shop_app_ShopAppAddToCartArgs_In(TypedDict):
+    store: str
+    variantId: str
+    quantity: NotRequired[float]
+    sellingPlanId: NotRequired[str]
+
+class Prv_shop_app_ShopAppAddedToCart_Out(TypedDict):
+    storeId: str
+    variantId: str
+    quantity: float
+    cartId: str | None
+    lineCount: float
+    warnings: list[str]
+
 class Prv_shop_app_ShopAppStartCheckoutArgs_In(TypedDict):
     store: str
 
@@ -72586,6 +72696,27 @@ class Prv_yelp_YelpWaitlist_Out(TypedDict):
     bizId: str | None
     bizName: str | None
 
+class Prv_yelp_YelpEventPage_Out(TypedDict):
+    events: list[Prv_yelp_YelpEvent_Out]
+    warnings: list[str]
+
+class Prv_yelp_YelpEvent_Out(TypedDict):
+    name: str
+    url: str
+    startDate: str | None
+    when: str | None
+    venue: Prv_yelp_YelpEventVenue_Out | None
+    locale: str | None
+    description: str | None
+    category: str | None
+    interestedCount: float | None
+    imageUrl: str | None
+    official: bool
+
+class Prv_yelp_YelpEventVenue_Out(TypedDict):
+    alias: str | None
+    name: str
+
 class Prv_yelp_YelpCategoriesArgs_In(TypedDict):
     parent: NotRequired[str]
     query: NotRequired[str]
@@ -77834,6 +77965,12 @@ class Prv_aol_mail(Protocol):
         request succeeded, its status and URL.
         """
 
+    async def createFolder(self, args: Prv_aol_mail_CreateFolderArgs_In, /) -> Prv_aol_mail_AolMailFolder_Out:
+        """Creates a new folder in the CALLER's own AOL Mail account and returns it in listFolders'
+        shape, so moveMessage can file mail there with its `id`. Refuses a name that already
+        exists. Takes the caller's address and app password, as secrets.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -79644,7 +79781,7 @@ class Prv_bestbuy(Protocol):
     (key required).
     """
 
-    async def search(self, args: str | Prv_bestbuy_search_args_u1_In, /) -> list[Prv_bestbuy_bestbuyProduct_Out]:
+    async def search(self, args: str | Prv_bestbuy_search_args_u1_In, opts: ConnectionOption | None = None, /) -> list[Prv_bestbuy_bestbuyProduct_Out]:
         """Runs a Best Buy product search the way bestbuy.com's own search box does and returns the
         matching products — name, sale/regular price, online and in-store availability and
         review stats. With a Best Buy developer key (yours, on the
@@ -79654,11 +79791,23 @@ class Prv_bestbuy(Protocol):
         10).
         """
 
-    async def getProduct(self, sku: str | float, /) -> Prv_bestbuy_bestbuyProduct_Out:
+    async def getProduct(self, sku: str | float, opts: ConnectionOption | None = None, /) -> Prv_bestbuy_bestbuyProduct_Out:
         """Looks up one product by Best Buy's own numeric SKU (the id `search`'s rows carry) and
         returns its full detail — the same fields as `search`. Which key serves the call is in
         this provider's key note above; your own goes in the `x-bowmark-vendor-key-bestbuy`
         header.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_bestbuy_signup_return_u0_Out | Prv_bestbuy_signup_return_u1_Out | Prv_bestbuy_signup_return_u2_Out | Prv_bestbuy_signup_return_u3_Out:
+        """Makes a NEW Best Buy account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_bestbuy_confirmSignup_return_u0_Out | Prv_bestbuy_confirmSignup_return_u1_Out | Prv_bestbuy_confirmSignup_return_u2_Out | Prv_bestbuy_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_bestbuy_ca(Protocol):
@@ -81934,6 +82083,11 @@ class Prv_canva(Protocol):
         the caller signed in to canva.com.
         """
 
+    async def searchMyDesigns(self, query: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_canva_searchMyDesigns_return_Out:
+        """Lists the signed-in caller's own Canva designs (id, title, edit url), optionally
+        filtered by a keyword on the title. Needs the caller signed in to canva.com.
+        """
+
     async def getCreator(self, handleOrUrl: str, /) -> Prv_canva_getCreator_return_Out:
         """Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower count
         and the templates and media they publish.
@@ -82401,6 +82555,26 @@ class Prv_cbp(Protocol):
         border: "canada" | "mexico" } narrows it
         """
 
+class Prv_cbsnews(Protocol):
+    """CBS News: articles, live updates, section and local-station fronts, video, shows,
+    podcasts and newsletters.
+    """
+
+    async def getArticle(self, args: Prv_cbsnews_GetArticleArgs_In, /) -> Prv_cbsnews_CbsNewsArticle_Out:
+        """Reads one CBS News article: headline, description, the full body text, authors with
+        their profile urls, section, keywords, and publication and update times.
+        """
+
+    async def listLatestNews(self, args: Prv_cbsnews_ListLatestNewsArgs_In, /) -> Prv_cbsnews_listLatestNews_return_Out:
+        """Lists the latest stories from one CBS News RSS feed (main, or a section or show slug
+        from listRssFeeds), in the feed's own order.
+        """
+
+    async def listRssFeeds(self, /) -> Prv_cbsnews_listRssFeeds_return_Out:
+        """Lists every RSS feed CBS News publishes, from its /rss/ page, as slugs usable with
+        listLatestNews.
+        """
+
 class Prv_census_api(Protocol):
     """Query US Census Bureau data on demographics by location"""
 
@@ -82554,6 +82728,26 @@ class Prv_chatgpt(Protocol):
         and how it should respond (responseStyle). getCustomInstructions reads them back. Needs
         the caller signed in to chatgpt.com through the relay; the run pauses for a sign-in link
         when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def moveConversationToProject(self, conversation: str, project: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Files one of the caller's conversations under one of their projects (listConversations
+        and listProjects find the ids). Needs the caller signed in to chatgpt.com through the
+        relay; the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError`
+        when the saved sign-in has expired.
+        """
+
+    async def pinGPT(self, gpt: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Pins a GPT (id or chatgpt.com/g/ url) to the caller's sidebar. Needs the caller signed
+        in to chatgpt.com through the relay; the run pauses for a sign-in link when they are
+        not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def requestDataExport(self, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
+        """Requests an export of the caller's ChatGPT data; OpenAI emails the download link to the
+        caller's own address. Needs the caller signed in to chatgpt.com through the relay; the
+        run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the
+        saved sign-in has expired.
         """
 
     async def rateResponse(self, conversation: str, messageId: str, rating: Literal["thumbsUp"] | Literal["thumbsDown"], opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
@@ -86992,43 +87186,35 @@ class Prv_ebay(Protocol):
     """
 
     async def search(self, args: str | Prv_ebay_search_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
-        """Runs an eBay item search the way ebay.com's own search box does and returns the matching
-        listings — title, price, condition, buying option (auction/fixed-price/best-offer),
-        seller and the item's own ebay.com URL. `limit` caps the row count (default 20, ceiling
+        """Runs an eBay item search through eBay's documented Browse API — title, price, condition,
+        buying option (auction/fixed-price/best-offer), seller and the item's own ebay.com URL.
+        Requires the caller's eBay OAuth key. `limit` caps the row count (default 20, ceiling
         200). `marketplace: "DE"` searches the German marketplace, ebay.de, instead — euro
-        prices, ebay.de URLs. `seller` is null on rows where the results page does not print it.
-        Works with no key: without one it reads eBay's own page, which walls most requests and
-        was open only for a window when last measured; with an eBay OAuth key it uses the Browse
-        API instead.
+        prices and ebay.de URLs.
         """
 
     async def getItem(self, args: str | Prv_ebay_getItem_args_u1_In, /) -> Prv_ebay_ebayItemDetail_Out:
-        """Reads one eBay listing by the `itemId` `search` returns (`137474897118`, or the Browse
-        API's `v1|110034424734|0`, or an ebay.com/itm/ URL) — title, price, condition, buying
-        options, seller feedback, item location, the site's own default shipping option, and
-        current bid / bid count for an active auction. An ebay.de/itm/ URL, or `{ itemId,
-        marketplace: "DE" }`, reads the listing on ebay.de. Works with no key: without one it
-        reads eBay's own page, which walls most requests and was open only for a window when
-        last measured; with an eBay OAuth key it uses the Browse API instead.
+        """Reads one eBay listing through the documented Browse API by the `itemId` `search`
+        returns (`137474897118`, or `v1|110034424734|0`, or an ebay.com/itm/ URL) — title,
+        price, condition, buying options, seller feedback, item location, the site's own default
+        shipping option, and current bid / bid count for an active auction. Requires the
+        caller's eBay OAuth key. An ebay.de/itm/ URL, or `{ itemId, marketplace: "DE" }`, reads
+        the listing on ebay.de.
         """
 
     async def searchByCategory(self, args: str | Prv_ebay_searchByCategory_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
-        """Searches one eBay category by id (e.g. `"15709"` for Men's Athletic Shoes, as eBay's own
-        category URLs carry it), with an optional keyword query narrowing within the category.
-        Same rows, same fields, as `search`. `limit` caps the row count (default 20, ceiling
-        200). `seller` is null on rows where the results page does not print it. Works with no
-        key: without one it reads eBay's own page, which walls most requests and was open only
-        for a window when last measured; with an eBay OAuth key it uses the Browse API instead.
+        """Searches one eBay category through the documented Browse API by id (e.g. `"15709"` for
+        Men's Athletic Shoes), with an optional keyword query narrowing within the category.
+        Same rows and fields as `search`. Requires the caller's eBay OAuth key. `limit` caps the
+        row count (default 20, ceiling 200).
         """
 
     async def getSellerListings(self, args: Prv_ebay_getSellerListings_args_In, /) -> list[Prv_ebay_ebayItem_Out]:
-        """Searches one seller's own eBay listings (the username `search`/`getItem` rows carry
-        under `seller`) that match `query` — a seller filter cannot stand alone on eBay's Browse
-        API, so `query` is required alongside `seller`. Same rows, same fields, as `search`.
-        `limit` caps the row count (default 20, ceiling 200). `seller` is null on rows where the
-        results page does not print it. Works with no key: without one it reads eBay's own page,
-        which walls most requests and was open only for a window when last measured; with an
-        eBay OAuth key it uses the Browse API instead.
+        """Searches one seller's own eBay listings through the documented Browse API (the username
+        `search`/`getItem` rows carry under `seller`) that match `query` — a seller filter
+        cannot stand alone on eBay's Browse API, so `query` is required alongside `seller`.
+        Requires the caller's eBay OAuth key. Same rows and fields as `search`; `limit` caps the
+        row count (default 20, ceiling 200).
         """
 
     async def getSellerProfile(self, args: str | Prv_ebay_getSellerProfile_args_u1_In, /) -> Prv_ebay_ebaySellerProfile_Out:
@@ -105749,6 +105935,12 @@ class Prv_shop_app(Protocol):
         in to Shop.
         """
 
+    async def addToCart(self, args: Prv_shop_app_ShopAppAddToCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppAddedToCart_Out:
+        """Adds a product variant (getProduct / getVariant's id) to the signed-in caller's Shop
+        cart at its store, quantity 1 by default. Stops at the cart: startCheckout opens the
+        checkout and nothing here pays. Pauses for the caller to sign in to Shop.
+        """
+
     async def startCheckout(self, args: Prv_shop_app_ShopAppStartCheckoutArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppCheckout_Out:
         """Opens a checkout for the signed-in caller's Shop cart at one store (its Shop id or
         handle) and returns the checkout url for the caller to review and pay. Never pays — it
@@ -114172,6 +114364,14 @@ class Prv_yelp(Protocol):
         /biz/ url or bare alias from search. Read-only.
         """
 
+    async def searchEvents(self, city: str, /) -> Prv_yelp_YelpEventPage_Out:
+        """Lists the events on a city's Yelp Events browse page (its first page, in the order the
+        page shows them): each one's name, url, start time, the card's own wording of when,
+        venue (alias for getBusiness, name), locale, description, category, interest count and
+        whether it is a Yelp-run event. Takes Yelp's city slug from its events url, e.g. "sf" or
+        "philadelphia" — the city name is refused. Read-only.
+        """
+
     async def listCategories(self, args: Prv_yelp_YelpCategoriesArgs_In | None = None, /) -> list[Prv_yelp_YelpCategory_Out]:
         """Lists Yelp's business categories (about 1,600) from Yelp's own published category list:
         each one's alias (what search's category filter takes), title, parent alias, depth and
@@ -115242,6 +115442,7 @@ class BowmarkProviders(Protocol):
     cb2: Prv_cb2
     cbhhomes: Prv_cbhhomes
     cbp: Prv_cbp
+    cbsnews: Prv_cbsnews
     census_api: Prv_census_api
     cerebralvalley: Prv_cerebralvalley
     cftc: Prv_cftc

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b275326b8edb2c443357bd4e182e5871879edcf164148aac863d390c5af29c12
-// 5051 checked, 20 unchecked.
+// Manifest version: 845d1e13959dd367ccc8dbed88309d0db19f55012dde78f77921e87a97a5447d
+// 5063 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b275326b8edb2c443357bd4e182e5871879edcf164148aac863d390c5af29c12",
+  "version": "845d1e13959dd367ccc8dbed88309d0db19f55012dde78f77921e87a97a5447d",
   "units": {
     "address_validation": {
       "defs": {
@@ -13672,6 +13672,26 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.aol_mail": {
       "defs": {
+        "CreateFolderArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "credentials",
+              "schema": {
+                "k": "ref",
+                "name": "MailboxCredentials"
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "DeleteMessageArgs": {
           "k": "object",
           "props": [
@@ -14125,6 +14145,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "createFolder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CreateFolderArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -19730,6 +19760,22 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getProduct": [
@@ -19745,6 +19791,40 @@ export const VALIDATORS: ValidatorTable = {
                   "k": "number"
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
@@ -28012,6 +28092,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "searchMyDesigns": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getCreator": [
           {
             "name": "handleOrUrl",
@@ -29447,6 +29552,64 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.cbsnews": {
+      "defs": {
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListLatestNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "feed",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLatestNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLatestNewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listRssFeeds": []
+      }
+    },
     "providers.census_api": {
       "defs": {
         "ValidateAddressArgs": {
@@ -29799,6 +29962,81 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "moveConversationToProject": [
+          {
+            "name": "conversation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "project",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "pinGPT": [
+          {
+            "name": "gpt",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "requestDataExport": [
           {
             "name": "opts",
             "schema": {
@@ -122455,6 +122693,39 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.shop_app": {
       "defs": {
+        "ShopAppAddToCartArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "variantId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sellingPlanId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ShopAppAddToProductListArgs": {
           "k": "object",
           "props": [
@@ -122915,6 +123186,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ShopAppAddToProductListArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppAddToCartArgs"
             },
             "optional": false
           },
@@ -157660,6 +157957,15 @@ export const VALIDATORS: ValidatorTable = {
         "getWaitlist": [
           {
             "name": "ref",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchEvents": [
+          {
+            "name": "city",
             "schema": {
               "k": "string"
             },

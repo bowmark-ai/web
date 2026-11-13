@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b275326b8edb2c443357bd4e182e5871879edcf164148aac863d390c5af29c12
-// 98 capabilities, 829 providers, 5069 typed functions, 20 refused.
-// 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: 845d1e13959dd367ccc8dbed88309d0db19f55012dde78f77921e87a97a5447d
+// 98 capabilities, 830 providers, 5081 typed functions, 20 refused.
+// 50,272 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -11058,6 +11058,11 @@ interface AolMailFlagResult {
   flagged: boolean;
 }
 
+interface CreateFolderArgs {
+  credentials: MailboxCredentials;
+  name: string; // the new folder's name, e.g. "Taxes"
+}
+
 interface MoveMessageArgs {
   credentials: MailboxCredentials;
   messageId: string;
@@ -11212,6 +11217,13 @@ interface AolProfileUpdateResult {
      * succeeded, its status and URL.
      */
     updateAccountProfile(args: UpdateAccountProfileArgs, opts?: ConnectionOption): Promise<AolProfileUpdateResult>;
+
+    /**
+     * Creates a new folder in the CALLER's own AOL Mail account and returns it in listFolders'
+     * shape, so moveMessage can file mail there with its `id`. Refuses a name that already exists.
+     * Takes the caller's address and app password, as secrets.
+     */
+    createFolder(args: CreateFolderArgs): Promise<AolMailFolder>;
   }
 }
 
@@ -16414,14 +16426,28 @@ interface bestbuyProduct {
      * no key it reads bestbuy.com's own search results page, where those three fields are null.
      * `pageSize` caps the row count (default 10).
      */
-    search(args: string | { query: string; pageSize?: number }): Promise<bestbuyProduct[]>;
+    search(args: string | { query: string; pageSize?: number }, opts?: ConnectionOption): Promise<bestbuyProduct[]>;
 
     /**
      * Looks up one product by Best Buy's own numeric SKU (the id `search`'s rows carry) and
      * returns its full detail — the same fields as `search`. Which key serves the call is in this
      * provider's key note above; your own goes in the `x-bowmark-vendor-key-bestbuy` header.
      */
-    getProduct(sku: string | number): Promise<bestbuyProduct>;
+    getProduct(sku: string | number, opts?: ConnectionOption): Promise<bestbuyProduct>;
+
+    /**
+     * Makes a NEW Best Buy account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -23085,6 +23111,12 @@ interface CanvaCreatorMedia {
   images: CanvaCreatorMediaImage[];
 }
 
+interface CanvaMyDesign {
+  id: string;
+  title: string;
+  url: string;
+}
+
 interface CanvaMyProfile {
   /** Canva's account id. */
   id: string;
@@ -23332,6 +23364,12 @@ interface CanvaColorCombinations {
      * caller signed in to canva.com.
      */
     getMyProfile(opts?: ConnectionOption): Promise<{ profile: CanvaMyProfile; warnings: string[] }>;
+
+    /**
+     * Lists the signed-in caller's own Canva designs (id, title, edit url), optionally filtered by
+     * a keyword on the title. Needs the caller signed in to canva.com.
+     */
+    searchMyDesigns(query?: string, opts?: ConnectionOption): Promise<{ designs: CanvaMyDesign[]; warnings: string[] }>;
 
     /**
      * Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower count and
@@ -24590,6 +24628,79 @@ interface cbpWaitTimesQuery {
   }
 }
 
+declare namespace BowmarkProvider_cbsnews {
+  // ── CBS News — the unit's own declarations, verbatim ──
+interface cbsnewsRow {
+  id: string;
+}
+interface ListLatestNewsArgs {
+  /** A feed slug from listRssFeeds: "main" (the default), a section such as "politics", or a show such as "60-minutes". */
+  feed?: string;
+  /** How many stories to return, 1 to 30. A feed carries 30. Default 30. */
+  limit?: number;
+}
+interface GetArticleArgs {
+  /** The article's address, e.g. https://www.cbsnews.com/news/<slug>/. */
+  url: string;
+}
+interface CbsNewsStory {
+  id: string | null;
+  title: string;
+  url: string;
+  summary: string | null;
+  /** The feed's own pubDate, verbatim (RFC 822 with the site's offset, e.g. "-0500"). */
+  published: string | null;
+  image: string | null;
+  categories: string[];
+}
+interface CbsNewsFeed {
+  /** The path after /latest/rss/ (may contain a slash, e.g. "evening-news/cbs-news-investigates"). */
+  slug: string;
+  url: string;
+}
+interface CbsNewsAuthor {
+  name: string;
+  url: string | null;
+}
+interface CbsNewsArticle {
+  url: string;
+  headline: string;
+  description: string | null;
+  /** The whole story text, as the site's own JSON-LD carries it. */
+  body: string;
+  authors: CbsNewsAuthor[];
+  section: string[];
+  keywords: string[];
+  datePublished: string | null;
+  dateModified: string | null;
+  image: string | null;
+}
+
+  /**
+   * CBS News: articles, live updates, section and local-station fronts, video, shows, podcasts
+   * and newsletters.
+   */
+  interface Unit {
+    /**
+     * Reads one CBS News article: headline, description, the full body text, authors with their
+     * profile urls, section, keywords, and publication and update times.
+     */
+    getArticle(args: GetArticleArgs): Promise<CbsNewsArticle>;
+
+    /**
+     * Lists the latest stories from one CBS News RSS feed (main, or a section or show slug from
+     * listRssFeeds), in the feed's own order.
+     */
+    listLatestNews(args: ListLatestNewsArgs): Promise<{ feed: string; articles: CbsNewsStory[] }>;
+
+    /**
+     * Lists every RSS feed CBS News publishes, from its /rss/ page, as slugs usable with
+     * listLatestNews.
+     */
+    listRssFeeds(): Promise<{ feeds: CbsNewsFeed[] }>;
+  }
+}
+
 declare namespace BowmarkProvider_census_api {
   // ── US Census Bureau — the unit's own declarations, verbatim ──
 interface AddressMatch {
@@ -25130,6 +25241,29 @@ interface SharedConversation {
      * they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
      */
     updateCustomInstructions(update: { aboutUser?: string; responseStyle?: string; enabled?: boolean }, opts?: ConnectionOption): Promise<WriteResult>;
+
+    /**
+     * Files one of the caller's conversations under one of their projects (listConversations and
+     * listProjects find the ids). Needs the caller signed in to chatgpt.com through the relay; the
+     * run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+     * sign-in has expired.
+     */
+    moveConversationToProject(conversation: string, project: string, opts?: ConnectionOption): Promise<WriteResult>;
+
+    /**
+     * Pins a GPT (id or chatgpt.com/g/ url) to the caller's sidebar. Needs the caller signed in to
+     * chatgpt.com through the relay; the run pauses for a sign-in link when they are not. THROWS
+     * `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    pinGPT(gpt: string, opts?: ConnectionOption): Promise<WriteResult>;
+
+    /**
+     * Requests an export of the caller's ChatGPT data; OpenAI emails the download link to the
+     * caller's own address. Needs the caller signed in to chatgpt.com through the relay; the run
+     * pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+     * sign-in has expired.
+     */
+    requestDataExport(opts?: ConnectionOption): Promise<WriteResult>;
 
     /**
      * Gives a thumbs up or down to one assistant reply in the caller's conversation (message ids
@@ -37057,45 +37191,37 @@ interface ebaySellerProfile {
    */
   interface Unit {
     /**
-     * Runs an eBay item search the way ebay.com's own search box does and returns the matching
-     * listings — title, price, condition, buying option (auction/fixed-price/best-offer), seller
-     * and the item's own ebay.com URL. `limit` caps the row count (default 20, ceiling 200).
-     * `marketplace: "DE"` searches the German marketplace, ebay.de, instead — euro prices, ebay.de
-     * URLs. `seller` is null on rows where the results page does not print it. Works with no key:
-     * without one it reads eBay's own page, which walls most requests and was open only for a
-     * window when last measured; with an eBay OAuth key it uses the Browse API instead.
+     * Runs an eBay item search through eBay's documented Browse API — title, price, condition,
+     * buying option (auction/fixed-price/best-offer), seller and the item's own ebay.com URL.
+     * Requires the caller's eBay OAuth key. `limit` caps the row count (default 20, ceiling 200).
+     * `marketplace: "DE"` searches the German marketplace, ebay.de, instead — euro prices and
+     * ebay.de URLs.
      */
     search(args: string | { query: string; limit?: number; marketplace?: "US" | "DE" }): Promise<ebayItem[]>;
 
     /**
-     * Reads one eBay listing by the `itemId` `search` returns (`137474897118`, or the Browse API's
-     * `v1|110034424734|0`, or an ebay.com/itm/ URL) — title, price, condition, buying options,
-     * seller feedback, item location, the site's own default shipping option, and current bid /
-     * bid count for an active auction. An ebay.de/itm/ URL, or `{ itemId, marketplace: "DE" }`,
-     * reads the listing on ebay.de. Works with no key: without one it reads eBay's own page, which
-     * walls most requests and was open only for a window when last measured; with an eBay OAuth
-     * key it uses the Browse API instead.
+     * Reads one eBay listing through the documented Browse API by the `itemId` `search` returns
+     * (`137474897118`, or `v1|110034424734|0`, or an ebay.com/itm/ URL) — title, price, condition,
+     * buying options, seller feedback, item location, the site's own default shipping option, and
+     * current bid / bid count for an active auction. Requires the caller's eBay OAuth key. An
+     * ebay.de/itm/ URL, or `{ itemId, marketplace: "DE" }`, reads the listing on ebay.de.
      */
     getItem(args: string | { itemId: string; marketplace?: "US" | "DE" }): Promise<ebayItemDetail>;
 
     /**
-     * Searches one eBay category by id (e.g. `"15709"` for Men's Athletic Shoes, as eBay's own
-     * category URLs carry it), with an optional keyword query narrowing within the category. Same
-     * rows, same fields, as `search`. `limit` caps the row count (default 20, ceiling 200).
-     * `seller` is null on rows where the results page does not print it. Works with no key:
-     * without one it reads eBay's own page, which walls most requests and was open only for a
-     * window when last measured; with an eBay OAuth key it uses the Browse API instead.
+     * Searches one eBay category through the documented Browse API by id (e.g. `"15709"` for Men's
+     * Athletic Shoes), with an optional keyword query narrowing within the category. Same rows and
+     * fields as `search`. Requires the caller's eBay OAuth key. `limit` caps the row count
+     * (default 20, ceiling 200).
      */
     searchByCategory(args: string | { categoryId: string; query?: string; limit?: number }): Promise<ebayItem[]>;
 
     /**
-     * Searches one seller's own eBay listings (the username `search`/`getItem` rows carry under
-     * `seller`) that match `query` — a seller filter cannot stand alone on eBay's Browse API, so
-     * `query` is required alongside `seller`. Same rows, same fields, as `search`. `limit` caps
-     * the row count (default 20, ceiling 200). `seller` is null on rows where the results page
-     * does not print it. Works with no key: without one it reads eBay's own page, which walls most
-     * requests and was open only for a window when last measured; with an eBay OAuth key it uses
-     * the Browse API instead.
+     * Searches one seller's own eBay listings through the documented Browse API (the username
+     * `search`/`getItem` rows carry under `seller`) that match `query` — a seller filter cannot
+     * stand alone on eBay's Browse API, so `query` is required alongside `seller`. Requires the
+     * caller's eBay OAuth key. Same rows and fields as `search`; `limit` caps the row count
+     * (default 20, ceiling 200).
      */
     getSellerListings(args: { seller: string; query: string; limit?: number }): Promise<ebayItem[]>;
 
@@ -89870,6 +89996,12 @@ interface ShopAppCreatedProductList {
 interface ShopAppStartCheckoutArgs {
   store: string;
 }
+interface ShopAppAddToCartArgs {
+  store: string;
+  variantId: string;
+  quantity?: number;
+  sellingPlanId?: string;
+}
 interface ShopAppSaveProductArgs {
   variantId: string;
   store?: string;
@@ -89891,6 +90023,14 @@ interface ShopAppCheckout {
   storeId: string;
   checkoutId: string | null;
   url: string;
+  warnings: string[];
+}
+interface ShopAppAddedToCart {
+  storeId: string;
+  variantId: string;
+  quantity: number;
+  cartId: string | null;
+  lineCount: number;
   warnings: string[];
 }
 interface ShopAppFollowState {
@@ -89973,6 +90113,13 @@ interface ShopAppListOrdersArgs {
      * to Shop.
      */
     addToProductList(args: ShopAppAddToProductListArgs, opts?: ConnectionOption): Promise<ShopAppListItemState>;
+
+    /**
+     * Adds a product variant (getProduct / getVariant's id) to the signed-in caller's Shop cart at
+     * its store, quantity 1 by default. Stops at the cart: startCheckout opens the checkout and
+     * nothing here pays. Pauses for the caller to sign in to Shop.
+     */
+    addToCart(args: ShopAppAddToCartArgs, opts?: ConnectionOption): Promise<ShopAppAddedToCart>;
 
     /**
      * Opens a checkout for the signed-in caller's Shop cart at one store (its Shop id or handle)
@@ -114140,6 +114287,28 @@ interface YelpCollection {
   businesses: YelpCollectionBusiness[];
 }
 
+interface YelpEventVenue {
+  alias: string | null; // → getBusiness
+  name: string;
+}
+interface YelpEvent {
+  name: string;
+  url: string; // the event's own /events/<slug> page
+  startDate: string | null; // ISO 8601 with Yelp's offset, e.g. "2026-11-13T19:00:00-08:00"
+  when: string | null; // the card's own wording, e.g. "Tomorrow, Nov 13, 7:00 pm – 9:30 pm"
+  venue: YelpEventVenue | null;
+  locale: string | null; // the text after the venue, e.g. "Oakland"
+  description: string | null; // Yelp's own text, already truncated with "…" by the site
+  category: string | null; // the card's footer category, e.g. "Food & Drink"
+  interestedCount: number | null;
+  imageUrl: string | null;
+  official: boolean; // Yelp's own event ("Official Yelp Event")
+}
+interface YelpEventPage {
+  events: YelpEvent[];
+  warnings: string[]; // cards Yelp listed without a name or a link, left out
+}
+
 interface YelpWaitlist {
   onWaitlist: boolean; // false = not on Yelp Waitlist; every other field is then null
   open: boolean | null; // taking waitlist parties right now
@@ -114299,6 +114468,15 @@ interface YelpBookmarks {
      * or bare alias from search. Read-only.
      */
     getWaitlist(ref: string): Promise<YelpWaitlist>;
+
+    /**
+     * Lists the events on a city's Yelp Events browse page (its first page, in the order the page
+     * shows them): each one's name, url, start time, the card's own wording of when, venue (alias
+     * for getBusiness, name), locale, description, category, interest count and whether it is a
+     * Yelp-run event. Takes Yelp's city slug from its events url, e.g. "sf" or "philadelphia" —
+     * the city name is refused. Read-only.
+     */
+    searchEvents(city: string): Promise<YelpEventPage>;
 
     /**
      * Lists Yelp's business categories (about 1,600) from Yelp's own published category list: each
@@ -117483,6 +117661,7 @@ interface BowmarkProviders {
   cb2: BowmarkProvider_cb2.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
   cbp: BowmarkProvider_cbp.Unit;
+  cbsnews: BowmarkProvider_cbsnews.Unit;
   census_api: BowmarkProvider_census_api.Unit;
   cerebralvalley: BowmarkProvider_cerebralvalley.Unit;
   cftc: BowmarkProvider_cftc.Unit;
@@ -120542,6 +120721,7 @@ interface BowmarkProviders {
   "9ffautomotive": BowmarkFamily_shopify_store.Unit;
   "9fwfeapf": BowmarkFamily_shopify_store.Unit;
   "9g1gg0qb": BowmarkFamily_shopify_store.Unit;
+  "9gag": BowmarkFamily_shopify_store.Unit;
   "9h1wawq4": BowmarkFamily_shopify_store.Unit;
   "9hgd17w4": BowmarkFamily_shopify_store.Unit;
   "9hnzntav": BowmarkFamily_shopify_store.Unit;
@@ -121020,6 +121200,7 @@ interface BowmarkProviders {
   adamwest: BowmarkFamily_shopify_store.Unit;
   adamwhitestore: BowmarkFamily_shopify_store.Unit;
   adamwingweddingfilmmaker: BowmarkFamily_shopify_store.Unit;
+  adanola: BowmarkFamily_shopify_store.Unit;
   adaptivefly: BowmarkFamily_shopify_store.Unit;
   adaptivetrainingfoundation: BowmarkFamily_shopify_store.Unit;
   adapts: BowmarkFamily_shopify_store.Unit;
@@ -121262,6 +121443,7 @@ interface BowmarkProviders {
   afterhourssportswear: BowmarkFamily_shopify_store.Unit;
   afterlifeofc: BowmarkFamily_shopify_store.Unit;
   aftermarkethq: BowmarkFamily_shopify_store.Unit;
+  aftership: BowmarkFamily_shopify_store.Unit;
   aftpshop: BowmarkFamily_shopify_store.Unit;
   aftradeshopjapan: BowmarkFamily_shopify_store.Unit;
   afuarecordlabel: BowmarkFamily_shopify_store.Unit;
@@ -121466,6 +121648,7 @@ interface BowmarkProviders {
   aksportsnutrition: BowmarkFamily_shopify_store.Unit;
   aktiveusacom: BowmarkFamily_shopify_store.Unit;
   aktivworxresortswimwear: BowmarkFamily_shopify_store.Unit;
+  aktlondon: BowmarkFamily_shopify_store.Unit;
   akumuink: BowmarkFamily_shopify_store.Unit;
   akuratemp: BowmarkFamily_shopify_store.Unit;
   akustyxmusic: BowmarkFamily_shopify_store.Unit;
@@ -121485,6 +121668,7 @@ interface BowmarkProviders {
   alanchancreations: BowmarkFamily_shopify_store.Unit;
   alaneadamsstore: BowmarkFamily_shopify_store.Unit;
   alangoglia: BowmarkFamily_shopify_store.Unit;
+  alaninu: BowmarkFamily_shopify_store.Unit;
   alanjanitorialdistributors: BowmarkFamily_shopify_store.Unit;
   alanmizrahilighting: BowmarkFamily_shopify_store.Unit;
   alanmyerson: BowmarkFamily_shopify_store.Unit;
@@ -121793,6 +121977,7 @@ interface BowmarkProviders {
   alltimeedm: BowmarkFamily_shopify_store.Unit;
   alltimefitonline: BowmarkFamily_shopify_store.Unit;
   alltimelowhustlers: BowmarkFamily_shopify_store.Unit;
+  alltrails: BowmarkFamily_shopify_store.Unit;
   allumbrellatemplate: BowmarkFamily_shopify_store.Unit;
   allureaesthetics: BowmarkFamily_shopify_store.Unit;
   allurekabukithemes: BowmarkFamily_shopify_store.Unit;
@@ -121891,6 +122076,7 @@ interface BowmarkProviders {
   altiusathletics: BowmarkFamily_shopify_store.Unit;
   altmanranch: BowmarkFamily_shopify_store.Unit;
   altogetherpatchwork: BowmarkFamily_shopify_store.Unit;
+  altrarunning: BowmarkFamily_shopify_store.Unit;
   altroamericas: BowmarkFamily_shopify_store.Unit;
   altsmart: BowmarkFamily_shopify_store.Unit;
   alulaapothecary: BowmarkFamily_shopify_store.Unit;
@@ -122010,6 +122196,7 @@ interface BowmarkProviders {
   americanetchllc: BowmarkFamily_shopify_store.Unit;
   americanfencesupplyinc: BowmarkFamily_shopify_store.Unit;
   americanfirebbqandgrillingsupply: BowmarkFamily_shopify_store.Unit;
+  americangirl: BowmarkFamily_shopify_store.Unit;
   americangravyrestaurantgroup: BowmarkFamily_shopify_store.Unit;
   americangrazinglands: BowmarkFamily_shopify_store.Unit;
   americanheritagedairy: BowmarkFamily_shopify_store.Unit;
@@ -122078,6 +122265,7 @@ interface BowmarkProviders {
   amorstore: BowmarkFamily_shopify_store.Unit;
   amorstores: BowmarkFamily_shopify_store.Unit;
   amosu: BowmarkFamily_shopify_store.Unit;
+  amouage: BowmarkFamily_shopify_store.Unit;
   amournoir: BowmarkFamily_shopify_store.Unit;
   amourus: BowmarkFamily_shopify_store.Unit;
   amp2x0fr: BowmarkFamily_shopify_store.Unit;
@@ -122145,6 +122333,7 @@ interface BowmarkProviders {
   anarchybrewco: BowmarkFamily_shopify_store.Unit;
   anascolombianclothes: BowmarkFamily_shopify_store.Unit;
   anaseixasshop: BowmarkFamily_shopify_store.Unit;
+  anastasiabeverlyhills: BowmarkFamily_shopify_store.Unit;
   anatichy: BowmarkFamily_shopify_store.Unit;
   anatomiestudioshibaristore: BowmarkFamily_shopify_store.Unit;
   anatrafire: BowmarkFamily_shopify_store.Unit;
@@ -122310,6 +122499,7 @@ interface BowmarkProviders {
   anjunacollectionpe212: BowmarkFamily_shopify_store.Unit;
   ankaradelights: BowmarkFamily_shopify_store.Unit;
   ankedjerepublic: BowmarkFamily_shopify_store.Unit;
+  anker: BowmarkFamily_shopify_store.Unit;
   ankhialeoutdoors: BowmarkFamily_shopify_store.Unit;
   ankiviva: BowmarkFamily_shopify_store.Unit;
   ankoa: BowmarkFamily_shopify_store.Unit;
@@ -123390,6 +123580,7 @@ interface BowmarkProviders {
   augmentify: BowmarkFamily_shopify_store.Unit;
   august99: BowmarkFamily_shopify_store.Unit;
   augustavenueapparel: BowmarkFamily_shopify_store.Unit;
+  augustinusbader: BowmarkFamily_shopify_store.Unit;
   augustlashessupplies: BowmarkFamily_shopify_store.Unit;
   augustpublications: BowmarkFamily_shopify_store.Unit;
   augustvintageinc: BowmarkFamily_shopify_store.Unit;
@@ -123406,6 +123597,7 @@ interface BowmarkProviders {
   aupacaminito: BowmarkFamily_shopify_store.Unit;
   auraandco: BowmarkFamily_shopify_store.Unit;
   auradixnutrition: BowmarkFamily_shopify_store.Unit;
+  auraframes: BowmarkFamily_shopify_store.Unit;
   aurafy: BowmarkFamily_shopify_store.Unit;
   aurarollons: BowmarkFamily_shopify_store.Unit;
   auratiedye: BowmarkFamily_shopify_store.Unit;
@@ -123588,6 +123780,7 @@ interface BowmarkProviders {
   awardsnowcaterpillar: BowmarkFamily_shopify_store.Unit;
   awashimadoonline: BowmarkFamily_shopify_store.Unit;
   awayteamstore: BowmarkFamily_shopify_store.Unit;
+  awaytravel: BowmarkFamily_shopify_store.Unit;
   awcxmad: BowmarkFamily_shopify_store.Unit;
   awesomeapparel: BowmarkFamily_shopify_store.Unit;
   awesomeappsplayground: BowmarkFamily_shopify_store.Unit;
@@ -123831,6 +124024,7 @@ interface BowmarkProviders {
   bacanha: BowmarkFamily_shopify_store.Unit;
   bacchusandbarleycorn: BowmarkFamily_shopify_store.Unit;
   bacchusfamilywine: BowmarkFamily_shopify_store.Unit;
+  bachans: BowmarkFamily_shopify_store.Unit;
   bachansbouquets: BowmarkFamily_shopify_store.Unit;
   bachbrewing: BowmarkFamily_shopify_store.Unit;
   baciplus: BowmarkFamily_shopify_store.Unit;
@@ -124093,6 +124287,7 @@ interface BowmarkProviders {
   barnabylane2: BowmarkFamily_shopify_store.Unit;
   barnardosbridalrooms: BowmarkFamily_shopify_store.Unit;
   barnaresources: BowmarkFamily_shopify_store.Unit;
+  barnesandnoble: BowmarkFamily_shopify_store.Unit;
   barnespowerplants: BowmarkFamily_shopify_store.Unit;
   barneyandcarey: BowmarkFamily_shopify_store.Unit;
   barneysbeanery: BowmarkFamily_shopify_store.Unit;
@@ -124146,6 +124341,7 @@ interface BowmarkProviders {
   basementhk: BowmarkFamily_shopify_store.Unit;
   basemountainsports: BowmarkFamily_shopify_store.Unit;
   basetheme3: BowmarkFamily_shopify_store.Unit;
+  baseus: BowmarkFamily_shopify_store.Unit;
   bashiostore1236: BowmarkFamily_shopify_store.Unit;
   basicallybooksco: BowmarkFamily_shopify_store.Unit;
   basicsshirtstops: BowmarkFamily_shopify_store.Unit;
@@ -124362,6 +124558,7 @@ interface BowmarkProviders {
   bearcattool: BowmarkFamily_shopify_store.Unit;
   bearcottageinteriors: BowmarkFamily_shopify_store.Unit;
   beard1004: BowmarkFamily_shopify_store.Unit;
+  beardbrand: BowmarkFamily_shopify_store.Unit;
   beardbud: BowmarkFamily_shopify_store.Unit;
   beardeddragonco: BowmarkFamily_shopify_store.Unit;
   beardgang: BowmarkFamily_shopify_store.Unit;
@@ -124376,6 +124573,7 @@ interface BowmarkProviders {
   bearlandoutfitters: BowmarkFamily_shopify_store.Unit;
   bearlythreadedquilting: BowmarkFamily_shopify_store.Unit;
   bearmanordigital: BowmarkFamily_shopify_store.Unit;
+  bearmattress: BowmarkFamily_shopify_store.Unit;
   bearprintsproduction: BowmarkFamily_shopify_store.Unit;
   bearsaddleranchmercantile: BowmarkFamily_shopify_store.Unit;
   bearspiefactory: BowmarkFamily_shopify_store.Unit;
@@ -124448,6 +124646,8 @@ interface BowmarkProviders {
   beautymastermind: BowmarkFamily_shopify_store.Unit;
   beautymasterz: BowmarkFamily_shopify_store.Unit;
   beautynewstore: BowmarkFamily_shopify_store.Unit;
+  beautyofjoseon: BowmarkFamily_shopify_store.Unit;
+  beautypie: BowmarkFamily_shopify_store.Unit;
   beautypluswholesale: BowmarkFamily_shopify_store.Unit;
   beautyrennisance: BowmarkFamily_shopify_store.Unit;
   beautyrestproduction: BowmarkFamily_shopify_store.Unit;
@@ -124464,6 +124664,7 @@ interface BowmarkProviders {
   bebab4: BowmarkFamily_shopify_store.Unit;
   bebff3ed: BowmarkFamily_shopify_store.Unit;
   bebrowstudio: BowmarkFamily_shopify_store.Unit;
+  because: BowmarkFamily_shopify_store.Unit;
   becauseilikeit: BowmarkFamily_shopify_store.Unit;
   becauseilovelingerie: BowmarkFamily_shopify_store.Unit;
   becausejitsu: BowmarkFamily_shopify_store.Unit;
@@ -124593,6 +124794,7 @@ interface BowmarkProviders {
   bellasbloomshop: BowmarkFamily_shopify_store.Unit;
   bellashousetulsa: BowmarkFamily_shopify_store.Unit;
   bellaterrashopmx: BowmarkFamily_shopify_store.Unit;
+  bellaunion: BowmarkFamily_shopify_store.Unit;
   bellavitaapothecary: BowmarkFamily_shopify_store.Unit;
   bellavitasonomastaging: BowmarkFamily_shopify_store.Unit;
   bellavmobileboutique: BowmarkFamily_shopify_store.Unit;
@@ -124702,6 +124904,7 @@ interface BowmarkProviders {
   bergbrisecamping: BowmarkFamily_shopify_store.Unit;
   bergenperformancemarine: BowmarkFamily_shopify_store.Unit;
   bergenrowe: BowmarkFamily_shopify_store.Unit;
+  berghain: BowmarkFamily_shopify_store.Unit;
   bergidheadspace: BowmarkFamily_shopify_store.Unit;
   bergischeslandtourismusmarketingev: BowmarkFamily_shopify_store.Unit;
   bergstop: BowmarkFamily_shopify_store.Unit;
@@ -124932,6 +125135,7 @@ interface BowmarkProviders {
   bierkonigmallorca: BowmarkFamily_shopify_store.Unit;
   bierolonlineshop: BowmarkFamily_shopify_store.Unit;
   bigacargobikespecialized: BowmarkFamily_shopify_store.Unit;
+  bigagnes: BowmarkFamily_shopify_store.Unit;
   bigaretteisrael: BowmarkFamily_shopify_store.Unit;
   bigasskids: BowmarkFamily_shopify_store.Unit;
   bigauntieenergy: BowmarkFamily_shopify_store.Unit;
@@ -125104,6 +125308,7 @@ interface BowmarkProviders {
   bioxidea: BowmarkFamily_shopify_store.Unit;
   birchhouseimmersive: BowmarkFamily_shopify_store.Unit;
   birchknollhome: BowmarkFamily_shopify_store.Unit;
+  birdandblendtea: BowmarkFamily_shopify_store.Unit;
   birdandbyron: BowmarkFamily_shopify_store.Unit;
   birdcagebottombooks: BowmarkFamily_shopify_store.Unit;
   birddawgs: BowmarkFamily_shopify_store.Unit;
@@ -125141,6 +125346,7 @@ interface BowmarkProviders {
   bitebuster: BowmarkFamily_shopify_store.Unit;
   bitespeeddemostore4: BowmarkFamily_shopify_store.Unit;
   biteszcom: BowmarkFamily_shopify_store.Unit;
+  bitetoothpastebits: BowmarkFamily_shopify_store.Unit;
   bitnabi: BowmarkFamily_shopify_store.Unit;
   bitofnonsense: BowmarkFamily_shopify_store.Unit;
   bitreshop: BowmarkFamily_shopify_store.Unit;
@@ -125197,6 +125403,7 @@ interface BowmarkProviders {
   blackcity1: BowmarkFamily_shopify_store.Unit;
   blackcrowtaxidermyarts: BowmarkFamily_shopify_store.Unit;
   blackculturalcentrefornovascotia: BowmarkFamily_shopify_store.Unit;
+  blackdiamondequipment: BowmarkFamily_shopify_store.Unit;
   blackdiamondpiercingjewelry: BowmarkFamily_shopify_store.Unit;
   blackdontcrack: BowmarkFamily_shopify_store.Unit;
   blackdoorstudio: BowmarkFamily_shopify_store.Unit;
@@ -125255,6 +125462,7 @@ interface BowmarkProviders {
   blackpumas: BowmarkFamily_shopify_store.Unit;
   blackrabbitfabric: BowmarkFamily_shopify_store.Unit;
   blackravensshipstore: BowmarkFamily_shopify_store.Unit;
+  blackriflecoffee: BowmarkFamily_shopify_store.Unit;
   blackriverantiquesandgiftsllc: BowmarkFamily_shopify_store.Unit;
   blackrockcoffee: BowmarkFamily_shopify_store.Unit;
   blackrockobservatory: BowmarkFamily_shopify_store.Unit;
@@ -125277,6 +125485,7 @@ interface BowmarkProviders {
   blacktownband: BowmarkFamily_shopify_store.Unit;
   blackviolin: BowmarkFamily_shopify_store.Unit;
   blackwellrum: BowmarkFamily_shopify_store.Unit;
+  blackwing602: BowmarkFamily_shopify_store.Unit;
   blackwithnochaser: BowmarkFamily_shopify_store.Unit;
   blackwoodbooks: BowmarkFamily_shopify_store.Unit;
   blackwoodsgroup: BowmarkFamily_shopify_store.Unit;
@@ -125431,8 +125640,10 @@ interface BowmarkProviders {
   bloomkrans: BowmarkFamily_shopify_store.Unit;
   bloomlashbyerika: BowmarkFamily_shopify_store.Unit;
   bloomlover: BowmarkFamily_shopify_store.Unit;
+  bloomnu: BowmarkFamily_shopify_store.Unit;
   bloomsandblossoms: BowmarkFamily_shopify_store.Unit;
   bloomsberriesfarmmarket: BowmarkFamily_shopify_store.Unit;
+  bloomscape: BowmarkFamily_shopify_store.Unit;
   bloomsoutofthebox: BowmarkFamily_shopify_store.Unit;
   bloomtownflowers: BowmarkFamily_shopify_store.Unit;
   bloomymy: BowmarkFamily_shopify_store.Unit;
@@ -125495,9 +125706,12 @@ interface BowmarkProviders {
   bluelandwholesale: BowmarkFamily_shopify_store.Unit;
   bluelikeme: BowmarkFamily_shopify_store.Unit;
   bluelotuschaionlinestore: BowmarkFamily_shopify_store.Unit;
+  bluemercury: BowmarkFamily_shopify_store.Unit;
   bluemingo: BowmarkFamily_shopify_store.Unit;
   bluemorningexpressions: BowmarkFamily_shopify_store.Unit;
   bluenickelstudios: BowmarkFamily_shopify_store.Unit;
+  bluenote: BowmarkFamily_shopify_store.Unit;
+  bluenotejazz: BowmarkFamily_shopify_store.Unit;
   bluenotemerch: BowmarkFamily_shopify_store.Unit;
   blueoceanbobbooks: BowmarkFamily_shopify_store.Unit;
   blueone9193: BowmarkFamily_shopify_store.Unit;
@@ -125530,6 +125744,7 @@ interface BowmarkProviders {
   bluestreakstore: BowmarkFamily_shopify_store.Unit;
   bluethefilm: BowmarkFamily_shopify_store.Unit;
   bluetitlondonshop: BowmarkFamily_shopify_store.Unit;
+  bluetokaicoffee: BowmarkFamily_shopify_store.Unit;
   bluetowels: BowmarkFamily_shopify_store.Unit;
   blueup: BowmarkFamily_shopify_store.Unit;
   bluewaterboatsgear: BowmarkFamily_shopify_store.Unit;
@@ -125707,8 +125922,10 @@ interface BowmarkProviders {
   bohomegirls: BowmarkFamily_shopify_store.Unit;
   bohosaharaltd: BowmarkFamily_shopify_store.Unit;
   boichikbagels: BowmarkFamily_shopify_store.Unit;
+  boka: BowmarkFamily_shopify_store.Unit;
   bokinord: BowmarkFamily_shopify_store.Unit;
   bokins: BowmarkFamily_shopify_store.Unit;
+  bokksu: BowmarkFamily_shopify_store.Unit;
   bokoco: BowmarkFamily_shopify_store.Unit;
   boktower: BowmarkFamily_shopify_store.Unit;
   bolamaredicionesmusicales: BowmarkFamily_shopify_store.Unit;
@@ -125737,6 +125954,7 @@ interface BowmarkProviders {
   bombayhaircanada: BowmarkFamily_shopify_store.Unit;
   bombayjam: BowmarkFamily_shopify_store.Unit;
   bombayperfumery: BowmarkFamily_shopify_store.Unit;
+  bombayshavingcompany: BowmarkFamily_shopify_store.Unit;
   bombazine: BowmarkFamily_shopify_store.Unit;
   bombshellextensionco: BowmarkFamily_shopify_store.Unit;
   bombsnow: BowmarkFamily_shopify_store.Unit;
@@ -125755,6 +125973,7 @@ interface BowmarkProviders {
   bondenshage: BowmarkFamily_shopify_store.Unit;
   bondevil: BowmarkFamily_shopify_store.Unit;
   bondingorganics: BowmarkFamily_shopify_store.Unit;
+  bondisands: BowmarkFamily_shopify_store.Unit;
   bondsmolders: BowmarkFamily_shopify_store.Unit;
   boneboxch: BowmarkFamily_shopify_store.Unit;
   bonebrox: BowmarkFamily_shopify_store.Unit;
@@ -125869,6 +126088,7 @@ interface BowmarkProviders {
   bootstrap2: BowmarkFamily_shopify_store.Unit;
   bootstrap3: BowmarkFamily_shopify_store.Unit;
   bootstrapifytheme: BowmarkFamily_shopify_store.Unit;
+  boox: BowmarkFamily_shopify_store.Unit;
   booxiescomau: BowmarkFamily_shopify_store.Unit;
   booyakamerch: BowmarkFamily_shopify_store.Unit;
   boozebarrels: BowmarkFamily_shopify_store.Unit;
@@ -126091,6 +126311,7 @@ interface BowmarkProviders {
   brakecraftersusa: BowmarkFamily_shopify_store.Unit;
   bramptonfox: BowmarkFamily_shopify_store.Unit;
   bramsbouwstenen: BowmarkFamily_shopify_store.Unit;
+  branchbasics: BowmarkFamily_shopify_store.Unit;
   branchebasuboutique: BowmarkFamily_shopify_store.Unit;
   branchestwigshome: BowmarkFamily_shopify_store.Unit;
   brancohair: BowmarkFamily_shopify_store.Unit;
@@ -126257,6 +126478,7 @@ interface BowmarkProviders {
   brigadeirobakery: BowmarkFamily_shopify_store.Unit;
   brightgoodstest: BowmarkFamily_shopify_store.Unit;
   brighthaus: BowmarkFamily_shopify_store.Unit;
+  brightland: BowmarkFamily_shopify_store.Unit;
   brightonhotsauce: BowmarkFamily_shopify_store.Unit;
   brightpress: BowmarkFamily_shopify_store.Unit;
   brightsideiowastore: BowmarkFamily_shopify_store.Unit;
@@ -126270,6 +126492,7 @@ interface BowmarkProviders {
   briobeautyllc: BowmarkFamily_shopify_store.Unit;
   briobebe: BowmarkFamily_shopify_store.Unit;
   briochesfonteneau: BowmarkFamily_shopify_store.Unit;
+  briogeohair: BowmarkFamily_shopify_store.Unit;
   briohatcheries: BowmarkFamily_shopify_store.Unit;
   brisbanewestnaturopathy: BowmarkFamily_shopify_store.Unit;
   briscoetheband: BowmarkFamily_shopify_store.Unit;
@@ -126513,6 +126736,7 @@ interface BowmarkProviders {
   buffboysdetailing: BowmarkFamily_shopify_store.Unit;
   buffetdigital: BowmarkFamily_shopify_store.Unit;
   buffsnacksticks: BowmarkFamily_shopify_store.Unit;
+  buffy: BowmarkFamily_shopify_store.Unit;
   bugaway: BowmarkFamily_shopify_store.Unit;
   buggsfishing: BowmarkFamily_shopify_store.Unit;
   bugi1xqd: BowmarkFamily_shopify_store.Unit;
@@ -126539,8 +126763,10 @@ interface BowmarkProviders {
   bukumusiksmg: BowmarkFamily_shopify_store.Unit;
   bulbophyllumscom: BowmarkFamily_shopify_store.Unit;
   bulgariaroseshop: BowmarkFamily_shopify_store.Unit;
+  bulksupplements: BowmarkFamily_shopify_store.Unit;
   bullbaytacklecompany: BowmarkFamily_shopify_store.Unit;
   bulldogshockeyclub: BowmarkFamily_shopify_store.Unit;
+  bulldogskincare: BowmarkFamily_shopify_store.Unit;
   bulletjournalaustralia: BowmarkFamily_shopify_store.Unit;
   bulletjournaleurope: BowmarkFamily_shopify_store.Unit;
   bulletmotorsports: BowmarkFamily_shopify_store.Unit;
@@ -126613,6 +126839,7 @@ interface BowmarkProviders {
   burrowbar: BowmarkFamily_shopify_store.Unit;
   burrowsandhare: BowmarkFamily_shopify_store.Unit;
   burrowstoo: BowmarkFamily_shopify_store.Unit;
+  burton: BowmarkFamily_shopify_store.Unit;
   burtonbridgeandheritage: BowmarkFamily_shopify_store.Unit;
   burtonjpproduction: BowmarkFamily_shopify_store.Unit;
   burusfactory: BowmarkFamily_shopify_store.Unit;
@@ -126721,6 +126948,7 @@ interface BowmarkProviders {
   byhandbymarcia: BowmarkFamily_shopify_store.Unit;
   byhandsas: BowmarkFamily_shopify_store.Unit;
   byharrington: BowmarkFamily_shopify_store.Unit;
+  byheart: BowmarkFamily_shopify_store.Unit;
   byheinrich: BowmarkFamily_shopify_store.Unit;
   byhumandesign: BowmarkFamily_shopify_store.Unit;
   byjames: BowmarkFamily_shopify_store.Unit;
@@ -127122,6 +127350,7 @@ interface BowmarkProviders {
   canacoservyturtuxtla: BowmarkFamily_shopify_store.Unit;
   canadacc: BowmarkFamily_shopify_store.Unit;
   canadaflex: BowmarkFamily_shopify_store.Unit;
+  canadagoose: BowmarkFamily_shopify_store.Unit;
   canadaorganic: BowmarkFamily_shopify_store.Unit;
   canadaplastics: BowmarkFamily_shopify_store.Unit;
   canadared: BowmarkFamily_shopify_store.Unit;
@@ -127158,6 +127387,7 @@ interface BowmarkProviders {
   candlequeencandles: BowmarkFamily_shopify_store.Unit;
   candlmatch: BowmarkFamily_shopify_store.Unit;
   candoenterprises: BowmarkFamily_shopify_store.Unit;
+  candykittens: BowmarkFamily_shopify_store.Unit;
   candyrainplymouth: BowmarkFamily_shopify_store.Unit;
   canecatcher: BowmarkFamily_shopify_store.Unit;
   canellalane: BowmarkFamily_shopify_store.Unit;
@@ -127302,6 +127532,7 @@ interface BowmarkProviders {
   caretolearnstore: BowmarkFamily_shopify_store.Unit;
   carewarriors: BowmarkFamily_shopify_store.Unit;
   cargoyle: BowmarkFamily_shopify_store.Unit;
+  carharttwip: BowmarkFamily_shopify_store.Unit;
   caribbeanamphibians: BowmarkFamily_shopify_store.Unit;
   caribbeancoffeeco: BowmarkFamily_shopify_store.Unit;
   caribbeanradiators: BowmarkFamily_shopify_store.Unit;
@@ -127346,6 +127577,7 @@ interface BowmarkProviders {
   carmoola: BowmarkFamily_shopify_store.Unit;
   carnabyfairhongkong: BowmarkFamily_shopify_store.Unit;
   carnalagony: BowmarkFamily_shopify_store.Unit;
+  carnival: BowmarkFamily_shopify_store.Unit;
   carnivalofinkmag: BowmarkFamily_shopify_store.Unit;
   carnivalyouth: BowmarkFamily_shopify_store.Unit;
   carnivorebycourtney: BowmarkFamily_shopify_store.Unit;
@@ -127493,6 +127725,7 @@ interface BowmarkProviders {
   castabyanalia: BowmarkFamily_shopify_store.Unit;
   castartclothing: BowmarkFamily_shopify_store.Unit;
   castawaysagainstcancer: BowmarkFamily_shopify_store.Unit;
+  castellicycling: BowmarkFamily_shopify_store.Unit;
   castellodicontignaco: BowmarkFamily_shopify_store.Unit;
   casters: BowmarkFamily_shopify_store.Unit;
   castillofurniture: BowmarkFamily_shopify_store.Unit;
@@ -127662,6 +127895,7 @@ interface BowmarkProviders {
   cdillc: BowmarkFamily_shopify_store.Unit;
   cdlautoparts: BowmarkFamily_shopify_store.Unit;
   cdlcollection: BowmarkFamily_shopify_store.Unit;
+  cdlp: BowmarkFamily_shopify_store.Unit;
   cdnisonlineboutique: BowmarkFamily_shopify_store.Unit;
   cdnwholesalebeekeepersnaturals: BowmarkFamily_shopify_store.Unit;
   cdqqkhj1: BowmarkFamily_shopify_store.Unit;
@@ -127775,6 +128009,7 @@ interface BowmarkProviders {
   centuryrain: BowmarkFamily_shopify_store.Unit;
   centurysalonboutique2: BowmarkFamily_shopify_store.Unit;
   cenzmm: BowmarkFamily_shopify_store.Unit;
+  cephalofair: BowmarkFamily_shopify_store.Unit;
   cephasystems: BowmarkFamily_shopify_store.Unit;
   ceproducts: BowmarkFamily_shopify_store.Unit;
   cepusa: BowmarkFamily_shopify_store.Unit;
@@ -127878,6 +128113,7 @@ interface BowmarkProviders {
   champainewishes: BowmarkFamily_shopify_store.Unit;
   champelli: BowmarkFamily_shopify_store.Unit;
   champiloop: BowmarkFamily_shopify_store.Unit;
+  champion: BowmarkFamily_shopify_store.Unit;
   championcityphotography: BowmarkFamily_shopify_store.Unit;
   championscentre: BowmarkFamily_shopify_store.Unit;
   championsclubgg: BowmarkFamily_shopify_store.Unit;
@@ -128374,6 +128610,7 @@ interface BowmarkProviders {
   ciderrecordings: BowmarkFamily_shopify_store.Unit;
   cieca: BowmarkFamily_shopify_store.Unit;
   cielcreativespace: BowmarkFamily_shopify_store.Unit;
+  cieleathletics: BowmarkFamily_shopify_store.Unit;
   cieleau: BowmarkFamily_shopify_store.Unit;
   cielitodrone: BowmarkFamily_shopify_store.Unit;
   cielitolindomexicanboutique: BowmarkFamily_shopify_store.Unit;
@@ -128450,6 +128687,7 @@ interface BowmarkProviders {
   cityparkrunners: BowmarkFamily_shopify_store.Unit;
   cityscapedesign: BowmarkFamily_shopify_store.Unit;
   cityshred: BowmarkFamily_shopify_store.Unit;
+  cityslang: BowmarkFamily_shopify_store.Unit;
   citysports19: BowmarkFamily_shopify_store.Unit;
   citywomen: BowmarkFamily_shopify_store.Unit;
   cityyearstore: BowmarkFamily_shopify_store.Unit;
@@ -128553,6 +128791,7 @@ interface BowmarkProviders {
   clean360roots: BowmarkFamily_shopify_store.Unit;
   cleanafcbd: BowmarkFamily_shopify_store.Unit;
   cleanbeautycl: BowmarkFamily_shopify_store.Unit;
+  cleancult: BowmarkFamily_shopify_store.Unit;
   cleanfuturesfund: BowmarkFamily_shopify_store.Unit;
   cleangreenwashwax: BowmarkFamily_shopify_store.Unit;
   cleangrowau: BowmarkFamily_shopify_store.Unit;
@@ -128756,6 +128995,7 @@ interface BowmarkProviders {
   cocoaccess: BowmarkFamily_shopify_store.Unit;
   cocoadelicious: BowmarkFamily_shopify_store.Unit;
   cocoaloco: BowmarkFamily_shopify_store.Unit;
+  cocoandeve: BowmarkFamily_shopify_store.Unit;
   cocoandginger: BowmarkFamily_shopify_store.Unit;
   cocobamboo: BowmarkFamily_shopify_store.Unit;
   cocobreezeco: BowmarkFamily_shopify_store.Unit;
@@ -128765,6 +129005,7 @@ interface BowmarkProviders {
   cococoquette: BowmarkFamily_shopify_store.Unit;
   cocoglo: BowmarkFamily_shopify_store.Unit;
   cocoicostore: BowmarkFamily_shopify_store.Unit;
+  cocokind: BowmarkFamily_shopify_store.Unit;
   cocolokoscrap: BowmarkFamily_shopify_store.Unit;
   cocomalou: BowmarkFamily_shopify_store.Unit;
   cocomatsnmore: BowmarkFamily_shopify_store.Unit;
@@ -128806,6 +129047,7 @@ interface BowmarkProviders {
   cofax: BowmarkFamily_shopify_store.Unit;
   coffeeaudio: BowmarkFamily_shopify_store.Unit;
   coffeecareathome: BowmarkFamily_shopify_store.Unit;
+  coffeecircle: BowmarkFamily_shopify_store.Unit;
   coffeecommitment: BowmarkFamily_shopify_store.Unit;
   coffeeembassy: BowmarkFamily_shopify_store.Unit;
   coffeeholding: BowmarkFamily_shopify_store.Unit;
@@ -128927,6 +129169,7 @@ interface BowmarkProviders {
   colortrak: BowmarkFamily_shopify_store.Unit;
   colorwebcom: BowmarkFamily_shopify_store.Unit;
   colorwheeltoys: BowmarkFamily_shopify_store.Unit;
+  colorwowhair: BowmarkFamily_shopify_store.Unit;
   colossalcupcakesstore: BowmarkFamily_shopify_store.Unit;
   colossianforum: BowmarkFamily_shopify_store.Unit;
   colourenergy: BowmarkFamily_shopify_store.Unit;
@@ -129003,6 +129246,7 @@ interface BowmarkProviders {
   companybmodelsandminiatures: BowmarkFamily_shopify_store.Unit;
   companyes: BowmarkFamily_shopify_store.Unit;
   companypt: BowmarkFamily_shopify_store.Unit;
+  compartes: BowmarkFamily_shopify_store.Unit;
   compasscoffee: BowmarkFamily_shopify_store.Unit;
   compassfatloss: BowmarkFamily_shopify_store.Unit;
   compassionboutique: BowmarkFamily_shopify_store.Unit;
@@ -129261,6 +129505,7 @@ interface BowmarkProviders {
   cornishsealsanctuary: BowmarkFamily_shopify_store.Unit;
   coronabarbershopplus: BowmarkFamily_shopify_store.Unit;
   coronatesten: BowmarkFamily_shopify_store.Unit;
+  coros: BowmarkFamily_shopify_store.Unit;
   coroswearablesbv: BowmarkFamily_shopify_store.Unit;
   corporacionlaneramexico: BowmarkFamily_shopify_store.Unit;
   corporalmatthewedwardslegacyfoundation: BowmarkFamily_shopify_store.Unit;
@@ -129274,6 +129519,7 @@ interface BowmarkProviders {
   correctionsfoundationstore: BowmarkFamily_shopify_store.Unit;
   correllianpublishing: BowmarkFamily_shopify_store.Unit;
   corrimcfadden: BowmarkFamily_shopify_store.Unit;
+  corsair: BowmarkFamily_shopify_store.Unit;
   cortisschweizerweinegmbh: BowmarkFamily_shopify_store.Unit;
   cortivainstitutecontinuingeducation: BowmarkFamily_shopify_store.Unit;
   cortland: BowmarkFamily_shopify_store.Unit;
@@ -129307,6 +129553,7 @@ interface BowmarkProviders {
   cospicky: BowmarkFamily_shopify_store.Unit;
   cosplaydeviants: BowmarkFamily_shopify_store.Unit;
   cosplayverse: BowmarkFamily_shopify_store.Unit;
+  cosrx: BowmarkFamily_shopify_store.Unit;
   cosse: BowmarkFamily_shopify_store.Unit;
   cossetbathandbody: BowmarkFamily_shopify_store.Unit;
   costbucket: BowmarkFamily_shopify_store.Unit;
@@ -129316,8 +129563,10 @@ interface BowmarkProviders {
   cotatest: BowmarkFamily_shopify_store.Unit;
   cote100: BowmarkFamily_shopify_store.Unit;
   coteathome: BowmarkFamily_shopify_store.Unit;
+  coterie: BowmarkFamily_shopify_store.Unit;
   cotetimeworks: BowmarkFamily_shopify_store.Unit;
   cothronscuriosities: BowmarkFamily_shopify_store.Unit;
+  cotopaxi: BowmarkFamily_shopify_store.Unit;
   cotswoldcotton: BowmarkFamily_shopify_store.Unit;
   cotswoldhandmadecards: BowmarkFamily_shopify_store.Unit;
   cottagecurator: BowmarkFamily_shopify_store.Unit;
@@ -129559,6 +129808,8 @@ interface BowmarkProviders {
   creaturefeatures3349: BowmarkFamily_shopify_store.Unit;
   creditsyard: BowmarkFamily_shopify_store.Unit;
   creditvalleytennis: BowmarkFamily_shopify_store.Unit;
+  credobeauty: BowmarkFamily_shopify_store.Unit;
+  creedboutique: BowmarkFamily_shopify_store.Unit;
   creedscrests: BowmarkFamily_shopify_store.Unit;
   creekleafwholesale: BowmarkFamily_shopify_store.Unit;
   creekroadstudios: BowmarkFamily_shopify_store.Unit;
@@ -129619,6 +129870,7 @@ interface BowmarkProviders {
   croninsurfboards: BowmarkFamily_shopify_store.Unit;
   crookedtreehouseenchantinggifts: BowmarkFamily_shopify_store.Unit;
   crooksonline: BowmarkFamily_shopify_store.Unit;
+  cross: BowmarkFamily_shopify_store.Unit;
   crossbarhockey: BowmarkFamily_shopify_store.Unit;
   crossequalslove: BowmarkFamily_shopify_store.Unit;
   crossesus: BowmarkFamily_shopify_store.Unit;
@@ -129881,6 +130133,7 @@ interface BowmarkProviders {
   cssupermarketv2: BowmarkFamily_shopify_store.Unit;
   cstakada: BowmarkFamily_shopify_store.Unit;
   cstgroup5729: BowmarkFamily_shopify_store.Unit;
+  cstrecords: BowmarkFamily_shopify_store.Unit;
   cstringtest: BowmarkFamily_shopify_store.Unit;
   cstvgfq1: BowmarkFamily_shopify_store.Unit;
   csuptown: BowmarkFamily_shopify_store.Unit;
@@ -129943,9 +130196,11 @@ interface BowmarkProviders {
   cultase: BowmarkFamily_shopify_store.Unit;
   cultcrew: BowmarkFamily_shopify_store.Unit;
   cultdechoco: BowmarkFamily_shopify_store.Unit;
+  cultgaia: BowmarkFamily_shopify_store.Unit;
   cultivationbrewco: BowmarkFamily_shopify_store.Unit;
   cultneverdies: BowmarkFamily_shopify_store.Unit;
   cultofyouthjewellery: BowmarkFamily_shopify_store.Unit;
+  cultpens: BowmarkFamily_shopify_store.Unit;
   cultsmerch: BowmarkFamily_shopify_store.Unit;
   cultsurfing: BowmarkFamily_shopify_store.Unit;
   culturallyresponsivecurations: BowmarkFamily_shopify_store.Unit;
@@ -129995,6 +130250,7 @@ interface BowmarkProviders {
   currencyhq: BowmarkFamily_shopify_store.Unit;
   currencylocalizer: BowmarkFamily_shopify_store.Unit;
   currencyswitcher: BowmarkFamily_shopify_store.Unit;
+  currentbody: BowmarkFamily_shopify_store.Unit;
   currentjoysai: BowmarkFamily_shopify_store.Unit;
   curriculumhq: BowmarkFamily_shopify_store.Unit;
   currybliss: BowmarkFamily_shopify_store.Unit;
@@ -130049,6 +130305,7 @@ interface BowmarkProviders {
   cutmycabinetscouk: BowmarkFamily_shopify_store.Unit;
   cutritemeats: BowmarkFamily_shopify_store.Unit;
   cutroughergear: BowmarkFamily_shopify_store.Unit;
+  cutsclothing: BowmarkFamily_shopify_store.Unit;
   cutternationshop: BowmarkFamily_shopify_store.Unit;
   cutthroatangler: BowmarkFamily_shopify_store.Unit;
   cutthroatclothingcompany: BowmarkFamily_shopify_store.Unit;
@@ -130432,6 +130689,7 @@ interface BowmarkProviders {
   danielruizvalderrama: BowmarkFamily_shopify_store.Unit;
   danielsdelight: BowmarkFamily_shopify_store.Unit;
   danielsgourmetmeats: BowmarkFamily_shopify_store.Unit;
+  danielwellington: BowmarkFamily_shopify_store.Unit;
   daniknoph: BowmarkFamily_shopify_store.Unit;
   danilorreyesart: BowmarkFamily_shopify_store.Unit;
   danisbazaar: BowmarkFamily_shopify_store.Unit;
@@ -130593,7 +130851,9 @@ interface BowmarkProviders {
   davidsonfilms: BowmarkFamily_shopify_store.Unit;
   davidsongalleries: BowmarkFamily_shopify_store.Unit;
   davidstarr: BowmarkFamily_shopify_store.Unit;
+  davidstea: BowmarkFamily_shopify_store.Unit;
   davidsuhphotography: BowmarkFamily_shopify_store.Unit;
+  davidsusa: BowmarkFamily_shopify_store.Unit;
   davidtibet: BowmarkFamily_shopify_store.Unit;
   daviesbrothersnurseryltd: BowmarkFamily_shopify_store.Unit;
   davines2203: BowmarkFamily_shopify_store.Unit;
@@ -130629,6 +130889,7 @@ interface BowmarkProviders {
   daypackbags: BowmarkFamily_shopify_store.Unit;
   days2rememberpro: BowmarkFamily_shopify_store.Unit;
   daysforgirlsinternational: BowmarkFamily_shopify_store.Unit;
+  daysoft: BowmarkFamily_shopify_store.Unit;
   daytonrogersmfg: BowmarkFamily_shopify_store.Unit;
   dazdillingermerch: BowmarkFamily_shopify_store.Unit;
   dazzleusa: BowmarkFamily_shopify_store.Unit;
@@ -130783,6 +131044,7 @@ interface BowmarkProviders {
   debwilkinsonartist: BowmarkFamily_shopify_store.Unit;
   dec549: BowmarkFamily_shopify_store.Unit;
   decaimages: BowmarkFamily_shopify_store.Unit;
+  decathlon: BowmarkFamily_shopify_store.Unit;
   decathlonury: BowmarkFamily_shopify_store.Unit;
   deccashop: BowmarkFamily_shopify_store.Unit;
   decemberhairofficialec: BowmarkFamily_shopify_store.Unit;
@@ -130802,6 +131064,7 @@ interface BowmarkProviders {
   decorhaul: BowmarkFamily_shopify_store.Unit;
   decormosaics: BowmarkFamily_shopify_store.Unit;
   decoronadimehamilton: BowmarkFamily_shopify_store.Unit;
+  decortecosmetics: BowmarkFamily_shopify_store.Unit;
   decorticademo: BowmarkFamily_shopify_store.Unit;
   decoshop: BowmarkFamily_shopify_store.Unit;
   deedevineboutique: BowmarkFamily_shopify_store.Unit;
@@ -130899,6 +131162,7 @@ interface BowmarkProviders {
   delraybeachopen: BowmarkFamily_shopify_store.Unit;
   delrayskin: BowmarkFamily_shopify_store.Unit;
   delrealfoods: BowmarkFamily_shopify_store.Unit;
+  delta: BowmarkFamily_shopify_store.Unit;
   delta17: BowmarkFamily_shopify_store.Unit;
   deltadirect: BowmarkFamily_shopify_store.Unit;
   deltagirlframes: BowmarkFamily_shopify_store.Unit;
@@ -131010,6 +131274,7 @@ interface BowmarkProviders {
   dermaglowcrystals: BowmarkFamily_shopify_store.Unit;
   dermagurushop: BowmarkFamily_shopify_store.Unit;
   dermaldivas: BowmarkFamily_shopify_store.Unit;
+  dermalogica: BowmarkFamily_shopify_store.Unit;
   dermalvitality: BowmarkFamily_shopify_store.Unit;
   dermamdwholesale: BowmarkFamily_shopify_store.Unit;
   dermaorganicsbycfbp: BowmarkFamily_shopify_store.Unit;
@@ -131211,6 +131476,7 @@ interface BowmarkProviders {
   dhaniharrison: BowmarkFamily_shopify_store.Unit;
   dharmavibes: BowmarkFamily_shopify_store.Unit;
   dhb11f1j: BowmarkFamily_shopify_store.Unit;
+  dhccare: BowmarkFamily_shopify_store.Unit;
   dheonline: BowmarkFamily_shopify_store.Unit;
   dhonkstore: BowmarkFamily_shopify_store.Unit;
   dhscffoundation: BowmarkFamily_shopify_store.Unit;
@@ -131257,6 +131523,7 @@ interface BowmarkProviders {
   dicehockey: BowmarkFamily_shopify_store.Unit;
   dichickos: BowmarkFamily_shopify_store.Unit;
   dichoticdilemmasocialenterpriseltd: BowmarkFamily_shopify_store.Unit;
+  dickies: BowmarkFamily_shopify_store.Unit;
   dickjrandthevolunteers: BowmarkFamily_shopify_store.Unit;
   dicklawfirm: BowmarkFamily_shopify_store.Unit;
   dicksbeer: BowmarkFamily_shopify_store.Unit;
@@ -131349,6 +131616,7 @@ interface BowmarkProviders {
   dipnsipsj: BowmarkFamily_shopify_store.Unit;
   dippdinhunnie: BowmarkFamily_shopify_store.Unit;
   dippindaisyswholesale: BowmarkFamily_shopify_store.Unit;
+  diptyqueparis: BowmarkFamily_shopify_store.Unit;
   direct2gardens: BowmarkFamily_shopify_store.Unit;
   directbizarre: BowmarkFamily_shopify_store.Unit;
   directfloristsupplies: BowmarkFamily_shopify_store.Unit;
@@ -131391,6 +131659,7 @@ interface BowmarkProviders {
   discountadultzone: BowmarkFamily_shopify_store.Unit;
   discountcentralonline: BowmarkFamily_shopify_store.Unit;
   discountcodeincart: BowmarkFamily_shopify_store.Unit;
+  discountdepotmart: BowmarkFamily_shopify_store.Unit;
   discountedbikesshropshire: BowmarkFamily_shopify_store.Unit;
   discountedupsells: BowmarkFamily_shopify_store.Unit;
   discounthuntstore: BowmarkFamily_shopify_store.Unit;
@@ -131620,6 +131889,7 @@ interface BowmarkProviders {
   dollarflightclub: BowmarkFamily_shopify_store.Unit;
   dollarjustice: BowmarkFamily_shopify_store.Unit;
   dollarkidd: BowmarkFamily_shopify_store.Unit;
+  dollarshaveclub: BowmarkFamily_shopify_store.Unit;
   dollbakery: BowmarkFamily_shopify_store.Unit;
   dolledbykeke: BowmarkFamily_shopify_store.Unit;
   dollhousefurniture: BowmarkFamily_shopify_store.Unit;
@@ -131711,6 +131981,7 @@ interface BowmarkProviders {
   doshaburi: BowmarkFamily_shopify_store.Unit;
   doshmerch: BowmarkFamily_shopify_store.Unit;
   dossage: BowmarkFamily_shopify_store.Unit;
+  dossier: BowmarkFamily_shopify_store.Unit;
   dossxoxo: BowmarkFamily_shopify_store.Unit;
   dotakeitpersonally: BowmarkFamily_shopify_store.Unit;
   dotcombags: BowmarkFamily_shopify_store.Unit;
@@ -131824,6 +132095,7 @@ interface BowmarkProviders {
   drbobshome: BowmarkFamily_shopify_store.Unit;
   drbotanicals: BowmarkFamily_shopify_store.Unit;
   drbrandtskincare2: BowmarkFamily_shopify_store.Unit;
+  drbronner: BowmarkFamily_shopify_store.Unit;
   drcflyshop: BowmarkFamily_shopify_store.Unit;
   drcherine: BowmarkFamily_shopify_store.Unit;
   drconcept: BowmarkFamily_shopify_store.Unit;
@@ -131901,6 +132173,7 @@ interface BowmarkProviders {
   drincrease: BowmarkFamily_shopify_store.Unit;
   drinfraredheater: BowmarkFamily_shopify_store.Unit;
   drink2shrinkzone: BowmarkFamily_shopify_store.Unit;
+  drinkag1: BowmarkFamily_shopify_store.Unit;
   drinkcandycorn: BowmarkFamily_shopify_store.Unit;
   drinkcrazywater: BowmarkFamily_shopify_store.Unit;
   drinkhrwonline: BowmarkFamily_shopify_store.Unit;
@@ -131912,6 +132185,7 @@ interface BowmarkProviders {
   drinkmetearoom: BowmarkFamily_shopify_store.Unit;
   drinkmusica: BowmarkFamily_shopify_store.Unit;
   drinkncbeer: BowmarkFamily_shopify_store.Unit;
+  drinkolipop: BowmarkFamily_shopify_store.Unit;
   drinkpanda: BowmarkFamily_shopify_store.Unit;
   drinksanddeceptions: BowmarkFamily_shopify_store.Unit;
   drinkswithbenefitsfestival: BowmarkFamily_shopify_store.Unit;
@@ -131958,6 +132232,7 @@ interface BowmarkProviders {
   dropcommercepets: BowmarkFamily_shopify_store.Unit;
   dropnfill: BowmarkFamily_shopify_store.Unit;
   droponeproduct: BowmarkFamily_shopify_store.Unit;
+  dropps: BowmarkFamily_shopify_store.Unit;
   dropshipguruschildrensclothing: BowmarkFamily_shopify_store.Unit;
   dropshiphomebeautyshop: BowmarkFamily_shopify_store.Unit;
   dropshiphomedogshop: BowmarkFamily_shopify_store.Unit;
@@ -132021,6 +132296,7 @@ interface BowmarkProviders {
   drzhana: BowmarkFamily_shopify_store.Unit;
   ds8is0xw: BowmarkFamily_shopify_store.Unit;
   dsala: BowmarkFamily_shopify_store.Unit;
+  dsanddurga: BowmarkFamily_shopify_store.Unit;
   dsbookstore: BowmarkFamily_shopify_store.Unit;
   dscene: BowmarkFamily_shopify_store.Unit;
   dscutz: BowmarkFamily_shopify_store.Unit;
@@ -132077,6 +132353,7 @@ interface BowmarkProviders {
   duhacolor: BowmarkFamily_shopify_store.Unit;
   dukaflag: BowmarkFamily_shopify_store.Unit;
   duke16: BowmarkFamily_shopify_store.Unit;
+  dukecannon: BowmarkFamily_shopify_store.Unit;
   dukeofmarlborough: BowmarkFamily_shopify_store.Unit;
   dukesmayo: BowmarkFamily_shopify_store.Unit;
   dulcecatrinasma: BowmarkFamily_shopify_store.Unit;
@@ -132163,6 +132440,7 @@ interface BowmarkProviders {
   dynghtv10: BowmarkFamily_shopify_store.Unit;
   dynutritionro: BowmarkFamily_shopify_store.Unit;
   dynutritionworldwide: BowmarkFamily_shopify_store.Unit;
+  dyper: BowmarkFamily_shopify_store.Unit;
   dyrajewellery: BowmarkFamily_shopify_store.Unit;
   dyslexiaacademyonline: BowmarkFamily_shopify_store.Unit;
   dz8mwjnn: BowmarkFamily_shopify_store.Unit;
@@ -132302,6 +132580,7 @@ interface BowmarkProviders {
   earscapeyss: BowmarkFamily_shopify_store.Unit;
   earthandelleoutfit: BowmarkFamily_shopify_store.Unit;
   earthbotanicals: BowmarkFamily_shopify_store.Unit;
+  earthbreeze: BowmarkFamily_shopify_store.Unit;
   earthcity: BowmarkFamily_shopify_store.Unit;
   earthdancerexotics: BowmarkFamily_shopify_store.Unit;
   earthelements369: BowmarkFamily_shopify_store.Unit;
@@ -132312,6 +132591,7 @@ interface BowmarkProviders {
   earthingnewzealand: BowmarkFamily_shopify_store.Unit;
   earthmarketjapan: BowmarkFamily_shopify_store.Unit;
   earthquakeauthorityforagents: BowmarkFamily_shopify_store.Unit;
+  earthrated: BowmarkFamily_shopify_store.Unit;
   earthresonance: BowmarkFamily_shopify_store.Unit;
   earthshinecandles: BowmarkFamily_shopify_store.Unit;
   earthsoriginalorganics: BowmarkFamily_shopify_store.Unit;
@@ -132379,6 +132659,7 @@ interface BowmarkProviders {
   eatccc: BowmarkFamily_shopify_store.Unit;
   eatdrinklucky: BowmarkFamily_shopify_store.Unit;
   eatenbysnakes: BowmarkFamily_shopify_store.Unit;
+  eatfishwife: BowmarkFamily_shopify_store.Unit;
   eatgallery: BowmarkFamily_shopify_store.Unit;
   eatingbyv: BowmarkFamily_shopify_store.Unit;
   eatlahstore: BowmarkFamily_shopify_store.Unit;
@@ -132487,6 +132768,7 @@ interface BowmarkProviders {
   ecoequitable: BowmarkFamily_shopify_store.Unit;
   ecofattoriesabine: BowmarkFamily_shopify_store.Unit;
   ecofiltromx: BowmarkFamily_shopify_store.Unit;
+  ecoflow: BowmarkFamily_shopify_store.Unit;
   ecofriendlybeautybar: BowmarkFamily_shopify_store.Unit;
   ecohealthwellness: BowmarkFamily_shopify_store.Unit;
   ecoleetoile: BowmarkFamily_shopify_store.Unit;
@@ -132529,6 +132811,7 @@ interface BowmarkProviders {
   edamamade: BowmarkFamily_shopify_store.Unit;
   edaridrinks: BowmarkFamily_shopify_store.Unit;
   edasnerfamilycenter: BowmarkFamily_shopify_store.Unit;
+  edbangerrecords: BowmarkFamily_shopify_store.Unit;
   edbutcher: BowmarkFamily_shopify_store.Unit;
   edc8402: BowmarkFamily_shopify_store.Unit;
   edccab2: BowmarkFamily_shopify_store.Unit;
@@ -132563,6 +132846,7 @@ interface BowmarkProviders {
   edgyelders: BowmarkFamily_shopify_store.Unit;
   edgyeleganceboutique: BowmarkFamily_shopify_store.Unit;
   edgygirlwear: BowmarkFamily_shopify_store.Unit;
+  ediblearrangements: BowmarkFamily_shopify_store.Unit;
   edibleprintsoncake: BowmarkFamily_shopify_store.Unit;
   edibleshotsbymelissa: BowmarkFamily_shopify_store.Unit;
   ediblesugarart: BowmarkFamily_shopify_store.Unit;
@@ -132844,8 +133128,10 @@ interface BowmarkProviders {
   elextronhome62: BowmarkFamily_shopify_store.Unit;
   elextronhome71: BowmarkFamily_shopify_store.Unit;
   elextronhome8: BowmarkFamily_shopify_store.Unit;
+  elfcosmetics: BowmarkFamily_shopify_store.Unit;
   elfcreekgames: BowmarkFamily_shopify_store.Unit;
   elferya: BowmarkFamily_shopify_store.Unit;
+  elgato: BowmarkFamily_shopify_store.Unit;
   elgatoencerrado: BowmarkFamily_shopify_store.Unit;
   elgauchostore: BowmarkFamily_shopify_store.Unit;
   elgeorgeharrisgiftshop: BowmarkFamily_shopify_store.Unit;
@@ -133049,6 +133335,7 @@ interface BowmarkProviders {
   emmamiller: BowmarkFamily_shopify_store.Unit;
   emmanightingaleglass: BowmarkFamily_shopify_store.Unit;
   emmanuelschoolfoundation: BowmarkFamily_shopify_store.Unit;
+  emmasleep: BowmarkFamily_shopify_store.Unit;
   emmastrialshop: BowmarkFamily_shopify_store.Unit;
   emmatacondesigns: BowmarkFamily_shopify_store.Unit;
   emmaterweduwe: BowmarkFamily_shopify_store.Unit;
@@ -133119,6 +133406,7 @@ interface BowmarkProviders {
   encouragementproducts: BowmarkFamily_shopify_store.Unit;
   encrudostore: BowmarkFamily_shopify_store.Unit;
   encust: BowmarkFamily_shopify_store.Unit;
+  endclothing: BowmarkFamily_shopify_store.Unit;
   endgamesportfishing: BowmarkFamily_shopify_store.Unit;
   endgirlhate: BowmarkFamily_shopify_store.Unit;
   endlessautosalon: BowmarkFamily_shopify_store.Unit;
@@ -133365,6 +133653,7 @@ interface BowmarkProviders {
   esmattress: BowmarkFamily_shopify_store.Unit;
   esmithimages: BowmarkFamily_shopify_store.Unit;
   esmsports: BowmarkFamily_shopify_store.Unit;
+  esn: BowmarkFamily_shopify_store.Unit;
   esncejewels: BowmarkFamily_shopify_store.Unit;
   esommelier: BowmarkFamily_shopify_store.Unit;
   esotouricbusadventures: BowmarkFamily_shopify_store.Unit;
@@ -133430,6 +133719,7 @@ interface BowmarkProviders {
   esthetiekengelswebshop: BowmarkFamily_shopify_store.Unit;
   esthetiqueisabellecaron: BowmarkFamily_shopify_store.Unit;
   estlandd: BowmarkFamily_shopify_store.Unit;
+  estrid: BowmarkFamily_shopify_store.Unit;
   estudiokefi: BowmarkFamily_shopify_store.Unit;
   estudiokuurne: BowmarkFamily_shopify_store.Unit;
   estudiopomelo: BowmarkFamily_shopify_store.Unit;
@@ -133455,6 +133745,7 @@ interface BowmarkProviders {
   ethicalpark: BowmarkFamily_shopify_store.Unit;
   ethicalpharmacysupplies: BowmarkFamily_shopify_store.Unit;
   ethiimo: BowmarkFamily_shopify_store.Unit;
+  ethique: BowmarkFamily_shopify_store.Unit;
   ethnicearrings: BowmarkFamily_shopify_store.Unit;
   ethnicmusicalinstruments: BowmarkFamily_shopify_store.Unit;
   ethoscontemporaryhome: BowmarkFamily_shopify_store.Unit;
@@ -133571,6 +133862,7 @@ interface BowmarkProviders {
   everydayoccasions: BowmarkFamily_shopify_store.Unit;
   everydayvitality: BowmarkFamily_shopify_store.Unit;
   everylinedesigns: BowmarkFamily_shopify_store.Unit;
+  everymanjack: BowmarkFamily_shopify_store.Unit;
   everyoccasion2: BowmarkFamily_shopify_store.Unit;
   everyonecancraft: BowmarkFamily_shopify_store.Unit;
   everysaturday: BowmarkFamily_shopify_store.Unit;
@@ -133605,6 +133897,7 @@ interface BowmarkProviders {
   evn63w3g: BowmarkFamily_shopify_store.Unit;
   evnexchargers: BowmarkFamily_shopify_store.Unit;
   evnexchargersau: BowmarkFamily_shopify_store.Unit;
+  evo: BowmarkFamily_shopify_store.Unit;
   evokeclothingstore: BowmarkFamily_shopify_store.Unit;
   evolutionafrica: BowmarkFamily_shopify_store.Unit;
   evolutioncraftbrewing: BowmarkFamily_shopify_store.Unit;
@@ -133941,6 +134234,7 @@ interface BowmarkProviders {
   faelsaesser: BowmarkFamily_shopify_store.Unit;
   fafa6671: BowmarkFamily_shopify_store.Unit;
   fagersislandthreads: BowmarkFamily_shopify_store.Unit;
+  fahertybrand: BowmarkFamily_shopify_store.Unit;
   fahrenheitpress: BowmarkFamily_shopify_store.Unit;
   fahrradfahrwerk: BowmarkFamily_shopify_store.Unit;
   fahrzeugkabelde: BowmarkFamily_shopify_store.Unit;
@@ -134129,6 +134423,7 @@ interface BowmarkProviders {
   fasstco: BowmarkFamily_shopify_store.Unit;
   fastclinicalweightloss: BowmarkFamily_shopify_store.Unit;
   fastcurious: BowmarkFamily_shopify_store.Unit;
+  fastenersplus: BowmarkFamily_shopify_store.Unit;
   fastermotorswi: BowmarkFamily_shopify_store.Unit;
   fastestaccessories: BowmarkFamily_shopify_store.Unit;
   fastestbigmarket: BowmarkFamily_shopify_store.Unit;
@@ -134291,6 +134586,7 @@ interface BowmarkProviders {
   felixheintzenberg: BowmarkFamily_shopify_store.Unit;
   fellgerbereitramm: BowmarkFamily_shopify_store.Unit;
   fellowflowers: BowmarkFamily_shopify_store.Unit;
+  fellowproducts: BowmarkFamily_shopify_store.Unit;
   fellymusic: BowmarkFamily_shopify_store.Unit;
   feltcafejapan: BowmarkFamily_shopify_store.Unit;
   feltgoodco: BowmarkFamily_shopify_store.Unit;
@@ -134304,12 +134600,14 @@ interface BowmarkProviders {
   femobook: BowmarkFamily_shopify_store.Unit;
   fenbergerstore: BowmarkFamily_shopify_store.Unit;
   fencefabric: BowmarkFamily_shopify_store.Unit;
+  fender: BowmarkFamily_shopify_store.Unit;
   fenedaboutique: BowmarkFamily_shopify_store.Unit;
   fengfitfoods: BowmarkFamily_shopify_store.Unit;
   fengshuidigest: BowmarkFamily_shopify_store.Unit;
   fennsmanufaktur: BowmarkFamily_shopify_store.Unit;
   fenstergriff: BowmarkFamily_shopify_store.Unit;
   fentest: BowmarkFamily_shopify_store.Unit;
+  fentybeauty: BowmarkFamily_shopify_store.Unit;
   fenwayclayworks8734: BowmarkFamily_shopify_store.Unit;
   feradiagnosticsandbiologicals: BowmarkFamily_shopify_store.Unit;
   feralic: BowmarkFamily_shopify_store.Unit;
@@ -134324,6 +134622,7 @@ interface BowmarkProviders {
   fermenterarna: BowmarkFamily_shopify_store.Unit;
   fermespb: BowmarkFamily_shopify_store.Unit;
   fermeture25: BowmarkFamily_shopify_store.Unit;
+  fermliving: BowmarkFamily_shopify_store.Unit;
   fernaellis: BowmarkFamily_shopify_store.Unit;
   fernbicycles: BowmarkFamily_shopify_store.Unit;
   ferniebrewingco: BowmarkFamily_shopify_store.Unit;
@@ -134570,6 +134869,7 @@ interface BowmarkProviders {
   firexside: BowmarkFamily_shopify_store.Unit;
   fireyourfinancialadvisor: BowmarkFamily_shopify_store.Unit;
   firmasrep: BowmarkFamily_shopify_store.Unit;
+  firstaidbeauty: BowmarkFamily_shopify_store.Unit;
   firstaidcoursesberlin: BowmarkFamily_shopify_store.Unit;
   firstbloomcornerstore: BowmarkFamily_shopify_store.Unit;
   firstchoicesystemsonlinestore: BowmarkFamily_shopify_store.Unit;
@@ -134784,6 +135084,7 @@ interface BowmarkProviders {
   floralsimplicity: BowmarkFamily_shopify_store.Unit;
   florambiente: BowmarkFamily_shopify_store.Unit;
   florap: BowmarkFamily_shopify_store.Unit;
+  floraqueen: BowmarkFamily_shopify_store.Unit;
   florasantiago: BowmarkFamily_shopify_store.Unit;
   flordeazar: BowmarkFamily_shopify_store.Unit;
   flordekaronka: BowmarkFamily_shopify_store.Unit;
@@ -134854,6 +135155,7 @@ interface BowmarkProviders {
   flvcpromotion: BowmarkFamily_shopify_store.Unit;
   flyawaytoys: BowmarkFamily_shopify_store.Unit;
   flyblade: BowmarkFamily_shopify_store.Unit;
+  flybyjing: BowmarkFamily_shopify_store.Unit;
   flydpd: BowmarkFamily_shopify_store.Unit;
   flyersgear: BowmarkFamily_shopify_store.Unit;
   flyfishersplace: BowmarkFamily_shopify_store.Unit;
@@ -134871,6 +135173,7 @@ interface BowmarkProviders {
   flyingflamingos: BowmarkFamily_shopify_store.Unit;
   flyingkittycablecam: BowmarkFamily_shopify_store.Unit;
   flyingneedlegallery: BowmarkFamily_shopify_store.Unit;
+  flyingnun: BowmarkFamily_shopify_store.Unit;
   flyingsparksgarage6458: BowmarkFamily_shopify_store.Unit;
   flyingstepsacademy: BowmarkFamily_shopify_store.Unit;
   flyinryanracing: BowmarkFamily_shopify_store.Unit;
@@ -135115,6 +135418,7 @@ interface BowmarkProviders {
   foureighteenfilms: BowmarkFamily_shopify_store.Unit;
   fourelementsworld: BowmarkFamily_shopify_store.Unit;
   fourkingsforge: BowmarkFamily_shopify_store.Unit;
+  fourseasons: BowmarkFamily_shopify_store.Unit;
   fourseasonsgc: BowmarkFamily_shopify_store.Unit;
   fourseasonshotelkyoto: BowmarkFamily_shopify_store.Unit;
   fourseasonshotelmacau: BowmarkFamily_shopify_store.Unit;
@@ -135185,6 +135489,7 @@ interface BowmarkProviders {
   francesdelourdes: BowmarkFamily_shopify_store.Unit;
   franceselle: BowmarkFamily_shopify_store.Unit;
   francesstark: BowmarkFamily_shopify_store.Unit;
+  francfranc: BowmarkFamily_shopify_store.Unit;
   frangipanifurnituretest: BowmarkFamily_shopify_store.Unit;
   frankandbeanzdoggieapparel: BowmarkFamily_shopify_store.Unit;
   frankdaunting: BowmarkFamily_shopify_store.Unit;
@@ -135334,6 +135639,7 @@ interface BowmarkProviders {
   frfanzines: BowmarkFamily_shopify_store.Unit;
   frfr: BowmarkFamily_shopify_store.Unit;
   frictionlabs: BowmarkFamily_shopify_store.Unit;
+  frida: BowmarkFamily_shopify_store.Unit;
   fridahallqvist: BowmarkFamily_shopify_store.Unit;
   fridasweden: BowmarkFamily_shopify_store.Unit;
   fridayflowersgilroy: BowmarkFamily_shopify_store.Unit;
@@ -135381,6 +135687,7 @@ interface BowmarkProviders {
   fromecoscaleavionicsllc: BowmarkFamily_shopify_store.Unit;
   fromjapanretrosale: BowmarkFamily_shopify_store.Unit;
   fromjenniferskitchen: BowmarkFamily_shopify_store.Unit;
+  fromourplace: BowmarkFamily_shopify_store.Unit;
   fromphoenixwithlove: BowmarkFamily_shopify_store.Unit;
   fromrachel: BowmarkFamily_shopify_store.Unit;
   fromscratchfarm: BowmarkFamily_shopify_store.Unit;
@@ -135988,6 +136295,7 @@ interface BowmarkProviders {
   getawayfarmersbutchers: BowmarkFamily_shopify_store.Unit;
   getbackbeat: BowmarkFamily_shopify_store.Unit;
   getbeautyfit: BowmarkFamily_shopify_store.Unit;
+  getbevel: BowmarkFamily_shopify_store.Unit;
   getbooster: BowmarkFamily_shopify_store.Unit;
   getbullish: BowmarkFamily_shopify_store.Unit;
   getchamp: BowmarkFamily_shopify_store.Unit;
@@ -135998,6 +136306,7 @@ interface BowmarkProviders {
   getessentiallyglowing: BowmarkFamily_shopify_store.Unit;
   getfacebar: BowmarkFamily_shopify_store.Unit;
   getfauxedup: BowmarkFamily_shopify_store.Unit;
+  getfussy: BowmarkFamily_shopify_store.Unit;
   getgourmet: BowmarkFamily_shopify_store.Unit;
   getgroundworx: BowmarkFamily_shopify_store.Unit;
   getguardify: BowmarkFamily_shopify_store.Unit;
@@ -136013,6 +136322,7 @@ interface BowmarkProviders {
   getoffyourattitudestore: BowmarkFamily_shopify_store.Unit;
   getoutdoorsparrysound: BowmarkFamily_shopify_store.Unit;
   getquelle: BowmarkFamily_shopify_store.Unit;
+  getquip: BowmarkFamily_shopify_store.Unit;
   getrawbyjohnsamish: BowmarkFamily_shopify_store.Unit;
   getrdoneembroidery: BowmarkFamily_shopify_store.Unit;
   getrightwithkd: BowmarkFamily_shopify_store.Unit;
@@ -136044,6 +136354,7 @@ interface BowmarkProviders {
   ggqualitycase: BowmarkFamily_shopify_store.Unit;
   ggrand: BowmarkFamily_shopify_store.Unit;
   ggujexf7: BowmarkFamily_shopify_store.Unit;
+  gharsoaps: BowmarkFamily_shopify_store.Unit;
   ghbxmmj2: BowmarkFamily_shopify_store.Unit;
   ghcgoodhealthcompany: BowmarkFamily_shopify_store.Unit;
   ghettomantras: BowmarkFamily_shopify_store.Unit;
@@ -136055,6 +136366,7 @@ interface BowmarkProviders {
   ghostfishbeer: BowmarkFamily_shopify_store.Unit;
   ghosthostbymb: BowmarkFamily_shopify_store.Unit;
   ghosthoundsakt: BowmarkFamily_shopify_store.Unit;
+  ghostlifestyle: BowmarkFamily_shopify_store.Unit;
   ghostly: BowmarkFamily_shopify_store.Unit;
   ghostranchnm: BowmarkFamily_shopify_store.Unit;
   ghosts: BowmarkFamily_shopify_store.Unit;
@@ -136074,6 +136386,7 @@ interface BowmarkProviders {
   giasorganic: BowmarkFamily_shopify_store.Unit;
   gibbonkitchen: BowmarkFamily_shopify_store.Unit;
   gibouca: BowmarkFamily_shopify_store.Unit;
+  gibson: BowmarkFamily_shopify_store.Unit;
   gibsoncollective: BowmarkFamily_shopify_store.Unit;
   gibsongirlboutique: BowmarkFamily_shopify_store.Unit;
   gibsontech: BowmarkFamily_shopify_store.Unit;
@@ -136100,6 +136413,7 @@ interface BowmarkProviders {
   giftshopcrsmithmuseum: BowmarkFamily_shopify_store.Unit;
   giftsofnote: BowmarkFamily_shopify_store.Unit;
   giftstoheal: BowmarkFamily_shopify_store.Unit;
+  gifttree: BowmarkFamily_shopify_store.Unit;
   giftywrap: BowmarkFamily_shopify_store.Unit;
   gigawattgame: BowmarkFamily_shopify_store.Unit;
   gigglewickgallery: BowmarkFamily_shopify_store.Unit;
@@ -136109,6 +136423,7 @@ interface BowmarkProviders {
   gigispecialtypharmacy: BowmarkFamily_shopify_store.Unit;
   gigithestore: BowmarkFamily_shopify_store.Unit;
   gigliottijewelers: BowmarkFamily_shopify_store.Unit;
+  gigsky: BowmarkFamily_shopify_store.Unit;
   gihso: BowmarkFamily_shopify_store.Unit;
   giladshop: BowmarkFamily_shopify_store.Unit;
   gilarpgs: BowmarkFamily_shopify_store.Unit;
@@ -136191,6 +136506,7 @@ interface BowmarkProviders {
   gisbotanicals: BowmarkFamily_shopify_store.Unit;
   gisellejewelrych: BowmarkFamily_shopify_store.Unit;
   gismanagementtemplate: BowmarkFamily_shopify_store.Unit;
+  gisou: BowmarkFamily_shopify_store.Unit;
   gitanova: BowmarkFamily_shopify_store.Unit;
   gititshovalmusic: BowmarkFamily_shopify_store.Unit;
   gitostores: BowmarkFamily_shopify_store.Unit;
@@ -136324,6 +136640,7 @@ interface BowmarkProviders {
   gloprofessional: BowmarkFamily_shopify_store.Unit;
   gloriageneartgallery: BowmarkFamily_shopify_store.Unit;
   gloriousbeans: BowmarkFamily_shopify_store.Unit;
+  gloriousgaming: BowmarkFamily_shopify_store.Unit;
   gloriousgiftsalpacashop: BowmarkFamily_shopify_store.Unit;
   gloriousgoblets: BowmarkFamily_shopify_store.Unit;
   gloriousrecovery: BowmarkFamily_shopify_store.Unit;
@@ -136350,6 +136667,7 @@ interface BowmarkProviders {
   glowmi: BowmarkFamily_shopify_store.Unit;
   glowmonk: BowmarkFamily_shopify_store.Unit;
   glowpaperco: BowmarkFamily_shopify_store.Unit;
+  glowrecipe: BowmarkFamily_shopify_store.Unit;
   glowshroomapothecary: BowmarkFamily_shopify_store.Unit;
   glowskindeep: BowmarkFamily_shopify_store.Unit;
   glsproductsllc: BowmarkFamily_shopify_store.Unit;
@@ -136679,6 +136997,7 @@ interface BowmarkProviders {
   godecorwalther: BowmarkFamily_shopify_store.Unit;
   godelementapparelllc: BowmarkFamily_shopify_store.Unit;
   godiswoke: BowmarkFamily_shopify_store.Unit;
+  godiva: BowmarkFamily_shopify_store.Unit;
   godlockis: BowmarkFamily_shopify_store.Unit;
   godlywoodgirl: BowmarkFamily_shopify_store.Unit;
   godmademillionairestore: BowmarkFamily_shopify_store.Unit;
@@ -136785,6 +137104,7 @@ interface BowmarkProviders {
   golfsidekick: BowmarkFamily_shopify_store.Unit;
   golfteerepair: BowmarkFamily_shopify_store.Unit;
   golftlink: BowmarkFamily_shopify_store.Unit;
+  goli: BowmarkFamily_shopify_store.Unit;
   golinutrition: BowmarkFamily_shopify_store.Unit;
   gologear: BowmarkFamily_shopify_store.Unit;
   gomezwesternwear: BowmarkFamily_shopify_store.Unit;
@@ -136796,6 +137116,7 @@ interface BowmarkProviders {
   gonzdecorations: BowmarkFamily_shopify_store.Unit;
   gooberdogcollars7077: BowmarkFamily_shopify_store.Unit;
   goodalma: BowmarkFamily_shopify_store.Unit;
+  goodandbeautiful: BowmarkFamily_shopify_store.Unit;
   goodandwellsupplyco: BowmarkFamily_shopify_store.Unit;
   goodaudio: BowmarkFamily_shopify_store.Unit;
   goodaurallc: BowmarkFamily_shopify_store.Unit;
@@ -136929,6 +137250,7 @@ interface BowmarkProviders {
   gotzingersmallgoods: BowmarkFamily_shopify_store.Unit;
   gouganebarragifts: BowmarkFamily_shopify_store.Unit;
   gouldgoodrich: BowmarkFamily_shopify_store.Unit;
+  gouletpens: BowmarkFamily_shopify_store.Unit;
   gourmandbeautycom: BowmarkFamily_shopify_store.Unit;
   gourmandmacaronfriends: BowmarkFamily_shopify_store.Unit;
   gourmetdirectph: BowmarkFamily_shopify_store.Unit;
@@ -137075,6 +137397,7 @@ interface BowmarkProviders {
   graytools: BowmarkFamily_shopify_store.Unit;
   graywhalegin: BowmarkFamily_shopify_store.Unit;
   grayzenacres: BowmarkFamily_shopify_store.Unit;
+  graza: BowmarkFamily_shopify_store.Unit;
   graziamarchese: BowmarkFamily_shopify_store.Unit;
   greasejunkie: BowmarkFamily_shopify_store.Unit;
   greatamericaneyewear: BowmarkFamily_shopify_store.Unit;
@@ -137086,6 +137409,7 @@ interface BowmarkProviders {
   greaterthansheets: BowmarkFamily_shopify_store.Unit;
   greatestdaymindset: BowmarkFamily_shopify_store.Unit;
   greatestontheplanet: BowmarkFamily_shopify_store.Unit;
+  greatjonesgoods: BowmarkFamily_shopify_store.Unit;
   greatlakesdevelopment: BowmarkFamily_shopify_store.Unit;
   greatlakesfireworks2: BowmarkFamily_shopify_store.Unit;
   greatlakesgifts: BowmarkFamily_shopify_store.Unit;
@@ -137192,6 +137516,7 @@ interface BowmarkProviders {
   gregsrockingoat: BowmarkFamily_shopify_store.Unit;
   gregturini: BowmarkFamily_shopify_store.Unit;
   greigegoods: BowmarkFamily_shopify_store.Unit;
+  grenade: BowmarkFamily_shopify_store.Unit;
   grens: BowmarkFamily_shopify_store.Unit;
   gresglasses: BowmarkFamily_shopify_store.Unit;
   gresso: BowmarkFamily_shopify_store.Unit;
@@ -137232,6 +137557,7 @@ interface BowmarkProviders {
   grimshawmilitaryantiques: BowmarkFamily_shopify_store.Unit;
   grimsmoknives: BowmarkFamily_shopify_store.Unit;
   grimworkshop: BowmarkFamily_shopify_store.Unit;
+  grind: BowmarkFamily_shopify_store.Unit;
   grindboxing: BowmarkFamily_shopify_store.Unit;
   grindfatherprod: BowmarkFamily_shopify_store.Unit;
   grindingwithattitude: BowmarkFamily_shopify_store.Unit;
@@ -137371,6 +137697,7 @@ interface BowmarkProviders {
   guitarmodeguru: BowmarkFamily_shopify_store.Unit;
   guitarnuttees: BowmarkFamily_shopify_store.Unit;
   guitlapanama: BowmarkFamily_shopify_store.Unit;
+  guittard: BowmarkFamily_shopify_store.Unit;
   gulaalcreations: BowmarkFamily_shopify_store.Unit;
   gulfcoasteco: BowmarkFamily_shopify_store.Unit;
   gulfcoastfanlight: BowmarkFamily_shopify_store.Unit;
@@ -137490,6 +137817,7 @@ interface BowmarkProviders {
   haarteksalon: BowmarkFamily_shopify_store.Unit;
   haasgolf180: BowmarkFamily_shopify_store.Unit;
   habanocenturion: BowmarkFamily_shopify_store.Unit;
+  habibifunk: BowmarkFamily_shopify_store.Unit;
   habitatforhumanitycalgaryrestore: BowmarkFamily_shopify_store.Unit;
   habitathorticultureshop: BowmarkFamily_shopify_store.Unit;
   habitatmain: BowmarkFamily_shopify_store.Unit;
@@ -137614,6 +137942,7 @@ interface BowmarkProviders {
   hammonssupply: BowmarkFamily_shopify_store.Unit;
   hammyandolivia: BowmarkFamily_shopify_store.Unit;
   hamodava: BowmarkFamily_shopify_store.Unit;
+  hampers: BowmarkFamily_shopify_store.Unit;
   hamperswithlovebysarah: BowmarkFamily_shopify_store.Unit;
   hampshirenovelty: BowmarkFamily_shopify_store.Unit;
   hamptonchocolatefactory: BowmarkFamily_shopify_store.Unit;
@@ -137802,6 +138131,7 @@ interface BowmarkProviders {
   harmonyisglobal: BowmarkFamily_shopify_store.Unit;
   harmonysurgicaldesigns: BowmarkFamily_shopify_store.Unit;
   harmonywicks: BowmarkFamily_shopify_store.Unit;
+  harney: BowmarkFamily_shopify_store.Unit;
   harneysonsteabeer: BowmarkFamily_shopify_store.Unit;
   haroldroth: BowmarkFamily_shopify_store.Unit;
   haroldschicken: BowmarkFamily_shopify_store.Unit;
@@ -138219,6 +138549,7 @@ interface BowmarkProviders {
   henrythehero: BowmarkFamily_shopify_store.Unit;
   henrytrading: BowmarkFamily_shopify_store.Unit;
   henryverus: BowmarkFamily_shopify_store.Unit;
+  hensonshaving: BowmarkFamily_shopify_store.Unit;
   heoceramics: BowmarkFamily_shopify_store.Unit;
   heorix: BowmarkFamily_shopify_store.Unit;
   hepworthwakefieldshop: BowmarkFamily_shopify_store.Unit;
@@ -138301,6 +138632,7 @@ interface BowmarkProviders {
   herrock: BowmarkFamily_shopify_store.Unit;
   herronbarbers: BowmarkFamily_shopify_store.Unit;
   herscarfyourscarf: BowmarkFamily_shopify_store.Unit;
+  herschel: BowmarkFamily_shopify_store.Unit;
   hersecretluxe: BowmarkFamily_shopify_store.Unit;
   hersecretmedspa: BowmarkFamily_shopify_store.Unit;
   hersko: BowmarkFamily_shopify_store.Unit;
@@ -138320,6 +138652,7 @@ interface BowmarkProviders {
   heuschnaps: BowmarkFamily_shopify_store.Unit;
   hewittsofmuskoka: BowmarkFamily_shopify_store.Unit;
   hexagrammbooks: BowmarkFamily_shopify_store.Unit;
+  hexclad: BowmarkFamily_shopify_store.Unit;
   hexcodle: BowmarkFamily_shopify_store.Unit;
   hexerastore: BowmarkFamily_shopify_store.Unit;
   hextomecb: BowmarkFamily_shopify_store.Unit;
@@ -138367,6 +138700,7 @@ interface BowmarkProviders {
   hibernationtextiles: BowmarkFamily_shopify_store.Unit;
   hiblends: BowmarkFamily_shopify_store.Unit;
   hibm: BowmarkFamily_shopify_store.Unit;
+  hibobbie: BowmarkFamily_shopify_store.Unit;
   hickorygrovesoaps: BowmarkFamily_shopify_store.Unit;
   hickoryhoustongifts: BowmarkFamily_shopify_store.Unit;
   hickoryridgebaptistchurch: BowmarkFamily_shopify_store.Unit;
@@ -138537,6 +138871,7 @@ interface BowmarkProviders {
   hisdaughtershop: BowmarkFamily_shopify_store.Unit;
   hisfinger: BowmarkFamily_shopify_store.Unit;
   hisgardennaturals: BowmarkFamily_shopify_store.Unit;
+  hismileteeth: BowmarkFamily_shopify_store.Unit;
   hisnhershandcrafted: BowmarkFamily_shopify_store.Unit;
   hisolimade: BowmarkFamily_shopify_store.Unit;
   histoiresdeparfums: BowmarkFamily_shopify_store.Unit;
@@ -138566,6 +138901,7 @@ interface BowmarkProviders {
   hivemerch1183: BowmarkFamily_shopify_store.Unit;
   hiveofmadison: BowmarkFamily_shopify_store.Unit;
   hiveretthes: BowmarkFamily_shopify_store.Unit;
+  hiyahealth: BowmarkFamily_shopify_store.Unit;
   hizenkiriminngei33: BowmarkFamily_shopify_store.Unit;
   hj7gwyz9: BowmarkFamily_shopify_store.Unit;
   hjemhavn: BowmarkFamily_shopify_store.Unit;
@@ -138643,6 +138979,7 @@ interface BowmarkProviders {
   hokkaidoor: BowmarkFamily_shopify_store.Unit;
   hokklinetinkercanada: BowmarkFamily_shopify_store.Unit;
   hokulea: BowmarkFamily_shopify_store.Unit;
+  holafly: BowmarkFamily_shopify_store.Unit;
   holamoriah: BowmarkFamily_shopify_store.Unit;
   holapalms: BowmarkFamily_shopify_store.Unit;
   holdlove: BowmarkFamily_shopify_store.Unit;
@@ -138754,6 +139091,7 @@ interface BowmarkProviders {
   homerungames: BowmarkFamily_shopify_store.Unit;
   homeschoolingtoday: BowmarkFamily_shopify_store.Unit;
   homeschoolstory: BowmarkFamily_shopify_store.Unit;
+  homesick: BowmarkFamily_shopify_store.Unit;
   homespunmn: BowmarkFamily_shopify_store.Unit;
   homesshopuk: BowmarkFamily_shopify_store.Unit;
   homesteadfibers: BowmarkFamily_shopify_store.Unit;
@@ -138785,6 +139123,7 @@ interface BowmarkProviders {
   honekamp: BowmarkFamily_shopify_store.Unit;
   honekyoto: BowmarkFamily_shopify_store.Unit;
   honerocheir: BowmarkFamily_shopify_store.Unit;
+  honest: BowmarkFamily_shopify_store.Unit;
   honestlygoods: BowmarkFamily_shopify_store.Unit;
   honestlymargo: BowmarkFamily_shopify_store.Unit;
   honestlytexasrice: BowmarkFamily_shopify_store.Unit;
@@ -139124,6 +139463,7 @@ interface BowmarkProviders {
   hucklebeefarms: BowmarkFamily_shopify_store.Unit;
   huckleberrybicycles: BowmarkFamily_shopify_store.Unit;
   huckscreations: BowmarkFamily_shopify_store.Unit;
+  hudabeauty: BowmarkFamily_shopify_store.Unit;
   huddleuppod: BowmarkFamily_shopify_store.Unit;
   hudklinikkenislotsgaarden: BowmarkFamily_shopify_store.Unit;
   hudscomics: BowmarkFamily_shopify_store.Unit;
@@ -139152,6 +139492,7 @@ interface BowmarkProviders {
   huisjedesign: BowmarkFamily_shopify_store.Unit;
   huitzilli: BowmarkFamily_shopify_store.Unit;
   hujanskincare: BowmarkFamily_shopify_store.Unit;
+  hukitchen: BowmarkFamily_shopify_store.Unit;
   hulamkhroto: BowmarkFamily_shopify_store.Unit;
   huletglass: BowmarkFamily_shopify_store.Unit;
   hullhistorical: BowmarkFamily_shopify_store.Unit;
@@ -139279,12 +139620,14 @@ interface BowmarkProviders {
   hyperenergybar: BowmarkFamily_shopify_store.Unit;
   hyperflycanada: BowmarkFamily_shopify_store.Unit;
   hypergearus: BowmarkFamily_shopify_store.Unit;
+  hyperice: BowmarkFamily_shopify_store.Unit;
   hyperiwood: BowmarkFamily_shopify_store.Unit;
   hypernexvo: BowmarkFamily_shopify_store.Unit;
   hyperpillar: BowmarkFamily_shopify_store.Unit;
   hypertrophybydesign: BowmarkFamily_shopify_store.Unit;
   hypertrove: BowmarkFamily_shopify_store.Unit;
   hypervisualdemo: BowmarkFamily_shopify_store.Unit;
+  hyperx: BowmarkFamily_shopify_store.Unit;
   hypnotikmediagroup: BowmarkFamily_shopify_store.Unit;
   hyposource: BowmarkFamily_shopify_store.Unit;
   hypoxixfitness: BowmarkFamily_shopify_store.Unit;
@@ -139471,6 +139814,7 @@ interface BowmarkProviders {
   ifwy1145: BowmarkFamily_shopify_store.Unit;
   ig11xc0c: BowmarkFamily_shopify_store.Unit;
   igcbook: BowmarkFamily_shopify_store.Unit;
+  igetrvng: BowmarkFamily_shopify_store.Unit;
   igfmtl: BowmarkFamily_shopify_store.Unit;
   ighqxmxi: BowmarkFamily_shopify_store.Unit;
   igianewyork: BowmarkFamily_shopify_store.Unit;
@@ -139507,6 +139851,7 @@ interface BowmarkProviders {
   iicm: BowmarkFamily_shopify_store.Unit;
   iih90syr: BowmarkFamily_shopify_store.Unit;
   iisdela: BowmarkFamily_shopify_store.Unit;
+  iittala: BowmarkFamily_shopify_store.Unit;
   iiwa2022: BowmarkFamily_shopify_store.Unit;
   ijshoevedeboey: BowmarkFamily_shopify_store.Unit;
   ijssalonluciano: BowmarkFamily_shopify_store.Unit;
@@ -139545,6 +139890,7 @@ interface BowmarkProviders {
   iletait1fois: BowmarkFamily_shopify_store.Unit;
   ilfiorista: BowmarkFamily_shopify_store.Unit;
   ilfordshop: BowmarkFamily_shopify_store.Unit;
+  iliabeauty: BowmarkFamily_shopify_store.Unit;
   ilikeyouminneapolis: BowmarkFamily_shopify_store.Unit;
   ilinewyork: BowmarkFamily_shopify_store.Unit;
   ilkmusic: BowmarkFamily_shopify_store.Unit;
@@ -139649,6 +139995,7 @@ interface BowmarkProviders {
   importadoravamchile: BowmarkFamily_shopify_store.Unit;
   importantewholesale: BowmarkFamily_shopify_store.Unit;
   importantproductionsstore: BowmarkFamily_shopify_store.Unit;
+  importantrecords: BowmarkFamily_shopify_store.Unit;
   importingexporting: BowmarkFamily_shopify_store.Unit;
   impreseefullsearch: BowmarkFamily_shopify_store.Unit;
   impressionschicago: BowmarkFamily_shopify_store.Unit;
@@ -139985,6 +140332,7 @@ interface BowmarkProviders {
   inteletool: BowmarkFamily_shopify_store.Unit;
   inteligenciaquantica: BowmarkFamily_shopify_store.Unit;
   intelladapt: BowmarkFamily_shopify_store.Unit;
+  intelligentsia: BowmarkFamily_shopify_store.Unit;
   intelliquit: BowmarkFamily_shopify_store.Unit;
   intelliquitconsumer: BowmarkFamily_shopify_store.Unit;
   intelliroll: BowmarkFamily_shopify_store.Unit;
@@ -140031,6 +140379,7 @@ interface BowmarkProviders {
   intimatesadultboutique: BowmarkFamily_shopify_store.Unit;
   intimatest: BowmarkFamily_shopify_store.Unit;
   intimidatorgroup: BowmarkFamily_shopify_store.Unit;
+  intlanthem: BowmarkFamily_shopify_store.Unit;
   intodo: BowmarkFamily_shopify_store.Unit;
   intoindotoko: BowmarkFamily_shopify_store.Unit;
   intoxdetox: BowmarkFamily_shopify_store.Unit;
@@ -140075,6 +140424,7 @@ interface BowmarkProviders {
   iplayilearntoys: BowmarkFamily_shopify_store.Unit;
   iplusbg: BowmarkFamily_shopify_store.Unit;
   ipourlife: BowmarkFamily_shopify_store.Unit;
+  ippodotea: BowmarkFamily_shopify_store.Unit;
   ippukucafe: BowmarkFamily_shopify_store.Unit;
   iprintkitchener: BowmarkFamily_shopify_store.Unit;
   ipsentocoffeeroasters: BowmarkFamily_shopify_store.Unit;
@@ -140379,6 +140729,7 @@ interface BowmarkProviders {
   jackbakercandleco: BowmarkFamily_shopify_store.Unit;
   jackbarksdale: BowmarkFamily_shopify_store.Unit;
   jackbrowningstore: BowmarkFamily_shopify_store.Unit;
+  jackery: BowmarkFamily_shopify_store.Unit;
   jackfertility: BowmarkFamily_shopify_store.Unit;
   jackfuscophotography: BowmarkFamily_shopify_store.Unit;
   jackieextreme: BowmarkFamily_shopify_store.Unit;
@@ -140923,6 +141274,7 @@ interface BowmarkProviders {
   jimeyedesigns1: BowmarkFamily_shopify_store.Unit;
   jimlandnovelties: BowmarkFamily_shopify_store.Unit;
   jimmydraper: BowmarkFamily_shopify_store.Unit;
+  jimmyjoy: BowmarkFamily_shopify_store.Unit;
   jimmyturrell: BowmarkFamily_shopify_store.Unit;
   jimmywallaceguitars: BowmarkFamily_shopify_store.Unit;
   jimmywebb: BowmarkFamily_shopify_store.Unit;
@@ -141025,6 +141377,7 @@ interface BowmarkProviders {
   joegpaintings: BowmarkFamily_shopify_store.Unit;
   joejosts: BowmarkFamily_shopify_store.Unit;
   joejoycestore: BowmarkFamily_shopify_store.Unit;
+  joejuice: BowmarkFamily_shopify_store.Unit;
   joelkrause: BowmarkFamily_shopify_store.Unit;
   joelleemusic: BowmarkFamily_shopify_store.Unit;
   joellelandry: BowmarkFamily_shopify_store.Unit;
@@ -141169,6 +141522,7 @@ interface BowmarkProviders {
   josephinero: BowmarkFamily_shopify_store.Unit;
   josephineryanantiques: BowmarkFamily_shopify_store.Unit;
   josephinnejewelry: BowmarkFamily_shopify_store.Unit;
+  josephjoseph: BowmarkFamily_shopify_store.Unit;
   josephsbakery: BowmarkFamily_shopify_store.Unit;
   josephwalshstudio: BowmarkFamily_shopify_store.Unit;
   josephwaltonphotography: BowmarkFamily_shopify_store.Unit;
@@ -141346,6 +141700,7 @@ interface BowmarkProviders {
   juliettesplace: BowmarkFamily_shopify_store.Unit;
   juliewilliamsstore: BowmarkFamily_shopify_store.Unit;
   julsandjane: BowmarkFamily_shopify_store.Unit;
+  july: BowmarkFamily_shopify_store.Unit;
   julyprom: BowmarkFamily_shopify_store.Unit;
   jumbled: BowmarkFamily_shopify_store.Unit;
   jumpackstore: BowmarkFamily_shopify_store.Unit;
@@ -141401,6 +141756,7 @@ interface BowmarkProviders {
   justdecohome: BowmarkFamily_shopify_store.Unit;
   justdifferentcollection: BowmarkFamily_shopify_store.Unit;
   justfinish: BowmarkFamily_shopify_store.Unit;
+  justfoodfordogs: BowmarkFamily_shopify_store.Unit;
   justforbeautyhealth: BowmarkFamily_shopify_store.Unit;
   justgorgeousdarling: BowmarkFamily_shopify_store.Unit;
   justiceco: BowmarkFamily_shopify_store.Unit;
@@ -141468,6 +141824,7 @@ interface BowmarkProviders {
   k09qavte: BowmarkFamily_shopify_store.Unit;
   k0gmetwf: BowmarkFamily_shopify_store.Unit;
   k0p6y0kw: BowmarkFamily_shopify_store.Unit;
+  k18hair: BowmarkFamily_shopify_store.Unit;
   k1g1maa1: BowmarkFamily_shopify_store.Unit;
   k1speedretailmerchandise: BowmarkFamily_shopify_store.Unit;
   k2medicalcare: BowmarkFamily_shopify_store.Unit;
@@ -141739,6 +142096,7 @@ interface BowmarkProviders {
   kathleencutlerstrategy: BowmarkFamily_shopify_store.Unit;
   kathleenedwards: BowmarkFamily_shopify_store.Unit;
   kathleentennock: BowmarkFamily_shopify_store.Unit;
+  kathmandu: BowmarkFamily_shopify_store.Unit;
   kathrinappelhoff: BowmarkFamily_shopify_store.Unit;
   kathrinedeplacebjorn: BowmarkFamily_shopify_store.Unit;
   kathrynlegendrestore: BowmarkFamily_shopify_store.Unit;
@@ -142006,6 +142364,7 @@ interface BowmarkProviders {
   keyasethexclusive: BowmarkFamily_shopify_store.Unit;
   keyblack: BowmarkFamily_shopify_store.Unit;
   keycarbon: BowmarkFamily_shopify_store.Unit;
+  keychron: BowmarkFamily_shopify_store.Unit;
   keyfittools: BowmarkFamily_shopify_store.Unit;
   keylimepiebakery: BowmarkFamily_shopify_store.Unit;
   keyoptics: BowmarkFamily_shopify_store.Unit;
@@ -142031,6 +142390,7 @@ interface BowmarkProviders {
   kgbees: BowmarkFamily_shopify_store.Unit;
   khalilraheem: BowmarkFamily_shopify_store.Unit;
   khamrynb: BowmarkFamily_shopify_store.Unit;
+  khanacademy: BowmarkFamily_shopify_store.Unit;
   kharatuki: BowmarkFamily_shopify_store.Unit;
   khayyan: BowmarkFamily_shopify_store.Unit;
   khbeis: BowmarkFamily_shopify_store.Unit;
@@ -142051,6 +142411,7 @@ interface BowmarkProviders {
   kicareshop: BowmarkFamily_shopify_store.Unit;
   kickfizz: BowmarkFamily_shopify_store.Unit;
   kickflip3: BowmarkFamily_shopify_store.Unit;
+  kickinghorsecoffee: BowmarkFamily_shopify_store.Unit;
   kickitca: BowmarkFamily_shopify_store.Unit;
   kickithevibe: BowmarkFamily_shopify_store.Unit;
   kickitupseasoning: BowmarkFamily_shopify_store.Unit;
@@ -142110,6 +142471,7 @@ interface BowmarkProviders {
   killermerch: BowmarkFamily_shopify_store.Unit;
   killersneverdie: BowmarkFamily_shopify_store.Unit;
   killiansworkshop: BowmarkFamily_shopify_store.Unit;
+  killrockstars: BowmarkFamily_shopify_store.Unit;
   killswitchengageuk: BowmarkFamily_shopify_store.Unit;
   killthelights: BowmarkFamily_shopify_store.Unit;
   killyedna: BowmarkFamily_shopify_store.Unit;
@@ -142201,6 +142563,7 @@ interface BowmarkProviders {
   kinnokokoro: BowmarkFamily_shopify_store.Unit;
   kinphl: BowmarkFamily_shopify_store.Unit;
   kinshipgoods: BowmarkFamily_shopify_store.Unit;
+  kintousa: BowmarkFamily_shopify_store.Unit;
   kinyat: BowmarkFamily_shopify_store.Unit;
   kiokofr: BowmarkFamily_shopify_store.Unit;
   kipaniskloset: BowmarkFamily_shopify_store.Unit;
@@ -142279,6 +142642,7 @@ interface BowmarkProviders {
   kkureha: BowmarkFamily_shopify_store.Unit;
   kkvbutikken: BowmarkFamily_shopify_store.Unit;
   kl2farms: BowmarkFamily_shopify_store.Unit;
+  klairs: BowmarkFamily_shopify_store.Unit;
   klamerchandisestore: BowmarkFamily_shopify_store.Unit;
   klapperglas: BowmarkFamily_shopify_store.Unit;
   klarhoeferblumen: BowmarkFamily_shopify_store.Unit;
@@ -142359,6 +142723,7 @@ interface BowmarkProviders {
   knoxandko: BowmarkFamily_shopify_store.Unit;
   knoxprosoccer: BowmarkFamily_shopify_store.Unit;
   knucklenogginwhiskey: BowmarkFamily_shopify_store.Unit;
+  koala: BowmarkFamily_shopify_store.Unit;
   koalamattress: BowmarkFamily_shopify_store.Unit;
   koalohastore: BowmarkFamily_shopify_store.Unit;
   koanaturals: BowmarkFamily_shopify_store.Unit;
@@ -142633,6 +142998,7 @@ interface BowmarkProviders {
   kushbushofficial: BowmarkFamily_shopify_store.Unit;
   kushirobako: BowmarkFamily_shopify_store.Unit;
   kushkards: BowmarkFamily_shopify_store.Unit;
+  kusmitea: BowmarkFamily_shopify_store.Unit;
   kustompaintsupply: BowmarkFamily_shopify_store.Unit;
   kuswheuw: BowmarkFamily_shopify_store.Unit;
   kuteshopdemo: BowmarkFamily_shopify_store.Unit;
@@ -142768,6 +143134,7 @@ interface BowmarkProviders {
   laclosetdesign: BowmarkFamily_shopify_store.Unit;
   lacoasports: BowmarkFamily_shopify_store.Unit;
   lacocinasfstore: BowmarkFamily_shopify_store.Unit;
+  lacolombe: BowmarkFamily_shopify_store.Unit;
   lacolombegroup: BowmarkFamily_shopify_store.Unit;
   lacortecosmeticpets: BowmarkFamily_shopify_store.Unit;
   lacourdesigns: BowmarkFamily_shopify_store.Unit;
@@ -142982,6 +143349,7 @@ interface BowmarkProviders {
   lapopularcdmx: BowmarkFamily_shopify_store.Unit;
   laposheswim: BowmarkFamily_shopify_store.Unit;
   lappsouthernafrica: BowmarkFamily_shopify_store.Unit;
+  laprairie: BowmarkFamily_shopify_store.Unit;
   laptopstemplate: BowmarkFamily_shopify_store.Unit;
   laptopuniversefull: BowmarkFamily_shopify_store.Unit;
   laralars: BowmarkFamily_shopify_store.Unit;
@@ -143041,6 +143409,7 @@ interface BowmarkProviders {
   lasmariaslibros: BowmarkFamily_shopify_store.Unit;
   lasrishis: BowmarkFamily_shopify_store.Unit;
   lasstikproducts: BowmarkFamily_shopify_store.Unit;
+  last: BowmarkFamily_shopify_store.Unit;
   last40organic: BowmarkFamily_shopify_store.Unit;
   lastforest: BowmarkFamily_shopify_store.Unit;
   lastgallery: BowmarkFamily_shopify_store.Unit;
@@ -143221,6 +143590,7 @@ interface BowmarkProviders {
   leafbone: BowmarkFamily_shopify_store.Unit;
   leaflotus5582: BowmarkFamily_shopify_store.Unit;
   leaflounge: BowmarkFamily_shopify_store.Unit;
+  leafshave: BowmarkFamily_shopify_store.Unit;
   leagueit: BowmarkFamily_shopify_store.Unit;
   leagueofcraftycanines: BowmarkFamily_shopify_store.Unit;
   leagueshoresh: BowmarkFamily_shopify_store.Unit;
@@ -143551,6 +143921,7 @@ interface BowmarkProviders {
   lexingtonlabband: BowmarkFamily_shopify_store.Unit;
   lexondesign: BowmarkFamily_shopify_store.Unit;
   lexpott: BowmarkFamily_shopify_store.Unit;
+  lexrecords: BowmarkFamily_shopify_store.Unit;
   leytonoflondon: BowmarkFamily_shopify_store.Unit;
   lezadademo: BowmarkFamily_shopify_store.Unit;
   lezadahealthcare: BowmarkFamily_shopify_store.Unit;
@@ -143727,6 +144098,7 @@ interface BowmarkProviders {
   lilyofthevalleyboutique: BowmarkFamily_shopify_store.Unit;
   lilyofthevalleydesigns: BowmarkFamily_shopify_store.Unit;
   lilypillys: BowmarkFamily_shopify_store.Unit;
+  lilyskitchen: BowmarkFamily_shopify_store.Unit;
   lilytoad: BowmarkFamily_shopify_store.Unit;
   limasthimatic: BowmarkFamily_shopify_store.Unit;
   limberlostmusic: BowmarkFamily_shopify_store.Unit;
@@ -144000,6 +144372,7 @@ interface BowmarkProviders {
   livemalibuskye: BowmarkFamily_shopify_store.Unit;
   livemariobadescu: BowmarkFamily_shopify_store.Unit;
   livemightymug: BowmarkFamily_shopify_store.Unit;
+  livemomentous: BowmarkFamily_shopify_store.Unit;
   livemurad: BowmarkFamily_shopify_store.Unit;
   livenimblecom: BowmarkFamily_shopify_store.Unit;
   liveoakcamp: BowmarkFamily_shopify_store.Unit;
@@ -144141,6 +144514,7 @@ interface BowmarkProviders {
   locovery: BowmarkFamily_shopify_store.Unit;
   lodbxgarments: BowmarkFamily_shopify_store.Unit;
   lodgeabashiri: BowmarkFamily_shopify_store.Unit;
+  lodgecastiron: BowmarkFamily_shopify_store.Unit;
   lodgesoycandles: BowmarkFamily_shopify_store.Unit;
   lofaloveforarcade: BowmarkFamily_shopify_store.Unit;
   lofficc: BowmarkFamily_shopify_store.Unit;
@@ -144394,6 +144768,7 @@ interface BowmarkProviders {
   lovaskin: BowmarkFamily_shopify_store.Unit;
   love2bakephilippines: BowmarkFamily_shopify_store.Unit;
   lovealetasoulwear: BowmarkFamily_shopify_store.Unit;
+  loveamika: BowmarkFamily_shopify_store.Unit;
   loveandersons: BowmarkFamily_shopify_store.Unit;
   loveandlashessupplies: BowmarkFamily_shopify_store.Unit;
   loveandlion: BowmarkFamily_shopify_store.Unit;
@@ -144419,6 +144794,7 @@ interface BowmarkProviders {
   lovecircus: BowmarkFamily_shopify_store.Unit;
   lovecolette: BowmarkFamily_shopify_store.Unit;
   lovecraftgift: BowmarkFamily_shopify_store.Unit;
+  lovecrafts: BowmarkFamily_shopify_store.Unit;
   lovecreations2: BowmarkFamily_shopify_store.Unit;
   lovecreeksanctuary: BowmarkFamily_shopify_store.Unit;
   lovecrew: BowmarkFamily_shopify_store.Unit;
@@ -144468,6 +144844,7 @@ interface BowmarkProviders {
   lovenrevenge: BowmarkFamily_shopify_store.Unit;
   lovepedalcustomeffects: BowmarkFamily_shopify_store.Unit;
   loveperseveres: BowmarkFamily_shopify_store.Unit;
+  lovepop: BowmarkFamily_shopify_store.Unit;
   loveracingnz: BowmarkFamily_shopify_store.Unit;
   loverealfood1500: BowmarkFamily_shopify_store.Unit;
   loversrockexperience: BowmarkFamily_shopify_store.Unit;
@@ -144622,6 +144999,7 @@ interface BowmarkProviders {
   lumafabrics: BowmarkFamily_shopify_store.Unit;
   lumawaresafety: BowmarkFamily_shopify_store.Unit;
   lumberjaxeca: BowmarkFamily_shopify_store.Unit;
+  lumedeodorant: BowmarkFamily_shopify_store.Unit;
   lumenebeautyandaccessories: BowmarkFamily_shopify_store.Unit;
   lumevelab: BowmarkFamily_shopify_store.Unit;
   lumibymari0303: BowmarkFamily_shopify_store.Unit;
@@ -144810,6 +145188,7 @@ interface BowmarkProviders {
   macasestemplate: BowmarkFamily_shopify_store.Unit;
   macassist: BowmarkFamily_shopify_store.Unit;
   macclarkonlineshop: BowmarkFamily_shopify_store.Unit;
+  maccosmetics: BowmarkFamily_shopify_store.Unit;
   macedomerch: BowmarkFamily_shopify_store.Unit;
   macfashionhouseseattle: BowmarkFamily_shopify_store.Unit;
   machiattoespresso2: BowmarkFamily_shopify_store.Unit;
@@ -144838,6 +145217,7 @@ interface BowmarkProviders {
   macrowandson: BowmarkFamily_shopify_store.Unit;
   macsportinggoods: BowmarkFamily_shopify_store.Unit;
   macspropsavers: BowmarkFamily_shopify_store.Unit;
+  macyswineshop: BowmarkFamily_shopify_store.Unit;
   madamcorasemporium: BowmarkFamily_shopify_store.Unit;
   madamegandhimerch: BowmarkFamily_shopify_store.Unit;
   madamelabriski: BowmarkFamily_shopify_store.Unit;
@@ -144870,6 +145250,7 @@ interface BowmarkProviders {
   madegoodltd: BowmarkFamily_shopify_store.Unit;
   madeinafricabrand: BowmarkFamily_shopify_store.Unit;
   madeinarizonamarket: BowmarkFamily_shopify_store.Unit;
+  madeincookware: BowmarkFamily_shopify_store.Unit;
   madeinnewmexico: BowmarkFamily_shopify_store.Unit;
   madeinniigata: BowmarkFamily_shopify_store.Unit;
   madeinringon: BowmarkFamily_shopify_store.Unit;
@@ -145109,6 +145490,7 @@ interface BowmarkProviders {
   makeupandslaystore: BowmarkFamily_shopify_store.Unit;
   makeupartistmagazine: BowmarkFamily_shopify_store.Unit;
   makeupbybobeauty: BowmarkFamily_shopify_store.Unit;
+  makeupbymario: BowmarkFamily_shopify_store.Unit;
   makeupmuseum: BowmarkFamily_shopify_store.Unit;
   makeuppro: BowmarkFamily_shopify_store.Unit;
   makewells: BowmarkFamily_shopify_store.Unit;
@@ -145250,6 +145632,7 @@ interface BowmarkProviders {
   manproservices: BowmarkFamily_shopify_store.Unit;
   manreadymercantile: BowmarkFamily_shopify_store.Unit;
   manrrsswag: BowmarkFamily_shopify_store.Unit;
+  manscaped: BowmarkFamily_shopify_store.Unit;
   mansfieldfoundation: BowmarkFamily_shopify_store.Unit;
   mansionz: BowmarkFamily_shopify_store.Unit;
   mantelmountdealersite: BowmarkFamily_shopify_store.Unit;
@@ -145264,6 +145647,7 @@ interface BowmarkProviders {
   manuelbarrera: BowmarkFamily_shopify_store.Unit;
   manufacturersautomation: BowmarkFamily_shopify_store.Unit;
   manufakturliebevoll200: BowmarkFamily_shopify_store.Unit;
+  manukora: BowmarkFamily_shopify_store.Unit;
   manulodgetradingpost: BowmarkFamily_shopify_store.Unit;
   manuncivilized: BowmarkFamily_shopify_store.Unit;
   manuremafia: BowmarkFamily_shopify_store.Unit;
@@ -145528,6 +145912,7 @@ interface BowmarkProviders {
   maryncharlie: BowmarkFamily_shopify_store.Unit;
   maryosirishsodabrad: BowmarkFamily_shopify_store.Unit;
   maryroseyoung: BowmarkFamily_shopify_store.Unit;
+  maryruthorganics: BowmarkFamily_shopify_store.Unit;
   marysbsweets: BowmarkFamily_shopify_store.Unit;
   marysmeals: BowmarkFamily_shopify_store.Unit;
   marysmountaincookiesdowntownloveland: BowmarkFamily_shopify_store.Unit;
@@ -145595,6 +145980,7 @@ interface BowmarkProviders {
   masualpaca: BowmarkFamily_shopify_store.Unit;
   masuricustomteamwear: BowmarkFamily_shopify_store.Unit;
   matadorranch: BowmarkFamily_shopify_store.Unit;
+  matadorrecords: BowmarkFamily_shopify_store.Unit;
   matakiamou: BowmarkFamily_shopify_store.Unit;
   matchaheaventodaycom: BowmarkFamily_shopify_store.Unit;
   matchaidesigns: BowmarkFamily_shopify_store.Unit;
@@ -145635,6 +146021,7 @@ interface BowmarkProviders {
   mattany: BowmarkFamily_shopify_store.Unit;
   mattcameronpottery: BowmarkFamily_shopify_store.Unit;
   matteargyle: BowmarkFamily_shopify_store.Unit;
+  mattel: BowmarkFamily_shopify_store.Unit;
   matteographicsmarinermiddleschool: BowmarkFamily_shopify_store.Unit;
   matteolanecomedy: BowmarkFamily_shopify_store.Unit;
   matteoperin: BowmarkFamily_shopify_store.Unit;
@@ -145980,6 +146367,7 @@ interface BowmarkProviders {
   melioramusicrolls: BowmarkFamily_shopify_store.Unit;
   melisamalvin: BowmarkFamily_shopify_store.Unit;
   melislavender: BowmarkFamily_shopify_store.Unit;
+  melissaanddoug: BowmarkFamily_shopify_store.Unit;
   melissabeth: BowmarkFamily_shopify_store.Unit;
   melissamayapottery: BowmarkFamily_shopify_store.Unit;
   melissamayo: BowmarkFamily_shopify_store.Unit;
@@ -145988,6 +146376,7 @@ interface BowmarkProviders {
   meliwraps: BowmarkFamily_shopify_store.Unit;
   melizamodesty: BowmarkFamily_shopify_store.Unit;
   meljessbees: BowmarkFamily_shopify_store.Unit;
+  mellomusicgroup: BowmarkFamily_shopify_store.Unit;
   mellowconceptstore4144: BowmarkFamily_shopify_store.Unit;
   mellowconceptstorech: BowmarkFamily_shopify_store.Unit;
   mellowhabanero: BowmarkFamily_shopify_store.Unit;
@@ -146036,6 +146425,7 @@ interface BowmarkProviders {
   mennywear: BowmarkFamily_shopify_store.Unit;
   mensapparelcom: BowmarkFamily_shopify_store.Unit;
   mensuitstemplate: BowmarkFamily_shopify_store.Unit;
+  mentalhealth: BowmarkFamily_shopify_store.Unit;
   mentalhealthassociationoklahoma8544: BowmarkFamily_shopify_store.Unit;
   mentaritoys: BowmarkFamily_shopify_store.Unit;
   menuextra: BowmarkFamily_shopify_store.Unit;
@@ -146084,6 +146474,7 @@ interface BowmarkProviders {
   meredithdevine: BowmarkFamily_shopify_store.Unit;
   meredithstrauss: BowmarkFamily_shopify_store.Unit;
   meredithwaterstraatartanddesign: BowmarkFamily_shopify_store.Unit;
+  mergerecords: BowmarkFamily_shopify_store.Unit;
   merhiphop: BowmarkFamily_shopify_store.Unit;
   mericaenergycom: BowmarkFamily_shopify_store.Unit;
   meridianputters: BowmarkFamily_shopify_store.Unit;
@@ -146092,6 +146483,7 @@ interface BowmarkProviders {
   merissadphoto: BowmarkFamily_shopify_store.Unit;
   meristemcrop: BowmarkFamily_shopify_store.Unit;
   merit: BowmarkFamily_shopify_store.Unit;
+  meritbeauty: BowmarkFamily_shopify_store.Unit;
   merivalevisioncare: BowmarkFamily_shopify_store.Unit;
   merlinlittlethunder: BowmarkFamily_shopify_store.Unit;
   mermaidsofearth: BowmarkFamily_shopify_store.Unit;
@@ -146159,6 +146551,7 @@ interface BowmarkProviders {
   meublemoiinc: BowmarkFamily_shopify_store.Unit;
   meublesthouret: BowmarkFamily_shopify_store.Unit;
   meuboutique: BowmarkFamily_shopify_store.Unit;
+  meundies: BowmarkFamily_shopify_store.Unit;
   meusefarm: BowmarkFamily_shopify_store.Unit;
   mexcdungjp: BowmarkFamily_shopify_store.Unit;
   mexicanpearls: BowmarkFamily_shopify_store.Unit;
@@ -146168,6 +146561,7 @@ interface BowmarkProviders {
   mezcaldeleyendas: BowmarkFamily_shopify_store.Unit;
   mezcaldestreza: BowmarkFamily_shopify_store.Unit;
   mezcalsilencio: BowmarkFamily_shopify_store.Unit;
+  mezeaudio: BowmarkFamily_shopify_store.Unit;
   mezsal: BowmarkFamily_shopify_store.Unit;
   mezzacorporation: BowmarkFamily_shopify_store.Unit;
   mfaprints: BowmarkFamily_shopify_store.Unit;
@@ -146318,6 +146712,7 @@ interface BowmarkProviders {
   miekomintzwebpopupstore: BowmarkFamily_shopify_store.Unit;
   mielabitemis: BowmarkFamily_shopify_store.Unit;
   mielebianchi: BowmarkFamily_shopify_store.Unit;
+  mielleorganics: BowmarkFamily_shopify_store.Unit;
   mielnortena: BowmarkFamily_shopify_store.Unit;
   miesisswimwear: BowmarkFamily_shopify_store.Unit;
   mifahachok: BowmarkFamily_shopify_store.Unit;
@@ -146357,6 +146752,7 @@ interface BowmarkProviders {
   mikemezacksignaturecoins: BowmarkFamily_shopify_store.Unit;
   mikepintomusic: BowmarkFamily_shopify_store.Unit;
   mikeryanband: BowmarkFamily_shopify_store.Unit;
+  mikeshothoney: BowmarkFamily_shopify_store.Unit;
   mikesonline2: BowmarkFamily_shopify_store.Unit;
   mikesseasonings: BowmarkFamily_shopify_store.Unit;
   mikesshoessanluisobispo: BowmarkFamily_shopify_store.Unit;
@@ -146393,6 +146789,7 @@ interface BowmarkProviders {
   milkhandmade: BowmarkFamily_shopify_store.Unit;
   milkiwaybohemiansilverdesign: BowmarkFamily_shopify_store.Unit;
   milkkobari: BowmarkFamily_shopify_store.Unit;
+  milkmakeup: BowmarkFamily_shopify_store.Unit;
   milkpunch: BowmarkFamily_shopify_store.Unit;
   milksupply: BowmarkFamily_shopify_store.Unit;
   milkybon: BowmarkFamily_shopify_store.Unit;
@@ -146574,6 +146971,7 @@ interface BowmarkProviders {
   missdjangel: BowmarkFamily_shopify_store.Unit;
   missessweet: BowmarkFamily_shopify_store.Unit;
   missfilly: BowmarkFamily_shopify_store.Unit;
+  misshaus: BowmarkFamily_shopify_store.Unit;
   misshuusa: BowmarkFamily_shopify_store.Unit;
   mission22: BowmarkFamily_shopify_store.Unit;
   missionariesofthesacredheartusa: BowmarkFamily_shopify_store.Unit;
@@ -146604,6 +147002,7 @@ interface BowmarkProviders {
   missmischiefphotography: BowmarkFamily_shopify_store.Unit;
   missmonster: BowmarkFamily_shopify_store.Unit;
   missnailbar: BowmarkFamily_shopify_store.Unit;
+  missoma: BowmarkFamily_shopify_store.Unit;
   missourihistorymuseumshop: BowmarkFamily_shopify_store.Unit;
   misspattycake: BowmarkFamily_shopify_store.Unit;
   misspouty: BowmarkFamily_shopify_store.Unit;
@@ -146978,6 +147377,7 @@ interface BowmarkProviders {
   montanacountryboutique: BowmarkFamily_shopify_store.Unit;
   montanamarktheidenfeld: BowmarkFamily_shopify_store.Unit;
   montanasilversprings: BowmarkFamily_shopify_store.Unit;
+  montane: BowmarkFamily_shopify_store.Unit;
   montduamel: BowmarkFamily_shopify_store.Unit;
   monteazulpr: BowmarkFamily_shopify_store.Unit;
   montebernardi: BowmarkFamily_shopify_store.Unit;
@@ -147095,6 +147495,7 @@ interface BowmarkProviders {
   morizijiujitsu: BowmarkFamily_shopify_store.Unit;
   morningglorystore: BowmarkFamily_shopify_store.Unit;
   moroccanelixir: BowmarkFamily_shopify_store.Unit;
+  moroccanoil: BowmarkFamily_shopify_store.Unit;
   morochooaxaca: BowmarkFamily_shopify_store.Unit;
   morokosian: BowmarkFamily_shopify_store.Unit;
   morongotogo: BowmarkFamily_shopify_store.Unit;
@@ -147233,6 +147634,7 @@ interface BowmarkProviders {
   mplstreesale: BowmarkFamily_shopify_store.Unit;
   mpmmarketplace: BowmarkFamily_shopify_store.Unit;
   mpmshop: BowmarkFamily_shopify_store.Unit;
+  mpmsite: BowmarkFamily_shopify_store.Unit;
   mpressrecords: BowmarkFamily_shopify_store.Unit;
   mprintdesigns: BowmarkFamily_shopify_store.Unit;
   mpssociety: BowmarkFamily_shopify_store.Unit;
@@ -147325,6 +147727,7 @@ interface BowmarkProviders {
   mstennissportshop: BowmarkFamily_shopify_store.Unit;
   mstessentials: BowmarkFamily_shopify_store.Unit;
   mstrjapan: BowmarkFamily_shopify_store.Unit;
+  msu: BowmarkFamily_shopify_store.Unit;
   mswkwyas: BowmarkFamily_shopify_store.Unit;
   mszola: BowmarkFamily_shopify_store.Unit;
   mt112a3c: BowmarkFamily_shopify_store.Unit;
@@ -147372,6 +147775,7 @@ interface BowmarkProviders {
   muhdob2b: BowmarkFamily_shopify_store.Unit;
   muhi0ykj: BowmarkFamily_shopify_store.Unit;
   muitacalmasports: BowmarkFamily_shopify_store.Unit;
+  muji: BowmarkFamily_shopify_store.Unit;
   muktistudio: BowmarkFamily_shopify_store.Unit;
   muktoflowershop: BowmarkFamily_shopify_store.Unit;
   muktoshoestore: BowmarkFamily_shopify_store.Unit;
@@ -147565,6 +147969,7 @@ interface BowmarkProviders {
   mybestbridal: BowmarkFamily_shopify_store.Unit;
   mybestfriendsclosettracy: BowmarkFamily_shopify_store.Unit;
   mybetty1: BowmarkFamily_shopify_store.Unit;
+  mybillie: BowmarkFamily_shopify_store.Unit;
   mybistromcg: BowmarkFamily_shopify_store.Unit;
   mybrothersbeef: BowmarkFamily_shopify_store.Unit;
   mybuqutest: BowmarkFamily_shopify_store.Unit;
@@ -147610,6 +148015,7 @@ interface BowmarkProviders {
   myfathersdaughterdesigns: BowmarkFamily_shopify_store.Unit;
   myfishingcapecod: BowmarkFamily_shopify_store.Unit;
   myfizzymilk: BowmarkFamily_shopify_store.Unit;
+  myfonts: BowmarkFamily_shopify_store.Unit;
   myforestlawn: BowmarkFamily_shopify_store.Unit;
   myfruitsshop: BowmarkFamily_shopify_store.Unit;
   myg2enyv: BowmarkFamily_shopify_store.Unit;
@@ -147636,6 +148042,7 @@ interface BowmarkProviders {
   myjanky: BowmarkFamily_shopify_store.Unit;
   mykeytheartist: BowmarkFamily_shopify_store.Unit;
   mykindaearth: BowmarkFamily_shopify_store.Unit;
+  mykudos: BowmarkFamily_shopify_store.Unit;
   mylarginine: BowmarkFamily_shopify_store.Unit;
   myldmastore: BowmarkFamily_shopify_store.Unit;
   mylearningtoolsresilience: BowmarkFamily_shopify_store.Unit;
@@ -147667,6 +148074,7 @@ interface BowmarkProviders {
   mynewestaddiction: BowmarkFamily_shopify_store.Unit;
   mynoblestore: BowmarkFamily_shopify_store.Unit;
   myntsanitizers: BowmarkFamily_shopify_store.Unit;
+  mynuface: BowmarkFamily_shopify_store.Unit;
   mynurish: BowmarkFamily_shopify_store.Unit;
   mynvfc: BowmarkFamily_shopify_store.Unit;
   myocosmeticcases: BowmarkFamily_shopify_store.Unit;
@@ -147708,6 +148116,7 @@ interface BowmarkProviders {
   mysarts: BowmarkFamily_shopify_store.Unit;
   myschoolmemories: BowmarkFamily_shopify_store.Unit;
   myselfreliance: BowmarkFamily_shopify_store.Unit;
+  myserenitykids: BowmarkFamily_shopify_store.Unit;
   mysexywaistwholesale: BowmarkFamily_shopify_store.Unit;
   myshopdefault: BowmarkFamily_shopify_store.Unit;
   myshopexpress: BowmarkFamily_shopify_store.Unit;
@@ -147878,6 +148287,7 @@ interface BowmarkProviders {
   nanofiche: BowmarkFamily_shopify_store.Unit;
   nanofithk: BowmarkFamily_shopify_store.Unit;
   nanolambda: BowmarkFamily_shopify_store.Unit;
+  nanoleaf: BowmarkFamily_shopify_store.Unit;
   nanosubs: BowmarkFamily_shopify_store.Unit;
   nanpeters: BowmarkFamily_shopify_store.Unit;
   nantucketcoffeeroasters: BowmarkFamily_shopify_store.Unit;
@@ -147993,6 +148403,7 @@ interface BowmarkProviders {
   nativeozbushfoods: BowmarkFamily_shopify_store.Unit;
   nativepangean: BowmarkFamily_shopify_store.Unit;
   nativepath: BowmarkFamily_shopify_store.Unit;
+  nativepet: BowmarkFamily_shopify_store.Unit;
   nativesons: BowmarkFamily_shopify_store.Unit;
   nativespiritlodge: BowmarkFamily_shopify_store.Unit;
   nativespiritoils: BowmarkFamily_shopify_store.Unit;
@@ -148086,6 +148497,7 @@ interface BowmarkProviders {
   naturetis: BowmarkFamily_shopify_store.Unit;
   naturevsfuture: BowmarkFamily_shopify_store.Unit;
   naturewalkswithjudystore: BowmarkFamily_shopify_store.Unit;
+  naturium: BowmarkFamily_shopify_store.Unit;
   naturlichsteffi: BowmarkFamily_shopify_store.Unit;
   naturloop: BowmarkFamily_shopify_store.Unit;
   naturopathnicole: BowmarkFamily_shopify_store.Unit;
@@ -148150,6 +148562,7 @@ interface BowmarkProviders {
   nebelspalter: BowmarkFamily_shopify_store.Unit;
   nebraskabedsandmore: BowmarkFamily_shopify_store.Unit;
   nebulosadelgranchio: BowmarkFamily_shopify_store.Unit;
+  necessaire: BowmarkFamily_shopify_store.Unit;
   necessarycomforts: BowmarkFamily_shopify_store.Unit;
   necessarynutritioninc: BowmarkFamily_shopify_store.Unit;
   necknest: BowmarkFamily_shopify_store.Unit;
@@ -148203,6 +148616,7 @@ interface BowmarkProviders {
   neluxey: BowmarkFamily_shopify_store.Unit;
   nelward: BowmarkFamily_shopify_store.Unit;
   nemidemo: BowmarkFamily_shopify_store.Unit;
+  nemoequipment: BowmarkFamily_shopify_store.Unit;
   nemosbakery: BowmarkFamily_shopify_store.Unit;
   neobros1: BowmarkFamily_shopify_store.Unit;
   neocraft: BowmarkFamily_shopify_store.Unit;
@@ -148247,6 +148661,7 @@ interface BowmarkProviders {
   nestednaturals: BowmarkFamily_shopify_store.Unit;
   nestedwest: BowmarkFamily_shopify_store.Unit;
   nestledpines: BowmarkFamily_shopify_store.Unit;
+  nestnewyork: BowmarkFamily_shopify_store.Unit;
   nestprettythings: BowmarkFamily_shopify_store.Unit;
   netackle: BowmarkFamily_shopify_store.Unit;
   netate: BowmarkFamily_shopify_store.Unit;
@@ -148825,6 +149240,7 @@ interface BowmarkProviders {
   notedpaperieinvitationcoordination: BowmarkFamily_shopify_store.Unit;
   notforher: BowmarkFamily_shopify_store.Unit;
   notgiganticfiretruck: BowmarkFamily_shopify_store.Unit;
+  nothing: BowmarkFamily_shopify_store.Unit;
   nothingandcompany: BowmarkFamily_shopify_store.Unit;
   nothingforgranite3: BowmarkFamily_shopify_store.Unit;
   nothingnessfer: BowmarkFamily_shopify_store.Unit;
@@ -148838,6 +149254,7 @@ interface BowmarkProviders {
   notoxnz: BowmarkFamily_shopify_store.Unit;
   notozonemediashop: BowmarkFamily_shopify_store.Unit;
   notreesharmed: BowmarkFamily_shopify_store.Unit;
+  notte: BowmarkFamily_shopify_store.Unit;
   nottinghamcontemporary: BowmarkFamily_shopify_store.Unit;
   nottravis: BowmarkFamily_shopify_store.Unit;
   notyaaverageapparel: BowmarkFamily_shopify_store.Unit;
@@ -148995,10 +149412,12 @@ interface BowmarkProviders {
   nutritowercanada: BowmarkFamily_shopify_store.Unit;
   nutrivenduk: BowmarkFamily_shopify_store.Unit;
   nutrogusto: BowmarkFamily_shopify_store.Unit;
+  nuts: BowmarkFamily_shopify_store.Unit;
   nutsaboutlife: BowmarkFamily_shopify_store.Unit;
   nutsandboltsoffishingboating: BowmarkFamily_shopify_store.Unit;
   nuttzo: BowmarkFamily_shopify_store.Unit;
   nutworksaustralia: BowmarkFamily_shopify_store.Unit;
+  nuudcare: BowmarkFamily_shopify_store.Unit;
   nuunlife: BowmarkFamily_shopify_store.Unit;
   nuvoathletic: BowmarkFamily_shopify_store.Unit;
   nvltys: BowmarkFamily_shopify_store.Unit;
@@ -149018,6 +149437,7 @@ interface BowmarkProviders {
   nyfsa: BowmarkFamily_shopify_store.Unit;
   nymphenburg: BowmarkFamily_shopify_store.Unit;
   nynaturals: BowmarkFamily_shopify_store.Unit;
+  nypost: BowmarkFamily_shopify_store.Unit;
   nysaesbookstore: BowmarkFamily_shopify_store.Unit;
   nyshowplace: BowmarkFamily_shopify_store.Unit;
   nyskinrx: BowmarkFamily_shopify_store.Unit;
@@ -149293,6 +149713,7 @@ interface BowmarkProviders {
   okthestore: BowmarkFamily_shopify_store.Unit;
   oktoberfestzinzinnati: BowmarkFamily_shopify_store.Unit;
   oktypes: BowmarkFamily_shopify_store.Unit;
+  olaplex: BowmarkFamily_shopify_store.Unit;
   olaplexsuomi: BowmarkFamily_shopify_store.Unit;
   olasurflifestyle: BowmarkFamily_shopify_store.Unit;
   olawave5207: BowmarkFamily_shopify_store.Unit;
@@ -149349,6 +149770,7 @@ interface BowmarkProviders {
   oliolascarpetta: BowmarkFamily_shopify_store.Unit;
   olionrecords: BowmarkFamily_shopify_store.Unit;
   olival: BowmarkFamily_shopify_store.Unit;
+  oliveandjune: BowmarkFamily_shopify_store.Unit;
   oliveandlatte: BowmarkFamily_shopify_store.Unit;
   oliveandoakmat: BowmarkFamily_shopify_store.Unit;
   oliveandvyne: BowmarkFamily_shopify_store.Unit;
@@ -149379,6 +149801,7 @@ interface BowmarkProviders {
   ollieswoollies: BowmarkFamily_shopify_store.Unit;
   ollimatras: BowmarkFamily_shopify_store.Unit;
   olloclip: BowmarkFamily_shopify_store.Unit;
+  olly: BowmarkFamily_shopify_store.Unit;
   ollyathletic: BowmarkFamily_shopify_store.Unit;
   olmstedpleinair: BowmarkFamily_shopify_store.Unit;
   olospace: BowmarkFamily_shopify_store.Unit;
@@ -149429,6 +149852,7 @@ interface BowmarkProviders {
   omoft: BowmarkFamily_shopify_store.Unit;
   omomuki: BowmarkFamily_shopify_store.Unit;
   omtdivineresale: BowmarkFamily_shopify_store.Unit;
+  on: BowmarkFamily_shopify_store.Unit;
   onacoalition: BowmarkFamily_shopify_store.Unit;
   onagorelokal: BowmarkFamily_shopify_store.Unit;
   onalex: BowmarkFamily_shopify_store.Unit;
@@ -149436,6 +149860,7 @@ interface BowmarkProviders {
   onatural2093: BowmarkFamily_shopify_store.Unit;
   onbikes: BowmarkFamily_shopify_store.Unit;
   onboardrigging: BowmarkFamily_shopify_store.Unit;
+  onceuponafarmorganics: BowmarkFamily_shopify_store.Unit;
   onceuponaskirt: BowmarkFamily_shopify_store.Unit;
   onceuponatimebooksar: BowmarkFamily_shopify_store.Unit;
   oncoredesign: BowmarkFamily_shopify_store.Unit;
@@ -149461,6 +149886,7 @@ interface BowmarkProviders {
   onegunranch: BowmarkFamily_shopify_store.Unit;
   oneheadhair: BowmarkFamily_shopify_store.Unit;
   onehundredmiles: BowmarkFamily_shopify_store.Unit;
+  oneill: BowmarkFamily_shopify_store.Unit;
   oneillbrothersracing: BowmarkFamily_shopify_store.Unit;
   oneillopsapparel: BowmarkFamily_shopify_store.Unit;
   oneislamtv: BowmarkFamily_shopify_store.Unit;
@@ -149587,17 +150013,20 @@ interface BowmarkProviders {
   onyxandantler: BowmarkFamily_shopify_store.Unit;
   onyxblush: BowmarkFamily_shopify_store.Unit;
   onyxbreezy: BowmarkFamily_shopify_store.Unit;
+  onyxcoffeelab: BowmarkFamily_shopify_store.Unit;
   onyxcookwarefi: BowmarkFamily_shopify_store.Unit;
   onyxdigitalstudios: BowmarkFamily_shopify_store.Unit;
   onyxtannl: BowmarkFamily_shopify_store.Unit;
   onzesmaak: BowmarkFamily_shopify_store.Unit;
   oocrew: BowmarkFamily_shopify_store.Unit;
+  oofos: BowmarkFamily_shopify_store.Unit;
   oohara: BowmarkFamily_shopify_store.Unit;
   oohatanashien: BowmarkFamily_shopify_store.Unit;
   oohiro: BowmarkFamily_shopify_store.Unit;
   ookoodook: BowmarkFamily_shopify_store.Unit;
   oolandeskulturgmbh: BowmarkFamily_shopify_store.Unit;
   oolios: BowmarkFamily_shopify_store.Unit;
+  ooni: BowmarkFamily_shopify_store.Unit;
   oonobeef: BowmarkFamily_shopify_store.Unit;
   oopsadaisyflowerslimited3: BowmarkFamily_shopify_store.Unit;
   oopsbox: BowmarkFamily_shopify_store.Unit;
@@ -149618,6 +150047,7 @@ interface BowmarkProviders {
   opencityshop: BowmarkFamily_shopify_store.Unit;
   opendoortv: BowmarkFamily_shopify_store.Unit;
   openeditions: BowmarkFamily_shopify_store.Unit;
+  openfarmpet: BowmarkFamily_shopify_store.Unit;
   openhairspace: BowmarkFamily_shopify_store.Unit;
   openheartit: BowmarkFamily_shopify_store.Unit;
   openheartmusicals: BowmarkFamily_shopify_store.Unit;
@@ -149659,6 +150089,7 @@ interface BowmarkProviders {
   optimizationcentre: BowmarkFamily_shopify_store.Unit;
   optimizeddemo: BowmarkFamily_shopify_store.Unit;
   optimizedlab: BowmarkFamily_shopify_store.Unit;
+  optimumnutrition: BowmarkFamily_shopify_store.Unit;
   optisightaustralia: BowmarkFamily_shopify_store.Unit;
   optiyourx: BowmarkFamily_shopify_store.Unit;
   optmisltd: BowmarkFamily_shopify_store.Unit;
@@ -149729,6 +150160,7 @@ interface BowmarkProviders {
   organizationalwellnessandlearningsystems: BowmarkFamily_shopify_store.Unit;
   organolinx: BowmarkFamily_shopify_store.Unit;
   oriannevarshajewelry: BowmarkFamily_shopify_store.Unit;
+  oribe: BowmarkFamily_shopify_store.Unit;
   orielplasglynyweddw: BowmarkFamily_shopify_store.Unit;
   orienthair: BowmarkFamily_shopify_store.Unit;
   origaminoa: BowmarkFamily_shopify_store.Unit;
@@ -150242,6 +150674,7 @@ interface BowmarkProviders {
   parfumerieeternelle: BowmarkFamily_shopify_store.Unit;
   parfumexquis: BowmarkFamily_shopify_store.Unit;
   parfumscastle: BowmarkFamily_shopify_store.Unit;
+  parfumsdemarly: BowmarkFamily_shopify_store.Unit;
   parishausdesigns: BowmarkFamily_shopify_store.Unit;
   parisiennefarmgirl: BowmarkFamily_shopify_store.Unit;
   parisinachocolate: BowmarkFamily_shopify_store.Unit;
@@ -150366,6 +150799,7 @@ interface BowmarkProviders {
   patisserieichirin: BowmarkFamily_shopify_store.Unit;
   patisseriemieux: BowmarkFamily_shopify_store.Unit;
   patisseriequeen: BowmarkFamily_shopify_store.Unit;
+  patmcgrath: BowmarkFamily_shopify_store.Unit;
   patmcnamara: BowmarkFamily_shopify_store.Unit;
   patriachurch: BowmarkFamily_shopify_store.Unit;
   patricedesign: BowmarkFamily_shopify_store.Unit;
@@ -150461,6 +150895,7 @@ interface BowmarkProviders {
   pbdultralight: BowmarkFamily_shopify_store.Unit;
   pbequestrianapparel: BowmarkFamily_shopify_store.Unit;
   pbrz09x6: BowmarkFamily_shopify_store.Unit;
+  pbs: BowmarkFamily_shopify_store.Unit;
   pbsatelier: BowmarkFamily_shopify_store.Unit;
   pbsportsllc: BowmarkFamily_shopify_store.Unit;
   pbwine: BowmarkFamily_shopify_store.Unit;
@@ -150565,6 +151000,7 @@ interface BowmarkProviders {
   pedsthreadsinc: BowmarkFamily_shopify_store.Unit;
   peekaboosecuritycameras: BowmarkFamily_shopify_store.Unit;
   peerrx: BowmarkFamily_shopify_store.Unit;
+  peets: BowmarkFamily_shopify_store.Unit;
   peeweesdesign: BowmarkFamily_shopify_store.Unit;
   pegasusautoonline: BowmarkFamily_shopify_store.Unit;
   pegasusdistillerie: BowmarkFamily_shopify_store.Unit;
@@ -150753,8 +151189,10 @@ interface BowmarkProviders {
   petesorensen: BowmarkFamily_shopify_store.Unit;
   petessouvenirstore: BowmarkFamily_shopify_store.Unit;
   petfetchid: BowmarkFamily_shopify_store.Unit;
+  petfinn: BowmarkFamily_shopify_store.Unit;
   petfxproducts: BowmarkFamily_shopify_store.Unit;
   pethatestoys: BowmarkFamily_shopify_store.Unit;
+  pethonesty: BowmarkFamily_shopify_store.Unit;
   petiquejapan: BowmarkFamily_shopify_store.Unit;
   petiteknit: BowmarkFamily_shopify_store.Unit;
   petitepassport: BowmarkFamily_shopify_store.Unit;
@@ -150765,6 +151203,7 @@ interface BowmarkProviders {
   petitvour3: BowmarkFamily_shopify_store.Unit;
   petland2: BowmarkFamily_shopify_store.Unit;
   petlantapetpros: BowmarkFamily_shopify_store.Unit;
+  petlibro: BowmarkFamily_shopify_store.Unit;
   petmeadow: BowmarkFamily_shopify_store.Unit;
   petmeadowtexas: BowmarkFamily_shopify_store.Unit;
   petpawsabilities: BowmarkFamily_shopify_store.Unit;
@@ -150801,6 +151240,7 @@ interface BowmarkProviders {
   pezzlife: BowmarkFamily_shopify_store.Unit;
   pf1pzrqp: BowmarkFamily_shopify_store.Unit;
   pfbpublishing: BowmarkFamily_shopify_store.Unit;
+  pfcandleco: BowmarkFamily_shopify_store.Unit;
   pfeiffer: BowmarkFamily_shopify_store.Unit;
   pfhse3cd: BowmarkFamily_shopify_store.Unit;
   pflanzkuebelfassgoetze: BowmarkFamily_shopify_store.Unit;
@@ -150862,6 +151302,7 @@ interface BowmarkProviders {
   philwoodco: BowmarkFamily_shopify_store.Unit;
   phlegmcomic: BowmarkFamily_shopify_store.Unit;
   phlexx60: BowmarkFamily_shopify_store.Unit;
+  phlur: BowmarkFamily_shopify_store.Unit;
   phmisaki: BowmarkFamily_shopify_store.Unit;
   phoenixandpeacockcrafts: BowmarkFamily_shopify_store.Unit;
   phoenixartmuseumstore: BowmarkFamily_shopify_store.Unit;
@@ -151308,6 +151749,7 @@ interface BowmarkProviders {
   poissonneriegagnon: BowmarkFamily_shopify_store.Unit;
   pokeacon: BowmarkFamily_shopify_store.Unit;
   polarissstore: BowmarkFamily_shopify_store.Unit;
+  polaroid: BowmarkFamily_shopify_store.Unit;
   polcazapateria: BowmarkFamily_shopify_store.Unit;
   poleactive: BowmarkFamily_shopify_store.Unit;
   poleneparis: BowmarkFamily_shopify_store.Unit;
@@ -151333,6 +151775,7 @@ interface BowmarkProviders {
   polyoto: BowmarkFamily_shopify_store.Unit;
   polyteq: BowmarkFamily_shopify_store.Unit;
   polyvalentskincare: BowmarkFamily_shopify_store.Unit;
+  polyvinylrecords: BowmarkFamily_shopify_store.Unit;
   polywoodbottles: BowmarkFamily_shopify_store.Unit;
   pomellouk: BowmarkFamily_shopify_store.Unit;
   pommeshop: BowmarkFamily_shopify_store.Unit;
@@ -151750,6 +152193,7 @@ interface BowmarkProviders {
   primalhealthllc: BowmarkFamily_shopify_store.Unit;
   primaprillan: BowmarkFamily_shopify_store.Unit;
   primaveralabels: BowmarkFamily_shopify_store.Unit;
+  primaverasound: BowmarkFamily_shopify_store.Unit;
   primeave: BowmarkFamily_shopify_store.Unit;
   primeawards: BowmarkFamily_shopify_store.Unit;
   primecycling: BowmarkFamily_shopify_store.Unit;
@@ -151978,6 +152422,7 @@ interface BowmarkProviders {
   proteingourmet: BowmarkFamily_shopify_store.Unit;
   protexmedical: BowmarkFamily_shopify_store.Unit;
   protojestore: BowmarkFamily_shopify_store.Unit;
+  proton: BowmarkFamily_shopify_store.Unit;
   protouchsa: BowmarkFamily_shopify_store.Unit;
   protreevideos: BowmarkFamily_shopify_store.Unit;
   proudex: BowmarkFamily_shopify_store.Unit;
@@ -152095,6 +152540,7 @@ interface BowmarkProviders {
   puppysnob: BowmarkFamily_shopify_store.Unit;
   puppytrainingfasttrack: BowmarkFamily_shopify_store.Unit;
   purabrand: BowmarkFamily_shopify_store.Unit;
+  puracy: BowmarkFamily_shopify_store.Unit;
   puraivanutrition: BowmarkFamily_shopify_store.Unit;
   puravidagrinds: BowmarkFamily_shopify_store.Unit;
   purchasemanagement: BowmarkFamily_shopify_store.Unit;
@@ -152315,6 +152761,7 @@ interface BowmarkProviders {
   qteedy: BowmarkFamily_shopify_store.Unit;
   qtjxtmj6: BowmarkFamily_shopify_store.Unit;
   qu7g541v: BowmarkFamily_shopify_store.Unit;
+  quadlockcase: BowmarkFamily_shopify_store.Unit;
   quadnproductions: BowmarkFamily_shopify_store.Unit;
   quailsafe: BowmarkFamily_shopify_store.Unit;
   quakermarine: BowmarkFamily_shopify_store.Unit;
@@ -152399,6 +152846,7 @@ interface BowmarkProviders {
   quidividibrewery: BowmarkFamily_shopify_store.Unit;
   quifaitquoi: BowmarkFamily_shopify_store.Unit;
   quigleyshop: BowmarkFamily_shopify_store.Unit;
+  quiksilver: BowmarkFamily_shopify_store.Unit;
   quiltafricafabrics: BowmarkFamily_shopify_store.Unit;
   quiltbeginnings: BowmarkFamily_shopify_store.Unit;
   quilterscandybox: BowmarkFamily_shopify_store.Unit;
@@ -152616,6 +153064,7 @@ interface BowmarkProviders {
   ranchhandmerch: BowmarkFamily_shopify_store.Unit;
   ranchmansfarmfeed2: BowmarkFamily_shopify_store.Unit;
   ranchoalegreradio: BowmarkFamily_shopify_store.Unit;
+  ranchogordo: BowmarkFamily_shopify_store.Unit;
   ranchovallee: BowmarkFamily_shopify_store.Unit;
   randallking: BowmarkFamily_shopify_store.Unit;
   randolphaustinco: BowmarkFamily_shopify_store.Unit;
@@ -152986,6 +153435,7 @@ interface BowmarkProviders {
   reefwholesale: BowmarkFamily_shopify_store.Unit;
   reelak: BowmarkFamily_shopify_store.Unit;
   reeldowngear: BowmarkFamily_shopify_store.Unit;
+  reelpaper: BowmarkFamily_shopify_store.Unit;
   reelpowerhandles2: BowmarkFamily_shopify_store.Unit;
   reelsonar: BowmarkFamily_shopify_store.Unit;
   reeltimegear: BowmarkFamily_shopify_store.Unit;
@@ -153018,6 +153468,7 @@ interface BowmarkProviders {
   refugeelanguage: BowmarkFamily_shopify_store.Unit;
   refugeesponsorshipsupportprogram: BowmarkFamily_shopify_store.Unit;
   refugemedical: BowmarkFamily_shopify_store.Unit;
+  refybeauty: BowmarkFamily_shopify_store.Unit;
   regalacalblay: BowmarkFamily_shopify_store.Unit;
   regalahotelfontdelacanya: BowmarkFamily_shopify_store.Unit;
   regalboats: BowmarkFamily_shopify_store.Unit;
@@ -153173,10 +153624,12 @@ interface BowmarkProviders {
   repoweredelectronics: BowmarkFamily_shopify_store.Unit;
   reppercussion: BowmarkFamily_shopify_store.Unit;
   reppinindustries: BowmarkFamily_shopify_store.Unit;
+  representclo: BowmarkFamily_shopify_store.Unit;
   reproductivehealthaccessprojectstore: BowmarkFamily_shopify_store.Unit;
   repticonmarket: BowmarkFamily_shopify_store.Unit;
   reptilegardensa: BowmarkFamily_shopify_store.Unit;
   republicansigns: BowmarkFamily_shopify_store.Unit;
+  republicoftea: BowmarkFamily_shopify_store.Unit;
   republicoutfits: BowmarkFamily_shopify_store.Unit;
   republicrestorativesus: BowmarkFamily_shopify_store.Unit;
   republicropes: BowmarkFamily_shopify_store.Unit;
@@ -153281,6 +153734,7 @@ interface BowmarkProviders {
   revelavila: BowmarkFamily_shopify_store.Unit;
   reveldanceconvention: BowmarkFamily_shopify_store.Unit;
   revelgaragestore: BowmarkFamily_shopify_store.Unit;
+  revell: BowmarkFamily_shopify_store.Unit;
   revelspirits: BowmarkFamily_shopify_store.Unit;
   revelstokerailwaymuseum: BowmarkFamily_shopify_store.Unit;
   revengexstore1: BowmarkFamily_shopify_store.Unit;
@@ -153376,6 +153830,7 @@ interface BowmarkProviders {
   rhoadsgardencenter: BowmarkFamily_shopify_store.Unit;
   rhodemontijo: BowmarkFamily_shopify_store.Unit;
   rhodescustomauto: BowmarkFamily_shopify_store.Unit;
+  rhodeskin: BowmarkFamily_shopify_store.Unit;
   rhodeswellnesscollege: BowmarkFamily_shopify_store.Unit;
   rhodycraft: BowmarkFamily_shopify_store.Unit;
   rhoencamp: BowmarkFamily_shopify_store.Unit;
@@ -153385,6 +153840,7 @@ interface BowmarkProviders {
   rhsbandassociation: BowmarkFamily_shopify_store.Unit;
   rhvan: BowmarkFamily_shopify_store.Unit;
   rhyanandrhysebrand: BowmarkFamily_shopify_store.Unit;
+  rhymesayers: BowmarkFamily_shopify_store.Unit;
   rhythmandbluestattoo: BowmarkFamily_shopify_store.Unit;
   rhythmsnation: BowmarkFamily_shopify_store.Unit;
   ri65iavx: BowmarkFamily_shopify_store.Unit;
@@ -153501,6 +153957,7 @@ interface BowmarkProviders {
   riotpress: BowmarkFamily_shopify_store.Unit;
   riotsretail: BowmarkFamily_shopify_store.Unit;
   ripaltadaniello: BowmarkFamily_shopify_store.Unit;
+  ripcurl: BowmarkFamily_shopify_store.Unit;
   ripeband: BowmarkFamily_shopify_store.Unit;
   ripleyauctions: BowmarkFamily_shopify_store.Unit;
   rippinlipsbait: BowmarkFamily_shopify_store.Unit;
@@ -153519,6 +153976,7 @@ interface BowmarkProviders {
   risenthreads: BowmarkFamily_shopify_store.Unit;
   riservadomini: BowmarkFamily_shopify_store.Unit;
   risetrainingacademy: BowmarkFamily_shopify_store.Unit;
+  risewell: BowmarkFamily_shopify_store.Unit;
   risingcreekbakery: BowmarkFamily_shopify_store.Unit;
   risingdream1: BowmarkFamily_shopify_store.Unit;
   risingsonzinfowear: BowmarkFamily_shopify_store.Unit;
@@ -153530,6 +153988,7 @@ interface BowmarkProviders {
   ritawhite: BowmarkFamily_shopify_store.Unit;
   ritherdon: BowmarkFamily_shopify_store.Unit;
   ritshop4270: BowmarkFamily_shopify_store.Unit;
+  ritual: BowmarkFamily_shopify_store.Unit;
   ritualdumaguete: BowmarkFamily_shopify_store.Unit;
   ritualph: BowmarkFamily_shopify_store.Unit;
   ritualremains: BowmarkFamily_shopify_store.Unit;
@@ -153779,6 +154238,7 @@ interface BowmarkProviders {
   rollingbuddies: BowmarkFamily_shopify_store.Unit;
   rollingmuseums: BowmarkFamily_shopify_store.Unit;
   rollingsquare: BowmarkFamily_shopify_store.Unit;
+  rollingstone: BowmarkFamily_shopify_store.Unit;
   rollingthundersupply: BowmarkFamily_shopify_store.Unit;
   rollorscom: BowmarkFamily_shopify_store.Unit;
   romaboho: BowmarkFamily_shopify_store.Unit;
@@ -153922,6 +154382,7 @@ interface BowmarkProviders {
   roufaidamusic: BowmarkFamily_shopify_store.Unit;
   rougarou2: BowmarkFamily_shopify_store.Unit;
   roughrack: BowmarkFamily_shopify_store.Unit;
+  roughtrade: BowmarkFamily_shopify_store.Unit;
   roulacycling: BowmarkFamily_shopify_store.Unit;
   rouleurcycles: BowmarkFamily_shopify_store.Unit;
   roundtablecompanies: BowmarkFamily_shopify_store.Unit;
@@ -153952,6 +154413,7 @@ interface BowmarkProviders {
   royalbluemountaincoffeejamaica: BowmarkFamily_shopify_store.Unit;
   royalblushapparel: BowmarkFamily_shopify_store.Unit;
   royalcitylittles: BowmarkFamily_shopify_store.Unit;
+  royalcopenhagen: BowmarkFamily_shopify_store.Unit;
   royalcreationshair: BowmarkFamily_shopify_store.Unit;
   royaldemontreal: BowmarkFamily_shopify_store.Unit;
   royalfarms: BowmarkFamily_shopify_store.Unit;
@@ -154253,6 +154715,7 @@ interface BowmarkProviders {
   ryviu113: BowmarkFamily_shopify_store.Unit;
   ryviuapp: BowmarkFamily_shopify_store.Unit;
   ryw191y6: BowmarkFamily_shopify_store.Unit;
+  ryzesuperfoods: BowmarkFamily_shopify_store.Unit;
   ryzeup: BowmarkFamily_shopify_store.Unit;
   ryzoshop: BowmarkFamily_shopify_store.Unit;
   rzms1a81: BowmarkFamily_shopify_store.Unit;
@@ -154302,6 +154765,7 @@ interface BowmarkProviders {
   sackvilleandco: BowmarkFamily_shopify_store.Unit;
   saco1: BowmarkFamily_shopify_store.Unit;
   sacramentospca: BowmarkFamily_shopify_store.Unit;
+  sacredbonesrecords: BowmarkFamily_shopify_store.Unit;
   sacredcowgranola: BowmarkFamily_shopify_store.Unit;
   sacredhealingcentre: BowmarkFamily_shopify_store.Unit;
   sacredheartuniform: BowmarkFamily_shopify_store.Unit;
@@ -154319,6 +154783,7 @@ interface BowmarkProviders {
   sadabrand: BowmarkFamily_shopify_store.Unit;
   sadalex: BowmarkFamily_shopify_store.Unit;
   saddleandsea: BowmarkFamily_shopify_store.Unit;
+  saddlecreek: BowmarkFamily_shopify_store.Unit;
   saddleexpertbike: BowmarkFamily_shopify_store.Unit;
   saddleriverday: BowmarkFamily_shopify_store.Unit;
   saddlerybarnconz: BowmarkFamily_shopify_store.Unit;
@@ -154815,6 +155280,7 @@ interface BowmarkProviders {
   scarletribbonmerinoupdate: BowmarkFamily_shopify_store.Unit;
   scarlettandoaks: BowmarkFamily_shopify_store.Unit;
   scarletviolet: BowmarkFamily_shopify_store.Unit;
+  scarpa: BowmarkFamily_shopify_store.Unit;
   scars24: BowmarkFamily_shopify_store.Unit;
   scarsonlouise: BowmarkFamily_shopify_store.Unit;
   scarvesbyruthieldesigns: BowmarkFamily_shopify_store.Unit;
@@ -155030,6 +155496,7 @@ interface BowmarkProviders {
   seasontheme: BowmarkFamily_shopify_store.Unit;
   seatonsportslimited: BowmarkFamily_shopify_store.Unit;
   seatoskyfarm: BowmarkFamily_shopify_store.Unit;
+  seatosummit: BowmarkFamily_shopify_store.Unit;
   seatosummittents: BowmarkFamily_shopify_store.Unit;
   seattlekaraoke: BowmarkFamily_shopify_store.Unit;
   seattlerealtysigns: BowmarkFamily_shopify_store.Unit;
@@ -155070,6 +155537,7 @@ interface BowmarkProviders {
   secretgardenbees: BowmarkFamily_shopify_store.Unit;
   secretgardenliving: BowmarkFamily_shopify_store.Unit;
   secretgardentoys: BowmarkFamily_shopify_store.Unit;
+  secretlab: BowmarkFamily_shopify_store.Unit;
   secretlabus: BowmarkFamily_shopify_store.Unit;
   secretlysadsecretsociety: BowmarkFamily_shopify_store.Unit;
   secretropin: BowmarkFamily_shopify_store.Unit;
@@ -155087,6 +155555,7 @@ interface BowmarkProviders {
   sedibausa: BowmarkFamily_shopify_store.Unit;
   seeabilityshop: BowmarkFamily_shopify_store.Unit;
   seeblankart: BowmarkFamily_shopify_store.Unit;
+  seed: BowmarkFamily_shopify_store.Unit;
   seedandfeed2: BowmarkFamily_shopify_store.Unit;
   seedforfaith: BowmarkFamily_shopify_store.Unit;
   seedfurniturecom: BowmarkFamily_shopify_store.Unit;
@@ -155246,6 +155715,7 @@ interface BowmarkProviders {
   sesquide: BowmarkFamily_shopify_store.Unit;
   sethresnickphotography: BowmarkFamily_shopify_store.Unit;
   setlan: BowmarkFamily_shopify_store.Unit;
+  setlist: BowmarkFamily_shopify_store.Unit;
   setonhallprepofficialonlinestore: BowmarkFamily_shopify_store.Unit;
   settersfurniture: BowmarkFamily_shopify_store.Unit;
   seuda: BowmarkFamily_shopify_store.Unit;
@@ -155299,6 +155769,7 @@ interface BowmarkProviders {
   sf2ygbpy: BowmarkFamily_shopify_store.Unit;
   sfchronicle: BowmarkFamily_shopify_store.Unit;
   sfhenne: BowmarkFamily_shopify_store.Unit;
+  sfjazz: BowmarkFamily_shopify_store.Unit;
   sfk70acf: BowmarkFamily_shopify_store.Unit;
   sfmp: BowmarkFamily_shopify_store.Unit;
   sfpcnyc: BowmarkFamily_shopify_store.Unit;
@@ -155616,6 +156087,7 @@ interface BowmarkProviders {
   shofixe2: BowmarkFamily_shopify_store.Unit;
   shogunbini: BowmarkFamily_shopify_store.Unit;
   shok1: BowmarkFamily_shopify_store.Unit;
+  shokz: BowmarkFamily_shopify_store.Unit;
   sholsboutique: BowmarkFamily_shopify_store.Unit;
   shonamac: BowmarkFamily_shopify_store.Unit;
   shonancheer: BowmarkFamily_shopify_store.Unit;
@@ -155913,6 +156385,7 @@ interface BowmarkProviders {
   shopmodernnostalgic: BowmarkFamily_shopify_store.Unit;
   shopmola: BowmarkFamily_shopify_store.Unit;
   shopmomcology: BowmarkFamily_shopify_store.Unit;
+  shopmoment: BowmarkFamily_shopify_store.Unit;
   shopmoonlambo: BowmarkFamily_shopify_store.Unit;
   shopmoorental: BowmarkFamily_shopify_store.Unit;
   shopmorganmiller: BowmarkFamily_shopify_store.Unit;
@@ -156209,6 +156682,7 @@ interface BowmarkProviders {
   sierraferrell: BowmarkFamily_shopify_store.Unit;
   sierrarootswellness: BowmarkFamily_shopify_store.Unit;
   siestasandstore: BowmarkFamily_shopify_store.Unit;
+  sietefoods: BowmarkFamily_shopify_store.Unit;
   sigasa: BowmarkFamily_shopify_store.Unit;
   siggdistro: BowmarkFamily_shopify_store.Unit;
   sightec: BowmarkFamily_shopify_store.Unit;
@@ -156297,6 +156771,7 @@ interface BowmarkProviders {
   silvialagobarcelona: BowmarkFamily_shopify_store.Unit;
   silviatcherassi: BowmarkFamily_shopify_store.Unit;
   silviosguitarstore: BowmarkFamily_shopify_store.Unit;
+  simbasleep: BowmarkFamily_shopify_store.Unit;
   simbionprobiotics: BowmarkFamily_shopify_store.Unit;
   simei: BowmarkFamily_shopify_store.Unit;
   simeonwalker: BowmarkFamily_shopify_store.Unit;
@@ -156322,6 +156797,7 @@ interface BowmarkProviders {
   simplefarm: BowmarkFamily_shopify_store.Unit;
   simplegreatgreen: BowmarkFamily_shopify_store.Unit;
   simplegreattheme: BowmarkFamily_shopify_store.Unit;
+  simplehuman: BowmarkFamily_shopify_store.Unit;
   simpleintrigue: BowmarkFamily_shopify_store.Unit;
   simplelifemom: BowmarkFamily_shopify_store.Unit;
   simplenaturalapothecary: BowmarkFamily_shopify_store.Unit;
@@ -156507,12 +156983,14 @@ interface BowmarkProviders {
   skidepotraceskiscom: BowmarkFamily_shopify_store.Unit;
   skidznyc: BowmarkFamily_shopify_store.Unit;
   skigirl: BowmarkFamily_shopify_store.Unit;
+  skii: BowmarkFamily_shopify_store.Unit;
   skilletmerch: BowmarkFamily_shopify_store.Unit;
   skillmaticsindia: BowmarkFamily_shopify_store.Unit;
   skills4stemonline: BowmarkFamily_shopify_store.Unit;
   skimomsfunshop: BowmarkFamily_shopify_store.Unit;
   skimono: BowmarkFamily_shopify_store.Unit;
   skims: BowmarkFamily_shopify_store.Unit;
+  skin1004: BowmarkFamily_shopify_store.Unit;
   skinandbodyrefinerymedspa: BowmarkFamily_shopify_store.Unit;
   skinandcohk: BowmarkFamily_shopify_store.Unit;
   skinandtonicie: BowmarkFamily_shopify_store.Unit;
@@ -156538,6 +157016,7 @@ interface BowmarkProviders {
   skinlingerie: BowmarkFamily_shopify_store.Unit;
   skinlookneoshaped: BowmarkFamily_shopify_store.Unit;
   skinmartau: BowmarkFamily_shopify_store.Unit;
+  skinnydipped: BowmarkFamily_shopify_store.Unit;
   skinnymixers: BowmarkFamily_shopify_store.Unit;
   skinnypedalracing: BowmarkFamily_shopify_store.Unit;
   skinnypig: BowmarkFamily_shopify_store.Unit;
@@ -156584,6 +157063,7 @@ interface BowmarkProviders {
   skscreenprintingsupplies: BowmarkFamily_shopify_store.Unit;
   sksportkind: BowmarkFamily_shopify_store.Unit;
   skspublishers: BowmarkFamily_shopify_store.Unit;
+  skullcandy: BowmarkFamily_shopify_store.Unit;
   skullcandynz: BowmarkFamily_shopify_store.Unit;
   skullcreekboathouse: BowmarkFamily_shopify_store.Unit;
   skullcreekdockside: BowmarkFamily_shopify_store.Unit;
@@ -156754,6 +157234,7 @@ interface BowmarkProviders {
   smartwerksapparel: BowmarkFamily_shopify_store.Unit;
   smartwishlistdemo2: BowmarkFamily_shopify_store.Unit;
   smartypantsromance: BowmarkFamily_shopify_store.Unit;
+  smartypantsvitamins: BowmarkFamily_shopify_store.Unit;
   smartysupplyco: BowmarkFamily_shopify_store.Unit;
   smasheddrynks: BowmarkFamily_shopify_store.Unit;
   smashhitkickboxingclub: BowmarkFamily_shopify_store.Unit;
@@ -157008,6 +157489,7 @@ interface BowmarkProviders {
   soke: BowmarkFamily_shopify_store.Unit;
   sokichi: BowmarkFamily_shopify_store.Unit;
   sokindlymerch: BowmarkFamily_shopify_store.Unit;
+  sokoglam: BowmarkFamily_shopify_store.Unit;
   solacedesignscanada: BowmarkFamily_shopify_store.Unit;
   solaceprovisions: BowmarkFamily_shopify_store.Unit;
   solachigasaki: BowmarkFamily_shopify_store.Unit;
@@ -157024,6 +157506,7 @@ interface BowmarkProviders {
   solarxoxo: BowmarkFamily_shopify_store.Unit;
   solasink: BowmarkFamily_shopify_store.Unit;
   solawaveinternational: BowmarkFamily_shopify_store.Unit;
+  soldejaneiro: BowmarkFamily_shopify_store.Unit;
   soldiersforjesusmc: BowmarkFamily_shopify_store.Unit;
   soldoutright: BowmarkFamily_shopify_store.Unit;
   solefolks: BowmarkFamily_shopify_store.Unit;
@@ -157183,6 +157666,7 @@ interface BowmarkProviders {
   soulx01: BowmarkFamily_shopify_store.Unit;
   soumatrix: BowmarkFamily_shopify_store.Unit;
   soundandshape: BowmarkFamily_shopify_store.Unit;
+  soundcore: BowmarkFamily_shopify_store.Unit;
   soundersit: BowmarkFamily_shopify_store.Unit;
   soundhorticulture: BowmarkFamily_shopify_store.Unit;
   soundloadus: BowmarkFamily_shopify_store.Unit;
@@ -157205,6 +157689,7 @@ interface BowmarkProviders {
   sourdoughgeeks: BowmarkFamily_shopify_store.Unit;
   sourmediashop: BowmarkFamily_shopify_store.Unit;
   sourozh: BowmarkFamily_shopify_store.Unit;
+  souschef: BowmarkFamily_shopify_store.Unit;
   sousvidenation: BowmarkFamily_shopify_store.Unit;
   southafricanessentials: BowmarkFamily_shopify_store.Unit;
   southamptonmotorcyclebreakers: BowmarkFamily_shopify_store.Unit;
@@ -157281,6 +157766,7 @@ interface BowmarkProviders {
   sovsmarketing: BowmarkFamily_shopify_store.Unit;
   sowbio: BowmarkFamily_shopify_store.Unit;
   soycantinero: BowmarkFamily_shopify_store.Unit;
+  soylent: BowmarkFamily_shopify_store.Unit;
   soynica: BowmarkFamily_shopify_store.Unit;
   soyturkiye: BowmarkFamily_shopify_store.Unit;
   spa2goca: BowmarkFamily_shopify_store.Unit;
@@ -157313,6 +157799,7 @@ interface BowmarkProviders {
   spanishmack: BowmarkFamily_shopify_store.Unit;
   spanishmainantiquesstaugustine: BowmarkFamily_shopify_store.Unit;
   spanishmamas: BowmarkFamily_shopify_store.Unit;
+  spanx: BowmarkFamily_shopify_store.Unit;
   spaolivia: BowmarkFamily_shopify_store.Unit;
   sparkbusinessconsulting: BowmarkFamily_shopify_store.Unit;
   sparklebright: BowmarkFamily_shopify_store.Unit;
@@ -157395,6 +157882,7 @@ interface BowmarkProviders {
   speedhero: BowmarkFamily_shopify_store.Unit;
   speedland: BowmarkFamily_shopify_store.Unit;
   speedmintonaustralia: BowmarkFamily_shopify_store.Unit;
+  speedo: BowmarkFamily_shopify_store.Unit;
   speedoflight3246: BowmarkFamily_shopify_store.Unit;
   speedskatingcanadapatinagedevitessecanada: BowmarkFamily_shopify_store.Unit;
   speedvegasshop: BowmarkFamily_shopify_store.Unit;
@@ -157428,6 +157916,7 @@ interface BowmarkProviders {
   spiderwire: BowmarkFamily_shopify_store.Unit;
   spiegelmomscraps: BowmarkFamily_shopify_store.Unit;
   spiffystagingdesign: BowmarkFamily_shopify_store.Unit;
+  spigen: BowmarkFamily_shopify_store.Unit;
   spikesjoint: BowmarkFamily_shopify_store.Unit;
   spikesk9fund: BowmarkFamily_shopify_store.Unit;
   spilpiknu: BowmarkFamily_shopify_store.Unit;
@@ -157521,6 +158010,7 @@ interface BowmarkProviders {
   spotbuyerltd: BowmarkFamily_shopify_store.Unit;
   spotcolors: BowmarkFamily_shopify_store.Unit;
   spotlessandsortedconsignment: BowmarkFamily_shopify_store.Unit;
+  spotlightoralcare: BowmarkFamily_shopify_store.Unit;
   spotlightreligious: BowmarkFamily_shopify_store.Unit;
   spotonbilliards: BowmarkFamily_shopify_store.Unit;
   spotzeroeu: BowmarkFamily_shopify_store.Unit;
@@ -157657,6 +158147,7 @@ interface BowmarkProviders {
   stampedexpressionsco: BowmarkFamily_shopify_store.Unit;
   stampinclub: BowmarkFamily_shopify_store.Unit;
   stampinclubnederland: BowmarkFamily_shopify_store.Unit;
+  stance: BowmarkFamily_shopify_store.Unit;
   stanceworksstore: BowmarkFamily_shopify_store.Unit;
   standardgang: BowmarkFamily_shopify_store.Unit;
   standardhatworks: BowmarkFamily_shopify_store.Unit;
@@ -157672,6 +158163,7 @@ interface BowmarkProviders {
   standoutshoptheme: BowmarkFamily_shopify_store.Unit;
   standwithus: BowmarkFamily_shopify_store.Unit;
   stanfordpacseffectivephilanthropylearninginitiative: BowmarkFamily_shopify_store.Unit;
+  stanley1913: BowmarkFamily_shopify_store.Unit;
   stanscoffeefresh: BowmarkFamily_shopify_store.Unit;
   stanthonysbookgiftshopllc: BowmarkFamily_shopify_store.Unit;
   stantonmoore: BowmarkFamily_shopify_store.Unit;
@@ -157681,6 +158173,7 @@ interface BowmarkProviders {
   starbardesign: BowmarkFamily_shopify_store.Unit;
   starboardtoa: BowmarkFamily_shopify_store.Unit;
   starboxing: BowmarkFamily_shopify_store.Unit;
+  starbucks: BowmarkFamily_shopify_store.Unit;
   starchartshop: BowmarkFamily_shopify_store.Unit;
   starchildprops: BowmarkFamily_shopify_store.Unit;
   starchildtarot: BowmarkFamily_shopify_store.Unit;
@@ -157691,6 +158184,7 @@ interface BowmarkProviders {
   stardumbrecords: BowmarkFamily_shopify_store.Unit;
   stardustlarpcraft: BowmarkFamily_shopify_store.Unit;
   starduststorejapan: BowmarkFamily_shopify_store.Unit;
+  starface: BowmarkFamily_shopify_store.Unit;
   starfinndesigns: BowmarkFamily_shopify_store.Unit;
   starforlifeshop: BowmarkFamily_shopify_store.Unit;
   starizona: BowmarkFamily_shopify_store.Unit;
@@ -157813,6 +158307,7 @@ interface BowmarkProviders {
   stelecom: BowmarkFamily_shopify_store.Unit;
   stelekon: BowmarkFamily_shopify_store.Unit;
   stellaaesthetics: BowmarkFamily_shopify_store.Unit;
+  stellaandchewys: BowmarkFamily_shopify_store.Unit;
   stellawaxbar: BowmarkFamily_shopify_store.Unit;
   stellenboschvisio: BowmarkFamily_shopify_store.Unit;
   stellinakids: BowmarkFamily_shopify_store.Unit;
@@ -157860,6 +158355,7 @@ interface BowmarkProviders {
   stevegjones: BowmarkFamily_shopify_store.Unit;
   stevegraves: BowmarkFamily_shopify_store.Unit;
   stevekerchermusic: BowmarkFamily_shopify_store.Unit;
+  stevemadden: BowmarkFamily_shopify_store.Unit;
   stevemaddeneu: BowmarkFamily_shopify_store.Unit;
   stevenashfdn: BowmarkFamily_shopify_store.Unit;
   stevenbrooksinternational: BowmarkFamily_shopify_store.Unit;
@@ -158263,6 +158759,7 @@ interface BowmarkProviders {
   stuffone: BowmarkFamily_shopify_store.Unit;
   stuffthree: BowmarkFamily_shopify_store.Unit;
   stufftwo: BowmarkFamily_shopify_store.Unit;
+  stumptowncoffee: BowmarkFamily_shopify_store.Unit;
   stunique: BowmarkFamily_shopify_store.Unit;
   stunnedmindgaming: BowmarkFamily_shopify_store.Unit;
   stunningbeautyjewels: BowmarkFamily_shopify_store.Unit;
@@ -158316,6 +158813,7 @@ interface BowmarkProviders {
   sublimewax: BowmarkFamily_shopify_store.Unit;
   sublue: BowmarkFamily_shopify_store.Unit;
   submersionfestival: BowmarkFamily_shopify_store.Unit;
+  subpop: BowmarkFamily_shopify_store.Unit;
   subquark: BowmarkFamily_shopify_store.Unit;
   subscriptioncoffeeshop: BowmarkFamily_shopify_store.Unit;
   subscriptionscissors: BowmarkFamily_shopify_store.Unit;
@@ -158437,6 +158935,7 @@ interface BowmarkProviders {
   sundayhardware: BowmarkFamily_shopify_store.Unit;
   sundayjonesart: BowmarkFamily_shopify_store.Unit;
   sundayliciousau: BowmarkFamily_shopify_store.Unit;
+  sundayriley: BowmarkFamily_shopify_store.Unit;
   sundaysociety: BowmarkFamily_shopify_store.Unit;
   sundogpublishingstore: BowmarkFamily_shopify_store.Unit;
   sundrieskingdom: BowmarkFamily_shopify_store.Unit;
@@ -158513,6 +159012,7 @@ interface BowmarkProviders {
   supatxstore: BowmarkFamily_shopify_store.Unit;
   supayana: BowmarkFamily_shopify_store.Unit;
   supdogsstore: BowmarkFamily_shopify_store.Unit;
+  super7: BowmarkFamily_shopify_store.Unit;
   super8: BowmarkFamily_shopify_store.Unit;
   super8skateboardcompany: BowmarkFamily_shopify_store.Unit;
   superaloha: BowmarkFamily_shopify_store.Unit;
@@ -158535,6 +159035,7 @@ interface BowmarkProviders {
   supergadgetstore2: BowmarkFamily_shopify_store.Unit;
   supergalsrl: BowmarkFamily_shopify_store.Unit;
   supergeniusentertainment: BowmarkFamily_shopify_store.Unit;
+  supergoop: BowmarkFamily_shopify_store.Unit;
   supergreatkidsstories: BowmarkFamily_shopify_store.Unit;
   superhappyhealthykids: BowmarkFamily_shopify_store.Unit;
   superherokidsshop: BowmarkFamily_shopify_store.Unit;
@@ -158547,6 +159048,7 @@ interface BowmarkProviders {
   superlegendscruise: BowmarkFamily_shopify_store.Unit;
   superlokusa: BowmarkFamily_shopify_store.Unit;
   supernichestore: BowmarkFamily_shopify_store.Unit;
+  supernote: BowmarkFamily_shopify_store.Unit;
   supernovadesign: BowmarkFamily_shopify_store.Unit;
   supernovasalon: BowmarkFamily_shopify_store.Unit;
   superparkfinland: BowmarkFamily_shopify_store.Unit;
@@ -158569,6 +159071,7 @@ interface BowmarkProviders {
   superwoofstore: BowmarkFamily_shopify_store.Unit;
   supplementwarfare: BowmarkFamily_shopify_store.Unit;
   supplocker: BowmarkFamily_shopify_store.Unit;
+  supply: BowmarkFamily_shopify_store.Unit;
   supplydemoshopv2b: BowmarkFamily_shopify_store.Unit;
   supplyelectronics: BowmarkFamily_shopify_store.Unit;
   support862: BowmarkFamily_shopify_store.Unit;
@@ -158688,6 +159191,7 @@ interface BowmarkProviders {
   swankysfashionboutique: BowmarkFamily_shopify_store.Unit;
   swanomerch: BowmarkFamily_shopify_store.Unit;
   swansoncreations: BowmarkFamily_shopify_store.Unit;
+  swansonvitamins: BowmarkFamily_shopify_store.Unit;
   swapboutique: BowmarkFamily_shopify_store.Unit;
   swatchesapp: BowmarkFamily_shopify_store.Unit;
   swatchtheme: BowmarkFamily_shopify_store.Unit;
@@ -158788,6 +159292,7 @@ interface BowmarkProviders {
   swisvideoscom: BowmarkFamily_shopify_store.Unit;
   switchbladestiletto: BowmarkFamily_shopify_store.Unit;
   switchboardlgbt: BowmarkFamily_shopify_store.Unit;
+  switchbot: BowmarkFamily_shopify_store.Unit;
   switchcomponents: BowmarkFamily_shopify_store.Unit;
   switchfootmerch: BowmarkFamily_shopify_store.Unit;
   switchtoswatches: BowmarkFamily_shopify_store.Unit;
@@ -158853,6 +159358,8 @@ interface BowmarkProviders {
   t1d3dgear: BowmarkFamily_shopify_store.Unit;
   t1x2wzm5: BowmarkFamily_shopify_store.Unit;
   t2honline: BowmarkFamily_shopify_store.Unit;
+  t2tea: BowmarkFamily_shopify_store.Unit;
+  t3micro: BowmarkFamily_shopify_store.Unit;
   t3terminalentertainment: BowmarkFamily_shopify_store.Unit;
   t3tvdrip: BowmarkFamily_shopify_store.Unit;
   t42ayz1a: BowmarkFamily_shopify_store.Unit;
@@ -159080,6 +159587,7 @@ interface BowmarkProviders {
   tarpon1973: BowmarkFamily_shopify_store.Unit;
   tarran1: BowmarkFamily_shopify_store.Unit;
   tartantrinkets: BowmarkFamily_shopify_store.Unit;
+  tartecosmetics: BowmarkFamily_shopify_store.Unit;
   tartoptical: BowmarkFamily_shopify_store.Unit;
   tarynyagerphotography: BowmarkFamily_shopify_store.Unit;
   taschen: BowmarkFamily_shopify_store.Unit;
@@ -159436,6 +159944,7 @@ interface BowmarkProviders {
   terracottagellc: BowmarkFamily_shopify_store.Unit;
   terradoliva: BowmarkFamily_shopify_store.Unit;
   terrafolk: BowmarkFamily_shopify_store.Unit;
+  terraformafestival: BowmarkFamily_shopify_store.Unit;
   terrajacksonhole: BowmarkFamily_shopify_store.Unit;
   terrakahome: BowmarkFamily_shopify_store.Unit;
   terramedi: BowmarkFamily_shopify_store.Unit;
@@ -159681,6 +160190,7 @@ interface BowmarkProviders {
   thebarbariansofcalifornia: BowmarkFamily_shopify_store.Unit;
   thebarkbites: BowmarkFamily_shopify_store.Unit;
   thebarkerpet: BowmarkFamily_shopify_store.Unit;
+  thebarn: BowmarkFamily_shopify_store.Unit;
   thebarnbiomarket: BowmarkFamily_shopify_store.Unit;
   thebarncoffeeroasters: BowmarkFamily_shopify_store.Unit;
   thebarnstorm: BowmarkFamily_shopify_store.Unit;
@@ -160327,6 +160837,7 @@ interface BowmarkProviders {
   theindependentsfmerch: BowmarkFamily_shopify_store.Unit;
   theinitialedlife: BowmarkFamily_shopify_store.Unit;
   theinkedelephant: BowmarkFamily_shopify_store.Unit;
+  theinkeylist: BowmarkFamily_shopify_store.Unit;
   theinkfactory: BowmarkFamily_shopify_store.Unit;
   theinnergame: BowmarkFamily_shopify_store.Unit;
   theinsideoutmerch: BowmarkFamily_shopify_store.Unit;
@@ -160417,6 +160928,7 @@ interface BowmarkProviders {
   thelaserbeautique: BowmarkFamily_shopify_store.Unit;
   thelatenightcrew: BowmarkFamily_shopify_store.Unit;
   thelatimergroup: BowmarkFamily_shopify_store.Unit;
+  thelaundress: BowmarkFamily_shopify_store.Unit;
   thelaurocompany: BowmarkFamily_shopify_store.Unit;
   thelavishgentleman: BowmarkFamily_shopify_store.Unit;
   thelawofficeofbarryejanayplc: BowmarkFamily_shopify_store.Unit;
@@ -160655,6 +161167,7 @@ interface BowmarkProviders {
   theosfc: BowmarkFamily_shopify_store.Unit;
   theothersideofthepillow: BowmarkFamily_shopify_store.Unit;
   theottawahospitalauxiliarygiftshop6131: BowmarkFamily_shopify_store.Unit;
+  theouai: BowmarkFamily_shopify_store.Unit;
   theoudco: BowmarkFamily_shopify_store.Unit;
   theoutboundcollectivestore: BowmarkFamily_shopify_store.Unit;
   theoutfittersadventuregearandapparel: BowmarkFamily_shopify_store.Unit;
@@ -160714,6 +161227,7 @@ interface BowmarkProviders {
   thepermanentpictures: BowmarkFamily_shopify_store.Unit;
   thepersonalbarber: BowmarkFamily_shopify_store.Unit;
   thepetertoshstore: BowmarkFamily_shopify_store.Unit;
+  thepetlabco: BowmarkFamily_shopify_store.Unit;
   thepettaxicompany: BowmarkFamily_shopify_store.Unit;
   thephillypad6901: BowmarkFamily_shopify_store.Unit;
   thephiltymiltyco: BowmarkFamily_shopify_store.Unit;
@@ -161143,6 +161657,7 @@ interface BowmarkProviders {
   thevegshededinburgh: BowmarkFamily_shopify_store.Unit;
   theveneka: BowmarkFamily_shopify_store.Unit;
   theventurio: BowmarkFamily_shopify_store.Unit;
+  theverge: BowmarkFamily_shopify_store.Unit;
   thevermontmaplefarm: BowmarkFamily_shopify_store.Unit;
   thevideogamehistoryfoundation: BowmarkFamily_shopify_store.Unit;
   theviicrew: BowmarkFamily_shopify_store.Unit;
@@ -161231,6 +161746,7 @@ interface BowmarkProviders {
   thewrightfit: BowmarkFamily_shopify_store.Unit;
   thewritersstore: BowmarkFamily_shopify_store.Unit;
   thexcj: BowmarkFamily_shopify_store.Unit;
+  theyamazakihome: BowmarkFamily_shopify_store.Unit;
   theymadethis: BowmarkFamily_shopify_store.Unit;
   theyourlifegym: BowmarkFamily_shopify_store.Unit;
   thez1: BowmarkFamily_shopify_store.Unit;
@@ -161366,6 +161882,7 @@ interface BowmarkProviders {
   throwproud: BowmarkFamily_shopify_store.Unit;
   thrushwoodfarms: BowmarkFamily_shopify_store.Unit;
   thstaginglevis: BowmarkFamily_shopify_store.Unit;
+  thuma: BowmarkFamily_shopify_store.Unit;
   thumbprintgallery: BowmarkFamily_shopify_store.Unit;
   thumpstore: BowmarkFamily_shopify_store.Unit;
   thunderbayestatesale: BowmarkFamily_shopify_store.Unit;
@@ -161513,6 +162030,7 @@ interface BowmarkProviders {
   timsupport: BowmarkFamily_shopify_store.Unit;
   timthetoyman: BowmarkFamily_shopify_store.Unit;
   timtronckoe: BowmarkFamily_shopify_store.Unit;
+  timwendelboe: BowmarkFamily_shopify_store.Unit;
   timwilmot: BowmarkFamily_shopify_store.Unit;
   tinadaviesca: BowmarkFamily_shopify_store.Unit;
   tinangel: BowmarkFamily_shopify_store.Unit;
@@ -161556,6 +162074,7 @@ interface BowmarkProviders {
   tipoedinburgh: BowmarkFamily_shopify_store.Unit;
   tipoftheday: BowmarkFamily_shopify_store.Unit;
   tippluscycling: BowmarkFamily_shopify_store.Unit;
+  tiptree: BowmarkFamily_shopify_store.Unit;
   tipuschai: BowmarkFamily_shopify_store.Unit;
   tipykeyboard2: BowmarkFamily_shopify_store.Unit;
   tirechalet: BowmarkFamily_shopify_store.Unit;
@@ -161778,6 +162297,7 @@ interface BowmarkProviders {
   tokotasllc: BowmarkFamily_shopify_store.Unit;
   tokyoanaloglab: BowmarkFamily_shopify_store.Unit;
   tokyoexperiences: BowmarkFamily_shopify_store.Unit;
+  tokyotreat: BowmarkFamily_shopify_store.Unit;
   tokyowines: BowmarkFamily_shopify_store.Unit;
   tokyoyamagawadmc: BowmarkFamily_shopify_store.Unit;
   tolemaideshoponline: BowmarkFamily_shopify_store.Unit;
@@ -161840,6 +162360,7 @@ interface BowmarkProviders {
   tonyjearyinternational: BowmarkFamily_shopify_store.Unit;
   tonyluccasbasementboutique: BowmarkFamily_shopify_store.Unit;
   tonymandinas: BowmarkFamily_shopify_store.Unit;
+  tonyschocolonely: BowmarkFamily_shopify_store.Unit;
   tonyslypottery: BowmarkFamily_shopify_store.Unit;
   tonyspowertools: BowmarkFamily_shopify_store.Unit;
   tonyvergara: BowmarkFamily_shopify_store.Unit;
@@ -161968,6 +162489,7 @@ interface BowmarkProviders {
   touchedhorse: BowmarkFamily_shopify_store.Unit;
   toucheprive: BowmarkFamily_shopify_store.Unit;
   touchgrid: BowmarkFamily_shopify_store.Unit;
+  touchland: BowmarkFamily_shopify_store.Unit;
   touchofpaintbymelissabruglemanslabelle: BowmarkFamily_shopify_store.Unit;
   touchofsynergy: BowmarkFamily_shopify_store.Unit;
   touge237: BowmarkFamily_shopify_store.Unit;
@@ -162035,6 +162557,7 @@ interface BowmarkProviders {
   trackhousemotorplex: BowmarkFamily_shopify_store.Unit;
   trackifyxmarketing: BowmarkFamily_shopify_store.Unit;
   trackingmoretest: BowmarkFamily_shopify_store.Unit;
+  tracksmith: BowmarkFamily_shopify_store.Unit;
   trackstuds: BowmarkFamily_shopify_store.Unit;
   tractionoptional: BowmarkFamily_shopify_store.Unit;
   tractormat: BowmarkFamily_shopify_store.Unit;
@@ -162088,6 +162611,7 @@ interface BowmarkProviders {
   transloopstore: BowmarkFamily_shopify_store.Unit;
   transmediale: BowmarkFamily_shopify_store.Unit;
   transparentagency: BowmarkFamily_shopify_store.Unit;
+  transparentlabs: BowmarkFamily_shopify_store.Unit;
   transpersonalpress: BowmarkFamily_shopify_store.Unit;
   transportationunit: BowmarkFamily_shopify_store.Unit;
   transtools5056: BowmarkFamily_shopify_store.Unit;
@@ -162234,6 +162758,7 @@ interface BowmarkProviders {
   trinitymercantilellc: BowmarkFamily_shopify_store.Unit;
   trinitymissions: BowmarkFamily_shopify_store.Unit;
   trinityvalleyschool: BowmarkFamily_shopify_store.Unit;
+  trinnylondon: BowmarkFamily_shopify_store.Unit;
   triochip: BowmarkFamily_shopify_store.Unit;
   triohousepress: BowmarkFamily_shopify_store.Unit;
   triorganiccomplexstore: BowmarkFamily_shopify_store.Unit;
@@ -162282,6 +162807,7 @@ interface BowmarkProviders {
   tropicalphonecase: BowmarkFamily_shopify_store.Unit;
   tropixinternationalsounds: BowmarkFamily_shopify_store.Unit;
   trottybynature: BowmarkFamily_shopify_store.Unit;
+  troubadour: BowmarkFamily_shopify_store.Unit;
   troubledhumans: BowmarkFamily_shopify_store.Unit;
   troublemakertradingcompany: BowmarkFamily_shopify_store.Unit;
   troutunlimitedcanada: BowmarkFamily_shopify_store.Unit;
@@ -162300,6 +162826,7 @@ interface BowmarkProviders {
   trstheracespot: BowmarkFamily_shopify_store.Unit;
   trtltravel: BowmarkFamily_shopify_store.Unit;
   trttools: BowmarkFamily_shopify_store.Unit;
+  tru: BowmarkFamily_shopify_store.Unit;
   truah: BowmarkFamily_shopify_store.Unit;
   trubridgesalesstore: BowmarkFamily_shopify_store.Unit;
   truckandmarine: BowmarkFamily_shopify_store.Unit;
@@ -162315,6 +162842,7 @@ interface BowmarkProviders {
   trueblueturf: BowmarkFamily_shopify_store.Unit;
   truebodymedispa: BowmarkFamily_shopify_store.Unit;
   truechesapeake: BowmarkFamily_shopify_store.Unit;
+  trueclassic: BowmarkFamily_shopify_store.Unit;
   truecolorwholesale: BowmarkFamily_shopify_store.Unit;
   truecoordinates: BowmarkFamily_shopify_store.Unit;
   truecrimeallthetime: BowmarkFamily_shopify_store.Unit;
@@ -162365,6 +162893,7 @@ interface BowmarkProviders {
   trysafestore: BowmarkFamily_shopify_store.Unit;
   trysaute: BowmarkFamily_shopify_store.Unit;
   trysequel: BowmarkFamily_shopify_store.Unit;
+  trysuri: BowmarkFamily_shopify_store.Unit;
   tsbk: BowmarkFamily_shopify_store.Unit;
   tscsspiritstore: BowmarkFamily_shopify_store.Unit;
   tscustomshirts: BowmarkFamily_shopify_store.Unit;
@@ -162535,6 +163064,8 @@ interface BowmarkProviders {
   twinatlanticuk: BowmarkFamily_shopify_store.Unit;
   twincitiesinmotion: BowmarkFamily_shopify_store.Unit;
   twincitycoffeehouse: BowmarkFamily_shopify_store.Unit;
+  twinings: BowmarkFamily_shopify_store.Unit;
+  twiningsusa: BowmarkFamily_shopify_store.Unit;
   twinklenetstage: BowmarkFamily_shopify_store.Unit;
   twinoakfarms: BowmarkFamily_shopify_store.Unit;
   twinoastbrewing: BowmarkFamily_shopify_store.Unit;
@@ -162677,6 +163208,7 @@ interface BowmarkProviders {
   uglyglassco: BowmarkFamily_shopify_store.Unit;
   uglyprints: BowmarkFamily_shopify_store.Unit;
   ugopaulon: BowmarkFamily_shopify_store.Unit;
+  ugreen: BowmarkFamily_shopify_store.Unit;
   ugress: BowmarkFamily_shopify_store.Unit;
   uhlornfamilyfarmsmarket: BowmarkFamily_shopify_store.Unit;
   uhshardware: BowmarkFamily_shopify_store.Unit;
@@ -162749,6 +163281,7 @@ interface BowmarkProviders {
   umacabentou: BowmarkFamily_shopify_store.Unit;
   umagefr: BowmarkFamily_shopify_store.Unit;
   umbalove: BowmarkFamily_shopify_store.Unit;
+  umbra: BowmarkFamily_shopify_store.Unit;
   umbrellamotocorpug: BowmarkFamily_shopify_store.Unit;
   umepetstore: BowmarkFamily_shopify_store.Unit;
   umiarts: BowmarkFamily_shopify_store.Unit;
@@ -162810,6 +163343,7 @@ interface BowmarkProviders {
   undyingevilfashiondesigns: BowmarkFamily_shopify_store.Unit;
   unearthedfilms: BowmarkFamily_shopify_store.Unit;
   unehistoiredenoeud: BowmarkFamily_shopify_store.Unit;
+  unesco: BowmarkFamily_shopify_store.Unit;
   unetaboutique: BowmarkFamily_shopify_store.Unit;
   unetcar: BowmarkFamily_shopify_store.Unit;
   uneveilleusecom: BowmarkFamily_shopify_store.Unit;
@@ -162994,6 +163528,7 @@ interface BowmarkProviders {
   urbanrelicdesign: BowmarkFamily_shopify_store.Unit;
   urbanrockco: BowmarkFamily_shopify_store.Unit;
   urbanskin: BowmarkFamily_shopify_store.Unit;
+  urbanstems: BowmarkFamily_shopify_store.Unit;
   urbantransit: BowmarkFamily_shopify_store.Unit;
   urbanvibe2: BowmarkFamily_shopify_store.Unit;
   urbanzulusa: BowmarkFamily_shopify_store.Unit;
@@ -163016,6 +163551,7 @@ interface BowmarkProviders {
   urthpactinnovations: BowmarkFamily_shopify_store.Unit;
   urturtshop: BowmarkFamily_shopify_store.Unit;
   urumarche: BowmarkFamily_shopify_store.Unit;
+  us: BowmarkFamily_shopify_store.Unit;
   usabeclothingbootuniform: BowmarkFamily_shopify_store.Unit;
   usabocciamerchandise: BowmarkFamily_shopify_store.Unit;
   usaconcerts: BowmarkFamily_shopify_store.Unit;
@@ -163032,6 +163568,7 @@ interface BowmarkProviders {
   usapeaceville: BowmarkFamily_shopify_store.Unit;
   usaserviceanimalregistration: BowmarkFamily_shopify_store.Unit;
   usasportgroup: BowmarkFamily_shopify_store.Unit;
+  usatooldepot: BowmarkFamily_shopify_store.Unit;
   usatuan: BowmarkFamily_shopify_store.Unit;
   usavsporteducation: BowmarkFamily_shopify_store.Unit;
   usbodyboss: BowmarkFamily_shopify_store.Unit;
@@ -163107,6 +163644,7 @@ interface BowmarkProviders {
   uvn0bq9r: BowmarkFamily_shopify_store.Unit;
   uvpjfwsz: BowmarkFamily_shopify_store.Unit;
   uwajimaya: BowmarkFamily_shopify_store.Unit;
+  uwaterloo: BowmarkFamily_shopify_store.Unit;
   uwdjeans: BowmarkFamily_shopify_store.Unit;
   uwkapoen: BowmarkFamily_shopify_store.Unit;
   uwskenshikai: BowmarkFamily_shopify_store.Unit;
@@ -163133,6 +163671,7 @@ interface BowmarkProviders {
   vablade: BowmarkFamily_shopify_store.Unit;
   vabooteryinc: BowmarkFamily_shopify_store.Unit;
   vacarme: BowmarkFamily_shopify_store.Unit;
+  vacation: BowmarkFamily_shopify_store.Unit;
   vacationgrabs: BowmarkFamily_shopify_store.Unit;
   vacationracesmerchandise: BowmarkFamily_shopify_store.Unit;
   vacayastuff: BowmarkFamily_shopify_store.Unit;
@@ -163147,6 +163686,7 @@ interface BowmarkProviders {
   vagabondhouse: BowmarkFamily_shopify_store.Unit;
   vagusclinic: BowmarkFamily_shopify_store.Unit;
   vahallastudios: BowmarkFamily_shopify_store.Unit;
+  vahdam: BowmarkFamily_shopify_store.Unit;
   vaiko: BowmarkFamily_shopify_store.Unit;
   vailorvaitor: BowmarkFamily_shopify_store.Unit;
   vaivaivisby: BowmarkFamily_shopify_store.Unit;
@@ -163443,6 +163983,7 @@ interface BowmarkProviders {
   vermontnutfreechocolateswholesale: BowmarkFamily_shopify_store.Unit;
   vermontroastedspecialtycoffee: BowmarkFamily_shopify_store.Unit;
   vermontsportscar: BowmarkFamily_shopify_store.Unit;
+  vermontteddybear: BowmarkFamily_shopify_store.Unit;
   vermonttortillacompany: BowmarkFamily_shopify_store.Unit;
   vermontwoodshed: BowmarkFamily_shopify_store.Unit;
   vermxse: BowmarkFamily_shopify_store.Unit;
@@ -163801,7 +164342,9 @@ interface BowmarkProviders {
   visualmanagement: BowmarkFamily_shopify_store.Unit;
   visualmood: BowmarkFamily_shopify_store.Unit;
   visvino: BowmarkFamily_shopify_store.Unit;
+  vitabiotics: BowmarkFamily_shopify_store.Unit;
   vitabydaniela: BowmarkFamily_shopify_store.Unit;
+  vitacost: BowmarkFamily_shopify_store.Unit;
   vitagroundnutrition: BowmarkFamily_shopify_store.Unit;
   vitakiwinz: BowmarkFamily_shopify_store.Unit;
   vital8medgear: BowmarkFamily_shopify_store.Unit;
@@ -163815,6 +164358,7 @@ interface BowmarkProviders {
   vitalitytulsa: BowmarkFamily_shopify_store.Unit;
   vitalnougat: BowmarkFamily_shopify_store.Unit;
   vitalpetsolutions: BowmarkFamily_shopify_store.Unit;
+  vitalproteins: BowmarkFamily_shopify_store.Unit;
   vitalsilver: BowmarkFamily_shopify_store.Unit;
   vitalsol: BowmarkFamily_shopify_store.Unit;
   vitalsyne: BowmarkFamily_shopify_store.Unit;
@@ -163907,6 +164451,7 @@ interface BowmarkProviders {
   volantaromaeu: BowmarkFamily_shopify_store.Unit;
   volantcom: BowmarkFamily_shopify_store.Unit;
   volcakitchen: BowmarkFamily_shopify_store.Unit;
+  volcanicacoffee: BowmarkFamily_shopify_store.Unit;
   volleyballjewels: BowmarkFamily_shopify_store.Unit;
   vollmerbullets: BowmarkFamily_shopify_store.Unit;
   volpesartoriale: BowmarkFamily_shopify_store.Unit;
@@ -164006,6 +164551,7 @@ interface BowmarkProviders {
   w1hfisyh: BowmarkFamily_shopify_store.Unit;
   w2bfreestore: BowmarkFamily_shopify_store.Unit;
   w3kfbhin: BowmarkFamily_shopify_store.Unit;
+  w3schools: BowmarkFamily_shopify_store.Unit;
   w5hmi7k1: BowmarkFamily_shopify_store.Unit;
   w6zgai05: BowmarkFamily_shopify_store.Unit;
   w70tsewt: BowmarkFamily_shopify_store.Unit;
@@ -164309,6 +164855,7 @@ interface BowmarkProviders {
   wearesaisei: BowmarkFamily_shopify_store.Unit;
   wearesfh: BowmarkFamily_shopify_store.Unit;
   wearestardust: BowmarkFamily_shopify_store.Unit;
+  wearetala: BowmarkFamily_shopify_store.Unit;
   wearitathletic: BowmarkFamily_shopify_store.Unit;
   wearmaximum: BowmarkFamily_shopify_store.Unit;
   wearmeua: BowmarkFamily_shopify_store.Unit;
@@ -164517,6 +165064,7 @@ interface BowmarkProviders {
   westtexasexiles: BowmarkFamily_shopify_store.Unit;
   westviewcoopsitka: BowmarkFamily_shopify_store.Unit;
   westvirginiaharvest: BowmarkFamily_shopify_store.Unit;
+  westwing: BowmarkFamily_shopify_store.Unit;
   westwoodarchery: BowmarkFamily_shopify_store.Unit;
   wetechanywhere: BowmarkFamily_shopify_store.Unit;
   wetestonline: BowmarkFamily_shopify_store.Unit;
@@ -164631,8 +165179,10 @@ interface BowmarkProviders {
   whitneyshelhamer: BowmarkFamily_shopify_store.Unit;
   whitny: BowmarkFamily_shopify_store.Unit;
   whitopcn: BowmarkFamily_shopify_store.Unit;
+  whittard: BowmarkFamily_shopify_store.Unit;
   whoaparts: BowmarkFamily_shopify_store.Unit;
   whocherrylou: BowmarkFamily_shopify_store.Unit;
+  whogivesacrap: BowmarkFamily_shopify_store.Unit;
   whoholdsthecardsnow: BowmarkFamily_shopify_store.Unit;
   whoisconwaythemachine: BowmarkFamily_shopify_store.Unit;
   whoisjonnyboy: BowmarkFamily_shopify_store.Unit;
@@ -164749,6 +165299,7 @@ interface BowmarkProviders {
   wildmithathome: BowmarkFamily_shopify_store.Unit;
   wildnothingstore: BowmarkFamily_shopify_store.Unit;
   wildoatsbillygoatsdecatur: BowmarkFamily_shopify_store.Unit;
+  wildone: BowmarkFamily_shopify_store.Unit;
   wildrootcreations: BowmarkFamily_shopify_store.Unit;
   wildroseboutique: BowmarkFamily_shopify_store.Unit;
   wildrosebrewery: BowmarkFamily_shopify_store.Unit;
@@ -164828,6 +165379,7 @@ interface BowmarkProviders {
   willytacomerch: BowmarkFamily_shopify_store.Unit;
   wilmafit: BowmarkFamily_shopify_store.Unit;
   wilsleystore: BowmarkFamily_shopify_store.Unit;
+  wilson: BowmarkFamily_shopify_store.Unit;
   wilsonandhunter: BowmarkFamily_shopify_store.Unit;
   wilsonfairchild: BowmarkFamily_shopify_store.Unit;
   wilsonlibitaart: BowmarkFamily_shopify_store.Unit;
@@ -165792,6 +166344,7 @@ interface BowmarkProviders {
   youthsporttrustenterprisesltd: BowmarkFamily_shopify_store.Unit;
   youthstart: BowmarkFamily_shopify_store.Unit;
   youthtopiaworld: BowmarkFamily_shopify_store.Unit;
+  youtooz: BowmarkFamily_shopify_store.Unit;
   youwillloveeachother: BowmarkFamily_shopify_store.Unit;
   youyourwedding2: BowmarkFamily_shopify_store.Unit;
   youzusaikan: BowmarkFamily_shopify_store.Unit;
@@ -165990,6 +166543,7 @@ interface BowmarkProviders {
   zestfleek: BowmarkFamily_shopify_store.Unit;
   zestgusto: BowmarkFamily_shopify_store.Unit;
   zestlaura: BowmarkFamily_shopify_store.Unit;
+  zestypaws: BowmarkFamily_shopify_store.Unit;
   zetabicornicieposter: BowmarkFamily_shopify_store.Unit;
   zetland: BowmarkFamily_shopify_store.Unit;
   zetruestore: BowmarkFamily_shopify_store.Unit;
@@ -166341,6 +166895,7 @@ interface BowmarkProviders {
   billionairetheme4: BowmarkFamily_shopify_storeReadOnly.Unit;
   billionairetheme5: BowmarkFamily_shopify_storeReadOnly.Unit;
   billionairetheme6: BowmarkFamily_shopify_storeReadOnly.Unit;
+  billions: BowmarkFamily_shopify_storeReadOnly.Unit;
   billsgolgulcom: BowmarkFamily_shopify_storeReadOnly.Unit;
   binarytestneelamfoodlandmumbai: BowmarkFamily_shopify_storeReadOnly.Unit;
   biplestore103: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -166423,7 +166978,9 @@ interface BowmarkProviders {
   caketastischdev: BowmarkFamily_shopify_storeReadOnly.Unit;
   calidadstaging: BowmarkFamily_shopify_storeReadOnly.Unit;
   californilacargo: BowmarkFamily_shopify_storeReadOnly.Unit;
+  callawaygolf: BowmarkFamily_shopify_storeReadOnly.Unit;
   calleetest: BowmarkFamily_shopify_storeReadOnly.Unit;
+  caloptima: BowmarkFamily_shopify_storeReadOnly.Unit;
   canceldirectprod: BowmarkFamily_shopify_storeReadOnly.Unit;
   capritheme: BowmarkFamily_shopify_storeReadOnly.Unit;
   caranddog: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -166492,6 +167049,7 @@ interface BowmarkProviders {
   coastalgeographic: BowmarkFamily_shopify_storeReadOnly.Unit;
   cocktailx: BowmarkFamily_shopify_storeReadOnly.Unit;
   cocoribbonshop: BowmarkFamily_shopify_storeReadOnly.Unit;
+  codecademy: BowmarkFamily_shopify_storeReadOnly.Unit;
   codemateproductcustomfields: BowmarkFamily_shopify_storeReadOnly.Unit;
   codexappsdemostore: BowmarkFamily_shopify_storeReadOnly.Unit;
   codiepaczkomaty: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -166501,6 +167059,7 @@ interface BowmarkProviders {
   coffeezu: BowmarkFamily_shopify_storeReadOnly.Unit;
   coffingshop: BowmarkFamily_shopify_storeReadOnly.Unit;
   coffydoorv2development: BowmarkFamily_shopify_storeReadOnly.Unit;
+  coindesk: BowmarkFamily_shopify_storeReadOnly.Unit;
   coldpresseddog: BowmarkFamily_shopify_storeReadOnly.Unit;
   colorbyfelixmbc: BowmarkFamily_shopify_storeReadOnly.Unit;
   colorofhistory: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -166596,6 +167155,7 @@ interface BowmarkProviders {
   demoupsellstore: BowmarkFamily_shopify_storeReadOnly.Unit;
   depury: BowmarkFamily_shopify_storeReadOnly.Unit;
   deseare: BowmarkFamily_shopify_storeReadOnly.Unit;
+  desenio: BowmarkFamily_shopify_storeReadOnly.Unit;
   desertsspring: BowmarkFamily_shopify_storeReadOnly.Unit;
   dessertladies: BowmarkFamily_shopify_storeReadOnly.Unit;
   detailingsuppliers: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -166708,6 +167268,7 @@ interface BowmarkProviders {
   entanglecommercegooglereview: BowmarkFamily_shopify_storeReadOnly.Unit;
   epowerontechnologies: BowmarkFamily_shopify_storeReadOnly.Unit;
   eppremadepartysupplies: BowmarkFamily_shopify_storeReadOnly.Unit;
+  erasedtapes: BowmarkFamily_shopify_storeReadOnly.Unit;
   eroferramentaonline: BowmarkFamily_shopify_storeReadOnly.Unit;
   escclubldev: BowmarkFamily_shopify_storeReadOnly.Unit;
   esellerspharmacies: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -166722,6 +167283,7 @@ interface BowmarkProviders {
   estimatorapp: BowmarkFamily_shopify_storeReadOnly.Unit;
   etdebut: BowmarkFamily_shopify_storeReadOnly.Unit;
   eurodesignjewellery: BowmarkFamily_shopify_storeReadOnly.Unit;
+  europeanunion: BowmarkFamily_shopify_storeReadOnly.Unit;
   everpillow: BowmarkFamily_shopify_storeReadOnly.Unit;
   evervioletdev: BowmarkFamily_shopify_storeReadOnly.Unit;
   eveydemostore: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -166784,6 +167346,7 @@ interface BowmarkProviders {
   flavourtowntestsite: BowmarkFamily_shopify_storeReadOnly.Unit;
   flexfuel2: BowmarkFamily_shopify_storeReadOnly.Unit;
   flipchange: BowmarkFamily_shopify_storeReadOnly.Unit;
+  floom: BowmarkFamily_shopify_storeReadOnly.Unit;
   fluffypillows: BowmarkFamily_shopify_storeReadOnly.Unit;
   fluffysavon: BowmarkFamily_shopify_storeReadOnly.Unit;
   fluxbundle: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -166819,6 +167382,7 @@ interface BowmarkProviders {
   fromgrayscale: BowmarkFamily_shopify_storeReadOnly.Unit;
   frostingagency: BowmarkFamily_shopify_storeReadOnly.Unit;
   fullersbrewery: BowmarkFamily_shopify_storeReadOnly.Unit;
+  funkypigeon: BowmarkFamily_shopify_storeReadOnly.Unit;
   furnicio: BowmarkFamily_shopify_storeReadOnly.Unit;
   fw2docsdemos: BowmarkFamily_shopify_storeReadOnly.Unit;
   gabrielletest: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167046,6 +167610,7 @@ interface BowmarkProviders {
   kktspreorder: BowmarkFamily_shopify_storeReadOnly.Unit;
   kktsvolume: BowmarkFamily_shopify_storeReadOnly.Unit;
   klaviyoswag: BowmarkFamily_shopify_storeReadOnly.Unit;
+  knockdown: BowmarkFamily_shopify_storeReadOnly.Unit;
   kobumenu: BowmarkFamily_shopify_storeReadOnly.Unit;
   kombidev: BowmarkFamily_shopify_storeReadOnly.Unit;
   konareddev: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167064,6 +167629,7 @@ interface BowmarkProviders {
   labistrote: BowmarkFamily_shopify_storeReadOnly.Unit;
   laborisfurniture: BowmarkFamily_shopify_storeReadOnly.Unit;
   lampelunefr: BowmarkFamily_shopify_storeReadOnly.Unit;
+  lamy: BowmarkFamily_shopify_storeReadOnly.Unit;
   lapicart: BowmarkFamily_shopify_storeReadOnly.Unit;
   laredosmadison: BowmarkFamily_shopify_storeReadOnly.Unit;
   latinlockcheckout: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167093,6 +167659,7 @@ interface BowmarkProviders {
   liveforjesus: BowmarkFamily_shopify_storeReadOnly.Unit;
   livemeup: BowmarkFamily_shopify_storeReadOnly.Unit;
   lmrequestquote: BowmarkFamily_shopify_storeReadOnly.Unit;
+  logitech: BowmarkFamily_shopify_storeReadOnly.Unit;
   logoshowcaseapp: BowmarkFamily_shopify_storeReadOnly.Unit;
   lojaexpertcriativos: BowmarkFamily_shopify_storeReadOnly.Unit;
   lolsurpriseusd: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167152,6 +167719,7 @@ interface BowmarkProviders {
   maxbundle: BowmarkFamily_shopify_storeReadOnly.Unit;
   maximumplants: BowmarkFamily_shopify_storeReadOnly.Unit;
   medicalbreakthrough: BowmarkFamily_shopify_storeReadOnly.Unit;
+  medscape: BowmarkFamily_shopify_storeReadOnly.Unit;
   megaprofitdemostoremegashippingannouncementbar: BowmarkFamily_shopify_storeReadOnly.Unit;
   mejuri: BowmarkFamily_shopify_storeReadOnly.Unit;
   melboter: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167245,6 +167813,7 @@ interface BowmarkProviders {
   nomadbarbershop: BowmarkFamily_shopify_storeReadOnly.Unit;
   nomolodemo: BowmarkFamily_shopify_storeReadOnly.Unit;
   nopenintcustomproducts: BowmarkFamily_shopify_storeReadOnly.Unit;
+  nordic: BowmarkFamily_shopify_storeReadOnly.Unit;
   normalizepreview: BowmarkFamily_shopify_storeReadOnly.Unit;
   nostalgicneutral: BowmarkFamily_shopify_storeReadOnly.Unit;
   notfyet: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167252,6 +167821,7 @@ interface BowmarkProviders {
   notibearstore: BowmarkFamily_shopify_storeReadOnly.Unit;
   novavio: BowmarkFamily_shopify_storeReadOnly.Unit;
   nullsampleapp: BowmarkFamily_shopify_storeReadOnly.Unit;
+  nuphy: BowmarkFamily_shopify_storeReadOnly.Unit;
   nutraelite: BowmarkFamily_shopify_storeReadOnly.Unit;
   nutricane: BowmarkFamily_shopify_storeReadOnly.Unit;
   nwacstore: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167270,6 +167840,7 @@ interface BowmarkProviders {
   onetickapp: BowmarkFamily_shopify_storeReadOnly.Unit;
   ongraph1: BowmarkFamily_shopify_storeReadOnly.Unit;
   ontouch102: BowmarkFamily_shopify_storeReadOnly.Unit;
+  openfoodfacts: BowmarkFamily_shopify_storeReadOnly.Unit;
   optionsstorenew: BowmarkFamily_shopify_storeReadOnly.Unit;
   orbeapp: BowmarkFamily_shopify_storeReadOnly.Unit;
   orbitvushop: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167388,6 +167959,7 @@ interface BowmarkProviders {
   provenceglow: BowmarkFamily_shopify_storeReadOnly.Unit;
   proveway: BowmarkFamily_shopify_storeReadOnly.Unit;
   provincialcharm: BowmarkFamily_shopify_storeReadOnly.Unit;
+  prozis: BowmarkFamily_shopify_storeReadOnly.Unit;
   pruebabodymania: BowmarkFamily_shopify_storeReadOnly.Unit;
   publicitatevip: BowmarkFamily_shopify_storeReadOnly.Unit;
   puppiespawsshop: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167663,11 +168235,13 @@ interface BowmarkProviders {
   spiritpunks: BowmarkFamily_shopify_storeReadOnly.Unit;
   splitvariants: BowmarkFamily_shopify_storeReadOnly.Unit;
   sportifytheme: BowmarkFamily_shopify_storeReadOnly.Unit;
+  sportsresearch: BowmarkFamily_shopify_storeReadOnly.Unit;
   sportyfires: BowmarkFamily_shopify_storeReadOnly.Unit;
   squareappsstickyaddtocart: BowmarkFamily_shopify_storeReadOnly.Unit;
   squeezzeedev: BowmarkFamily_shopify_storeReadOnly.Unit;
   sslosdvdemostore: BowmarkFamily_shopify_storeReadOnly.Unit;
   stackeddiscountsbytheshopdoctors: BowmarkFamily_shopify_storeReadOnly.Unit;
+  stackexchange: BowmarkFamily_shopify_storeReadOnly.Unit;
   stacykatedesigns: BowmarkFamily_shopify_storeReadOnly.Unit;
   starbritecolors: BowmarkFamily_shopify_storeReadOnly.Unit;
   starlitefashions: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167675,6 +168249,7 @@ interface BowmarkProviders {
   startingfinanceshop: BowmarkFamily_shopify_storeReadOnly.Unit;
   startuptoys: BowmarkFamily_shopify_storeReadOnly.Unit;
   stcopticsasia: BowmarkFamily_shopify_storeReadOnly.Unit;
+  steelseries: BowmarkFamily_shopify_storeReadOnly.Unit;
   stellarthemedemo: BowmarkFamily_shopify_storeReadOnly.Unit;
   stephsoffroadstore: BowmarkFamily_shopify_storeReadOnly.Unit;
   stickitframes: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -167843,6 +168418,7 @@ interface BowmarkProviders {
   twoowlsstore: BowmarkFamily_shopify_storeReadOnly.Unit;
   ubbiworldstaging: BowmarkFamily_shopify_storeReadOnly.Unit;
   ufrjn0yd: BowmarkFamily_shopify_storeReadOnly.Unit;
+  ui: BowmarkFamily_shopify_storeReadOnly.Unit;
   umgiaintest: BowmarkFamily_shopify_storeReadOnly.Unit;
   uncapsuite: BowmarkFamily_shopify_storeReadOnly.Unit;
   unfuck: BowmarkFamily_shopify_storeReadOnly.Unit;
