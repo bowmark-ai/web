@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6506 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6531 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1726,6 +1726,23 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `drafthouse.buyTickets` | drafthouse.com | Picks seats and buys tickets for one showtime. | ⚪ |
 | `drafthouse.findTheaters` | drafthouse.com | Finds Alamo Drafthouse theaters by name, city or market — each theater's slug, market… | 🟢 |
 | `drafthouse.getShowtimes` | drafthouse.com | Lists movie showtimes at an Alamo Drafthouse theater or market, optionally for one… | 🟢 |
+| `drive_google.addComment` | drive.google.com | Adds a plain-text, file-level comment to a Drive file (not anchored, notifies nobody… | 🟢 |
+| `drive_google.createDocument` | drive.google.com | Creates an empty Google Doc in the caller's Drive. | 🟢 |
+| `drive_google.createFolder` | drive.google.com | Creates a folder in the caller's Drive (My Drive root, or inside parentId). Sent once… | 🟢 |
+| `drive_google.createPresentation` | drive.google.com | Creates an empty Google Slides presentation in the caller's Drive. | 🟢 |
+| `drive_google.createSpreadsheet` | drive.google.com | Creates an empty Google Sheet in the caller's Drive. | 🟢 |
+| `drive_google.getAccount` | drive.google.com | Identifies the signed-in Google account and reads its Drive storage quota (limit and… | 🟢 |
+| `drive_google.getDocumentText` | drive.google.com | Exports a Google Doc as plain text (up to 2 MB). Requires the caller signed in to… | 🟢 |
+| `drive_google.getFile` | drive.google.com | Reads one Drive file's metadata: name, type, parent folder ids, starred/trashed flags… | 🟢 |
+| `drive_google.getPresentationText` | drive.google.com | Exports a Google Slides presentation as plain text (up to 2 MB). Requires the caller… | 🟢 |
+| `drive_google.getSheetCsv` | drive.google.com | Exports a Google Sheet's first sheet as CSV (up to 2 MB). Requires the caller signed… | 🟢 |
+| `drive_google.listComments` | drive.google.com | Lists a Drive file's comments with pagination (replies not included). Requires the… | 🟢 |
+| `drive_google.listFiles` | drive.google.com | Searches the caller's Drive with Drive query syntax, excluding trash unless the query… | 🟢 |
+| `drive_google.moveFile` | drive.google.com | Moves a Drive file from one explicit parent folder to another and returns its new… | 🟢 |
+| `drive_google.renameFile` | drive.google.com | Renames a Drive file or folder and returns it as Drive now reports it. | 🟢 |
+| `drive_google.restoreFile` | drive.google.com | Restores a Drive file or folder from trash. | 🟢 |
+| `drive_google.setStarred` | drive.google.com | Stars or unstars a Drive file. | 🟢 |
+| `drive_google.trashFile` | drive.google.com | Moves a Drive file or folder to trash (recoverable with restoreFile). Requires the… | 🟢 |
 | `dropbox.addFileComment` | dropbox.com | Adds a comment to a file in the caller's Dropbox. | ⚪ |
 | `dropbox.changeProfilePhoto` | dropbox.com | Changes the signed-in caller's profile photo. | ⚪ |
 | `dropbox.closeFileRequest` | dropbox.com | Closes one of the caller's file requests so it stops accepting uploads. | 🟢 |
@@ -1963,6 +1980,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `evag.listDisruptions` | evag.de | Network-wide Essen transit disruptions from Ruhrbahn/EVAG Verkehrsinfos — short-notice… | 🟢 |
 | `evag.searchStop` | evag.de | Search for Essen transit stops and stations by name or partial name; returns matching… | 🟢 |
 | `eventbrite.cancelRegistration` | eventbrite.com | Cancels one of the signed-in caller's FREE registrations by order id (from… | 🟢 |
+| `eventbrite.contactOrganizer` | eventbrite.com | Sends a message to an event organizer through Eventbrite's own Contact form (a write)… | 🟢 |
+| `eventbrite.createEvent` | eventbrite.com | Creates an unpublished draft event on the signed-in caller's Eventbrite organization… | 🟢 |
 | `eventbrite.followOrganizer` | eventbrite.com | Follows an organizer from the signed-in caller's account, taking an organizer url or id. | 🟢 |
 | `eventbrite.getEvent` | eventbrite.com | Returns one event in full: title, description, start/end time, venue (name, address… | 🟢 |
 | `eventbrite.getEventAttendees` | eventbrite.com | Lists who is registered for one of the signed-in caller's own events (name, email… | 🟢 |
@@ -3993,6 +4012,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.getCurrentUserFeed` | patreon.com | Read the signed-in caller's Patreon home feed — recent posts from the creators they… | 🟢 |
 | `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, content, and which tier… | 🟢 |
 | `patreon.likePost` | patreon.com | Like a post as the signed-in caller. | 🟢 |
+| `patreon.listConversations` | patreon.com | Read the signed-in caller's Patreon direct messages: who each is with, the latest… | 🟢 |
 | `patreon.listCreatorCollections` | patreon.com | List a creator's collections (series), each with its title, post count and its posts'… | 🟢 |
 | `patreon.listCreatorPosts` | patreon.com | List a creator's posts, newest first, one page at a time with the site's own cursor. | 🟢 |
 | `patreon.listCreatorShop` | patreon.com | List what a creator sells one-off in their shop — single posts and digital downloads —… | 🟢 |
@@ -5037,6 +5057,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spectrum.checkServiceAvailability` | spectrum.com | What Spectrum offers at a residential street address — which internet/TV/mobile plans… | ⚪ |
 | `spectrum.getAccountBalance` | spectrum.com | The signed-in caller's current Spectrum account balance: amount due, due date and… | 🟢 |
 | `spectrum.getBillingHistory` | spectrum.com | The signed-in caller's past Spectrum bills: period, amount and payment status. | 🟢 |
+| `spectrum.getByTheGigPlan` | spectrum.com | Spectrum Mobile's pay-per-gig "By the Gig" plan (the one listMobilePlans leaves out)… | 🟢 |
 | `spectrum.getChannelLineup` | spectrum.com | The signed-in caller's Spectrum TV channel lineup for their own market — name, guide… | 🟢 |
 | `spectrum.getEquipmentStatus` | spectrum.com | The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with… | 🟢 |
 | `spectrum.getInternetPlanDetails` | spectrum.com | One Gig-tier internet plan's own detail page at… | 🟢 |
@@ -5049,6 +5070,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spectrum.listTvAddOns` | spectrum.com | Every premium channel Spectrum TV sells as an add-on, read off… | 🟢 |
 | `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, the page's… | 🟢 |
 | `spectrum.payBill` | spectrum.com | Pay the signed-in caller's Spectrum bill using a payment method already on the account. | ⚪ |
+| `spectrum.rescheduleServiceAppointment` | spectrum.com | Move one of the signed-in caller's Spectrum technician visits to another window… | 🟢 |
 | `spectrum.restartEquipment` | spectrum.com | Restart the signed-in caller's Spectrum modem (or another device by equipmentId)… | 🟢 |
 | `spectrum.scheduleServiceAppointment` | spectrum.com | Book a Spectrum technician visit for the signed-in caller's internet (down or slow)… | 🟢 |
 | `spectrum.updateWifiNetwork` | spectrum.com | Change the signed-in caller's Spectrum home WiFi network name and password in one… | 🟢 |
@@ -5096,6 +5118,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.getPodcast` | open.spotify.com | Get details about a specific podcast show. | 🟢 |
 | `spotify.getRecentlyPlayed` | open.spotify.com | Get the signed-in user's recently played tracks. | 🟢 |
 | `spotify.getRecommendations` | open.spotify.com | Get the tracks Spotify recommends for a seed track. | 🟢 |
+| `spotify.getRecommendationsByArtist` | open.spotify.com | Get what Spotify recommends alongside a seed artist: related artists, featuring… | 🟢 |
 | `spotify.getRelatedArtists` | open.spotify.com | Get the artists Spotify lists as "Fans also like" for an artist. | 🟢 |
 | `spotify.getTopArtists` | open.spotify.com | Get the signed-in user's top artists. | 🟢 |
 | `spotify.getTopTracks` | open.spotify.com | Get the signed-in user's top tracks. | 🟢 |
@@ -5984,6 +6007,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.updateProfile` | walmart.com | Edits the signed-in shopper's profile name. | 🟢 |
 | `washingtonpost.getArticle` | washingtonpost.com | Gets one article's own headline, byline, publish date, section and lede. | 🟢 |
 | `washingtonpost.getArticleFullText` | washingtonpost.com | Gets the full text of a subscriber-only article using the CALLER's own Washington Post… | 🟢 |
+| `washingtonpost.getElectionResults` | washingtonpost.com | Gets one race's own results page — the Post's headline, result summary, dates and the… | 🟢 |
 | `washingtonpost.getLiveBlog` | washingtonpost.com | Gets a live-coverage page's own running updates (elections, speeches, breaking news)… | 🟢 |
 | `washingtonpost.getNewsletter` | washingtonpost.com | Gets one newsletter's own name, description and frequency off the directory. | 🟢 |
 | `washingtonpost.getPodcast` | washingtonpost.com | Gets one podcast show's own details — name, tagline, description, host credit, RSS… | 🟢 |
@@ -5998,6 +6022,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `washingtonpost.listSections` | washingtonpost.com | Lists the site's own news sections (Politics, World, Business, Sports, Opinions, etc.)… | 🟢 |
 | `washingtonpost.listTopics` | washingtonpost.com | Lists the site's own topic/beat pages off its published section-sitemap — narrower… | 🟢 |
 | `washingtonpost.listTrending` | washingtonpost.com | Lists the site's own most-read articles right now. | 🟢 |
+| `washingtonpost.listVideos` | washingtonpost.com | Lists the site's own newest videos off its video sitemap — title, description, date… | 🟢 |
 | `washingtonpost.saveArticle` | washingtonpost.com | Saves an article to the CALLER's own Washington Post saved-stories list — never a… | 🟢 |
 | `washingtonpost.searchArticles` | washingtonpost.com | Searches the site's own article index for a keyword and returns matching articles with… | ⚪ |
 | `washingtonpost.searchWriters` | washingtonpost.com | Searches Washington Post writers by name off the site's own author sitemap (the site… | 🟢 |

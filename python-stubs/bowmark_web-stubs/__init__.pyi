@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 587c82b2d8941003ca1af190b615a1de6da8cf0f56b44ca28f60c1d303403ca0
-# 98 capabilities, 823 providers, 4998 typed functions, 20 refused.
+# Manifest version: d162afca7c529b0b8a486c4a69e010ece5c3de9878b4ea0c989be4f537d4a584
+# 98 capabilities, 824 providers, 5013 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24970,6 +24970,33 @@ class Prv_eventbrite_cancelRegistration_return_Out(TypedDict):
     orderId: str
     cancelled: Literal[True]
 
+class Prv_eventbrite_createEvent_args_In(TypedDict):
+    title: str
+    start: str
+    end: str
+    timezone: NotRequired[str]
+    currency: NotRequired[str]
+    summary: NotRequired[str]
+    organizationId: NotRequired[str]
+
+class Prv_eventbrite_createEvent_return_Out(TypedDict):
+    eventId: str
+    url: str | None
+    status: Literal["draft"]
+
+class Prv_eventbrite_contactOrganizer_args_In(TypedDict):
+    organizerIdOrUrl: str
+    name: str
+    email: str
+    message: str
+    reason: NotRequired[Literal["question_about_event"] | Literal["question_about_my_ticket"]]
+    eventIdOrUrl: NotRequired[str]
+
+class Prv_eventbrite_contactOrganizer_return_Out(TypedDict):
+    organizerId: str
+    email: str
+    sent: Literal[True]
+
 class Prv_eventbrite_joinWaitlist_args_In(TypedDict):
     eventIdOrUrl: str
     firstName: str
@@ -40401,6 +40428,14 @@ class Prv_marriott_MarriottHotelListing_Out(TypedDict):
     url: str
     place: str
 
+class Prv_mayoclinic_search_args_In(TypedDict):
+    query: str
+
+class Prv_mayoclinic_MayoClinicSearchRow_Out(TypedDict):
+    title: str
+    summary: str | None
+    url: str
+
 class Prv_mcp_directory_search_query_u1_In(TypedDict):
     query: NotRequired[str]
     limit: NotRequired[float]
@@ -46405,6 +46440,32 @@ class Prv_patreon_UnfollowCreatorResult_Out(TypedDict):
     following: Literal[False]
     wasFollowing: bool
 
+class Prv_patreon_ListConversationsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_patreon_ListConversationsResult_Out(TypedDict):
+    conversations: list[Prv_patreon_patreonConversation_Out]
+
+Prv_patreon_patreonConversation_Out = TypedDict(
+    "Prv_patreon_patreonConversation_Out",
+    {
+    "id": str,
+    "with": list[Prv_patreon_patreonConversation_Out_with_item_Out],
+    "lastMessageAt": NotRequired[str],
+    "lastMessage": NotRequired[Prv_patreon_patreonConversation_Out_lastMessage_Out],
+    "unreadCount": NotRequired[float],
+    },
+)
+
+class Prv_patreon_patreonConversation_Out_with_item_Out(TypedDict):
+    id: str
+    name: NotRequired[str]
+
+class Prv_patreon_patreonConversation_Out_lastMessage_Out(TypedDict):
+    text: str
+    fromId: NotRequired[str]
+    createdAt: NotRequired[str]
+
 class Prv_patreon_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -50791,6 +50852,7 @@ class Prv_reddit_RedditSearchResult_Out(TypedDict):
     time: Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]
     posts: list[Prv_reddit_RedditPost_Out]
     nextCursor: str | None
+    warnings: list[str]
 
 class Prv_reddit_RedditPost_Out(TypedDict):
     id: str
@@ -50879,6 +50941,7 @@ class Prv_reddit_RedditSubredditPostsResult_Out(TypedDict):
     time: Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"] | None
     posts: list[Prv_reddit_RedditPost_Out]
     nextCursor: str | None
+    warnings: list[str]
 
 class Prv_reddit_RedditSubredditProfile_Out(TypedDict):
     name: str
@@ -50887,6 +50950,7 @@ class Prv_reddit_RedditSubredditProfile_Out(TypedDict):
     quarantineMessage: str | None
     newestPostAt: str | None
     postsLastWeek: float | None
+    warnings: list[str]
 
 class Prv_reddit_RedditSubredditAccess_Out(TypedDict):
     readable: bool
@@ -51058,6 +51122,7 @@ class Prv_reddit_RedditPostsByUrl_Out(TypedDict):
     matched: list[Prv_reddit_RedditPostsByUrl_Out_matched_item_Out]
     via: Literal["search"] | Literal["duplicates"]
     posts: list[Prv_reddit_RedditPost_Out]
+    warnings: list[str]
 
 class Prv_reddit_RedditPostsByUrl_Out_matched_item_Out(TypedDict):
     url: str
@@ -57508,6 +57573,14 @@ class Prv_spectrum_SpectrumMobilePlan_Out(TypedDict):
     highlights: list[str]
     sourceUrl: str
 
+class Prv_spectrum_SpectrumByTheGigPlan_Out(TypedDict):
+    name: str
+    description: str
+    monthlyPrice: float
+    pricePerAdditionalGb: float | None
+    maxLines: float | None
+    sourceUrl: str
+
 class Prv_spectrum_SpectrumMobileDeal_Out(TypedDict):
     device: str
     requirement: str
@@ -57651,6 +57724,25 @@ class Prv_spectrum_SpectrumAppointmentListing_Out(TypedDict):
     rescheduleAllowed: bool | None
     technicianTrackingUrl: str | None
     createdAt: str | None
+
+class Prv_spectrum_SpectrumRescheduleAppointmentArgs_In(TypedDict):
+    appointmentId: str
+    scheduleDate: NotRequired[str]
+    scheduleTimeCode: NotRequired[str]
+    scheduleTime: NotRequired[str]
+
+class Prv_spectrum_SpectrumAppointmentReschedule_Out(TypedDict):
+    rescheduled: bool
+    appointmentId: str
+    message: str | None
+    availableWindows: list[Prv_spectrum_SpectrumAppointmentReschedule_Out_availableWindows_item_Out]
+
+class Prv_spectrum_SpectrumAppointmentReschedule_Out_availableWindows_item_Out(TypedDict):
+    scheduleDate: str | None
+    scheduleTime: str | None
+    scheduleTimeCode: str | None
+    startTimestamp: str | None
+    endTimestamp: str | None
 
 class Prv_spectrum_SpectrumCancelAppointmentArgs_In(TypedDict):
     appointmentId: str
@@ -58364,6 +58456,38 @@ class Prv_spotify_SpotifyRecommendations_Out_tracks_item_Out_artists_item_Out(Ty
 
 class Prv_spotify_SpotifyRecommendations_Out_tracks_item_Out_album_u0_Out(TypedDict):
     id: str
+
+class Prv_spotify_SpotifyArtistRecommendations_Out(TypedDict):
+    seedArtistId: str
+    relatedArtists: list[Prv_spotify_SpotifyArtistRecommendations_Out_relatedArtists_item_Out]
+    featuringPlaylists: list[Prv_spotify_SpotifyArtistRecommendations_Out_featuringPlaylists_item_Out]
+    appearsOn: list[Prv_spotify_SpotifyArtistRecommendations_Out_appearsOn_item_Out]
+
+class Prv_spotify_SpotifyArtistRecommendations_Out_relatedArtists_item_Out(TypedDict):
+    id: str
+    uri: str
+    name: str
+    imageUrl: str | None
+
+class Prv_spotify_SpotifyArtistRecommendations_Out_featuringPlaylists_item_Out(TypedDict):
+    id: str
+    uri: str
+    name: str
+    owner: str | None
+    imageUrl: str | None
+
+class Prv_spotify_SpotifyArtistRecommendations_Out_appearsOn_item_Out(TypedDict):
+    id: str
+    uri: str
+    name: str
+    type: str | None
+    year: float | None
+    artists: list[Prv_spotify_SpotifyArtistRecommendations_Out_appearsOn_item_Out_artists_item_Out]
+    imageUrl: str | None
+
+class Prv_spotify_SpotifyArtistRecommendations_Out_appearsOn_item_Out_artists_item_Out(TypedDict):
+    id: str
+    name: str
 
 class Prv_spotify_SpotifyRelatedArtists_Out(TypedDict):
     artistId: str
@@ -62867,6 +62991,13 @@ class Prv_threads_ThreadsUserRef_In(TypedDict):
 
 class Prv_threads_ThreadsUserActionResult_Out(TypedDict):
     userId: str
+    done: Literal[True]
+
+class Prv_threads_ThreadsUpdateProfileArgs_In(TypedDict):
+    biography: str
+
+class Prv_threads_ThreadsUpdateProfileResult_Out(TypedDict):
+    biography: str
     done: Literal[True]
 
 class Prv_threads_ThreadsSavedPosts_Out(TypedDict):
@@ -68156,6 +68287,28 @@ class Prv_washingtonpost_WashingtonpostTopic_Out(TypedDict):
     name: str
     url: str
 
+class Prv_washingtonpost_WashingtonpostElectionResult_Out(TypedDict):
+    race: str
+    url: str
+    headline: str
+    resultSummary: NotRequired[str]
+    description: NotRequired[str]
+    publishDate: NotRequired[str]
+    updatedAt: NotRequired[str]
+    otherRaces: list[str]
+
+class Prv_washingtonpost_listVideos_opts_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_washingtonpost_WashingtonpostVideo_Out(TypedDict):
+    title: str
+    url: str
+    description: NotRequired[str]
+    publishDate: NotRequired[str]
+    durationSeconds: NotRequired[float]
+    section: NotRequired[str]
+    embedUrl: NotRequired[str]
+
 class Prv_washingtonpost_WashingtonpostPodcastEpisode_Out(TypedDict):
     title: str
     url: str
@@ -69275,6 +69428,29 @@ class Prv_whatsapp_WhatsappSentMessage_Out(TypedDict):
     text: str
     id: str | None
     time: str | None
+
+class Prv_whatsapp_sendMedia_file_In(TypedDict):
+    name: str
+    mimeType: str
+    contentBase64: str
+
+class Prv_whatsapp_WhatsappSentMedia_Out(TypedDict):
+    chat: str
+    fileName: str
+    caption: str | None
+    id: str | None
+    time: str | None
+
+class Prv_whatsapp_WhatsappReaction_Out(TypedDict):
+    chat: str
+    messageId: str
+    emoji: str | None
+
+class Prv_whatsapp_WhatsappMessageChange_Out(TypedDict):
+    chat: str
+    messageId: str
+    action: Literal["edited"] | Literal["deleted"]
+    text: str | None
 
 class Prv_whatsapp_WhatsappCatalogProduct_Out(TypedDict):
     name: str
@@ -87222,6 +87398,20 @@ class Prv_eventbrite(Protocol):
         money and stay out.
         """
 
+    async def createEvent(self, args: Prv_eventbrite_createEvent_args_In, opts: ConnectionOption | None = None, /) -> Prv_eventbrite_createEvent_return_Out:
+        """Creates an UNPUBLISHED draft event on the signed-in caller's Eventbrite organization
+        (title, UTC start/end like 2027-01-15T18:00:00Z or a YYYY-MM-DD, IANA timezone default
+        UTC, currency default USD) — needs the caller signed in (an authFunction, a write). It
+        never publishes: nothing is listed and nobody is notified.
+        """
+
+    async def contactOrganizer(self, args: Prv_eventbrite_contactOrganizer_args_In, /) -> Prv_eventbrite_contactOrganizer_return_Out:
+        """Sends a message to an event organizer through Eventbrite's own Contact form (a write;
+        works signed out) — the organizer replies to the email given. This reaches a real
+        person: send only what the caller actually asked to send. reason defaults to
+        question_about_event; eventIdOrUrl ties the message to one event.
+        """
+
     async def joinWaitlist(self, args: Prv_eventbrite_joinWaitlist_args_In, /) -> Prv_eventbrite_joinWaitlist_return_Out:
         """Puts a name and email on a sold-out event's waitlist (a write) — the organizer emails
         that address if a spot opens. Works signed out, like the site's own form; refused before
@@ -96647,6 +96837,14 @@ class Prv_marriott(Protocol):
         brand and overview URL.
         """
 
+class Prv_mayoclinic(Protocol):
+    """Search Mayo Clinic's diseases and conditions library by a health topic."""
+
+    async def search(self, args: Prv_mayoclinic_search_args_In, /) -> list[Prv_mayoclinic_MayoClinicSearchRow_Out]:
+        """Searches Mayo Clinic's diseases and conditions library for a health topic and returns
+        the displayed title, summary and Mayo Clinic page URL.
+        """
+
 class Prv_mcdonalds(Protocol):
     """McDonald's — the fast-food chain. Restaurant locator, national menu by category, and one
     item's full nutrition detail are callable now; current public deals and McDelivery
@@ -100088,6 +100286,11 @@ class Prv_patreon(Protocol):
         whether there was one. Needs the caller signed in.
         """
 
+    async def listConversations(self, args: Prv_patreon_ListConversationsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_patreon_ListConversationsResult_Out:
+        """Read the signed-in caller's Patreon direct messages: who each is with, the latest
+        message and the unread count, newest first. Needs the caller signed in.
+        """
+
     async def signup(self, args: Any, /) -> Prv_patreon_signup_return_u0_Out | Prv_patreon_signup_return_u1_Out | Prv_patreon_signup_return_u2_Out | Prv_patreon_signup_return_u3_Out:
         """Makes a NEW Patreon account with the person's own email and password, in a session.
         Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
@@ -102579,11 +102782,18 @@ class Prv_reddit(Protocol):
         upvote ratio, flair, author, subreddit, age, the link or self-text it carries, and a
         permalink. `sort` (default relevance) and `time` (default all) come back in the result
         because reddit's relevance ranking is not reproducible and the window changes what `top`
-        means. `limit` is per page (max 100); pass `nextCursor` back as `after`, unchanged, for
-        the next page (it is opaque: reddit pages search 7 posts at a time and the cursor says
-        where in one of its pages this call stopped). Every post's `id` is exactly what
-        `getPost` takes. No match returns an empty `posts` array; a community that does not
-        exist throws.
+        means. `time` is ENFORCED on every sort: a post created before the window opens is never
+        returned, even where reddit itself ignores the window (it does under `new`), so `{sort:
+        "new", time: "day"}` is the last 24 hours, newest first, and the walk stops at older
+        posts — a quiet query can return fewer than `limit`, or none. `limit` is per page (max
+        100) and costs reddit ONE request per result (50 results is about 50 requests, so
+        several large searches in one script can exhaust reddit's per-address limit — keep
+        `limit` near what you will read); a result reddit refuses is left out and named in
+        `warnings`, and the call fails only when every result is refused. Pass `nextCursor` back
+        as `after`, unchanged, for the next page (it is opaque: reddit pages search 7 posts at a
+        time and the cursor says where in one of its pages this call stopped). Every post's `id`
+        is exactly what `getPost` takes. No match returns an empty `posts` array; a community
+        that does not exist throws.
         """
 
     async def getPost(self, post: str | Prv_reddit_getPost_post_u1_In, /) -> Prv_reddit_RedditThread_Out:
@@ -104968,6 +105178,11 @@ class Prv_shein(Protocol):
         newest first as the page orders them.
         """
 
+    async def listFlashSale(self, /) -> list[Prv_shein_sheinProduct_Out]:
+        """The products on Shein's Sale tab (its discounted grid; the site has no separate Flash
+        Sale page) — title, sale price, image and product page URL for each.
+        """
+
 class Prv_shop_app(Protocol):
     """Shop (Shopify's shopping app) — search products across every Shopify store, read a
     product with its variants, reviews and delivery estimate, and browse a store's
@@ -105931,6 +106146,12 @@ class Prv_spectrum(Protocol):
         not covered.
         """
 
+    async def getByTheGigPlan(self, /) -> Prv_spectrum_SpectrumByTheGigPlan_Out:
+        """Spectrum Mobile's pay-per-gig "By the Gig" plan (the one listMobilePlans leaves out),
+        read off the JSON-LD of spectrum.com/mobile/plans/data-by-the-gig — what the first GB
+        costs per month, the price of each GB after it and how many lines can share the data.
+        """
+
     async def listMobileDeals(self, /) -> list[Prv_spectrum_SpectrumMobileDeal_Out]:
         """Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals —
         device, discount and the line/plan requirement to qualify.
@@ -106014,6 +106235,15 @@ class Prv_spectrum(Protocol):
         one's time window, status, reason, whether it can still be cancelled or rescheduled, and
         the live technician-tracking link when there is one, read off spectrum.net's own account
         GraphQL. Needs the caller signed in to spectrum.net.
+        """
+
+    async def rescheduleServiceAppointment(self, args: Prv_spectrum_SpectrumRescheduleAppointmentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_spectrum_SpectrumAppointmentReschedule_Out:
+        """Move one of the signed-in caller's Spectrum technician visits to another window, through
+        spectrum.net's own account GraphQL — the same calls as its "Reschedule appointment"
+        flow. Pass only the appointmentId (from listServiceAppointments) to list the open
+        windows; pass a window's scheduleDate and scheduleTimeCode as well to move the visit.
+        Only a visit listServiceAppointments marks rescheduleAllowed can be moved. Needs the
+        caller signed in to spectrum.net.
         """
 
     async def cancelServiceAppointment(self, args: Prv_spectrum_SpectrumCancelAppointmentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_spectrum_SpectrumAppointmentCancellation_Out:
@@ -106269,6 +106499,14 @@ class Prv_spotify(Protocol):
         album, duration and play count. Keyless and signed-out: it loads the web player's track
         page in a browser, so it takes several seconds. Feed a returned id back in to walk
         further.
+        """
+
+    async def getRecommendationsByArtist(self, artistId: str, /) -> Prv_spotify_SpotifyArtistRecommendations_Out:
+        """Gets what Spotify recommends alongside a seed artist (id, uri or open.spotify.com url) —
+        the related artists, the playlists featuring them and the releases they appear on, from
+        the artist's own page. Keyless and signed-out: it loads the web player's artist page in
+        a browser, so it takes several seconds. Pass a returned id to getArtist, getPlaylist or
+        getAlbum.
         """
 
     async def getRelatedArtists(self, id: str, /) -> Prv_spotify_SpotifyRelatedArtists_Out:
@@ -108541,6 +108779,11 @@ class Prv_threads(Protocol):
         from getProfile or searchAccounts. Needs the caller signed in to Threads.
         """
 
+    async def updateProfile(self, args: Prv_threads_ThreadsUpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsUpdateProfileResult_Out:
+        """Sets the signed-in caller's own Threads bio (up to 150 characters; an empty string
+        clears it). Needs the caller signed in to Threads.
+        """
+
     async def getSavedPosts(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsSavedPosts_Out:
         """Reads the posts the signed-in caller has saved on Threads (first page) — author, text,
         media and counts. Needs the caller signed in to Threads; runs through their own Chrome
@@ -109663,7 +109906,9 @@ class Prv_tumblr(Protocol):
         """Replaces the text, title, tags or state of one post on the signed-in caller's own blog."""
 
     async def sendMessage(self, args: Prv_tumblr_TumblrSendMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrComposeResult_Out:
-        """Sends an ask (a question) from the signed-in caller to another blog's inbox."""
+        """Sends an ask (a question) from the signed-in caller to another blog's inbox; `anonymous:
+        true` leaves the caller's name off.
+        """
 
     async def getDashboard(self, args: Prv_tumblr_TumblrFeedArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrFeedPage_Out:
         """The signed-in caller's dashboard — the newest posts from the blogs and tags they follow,
@@ -111300,6 +111545,17 @@ class Prv_washingtonpost(Protocol):
     async def listTrending(self, /) -> list[Prv_washingtonpost_WashingtonpostArticle_Out]:
         """Lists the site's own most-read articles right now."""
 
+    async def getElectionResults(self, race: str, /) -> Prv_washingtonpost_WashingtonpostElectionResult_Out:
+        """Gets one race's own results page — the Post's headline, result summary, dates and the
+        other races it covers — by race name ("alaska senate") or results-page url. Vote counts
+        are JavaScript-only AP embeds, so not included.
+        """
+
+    async def listVideos(self, opts: Prv_washingtonpost_listVideos_opts_In | None = None, /) -> list[Prv_washingtonpost_WashingtonpostVideo_Out]:
+        """Lists the site's own newest videos off its video sitemap — title, description, date,
+        duration, section and embed url.
+        """
+
     async def listPodcasts(self, /) -> list[Prv_washingtonpost_WashingtonpostPodcastEpisode_Out]:
         """Lists the site's own recent podcast episodes across every show."""
 
@@ -111926,6 +112182,31 @@ class Prv_whatsapp(Protocol):
         """Sends a text message as the caller to a chat opened by its exact displayed name (from
         listChats or findContact), and returns the sent row's id and time label. A retried run
         never sends twice. Needs the caller signed in.
+        """
+
+    async def sendMedia(self, chatName: str, file: Prv_whatsapp_sendMedia_file_In, caption: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMedia_Out:
+        """Sends a file as the caller to a chat opened by its exact displayed name: an image or
+        video with an optional caption, or a document. The file is passed as base64 with its
+        name and MIME type. Returns the sent row's id and time label; a retried run never sends
+        twice. Needs the caller signed in.
+        """
+
+    async def reactToMessage(self, chatName: str, messageId: str, emoji: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappReaction_Out:
+        """Reacts to a message as the caller with an emoji, or removes the caller's reaction when
+        emoji is omitted. The chat is opened by its exact displayed name and the message by the
+        id getChatMessages returns. Needs the caller signed in.
+        """
+
+    async def editMessage(self, chatName: str, messageId: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMessageChange_Out:
+        """Edits the text of a message the caller sent, inside the window WhatsApp allows edits.
+        The chat is opened by its exact displayed name and the message by the id getChatMessages
+        returns. Needs the caller signed in.
+        """
+
+    async def deleteMessage(self, chatName: str, messageId: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMessageChange_Out:
+        """Deletes a message the caller sent, for everyone when WhatsApp still offers that and for
+        the caller alone otherwise. The chat is opened by its exact displayed name and the
+        message by the id getChatMessages returns. Needs the caller signed in.
         """
 
     async def listCatalogProducts(self, numberOrUrl: str, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappCatalogProduct_Out]:
@@ -114713,6 +114994,7 @@ class BowmarkProviders(Protocol):
     marketplace_visualstudio: Prv_marketplace_visualstudio
     marks: Prv_marks
     marriott: Prv_marriott
+    mayoclinic: Prv_mayoclinic
     mcdonalds: Prv_mcdonalds
     mcp_directory: Prv_mcp_directory
     mcp_registry: Prv_mcp_registry

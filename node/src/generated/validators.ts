@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 587c82b2d8941003ca1af190b615a1de6da8cf0f56b44ca28f60c1d303403ca0
-// 4998 checked, 20 unchecked.
+// Manifest version: d162afca7c529b0b8a486c4a69e010ece5c3de9878b4ea0c989be4f537d4a584
+// 5013 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "587c82b2d8941003ca1af190b615a1de6da8cf0f56b44ca28f60c1d303403ca0",
+  "version": "d162afca7c529b0b8a486c4a69e010ece5c3de9878b4ea0c989be4f537d4a584",
   "units": {
     "address_validation": {
       "defs": {
@@ -50463,6 +50463,145 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "createEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "start",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "end",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "timezone",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "currency",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "summary",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "organizationId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "contactOrganizer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "organizerIdOrUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "email",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "message",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "reason",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "question_about_event"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "question_about_my_ticket"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "eventIdOrUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "joinWaitlist": [
           {
             "name": "args",
@@ -85690,6 +85829,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.mayoclinic": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.mcdonalds": {
       "defs": {},
       "functions": {
@@ -99316,6 +99478,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListConversationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListCreatorCollectionsArgs": {
           "k": "object",
           "props": [
@@ -99785,6 +99959,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "UnfollowCreatorArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listConversations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListConversationsArgs"
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -121124,7 +121324,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listNewArrivals": []
+        "listNewArrivals": [],
+        "listFlashSale": []
       }
     },
     "providers.shop_app": {
@@ -125011,6 +125212,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SpectrumRescheduleAppointmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appointmentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "scheduleDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "scheduleTimeCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "scheduleTime",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SpectrumRestartEquipmentArgs": {
           "k": "object",
           "props": [
@@ -125100,6 +125334,7 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listTvPlans": [],
         "listMobilePlans": [],
+        "getByTheGigPlan": [],
         "listMobileDeals": [],
         "checkMobileCoverage": [
           {
@@ -125279,6 +125514,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listServiceAppointments": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "rescheduleServiceAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpectrumRescheduleAppointmentArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -126603,6 +126864,15 @@ export const VALIDATORS: ValidatorTable = {
         "getRecommendations": [
           {
             "name": "trackId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getRecommendationsByArtist": [
+          {
+            "name": "artistId",
             "schema": {
               "k": "string"
             },
@@ -136093,6 +136363,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ThreadsUpdateProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "biography",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ThreadsUserRef": {
           "k": "object",
           "props": [
@@ -136495,6 +136777,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ThreadsUserRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ThreadsUpdateProfileArgs"
             },
             "optional": false
           },
@@ -147898,6 +148206,33 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listTrending": [],
+        "getElectionResults": [
+          {
+            "name": "race",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listPodcasts": [],
         "getPodcast": [
           {
@@ -149682,6 +150017,178 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendMedia": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "file",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "mimeType",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "contentBase64",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "caption",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "reactToMessage": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "emoji",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "editMessage": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteMessage": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageId",
             "schema": {
               "k": "string"
             },

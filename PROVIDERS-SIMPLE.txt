@@ -99,7 +99,7 @@ bananarepublic.gap.com — banana_republic: getProduct, searchProducts
 bankmycell.com — bankmycell: getTradeInQuote, searchDevices
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
-bbc.com — bbc: followPodcast, getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listFollowedPodcasts, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations, subscribeNewsletter, unfollowPodcast, unsubscribeNewsletter
+bbc.com — bbc: 31 functions — ask get_library
 bcbsri.com — bcbsri: getApplicationPage, getDentalPlan, getDentalShopPage, getPlanDocuments, getQuotePage, listDentalPlans (+6 planned)
 beaconfunding.com — beaconfunding: getApplicationFields
 beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
@@ -280,6 +280,7 @@ docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 p
 donsappliances.com — donsappliances: getProduct, search
 doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getRetailStore, getStore, getStoreReviews, listCuisines, listOrders, search, searchDishes (+23 planned)
 drafthouse.com — drafthouse: findTheaters, getShowtimes (+1 planned)
+drive.google.com — drive_google: addComment, createDocument, createFolder, createPresentation, createSpreadsheet, getAccount, getDocumentText, getFile, getPresentationText, getSheetCsv, listComments, listFiles, moveFile, renameFile, restoreFile, setStarred, trashFile
 drivers.uber.com — uber: getDriverEarnings
 dropbox.com — dropbox: closeFileRequest, copyFile, createFileRequest, createFolder, createSharedLink, deleteFile, downloadSharedFile, getFileMetadata, getMyAccount, getPlans, getSharedLink, listDeletedFiles, listFileRequests, listFileVersions, listFolder, listSharedFolder, listSharedLinks, listSharedWithMe, listSharingMembers, moveFile, readSharedFile, removeSharingMember, restoreFile, restoreFileVersion, revokeSharedLink, saveSharedLinkToDropbox, searchFiles, shareWithPeople (+14 planned)
 duckduckgo.com — duckduckgo: changeForwardingAddress, chatWithDuckAi, convertCurrency, createPrivateDuckAddress, defineWord, getEmailProtectionAccount, getInstantAnswer, getLocalTime, getWeather, listBangs, listDuckAiModels, listRegions, resolveBang, searchImages, searchNews, searchPlaces, searchVideos, searchWeb, setPrivateDuckAddressActive, suggestQueries, translateText
@@ -303,7 +304,7 @@ estes-express.com — estes_express: estimateFreightQuote
 ethos.com — ethos: nothing callable yet (+1 planned)
 etsy.com — etsy: browseCategory, estimateShipping, findRegistry, getListing, getRegistry, getShop, getUserProfile, listCategories, listEditorsPicks, listListingReviews, listShopListings, listShopReviews, listTrendingSearches, search, searchShops, suggestSearches (+19 planned)
 evag.de — evag: listDepartures, listDisruptions, searchStop
-eventbrite.com — eventbrite: cancelRegistration, followOrganizer, getEvent, getEventAttendees, getFollowedOrganizers, getOrderHistory, getOrganizer, getOwnProfile, getSavedEvents, getVenue, joinWaitlist, listMyOrganizedEvents, listTicketClasses, registerForEvent, saveEvent, searchEvents, unfollowOrganizer, unsaveEvent
+eventbrite.com — eventbrite: cancelRegistration, contactOrganizer, createEvent, followOrganizer, getEvent, getEventAttendees, getFollowedOrganizers, getOrderHistory, getOrganizer, getOwnProfile, getSavedEvents, getVenue, joinWaitlist, listMyOrganizedEvents, listTicketClasses, registerForEvent, saveEvent, searchEvents, unfollowOrganizer, unsaveEvent
 eventim.com — eventim: search (+1 planned)
 eventsource.com — eventsource: getShowroom, getShowroomInquiryContact, getShowroomVenue
 evolutionofsmooth.com — evolutionofsmooth: answerShadeQuizQuestion, startShadeQuiz
@@ -562,7 +563,7 @@ olo.com — olo: addToBasket, applyCoupon, checkOrderAvailability, findBrand, ge
 onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
 onlyfans.com — onlyfans: getProfile (+20 planned)
 onthemarket.com — onthemarket: search
-open.spotify.com — spotify: 34 functions — ask get_library (+2 planned)
+open.spotify.com — spotify: 35 functions — ask get_library (+2 planned)
 openai.com — openai_com: listPosts, readPost
 openlibrary.org — open_library: getWork, search
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, listMyReservations, search, startBooking
@@ -578,7 +579,7 @@ pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
 packlane.com — packlane: getQuote
 pallet2ship.co.uk — pallet2ship: getQuote
 partiful.com — partiful: discoverEvents, getEvent
-patreon.com — patreon: commentOnPost, deleteComment, followCreator, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorShop, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators, unfollowCreator, unlikePost
+patreon.com — patreon: commentOnPost, deleteComment, followCreator, getCreator, getCurrentUserFeed, getPost, likePost, listConversations, listCreatorCollections, listCreatorPosts, listCreatorShop, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators, unfollowCreator, unlikePost
 pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, getServiceDetails, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listMyMemberships, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, getServiceStatus, searchHelp, searchShoppingOffers (+2 planned)
@@ -706,7 +707,7 @@ soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, g
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 sourceforge.net — sourceforge: getLatestRelease, getProject, listFiles (+1 planned)
 spacest.com — spacest: nothing callable yet (+1 planned)
-spectrum.com — spectrum: cancelServiceAppointment, checkMobileCoverage, getAccountBalance, getBillingHistory, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getOutageStatus, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listServiceAppointments, listTvAddOns, listTvPlans, restartEquipment, scheduleServiceAppointment, updateWifiNetwork (+2 planned)
+spectrum.com — spectrum: cancelServiceAppointment, checkMobileCoverage, getAccountBalance, getBillingHistory, getByTheGigPlan, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getOutageStatus, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listServiceAppointments, listTvAddOns, listTvPlans, rescheduleServiceAppointment, restartEquipment, scheduleServiceAppointment, updateWifiNetwork (+2 planned)
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getPlayerNews, getRankings, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamNews, getTeamRoster, getTeamStats, listTeams, searchPlayers (+1 planned)
@@ -809,7 +810,7 @@ vistaprint.com — vistaprint: getShippingBoxPrice (+1 planned)
 voluspa.com — voluspa: nothing callable yet (+2 planned)
 walkerhughes.com — walkerhughes: findNearestOffice, listOffices, listQuoteProducts (+1 planned)
 walmart.com — walmart: addAddress, addToCart, addToList, browseBrand, browseCategory, createList, findBrand, getAccountProfile, getCart, getList, getOrder, getPickupDeliverySlots, getProduct, getSeller, getStore, getWeeklyAd, listAddresses, listDeals, listDepartments, listLists, listOrders, listPurchasedItems, listReviews, listSellerOffers, removeFromCart, removeFromList, search, setPreferredStore, suggestSearches, updateCartItem, updateProfile (+7 planned)
-washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getLiveBlog, getNewsletter, getPodcast, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listEpisodes, listNewsletters, listPodcasts, listSavedArticles, listSections, listTopics, listTrending, saveArticle, searchWriters, unsaveArticle (+1 planned)
+washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getElectionResults, getLiveBlog, getNewsletter, getPodcast, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listEpisodes, listNewsletters, listPodcasts, listSavedArticles, listSections, listTopics, listTrending, listVideos, saveArticle, searchWriters, unsaveArticle (+1 planned)
 waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)
 wearehirschfeld.com — wearehirschfeld: getContactForm, listPages

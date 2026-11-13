@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 587c82b2d8941003ca1af190b615a1de6da8cf0f56b44ca28f60c1d303403ca0
-// 98 capabilities, 823 providers, 5016 typed functions, 20 refused.
+// Manifest version: d162afca7c529b0b8a486c4a69e010ece5c3de9878b4ea0c989be4f537d4a584
+// 98 capabilities, 824 providers, 5031 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39567,6 +39567,22 @@ interface EventbriteOrganizerDetail {
     cancelRegistration(args: { orderId: string }, opts?: ConnectionOption): Promise<{ orderId: string; cancelled: true }>;
 
     /**
+     * Creates an UNPUBLISHED draft event on the signed-in caller's Eventbrite organization (title,
+     * UTC start/end like 2027-01-15T18:00:00Z or a YYYY-MM-DD, IANA timezone default UTC, currency
+     * default USD) — needs the caller signed in (an authFunction, a write). It never publishes:
+     * nothing is listed and nobody is notified.
+     */
+    createEvent(args: { title: string; start: string; end: string; timezone?: string; currency?: string; summary?: string; organizationId?: string }, opts?: ConnectionOption): Promise<{ eventId: string; url: string | null; status: 'draft' }>;
+
+    /**
+     * Sends a message to an event organizer through Eventbrite's own Contact form (a write; works
+     * signed out) — the organizer replies to the email given. This reaches a real person: send
+     * only what the caller actually asked to send. reason defaults to question_about_event;
+     * eventIdOrUrl ties the message to one event.
+     */
+    contactOrganizer(args: { organizerIdOrUrl: string; name: string; email: string; message: string; reason?: 'question_about_event' | 'question_about_my_ticket'; eventIdOrUrl?: string }): Promise<{ organizerId: string; email: string; sent: true }>;
+
+    /**
      * Puts a name and email on a sold-out event's waitlist (a write) — the organizer emails that
      * address if a spot opens. Works signed out, like the site's own form; refused before anything
      * is sent when the event shows no open waitlist. ticketClassId/quantity target one tier's
@@ -65262,6 +65278,20 @@ interface MarriottHotelListing {
   }
 }
 
+declare namespace BowmarkProvider_mayoclinic {
+  // ── Mayo Clinic — the unit's own declarations, verbatim ──
+interface MayoClinicSearchRow { title: string; summary: string | null; url: string }
+
+  /** Search Mayo Clinic's diseases and conditions library by a health topic. */
+  interface Unit {
+    /**
+     * Searches Mayo Clinic's diseases and conditions library for a health topic and returns the
+     * displayed title, summary and Mayo Clinic page URL.
+     */
+    search(args: { query: string }): Promise<MayoClinicSearchRow[]>;
+  }
+}
+
 declare namespace BowmarkProvider_mcdonalds {
   // ── McDonald's — the unit's own declarations, verbatim ──
 interface mcdonaldsMenuItem {
@@ -75037,6 +75067,23 @@ interface patreonCreator {
   nsfw?: boolean;
 }
 
+interface ListConversationsArgs {
+  /** How many conversations, newest first. Default 20, max 100. */
+  limit?: number;
+}
+
+interface patreonConversation {
+  id: string;
+  with: Array<{ id: string; name?: string }>;
+  lastMessageAt?: string;
+  lastMessage?: { text: string; fromId?: string; createdAt?: string };
+  unreadCount?: number;
+}
+
+interface ListConversationsResult {
+  conversations: patreonConversation[];
+}
+
 interface SearchCreatorsArgs {
   query: string;
 }
@@ -75374,6 +75421,12 @@ interface DeleteCommentResult {
      * whether there was one. Needs the caller signed in.
      */
     unfollowCreator(args: UnfollowCreatorArgs, opts?: ConnectionOption): Promise<UnfollowCreatorResult>;
+
+    /**
+     * Read the signed-in caller's Patreon direct messages: who each is with, the latest message
+     * and the unread count, newest first. Needs the caller signed in.
+     */
+    listConversations(args?: ListConversationsArgs, opts?: ConnectionOption): Promise<ListConversationsResult>;
 
     /**
      * Makes a NEW Patreon account with the person's own email and password, in a session. Pauses
@@ -82086,6 +82139,7 @@ interface RedditSearchResult {
   time: "hour" | "day" | "week" | "month" | "year" | "all";
   posts: RedditPost[];
   nextCursor: string | null;   // pass back as "after"; null = no more
+  warnings: string[];          // one line per result reddit refused; the posts are incomplete by these
 }
 
 interface RedditSubredditPostsResult {
@@ -82094,6 +82148,7 @@ interface RedditSubredditPostsResult {
   time: "hour" | "day" | "week" | "month" | "year" | "all" | null; // null on sorts with no window
   posts: RedditPost[];
   nextCursor: string | null;
+  warnings: string[];          // sort "new" only: one line per post reddit refused; the page is incomplete by these
 }
 
 interface RedditSubredditAccess {
@@ -82108,6 +82163,7 @@ interface RedditSubredditProfile {
   quarantineMessage: string | null;
   newestPostAt: string | null;
   postsLastWeek: number | null;       // among its 25 newest posts
+  warnings: string[];                 // one line per one of those 25 that reddit refused; the liveness answer is approximate by these
 }
 
 interface RedditSubredditSearchResult {
@@ -82168,6 +82224,7 @@ interface RedditPostsByUrl {
   matched: { url: string; posts: number }[]; // every spelling asked, and how many threads it matched
   via: "search" | "duplicates";  // duplicates = a reddit thread URL was passed
   posts: RedditPost[];         // most-discussed first
+  warnings: string[];          // search only: one line per thread reddit refused; the matches are incomplete by these
 }
 
 interface RedditWikiPages {
@@ -82353,8 +82410,15 @@ interface RedditProfileText {
      * `subreddit` — and returns each matching thread with its score, comment count, upvote ratio,
      * flair, author, subreddit, age, the link or self-text it carries, and a permalink. `sort`
      * (default relevance) and `time` (default all) come back in the result because reddit's
-     * relevance ranking is not reproducible and the window changes what `top` means. `limit` is
-     * per page (max 100); pass `nextCursor` back as `after`, unchanged, for the next page (it is
+     * relevance ranking is not reproducible and the window changes what `top` means. `time` is
+     * ENFORCED on every sort: a post created before the window opens is never returned, even where
+     * reddit itself ignores the window (it does under `new`), so `{sort: "new", time: "day"}` is
+     * the last 24 hours, newest first, and the walk stops at older posts — a quiet query can
+     * return fewer than `limit`, or none. `limit` is per page (max 100) and costs reddit ONE
+     * request per result (50 results is about 50 requests, so several large searches in one script
+     * can exhaust reddit's per-address limit — keep `limit` near what you will read); a result
+     * reddit refuses is left out and named in `warnings`, and the call fails only when every
+     * result is refused. Pass `nextCursor` back as `after`, unchanged, for the next page (it is
      * opaque: reddit pages search 7 posts at a time and the cursor says where in one of its pages
      * this call stopped). Every post's `id` is exactly what `getPost` takes. No match returns an
      * empty `posts` array; a community that does not exist throws.
@@ -88993,6 +89057,12 @@ interface sheinSizeGuide {
      * newest first as the page orders them.
      */
     listNewArrivals(): Promise<sheinProduct[]>;
+
+    /**
+     * The products on Shein's Sale tab (its discounted grid; the site has no separate Flash Sale
+     * page) — title, sale price, image and product page URL for each.
+     */
+    listFlashSale(): Promise<sheinProduct[]>;
   }
 }
 
@@ -91753,6 +91823,14 @@ interface SpectrumMobilePlan {
   highlights: string[];  // the site's own bullet lines — read the values off a result, never guess one from prose
   sourceUrl: string;
 }
+interface SpectrumByTheGigPlan {
+  name: string;
+  description: string;
+  monthlyPrice: number;  // what the first GB costs per month
+  pricePerAdditionalGb: number | null;
+  maxLines: number | null;
+  sourceUrl: string;
+}
 interface SpectrumMobileDeal {
   device: string;
   requirement: string;
@@ -91926,6 +92004,18 @@ interface SpectrumAppointmentListing {
 interface SpectrumCancelAppointmentArgs {
   appointmentId: string;  // the id listServiceAppointments returns
 }
+interface SpectrumRescheduleAppointmentArgs {
+  appointmentId: string;  // the id listServiceAppointments returns
+  scheduleDate?: string;  // YYYY-MM-DD, from the windows list; pass with scheduleTimeCode to move the visit
+  scheduleTimeCode?: string;
+  scheduleTime?: string;  // the window's own label; looked up when omitted
+}
+interface SpectrumAppointmentReschedule {
+  rescheduled: boolean;
+  appointmentId: string;
+  message: string | null;
+  availableWindows: { scheduleDate: string | null; scheduleTime: string | null; scheduleTimeCode: string | null; startTimestamp: string | null; endTimestamp: string | null }[];  // set when no window was chosen
+}
 interface SpectrumAppointmentCancellation {
   appointmentId: string;
   cancelled: boolean;
@@ -91981,6 +92071,13 @@ interface SpectrumAppointmentCancellation {
      * covered.
      */
     listMobilePlans(): Promise<SpectrumMobilePlan[]>;
+
+    /**
+     * Spectrum Mobile's pay-per-gig "By the Gig" plan (the one listMobilePlans leaves out), read
+     * off the JSON-LD of spectrum.com/mobile/plans/data-by-the-gig — what the first GB costs per
+     * month, the price of each GB after it and how many lines can share the data.
+     */
+    getByTheGigPlan(): Promise<SpectrumByTheGigPlan>;
 
     /**
      * Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals —
@@ -92074,6 +92171,16 @@ interface SpectrumAppointmentCancellation {
      * Needs the caller signed in to spectrum.net.
      */
     listServiceAppointments(opts?: ConnectionOption): Promise<SpectrumAppointmentListing[]>;
+
+    /**
+     * Move one of the signed-in caller's Spectrum technician visits to another window, through
+     * spectrum.net's own account GraphQL — the same calls as its "Reschedule appointment" flow.
+     * Pass only the appointmentId (from listServiceAppointments) to list the open windows; pass a
+     * window's scheduleDate and scheduleTimeCode as well to move the visit. Only a visit
+     * listServiceAppointments marks rescheduleAllowed can be moved. Needs the caller signed in to
+     * spectrum.net.
+     */
+    rescheduleServiceAppointment(args: SpectrumRescheduleAppointmentArgs, opts?: ConnectionOption): Promise<SpectrumAppointmentReschedule>;
 
     /**
      * Cancel one of the signed-in caller's Spectrum technician visits, by the appointmentId
@@ -92642,6 +92749,26 @@ interface SpotifyRecommendations {
     imageUrl: string | null;
   }[];
 }
+interface SpotifyArtistRecommendations {
+  seedArtistId: string;
+  relatedArtists: { id: string; uri: string; name: string; imageUrl: string | null }[];
+  featuringPlaylists: {
+    id: string;
+    uri: string;
+    name: string;
+    owner: string | null;
+    imageUrl: string | null;
+  }[];
+  appearsOn: {
+    id: string;
+    uri: string;
+    name: string;
+    type: string | null;
+    year: number | null;
+    artists: { id: string; name: string }[];
+    imageUrl: string | null;
+  }[];
+}
 interface SpotifyRelatedArtists {
   artistId: string;
   /** how many related artists Spotify reports */
@@ -93026,6 +93153,15 @@ interface SpotifyLyrics {
      * browser, so it takes several seconds. Feed a returned id back in to walk further.
      */
     getRecommendations(trackId: string): Promise<SpotifyRecommendations>;
+
+    /**
+     * Gets what Spotify recommends alongside a seed artist (id, uri or open.spotify.com url) — the
+     * related artists, the playlists featuring them and the releases they appear on, from the
+     * artist's own page. Keyless and signed-out: it loads the web player's artist page in a
+     * browser, so it takes several seconds. Pass a returned id to getArtist, getPlaylist or
+     * getAlbum.
+     */
+    getRecommendationsByArtist(artistId: string): Promise<SpotifyArtistRecommendations>;
 
     /**
      * Gets the artists Spotify lists as "Fans also like" for an artist (id, uri or
@@ -99547,6 +99683,14 @@ interface ThreadsUserActionResult {
   userId: string;
   done: true;
 }
+// updateProfile: set the signed-in caller's own bio
+interface ThreadsUpdateProfileArgs {
+  biography: string;         // new bio, up to 150 characters; "" clears it
+}
+interface ThreadsUpdateProfileResult {
+  biography: string;
+  done: true;
+}
 // getSavedPosts: the signed-in caller's own saved posts
 interface ThreadsSavedPosts {
   posts: ThreadsPost[];      // first server-rendered page, as /saved lists them
@@ -99688,6 +99832,12 @@ interface ThreadsActivity {
      * from getProfile or searchAccounts. Needs the caller signed in to Threads.
      */
     unmuteUser(args: ThreadsUserRef, opts?: ConnectionOption): Promise<ThreadsUserActionResult>;
+
+    /**
+     * Sets the signed-in caller's own Threads bio (up to 150 characters; an empty string clears
+     * it). Needs the caller signed in to Threads.
+     */
+    updateProfile(args: ThreadsUpdateProfileArgs, opts?: ConnectionOption): Promise<ThreadsUpdateProfileResult>;
 
     /**
      * Reads the posts the signed-in caller has saved on Threads (first page) — author, text, media
@@ -102954,7 +103104,10 @@ interface TumblrTagResult {
     /** Replaces the text, title, tags or state of one post on the signed-in caller's own blog. */
     editPost(args: TumblrEditPostArgs, opts?: ConnectionOption): Promise<TumblrComposeResult>;
 
-    /** Sends an ask (a question) from the signed-in caller to another blog's inbox. */
+    /**
+     * Sends an ask (a question) from the signed-in caller to another blog's inbox; `anonymous:
+     * true` leaves the caller's name off.
+     */
     sendMessage(args: TumblrSendMessageArgs, opts?: ConnectionOption): Promise<TumblrComposeResult>;
 
     /**
@@ -107507,6 +107660,27 @@ interface WashingtonpostTopic {
   url: string;
 }
 
+interface WashingtonpostElectionResult {
+  race: string;
+  url: string;
+  headline: string;
+  resultSummary?: string;
+  description?: string;
+  publishDate?: string;
+  updatedAt?: string;
+  otherRaces: string[];
+}
+
+interface WashingtonpostVideo {
+  title: string;
+  url: string;
+  description?: string;
+  publishDate?: string;
+  durationSeconds?: number;
+  section?: string;
+  embedUrl?: string;
+}
+
 interface WashingtonpostPodcastEpisode {
   title: string;
   url: string;
@@ -107609,6 +107783,19 @@ interface WashingtonpostLiveBlog {
 
     /** Lists the site's own most-read articles right now. */
     listTrending(): Promise<WashingtonpostArticle[]>;
+
+    /**
+     * Gets one race's own results page — the Post's headline, result summary, dates and the other
+     * races it covers — by race name ("alaska senate") or results-page url. Vote counts are
+     * JavaScript-only AP embeds, so not included.
+     */
+    getElectionResults(race: string): Promise<WashingtonpostElectionResult>;
+
+    /**
+     * Lists the site's own newest videos off its video sitemap — title, description, date,
+     * duration, section and embed url.
+     */
+    listVideos(opts?: { limit?: number }): Promise<WashingtonpostVideo[]>;
 
     /** Lists the site's own recent podcast episodes across every show. */
     listPodcasts(): Promise<WashingtonpostPodcastEpisode[]>;
@@ -109256,6 +109443,24 @@ interface WhatsappSentMessage {
   id: string | null;
   time: string | null;
 }
+interface WhatsappSentMedia {
+  chat: string;
+  fileName: string;
+  caption: string | null;
+  id: string | null;
+  time: string | null;
+}
+interface WhatsappMessageChange {
+  chat: string;
+  messageId: string;
+  action: "edited" | "deleted";
+  text: string | null;
+}
+interface WhatsappReaction {
+  chat: string;
+  messageId: string;
+  emoji: string | null;
+}
 interface WhatsappCatalogProduct {
   name: string;
   price: string | null;
@@ -109431,6 +109636,35 @@ interface WhatsappBlogPost {
      * sends twice. Needs the caller signed in.
      */
     sendMessage(chatName: string, text: string, opts?: ConnectionOption): Promise<WhatsappSentMessage>;
+
+    /**
+     * Sends a file as the caller to a chat opened by its exact displayed name: an image or video
+     * with an optional caption, or a document. The file is passed as base64 with its name and MIME
+     * type. Returns the sent row's id and time label; a retried run never sends twice. Needs the
+     * caller signed in.
+     */
+    sendMedia(chatName: string, file: { name: string; mimeType: string; contentBase64: string }, caption?: string, opts?: ConnectionOption): Promise<WhatsappSentMedia>;
+
+    /**
+     * Reacts to a message as the caller with an emoji, or removes the caller's reaction when emoji
+     * is omitted. The chat is opened by its exact displayed name and the message by the id
+     * getChatMessages returns. Needs the caller signed in.
+     */
+    reactToMessage(chatName: string, messageId: string, emoji?: string, opts?: ConnectionOption): Promise<WhatsappReaction>;
+
+    /**
+     * Edits the text of a message the caller sent, inside the window WhatsApp allows edits. The
+     * chat is opened by its exact displayed name and the message by the id getChatMessages
+     * returns. Needs the caller signed in.
+     */
+    editMessage(chatName: string, messageId: string, text: string, opts?: ConnectionOption): Promise<WhatsappMessageChange>;
+
+    /**
+     * Deletes a message the caller sent, for everyone when WhatsApp still offers that and for the
+     * caller alone otherwise. The chat is opened by its exact displayed name and the message by
+     * the id getChatMessages returns. Needs the caller signed in.
+     */
+    deleteMessage(chatName: string, messageId: string, opts?: ConnectionOption): Promise<WhatsappMessageChange>;
 
     /**
      * Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the
@@ -117043,6 +117277,7 @@ interface BowmarkProviders {
   marketplace_visualstudio: BowmarkProvider_marketplace_visualstudio.Unit;
   marks: BowmarkProvider_marks.Unit;
   marriott: BowmarkProvider_marriott.Unit;
+  mayoclinic: BowmarkProvider_mayoclinic.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
   mcp_directory: BowmarkProvider_mcp_directory.Unit;
   mcp_registry: BowmarkProvider_mcp_registry.Unit;
