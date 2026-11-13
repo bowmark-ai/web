@@ -110,7 +110,7 @@ bellwethercoffee.com — bellwethercoffee: computeRoiEstimate, getCalculatorDefa
 beltservice.com — beltservice: browseCatalog, getBelt
 benelliusa.com — benelliusa: findDealers
 benningtonmarine.com — bennington: search
-bestbuy.com — bestbuy: getProduct, search (+1 planned)
+bestbuy.com — bestbuy: getProduct, search (+28 planned)
 bestmcp.dev — bestmcp_dev: search
 bhphotovideo.com — bhphoto: checkStock, getProduct, search
 bigairusa.com — bigairusa: listLocations, listPasses
@@ -220,7 +220,7 @@ clubchampion.com — clubchampion: checkAvailability, getFittings, listFitters, 
 clubpilates.com — clubpilates: bookClass, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, joinWaitlist, listClassCategories, listClasses, listClassTypes, listInstructors, listMyBookings, listPricing, updateProfile (+1 planned)
 clubready.com — clubready: bookClass, bookService, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, getWorkoutStats, joinWaitlist, listBrands, listClassCategories, listClasses, listClassTypes, listInstructors, listInvoices, listMyBookings, listPricing, listServiceAvailability, listServiceTypes, updateProfile (+1 planned)
 cnb.avocat.fr — cnb_avocat_fr: nothing callable yet (+1 planned)
-cnbc.com — cnbc_com: getArticle, getAuthor, getMarketData, getQuote, listArticlesByAuthor, listCategories, listCommodities, listCurrencies, listMarkets, listNews, listQuotes, listSectors, listVideosByCategory, search (+10 planned)
+cnbc.com — cnbc_com: getArticle, getAuthor, getMarketData, getQuote, getVideo, listArticlesByAuthor, listCategories, listCommodities, listCurrencies, listMarkets, listNews, listQuotes, listSectors, listVideosByCategory, search (+9 planned)
 coastpay.com — coast: getFleetCardPricing, getFuelRebate
 code.claude.com — code_claude_com: getDoc, listDocPages
 code.visualstudio.com — vscode: getDoc, listDocPages
@@ -405,6 +405,7 @@ historymaker.com — historymaker: getHome, listCommunities, searchQuickMoveIns
 hobie.com — hobie: checkLocalAvailability, listKayakModels, listModelColors, listModels
 hodjapasha.com — hodjapasha: getAvailability, getShow, listShows
 holidaybuilders.com — holidaybuilders: getHomeDetail, searchAvailableHomes
+homedepot.com — homedepot: nothing callable yet (+38 planned)
 hottopic.com — hottopic: search
 huggingface.co — huggingface: getModel, listTrendingModels, searchModels (+2 planned)
 humana.com — humana_directory: findProviders
@@ -842,7 +843,7 @@ www.bestbuy.ca — bestbuy_ca: getProduct, search
 www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepartments, listNews, listPublicData, listServices, queryPublicData, searchNews, searchPublicData, searchServices
 www.cnn.com — cnn: followTopic, getArticle, getMarketsData, getVideo, listCategories, listHeadlines, listMyNews, listNewsletters, listSectionHeadlines, listTrendingTopics, listVideos, searchArticles, subscribeToNewsletter, unfollowTopic (+1 planned)
 www.gap.com — gap: getProduct, searchProducts
-www.grammarly.com — grammarly: addToDictionary, checkGrammar, countWords, createDocument, deleteDocument, detectAI, detectPlagiarism, detectTone, getAccount, getDocument, humanize, listDocuments, listGoals, listPlans, paraphrase, removeFromDictionary (+3 planned)
+www.grammarly.com — grammarly: addToDictionary, checkGrammar, countWords, createDocument, deleteDocument, detectAI, detectPlagiarism, detectTone, getAccount, getDocument, humanize, listDocuments, listGoals, listPlans, paraphrase, removeFromDictionary, setGoals (+2 planned)
 www.marks.com — marks: findStores, getProduct, searchProducts
 www.netflix.com — netflix: addToMyList, browseGenre, findTitles, getAccount, getContinueWatching, getEpisodes, getMostPopular, getMyList, getNewOnNetflix, getProfiles, getSimilarTitles, getTitle, getTop10, getTop10ByCountry, getTudumArticle, getViewingHistory, listGenres, listTudumArticles, rateTitle, removeFromMyList, search, searchTudum
 www.nintendo.com — nintendo: browseCategory, getMyNintendoRewardsBalance, getProduct, getSupportArticle, listCategories, listDeals, listNews, searchProducts, searchSupport (+1 planned)

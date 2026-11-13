@@ -1,5 +1,5 @@
 {
-  "version": "845d1e13959dd367ccc8dbed88309d0db19f55012dde78f77921e87a97a5447d",
+  "version": "ea0226add443a4c8c103ec60a220226cff30ec7225970e5dd298b6600f73cfcf",
   "units": {
     "address_validation": {
       "defs": {
@@ -19748,22 +19748,6 @@
               ]
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getProduct": [
@@ -19781,22 +19765,6 @@
               ]
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "signup": [
@@ -29542,6 +29510,25 @@
     },
     "providers.cbsnews": {
       "defs": {
+        "CbsNewsSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetArticleArgs": {
           "k": "object",
           "props": [
@@ -29575,6 +29562,16 @@
         }
       },
       "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CbsNewsSearchArgs"
+            },
+            "optional": false
+          }
+        ],
         "getArticle": [
           {
             "name": "args",
@@ -29595,6 +29592,7 @@
             "optional": false
           }
         ],
+        "listSections": [],
         "listRssFeeds": []
       }
     },
@@ -38609,6 +38607,22 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "searchListings": [
@@ -38625,6 +38639,40 @@
                   "name": "CraigslistSearchArgs"
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
@@ -131933,6 +131981,58 @@
         ]
       }
     },
+    "providers.stripe": {
+      "defs": {
+        "StripeSearchDocsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchDocs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "StripeSearchDocsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getDoc": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.stubhub": {
       "defs": {
         "stubhubSellMatch": {
@@ -140185,6 +140285,48 @@
             "name": "cityName",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tomsguide": {
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
             },
             "optional": false
           }

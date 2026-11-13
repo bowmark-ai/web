@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 845d1e13959dd367ccc8dbed88309d0db19f55012dde78f77921e87a97a5447d
-// 98 capabilities, 830 providers, 5081 typed functions, 20 refused.
+// Manifest version: ea0226add443a4c8c103ec60a220226cff30ec7225970e5dd298b6600f73cfcf
+// 98 capabilities, 832 providers, 5088 typed functions, 20 refused.
 // 50,272 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16426,14 +16426,14 @@ interface bestbuyProduct {
      * no key it reads bestbuy.com's own search results page, where those three fields are null.
      * `pageSize` caps the row count (default 10).
      */
-    search(args: string | { query: string; pageSize?: number }, opts?: ConnectionOption): Promise<bestbuyProduct[]>;
+    search(args: string | { query: string; pageSize?: number }): Promise<bestbuyProduct[]>;
 
     /**
      * Looks up one product by Best Buy's own numeric SKU (the id `search`'s rows carry) and
      * returns its full detail — the same fields as `search`. Which key serves the call is in this
      * provider's key note above; your own goes in the `x-bowmark-vendor-key-bestbuy` header.
      */
-    getProduct(sku: string | number, opts?: ConnectionOption): Promise<bestbuyProduct>;
+    getProduct(sku: string | number): Promise<bestbuyProduct>;
 
     /**
      * Makes a NEW Best Buy account with the person's own email and password, in a session. Pauses
@@ -24675,12 +24675,55 @@ interface CbsNewsArticle {
   dateModified: string | null;
   image: string | null;
 }
+interface CbsNewsSearchArgs {
+  /** The words to search for, up to 200 characters. */
+  query: string;
+  /** How many results to return, 1 to 15 (one page). Default 15. */
+  limit?: number;
+}
+interface CbsNewsSearchHit {
+  id: string;
+  title: string;
+  url: string;
+  summary: string | null;
+  /** The site's own date, verbatim ("Nov 04, 2026"). */
+  published: string | null;
+  /** Unix seconds, from the site's own pubdateunix. */
+  publishedAt: number | null;
+  /** The feed the story ran in, as the site's search names it ("us", "politics"). */
+  feed: string | null;
+  /** Seconds, for a video; null for an article. */
+  durationSeconds: number | null;
+  image: string | null;
+}
+interface CbsNewsSearchResult {
+  query: string;
+  /** How many matches the site reports for the whole query, not only this page. */
+  total: number;
+  results: CbsNewsSearchHit[];
+  /** What the answer lacks: a row the site returned without a title or a link, left out. */
+  warnings: string[];
+}
+interface CbsNewsSection {
+  /** The path segment, without slashes: "politics", "us", "60-minutes". */
+  slug: string;
+  /** The link's own text, as the header shows it ("U.S.", "MoneyWatch"). Null when the link has none. */
+  name: string | null;
+  url: string;
+}
 
   /**
    * CBS News: articles, live updates, section and local-station fronts, video, shows, podcasts
    * and newsletters.
    */
   interface Unit {
+    /**
+     * Searches CBS News stories and videos by keyword, as /search/?q= does: the total matches for
+     * the query, then up to 15 results with title, url, summary, date, feed and video duration.
+     * One page only.
+     */
+    search(args: CbsNewsSearchArgs): Promise<CbsNewsSearchResult>;
+
     /**
      * Reads one CBS News article: headline, description, the full body text, authors with their
      * profile urls, section, keywords, and publication and update times.
@@ -24692,6 +24735,13 @@ interface CbsNewsArticle {
      * listRssFeeds), in the feed's own order.
      */
     listLatestNews(args: ListLatestNewsArgs): Promise<{ feed: string; articles: CbsNewsStory[] }>;
+
+    /**
+     * Lists the section fronts CBS News's header navigation links (U.S., World, Politics, Crime,
+     * and the shows and local stations listed beside them), as slugs usable with
+     * listSectionArticles.
+     */
+    listSections(): Promise<{ sections: CbsNewsSection[] }>;
 
     /**
      * Lists every RSS feed CBS News publishes, from its /rss/ page, as slugs usable with
@@ -31038,13 +31088,27 @@ interface CraigslistSearchResult { query: string; area: string; listings: Craigs
      * Reads a public Craigslist listing URL from searchListings for its full description, posted
      * time and attributes.
      */
-    getListing(url: string): Promise<CraigslistListing>;
+    getListing(url: string, opts?: ConnectionOption): Promise<CraigslistListing>;
 
     /**
      * Searches public Craigslist listings by keyword in an area (SF Bay Area by default),
      * returning title, asking price, location and listing URL.
      */
-    searchListings(query: string | CraigslistSearchArgs): Promise<CraigslistSearchResult>;
+    searchListings(query: string | CraigslistSearchArgs, opts?: ConnectionOption): Promise<CraigslistSearchResult>;
+
+    /**
+     * Makes a NEW Craigslist account with the person's own email and password, in a session.
+     * Pauses with `needs_code` / `needs_phone` whenever the site wants something only the person
+     * has; continue with `confirmSignup` in the same session. Ends `signed_up` with the login
+     * saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -96204,6 +96268,49 @@ interface StickergiantPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_stripe {
+  // ── Stripe Docs — the unit's own declarations, verbatim ──
+interface StripeSearchDocsArgs {
+  query: string;
+  limit?: number;
+}
+interface StripeDocHit {
+  title: string;
+  url: string;
+  markdownUrl: string;
+  description: string | null;
+  section: string | null;
+  score: number;
+}
+interface StripeDoc {
+  url: string;
+  title: string | null;
+  markdown: string;
+}
+
+  /**
+   * Search and read Stripe's public documentation (docs.stripe.com / stripe.com/docs) — find the
+   * guide for a task, then read it as markdown.
+   */
+  interface Unit {
+    /**
+     * Searches Stripe's documentation for a topic (e.g. "refund a payment", "webhook signature",
+     * "subscription trial") and returns the best-matching guides — title, url, one-line
+     * description and product section — ranked from the site's own docs index
+     * (docs.stripe.com/llms.txt). Read one with getDoc(url).
+     */
+    searchDocs(args: string | StripeSearchDocsArgs): Promise<StripeDocHit[]>;
+
+    /**
+     * Reads one Stripe docs page by URL or path ("https://docs.stripe.com/refunds",
+     * "https://stripe.com/docs/webhooks", or "/billing/subscriptions/cancel") and returns its
+     * title and full body as markdown. Passing the docs root ("https://stripe.com/docs") returns
+     * the whole docs index. THROWS on a page that does not exist (404) or a non-docs host.
+     */
+    getDoc(url: string): Promise<StripeDoc>;
+  }
+}
+
 declare namespace BowmarkProvider_stubhub {
   // ── StubHub — the unit's own declarations, verbatim ──
 type stubhubSite = "stubhub" | "viagogo";
@@ -101826,6 +101933,39 @@ interface TockCityVenue {
      * trending venues.
      */
     searchBusinesses(cityName: string): Promise<TockCityVenue[]>;
+  }
+}
+
+declare namespace BowmarkProvider_tomsguide {
+  // ── Tom's Guide — the unit's own declarations, verbatim ──
+interface TomsGuideArticle {
+  title: string;
+  url: string;
+  kind: string | null;     // site's own: "review" | "best-pick" | "news" | "how-to" | "deals" | "feature"
+  author: string | null;
+  date: string | null;     // ISO
+  synopsis: string | null;
+  image: string | null;
+}
+interface SearchArgs {
+  query: string;   // required article topic, e.g. "best vpn", "iphone 17 review"
+  page?: number;   // 1-based, default 1
+  limit?: number;  // default 20 (a page holds ~20)
+}
+
+  /**
+   * Tom's Guide (tomsguide.com) — consumer-tech reviews, best-of buying guides, how-tos, news
+   * and deals. search finds articles for an explicit topic or keyword; a bare site name
+   * discovers this provider but is not a search query, so ask the caller for a topic rather than
+   * calling search without one.
+   */
+  interface Unit {
+    /**
+     * Searches Tom's Guide reviews, buying guides, how-tos, news and deals for a required article
+     * topic or keyword. A bare site name only finds this provider; ask the caller for a topic
+     * rather than calling search without one.
+     */
+    search(args: SearchArgs): Promise<TomsGuideArticle[]>;
   }
 }
 
@@ -118181,6 +118321,7 @@ interface BowmarkProviders {
   statista: BowmarkProvider_statista.Unit;
   steam: BowmarkProvider_steam.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
+  stripe: BowmarkProvider_stripe.Unit;
   stubhub: BowmarkProvider_stubhub.Unit;
   styleseat: BowmarkProvider_styleseat.Unit;
   substack: BowmarkProvider_substack.Unit;
@@ -118221,6 +118362,7 @@ interface BowmarkProviders {
   tmobile: BowmarkProvider_tmobile.Unit;
   toast: BowmarkProvider_toast.Unit;
   tock: BowmarkProvider_tock.Unit;
+  tomsguide: BowmarkProvider_tomsguide.Unit;
   topcashback: BowmarkProvider_topcashback.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
   totalplastics: BowmarkProvider_totalplastics.Unit;

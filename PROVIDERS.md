@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6615 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6680 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -506,9 +506,36 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bennington.search` | benningtonmarine.com | Lists Bennington's pontoon/tritoon model series (S, SX, Q, QX, L, R Bowrider) with… | 🟢 |
 | `bestbuy_ca.getProduct` | www.bestbuy.ca | Reads one bestbuy.ca product by sku (or product url) — CAD price, sale state, brand… | 🟢 |
 | `bestbuy_ca.search` | www.bestbuy.ca | Runs bestbuy.ca's own product search for a keyword query and returns the result grid —… | 🟢 |
+| `bestbuy.addAddress` | bestbuy.com | Saves a new US shipping address on the signed-in account. | ⚪ |
+| `bestbuy.addToCart` | bestbuy.com | Adds a SKU to the cart in the quantity asked for and reports what the cart then holds. | ⚪ |
+| `bestbuy.browseCategory` | bestbuy.com | Lists the products in one category (id from listCategories), with the same row shape… | ⚪ |
+| `bestbuy.findStores` | bestbuy.com | Finds Best Buy stores near a ZIP code or city: store id, name, address, distance… | ⚪ |
+| `bestbuy.getAccountProfile` | bestbuy.com | Reads the signed-in shopper's name, email, phone and My Best Buy membership level. | ⚪ |
+| `bestbuy.getCart` | bestbuy.com | Reads the cart: each line's SKU, name, quantity, price and fulfillment choice, and the… | ⚪ |
+| `bestbuy.getFulfillmentOptions` | bestbuy.com | For one SKU and a ZIP code, says when it would ship, when it could be picked up and at… | ⚪ |
+| `bestbuy.getOrder` | bestbuy.com | Reads one of the signed-in shopper's orders in full: items, tracking, pickup or… | ⚪ |
 | `bestbuy.getProduct` | bestbuy.com | Looks up one product by Best Buy's own numeric SKU and returns its full detail — the… | 🟢 |
+| `bestbuy.getProductQuestions` | bestbuy.com | Reads the shopper questions and answers posted on one SKU, a page at a time. | ⚪ |
+| `bestbuy.getProductReviews` | bestbuy.com | Reads the customer reviews for one SKU: rating, title, text, author nickname, date… | ⚪ |
+| `bestbuy.getRewards` | bestbuy.com | Reads the signed-in shopper's My Best Buy points, available reward certificates and… | ⚪ |
+| `bestbuy.getStore` | bestbuy.com | Reads one store by id: address, phone, weekly hours, holiday hours and the services it… | ⚪ |
 | `bestbuy.getStoreAvailability` | bestbuy.com | Whether a specific SKU is in stock at a SPECIFIC physical store (vs.… | ⚪ |
+| `bestbuy.getTradeInQuote` | bestbuy.com | Gives Best Buy's trade-in value for a device the caller describes (category, brand… | ⚪ |
+| `bestbuy.listAddresses` | bestbuy.com | Lists the signed-in shopper's saved shipping addresses. | ⚪ |
+| `bestbuy.listCategories` | bestbuy.com | Lists Best Buy's department tree — each category's name and id — so a caller can… | ⚪ |
+| `bestbuy.listDeals` | bestbuy.com | Lists the current deals — Top Deals, Deal of the Day and sale events — with sale and… | ⚪ |
+| `bestbuy.listOpenBoxOffers` | bestbuy.com | Lists the open-box offers for one SKU — condition (excellent, good, fair), price and… | ⚪ |
+| `bestbuy.listOrders` | bestbuy.com | Lists the signed-in shopper's orders: number, date, total and status. | ⚪ |
+| `bestbuy.listSavedItems` | bestbuy.com | Lists the signed-in shopper's Saved Items and saved lists. | ⚪ |
+| `bestbuy.removeFromCart` | bestbuy.com | Removes one line from the cart. | ⚪ |
+| `bestbuy.removeSavedItem` | bestbuy.com | Removes a SKU from the signed-in shopper's Saved Items. | ⚪ |
+| `bestbuy.saveItem` | bestbuy.com | Saves a SKU to the signed-in shopper's Saved Items. | ⚪ |
 | `bestbuy.search` | bestbuy.com | Runs a Best Buy product search the way bestbuy.com's own search box does and returns… | 🟡 |
+| `bestbuy.setPreferredStore` | bestbuy.com | Sets the signed-in shopper's preferred store (id from findStores). | ⚪ |
+| `bestbuy.trackOrder` | bestbuy.com | Looks up an order's status by order number and the email or phone it was placed with… | ⚪ |
+| `bestbuy.updateCartItem` | bestbuy.com | Changes a cart line's quantity or its pickup/shipping choice. | ⚪ |
+| `bestbuy.updateProfile` | bestbuy.com | Changes the signed-in shopper's name or phone on their profile. | ⚪ |
+| `bestbuy.writeReview` | bestbuy.com | Posts a rating and review on a SKU the signed-in shopper bought. | ⚪ |
 | `bestmcp_dev.search` | bestmcp.dev | Searches bestmcp.dev's top-ranked MCP-server listing by keyword against name… | 🟢 |
 | `bhphoto.checkStock` | bhphotovideo.com | Answers whether a specific item is actually gettable right now, rather than merely… | 🟢 |
 | `bhphoto.getProduct` | bhphotovideo.com | Reads one product page in full — the identity a search row cannot carry (SKU… | 🟢 |
@@ -1312,7 +1339,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnbc_com.getMarketData` | cnbc.com | Returns one stock, index, commodity or yield's current quote plus its price history… | 🟢 |
 | `cnbc_com.getPremiumContent` | cnbc.com | Returns CNBC Pro premium articles and analysis. | ⚪ |
 | `cnbc_com.getQuote` | cnbc.com | Returns the current stock quote for one symbol — price, change, percent change, open… | 🟢 |
-| `cnbc_com.getVideo` | cnbc.com | Returns details of a CNBC video — title, description, duration, transcript (if… | ⚪ |
+| `cnbc_com.getVideo` | cnbc.com | Returns details of a CNBC video — title, description, duration, transcript (if… | 🟢 |
 | `cnbc_com.getWatchlist` | cnbc.com | Returns the user's saved watchlist of stocks — symbols, current price, change and… | ⚪ |
 | `cnbc_com.listArticlesByAuthor` | cnbc.com | Lists all articles published by a specific CNBC journalist or contributor, with… | 🟢 |
 | `cnbc_com.listCategories` | cnbc.com | Lists CNBC's news categories and sections — Markets, Investing, Earnings, Economy… | 🟢 |
@@ -2700,7 +2727,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grammarly.listPlans` | www.grammarly.com | Lists Grammarly's subscription plans with their prices for the visitor's country. | 🟢 |
 | `grammarly.paraphrase` | www.grammarly.com | Rewrites text in different words with the same meaning, logged out (up to 625… | 🟢 |
 | `grammarly.removeFromDictionary` | www.grammarly.com | Removes a word or phrase from the signed-in account's personal dictionary. | 🟢 |
-| `grammarly.setGoals` | www.grammarly.com | Sets the writing goals (audience, formality, domain, intent) the checker tunes its… | ⚪ |
+| `grammarly.setGoals` | www.grammarly.com | Sets the writing goals (goals, domain, audience, formality, dialect) on one saved… | 🟢 |
 | `grammarly.updateProfile` | www.grammarly.com | Changes the signed-in account's display name. | ⚪ |
 | `grandwelcome.getRentalDetail` | grandwelcome.com | Reads one rental's own detail page in full — name, description, photos and the site's… | 🟢 |
 | `grandwelcome.getRentalQuote` | grandwelcome.com | Runs the site's own real-time date-specific pricing engine for one property — rent… | 🟢 |
@@ -2818,6 +2845,44 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hodjapasha.listShows` | hodjapasha.com | Reads every show hodjapasha.com's own booking widget lists — title, product id… | 🟢 |
 | `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟢 |
 | `holidaybuilders.searchAvailableHomes` | holidaybuilders.com | Runs Holiday Builders' site-wide Available Homes search — every real move-in-ready or… | 🟢 |
+| `homedepot.addAddress` | homedepot.com | Adds a saved address to the signed-in account. | ⚪ |
+| `homedepot.addToCart` | homedepot.com | Adds an item to the cart with a quantity and a fulfillment choice. | ⚪ |
+| `homedepot.addToList` | homedepot.com | Saves an item to one of the signed-in account's lists. | ⚪ |
+| `homedepot.browseCategory` | homedepot.com | Lists the products in one category page, with its filters (brand, price, rating) and… | ⚪ |
+| `homedepot.createList` | homedepot.com | Creates a new saved list on the signed-in account. | ⚪ |
+| `homedepot.findStores` | homedepot.com | Finds Home Depot stores near a ZIP code, city or coordinates: store id, address… | ⚪ |
+| `homedepot.getAccountProfile` | homedepot.com | Reads the signed-in account's profile: name, email, phone and Pro Xtra membership. | ⚪ |
+| `homedepot.getAisleLocation` | homedepot.com | The aisle and bay where an item sits in a given store, as the site's in-store map… | ⚪ |
+| `homedepot.getArticle` | homedepot.com | Reads one DIY or buying guide article: title, steps, tools and materials lists. | ⚪ |
+| `homedepot.getCart` | homedepot.com | Reads the current cart: line items, quantities, fulfillment choice and subtotal. | ⚪ |
+| `homedepot.getCostGuide` | homedepot.com | Reads one of Home Depot's cost guides (e.g. installing a water heater): typical price… | ⚪ |
+| `homedepot.getFulfillmentOptions` | homedepot.com | The delivery and pickup options for an item at a ZIP code or store: ship-to-home date… | ⚪ |
+| `homedepot.getList` | homedepot.com | Reads the items on one of the signed-in account's lists. | ⚪ |
+| `homedepot.getOrder` | homedepot.com | Reads one order of the signed-in account: items, prices, status and tracking. | ⚪ |
+| `homedepot.getProduct` | homedepot.com | Reads one product by its Home Depot item id: title, brand, model, price and… | ⚪ |
+| `homedepot.getProductQuestions` | homedepot.com | Reads a product's customer questions and their answers, paged. | ⚪ |
+| `homedepot.getProductReviews` | homedepot.com | Reads a product's customer reviews: rating breakdown, review text, dates and helpful… | ⚪ |
+| `homedepot.getSearchSuggestions` | homedepot.com | The type-ahead suggestions homedepot.com's search box shows for a partial query… | ⚪ |
+| `homedepot.getStore` | homedepot.com | Reads one store by its store id: address, hours, phone, services offered (tool rental… | ⚪ |
+| `homedepot.getStoreAvailability` | homedepot.com | Whether an item is in stock at a specific store and how many, with its aisle and bay… | ⚪ |
+| `homedepot.listAddresses` | homedepot.com | Lists the signed-in account's saved addresses. | ⚪ |
+| `homedepot.listBrands` | homedepot.com | Lists the brands Home Depot carries, with each brand's page, the finder for a… | ⚪ |
+| `homedepot.listCategories` | homedepot.com | Lists Home Depot's department and category tree with each category's id and URL, the… | ⚪ |
+| `homedepot.listLists` | homedepot.com | Lists the signed-in account's saved lists (favorites and project lists). | ⚪ |
+| `homedepot.listOrders` | homedepot.com | Lists the signed-in account's online and in-store orders. | ⚪ |
+| `homedepot.listProductOffers` | homedepot.com | Lists the deals on homedepot.com's Special Buy and savings pages, with each item's… | ⚪ |
+| `homedepot.listPurchaseHistory` | homedepot.com | Lists the signed-in account's Pro Xtra purchase history, including in-store purchases. | ⚪ |
+| `homedepot.listServices` | homedepot.com | Lists the installation and home services Home Depot offers (flooring, water heaters… | ⚪ |
+| `homedepot.listToolRentals` | homedepot.com | Lists the tools and trucks a store rents, with daily and weekly rates and availability. | ⚪ |
+| `homedepot.removeFromCart` | homedepot.com | Removes an item from the cart. | ⚪ |
+| `homedepot.removeFromList` | homedepot.com | Removes an item from one of the signed-in account's lists. | ⚪ |
+| `homedepot.searchArticles` | homedepot.com | Searches Home Depot's DIY project guides and buying guides and returns the articles. | ⚪ |
+| `homedepot.searchProducts` | homedepot.com | Runs a product search the way homedepot.com's search box does and returns matching… | ⚪ |
+| `homedepot.setLocalStore` | homedepot.com | Sets the shopper's local store, which drives the prices and stock every other read… | ⚪ |
+| `homedepot.trackOrder` | homedepot.com | Looks up a guest order's status by order number and the email or phone it was placed… | ⚪ |
+| `homedepot.updateCartItem` | homedepot.com | Changes an item's quantity or fulfillment choice in the cart. | ⚪ |
+| `homedepot.updateProfile` | homedepot.com | Changes the signed-in account's name or phone. | ⚪ |
+| `homedepot.writeReview` | homedepot.com | Posts a rating and review on a product page. | ⚪ |
 | `hottopic.search` | hottopic.com | Searches hottopic.com's own storefront for a keyword and returns the real, priced… | 🟢 |
 | `hubspot.addNoteToDeal` | app.hubspot.com | Writes a note onto a deal in the caller's own HubSpot CRM portal — creates the note… | 🟢 |
 | `hubspot.getDeal` | app.hubspot.com | Reads one deal from the caller's own HubSpot CRM portal by its id — name, amount… | 🟢 |
@@ -5700,7 +5765,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tock.startToGoOrder` | exploretock.com | Start a to-go order — guest checkout, stops before payment. | ⚪ |
 | `tock.transferReservation` | exploretock.com | Transfer one of the signed-in user's reservations to another person. | ⚪ |
 | `tock.updateProfile` | exploretock.com | Update the signed-in user's profile information. | ⚪ |
-| `tomsguide.search` | tomsguide.com | Searches Tom's Guide reviews, buying guides, how-tos, news and deals by keyword — each… | 🟢 |
+| `tomsguide.search` | tomsguide.com | Searches Tom's Guide reviews, buying guides, how-tos, news and deals for a required… | 🟢 |
 | `topcashback.getStoreRate` | topcashback.com | Reads a store's cashback rate on TopCashback — the base earn rate plus per-category… | 🟢 |
 | `topcashback.listOffers` | topcashback.com | Lists a store's current TopCashback deals and voucher codes alongside its cash back. | ⚪ |
 | `topcashback.searchStores` | topcashback.com | Searches for stores on TopCashback by name or keyword and returns matching stores with… | 🟢 |

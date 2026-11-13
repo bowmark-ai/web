@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 845d1e13959dd367ccc8dbed88309d0db19f55012dde78f77921e87a97a5447d
-# 98 capabilities, 830 providers, 5063 typed functions, 20 refused.
+# Manifest version: ea0226add443a4c8c103ec60a220226cff30ec7225970e5dd298b6600f73cfcf
+# 98 capabilities, 832 providers, 5070 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15299,6 +15299,27 @@ class Prv_cbp_cbpPort_Out_pedestrian_Out(TypedDict):
     standard: Prv_cbp_cbpLane_Out | None
     ready: Prv_cbp_cbpLane_Out | None
 
+class Prv_cbsnews_CbsNewsSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_cbsnews_CbsNewsSearchResult_Out(TypedDict):
+    query: str
+    total: float
+    results: list[Prv_cbsnews_CbsNewsSearchHit_Out]
+    warnings: list[str]
+
+class Prv_cbsnews_CbsNewsSearchHit_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    summary: str | None
+    published: str | None
+    publishedAt: float | None
+    feed: str | None
+    durationSeconds: float | None
+    image: str | None
+
 class Prv_cbsnews_GetArticleArgs_In(TypedDict):
     url: str
 
@@ -15334,6 +15355,14 @@ class Prv_cbsnews_CbsNewsStory_Out(TypedDict):
     published: str | None
     image: str | None
     categories: list[str]
+
+class Prv_cbsnews_listSections_return_Out(TypedDict):
+    sections: list[Prv_cbsnews_CbsNewsSection_Out]
+
+class Prv_cbsnews_CbsNewsSection_Out(TypedDict):
+    slug: str
+    name: str | None
+    url: str
 
 class Prv_cbsnews_listRssFeeds_return_Out(TypedDict):
     feeds: list[Prv_cbsnews_CbsNewsFeed_Out]
@@ -19140,6 +19169,46 @@ class Prv_craigslist_CraigslistSearchResult_Out(TypedDict):
     area: str
     listings: list[Prv_craigslist_CraigslistListing_Out]
     url: str
+
+class Prv_craigslist_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_craigslist_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_craigslist_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_craigslist_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_craigslist_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_craigslist_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_craigslist_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_craigslist_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_crateandbarrel_CrateAndBarrelSearchArgs_In(TypedDict):
     query: str
@@ -60703,6 +60772,23 @@ class Prv_stickergiant_StickergiantQuantityPrice_Out(TypedDict):
     price: float
     pricePerUnit: float
 
+class Prv_stripe_StripeSearchDocsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_stripe_StripeDocHit_Out(TypedDict):
+    title: str
+    url: str
+    markdownUrl: str
+    description: str | None
+    section: str | None
+    score: float
+
+class Prv_stripe_StripeDoc_Out(TypedDict):
+    url: str
+    title: str | None
+    markdown: str
+
 class Prv_stubhub_search_args_u0_In(TypedDict):
     query: str
     site: NotRequired[Literal["stubhub"] | Literal["viagogo"]]
@@ -64429,6 +64515,20 @@ class Prv_tock_TockCityVenue_Out(TypedDict):
     timeZone: str
     currencyCode: str
     businessType: str
+
+class Prv_tomsguide_SearchArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_tomsguide_TomsGuideArticle_Out(TypedDict):
+    title: str
+    url: str
+    kind: str | None
+    author: str | None
+    date: str | None
+    synopsis: str | None
+    image: str | None
 
 class Prv_topcashback_SearchStoresArgs_In(TypedDict):
     query: str
@@ -79781,7 +79881,7 @@ class Prv_bestbuy(Protocol):
     (key required).
     """
 
-    async def search(self, args: str | Prv_bestbuy_search_args_u1_In, opts: ConnectionOption | None = None, /) -> list[Prv_bestbuy_bestbuyProduct_Out]:
+    async def search(self, args: str | Prv_bestbuy_search_args_u1_In, /) -> list[Prv_bestbuy_bestbuyProduct_Out]:
         """Runs a Best Buy product search the way bestbuy.com's own search box does and returns the
         matching products — name, sale/regular price, online and in-store availability and
         review stats. With a Best Buy developer key (yours, on the
@@ -79791,7 +79891,7 @@ class Prv_bestbuy(Protocol):
         10).
         """
 
-    async def getProduct(self, sku: str | float, opts: ConnectionOption | None = None, /) -> Prv_bestbuy_bestbuyProduct_Out:
+    async def getProduct(self, sku: str | float, /) -> Prv_bestbuy_bestbuyProduct_Out:
         """Looks up one product by Best Buy's own numeric SKU (the id `search`'s rows carry) and
         returns its full detail — the same fields as `search`. Which key serves the call is in
         this provider's key note above; your own goes in the `x-bowmark-vendor-key-bestbuy`
@@ -82560,6 +82660,12 @@ class Prv_cbsnews(Protocol):
     podcasts and newsletters.
     """
 
+    async def search(self, args: Prv_cbsnews_CbsNewsSearchArgs_In, /) -> Prv_cbsnews_CbsNewsSearchResult_Out:
+        """Searches CBS News stories and videos by keyword, as /search/?q= does: the total matches
+        for the query, then up to 15 results with title, url, summary, date, feed and video
+        duration. One page only.
+        """
+
     async def getArticle(self, args: Prv_cbsnews_GetArticleArgs_In, /) -> Prv_cbsnews_CbsNewsArticle_Out:
         """Reads one CBS News article: headline, description, the full body text, authors with
         their profile urls, section, keywords, and publication and update times.
@@ -82568,6 +82674,12 @@ class Prv_cbsnews(Protocol):
     async def listLatestNews(self, args: Prv_cbsnews_ListLatestNewsArgs_In, /) -> Prv_cbsnews_listLatestNews_return_Out:
         """Lists the latest stories from one CBS News RSS feed (main, or a section or show slug
         from listRssFeeds), in the feed's own order.
+        """
+
+    async def listSections(self, /) -> Prv_cbsnews_listSections_return_Out:
+        """Lists the section fronts CBS News's header navigation links (U.S., World, Politics,
+        Crime, and the shows and local stations listed beside them), as slugs usable with
+        listSectionArticles.
         """
 
     async def listRssFeeds(self, /) -> Prv_cbsnews_listRssFeeds_return_Out:
@@ -84926,14 +85038,26 @@ class Prv_couponfollow(Protocol):
 class Prv_craigslist(Protocol):
     """Finds public Craigslist listings by keyword and reads a listing's full public details."""
 
-    async def getListing(self, url: str, /) -> Prv_craigslist_CraigslistListing_Out:
+    async def getListing(self, url: str, opts: ConnectionOption | None = None, /) -> Prv_craigslist_CraigslistListing_Out:
         """Reads a public Craigslist listing URL from searchListings for its full description,
         posted time and attributes.
         """
 
-    async def searchListings(self, query: str | Prv_craigslist_CraigslistSearchArgs_In, /) -> Prv_craigslist_CraigslistSearchResult_Out:
+    async def searchListings(self, query: str | Prv_craigslist_CraigslistSearchArgs_In, opts: ConnectionOption | None = None, /) -> Prv_craigslist_CraigslistSearchResult_Out:
         """Searches public Craigslist listings by keyword in an area (SF Bay Area by default),
         returning title, asking price, location and listing URL.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_craigslist_signup_return_u0_Out | Prv_craigslist_signup_return_u1_Out | Prv_craigslist_signup_return_u2_Out | Prv_craigslist_signup_return_u3_Out:
+        """Makes a NEW Craigslist account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_craigslist_confirmSignup_return_u0_Out | Prv_craigslist_confirmSignup_return_u1_Out | Prv_craigslist_confirmSignup_return_u2_Out | Prv_craigslist_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_crateandbarrel(Protocol):
@@ -107979,6 +108103,26 @@ class Prv_stickergiant(Protocol):
         out-of-range width/height — both are caller-fixable.
         """
 
+class Prv_stripe(Protocol):
+    """Search and read Stripe's public documentation (docs.stripe.com / stripe.com/docs) — find
+    the guide for a task, then read it as markdown.
+    """
+
+    async def searchDocs(self, args: str | Prv_stripe_StripeSearchDocsArgs_In, /) -> list[Prv_stripe_StripeDocHit_Out]:
+        """Searches Stripe's documentation for a topic (e.g. "refund a payment", "webhook
+        signature", "subscription trial") and returns the best-matching guides — title, url,
+        one-line description and product section — ranked from the site's own docs index
+        (docs.stripe.com/llms.txt). Read one with getDoc(url).
+        """
+
+    async def getDoc(self, url: str, /) -> Prv_stripe_StripeDoc_Out:
+        """Reads one Stripe docs page by URL or path ("https://docs.stripe.com/refunds",
+        "https://stripe.com/docs/webhooks", or "/billing/subscriptions/cancel") and returns its
+        title and full body as markdown. Passing the docs root ("https://stripe.com/docs")
+        returns the whole docs index. THROWS on a page that does not exist (404) or a non-docs
+        host.
+        """
+
 class Prv_stubhub(Protocol):
     """Secondary ticket marketplace for sports, concerts, theater and other live events — and
     viagogo, its international brand, on the same inventory. search() finds events by name;
@@ -110055,6 +110199,19 @@ class Prv_tock(Protocol):
         — browsed through the site's own city page, e.g. "Chicago". Returns the slug
         `getBusiness` takes. A city Tock does not recognize throws rather than returning the
         homepage's own trending venues.
+        """
+
+class Prv_tomsguide(Protocol):
+    """Tom's Guide (tomsguide.com) — consumer-tech reviews, best-of buying guides, how-tos,
+    news and deals. search finds articles for an explicit topic or keyword; a bare site name
+    discovers this provider but is not a search query, so ask the caller for a topic rather
+    than calling search without one.
+    """
+
+    async def search(self, args: Prv_tomsguide_SearchArgs_In, /) -> list[Prv_tomsguide_TomsGuideArticle_Out]:
+        """Searches Tom's Guide reviews, buying guides, how-tos, news and deals for a required
+        article topic or keyword. A bare site name only finds this provider; ask the caller for
+        a topic rather than calling search without one.
         """
 
 class Prv_topcashback(Protocol):
@@ -115962,6 +116119,7 @@ class BowmarkProviders(Protocol):
     statista: Prv_statista
     steam: Prv_steam
     stickergiant: Prv_stickergiant
+    stripe: Prv_stripe
     stubhub: Prv_stubhub
     styleseat: Prv_styleseat
     substack: Prv_substack
@@ -116002,6 +116160,7 @@ class BowmarkProviders(Protocol):
     tmobile: Prv_tmobile
     toast: Prv_toast
     tock: Prv_tock
+    tomsguide: Prv_tomsguide
     topcashback: Prv_topcashback
     topviewtix: Prv_topviewtix
     totalplastics: Prv_totalplastics
