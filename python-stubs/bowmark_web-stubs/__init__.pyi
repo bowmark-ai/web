@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d162afca7c529b0b8a486c4a69e010ece5c3de9878b4ea0c989be4f537d4a584
-# 98 capabilities, 824 providers, 5013 typed functions, 20 refused.
+# Manifest version: 999842880f12c2f4d06a674df17644e784b5bc875fc6e1f9b91e921beb804cc7
+# 98 capabilities, 825 providers, 5034 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2581,6 +2581,7 @@ class Cap_read_ReadResult_Out(TypedDict):
     headers: NotRequired[Mapping[str, str]]
     images: NotRequired[list[Cap_read_PageImage_Out]]
     json: NotRequired[Any]
+    structured: NotRequired[Cap_read_ReadResult_Out_structured_Out]
     removed: NotRequired[Cap_read_ReadResult_Out_removed_Out]
     warnings: list[str]
 
@@ -2592,6 +2593,21 @@ class Cap_read_PageImage_Out(TypedDict):
     url: str
     alt: str | None
     source: Literal["img"] | Literal["srcset"] | Literal["meta"]
+
+class Cap_read_ReadResult_Out_structured_Out(TypedDict):
+    entities: list[Cap_read_ReadResult_Out_structured_Out_entities_item_Out]
+    tables: NotRequired[list[Cap_read_ReadResult_Out_structured_Out_tables_item_Out]]
+    nextData: NotRequired[Any]
+    omitted: NotRequired[list[str]]
+
+class Cap_read_ReadResult_Out_structured_Out_entities_item_Out(TypedDict):
+    type: str
+    value: Mapping[str, Any]
+
+class Cap_read_ReadResult_Out_structured_Out_tables_item_Out(TypedDict):
+    title: str | None
+    headers: list[str]
+    rows: list[Mapping[str, Any]]
 
 class Cap_read_ReadResult_Out_removed_Out(TypedDict):
     share: float
@@ -14057,6 +14073,7 @@ class Prv_canadacomputers_CanadaComputersSearchArgs_In(TypedDict):
 class Prv_canadacomputers_CanadaComputersSearchResult_Out(TypedDict):
     query: str
     searchUrl: str
+    totalResults: float | None
     products: list[Prv_canadacomputers_CanadaComputersProduct_Out]
 
 class Prv_canadacomputers_CanadaComputersProduct_Out(TypedDict):
@@ -14072,6 +14089,7 @@ class Prv_canadacomputers_CanadaComputersProduct_Out(TypedDict):
     availableInStore: bool
     onlineStatus: str | None
     inStoreStatus: str | None
+    matchesQuery: bool
 
 class Prv_cancer_findCancerCenters_args_In(TypedDict):
     state: NotRequired[str]
@@ -22310,6 +22328,100 @@ class Prv_drafthouse_DrafthouseShowtime_Out(TypedDict):
     screen: str | None
     status: str
     url: str
+
+class Prv_drive_google_DriveAccount_Out(TypedDict):
+    displayName: str | None
+    emailAddress: str | None
+    storageLimit: float | None
+    storageUsage: float | None
+
+class Prv_drive_google_DriveListArgs_In(TypedDict):
+    query: NotRequired[str]
+    pageSize: NotRequired[float]
+    pageToken: NotRequired[str]
+
+class Prv_drive_google_DriveFilePage_Out(TypedDict):
+    files: list[Prv_drive_google_DriveFile_Out]
+    nextPageToken: str | None
+    hasMore: bool
+
+class Prv_drive_google_DriveFile_Out(TypedDict):
+    id: str
+    name: str
+    mimeType: str
+    parents: list[str]
+    starred: bool
+    trashed: bool
+    createdTime: str | None
+    modifiedTime: str | None
+    size: float | None
+    webViewLink: str | None
+    owners: list[Prv_drive_google_DriveFile_Out_owners_item_Out]
+    capabilities: Mapping[str, bool]
+
+class Prv_drive_google_DriveFile_Out_owners_item_Out(TypedDict):
+    displayName: str | None
+    emailAddress: str | None
+
+class Prv_drive_google_getFile_args_In(TypedDict):
+    fileId: str
+
+class Prv_drive_google_listComments_args_In(TypedDict):
+    fileId: str
+    pageToken: NotRequired[str]
+
+class Prv_drive_google_DriveCommentPage_Out(TypedDict):
+    comments: list[Prv_drive_google_DriveComment_Out]
+    nextPageToken: str | None
+    hasMore: bool
+
+class Prv_drive_google_DriveComment_Out(TypedDict):
+    id: str
+    content: str
+    author: str | None
+    createdTime: str | None
+    resolved: bool
+
+class Prv_drive_google_DriveCreateArgs_In(TypedDict):
+    name: str
+    parentId: NotRequired[str]
+
+class Prv_drive_google_renameFile_args_In(TypedDict):
+    fileId: str
+    name: str
+
+class Prv_drive_google_moveFile_args_In(TypedDict):
+    fileId: str
+    fromParentId: str
+    toParentId: str
+
+class Prv_drive_google_trashFile_args_In(TypedDict):
+    fileId: str
+
+class Prv_drive_google_restoreFile_args_In(TypedDict):
+    fileId: str
+
+class Prv_drive_google_setStarred_args_In(TypedDict):
+    fileId: str
+    starred: bool
+
+class Prv_drive_google_addComment_args_In(TypedDict):
+    fileId: str
+    content: str
+
+class Prv_drive_google_getDocumentText_args_In(TypedDict):
+    fileId: str
+
+class Prv_drive_google_DriveExport_Out(TypedDict):
+    fileId: str
+    text: str
+    bytes: float
+
+class Prv_drive_google_getSheetCsv_args_In(TypedDict):
+    fileId: str
+
+class Prv_drive_google_getPresentationText_args_In(TypedDict):
+    fileId: str
 
 class Prv_dropbox_shareWithPeople_input_In(TypedDict):
     file: NotRequired[str]
@@ -43311,6 +43423,12 @@ class Prv_nike_NikeSizeChart_Out_tables_item_Out(TypedDict):
 class Prv_nike_NikeSizeChart_Out_tables_item_Out_rows_item_Out(TypedDict):
     label: str
     values: list[str]
+
+class Prv_nike_listOrders_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_nike_getOrder_args_In(TypedDict):
+    orderNumber: str
 
 class Prv_nike_lookupGuestOrder_args_In(TypedDict):
     orderNumber: str
@@ -75046,12 +75164,13 @@ class Cap_read(Protocol):
         but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own
         item's markup. For one product page's price and stock,
         `bowmark.products.getAvailability(url)` reads the page's own schema.org
-        `Product`/`Offer` JSON-LD for you; to read that markup yourself, ask for `{ format:
-        "html" }` and parse the `<script type="application/ld+json">` blocks — most stores
-        publish them, and they name the exact variant, price and stock. RUN-ONLY: because how
-        each page is loaded is decided per call, neither `session()` nor the bare top-level
-        `bowmark` client (which opens a session internally, even for one call) can serve this —
-        both are refused with code "rung_undeclared". Call it through `run()` instead.
+        `Product`/`Offer` JSON-LD for you; to read that markup yourself, read
+        `result.structured.entities` (its JSON-LD as typed values, outside `maxChars`, with the
+        exact variant, price and stock; `.tables` and `.nextData` carry embedded rows and
+        Next.js data) instead of parsing `{ format: "html" }`. RUN-ONLY: because how each page
+        is loaded is decided per call, neither `session()` nor the bare top-level `bowmark`
+        client (which opens a session internally, even for one call) can serve this — both are
+        refused with code "rung_undeclared". Call it through `run()` instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -79319,11 +79438,11 @@ class Prv_bestbuy(Protocol):
     async def search(self, args: str | Prv_bestbuy_search_args_u1_In, /) -> list[Prv_bestbuy_bestbuyProduct_Out]:
         """Runs a Best Buy product search the way bestbuy.com's own search box does and returns the
         matching products — name, sale/regular price, online and in-store availability and
-        review stats. With a Best Buy developer key (Bowmark's, charged to your account, or your
-        own on the `x-bowmark-vendor-key-bestbuy` header) it reads the documented Products API
-        and also fills manufacturer, model number and UPC. With no key it reads bestbuy.com's
-        own search results page, where those three fields are null. `pageSize` caps the row
-        count (default 10).
+        review stats. With a Best Buy developer key (yours, on the
+        `x-bowmark-vendor-key-bestbuy` header) it reads the documented Products API and also
+        fills manufacturer, model number and UPC. With no key it reads bestbuy.com's own search
+        results page, where those three fields are null. `pageSize` caps the row count (default
+        10).
         """
 
     async def getProduct(self, sku: str | float, /) -> Prv_bestbuy_bestbuyProduct_Out:
@@ -81505,7 +81624,8 @@ class Prv_campspot(Protocol):
 class Prv_canadacomputers(Protocol):
     """Canada Computers (canadacomputers.com) — Canadian PC parts and electronics retailer.
     search() returns matching products with CAD price, sale price, and whether each is
-    available online and in store.
+    available online and in store; a query the store has nothing for returns products: [],
+    and each row says whether it literally matches the query.
     """
 
     async def search(self, args: Prv_canadacomputers_CanadaComputersSearchArgs_In | str, /) -> Prv_canadacomputers_CanadaComputersSearchResult_Out:
@@ -86167,6 +86287,94 @@ class Prv_drafthouse(Protocol):
         format, screen, sale status and ticket page.
         """
 
+class Prv_drive_google(Protocol):
+    """The caller's own Google Drive: account and quota, search files, read metadata and
+    comments, create folders/Docs/Sheets/Slides, rename, move, trash, restore, star,
+    comment, and export Docs/Sheets/Slides as text. Requires the caller signed in to Google.
+    """
+
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveAccount_Out:
+        """Identifies the signed-in Google account and reads its Drive storage quota (limit and
+        usage in bytes). Requires the caller signed in to Google.
+        """
+
+    async def listFiles(self, args: Prv_drive_google_DriveListArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFilePage_Out:
+        """Searches the caller's Drive with Drive query syntax, excluding trash unless the query
+        mentions it; follow nextPageToken while hasMore. Requires the caller signed in to
+        Google.
+        """
+
+    async def getFile(self, args: Prv_drive_google_getFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Reads one Drive file's metadata: name, type, parent folder ids, starred/trashed flags,
+        owners and what the caller may do to it. Requires the caller signed in to Google.
+        """
+
+    async def listComments(self, args: Prv_drive_google_listComments_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveCommentPage_Out:
+        """Lists a Drive file's comments with pagination (replies not included). Requires the
+        caller signed in to Google.
+        """
+
+    async def createFolder(self, args: Prv_drive_google_DriveCreateArgs_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Creates a folder in the caller's Drive (My Drive root, or inside parentId). Sent once;
+        never retried after an uncertain result. Requires the caller signed in to Google.
+        """
+
+    async def createDocument(self, args: Prv_drive_google_DriveCreateArgs_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Creates an empty Google Doc in the caller's Drive. Sent once; never retried after an
+        uncertain result. Requires the caller signed in to Google.
+        """
+
+    async def createSpreadsheet(self, args: Prv_drive_google_DriveCreateArgs_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Creates an empty Google Sheet in the caller's Drive. Sent once; never retried after an
+        uncertain result. Requires the caller signed in to Google.
+        """
+
+    async def createPresentation(self, args: Prv_drive_google_DriveCreateArgs_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Creates an empty Google Slides presentation in the caller's Drive. Sent once; never
+        retried after an uncertain result. Requires the caller signed in to Google.
+        """
+
+    async def renameFile(self, args: Prv_drive_google_renameFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Renames a Drive file or folder and returns it as Drive now reports it. Requires the
+        caller signed in to Google.
+        """
+
+    async def moveFile(self, args: Prv_drive_google_moveFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Moves a Drive file from one explicit parent folder to another and returns its new
+        parents. Requires the caller signed in to Google.
+        """
+
+    async def trashFile(self, args: Prv_drive_google_trashFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Moves a Drive file or folder to trash (recoverable with restoreFile). Requires the
+        caller signed in to Google.
+        """
+
+    async def restoreFile(self, args: Prv_drive_google_restoreFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Restores a Drive file or folder from trash. Requires the caller signed in to Google."""
+
+    async def setStarred(self, args: Prv_drive_google_setStarred_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveFile_Out:
+        """Stars or unstars a Drive file. Requires the caller signed in to Google."""
+
+    async def addComment(self, args: Prv_drive_google_addComment_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveComment_Out:
+        """Adds a plain-text, file-level comment to a Drive file (not anchored, notifies nobody by
+        name). Requires the caller signed in to Google.
+        """
+
+    async def getDocumentText(self, args: Prv_drive_google_getDocumentText_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveExport_Out:
+        """Exports a Google Doc as plain text (up to 2 MB). Requires the caller signed in to
+        Google.
+        """
+
+    async def getSheetCsv(self, args: Prv_drive_google_getSheetCsv_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveExport_Out:
+        """Exports a Google Sheet's first sheet as CSV (up to 2 MB). Requires the caller signed in
+        to Google.
+        """
+
+    async def getPresentationText(self, args: Prv_drive_google_getPresentationText_args_In, opts: ConnectionOption | None = None, /) -> Prv_drive_google_DriveExport_Out:
+        """Exports a Google Slides presentation as plain text (up to 2 MB). Requires the caller
+        signed in to Google.
+        """
+
 class Prv_dropbox(Protocol):
     """Dropbox, the cloud file storage service: open, list, read and download files and folders
     someone shared by link, upload to a file request, and see the plans and prices; signed
@@ -89090,8 +89298,10 @@ class Prv_foxnews(Protocol):
         """
 
     async def listVideos(self, args: Prv_foxnews_ListVideosArgs_In, /) -> Prv_foxnews_listVideos_return_Out:
-        """Lists the clips in one Fox News video playlist, newest first with paging — each clip's
-        id, title, url, thumbnail, duration and date.
+        """Lists the recent clips of one Fox News show's Clips rail — taking a clips playlist id
+        from listVideoPlaylists — each clip's id, title, url and date. The list is the show
+        page's own recent clips (about 6-16), so total is that count, not a deeper archive; an
+        Episodes rail is refused.
         """
 
     async def getVideo(self, args: Prv_foxnews_GetVideoArgs_In, /) -> Prv_foxnews_FoxnewsVideo_Out:
@@ -98661,6 +98871,26 @@ class Prv_nike(Protocol):
         "womens-footwear", "kids-footwear", "womens-tops-alpha", "mens-bottoms-numeric", or {
         product } for the chart that product links. Each table is rows of a label ("US - Men",
         "Waist (in)") and one value per size column, in inches.
+        """
+
+    async def getMemberProfile(self, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
+        """The signed-in caller's Nike member profile as Nike returns it (name, shoe size,
+        preferences). Needs the caller signed in to Nike.
+        """
+
+    async def getCart(self, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
+        """The signed-in caller's nike.com bag as Nike returns it (items, sizes, quantities,
+        subtotal). Needs the caller signed in to Nike.
+        """
+
+    async def listOrders(self, args: Prv_nike_listOrders_args_In | None = None, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
+        """The signed-in caller's Nike order history as Nike returns it, newest first; limit 1-100,
+        default 20. Needs the caller signed in to Nike.
+        """
+
+    async def getOrder(self, args: Prv_nike_getOrder_args_In, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
+        """One of the signed-in caller's Nike orders by order number (from listOrders) as Nike
+        returns it — items, shipping, tracking. Needs the caller signed in to Nike.
         """
 
     async def lookupGuestOrder(self, args: Prv_nike_lookupGuestOrder_args_In, /) -> Mapping[str, Any]:
@@ -114791,6 +115021,7 @@ class BowmarkProviders(Protocol):
     donsappliances: Prv_donsappliances
     doordash: Prv_doordash
     drafthouse: Prv_drafthouse
+    drive_google: Prv_drive_google
     dropbox: Prv_dropbox
     duckduckgo: Prv_duckduckgo
     dumpsters: Prv_dumpsters

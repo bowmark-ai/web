@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6531 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6581 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -999,7 +999,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cars.getModelResearch` | cars.com | Reads Cars.com's research overview for one year/make/model: MSRP or price range, the… | 🟢 |
 | `cars.getRecalls` | cars.com | Looks up open safety recalls for a specific vehicle on Cars.com's recall surface — by… | ⚪ |
 | `cars.getTrimSpecs` | cars.com | Reads the full specification table for one year/make/model broken out BY TRIM: engine… | ⚪ |
-| `cars.getVehicleValue` | cars.com | Gets Cars.com's own valuation for a car the caller already owns — supply a VIN, a ZIP… | 🔴 |
+| `cars.getVehicleValue` | cars.com | Gets Cars.com's own valuation for a car the caller already owns — supply a VIN, a ZIP… | 🟢 |
 | `cars.search` | cars.com | Searches Cars.com's live for-sale inventory the way its own shopping results page does… | 🟢 |
 | `cars.searchDealers` | cars.com | Finds the car dealerships Cars.com lists near a ZIP — name, full address and distance… | ⚪ |
 | `cartebtp.verifyCard` | cartebtp.fr | Verifies a French construction worker card (Carte BTP) from the hash its QR code… | 🟢 |
@@ -2332,7 +2332,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.listSections` | foxnews.com | Lists Fox News's sections and topics (Politics, U.S., World, Opinion, Media… | 🟢 |
 | `foxnews.listShows` | foxnews.com | Lists the Fox News Channel shows (Hannity, The Five, Fox & Friends, Special Report…)… | 🟢 |
 | `foxnews.listVideoPlaylists` | foxnews.com | Lists the video playlists Fox News groups its clips into — each show's Episodes rail… | 🟢 |
-| `foxnews.listVideos` | foxnews.com | Lists the clips in one Fox News video playlist, newest first with paging — each clip's… | 🟢 |
+| `foxnews.listVideos` | foxnews.com | Lists the recent clips of one Fox News show's Clips rail — taking a clips playlist id… | 🟢 |
 | `foxnews.postComment` | foxnews.com | Posts a comment under a Fox News article, or a reply to one of its comments, as the… | 🟢 |
 | `foxnews.searchArticles` | foxnews.com | Searches Fox News for stories and video clips matching free text ("border wall"… | 🟢 |
 | `foxnews.submitNewsTip` | foxnews.com | Sends a news tip to Fox News's newsroom through its tip form — name, email, and the… | ⚪ |
@@ -3568,6 +3568,56 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mixbook.getProductPrice` | mixbook.com | Reads one theme's real product page and returns Mixbook's own server-computed price… | 🟢 |
 | `mixbook.priceCustomBook` | mixbook.com | Prices an exact custom photo book (binding, cover, paper, size, page count) against… | 🟢 |
 | `mixbook.searchPhotoBookThemes` | mixbook.com | Searches Mixbook's real 750+ photo-book theme catalog (Mixbook's own public Algolia… | 🟢 |
+| `mlb.addFavorite` | mlb.com | Adds a team or player to the signed-in caller's favourites. | ⚪ |
+| `mlb.buyTickets` | mlb.com | Buys tickets to a game, stopping at the payment step. | ⚪ |
+| `mlb.findTickets` | mlb.com | Lists upcoming games for a team with links to buy tickets on MLB's ticketing partner. | ⚪ |
+| `mlb.getAccount` | mlb.com | Reads the signed-in caller's MLB account profile: name, email, birthdate, favourite… | ⚪ |
+| `mlb.getArticle` | mlb.com | Gets one MLB.com article: headline, author, date, body text, images and tagged players… | ⚪ |
+| `mlb.getAwards` | mlb.com | Lists the winners of an MLB award (MVP, Cy Young, Rookie of the Year, Gold Glove, Hall… | ⚪ |
+| `mlb.getBoxScore` | mlb.com | Gets a game's box score: every batter's and pitcher's line for both teams, plus team… | ⚪ |
+| `mlb.getDraft` | mlb.com | Lists a year's MLB Draft picks: round, pick, team, player, position and school. | ⚪ |
+| `mlb.getGame` | mlb.com | Gets one game's summary: teams, status, inning, line score, winning and losing… | ⚪ |
+| `mlb.getGameBroadcasts` | mlb.com | Lists where a game is on TV, radio and streaming, home and away feeds. | ⚪ |
+| `mlb.getGameHighlights` | mlb.com | Lists a game's video highlights and recap with titles, durations and playable video… | ⚪ |
+| `mlb.getGlossaryTerm` | mlb.com | Gets one glossary entry: the stat's or rule's definition, how it is calculated and an… | ⚪ |
+| `mlb.getInjuryReport` | mlb.com | Lists the players on the injured list, by team, with the injury and expected return. | ⚪ |
+| `mlb.getPlayback` | mlb.com | Returns the playback menu for one MLB video: the site's embed plus every MP4/HLS… | ⚪ |
+| `mlb.getPlayByPlay` | mlb.com | Lists every plate appearance in a game, inning by inning, with the pitches, the result… | ⚪ |
+| `mlb.getPlayer` | mlb.com | Gets one player's profile: bio, position, bats and throws, team, draft and debut, with… | ⚪ |
+| `mlb.getPlayerGameLog` | mlb.com | Lists a player's game-by-game stat lines for a season. | ⚪ |
+| `mlb.getPlayerStats` | mlb.com | Gets a player's stats for a season or career, by hitting, pitching or fielding… | ⚪ |
+| `mlb.getPostseasonBracket` | mlb.com | Gets a season's postseason series: matchups, series score and each game. | ⚪ |
+| `mlb.getProbablePitchers` | mlb.com | Lists the announced starting pitchers for upcoming games, with their season records. | ⚪ |
+| `mlb.getProspectRankings` | mlb.com | Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30. | ⚪ |
+| `mlb.getRoster` | mlb.com | Gets a team's roster (active, 40-man, full season or depth chart) with each player's… | ⚪ |
+| `mlb.getSchedule` | mlb.com | Lists MLB games for a date or date range, optionally one team's: matchup, start time… | ⚪ |
+| `mlb.getStandings` | mlb.com | Gets the standings by division, league or wild card for a season: wins, losses… | ⚪ |
+| `mlb.getStartingLineups` | mlb.com | Gets the announced batting orders for a day's games. | ⚪ |
+| `mlb.getStatLeaders` | mlb.com | Lists the league leaders in a stat category for a season, MLB-wide or per league. | ⚪ |
+| `mlb.getSubscriptions` | mlb.com | Lists the signed-in caller's MLB.TV, MLB.TV Single Team and MLB Audio subscriptions… | ⚪ |
+| `mlb.getTeam` | mlb.com | Gets one team's details: name, location, league, division, ballpark, first year of… | ⚪ |
+| `mlb.getTeamLeaders` | mlb.com | Lists a team's leaders in a stat (home runs, average, ERA, strikeouts…) for a season. | ⚪ |
+| `mlb.getTeamStats` | mlb.com | Gets a team's season hitting, pitching or fielding totals. | ⚪ |
+| `mlb.getVenue` | mlb.com | Gets a ballpark's details: name, location, capacity, surface and field dimensions. | ⚪ |
+| `mlb.getVideo` | mlb.com | Gets one MLB video by its slug: title, description, date, duration, players and teams… | ⚪ |
+| `mlb.getWinProbability` | mlb.com | Gets a game's win-probability chart: the home and away win chance after every play. | ⚪ |
+| `mlb.listFavorites` | mlb.com | Lists the signed-in caller's favourite teams and players. | ⚪ |
+| `mlb.listFreeAgents` | mlb.com | Lists the current free agents with their positions and former teams. | ⚪ |
+| `mlb.listGlossaryTerms` | mlb.com | Lists MLB.com's glossary of stats and rules, by category (standard stats, advanced… | ⚪ |
+| `mlb.listNews` | mlb.com | Lists the latest MLB.com news stories, league-wide or for one team: headline, link… | ⚪ |
+| `mlb.listNewsletterSubscriptions` | mlb.com | Lists the MLB and team newsletters the signed-in caller is subscribed to. | ⚪ |
+| `mlb.listPlayerStats` | mlb.com | Lists every qualified player's season stats, sortable by any column, as the /stats… | ⚪ |
+| `mlb.listTeams` | mlb.com | Lists the 30 MLB teams (or a minor league's teams) with ids, names, abbreviations… | ⚪ |
+| `mlb.listTransactions` | mlb.com | Lists player transactions (trades, signings, injured list moves, call-ups) for a date… | ⚪ |
+| `mlb.removeFavorite` | mlb.com | Removes a team or player from the signed-in caller's favourites. | ⚪ |
+| `mlb.searchContent` | mlb.com | Searches MLB.com's news articles and videos by keyword, as the site search does. | ⚪ |
+| `mlb.searchPlayers` | mlb.com | Finds players by name, current or retired, and returns their ids, positions and teams. | ⚪ |
+| `mlb.searchVideos` | mlb.com | Searches MLB's video library (Film Room): highlights and every pitch, by player, team… | ⚪ |
+| `mlb.subscribeToMlbTv` | mlb.com | Starts an MLB.TV subscription for the signed-in caller, stopping at the payment step. | ⚪ |
+| `mlb.subscribeToNewsletter` | mlb.com | Signs an email address up to MLB or a team's newsletter. | ⚪ |
+| `mlb.unsubscribeFromNewsletter` | mlb.com | Unsubscribes the signed-in caller from one MLB or team newsletter. | ⚪ |
+| `mlb.updateProfile` | mlb.com | Edits the signed-in caller's MLB account profile: name, display name, birthdate… | ⚪ |
+| `mlb.watchGame` | mlb.com | Plays a live or archived game on MLB.TV for a subscribed caller. | ⚪ |
 | `mobygames.searchByTitle` | mobygames.com | Search for video games by title and return matching releases with box art cover image… | ⚪ |
 | `modernize_com.getQuoteFlow` | modernize.com | Reads modernize.com's own multi-step homeowner quote wizard for one project type and… | 🟢 |
 | `modernize_com.listProjectTypes` | modernize.com | Reads modernize.com's own trade radio group — every home-improvement project type its… | 🟢 |
@@ -3719,17 +3769,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nike.checkStoreAvailability` | nike.com | Checks whether one product in one size is available to pick up at nearby Nike stores. | 🟢 |
 | `nike.enterLaunchDraw` | nike.com | Enters the signed-in caller into a SNKRS draw for one launch in one size — free to… | ⚪ |
 | `nike.findStores` | nike.com | Finds Nike stores near a US ZIP code, city or coordinates — name, address, hours… | 🟢 |
-| `nike.getCart` | nike.com | Reads the signed-in caller's nike.com bag — items, sizes, quantities, subtotal and… | ⚪ |
+| `nike.getCart` | nike.com | Reads the signed-in caller's nike.com bag — items, sizes, quantities, subtotal and… | 🟢 |
 | `nike.getLaunch` | nike.com | Reads one SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in… | 🟢 |
-| `nike.getMemberProfile` | nike.com | Reads the signed-in caller's Nike member profile — name, shoe size, preferences and… | ⚪ |
-| `nike.getOrder` | nike.com | Reads one of the caller's orders by order number — every item, shipping status… | ⚪ |
+| `nike.getMemberProfile` | nike.com | Reads the signed-in caller's Nike member profile — name, shoe size, preferences and… | 🟢 |
+| `nike.getOrder` | nike.com | Reads one of the caller's orders by order number — every item, shipping status… | 🟢 |
 | `nike.getProduct` | nike.com | Reads one nike.com product page by its URL or style-colour code — name, description… | 🟢 |
 | `nike.getProductReviews` | nike.com | Reads the customer reviews on one nike.com product — average rating, count, and each… | 🟢 |
 | `nike.getSizeChart` | nike.com | Reads Nike's size chart for a product type (men's shoes, women's tops, kids') with… | 🟢 |
 | `nike.listCategories` | nike.com | Lists nike.com's shop navigation — the gender, sport and product-type categories and… | 🟢 |
 | `nike.listCategoryProducts` | nike.com | Lists the products on one nike.com category wall (a /w/ URL such as men's running… | 🟢 |
 | `nike.listFavorites` | nike.com | Lists the products the signed-in caller has favorited on nike.com. | ⚪ |
-| `nike.listOrders` | nike.com | Lists the signed-in caller's Nike orders — date, items, total and status — newest first. | ⚪ |
+| `nike.listOrders` | nike.com | Lists the signed-in caller's Nike orders — date, items, total and status — newest first. | 🟢 |
 | `nike.lookupGuestOrder` | nike.com | Looks up an order's status and tracking from an order number and the email it was… | 🟢 |
 | `nike.removeFavorite` | nike.com | Removes one product from the signed-in caller's nike.com favorites. | ⚪ |
 | `nike.removeFromCart` | nike.com | Removes or changes the quantity of one line in the caller's nike.com bag. | ⚪ |

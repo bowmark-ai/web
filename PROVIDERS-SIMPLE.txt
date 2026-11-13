@@ -175,7 +175,7 @@ carlsgolfland.com — carlsgolfland: addToCart, getProduct, priceConfiguration, 
 carmelrealtycompany.com — carmelrealtycompany: getListing, searchListings
 carolenet.com (Carole Fabrics' own CaroleNet trade catalog) — carolefabrics: search
 carpetlandusa.net — carpetlandusa: getProduct, listCategories, searchProducts
-cars.com — cars: getListing, getModelResearch, search (+8 planned)
+cars.com — cars: getListing, getModelResearch, getVehicleValue, search (+7 planned)
 cartebtp.fr — cartebtp: verifyCard
 carusohomes.com — carusohomes: assembleTourRequest, getTourAppointmentSchema, searchCommunities, searchFloorPlans
 casadragones.com — casadragones: findNearbyRetailers, getProduct, listProducts (+1 planned)
@@ -518,6 +518,7 @@ millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisiting
 mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
+mlb.com — mlb: nothing callable yet (+50 planned)
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
 modularclosets.com — modularclosets: getKitConfigurator, priceKitConfiguration, searchClosetKits
@@ -544,7 +545,7 @@ news.google.com — google_news: followTopic, getForYou, getFullCoverage, getTop
 news.ycombinator.com — hackernews: getItem, getThread, search, searchComments, topStories
 nfa.futures.org — nfa_futures_org: lookupByNfaId, searchFirms, searchIndividuals
 nhc.noaa.gov — nhc: getBestTrack, getForecastCone, getForecastDiscussion, getMarineForecast, getReconObservations, getSatelliteImagery, getStormAdvisory, getStormForecast, getStormGraphics, getStormInfo, getStormNames, getTropicalCycloneReport, getTropicalOutlook, getTropicalWeatherDiscussion, getWatchesWarnings, getWindSpeedProbabilities, listCurrentStorms, listMarineZones, listSeasonStorms, listStormAdvisories, searchStorms (+2 planned)
-nike.com — nike: checkSizeAvailability, checkStoreAvailability, findStores, getLaunch, getProduct, getProductReviews, getSizeChart, listCategories, listCategoryProducts, lookupGuestOrder, searchProducts, upcomingLaunches (+11 planned)
+nike.com — nike: checkSizeAvailability, checkStoreAvailability, findStores, getCart, getLaunch, getMemberProfile, getOrder, getProduct, getProductReviews, getSizeChart, listCategories, listCategoryProducts, listOrders, lookupGuestOrder, searchProducts, upcomingLaunches (+7 planned)
 notion.com — notion: appendBlocks, createComment, createPage, getDatabase, getMe, getPage, getPageContent, listComments, listUsers, queryDatabase, search, systemStatus, updatePage
 npiregistry.cms.hhs.gov — npi_registry: lookup, search
 npmjs.com — npmjs: getDownloads, search

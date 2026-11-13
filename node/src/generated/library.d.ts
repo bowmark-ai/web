@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d162afca7c529b0b8a486c4a69e010ece5c3de9878b4ea0c989be4f537d4a584
-// 98 capabilities, 824 providers, 5031 typed functions, 20 refused.
+// Manifest version: 999842880f12c2f4d06a674df17644e784b5bc875fc6e1f9b91e921beb804cc7
+// 98 capabilities, 825 providers, 5052 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4331,6 +4331,12 @@ type ReadResult = {
                              // body that parses whole): the parsed value, unfenced.
                              // const { json } = await bowmark.read.page(apiUrl)
                              // content still carries the rendering for that format
+  structured?: {             // the page's own typed data, as written, outside maxChars:
+    entities: { type: string; value: Record<string, unknown> }[] // JSON-LD Product, Offer, Event, …
+    tables?: { title: string | null; headers: string[]; rows: Record<string, unknown>[] }[]
+    nextData?: unknown       // Next.js props.pageProps
+    omitted?: string[]       // what did not fit its 50,000-char cap
+  }                          // structured?.entities.find((e) => e.type === "Product")?.value
   removed?: { share: number; pruned: number; outsideRoot: number; hidden: number;
              page: number }  // only when the reader left 25%+ of the page's text
                              // out of content as navigation/hidden chrome (menus,
@@ -4452,12 +4458,13 @@ type ContactsResult = {
      * prove it (a note, so the run stays `ok`), but the safe read is `{ format: "cleanHtml" }`,
      * which keeps the price inside its own item's markup. For one product page's price and stock,
      * `bowmark.products.getAvailability(url)` reads the page's own schema.org `Product`/`Offer`
-     * JSON-LD for you; to read that markup yourself, ask for `{ format: "html" }` and parse the
-     * `<script type="application/ld+json">` blocks — most stores publish them, and they name the
-     * exact variant, price and stock. RUN-ONLY: because how each page is loaded is decided per
-     * call, neither `session()` nor the bare top-level `bowmark` client (which opens a session
-     * internally, even for one call) can serve this — both are refused with code
-     * "rung_undeclared". Call it through `run()` instead.
+     * JSON-LD for you; to read that markup yourself, read `result.structured.entities` (its
+     * JSON-LD as typed values, outside `maxChars`, with the exact variant, price and stock;
+     * `.tables` and `.nextData` carry embedded rows and Next.js data) instead of parsing `{
+     * format: "html" }`. RUN-ONLY: because how each page is loaded is decided per call, neither
+     * `session()` nor the bare top-level `bowmark` client (which opens a session internally, even
+     * for one call) can serve this — both are refused with code "rung_undeclared". Call it through
+     * `run()` instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -16364,10 +16371,10 @@ interface bestbuyProduct {
     /**
      * Runs a Best Buy product search the way bestbuy.com's own search box does and returns the
      * matching products — name, sale/regular price, online and in-store availability and review
-     * stats. With a Best Buy developer key (Bowmark's, charged to your account, or your own on the
-     * `x-bowmark-vendor-key-bestbuy` header) it reads the documented Products API and also fills
-     * manufacturer, model number and UPC. With no key it reads bestbuy.com's own search results
-     * page, where those three fields are null. `pageSize` caps the row count (default 10).
+     * stats. With a Best Buy developer key (yours, on the `x-bowmark-vendor-key-bestbuy` header)
+     * it reads the documented Products API and also fills manufacturer, model number and UPC. With
+     * no key it reads bestbuy.com's own search results page, where those three fields are null.
+     * `pageSize` caps the row count (default 10).
      */
     search(args: string | { query: string; pageSize?: number }): Promise<bestbuyProduct[]>;
 
@@ -22783,11 +22790,18 @@ interface CanadaComputersProduct {
   onlineStatus: string | null;
   /** e.g. "In Store - Available for Pickup", "In Store - Sold Out". */
   inStoreStatus: string | null;
+  /** Every query word is in the title or SKU. The site's search is fuzzy and returns
+   *  near-misses (5070s for "rtx 4070 super") unmarked — filter on this before trusting a row.
+   *  Literal, so a real match whose title omits a word ("MSI G5070-12S2C" for "rtx 5070") is false. */
+  matchesQuery: boolean;
 }
 
 interface CanadaComputersSearchResult {
   query: string;
   searchUrl: string;
+  /** The site's own result count. 0 = the store carries nothing for this query, and
+   *  products is [] (no error). */
+  totalResults: number | null;
   products: CanadaComputersProduct[];
 }
 
@@ -22799,7 +22813,8 @@ interface CanadaComputersSearchArgs {
   /**
    * Canada Computers (canadacomputers.com) — Canadian PC parts and electronics retailer.
    * search() returns matching products with CAD price, sale price, and whether each is available
-   * online and in store.
+   * online and in store; a query the store has nothing for returns products: [], and each row
+   * says whether it literally matches the query.
    */
   interface Unit {
     /**
@@ -35799,6 +35814,126 @@ interface DrafthouseShowtimesResult {
   }
 }
 
+declare namespace BowmarkProvider_drive_google {
+  // ── Google Drive — the unit's own declarations, verbatim ──
+interface DriveFile {
+  id: string; name: string; mimeType: string; parents: string[]; starred: boolean; trashed: boolean;
+  createdTime: string | null; modifiedTime: string | null; size: number | null; webViewLink: string | null;
+  owners: { displayName: string | null; emailAddress: string | null }[];
+  capabilities: Record<string, boolean>; // canEdit, canRename, canTrash, canUntrash, canComment, ...
+}
+interface DriveAccount { displayName: string | null; emailAddress: string | null;
+  storageLimit: number | null; storageUsage: number | null; // bytes; limit null = unlimited
+}
+interface DriveFilePage { files: DriveFile[]; nextPageToken: string | null; hasMore: boolean }
+interface DriveComment { id: string; content: string; author: string | null; createdTime: string | null; resolved: boolean }
+interface DriveCommentPage { comments: DriveComment[]; nextPageToken: string | null; hasMore: boolean }
+interface DriveListArgs { query?: string; // Drive query syntax, e.g. "name contains 'budget'"; trashed = false is added unless you mention trashed
+  pageSize?: number; pageToken?: string }
+interface DriveCreateArgs { name: string; parentId?: string } // parentId omitted = My Drive root
+interface DriveExport { fileId: string; text: string; bytes: number }
+
+  /**
+   * The caller's own Google Drive: account and quota, search files, read metadata and comments,
+   * create folders/Docs/Sheets/Slides, rename, move, trash, restore, star, comment, and export
+   * Docs/Sheets/Slides as text. Requires the caller signed in to Google.
+   */
+  interface Unit {
+    /**
+     * Identifies the signed-in Google account and reads its Drive storage quota (limit and usage
+     * in bytes). Requires the caller signed in to Google.
+     */
+    getAccount(opts?: ConnectionOption): Promise<DriveAccount>;
+
+    /**
+     * Searches the caller's Drive with Drive query syntax, excluding trash unless the query
+     * mentions it; follow nextPageToken while hasMore. Requires the caller signed in to Google.
+     */
+    listFiles(args?: DriveListArgs, opts?: ConnectionOption): Promise<DriveFilePage>;
+
+    /**
+     * Reads one Drive file's metadata: name, type, parent folder ids, starred/trashed flags,
+     * owners and what the caller may do to it. Requires the caller signed in to Google.
+     */
+    getFile(args: { fileId: string }, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /**
+     * Lists a Drive file's comments with pagination (replies not included). Requires the caller
+     * signed in to Google.
+     */
+    listComments(args: { fileId: string; pageToken?: string }, opts?: ConnectionOption): Promise<DriveCommentPage>;
+
+    /**
+     * Creates a folder in the caller's Drive (My Drive root, or inside parentId). Sent once; never
+     * retried after an uncertain result. Requires the caller signed in to Google.
+     */
+    createFolder(args: DriveCreateArgs, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /**
+     * Creates an empty Google Doc in the caller's Drive. Sent once; never retried after an
+     * uncertain result. Requires the caller signed in to Google.
+     */
+    createDocument(args: DriveCreateArgs, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /**
+     * Creates an empty Google Sheet in the caller's Drive. Sent once; never retried after an
+     * uncertain result. Requires the caller signed in to Google.
+     */
+    createSpreadsheet(args: DriveCreateArgs, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /**
+     * Creates an empty Google Slides presentation in the caller's Drive. Sent once; never retried
+     * after an uncertain result. Requires the caller signed in to Google.
+     */
+    createPresentation(args: DriveCreateArgs, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /**
+     * Renames a Drive file or folder and returns it as Drive now reports it. Requires the caller
+     * signed in to Google.
+     */
+    renameFile(args: { fileId: string; name: string }, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /**
+     * Moves a Drive file from one explicit parent folder to another and returns its new parents.
+     * Requires the caller signed in to Google.
+     */
+    moveFile(args: { fileId: string; fromParentId: string; toParentId: string }, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /**
+     * Moves a Drive file or folder to trash (recoverable with restoreFile). Requires the caller
+     * signed in to Google.
+     */
+    trashFile(args: { fileId: string }, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /** Restores a Drive file or folder from trash. Requires the caller signed in to Google. */
+    restoreFile(args: { fileId: string }, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /** Stars or unstars a Drive file. Requires the caller signed in to Google. */
+    setStarred(args: { fileId: string; starred: boolean }, opts?: ConnectionOption): Promise<DriveFile>;
+
+    /**
+     * Adds a plain-text, file-level comment to a Drive file (not anchored, notifies nobody by
+     * name). Requires the caller signed in to Google.
+     */
+    addComment(args: { fileId: string; content: string }, opts?: ConnectionOption): Promise<DriveComment>;
+
+    /** Exports a Google Doc as plain text (up to 2 MB). Requires the caller signed in to Google. */
+    getDocumentText(args: { fileId: string }, opts?: ConnectionOption): Promise<DriveExport>;
+
+    /**
+     * Exports a Google Sheet's first sheet as CSV (up to 2 MB). Requires the caller signed in to
+     * Google.
+     */
+    getSheetCsv(args: { fileId: string }, opts?: ConnectionOption): Promise<DriveExport>;
+
+    /**
+     * Exports a Google Slides presentation as plain text (up to 2 MB). Requires the caller signed
+     * in to Google.
+     */
+    getPresentationText(args: { fileId: string }, opts?: ConnectionOption): Promise<DriveExport>;
+  }
+}
+
 declare namespace BowmarkProvider_dropbox {
   // ── Dropbox — the unit's own declarations, verbatim ──
 interface DropboxSharedLinkRow {
@@ -44600,8 +44735,10 @@ interface FoxnewsAccount {
     listVideoPlaylists(): Promise<{ playlists: FoxnewsVideoPlaylist[] }>;
 
     /**
-     * Lists the clips in one Fox News video playlist, newest first with paging — each clip's id,
-     * title, url, thumbnail, duration and date.
+     * Lists the recent clips of one Fox News show's Clips rail — taking a clips playlist id from
+     * listVideoPlaylists — each clip's id, title, url and date. The list is the show page's own
+     * recent clips (about 6-16), so total is that count, not a deeper archive; an Episodes rail is
+     * refused.
      */
     listVideos(args: ListVideosArgs): Promise<{ total: number; videos: FoxnewsVideoRow[] }>;
 
@@ -70592,6 +70729,30 @@ interface NikeStoreAvailability {
      * "Waist (in)") and one value per size column, in inches.
      */
     getSizeChart(chart: string | { product: string }): Promise<NikeSizeChart>;
+
+    /**
+     * The signed-in caller's Nike member profile as Nike returns it (name, shoe size,
+     * preferences). Needs the caller signed in to Nike.
+     */
+    getMemberProfile(opts?: ConnectionOption): Promise<Record<string, unknown>>;
+
+    /**
+     * The signed-in caller's nike.com bag as Nike returns it (items, sizes, quantities, subtotal).
+     * Needs the caller signed in to Nike.
+     */
+    getCart(opts?: ConnectionOption): Promise<Record<string, unknown>>;
+
+    /**
+     * The signed-in caller's Nike order history as Nike returns it, newest first; limit 1-100,
+     * default 20. Needs the caller signed in to Nike.
+     */
+    listOrders(args?: { limit?: number }, opts?: ConnectionOption): Promise<Record<string, unknown>>;
+
+    /**
+     * One of the signed-in caller's Nike orders by order number (from listOrders) as Nike returns
+     * it — items, shipping, tracking. Needs the caller signed in to Nike.
+     */
+    getOrder(args: { orderNumber: string }, opts?: ConnectionOption): Promise<Record<string, unknown>>;
 
     /**
      * Looks up one nike.com order the way the guest "find your order" form does — the order number
@@ -117074,6 +117235,7 @@ interface BowmarkProviders {
   donsappliances: BowmarkProvider_donsappliances.Unit;
   doordash: BowmarkProvider_doordash.Unit;
   drafthouse: BowmarkProvider_drafthouse.Unit;
+  drive_google: BowmarkProvider_drive_google.Unit;
   dropbox: BowmarkProvider_dropbox.Unit;
   duckduckgo: BowmarkProvider_duckduckgo.Unit;
   dumpsters: BowmarkProvider_dumpsters.Unit;
