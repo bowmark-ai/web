@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7f15229a0b1c5a22e27480005327bd406bb652d47933688b7b2fc95c2a7a71bc
-// 98 capabilities, 846 providers, 5209 typed functions, 20 refused.
+// Manifest version: b3334efc72ae5fc6cb16ccd4c490ff1efb816d67bb99dee89b352dceac70fddb
+// 98 capabilities, 849 providers, 5225 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -810,6 +810,9 @@ type Car = {
   pickupType: string | null      // "IN_TERMINAL" / "SHUTTLE" — counter walk vs bus
   pickupAddress: string | null
   url: string                    // deep link to this offer
+  // The handoff: give the person checkout.url and checkout.account.hint, and stop.
+  // They book the car themselves; Bowmark never books.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null
 }
 type CarSearchResult = {
   cars: Car[]                    // cheapest TOTAL first; unpriced offers last
@@ -848,6 +851,8 @@ type CallOptions = {
      * sets the per-site budget (default 30000; each site is given at least 50000, because a site
      * that refuses its fast path is searched in a real browser, ~10-25s). Momondo, Kayak and
      * Cheapflights are searched together and the same offer is returned once, at its cheapest.
+     * Each car carries `checkout`, a handoff URL (the offer's booking link) plus which account to
+     * use: give the person that and stop, Bowmark never books or pays.
      */
     search(query: CarQuery, limit?: number, options?: CallOptions): Promise<CarSearchResult>;
   }
@@ -1896,6 +1901,9 @@ type BookingOption = {
   currency: string
   deepLink: string | null   // straight to this fare, when the site exposes one —
                             // frequently null, so fall back to the result's url
+  // The handoff: give the person checkout.url and checkout.account.hint, and stop.
+  // They buy from the seller themselves; Bowmark never books. Null whenever deepLink is.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null
 }
 
 type BookingOptionsResult = {
@@ -2029,7 +2037,9 @@ type FlightStatusResult = {
      * by `flight.site` — directly on the SAME result instead — it returns everything here plus
      * `cabin`, `personalItem`, `carryOnIncluded`/`checkedBagIncluded`, `checkedBagCount`,
      * `checkedBagFee`, `freeCancellation` and `seatsRemaining`, which is the deciding field for
-     * choosing between fares on a one-way move and is not yet promoted to this capability.
+     * choosing between fares on a one-way move and is not yet promoted to this capability. Each
+     * option carries `checkout`, the seller's booking link as a handoff URL plus which account to
+     * use: give the person that and stop, Bowmark never books or pays.
      */
     getBookingOptions(flight: FlightResult, options?: CallOptions): Promise<BookingOptionsResult>;
 
@@ -2440,6 +2450,9 @@ type Hotel = {
   distance: string | null     // "11.7 mi", as the site renders it
   distanceFrom: string | null // what that distance is measured FROM
   url: string                 // deep link to the property
+  // The handoff: give the person checkout.url and checkout.account.hint, and stop.
+  // They book the stay themselves; Bowmark never books.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null
 }
 type HotelSearchResult = {
   hotels: Hotel[]             // cheapest TOTAL first; unpriced properties last
@@ -2486,7 +2499,9 @@ type CallOptions = {
      * searched together and the same property is returned once, at its cheapest. This route drives
      * a real browser and is the slowest thing in the library: 11-26s measured; each site is given
      * at least 50000ms whatever `options.timeoutMs` says, because a refused exit costs a second
-     * browser session.
+     * browser session. Each hotel carries `checkout`, a handoff URL (the property page with the
+     * dates and guests in it) plus which account to use: give the person that and stop, Bowmark
+     * never books or pays.
      */
     search(query: HotelQuery, limit?: number, options?: CallOptions): Promise<HotelSearchResult>;
   }
@@ -4532,6 +4547,9 @@ type RestaurantSlot = {
   startsAt: string            // local start time, "YYYY-MM-DD HH:mm:ss"
   seatingType: string | null  // section/seating label the platform reports, e.g. "Dining Room"
   bookingUrl: string | null   // the platform's page for booking THIS slot (OpenTable), else null
+  // The handoff for THIS slot: give the person checkout.url and stop; they reserve
+  // themselves. Bowmark never books. Null when the platform has no per-slot page.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null
 }
 type RestaurantVenue = {
   platform: string            // which booking platform this venue runs on: "resy" | "opentable"
@@ -4541,6 +4559,8 @@ type RestaurantVenue = {
   country: string
   cuisine: string[]
   bookingUrl: string          // the platform's own page, pre-filled with date/party size
+  // The handoff over bookingUrl (the person picks the time there). Bowmark never books.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null
 }
 type RestaurantAvailabilityResult = {
   venue: RestaurantVenue | null   // null when no platform has a matching venue
@@ -4573,12 +4593,12 @@ type CallOptions = {
      * }`. Returns `venue: null` when no platform has a matching restaurant, and `slots: []` when
      * the venue exists but has nothing open for that date/party — both real, complete answers, not
      * failures. `venue.bookingUrl` is the platform's own page, pre-filled with the requested date
-     * and party size, because this function only reads. To BOOK a slot, use the platform's own
-     * two-call flow in one Bowmark session: `bowmark.providers.resy.startBooking` /
-     * `confirmBooking` (the diner's Resy account; Resy texts a code) or
-     * `bowmark.providers.opentable.startBooking` / `confirmBooking` (as a guest; OpenTable texts a
-     * code). `location` narrows a common restaurant name when passed as `"lat,lon"` (e.g.
-     * `"37.7749,-122.4194"` for San Francisco); free-form text is ignored rather than guessed at.
+     * and party size, because this function only reads. To book, hand the person a slot's
+     * `checkout.url` (OpenTable: that exact time) or `venue.checkout.url` (Resy: pick the time
+     * there) and `checkout.account.hint`, and stop: they reserve on the platform themselves, and
+     * Bowmark never books. `location` narrows a common restaurant name when passed as `"lat,lon"`
+     * (e.g. `"37.7749,-122.4194"` for San Francisco); free-form text is ignored rather than
+     * guessed at.
      */
     findAvailability(name: string | { name: string; location?: string; day?: string; time?: string; partySize?: number }, options?: CallOptions): Promise<RestaurantAvailabilityResult>;
   }
@@ -9551,6 +9571,11 @@ interface alibabaGetOrderArgs {
 
 declare namespace BowmarkProvider_aliexpress {
   // ── AliExpress — the unit's own declarations, verbatim ──
+interface AliexpressCheckoutAccount { site: string; hint: string; signedInAs?: string; signInUrl?: string; }
+interface AliexpressCheckoutItem { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string; } // prices are decimal strings
+interface AliexpressCheckoutSummary { items: AliexpressCheckoutItem[]; total: string | null; currency: string; }
+/** Where to finish: open url, signed in as account. Bowmark never pays. status is ready_to_checkout, needs_login or unavailable (reason + detail say why). */
+interface AliexpressCheckoutHandoff { status: "ready_to_checkout" | "needs_login" | "unavailable"; url: string; urlKind?: "carries_items" | "signed_in_cart" | "product_page"; account: AliexpressCheckoutAccount; summary: AliexpressCheckoutSummary | null; reason?: string; detail?: string; expiresAt?: string; warnings: string[]; }
 interface SearchArgs {
   query: string;
 }
@@ -9631,6 +9656,7 @@ interface AddToCartArgs {
 interface aliexpressAddToCartResult {
   cart_line_id?: string;
   cart_count?: number;
+  checkout?: AliexpressCheckoutHandoff;
 }
 
 interface ListOrdersArgs {
@@ -9706,7 +9732,9 @@ interface aliexpressWishlistItem {
 
     /**
      * Adds one variant (productId + skuId, both from getProduct) to the CALLER's own AliExpress
-     * cart. Needs the caller signed in; the relay at aliexpress.com handles authentication.
+     * cart. Returns `checkout`: AliExpress's own cart page and which account to sign in to
+     * (Bowmark never pays). Needs the caller signed in; the relay at aliexpress.com handles
+     * authentication.
      */
     addToCart(args: AddToCartArgs, opts?: ConnectionOption): Promise<aliexpressAddToCartResult>;
 
@@ -10642,9 +10670,13 @@ interface AndstrListingSummary {
   bedrooms: number;
   bathrooms: number;
   maxGuests: number;
-  pricePerNight: number;
+  pricePerNight: number | null;
+  stayTotal: number | null;
+  nights: number | null;
+  stayCheckIn: string | null;
+  stayCheckOut: string | null;
   currency: string;
-  priceBasis: "dates" | "startingFrom";
+  priceBasis: "dates" | "siteWindow";
   verified: boolean;
   instantBook: boolean;
   cancellationPolicy: string | null;
@@ -10681,6 +10713,9 @@ interface AndstrQuote {
   averagePerNight: number | null;
   currency: string;
   bookingUrl: string;
+  // The handoff: give the person checkout.url (listing, dates and party are in it) and
+  // stop. status "unavailable" carries the site's reason. Bowmark never books.
+  checkout: { status: string; url: string; urlKind?: string; reason?: string; detail?: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number } | null; warnings: string[] } | null;
 }
 
   /**
@@ -10691,9 +10726,11 @@ interface AndstrQuote {
   interface Unit {
     /**
      * Searches stayAndes's listing portfolio by market, dates, guests, bedrooms, price range and
-     * instant-book. When check-in/check-out are given, pricePerNight is the real demand-priced
-     * average for that stay; otherwise it's the site's undated starting-from rate (priceBasis says
-     * which).
+     * instant-book. pricePerNight is the nightly rate: the site prints a stay total (stayTotal,
+     * over nights), which is divided down. With check-in/check-out the price is for those dates;
+     * without, it is for a stay the site picked (stayCheckIn/stayCheckOut, and priceBasis says
+     * which). pricePerNight is null for a listing the site shows no price for until dates are
+     * given.
      */
     search(args?: AndstrSearchArgs): Promise<AndstrListingSummary[]>;
 
@@ -10705,7 +10742,8 @@ interface AndstrQuote {
 
     /**
      * The real date-priced quote for one listing — nightly total, service + cleaning fees, total
-     * before taxes, average per night, and a direct checkout handoff URL — or the site's own
+     * before taxes, average per night, and a direct checkout handoff URL (also as `checkout`, the
+     * typed handoff the person opens to book themselves; Bowmark never books) — or the site's own
      * reason a stay isn't bookable.
      */
     getQuote(listingId: string, checkIn: string, checkOut: string, guests: number): Promise<AndstrQuote>;
@@ -14533,6 +14571,9 @@ interface AvantstayPricing {
   guests: number;
   rooms: AvantstayRoomPrice[];
   bookingUrl: string;
+  // The handoff: give the person checkout.url (dates and party are in it) and stop.
+  // status "unavailable" means no room type is open. Bowmark never books.
+  checkout: { status: string; url: string; urlKind?: string; reason?: string; detail?: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number } | null; warnings: string[] } | null;
 }
 
   /**
@@ -14549,9 +14590,10 @@ interface AvantstayPricing {
 
     /**
      * Prices every room type at one AvantStay property for a real date range and guest count, with
-     * real-time availability and a direct booking-handoff URL. Takes both ids searchProperties
-     * returns per property (hotelId prices it, hash builds the link) — they are not
-     * interchangeable on this site.
+     * real-time availability and a direct booking-handoff URL, also as `checkout` (the typed
+     * handoff the person opens to book themselves; Bowmark never books). Takes both ids
+     * searchProperties returns per property (hotelId prices it, hash builds the link) — they are
+     * not interchangeable on this site.
      */
     getPricing(hotelId: string, hash: string, checkIn: string, checkOut: string, guests: number): Promise<AvantstayPricing>;
   }
@@ -19377,8 +19419,29 @@ interface BookedinMerchantSummary {
   postalCode: string | null;
   phone: string | null;
   website: string | null;
+  /** Where the PERSON books, as a guest in their own browser. Bowmark does not book it. */
+  checkout: BookedinCheckout | null;
 }
-
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface BookedinCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
+}
 interface BookedinSearchResult {
   country: string;
   province: string | null;
@@ -20711,6 +20774,8 @@ interface booksyBusinessCard {
   id: number;
   name: string | null;
   url: string | null;
+  /** Where the PERSON picks a service and books, in their own browser. Bowmark does not book it. */
+  checkout: booksyCheckout | null;
   primaryCategoryId: number | null;
   address: string | null;
   city: string | null;
@@ -20877,6 +20942,26 @@ interface booksyGetBusinessPhotosArgs {
   /** 1-50, default 20. */
   limit?: number;
   country?: string;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface booksyCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface booksyPhoto {
   id: number;
@@ -22313,6 +22398,19 @@ interface KoketAddToCartHandoff {
   currency: string;
   inStock: boolean;
   note: string;
+  checkout: KoketCheckoutHandoff;
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface KoketCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -22770,8 +22868,29 @@ interface CalendlyEventType {
   uuid: string;
   url: string;
   description: string | null;
+  /** Where the PERSON picks a time and books, as a guest in their own browser. Bowmark does not book it. */
+  checkout: CalendlyCheckout | null;
 }
-
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface CalendlyCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
+}
 interface CalendlyProfile {
   slug: string;
   name: string;
@@ -24214,6 +24333,19 @@ interface CglCartHandoff {
   missingGroups: string[];
   unmatched: string[];
   unavailable: string | null;  // same as CglPriceResult.unavailable
+  checkout: CglCheckoutHandoff;
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface CglCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -26025,6 +26157,9 @@ interface KayakBookingOption {
   checkedBagFee: number | null;       // numeric fee for a checked bag, null if free/unreported
   freeCancellation: boolean | null;
   seatsRemaining: number | null;
+  // The handoff: open checkout.url (it carries this exact offer) and book with the
+  // seller yourself. Bowmark never books. Null when the offer has no booking link.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 interface KayakHotelQuery {
@@ -26053,6 +26188,9 @@ interface KayakHotel {
   distance: string | null;     // "11.7 mi", as the site renders it
   distanceFrom: string | null; // what that distance is measured from
   url: string;                 // deep link to the property
+  // The handoff: open checkout.url to pick a rate and book with the seller yourself.
+  // Bowmark never books. Null when the row has no usable link.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 interface KayakCarQuery {
@@ -26087,6 +26225,9 @@ interface KayakCar {
   pickupType: string | null;    // "IN_TERMINAL" | "SHUTTLE" | …
   pickupAddress: string | null;
   url: string;             // deep link to this offer
+  // The handoff: open checkout.url to book with the seller yourself. Bowmark never
+  // books. Null when the row has no usable link.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 type CheapflightsMarket = "com" | "co.uk" | "ca";
@@ -26117,21 +26258,27 @@ interface CheapflightsMarketOption { market?: CheapflightsMarket }
      * cheapest of these, so this is where "who actually sells it, and what does the cheap one
      * leave out — carry-on, checked bag, personal item" gets answered. Pass the row itself, not
      * its id. THROWS rather than returning [] when the itinerary is no longer offered, so a
-     * sold-out fare is never reported as "nobody sells this".
+     * sold-out fare is never reported as "nobody sells this". Each offer carries `checkout`, a
+     * handoff URL (the offer's own booking link) the person opens to buy from the seller
+     * themselves: Bowmark never books or pays.
      */
     getBookingOptions(flight: KayakFlight): Promise<KayakBookingOption[]>;
 
     /**
      * Runs the stays search on cheapflights.com and returns priced properties for a destination
      * and date range, cheapest TOTAL first. Interaction-gated: the prices only exist after the
-     * site's own multi-phase supplier poll completes.
+     * site's own multi-phase supplier poll completes. Each row carries `checkout`, a handoff URL
+     * (the property page with the dates and guests in it) the person opens to book themselves:
+     * Bowmark never books or pays.
      */
     searchHotels(query: KayakHotelQuery & CheapflightsMarketOption): Promise<KayakHotel[]>;
 
     /**
      * Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup
      * location and date range, cheapest-first. Interaction-gated: the prices only exist after the
-     * site's own three-phase supplier poll completes.
+     * site's own three-phase supplier poll completes. Each row carries `checkout`, a handoff URL
+     * (the offer's own booking link) the person opens to book themselves: Bowmark never books or
+     * pays.
      */
     searchCars(query: KayakCarQuery & CheapflightsMarketOption): Promise<KayakCar[]>;
   }
@@ -26354,6 +26501,18 @@ interface CheckfrontBooking {
   customerName: string;
   customerEmail: string;
   items: Array<{ itemId: string; name: string; qty: number | null; status: string }>;
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface CheckfrontCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -27326,6 +27485,19 @@ interface ClassicHomeCartHandoff {
   price: number;         // dollars — the real price for this exact fabric/leather
   available: boolean;
   productUrl: string;    // finish add-to-cart/checkout on the real product page
+  checkout: ClassicHomeCheckoutHandoff; // a Shopify cart link carrying this choice; Bowmark never pays
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface ClassicHomeCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -28906,6 +29078,12 @@ interface CloudbedsBookingQuote {
   paymentSchedule: unknown; cancellationSchedule: unknown;
   cartToken: string | null;     // not a reservation; bookRoom takes this to confirm one
 }
+interface CloudbedsPricedStay extends CloudbedsBookingQuote {
+  bookingUrl: string;   // the property's booking page on the quoted dates
+  // The handoff: give the person checkout.url (pick the same room and rate there) and
+  // stop. They book as a guest and pay themselves; Bowmark never books.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
+}
 interface CloudbedsPolicies {
   propertyCode: string; propertyId: string; smartPoliciesEnabled: boolean;
   smartPolicyText: string | null; cancellationPolicy: string | null; terms: string | null;
@@ -28991,8 +29169,10 @@ interface CloudbedsReservation {
      * Prices a stay before booking it, from the rate ids searchRooms returned: nightly and total
      * price, taxes and fees, the deposit due now, the payment and cancellation schedule when the
      * property publishes one, and the grand total. Creates a cart token and no reservation.
+     * Carries `checkout`, a handoff URL (the property's booking page on those dates) the person
+     * opens to book and pay themselves: Bowmark never books.
      */
-    getBookingQuote(args: CloudbedsBookingQuoteArgs): Promise<CloudbedsBookingQuote>;
+    getBookingQuote(args: CloudbedsBookingQuoteArgs): Promise<CloudbedsPricedStay>;
 
     /**
      * A property's cancellation, deposit and payment terms in plain language, plus its house
@@ -29294,6 +29474,28 @@ interface ClubPilatesClass {
   waitlistUntil: string | null;
   locationType: string | null;
   bookingUrl: string;
+  /** Where the PERSON books this class (their own signed-in browser); null when the site gave no booking_url. Bowmark does not book it. */
+  checkout: ClubPilatesCheckout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface ClubPilatesCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface ListPricingArgs {
   studio: string;
@@ -29625,6 +29827,28 @@ interface ClubreadyClass {
   bookingClosesAt: string | null;
   freeCancelUntil: string | null;
   bookingUrl: string;
+  /** Where the PERSON books this, in their own signed-in browser; null when the site gave no page. Bowmark does not book it. */
+  checkout: ClubreadyCheckout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface ClubreadyCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 
 interface ClubreadyPackage {
@@ -32036,6 +32260,19 @@ interface CultureFlyCheckoutLink {
   price: string;
   /** GET this URL to land straight on CultureFly's own checkout with the chosen size + cadence pre-selected. */
   checkoutUrl: string;
+  checkout: CultureFlyCheckoutHandoff;
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface CultureFlyCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -32341,6 +32578,52 @@ interface GetArticleArgs {
   id: string;
 }
 
+interface ListVideosArgs {
+  channel?: string;
+  limit?: number;
+}
+
+interface DailymailVideo {
+  id: string;
+  title: string;
+  url: string;
+  channel: string;
+  thumbnail: string | null;
+  duration: string | null;
+  durationSeconds: number | null;
+}
+
+interface GetVideoArgs {
+  url: string;
+}
+
+interface DailymailVideoDetail {
+  id: string;
+  title: string;
+  url: string;
+  channel: string;
+  description: string | null;
+  source: string | null;
+  publishedDate: string | null;
+  updatedDate: string | null;
+  durationSeconds: number | null;
+  thumbnail: string | null;
+  mediaUrl: string | null;
+}
+
+interface GetAuthorArgs {
+  url: string;
+}
+
+interface DailymailAuthor {
+  id: string;
+  name: string;
+  url: string;
+  image: string | null;
+  articles: DailymailArticle[];
+  warnings: string[];
+}
+
 interface DailymailArticleDetail {
   id: string;
   title: string;
@@ -32396,6 +32679,24 @@ interface DailymailArticleDetail {
      * Takes a browser: the site's search page renders client-side.
      */
     searchArticles(args: SearchArticlesArgs): Promise<DailymailSearchResult[]>;
+
+    /**
+     * Lists Daily Mail videos from the video hub or one video channel (news, showbiz, sport, …)
+     * with title, url, video id, duration and thumbnail.
+     */
+    listVideos(args?: ListVideosArgs): Promise<DailymailVideo[]>;
+
+    /**
+     * Reads one Daily Mail video — title, description, duration, date, thumbnail and the playable
+     * media url — given the url a listVideos row returns.
+     */
+    getVideo(args: GetVideoArgs): Promise<DailymailVideoDetail>;
+
+    /**
+     * Reads one Daily Mail author or columnist's profile — name, photo and the stories the profile
+     * lists — given a profile url from an article byline or listColumnists.
+     */
+    getAuthor(args: GetAuthorArgs): Promise<DailymailAuthor>;
   }
 }
 
@@ -33654,6 +33955,19 @@ interface DdCartHandoff {
   stockStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   missingGroups: string[];
   unmatched: string[];
+  checkout: DdCheckoutHandoff;
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface DdCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -35541,6 +35855,10 @@ interface DirectBookBookingStart {
   errors: { key: string; args: unknown }[];
   /** Where the guest enters their details and pays. Nothing has been booked. */
   checkoutUrl: string;
+  // The handoff: give the person checkout.url (it carries the dates, party and rate)
+  // and stop; they book and pay themselves. status "unavailable" means the hotel
+  // refused the cart, with its reason in detail. Bowmark never books.
+  checkout: { status: string; url: string; urlKind?: string; reason?: string; detail?: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number } | null; warnings: string[] } | null;
 }
 interface CancelReservationArgs {
   /** The reservation code from the guest's confirmation email. Globally unique — no property is needed. */
@@ -35645,7 +35963,8 @@ interface DirectBookEnquiryResult {
     /**
      * Starts a booking for one rate on given dates and party: validates the cart with the hotel
      * and returns the priced cart (total, deposit, nights) and the checkout link the guest
-     * finishes on. Never sends guest or card details and books nothing.
+     * finishes on, as `checkout`: a handoff URL that carries the dates, party and rate (or
+     * `unavailable` with the hotel's reason). Never sends guest or card details and books nothing.
      */
     initiateBooking(args: InitiateBookingArgs): Promise<DirectBookBookingStart>;
 
@@ -38278,6 +38597,36 @@ interface ebaySellerProfile {
   profileUrl: string;
 }
 
+interface ebaySoldItem {
+  title: string;
+  price: number;        // what it SOLD for, never the asking price
+  currency: string;     // "USD"
+  soldDate: string;     // ISO date, YYYY-MM-DD
+  url: string;          // the listing's own ebay.com page
+  itemId: string;
+  condition: string | null; // "Used" | "New" | "Complete in box" | "Graded"
+  format?: "auction" | "buy_it_now" | "best_offer"; // absent: the source does not publish it
+  shipping?: number;    // absent: the source does not publish it
+}
+
+interface ebaySoldSummary {
+  count: number;
+  median: number | null;
+  low: number | null;   // 25th percentile
+  high: number | null;  // 75th percentile
+  currency: string;
+}
+
+interface ebaySoldSearch {
+  items: ebaySoldItem[];                         // newest first
+  summary: ebaySoldSummary;                      // over returned rows, part sales (box/manual/pieces only) excluded
+  byCondition: Record<string, ebaySoldSummary>;  // the same, per condition bucket
+  matchedProducts: { title: string; url: string }[];  // the ONE product read; [] if none matched
+  nearestProducts: { title: string; url: string }[];  // only when nothing matched: closest titles, NOT matches
+  source: "pricecharting.com";
+  warnings: string[];
+}
+
   /**
    * Live eBay listings on ebay.com or the German marketplace ebay.de — search by keyword,
    * category or seller, read one listing, autosuggest and deals — returning title, price,
@@ -38351,6 +38700,21 @@ interface ebaySellerProfile {
      * these rows are not German-marketplace deals.
      */
     getDeals(): Promise<ebayDeal[]>;
+
+    /**
+     * Sold prices from PriceCharting's record of completed eBay sales; covers video games,
+     * consoles, trading cards, comics and Lego only, in USD for ebay.com. Returns what each item
+     * actually SOLD for (not asking prices): title, sold price, sold date, condition bucket and
+     * the listing URL, newest first, with a median and 25th/75th-percentile `summary` for ONE
+     * condition named in `summaryCondition` (Loose for games and consoles, Ungraded for cards, New
+     * for sealed sets, or the grade named in the query such as "psa 10"), and `byCondition` for
+     * the rest. Keyless (eBay's own sold-listings page is blocked by Akamai on every route we
+     * have). A query with no closely matching product returns no rows, count 0 and a warning, with
+     * the closest titles in `nearestProducts` (not matches), never another product's sales. Reads
+     * ONE product per call, named in `matchedProducts`; `site`-less, USD, query up to 200
+     * characters. `limit` caps the rows (default 60, ceiling 200).
+     */
+    searchSold(args: string | { query: string; site?: "ebay.com"; limit?: number }): Promise<ebaySoldSearch>;
 
     /**
      * Get the caller's watch list — items they are monitoring for price changes. Needs a signed-in
@@ -38557,6 +38921,11 @@ interface emiratesFlightStatusQuery { flight: string | number; date?: string }
 
 declare namespace BowmarkProvider_epicgames {
   // ── Epic Games Store — the unit's own declarations, verbatim ──
+interface EpicgamesCheckoutAccount { site: string; hint: string; signedInAs?: string; signInUrl?: string; }
+interface EpicgamesCheckoutItem { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string; } // prices are decimal strings
+interface EpicgamesCheckoutSummary { items: EpicgamesCheckoutItem[]; total: string | null; currency: string; }
+/** Where to finish: open url, signed in as account. Bowmark never pays. status is ready_to_checkout, needs_login or unavailable (reason + detail say why). */
+interface EpicgamesCheckoutHandoff { status: "ready_to_checkout" | "needs_login" | "unavailable"; url: string; urlKind?: "carries_items" | "signed_in_cart" | "product_page"; account: EpicgamesCheckoutAccount; summary: EpicgamesCheckoutSummary | null; reason?: string; detail?: string; expiresAt?: string; warnings: string[]; }
 interface EpicGamesFreeWindow {
   startDate: string;
   endDate: string;
@@ -38816,6 +39185,7 @@ interface RemoveFromCartArgs {
 
 interface CartWriteResult {
   result: unknown;
+  checkout?: EpicgamesCheckoutHandoff;
 }
 
 interface ListFriendsResult {
@@ -39067,13 +39437,15 @@ interface GetAchievementsResult {
 
     /**
      * Put a game in the signed-in caller's cart by offer id and namespace. Stops at the cart:
-     * nothing here pays. Needs the caller signed in.
+     * nothing here pays. Returns `checkout`: Epic's own cart page and which account to sign in to.
+     * Needs the caller signed in.
      */
     addToCart(args: CartOfferArgs, opts?: ConnectionOption): Promise<CartWriteResult>;
 
     /**
-     * Remove a line from the signed-in caller's cart by its cart item id (from getCart). Needs the
-     * caller signed in.
+     * Remove a line from the signed-in caller's cart by its cart item id (from getCart). Returns
+     * `checkout`: Epic's own cart page and which account to sign in to. Needs the caller signed
+     * in.
      */
     removeFromCart(args: RemoveFromCartArgs, opts?: ConnectionOption): Promise<CartWriteResult>;
 
@@ -40963,6 +41335,28 @@ interface EventbriteEventRow {
   venue: EventbriteVenueRow | null;
   organizerId: string | null;
   promoted: boolean;
+  /** Where the PERSON gets tickets, in their own browser. Bowmark does not register or buy. */
+  checkout: EventbriteCheckout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface EventbriteCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface EventbriteVenueRow {
   id: string | null;
@@ -43324,6 +43718,9 @@ interface FareharborBookingQuote {
   paymentMethods: string[];
   /** Where a person finishes the booking — the step this function stops before. */
   checkoutUrl: string;
+  // The handoff: give the person checkout.url (it opens this slot; they pick the same
+  // tickets) and stop. They book and pay themselves; Bowmark never books.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 interface FareharborContact {
   name: string;
@@ -43382,7 +43779,8 @@ interface FareharborBookingResult {
     /**
      * Prices a FareHarbor booking up to the payment step: the ticket lines, booking fee, tax and
      * total due for a slot and ticket mix, from the checkout's own live quote. Reserves nothing;
-     * returns the checkout url to finish.
+     * returns the checkout url to finish, and `checkout`, that url as a handoff the person opens
+     * to book and pay themselves (Bowmark never books).
      */
     quoteBooking(args: FareharborQuoteBookingArgs): Promise<FareharborBookingQuote>;
 
@@ -43511,7 +43909,19 @@ interface FieldstonehomesFormOption { value: string; label: string; }
 interface FieldstonehomesFormField { name: string; label: string; type: string; required: boolean; options?: FieldstonehomesFormOption[]; }
 interface FieldstonehomesAppointmentForm { action: string; fields: FieldstonehomesFormField[]; }
 interface FieldstonehomesPrepareAppointmentArgs { firstName: string; lastName: string; email: string; phone?: string; communityId: string; requestedAt: string; message?: string; pageUrl?: string; }
-interface FieldstonehomesPreparedAppointment { valid: boolean; errors: string[]; action: string; handoffUrl: string; fields: Record<string, string>; }
+interface FieldstonehomesPreparedAppointment { valid: boolean; errors: string[]; action: string; handoffUrl: string; fields: Record<string, string>; checkout: FieldstonehomesCheckoutHandoff; }
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface FieldstonehomesCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
+}
 
   /**
    * Live Fieldstone Homes quick-move-in inventory plus a validated appointment handoff; prefer
@@ -48967,6 +49377,28 @@ interface glofoxStudio {
   currency: string | null;
   website: string | null;
   portalUrl: string;
+  /** Where the PERSON picks a class and books, signed in to the studio's portal. Bowmark does not book it. */
+  checkout: glofoxCheckout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface glofoxCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface glofoxStudioProfile extends glofoxStudio {
   email: string | null;
@@ -49020,6 +49452,8 @@ interface glofoxClassPage {
   hasMore: boolean;
   totalCount: number | null;
   classes: glofoxClass[];
+  /** Where the PERSON picks one of these classes and books, signed in to the studio's portal. Bowmark does not book it. */
+  checkout: glofoxCheckout | null;
 }
 /** `studio` plus the class id from listClasses or listCourses. */
 interface glofoxGetClassArgs {
@@ -50728,6 +51162,9 @@ interface GoogleBookingOption {
   price: number | null;
   currency: string;
   deepLink: string | null; // null for JS-driven rows — see the caveat below
+  // The handoff: open checkout.url and book with that seller yourself (sign in there
+  // or book as a guest). Bowmark never books. Null whenever deepLink is.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 // One column of the price graph.
@@ -50781,7 +51218,8 @@ interface GooglePriceGraph {
     /**
      * Selects one result from the same search and reads its booking panel — who actually sells the
      * fare, at what fare type and price. This is a second interaction (click into the row), not a
-     * field on the search result.
+     * field on the search result. A seller with a real link carries `checkout`, a handoff URL on
+     * that seller's own site the person opens to book themselves: Bowmark never books or pays.
      */
     getBookingOptions(row: GoogleFlight): Promise<GoogleBookingOption[]>;
 
@@ -52654,8 +53092,29 @@ interface GoteamupClass {
   offeringType: GoteamupOfferingType | null;
   /** This class's own page, e.g. "https://goteamup.com/p/3707700-kb-fitness-studio/e/109904116-…/". */
   url: string;
+  /** Where the PERSON books this class, in their own signed-in browser; null when the site gave no page. Bowmark does not book it. */
+  checkout: GoteamupCheckout | null;
 }
-
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface GoteamupCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
+}
 interface GoteamupScheduleRange {
   /** ISO date/time, inclusive. Defaults to now. */
   from?: string;
@@ -56308,6 +56767,46 @@ interface hunterDomainEmailCount {
   }
 }
 
+declare namespace BowmarkProvider_iberia {
+  // ── Iberia — the unit's own declarations, verbatim ──
+// iberia.com's OWN shapes — not a capability contract.
+
+interface IberiaLocation {
+  code: string;        // IATA city/airport code, e.g. "MAD"
+  name: string;
+  countryCode: string; // e.g. "ES"
+  countryName: string;
+}
+
+interface SearchLocationsArgs {
+  /** City/airport name (substring, accents ignored) or exact IATA code. Omit for all. */
+  query?: string;
+  /** Country code ("ES") or name substring ("spain"). */
+  country?: string;
+  /** Which list of Iberia's booking form: where you can fly FROM (default) or TO. */
+  direction?: "origin" | "destination";
+}
+
+interface IberiaLocationResult {
+  direction: "origin" | "destination";
+  locations: IberiaLocation[];
+  totalBeforeFilter: number;
+  warnings: string[];
+}
+
+  /**
+   * Iberia (iberia.com), the Spanish airline — look up the cities and airports Iberia flies from
+   * and to, with their IATA codes and countries.
+   */
+  interface Unit {
+    /**
+     * Searches the cities/airports Iberia's flight-search form offers as origins or destinations,
+     * by name, IATA code or country.
+     */
+    searchLocations(args?: SearchLocationsArgs | string): Promise<IberiaLocationResult>;
+  }
+}
+
 declare namespace BowmarkProvider_ibuypower {
   // ── iBUYPOWER — the unit's own declarations, verbatim ──
 // iBUYPOWER's OWN shapes — not a capability contract.
@@ -59779,6 +60278,19 @@ interface InteriorDefineCartHandoff {
   totalFormatted: string;
   missingRequired: string[];  // required categories left unpicked — the site defaults them, so total is a FLOOR
   unmatched: string[];
+  checkout: InteriorDefineCheckoutHandoff;       // the product page, choices preselected; the person presses Add to Cart. Bowmark never pays
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface InteriorDefineCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -59964,6 +60476,45 @@ interface IproyalPlanTier {
      * vs. pay-as-you-go); the other lines publish one price per tier and leave it null.
      */
     getPlans(productType?: IproyalProductType): Promise<IproyalPlanTier[]>;
+  }
+}
+
+declare namespace BowmarkProvider_irs {
+  // ── IRS — the unit's own declarations, verbatim ──
+// irs.gov's OWN shapes — not a capability contract.
+
+interface IrsLink {
+  title: string;
+  url: string;
+}
+
+interface IrsFormInfo {
+  formNumber: string;
+  title: string;
+  url: string;
+  description: string | null;
+  pdfUrl: string | null;
+  revisionYear: number | null;
+  documents: IrsLink[];
+  related: IrsLink[];
+  lastReviewed: string | null;
+}
+
+/** A form number such as "1040", "W-4", "1099-NEC", or an irs.gov /forms-pubs/about-… url. */
+type IrsFormRef = string;
+
+  /**
+   * IRS tax form lookup on irs.gov — give a form number (1040, W-4, 1099-NEC…) and get its About
+   * page: title, what it is for, the current-revision PDF, instructions and schedules, related
+   * forms.
+   */
+  interface Unit {
+    /**
+     * Looks up an IRS tax form by number (or its irs.gov about-form url) and returns the About
+     * page: title, description, current-revision PDF link and year, instructions/schedule PDFs,
+     * related forms and the page's last-reviewed date.
+     */
+    getFormInfo(form: IrsFormRef): Promise<IrsFormInfo>;
   }
 }
 
@@ -61485,6 +62036,9 @@ interface KayakBookingOption {
   checkedBagFee: number | null;       // numeric fee for a checked bag, null if free/unreported
   freeCancellation: boolean | null;
   seatsRemaining: number | null;
+  // The handoff: open checkout.url (it carries this exact offer) and book with the
+  // seller yourself. Bowmark never books. Null when the offer has no booking link.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 interface KayakHotelQuery {
@@ -61513,6 +62067,9 @@ interface KayakHotel {
   distance: string | null;     // "11.7 mi", as the site renders it
   distanceFrom: string | null; // what that distance is measured from
   url: string;                 // deep link to the property
+  // The handoff: open checkout.url to pick a rate and book with the seller yourself.
+  // Bowmark never books. Null when the row has no usable link.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 interface KayakCarQuery {
@@ -61547,6 +62104,9 @@ interface KayakCar {
   pickupType: string | null;    // "IN_TERMINAL" | "SHUTTLE" | …
   pickupAddress: string | null;
   url: string;             // deep link to this offer
+  // The handoff: open checkout.url to book with the seller yourself. Bowmark never
+  // books. Null when the row has no usable link.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 type KayakMarket = "com" | "co.uk" | "de";
@@ -61577,21 +62137,26 @@ interface KayakMarketOption { market?: KayakMarket }
      * these, so this is where "who actually sells it, and what does the cheap one leave out —
      * carry-on, checked bag, personal item" gets answered. Pass the row itself, not its id. THROWS
      * rather than returning [] when the itinerary is no longer offered, so a sold-out fare is
-     * never reported as "nobody sells this".
+     * never reported as "nobody sells this". Each offer carries `checkout`, a handoff URL (the
+     * offer's own booking link) the person opens to buy from the seller themselves: Bowmark never
+     * books or pays.
      */
     getBookingOptions(flight: KayakFlight): Promise<KayakBookingOption[]>;
 
     /**
      * Runs the stays search on kayak.com and returns priced properties for a destination and date
      * range, cheapest TOTAL first. Interaction-gated: the prices only exist after the site's own
-     * multi-phase supplier poll completes.
+     * multi-phase supplier poll completes. Each row carries `checkout`, a handoff URL (the
+     * property page with the dates and guests in it) the person opens to book themselves: Bowmark
+     * never books or pays.
      */
     searchHotels(query: KayakHotelQuery & KayakMarketOption): Promise<KayakHotel[]>;
 
     /**
      * Runs the car-hire search on kayak.com and returns priced vehicles for a pickup location and
      * date range, cheapest-first. Interaction-gated: the prices only exist after the site's own
-     * three-phase supplier poll completes.
+     * three-phase supplier poll completes. Each row carries `checkout`, a handoff URL (the offer's
+     * own booking link) the person opens to book themselves: Bowmark never books or pays.
      */
     searchCars(query: KayakCarQuery & KayakMarketOption): Promise<KayakCar[]>;
   }
@@ -64255,6 +64820,7 @@ interface LiquiddeathCart {
   checkoutUrl: string;
   allAvailable: boolean;
   unavailable: string[];
+  checkout: LiquiddeathCheckoutHandoff;
 }
 interface LiquiddeathLiveCartLine {
   lineId: string;
@@ -64273,6 +64839,19 @@ interface LiquiddeathLiveCart {
   currency: string;
   checkoutUrl: string;
   expiresAt: string | null;
+  checkout: LiquiddeathCheckoutHandoff;
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface LiquiddeathCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -69903,6 +70482,28 @@ interface MomenceSession {
   currency: string;
   link: string;
   isCancelled: boolean;
+  /** Where the PERSON books this, in their own signed-in browser; null when the site gave no page. Bowmark does not book it. */
+  checkout: MomenceCheckout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface MomenceCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface MomenceSessionDetails {
   id: number;
@@ -70108,6 +70709,9 @@ interface KayakBookingOption {
   checkedBagFee: number | null;       // numeric fee for a checked bag, null if free/unreported
   freeCancellation: boolean | null;
   seatsRemaining: number | null;
+  // The handoff: open checkout.url (it carries this exact offer) and book with the
+  // seller yourself. Bowmark never books. Null when the offer has no booking link.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 interface KayakCarQuery {
@@ -70142,6 +70746,9 @@ interface KayakCar {
   pickupType: string | null;    // "IN_TERMINAL" | "SHUTTLE" | …
   pickupAddress: string | null;
   url: string;             // deep link to this offer
+  // The handoff: open checkout.url to book with the seller yourself. Bowmark never
+  // books. Null when the row has no usable link.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 type MomondoMarket = "com" | "co.uk" | "de";
@@ -70172,14 +70779,17 @@ interface MomondoMarketOption { market?: MomondoMarket }
      * these, so this is where "who actually sells it, and what does the cheap one leave out —
      * carry-on, checked bag, personal item" gets answered. Pass the row itself, not its id. THROWS
      * rather than returning [] when the itinerary is no longer offered, so a sold-out fare is
-     * never reported as "nobody sells this".
+     * never reported as "nobody sells this". Each offer carries `checkout`, a handoff URL (the
+     * offer's own booking link) the person opens to buy from the seller themselves: Bowmark never
+     * books or pays.
      */
     getBookingOptions(flight: KayakFlight): Promise<KayakBookingOption[]>;
 
     /**
      * Runs the car-hire search on momondo.com and returns priced vehicles for a pickup location
      * and date range, cheapest-first. Interaction-gated: the prices only exist after the site's
-     * own three-phase supplier poll completes.
+     * own three-phase supplier poll completes. Each row carries `checkout`, a handoff URL (the
+     * offer's own booking link) the person opens to book themselves: Bowmark never books or pays.
      */
     searchCars(query: KayakCarQuery & MomondoMarketOption): Promise<KayakCar[]>;
   }
@@ -71568,6 +72178,19 @@ interface NbfCartHandoff {
   priceFormatted: string | null;
   missingGroups: string[];
   unmatched: string[];
+  checkout: NbfCheckoutHandoff;   // the product page; the person picks the choices and presses Add to Cart. Bowmark never pays
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface NbfCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -72506,6 +73129,11 @@ interface nhcReconObservation {
 
 declare namespace BowmarkProvider_nike {
   // ── Nike SNKRS — the unit's own declarations, verbatim ──
+interface NikeCheckoutAccount { site: string; hint: string; signedInAs?: string; signInUrl?: string; }
+interface NikeCheckoutItem { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string; } // prices are decimal strings
+interface NikeCheckoutSummary { items: NikeCheckoutItem[]; total: string | null; currency: string; }
+/** Where to finish: open url, signed in as account. Bowmark never pays. status is ready_to_checkout, needs_login or unavailable (reason + detail say why). */
+interface NikeCheckoutHandoff { status: "ready_to_checkout" | "needs_login" | "unavailable"; url: string; urlKind?: "carries_items" | "signed_in_cart" | "product_page"; account: NikeCheckoutAccount; summary: NikeCheckoutSummary | null; reason?: string; detail?: string; expiresAt?: string; warnings: string[]; }
 interface NikeSizeChart {
   chart: string;
   url: string;
@@ -72813,9 +73441,10 @@ interface NikeStoreAvailability {
 
     /**
      * Removes one line from the signed-in caller's nike.com bag; itemId is an item's id from
-     * getCart. Never checks out. Needs the caller signed in to Nike.
+     * getCart. Never checks out. Needs the caller signed in to Nike. Returns `checkout`: Nike's
+     * own bag page and which account to sign in to (Bowmark never pays).
      */
-    removeFromCart(args: { itemId: string }, opts?: ConnectionOption): Promise<{ removed: boolean; itemId: string; cart: Record<string, unknown> }>;
+    removeFromCart(args: { itemId: string }, opts?: ConnectionOption): Promise<{ removed: boolean; itemId: string; cart: Record<string, unknown>; checkout?: NikeCheckoutHandoff }>;
 
     /**
      * The signed-in caller's nike.com bag as Nike returns it (items, sizes, quantities, subtotal).
@@ -73187,12 +73816,40 @@ interface npmjsSearchResult {
   repository: string | null;  // links.repository
   homepage: string | null;    // links.homepage
 }
+interface npmjsPackageInfo {
+  name: string;
+  description: string | null;
+  distTags: Record<string, string>;  // dist-tags, e.g. { latest: "1.3.0" }
+  versions: string[];                // every published version, oldest first
+  created: string | null; modified: string | null;  // ISO-8601
+  version: string;                   // the version the fields below describe
+  publishedAt: string | null;
+  license: string | null;
+  deprecated: string | null;         // the deprecation message, if any
+  dependencies: Record<string, string>;
+  devDependencies: Record<string, string>;
+  peerDependencies: Record<string, string>;
+  dist: { tarball: string; shasum: string | null; integrity: string | null; fileCount: number | null; unpackedSize: number | null };
+  repository: string | null;
+  homepage: string | null;
+  maintainers: { name: string; email: string | null }[];
+}
 
   /**
-   * npm's public registry APIs — find published packages by keyword with their current metadata
-   * and weekly downloads, or retrieve weekly/daily/monthly download totals for one package.
+   * npm's public registry APIs (registry.npmjs.org) — one package's registry metadata (versions,
+   * dist-tags, dependencies, tarball and integrity), find published packages by keyword with
+   * their weekly downloads, or download totals for one package.
    */
   interface Unit {
+    /**
+     * One package's metadata straight off the npm registry (`registry.npmjs.org/<package>`): every
+     * published version, its dist-tags, and — for `version` (an exact version or a dist-tag like
+     * `"next"`; default `"latest"`) — its dependencies, dev and peer dependencies, license,
+     * deprecation notice, publish time, and `dist` tarball URL, shasum and integrity. Works on
+     * scoped packages (`"@babel/core"`).
+     */
+    getPackageInfo(packageName: string, version?: string): Promise<npmjsPackageInfo>;
+
     /**
      * The real download count for an npm package, straight off npmjs.com's own public
      * download-counts API — the same number npmjs.com's own package page shows. `period` is
@@ -76089,6 +76746,7 @@ interface OloBasket {
   total: number;
   unavailableItems: string[];
   couponDiscount: number;  // 0 when no coupon is applied
+  checkout: OloCheckoutHandoff;  // a refusal listing the items to re-add on the order site (no link restores an Olo basket); Bowmark never pays
 }
 interface OloStartOrderArgs {
   host: string;
@@ -76158,6 +76816,18 @@ interface OloCheckout extends OloBasket {
 }
 interface OloHandoffResult extends OloBasket {
   readyForCheckout: boolean;  // the site's own checkout validation passed
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface OloCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -76536,6 +77206,9 @@ interface OpenTableSlot {
   dateTime: string;      // local start time, "YYYY-MM-DDTHH:mm", restaurant's own timezone
   type: string | null;   // OpenTable's seating type, e.g. "Standard" | "Experience"
   bookingUrl: string;    // OpenTable's own booking page for exactly this time
+  // The handoff: give the person checkout.url (bookingUrl, typed) and stop. They
+  // reserve on OpenTable themselves; Bowmark never books. Null if the link is unusable.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
 interface OpenTableRestaurant {
@@ -76661,8 +77334,9 @@ interface OpenTableBookingStatus {
     /**
      * Reads one restaurant's open reservation times (`restaurantId` from a `search` row) around
      * `time` on `date` for `partySize`, with OpenTable's own booking link per time, plus the
-     * restaurant's details. `slots: []` is a real "nothing open". A real browser load, so expect
-     * 15-40 s.
+     * restaurant's details. Each slot carries `checkout`, a handoff URL the person opens to
+     * reserve that time themselves (Bowmark never books). `slots: []` is a real "nothing open". A
+     * real browser load, so expect 15-40 s.
      */
     checkAvailability(args: OpenTableAvailabilityArgs): Promise<OpenTableAvailability>;
 
@@ -78721,6 +79395,28 @@ interface Pike13EventOccurrence {
   full: boolean;
   staff_members: Array<{ id: number; name: string; has_profile: boolean }>;
   waitlist?: { full: boolean };
+  /** Where the PERSON books this class, in their own signed-in browser. Bowmark does not book it. */
+  checkout?: Pike13Checkout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface Pike13Checkout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface Pike13GetAppointmentAvailabilityArgs {
   from: string;              // ISO 8601 instant
@@ -84028,6 +84724,53 @@ interface QuoraAnswersPage {
   }
 }
 
+declare namespace BowmarkProvider_quotes_toscrape {
+  // ── Quotes to Scrape — the unit's own declarations, verbatim ──
+interface QuotesToscrapeQuote {
+  text: string;
+  author: string;
+  authorSlug: string; // what author({ slug }) takes
+  tags: string[];
+}
+interface QuotesToscrapePage {
+  quotes: QuotesToscrapeQuote[];
+  page: number;
+  tag: string | null;
+  hasNext: boolean;
+  url: string;
+}
+interface QuotesToscrapeAuthor {
+  name: string;
+  slug: string;
+  bornDate: string;
+  bornLocation: string;
+  description: string;
+  url: string;
+}
+interface ListQuotesArgs {
+  tag?: string;  // e.g. "love"
+  page?: number; // 1-based, 10 quotes a page
+}
+interface AuthorArgs {
+  slug: string; // e.g. "Albert-Einstein"
+}
+
+  /**
+   * Quotes to Scrape (quotes.toscrape.com): list the public quotes catalogue — text, author,
+   * tags — by page or tag, and read an author's bio.
+   */
+  interface Unit {
+    /**
+     * Lists one page (10) of quotes from the quotes.toscrape.com catalogue, each with text, author
+     * and tags, optionally filtered to one tag.
+     */
+    listQuotes(args?: ListQuotesArgs): Promise<QuotesToscrapePage>;
+
+    /** Reads one author's page on quotes.toscrape.com: name, birth date, birthplace and biography. */
+    author(args: AuthorArgs): Promise<QuotesToscrapeAuthor>;
+  }
+}
+
 declare namespace BowmarkProvider_raadvanstate_nl {
   // ── Raad van State — the unit's own declarations, verbatim ──
 interface RaadvanstateRulingHit {
@@ -87250,6 +87993,9 @@ declare namespace BowmarkProvider_ring {
 interface RingSearchArgs { query: string; }
 interface RingSearchResult { name: string; url: string; price: number | null; wasPrice: number | null; imageUrl: string | null; }
 interface RingCollection { handle: string; name: string; url: string; }
+interface RingPlan { name: string; monthlyPrice: number | null; yearlyPrice: number | null; pricing: string; description: string | null; features: string[]; }
+interface RingSupportHit { id: string; title: string; url: string; }
+interface RingSupportArticle { id: string; title: string; url: string; updatedAt: string | null; body: string; }
 interface RingProduct { name: string; url: string; price: number | null; wasPrice: number | null; currency: string | null; available: boolean | null; skus: string[]; images: string[]; specs: Record<string, string>; }
 
   /**
@@ -87268,6 +88014,15 @@ interface RingProduct { name: string; url: string; price: number | null; wasPric
 
     /** Read one collection's product grid by handle: name, url, price and image per card. */
     listCollection(args: { handle: string }): Promise<RingSearchResult[]>;
+
+    /** Read Ring Protect's subscription plans: price per month and year, and what each includes. */
+    getPlans(): Promise<RingPlan[]>;
+
+    /** Search Ring's help articles by words in their titles; returns title and url. */
+    searchSupport(args: { query: string }): Promise<RingSupportHit[]>;
+
+    /** Read one Ring help article's title, update date and full text by url. */
+    getSupportArticle(args: { url: string }): Promise<RingSupportArticle>;
 
     /**
      * Makes a NEW Ring account with the person's own email and password, in a session. Pauses with
@@ -91098,6 +91853,9 @@ interface SevenroomsVenue {
   /** When true, only a signed-in SevenRooms account may book here. */
   requiresAccountToBook: boolean;
   bookingUrl: string;
+  // The handoff: give the person checkout.url (they pick date, time and party there)
+  // and stop. They reserve themselves; Bowmark never books.
+  checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 interface SevenroomsSlot {
   time: string;
@@ -91255,7 +92013,8 @@ type SevenroomsPromoValidation =
     /**
      * Reads one SevenRooms venue from its slug or url: name, address, phone, website, timezone,
      * currency, house policy, and whether it requires a signed-in SevenRooms account to book
-     * (bookReservationSignedIn) rather than guest checkout.
+     * (bookReservationSignedIn) rather than guest checkout. Carries `checkout`, a handoff URL (the
+     * venue's reservation page) the person opens to reserve themselves: Bowmark never books.
      */
     getVenue(args: GetVenueArgs): Promise<SevenroomsVenue>;
 
@@ -91447,6 +92206,11 @@ interface sheinSizeGuide {
 
 declare namespace BowmarkProvider_shop_app {
   // ── Shop — the unit's own declarations, verbatim ──
+interface ShopAppCheckoutAccount { site: string; hint: string; signedInAs?: string; signInUrl?: string; }
+interface ShopAppCheckoutItem { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string; } // prices are decimal strings
+interface ShopAppCheckoutSummary { items: ShopAppCheckoutItem[]; total: string | null; currency: string; }
+/** Where to finish: open url, signed in as account. Bowmark never pays. status is ready_to_checkout, needs_login or unavailable (reason + detail say why). */
+interface ShopAppCheckoutHandoff { status: "ready_to_checkout" | "needs_login" | "unavailable"; url: string; urlKind?: "carries_items" | "signed_in_cart" | "product_page"; account: ShopAppCheckoutAccount; summary: ShopAppCheckoutSummary | null; reason?: string; detail?: string; expiresAt?: string; warnings: string[]; }
 interface ShopAppProductRow {
   id: string;
 }
@@ -91877,6 +92641,7 @@ interface ShopAppCheckout {
   checkoutId: string | null;
   url: string;
   warnings: string[];
+  checkout?: ShopAppCheckoutHandoff;
 }
 interface ShopAppAddedToCart {
   storeId: string;
@@ -91885,6 +92650,7 @@ interface ShopAppAddedToCart {
   cartId: string | null;
   lineCount: number;
   warnings: string[];
+  checkout?: ShopAppCheckoutHandoff;
 }
 interface ShopAppFollowState {
   storeId: string;
@@ -91970,7 +92736,8 @@ interface ShopAppListOrdersArgs {
     /**
      * Adds a product variant (getProduct / getVariant's id) to the signed-in caller's Shop cart at
      * its store, quantity 1 by default. Stops at the cart: startCheckout opens the checkout and
-     * nothing here pays. Pauses for the caller to sign in to Shop.
+     * nothing here pays. Returns `checkout`: Shop's own cart page and which account to sign in to.
+     * Pauses for the caller to sign in to Shop.
      */
     addToCart(args: ShopAppAddToCartArgs, opts?: ConnectionOption): Promise<ShopAppAddedToCart>;
 
@@ -91989,7 +92756,8 @@ interface ShopAppListOrdersArgs {
     /**
      * Opens a checkout for the signed-in caller's Shop cart at one store (its Shop id or handle)
      * and returns the checkout url for the caller to review and pay. Never pays — it stops before
-     * payment, always. Pauses for the caller to sign in to Shop.
+     * payment, always. Also returns `checkout`: the same page with which account to sign in to.
+     * Pauses for the caller to sign in to Shop.
      */
     startCheckout(args: ShopAppStartCheckoutArgs, opts?: ConnectionOption): Promise<ShopAppCheckout>;
 
@@ -93773,6 +94541,28 @@ interface SoulcycleClassSession {
   classType: string;
   instructor: { id: number; name: string };
   state: string; // "open" | "expired" | "full" | "supersoul open" (SuperSoul-only booking window), verbatim
+  /** Where the PERSON picks a bike and books, in their own signed-in browser. Bowmark does not book it. */
+  checkout?: SoulcycleCheckout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface SoulcycleCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface GetClassAvailabilityArgs {
   classId: number; // from getStudioSchedule()
@@ -94812,6 +95602,28 @@ interface SpotappsReservationSettings {
   weekdaySlots: SpotappsSlot[][];
   dateSlots: { date: string; slots: SpotappsSlot[] }[];
   blockedDates: string[];
+  /** Where the PERSON asks for a table, in their own browser. Bowmark does not book it. */
+  checkout: SpotappsCheckout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface SpotappsCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface SpotappsCheckAvailabilityArgs {
   spotId: string;
@@ -95023,6 +95835,7 @@ interface SpotappsOnlineOrderStart {
   /** Always true: stops before payment — nothing is charged or sent to the kitchen. */
   paymentRequired: true;
   subtotalCents: number;
+  checkout: SpotappsCheckoutHandoff;  // a refusal listing the items to order again on the restaurant's ordering page (no link reopens the order); Bowmark never pays
 }
 interface SpotappsReservationRequest {
   spotId: string;
@@ -95046,6 +95859,18 @@ interface SpotappsJobListing {
    * publishes no per-posting description or open-count here, only this category list. */
   positions: string[];
   allowPhotoUpload: boolean;
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface SpotappsCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -98418,11 +99243,35 @@ interface StyleseatProfessionalSummary {
   id: number; name: string; vanityUrl: string; profileUrl: string; businessName: string | null;
   averageRating: number | null; numRatings: number | null; photoUrl: string | null;
   onlineBookable: boolean; matchedServices: StyleseatSearchService[];
+  /** Where the PERSON picks a service and time, in their own browser; null when the professional does not take online bookings. Bowmark does not book it. */
+  checkout: StyleseatCheckout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface StyleseatCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface StyleseatSearchResult { query: string; total: number; results: StyleseatProfessionalSummary[]; }
 interface StyleseatService { id: number; name: string; durationMinutes: number | null; cost: number | null; costAndUp: boolean; blurb: string | null; }
 interface StyleseatServiceGroup { name: string | null; services: StyleseatService[]; }
 interface StyleseatProfessional {
+  /** Where the PERSON picks a service and time, in their own browser. Bowmark does not book it. */
+  checkout: StyleseatCheckout | null;
   id: number; name: string; vanityUrl: string; profileUrl: string; businessName: string | null;
   profession: string | null; bio: string | null; phoneNumber: string | null;
   address: { street1: string | null; street2: string | null; city: string | null; state: string | null; zip: string | null };
@@ -99028,6 +99877,19 @@ interface SunHomeSaunasCartResult {
   quantity: number;
   cartItemCount: number;  // the live cart's total items AFTER this add
   cartTotal: number;      // dollars — the live cart's total price after this add
+  checkout: SunHomeSaunasCheckoutHandoff;  // a Shopify cart link that carries the item, for the person to open. Bowmark never pays
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface SunHomeSaunasCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -99377,8 +100239,30 @@ interface SweathouzStudio {
   lat: number;
   lng: number;
   bookingUrl: string | null;   // the studio's own booking app
+  /** Where the PERSON books, in their own browser; null for a studio that is not open. Bowmark does not book it. */
+  checkout: SweathouzCheckout | null;
   pageUrl: string;
   hours: { day: string; open: string | null; close: string | null }[]; // "09:00"/"17:00", null = closed
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface SweathouzCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 
 interface SweathouzAvailabilityArgs {
@@ -100013,6 +100897,7 @@ interface TargetCartItem {
   unitPrice: number | null;
   currentPrice: number | null;
   imageUrl: string | null;
+  outOfStock: boolean;  // true when the cart service flags the line unavailable
 }
 
 interface TargetCart {
@@ -100022,6 +100907,19 @@ interface TargetCart {
   totalProductAmount: number | null;  // the cart's product subtotal, before shipping and tax
   grandTotal: number | null;
   warnings: string[];
+  /** Where the person finishes: the cart page of THEIR own Target account, which account to
+   * sign in as, and what is in the cart. Bowmark never checks out or pays. Absent when no
+   * handoff could be built (warnings says why). */
+  checkout?: {
+    status: "ready_to_checkout" | "needs_login" | "unavailable";
+    url: string;
+    urlKind?: "signed_in_cart";
+    account: { site: string; hint: string; signedInAs?: string };
+    summary: { items: { title: string; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string } | null;
+    reason?: "out_of_stock" | "empty_cart";
+    detail?: string;
+    warnings: string[];
+  };
 }
 
 interface TargetAddToCartResult {
@@ -100030,6 +100928,19 @@ interface TargetAddToCartResult {
   quantity: number;
   added: boolean;
   warnings: string[];
+  /** Where the person finishes: the cart page of THEIR own Target account, which account to
+   * sign in as, and what is in the cart. Bowmark never checks out or pays. Absent when no
+   * handoff could be built (warnings says why). */
+  checkout?: {
+    status: "ready_to_checkout" | "needs_login" | "unavailable";
+    url: string;
+    urlKind?: "signed_in_cart";
+    account: { site: string; hint: string; signedInAs?: string };
+    summary: { items: { title: string; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string } | null;
+    reason?: "out_of_stock" | "empty_cart";
+    detail?: string;
+    warnings: string[];
+  };
 }
 
 interface TargetWriteReviewResult {
@@ -100096,6 +101007,19 @@ interface TargetRemoveFromCartResult {
   cartItemId: string;
   removed: boolean;
   warnings: string[];
+  /** Where the person finishes: the cart page of THEIR own Target account, which account to
+   * sign in as, and what is in the cart. Bowmark never checks out or pays. Absent when no
+   * handoff could be built (warnings says why). */
+  checkout?: {
+    status: "ready_to_checkout" | "needs_login" | "unavailable";
+    url: string;
+    urlKind?: "signed_in_cart";
+    account: { site: string; hint: string; signedInAs?: string };
+    summary: { items: { title: string; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string } | null;
+    reason?: "out_of_stock" | "empty_cart";
+    detail?: string;
+    warnings: string[];
+  };
 }
 
 interface TargetAddToListResult {
@@ -100221,22 +101145,31 @@ interface TargetAddToListResult {
 
     /**
      * Reads the CALLER's own Target cart — line items (TCIN, title, quantity, unit and current
-     * price, image) and the cart's own totals (product subtotal, grand total). Needs the caller
-     * signed in.
+     * price, image) and the cart's own totals (product subtotal, grand total). Also returns
+     * `checkout`, the checkout-handoff contract: the cart page of the caller's own Target account
+     * (status `ready_to_checkout` with `signedInAs` when the connection names its account,
+     * `needs_login` when it does not, `unavailable` for an empty cart or when every line is
+     * unavailable) plus the items, quantities and total. Bowmark never checks out or pays. Needs
+     * the caller signed in.
      */
     getCart(opts?: ConnectionOption): Promise<TargetCart>;
 
     /**
      * Adds one product (by TCIN and optional quantity, defaulting to 1) to the CALLER's own Target
      * cart. The last step this provider may take on a buying flow — it stops there; this provider
-     * will never place an order or reach a payment step. Needs the caller signed in.
+     * will never place an order or reach a payment step. Returns `checkout`, the checkout-handoff
+     * contract for the cart as it now stands: the cart page of the caller's own Target account,
+     * which account to sign in as, and the items and total; the person finishes at Target. Needs
+     * the caller signed in.
      */
     addToCart(args: { tcin: string; quantity?: number }, opts?: ConnectionOption): Promise<TargetAddToCartResult>;
 
     /**
      * Removes one line from the CALLER's own Target cart, by that line's own `cartItemId` (from
      * `getCart`'s `cartItems`, never the product's TCIN — a cart can hold the same TCIN on two
-     * lines). Needs the caller signed in.
+     * lines). Returns `checkout`, the checkout-handoff contract for what is left in the cart (the
+     * cart page of the caller's own Target account, which account to sign in as, items and total);
+     * Bowmark never checks out or pays. Needs the caller signed in.
      */
     removeFromCart(args: { cartItemId: string }, opts?: ConnectionOption): Promise<TargetRemoveFromCartResult>;
 
@@ -100447,6 +101380,11 @@ interface teladocInsuranceCoverage {
 
 declare namespace BowmarkProvider_temu {
   // ── Temu — the unit's own declarations, verbatim ──
+interface TemuCheckoutAccount { site: string; hint: string; signedInAs?: string; signInUrl?: string; }
+interface TemuCheckoutItem { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string; } // prices are decimal strings
+interface TemuCheckoutSummary { items: TemuCheckoutItem[]; total: string | null; currency: string; }
+/** Where to finish: open url, signed in as account. Bowmark never pays. status is ready_to_checkout, needs_login or unavailable (reason + detail say why). */
+interface TemuCheckoutHandoff { status: "ready_to_checkout" | "needs_login" | "unavailable"; url: string; urlKind?: "carries_items" | "signed_in_cart" | "product_page"; account: TemuCheckoutAccount; summary: TemuCheckoutSummary | null; reason?: string; detail?: string; expiresAt?: string; warnings: string[]; }
 interface temuRow {
   id: string;
 }
@@ -100471,7 +101409,7 @@ interface TemuWishlistRemoval { productId: string; removed: true; }
 interface AddToCartArgs { productId?: string; url?: string; skuId: string; quantity?: number; }
 interface UpdateCartArgs { productId?: string; url?: string; skuId: string; quantity: number; fromQuantity?: number; }
 interface RemoveFromCartArgs { productId?: string; url?: string; skuId: string; quantity?: number; }
-interface TemuCartChange { productId: string; skuId: string; quantity: number; operation: "add" | "update" | "remove"; }
+interface TemuCartChange { productId: string; skuId: string; quantity: number; operation: "add" | "update" | "remove"; checkout?: TemuCheckoutHandoff; }
 interface WriteReviewArgs { orderId: string; productId: string; rating: number; text?: string; }
 interface TemuReview { orderId: string; productId: string; rating: number; reviewIds: string[]; }
 
@@ -100524,7 +101462,8 @@ interface TemuReview { orderId: string; productId: string; rating: number; revie
 
     /**
      * Adds one Temu product variant (productId or product url, plus its skuId) to the caller's own
-     * cart, quantity 1 unless given. Needs the caller signed in; never checks out.
+     * cart, quantity 1 unless given. Returns `checkout`: Temu's own cart page and which account to
+     * sign in to. Needs the caller signed in; never checks out.
      */
     addToCart(args: AddToCartArgs, opts?: ConnectionOption): Promise<TemuCartChange>;
 
@@ -106799,6 +107738,11 @@ interface DriverEarnings {
 
 declare namespace BowmarkProvider_ubereats {
   // ── Uber Eats — the unit's own declarations, verbatim ──
+interface UbereatsCheckoutAccount { site: string; hint: string; signedInAs?: string; signInUrl?: string; }
+interface UbereatsCheckoutItem { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string; } // prices are decimal strings
+interface UbereatsCheckoutSummary { items: UbereatsCheckoutItem[]; total: string | null; currency: string; }
+/** Where to finish: open url, signed in as account. Bowmark never pays. status is ready_to_checkout, needs_login or unavailable (reason + detail say why). */
+interface UbereatsCheckoutHandoff { status: "ready_to_checkout" | "needs_login" | "unavailable"; url: string; urlKind?: "carries_items" | "signed_in_cart" | "product_page"; account: UbereatsCheckoutAccount; summary: UbereatsCheckoutSummary | null; reason?: string; detail?: string; expiresAt?: string; warnings: string[]; }
 interface UbereatsFindAddressArgs { query: string; } // free text, e.g. "323 Westheimer Rd, Houston, TX"
 
 interface UbereatsResolvedAddress {
@@ -106880,7 +107824,7 @@ interface SignedInOrderPage {
 interface UbereatsCartOrder { draftOrderUuid: string | null; storeUuid: string | null; storeTitle: string | null; itemCount: number | null; subtotal: number | null; }
 interface UbereatsCheckoutLine { label: string; amount: number | null; display: string | null; }
 interface UbereatsCheckoutTotal { draftOrderUuid: string; lines: UbereatsCheckoutLine[]; subtotal: number | null; total: number | null; totalDisplay: string | null; currency: string | null; }
-interface UbereatsPromoResult { code: string; accepted: boolean; message: string | null; discount: number | null; }
+interface UbereatsPromoResult { code: string; accepted: boolean; message: string | null; discount: number | null; checkout?: UbereatsCheckoutHandoff; }
 interface UbereatsAccount { uuid: string | null; firstName: string | null; lastName: string | null; email: string | null; mobileNumber: string | null; }
 interface UbereatsSavedAddress { id: string | null; title: string | null; subtitle: string | null; formattedAddress: string | null; latitude: number | null; longitude: number | null; }
 // addToCart/updateCartItem/removeFromCart/clearCart are anonymous — Uber Eats'
@@ -107004,8 +107948,10 @@ interface UbereatsAddToCartArgs {
 
     /**
      * Applies a promo code to the caller's Uber Eats account/cart and reports whether it was
-     * accepted, the site's message, and the discount when it names one. Needs the caller's own
-     * Uber Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
+     * accepted, the site's message, and the discount when it names one. Also returns `checkout`:
+     * Uber Eats' own cart page and which account to sign in to (Bowmark never pays; delivery fees
+     * and tip are set there). Needs the caller's own Uber Eats sign-in (authFunctions); signedIn
+     * is UNMEASURED, see manifest.json.
      */
     applyPromoCode(args: { code: string; draftOrderUuid?: string }, opts?: ConnectionOption): Promise<UbereatsPromoResult>;
 
@@ -110241,23 +111187,33 @@ interface walmartSeller {
 
     /**
      * Reads the signed-in shopper's cart — items, quantities, prices and the subtotal. Needs the
-     * caller signed in.
+     * caller signed in. When built, it returns the checkout-handoff contract (a `checkout` field
+     * with the cart page URL, which account to sign in as, and the items and total); Bowmark never
+     * checks out or pays.
      */
     getCart(opts?: ConnectionOption): Promise<never>;
 
     /**
      * Puts an item (an id from `search` or `getProduct`) in the signed-in shopper's cart. Never
-     * checks out. A write. Needs the caller signed in.
+     * checks out. A write. Needs the caller signed in. When built, it returns the checkout-handoff
+     * contract (a `checkout` field with the cart page URL, which account to sign in as, and the
+     * items and total); Bowmark never checks out or pays.
      */
     addToCart(args: { itemId: string; quantity?: number }, opts?: ConnectionOption): Promise<never>;
 
     /**
      * Changes the quantity of an item already in the signed-in shopper's cart (0 removes it). A
-     * write. Needs the caller signed in.
+     * write. Needs the caller signed in. When built, it returns the checkout-handoff contract (a
+     * `checkout` field with the cart page URL, which account to sign in as, and the items and
+     * total); Bowmark never checks out or pays.
      */
     updateCartItem(args: { itemId: string; quantity: number }, opts?: ConnectionOption): Promise<never>;
 
-    /** Takes an item out of the signed-in shopper's cart. A write. Needs the caller signed in. */
+    /**
+     * Takes an item out of the signed-in shopper's cart. A write. Needs the caller signed in. When
+     * built, it returns the checkout-handoff contract (a `checkout` field with the cart page URL,
+     * which account to sign in as, and the items and total); Bowmark never checks out or pays.
+     */
     removeFromCart(args: { itemId: string }, opts?: ConnectionOption): Promise<never>;
 
     /**
@@ -112222,6 +113178,12 @@ interface WhatsappBlogPost {
   url: string;
 }
 
+interface WhatsappGroupChange {
+  group: string;
+  /** What was done, e.g. "created", "renamed", "added Sam", "removed Sam". */
+  applied: string[];
+}
+
   /**
    * WhatsApp, Meta's messaging app: preview public Channels, group invite links and business
    * catalogs, search the Help Center; signed in through WhatsApp Web, read and search the
@@ -112426,6 +113388,30 @@ interface WhatsappBlogPost {
      * by its exact displayed name. Needs the caller signed in.
      */
     updateChat(chatName: string, update: { archived?: boolean; pinned?: boolean; muted?: "8h" | "1w" | "always" | false; read?: boolean }, opts?: ConnectionOption): Promise<WhatsappChatUpdate>;
+
+    /**
+     * Creates a WhatsApp group as the caller from a name and the exact displayed names of the
+     * starting contacts. Returns what was done. Needs the caller signed in.
+     */
+    createGroup(name: string, participants: string[], opts?: ConnectionOption): Promise<WhatsappGroupChange>;
+
+    /**
+     * Renames a group or sets its description, as a group admin. The group is opened by its exact
+     * displayed name. Needs the caller signed in.
+     */
+    updateGroup(groupName: string, update: { name?: string; description?: string }, opts?: ConnectionOption): Promise<WhatsappGroupChange>;
+
+    /**
+     * Adds contacts, by exact displayed name, to a group the caller administers. Needs the caller
+     * signed in.
+     */
+    addGroupParticipants(groupName: string, participants: string[], opts?: ConnectionOption): Promise<WhatsappGroupChange>;
+
+    /**
+     * Removes members, by displayed name, from a group the caller administers. Needs the caller
+     * signed in.
+     */
+    removeGroupParticipants(groupName: string, participants: string[], opts?: ConnectionOption): Promise<WhatsappGroupChange>;
 
     /**
      * Deletes a message the caller sent, for everyone when WhatsApp still offers that and for the
@@ -113381,6 +114367,28 @@ interface WixService {
   /** This same id comes back from listCategories. */
   categoryId: string | null;
   categoryName: string | null;
+  /** Where the PERSON picks a time and books, in their own browser; null when the service takes no online booking or has no page. Bowmark does not book it. */
+  checkout: WixCheckout | null;
+}
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface WixCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
 }
 interface WixServiceList { services: WixService[]; total: number; }
 interface SearchServicesArgs {
@@ -116814,6 +117822,7 @@ interface YorkWallcoveringsSearchResult {
 }
 
 interface YorkWallcoveringsVariant {
+  variantId: string;  // Shopify's numeric variant id, what a cart link carries
   sku: string | null;
   title: string;    // e.g. "Periwinkle / Double Roll (27in x 27.0ft)"
   price: number;
@@ -116830,6 +117839,8 @@ interface YorkWallcoveringsProduct {
   inStock: boolean;
   description: string;
   images: string[];
+  variantId: string;  // the variant the headline sku and price describe
+  currency?: string;
   variants: YorkWallcoveringsVariant[];
 }
 
@@ -116840,6 +117851,19 @@ interface YorkWallcoveringsAddToCartHandoff {
   price: number;
   inStock: boolean;
   note: string;
+  checkout: YorkWallcoveringsCheckoutHandoff;  // a cart link carrying the default full-size variant, quantity 1; Bowmark never pays
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface YorkWallcoveringsCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 
   /**
@@ -117897,8 +118921,29 @@ interface ZenPlannerScheduleSlot {
   /** The site's own time string, e.g. "6:00 AM". */
   time: string;
   className: string;
+  /** Where the PERSON books this slot, in their own signed-in browser. Bowmark does not book it. */
+  checkout?: ZenPlannerCheckout | null;
 }
-
+/** Where the PERSON finishes the booking, in their own signed-in browser. Bowmark never books. A status you do not know: show the person `url` and stop. */
+interface ZenPlannerCheckout {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  /** Always https, on the studio's own site. */
+  url: string;
+  /** ready_to_checkout only: carries_items opens this very slot, product_page opens the studio's schedule. */
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  /** unavailable only: out_of_stock (class full, no waitlist) or not_available_for_dates (cancelled). */
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string; signInUrl?: string };
+  summary: {
+    items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[];
+    total: string | null;
+    currency: string;
+    /** ISO start/end of the class or slot, with the studio's UTC offset when the site gives one. */
+    dates?: { start: string; end?: string };
+  } | null;
+  warnings: string[];
+}
 interface SearchScheduleArgs {
   /** The studio's subdomain label. findStudio returns this. */
   slug: string;
@@ -120639,6 +121684,7 @@ interface BowmarkProviders {
   huggingface: BowmarkProvider_huggingface.Unit;
   humana_directory: BowmarkProvider_humana_directory.Unit;
   hunter: BowmarkProvider_hunter.Unit;
+  iberia: BowmarkProvider_iberia.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
   idealista: BowmarkProvider_idealista.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
@@ -120657,6 +121703,7 @@ interface BowmarkProviders {
   intro_co: BowmarkProvider_intro_co.Unit;
   ipinfo: BowmarkProvider_ipinfo.Unit;
   iproyal: BowmarkProvider_iproyal.Unit;
+  irs: BowmarkProvider_irs.Unit;
   islllc: BowmarkProvider_islllc.Unit;
   istanbulkart: BowmarkProvider_istanbulkart.Unit;
   itunes: BowmarkProvider_itunes.Unit;
@@ -120851,6 +121898,7 @@ interface BowmarkProviders {
   quickbooks: BowmarkProvider_quickbooks.Unit;
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;
+  quotes_toscrape: BowmarkProvider_quotes_toscrape.Unit;
   raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
   raisingcanes: BowmarkProvider_raisingcanes.Unit;
   rakuten: BowmarkProvider_rakuten.Unit;

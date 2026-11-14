@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6767 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6770 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -234,7 +234,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `andersenwindows.findDealers` | andersenwindows.com | Finds Andersen-certified dealers and contractors near a US ZIP code — the entry point… | 🟢 |
 | `andstr.getListing` | booking.andstr.com | One listing's full detail page — bedrooms/bathrooms/max guests, description… | 🟢 |
 | `andstr.getQuote` | booking.andstr.com | The real, date-priced quote for one listing — per-night breakdown, service fee… | 🟢 |
-| `andstr.search` | booking.andstr.com | Runs stayAndes's own search-and-book portal (booking.andstr.com) — filters by market… | 🟡 |
+| `andstr.search` | booking.andstr.com | Runs stayAndes's own search-and-book portal (booking.andstr.com), filtering by market… | 🟡 |
 | `angussystems.listAccessRequests` | angus-systems.com | Lists the after-hours access requests for a client's portal, showing the status… | ⚪ |
 | `anthem_directory.findProviders` | anthem.com | In-network doctors near one US ZIP code for one Anthem plan (the state's first… | 🟢 |
 | `anthropic_com.getDoc` | anthropic.com | Reads one page of anthropic.com's engineering blog (/engineering/...) or legal terms… | 🟢 |
@@ -1516,11 +1516,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymail.browseTopic` | dailymail.com | Lists the articles on one Daily Mail topic page, newest first, given a topic url from… | ⚪ |
 | `dailymail.getArticle` | dailymail.com | Reads one Daily Mail article in full — headline, description, byline and author… | 🟢 |
 | `dailymail.getArticleComments` | dailymail.com | Reads the reader comments on one Daily Mail article — author, text, time, up/down… | ⚪ |
-| `dailymail.getAuthor` | dailymail.com | Reads one Daily Mail author or columnist page — name, bio and their recent articles —… | ⚪ |
+| `dailymail.getAuthor` | dailymail.com | Reads one Daily Mail author or columnist's profile — name, photo and the stories the… | 🟢 |
 | `dailymail.getCommentReplies` | dailymail.com | Reads the replies under one reader comment on a Daily Mail article, given the comment… | ⚪ |
 | `dailymail.getCurrentUser` | dailymail.com | Reads the signed-in caller's Daily Mail account — display name, email, location and… | ⚪ |
 | `dailymail.getHoroscope` | dailymail.com | Reads this week's or today's horoscope for one star sign from Daily Mail's astrology… | ⚪ |
-| `dailymail.getVideo` | dailymail.com | Reads one Daily Mail video — title, description, duration, date, thumbnail and the… | ⚪ |
+| `dailymail.getVideo` | dailymail.com | Reads one Daily Mail video — title, description, duration, date, thumbnail and the… | 🟢 |
 | `dailymail.listColumnists` | dailymail.com | Lists Daily Mail's columnists with name, profile url and their latest column. | ⚪ |
 | `dailymail.listGames` | dailymail.com | Lists the puzzles and games on Daily Mail's games hub (sudoku, kenken, kakuro… | ⚪ |
 | `dailymail.listLatest` | dailymail.com | The newest stories across Daily Mail, in the order its own latest list shows them… | 🟢 |
@@ -1529,7 +1529,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymail.listPodcasts` | dailymail.com | Lists Daily Mail's podcasts with title, description and episode links. | ⚪ |
 | `dailymail.listSections` | dailymail.com | Lists Daily Mail's sections and sub-sections (US home, News, U.S. Showbiz, Sport… | 🟢 |
 | `dailymail.listTopics` | dailymail.com | Lists Daily Mail topic pages (people, events, teams) matching a name, so an agent can… | ⚪ |
-| `dailymail.listVideos` | dailymail.com | Lists Daily Mail videos from the video hub or one video channel (news, showbiz, sport… | ⚪ |
+| `dailymail.listVideos` | dailymail.com | Lists Daily Mail videos from the video hub or one video channel (news, showbiz, sport… | 🟢 |
 | `dailymail.postComment` | dailymail.com | Posts a reader comment on a Daily Mail article as the signed-in caller, given an… | ⚪ |
 | `dailymail.replyToComment` | dailymail.com | Replies to one reader comment on a Daily Mail article as the signed-in caller. | ⚪ |
 | `dailymail.searchArticles` | dailymail.com | Searches Daily Mail articles by phrase, with optional page (1–20) and sort (relevance… | 🟢 |
@@ -2975,6 +2975,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hyatt.getHotelDetails` | hyatt.com | Reads one Hyatt property in full — full address, phone number, brand tier, amenities… | ⚪ |
 | `hyatt.getReservation` | hyatt.com | Reads an existing Hyatt reservation the way the site's own "View, Modify or Cancel a… | ⚪ |
 | `hyatt.search` | hyatt.com | Searches Hyatt's live cash room availability the way its own booking widget does — a… | ⚪ |
+| `iberia.searchLocations` | iberia.com | Searches the cities and airports that Iberia's flight-search form on iberia.com offers… | 🟢 |
 | `ibuypower.getBenchmark` | ibuypower.com | Returns iBUYPOWER's own measured 3DMark Time Spy scores and per-game FPS at… | 🔴 |
 | `ibuypower.getSystem` | ibuypower.com | Reads one base system's whole configurator — every component category, every option's… | 🔴 |
 | `ibuypower.listLaptops` | ibuypower.com | Lists the Chimera gaming laptops with their configurations and prices — a headline nav… | 🔴 |
@@ -3067,17 +3068,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `independent.deleteComment` | independent.co.uk | Deletes one of the signed-in caller's own comments. | ⚪ |
 | `independent.donate` | independent.co.uk | Makes a donation to The Independent, stopping at the payment step. | ⚪ |
 | `independent.getAccount` | independent.co.uk | Reads the signed-in caller's Independent account profile and membership status. | ⚪ |
-| `independent.getArticle` | independent.co.uk | Gets one article: headline, standfirst, byline, dates, section, body text and images. | ⚪ |
+| `independent.getArticle` | independent.co.uk | Gets one article: headline, standfirst, byline, dates, section, body text and images. | 🟢 |
 | `independent.getArticleComments` | independent.co.uk | Reads the reader comments on an article. | ⚪ |
 | `independent.getAuthorArticles` | independent.co.uk | Gets one writer's profile and their latest articles from /author/<slug>. | ⚪ |
 | `independent.getHomepageHeadlines` | independent.co.uk | Lists the top stories on The Independent's front page for one edition (UK, US or Asia). | 🟢 |
 | `independent.getLiveBlog` | independent.co.uk | Gets a live blog with its timestamped updates, newest first. | ⚪ |
-| `independent.getMostPopular` | independent.co.uk | Lists the most-read Independent articles right now, overall or for one area (articles… | ⚪ |
+| `independent.getMostPopular` | independent.co.uk | Lists the most-read Independent articles right now, overall or for one area (articles… | 🟢 |
 | `independent.getQuiz` | independent.co.uk | Gets one quiz's questions and answer options. | ⚪ |
 | `independent.getTopicArticles` | independent.co.uk | Lists the latest articles on one topic page (/topic/<slug>). | ⚪ |
 | `independent.getVideo` | independent.co.uk | Gets one Independent TV video: title, description, date, duration and stream where… | ⚪ |
 | `independent.getVoucherCodes` | independent.co.uk | Lists the current discount codes and offers for one shop, e.g. /vouchercodes/very. | ⚪ |
-| `independent.listArticlesByDate` | independent.co.uk | Lists every article The Independent published on one date, back to 1995. | ⚪ |
+| `independent.listArticlesByDate` | independent.co.uk | Lists every article The Independent published on one date, back to 1995. | 🟢 |
 | `independent.listAuthors` | independent.co.uk | Finds Independent writers by name; the door for getAuthorArticles. | ⚪ |
 | `independent.listBookmarks` | independent.co.uk | Lists the signed-in caller's bookmarked articles. | ⚪ |
 | `independent.listCompetitions` | independent.co.uk | Lists the open reader competitions and prize draws. | ⚪ |
@@ -3086,7 +3087,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `independent.listNewsletterSubscriptions` | independent.co.uk | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
 | `independent.listQuizzes` | independent.co.uk | Lists the quizzes in Puzzles and Games. | ⚪ |
 | `independent.listSections` | independent.co.uk | Lists The Independent's sections and subsections (News, Sport, Voices, Culture… | 🟢 |
-| `independent.listTopics` | independent.co.uk | Lists or finds Independent topic pages (e.g. climate-change, brexit) by name or first… | ⚪ |
+| `independent.listTopics` | independent.co.uk | Lists or finds Independent topic pages (e.g. climate-change, brexit) by name or first… | 🟢 |
 | `independent.listVideos` | independent.co.uk | Lists Independent TV videos, overall or for one series or channel (culture, lifestyle… | ⚪ |
 | `independent.listVoucherStores` | independent.co.uk | Lists the shops The Independent's voucher-codes pages cover; the door for… | ⚪ |
 | `independent.postComment` | independent.co.uk | Posts a comment on an article as the signed-in caller (Viafoura). | ⚪ |
@@ -3318,20 +3319,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kick.getChannelUser` | kick.com | How one user appears inside one channel: profile picture, badges (subscriber… | ⚪ |
 | `kick.getChatMessages` | kick.com | The most recent messages in a channel's chat, with sender, badges and time, plus the… | ⚪ |
 | `kick.getChatroomSettings` | kick.com | A channel's chat rules and modes: slow mode, followers-only (and how long)… | ⚪ |
-| `kick.getClip` | kick.com | One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration… | ⚪ |
+| `kick.getClip` | kick.com | One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration… | 🟢 |
 | `kick.getCurrentUser` | kick.com | The signed-in caller's own Kick account: username, email-verified flag, profile… | ⚪ |
 | `kick.getLivestream` | kick.com | What a channel is streaming right now: title, category, viewer count, start time… | 🟢 |
 | `kick.getVideo` | kick.com | One VOD by uuid: title, channel, category, duration, views, created date and its HLS… | 🟢 |
 | `kick.listCategories` | kick.com | Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest… | 🟢 |
-| `kick.listChannelClips` | kick.com | A channel's clips, by most viewed or newest, within a time window (day, week, month… | ⚪ |
+| `kick.listChannelClips` | kick.com | A channel's clips, by most viewed or newest, within a time window (day, week, month… | 🟢 |
 | `kick.listChannelEmotes` | kick.com | The emotes a channel offers (its own and subscriber-only), plus Kick's global set. | ⚪ |
 | `kick.listChannelLinks` | kick.com | The link panels under a channel (socials, tip pages, sponsors) with their titles and… | ⚪ |
 | `kick.listChannelVideos` | kick.com | A channel's past broadcasts (VODs), newest first: title, category, duration, views… | 🟢 |
-| `kick.listFeaturedLivestreams` | kick.com | The streams Kick features on its homepage carousel right now, for one language. | ⚪ |
+| `kick.listFeaturedLivestreams` | kick.com | The streams Kick features on its homepage carousel right now, for one language. | 🟢 |
 | `kick.listFollowedChannels` | kick.com | The channels the signed-in caller follows, live ones first, with what each is streaming. | ⚪ |
 | `kick.listLiveStreams` | kick.com | Browses who is live now, biggest first, optionally within one category (the slug… | 🟢 |
 | `kick.listSubscriptions` | kick.com | The channels the signed-in caller pays a subscription to, with tier and renewal date. | ⚪ |
-| `kick.listTopClips` | kick.com | The most-viewed or newest clips across all of Kick, or within one category, for a time… | ⚪ |
+| `kick.listTopClips` | kick.com | The most-viewed or newest clips across all of Kick, or within one category, for a time… | 🟢 |
 | `kick.search` | kick.com | Searches Kick for channels and categories by a word — the door to every channel slug… | 🟢 |
 | `kick.sendChatMessage` | kick.com | Posts a message in a channel's chat as the signed-in caller, optionally as a reply to… | ⚪ |
 | `kick.subscribeToChannel` | kick.com | Subscribes the signed-in caller to a channel (paid), stopping at Kick's payment step. | ⚪ |
@@ -3644,6 +3645,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mergify.pullStatus` | mergify.com | One pull request's own position in the merge queue — queued-at time, queue position… | ⚪ |
 | `mergify.queueStatus` | mergify.com | The live state of a repo's Mergify merge queue — every active batch (its status code… | 🟢 |
 | `mergify.validateConfig` | mergify.com | Validate a Mergify configuration file (.mergify.yml) before pushing it — checks the… | 🟢 |
+| `merriam_webster.define` | merriam-webster.com | Looks a word up in the Merriam-Webster dictionary and returns each entry's headword… | 🟢 |
+| `merriam_webster.thesaurus` | merriam-webster.com | Looks a word up in the Merriam-Webster thesaurus and returns each sense's meaning with… | 🟢 |
 | `meteofrance.getMarineWindForecast` | meteofrance.com | Marine wind forecast for French coastal regions, including wind speed, gusts, and… | ⚪ |
 | `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🔴 |
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
@@ -3707,15 +3710,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mlb.getAccount` | mlb.com | Reads the signed-in caller's MLB account profile: name, email, birthdate, favourite… | ⚪ |
 | `mlb.getArticle` | mlb.com | Gets one MLB.com article: headline, author, date, body text, images and tagged players… | ⚪ |
 | `mlb.getAwards` | mlb.com | Lists the winners of an MLB award (MVP, Cy Young, Rookie of the Year, Gold Glove, Hall… | ⚪ |
-| `mlb.getBoxScore` | mlb.com | Gets a game's box score: every batter's and pitcher's line for both teams, plus team… | ⚪ |
+| `mlb.getBoxScore` | mlb.com | Gets a game's box score: every batter's and pitcher's line for both teams, plus team… | 🟢 |
 | `mlb.getDraft` | mlb.com | Lists a year's MLB Draft picks: round, pick, team, player, position and school. | ⚪ |
-| `mlb.getGame` | mlb.com | Gets one game's summary: teams, status, inning, line score, winning and losing… | ⚪ |
+| `mlb.getGame` | mlb.com | Gets one game's summary: teams, status, inning, line score, winning and losing… | 🟢 |
 | `mlb.getGameBroadcasts` | mlb.com | Lists where a game is on TV, radio and streaming, home and away feeds. | ⚪ |
 | `mlb.getGameHighlights` | mlb.com | Lists a game's video highlights and recap with titles, durations and playable video… | ⚪ |
 | `mlb.getGlossaryTerm` | mlb.com | Gets one glossary entry: the stat's or rule's definition, how it is calculated and an… | ⚪ |
 | `mlb.getInjuryReport` | mlb.com | Lists the players on the injured list, by team, with the injury and expected return. | ⚪ |
 | `mlb.getPlayback` | mlb.com | Returns the playback menu for one MLB video: the site's embed plus every MP4/HLS… | ⚪ |
-| `mlb.getPlayByPlay` | mlb.com | Lists every plate appearance in a game, inning by inning, with the pitches, the result… | ⚪ |
+| `mlb.getPlayByPlay` | mlb.com | Lists every plate appearance in a game, inning by inning, with the pitches, the result… | 🟢 |
 | `mlb.getPlayer` | mlb.com | Gets one player's profile: bio, position, bats and throws, team, draft and debut, with… | ⚪ |
 | `mlb.getPlayerGameLog` | mlb.com | Lists a player's game-by-game stat lines for a season. | ⚪ |
 | `mlb.getPlayerStats` | mlb.com | Gets a player's stats for a season or career, by hitting, pitching or fielding… | ⚪ |
@@ -3724,7 +3727,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mlb.getProspectRankings` | mlb.com | Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30. | ⚪ |
 | `mlb.getRoster` | mlb.com | Gets a team's roster (active, 40-man, full season or depth chart) with each player's… | ⚪ |
 | `mlb.getSchedule` | mlb.com | Lists MLB games for a date or date range, optionally one team's: matchup, start time… | 🟢 |
-| `mlb.getStandings` | mlb.com | Gets the standings by division, league or wild card for a season: wins, losses… | ⚪ |
+| `mlb.getStandings` | mlb.com | Gets the standings by division, league or wild card for a season: wins, losses… | 🟢 |
 | `mlb.getStartingLineups` | mlb.com | Gets the announced batting orders for a day's games. | ⚪ |
 | `mlb.getStatLeaders` | mlb.com | Lists the league leaders in a stat category for a season, MLB-wide or per league. | ⚪ |
 | `mlb.getSubscriptions` | mlb.com | Lists the signed-in caller's MLB.TV, MLB.TV Single Team and MLB Audio subscriptions… | ⚪ |
@@ -3897,7 +3900,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.listStormAdvisories` | nhc.noaa.gov | List every forecast advisory, public advisory, discussion and wind probability product… | 🟡 |
 | `nhc.searchStorms` | nhc.noaa.gov | Find a storm by name. | 🟢 |
 | `nike.addFavorite` | nike.com | Adds one product to the signed-in caller's nike.com favorites. | 🟢 |
-| `nike.addToCart` | nike.com | Adds one product in one size to the signed-in caller's nike.com bag. | ⚪ |
+| `nike.addToCart` | nike.com | Adds one product in one size to the signed-in caller's nike.com bag. | 🟢 |
 | `nike.checkSizeAvailability` | nike.com | Checks which sizes of one product (style-colour code) are in stock online right now… | 🟢 |
 | `nike.checkStoreAvailability` | nike.com | Checks whether one product in one size is available to pick up at nearby Nike stores. | 🟢 |
 | `nike.enterLaunchDraw` | nike.com | Enters the signed-in caller into a SNKRS draw for one launch in one size — free to… | ⚪ |
@@ -3918,7 +3921,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nike.removeFromCart` | nike.com | Removes or changes the quantity of one line in the caller's nike.com bag. | 🟢 |
 | `nike.searchProducts` | nike.com | Searches Nike's US store by text the way nike.com/w?q= does — every matching product… | 🟢 |
 | `nike.upcomingLaunches` | nike.com | Lists every upcoming SNKRS launch (sneaker release) on nike.com/launch in the US… | 🟢 |
-| `nike.updateMemberProfile` | nike.com | Edits the signed-in caller's Nike profile — bio, shoe size, sport and product… | ⚪ |
+| `nike.updateMemberProfile` | nike.com | Edits the signed-in caller's own Nike profile — name, motto, screen name, location… | 🟢 |
 | `nintendo.browseCategory` | www.nintendo.com | Browse a whole department or platform family with no keyword — "what's in Nintendo… | 🟢 |
 | `nintendo.getMyNintendoRewardsBalance` | www.nintendo.com | Read the signed-in caller's My Nintendo Points balance and reward history — the… | 🟢 |
 | `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | 🟢 |
@@ -5029,7 +5032,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.listNewArrivals` | shein.com | Lists Shein's New In products (the /recommend/New-In-sc-<id>.html selection). | 🟢 |
 | `shein.listOrders` | shein.com | Lists the signed-in caller's orders with status (processing, shipped, delivered), date… | ⚪ |
 | `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | 🟢 |
-| `shein.listStoreProducts` | shein.com | Lists the products a marketplace store sells. | ⚪ |
+| `shein.listStoreProducts` | shein.com | Lists the first page of products a marketplace store sells, from the store's own home… | 🟢 |
 | `shein.listWishlist` | shein.com | Lists the products the signed-in caller saved to their wishlist. | ⚪ |
 | `shein.placeOrder` | shein.com | Places an order for the signed-in caller's bag. | ⚪ |
 | `shein.removeFromCart` | shein.com | Removes an item from the signed-in caller's bag. | ⚪ |

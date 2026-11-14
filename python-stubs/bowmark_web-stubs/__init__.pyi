@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7f15229a0b1c5a22e27480005327bd406bb652d47933688b7b2fc95c2a7a71bc
-# 98 capabilities, 846 providers, 5181 typed functions, 20 refused.
+# Manifest version: b3334efc72ae5fc6cb16ccd4c490ff1efb816d67bb99dee89b352dceac70fddb
+# 98 capabilities, 849 providers, 5197 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -727,6 +727,37 @@ class Cap_cars_Car_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+    checkout: Cap_cars_Car_Out_checkout_u0_Out | None
+
+class Cap_cars_Car_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Cap_cars_Car_Out_checkout_u0_Out_account_Out
+    summary: Cap_cars_Car_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Cap_cars_Car_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Cap_cars_Car_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Cap_cars_Car_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Cap_cars_Car_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Cap_cars_Car_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Cap_cars_Car_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Cap_concert_setlist_concert_setlistResult_Out(TypedDict):
     concerts: list[Cap_concert_setlist_Concert_Out]
@@ -1400,6 +1431,37 @@ class Cap_flights_BookingOption_Out(TypedDict):
     price: float | None
     currency: str
     deepLink: str | None
+    checkout: Cap_flights_BookingOption_Out_checkout_u0_Out | None
+
+class Cap_flights_BookingOption_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Cap_flights_BookingOption_Out_checkout_u0_Out_account_Out
+    summary: Cap_flights_BookingOption_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Cap_flights_BookingOption_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Cap_flights_BookingOption_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Cap_flights_BookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Cap_flights_BookingOption_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Cap_flights_BookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Cap_flights_BookingOption_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Cap_flights_FlightStatusQuery_In(TypedDict):
     airline: NotRequired[str]
@@ -1649,6 +1711,37 @@ class Cap_hotels_Hotel_Out(TypedDict):
     distance: str | None
     distanceFrom: str | None
     url: str
+    checkout: Cap_hotels_Hotel_Out_checkout_u0_Out | None
+
+class Cap_hotels_Hotel_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Cap_hotels_Hotel_Out_checkout_u0_Out_account_Out
+    summary: Cap_hotels_Hotel_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Cap_hotels_Hotel_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Cap_hotels_Hotel_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Cap_hotels_Hotel_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Cap_hotels_Hotel_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Cap_hotels_Hotel_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Cap_hotels_Hotel_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Cap_hvac_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -2696,11 +2789,73 @@ class Cap_restaurant_booking_RestaurantVenue_Out(TypedDict):
     country: str
     cuisine: list[str]
     bookingUrl: str
+    checkout: Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out | None
+
+class Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out_account_Out
+    summary: Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Cap_restaurant_booking_RestaurantVenue_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Cap_restaurant_booking_RestaurantSlot_Out(TypedDict):
     startsAt: str
     seatingType: str | None
     bookingUrl: str | None
+    checkout: Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out | None
+
+class Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out_account_Out
+    summary: Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Cap_restaurant_booking_RestaurantSlot_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Cap_retail_search_args_In(TypedDict):
     query: str
@@ -5871,6 +6026,38 @@ class Prv_aliexpress_AddToCartArgs_In(TypedDict):
 class Prv_aliexpress_aliexpressAddToCartResult_Out(TypedDict):
     cart_line_id: NotRequired[str]
     cart_count: NotRequired[float]
+    checkout: NotRequired[Prv_aliexpress_AliexpressCheckoutHandoff_Out]
+
+class Prv_aliexpress_AliexpressCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    account: Prv_aliexpress_AliexpressCheckoutAccount_Out
+    summary: Prv_aliexpress_AliexpressCheckoutSummary_Out | None
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    expiresAt: NotRequired[str]
+    warnings: list[str]
+
+class Prv_aliexpress_AliexpressCheckoutAccount_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_aliexpress_AliexpressCheckoutSummary_Out(TypedDict):
+    items: list[Prv_aliexpress_AliexpressCheckoutItem_Out]
+    total: str | None
+    currency: str
+
+class Prv_aliexpress_AliexpressCheckoutItem_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_aliexpress_ListOrdersArgs_In(TypedDict):
     page: NotRequired[float]
@@ -6441,9 +6628,13 @@ class Prv_andstr_AndstrListingSummary_Out(TypedDict):
     bedrooms: float
     bathrooms: float
     maxGuests: float
-    pricePerNight: float
+    pricePerNight: float | None
+    stayTotal: float | None
+    nights: float | None
+    stayCheckIn: str | None
+    stayCheckOut: str | None
     currency: str
-    priceBasis: Literal["dates"] | Literal["startingFrom"]
+    priceBasis: Literal["dates"] | Literal["siteWindow"]
     verified: bool
     instantBook: bool
     cancellationPolicy: str | None
@@ -6480,10 +6671,43 @@ class Prv_andstr_AndstrQuote_Out(TypedDict):
     averagePerNight: float | None
     currency: str
     bookingUrl: str
+    checkout: Prv_andstr_AndstrQuote_Out_checkout_u0_Out | None
 
 class Prv_andstr_AndstrQuote_Out_fees_item_Out(TypedDict):
     name: str
     amount: float
+
+class Prv_andstr_AndstrQuote_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: NotRequired[str]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_andstr_AndstrQuote_Out_checkout_u0_Out_account_Out
+    summary: Prv_andstr_AndstrQuote_Out_checkout_u0_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_andstr_AndstrQuote_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_andstr_AndstrQuote_Out_checkout_u0_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_andstr_AndstrQuote_Out_checkout_u0_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_andstr_AndstrQuote_Out_checkout_u0_Out_summary_u0_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_andstr_AndstrQuote_Out_checkout_u0_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_andstr_AndstrQuote_Out_checkout_u0_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_anthem_directory_findProviders_query_u1_In(TypedDict):
     zip: str
@@ -8911,6 +9135,7 @@ class Prv_avantstay_AvantstayPricing_Out(TypedDict):
     guests: float
     rooms: list[Prv_avantstay_AvantstayRoomPrice_Out]
     bookingUrl: str
+    checkout: Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out | None
 
 class Prv_avantstay_AvantstayRoomPrice_Out(TypedDict):
     hotelRoomTypeId: str
@@ -8926,6 +9151,38 @@ class Prv_avantstay_AvantstayRoomPrice_Out(TypedDict):
 class Prv_avantstay_AvantstayRoomPrice_Out_fees_item_Out(TypedDict):
     name: str
     amount: float
+
+class Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: NotRequired[str]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out_account_Out
+    summary: Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out_summary_u0_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_avantstay_AvantstayPricing_Out_checkout_u0_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_avenuehealthcare_SearchArgs_In(TypedDict):
     location: NotRequired[str]
@@ -11848,6 +12105,42 @@ class Prv_bookedin_BookedinMerchantSummary_Out(TypedDict):
     postalCode: str | None
     phone: str | None
     website: str | None
+    checkout: Prv_bookedin_BookedinCheckout_Out | None
+
+class Prv_bookedin_BookedinCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_bookedin_BookedinCheckout_Out_account_Out
+    summary: Prv_bookedin_BookedinCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_bookedin_BookedinCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_bookedin_BookedinCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_bookedin_BookedinMerchantArgs_In(TypedDict):
     merchant: str
@@ -11863,6 +12156,7 @@ class Prv_bookedin_BookedinMerchant_Out(TypedDict):
     postalCode: str | None
     phone: str | None
     website: str | None
+    checkout: Prv_bookedin_BookedinCheckout_Out | None
     email: str | None
     timeZone: str | None
     currency: str | None
@@ -12703,6 +12997,7 @@ class Prv_booksy_booksyBusinessCard_Out(TypedDict):
     id: float
     name: str | None
     url: str | None
+    checkout: Prv_booksy_booksyCheckout_Out | None
     primaryCategoryId: float | None
     address: str | None
     city: str | None
@@ -12714,6 +13009,41 @@ class Prv_booksy_booksyBusinessCard_Out(TypedDict):
     promoted: bool
     acceptsBooksyPay: bool
     services: list[Prv_booksy_booksyServiceSummary_Out]
+
+class Prv_booksy_booksyCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_booksy_booksyCheckout_Out_account_Out
+    summary: Prv_booksy_booksyCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_booksy_booksyCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_booksy_booksyCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_booksy_booksyCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_booksy_booksyCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_booksy_booksyCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_booksy_booksyCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_booksy_booksyServiceSummary_Out(TypedDict):
     id: float
@@ -12729,6 +13059,7 @@ class Prv_booksy_booksyBusiness_Out(TypedDict):
     id: float
     name: str | None
     url: str | None
+    checkout: Prv_booksy_booksyCheckout_Out | None
     primaryCategoryId: float | None
     address: str | None
     city: str | None
@@ -13864,6 +14195,36 @@ class Prv_bykoket_KoketAddToCartHandoff_Out(TypedDict):
     currency: str
     inStock: bool
     note: str
+    checkout: Prv_bykoket_KoketCheckoutHandoff_Out
+
+class Prv_bykoket_KoketCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_bykoket_KoketCheckoutHandoff_Out_account_Out
+    summary: Prv_bykoket_KoketCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_bykoket_KoketCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_bykoket_KoketCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_bykoket_KoketCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_bykoket_KoketCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_byltbasics_listBundlePacks_args_In(TypedDict):
     category: NotRequired[str]
@@ -14123,6 +14484,42 @@ class Prv_calendly_CalendlyEventType_Out(TypedDict):
     uuid: str
     url: str
     description: str | None
+    checkout: Prv_calendly_CalendlyCheckout_Out | None
+
+class Prv_calendly_CalendlyCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_calendly_CalendlyCheckout_Out_account_Out
+    summary: Prv_calendly_CalendlyCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_calendly_CalendlyCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_calendly_CalendlyCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_calendly_CalendlyCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_calendly_CalendlyCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_calendly_CalendlyCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_calendly_CalendlyCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_calendly_CalendlyAvailabilityOptions_In(TypedDict):
     timezone: NotRequired[str]
@@ -15121,10 +15518,40 @@ class Prv_carlsgolfland_CglCartHandoff_Out(TypedDict):
     missingGroups: list[str]
     unmatched: list[str]
     unavailable: str | None
+    checkout: Prv_carlsgolfland_CglCheckoutHandoff_Out
 
 class Prv_carlsgolfland_CglCartHandoff_Out_applied_item_Out(TypedDict):
     group: str
     choice: str
+
+class Prv_carlsgolfland_CglCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_carlsgolfland_CglCheckoutHandoff_Out_account_Out
+    summary: Prv_carlsgolfland_CglCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_carlsgolfland_CglCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_carlsgolfland_CglCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_carlsgolfland_CglCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_carlsgolfland_CglCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_carmelrealtycompany_carmelrealtycompanyListingSummary_Out(TypedDict):
     url: str
@@ -16141,6 +16568,37 @@ class Prv_cheapflights_KayakBookingOption_Out(TypedDict):
     checkedBagFee: float | None
     freeCancellation: bool | None
     seatsRemaining: float | None
+    checkout: Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out | None
+
+class Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out_account_Out
+    summary: Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_cheapflights_KayakBookingOption_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_cheapflights_searchHotels_query_In(TypedDict):
     location: str
@@ -16167,6 +16625,37 @@ class Prv_cheapflights_KayakHotel_Out(TypedDict):
     distance: str | None
     distanceFrom: str | None
     url: str
+    checkout: Prv_cheapflights_KayakHotel_Out_checkout_u0_Out | None
+
+class Prv_cheapflights_KayakHotel_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_cheapflights_KayakHotel_Out_checkout_u0_Out_account_Out
+    summary: Prv_cheapflights_KayakHotel_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_cheapflights_KayakHotel_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_cheapflights_KayakHotel_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_cheapflights_KayakHotel_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_cheapflights_KayakHotel_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_cheapflights_KayakHotel_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_cheapflights_KayakHotel_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_cheapflights_searchCars_query_In(TypedDict):
     pickup: str
@@ -16197,6 +16686,37 @@ class Prv_cheapflights_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+    checkout: Prv_cheapflights_KayakCar_Out_checkout_u0_Out | None
+
+class Prv_cheapflights_KayakCar_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_cheapflights_KayakCar_Out_checkout_u0_Out_account_Out
+    summary: Prv_cheapflights_KayakCar_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_cheapflights_KayakCar_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_cheapflights_KayakCar_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_cheapflights_KayakCar_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_cheapflights_KayakCar_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_cheapflights_KayakCar_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_cheapflights_KayakCar_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_checkfront_CheckfrontOperator_Out(TypedDict):
     host: str
@@ -16946,6 +17466,36 @@ class Prv_classichome_ClassicHomeCartHandoff_Out(TypedDict):
     price: float
     available: bool
     productUrl: str
+    checkout: Prv_classichome_ClassicHomeCheckoutHandoff_Out
+
+class Prv_classichome_ClassicHomeCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_classichome_ClassicHomeCheckoutHandoff_Out_account_Out
+    summary: Prv_classichome_ClassicHomeCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_classichome_ClassicHomeCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_classichome_ClassicHomeCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_classichome_ClassicHomeCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_classichome_ClassicHomeCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_classicrockfab_ClassicRockAppointmentType_Out(TypedDict):
     id: float
@@ -17867,13 +18417,13 @@ class Prv_cloudbeds_CloudbedsBookingQuoteArgs_In_rooms_item_In(TypedDict):
     adults: float
     kids: NotRequired[float]
 
-class Prv_cloudbeds_CloudbedsBookingQuote_Out(TypedDict):
+class Prv_cloudbeds_CloudbedsPricedStay_Out(TypedDict):
     propertyCode: str
     propertyId: str
     checkIn: str
     checkOut: str
     currency: str
-    rooms: list[Prv_cloudbeds_CloudbedsBookingQuote_Out_rooms_item_Out]
+    rooms: list[Prv_cloudbeds_CloudbedsPricedStay_Out_rooms_item_Out]
     taxes: float
     fees: float
     total: float
@@ -17882,14 +18432,46 @@ class Prv_cloudbeds_CloudbedsBookingQuote_Out(TypedDict):
     paymentSchedule: Any
     cancellationSchedule: Any
     cartToken: str | None
+    bookingUrl: str
+    checkout: Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out | None
 
-class Prv_cloudbeds_CloudbedsBookingQuote_Out_rooms_item_Out(TypedDict):
+class Prv_cloudbeds_CloudbedsPricedStay_Out_rooms_item_Out(TypedDict):
     name: str
     rateId: str
     adults: float
     kids: float
     count: float
     rateWithoutInclusiveTaxAndFees: float
+
+class Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out_account_Out
+    summary: Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_cloudbeds_CloudbedsPricedStay_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_cloudbeds_getPolicies_args_In(TypedDict):
     property: str
@@ -17999,6 +18581,30 @@ class Prv_cloudbeds_CloudbedsBooking_Out(TypedDict):
     quote: Prv_cloudbeds_CloudbedsBookingQuote_Out
     reservationToken: str | None
     message: str
+
+class Prv_cloudbeds_CloudbedsBookingQuote_Out(TypedDict):
+    propertyCode: str
+    propertyId: str
+    checkIn: str
+    checkOut: str
+    currency: str
+    rooms: list[Prv_cloudbeds_CloudbedsBookingQuote_Out_rooms_item_Out]
+    taxes: float
+    fees: float
+    total: float
+    deposit: float
+    grandTotal: float
+    paymentSchedule: Any
+    cancellationSchedule: Any
+    cartToken: str | None
+
+class Prv_cloudbeds_CloudbedsBookingQuote_Out_rooms_item_Out(TypedDict):
+    name: str
+    rateId: str
+    adults: float
+    kids: float
+    count: float
+    rateWithoutInclusiveTaxAndFees: float
 
 class Prv_cloudbeds_getReservation_args_In(TypedDict):
     reservationToken: str
@@ -18166,6 +18772,7 @@ class Prv_clubpilates_ClubPilatesClass_Out(TypedDict):
     waitlistUntil: str | None
     locationType: str | None
     bookingUrl: str
+    checkout: Prv_clubpilates_ClubPilatesCheckout_Out | None
 
 class Prv_clubpilates_ClubPilatesClass_Out_instructor_u0_Out(TypedDict):
     id: str
@@ -18174,6 +18781,41 @@ class Prv_clubpilates_ClubPilatesClass_Out_instructor_u0_Out(TypedDict):
 class Prv_clubpilates_ClubPilatesClass_Out_category_u0_Out(TypedDict):
     id: str
     name: str
+
+class Prv_clubpilates_ClubPilatesCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_clubpilates_ClubPilatesCheckout_Out_account_Out
+    summary: Prv_clubpilates_ClubPilatesCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_clubpilates_ClubPilatesCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_clubpilates_ClubPilatesCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_clubpilates_ClubPilatesCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_clubpilates_ClubPilatesCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_clubpilates_ClubPilatesCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_clubpilates_ClubPilatesCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_clubpilates_GetClassArgs_In(TypedDict):
     studio: str
@@ -18372,10 +19014,46 @@ class Prv_clubready_ClubreadyClass_Out(TypedDict):
     bookingClosesAt: str | None
     freeCancelUntil: str | None
     bookingUrl: str
+    checkout: Prv_clubready_ClubreadyCheckout_Out | None
 
 class Prv_clubready_ClubreadyClass_Out_instructor_u0_Out(TypedDict):
     id: str
     name: str
+
+class Prv_clubready_ClubreadyCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_clubready_ClubreadyCheckout_Out_account_Out
+    summary: Prv_clubready_ClubreadyCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_clubready_ClubreadyCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_clubready_ClubreadyCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_clubready_ClubreadyCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_clubready_ClubreadyCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_clubready_ClubreadyCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_clubready_ClubreadyCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_clubready_getClass_args_In(TypedDict):
     studio: str
@@ -19885,6 +20563,36 @@ class Prv_culturefly_CultureFlyCheckoutLink_Out(TypedDict):
     cadence: str
     price: str
     checkoutUrl: str
+    checkout: Prv_culturefly_CultureFlyCheckoutHandoff_Out
+
+class Prv_culturefly_CultureFlyCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_culturefly_CultureFlyCheckoutHandoff_Out_account_Out
+    summary: Prv_culturefly_CultureFlyCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_culturefly_CultureFlyCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_culturefly_CultureFlyCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_culturefly_CultureFlyCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_culturefly_CultureFlyCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_curiocity_CuriocityListEventsQuery_In(TypedDict):
     city: str
@@ -20066,6 +20774,46 @@ class Prv_dailymail_DailymailSearchResult_Out(TypedDict):
     publishedDate: str | None
     byline: str | None
     section: str
+
+class Prv_dailymail_ListVideosArgs_In(TypedDict):
+    channel: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_dailymail_DailymailVideo_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    channel: str
+    thumbnail: str | None
+    duration: str | None
+    durationSeconds: float | None
+
+class Prv_dailymail_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_dailymail_DailymailVideoDetail_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    channel: str
+    description: str | None
+    source: str | None
+    publishedDate: str | None
+    updatedDate: str | None
+    durationSeconds: float | None
+    thumbnail: str | None
+    mediaUrl: str | None
+
+class Prv_dailymail_GetAuthorArgs_In(TypedDict):
+    url: str
+
+class Prv_dailymail_DailymailAuthor_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    image: str | None
+    articles: list[Prv_dailymail_DailymailArticle_Out]
+    warnings: list[str]
 
 class Prv_dailymotion_SearchVideosArgs_In(TypedDict):
     query: str
@@ -20874,10 +21622,40 @@ class Prv_decksdirect_DdCartHandoff_Out(TypedDict):
     stockStatus: str | None
     missingGroups: list[str]
     unmatched: list[str]
+    checkout: Prv_decksdirect_DdCheckoutHandoff_Out
 
 class Prv_decksdirect_DdCartHandoff_Out_applied_item_Out(TypedDict):
     group: str
     choice: str
+
+class Prv_decksdirect_DdCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_decksdirect_DdCheckoutHandoff_Out_account_Out
+    summary: Prv_decksdirect_DdCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_decksdirect_DdCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_decksdirect_DdCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_decksdirect_DdCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_decksdirect_DdCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_deepmind_ListPublicationsArgs_In(TypedDict):
     page: NotRequired[float]
@@ -22150,6 +22928,7 @@ class Prv_direct_book_DirectBookBookingStart_Out(TypedDict):
     items: list[Prv_direct_book_DirectBookBookingStart_Out_items_item_Out]
     errors: list[Prv_direct_book_DirectBookBookingStart_Out_errors_item_Out]
     checkoutUrl: str
+    checkout: Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out | None
 
 class Prv_direct_book_DirectBookBookingStart_Out_items_item_Out(TypedDict):
     cartItemId: str
@@ -22163,6 +22942,38 @@ class Prv_direct_book_DirectBookBookingStart_Out_items_item_Out(TypedDict):
 class Prv_direct_book_DirectBookBookingStart_Out_errors_item_Out(TypedDict):
     key: str
     args: Any
+
+class Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: NotRequired[str]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out_account_Out
+    summary: Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out_summary_u0_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_direct_book_DirectBookBookingStart_Out_checkout_u0_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_direct_book_CancelReservationArgs_In(TypedDict):
     reservationCode: str
@@ -24257,6 +25068,46 @@ class Prv_ebay_ebayDeal_Out_originalPrice_u0_Out(TypedDict):
     value: str
     currency: str
 
+class Prv_ebay_searchSold_args_u1_In(TypedDict):
+    query: str
+    site: NotRequired[Literal["ebay.com"]]
+    limit: NotRequired[float]
+
+class Prv_ebay_ebaySoldSearch_Out(TypedDict):
+    items: list[Prv_ebay_ebaySoldItem_Out]
+    summary: Prv_ebay_ebaySoldSummary_Out
+    byCondition: Mapping[str, Prv_ebay_ebaySoldSummary_Out]
+    matchedProducts: list[Prv_ebay_ebaySoldSearch_Out_matchedProducts_item_Out]
+    nearestProducts: list[Prv_ebay_ebaySoldSearch_Out_nearestProducts_item_Out]
+    source: Literal["pricecharting.com"]
+    warnings: list[str]
+
+class Prv_ebay_ebaySoldItem_Out(TypedDict):
+    title: str
+    price: float
+    currency: str
+    soldDate: str
+    url: str
+    itemId: str
+    condition: str | None
+    format: NotRequired[Literal["auction"] | Literal["buy_it_now"] | Literal["best_offer"]]
+    shipping: NotRequired[float]
+
+class Prv_ebay_ebaySoldSummary_Out(TypedDict):
+    count: float
+    median: float | None
+    low: float | None
+    high: float | None
+    currency: str
+
+class Prv_ebay_ebaySoldSearch_Out_matchedProducts_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_ebay_ebaySoldSearch_Out_nearestProducts_item_Out(TypedDict):
+    title: str
+    url: str
+
 class Prv_ebay_getWatchlist_args_In(TypedDict):
     limit: NotRequired[float]
 
@@ -24730,6 +25581,38 @@ class Prv_epicgames_CartOfferArgs_In(TypedDict):
 
 class Prv_epicgames_CartWriteResult_Out(TypedDict):
     result: Any
+    checkout: NotRequired[Prv_epicgames_EpicgamesCheckoutHandoff_Out]
+
+class Prv_epicgames_EpicgamesCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    account: Prv_epicgames_EpicgamesCheckoutAccount_Out
+    summary: Prv_epicgames_EpicgamesCheckoutSummary_Out | None
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    expiresAt: NotRequired[str]
+    warnings: list[str]
+
+class Prv_epicgames_EpicgamesCheckoutAccount_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_epicgames_EpicgamesCheckoutSummary_Out(TypedDict):
+    items: list[Prv_epicgames_EpicgamesCheckoutItem_Out]
+    total: str | None
+    currency: str
+
+class Prv_epicgames_EpicgamesCheckoutItem_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_epicgames_RemoveFromCartArgs_In(TypedDict):
     cartItemId: str
@@ -26012,6 +26895,7 @@ class Prv_eventbrite_EventbriteEventRow_Out(TypedDict):
     venue: Prv_eventbrite_EventbriteVenueRow_Out | None
     organizerId: str | None
     promoted: bool
+    checkout: Prv_eventbrite_EventbriteCheckout_Out | None
 
 class Prv_eventbrite_EventbriteVenueRow_Out(TypedDict):
     id: str | None
@@ -26022,6 +26906,41 @@ class Prv_eventbrite_EventbriteVenueRow_Out(TypedDict):
     address: str | None
     latitude: str | None
     longitude: str | None
+
+class Prv_eventbrite_EventbriteCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_eventbrite_EventbriteCheckout_Out_account_Out
+    summary: Prv_eventbrite_EventbriteCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_eventbrite_EventbriteCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_eventbrite_EventbriteCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_eventbrite_EventbriteCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_eventbrite_EventbriteCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_eventbrite_EventbriteCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_eventbrite_EventbriteCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_eventbrite_getEvent_args_In(TypedDict):
     eventIdOrUrl: str
@@ -27633,6 +28552,7 @@ class Prv_fareharbor_FareharborBookingQuote_Out(TypedDict):
     totalDueCents: float
     paymentMethods: list[str]
     checkoutUrl: str
+    checkout: Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out | None
 
 class Prv_fareharbor_FareharborQuoteLine_Out(TypedDict):
     customerTypeRateId: float
@@ -27640,6 +28560,36 @@ class Prv_fareharbor_FareharborQuoteLine_Out(TypedDict):
     count: float
     unitPriceCents: float
     totalCents: float
+
+class Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out_account_Out
+    summary: Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_fareharbor_FareharborBookingQuote_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_fareharbor_FareharborCreateBookingArgs_In(TypedDict):
     operator: str
@@ -27766,6 +28716,36 @@ class Prv_fieldstonehomes_FieldstonehomesPreparedAppointment_Out(TypedDict):
     action: str
     handoffUrl: str
     fields: Mapping[str, str]
+    checkout: Prv_fieldstonehomes_FieldstonehomesCheckoutHandoff_Out
+
+class Prv_fieldstonehomes_FieldstonehomesCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_fieldstonehomes_FieldstonehomesCheckoutHandoff_Out_account_Out
+    summary: Prv_fieldstonehomes_FieldstonehomesCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_fieldstonehomes_FieldstonehomesCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_fieldstonehomes_FieldstonehomesCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_fieldstonehomes_FieldstonehomesCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_fieldstonehomes_FieldstonehomesCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_findmcp_app_search_query_u1_In(TypedDict):
     query: NotRequired[str]
@@ -30883,6 +31863,42 @@ class Prv_glofox_glofoxStudio_Out(TypedDict):
     currency: str | None
     website: str | None
     portalUrl: str
+    checkout: Prv_glofox_glofoxCheckout_Out | None
+
+class Prv_glofox_glofoxCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_glofox_glofoxCheckout_Out_account_Out
+    summary: Prv_glofox_glofoxCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_glofox_glofoxCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_glofox_glofoxCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_glofox_glofoxCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_glofox_glofoxCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_glofox_glofoxCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_glofox_glofoxCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_glofox_glofoxStudioProfile_Out(TypedDict):
     branchId: str
@@ -30894,6 +31910,7 @@ class Prv_glofox_glofoxStudioProfile_Out(TypedDict):
     currency: str | None
     website: str | None
     portalUrl: str
+    checkout: Prv_glofox_glofoxCheckout_Out | None
     email: str | None
     phone: str | None
     address: Prv_glofox_glofoxStudioProfile_Out_address_u0_Out | None
@@ -30935,6 +31952,7 @@ Prv_glofox_glofoxClassPage_Out = TypedDict(
     "hasMore": bool,
     "totalCount": float | None,
     "classes": list[Prv_glofox_glofoxClass_Out],
+    "checkout": Prv_glofox_glofoxCheckout_Out | None,
     },
 )
 
@@ -32254,6 +33272,37 @@ class Prv_google_flights_GoogleBookingOption_Out(TypedDict):
     price: float | None
     currency: str
     deepLink: str | None
+    checkout: Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out | None
+
+class Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out_account_Out
+    summary: Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_google_flights_GoogleBookingOption_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 Prv_google_flights_GooglePriceGraph_Out = TypedDict(
     "Prv_google_flights_GooglePriceGraph_Out",
@@ -33294,6 +34343,7 @@ class Prv_goteamup_classes_GoteamupClass_Out(TypedDict):
     instructors: list[Prv_goteamup_classes_GoteamupInstructor_Out]
     offeringType: Prv_goteamup_classes_GoteamupOfferingType_Out | None
     url: str
+    checkout: Prv_goteamup_classes_GoteamupCheckout_Out | None
 
 class Prv_goteamup_classes_GoteamupVenue_Out(TypedDict):
     id: str
@@ -33318,6 +34368,41 @@ class Prv_goteamup_classes_GoteamupPrice_Out(TypedDict):
     decimal: float
     currencyCode: str
     symbol: str
+
+class Prv_goteamup_classes_GoteamupCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_goteamup_classes_GoteamupCheckout_Out_account_Out
+    summary: Prv_goteamup_classes_GoteamupCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_goteamup_classes_GoteamupCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_goteamup_classes_GoteamupCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_goteamup_classes_GoteamupCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_goteamup_classes_GoteamupCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_goteamup_classes_GoteamupCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_goteamup_classes_GoteamupCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_goteamup_classes_GoteamupMembership_Out(TypedDict):
     id: str
@@ -35149,6 +36234,23 @@ class Prv_hunter_hunterDomainEmailCount_Out(TypedDict):
     total: float | None
     name: str | None
     otherDomains: list[Prv_hunter_hunterDomainCandidate_Out]
+
+class Prv_iberia_SearchLocationsArgs_In(TypedDict):
+    query: NotRequired[str]
+    country: NotRequired[str]
+    direction: NotRequired[Literal["origin"] | Literal["destination"]]
+
+class Prv_iberia_IberiaLocationResult_Out(TypedDict):
+    direction: Literal["origin"] | Literal["destination"]
+    locations: list[Prv_iberia_IberiaLocation_Out]
+    totalBeforeFilter: float
+    warnings: list[str]
+
+class Prv_iberia_IberiaLocation_Out(TypedDict):
+    code: str
+    name: str
+    countryCode: str
+    countryName: str
 
 class Prv_ibuypower_IbuypowerSystem_Out(TypedDict):
     slug: str
@@ -37532,6 +38634,36 @@ class Prv_interiordefine_InteriorDefineCartHandoff_Out(TypedDict):
     totalFormatted: str
     missingRequired: list[str]
     unmatched: list[str]
+    checkout: Prv_interiordefine_InteriorDefineCheckoutHandoff_Out
+
+class Prv_interiordefine_InteriorDefineCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_interiordefine_InteriorDefineCheckoutHandoff_Out_account_Out
+    summary: Prv_interiordefine_InteriorDefineCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_interiordefine_InteriorDefineCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_interiordefine_InteriorDefineCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_interiordefine_InteriorDefineCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_interiordefine_InteriorDefineCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_intro_co_IntroCoSearchArgs_In(TypedDict):
     query: str
@@ -37611,6 +38743,21 @@ class Prv_iproyal_IproyalPlanTier_Out(TypedDict):
     price: float
     unit: str
     billingMode: Literal["subscription"] | Literal["payAsYouGo"] | None
+
+class Prv_irs_IrsFormInfo_Out(TypedDict):
+    formNumber: str
+    title: str
+    url: str
+    description: str | None
+    pdfUrl: str | None
+    revisionYear: float | None
+    documents: list[Prv_irs_IrsLink_Out]
+    related: list[Prv_irs_IrsLink_Out]
+    lastReviewed: str | None
+
+class Prv_irs_IrsLink_Out(TypedDict):
+    title: str
+    url: str
 
 class Prv_islllc_searchCommunities_arg_In(TypedDict):
     location: str
@@ -38454,6 +39601,37 @@ class Prv_kayak_KayakBookingOption_Out(TypedDict):
     checkedBagFee: float | None
     freeCancellation: bool | None
     seatsRemaining: float | None
+    checkout: Prv_kayak_KayakBookingOption_Out_checkout_u0_Out | None
+
+class Prv_kayak_KayakBookingOption_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_kayak_KayakBookingOption_Out_checkout_u0_Out_account_Out
+    summary: Prv_kayak_KayakBookingOption_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_kayak_KayakBookingOption_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_kayak_KayakBookingOption_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_kayak_KayakBookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_kayak_KayakBookingOption_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_kayak_KayakBookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_kayak_KayakBookingOption_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_kayak_searchHotels_query_In(TypedDict):
     location: str
@@ -38480,6 +39658,37 @@ class Prv_kayak_KayakHotel_Out(TypedDict):
     distance: str | None
     distanceFrom: str | None
     url: str
+    checkout: Prv_kayak_KayakHotel_Out_checkout_u0_Out | None
+
+class Prv_kayak_KayakHotel_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_kayak_KayakHotel_Out_checkout_u0_Out_account_Out
+    summary: Prv_kayak_KayakHotel_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_kayak_KayakHotel_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_kayak_KayakHotel_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_kayak_KayakHotel_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_kayak_KayakHotel_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_kayak_KayakHotel_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_kayak_KayakHotel_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_kayak_searchCars_query_In(TypedDict):
     pickup: str
@@ -38510,6 +39719,37 @@ class Prv_kayak_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+    checkout: Prv_kayak_KayakCar_Out_checkout_u0_Out | None
+
+class Prv_kayak_KayakCar_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_kayak_KayakCar_Out_checkout_u0_Out_account_Out
+    summary: Prv_kayak_KayakCar_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_kayak_KayakCar_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_kayak_KayakCar_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_kayak_KayakCar_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_kayak_KayakCar_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_kayak_KayakCar_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_kayak_KayakCar_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_kbb_KbbTrimPricing_Out(TypedDict):
     trimName: str
@@ -40166,6 +41406,7 @@ class Prv_liquiddeath_LiquiddeathCart_Out(TypedDict):
     checkoutUrl: str
     allAvailable: bool
     unavailable: list[str]
+    checkout: Prv_liquiddeath_LiquiddeathCheckoutHandoff_Out
 
 class Prv_liquiddeath_LiquiddeathCartLine_Out(TypedDict):
     handle: str
@@ -40177,6 +41418,35 @@ class Prv_liquiddeath_LiquiddeathCartLine_Out(TypedDict):
     lineTotal: str
     available: bool
 
+class Prv_liquiddeath_LiquiddeathCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_liquiddeath_LiquiddeathCheckoutHandoff_Out_account_Out
+    summary: Prv_liquiddeath_LiquiddeathCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_liquiddeath_LiquiddeathCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_liquiddeath_LiquiddeathCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_liquiddeath_LiquiddeathCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_liquiddeath_LiquiddeathCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
 class Prv_liquiddeath_LiquiddeathLiveCart_Out(TypedDict):
     id: str
     lines: list[Prv_liquiddeath_LiquiddeathLiveCartLine_Out]
@@ -40186,6 +41456,7 @@ class Prv_liquiddeath_LiquiddeathLiveCart_Out(TypedDict):
     currency: str
     checkoutUrl: str
     expiresAt: str | None
+    checkout: Prv_liquiddeath_LiquiddeathCheckoutHandoff_Out
 
 class Prv_liquiddeath_LiquiddeathLiveCartLine_Out(TypedDict):
     lineId: str
@@ -43408,6 +44679,42 @@ class Prv_momence_MomenceSession_Out(TypedDict):
     currency: str
     link: str
     isCancelled: bool
+    checkout: Prv_momence_MomenceCheckout_Out | None
+
+class Prv_momence_MomenceCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_momence_MomenceCheckout_Out_account_Out
+    summary: Prv_momence_MomenceCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_momence_MomenceCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_momence_MomenceCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_momence_MomenceCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_momence_MomenceCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_momence_MomenceCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_momence_MomenceCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_momence_MomenceSessionDetails_Out(TypedDict):
     id: float
@@ -43555,6 +44862,37 @@ class Prv_momondo_KayakBookingOption_Out(TypedDict):
     checkedBagFee: float | None
     freeCancellation: bool | None
     seatsRemaining: float | None
+    checkout: Prv_momondo_KayakBookingOption_Out_checkout_u0_Out | None
+
+class Prv_momondo_KayakBookingOption_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_momondo_KayakBookingOption_Out_checkout_u0_Out_account_Out
+    summary: Prv_momondo_KayakBookingOption_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_momondo_KayakBookingOption_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_momondo_KayakBookingOption_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_momondo_KayakBookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_momondo_KayakBookingOption_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_momondo_KayakBookingOption_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_momondo_KayakBookingOption_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_momondo_searchCars_query_In(TypedDict):
     pickup: str
@@ -43585,6 +44923,37 @@ class Prv_momondo_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+    checkout: Prv_momondo_KayakCar_Out_checkout_u0_Out | None
+
+class Prv_momondo_KayakCar_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_momondo_KayakCar_Out_checkout_u0_Out_account_Out
+    summary: Prv_momondo_KayakCar_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_momondo_KayakCar_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_momondo_KayakCar_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_momondo_KayakCar_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_momondo_KayakCar_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_momondo_KayakCar_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_momondo_KayakCar_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_mossyoak_listMossyoakProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -44333,10 +45702,40 @@ class Prv_nationalbusinessfurniture_NbfCartHandoff_Out(TypedDict):
     priceFormatted: str | None
     missingGroups: list[str]
     unmatched: list[str]
+    checkout: Prv_nationalbusinessfurniture_NbfCheckoutHandoff_Out
 
 class Prv_nationalbusinessfurniture_NbfCartHandoff_Out_applied_item_Out(TypedDict):
     group: str
     choice: str
+
+class Prv_nationalbusinessfurniture_NbfCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_nationalbusinessfurniture_NbfCheckoutHandoff_Out_account_Out
+    summary: Prv_nationalbusinessfurniture_NbfCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_nationalbusinessfurniture_NbfCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_nationalbusinessfurniture_NbfCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_nationalbusinessfurniture_NbfCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_nationalbusinessfurniture_NbfCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_netflix_NetflixRating_Out(TypedDict):
     id: str
@@ -45047,6 +46446,38 @@ class Prv_nike_removeFromCart_return_Out(TypedDict):
     removed: bool
     itemId: str
     cart: Mapping[str, Any]
+    checkout: NotRequired[Prv_nike_NikeCheckoutHandoff_Out]
+
+class Prv_nike_NikeCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    account: Prv_nike_NikeCheckoutAccount_Out
+    summary: Prv_nike_NikeCheckoutSummary_Out | None
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    expiresAt: NotRequired[str]
+    warnings: list[str]
+
+class Prv_nike_NikeCheckoutAccount_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_nike_NikeCheckoutSummary_Out(TypedDict):
+    items: list[Prv_nike_NikeCheckoutItem_Out]
+    total: str | None
+    currency: str
+
+class Prv_nike_NikeCheckoutItem_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_nike_listOrders_args_In(TypedDict):
     limit: NotRequired[float]
@@ -45324,6 +46755,36 @@ class Prv_npi_registry_NpiSearchArgs_In(TypedDict):
     taxonomy: NotRequired[str]
     kind: NotRequired[Literal["individual"] | Literal["organization"]]
     limit: NotRequired[float]
+
+class Prv_npmjs_npmjsPackageInfo_Out(TypedDict):
+    name: str
+    description: str | None
+    distTags: Mapping[str, str]
+    versions: list[str]
+    created: str | None
+    modified: str | None
+    version: str
+    publishedAt: str | None
+    license: str | None
+    deprecated: str | None
+    dependencies: Mapping[str, str]
+    devDependencies: Mapping[str, str]
+    peerDependencies: Mapping[str, str]
+    dist: Prv_npmjs_npmjsPackageInfo_Out_dist_Out
+    repository: str | None
+    homepage: str | None
+    maintainers: list[Prv_npmjs_npmjsPackageInfo_Out_maintainers_item_Out]
+
+class Prv_npmjs_npmjsPackageInfo_Out_dist_Out(TypedDict):
+    tarball: str
+    shasum: str | None
+    integrity: str | None
+    fileCount: float | None
+    unpackedSize: float | None
+
+class Prv_npmjs_npmjsPackageInfo_Out_maintainers_item_Out(TypedDict):
+    name: str
+    email: str | None
 
 class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     package: str
@@ -47225,6 +48686,7 @@ class Prv_olo_OloBasket_Out(TypedDict):
     total: float
     unavailableItems: list[str]
     couponDiscount: float
+    checkout: Prv_olo_OloCheckoutHandoff_Out
 
 class Prv_olo_OloBasketProduct_Out(TypedDict):
     id: str
@@ -47233,6 +48695,35 @@ class Prv_olo_OloBasketProduct_Out(TypedDict):
     quantity: float
     unitCost: float
     totalCost: float
+
+class Prv_olo_OloCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_olo_OloCheckoutHandoff_Out_account_Out
+    summary: Prv_olo_OloCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_olo_OloCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_olo_OloCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_olo_OloCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_olo_OloCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_olo_OloAddToBasketArgs_In(TypedDict):
     host: str
@@ -47288,6 +48779,7 @@ class Prv_olo_OloHandoffResult_Out(TypedDict):
     total: float
     unavailableItems: list[str]
     couponDiscount: float
+    checkout: Prv_olo_OloCheckoutHandoff_Out
     readyForCheckout: bool
 
 class Prv_olo_OloStartCheckoutArgs_In(TypedDict):
@@ -47304,6 +48796,7 @@ class Prv_olo_OloCheckout_Out(TypedDict):
     total: float
     unavailableItems: list[str]
     couponDiscount: float
+    checkout: Prv_olo_OloCheckoutHandoff_Out
     readyForCheckout: bool
     paymentMethods: list[Prv_olo_OloPaymentMethod_Out]
     canPayCash: bool
@@ -47514,6 +49007,37 @@ class Prv_opentable_OpenTableSlot_Out(TypedDict):
     dateTime: str
     type: str | None
     bookingUrl: str
+    checkout: Prv_opentable_OpenTableSlot_Out_checkout_u0_Out | None
+
+class Prv_opentable_OpenTableSlot_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_opentable_OpenTableSlot_Out_checkout_u0_Out_account_Out
+    summary: Prv_opentable_OpenTableSlot_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_opentable_OpenTableSlot_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_opentable_OpenTableSlot_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_opentable_OpenTableSlot_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_opentable_OpenTableSlot_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_opentable_OpenTableSlot_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_opentable_OpenTableSlot_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_opentable_OpenTableStartBookingArgs_In(TypedDict):
     restaurantId: float
@@ -49004,6 +50528,7 @@ class Prv_pike13_Pike13EventOccurrence_Out(TypedDict):
     full: bool
     staff_members: list[Prv_pike13_Pike13EventOccurrence_Out_staff_members_item_Out]
     waitlist: NotRequired[Prv_pike13_Pike13EventOccurrence_Out_waitlist_Out]
+    checkout: NotRequired[Prv_pike13_Pike13Checkout_Out | None]
 
 class Prv_pike13_Pike13EventOccurrence_Out_staff_members_item_Out(TypedDict):
     id: float
@@ -49012,6 +50537,41 @@ class Prv_pike13_Pike13EventOccurrence_Out_staff_members_item_Out(TypedDict):
 
 class Prv_pike13_Pike13EventOccurrence_Out_waitlist_Out(TypedDict):
     full: bool
+
+class Prv_pike13_Pike13Checkout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_pike13_Pike13Checkout_Out_account_Out
+    summary: Prv_pike13_Pike13Checkout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_pike13_Pike13Checkout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_pike13_Pike13Checkout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_pike13_Pike13Checkout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_pike13_Pike13Checkout_Out_summary_u0_Out_dates_Out]
+
+class Prv_pike13_Pike13Checkout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_pike13_Pike13Checkout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 Prv_pike13_Pike13GetAppointmentAvailabilityArgs_In = TypedDict(
     "Prv_pike13_Pike13GetAppointmentAvailabilityArgs_In",
@@ -52459,6 +54019,34 @@ class Prv_quora_confirmSignup_return_u3_Out(TypedDict):
     twoFactor: Literal["enrolled"] | Literal["none"]
     secrets: list[str]
 
+class Prv_quotes_toscrape_ListQuotesArgs_In(TypedDict):
+    tag: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_quotes_toscrape_QuotesToscrapePage_Out(TypedDict):
+    quotes: list[Prv_quotes_toscrape_QuotesToscrapeQuote_Out]
+    page: float
+    tag: str | None
+    hasNext: bool
+    url: str
+
+class Prv_quotes_toscrape_QuotesToscrapeQuote_Out(TypedDict):
+    text: str
+    author: str
+    authorSlug: str
+    tags: list[str]
+
+class Prv_quotes_toscrape_AuthorArgs_In(TypedDict):
+    slug: str
+
+class Prv_quotes_toscrape_QuotesToscrapeAuthor_Out(TypedDict):
+    name: str
+    slug: str
+    bornDate: str
+    bornLocation: str
+    description: str
+    url: str
+
 class Prv_raadvanstate_nl_RaadvanstateSearchResult_Out(TypedDict):
     query: str
     page: float
@@ -54774,6 +56362,32 @@ class Prv_ring_RingCollection_Out(TypedDict):
 
 class Prv_ring_listCollection_args_In(TypedDict):
     handle: str
+
+class Prv_ring_RingPlan_Out(TypedDict):
+    name: str
+    monthlyPrice: float | None
+    yearlyPrice: float | None
+    pricing: str
+    description: str | None
+    features: list[str]
+
+class Prv_ring_searchSupport_args_In(TypedDict):
+    query: str
+
+class Prv_ring_RingSupportHit_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+
+class Prv_ring_getSupportArticle_args_In(TypedDict):
+    url: str
+
+class Prv_ring_RingSupportArticle_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    updatedAt: str | None
+    body: str
 
 class Prv_ring_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -57204,6 +58818,37 @@ class Prv_sevenrooms_SevenroomsVenue_Out(TypedDict):
     policy: str | None
     requiresAccountToBook: bool
     bookingUrl: str
+    checkout: Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out | None
+
+class Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: str
+    account: Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out_account_Out
+    summary: Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out_summary_Out
+    warnings: list[str]
+
+class Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+
+class Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out_summary_Out(TypedDict):
+    items: list[Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+
+class Prv_sevenrooms_SevenroomsVenue_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_sevenrooms_GetAvailableDatesArgs_In(TypedDict):
     venue: str
@@ -57585,6 +59230,38 @@ class Prv_shop_app_ShopAppAddedToCart_Out(TypedDict):
     cartId: str | None
     lineCount: float
     warnings: list[str]
+    checkout: NotRequired[Prv_shop_app_ShopAppCheckoutHandoff_Out]
+
+class Prv_shop_app_ShopAppCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    account: Prv_shop_app_ShopAppCheckoutAccount_Out
+    summary: Prv_shop_app_ShopAppCheckoutSummary_Out | None
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    expiresAt: NotRequired[str]
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppCheckoutAccount_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_shop_app_ShopAppCheckoutSummary_Out(TypedDict):
+    items: list[Prv_shop_app_ShopAppCheckoutItem_Out]
+    total: str | None
+    currency: str
+
+class Prv_shop_app_ShopAppCheckoutItem_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_shop_app_ShopAppAddressList_Out(TypedDict):
     addresses: list[Prv_shop_app_ShopAppAddress_Out]
@@ -57618,6 +59295,7 @@ class Prv_shop_app_ShopAppCheckout_Out(TypedDict):
     checkoutId: str | None
     url: str
     warnings: list[str]
+    checkout: NotRequired[Prv_shop_app_ShopAppCheckoutHandoff_Out]
 
 class Prv_shop_app_ShopAppFollowStoreArgs_In(TypedDict):
     store: str
@@ -59067,10 +60745,46 @@ class Prv_soulcycle_SoulcycleClassSession_Out(TypedDict):
     classType: str
     instructor: Prv_soulcycle_SoulcycleClassSession_Out_instructor_Out
     state: str
+    checkout: NotRequired[Prv_soulcycle_SoulcycleCheckout_Out | None]
 
 class Prv_soulcycle_SoulcycleClassSession_Out_instructor_Out(TypedDict):
     id: float
     name: str
+
+class Prv_soulcycle_SoulcycleCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_soulcycle_SoulcycleCheckout_Out_account_Out
+    summary: Prv_soulcycle_SoulcycleCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_soulcycle_SoulcycleCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_soulcycle_SoulcycleCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_soulcycle_SoulcycleCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_soulcycle_SoulcycleCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_soulcycle_SoulcycleCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_soulcycle_SoulcycleCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_soulcycle_GetClassAvailabilityArgs_In(TypedDict):
     classId: float
@@ -59807,6 +61521,7 @@ class Prv_spotapps_SpotappsReservationSettings_Out(TypedDict):
     weekdaySlots: list[list[Prv_spotapps_SpotappsSlot_Out]]
     dateSlots: list[Prv_spotapps_SpotappsReservationSettings_Out_dateSlots_item_Out]
     blockedDates: list[str]
+    checkout: Prv_spotapps_SpotappsCheckout_Out | None
 
 class Prv_spotapps_SpotappsSlot_Out(TypedDict):
     time: str
@@ -59815,6 +61530,41 @@ class Prv_spotapps_SpotappsSlot_Out(TypedDict):
 class Prv_spotapps_SpotappsReservationSettings_Out_dateSlots_item_Out(TypedDict):
     date: str
     slots: list[Prv_spotapps_SpotappsSlot_Out]
+
+class Prv_spotapps_SpotappsCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_spotapps_SpotappsCheckout_Out_account_Out
+    summary: Prv_spotapps_SpotappsCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_spotapps_SpotappsCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_spotapps_SpotappsCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_spotapps_SpotappsCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_spotapps_SpotappsCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_spotapps_SpotappsCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_spotapps_SpotappsCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_spotapps_SpotappsCheckAvailabilityArgs_In(TypedDict):
     spotId: str
@@ -60025,6 +61775,36 @@ class Prv_spotapps_SpotappsOnlineOrderStart_Out(TypedDict):
     orderCode: str
     paymentRequired: Literal[True]
     subtotalCents: float
+    checkout: Prv_spotapps_SpotappsCheckoutHandoff_Out
+
+class Prv_spotapps_SpotappsCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_spotapps_SpotappsCheckoutHandoff_Out_account_Out
+    summary: Prv_spotapps_SpotappsCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_spotapps_SpotappsCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_spotapps_SpotappsCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_spotapps_SpotappsCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_spotapps_SpotappsCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_spotify_SpotifySearchOptions_In(TypedDict):
     types: NotRequired[Sequence[Literal["track"] | Literal["album"] | Literal["artist"] | Literal["playlist"] | Literal["show"] | Literal["episode"]]]
@@ -62451,6 +64231,7 @@ class Prv_styleseat_StyleseatProfessionalSummary_Out(TypedDict):
     photoUrl: str | None
     onlineBookable: bool
     matchedServices: list[Prv_styleseat_StyleseatSearchService_Out]
+    checkout: Prv_styleseat_StyleseatCheckout_Out | None
 
 class Prv_styleseat_StyleseatSearchService_Out(TypedDict):
     id: float
@@ -62458,7 +64239,43 @@ class Prv_styleseat_StyleseatSearchService_Out(TypedDict):
     price: float | None
     duration: float | None
 
+class Prv_styleseat_StyleseatCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_styleseat_StyleseatCheckout_Out_account_Out
+    summary: Prv_styleseat_StyleseatCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_styleseat_StyleseatCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_styleseat_StyleseatCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_styleseat_StyleseatCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_styleseat_StyleseatCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_styleseat_StyleseatCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_styleseat_StyleseatCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
+
 class Prv_styleseat_StyleseatProfessional_Out(TypedDict):
+    checkout: Prv_styleseat_StyleseatCheckout_Out | None
     id: float
     name: str
     vanityUrl: str
@@ -63027,6 +64844,36 @@ class Prv_sunhomesaunas_SunHomeSaunasCartResult_Out(TypedDict):
     quantity: float
     cartItemCount: float
     cartTotal: float
+    checkout: Prv_sunhomesaunas_SunHomeSaunasCheckoutHandoff_Out
+
+class Prv_sunhomesaunas_SunHomeSaunasCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_sunhomesaunas_SunHomeSaunasCheckoutHandoff_Out_account_Out
+    summary: Prv_sunhomesaunas_SunHomeSaunasCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_sunhomesaunas_SunHomeSaunasCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_sunhomesaunas_SunHomeSaunasCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_sunhomesaunas_SunHomeSaunasCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_sunhomesaunas_SunHomeSaunasCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_sunlighten_matchSauna_input_In(TypedDict):
     wellnessGoals: Sequence[str]
@@ -63219,8 +65066,44 @@ class Prv_sweathouz_SweathouzStudio_Out(TypedDict):
     lat: float
     lng: float
     bookingUrl: str | None
+    checkout: Prv_sweathouz_SweathouzCheckout_Out | None
     pageUrl: str
     hours: list[Prv_sweathouz_SweathouzStudio_Out_hours_item_Out]
+
+class Prv_sweathouz_SweathouzCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_sweathouz_SweathouzCheckout_Out_account_Out
+    summary: Prv_sweathouz_SweathouzCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_sweathouz_SweathouzCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_sweathouz_SweathouzCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_sweathouz_SweathouzCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_sweathouz_SweathouzCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_sweathouz_SweathouzCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_sweathouz_SweathouzCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_sweathouz_SweathouzStudio_Out_hours_item_Out(TypedDict):
     day: str
@@ -63735,6 +65618,7 @@ class Prv_target_TargetCart_Out(TypedDict):
     totalProductAmount: float | None
     grandTotal: float | None
     warnings: list[str]
+    checkout: NotRequired[Prv_target_TargetCart_Out_checkout_Out]
 
 class Prv_target_TargetCartItem_Out(TypedDict):
     tcin: str
@@ -63743,6 +65627,33 @@ class Prv_target_TargetCartItem_Out(TypedDict):
     unitPrice: float | None
     currentPrice: float | None
     imageUrl: str | None
+    outOfStock: bool
+
+class Prv_target_TargetCart_Out_checkout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["signed_in_cart"]]
+    account: Prv_target_TargetCart_Out_checkout_Out_account_Out
+    summary: Prv_target_TargetCart_Out_checkout_Out_summary_u0_Out | None
+    reason: NotRequired[Literal["out_of_stock"] | Literal["empty_cart"]]
+    detail: NotRequired[str]
+    warnings: list[str]
+
+class Prv_target_TargetCart_Out_checkout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_target_TargetCart_Out_checkout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_target_TargetCart_Out_checkout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_target_TargetCart_Out_checkout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
 
 class Prv_target_addToCart_args_In(TypedDict):
     tcin: str
@@ -63754,6 +65665,33 @@ class Prv_target_TargetAddToCartResult_Out(TypedDict):
     quantity: float
     added: bool
     warnings: list[str]
+    checkout: NotRequired[Prv_target_TargetAddToCartResult_Out_checkout_Out]
+
+class Prv_target_TargetAddToCartResult_Out_checkout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["signed_in_cart"]]
+    account: Prv_target_TargetAddToCartResult_Out_checkout_Out_account_Out
+    summary: Prv_target_TargetAddToCartResult_Out_checkout_Out_summary_u0_Out | None
+    reason: NotRequired[Literal["out_of_stock"] | Literal["empty_cart"]]
+    detail: NotRequired[str]
+    warnings: list[str]
+
+class Prv_target_TargetAddToCartResult_Out_checkout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_target_TargetAddToCartResult_Out_checkout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_target_TargetAddToCartResult_Out_checkout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_target_TargetAddToCartResult_Out_checkout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
 
 class Prv_target_removeFromCart_args_In(TypedDict):
     cartItemId: str
@@ -63762,6 +65700,33 @@ class Prv_target_TargetRemoveFromCartResult_Out(TypedDict):
     cartItemId: str
     removed: bool
     warnings: list[str]
+    checkout: NotRequired[Prv_target_TargetRemoveFromCartResult_Out_checkout_Out]
+
+class Prv_target_TargetRemoveFromCartResult_Out_checkout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["signed_in_cart"]]
+    account: Prv_target_TargetRemoveFromCartResult_Out_checkout_Out_account_Out
+    summary: Prv_target_TargetRemoveFromCartResult_Out_checkout_Out_summary_u0_Out | None
+    reason: NotRequired[Literal["out_of_stock"] | Literal["empty_cart"]]
+    detail: NotRequired[str]
+    warnings: list[str]
+
+class Prv_target_TargetRemoveFromCartResult_Out_checkout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_target_TargetRemoveFromCartResult_Out_checkout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_target_TargetRemoveFromCartResult_Out_checkout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_target_TargetRemoveFromCartResult_Out_checkout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
 
 class Prv_target_addToList_args_In(TypedDict):
     listId: str
@@ -63969,6 +65934,38 @@ class Prv_temu_TemuCartChange_Out(TypedDict):
     skuId: str
     quantity: float
     operation: Literal["add"] | Literal["update"] | Literal["remove"]
+    checkout: NotRequired[Prv_temu_TemuCheckoutHandoff_Out]
+
+class Prv_temu_TemuCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    account: Prv_temu_TemuCheckoutAccount_Out
+    summary: Prv_temu_TemuCheckoutSummary_Out | None
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    expiresAt: NotRequired[str]
+    warnings: list[str]
+
+class Prv_temu_TemuCheckoutAccount_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_temu_TemuCheckoutSummary_Out(TypedDict):
+    items: list[Prv_temu_TemuCheckoutItem_Out]
+    total: str | None
+    currency: str
+
+class Prv_temu_TemuCheckoutItem_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_temu_UpdateCartArgs_In(TypedDict):
     productId: NotRequired[str]
@@ -67971,6 +69968,38 @@ class Prv_ubereats_UbereatsPromoResult_Out(TypedDict):
     accepted: bool
     message: str | None
     discount: float | None
+    checkout: NotRequired[Prv_ubereats_UbereatsCheckoutHandoff_Out]
+
+class Prv_ubereats_UbereatsCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    account: Prv_ubereats_UbereatsCheckoutAccount_Out
+    summary: Prv_ubereats_UbereatsCheckoutSummary_Out | None
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    expiresAt: NotRequired[str]
+    warnings: list[str]
+
+class Prv_ubereats_UbereatsCheckoutAccount_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_ubereats_UbereatsCheckoutSummary_Out(TypedDict):
+    items: list[Prv_ubereats_UbereatsCheckoutItem_Out]
+    total: str | None
+    currency: str
+
+class Prv_ubereats_UbereatsCheckoutItem_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_ubereats_UbereatsAccount_Out(TypedDict):
     uuid: str | None
@@ -71542,6 +73571,14 @@ class Prv_whatsapp_WhatsappChatUpdate_Out(TypedDict):
     chat: str
     applied: list[str]
 
+class Prv_whatsapp_WhatsappGroupChange_Out(TypedDict):
+    group: str
+    applied: list[str]
+
+class Prv_whatsapp_updateGroup_update_In(TypedDict):
+    name: NotRequired[str]
+    description: NotRequired[str]
+
 class Prv_whatsapp_WhatsappCatalogProduct_Out(TypedDict):
     name: str
     price: str | None
@@ -72313,12 +74350,48 @@ class Prv_wix_bookings_WixService_Out(TypedDict):
     bookingPageUrl: str | None
     categoryId: str | None
     categoryName: str | None
+    checkout: Prv_wix_bookings_WixCheckout_Out | None
 
 class Prv_wix_bookings_WixServicePayment_Out(TypedDict):
     inPerson: bool
     online: bool
     deposit: bool
     pricingPlan: bool
+
+class Prv_wix_bookings_WixCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_wix_bookings_WixCheckout_Out_account_Out
+    summary: Prv_wix_bookings_WixCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_wix_bookings_WixCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_wix_bookings_WixCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_wix_bookings_WixCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_wix_bookings_WixCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_wix_bookings_WixCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_wix_bookings_WixCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_wix_bookings_SearchServicesArgs_In(TypedDict):
     site: str
@@ -72344,6 +74417,7 @@ class Prv_wix_bookings_WixServiceDetail_Out(TypedDict):
     bookingPageUrl: str | None
     categoryId: str | None
     categoryName: str | None
+    checkout: Prv_wix_bookings_WixCheckout_Out | None
     locations: list[Prv_wix_bookings_WixServiceLocation_Out]
     bookingPolicy: Prv_wix_bookings_WixBookingPolicy_Out | None
     formId: str | None
@@ -74494,9 +76568,12 @@ class Prv_yorkwallcoverings_YorkWallcoveringsProduct_Out(TypedDict):
     inStock: bool
     description: str
     images: list[str]
+    variantId: str
+    currency: NotRequired[str]
     variants: list[Prv_yorkwallcoverings_YorkWallcoveringsVariant_Out]
 
 class Prv_yorkwallcoverings_YorkWallcoveringsVariant_Out(TypedDict):
+    variantId: str
     sku: str | None
     title: str
     price: float
@@ -74510,6 +76587,36 @@ class Prv_yorkwallcoverings_YorkWallcoveringsAddToCartHandoff_Out(TypedDict):
     price: float
     inStock: bool
     note: str
+    checkout: Prv_yorkwallcoverings_YorkWallcoveringsCheckoutHandoff_Out
+
+class Prv_yorkwallcoverings_YorkWallcoveringsCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_yorkwallcoverings_YorkWallcoveringsCheckoutHandoff_Out_account_Out
+    summary: Prv_yorkwallcoverings_YorkWallcoveringsCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_yorkwallcoverings_YorkWallcoveringsCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_yorkwallcoverings_YorkWallcoveringsCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_yorkwallcoverings_YorkWallcoveringsCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_yorkwallcoverings_YorkWallcoveringsCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_yourarborhome_SearchHomesFilters_In(TypedDict):
     city: NotRequired[str]
@@ -75174,6 +77281,42 @@ class Prv_zen_planner_ZenPlannerScheduleSlot_Out(TypedDict):
     date: str
     time: str
     className: str
+    checkout: NotRequired[Prv_zen_planner_ZenPlannerCheckout_Out | None]
+
+class Prv_zen_planner_ZenPlannerCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_zen_planner_ZenPlannerCheckout_Out_account_Out
+    summary: Prv_zen_planner_ZenPlannerCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_zen_planner_ZenPlannerCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_zen_planner_ZenPlannerCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_zen_planner_ZenPlannerCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_zen_planner_ZenPlannerCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_zen_planner_ZenPlannerCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_zen_planner_ZenPlannerCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_zen_planner_ListClassesArgs_In(TypedDict):
     slug: str
@@ -76082,7 +78225,9 @@ class Cap_cars(Protocol):
         gave. `options.timeoutMs` sets the per-site budget (default 30000; each site is given at
         least 50000, because a site that refuses its fast path is searched in a real browser,
         ~10-25s). Momondo, Kayak and Cheapflights are searched together and the same offer is
-        returned once, at its cheapest.
+        returned once, at its cheapest. Each car carries `checkout`, a handoff URL (the offer's
+        booking link) plus which account to use: give the person that and stop, Bowmark never
+        books or pays.
         """
 
 class Cap_concert_setlist(Protocol):
@@ -76497,7 +78642,9 @@ class Cap_flights(Protocol):
         here plus `cabin`, `personalItem`, `carryOnIncluded`/`checkedBagIncluded`,
         `checkedBagCount`, `checkedBagFee`, `freeCancellation` and `seatsRemaining`, which is
         the deciding field for choosing between fares on a one-way move and is not yet promoted
-        to this capability.
+        to this capability. Each option carries `checkout`, the seller's booking link as a
+        handoff URL plus which account to use: give the person that and stop, Bowmark never
+        books or pays.
         """
 
     async def getFlightStatus(self, query: Cap_flights_FlightStatusQuery_In, options: Cap_flights_CallOptions_In | None = None, /) -> Cap_flights_FlightStatusResult_Out:
@@ -76668,7 +78815,9 @@ class Cap_hotels(Protocol):
         property is returned once, at its cheapest. This route drives a real browser and is the
         slowest thing in the library: 11-26s measured; each site is given at least 50000ms
         whatever `options.timeoutMs` says, because a refused exit costs a second browser
-        session.
+        session. Each hotel carries `checkout`, a handoff URL (the property page with the dates
+        and guests in it) plus which account to use: give the person that and stop, Bowmark
+        never books or pays.
         """
 
 class Cap_hvac(Protocol):
@@ -77433,12 +79582,12 @@ class Cap_restaurant_booking(Protocol):
         restaurant, and `slots: []` when the venue exists but has nothing open for that
         date/party — both real, complete answers, not failures. `venue.bookingUrl` is the
         platform's own page, pre-filled with the requested date and party size, because this
-        function only reads. To BOOK a slot, use the platform's own two-call flow in one Bowmark
-        session: `bowmark.providers.resy.startBooking` / `confirmBooking` (the diner's Resy
-        account; Resy texts a code) or `bowmark.providers.opentable.startBooking` /
-        `confirmBooking` (as a guest; OpenTable texts a code). `location` narrows a common
-        restaurant name when passed as `"lat,lon"` (e.g. `"37.7749,-122.4194"` for San
-        Francisco); free-form text is ignored rather than guessed at.
+        function only reads. To book, hand the person a slot's `checkout.url` (OpenTable: that
+        exact time) or `venue.checkout.url` (Resy: pick the time there) and
+        `checkout.account.hint`, and stop: they reserve on the platform themselves, and Bowmark
+        never books. `location` narrows a common restaurant name when passed as `"lat,lon"`
+        (e.g. `"37.7749,-122.4194"` for San Francisco); free-form text is ignored rather than
+        guessed at.
         """
 
 class Cap_retail(Protocol):
@@ -79210,8 +81359,9 @@ class Prv_aliexpress(Protocol):
 
     async def addToCart(self, args: Prv_aliexpress_AddToCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_aliexpress_aliexpressAddToCartResult_Out:
         """Adds one variant (productId + skuId, both from getProduct) to the CALLER's own
-        AliExpress cart. Needs the caller signed in; the relay at aliexpress.com handles
-        authentication.
+        AliExpress cart. Returns `checkout`: AliExpress's own cart page and which account to
+        sign in to (Bowmark never pays). Needs the caller signed in; the relay at aliexpress.com
+        handles authentication.
         """
 
     async def listOrders(self, args: Prv_aliexpress_ListOrdersArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_aliexpress_aliexpressOrder_Out]:
@@ -79623,9 +81773,11 @@ class Prv_andstr(Protocol):
 
     async def search(self, args: Prv_andstr_AndstrSearchArgs_In | None = None, /) -> list[Prv_andstr_AndstrListingSummary_Out]:
         """Searches stayAndes's listing portfolio by market, dates, guests, bedrooms, price range
-        and instant-book. When check-in/check-out are given, pricePerNight is the real
-        demand-priced average for that stay; otherwise it's the site's undated starting-from
-        rate (priceBasis says which).
+        and instant-book. pricePerNight is the nightly rate: the site prints a stay total
+        (stayTotal, over nights), which is divided down. With check-in/check-out the price is
+        for those dates; without, it is for a stay the site picked (stayCheckIn/stayCheckOut,
+        and priceBasis says which). pricePerNight is null for a listing the site shows no price
+        for until dates are given.
         """
 
     async def getListing(self, listingId: str, /) -> Prv_andstr_AndstrListingDetail_Out:
@@ -79636,8 +81788,9 @@ class Prv_andstr(Protocol):
 
     async def getQuote(self, listingId: str, checkIn: str, checkOut: str, guests: float, /) -> Prv_andstr_AndstrQuote_Out:
         """The real date-priced quote for one listing — nightly total, service + cleaning fees,
-        total before taxes, average per night, and a direct checkout handoff URL — or the site's
-        own reason a stay isn't bookable.
+        total before taxes, average per night, and a direct checkout handoff URL (also as
+        `checkout`, the typed handoff the person opens to book themselves; Bowmark never books)
+        — or the site's own reason a stay isn't bookable.
         """
 
 class Prv_anthem_directory(Protocol):
@@ -81023,7 +83176,8 @@ class Prv_avantstay(Protocol):
 
     async def getPricing(self, hotelId: str, hash: str, checkIn: str, checkOut: str, guests: float, /) -> Prv_avantstay_AvantstayPricing_Out:
         """Prices every room type at one AvantStay property for a real date range and guest count,
-        with real-time availability and a direct booking-handoff URL. Takes both ids
+        with real-time availability and a direct booking-handoff URL, also as `checkout` (the
+        typed handoff the person opens to book themselves; Bowmark never books). Takes both ids
         searchProperties returns per property (hotelId prices it, hash builds the link) — they
         are not interchangeable on this site.
         """
@@ -84985,19 +87139,25 @@ class Prv_cheapflights(Protocol):
         row shows only the cheapest of these, so this is where "who actually sells it, and what
         does the cheap one leave out — carry-on, checked bag, personal item" gets answered. Pass
         the row itself, not its id. THROWS rather than returning [] when the itinerary is no
-        longer offered, so a sold-out fare is never reported as "nobody sells this".
+        longer offered, so a sold-out fare is never reported as "nobody sells this". Each offer
+        carries `checkout`, a handoff URL (the offer's own booking link) the person opens to buy
+        from the seller themselves: Bowmark never books or pays.
         """
 
     async def searchHotels(self, query: Prv_cheapflights_searchHotels_query_In, /) -> list[Prv_cheapflights_KayakHotel_Out]:
         """Runs the stays search on cheapflights.com and returns priced properties for a
         destination and date range, cheapest TOTAL first. Interaction-gated: the prices only
-        exist after the site's own multi-phase supplier poll completes.
+        exist after the site's own multi-phase supplier poll completes. Each row carries
+        `checkout`, a handoff URL (the property page with the dates and guests in it) the person
+        opens to book themselves: Bowmark never books or pays.
         """
 
     async def searchCars(self, query: Prv_cheapflights_searchCars_query_In, /) -> list[Prv_cheapflights_KayakCar_Out]:
         """Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup
         location and date range, cheapest-first. Interaction-gated: the prices only exist after
-        the site's own three-phase supplier poll completes.
+        the site's own three-phase supplier poll completes. Each row carries `checkout`, a
+        handoff URL (the offer's own booking link) the person opens to book themselves: Bowmark
+        never books or pays.
         """
 
 class Prv_checkfront(Protocol):
@@ -86034,11 +88194,12 @@ class Prv_cloudbeds(Protocol):
         this property sells none for that room and stay.
         """
 
-    async def getBookingQuote(self, args: Prv_cloudbeds_CloudbedsBookingQuoteArgs_In, /) -> Prv_cloudbeds_CloudbedsBookingQuote_Out:
+    async def getBookingQuote(self, args: Prv_cloudbeds_CloudbedsBookingQuoteArgs_In, /) -> Prv_cloudbeds_CloudbedsPricedStay_Out:
         """Prices a stay before booking it, from the rate ids searchRooms returned: nightly and
         total price, taxes and fees, the deposit due now, the payment and cancellation schedule
         when the property publishes one, and the grand total. Creates a cart token and no
-        reservation.
+        reservation. Carries `checkout`, a handoff URL (the property's booking page on those
+        dates) the person opens to book and pay themselves: Bowmark never books.
         """
 
     async def getPolicies(self, args: Prv_cloudbeds_getPolicies_args_In, /) -> Prv_cloudbeds_CloudbedsPolicies_Out:
@@ -87316,6 +89477,21 @@ class Prv_dailymail(Protocol):
         credit. Takes a browser: the site's search page renders client-side.
         """
 
+    async def listVideos(self, args: Prv_dailymail_ListVideosArgs_In | None = None, /) -> list[Prv_dailymail_DailymailVideo_Out]:
+        """Lists Daily Mail videos from the video hub or one video channel (news, showbiz, sport,
+        …) with title, url, video id, duration and thumbnail.
+        """
+
+    async def getVideo(self, args: Prv_dailymail_GetVideoArgs_In, /) -> Prv_dailymail_DailymailVideoDetail_Out:
+        """Reads one Daily Mail video — title, description, duration, date, thumbnail and the
+        playable media url — given the url a listVideos row returns.
+        """
+
+    async def getAuthor(self, args: Prv_dailymail_GetAuthorArgs_In, /) -> Prv_dailymail_DailymailAuthor_Out:
+        """Reads one Daily Mail author or columnist's profile — name, photo and the stories the
+        profile lists — given a profile url from an article byline or listColumnists.
+        """
+
 class Prv_dailymotion(Protocol):
     """Search Dailymotion videos by keyword and read one video's title, channel, duration,
     views and watch URL — off Dailymotion's own keyless public API.
@@ -88364,7 +90540,9 @@ class Prv_direct_book(Protocol):
     async def initiateBooking(self, args: Prv_direct_book_InitiateBookingArgs_In, /) -> Prv_direct_book_DirectBookBookingStart_Out:
         """Starts a booking for one rate on given dates and party: validates the cart with the
         hotel and returns the priced cart (total, deposit, nights) and the checkout link the
-        guest finishes on. Never sends guest or card details and books nothing.
+        guest finishes on, as `checkout`: a handoff URL that carries the dates, party and rate
+        (or `unavailable` with the hotel's reason). Never sends guest or card details and books
+        nothing.
         """
 
     async def cancelReservation(self, args: Prv_direct_book_CancelReservationArgs_In, /) -> Prv_direct_book_DirectBookCancelledReservation_Out:
@@ -89504,6 +91682,21 @@ class Prv_ebay(Protocol):
         here, so these rows are not German-marketplace deals.
         """
 
+    async def searchSold(self, args: str | Prv_ebay_searchSold_args_u1_In, /) -> Prv_ebay_ebaySoldSearch_Out:
+        """Sold prices from PriceCharting's record of completed eBay sales; covers video games,
+        consoles, trading cards, comics and Lego only, in USD for ebay.com. Returns what each
+        item actually SOLD for (not asking prices): title, sold price, sold date, condition
+        bucket and the listing URL, newest first, with a median and 25th/75th-percentile
+        `summary` for ONE condition named in `summaryCondition` (Loose for games and consoles,
+        Ungraded for cards, New for sealed sets, or the grade named in the query such as "psa
+        10"), and `byCondition` for the rest. Keyless (eBay's own sold-listings page is blocked
+        by Akamai on every route we have). A query with no closely matching product returns no
+        rows, count 0 and a warning, with the closest titles in `nearestProducts` (not matches),
+        never another product's sales. Reads ONE product per call, named in `matchedProducts`;
+        `site`-less, USD, query up to 200 characters. `limit` caps the rows (default 60, ceiling
+        200).
+        """
+
     async def getWatchlist(self, args: Prv_ebay_getWatchlist_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_ebay_ebayWatchlistItem_Out]:
         """Get the caller's watch list — items they are monitoring for price changes. Needs a
         signed-in eBay account; the caller supplies their session. Returns the same fields as
@@ -89739,12 +91932,14 @@ class Prv_epicgames(Protocol):
 
     async def addToCart(self, args: Prv_epicgames_CartOfferArgs_In, opts: ConnectionOption | None = None, /) -> Prv_epicgames_CartWriteResult_Out:
         """Put a game in the signed-in caller's cart by offer id and namespace. Stops at the cart:
-        nothing here pays. Needs the caller signed in.
+        nothing here pays. Returns `checkout`: Epic's own cart page and which account to sign in
+        to. Needs the caller signed in.
         """
 
     async def removeFromCart(self, args: Prv_epicgames_RemoveFromCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_epicgames_CartWriteResult_Out:
-        """Remove a line from the signed-in caller's cart by its cart item id (from getCart). Needs
-        the caller signed in.
+        """Remove a line from the signed-in caller's cart by its cart item id (from getCart).
+        Returns `checkout`: Epic's own cart page and which account to sign in to. Needs the
+        caller signed in.
         """
 
     async def listFriends(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_ListFriendsResult_Out:
@@ -90992,7 +93187,8 @@ class Prv_fareharbor(Protocol):
     async def quoteBooking(self, args: Prv_fareharbor_FareharborQuoteBookingArgs_In, /) -> Prv_fareharbor_FareharborBookingQuote_Out:
         """Prices a FareHarbor booking up to the payment step: the ticket lines, booking fee, tax
         and total due for a slot and ticket mix, from the checkout's own live quote. Reserves
-        nothing; returns the checkout url to finish.
+        nothing; returns the checkout url to finish, and `checkout`, that url as a handoff the
+        person opens to book and pay themselves (Bowmark never books).
         """
 
     async def createBooking(self, args: Prv_fareharbor_FareharborCreateBookingArgs_In, /) -> Prv_fareharbor_FareharborBookingResult_Out:
@@ -93668,7 +95864,9 @@ class Prv_google_flights(Protocol):
     async def getBookingOptions(self, row: Prv_google_flights_GoogleFlight_In, /) -> list[Prv_google_flights_GoogleBookingOption_Out]:
         """Selects one result from the same search and reads its booking panel — who actually sells
         the fare, at what fare type and price. This is a second interaction (click into the
-        row), not a field on the search result.
+        row), not a field on the search result. A seller with a real link carries `checkout`, a
+        handoff URL on that seller's own site the person opens to book themselves: Bowmark never
+        books or pays.
         """
 
     async def getPriceGraph(self, query: Prv_google_flights_GoogleFlightQuery_In, /) -> Prv_google_flights_GooglePriceGraph_Out:
@@ -95788,6 +97986,16 @@ class Prv_hunter(Protocol):
         separately as `getEmailBreakdown`.
         """
 
+class Prv_iberia(Protocol):
+    """Iberia (iberia.com), the Spanish airline — look up the cities and airports Iberia flies
+    from and to, with their IATA codes and countries.
+    """
+
+    async def searchLocations(self, args: Prv_iberia_SearchLocationsArgs_In | str | None = None, /) -> Prv_iberia_IberiaLocationResult_Out:
+        """Searches the cities/airports Iberia's flight-search form offers as origins or
+        destinations, by name, IATA code or country.
+        """
+
 class Prv_ibuypower(Protocol):
     """Gaming and workstation PCs from iBUYPOWER — the base configurators with their current
     starting prices, every component option on one with its exact price difference, the RDY
@@ -97023,6 +99231,18 @@ class Prv_iproyal(Protocol):
         and leave it null.
         """
 
+class Prv_irs(Protocol):
+    """IRS tax form lookup on irs.gov — give a form number (1040, W-4, 1099-NEC…) and get its
+    About page: title, what it is for, the current-revision PDF, instructions and schedules,
+    related forms.
+    """
+
+    async def getFormInfo(self, form: str, /) -> Prv_irs_IrsFormInfo_Out:
+        """Looks up an IRS tax form by number (or its irs.gov about-form url) and returns the About
+        page: title, description, current-revision PDF link and year, instructions/schedule
+        PDFs, related forms and the page's last-reviewed date.
+        """
+
 class Prv_islllc(Protocol):
     """Integral Senior Living's own community locator (islllc.com/communities/) — given a US
     city/state or ZIP, plus optional care type(s) and radius, returns the real,
@@ -97570,19 +99790,25 @@ class Prv_kayak(Protocol):
         only the cheapest of these, so this is where "who actually sells it, and what does the
         cheap one leave out — carry-on, checked bag, personal item" gets answered. Pass the row
         itself, not its id. THROWS rather than returning [] when the itinerary is no longer
-        offered, so a sold-out fare is never reported as "nobody sells this".
+        offered, so a sold-out fare is never reported as "nobody sells this". Each offer carries
+        `checkout`, a handoff URL (the offer's own booking link) the person opens to buy from
+        the seller themselves: Bowmark never books or pays.
         """
 
     async def searchHotels(self, query: Prv_kayak_searchHotels_query_In, /) -> list[Prv_kayak_KayakHotel_Out]:
         """Runs the stays search on kayak.com and returns priced properties for a destination and
         date range, cheapest TOTAL first. Interaction-gated: the prices only exist after the
-        site's own multi-phase supplier poll completes.
+        site's own multi-phase supplier poll completes. Each row carries `checkout`, a handoff
+        URL (the property page with the dates and guests in it) the person opens to book
+        themselves: Bowmark never books or pays.
         """
 
     async def searchCars(self, query: Prv_kayak_searchCars_query_In, /) -> list[Prv_kayak_KayakCar_Out]:
         """Runs the car-hire search on kayak.com and returns priced vehicles for a pickup location
         and date range, cheapest-first. Interaction-gated: the prices only exist after the
-        site's own three-phase supplier poll completes.
+        site's own three-phase supplier poll completes. Each row carries `checkout`, a handoff
+        URL (the offer's own booking link) the person opens to book themselves: Bowmark never
+        books or pays.
         """
 
 class Prv_kbb(Protocol):
@@ -100911,13 +103137,17 @@ class Prv_momondo(Protocol):
         only the cheapest of these, so this is where "who actually sells it, and what does the
         cheap one leave out — carry-on, checked bag, personal item" gets answered. Pass the row
         itself, not its id. THROWS rather than returning [] when the itinerary is no longer
-        offered, so a sold-out fare is never reported as "nobody sells this".
+        offered, so a sold-out fare is never reported as "nobody sells this". Each offer carries
+        `checkout`, a handoff URL (the offer's own booking link) the person opens to buy from
+        the seller themselves: Bowmark never books or pays.
         """
 
     async def searchCars(self, query: Prv_momondo_searchCars_query_In, /) -> list[Prv_momondo_KayakCar_Out]:
         """Runs the car-hire search on momondo.com and returns priced vehicles for a pickup
         location and date range, cheapest-first. Interaction-gated: the prices only exist after
-        the site's own three-phase supplier poll completes.
+        the site's own three-phase supplier poll completes. Each row carries `checkout`, a
+        handoff URL (the offer's own booking link) the person opens to book themselves: Bowmark
+        never books or pays.
         """
 
 class Prv_mossyoak(Protocol):
@@ -101836,7 +104066,8 @@ class Prv_nike(Protocol):
 
     async def removeFromCart(self, args: Prv_nike_removeFromCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_nike_removeFromCart_return_Out:
         """Removes one line from the signed-in caller's nike.com bag; itemId is an item's id from
-        getCart. Never checks out. Needs the caller signed in to Nike.
+        getCart. Never checks out. Needs the caller signed in to Nike. Returns `checkout`:
+        Nike's own bag page and which account to sign in to (Bowmark never pays).
         """
 
     async def getCart(self, opts: ConnectionOption | None = None, /) -> Mapping[str, Any]:
@@ -102008,10 +104239,18 @@ class Prv_npi_registry(Protocol):
         """
 
 class Prv_npmjs(Protocol):
-    """npm's public registry APIs — find published packages by keyword with their current
-    metadata and weekly downloads, or retrieve weekly/daily/monthly download totals for one
-    package.
+    """npm's public registry APIs (registry.npmjs.org) — one package's registry metadata
+    (versions, dist-tags, dependencies, tarball and integrity), find published packages by
+    keyword with their weekly downloads, or download totals for one package.
     """
+
+    async def getPackageInfo(self, packageName: str, version: str | None = None, /) -> Prv_npmjs_npmjsPackageInfo_Out:
+        """One package's metadata straight off the npm registry (`registry.npmjs.org/<package>`):
+        every published version, its dist-tags, and — for `version` (an exact version or a
+        dist-tag like `"next"`; default `"latest"`) — its dependencies, dev and peer
+        dependencies, license, deprecation notice, publish time, and `dist` tarball URL, shasum
+        and integrity. Works on scoped packages (`"@babel/core"`).
+        """
 
     async def getDownloads(self, packageName: str, period: str | None = None, /) -> Prv_npmjs_npmjsDownloads_Out:
         """The real download count for an npm package, straight off npmjs.com's own public
@@ -103139,8 +105378,9 @@ class Prv_opentable(Protocol):
     async def checkAvailability(self, args: Prv_opentable_OpenTableAvailabilityArgs_In, /) -> Prv_opentable_OpenTableAvailability_Out:
         """Reads one restaurant's open reservation times (`restaurantId` from a `search` row)
         around `time` on `date` for `partySize`, with OpenTable's own booking link per time,
-        plus the restaurant's details. `slots: []` is a real "nothing open". A real browser
-        load, so expect 15-40 s.
+        plus the restaurant's details. Each slot carries `checkout`, a handoff URL the person
+        opens to reserve that time themselves (Bowmark never books). `slots: []` is a real
+        "nothing open". A real browser load, so expect 15-40 s.
         """
 
     async def startBooking(self, args: Prv_opentable_OpenTableStartBookingArgs_In, /) -> Prv_opentable_OpenTableBookingStarted_Out:
@@ -105875,6 +108115,21 @@ class Prv_quora(Protocol):
         `code`, the email's verification `link`, or the person's `phone`.
         """
 
+class Prv_quotes_toscrape(Protocol):
+    """Quotes to Scrape (quotes.toscrape.com): list the public quotes catalogue — text, author,
+    tags — by page or tag, and read an author's bio.
+    """
+
+    async def listQuotes(self, args: Prv_quotes_toscrape_ListQuotesArgs_In | None = None, /) -> Prv_quotes_toscrape_QuotesToscrapePage_Out:
+        """Lists one page (10) of quotes from the quotes.toscrape.com catalogue, each with text,
+        author and tags, optionally filtered to one tag.
+        """
+
+    async def author(self, args: Prv_quotes_toscrape_AuthorArgs_In, /) -> Prv_quotes_toscrape_QuotesToscrapeAuthor_Out:
+        """Reads one author's page on quotes.toscrape.com: name, birth date, birthplace and
+        biography.
+        """
+
 class Prv_raadvanstate_nl(Protocol):
     """Searches the Dutch Council of State's (Raad van State) case register of
     administrative-court rulings and reads any ruling in full by ECLI — no key, no browser.
@@ -107030,6 +109285,17 @@ class Prv_ring(Protocol):
 
     async def listCollection(self, args: Prv_ring_listCollection_args_In, /) -> list[Prv_ring_RingSearchResult_Out]:
         """Read one collection's product grid by handle: name, url, price and image per card."""
+
+    async def getPlans(self, /) -> list[Prv_ring_RingPlan_Out]:
+        """Read Ring Protect's subscription plans: price per month and year, and what each
+        includes.
+        """
+
+    async def searchSupport(self, args: Prv_ring_searchSupport_args_In, /) -> list[Prv_ring_RingSupportHit_Out]:
+        """Search Ring's help articles by words in their titles; returns title and url."""
+
+    async def getSupportArticle(self, args: Prv_ring_getSupportArticle_args_In, /) -> Prv_ring_RingSupportArticle_Out:
+        """Read one Ring help article's title, update date and full text by url."""
 
     async def signup(self, args: Any, /) -> Prv_ring_signup_return_u0_Out | Prv_ring_signup_return_u1_Out | Prv_ring_signup_return_u2_Out | Prv_ring_signup_return_u3_Out:
         """Makes a NEW Ring account with the person's own email and password, in a session. Pauses
@@ -108296,7 +110562,9 @@ class Prv_sevenrooms(Protocol):
     async def getVenue(self, args: Prv_sevenrooms_GetVenueArgs_In, /) -> Prv_sevenrooms_SevenroomsVenue_Out:
         """Reads one SevenRooms venue from its slug or url: name, address, phone, website,
         timezone, currency, house policy, and whether it requires a signed-in SevenRooms account
-        to book (bookReservationSignedIn) rather than guest checkout.
+        to book (bookReservationSignedIn) rather than guest checkout. Carries `checkout`, a
+        handoff URL (the venue's reservation page) the person opens to reserve themselves:
+        Bowmark never books.
         """
 
     async def getAvailableDates(self, args: Prv_sevenrooms_GetAvailableDatesArgs_In, /) -> list[str]:
@@ -108450,7 +110718,8 @@ class Prv_shop_app(Protocol):
     async def addToCart(self, args: Prv_shop_app_ShopAppAddToCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppAddedToCart_Out:
         """Adds a product variant (getProduct / getVariant's id) to the signed-in caller's Shop
         cart at its store, quantity 1 by default. Stops at the cart: startCheckout opens the
-        checkout and nothing here pays. Pauses for the caller to sign in to Shop.
+        checkout and nothing here pays. Returns `checkout`: Shop's own cart page and which
+        account to sign in to. Pauses for the caller to sign in to Shop.
         """
 
     async def listAddresses(self, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppAddressList_Out:
@@ -108466,7 +110735,8 @@ class Prv_shop_app(Protocol):
     async def startCheckout(self, args: Prv_shop_app_ShopAppStartCheckoutArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppCheckout_Out:
         """Opens a checkout for the signed-in caller's Shop cart at one store (its Shop id or
         handle) and returns the checkout url for the caller to review and pay. Never pays — it
-        stops before payment, always. Pauses for the caller to sign in to Shop.
+        stops before payment, always. Also returns `checkout`: the same page with which account
+        to sign in to. Pauses for the caller to sign in to Shop.
         """
 
     async def followStore(self, args: Prv_shop_app_ShopAppFollowStoreArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppFollowState_Out:
@@ -111246,21 +113516,29 @@ class Prv_target(Protocol):
 
     async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_target_TargetCart_Out:
         """Reads the CALLER's own Target cart — line items (TCIN, title, quantity, unit and current
-        price, image) and the cart's own totals (product subtotal, grand total). Needs the
-        caller signed in.
+        price, image) and the cart's own totals (product subtotal, grand total). Also returns
+        `checkout`, the checkout-handoff contract: the cart page of the caller's own Target
+        account (status `ready_to_checkout` with `signedInAs` when the connection names its
+        account, `needs_login` when it does not, `unavailable` for an empty cart or when every
+        line is unavailable) plus the items, quantities and total. Bowmark never checks out or
+        pays. Needs the caller signed in.
         """
 
     async def addToCart(self, args: Prv_target_addToCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_target_TargetAddToCartResult_Out:
         """Adds one product (by TCIN and optional quantity, defaulting to 1) to the CALLER's own
         Target cart. The last step this provider may take on a buying flow — it stops there;
-        this provider will never place an order or reach a payment step. Needs the caller signed
-        in.
+        this provider will never place an order or reach a payment step. Returns `checkout`, the
+        checkout-handoff contract for the cart as it now stands: the cart page of the caller's
+        own Target account, which account to sign in as, and the items and total; the person
+        finishes at Target. Needs the caller signed in.
         """
 
     async def removeFromCart(self, args: Prv_target_removeFromCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_target_TargetRemoveFromCartResult_Out:
         """Removes one line from the CALLER's own Target cart, by that line's own `cartItemId`
         (from `getCart`'s `cartItems`, never the product's TCIN — a cart can hold the same TCIN
-        on two lines). Needs the caller signed in.
+        on two lines). Returns `checkout`, the checkout-handoff contract for what is left in the
+        cart (the cart page of the caller's own Target account, which account to sign in as,
+        items and total); Bowmark never checks out or pays. Needs the caller signed in.
         """
 
     async def addToList(self, args: Prv_target_addToList_args_In, opts: ConnectionOption | None = None, /) -> Prv_target_TargetAddToListResult_Out:
@@ -111381,7 +113659,8 @@ class Prv_temu(Protocol):
 
     async def addToCart(self, args: Prv_temu_AddToCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_temu_TemuCartChange_Out:
         """Adds one Temu product variant (productId or product url, plus its skuId) to the caller's
-        own cart, quantity 1 unless given. Needs the caller signed in; never checks out.
+        own cart, quantity 1 unless given. Returns `checkout`: Temu's own cart page and which
+        account to sign in to. Needs the caller signed in; never checks out.
         """
 
     async def updateCart(self, args: Prv_temu_UpdateCartArgs_In, opts: ConnectionOption | None = None, /) -> Prv_temu_TemuCartChange_Out:
@@ -113654,8 +115933,10 @@ class Prv_ubereats(Protocol):
 
     async def applyPromoCode(self, args: Prv_ubereats_applyPromoCode_args_In, opts: ConnectionOption | None = None, /) -> Prv_ubereats_UbereatsPromoResult_Out:
         """Applies a promo code to the caller's Uber Eats account/cart and reports whether it was
-        accepted, the site's message, and the discount when it names one. Needs the caller's own
-        Uber Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
+        accepted, the site's message, and the discount when it names one. Also returns
+        `checkout`: Uber Eats' own cart page and which account to sign in to (Bowmark never
+        pays; delivery fees and tip are set there). Needs the caller's own Uber Eats sign-in
+        (authFunctions); signedIn is UNMEASURED, see manifest.json.
         """
 
     async def getMyAccount(self, opts: ConnectionOption | None = None, /) -> Prv_ubereats_UbereatsAccount_Out:
@@ -114772,21 +117053,31 @@ class Prv_walmart(Protocol):
 
     async def getCart(self, opts: ConnectionOption | None = None, /) -> Any:
         """Reads the signed-in shopper's cart — items, quantities, prices and the subtotal. Needs
-        the caller signed in.
+        the caller signed in. When built, it returns the checkout-handoff contract (a `checkout`
+        field with the cart page URL, which account to sign in as, and the items and total);
+        Bowmark never checks out or pays.
         """
 
     async def addToCart(self, args: Prv_walmart_addToCart_args_In, opts: ConnectionOption | None = None, /) -> Any:
         """Puts an item (an id from `search` or `getProduct`) in the signed-in shopper's cart.
-        Never checks out. A write. Needs the caller signed in.
+        Never checks out. A write. Needs the caller signed in. When built, it returns the
+        checkout-handoff contract (a `checkout` field with the cart page URL, which account to
+        sign in as, and the items and total); Bowmark never checks out or pays.
         """
 
     async def updateCartItem(self, args: Prv_walmart_updateCartItem_args_In, opts: ConnectionOption | None = None, /) -> Any:
         """Changes the quantity of an item already in the signed-in shopper's cart (0 removes it).
-        A write. Needs the caller signed in.
+        A write. Needs the caller signed in. When built, it returns the checkout-handoff
+        contract (a `checkout` field with the cart page URL, which account to sign in as, and
+        the items and total); Bowmark never checks out or pays.
         """
 
     async def removeFromCart(self, args: Prv_walmart_removeFromCart_args_In, opts: ConnectionOption | None = None, /) -> Any:
-        """Takes an item out of the signed-in shopper's cart. A write. Needs the caller signed in."""
+        """Takes an item out of the signed-in shopper's cart. A write. Needs the caller signed in.
+        When built, it returns the checkout-handoff contract (a `checkout` field with the cart
+        page URL, which account to sign in as, and the items and total); Bowmark never checks
+        out or pays.
+        """
 
     async def setPreferredStore(self, args: Prv_walmart_setPreferredStore_args_In, opts: ConnectionOption | None = None, /) -> Any:
         """Sets the signed-in shopper's preferred store (a store id from `findStores`), so stock,
@@ -115544,6 +117835,26 @@ class Prv_whatsapp(Protocol):
         """Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive, pin
         or unpin, mute (8 hours, 1 week or always) or unmute, mark read or unread. The chat is
         opened by its exact displayed name. Needs the caller signed in.
+        """
+
+    async def createGroup(self, name: str, participants: Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupChange_Out:
+        """Creates a WhatsApp group as the caller from a name and the exact displayed names of the
+        starting contacts. Returns what was done. Needs the caller signed in.
+        """
+
+    async def updateGroup(self, groupName: str, update: Prv_whatsapp_updateGroup_update_In, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupChange_Out:
+        """Renames a group or sets its description, as a group admin. The group is opened by its
+        exact displayed name. Needs the caller signed in.
+        """
+
+    async def addGroupParticipants(self, groupName: str, participants: Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupChange_Out:
+        """Adds contacts, by exact displayed name, to a group the caller administers. Needs the
+        caller signed in.
+        """
+
+    async def removeGroupParticipants(self, groupName: str, participants: Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupChange_Out:
+        """Removes members, by displayed name, from a group the caller administers. Needs the
+        caller signed in.
         """
 
     async def deleteMessage(self, chatName: str, messageId: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMessageChange_Out:
@@ -118375,6 +120686,7 @@ class BowmarkProviders(Protocol):
     huggingface: Prv_huggingface
     humana_directory: Prv_humana_directory
     hunter: Prv_hunter
+    iberia: Prv_iberia
     ibuypower: Prv_ibuypower
     idealista: Prv_idealista
     identitygroup: Prv_identitygroup
@@ -118393,6 +120705,7 @@ class BowmarkProviders(Protocol):
     intro_co: Prv_intro_co
     ipinfo: Prv_ipinfo
     iproyal: Prv_iproyal
+    irs: Prv_irs
     islllc: Prv_islllc
     istanbulkart: Prv_istanbulkart
     itunes: Prv_itunes
@@ -118587,6 +120900,7 @@ class BowmarkProviders(Protocol):
     quickbooks: Prv_quickbooks
     quince: Prv_quince
     quora: Prv_quora
+    quotes_toscrape: Prv_quotes_toscrape
     raadvanstate_nl: Prv_raadvanstate_nl
     raisingcanes: Prv_raisingcanes
     rakuten: Prv_rakuten

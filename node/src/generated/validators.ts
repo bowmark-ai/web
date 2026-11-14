@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7f15229a0b1c5a22e27480005327bd406bb652d47933688b7b2fc95c2a7a71bc
-// 5181 checked, 20 unchecked.
+// Manifest version: b3334efc72ae5fc6cb16ccd4c490ff1efb816d67bb99dee89b352dceac70fddb
+// 5197 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7f15229a0b1c5a22e27480005327bd406bb652d47933688b7b2fc95c2a7a71bc",
+  "version": "b3334efc72ae5fc6cb16ccd4c490ff1efb816d67bb99dee89b352dceac70fddb",
   "units": {
     "address_validation": {
       "defs": {
@@ -40528,9 +40528,52 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetAuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListLatestArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
             {
               "name": "limit",
               "schema": {
@@ -40619,6 +40662,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAuthor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAuthorArgs"
             },
             "optional": false
           }
@@ -50396,6 +50469,47 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getDeals": [],
+        "searchSold": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "site",
+                      "schema": {
+                        "k": "literal",
+                        "v": "ebay.com"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getWatchlist": [
           {
             "name": "args",
@@ -74360,6 +74474,66 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.iberia": {
+      "defs": {
+        "SearchLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "direction",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "origin"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "destination"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "SearchLocationsArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.ibuypower": {
       "defs": {
         "IbuypowerRecommendArgs": {
@@ -79266,6 +79440,25 @@ export const VALIDATORS: ValidatorTable = {
               "name": "IproyalProductType"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.irs": {
+      "defs": {
+        "IrsFormRef": {
+          "k": "string"
+        }
+      },
+      "functions": {
+        "getFormInfo": [
+          {
+            "name": "form",
+            "schema": {
+              "k": "ref",
+              "name": "IrsFormRef"
+            },
+            "optional": false
           }
         ]
       }
@@ -98108,6 +98301,22 @@ export const VALIDATORS: ValidatorTable = {
     "providers.npmjs": {
       "defs": {},
       "functions": {
+        "getPackageInfo": [
+          {
+            "name": "packageName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "version",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
         "getDownloads": [
           {
             "name": "packageName",
@@ -114933,6 +115142,63 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.quotes_toscrape": {
+      "defs": {
+        "AuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListQuotesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "tag",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listQuotes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListQuotesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "author": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AuthorArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.raadvanstate_nl": {
       "defs": {},
       "functions": {
@@ -121129,6 +121395,43 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "handle",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getPlans": [],
+        "searchSupport": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getSupportArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
                   "schema": {
                     "k": "string"
                   },
@@ -155742,6 +156045,159 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createGroup": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "participants",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateGroup": [
+          {
+            "name": "groupName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "update",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addGroupParticipants": [
+          {
+            "name": "groupName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "participants",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeGroupParticipants": [
+          {
+            "name": "groupName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "participants",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
             },
             "optional": false
           },
