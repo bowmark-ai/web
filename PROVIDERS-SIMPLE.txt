@@ -151,7 +151,7 @@ breezy.hr — breezyhq: listJobs
 brixton.com — brixton: getBrixtonCheckoutLink, getBrixtonProduct, listBrixtonProducts
 browser-use.com — browser_use: cancelRun, createRun, findSessionBrowser, getBrowser, getRun, getRunStatus, getSession, listRunEvents, listSessionRuns, queueMessage, stopBrowser
 bsb.de — bodensee_schiffsbetriebe_berths: searchHarbors (+1 planned)
-bsky.app — bluesky: 69 functions — ask get_library
+bsky.app — bluesky: 70 functions — ask get_library
 buacement.com — buacement: nothing callable yet (+1 planned)
 builder.strucsure.com — builder_strucsure_com: getNewConstructionRegistrationFields, listRegistrationStates
 buildingengines.com — buildingengines: getAccessRequestStatus
@@ -380,7 +380,7 @@ gokenko.com — kenko: cancelBooking, cancelMembership, findStudio, getAppointme
 golf.com — golf_com: nothing callable yet (+2 planned)
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
 gomry.com — gomry: getEvent, getSponsorOffer, listEventProducts, searchEvents
-goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, getSimilarBooks, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, unfollowUser, writeReview
+goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, getSimilarBooks, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, unfollowUser, writeReview (+4 planned)
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: addMissingPlace, geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaceEdit, suggestPlaces, writeReview
@@ -537,7 +537,7 @@ millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisiting
 mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
-mlb.com — mlb: getBoxScore, getGame, getPlayByPlay, getSchedule, getStandings, listTeams, searchPlayers (+43 planned)
+mlb.com — mlb: getBoxScore, getGame, getPlayByPlay, getPlayer, getPlayerStats, getRoster, getSchedule, getStandings, getStatLeaders, listTeams, searchPlayers (+39 planned)
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
 modularclosets.com — modularclosets: getKitConfigurator, priceKitConfiguration, searchClosetKits
@@ -573,7 +573,7 @@ nurturelife.com — nurturelife: getMealBundle, getMealPlans
 nutrafol.com — nutrafol: assessHairWellness, computeHairWellness, getQuizOverview, getQuizQuestions
 nutribullet.com — capitalbrands: getBlenderRecommendation, listQuizQuestions
 nvisioncenters.com — nvisioncenters: calculateLasikSavings, checkLasikCandidacy, estimateLasikSavings
-nytimes.com — nytimes: followWriter, getArticle, getArticleComments, getConnections, getLiveBlog, getNewsletter, getPodcast, getSection, getSpellingBee, getTopicArticles, getTrending, getWordle, listArticles, listEpisodes, listMyComments, listNewsletters, listPodcasts, listRSSFeeds, listSavedArticles, listSections, listTopics, listTrending, listWriterArticles, postComment, recommendComment, saveArticle, searchArticles, searchWriters, unfollowWriter, unsaveArticle (+1 planned)
+nytimes.com — nytimes: 30 functions — ask get_library (+1 planned)
 oanda.com — oanda: convertCurrency
 ocado.com — ocado: searchProducts
 odfl.com — odfl: nothing callable yet (+1 planned)
@@ -665,7 +665,7 @@ resy.com — resy: cancelBooking, checkAvailability, confirmBooking, confirmSign
 revisionskincare.com — revisionskincare: getSkincareQuizQuestions, takeSkincareQuiz
 rezdy.com — rezdy: bookSession, checkVoucher, findOperator, getAvailability, getPickupLocations, getPriceQuote, getProduct, listCatalogs, listProducts (+3 planned)
 rightmove.co.uk — rightmove: search
-ring.com — ring: getPlans, getProduct, getSupportArticle, listCollection, listCollections, search, searchSupport (+19 planned)
+ring.com — ring: compareProducts, findRetailer, getPlans, getProduct, getProductReviews, getSupportArticle, listCollection, listCollections, search, searchSupport (+16 planned)
 rippling.com — rippling: listJobs
 rishi-tea.com — rishitea: getTeaFinderQuiz, matchTeaFinderQuiz
 ritani.com — ritani: getConfigurator, priceConfiguration
@@ -704,7 +704,7 @@ services.gst.gov.in — gst_india: lookup
 sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
-shein.com — shein: getProduct, getSizeGuide, getStore, listCategories, listFlashSale, listNewArrivals, listProductsByCategory, listStoreProducts, search (+25 planned)
+shein.com — shein: getPoints, getProduct, getSizeGuide, getStore, listCategories, listFlashSale, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, search (+22 planned)
 shop.app — shop_app: 33 functions — ask get_library (+6 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
@@ -792,6 +792,7 @@ totalplastics.com — totalplastics: getQuoteFormFieldOptions, getQuoteFormField
 translate.google.com — google_translate: checkSpelling, deleteHistory, detectLanguage, getAlternativeTranslations, getDefinitions, getSynonyms, listHistory, listLanguages, listSavedPhrases, lookupWord, romanize, savePhrase, speak, translate, translateDocument, translateImage, translateWebPage, unsavePhrase
 travelinsured.com — travelinsured: getZipInfo, searchDestinations (+1 planned)
 travelocity.com — travelocity: nothing callable yet (+7 planned)
+travelodge.ie — travelodge: getHotel, searchHotels
 trawickinternational.com — trawickinternational: getPlanPremium, getQuote
 trektravel.com — trektravel: getDeparturePricing, searchTours
 trends.google.com — google_trends: trending (+1 planned)

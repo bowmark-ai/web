@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 509267ce4da4974f08df964dac7be75cbf463247ffd414636b292dab5e9694db
-// 98 capabilities, 853 providers, 5277 typed functions, 20 refused.
+// Manifest version: 8babe5538517560667a3ec18f5f20511e19fa58ce3575e6122a5ccef68317450
+// 98 capabilities, 855 providers, 5295 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18541,6 +18541,17 @@ interface BlueskyModerationListMuteResult {
   changed: boolean;
 }
 
+interface BlueskyBlockModerationListArgs {
+  list: string;
+  undo?: boolean;
+}
+
+interface BlueskyModerationListBlockResult {
+  list: string;
+  blocked: boolean;
+  changed: boolean;
+}
+
 interface BlueskyModerationListPage {
   kind: "mute" | "block";
   lists: BlueskyUserList[];
@@ -19079,6 +19090,16 @@ interface BlueskySaveFeedResult {
      * the saved sign-in has expired; sign in again.
      */
     muteModerationList(args: BlueskyMuteModerationListArgs, opts?: ConnectionOption): Promise<BlueskyModerationListMuteResult>;
+
+    /**
+     * Blocks a moderation list for the signed-in caller, so every account on it is blocked from
+     * interacting with them; `undo: true` unblocks it. Takes the list as an at:// URI or bsky.app
+     * list URL. A curation list is refused, since only moderation lists can be blocked. A list
+     * already in the requested state returns `changed: false`. Needs the caller signed in to
+     * bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError` when
+     * the saved sign-in has expired; sign in again.
+     */
+    blockModerationList(args: BlueskyBlockModerationListArgs, opts?: ConnectionOption): Promise<BlueskyModerationListBlockResult>;
 
     /**
      * Posts one video, with optional text, alt text and languages. The video is an https URL of an
@@ -33743,6 +33764,40 @@ interface dansonsRegisterableProduct {
   }
 }
 
+declare namespace BowmarkProvider_dat {
+  // ── DAT Trendlines — the unit's own declarations, verbatim ──
+type DatEquipment = "van" | "reefer" | "flatbed";
+interface DatEquipmentArgs { equipment?: DatEquipment }
+interface DatSpotMonth { year: number; month: number; rateUsdPerMile: number; fuelSurchargeUsdPerMile: number | null }
+interface DatNationalSpotRates { van: DatSpotMonth[]; reefer: DatSpotMonth[]; flatbed: DatSpotMonth[]; sourceUrl: string }
+interface DatRateTrend { equipment: DatEquipment; points: { month: string; brokerUsdPerMile: number | null; shipperUsdPerMile: number | null }[]; sourceUrl: string }
+interface DatLoadToTruckRatio { equipment: DatEquipment; years: { year: number; ratios: (number | null)[] }[]; sourceUrl: string }
+
+  /**
+   * DAT's public Trendlines: national average truckload spot rates, broker/shipper rate trend
+   * and load-to-truck ratio for van, reefer and flatbed.
+   */
+  interface Unit {
+    /**
+     * DAT's monthly load-to-truck ratio (loads posted per truck on the DAT load board) for van,
+     * reefer or flatbed, one row per year with 12 monthly values. Defaults to van.
+     */
+    loadToTruckRatio(args?: DatEquipmentArgs): Promise<DatLoadToTruckRatio>;
+
+    /**
+     * DAT Trendlines' national average truckload spot rates (USD/mile incl. fuel, plus fuel
+     * surcharge) for van, reefer and flatbed over the last four months.
+     */
+    nationalSpotRates(): Promise<DatNationalSpotRates>;
+
+    /**
+     * DAT's 12-month national rate trendline for one equipment type: broker-to-carrier spot and
+     * shipper-to-broker rates per month, USD/mile incl. fuel. Defaults to van.
+     */
+    rateTrend(args?: DatEquipmentArgs): Promise<DatRateTrend>;
+  }
+}
+
 declare namespace BowmarkProvider_data_cms {
   // ── CMS Data (data.cms.gov) — the unit's own declarations, verbatim ──
 interface data_cmsDataset {
@@ -38063,6 +38118,7 @@ interface DropboxRecentFiles { files: DropboxEntry[]; scanned: number; oldestSca
 interface DropboxDeletedListing { path: string; deleted: DropboxEntry[]; hasMore: boolean }
 interface DropboxSharedItem { kind: "file" | "folder"; name: string; id: string; accessType?: string; previewUrl?: string; path?: string; owners?: string[]; invited?: string }
 interface DropboxSharedWithMe { items: DropboxSharedItem[]; hasMore: boolean }
+interface DropboxProfilePhoto { photoUrl: string }
 interface DropboxSharingMember { kind: "user" | "group" | "invitee"; accessType?: string; name?: string; email?: string; accountId?: string; groupId?: string; inherited?: boolean }
 interface DropboxSharingMembers { members: DropboxSharingMember[]; hasMore: boolean }
 interface DropboxFileRequest { id: string; url: string; title: string; destination?: string; isOpen: boolean; fileCount?: number; created?: string; deadline?: string; description?: string }
@@ -38177,6 +38233,14 @@ interface DropboxSaveResult { status: "complete" | "in_progress"; entry: Dropbox
      * makes "2026 (1)" instead. Needs the caller's Dropbox sign-in.
      */
     createFolder(input: { path: string; autorename?: boolean }, opts?: ConnectionOption): Promise<DropboxEntry>;
+
+    /**
+     * Sets the signed-in caller's Dropbox profile photo from an image sent as `base64` (the bytes
+     * base64-encoded, with no data-URL prefix) and returns the new photo's URL as `photoUrl`.
+     * THROWS, as a caller-fixable error, when Dropbox will not use the file or it is over 10 MB.
+     * Needs the caller's Dropbox sign-in.
+     */
+    changeProfilePhoto(input: { base64: string }, opts?: ConnectionOption): Promise<DropboxProfilePhoto>;
 
     /**
      * Lists who has access to one shared file (`file`: a path or `id:…` from
@@ -46978,9 +47042,10 @@ interface FoxnewsAccount {
 
     /**
      * Searches Fox News's video catalogue — full episodes and clips — for free text ("Ingraham
-     * Angle", "Hegseth hearing"), newest first with paging; each row has the clip id, title,
-     * description, url, air date, duration in seconds and whether it is a full episode, and its
-     * url goes to getVideo.
+     * Angle", "Hegseth hearing"), with paging (total is the number of videos found in the rows
+     * scanned, not every match; a warning says when the scan stopped early); each row has the clip
+     * id, title, description, url, air date, duration in seconds and whether it is a full episode,
+     * and its url goes to getVideo.
      */
     searchVideos(args: SearchVideosArgs): Promise<{ total: number; videos: FoxnewsVideoRow[]; warnings?: string[] }>;
 
@@ -70891,6 +70956,97 @@ interface MlbTeam {
   firstYear: number | null;
   active: boolean;
 }
+interface MlbGetPlayerArgs {
+  /** From searchPlayers(). */
+  playerId: number;
+  /** Season for the season stat line; default the current one. */
+  season?: number;
+}
+interface MlbGetPlayerStatsArgs {
+  /** From searchPlayers(). */
+  playerId: number;
+  group?: "hitting" | "pitching" | "fielding";
+  /** Default "season". "statSplits" with sitCodes (e.g. "vl,vr") gives vs-left/right. */
+  type?: "season" | "career" | "yearByYear" | "statSplits" | "homeAndAway" | "byMonth" | "winLoss" | "lastXGames" | "gameLog";
+  season?: number;
+  sitCodes?: string;
+}
+interface MlbGetStatLeadersArgs {
+  /** MLB's own category name: "homeRuns", "battingAverage", "earnedRunAverage", "strikeouts", "wins", … */
+  category: string;
+  season?: number;
+  /** 103 = American League, 104 = National League; omit for MLB-wide. */
+  leagueId?: number;
+  statGroup?: "hitting" | "pitching" | "fielding";
+  /** 1-100, default 10. */
+  limit?: number;
+}
+interface MlbGetRosterArgs {
+  /** From listTeams(). */
+  teamId: number;
+  /** Default "active". */
+  rosterType?: "active" | "40Man" | "fullSeason" | "fullRoster" | "depthChart" | "nonRosterInvitees" | "allTime" | "coach";
+  season?: number;
+}
+interface MlbStatLine {
+  season: string | null;
+  team: string | null;
+  teamId: number | null;
+  level: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  split: string | null;
+  /** MLB's own stat names and string-formatted values, e.g. { homeRuns: 55, avg: ".282" }. */
+  stat: Record<string, string | number | null>;
+}
+interface MlbStatGroup {
+  warning?: string;
+  group: string;
+  type: string;
+  lines: MlbStatLine[];
+}
+interface MlbPlayerProfile {
+  id: number;
+  name: string;
+  nickname: string | null;
+  position: string | null;
+  number: string | null;
+  bats: string | null;
+  throws: string | null;
+  height: string | null;
+  weight: number | null;
+  age: number | null;
+  birthDate: string | null;
+  birthPlace: string | null;
+  active: boolean;
+  team: string | null;
+  teamId: number | null;
+  mlbDebut: string | null;
+  draftYear: number | null;
+  slug: string | null;
+  url: string;
+  stats: MlbStatGroup[];
+}
+interface MlbLeader {
+  rank: number;
+  value: string;
+  playerId: number | null;
+  player: string | null;
+  teamId: number | null;
+  team: string | null;
+}
+interface MlbLeaderBoard {
+  category: string;
+  season: string;
+  leaders: MlbLeader[];
+  warning?: string;
+}
+interface MlbRosterEntry {
+  playerId: number;
+  name: string;
+  number: string | null;
+  position: string | null;
+  positionType: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+}
 interface MlbSearchPlayersArgs {
   query: string;
   activeOnly?: boolean;
@@ -71110,6 +71266,31 @@ interface MlbPlay {
      * in and score; filter by inning or scoringOnly. Takes a gamePk from getSchedule.
      */
     getPlayByPlay(args: MlbGetPlayByPlayArgs): Promise<MlbPlay[]>;
+
+    /**
+     * One player's profile: bio, position, bats/throws, team, debut and page URL, with career and
+     * season hitting and pitching lines. Takes a playerId from searchPlayers.
+     */
+    getPlayer(args: MlbGetPlayerArgs): Promise<MlbPlayerProfile>;
+
+    /**
+     * A player's stats by group (hitting, pitching, fielding) and type: season, career,
+     * year-by-year, home/away, by month, game log or vs-left/right splits. e.g. getPlayerStats({
+     * playerId: 660271, type: "yearByYear" }).
+     */
+    getPlayerStats(args: MlbGetPlayerStatsArgs): Promise<MlbStatGroup>;
+
+    /**
+     * League leaders in one stat category for a season, MLB-wide or per league, e.g.
+     * getStatLeaders({ category: "homeRuns", season: 2025 }).
+     */
+    getStatLeaders(args: MlbGetStatLeadersArgs): Promise<MlbLeaderBoard>;
+
+    /**
+     * A team's roster (active, 40-man, full season, depth chart, coaches) with each player's
+     * number, position and status. Takes a teamId from listTeams.
+     */
+    getRoster(args: MlbGetRosterArgs): Promise<MlbRosterEntry[]>;
   }
 }
 
@@ -88810,6 +88991,12 @@ declare namespace BowmarkProvider_ring {
 interface RingSearchArgs { query: string; }
 interface RingSearchResult { name: string; url: string; price: number | null; wasPrice: number | null; imageUrl: string | null; }
 interface RingCollection { handle: string; name: string; url: string; }
+interface RingRetailer { name: string; url: string; }
+interface RingCompareProduct { productId: string; name: string; url: string; power: string | null; price: number | null; }
+interface RingCompareSpec { section: string; key: string; values: Record<string, string | null>; }
+interface RingComparison { products: RingCompareProduct[]; specs: RingCompareSpec[]; }
+interface RingReview { id: string; title: string | null; text: string; stars: number | null; reviewedLine: string | null; verifiedPurchase: boolean; imageCount: number; }
+interface RingReviewsPage { asin: string; total: number | null; reviews: RingReview[]; nextPage: string | null; }
 interface RingPlan { name: string; monthlyPrice: number | null; yearlyPrice: number | null; pricing: string; description: string | null; features: string[]; }
 interface RingSupportHit { id: string; title: string; url: string; }
 interface RingSupportArticle { id: string; title: string; url: string; updatedAt: string | null; body: string; }
@@ -88834,6 +89021,21 @@ interface RingProduct { name: string; url: string; price: number | null; wasPric
 
     /** Read Ring Protect's subscription plans: price per month and year, and what each includes. */
     getPlans(): Promise<RingPlan[]>;
+
+    /** Compare every Ring doorbell side by side: name, power type, price and each spec row. */
+    compareProducts(): Promise<RingComparison>;
+
+    /**
+     * Read customer reviews of a Ring product (by url or ASIN): stars, title, text, verified flag;
+     * pass nextPage for more.
+     */
+    getProductReviews(args: { url?: string; asin?: string; nextPage?: string; sortBy?: string }): Promise<RingReviewsPage>;
+
+    /**
+     * List Ring's authorized retail partners (Amazon, Best Buy, Home Depot, ...) with Ring's
+     * storefront link on each.
+     */
+    findRetailer(): Promise<RingRetailer[]>;
 
     /** Search Ring's help articles by words in their titles; returns title and url. */
     searchSupport(args: { query: string }): Promise<RingSupportHit[]>;
@@ -106293,6 +106495,34 @@ interface TravelinsuredZipInfo {
   }
 }
 
+declare namespace BowmarkProvider_travelodge {
+  // ── Travelodge Ireland — the unit's own declarations, verbatim ──
+interface TravelodgeSearchArgs { location: string; checkIn: string; checkOut: string; adults?: number; children?: number }
+interface TravelodgeHotelSummary { id: number; code: string; name: string; url: string; latitude: number | null; longitude: number | null; distanceMiles: number | null; available: boolean; lowAvailability: boolean; currency: string | null; fromPrice: number | null; rating: number | null; reviewCount: number | null; facilities: string[]; openingSoon: boolean }
+interface TravelodgeSearchResult { location: string; checkIn: string; checkOut: string; hotels: TravelodgeHotelSummary[] }
+interface TravelodgeGetHotelArgs { hotelId: number }
+interface TravelodgeNearby { name: string; distanceMiles: number | null }
+interface TravelodgeHotel { id: number; code: string; name: string; url: string; latitude: number | null; longitude: number | null; address: string; town: string | null; country: string | null; phone: string | null; strapLine: string | null; parking: string[]; facilities: string[]; transportLinks: TravelodgeNearby[]; placesToVisit: TravelodgeNearby[]; imageUrl: string | null }
+
+  /**
+   * Travelodge Ireland hotels — search by place and dates for live from-prices and availability,
+   * then read one hotel's address, phone, parking and nearby transport.
+   */
+  interface Unit {
+    /**
+     * Search Travelodge Ireland hotels near a place for check-in/check-out dates — each hotel's
+     * live from-price in EUR, availability, distance, rating and facilities.
+     */
+    searchHotels(args: TravelodgeSearchArgs): Promise<TravelodgeSearchResult>;
+
+    /**
+     * One Travelodge Ireland hotel by its numeric id — address, phone, coordinates, parking,
+     * facilities, nearby transport links and places to visit.
+     */
+    getHotel(args: TravelodgeGetHotelArgs): Promise<TravelodgeHotel>;
+  }
+}
+
 declare namespace BowmarkProvider_trawickinternational {
   // ── Trawick International — the unit's own declarations, verbatim ──
 interface TrawickQuoteQuery {
@@ -114087,6 +114317,12 @@ interface WhatsappGroupChange {
   applied: string[];
 }
 
+interface WhatsappChannelChange {
+  channel: string;
+  /** "followed" or "unfollowed". */
+  applied: string[];
+}
+
   /**
    * WhatsApp, Meta's messaging app: preview public Channels, group invite links and business
    * catalogs, search the Help Center; signed in through WhatsApp Web, read and search the
@@ -114315,6 +114551,27 @@ interface WhatsappGroupChange {
      * signed in.
      */
     removeGroupParticipants(groupName: string, participants: string[], opts?: ConnectionOption): Promise<WhatsappGroupChange>;
+
+    /**
+     * Joins a group from its chat.whatsapp.com invite link, or the code after it, as the caller.
+     * Needs the caller signed in.
+     */
+    joinGroupByInvite(invite: string, opts?: ConnectionOption): Promise<WhatsappGroupChange>;
+
+    /** Leaves a group the caller is in, by its exact displayed name. Needs the caller signed in. */
+    leaveGroup(groupName: string, opts?: ConnectionOption): Promise<WhatsappGroupChange>;
+
+    /**
+     * Follows a Channel by its exact displayed name, found through the Channels directory. Needs
+     * the caller signed in.
+     */
+    followChannel(channelName: string, opts?: ConnectionOption): Promise<WhatsappChannelChange>;
+
+    /**
+     * Unfollows a Channel the caller follows, by its exact displayed name. Needs the caller signed
+     * in.
+     */
+    unfollowChannel(channelName: string, opts?: ConnectionOption): Promise<WhatsappChannelChange>;
 
     /**
      * Deletes a message the caller sent, for everyone when WhatsApp still offers that and for the
@@ -122448,6 +122705,7 @@ interface BowmarkProviders {
   dailymotion: BowmarkProvider_dailymotion.Unit;
   dangotecement: BowmarkProvider_dangotecement.Unit;
   dansons: BowmarkProvider_dansons.Unit;
+  dat: BowmarkProvider_dat.Unit;
   data_cms: BowmarkProvider_data_cms.Unit;
   data_medicaid: BowmarkProvider_data_medicaid.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
@@ -122964,6 +123222,7 @@ interface BowmarkProviders {
   totalplastics: BowmarkProvider_totalplastics.Unit;
   tradingview: BowmarkProvider_tradingview.Unit;
   travelinsured: BowmarkProvider_travelinsured.Unit;
+  travelodge: BowmarkProvider_travelodge.Unit;
   trawickinternational: BowmarkProvider_trawickinternational.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
   trip: BowmarkProvider_trip.Unit;

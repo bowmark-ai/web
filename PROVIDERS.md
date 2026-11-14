@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6854 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6861 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -636,6 +636,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟢 |
 | `bluesignal.searchJobs` | bluesignal.com | Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by a… | 🟢 |
 | `bluesky.addToList` | bsky.app | Add a person to one of the caller's lists, or remove them. | 🟢 |
+| `bluesky.blockModerationList` | bsky.app | Blocks a moderation list for the signed-in caller, so every account on it is blocked… | 🟢 |
 | `bluesky.blockUser` | bsky.app | Block a person as the caller, or unblock them. | 🟢 |
 | `bluesky.bookmarkPost` | bsky.app | Save a post to the caller's Bookmarks, or remove it. | 🟢 |
 | `bluesky.createList` | bsky.app | Create a curation or moderation list owned by the caller. | 🟢 |
@@ -2729,8 +2730,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.getAuthorBooks` | goodreads.com | Lists an author's full bibliography, 30 books a page. | 🟢 |
 | `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | 🟢 |
 | `goodreads.getBookEditions` | goodreads.com | Lists the editions of a book (publisher, date, format, pages, ISBN, language, rating)… | 🟢 |
+| `goodreads.getBookQuotes` | goodreads.com | Lists the quotes readers have attached to one book, with the quote text, its page and… | ⚪ |
 | `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer name, review text, and creation… | 🟢 |
 | `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | 🟢 |
+| `goodreads.getMemberFollowers` | goodreads.com | Lists the readers who follow a member, from the member's followers page. | ⚪ |
+| `goodreads.getMemberFollowing` | goodreads.com | Lists the readers a member follows. | ⚪ |
 | `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | 🟢 |
 | `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | 🟡 |
 | `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | 🟢 |
@@ -2742,6 +2746,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | 🟢 |
 | `goodreads.searchAuthors` | goodreads.com | Finds Goodreads authors by name; returns each match's id, url, books-on-shelf count… | 🟡 |
 | `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | 🟢 |
+| `goodreads.searchLists` | goodreads.com | Searches Goodreads' curated lists (Listopia) by topic and returns each list's title… | ⚪ |
 | `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | 🟢 |
 | `goodreads.unfollowUser` | goodreads.com | Stops following another member as the signed-in caller — the pair of followUser. | 🟢 |
 | `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | 🟢 |
@@ -3799,17 +3804,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mlb.getInjuryReport` | mlb.com | Lists the players on the injured list, by team, with the injury and expected return. | ⚪ |
 | `mlb.getPlayback` | mlb.com | Returns the playback menu for one MLB video: the site's embed plus every MP4/HLS… | ⚪ |
 | `mlb.getPlayByPlay` | mlb.com | Lists every plate appearance in a game, inning by inning, with the pitches, the result… | 🟢 |
-| `mlb.getPlayer` | mlb.com | Gets one player's profile: bio, position, bats and throws, team, draft and debut, with… | ⚪ |
+| `mlb.getPlayer` | mlb.com | Gets one player's profile: bio, position, bats and throws, team, draft and debut, with… | 🟢 |
 | `mlb.getPlayerGameLog` | mlb.com | Lists a player's game-by-game stat lines for a season. | ⚪ |
-| `mlb.getPlayerStats` | mlb.com | Gets a player's stats for a season or career, by hitting, pitching or fielding… | ⚪ |
+| `mlb.getPlayerStats` | mlb.com | Gets a player's stats for a season or career, by hitting, pitching or fielding… | 🟢 |
 | `mlb.getPostseasonBracket` | mlb.com | Gets a season's postseason series: matchups, series score and each game. | ⚪ |
 | `mlb.getProbablePitchers` | mlb.com | Lists the announced starting pitchers for upcoming games, with their season records. | ⚪ |
 | `mlb.getProspectRankings` | mlb.com | Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30. | ⚪ |
-| `mlb.getRoster` | mlb.com | Gets a team's roster (active, 40-man, full season or depth chart) with each player's… | ⚪ |
+| `mlb.getRoster` | mlb.com | Gets a team's roster (active, 40-man, full season or depth chart) with each player's… | 🟢 |
 | `mlb.getSchedule` | mlb.com | Lists MLB games for a date or date range, optionally one team's: matchup, start time… | 🟢 |
 | `mlb.getStandings` | mlb.com | Gets the standings by division, league or wild card for a season: wins, losses… | 🟢 |
 | `mlb.getStartingLineups` | mlb.com | Gets the announced batting orders for a day's games. | ⚪ |
-| `mlb.getStatLeaders` | mlb.com | Lists the league leaders in a stat category for a season, MLB-wide or per league. | ⚪ |
+| `mlb.getStatLeaders` | mlb.com | Lists the league leaders in a stat category for a season, MLB-wide or per league. | 🟢 |
 | `mlb.getSubscriptions` | mlb.com | Lists the signed-in caller's MLB.TV, MLB.TV Single Team and MLB Audio subscriptions… | ⚪ |
 | `mlb.getTeam` | mlb.com | Gets one team's details: name, location, league, division, ballpark, first year of… | ⚪ |
 | `mlb.getTeamLeaders` | mlb.com | Lists a team's leaders in a stat (home runs, average, ERA, strikeouts…) for a season. | ⚪ |
@@ -4849,8 +4854,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
 | `ring.addToCart` | ring.com | Adds a Ring product, by its url and quantity, to the guest cart. | ⚪ |
 | `ring.checkout` | ring.com | Reads the order summary up to the payment step. | ⚪ |
-| `ring.compareProducts` | ring.com | Reads a Ring product category's comparison, the specifications of each model side by… | ⚪ |
-| `ring.findRetailer` | ring.com | Lists Ring's authorized retail partners that carry Ring hardware. | ⚪ |
+| `ring.compareProducts` | ring.com | Reads a Ring product category's comparison, the specifications of each model side by… | 🟢 |
+| `ring.findRetailer` | ring.com | Lists Ring's authorized retail partners that carry Ring hardware. | 🟢 |
 | `ring.getAlarmMode` | ring.com | Reads the signed-in account's current alarm mode, such as home, away or disarmed. | ⚪ |
 | `ring.getCart` | ring.com | Reads the guest cart's lines, quantities and totals before checkout. | ⚪ |
 | `ring.getDevice` | ring.com | Reads one signed-in device's status, battery, firmware and settings snapshot. | ⚪ |
@@ -4858,7 +4863,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ring.getPlans` | ring.com | Reads Ring Protect's subscription plans with their prices and what each one includes. | 🟢 |
 | `ring.getPlayback` | ring.com | Returns one recorded event's playback menu: the site's embedded player and its own… | ⚪ |
 | `ring.getProduct` | ring.com | Reads a Ring product page's live offer, availability, SKUs, images and server-rendered… | 🟢 |
-| `ring.getProductReviews` | ring.com | Reads a Ring product's customer reviews with their ratings and text. | ⚪ |
+| `ring.getProductReviews` | ring.com | Reads a Ring product's customer reviews with their ratings and text. | 🟢 |
 | `ring.getSupportArticle` | ring.com | Reads one Ring support article by the url searchSupport returned. | 🟢 |
 | `ring.listCollection` | ring.com | Reads one collection's product grid by its handle, with each card's name, url, price… | 🟢 |
 | `ring.listCollections` | ring.com | Lists Ring's product collections (category and shelf pages) with their handles and… | 🟢 |
@@ -5096,7 +5101,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.getCart` | shein.com | Returns the signed-in caller's shopping bag: items, size and colour chosen, quantity… | ⚪ |
 | `shein.getCheckoutSummary` | shein.com | Opens checkout for the signed-in caller's bag and returns what it would cost —… | ⚪ |
 | `shein.getOrder` | shein.com | Returns one of the signed-in caller's orders: items, shipping address, totals and the… | ⚪ |
-| `shein.getPoints` | shein.com | Returns the signed-in caller's SHEIN points balance and how much it is worth at… | ⚪ |
+| `shein.getPoints` | shein.com | Returns the signed-in caller's SHEIN points balance and how much it is worth at… | 🟢 |
 | `shein.getProduct` | shein.com | Returns product details: title, description, sizes, colors, price, reviews and… | 🟢 |
 | `shein.getProductReviews` | shein.com | Returns customer reviews for a product: rating summary, fit feedback (runs small /… | ⚪ |
 | `shein.getProfile` | shein.com | Returns the signed-in caller's profile: nickname, email, birthday and the body… | ⚪ |
@@ -5108,9 +5113,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.listCategories` | shein.com | Lists the top-level product categories on Shein. | 🟢 |
 | `shein.listFlashSale` | shein.com | Lists the products on Shein's Sale tab (its discounted grid; the site has no separate… | 🟢 |
 | `shein.listFollowedStores` | shein.com | Lists the marketplace stores the signed-in caller follows. | ⚪ |
-| `shein.listMyCoupons` | shein.com | Lists the coupons on the signed-in caller's account, with the discount, minimum spend… | ⚪ |
+| `shein.listMyCoupons` | shein.com | Lists the coupons on the signed-in caller's account, with the discount, minimum spend… | 🟢 |
 | `shein.listNewArrivals` | shein.com | Lists Shein's New In products (the /recommend/New-In-sc-<id>.html selection). | 🟢 |
-| `shein.listOrders` | shein.com | Lists the signed-in caller's orders with status (processing, shipped, delivered), date… | ⚪ |
+| `shein.listOrders` | shein.com | Lists the signed-in caller's orders with status (processing, shipped, delivered), date… | 🟢 |
 | `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | 🟢 |
 | `shein.listStoreProducts` | shein.com | Lists the first page of products a marketplace store sells, from the store's own home… | 🟢 |
 | `shein.listWishlist` | shein.com | Lists the products the signed-in caller saved to their wishlist. | ⚪ |
@@ -5952,6 +5957,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `travelocity.searchCruises` | travelocity.com | Searches Travelocity's live cruise sailings the way its own booking widget does —… | ⚪ |
 | `travelocity.searchHotels` | travelocity.com | Searches Travelocity's live hotel availability the way its own booking widget does —… | ⚪ |
 | `travelocity.searchPackages` | travelocity.com | Searches Travelocity's live bundled flight+hotel packages the way its own booking… | ⚪ |
+| `travelodge.getHotel` | travelodge.ie | One Travelodge Ireland hotel by its numeric id — address, phone, coordinates, parking… | 🟢 |
+| `travelodge.searchHotels` | travelodge.ie | Search Travelodge Ireland hotels near a place for check-in/check-out dates — each… | 🟢 |
 | `trawickinternational.getPlanPremium` | trawickinternational.com | Reads the exact dollar premium and purchase handoff link for one plan off Trawick's… | 🟡 |
 | `trawickinternational.getQuote` | trawickinternational.com | Submits Trawick's own homepage 'Get a Quote' travel-insurance form (destination… | 🟡 |
 | `trektravel.getDeparturePricing` | trektravel.com | Reads one trip's real scheduled departure dates straight off its own page: each date's… | 🟢 |

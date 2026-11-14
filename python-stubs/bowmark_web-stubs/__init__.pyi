@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 509267ce4da4974f08df964dac7be75cbf463247ffd414636b292dab5e9694db
-# 98 capabilities, 853 providers, 5249 typed functions, 20 refused.
+# Manifest version: 8babe5538517560667a3ec18f5f20511e19fa58ce3575e6122a5ccef68317450
+# 98 capabilities, 855 providers, 5267 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11866,6 +11866,15 @@ class Prv_bluesky_BlueskyModerationListMuteResult_Out(TypedDict):
     muted: bool
     changed: bool
 
+class Prv_bluesky_BlueskyBlockModerationListArgs_In(TypedDict):
+    list: str
+    undo: NotRequired[bool]
+
+class Prv_bluesky_BlueskyModerationListBlockResult_Out(TypedDict):
+    list: str
+    blocked: bool
+    changed: bool
+
 class Prv_bluesky_BlueskyVideoPostArgs_In(TypedDict):
     text: NotRequired[str]
     video: str
@@ -21514,6 +21523,40 @@ class Prv_dansons_dansonsRegisterableProduct_Out(TypedDict):
     price: float
     imageUrl: str | None
 
+class Prv_dat_DatEquipmentArgs_In(TypedDict):
+    equipment: NotRequired[Literal["van"] | Literal["reefer"] | Literal["flatbed"]]
+
+class Prv_dat_DatLoadToTruckRatio_Out(TypedDict):
+    equipment: Literal["van"] | Literal["reefer"] | Literal["flatbed"]
+    years: list[Prv_dat_DatLoadToTruckRatio_Out_years_item_Out]
+    sourceUrl: str
+
+class Prv_dat_DatLoadToTruckRatio_Out_years_item_Out(TypedDict):
+    year: float
+    ratios: list[float | None]
+
+class Prv_dat_DatNationalSpotRates_Out(TypedDict):
+    van: list[Prv_dat_DatSpotMonth_Out]
+    reefer: list[Prv_dat_DatSpotMonth_Out]
+    flatbed: list[Prv_dat_DatSpotMonth_Out]
+    sourceUrl: str
+
+class Prv_dat_DatSpotMonth_Out(TypedDict):
+    year: float
+    month: float
+    rateUsdPerMile: float
+    fuelSurchargeUsdPerMile: float | None
+
+class Prv_dat_DatRateTrend_Out(TypedDict):
+    equipment: Literal["van"] | Literal["reefer"] | Literal["flatbed"]
+    points: list[Prv_dat_DatRateTrend_Out_points_item_Out]
+    sourceUrl: str
+
+class Prv_dat_DatRateTrend_Out_points_item_Out(TypedDict):
+    month: str
+    brokerUsdPerMile: float | None
+    shipperUsdPerMile: float | None
+
 class Prv_data_cms_SearchDatasetsArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -24651,6 +24694,12 @@ Prv_dropbox_moveFile_input_In = TypedDict(
 class Prv_dropbox_createFolder_input_In(TypedDict):
     path: str
     autorename: NotRequired[bool]
+
+class Prv_dropbox_changeProfilePhoto_input_In(TypedDict):
+    base64: str
+
+class Prv_dropbox_DropboxProfilePhoto_Out(TypedDict):
+    photoUrl: str
 
 class Prv_dropbox_listSharingMembers_input_In(TypedDict):
     file: NotRequired[str]
@@ -45273,6 +45322,87 @@ class Prv_mlb_MlbPlay_Out(TypedDict):
     awayScore: float | None
     homeScore: float | None
 
+class Prv_mlb_MlbGetPlayerArgs_In(TypedDict):
+    playerId: float
+    season: NotRequired[float]
+
+class Prv_mlb_MlbPlayerProfile_Out(TypedDict):
+    id: float
+    name: str
+    nickname: str | None
+    position: str | None
+    number: str | None
+    bats: str | None
+    throws: str | None
+    height: str | None
+    weight: float | None
+    age: float | None
+    birthDate: str | None
+    birthPlace: str | None
+    active: bool
+    team: str | None
+    teamId: float | None
+    mlbDebut: str | None
+    draftYear: float | None
+    slug: str | None
+    url: str
+    stats: list[Prv_mlb_MlbStatGroup_Out]
+
+class Prv_mlb_MlbStatGroup_Out(TypedDict):
+    warning: NotRequired[str]
+    group: str
+    type: str
+    lines: list[Prv_mlb_MlbStatLine_Out]
+
+class Prv_mlb_MlbStatLine_Out(TypedDict):
+    season: str | None
+    team: str | None
+    teamId: float | None
+    level: str | None
+    split: str | None
+    stat: Mapping[str, str | float | None]
+
+class Prv_mlb_MlbGetPlayerStatsArgs_In(TypedDict):
+    playerId: float
+    group: NotRequired[Literal["hitting"] | Literal["pitching"] | Literal["fielding"]]
+    type: NotRequired[Literal["season"] | Literal["career"] | Literal["yearByYear"] | Literal["statSplits"] | Literal["homeAndAway"] | Literal["byMonth"] | Literal["winLoss"] | Literal["lastXGames"] | Literal["gameLog"]]
+    season: NotRequired[float]
+    sitCodes: NotRequired[str]
+
+class Prv_mlb_MlbGetStatLeadersArgs_In(TypedDict):
+    category: str
+    season: NotRequired[float]
+    leagueId: NotRequired[float]
+    statGroup: NotRequired[Literal["hitting"] | Literal["pitching"] | Literal["fielding"]]
+    limit: NotRequired[float]
+
+class Prv_mlb_MlbLeaderBoard_Out(TypedDict):
+    category: str
+    season: str
+    leaders: list[Prv_mlb_MlbLeader_Out]
+    warning: NotRequired[str]
+
+class Prv_mlb_MlbLeader_Out(TypedDict):
+    rank: float
+    value: str
+    playerId: float | None
+    player: str | None
+    teamId: float | None
+    team: str | None
+
+class Prv_mlb_MlbGetRosterArgs_In(TypedDict):
+    teamId: float
+    rosterType: NotRequired[Literal["active"] | Literal["40Man"] | Literal["fullSeason"] | Literal["fullRoster"] | Literal["depthChart"] | Literal["nonRosterInvitees"] | Literal["allTime"] | Literal["coach"]]
+    season: NotRequired[float]
+
+class Prv_mlb_MlbRosterEntry_Out(TypedDict):
+    playerId: float
+    name: str
+    number: str | None
+    position: str | None
+    positionType: str | None
+    status: str | None
+
 class Prv_modernize_com_ModernizeProjectType_Out(TypedDict):
     value: str
     label: str
@@ -57106,6 +57236,47 @@ class Prv_ring_RingPlan_Out(TypedDict):
     pricing: str
     description: str | None
     features: list[str]
+
+class Prv_ring_RingComparison_Out(TypedDict):
+    products: list[Prv_ring_RingCompareProduct_Out]
+    specs: list[Prv_ring_RingCompareSpec_Out]
+
+class Prv_ring_RingCompareProduct_Out(TypedDict):
+    productId: str
+    name: str
+    url: str
+    power: str | None
+    price: float | None
+
+class Prv_ring_RingCompareSpec_Out(TypedDict):
+    section: str
+    key: str
+    values: Mapping[str, str | None]
+
+class Prv_ring_getProductReviews_args_In(TypedDict):
+    url: NotRequired[str]
+    asin: NotRequired[str]
+    nextPage: NotRequired[str]
+    sortBy: NotRequired[str]
+
+class Prv_ring_RingReviewsPage_Out(TypedDict):
+    asin: str
+    total: float | None
+    reviews: list[Prv_ring_RingReview_Out]
+    nextPage: str | None
+
+class Prv_ring_RingReview_Out(TypedDict):
+    id: str
+    title: str | None
+    text: str
+    stars: float | None
+    reviewedLine: str | None
+    verifiedPurchase: bool
+    imageCount: float
+
+class Prv_ring_RingRetailer_Out(TypedDict):
+    name: str
+    url: str
 
 class Prv_ring_searchSupport_args_In(TypedDict):
     query: str
@@ -69138,6 +69309,61 @@ class Prv_travelinsured_TravelinsuredZipInfo_Out(TypedDict):
     stateIsoCode: str
     countryIsoCode: str
 
+class Prv_travelodge_TravelodgeSearchArgs_In(TypedDict):
+    location: str
+    checkIn: str
+    checkOut: str
+    adults: NotRequired[float]
+    children: NotRequired[float]
+
+class Prv_travelodge_TravelodgeSearchResult_Out(TypedDict):
+    location: str
+    checkIn: str
+    checkOut: str
+    hotels: list[Prv_travelodge_TravelodgeHotelSummary_Out]
+
+class Prv_travelodge_TravelodgeHotelSummary_Out(TypedDict):
+    id: float
+    code: str
+    name: str
+    url: str
+    latitude: float | None
+    longitude: float | None
+    distanceMiles: float | None
+    available: bool
+    lowAvailability: bool
+    currency: str | None
+    fromPrice: float | None
+    rating: float | None
+    reviewCount: float | None
+    facilities: list[str]
+    openingSoon: bool
+
+class Prv_travelodge_TravelodgeGetHotelArgs_In(TypedDict):
+    hotelId: float
+
+class Prv_travelodge_TravelodgeHotel_Out(TypedDict):
+    id: float
+    code: str
+    name: str
+    url: str
+    latitude: float | None
+    longitude: float | None
+    address: str
+    town: str | None
+    country: str | None
+    phone: str | None
+    strapLine: str | None
+    parking: list[str]
+    facilities: list[str]
+    transportLinks: list[Prv_travelodge_TravelodgeNearby_Out]
+    placesToVisit: list[Prv_travelodge_TravelodgeNearby_Out]
+    imageUrl: str | None
+
+class Prv_travelodge_TravelodgeNearby_Out(TypedDict):
+    name: str
+    distanceMiles: float | None
+
 class Prv_trawickinternational_TrawickQuoteQuery_In(TypedDict):
     destination: str
     originCountry: str
@@ -74408,6 +74634,10 @@ class Prv_whatsapp_WhatsappGroupChange_Out(TypedDict):
 class Prv_whatsapp_updateGroup_update_In(TypedDict):
     name: NotRequired[str]
     description: NotRequired[str]
+
+class Prv_whatsapp_WhatsappChannelChange_Out(TypedDict):
+    channel: str
+    applied: list[str]
 
 class Prv_whatsapp_WhatsappCatalogProduct_Out(TypedDict):
     name: str
@@ -85686,6 +85916,15 @@ class Prv_bluesky(Protocol):
         `blueskyError` when the saved sign-in has expired; sign in again.
         """
 
+    async def blockModerationList(self, args: Prv_bluesky_BlueskyBlockModerationListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyModerationListBlockResult_Out:
+        """Blocks a moderation list for the signed-in caller, so every account on it is blocked
+        from interacting with them; `undo: true` unblocks it. Takes the list as an at:// URI or
+        bsky.app list URL. A curation list is refused, since only moderation lists can be
+        blocked. A list already in the requested state returns `changed: false`. Needs the
+        caller signed in to bsky.app — the run pauses for a sign-in link when they are not.
+        THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
     async def createPostWithVideo(self, args: Prv_bluesky_BlueskyVideoPostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyCreatedRecord_Out:
         """Posts one video, with optional text, alt text and languages. The video is an https URL
         of an MP4, WebM, MPEG or QuickTime file, at most 300 MB; it is uploaded through the
@@ -90701,6 +90940,26 @@ class Prv_dansons(Protocol):
         shopper's serial number or purchase info.
         """
 
+class Prv_dat(Protocol):
+    """DAT's public Trendlines: national average truckload spot rates, broker/shipper rate
+    trend and load-to-truck ratio for van, reefer and flatbed.
+    """
+
+    async def loadToTruckRatio(self, args: Prv_dat_DatEquipmentArgs_In | None = None, /) -> Prv_dat_DatLoadToTruckRatio_Out:
+        """DAT's monthly load-to-truck ratio (loads posted per truck on the DAT load board) for
+        van, reefer or flatbed, one row per year with 12 monthly values. Defaults to van.
+        """
+
+    async def nationalSpotRates(self, /) -> Prv_dat_DatNationalSpotRates_Out:
+        """DAT Trendlines' national average truckload spot rates (USD/mile incl. fuel, plus fuel
+        surcharge) for van, reefer and flatbed over the last four months.
+        """
+
+    async def rateTrend(self, args: Prv_dat_DatEquipmentArgs_In | None = None, /) -> Prv_dat_DatRateTrend_Out:
+        """DAT's 12-month national rate trendline for one equipment type: broker-to-carrier spot
+        and shipper-to-broker rates per month, USD/mile incl. fuel. Defaults to van.
+        """
+
 class Prv_data_cms(Protocol):
     """Search the Centers for Medicare & Medicaid Services' open datasets (provider
     enrollments, hospital and nursing-home data, Part D prescribers, …) and read rows from
@@ -92294,6 +92553,13 @@ class Prv_dropbox(Protocol):
         """Creates a folder at `path` (e.g. "/Projects/2026") in the signed-in caller's Dropbox and
         returns it. THROWS if something already sits at that path, unless `autorename: true`,
         which makes "2026 (1)" instead. Needs the caller's Dropbox sign-in.
+        """
+
+    async def changeProfilePhoto(self, input: Prv_dropbox_changeProfilePhoto_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxProfilePhoto_Out:
+        """Sets the signed-in caller's Dropbox profile photo from an image sent as `base64` (the
+        bytes base64-encoded, with no data-URL prefix) and returns the new photo's URL as
+        `photoUrl`. THROWS, as a caller-fixable error, when Dropbox will not use the file or it
+        is over 10 MB. Needs the caller's Dropbox sign-in.
         """
 
     async def listSharingMembers(self, input: Prv_dropbox_listSharingMembers_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxSharingMembers_Out:
@@ -95206,9 +95472,10 @@ class Prv_foxnews(Protocol):
 
     async def searchVideos(self, args: Prv_foxnews_SearchVideosArgs_In, /) -> Prv_foxnews_searchVideos_return_Out:
         """Searches Fox News's video catalogue — full episodes and clips — for free text ("Ingraham
-        Angle", "Hegseth hearing"), newest first with paging; each row has the clip id, title,
-        description, url, air date, duration in seconds and whether it is a full episode, and
-        its url goes to getVideo.
+        Angle", "Hegseth hearing"), with paging (total is the number of videos found in the rows
+        scanned, not every match; a warning says when the scan stopped early); each row has the
+        clip id, title, description, url, air date, duration in seconds and whether it is a full
+        episode, and its url goes to getVideo.
         """
 
     async def getVideo(self, args: Prv_foxnews_GetVideoArgs_In, /) -> Prv_foxnews_FoxnewsVideo_Out:
@@ -104086,6 +104353,27 @@ class Prv_mlb(Protocol):
         batted in and score; filter by inning or scoringOnly. Takes a gamePk from getSchedule.
         """
 
+    async def getPlayer(self, args: Prv_mlb_MlbGetPlayerArgs_In, /) -> Prv_mlb_MlbPlayerProfile_Out:
+        """One player's profile: bio, position, bats/throws, team, debut and page URL, with career
+        and season hitting and pitching lines. Takes a playerId from searchPlayers.
+        """
+
+    async def getPlayerStats(self, args: Prv_mlb_MlbGetPlayerStatsArgs_In, /) -> Prv_mlb_MlbStatGroup_Out:
+        """A player's stats by group (hitting, pitching, fielding) and type: season, career,
+        year-by-year, home/away, by month, game log or vs-left/right splits. e.g.
+        getPlayerStats({ playerId: 660271, type: "yearByYear" }).
+        """
+
+    async def getStatLeaders(self, args: Prv_mlb_MlbGetStatLeadersArgs_In, /) -> Prv_mlb_MlbLeaderBoard_Out:
+        """League leaders in one stat category for a season, MLB-wide or per league, e.g.
+        getStatLeaders({ category: "homeRuns", season: 2025 }).
+        """
+
+    async def getRoster(self, args: Prv_mlb_MlbGetRosterArgs_In, /) -> list[Prv_mlb_MlbRosterEntry_Out]:
+        """A team's roster (active, 40-man, full season, depth chart, coaches) with each player's
+        number, position and status. Takes a teamId from listTeams.
+        """
+
 class Prv_modernize_com(Protocol):
     """Home-improvement lead-gen site — listProjectTypes returns every trade its homeowner
     quote flow covers (roofing, HVAC, windows, …), and getQuoteFlow reads the multi-step
@@ -110429,6 +110717,19 @@ class Prv_ring(Protocol):
         includes.
         """
 
+    async def compareProducts(self, /) -> Prv_ring_RingComparison_Out:
+        """Compare every Ring doorbell side by side: name, power type, price and each spec row."""
+
+    async def getProductReviews(self, args: Prv_ring_getProductReviews_args_In, /) -> Prv_ring_RingReviewsPage_Out:
+        """Read customer reviews of a Ring product (by url or ASIN): stars, title, text, verified
+        flag; pass nextPage for more.
+        """
+
+    async def findRetailer(self, /) -> list[Prv_ring_RingRetailer_Out]:
+        """List Ring's authorized retail partners (Amazon, Best Buy, Home Depot, ...) with Ring's
+        storefront link on each.
+        """
+
     async def searchSupport(self, args: Prv_ring_searchSupport_args_In, /) -> list[Prv_ring_RingSupportHit_Out]:
         """Search Ring's help articles by words in their titles; returns title and url."""
 
@@ -116322,6 +116623,21 @@ class Prv_travelinsured(Protocol):
         traveler-details step validates state of residence.
         """
 
+class Prv_travelodge(Protocol):
+    """Travelodge Ireland hotels — search by place and dates for live from-prices and
+    availability, then read one hotel's address, phone, parking and nearby transport.
+    """
+
+    async def searchHotels(self, args: Prv_travelodge_TravelodgeSearchArgs_In, /) -> Prv_travelodge_TravelodgeSearchResult_Out:
+        """Search Travelodge Ireland hotels near a place for check-in/check-out dates — each
+        hotel's live from-price in EUR, availability, distance, rating and facilities.
+        """
+
+    async def getHotel(self, args: Prv_travelodge_TravelodgeGetHotelArgs_In, /) -> Prv_travelodge_TravelodgeHotel_Out:
+        """One Travelodge Ireland hotel by its numeric id — address, phone, coordinates, parking,
+        facilities, nearby transport links and places to visit.
+        """
+
 class Prv_trawickinternational(Protocol):
     """Submits Trawick's own travel-insurance quote form and reads back the real personalized
     plan comparison and priced premium it computes for that trip.
@@ -119028,6 +119344,26 @@ class Prv_whatsapp(Protocol):
         caller signed in.
         """
 
+    async def joinGroupByInvite(self, invite: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupChange_Out:
+        """Joins a group from its chat.whatsapp.com invite link, or the code after it, as the
+        caller. Needs the caller signed in.
+        """
+
+    async def leaveGroup(self, groupName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupChange_Out:
+        """Leaves a group the caller is in, by its exact displayed name. Needs the caller signed
+        in.
+        """
+
+    async def followChannel(self, channelName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelChange_Out:
+        """Follows a Channel by its exact displayed name, found through the Channels directory.
+        Needs the caller signed in.
+        """
+
+    async def unfollowChannel(self, channelName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelChange_Out:
+        """Unfollows a Channel the caller follows, by its exact displayed name. Needs the caller
+        signed in.
+        """
+
     async def deleteMessage(self, chatName: str, messageId: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMessageChange_Out:
         """Deletes a message the caller sent, for everyone when WhatsApp still offers that and for
         the caller alone otherwise. The chat is opened by its exact displayed name and the
@@ -121706,6 +122042,7 @@ class BowmarkProviders(Protocol):
     dailymotion: Prv_dailymotion
     dangotecement: Prv_dangotecement
     dansons: Prv_dansons
+    dat: Prv_dat
     data_cms: Prv_data_cms
     data_medicaid: Prv_data_medicaid
     davidsonhomes: Prv_davidsonhomes
@@ -122222,6 +122559,7 @@ class BowmarkProviders(Protocol):
     totalplastics: Prv_totalplastics
     tradingview: Prv_tradingview
     travelinsured: Prv_travelinsured
+    travelodge: Prv_travelodge
     trawickinternational: Prv_trawickinternational
     trektravel: Prv_trektravel
     trip: Prv_trip

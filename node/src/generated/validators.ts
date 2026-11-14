@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 509267ce4da4974f08df964dac7be75cbf463247ffd414636b292dab5e9694db
-// 5249 checked, 20 unchecked.
+// Manifest version: 8babe5538517560667a3ec18f5f20511e19fa58ce3575e6122a5ccef68317450
+// 5267 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "509267ce4da4974f08df964dac7be75cbf463247ffd414636b292dab5e9694db",
+  "version": "8babe5538517560667a3ec18f5f20511e19fa58ce3575e6122a5ccef68317450",
   "units": {
     "address_validation": {
       "defs": {
@@ -21297,6 +21297,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BlueskyBlockModerationListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "list",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "undo",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "BlueskyCreateListArgs": {
           "k": "object",
           "props": [
@@ -23615,6 +23634,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BlueskyMuteModerationListArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "blockModerationList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyBlockModerationListArgs"
             },
             "optional": false
           },
@@ -42790,6 +42835,63 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.dat": {
+      "defs": {
+        "DatEquipment": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "van"
+            },
+            {
+              "k": "literal",
+              "v": "reefer"
+            },
+            {
+              "k": "literal",
+              "v": "flatbed"
+            }
+          ]
+        },
+        "DatEquipmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "equipment",
+              "schema": {
+                "k": "ref",
+                "name": "DatEquipment"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "loadToTruckRatio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DatEquipmentArgs"
+            },
+            "optional": true
+          }
+        ],
+        "nationalSpotRates": [],
+        "rateTrend": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DatEquipmentArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.data_cms": {
       "defs": {
         "GetRowsArgs": {
@@ -49706,6 +49808,40 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "boolean"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "changeProfilePhoto": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "base64",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },
@@ -95051,6 +95187,177 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbGetPlayerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playerId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbGetPlayerStatsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playerId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "group",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "hitting"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pitching"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fielding"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "season"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "career"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "yearByYear"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "statSplits"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "homeAndAway"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "byMonth"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "winLoss"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "lastXGames"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "gameLog"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sitCodes",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbGetRosterArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "teamId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "rosterType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "active"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "40Man"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fullSeason"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fullRoster"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "depthChart"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nonRosterInvitees"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "allTime"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "coach"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbGetScheduleArgs": {
           "k": "object",
           "props": [
@@ -95115,6 +95422,60 @@ export const VALIDATORS: ValidatorTable = {
                     "v": 104
                   }
                 ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbGetStatLeadersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "leagueId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "statGroup",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "hitting"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pitching"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fielding"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -95234,6 +95595,46 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "MlbGetPlayByPlayArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlayer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetPlayerArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlayerStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetPlayerStatsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStatLeaders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetStatLeadersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRoster": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetRosterArgs"
             },
             "optional": false
           }
@@ -123026,6 +123427,47 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getPlans": [],
+        "compareProducts": [],
+        "getProductReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "asin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "nextPage",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortBy",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "findRetailer": [],
         "searchSupport": [
           {
             "name": "args",
@@ -146633,6 +147075,84 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.travelodge": {
+      "defs": {
+        "TravelodgeGetHotelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hotelId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "TravelodgeSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "children",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchHotels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TravelodgeSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHotel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TravelodgeGetHotelArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.trawickinternational": {
       "defs": {
         "TrawickPremiumQuery": {
@@ -158332,6 +158852,106 @@ export const VALIDATORS: ValidatorTable = {
               "of": {
                 "k": "string"
               }
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "joinGroupByInvite": [
+          {
+            "name": "invite",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "leaveGroup": [
+          {
+            "name": "groupName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followChannel": [
+          {
+            "name": "channelName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowChannel": [
+          {
+            "name": "channelName",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },
