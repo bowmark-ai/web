@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6746 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6747 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -381,6 +381,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ashleyfurniture.getProduct` | ashleyfurniture.com | Reads one product page in full — price, dimensions, fabric/finish/size options… | 🟢 |
 | `ashleyfurniture.search` | ashleyfurniture.com | Searches or browses Ashley's furniture and home-goods catalog by keyword or category… | 🟢 |
 | `ashleyfurniture.trackOrder` | ashleyfurniture.com | Looks up the status of a placed order (order number plus email or ZIP, no sign-in) —… | ⚪ |
+| `askul.getProduct` | askul.co.jp | Reads an ASKUL product by its product URL or id and returns its live title, JPY price… | 🟢 |
 | `asppoolco.findLocationByZip` | asppoolco.com | Matches a 5-digit US zip code against ASP's 257-location franchise network and returns… | 🟢 |
 | `asppoolco.listLocations` | asppoolco.com | Lists every ASP franchise location on the public directory, optionally narrowed to one… | 🟢 |
 | `astoundgroup.getContactForm` | astoundgroup.com | Reads Astound Group's "Get in Touch" contact form (astoundgroup.com/contact-us by… | 🟢 |
@@ -977,7 +978,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.getColorMeaning` | canva.com | Reads Canva's page on one colour by name — hex/RGB values, symbolism and meaning, and… | 🟢 |
 | `canva.getColorPalette` | canva.com | Reads one curated colour palette by slug — its name, hex colours and the colour names. | 🟢 |
 | `canva.getCreator` | canva.com | Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower… | 🟢 |
-| `canva.getDesign` | canva.com | Reads one of the caller's designs by id or edit url — title, owner, created and… | ⚪ |
+| `canva.getDesign` | canva.com | Reads one of the caller's designs by id or edit url — title, owner, created and… | 🟢 |
 | `canva.getDesignContent` | canva.com | Reads the full text and the images on every page (or one page) of one of the caller's… | ⚪ |
 | `canva.getGraphic` | canva.com | Reads one graphic by id or url — title, description, category, free or Pro, the… | 🟢 |
 | `canva.getMyProfile` | canva.com | Reads the signed-in caller's Canva profile — account id, display name and handle. | 🟢 |
@@ -992,10 +993,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.listDesignPages` | canva.com | Lists the pages of one of the caller's designs with each page's thumbnail. | ⚪ |
 | `canva.listDesignSizes` | canva.com | Reads Canva's design-size wiki for one platform or format (Instagram, YouTube… | 🟢 |
 | `canva.listFolderItems` | canva.com | Lists what is in one of the caller's folders — designs, uploads and subfolders —… | ⚪ |
-| `canva.listFolders` | canva.com | Lists the caller's folders (and subfolders of one folder) — folder id, name and item… | ⚪ |
+| `canva.listFolders` | canva.com | Lists the caller's folders (and subfolders of one folder) — folder id, name and item… | 🟢 |
 | `canva.listPrintProducts` | canva.com | Lists what Canva Print sells — business cards, flyers, posters, mugs, t-shirts and the… | 🟢 |
 | `canva.listTemplateCategories` | canva.com | Lists the design types Canva groups templates under (flyers, posters, Instagram posts… | 🟢 |
-| `canva.listUploads` | canva.com | Lists the images and videos the caller has uploaded to Canva — asset id, name, type… | ⚪ |
+| `canva.listUploads` | canva.com | Lists the images and videos the caller has uploaded to Canva — asset id, name, type… | 🟢 |
 | `canva.mergeDesigns` | canva.com | Combines several of the caller's designs into one new design, in the order given. | ⚪ |
 | `canva.moveToFolder` | canva.com | Moves a design, upload or folder into another of the caller's folders. | ⚪ |
 | `canva.orderPrint` | canva.com | Orders a printed copy of one of the caller's designs through Canva Print — product… | ⚪ |

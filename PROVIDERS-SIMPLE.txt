@@ -78,6 +78,7 @@ artpix3d.com — artpix3d: getSizePricing, listPhotoCrystalShapes, listShapes
 arxiv.org — arxiv: getPaper, search
 ashbyhq.com — ashby: listJobs
 ashleyfurniture.com — ashleyfurniture: checkStock, findStore, getProduct, search (+1 planned)
+askul.co.jp — askul: getProduct
 asppoolco.com — asppoolco: findLocationByZip, listLocations
 astoundgroup.com — astoundgroup: getContactForm, listPages
 atlasoceanvoyages.com — atlasoceanvoyages: getVoyage, searchVoyages
@@ -167,7 +168,7 @@ camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
-canva.com — canva: browseTemplates, getApp, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getGraphic, getMyProfile, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignSizes, listPrintProducts, listTemplateCategories, searchApps, searchGraphics, searchMyDesigns, searchPhotos, searchTemplates (+32 planned)
+canva.com — canva: browseTemplates, getApp, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getDesign, getGraphic, getMyProfile, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignSizes, listFolders, listPrintProducts, listTemplateCategories, listUploads, searchApps, searchGraphics, searchMyDesigns, searchPhotos, searchTemplates (+29 planned)
 capitaloneshopping.com — capitaloneshopping: getStoreRate, searchStores
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
 careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs

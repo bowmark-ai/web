@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4751f18b257e2c9a4fc3abd8e3c5a94010080b8bb22bf61608258bdee14eeb6b
-# 98 capabilities, 834 providers, 5122 typed functions, 20 refused.
+# Manifest version: e3cd00cc028297db6f3dfb6d3ff5e77851d2c1cae377de03b88eeab49a5be0d8
+# 98 capabilities, 839 providers, 5152 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5235,32 +5235,180 @@ class Prv_aiper_AiperPoolAnswerInput_Out(TypedDict):
     question: str
     choice: str | list[str]
 
-class Prv_airbnb_search_args_In(TypedDict):
-    location: str
-    checkin: NotRequired[str]
-    checkout: NotRequired[str]
-    adults: NotRequired[float]
-    children: NotRequired[float]
-    infants: NotRequired[float]
-    pets: NotRequired[float]
+class Prv_airbnb_getHostProfile_args_In(TypedDict):
+    hostId: NotRequired[str]
+    url: NotRequired[str]
+    listing: NotRequired[str]
 
-class Prv_airbnb_AirbnbListing_Out(TypedDict):
+class Prv_airbnb_AirbnbHostProfile_Out(TypedDict):
     id: str
-    title: str
-    subtitle: str | None
+    url: str
+    name: str | None
+    about: str | None
+    location: str | None
+    isSuperhost: bool
+    isIdentityVerified: bool
+    verifications: list[str]
+    yearsHosting: float | None
+    monthsHosting: float | None
+    memberForYears: float | None
+    verifiedSince: str | None
     rating: float | None
     reviewCount: float | None
-    price: str | None
+    languages: str | None
+    listingCount: float | None
+    listings: list[Prv_airbnb_AirbnbHostListing_Out]
+    recentReviews: list[Prv_airbnb_AirbnbHostProfile_Out_recentReviews_item_Out]
+    profilePhotoUrl: str | None
+
+class Prv_airbnb_AirbnbHostListing_Out(TypedDict):
+    id: str
+    title: str | None
+    propertyType: str | None
+    bedrooms: float | None
+    beds: float | None
+    bathrooms: float | None
+    rating: float | None
+    reviewCount: float | None
+    isSuperhost: bool
     photoUrl: str | None
     url: str
 
-class Prv_airbnb_getListing_args_In(TypedDict):
+class Prv_airbnb_AirbnbHostProfile_Out_recentReviews_item_Out(TypedDict):
+    date: str | None
+    rating: float | None
+    text: str | None
+    reviewerName: str | None
+
+class Prv_airbnb_getListingDetails_args_In(TypedDict):
     url: NotRequired[str]
     id: NotRequired[str]
-    checkin: NotRequired[str]
-    checkout: NotRequired[str]
+
+class Prv_airbnb_AirbnbListingDetails_Out(TypedDict):
+    id: str
+    url: str
+    title: str | None
+    propertyType: str | None
+    spaceType: str | None
+    description: str | None
+    guests: float | None
+    bedrooms: float | None
+    beds: float | None
+    bathrooms: float | None
+    rating: float | None
+    reviewCount: float | None
+    isGuestFavorite: bool
+    categoryRatings: list[Prv_airbnb_AirbnbListingDetails_Out_categoryRatings_item_Out]
+    ratingDistribution: list[Prv_airbnb_AirbnbListingDetails_Out_ratingDistribution_item_Out]
+    highlights: list[Prv_airbnb_AirbnbListingDetails_Out_highlights_item_Out]
+    amenities: list[Prv_airbnb_AirbnbAmenity_Out]
+    sleeping: list[Prv_airbnb_AirbnbListingDetails_Out_sleeping_item_Out]
+    houseRules: list[Prv_airbnb_AirbnbListingDetails_Out_houseRules_item_Out]
+    safety: list[str]
+    petsAllowed: bool | None
+    location: Prv_airbnb_AirbnbListingDetails_Out_location_Out
+    host: Prv_airbnb_AirbnbListingDetails_Out_host_Out
+    photos: list[Prv_airbnb_AirbnbListingDetails_Out_photos_item_Out]
+
+class Prv_airbnb_AirbnbListingDetails_Out_categoryRatings_item_Out(TypedDict):
+    category: str
+    rating: float | None
+
+class Prv_airbnb_AirbnbListingDetails_Out_ratingDistribution_item_Out(TypedDict):
+    stars: float
+    share: float
+
+class Prv_airbnb_AirbnbListingDetails_Out_highlights_item_Out(TypedDict):
+    headline: str
+    body: str | None
+
+class Prv_airbnb_AirbnbAmenity_Out(TypedDict):
+    group: str | None
+    title: str
+    available: bool
+    note: str | None
+
+class Prv_airbnb_AirbnbListingDetails_Out_sleeping_item_Out(TypedDict):
+    room: str
+    beds: list[str]
+
+class Prv_airbnb_AirbnbListingDetails_Out_houseRules_item_Out(TypedDict):
+    group: str
+    rule: str
+    detail: str | None
+
+class Prv_airbnb_AirbnbListingDetails_Out_location_Out(TypedDict):
+    label: str | None
+    latitude: float | None
+    longitude: float | None
+    exact: bool | None
+    breadcrumbs: list[Prv_airbnb_AirbnbListingDetails_Out_location_Out_breadcrumbs_item_Out]
+    nearbyCities: list[Prv_airbnb_AirbnbListingDetails_Out_location_Out_nearbyCities_item_Out]
+
+class Prv_airbnb_AirbnbListingDetails_Out_location_Out_breadcrumbs_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_airbnb_AirbnbListingDetails_Out_location_Out_nearbyCities_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_airbnb_AirbnbListingDetails_Out_host_Out(TypedDict):
+    id: str | None
+    name: str | None
+    isSuperhost: bool
+    isVerified: bool
+    reviewCount: float | None
+    rating: float | None
+    yearsHosting: float | None
+    responseRate: str | None
+    responseTime: str | None
+    coHosts: list[str]
+
+class Prv_airbnb_AirbnbListingDetails_Out_photos_item_Out(TypedDict):
+    url: str
+    caption: str | None
+    room: str | None
+
+class Prv_airbnb_getListingReviews_args_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+    sort: NotRequired[Literal["mostRecent"] | Literal["highestRated"] | Literal["lowestRated"] | Literal["bestQuality"]]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_airbnb_AirbnbListingReviews_Out(TypedDict):
+    id: str
+    url: str
+    sort: Literal["mostRecent"] | Literal["highestRated"] | Literal["lowestRated"] | Literal["bestQuality"]
+    totalCount: float | None
+    offset: float
+    reviews: list[Prv_airbnb_AirbnbReview_Out]
+    nextOffset: float | None
+    topics: list[Prv_airbnb_AirbnbListingReviews_Out_topics_item_Out]
+
+class Prv_airbnb_AirbnbReview_Out(TypedDict):
+    id: str
+    rating: float | None
+    date: str | None
+    displayDate: str | None
+    text: str | None
+    language: str | None
+    reviewerName: str | None
+    reviewerLocation: str | None
+    stayNote: str | None
+    hostResponse: str | None
+
+class Prv_airbnb_AirbnbListingReviews_Out_topics_item_Out(TypedDict):
+    tag: str
+    count: float
+
+class Prv_airbnb_getPriceQuote_args_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+    checkin: str
+    checkout: str
     adults: NotRequired[float]
-    months: NotRequired[float]
     currency: NotRequired[str]
 
 class Prv_airbnb_AirbnbListingAvailability_Out(TypedDict):
@@ -5294,6 +5442,56 @@ class Prv_airbnb_AirbnbCalendarDay_Out(TypedDict):
     availableForCheckout: bool
     minNights: float | None
     maxNights: float | None
+
+class Prv_airbnb_searchExperiences_args_In(TypedDict):
+    location: str
+
+class Prv_airbnb_AirbnbExperience_Out(TypedDict):
+    id: str
+    title: str
+    category: str | None
+    city: str | None
+    description: str | None
+    rating: float | None
+    reviewCount: float | None
+    photoUrl: str | None
+    url: str
+    shelf: str | None
+
+class Prv_airbnb_search_args_In(TypedDict):
+    location: str
+    checkin: NotRequired[str]
+    checkout: NotRequired[str]
+    adults: NotRequired[float]
+    children: NotRequired[float]
+    infants: NotRequired[float]
+    pets: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    roomType: NotRequired[Literal["entire_home"] | Literal["private_room"] | Literal["shared_room"] | Literal["hotel_room"]]
+    minBedrooms: NotRequired[float]
+    minBeds: NotRequired[float]
+    minBathrooms: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_airbnb_AirbnbListing_Out(TypedDict):
+    id: str
+    title: str
+    subtitle: str | None
+    rating: float | None
+    reviewCount: float | None
+    price: str | None
+    photoUrl: str | None
+    url: str
+
+class Prv_airbnb_getListing_args_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+    checkin: NotRequired[str]
+    checkout: NotRequired[str]
+    adults: NotRequired[float]
+    months: NotRequired[float]
+    currency: NotRequired[str]
 
 class Prv_airbnb_listTrips_args_In(TypedDict):
     limit: NotRequired[float]
@@ -6559,12 +6757,24 @@ class Prv_aol_subscribeNewsletter_return_Out(TypedDict):
     subscribed: Literal[True]
     newsletterId: str
 
-class Prv_aol_mail_ListFoldersArgs_In(TypedDict):
+class Prv_aol_mail_ListContactsArgs_In(TypedDict):
     credentials: Prv_aol_mail_MailboxCredentials_In
+    query: NotRequired[str]
+    limit: NotRequired[float]
 
 class Prv_aol_mail_MailboxCredentials_In(TypedDict):
     username: str
     appPassword: str
+
+class Prv_aol_mail_AolMailContact_Out(TypedDict):
+    id: str
+    name: str | None
+    emails: list[str]
+    phones: list[str]
+    organization: str | None
+
+class Prv_aol_mail_ListFoldersArgs_In(TypedDict):
+    credentials: Prv_aol_mail_MailboxCredentials_In
 
 class Prv_aol_mail_AolMailFolder_Out(TypedDict):
     id: str
@@ -15402,6 +15612,21 @@ class Prv_cbsnews_CbsNewsStory_Out(TypedDict):
     image: str | None
     categories: list[str]
 
+class Prv_cbsnews_ListSectionArticlesArgs_In(TypedDict):
+    section: str
+    limit: NotRequired[float]
+
+class Prv_cbsnews_listSectionArticles_return_Out(TypedDict):
+    section: str
+    articles: list[Prv_cbsnews_CbsNewsSectionStory_Out]
+
+class Prv_cbsnews_CbsNewsSectionStory_Out(TypedDict):
+    title: str
+    url: str
+    summary: str | None
+    age: str | None
+    image: str | None
+
 class Prv_cbsnews_listSections_return_Out(TypedDict):
     sections: list[Prv_cbsnews_CbsNewsSection_Out]
 
@@ -19236,22 +19461,83 @@ class Prv_craigslist_CraigslistListing_Out(TypedDict):
     id: str
     title: str
     price: str | None
+    priceAmount: float | None
     location: str | None
     url: str
     description: str | None
     postedAt: str | None
+    updatedAt: str | None
     attributes: list[str]
+    bedrooms: float | None
+    bathrooms: float | None
+    squareFeet: float | None
+    address: str | None
+    latitude: float | None
+    longitude: float | None
+    images: list[str]
+
+class Prv_craigslist_CraigslistArea_Out(TypedDict):
+    code: str
+    name: str
+    url: str
+
+class Prv_craigslist_CraigslistCategory_Out(TypedDict):
+    code: str
+    name: str
+    group: str
 
 class Prv_craigslist_CraigslistSearchArgs_In(TypedDict):
-    query: str
+    query: NotRequired[str]
     area: NotRequired[str]
+    category: NotRequired[str]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    sort: NotRequired[Literal["date"] | Literal["priceasc"] | Literal["pricedsc"] | Literal["rel"]]
+    postal: NotRequired[str]
+    distanceMiles: NotRequired[float]
     limit: NotRequired[float]
+    details: NotRequired[bool | float]
 
 class Prv_craigslist_CraigslistSearchResult_Out(TypedDict):
     query: str
     area: str
-    listings: list[Prv_craigslist_CraigslistListing_Out]
+    category: str
     url: str
+    total: float
+    detailed: float
+    listings: list[Prv_craigslist_CraigslistListing_Out]
+
+class Prv_craigslist_CraigslistHousingArgs_In(TypedDict):
+    query: NotRequired[str]
+    area: NotRequired[str]
+    category: NotRequired[str]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    sort: NotRequired[Literal["date"] | Literal["priceasc"] | Literal["pricedsc"] | Literal["rel"]]
+    postal: NotRequired[str]
+    distanceMiles: NotRequired[float]
+    limit: NotRequired[float]
+    details: NotRequired[bool | float]
+    kind: NotRequired[str]
+    minBedrooms: NotRequired[float]
+    maxBedrooms: NotRequired[float]
+    bedrooms: NotRequired[float]
+    minBathrooms: NotRequired[float]
+    pets: NotRequired[Literal["cats"] | Literal["dogs"] | bool]
+
+class Prv_craigslist_CraigslistJobsArgs_In(TypedDict):
+    query: NotRequired[str]
+    area: NotRequired[str]
+    category: NotRequired[str]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    sort: NotRequired[Literal["date"] | Literal["priceasc"] | Literal["pricedsc"] | Literal["rel"]]
+    postal: NotRequired[str]
+    distanceMiles: NotRequired[float]
+    limit: NotRequired[float]
+    details: NotRequired[bool | float]
+    kind: NotRequired[Literal["jobs"] | Literal["gigs"]]
+    remote: NotRequired[bool]
 
 class Prv_craigslist_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -20202,6 +20488,73 @@ class Prv_data_cms_data_cmsRowsResult_Out(TypedDict):
     rows: list[Mapping[str, Any]]
     totalMatching: float | None
     columns: list[str]
+
+class Prv_data_medicaid_SearchDatasetsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_data_medicaid_data_medicaidSearchResult_Out(TypedDict):
+    total: float | None
+    datasets: list[Prv_data_medicaid_data_medicaidDataset_Out]
+
+class Prv_data_medicaid_data_medicaidDataset_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    issued: str | None
+    modified: str | None
+    themes: list[str]
+    keywords: list[str]
+    distributions: list[Prv_data_medicaid_data_medicaidDistribution_Out]
+    url: str
+
+class Prv_data_medicaid_data_medicaidDistribution_Out(TypedDict):
+    index: float
+    format: str | None
+    downloadUrl: str | None
+    dataDictionaryUrl: str | None
+
+class Prv_data_medicaid_GetDatasetArgs_In(TypedDict):
+    datasetId: str
+
+class Prv_data_medicaid_data_medicaidDatasetDetail_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    issued: str | None
+    modified: str | None
+    themes: list[str]
+    keywords: list[str]
+    distributions: list[Prv_data_medicaid_data_medicaidDistribution_Out]
+    url: str
+    license: str | None
+    contactEmail: str | None
+    columns: list[Prv_data_medicaid_data_medicaidColumn_Out] | None
+    rowCount: float | None
+
+class Prv_data_medicaid_data_medicaidColumn_Out(TypedDict):
+    name: str
+    type: str | None
+    description: str | None
+
+class Prv_data_medicaid_QueryDatasetArgs_In(TypedDict):
+    datasetId: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+    distribution: NotRequired[float]
+    filters: NotRequired[Mapping[str, str | float]]
+    contains: NotRequired[Mapping[str, str | float]]
+    columns: NotRequired[Sequence[str]]
+    sortBy: NotRequired[str]
+    sortOrder: NotRequired[Literal["asc"] | Literal["desc"]]
+
+class Prv_data_medicaid_data_medicaidQueryResult_Out(TypedDict):
+    datasetId: str
+    distribution: float
+    rows: list[Mapping[str, Any]]
+    totalMatching: float | None
+    columns: list[Prv_data_medicaid_data_medicaidColumn_Out]
 
 class Prv_davidsonhomes_DavidsonhomesRegionSummary_Out(TypedDict):
     id: str
@@ -21741,6 +22094,201 @@ class Prv_direct_book_DirectBookEnquiryResult_Out(TypedDict):
     message: str | None
     sent: bool
 
+class Prv_discogs_DiscogsSearchArgs_In(TypedDict):
+    query: str
+    type: NotRequired[Literal["release"] | Literal["master"] | Literal["artist"] | Literal["label"]]
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+
+class Prv_discogs_searchDatabase_return_Out(TypedDict):
+    page: Prv_discogs_DiscogsPage_Out
+    results: list[Prv_discogs_DiscogsSearchHit_Out]
+
+class Prv_discogs_DiscogsPage_Out(TypedDict):
+    page: float
+    pages: float
+    perPage: float
+    total: float
+
+class Prv_discogs_DiscogsSearchHit_Out(TypedDict):
+    id: float | None
+    type: str | None
+    title: str | None
+    year: str | None
+    country: str | None
+    formats: list[str]
+    labels: list[str]
+    catno: str | None
+    genres: list[str]
+    styles: list[str]
+    masterId: float | None
+    url: str | None
+    apiUrl: str | None
+
+class Prv_discogs_DiscogsArtistArgs_In(TypedDict):
+    artistId: float | str
+
+class Prv_discogs_DiscogsArtist_Out(TypedDict):
+    id: float | None
+    name: str | None
+    realName: str | None
+    profile: str | None
+    urls: list[str]
+    nameVariations: list[str]
+    aliases: list[Prv_discogs_DiscogsArtist_Out_aliases_item_Out]
+    members: list[Prv_discogs_DiscogsArtist_Out_members_item_Out]
+    groups: list[Prv_discogs_DiscogsArtist_Out_groups_item_Out]
+    imageUrl: str | None
+    dataQuality: str | None
+    url: str | None
+
+class Prv_discogs_DiscogsArtist_Out_aliases_item_Out(TypedDict):
+    id: float | None
+    name: str | None
+
+class Prv_discogs_DiscogsArtist_Out_members_item_Out(TypedDict):
+    id: float | None
+    name: str | None
+    active: bool | None
+
+class Prv_discogs_DiscogsArtist_Out_groups_item_Out(TypedDict):
+    id: float | None
+    name: str | None
+
+class Prv_discogs_DiscogsArtistReleasesArgs_In(TypedDict):
+    artistId: float | str
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+    sort: NotRequired[Literal["year"] | Literal["title"] | Literal["format"]]
+    sortOrder: NotRequired[Literal["asc"] | Literal["desc"]]
+
+class Prv_discogs_listArtistReleases_return_Out(TypedDict):
+    page: Prv_discogs_DiscogsPage_Out
+    releases: list[Prv_discogs_DiscogsReleaseRow_Out]
+
+class Prv_discogs_DiscogsReleaseRow_Out(TypedDict):
+    id: float | None
+    type: str | None
+    title: str | None
+    artist: str | None
+    year: float | None
+    role: str | None
+    format: str | None
+    label: str | None
+    catno: str | None
+    mainRelease: float | None
+    url: str | None
+
+class Prv_discogs_DiscogsLabelArgs_In(TypedDict):
+    labelId: float | str
+
+class Prv_discogs_DiscogsLabel_Out(TypedDict):
+    id: float | None
+    name: str | None
+    profile: str | None
+    contactInfo: str | None
+    urls: list[str]
+    parentLabel: Prv_discogs_DiscogsLabel_Out_parentLabel_u0_Out | None
+    sublabels: list[Prv_discogs_DiscogsLabel_Out_sublabels_item_Out]
+    imageUrl: str | None
+    dataQuality: str | None
+    url: str | None
+
+class Prv_discogs_DiscogsLabel_Out_parentLabel_u0_Out(TypedDict):
+    id: float | None
+    name: str | None
+
+class Prv_discogs_DiscogsLabel_Out_sublabels_item_Out(TypedDict):
+    id: float | None
+    name: str | None
+
+class Prv_discogs_DiscogsLabelReleasesArgs_In(TypedDict):
+    labelId: float | str
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+    sort: NotRequired[Literal["year"] | Literal["title"] | Literal["format"]]
+    sortOrder: NotRequired[Literal["asc"] | Literal["desc"]]
+
+class Prv_discogs_listLabelReleases_return_Out(TypedDict):
+    page: Prv_discogs_DiscogsPage_Out
+    releases: list[Prv_discogs_DiscogsReleaseRow_Out]
+
+class Prv_discogs_DiscogsReleaseArgs_In(TypedDict):
+    releaseId: float | str
+
+class Prv_discogs_DiscogsRelease_Out(TypedDict):
+    id: float | None
+    title: str | None
+    year: float | None
+    released: str | None
+    country: str | None
+    artists: list[Prv_discogs_DiscogsRelease_Out_artists_item_Out]
+    labels: list[Prv_discogs_DiscogsRelease_Out_labels_item_Out]
+    formats: list[Prv_discogs_DiscogsRelease_Out_formats_item_Out]
+    genres: list[str]
+    styles: list[str]
+    tracklist: list[Prv_discogs_DiscogsTrack_Out]
+    credits: list[Prv_discogs_DiscogsRelease_Out_credits_item_Out]
+    notes: str | None
+    masterId: float | None
+    have: float | None
+    want: float | None
+    rating: Prv_discogs_DiscogsRelease_Out_rating_Out
+    numForSale: float | None
+    lowestPrice: float | None
+    url: str | None
+
+class Prv_discogs_DiscogsRelease_Out_artists_item_Out(TypedDict):
+    id: float | None
+    name: str | None
+    join: str | None
+
+class Prv_discogs_DiscogsRelease_Out_labels_item_Out(TypedDict):
+    id: float | None
+    name: str | None
+    catno: str | None
+
+class Prv_discogs_DiscogsRelease_Out_formats_item_Out(TypedDict):
+    name: str | None
+    qty: str | None
+    descriptions: list[str]
+
+class Prv_discogs_DiscogsTrack_Out(TypedDict):
+    position: str | None
+    title: str | None
+    duration: str | None
+    type: str | None
+
+class Prv_discogs_DiscogsRelease_Out_credits_item_Out(TypedDict):
+    id: float | None
+    name: str | None
+    role: str | None
+
+class Prv_discogs_DiscogsRelease_Out_rating_Out(TypedDict):
+    average: float | None
+    count: float | None
+
+class Prv_discogs_DiscogsMasterArgs_In(TypedDict):
+    masterId: float | str
+
+class Prv_discogs_DiscogsMaster_Out(TypedDict):
+    id: float | None
+    title: str | None
+    year: float | None
+    artists: list[Prv_discogs_DiscogsMaster_Out_artists_item_Out]
+    genres: list[str]
+    styles: list[str]
+    tracklist: list[Prv_discogs_DiscogsTrack_Out]
+    mainRelease: float | None
+    mostRecentRelease: float | None
+    numForSale: float | None
+    lowestPrice: float | None
+    url: str | None
+
+class Prv_discogs_DiscogsMaster_Out_artists_item_Out(TypedDict):
+    id: float | None
+    name: str | None
+
 class Prv_discord_discordDocLink_Out(TypedDict):
     title: str
     url: str
@@ -22253,6 +22801,33 @@ class Prv_discord_removeFriend_args_In(TypedDict):
 
 class Prv_discord_blockUser_args_In(TypedDict):
     userId: str
+
+class Prv_discord_updateProfile_args_In(TypedDict):
+    displayName: NotRequired[str]
+    bio: NotRequired[str]
+    pronouns: NotRequired[str]
+
+class Prv_discord_discordProfileResult_Out(TypedDict):
+    userId: str | None
+    displayName: str | None
+    bio: str | None
+    pronouns: str | None
+
+class Prv_discord_setAvatar_args_In(TypedDict):
+    image: str | None
+
+class Prv_discord_discordAvatarResult_Out(TypedDict):
+    userId: str | None
+    avatar: str | None
+    avatarUrl: str | None
+
+class Prv_discord_setStatus_args_In(TypedDict):
+    status: NotRequired[Literal["online"] | Literal["idle"] | Literal["dnd"] | Literal["invisible"]]
+    text: NotRequired[str | None]
+
+class Prv_discord_discordStatusResult_Out(TypedDict):
+    status: Literal["online"] | Literal["idle"] | Literal["dnd"] | Literal["invisible"] | None
+    customStatus: str | None
 
 class Prv_discord_createThread_args_In(TypedDict):
     channelId: str
@@ -29042,6 +29617,65 @@ class Prv_fresha_confirmSignup_return_u3_Out(TypedDict):
     connection: str | None
     twoFactor: Literal["enrolled"] | Literal["none"]
     secrets: list[str]
+
+class Prv_frontiersin_SearchArticlesArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+
+class Prv_frontiersin_FrontiersArticleSearch_Out(TypedDict):
+    total: float
+    articles: list[Prv_frontiersin_FrontiersArticle_Out]
+
+class Prv_frontiersin_FrontiersArticle_Out(TypedDict):
+    articleId: float | None
+    doi: str | None
+    title: str | None
+    abstract: str | None
+    publishedDate: str | None
+    acceptedDate: str | None
+    url: str | None
+    authors: list[Prv_frontiersin_FrontiersArticle_Out_authors_item_Out]
+    journal: Prv_frontiersin_FrontiersArticle_Out_journal_u0_Out | None
+    section: str | None
+    articleType: str | None
+    views: float | None
+    downloads: float | None
+    citations: float | None
+
+class Prv_frontiersin_FrontiersArticle_Out_authors_item_Out(TypedDict):
+    name: str
+    profileUrl: str | None
+
+class Prv_frontiersin_FrontiersArticle_Out_journal_u0_Out(TypedDict):
+    id: float | None
+    title: str | None
+    abbreviation: str | None
+
+class Prv_frontiersin_SearchJournalsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_frontiersin_FrontiersJournalSearch_Out(TypedDict):
+    total: float
+    journals: list[Prv_frontiersin_FrontiersJournal_Out]
+
+class Prv_frontiersin_FrontiersJournal_Out(TypedDict):
+    id: float | None
+    title: str | None
+    url: str | None
+    slug: str | None
+    issn: str | None
+    impactFactor: str | None
+    citeScore: str | None
+    articleCount: float | None
+    viewCount: float | None
+    downloadCount: float | None
+    sectionCount: float | None
+    scope: str | None
 
 class Prv_furniture_searchProducts_args_In(TypedDict):
     query: str
@@ -46717,6 +47351,74 @@ class Prv_originenergy_com_au_OriginBusinessElectricityPlan_Out(TypedDict):
     referenceCost: float | None
     percentSavingVsReference: float | None
     isRegulated: bool
+
+class Prv_osu_OsuSearchArgs_In(TypedDict):
+    query: str
+    term: NotRequired[str]
+    campus: NotRequired[str]
+    subject: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_osu_OsuSearchResult_Out(TypedDict):
+    page: float
+    totalPages: float
+    totalSections: float
+    terms: list[Prv_osu_OsuTerm_Out]
+    courses: list[Prv_osu_OsuCourse_Out]
+
+class Prv_osu_OsuTerm_Out(TypedDict):
+    code: str
+    name: str
+    count: float | None
+
+class Prv_osu_OsuCourse_Out(TypedDict):
+    courseId: str | None
+    subject: str | None
+    subjectName: str | None
+    catalogNumber: str | None
+    code: str | None
+    title: str | None
+    description: str | None
+    term: str | None
+    campus: str | None
+    career: str | None
+    college: str | None
+    minUnits: float | None
+    maxUnits: float | None
+    grading: str | None
+    attributes: list[Prv_osu_OsuCourse_Out_attributes_item_Out]
+    sections: list[Prv_osu_OsuSection_Out]
+
+class Prv_osu_OsuCourse_Out_attributes_item_Out(TypedDict):
+    name: str | None
+    value: str | None
+    description: str | None
+
+class Prv_osu_OsuSection_Out(TypedDict):
+    classNumber: str | None
+    section: str | None
+    component: str | None
+    instructionMode: str | None
+    enrollmentStatus: str | None
+    enrolled: float | None
+    waitlisted: float | None
+    waitlistCapacity: float | None
+    session: str | None
+    meetings: list[Prv_osu_OsuMeeting_Out]
+
+class Prv_osu_OsuMeeting_Out(TypedDict):
+    days: str | None
+    startTime: str | None
+    endTime: str | None
+    startDate: str | None
+    endDate: str | None
+    building: str | None
+    room: str | None
+    instructors: list[Prv_osu_OsuMeeting_Out_instructors_item_Out]
+
+class Prv_osu_OsuMeeting_Out_instructors_item_Out(TypedDict):
+    name: str | None
+    email: str | None
 
 class Prv_othership_OthershipLocation_Out(TypedDict):
     id: str
@@ -70625,6 +71327,7 @@ class Prv_wikipedia_getInfobox_options_In(TypedDict):
 class Prv_wikipedia_WikipediaInfobox_Out(TypedDict):
     type: str
     fields: Mapping[str, str]
+    facts: Mapping[str, str]
 
 class Prv_wikipedia_listLinks_options_In(TypedDict):
     lang: NotRequired[str]
@@ -74308,6 +75011,41 @@ class Prv_zenoti_ZenotiReschedule_Out(TypedDict):
     cancellationCharges: float
     amountDue: float
 
+class Prv_zepto_search_args_In(TypedDict):
+    query: str
+
+class Prv_zepto_ZeptoSearchRow_Out(TypedDict):
+    id: str
+    name: str
+    price: float | None
+    mrp: float | None
+    packSize: str | None
+    inStock: bool | None
+    url: str
+
+class Prv_zepto_product_args_u0_In(TypedDict):
+    url: str
+
+class Prv_zepto_product_args_u1_In(TypedDict):
+    id: str
+
+class Prv_zepto_ZeptoProduct_Out(TypedDict):
+    id: str
+    productId: str | None
+    name: str
+    brand: str | None
+    price: float | None
+    mrp: float | None
+    currency: str
+    inStock: bool | None
+    size: str | None
+    category: str | None
+    rating: float | None
+    ratingCount: float | None
+    description: str | None
+    images: list[str]
+    url: str
+
 class Prv_zoom_ZoomPricingResult_Out(TypedDict):
     plans: list[Prv_zoom_ZoomPricingPlan_Out]
 
@@ -77707,26 +78445,80 @@ class Prv_aiper(Protocol):
 class Prv_airbnb(Protocol):
     """Airbnb's own stays search — a location, optional dates and guest counts in, priced
     listing rows (title, rating, review count, display price, photo, url) out, straight off
-    airbnb.com/s — plus one known listing's nightly rate, booking-panel quote and day-by-day
-    availability calendar.
+    airbnb.com/s — plus one known listing's full details (description, amenities, house
+    rules, rating breakdown, host, photos), its guest reviews, its price quote with every
+    fee line for given dates, its availability calendar, a host's profile and listings, and
+    a place's experiences.
     """
 
+    async def getHostProfile(self, args: Prv_airbnb_getHostProfile_args_In, /) -> Prv_airbnb_AirbnbHostProfile_Out:
+        """A vacation rental host's public Airbnb profile (airbnb.com/users/show/<id>): name, about
+        text, where they live, Superhost and identity-verified badges, years hosting, overall
+        rating and review count, languages, how many properties they host with the first page of
+        those listings (title, type, beds, rating, url) and recent guest reviews. Pass the
+        `hostId` (`getListingDetails().host.id` returns it), the profile `url`, or a `listing`
+        url or id to look up whoever hosts that rental.
+        """
+
+    async def getListingDetails(self, args: Prv_airbnb_getListingDetails_args_In, /) -> Prv_airbnb_AirbnbListingDetails_Out:
+        """Everything the Airbnb listing page (airbnb.com/rooms/<id>) shows about one vacation
+        rental or short-term stay, no dates needed: title, property type, full description, how
+        many guests, bedrooms, beds and bathrooms it has, star rating with the six category
+        ratings (cleanliness, accuracy, check-in, communication, location, value) and the star
+        distribution, highlights, every amenity grouped and flagged available or not (wifi,
+        kitchen, parking, pool), where each guest sleeps, house rules (pets, smoking, quiet
+        hours), safety notes, location (area, coordinates, region breadcrumbs, nearby cities to
+        browse), the host summary (id, Superhost, response rate and time, co-hosts) and the
+        photo tour. Pass the `/rooms/<id>` `url` or the `id` that `search` returns.
+        """
+
+    async def getListingReviews(self, args: Prv_airbnb_getListingReviews_args_In, /) -> Prv_airbnb_AirbnbListingReviews_Out:
+        """Guest reviews of one Airbnb vacation rental, read from the listing page's own reviews
+        panel: each with star rating, date, full text, reviewer first name and home town, the
+        stay note ("Stayed a few nights") and any host reply, plus the listing's total review
+        count and the topics guests mention most (Location 124, Cleanliness 55). `sort` is
+        mostRecent (default), highestRated, lowestRated or bestQuality; page with `limit` (1-50,
+        default 10) and the `nextOffset` the last result returned.
+        """
+
+    async def getPriceQuote(self, args: Prv_airbnb_getPriceQuote_args_In, /) -> Prv_airbnb_AirbnbListingAvailability_Out:
+        """The total price of staying at one Airbnb vacation rental for given dates, with every
+        line the booking panel shows (nightly rate times nights, cleaning fee, service fee and
+        any discount where the host charges them), whether those dates can be booked at all and,
+        when they cannot, the site's reason (minimum stay, already booked). The total is the
+        site's own 'before taxes' figure; taxes are added only at checkout. `checkin`/`checkout`
+        are YYYY-MM-DD and both required; `adults` default 1, `currency` an ISO code (default
+        USD). Nothing is reserved or charged. Same panel as getListing, without the day-by-day
+        calendar.
+        """
+
+    async def searchExperiences(self, args: Prv_airbnb_searchExperiences_args_In, /) -> list[Prv_airbnb_AirbnbExperience_Out]:
+        """Tours, classes and things to do (Airbnb Experiences: guided walks, cooking classes,
+        activities) for a city, from the place's own things-to-do page: title, category
+        (Cultural tours, Cooking classes), city, blurb, star rating, review count, photo and the
+        experience url, grouped by the page's shelves such as "Top-rated activities". `location`
+        is free text like "Montreal", "Lisbon, Portugal" or "Austin, Texas".
+        """
+
     async def search(self, args: Prv_airbnb_search_args_In, /) -> list[Prv_airbnb_AirbnbListing_Out]:
-        """Runs Airbnb's own stays search for a free-text `location` (e.g. "San Francisco",
-        "Austin, Texas") the way airbnb.com/s does — optional `checkin`/`checkout`
-        (`YYYY-MM-DD`) and guest counts (`adults`, `children`, `infants`, `pets`) narrow it
-        exactly as the site's own search bar would. Returns each result's title, subtitle, star
+        """Search vacation rentals and short-term stays (homes, apartments, cabins, rooms) on
+        Airbnb for a free-text `location` (e.g. "San Francisco", "Austin, Texas"), the way
+        airbnb.com/s does: optional `checkin`/`checkout` (`YYYY-MM-DD`), guest counts (`adults`,
+        `children`, `infants`, `pets`) and filters (`minPrice`/`maxPrice` per night in the
+        site's currency, `roomType`, `minBedrooms`, `minBeds`, `minBathrooms`); `page` (1-15,
+        default 1) walks the results 18 at a time. Returns each place's title, subtitle, star
         rating, review count, the site's own display price string, cover photo and `/rooms/<id>`
         url.
         """
 
     async def getListing(self, args: Prv_airbnb_getListing_args_In, /) -> Prv_airbnb_AirbnbListingAvailability_Out:
-        """Live nightly rate and availability for ONE known Airbnb listing — pass its `/rooms/<id>`
-        url (or the `id` that `search` returns). With `checkin`/`checkout` (`YYYY-MM-DD`) it
-        returns the booking panel's own quote (total, pre-discount total, nights, the per-night
-        rate) or the site's reason the dates cannot be booked; either way it returns the
-        listing's day-by-day open/blocked calendar with minimum and maximum stay, `months` long
-        (default 2) from the check-in month. `currency` is an ISO code, default USD.
+        """Is one Airbnb vacation rental available for given dates, and what does it cost per
+        night: pass its `/rooms/<id>` url (or the `id` that `search` returns). With
+        `checkin`/`checkout` (`YYYY-MM-DD`) it returns the booking panel's own quote (total,
+        pre-discount total, nights, the per-night rate, discount lines) or the site's reason the
+        dates cannot be booked; either way it returns the listing's day-by-day open/blocked
+        availability calendar with minimum and maximum stay, `months` long (default 2) from the
+        check-in month. `currency` is an ISO code, default USD.
         """
 
     async def listTrips(self, args: Prv_airbnb_listTrips_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_airbnb_AirbnbTrips_Out:
@@ -78486,6 +79278,13 @@ class Prv_aol_mail(Protocol):
     search, full messages, mark read, move, delete — over IMAP with the caller's address and
     an AOL app password. AOL Mail runs on Yahoo Mail's backend and shares its engine.
     """
+
+    async def listContacts(self, args: Prv_aol_mail_ListContactsArgs_In, /) -> list[Prv_aol_mail_AolMailContact_Out]:
+        """Looks up contacts in the CALLER's own AOL address book over CardDAV — name, email
+        addresses, phone numbers and company — optionally filtered by a name or address fragment
+        in query, so an address can be found before sendMessage. Takes the caller's address and
+        app password, as secrets.
+        """
 
     async def listFolders(self, args: Prv_aol_mail_ListFoldersArgs_In, /) -> list[Prv_aol_mail_AolMailFolder_Out]:
         """Lists the CALLER's own AOL Mail folders — Inbox, Sent, Drafts, Spam, Trash and custom
@@ -83223,6 +84022,12 @@ class Prv_cbsnews(Protocol):
         from listRssFeeds), in the feed's own order.
         """
 
+    async def listSectionArticles(self, args: Prv_cbsnews_ListSectionArticlesArgs_In, /) -> Prv_cbsnews_listSectionArticles_return_Out:
+        """Lists the stories on one CBS News section front (a slug from listSections, such as
+        politics or moneywatch): title, url, summary, relative age and image, in the page's
+        order. Pass a url to getArticle for the full text.
+        """
+
     async def listSections(self, /) -> Prv_cbsnews_listSections_return_Out:
         """Lists the section fronts CBS News's header navigation links (U.S., World, Politics,
         Crime, and the shows and local stations listed beside them), as slugs usable with
@@ -85597,16 +86402,49 @@ class Prv_couponfollow(Protocol):
         """
 
 class Prv_craigslist(Protocol):
-    """Finds public Craigslist listings by keyword and reads a listing's full public details."""
+    """Searches Craigslist apartments, housing for rent, for-sale items, jobs and gigs in any
+    area, and reads a listing's full details (posted time, description, location, photos).
+    """
 
     async def getListing(self, url: str, /) -> Prv_craigslist_CraigslistListing_Out:
-        """Reads a public Craigslist listing URL from searchListings for its full description,
-        posted time and attributes.
+        """Reads one Craigslist listing from the URL a search returns: full description, posted and
+        updated time, price, neighbourhood, street address and map point, bedrooms and
+        bathrooms, attributes and photo URLs.
         """
 
-    async def searchListings(self, query: str | Prv_craigslist_CraigslistSearchArgs_In, /) -> Prv_craigslist_CraigslistSearchResult_Out:
-        """Searches public Craigslist listings by keyword in an area (SF Bay Area by default),
-        returning title, asking price, location and listing URL.
+    async def listAreas(self, /) -> list[Prv_craigslist_CraigslistArea_Out]:
+        """Lists Craigslist's areas (cities and regions worldwide) with the code the search
+        functions take as `area`, e.g. sfbay, newyork, losangeles.
+        """
+
+    async def listCategories(self, area: str | None = None, /) -> list[Prv_craigslist_CraigslistCategory_Out]:
+        """Lists Craigslist's category tree (housing, for sale, jobs, services, gigs, community)
+        with the three-letter code each search takes as `category`.
+        """
+
+    async def searchForSale(self, args: str | Prv_craigslist_CraigslistSearchArgs_In, /) -> Prv_craigslist_CraigslistSearchResult_Out:
+        """Finds used items for sale on Craigslist in a city or area (San Francisco, New York, Los
+        Angeles and 700 more) by keyword, price range and category: furniture, bikes,
+        electronics, cars, free stuff. Returns price, neighbourhood, posted time and
+        description.
+        """
+
+    async def searchHousing(self, args: str | Prv_craigslist_CraigslistHousingArgs_In | None = None, /) -> Prv_craigslist_CraigslistSearchResult_Out:
+        """Finds apartments and housing for rent on Craigslist in a city or area (San Francisco Bay
+        Area by default, New York, Los Angeles, Seattle, Chicago and 700 more) filtered by rent
+        range, bedrooms, bathrooms and pets; also rooms, sublets, vacation rentals, offices and
+        parking. Returns price, neighbourhood, posted time, address and bedrooms.
+        """
+
+    async def searchJobs(self, args: str | Prv_craigslist_CraigslistJobsArgs_In, /) -> Prv_craigslist_CraigslistSearchResult_Out:
+        """Finds job postings or gigs on Craigslist in a city or area (San Francisco, New York, Los
+        Angeles and 700 more) by keyword, job category and remote flag. Returns title,
+        neighbourhood, posted time and description.
+        """
+
+    async def searchListings(self, args: str | Prv_craigslist_CraigslistSearchArgs_In, /) -> Prv_craigslist_CraigslistSearchResult_Out:
+        """Searches any Craigslist category (for sale by default) in an area by keyword, price
+        range, sort and ZIP radius, returning price, neighbourhood, posted time and description.
         """
 
     async def signup(self, args: Any, /) -> Prv_craigslist_signup_return_u0_Out | Prv_craigslist_signup_return_u1_Out | Prv_craigslist_signup_return_u2_Out | Prv_craigslist_signup_return_u3_Out:
@@ -86160,6 +86998,29 @@ class Prv_data_cms(Protocol):
     async def getRows(self, args: Prv_data_cms_GetRowsArgs_In, /) -> Prv_data_cms_data_cmsRowsResult_Out:
         """Read rows from one data.cms.gov dataset (its latest version), optionally filtered by
         exact column values or a keyword, with the total number of matching rows.
+        """
+
+class Prv_data_medicaid(Protocol):
+    """Search the Medicaid open-data catalog (drug rebate and pricing files, state enrollment,
+    quality measures) and read filtered rows from one dataset.
+    """
+
+    async def searchDatasets(self, args: str | Prv_data_medicaid_SearchDatasetsArgs_In, /) -> Prv_data_medicaid_data_medicaidSearchResult_Out:
+        """Search data.medicaid.gov's dataset catalog by keyword (e.g. "drug rebate", "nursing
+        facility", "managed care enrollment"); returns each dataset's id (for getDataset and
+        queryDataset), title, description, themes, last-modified date and download files, plus
+        the total match count.
+        """
+
+    async def getDataset(self, args: str | Prv_data_medicaid_GetDatasetArgs_In, /) -> Prv_data_medicaid_data_medicaidDatasetDetail_Out:
+        """Read one data.medicaid.gov dataset's record by id: title, description, license, contact,
+        themes, download files, and the column names, types and total row count of its table.
+        """
+
+    async def queryDataset(self, args: Prv_data_medicaid_QueryDatasetArgs_In, /) -> Prv_data_medicaid_data_medicaidQueryResult_Out:
+        """Read rows from one data.medicaid.gov dataset's table, with exact-match or substring
+        filters on its columns, column selection, sorting and limit/offset paging, plus the
+        total number of matching rows and the column list.
         """
 
 class Prv_davidsonhomes(Protocol):
@@ -86924,6 +87785,52 @@ class Prv_direct_book(Protocol):
         refused, not a working send yet.
         """
 
+class Prv_discogs(Protocol):
+    """Look up music on Discogs: search artists, labels, releases and masters, read an artist's
+    profile and discography, a label's catalogue, and a release's tracklist, credits and
+    community stats.
+    """
+
+    async def searchDatabase(self, args: str | Prv_discogs_DiscogsSearchArgs_In, /) -> Prv_discogs_searchDatabase_return_Out:
+        """Search the Discogs music database for artists, bands, labels, releases (albums, singles,
+        EPs) and masters by name or title, optionally narrowed to one type; returns each hit's
+        Discogs id, type, title, year, formats, labels and genres. Pass the id to getArtist,
+        getLabel, getRelease or getMaster.
+        """
+
+    async def getArtist(self, args: Prv_discogs_DiscogsArtistArgs_In, /) -> Prv_discogs_DiscogsArtist_Out:
+        """Read one Discogs artist's profile by id: name, real name, biography text, links,
+        aliases, name variations and band members or groups.
+        """
+
+    async def listArtistReleases(self, args: Prv_discogs_DiscogsArtistReleasesArgs_In, /) -> Prv_discogs_listArtistReleases_return_Out:
+        """List an artist's discography and credits on Discogs, paged and sortable by year, title
+        or format: one row per master (an album across editions) or release, with title, year,
+        role and format.
+        """
+
+    async def getLabel(self, args: Prv_discogs_DiscogsLabelArgs_In, /) -> Prv_discogs_DiscogsLabel_Out:
+        """Read one Discogs record label by id: name, profile text, contact info, links, parent
+        label and sublabels.
+        """
+
+    async def listLabelReleases(self, args: Prv_discogs_DiscogsLabelReleasesArgs_In, /) -> Prv_discogs_listLabelReleases_return_Out:
+        """List a record label's catalogue on Discogs, paged: one row per release with title,
+        artist, catalogue number, format and year.
+        """
+
+    async def getRelease(self, args: Prv_discogs_DiscogsReleaseArgs_In, /) -> Prv_discogs_DiscogsRelease_Out:
+        """Read one Discogs release (a specific edition of an album, EP or single) by id: artists,
+        labels and catalogue numbers, formats, genres, tracklist with durations, credits, notes,
+        community have/want counts and rating, and marketplace lowest price.
+        """
+
+    async def getMaster(self, args: Prv_discogs_DiscogsMasterArgs_In, /) -> Prv_discogs_DiscogsMaster_Out:
+        """Read one Discogs master release (an album across all its editions) by id: title, year,
+        artists, genres, tracklist, its main and most recent release ids and marketplace lowest
+        price.
+        """
+
 class Prv_discord(Protocol):
     """Discord, chat for communities. Built so far: the public server directory (browse,
     search, categories, one server's page), invite lookup, and Discord's developer
@@ -87236,6 +88143,26 @@ class Prv_discord(Protocol):
         """Blocks `userId` for the signed-in user; this also ends any friendship. Needs a Discord
         sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token
         from your own browser yet.
+        """
+
+    async def updateProfile(self, args: Prv_discord_updateProfile_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordProfileResult_Out:
+        """Changes the SIGNED-IN USER's display name (1-32), bio / About Me (up to 190) or pronouns
+        (up to 40); pass only what should change, "" clears one. Needs a Discord sign-in made
+        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        browser yet.
+        """
+
+    async def setAvatar(self, args: Prv_discord_setAvatar_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordAvatarResult_Out:
+        """Changes the SIGNED-IN USER's profile picture; `image` is a data: URI
+        ("data:image/png;base64,…"), or null to remove it. Needs a Discord sign-in made through
+        Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser
+        yet.
+        """
+
+    async def setStatus(self, args: Prv_discord_setStatus_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordStatusResult_Out:
+        """Sets the SIGNED-IN USER's presence and/or custom status text (up to 128 characters, null
+        clears). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+        cannot pass Discord's token from your own browser yet.
         """
 
     async def createThread(self, args: Prv_discord_createThread_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordThread_Out:
@@ -90775,6 +91702,24 @@ class Prv_fresha(Protocol):
     async def confirmSignup(self, args: Any, /) -> Prv_fresha_confirmSignup_return_u0_Out | Prv_fresha_confirmSignup_return_u1_Out | Prv_fresha_confirmSignup_return_u2_Out | Prv_fresha_confirmSignup_return_u3_Out:
         """Continues the sign-up `signup` started in this session with the emailed or texted
         `code`, the email's verification `link`, or the person's `phone`.
+        """
+
+class Prv_frontiersin(Protocol):
+    """Search Frontiers' open-access research articles (with views, downloads and citation
+    counts) and its journals (impact factor, CiteScore, size).
+    """
+
+    async def searchArticles(self, args: str | Prv_frontiersin_SearchArticlesArgs_In, /) -> Prv_frontiersin_FrontiersArticleSearch_Out:
+        """Search Frontiers' open-access research articles by keyword, optionally within a
+        publication date range; returns the match total and each article's DOI, title, abstract,
+        authors, journal, section, type, publication date, link and its views, downloads and
+        citation counts.
+        """
+
+    async def searchJournals(self, args: str | Prv_frontiersin_SearchJournalsArgs_In, /) -> Prv_frontiersin_FrontiersJournalSearch_Out:
+        """Search Frontiers' journals (Frontiers in Neuroscience, Psychology, Immunology, …) by
+        name or topic; returns each journal's link, ISSN, impact factor, CiteScore, article,
+        view and download counts, number of sections and scope text.
         """
 
 class Prv_furniture(Protocol):
@@ -101589,6 +102534,18 @@ class Prv_originenergy_com_au(Protocol):
         kWh/year) — the same live call the site's own 'Compare business plans' page makes.
         `serviceable: false` with an empty `plans` array is Origin's own honest answer for a
         postcode it does not retail electricity into (WA, TAS, NT), not a failure.
+        """
+
+class Prv_osu(Protocol):
+    """Search The Ohio State University's (osu.edu) public Class Search: courses by keyword,
+    subject and term, with every section's days, times, room, instructor and enrollment.
+    """
+
+    async def searchClasses(self, args: str | Prv_osu_OsuSearchArgs_In, /) -> Prv_osu_OsuSearchResult_Out:
+        """Search Ohio State's (osu.edu) class schedule and course catalog by keyword, subject and
+        term: each course's code, title, description, credit hours and GE attributes, with every
+        section's class number, days, times, room, instructor, enrollment status, enrolled and
+        waitlist counts.
         """
 
 class Prv_othership(Protocol):
@@ -113960,10 +114917,11 @@ class Prv_wikipedia(Protocol):
         """
 
     async def getSections(self, titleOrUrl: str, options: Prv_wikipedia_getSections_options_In | None = None, /) -> Prv_wikipedia_getSections_return_Out:
-        """The article's table of contents — every section with its number, heading, nesting level
-        and anchor, in page order. What a caller reads to decide WHICH part of a long article it
-        actually wants before pulling the text. Takes the same title-or-url argument as
-        `getArticle` and follows the site's own redirects.
+        """A Wikipedia article's sections (its table of contents, outline or headings) — every
+        section with its number, heading, nesting level and anchor, in page order. What a caller
+        reads to decide WHICH part of a long article it actually wants before pulling the text.
+        Takes the same title-or-url argument as `getArticle` and follows the site's own
+        redirects.
         """
 
     async def getSection(self, titleOrUrl: str, sectionIndex: str, options: Prv_wikipedia_getSection_options_In | None = None, /) -> Prv_wikipedia_WikipediaSectionContent_Out:
@@ -113992,9 +114950,10 @@ class Prv_wikipedia(Protocol):
         articles, parsed into a key/value structure. Infoboxes contain facts like country
         capitals and populations, film directors and release dates, or chemical formulas.
         Returns the infobox's type (the template name, e.g., 'beverage', 'country') alongside
-        its fields. Field values retain their original wikitext — templates and links are not
-        expanded. Takes an article title OR any wikipedia.org url and follows the site's own
-        redirects.
+        its fields. `fields` keeps each value's original wikitext, and `facts` carries the same
+        values as plain readable text (links, references, comments and common templates
+        resolved), so read `facts` for answers and `fields` only when you need the markup. Takes
+        an article title OR any wikipedia.org url and follows the site's own redirects.
         """
 
     async def listLinks(self, titleOrUrl: str, options: Prv_wikipedia_listLinks_options_In | None = None, /) -> Prv_wikipedia_listLinks_return_Out:
@@ -114005,12 +114964,12 @@ class Prv_wikipedia(Protocol):
         """
 
     async def listBacklinks(self, titleOrUrl: str, options: Prv_wikipedia_listBacklinks_options_In | None = None, /) -> Prv_wikipedia_listBacklinks_return_Out:
-        """What links HERE — every Wikipedia article pointing at this one, by title and url. The
-        inbound half of the link graph, and the closest thing the encyclopedia has to "how
-        important is this topic, and to whom". Takes an article title OR any wikipedia.org url
-        and follows the site's own redirects. Optional limit parameter caps the number of
-        backlinks returned (1-500); omitted, it returns up to the first 2000 and warns when the
-        article has more.
+        """What links here on Wikipedia (backlinks, incoming links) — every Wikipedia article
+        pointing at this one, by title and url. The inbound half of the link graph, and the
+        closest thing the encyclopedia has to "how important is this topic, and to whom". Takes
+        an article title OR any wikipedia.org url and follows the site's own redirects. Optional
+        limit parameter caps the number of backlinks returned (1-500); omitted, it returns up to
+        the first 2000 and warns when the article has more.
         """
 
     async def listExternalLinks(self, titleOrUrl: str, options: Prv_wikipedia_listExternalLinks_options_In | None = None, /) -> Prv_wikipedia_listExternalLinks_return_Out:
@@ -114022,11 +114981,11 @@ class Prv_wikipedia(Protocol):
         """
 
     async def listCategories(self, titleOrUrl: str, options: Prv_wikipedia_listCategories_options_In | None = None, /) -> Prv_wikipedia_listCategories_return_Out:
-        """The categories an article belongs to — Wikipedia's own subject taxonomy, which is how
-        the site says what KIND of thing this is. `listCategoryMembers` walks the same taxonomy
-        in the other direction. Takes an article title OR any wikipedia.org url and follows the
-        site's own redirects. Optional limit parameter caps the number of categories returned
-        (defaults to all).
+        """The Wikipedia categories an article belongs to (its category list) — Wikipedia's own
+        subject taxonomy, which is how the site says what KIND of thing this is.
+        `listCategoryMembers` walks the same taxonomy in the other direction. Takes an article
+        title OR any wikipedia.org url and follows the site's own redirects. Optional limit
+        parameter caps the number of categories returned (defaults to all).
         """
 
     async def listCategoryMembers(self, category: str, options: Prv_wikipedia_listCategoryMembers_options_In | None = None, /) -> Prv_wikipedia_listCategoryMembers_return_Out:
@@ -114070,11 +115029,12 @@ class Prv_wikipedia(Protocol):
         """
 
     async def listRevisions(self, titleOrUrl: str, options: Prv_wikipedia_listRevisions_options_In | None = None, /) -> Prv_wikipedia_listRevisions_return_Out:
-        """The revision history of an article, ordered newest-first. Each revision carries its id
-        (used by getRevision, compareRevisions, and undoRevision), timestamp, editor username,
-        edit summary comment, and byte size. The door to tracking who changed what and when.
-        Takes an article title OR any wikipedia.org url and follows the site's own redirects.
-        Optional limit parameter caps the number of revisions returned (defaults to 50).
+        """The Wikipedia edit history (revision history, page history, who edited) of an article,
+        ordered newest-first. Each revision carries its id (used by getRevision,
+        compareRevisions, and undoRevision), timestamp, editor username, edit summary comment,
+        and byte size. The door to tracking who changed what and when. Takes an article title OR
+        any wikipedia.org url and follows the site's own redirects. Optional limit parameter
+        caps the number of revisions returned (defaults to 50).
         """
 
     async def getRevision(self, revisionId: float, options: Prv_wikipedia_getRevision_options_In | None = None, /) -> Prv_wikipedia_WikipediaRevisionDetail_Out:
@@ -116091,6 +117051,22 @@ class Prv_zenoti(Protocol):
         payment -- in both cases nothing changed. With no sign-in the run pauses for one.
         """
 
+class Prv_zepto(Protocol):
+    """Search Zepto (Indian quick-commerce grocery) and look up a product by its page URL:
+    name, price in rupees, MRP, stock, pack size, rating.
+    """
+
+    async def search(self, args: Prv_zepto_search_args_In, /) -> list[Prv_zepto_ZeptoSearchRow_Out]:
+        """Searches Zepto's grocery catalogue and returns each product card's name, price and MRP
+        in rupees, pack size, stock and product URL (pass the url or id to product() for full
+        detail).
+        """
+
+    async def product(self, args: Prv_zepto_product_args_u0_In | Prv_zepto_product_args_u1_In, /) -> Prv_zepto_ZeptoProduct_Out:
+        """Reads a Zepto product page (www.zepto.com/pn/<slug>/pvid/<id>) and returns its name,
+        brand, selling price and MRP in rupees, stock, pack size, category, rating and images.
+        """
+
 class Prv_zoom(Protocol):
     """Video conferencing, meetings, and webinars."""
 
@@ -116488,6 +117464,7 @@ class BowmarkProviders(Protocol):
     dangotecement: Prv_dangotecement
     dansons: Prv_dansons
     data_cms: Prv_data_cms
+    data_medicaid: Prv_data_medicaid
     davidsonhomes: Prv_davidsonhomes
     dblp: Prv_dblp
     deangroup: Prv_deangroup
@@ -116508,6 +117485,7 @@ class BowmarkProviders(Protocol):
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
     direct_book: Prv_direct_book
+    discogs: Prv_discogs
     discord: Prv_discord
     discounttire: Prv_discounttire
     disney: Prv_disney
@@ -116574,6 +117552,7 @@ class BowmarkProviders(Protocol):
     franklinbbq_com: Prv_franklinbbq_com
     fred: Prv_fred
     fresha: Prv_fresha
+    frontiersin: Prv_frontiersin
     furniture: Prv_furniture
     g2: Prv_g2
     gap: Prv_gap
@@ -116794,6 +117773,7 @@ class BowmarkProviders(Protocol):
     openai_com: Prv_openai_com
     opentable: Prv_opentable
     originenergy_com_au: Prv_originenergy_com_au
+    osu: Prv_osu
     othership: Prv_othership
     otto: Prv_otto
     outdoorresearch: Prv_outdoorresearch
@@ -117076,6 +118056,7 @@ class BowmarkProviders(Protocol):
     zen_planner: Prv_zen_planner
     zennioptical: Prv_zennioptical
     zenoti: Prv_zenoti
+    zepto: Prv_zepto
     zoom: Prv_zoom
     zoopla: Prv_zoopla
 

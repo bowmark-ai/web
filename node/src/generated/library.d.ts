@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4751f18b257e2c9a4fc3abd8e3c5a94010080b8bb22bf61608258bdee14eeb6b
-// 98 capabilities, 834 providers, 5150 typed functions, 20 refused.
+// Manifest version: e3cd00cc028297db6f3dfb6d3ff5e77851d2c1cae377de03b88eeab49a5be0d8
+// 98 capabilities, 839 providers, 5180 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8965,30 +8965,219 @@ interface AirbnbTrip {
 interface AirbnbTrips {
   trips: AirbnbTrip[];        // newest first; [] when the caller has none
 }
+interface AirbnbAmenity {
+  group: string | null;
+  title: string;
+  /** False for the "Not included" rows the site also lists. */
+  available: boolean;
+  note: string | null;
+}
+interface AirbnbListingDetails {
+  id: string;
+  url: string;
+  title: string | null;
+  /** The site's own headline, e.g. "Entire chalet in Mont-Tremblant, Canada". */
+  propertyType: string | null;
+  spaceType: string | null;
+  description: string | null;
+  guests: number | null;
+  bedrooms: number | null;
+  beds: number | null;
+  bathrooms: number | null;
+  rating: number | null;
+  reviewCount: number | null;
+  isGuestFavorite: boolean;
+  categoryRatings: Array<{ category: string; rating: number | null }>;
+  /** Share of reviews per star, e.g. { stars: 5, share: 0.83 }. */
+  ratingDistribution: Array<{ stars: number; share: number }>;
+  highlights: Array<{ headline: string; body: string | null }>;
+  amenities: AirbnbAmenity[];
+  sleeping: Array<{ room: string; beds: string[] }>;
+  houseRules: Array<{ group: string; rule: string; detail: string | null }>;
+  safety: string[];
+  petsAllowed: boolean | null;
+  location: {
+    label: string | null;
+    latitude: number | null;
+    longitude: number | null;
+    exact: boolean | null;
+    breadcrumbs: Array<{ title: string; url: string }>;
+    nearbyCities: Array<{ title: string; url: string }>;
+  };
+  host: {
+    id: string | null;
+    name: string | null;
+    isSuperhost: boolean;
+    isVerified: boolean;
+    reviewCount: number | null;
+    rating: number | null;
+    yearsHosting: number | null;
+    responseRate: string | null;
+    responseTime: string | null;
+    coHosts: string[];
+  };
+  photos: Array<{ url: string; caption: string | null; room: string | null }>;
+}
+interface AirbnbReview {
+  id: string;
+  rating: number | null;
+  /** ISO timestamp the review was posted. */
+  date: string | null;
+  /** The site's own display date, e.g. "October 2026". */
+  displayDate: string | null;
+  text: string | null;
+  language: string | null;
+  reviewerName: string | null;
+  reviewerLocation: string | null;
+  /** e.g. "Stayed a few nights". */
+  stayNote: string | null;
+  hostResponse: string | null;
+}
+interface AirbnbListingReviews {
+  id: string;
+  url: string;
+  sort: "mostRecent" | "highestRated" | "lowestRated" | "bestQuality";
+  /** All reviews the listing has, not only this page. */
+  totalCount: number | null;
+  offset: number;
+  reviews: AirbnbReview[];
+  /** Pass as 'offset' for the next page; null when this was the last. */
+  nextOffset: number | null;
+  /** Guest-mentioned topics with counts, e.g. { tag: "Location", count: 124 }. */
+  topics: Array<{ tag: string; count: number }>;
+}
+interface AirbnbHostListing {
+  id: string;
+  title: string | null;
+  propertyType: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  bedrooms: number | null;
+  beds: number | null;
+  bathrooms: number | null;
+  rating: number | null;
+  reviewCount: number | null;
+  isSuperhost: boolean;
+  photoUrl: string | null;
+  url: string;
+}
+interface AirbnbHostProfile {
+  id: string;
+  url: string;
+  name: string | null;
+  about: string | null;
+  location: string | null;
+  isSuperhost: boolean;
+  isIdentityVerified: boolean;
+  /** What the host has verified, e.g. ["Identity", "Email address"]. */
+  verifications: string[];
+  yearsHosting: number | null;
+  monthsHosting: number | null;
+  memberForYears: number | null;
+  /** e.g. "Verified since January 2019". */
+  verifiedSince: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  languages: string | null;
+  /** How many listings the host runs; 'listings' holds the first page of them. */
+  listingCount: number | null;
+  listings: AirbnbHostListing[];
+  /** A few of the guest reviews the profile page shows, newest first. */
+  recentReviews: Array<{ date: string | null; rating: number | null; text: string | null; reviewerName: string | null }>;
+  profilePhotoUrl: string | null;
+}
+interface AirbnbExperience {
+  id: string;
+  title: string;
+  category: string | null;
+  city: string | null;
+  description: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  photoUrl: string | null;
+  url: string;
+  /** The landing page's own shelf, e.g. "Top-rated activities". */
+  shelf: string | null;
+}
 
   /**
    * Airbnb's own stays search — a location, optional dates and guest counts in, priced listing
    * rows (title, rating, review count, display price, photo, url) out, straight off airbnb.com/s
-   * — plus one known listing's nightly rate, booking-panel quote and day-by-day availability
-   * calendar.
+   * — plus one known listing's full details (description, amenities, house rules, rating
+   * breakdown, host, photos), its guest reviews, its price quote with every fee line for given
+   * dates, its availability calendar, a host's profile and listings, and a place's experiences.
    */
   interface Unit {
     /**
-     * Runs Airbnb's own stays search for a free-text `location` (e.g. "San Francisco", "Austin,
-     * Texas") the way airbnb.com/s does — optional `checkin`/`checkout` (`YYYY-MM-DD`) and guest
-     * counts (`adults`, `children`, `infants`, `pets`) narrow it exactly as the site's own search
-     * bar would. Returns each result's title, subtitle, star rating, review count, the site's own
-     * display price string, cover photo and `/rooms/<id>` url.
+     * A vacation rental host's public Airbnb profile (airbnb.com/users/show/<id>): name, about
+     * text, where they live, Superhost and identity-verified badges, years hosting, overall rating
+     * and review count, languages, how many properties they host with the first page of those
+     * listings (title, type, beds, rating, url) and recent guest reviews. Pass the `hostId`
+     * (`getListingDetails().host.id` returns it), the profile `url`, or a `listing` url or id to
+     * look up whoever hosts that rental.
      */
-    search(args: { location: string, checkin?: string, checkout?: string, adults?: number, children?: number, infants?: number, pets?: number }): Promise<AirbnbListing[]>;
+    getHostProfile(args: { hostId?: string, url?: string, listing?: string }): Promise<AirbnbHostProfile>;
 
     /**
-     * Live nightly rate and availability for ONE known Airbnb listing — pass its `/rooms/<id>` url
-     * (or the `id` that `search` returns). With `checkin`/`checkout` (`YYYY-MM-DD`) it returns the
-     * booking panel's own quote (total, pre-discount total, nights, the per-night rate) or the
-     * site's reason the dates cannot be booked; either way it returns the listing's day-by-day
-     * open/blocked calendar with minimum and maximum stay, `months` long (default 2) from the
-     * check-in month. `currency` is an ISO code, default USD.
+     * Everything the Airbnb listing page (airbnb.com/rooms/<id>) shows about one vacation rental
+     * or short-term stay, no dates needed: title, property type, full description, how many
+     * guests, bedrooms, beds and bathrooms it has, star rating with the six category ratings
+     * (cleanliness, accuracy, check-in, communication, location, value) and the star distribution,
+     * highlights, every amenity grouped and flagged available or not (wifi, kitchen, parking,
+     * pool), where each guest sleeps, house rules (pets, smoking, quiet hours), safety notes,
+     * location (area, coordinates, region breadcrumbs, nearby cities to browse), the host summary
+     * (id, Superhost, response rate and time, co-hosts) and the photo tour. Pass the `/rooms/<id>`
+     * `url` or the `id` that `search` returns.
+     */
+    getListingDetails(args: { url?: string, id?: string }): Promise<AirbnbListingDetails>;
+
+    /**
+     * Guest reviews of one Airbnb vacation rental, read from the listing page's own reviews panel:
+     * each with star rating, date, full text, reviewer first name and home town, the stay note
+     * ("Stayed a few nights") and any host reply, plus the listing's total review count and the
+     * topics guests mention most (Location 124, Cleanliness 55). `sort` is mostRecent (default),
+     * highestRated, lowestRated or bestQuality; page with `limit` (1-50, default 10) and the
+     * `nextOffset` the last result returned.
+     */
+    getListingReviews(args: { url?: string, id?: string, sort?: "mostRecent" | "highestRated" | "lowestRated" | "bestQuality", limit?: number, offset?: number }): Promise<AirbnbListingReviews>;
+
+    /**
+     * The total price of staying at one Airbnb vacation rental for given dates, with every line
+     * the booking panel shows (nightly rate times nights, cleaning fee, service fee and any
+     * discount where the host charges them), whether those dates can be booked at all and, when
+     * they cannot, the site's reason (minimum stay, already booked). The total is the site's own
+     * 'before taxes' figure; taxes are added only at checkout. `checkin`/`checkout` are YYYY-MM-DD
+     * and both required; `adults` default 1, `currency` an ISO code (default USD). Nothing is
+     * reserved or charged. Same panel as getListing, without the day-by-day calendar.
+     */
+    getPriceQuote(args: { url?: string, id?: string, checkin: string, checkout: string, adults?: number, currency?: string }): Promise<AirbnbListingAvailability>;
+
+    /**
+     * Tours, classes and things to do (Airbnb Experiences: guided walks, cooking classes,
+     * activities) for a city, from the place's own things-to-do page: title, category (Cultural
+     * tours, Cooking classes), city, blurb, star rating, review count, photo and the experience
+     * url, grouped by the page's shelves such as "Top-rated activities". `location` is free text
+     * like "Montreal", "Lisbon, Portugal" or "Austin, Texas".
+     */
+    searchExperiences(args: { location: string }): Promise<AirbnbExperience[]>;
+
+    /**
+     * Search vacation rentals and short-term stays (homes, apartments, cabins, rooms) on Airbnb
+     * for a free-text `location` (e.g. "San Francisco", "Austin, Texas"), the way airbnb.com/s
+     * does: optional `checkin`/`checkout` (`YYYY-MM-DD`), guest counts (`adults`, `children`,
+     * `infants`, `pets`) and filters (`minPrice`/`maxPrice` per night in the site's currency,
+     * `roomType`, `minBedrooms`, `minBeds`, `minBathrooms`); `page` (1-15, default 1) walks the
+     * results 18 at a time. Returns each place's title, subtitle, star rating, review count, the
+     * site's own display price string, cover photo and `/rooms/<id>` url.
+     */
+    search(args: { location: string, checkin?: string, checkout?: string, adults?: number, children?: number, infants?: number, pets?: number, minPrice?: number, maxPrice?: number, roomType?: "entire_home" | "private_room" | "shared_room" | "hotel_room", minBedrooms?: number, minBeds?: number, minBathrooms?: number, page?: number }): Promise<AirbnbListing[]>;
+
+    /**
+     * Is one Airbnb vacation rental available for given dates, and what does it cost per night:
+     * pass its `/rooms/<id>` url (or the `id` that `search` returns). With `checkin`/`checkout`
+     * (`YYYY-MM-DD`) it returns the booking panel's own quote (total, pre-discount total, nights,
+     * the per-night rate, discount lines) or the site's reason the dates cannot be booked; either
+     * way it returns the listing's day-by-day open/blocked availability calendar with minimum and
+     * maximum stay, `months` long (default 2) from the check-in month. `currency` is an ISO code,
+     * default USD.
      */
     getListing(args: { url?: string, id?: string, checkin?: string, checkout?: string, adults?: number, months?: number, currency?: string }): Promise<AirbnbListingAvailability>;
 
@@ -10975,6 +11164,14 @@ interface AolMailFolder {
   unreadCount?: number;
 }
 
+interface AolMailContact {
+  id: string; // the vCard's href on carddav.aol.com
+  name: string | null;
+  emails: string[]; // pass one as sendMessage's to
+  phones: string[];
+  organization: string | null;
+}
+
 interface AolMailMessageRow {
   id: string; // "<folder>:<uidValidity>:<uid>" — pass it to getMessage / markAsRead / moveMessage / deleteMessage as-is
   folder: string;
@@ -11058,6 +11255,12 @@ interface AolMailFlagResult {
   flagged: boolean;
 }
 
+interface ListContactsArgs {
+  credentials: MailboxCredentials;
+  query?: string; // a name or address fragment; omit for the whole address book
+  limit?: number; // 1-500, default 100
+}
+
 interface CreateFolderArgs {
   credentials: MailboxCredentials;
   name: string; // the new folder's name, e.g. "Taxes"
@@ -11125,6 +11328,14 @@ interface AolProfileUpdateResult {
    * password. AOL Mail runs on Yahoo Mail's backend and shares its engine.
    */
   interface Unit {
+    /**
+     * Looks up contacts in the CALLER's own AOL address book over CardDAV — name, email addresses,
+     * phone numbers and company — optionally filtered by a name or address fragment in query, so
+     * an address can be found before sendMessage. Takes the caller's address and app password, as
+     * secrets.
+     */
+    listContacts(args: ListContactsArgs): Promise<AolMailContact[]>;
+
     /**
      * Lists the CALLER's own AOL Mail folders — Inbox, Sent, Drafts, Spam, Trash and custom
      * folders — with message and unread counts. Takes the caller's AOL address and an AOL app
@@ -24804,6 +25015,20 @@ interface CbsNewsSearchResult {
   /** What the answer lacks: a row the site returned without a title or a link, left out. */
   warnings: string[];
 }
+interface CbsNewsSectionStory {
+  title: string;
+  url: string;
+  summary: string | null;
+  /** The card's own relative age text ("19m ago"); the front carries no absolute time. */
+  age: string | null;
+  image: string | null;
+}
+interface ListSectionArticlesArgs {
+  /** A section slug from listSections, such as "politics" or "moneywatch". */
+  section: string;
+  /** How many stories to return, 1 to 40. Defaults to all the front shows. */
+  limit?: number;
+}
 interface CbsNewsSection {
   /** The path segment, without slashes: "politics", "us", "60-minutes". */
   slug: string;
@@ -24835,6 +25060,13 @@ interface CbsNewsSection {
      * listRssFeeds), in the feed's own order.
      */
     listLatestNews(args: ListLatestNewsArgs): Promise<{ feed: string; articles: CbsNewsStory[] }>;
+
+    /**
+     * Lists the stories on one CBS News section front (a slug from listSections, such as politics
+     * or moneywatch): title, url, summary, relative age and image, in the page's order. Pass a url
+     * to getArticle for the full text.
+     */
+    listSectionArticles(args: ListSectionArticlesArgs): Promise<{ section: string; articles: CbsNewsSectionStory[] }>;
 
     /**
      * Lists the section fronts CBS News's header navigation links (U.S., World, Politics, Crime,
@@ -31226,23 +31458,65 @@ interface CouponFollowOffer {
 
 declare namespace BowmarkProvider_craigslist {
   // ── Craigslist — the unit's own declarations, verbatim ──
-interface CraigslistListing { id: string; title: string; price: string | null; location: string | null; url: string; description: string | null; postedAt: string | null; attributes: string[]; }
-interface CraigslistSearchArgs { query: string; area?: string; limit?: number; }
-interface CraigslistSearchResult { query: string; area: string; listings: CraigslistListing[]; url: string; }
+interface CraigslistListing { id: string; title: string; price: string | null; priceAmount: number | null; location: string | null; url: string; description: string | null; postedAt: string | null; updatedAt: string | null; attributes: string[]; bedrooms: number | null; bathrooms: number | null; squareFeet: number | null; address: string | null; latitude: number | null; longitude: number | null; images: string[]; }
+interface CraigslistSearchArgs { query?: string; area?: string; category?: string; minPrice?: number; maxPrice?: number; sort?: "date" | "priceasc" | "pricedsc" | "rel"; postal?: string; distanceMiles?: number; limit?: number; details?: boolean | number; }
+interface CraigslistHousingArgs extends CraigslistSearchArgs { kind?: string; minBedrooms?: number; maxBedrooms?: number; bedrooms?: number; minBathrooms?: number; pets?: "cats" | "dogs" | boolean; }
+interface CraigslistJobsArgs extends CraigslistSearchArgs { kind?: "jobs" | "gigs"; remote?: boolean; }
+interface CraigslistSearchResult { query: string; area: string; category: string; url: string; total: number; detailed: number; listings: CraigslistListing[]; }
+interface CraigslistArea { code: string; name: string; url: string; }
+interface CraigslistCategory { code: string; name: string; group: string; }
 
-  /** Finds public Craigslist listings by keyword and reads a listing's full public details. */
+  /**
+   * Searches Craigslist apartments, housing for rent, for-sale items, jobs and gigs in any area,
+   * and reads a listing's full details (posted time, description, location, photos).
+   */
   interface Unit {
     /**
-     * Reads a public Craigslist listing URL from searchListings for its full description, posted
-     * time and attributes.
+     * Reads one Craigslist listing from the URL a search returns: full description, posted and
+     * updated time, price, neighbourhood, street address and map point, bedrooms and bathrooms,
+     * attributes and photo URLs.
      */
     getListing(url: string): Promise<CraigslistListing>;
 
     /**
-     * Searches public Craigslist listings by keyword in an area (SF Bay Area by default),
-     * returning title, asking price, location and listing URL.
+     * Lists Craigslist's areas (cities and regions worldwide) with the code the search functions
+     * take as `area`, e.g. sfbay, newyork, losangeles.
      */
-    searchListings(query: string | CraigslistSearchArgs): Promise<CraigslistSearchResult>;
+    listAreas(): Promise<CraigslistArea[]>;
+
+    /**
+     * Lists Craigslist's category tree (housing, for sale, jobs, services, gigs, community) with
+     * the three-letter code each search takes as `category`.
+     */
+    listCategories(area?: string): Promise<CraigslistCategory[]>;
+
+    /**
+     * Finds used items for sale on Craigslist in a city or area (San Francisco, New York, Los
+     * Angeles and 700 more) by keyword, price range and category: furniture, bikes, electronics,
+     * cars, free stuff. Returns price, neighbourhood, posted time and description.
+     */
+    searchForSale(args: string | CraigslistSearchArgs): Promise<CraigslistSearchResult>;
+
+    /**
+     * Finds apartments and housing for rent on Craigslist in a city or area (San Francisco Bay
+     * Area by default, New York, Los Angeles, Seattle, Chicago and 700 more) filtered by rent
+     * range, bedrooms, bathrooms and pets; also rooms, sublets, vacation rentals, offices and
+     * parking. Returns price, neighbourhood, posted time, address and bedrooms.
+     */
+    searchHousing(args?: string | CraigslistHousingArgs): Promise<CraigslistSearchResult>;
+
+    /**
+     * Finds job postings or gigs on Craigslist in a city or area (San Francisco, New York, Los
+     * Angeles and 700 more) by keyword, job category and remote flag. Returns title,
+     * neighbourhood, posted time and description.
+     */
+    searchJobs(args: string | CraigslistJobsArgs): Promise<CraigslistSearchResult>;
+
+    /**
+     * Searches any Craigslist category (for sale by default) in an area by keyword, price range,
+     * sort and ZIP radius, returning price, neighbourhood, posted time and description.
+     */
+    searchListings(args: string | CraigslistSearchArgs): Promise<CraigslistSearchResult>;
 
     /**
      * Makes a NEW Craigslist account with the person's own email and password, in a session.
@@ -32748,6 +33022,109 @@ interface GetRowsArgs {
      * column values or a keyword, with the total number of matching rows.
      */
     getRows(args: GetRowsArgs): Promise<data_cmsRowsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_data_medicaid {
+  // ── Medicaid Data (data.medicaid.gov) — the unit's own declarations, verbatim ──
+interface data_medicaidDistribution {
+  /** the index queryDataset's distribution takes */
+  index: number;
+  format: string | null;
+  downloadUrl: string | null;
+  dataDictionaryUrl: string | null;
+}
+interface data_medicaidDataset {
+  /** the uuid getDataset and queryDataset take */
+  id: string;
+  title: string;
+  description: string | null;
+  issued: string | null;
+  modified: string | null;
+  themes: string[];
+  keywords: string[];
+  distributions: data_medicaidDistribution[];
+  url: string;
+}
+interface data_medicaidSearchResult {
+  total: number | null;
+  datasets: data_medicaidDataset[];
+}
+interface data_medicaidColumn {
+  name: string;
+  type: string | null;
+  description: string | null;
+}
+interface data_medicaidDatasetDetail extends data_medicaidDataset {
+  license: string | null;
+  contactEmail: string | null;
+  columns: data_medicaidColumn[] | null;
+  rowCount: number | null;
+}
+interface data_medicaidQueryResult {
+  datasetId: string;
+  distribution: number;
+  /** rows as Medicaid publishes them; keys are the table's own column names */
+  rows: Record<string, unknown>[];
+  /** rows matching the filters across the whole table */
+  totalMatching: number | null;
+  columns: data_medicaidColumn[];
+}
+interface SearchDatasetsArgs {
+  /** words to search the catalog for, e.g. "drug rebate" */
+  query: string;
+  /** default 10, max 50 */
+  limit?: number;
+  /** 1-based, default 1 */
+  page?: number;
+}
+interface GetDatasetArgs {
+  /** searchDatasets().datasets[].id */
+  datasetId: string;
+}
+interface QueryDatasetArgs {
+  /** searchDatasets().datasets[].id */
+  datasetId: string;
+  /** default 25, max 500 */
+  limit?: number;
+  offset?: number;
+  /** which of the dataset's tables, from distributions[].index; default 0 */
+  distribution?: number;
+  /** exact-match filters on the table's own column names, e.g. { labeler_name: "TEVA PHARMACEUTICALS USA, INC." } */
+  filters?: Record<string, string | number>;
+  /** substring filters (SQL LIKE %value%), e.g. { fda_product_name: "ASPIRIN" } */
+  contains?: Record<string, string | number>;
+  /** only return these columns */
+  columns?: string[];
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}
+
+  /**
+   * Search the Medicaid open-data catalog (drug rebate and pricing files, state enrollment,
+   * quality measures) and read filtered rows from one dataset.
+   */
+  interface Unit {
+    /**
+     * Search data.medicaid.gov's dataset catalog by keyword (e.g. "drug rebate", "nursing
+     * facility", "managed care enrollment"); returns each dataset's id (for getDataset and
+     * queryDataset), title, description, themes, last-modified date and download files, plus the
+     * total match count.
+     */
+    searchDatasets(args: string | SearchDatasetsArgs): Promise<data_medicaidSearchResult>;
+
+    /**
+     * Read one data.medicaid.gov dataset's record by id: title, description, license, contact,
+     * themes, download files, and the column names, types and total row count of its table.
+     */
+    getDataset(args: string | GetDatasetArgs): Promise<data_medicaidDatasetDetail>;
+
+    /**
+     * Read rows from one data.medicaid.gov dataset's table, with exact-match or substring filters
+     * on its columns, column selection, sorting and limit/offset paging, plus the total number of
+     * matching rows and the column list.
+     */
+    queryDataset(args: QueryDatasetArgs): Promise<data_medicaidQueryResult>;
   }
 }
 
@@ -35117,6 +35494,204 @@ interface DirectBookEnquiryResult {
   }
 }
 
+declare namespace BowmarkProvider_discogs {
+  // ── Discogs — the unit's own declarations, verbatim ──
+interface DiscogsPage {
+  page: number;
+  pages: number;
+  perPage: number;
+  total: number;
+}
+interface DiscogsSearchHit {
+  id: number | null;
+  /** "artist" | "label" | "release" | "master" */
+  type: string | null;
+  title: string | null;
+  year: string | null;
+  country: string | null;
+  formats: string[];
+  labels: string[];
+  catno: string | null;
+  genres: string[];
+  styles: string[];
+  masterId: number | null;
+  url: string | null;
+  apiUrl: string | null;
+}
+interface DiscogsArtist {
+  id: number | null;
+  name: string | null;
+  realName: string | null;
+  profile: string | null;
+  urls: string[];
+  nameVariations: string[];
+  aliases: { id: number | null; name: string | null }[];
+  members: { id: number | null; name: string | null; active: boolean | null }[];
+  groups: { id: number | null; name: string | null }[];
+  imageUrl: string | null;
+  dataQuality: string | null;
+  url: string | null;
+}
+interface DiscogsLabel {
+  id: number | null;
+  name: string | null;
+  profile: string | null;
+  contactInfo: string | null;
+  urls: string[];
+  parentLabel: { id: number | null; name: string | null } | null;
+  sublabels: { id: number | null; name: string | null }[];
+  imageUrl: string | null;
+  dataQuality: string | null;
+  url: string | null;
+}
+interface DiscogsReleaseRow {
+  id: number | null;
+  /** "master" (an album across all editions) or "release" (one edition) */
+  type: string | null;
+  title: string | null;
+  artist: string | null;
+  year: number | null;
+  role: string | null;
+  format: string | null;
+  label: string | null;
+  catno: string | null;
+  mainRelease: number | null;
+  url: string | null;
+}
+interface DiscogsTrack {
+  position: string | null;
+  title: string | null;
+  duration: string | null;
+  type: string | null;
+}
+interface DiscogsRelease {
+  id: number | null;
+  title: string | null;
+  year: number | null;
+  released: string | null;
+  country: string | null;
+  artists: { id: number | null; name: string | null; join: string | null }[];
+  labels: { id: number | null; name: string | null; catno: string | null }[];
+  formats: { name: string | null; qty: string | null; descriptions: string[] }[];
+  genres: string[];
+  styles: string[];
+  tracklist: DiscogsTrack[];
+  credits: { id: number | null; name: string | null; role: string | null }[];
+  notes: string | null;
+  masterId: number | null;
+  have: number | null;
+  want: number | null;
+  rating: { average: number | null; count: number | null };
+  numForSale: number | null;
+  lowestPrice: number | null;
+  url: string | null;
+}
+interface DiscogsMaster {
+  id: number | null;
+  title: string | null;
+  year: number | null;
+  artists: { id: number | null; name: string | null }[];
+  genres: string[];
+  styles: string[];
+  tracklist: DiscogsTrack[];
+  mainRelease: number | null;
+  mostRecentRelease: number | null;
+  numForSale: number | null;
+  lowestPrice: number | null;
+  url: string | null;
+}
+interface DiscogsSearchArgs {
+  query: string;
+  /** narrow to one kind of result */
+  type?: "release" | "master" | "artist" | "label";
+  page?: number;
+  /** 1-100, default 50 */
+  perPage?: number;
+}
+interface DiscogsArtistArgs {
+  /** a Discogs artist id, or a discogs.com/artist/<id>-<name> URL */
+  artistId: number | string;
+}
+interface DiscogsLabelArgs {
+  /** a Discogs label id, or a discogs.com/label/<id>-<name> URL */
+  labelId: number | string;
+}
+interface DiscogsReleaseArgs {
+  /** a Discogs release id, or a discogs.com/release/<id>-<name> URL */
+  releaseId: number | string;
+}
+interface DiscogsMasterArgs {
+  /** a Discogs master id, or a discogs.com/master/<id>-<name> URL */
+  masterId: number | string;
+}
+interface DiscogsArtistReleasesArgs extends DiscogsArtistArgs {
+  page?: number;
+  perPage?: number;
+  sort?: "year" | "title" | "format";
+  sortOrder?: "asc" | "desc";
+}
+interface DiscogsLabelReleasesArgs extends DiscogsLabelArgs {
+  page?: number;
+  perPage?: number;
+  sort?: "year" | "title" | "format";
+  sortOrder?: "asc" | "desc";
+}
+
+  /**
+   * Look up music on Discogs: search artists, labels, releases and masters, read an artist's
+   * profile and discography, a label's catalogue, and a release's tracklist, credits and
+   * community stats.
+   */
+  interface Unit {
+    /**
+     * Search the Discogs music database for artists, bands, labels, releases (albums, singles,
+     * EPs) and masters by name or title, optionally narrowed to one type; returns each hit's
+     * Discogs id, type, title, year, formats, labels and genres. Pass the id to getArtist,
+     * getLabel, getRelease or getMaster.
+     */
+    searchDatabase(args: string | DiscogsSearchArgs): Promise<{ page: DiscogsPage; results: DiscogsSearchHit[] }>;
+
+    /**
+     * Read one Discogs artist's profile by id: name, real name, biography text, links, aliases,
+     * name variations and band members or groups.
+     */
+    getArtist(args: DiscogsArtistArgs): Promise<DiscogsArtist>;
+
+    /**
+     * List an artist's discography and credits on Discogs, paged and sortable by year, title or
+     * format: one row per master (an album across editions) or release, with title, year, role and
+     * format.
+     */
+    listArtistReleases(args: DiscogsArtistReleasesArgs): Promise<{ page: DiscogsPage; releases: DiscogsReleaseRow[] }>;
+
+    /**
+     * Read one Discogs record label by id: name, profile text, contact info, links, parent label
+     * and sublabels.
+     */
+    getLabel(args: DiscogsLabelArgs): Promise<DiscogsLabel>;
+
+    /**
+     * List a record label's catalogue on Discogs, paged: one row per release with title, artist,
+     * catalogue number, format and year.
+     */
+    listLabelReleases(args: DiscogsLabelReleasesArgs): Promise<{ page: DiscogsPage; releases: DiscogsReleaseRow[] }>;
+
+    /**
+     * Read one Discogs release (a specific edition of an album, EP or single) by id: artists,
+     * labels and catalogue numbers, formats, genres, tracklist with durations, credits, notes,
+     * community have/want counts and rating, and marketplace lowest price.
+     */
+    getRelease(args: DiscogsReleaseArgs): Promise<DiscogsRelease>;
+
+    /**
+     * Read one Discogs master release (an album across all its editions) by id: title, year,
+     * artists, genres, tracklist, its main and most recent release ids and marketplace lowest
+     * price.
+     */
+    getMaster(args: DiscogsMasterArgs): Promise<DiscogsMaster>;
+  }
+}
+
 declare namespace BowmarkProvider_discord {
   // ── Discord — the unit's own declarations, verbatim ──
 interface discordDocLink {
@@ -35463,6 +36038,21 @@ interface discordRelationshipResult {
   userId: string | null;
   username: string | null;
   action: "friend-request-sent" | "friend-request-accepted" | "friend-removed" | "blocked";
+}
+interface discordProfileResult {
+  userId: string | null;
+  displayName: string | null;
+  bio: string | null;
+  pronouns: string | null;
+}
+interface discordAvatarResult {
+  userId: string | null;
+  avatar: string | null;             // hash; null = avatar removed
+  avatarUrl: string | null;
+}
+interface discordStatusResult {
+  status: "online" | "idle" | "dnd" | "invisible" | null;
+  customStatus: string | null;
 }
 interface discordMessageSearch {
   totalResults: number;              // Discord's count of every hit, not just this page (25 per page)
@@ -35815,6 +36405,27 @@ interface discordMessageSearch {
      * your own browser yet.
      */
     blockUser(args: { userId: string }, opts?: ConnectionOption): Promise<discordRelationshipResult>;
+
+    /**
+     * Changes the SIGNED-IN USER's display name (1-32), bio / About Me (up to 190) or pronouns (up
+     * to 40); pass only what should change, "" clears one. Needs a Discord sign-in made through
+     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    updateProfile(args: { displayName?: string; bio?: string; pronouns?: string }, opts?: ConnectionOption): Promise<discordProfileResult>;
+
+    /**
+     * Changes the SIGNED-IN USER's profile picture; `image` is a data: URI
+     * ("data:image/png;base64,…"), or null to remove it. Needs a Discord sign-in made through
+     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    setAvatar(args: { image: string | null }, opts?: ConnectionOption): Promise<discordAvatarResult>;
+
+    /**
+     * Sets the SIGNED-IN USER's presence and/or custom status text (up to 128 characters, null
+     * clears). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot
+     * pass Discord's token from your own browser yet.
+     */
+    setStatus(args: { status?: 'online' | 'idle' | 'dnd' | 'invisible'; text?: string | null }, opts?: ConnectionOption): Promise<discordStatusResult>;
 
     /**
      * Starts a thread AS THE SIGNED-IN USER: off one message with `messageId`, as a new forum post
@@ -46145,6 +46756,87 @@ interface FreshaVenueReviews {
      * the email's verification `link`, or the person's `phone`.
      */
     confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+  }
+}
+
+declare namespace BowmarkProvider_frontiersin {
+  // ── Frontiers — the unit's own declarations, verbatim ──
+interface FrontiersArticle {
+  articleId: number | null;
+  doi: string | null;
+  title: string | null;
+  abstract: string | null;
+  /** e.g. "22 Apr 2020"; null while accepted but not yet published */
+  publishedDate: string | null;
+  acceptedDate: string | null;
+  url: string | null;
+  authors: { name: string; profileUrl: string | null }[];
+  journal: { id: number | null; title: string | null; abbreviation: string | null } | null;
+  section: string | null;
+  articleType: string | null;
+  views: number | null;
+  downloads: number | null;
+  citations: number | null;
+}
+interface FrontiersArticleSearch {
+  /** how many articles matched, across every page */
+  total: number;
+  articles: FrontiersArticle[];
+}
+interface FrontiersJournal {
+  id: number | null;
+  title: string | null;
+  url: string | null;
+  slug: string | null;
+  issn: string | null;
+  impactFactor: string | null;
+  citeScore: string | null;
+  articleCount: number | null;
+  viewCount: number | null;
+  downloadCount: number | null;
+  sectionCount: number | null;
+  scope: string | null;
+}
+interface FrontiersJournalSearch {
+  total: number;
+  journals: FrontiersJournal[];
+}
+interface SearchArticlesArgs {
+  /** words to search article titles, abstracts and keywords for */
+  query: string;
+  /** default 10, max 50 */
+  limit?: number;
+  offset?: number;
+  /** "YYYY-MM-DD"; give with endDate (Frontiers refuses one without the other) */
+  startDate?: string;
+  endDate?: string;
+}
+interface SearchJournalsArgs {
+  /** a journal name or topic, e.g. "neuroscience" */
+  query: string;
+  /** default 10, max 50 */
+  limit?: number;
+  offset?: number;
+}
+
+  /**
+   * Search Frontiers' open-access research articles (with views, downloads and citation counts)
+   * and its journals (impact factor, CiteScore, size).
+   */
+  interface Unit {
+    /**
+     * Search Frontiers' open-access research articles by keyword, optionally within a publication
+     * date range; returns the match total and each article's DOI, title, abstract, authors,
+     * journal, section, type, publication date, link and its views, downloads and citation counts.
+     */
+    searchArticles(args: string | SearchArticlesArgs): Promise<FrontiersArticleSearch>;
+
+    /**
+     * Search Frontiers' journals (Frontiers in Neuroscience, Psychology, Immunology, …) by name or
+     * topic; returns each journal's link, ISSN, impact factor, CiteScore, article, view and
+     * download counts, number of sections and scope text.
+     */
+    searchJournals(args: string | SearchJournalsArgs): Promise<FrontiersJournalSearch>;
   }
 }
 
@@ -75768,6 +76460,95 @@ interface OriginBusinessElectricityQuoteArgs { postcode: string }
      * electricity into (WA, TAS, NT), not a failure.
      */
     getBusinessElectricityQuote(arg0: OriginBusinessElectricityQuoteArgs): Promise<OriginBusinessElectricityQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_osu {
+  // ── The Ohio State University — the unit's own declarations, verbatim ──
+interface OsuTerm {
+  /** 4-digit term code, e.g. "1268" */
+  code: string;
+  /** e.g. "Autumn 2026" */
+  name: string;
+  count: number | null;
+}
+interface OsuMeeting {
+  /** e.g. "MWF", "TR" */
+  days: string | null;
+  startTime: string | null;
+  endTime: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  building: string | null;
+  room: string | null;
+  instructors: { name: string | null; email: string | null }[];
+}
+interface OsuSection {
+  classNumber: string | null;
+  section: string | null;
+  /** "Lecture" | "Recitation" | "Laboratory" | … */
+  component: string | null;
+  instructionMode: string | null;
+  /** "Open" | "Closed" | "Wait List" */
+  enrollmentStatus: string | null;
+  enrolled: number | null;
+  waitlisted: number | null;
+  waitlistCapacity: number | null;
+  session: string | null;
+  meetings: OsuMeeting[];
+}
+interface OsuCourse {
+  courseId: string | null;
+  /** e.g. "MATH" */
+  subject: string | null;
+  subjectName: string | null;
+  catalogNumber: string | null;
+  /** e.g. "MATH 1151" */
+  code: string | null;
+  title: string | null;
+  description: string | null;
+  term: string | null;
+  campus: string | null;
+  career: string | null;
+  college: string | null;
+  minUnits: number | null;
+  maxUnits: number | null;
+  grading: string | null;
+  attributes: { name: string | null; value: string | null; description: string | null }[];
+  sections: OsuSection[];
+}
+interface OsuSearchResult {
+  page: number;
+  totalPages: number;
+  totalSections: number;
+  /** the open terms this query matches in — pass a code back as `term` */
+  terms: OsuTerm[];
+  courses: OsuCourse[];
+}
+interface OsuSearchArgs {
+  /** keyword, course title or code, e.g. "calculus", "CSE 2221"; may be "" when subject is set */
+  query: string;
+  /** 4-digit term code, e.g. "1272" (Spring 2027); omit for every open term */
+  term?: string;
+  /** campus code, default "col" (Columbus); also "lma", "mns", "mrn", "nwk", "wst" */
+  campus?: string;
+  /** subject code, e.g. "math", "cse" */
+  subject?: string;
+  page?: number;
+}
+
+  /**
+   * Search The Ohio State University's (osu.edu) public Class Search: courses by keyword,
+   * subject and term, with every section's days, times, room, instructor and enrollment.
+   */
+  interface Unit {
+    /**
+     * Search Ohio State's (osu.edu) class schedule and course catalog by keyword, subject and
+     * term: each course's code, title, description, credit hours and GE attributes, with every
+     * section's class number, days, times, room, instructor, enrollment status, enrolled and
+     * waitlist counts.
+     */
+    searchClasses(args: string | OsuSearchArgs): Promise<OsuSearchResult>;
   }
 }
 
@@ -111347,7 +112128,10 @@ interface WikipediaWikitext {
 
 interface WikipediaInfobox {
   type: string;
+  /** Raw wikitext per field, as editors wrote it. */
   fields: Record<string, string>;
+  /** The same fields as plain readable text (links, refs, comments and common templates resolved; empty values dropped). */
+  facts: Record<string, string>;
 }
 
 interface WikipediaLink {
@@ -111620,10 +112404,10 @@ interface WikipediaWatchlistItem {
     getSummary(titleOrUrl: string, options?: { lang?: string }): Promise<WikipediaSummary>;
 
     /**
-     * The article's table of contents — every section with its number, heading, nesting level and
-     * anchor, in page order. What a caller reads to decide WHICH part of a long article it
-     * actually wants before pulling the text. Takes the same title-or-url argument as `getArticle`
-     * and follows the site's own redirects.
+     * A Wikipedia article's sections (its table of contents, outline or headings) — every section
+     * with its number, heading, nesting level and anchor, in page order. What a caller reads to
+     * decide WHICH part of a long article it actually wants before pulling the text. Takes the
+     * same title-or-url argument as `getArticle` and follows the site's own redirects.
      */
     getSections(titleOrUrl: string, options?: { lang?: string }): Promise<{ sections: WikipediaSection[]; warnings: string[] }>;
 
@@ -111654,9 +112438,11 @@ interface WikipediaWatchlistItem {
      * The Wikipedia infobox from an article — the grey fact box at the top right of most articles,
      * parsed into a key/value structure. Infoboxes contain facts like country capitals and
      * populations, film directors and release dates, or chemical formulas. Returns the infobox's
-     * type (the template name, e.g., 'beverage', 'country') alongside its fields. Field values
-     * retain their original wikitext — templates and links are not expanded. Takes an article
-     * title OR any wikipedia.org url and follows the site's own redirects.
+     * type (the template name, e.g., 'beverage', 'country') alongside its fields. `fields` keeps
+     * each value's original wikitext, and `facts` carries the same values as plain readable text
+     * (links, references, comments and common templates resolved), so read `facts` for answers and
+     * `fields` only when you need the markup. Takes an article title OR any wikipedia.org url and
+     * follows the site's own redirects.
      */
     getInfobox(titleOrUrl: string, options?: { lang?: string }): Promise<WikipediaInfobox>;
 
@@ -111669,11 +112455,12 @@ interface WikipediaWatchlistItem {
     listLinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ links: WikipediaLink[]; warnings: string[] }>;
 
     /**
-     * What links HERE — every Wikipedia article pointing at this one, by title and url. The
-     * inbound half of the link graph, and the closest thing the encyclopedia has to "how important
-     * is this topic, and to whom". Takes an article title OR any wikipedia.org url and follows the
-     * site's own redirects. Optional limit parameter caps the number of backlinks returned
-     * (1-500); omitted, it returns up to the first 2000 and warns when the article has more.
+     * What links here on Wikipedia (backlinks, incoming links) — every Wikipedia article pointing
+     * at this one, by title and url. The inbound half of the link graph, and the closest thing the
+     * encyclopedia has to "how important is this topic, and to whom". Takes an article title OR
+     * any wikipedia.org url and follows the site's own redirects. Optional limit parameter caps
+     * the number of backlinks returned (1-500); omitted, it returns up to the first 2000 and warns
+     * when the article has more.
      */
     listBacklinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ backlinks: WikipediaBacklink[]; warnings: string[] }>;
 
@@ -111687,11 +112474,11 @@ interface WikipediaWatchlistItem {
     listExternalLinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ externalLinks: WikipediaExternalLink[]; warnings: string[] }>;
 
     /**
-     * The categories an article belongs to — Wikipedia's own subject taxonomy, which is how the
-     * site says what KIND of thing this is. `listCategoryMembers` walks the same taxonomy in the
-     * other direction. Takes an article title OR any wikipedia.org url and follows the site's own
-     * redirects. Optional limit parameter caps the number of categories returned (defaults to
-     * all).
+     * The Wikipedia categories an article belongs to (its category list) — Wikipedia's own subject
+     * taxonomy, which is how the site says what KIND of thing this is. `listCategoryMembers` walks
+     * the same taxonomy in the other direction. Takes an article title OR any wikipedia.org url
+     * and follows the site's own redirects. Optional limit parameter caps the number of categories
+     * returned (defaults to all).
      */
     listCategories(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ categories: WikipediaCategory[]; warnings: string[] }>;
 
@@ -111741,11 +112528,12 @@ interface WikipediaWatchlistItem {
     getImage(fileTitle: string, options?: { lang?: string }): Promise<WikipediaImage>;
 
     /**
-     * The revision history of an article, ordered newest-first. Each revision carries its id (used
-     * by getRevision, compareRevisions, and undoRevision), timestamp, editor username, edit
-     * summary comment, and byte size. The door to tracking who changed what and when. Takes an
-     * article title OR any wikipedia.org url and follows the site's own redirects. Optional limit
-     * parameter caps the number of revisions returned (defaults to 50).
+     * The Wikipedia edit history (revision history, page history, who edited) of an article,
+     * ordered newest-first. Each revision carries its id (used by getRevision, compareRevisions,
+     * and undoRevision), timestamp, editor username, edit summary comment, and byte size. The door
+     * to tracking who changed what and when. Takes an article title OR any wikipedia.org url and
+     * follows the site's own redirects. Optional limit parameter caps the number of revisions
+     * returned (defaults to 50).
      */
     listRevisions(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ revisions: WikipediaRevision[]; warnings: string[] }>;
 
@@ -117085,6 +117873,30 @@ interface ZenotiReschedule {
   }
 }
 
+declare namespace BowmarkProvider_zepto {
+  // ── Zepto — the unit's own declarations, verbatim ──
+interface ZeptoSearchRow { id: string; name: string; price: number | null; mrp: number | null; packSize: string | null; inStock: boolean | null; url: string }
+interface ZeptoProduct { id: string; productId: string | null; name: string; brand: string | null; price: number | null; mrp: number | null; currency: string; inStock: boolean | null; size: string | null; category: string | null; rating: number | null; ratingCount: number | null; description: string | null; images: string[]; url: string }
+
+  /**
+   * Search Zepto (Indian quick-commerce grocery) and look up a product by its page URL: name,
+   * price in rupees, MRP, stock, pack size, rating.
+   */
+  interface Unit {
+    /**
+     * Searches Zepto's grocery catalogue and returns each product card's name, price and MRP in
+     * rupees, pack size, stock and product URL (pass the url or id to product() for full detail).
+     */
+    search(args: { query: string }): Promise<ZeptoSearchRow[]>;
+
+    /**
+     * Reads a Zepto product page (www.zepto.com/pn/<slug>/pvid/<id>) and returns its name, brand,
+     * selling price and MRP in rupees, stock, pack size, category, rating and images.
+     */
+    product(args: { url: string } | { id: string }): Promise<ZeptoProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_zoom {
   // ── Zoom — the unit's own declarations, verbatim ──
 
@@ -118953,6 +119765,7 @@ interface BowmarkProviders {
   dangotecement: BowmarkProvider_dangotecement.Unit;
   dansons: BowmarkProvider_dansons.Unit;
   data_cms: BowmarkProvider_data_cms.Unit;
+  data_medicaid: BowmarkProvider_data_medicaid.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   dblp: BowmarkProvider_dblp.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
@@ -118973,6 +119786,7 @@ interface BowmarkProviders {
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
   direct_book: BowmarkProvider_direct_book.Unit;
+  discogs: BowmarkProvider_discogs.Unit;
   discord: BowmarkProvider_discord.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
   disney: BowmarkProvider_disney.Unit;
@@ -119039,6 +119853,7 @@ interface BowmarkProviders {
   franklinbbq_com: BowmarkProvider_franklinbbq_com.Unit;
   fred: BowmarkProvider_fred.Unit;
   fresha: BowmarkProvider_fresha.Unit;
+  frontiersin: BowmarkProvider_frontiersin.Unit;
   furniture: BowmarkProvider_furniture.Unit;
   g2: BowmarkProvider_g2.Unit;
   gap: BowmarkProvider_gap.Unit;
@@ -119259,6 +120074,7 @@ interface BowmarkProviders {
   openai_com: BowmarkProvider_openai_com.Unit;
   opentable: BowmarkProvider_opentable.Unit;
   originenergy_com_au: BowmarkProvider_originenergy_com_au.Unit;
+  osu: BowmarkProvider_osu.Unit;
   othership: BowmarkProvider_othership.Unit;
   otto: BowmarkProvider_otto.Unit;
   outdoorresearch: BowmarkProvider_outdoorresearch.Unit;
@@ -119541,6 +120357,7 @@ interface BowmarkProviders {
   zen_planner: BowmarkProvider_zen_planner.Unit;
   zennioptical: BowmarkProvider_zennioptical.Unit;
   zenoti: BowmarkProvider_zenoti.Unit;
+  zepto: BowmarkProvider_zepto.Unit;
   zoom: BowmarkProvider_zoom.Unit;
   zoopla: BowmarkProvider_zoopla.Unit;
   "000000band": BowmarkFamily_shopify_store.Unit;

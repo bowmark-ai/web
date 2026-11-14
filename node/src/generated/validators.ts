@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4751f18b257e2c9a4fc3abd8e3c5a94010080b8bb22bf61608258bdee14eeb6b
-// 5122 checked, 20 unchecked.
+// Manifest version: e3cd00cc028297db6f3dfb6d3ff5e77851d2c1cae377de03b88eeab49a5be0d8
+// 5152 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4751f18b257e2c9a4fc3abd8e3c5a94010080b8bb22bf61608258bdee14eeb6b",
+  "version": "e3cd00cc028297db6f3dfb6d3ff5e77851d2c1cae377de03b88eeab49a5be0d8",
   "units": {
     "address_validation": {
       "defs": {
@@ -10801,6 +10801,198 @@ export const VALIDATORS: ValidatorTable = {
     "providers.airbnb": {
       "defs": {},
       "functions": {
+        "getHostProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "hostId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "listing",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getListingDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getListingReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sort",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "mostRecent"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "highestRated"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "lowestRated"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "bestQuality"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getPriceQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "checkin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkout",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "currency",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchExperiences": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "search": [
           {
             "name": "args",
@@ -10851,6 +11043,73 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "pets",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "roomType",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "entire_home"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "private_room"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "shared_room"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "hotel_room"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minBedrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minBeds",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minBathrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
                   "schema": {
                     "k": "number"
                   },
@@ -13786,6 +14045,33 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListContactsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "credentials",
+              "schema": {
+                "k": "ref",
+                "name": "MailboxCredentials"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListFoldersArgs": {
           "k": "object",
           "props": [
@@ -13987,6 +14273,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "listContacts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListContactsArgs"
+            },
+            "optional": false
+          }
+        ],
         "listFolders": [
           {
             "name": "args",
@@ -29780,6 +30076,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ListSectionArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -29809,6 +30124,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListLatestNewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSectionArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSectionArticlesArgs"
             },
             "optional": false
           }
@@ -38884,7 +39209,7 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.craigslist": {
       "defs": {
-        "CraigslistSearchArgs": {
+        "CraigslistHousingArgs": {
           "k": "object",
           "props": [
             {
@@ -38892,7 +39217,7 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "string"
               },
-              "optional": false
+              "optional": true
             },
             {
               "name": "area",
@@ -38902,9 +39227,365 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             },
             {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "date"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "priceasc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pricedsc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rel"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "postal",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "distanceMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
               "name": "limit",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "details",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "boolean"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "kind",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "bedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBathrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "pets",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "cats"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "dogs"
+                  },
+                  {
+                    "k": "boolean"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CraigslistJobsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "area",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "date"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "priceasc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pricedsc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rel"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "postal",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "distanceMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "details",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "boolean"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "kind",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "jobs"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "gigs"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "remote",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CraigslistSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "area",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "date"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "priceasc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pricedsc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rel"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "postal",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "distanceMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "details",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "boolean"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
               },
               "optional": true
             }
@@ -38921,9 +39602,73 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listAreas": [],
+        "listCategories": [
+          {
+            "name": "area",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "searchForSale": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "CraigslistSearchArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchHousing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "CraigslistHousingArgs"
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchJobs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "CraigslistJobsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "searchListings": [
           {
-            "name": "query",
+            "name": "args",
             "schema": {
               "k": "union",
               "of": [
@@ -41172,6 +41917,199 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetRowsArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.data_medicaid": {
+      "defs": {
+        "GetDatasetArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "datasetId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "QueryDatasetArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "datasetId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "distribution",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "filters",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "union",
+                  "of": [
+                    {
+                      "k": "string"
+                    },
+                    {
+                      "k": "number"
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "contains",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "union",
+                  "of": [
+                    {
+                      "k": "string"
+                    },
+                    {
+                      "k": "number"
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "columns",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "sortBy",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sortOrder",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchDatasetsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchDatasets": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "SearchDatasetsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getDataset": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "GetDatasetArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "queryDataset": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "QueryDatasetArgs"
             },
             "optional": false
           }
@@ -43939,6 +44877,365 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.discogs": {
+      "defs": {
+        "DiscogsArtistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "artistId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "DiscogsArtistReleasesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "artistId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "year"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "title"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "format"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sortOrder",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "DiscogsLabelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "labelId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "DiscogsLabelReleasesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "labelId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "year"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "title"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "format"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sortOrder",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "DiscogsMasterArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "masterId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "DiscogsReleaseArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "releaseId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "DiscogsSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "release"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "master"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "artist"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "label"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchDatabase": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "DiscogsSearchArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getArtist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsArtistArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listArtistReleases": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsArtistReleasesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLabel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsLabelArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLabelReleases": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsLabelReleasesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRelease": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsReleaseArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMaster": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsMasterArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.discord": {
       "defs": {},
       "functions": {
@@ -45048,6 +46345,163 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "displayName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "bio",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "pronouns",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setAvatar": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "image",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "null"
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "status",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "online"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "idle"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "dnd"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "invisible"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "null"
+                      }
+                    ]
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -60817,6 +62271,114 @@ export const VALIDATORS: ValidatorTable = {
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.frontiersin": {
+      "defs": {
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchJournalsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "SearchArticlesArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchJournals": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "SearchJournalsArgs"
+                }
+              ]
             },
             "optional": false
           }
@@ -101438,6 +103000,70 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "OriginBusinessElectricityQuoteArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.osu": {
+      "defs": {
+        "OsuSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "term",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "campus",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "subject",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchClasses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "OsuSearchArgs"
+                }
+              ]
             },
             "optional": false
           }
@@ -162653,6 +164279,64 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.zepto": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "product": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "id",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
