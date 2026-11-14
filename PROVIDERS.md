@@ -445,6 +445,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `att.listLines` | att.com | Every line on the caller's AT&T account: phone number, device, plan name, upgrade… | 🟢 |
 | `att.listPlans` | att.com | Every unlimited wireless plan on AT&T's own plan-picker page… | 🟢 |
 | `att.listPrepaidPlans` | att.com | Every AT&T Prepaid plan on AT&T's own prepaid plans page (att.com/prepaid/plans/)… | 🟢 |
+| `att.listTablets` | att.com | Every tablet on AT&T's own tablets listing (att.com/buy/tablets/): iPads, Galaxy Tabs… | 🟢 |
 | `att.listTvPlans` | att.com | Every AT&T TV package on AT&T's own TV page (att.com/tv/): streaming (ENTERTAINMENT… | 🟢 |
 | `att.payBill` | att.com | Pay a portion or all of the caller's AT&T bill using a saved payment method or… | ⚪ |
 | `att.viewBillHistory` | att.com | The caller's past 12 months of bills: month, amount due, amount paid, payment date. | 🟢 |
@@ -958,7 +959,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `calendly.getEventTypes` | calendly.com | Lists every event type a Calendly profile currently offers — the entry point. | 🟢 |
 | `calendly.getLandingPage` | calendly.com | Reads a Calendly team or organization page — the page that lists several people's or… | ⚪ |
 | `calendly.getMyAccount` | calendly.com | The signed-in caller's own Calendly account — name, email, scheduling-page url and… | ⚪ |
-| `calendly.getRoutingForm` | calendly.com | Reads a Calendly routing form — the questions an organization asks before it decides… | 🟢 |
+| `calendly.getRoutingForm` | calendly.com | Reads a Calendly routing form — the questions an organization asks before it decides… | 🟡 |
 | `calendly.getScheduledEvent` | calendly.com | One meeting booked with the caller in full — every invitee, their answers to the… | ⚪ |
 | `calendly.inviteOrganizationMember` | calendly.com | Invites someone by email to the caller's Calendly organization. | ⚪ |
 | `calendly.listAvailabilitySchedules` | calendly.com | The caller's working-hours schedules — the weekly hours they take meetings and any… | ⚪ |
@@ -1112,12 +1113,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbp.waitTimes` | cbp.gov | Current wait in minutes and lanes open at US land border crossings with Canada and… | 🟢 |
 | `cbsnews.getAccount` | cbsnews.com | Reads the signed-in caller's CBS News account profile. | ⚪ |
 | `cbsnews.getArticle` | cbsnews.com | Reads one CBS News article: headline, description, the full body text, authors with… | 🟢 |
-| `cbsnews.getAuthor` | cbsnews.com | Gets a correspondent's or writer's profile from /team/<slug>/. | ⚪ |
+| `cbsnews.getAuthor` | cbsnews.com | Gets a correspondent's or writer's profile from /team/<slug>/. | 🟢 |
 | `cbsnews.getLiveStream` | cbsnews.com | Gets the CBS News 24/7 live stream and the current broadcast from /live/. | 🟢 |
 | `cbsnews.getLiveUpdates` | cbsnews.com | Gets a live-updates page (/live-updates/<slug>/) with its timestamped posts. | 🟢 |
 | `cbsnews.getLocalWeather` | cbsnews.com | Gets a local station's current conditions and forecast. | ⚪ |
 | `cbsnews.getVideo` | cbsnews.com | Gets one video page: title, description, duration, date and stream URL where exposed. | 🟢 |
-| `cbsnews.listArticlesByAuthor` | cbsnews.com | Lists the stories by one author. | ⚪ |
+| `cbsnews.listArticlesByAuthor` | cbsnews.com | Lists the stories by one author. | 🟢 |
 | `cbsnews.listLatestNews` | cbsnews.com | Lists the latest stories from one CBS News RSS feed (main, or a section or show slug… | 🟢 |
 | `cbsnews.listLocalNews` | cbsnews.com | Lists the stories on a local station's front, e.g. /newyork/. | ⚪ |
 | `cbsnews.listLocalStations` | cbsnews.com | Lists the CBS local stations (New York, Los Angeles, Chicago, Boston, Texas …). | ⚪ |
@@ -1129,8 +1130,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbsnews.listSectionArticles` | cbsnews.com | Lists the stories on a section front such as /politics/ or /moneywatch/. | 🟢 |
 | `cbsnews.listSections` | cbsnews.com | Lists the site's sections and topic hubs (politics, world, moneywatch, crime, space …). | 🟢 |
 | `cbsnews.listShowEpisodes` | cbsnews.com | Lists a programme's recent segments and full episodes. | ⚪ |
-| `cbsnews.listShows` | cbsnews.com | Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings… | ⚪ |
-| `cbsnews.listTagArticles` | cbsnews.com | Lists the stories filed under a tag (/tag/<slug>/). | ⚪ |
+| `cbsnews.listShows` | cbsnews.com | Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings… | 🟢 |
+| `cbsnews.listTagArticles` | cbsnews.com | Lists the stories filed under a tag (/tag/<slug>/). | 🟢 |
 | `cbsnews.listVideos` | cbsnews.com | Lists videos from /video/ or a video category. | 🟢 |
 | `cbsnews.search` | cbsnews.com | Searches CBS News stories and videos by keyword, as /search/?q= does. | 🟢 |
 | `cbsnews.subscribeToNewsletter` | cbsnews.com | Subscribes an email address to a CBS News newsletter. | ⚪ |
@@ -1620,7 +1621,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dansons.identifyProduct` | pitboss-grills.com | Identifies which Pit Boss product(s) a free-text description matches — the same… | 🟢 |
 | `dansons.listRegisterableProducts` | pitboss-grills.com | Lists every Pit Boss product eligible for warranty registration — the exact catalog… | 🟢 |
 | `dat.loadToTruckRatio` | dat.com | Reads DAT Trendlines' monthly load-to-truck ratio (loads posted per truck on the DAT… | 🟢 |
-| `dat.nationalSpotRates` | dat.com | Reads DAT Trendlines' national average truckload spot rates (USD per mile including… | 🟢 |
+| `dat.nationalSpotRates` | dat.com | Reads DAT Trendlines' national average truckload spot rates (USD per mile, plus the… | 🟢 |
 | `dat.rateTrend` | dat.com | Reads DAT Trendlines' 12-month national rate trendline for one equipment type… | 🟢 |
 | `data_cms.getRows` | data.cms.gov | Read rows from one data.cms.gov dataset (its latest version), optionally filtered by… | 🟢 |
 | `data_cms.searchDatasets` | data.cms.gov | Search data.cms.gov's dataset catalog by keyword; returns each dataset's id (for… | 🟢 |
@@ -5130,11 +5131,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.updateCartItem` | shein.com | Changes the quantity, size or colour of an item in the signed-in caller's bag. | ⚪ |
 | `shein.updateProfile` | shein.com | Edits the signed-in caller's profile — nickname, birthday, or the body measurements… | ⚪ |
 | `shein.writeReview` | shein.com | Writes a review of a product the signed-in caller bought and received. | ⚪ |
-| `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | ⚪ |
+| `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | 🟢 |
 | `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart at its store (quantity 1 by default… | 🟢 |
 | `shop_app.addToProductList` | shop.app | Adds a product to one of the caller's lists, or removes it (remove: true). | 🟢 |
 | `shop_app.browseCategory` | shop.app | Browses one Shop product category by the id listCategories returns — its name and… | 🟡 |
-| `shop_app.claimOffer` | shop.app | Claims a Shop offer or Shop Cash reward for the caller. | ⚪ |
 | `shop_app.createProductList` | shop.app | Creates a new named product list for the caller. | 🟢 |
 | `shop_app.followStore` | shop.app | Follows a store on Shop for the caller, or unfollows it (follow: false), by its Shop… | 🟢 |
 | `shop_app.getAccount` | shop.app | Reads the caller's Shop account settings: whether they opted out of data sharing, and… | 🟢 |
@@ -6695,7 +6695,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.getCollection` | yelp.com | Reads a public Yelp collection (a member's named list of places) from its… | 🟢 |
 | `yelp.getCollections` | yelp.com | Lists the signed-in caller's own Yelp collections (their My Collections page): id… | 🟢 |
 | `yelp.getMenu` | yelp.com | Reads a restaurant's menu from its /menu/<alias> page's own ld+json Menu block: each… | 🟢 |
-| `yelp.getMessages` | yelp.com | Lists the signed-in caller's Yelp inbox: quote and business threads and their messages. | ⚪ |
+| `yelp.getMessages` | yelp.com | Lists the threads in the signed-in caller's own Yelp inbox (/messaging/inbox): id, url… | 🟢 |
 | `yelp.getOwnProfile` | yelp.com | Reads the signed-in caller's own Yelp profile (their /user_details page): name… | 🟢 |
 | `yelp.getPhotos` | yelp.com | Lists a business's photos from its /biz_photos/<alias> page, 30 at a time (optionally… | 🟡 |
 | `yelp.getQuestions` | yelp.com | Reads a business's Ask the Community questions from its /questions/ page: each… | 🔴 |

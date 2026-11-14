@@ -85,7 +85,7 @@ asppoolco.com — asppoolco: findLocationByZip, listLocations
 astoundgroup.com — astoundgroup: getContactForm, listPages
 atlasoceanvoyages.com — atlasoceanvoyages: getVoyage, searchVoyages
 atlasseniorliving.com — atlasseniorliving: searchCommunities
-att.com — att: findDevices, findStores, getAccountBalance, getDevicePricing, getMonthlyBill, getTradeInQuote, getTradeInValue, getUsage, listDeals, listInternetPlans, listLines, listPlans, listPrepaidPlans, listTvPlans, viewBillHistory, viewOrderHistory (+5 planned)
+att.com — att: findDevices, findStores, getAccountBalance, getDevicePricing, getMonthlyBill, getTradeInQuote, getTradeInValue, getUsage, listDeals, listInternetPlans, listLines, listPlans, listPrepaidPlans, listTablets, listTvPlans, viewBillHistory, viewOrderHistory (+5 planned)
 audibel.com — audibel: findClinics
 autocamp.com — autocamp: listProperties, searchAvailability
 avalonmalibu.com — avalonmalibu_com: getInsuranceForm
@@ -191,7 +191,7 @@ cb2.com — cb2: searchProducts (+1 planned)
 cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
 cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
-cbsnews.com — cbsnews: getArticle, getLiveStream, getLiveUpdates, getVideo, listLatestNews, listRssFeeds, listSectionArticles, listSections, listVideos, search (+16 planned)
+cbsnews.com — cbsnews: getArticle, getAuthor, getLiveStream, getLiveUpdates, getVideo, listArticlesByAuthor, listLatestNews, listRssFeeds, listSectionArticles, listSections, listShows, listTagArticles, listVideos, search (+12 planned)
 cerebralvalley.ai — cerebralvalley: getEvent, listEvents
 cftc.gov — cftc: searchRules
 champxpress.com — champxpress: nothing callable yet (+2 planned)
@@ -430,7 +430,7 @@ icis.corp.delaware.gov — delaware_corps: searchEntity (+1 planned)
 idealista.com — idealista: search (+3 planned)
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
-ikea.com — ikea: addToCart, addToFavorites, bookPlanningAppointment, findStores, getCart, getDeliveryOptions, getFamilyMembership, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getProfile, getPurchase, listCategories, listCategoryProducts, listFamilyOffers, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem, updateProfile
+ikea.com — ikea: 28 functions — ask get_library
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 imgur.com — imgur: addComment, deleteComment, favoritePost, getGalleryPosts, getImage, getMyFavorites, getMyPosts, getNotifications, getPost, getPostComments, getTag, getUser, getUserComments, getUserFavorites, getUserPosts, listTags, searchPosts, uploadImage, voteComment, votePost (+9 planned)
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
@@ -707,7 +707,7 @@ sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
 shein.com — shein: getPoints, getProduct, getSizeGuide, getStore, listCategories, listFlashSale, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, search (+22 planned)
-shop.app — shop_app: 33 functions — ask get_library (+6 planned)
+shop.app — shop_app: 34 functions — ask get_library (+4 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopdisney.com — shopdisney: getProduct, search
@@ -883,7 +883,7 @@ xola.com — xola: findSeller, getAvailability, getExperience, getPriceQuote, li
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
 yellowpages.com — yellowpages: nothing callable yet (+2 planned)
-yelp.com — yelp: getBookmarks, getBusiness, getCollection, getCollections, getMenu, getOwnProfile, getPhotos, getReviews, getUser, getWaitlist, listCategories, search, searchEvents, suggest (+16 planned)
+yelp.com — yelp: getBookmarks, getBusiness, getCollection, getCollections, getMenu, getMessages, getOwnProfile, getPhotos, getReviews, getUser, getWaitlist, listCategories, search, searchEvents, suggest (+15 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
 yorkwallcoverings.com — yorkwallcoverings: nothing callable yet (+3 planned)
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)
