@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f1d053ab358d7f30891500fbe3416bf572f98fb5554007b137151250f409385e
-# 98 capabilities, 850 providers, 5238 typed functions, 20 refused.
+# Manifest version: be3e1fbb304fe52fd76e7be01d28c2e9eb59b746d99e1bfe607b05e5764a91c5
+# 98 capabilities, 851 providers, 5241 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5332,6 +5332,46 @@ class Prv_agentstatus_AgentStatusTool_Out(TypedDict):
     description: str | None
     invocationRate: float | None
     functionalRate: float | None
+
+class Prv_agentweb_agentwebLibraryArgs_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_agentweb_agentwebMap_Out(TypedDict):
+    domain: str
+    version: str | None
+    actionCount: float
+    connectProviders: list[str]
+    partial: bool
+
+class Prv_agentweb_agentwebDiscoverArgs_In(TypedDict):
+    domain: str
+
+class Prv_agentweb_agentwebDiscovery_Out(TypedDict):
+    domain: str
+    version: str | None
+    connectProviders: list[str]
+    actions: list[Prv_agentweb_agentwebAction_Out]
+    note: str | None
+    chargedCents: float
+
+class Prv_agentweb_agentwebAction_Out(TypedDict):
+    name: str
+    kind: str
+    description: str
+    params: list[Prv_agentweb_agentwebParam_Out]
+    produces: Mapping[str, str]
+    effect: str | None
+
+Prv_agentweb_agentwebParam_Out = TypedDict(
+    "Prv_agentweb_agentwebParam_Out",
+    {
+    "name": str,
+    "required": bool,
+    "description": str,
+    "default": str | None,
+    "from": list[str],
+    },
+)
 
 class Prv_agoda_FindDestinationsArgs_In(TypedDict):
     query: str
@@ -24641,6 +24681,15 @@ class Prv_dropbox_DropboxFileVersions_Out(TypedDict):
     isDeleted: bool
     serverDeleted: NotRequired[str]
     versions: list[Prv_dropbox_DropboxEntry_Out]
+
+class Prv_dropbox_listRecentFiles_input_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_dropbox_DropboxRecentFiles_Out(TypedDict):
+    files: list[Prv_dropbox_DropboxEntry_Out]
+    scanned: float
+    oldestScanned: NotRequired[str]
+    hasMore: bool
 
 class Prv_dropbox_listDeletedFiles_input_In(TypedDict):
     path: NotRequired[str]
@@ -81804,6 +81853,27 @@ class Prv_agentstatus(Protocol):
         rates.
         """
 
+class Prv_agentweb(Protocol):
+    """AgentWeb's public index of sites it has mapped, and its free discover tool that lists
+    the actions it mapped for one of them (names, params, call graph, outputs). Read-only:
+    it never runs an action or asks AgentWeb to map anything.
+    """
+
+    async def library(self, args: Prv_agentweb_agentwebLibraryArgs_In | None = None, /) -> list[Prv_agentweb_agentwebMap_Out]:
+        """Lists every site AgentWeb has mapped, from its public summary index (no key): domain,
+        map version, action count and sign-in providers. `query` filters by domain,
+        case-insensitive. Throws when the index cannot be read; an unreadable or empty index is
+        never reported as zero maps.
+        """
+
+    async def discover(self, args: Prv_agentweb_agentwebDiscoverArgs_In, /) -> Prv_agentweb_agentwebDiscovery_Out:
+        """Returns AgentWeb's curated action catalog for one mapped site: each action's name, kind,
+        params (with the `from` call graph that says which action feeds which param) and the
+        fields it produces. Free at AgentWeb. Refuses a host that is not in `library()` before
+        calling AgentWeb, because discover on an unmapped host makes AgentWeb build a map. Paced
+        to one call per 5 s and 300 a day.
+        """
+
 class Prv_agoda(Protocol):
     """Agoda hotel search — live hotel rates (cheapest room per night), star rating and review
     score for a city and dates; strong Asia-Pacific inventory.
@@ -92184,6 +92254,15 @@ class Prv_dropbox(Protocol):
         time and content hash, and says whether the file itself is now deleted. `limit` caps it
         (default 10, max 100). THROWS on a folder or a path that does not exist. Needs the
         caller's Dropbox sign-in.
+        """
+
+    async def listRecentFiles(self, input: Prv_dropbox_listRecentFiles_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxRecentFiles_Out:
+        """Lists the signed-in caller's most recently modified Dropbox files, newest first (`limit`
+        default 50, max 200), each with name, path, size and modified time. Reads the whole
+        Dropbox's file list (up to ~20,000 entries) and sorts by modified time; `scanned` and
+        `oldestScanned` say how much was read and `hasMore` is true when it stopped early. This
+        is recently CHANGED, not the web app's recently opened list. Needs the caller's Dropbox
+        sign-in.
         """
 
     async def listDeletedFiles(self, input: Prv_dropbox_listDeletedFiles_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxDeletedListing_Out:
@@ -121069,9 +121148,9 @@ class Prv_zepto(Protocol):
     """
 
     async def search(self, args: Prv_zepto_search_args_In, /) -> list[Prv_zepto_ZeptoSearchRow_Out]:
-        """Searches Zepto's grocery catalogue and returns each card's name, current product-page
-        price and MRP in rupees, pack size, stock and product URL (pass the url or id to
-        product() for full detail).
+        """Searches Zepto's grocery catalogue and returns the top 12 cards' name, current
+        product-page price and MRP in rupees, pack size, stock and product URL (pass the url or
+        id to product() for full detail).
         """
 
     async def product(self, args: Prv_zepto_product_args_u0_In | Prv_zepto_product_args_u1_In, /) -> Prv_zepto_ZeptoProduct_Out:
@@ -121290,6 +121369,7 @@ class BowmarkProviders(Protocol):
     agenticskills: Prv_agenticskills
     agentskill: Prv_agentskill
     agentstatus: Prv_agentstatus
+    agentweb: Prv_agentweb
     agoda: Prv_agoda
     ahrefs: Prv_ahrefs
     ai_engineer: Prv_ai_engineer

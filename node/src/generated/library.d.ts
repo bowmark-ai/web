@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f1d053ab358d7f30891500fbe3416bf572f98fb5554007b137151250f409385e
-// 98 capabilities, 850 providers, 5266 typed functions, 20 refused.
+// Manifest version: be3e1fbb304fe52fd76e7be01d28c2e9eb59b746d99e1bfe607b05e5764a91c5
+// 98 capabilities, 851 providers, 5269 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8847,6 +8847,70 @@ interface GetServerResult extends AgentStatusServer {
      * breakdown plus every tool the index probed, with invocation and functional success rates.
      */
     getServer(args: AgentStatusGetServerArgs): Promise<GetServerResult>;
+  }
+}
+
+declare namespace BowmarkProvider_agentweb {
+  // ── AgentWeb — the unit's own declarations, verbatim ──
+interface agentwebMap {
+  domain: string;
+  version: string | null;
+  actionCount: number;
+  connectProviders: string[];
+  partial: boolean;
+}
+interface agentwebParam {
+  name: string;
+  required: boolean;
+  description: string;
+  default: string | null;
+  from: string[];
+}
+interface agentwebAction {
+  name: string;
+  kind: string;
+  description: string;
+  params: agentwebParam[];
+  produces: Record<string, string>;
+  effect: string | null;
+}
+interface agentwebDiscovery {
+  domain: string;
+  version: string | null;
+  connectProviders: string[];
+  actions: agentwebAction[];
+  note: string | null;
+  chargedCents: number;
+}
+interface agentwebLibraryArgs {
+  query?: string;
+}
+interface agentwebDiscoverArgs {
+  domain: string;
+}
+
+  /**
+   * AgentWeb's public index of sites it has mapped, and its free discover tool that lists the
+   * actions it mapped for one of them (names, params, call graph, outputs). Read-only: it never
+   * runs an action or asks AgentWeb to map anything.
+   */
+  interface Unit {
+    /**
+     * Lists every site AgentWeb has mapped, from its public summary index (no key): domain, map
+     * version, action count and sign-in providers. `query` filters by domain, case-insensitive.
+     * Throws when the index cannot be read; an unreadable or empty index is never reported as zero
+     * maps.
+     */
+    library(args?: agentwebLibraryArgs): Promise<agentwebMap[]>;
+
+    /**
+     * Returns AgentWeb's curated action catalog for one mapped site: each action's name, kind,
+     * params (with the `from` call graph that says which action feeds which param) and the fields
+     * it produces. Free at AgentWeb. Refuses a host that is not in `library()` before calling
+     * AgentWeb, because discover on an unmapped host makes AgentWeb build a map. Paced to one call
+     * per 5 s and 300 a day.
+     */
+    discover(args: agentwebDiscoverArgs): Promise<agentwebDiscovery>;
   }
 }
 
@@ -37983,6 +38047,7 @@ interface DropboxFileMetadata extends DropboxEntry { isDownloadable?: boolean; s
 interface DropboxSharedLinkInfo { url: string; kind: "file" | "folder"; name: string; path?: string; id?: string; expires?: string; visibility?: string; canRevoke?: boolean }
 interface DropboxSharedLinks { links: DropboxSharedLinkInfo[]; hasMore: boolean }
 interface DropboxFileVersions { path: string; isDeleted: boolean; serverDeleted?: string; versions: DropboxEntry[] }
+interface DropboxRecentFiles { files: DropboxEntry[]; scanned: number; oldestScanned?: string; hasMore: boolean }
 interface DropboxDeletedListing { path: string; deleted: DropboxEntry[]; hasMore: boolean }
 interface DropboxSharedItem { kind: "file" | "folder"; name: string; id: string; accessType?: string; previewUrl?: string; path?: string; owners?: string[]; invited?: string }
 interface DropboxSharedWithMe { items: DropboxSharedItem[]; hasMore: boolean }
@@ -38133,6 +38198,16 @@ interface DropboxSaveResult { status: "complete" | "in_progress"; entry: Dropbox
      * sign-in.
      */
     listFileVersions(input: { path: string; limit?: number }, opts?: ConnectionOption): Promise<DropboxFileVersions>;
+
+    /**
+     * Lists the signed-in caller's most recently modified Dropbox files, newest first (`limit`
+     * default 50, max 200), each with name, path, size and modified time. Reads the whole
+     * Dropbox's file list (up to ~20,000 entries) and sorts by modified time; `scanned` and
+     * `oldestScanned` say how much was read and `hasMore` is true when it stopped early. This is
+     * recently CHANGED, not the web app's recently opened list. Needs the caller's Dropbox
+     * sign-in.
+     */
+    listRecentFiles(input?: { limit?: number }, opts?: ConnectionOption): Promise<DropboxRecentFiles>;
 
     /**
      * Lists the files and folders deleted from the signed-in caller's Dropbox that still show up
@@ -120182,9 +120257,9 @@ interface ZeptoProduct { id: string; productId: string | null; name: string; bra
    */
   interface Unit {
     /**
-     * Searches Zepto's grocery catalogue and returns each card's name, current product-page price
-     * and MRP in rupees, pack size, stock and product URL (pass the url or id to product() for
-     * full detail).
+     * Searches Zepto's grocery catalogue and returns the top 12 cards' name, current product-page
+     * price and MRP in rupees, pack size, stock and product URL (pass the url or id to product()
+     * for full detail).
      */
     search(args: { query: string }): Promise<ZeptoSearchRow[]>;
 
@@ -122065,6 +122140,7 @@ interface BowmarkProviders {
   agenticskills: BowmarkProvider_agenticskills.Unit;
   agentskill: BowmarkProvider_agentskill.Unit;
   agentstatus: BowmarkProvider_agentstatus.Unit;
+  agentweb: BowmarkProvider_agentweb.Unit;
   agoda: BowmarkProvider_agoda.Unit;
   ahrefs: BowmarkProvider_ahrefs.Unit;
   ai_engineer: BowmarkProvider_ai_engineer.Unit;

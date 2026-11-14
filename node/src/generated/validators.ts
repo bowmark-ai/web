@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f1d053ab358d7f30891500fbe3416bf572f98fb5554007b137151250f409385e
-// 5238 checked, 20 unchecked.
+// Manifest version: be3e1fbb304fe52fd76e7be01d28c2e9eb59b746d99e1bfe607b05e5764a91c5
+// 5241 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f1d053ab358d7f30891500fbe3416bf572f98fb5554007b137151250f409385e",
+  "version": "be3e1fbb304fe52fd76e7be01d28c2e9eb59b746d99e1bfe607b05e5764a91c5",
   "units": {
     "address_validation": {
       "defs": {
@@ -10789,6 +10789,56 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AgentStatusGetServerArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.agentweb": {
+      "defs": {
+        "agentwebDiscoverArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "domain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "agentwebLibraryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "library": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "agentwebLibraryArgs"
+            },
+            "optional": true
+          }
+        ],
+        "discover": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "agentwebDiscoverArgs"
             },
             "optional": false
           }
@@ -49745,6 +49795,40 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listRecentFiles": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           },
           {
             "name": "opts",

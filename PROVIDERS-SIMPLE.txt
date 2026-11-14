@@ -289,7 +289,7 @@ doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getR
 drafthouse.com — drafthouse: findTheaters, getShowtimes (+1 planned)
 drive.google.com — drive_google: addComment, createDocument, createFolder, createPresentation, createSpreadsheet, getAccount, getDocumentText, getFile, getPresentationText, getSheetCsv, listComments, listFiles, moveFile, renameFile, restoreFile, setStarred, trashFile
 drivers.uber.com — uber: getDriverEarnings
-dropbox.com — dropbox: 30 functions — ask get_library (+12 planned)
+dropbox.com — dropbox: 31 functions — ask get_library (+11 planned)
 duckduckgo.com — duckduckgo: changeForwardingAddress, chatWithDuckAi, convertCurrency, createPrivateDuckAddress, defineWord, getEmailProtectionAccount, getInstantAnswer, getLocalTime, getWeather, listBangs, listDuckAiModels, listRegions, resolveBang, searchImages, searchNews, searchPlaces, searchVideos, searchWeb, setPrivateDuckAddressActive, suggestQueries, translateText
 dumpsters.com — dumpsters: getQuote
 e2b.dev — e2b: createSandbox, getSandbox, killSandbox, listSandboxes, readFile, runCommand, setSandboxTimeout, writeFile
@@ -366,6 +366,7 @@ geico.com — geico: findAgent, listDiscounts, listPartnerCompanies (+34 planned
 gethealthie.com — healthie: nothing callable yet (+3 planned)
 getsquire.com — squire: findShopsNear, getAvailability, getBarber, getBookingQuote, getBrand, getReviews, getShop, getWalkInStatus, listBarbers, listServices, lookupReservation, searchShops (+16 planned)
 github.com — github: 46 functions — ask get_library
+gitlab.com — gitlab: getProject, searchIssues, searchMergeRequests, searchProjects
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
 glassesusa.com — glassesusa: getProduct, search

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6843 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6847 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1882,7 +1882,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.listFileRequests` | dropbox.com | Lists the caller's file requests, open and closed, with how many files each has… | 🟢 |
 | `dropbox.listFileVersions` | dropbox.com | Lists the earlier versions of a file in the caller's Dropbox, with when and by whom… | 🟢 |
 | `dropbox.listFolder` | dropbox.com | Lists a folder in the caller's own Dropbox — the root by default — with each entry's… | 🟢 |
-| `dropbox.listRecentFiles` | dropbox.com | Lists the files the caller opened or edited recently (dropbox.com/recents). | ⚪ |
+| `dropbox.listRecentFiles` | dropbox.com | Lists the caller's most recently modified files, newest first, with how much of the… | 🟢 |
 | `dropbox.listSharedFolder` | dropbox.com | Lists the files and sub-folders inside a shared folder link — name, size, modified… | 🟢 |
 | `dropbox.listSharedLinks` | dropbox.com | Lists the shared links the caller has created, with what each points at and its… | 🟢 |
 | `dropbox.listSharedWithMe` | dropbox.com | Lists the files and folders other people have shared with the caller… | 🟢 |
@@ -2635,6 +2635,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🟢 |
 | `github.updatePullRequest` | github.com | Renames a pull request's TITLE, off the same issue-viewer web mutation (PUT… | 🟢 |
 | `github.watchRepository` | github.com | Watches a repository (all activity) for the signed-in caller, off github.com's own… | 🟢 |
+| `gitlab.getProject` | gitlab.com | Gets one public GitLab project by numeric id or path, such as gitlab-org/gitlab. | 🟢 |
+| `gitlab.searchIssues` | gitlab.com | Searches issues in one public GitLab project by project path or id, with an optional… | 🟢 |
+| `gitlab.searchMergeRequests` | gitlab.com | Searches merge requests in one public GitLab project by project path or id, with an… | 🟢 |
+| `gitlab.searchProjects` | gitlab.com | Finds public GitLab projects by name or description, returning a project path for… | 🟢 |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassdoor.getEmployerReviews` | glassdoor.com | An employer's Glassdoor review summary — overall rating, review count, the scale's… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟡 |
