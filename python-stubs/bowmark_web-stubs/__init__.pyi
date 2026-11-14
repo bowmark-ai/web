@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4e64c07e666dde4ba485155edbbc413542a3feca406a874635406d0402a49a54
-# 98 capabilities, 850 providers, 5223 typed functions, 20 refused.
+# Manifest version: f9254f93d62304e009ad857a0081fb148efe13226ff9df97d31cc5db4ab81f86
+# 98 capabilities, 850 providers, 5228 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1385,6 +1385,21 @@ Cap_flights_FlightQuery_In = TypedDict(
     "return": NotRequired[str],
     "cabin": NotRequired[Literal["economy"] | Literal["premium"] | Literal["business"] | Literal["first"]],
     "stops": NotRequired[Literal["any"] | Literal["nonstop"] | Literal["1"]],
+    "passengers": NotRequired[float],
+    "tripType": NotRequired[Literal["one way"] | Literal["round trip"] | Literal["multi-city"]],
+    "legs": NotRequired[Sequence[Cap_flights_FlightQuery_In_legs_item_In]],
+    "currency": NotRequired[str],
+    "source": NotRequired[Literal["tfs"] | Literal["q"]],
+    "warnings": NotRequired[Sequence[str]],
+    },
+)
+
+Cap_flights_FlightQuery_In_legs_item_In = TypedDict(
+    "Cap_flights_FlightQuery_In_legs_item_In",
+    {
+    "from": str,
+    "to": str,
+    "date": str,
     },
 )
 
@@ -16087,6 +16102,60 @@ class Prv_cbp_cbpPort_Out_pedestrian_Out(TypedDict):
     standard: Prv_cbp_cbpLane_Out | None
     ready: Prv_cbp_cbpLane_Out | None
 
+class Prv_cbsnews_GetLiveUpdatesArgs_In(TypedDict):
+    url: str
+    limit: NotRequired[float]
+
+class Prv_cbsnews_CbsNewsLiveUpdates_Out(TypedDict):
+    url: str
+    headline: str
+    description: str | None
+    authors: list[str]
+    published: str | None
+    modified: str | None
+    coverageStart: str | None
+    coverageEnd: str | None
+    updates: list[Prv_cbsnews_CbsNewsLiveUpdate_Out]
+
+class Prv_cbsnews_CbsNewsLiveUpdate_Out(TypedDict):
+    headline: str
+    url: str | None
+    authors: list[str]
+    published: str | None
+    modified: str | None
+
+class Prv_cbsnews_ListVideosArgs_In(TypedDict):
+    feed: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_cbsnews_listVideos_return_Out(TypedDict):
+    feed: str
+    videos: list[Prv_cbsnews_CbsNewsStory_Out]
+
+class Prv_cbsnews_CbsNewsStory_Out(TypedDict):
+    id: str | None
+    title: str
+    url: str
+    summary: str | None
+    published: str | None
+    image: str | None
+    categories: list[str]
+
+class Prv_cbsnews_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_cbsnews_CbsNewsVideo_Out(TypedDict):
+    url: str
+    title: str
+    description: str | None
+    duration: str | None
+    uploaded: str | None
+    thumbnail: str | None
+    streamUrl: str | None
+    embedUrl: str | None
+    transcript: str | None
+    isLive: bool
+
 class Prv_cbsnews_CbsNewsSearchArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -16134,15 +16203,6 @@ class Prv_cbsnews_ListLatestNewsArgs_In(TypedDict):
 class Prv_cbsnews_listLatestNews_return_Out(TypedDict):
     feed: str
     articles: list[Prv_cbsnews_CbsNewsStory_Out]
-
-class Prv_cbsnews_CbsNewsStory_Out(TypedDict):
-    id: str | None
-    title: str
-    url: str
-    summary: str | None
-    published: str | None
-    image: str | None
-    categories: list[str]
 
 class Prv_cbsnews_ListSectionArticlesArgs_In(TypedDict):
     section: str
@@ -30068,6 +30128,7 @@ class Prv_foxnews_SearchVideosArgs_In(TypedDict):
 class Prv_foxnews_searchVideos_return_Out(TypedDict):
     total: float
     videos: list[Prv_foxnews_FoxnewsVideoRow_Out]
+    warnings: NotRequired[list[str]]
 
 class Prv_foxnews_GetVideoArgs_In(TypedDict):
     url: str
@@ -33276,6 +33337,20 @@ Prv_google_flights_GoogleFlightQuery_In = TypedDict(
     "cabin": NotRequired[Literal["economy"] | Literal["premium"] | Literal["business"] | Literal["first"]],
     "stops": NotRequired[Literal["any"] | Literal["nonstop"] | Literal["1"]],
     "passengers": NotRequired[float],
+    "tripType": NotRequired[Literal["one way"] | Literal["round trip"] | Literal["multi-city"]],
+    "legs": NotRequired[Sequence[Prv_google_flights_GoogleFlightQuery_In_legs_item_In]],
+    "currency": NotRequired[str],
+    "source": NotRequired[Literal["tfs"] | Literal["q"]],
+    "warnings": NotRequired[Sequence[str]],
+    },
+)
+
+Prv_google_flights_GoogleFlightQuery_In_legs_item_In = TypedDict(
+    "Prv_google_flights_GoogleFlightQuery_In_legs_item_In",
+    {
+    "from": str,
+    "to": str,
+    "date": str,
     },
 )
 
@@ -33354,6 +33429,7 @@ Prv_google_flights_GooglePriceGraph_Out = TypedDict(
     "cheapest": Prv_google_flights_GooglePricePoint_Out | None,
     "url": str,
     "checkedAt": str,
+    "warnings": NotRequired[list[str]],
     },
 )
 
@@ -79149,9 +79225,12 @@ class Cap_flights(Protocol):
         Promise<PriceGraph>` (both typed above) prices every departure date from about depart-7
         to depart+52 in one call. **On a Google Flights page**,
         `bowmark.providers.google_flights.parseSearchUrl({ url: location.href })` gives the
-        current trip as a FlightQuery-shaped `{ from, to, depart, return?, cabin?, passengers?
-        }` (or null), reading both the `?q=` and the encoded `?tfs=` address, with no network
-        call.
+        current trip (or null), reading both the `?q=` and the encoded `?tfs=` address, with no
+        network call. **Pass that result straight to `search` or `getPriceGraph`:** it is a
+        FlightQuery plus `tripType`, `legs`, `currency`, `source` and `warnings`, which are
+        applied or reported in `warnings` (a one way trip that also has a `return` is refused; a
+        multi-city trip searches leg 1 and names the dropped legs; the URL's own warnings come
+        back prefixed "from the URL: ").
         """
 
     async def getBookingOptions(self, flight: Cap_flights_FlightResult_In, options: Cap_flights_CallOptions_In | None = None, /) -> Cap_flights_BookingOptionsResult_Out:
@@ -81851,6 +81930,11 @@ class Prv_alibaba(Protocol):
     async def getOrder(self, args: Prv_alibaba_alibabaGetOrderArgs_In, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaAccountPage_Out:
         """One of the signed-in caller's orders by order number (raw detail page). Pauses for
         sign-in when needed.
+        """
+
+    async def listSavedItems(self, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaAccountPage_Out:
+        """The signed-in caller's saved (favourited) products page (raw). Pauses for sign-in when
+        the caller has none.
         """
 
     async def signup(self, args: Any, /) -> Prv_alibaba_signup_return_u0_Out | Prv_alibaba_signup_return_u1_Out | Prv_alibaba_signup_return_u2_Out | Prv_alibaba_signup_return_u3_Out:
@@ -87290,6 +87374,27 @@ class Prv_cbsnews(Protocol):
     """CBS News: articles, live updates, section and local-station fronts, video, shows,
     podcasts and newsletters.
     """
+
+    async def getLiveUpdates(self, args: Prv_cbsnews_GetLiveUpdatesArgs_In, /) -> Prv_cbsnews_CbsNewsLiveUpdates_Out:
+        """Reads one CBS News live-updates page (/live-updates/<slug>/): headline, description,
+        authors, coverage window and its timestamped posts, newest first.
+        """
+
+    async def listVideos(self, args: Prv_cbsnews_ListVideosArgs_In, /) -> Prv_cbsnews_listVideos_return_Out:
+        """Lists the latest CBS News video clips from a clips RSS feed (daily-report-clips by
+        default), each with title, /video/ url, summary, publish time and image. /video/ itself
+        is the live player, not a listing.
+        """
+
+    async def getVideo(self, args: Prv_cbsnews_GetVideoArgs_In, /) -> Prv_cbsnews_CbsNewsVideo_Out:
+        """Reads one CBS News video page: title, description, duration, upload time, thumbnail, HLS
+        stream url and the transcript when the page carries one.
+        """
+
+    async def getLiveStream(self, /) -> Prv_cbsnews_CbsNewsVideo_Out:
+        """Gets the CBS News 24/7 live stream from /live/: title, description, thumbnail and the
+        live flag, as the page's own metadata states them.
+        """
 
     async def search(self, args: Prv_cbsnews_CbsNewsSearchArgs_In, /) -> Prv_cbsnews_CbsNewsSearchResult_Out:
         """Searches CBS News stories and videos by keyword, as /search/?q= does: the total matches
@@ -96404,11 +96509,14 @@ class Prv_google_flights(Protocol):
         Google Flights URL, in either spelling: the `?q=Flights from SFO to JFK on …` form or
         the encoded `?tfs=` form Google rewrites the address bar to as soon as a person clicks
         anything. On a Google Flights page, `bowmark.providers.google_flights.parseSearchUrl({
-        url: location.href })` gives the page's trip as a query you can pass to `search`,
-        `getPriceGraph` or `bowmark.flights.search`. Pure: no network, no browser. Returns null
-        for a URL that is not a flights search. `warnings` names what could not be read exactly
-        (a metro area such as NYC, a multi-city trip, children or infants in the passenger
-        count).
+        url: location.href })` gives the page's trip, which you pass as-is to `search`,
+        `getPriceGraph` or `bowmark.flights.search` (its `tripType`, `legs`, `currency`,
+        `source` and `warnings` are accepted there and applied or reported: a one way trip that
+        also has a `return` is refused, a multi-city trip searches leg 1 and names the dropped
+        legs, a currency other than USD is warned about). Pure: no network, no browser. Returns
+        null for a URL that is not a flights search. `warnings` names what could not be read
+        exactly (a metro area such as NYC, a multi-city trip, children or infants in the
+        passenger count).
         """
 
     async def search(self, query: Prv_google_flights_GoogleFlightQuery_In, /) -> list[Prv_google_flights_GoogleFlight_Out]:
@@ -101333,15 +101441,16 @@ class Prv_linkedin(Protocol):
         """
 
     async def searchPosts(self, input: str | Prv_linkedin_searchPosts_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
-        """Searches LinkedIn posts by keyword and returns them with author, text, how long ago each
-        was posted, its reaction, comment and repost counts, and its URL. Signed in: acts as the
-        caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-        link where they sign in. Paced per LinkedIn account across runs to keep the account
-        inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills
-        about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
-        throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
-        opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
-        first.
+        """Searches LinkedIn posts by keyword and returns 10 per page with author, text, how long
+        ago each was posted, its reaction, comment and repost counts, and its URL. There is no
+        size argument: pass `start: nextStart` from one page to read the next. Signed in: acts
+        as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands
+        back a link where they sign in. Paced per LinkedIn account across runs to keep the
+        account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that
+        refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+        the pace throws LinkedinRateLimited saying when to retry: wait that long. The account
+        owner may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask
+        them first.
         """
 
     async def getHomeFeed(self, input: Prv_linkedin_getHomeFeed_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getHomeFeed_return_Out:

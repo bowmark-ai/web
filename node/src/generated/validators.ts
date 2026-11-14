@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4e64c07e666dde4ba485155edbbc413542a3feca406a874635406d0402a49a54
-// 5223 checked, 20 unchecked.
+// Manifest version: f9254f93d62304e009ad857a0081fb148efe13226ff9df97d31cc5db4ab81f86
+// 5228 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4e64c07e666dde4ba485155edbbc413542a3feca406a874635406d0402a49a54",
+  "version": "f9254f93d62304e009ad857a0081fb148efe13226ff9df97d31cc5db4ab81f86",
   "units": {
     "address_validation": {
       "defs": {
@@ -2482,6 +2482,101 @@ export const VALIDATORS: ValidatorTable = {
                     "v": "1"
                   }
                 ]
+              },
+              "optional": true
+            },
+            {
+              "name": "passengers",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "tripType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "one way"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "round trip"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "multi-city"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "legs",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "from",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "to",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "date",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "source",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "tfs"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "q"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "warnings",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
               },
               "optional": true
             }
@@ -11810,6 +11905,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listSavedItems": [
           {
             "name": "opts",
             "schema": {
@@ -30393,6 +30506,37 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetLiveUpdatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListLatestNewsArgs": {
           "k": "object",
           "props": [
@@ -30430,9 +30574,59 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "feed",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
+        "getLiveUpdates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetLiveUpdatesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLiveStream": [],
         "search": [
           {
             "name": "args",
@@ -68830,6 +69024,94 @@ export const VALIDATORS: ValidatorTable = {
               "name": "passengers",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "tripType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "one way"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "round trip"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "multi-city"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "legs",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "from",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "to",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "date",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "source",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "tfs"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "q"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "warnings",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
               },
               "optional": true
             }

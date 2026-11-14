@@ -37,12 +37,12 @@ agoda.com — agoda: findDestinations, searchHotels (+4 planned)
 ahrefs.com — ahrefs: getDomainRating
 ai.engineer — ai_engineer: getSpeaker, listSpeakers
 aiper.store — aiper: listPoolChooserQuestions, recommendPoolCleaner
-airbnb.com — airbnb: getHostProfile, getListing, getListingDetails, getListingReviews, getPriceQuote, listTrips, search, searchExperiences (+2 planned)
+airbnb.com — airbnb: getHostProfile, getListing, getListingDetails, getListingReviews, getPriceQuote, listTrips, search, searchExperiences (+19 planned)
 airchina.com — airchina: getDealFares (+1 planned)
 airtable.com — airtable: createRecord, getRecord, listBases, listRecords, listTables, updateRecord
 ajmadison.com — ajmadison: search (+1 planned)
 akc.org — akc_org: breed, searchBreeds
-alibaba.com — alibaba: getOrder, getProduct, getProductReviews, getProfile, getSuggestions, getSupplier, listCategories, listMessages, listOrders, listSupplierProducts, listSuppliers, searchProducts (+20 planned)
+alibaba.com — alibaba: getOrder, getProduct, getProductReviews, getProfile, getSuggestions, getSupplier, listCategories, listMessages, listOrders, listSavedItems, listSupplierProducts, listSuppliers, searchProducts (+19 planned)
 aliexpress.us — aliexpress: addToCart, getProduct, getStore, listCart, listCategories, listOrders, listWishlist, search
 allied.com — allied: estimatePackingSupplies
 alphavantage.co — alphavantage: signUp
@@ -336,6 +336,7 @@ firstamericahomes.com — firstamericahomes: getCommunity, searchCommunities
 fitdegree.com — fitdegree: findStudio, getCancellationPolicy, getClass, getInstructor, getMembershipPricing, getMyProfile, getStudio, listAnnouncements, listClasses, listEvents, listInstructors, listIntroOffers, listLocations, listMemberships, listMyBookings, listMyPasses, listPrivateSessionTypes, listScheduleDates, listSeries, listWaiversToSign (+16 planned)
 fitness1440.com — fitness1440: getDayPassRequestInfo, listLocations
 fivebelow.com — fivebelow: nothing callable yet (+1 planned)
+fiverr.com — fiverr: nothing callable yet (+29 planned)
 fivestarbathsolutions.com — fivestarbathsolutions: getAvailableSlots, listLocations (+1 planned)
 flightradar24.com — flightradar24: getAirline, getAirportArrivals (+10 planned)
 flights.google.com — google_flights: getBookingOptions, getPriceGraph, parseSearchUrl, search

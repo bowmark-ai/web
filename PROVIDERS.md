@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6772 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6818 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -125,16 +125,33 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟢 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟡 |
+| `airbnb.autocompleteLocation` | airbnb.com | Suggests Airbnb destinations (cities, neighbourhoods, landmarks) for a typed place… | ⚪ |
 | `airbnb.bookListing` | airbnb.com | Reserves an Airbnb stay: confirms the booking for chosen dates and guests and takes… | ⚪ |
+| `airbnb.cancelReservation` | airbnb.com | Cancels one of the caller's reservations. | ⚪ |
+| `airbnb.changeProfilePhoto` | airbnb.com | Replaces the caller's profile picture with a supplied image. | ⚪ |
+| `airbnb.createWishlist` | airbnb.com | Creates a new private wishlist on the caller's account. | ⚪ |
+| `airbnb.getExperience` | airbnb.com | One Airbnb Experience's details: title, host, duration, price, language, what's… | ⚪ |
+| `airbnb.getExperienceReviews` | airbnb.com | Guest reviews of one Airbnb Experience, paginated through the whole set. | ⚪ |
 | `airbnb.getHostProfile` | airbnb.com | A vacation rental host's public Airbnb profile (airbnb.com/users/show/<id>): name… | 🟢 |
 | `airbnb.getListing` | airbnb.com | Is one Airbnb vacation rental available for given dates, and what does it cost per… | 🟢 |
+| `airbnb.getListingCalendar` | airbnb.com | A listing's day-by-day availability calendar for the coming months: which nights are… | ⚪ |
 | `airbnb.getListingDetails` | airbnb.com | Everything the Airbnb listing page (airbnb.com/rooms/<id>) shows about one vacation… | 🟢 |
 | `airbnb.getListingReviews` | airbnb.com | Guest reviews of one Airbnb vacation rental, read from the listing page's own reviews… | 🟢 |
+| `airbnb.getMessageThread` | airbnb.com | Every message in one of the caller's inbox threads, oldest to newest. | ⚪ |
 | `airbnb.getPriceQuote` | airbnb.com | The total price of staying at one Airbnb vacation rental for given dates, with every… | 🟢 |
+| `airbnb.getProfile` | airbnb.com | The signed-in caller's own Airbnb profile: name, photo, bio, location, languages… | ⚪ |
+| `airbnb.getTrip` | airbnb.com | One of the caller's trips in full: reservation code, dates, guests, address, check-in… | ⚪ |
+| `airbnb.getWishlist` | airbnb.com | The listings saved in one of the caller's wishlists. | ⚪ |
+| `airbnb.leaveReview` | airbnb.com | Writes the guest review of a completed stay. | ⚪ |
+| `airbnb.listMessageThreads` | airbnb.com | The caller's Airbnb inbox: message threads with hosts, newest first, each with the… | ⚪ |
 | `airbnb.listTrips` | airbnb.com | The signed-in guest's own trips from the Trips tab (airbnb.com/trips) — upcoming, past… | 🟢 |
+| `airbnb.listWishlists` | airbnb.com | The signed-in caller's wishlists with their names and saved-listing counts. | ⚪ |
 | `airbnb.messageHost` | airbnb.com | Sends a message to an Airbnb host about a listing, from the caller's own account. | ⚪ |
+| `airbnb.removeFromWishlist` | airbnb.com | Removes a listing from one of the caller's wishlists. | ⚪ |
+| `airbnb.saveToWishlist` | airbnb.com | Saves a listing to one of the caller's wishlists (the heart button). | ⚪ |
 | `airbnb.search` | airbnb.com | Search vacation rentals and short-term stays (homes, apartments, cabins, rooms) on… | 🟢 |
 | `airbnb.searchExperiences` | airbnb.com | Tours, classes and things to do (Airbnb Experiences: guided walks, cooking classes… | 🟢 |
+| `airbnb.updateProfile` | airbnb.com | Edits the caller's own profile fields (about me, location, work, languages). | ⚪ |
 | `airchina.getDealFares` | airchina.com | Reads the cheapest one-way deal fares Air China publishes from one origin city… | 🟢 |
 | `airchina.searchFlights` | airchina.com | Searches Air China's own fares for a route, date, cabin and passenger count, the way… | ⚪ |
 | `airtable.createRecord` | airtable.com | Creates a new record in a specified table. | 🟢 |
@@ -169,7 +186,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.listOrders` | alibaba.com | Get list of past orders with status, date and items. | 🟢 |
 | `alibaba.listRfqProfessions` | alibaba.com | Get list of available industry/profession categories for RFQ. | ⚪ |
 | `alibaba.listRfqs` | alibaba.com | Get list of RFQs (Requests for Quote) created by the user. | ⚪ |
-| `alibaba.listSavedItems` | alibaba.com | Get list of saved/favorited products. | ⚪ |
+| `alibaba.listSavedItems` | alibaba.com | Get list of saved/favorited products. | 🟢 |
 | `alibaba.listSupplierProducts` | alibaba.com | Lists the other products a supplier's storefront carries, so a buyer vetting a company… | 🟢 |
 | `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | 🟢 |
 | `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
@@ -2250,6 +2267,35 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fitness1440.getDayPassRequestInfo` | fitness1440.com | Validates one state/city pair against the same live cascade and returns the day-pass… | 🟢 |
 | `fitness1440.listLocations` | fitness1440.com | Reads FITNESS:1440's own day-pass request form (/request-day-pass/) and returns the… | 🟢 |
 | `fivebelow.search` | fivebelow.com | Searches fivebelow.com's catalog for a keyword and returns matching products — name… | 🔴 |
+| `fiverr.autocompleteSearch` | fiverr.com | Suggests search terms and categories for a partial query, as the search box does: the… | ⚪ |
+| `fiverr.changeProfilePhoto` | fiverr.com | Replaces the caller's profile picture with a supplied image. | ⚪ |
+| `fiverr.createSavedList` | fiverr.com | Creates a new saved list on the caller's account. | ⚪ |
+| `fiverr.getCategory` | fiverr.com | Reads one category or subcategory page: its gigs, the subcategory list and the filters… | ⚪ |
+| `fiverr.getConversation` | fiverr.com | Every message in one inbox conversation, oldest to newest, with attachments. | ⚪ |
+| `fiverr.getGig` | fiverr.com | Reads one gig by url: title, description, seller, packages (Basic/Standard/Premium… | ⚪ |
+| `fiverr.getGigReviews` | fiverr.com | The buyer reviews of one gig, paginated through the whole set: reviewer, country… | ⚪ |
+| `fiverr.getOrder` | fiverr.com | One of the caller's orders in full: requirements, delivery, timeline, messages and… | ⚪ |
+| `fiverr.getProfile` | fiverr.com | The signed-in caller's own Fiverr profile: username, display name, photo, description… | ⚪ |
+| `fiverr.getSavedList` | fiverr.com | The gigs and sellers saved in one of the caller's lists. | ⚪ |
+| `fiverr.getSeller` | fiverr.com | Reads a seller's public profile by username: name, level, country, languages, member… | ⚪ |
+| `fiverr.getSellerReviews` | fiverr.com | Reviews across all of a seller's gigs, paginated through the whole set. | ⚪ |
+| `fiverr.leaveReview` | fiverr.com | Leaves the buyer review on a completed order. | ⚪ |
+| `fiverr.listBriefs` | fiverr.com | The briefs (project requests) the caller has posted and the seller offers on each. | ⚪ |
+| `fiverr.listCategories` | fiverr.com | Lists Fiverr's category tree (Graphics & Design, Programming & Tech, …) with… | ⚪ |
+| `fiverr.listConversations` | fiverr.com | The caller's Fiverr inbox: conversations with sellers or buyers, newest first, with… | ⚪ |
+| `fiverr.listMyGigs` | fiverr.com | The caller's own gigs as a seller, with status (active, paused, draft) and… | ⚪ |
+| `fiverr.listNotifications` | fiverr.com | The caller's notifications: order updates, messages, offers. | ⚪ |
+| `fiverr.listOrders` | fiverr.com | The caller's orders as a buyer: gig, seller, status, price, due date. | ⚪ |
+| `fiverr.listSavedLists` | fiverr.com | The caller's saved lists (the heart button's collections) with names and item counts… | ⚪ |
+| `fiverr.listSellerGigs` | fiverr.com | Every active gig a seller offers, with starting price and rating. | ⚪ |
+| `fiverr.listSellerPortfolio` | fiverr.com | A seller's portfolio projects: title, images, description and the gig each belongs to. | ⚪ |
+| `fiverr.placeOrder` | fiverr.com | Orders a gig package as the caller (stops at Fiverr's checkout). | ⚪ |
+| `fiverr.postBrief` | fiverr.com | Posts a brief describing a project so sellers can send offers; private to Fiverr's… | ⚪ |
+| `fiverr.removeSavedGig` | fiverr.com | Removes a gig from one of the caller's lists. | ⚪ |
+| `fiverr.saveGig` | fiverr.com | Saves a gig to one of the caller's lists. | ⚪ |
+| `fiverr.searchGigs` | fiverr.com | Searches Fiverr gigs (fixed-price freelance services) for a query such as "logo… | ⚪ |
+| `fiverr.sendMessage` | fiverr.com | Sends a message to a seller from the caller's account, in an existing conversation or… | ⚪ |
+| `fiverr.updateProfile` | fiverr.com | Edits the caller's own profile fields (display name, description, languages). | ⚪ |
 | `fivestarbathsolutions.bookAppointment` | fivestarbathsolutions.com | Would submit the final 3-step booking form (chosen slot +… | ⚪ |
 | `fivestarbathsolutions.getAvailableSlots` | fivestarbathsolutions.com | Checks a franchise region's real free design-consultation scheduler and returns the… | 🟢 |
 | `fivestarbathsolutions.listLocations` | fivestarbathsolutions.com | Returns every Five Star Bath Solutions franchise territory — the site's own… | 🟢 |
@@ -3445,7 +3491,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | 🟢 |
 | `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟢 |
 | `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name through LinkedIn's own public people directory and… | 🟢 |
-| `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
+| `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns 10 per page with author, text, how long… | 🟢 |
 | `linkedin.searchSchools` | linkedin.com | Searches LinkedIn schools and universities by name, 10 per page — each one's handle… | 🟢 |
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | 🟢 |
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | 🟢 |

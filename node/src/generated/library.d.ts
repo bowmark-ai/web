@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4e64c07e666dde4ba485155edbbc413542a3feca406a874635406d0402a49a54
-// 98 capabilities, 850 providers, 5251 typed functions, 20 refused.
+// Manifest version: f9254f93d62304e009ad857a0081fb148efe13226ff9df97d31cc5db4ab81f86
+// 98 capabilities, 850 providers, 5256 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1851,6 +1851,14 @@ type FlightQuery = {
   return?: string       // omit for one-way
   cabin?: "economy" | "premium" | "business" | "first"
   stops?: "any" | "nonstop" | "1"
+  passengers?: number   // google_flights applies it; the other sites price one adult (warned)
+  // The next five are carried from parseSearchUrl so its result can be passed straight in.
+  // Each is applied or reported in `warnings`, never ignored.
+  tripType?: "one way" | "round trip" | "multi-city"  // carried from parseSearchUrl: "one way" with a `return` is refused; "multi-city" searches leg 1 and warns
+  legs?: { from: string; to: string; date: string }[] // carried from parseSearchUrl: multi-city legs; legs 2+ are dropped and named
+  currency?: string     // carried from parseSearchUrl: the URL's curr=, not applied here (warned unless USD)
+  source?: "tfs" | "q"  // carried from parseSearchUrl: which URL form was read; no effect
+  warnings?: string[]   // carried from parseSearchUrl: copied into the result's warnings, prefixed "from the URL: "
 }
 
 // One normalized flight. Same shape no matter where it came from.
@@ -2017,9 +2025,12 @@ type FlightStatusResult = {
      * `bowmark.providers.google_flights.getPriceGraph(query: FlightQuery): Promise<PriceGraph>`
      * (both typed above) prices every departure date from about depart-7 to depart+52 in one call.
      * **On a Google Flights page**, `bowmark.providers.google_flights.parseSearchUrl({ url:
-     * location.href })` gives the current trip as a FlightQuery-shaped `{ from, to, depart,
-     * return?, cabin?, passengers? }` (or null), reading both the `?q=` and the encoded `?tfs=`
-     * address, with no network call.
+     * location.href })` gives the current trip (or null), reading both the `?q=` and the encoded
+     * `?tfs=` address, with no network call. **Pass that result straight to `search` or
+     * `getPriceGraph`:** it is a FlightQuery plus `tripType`, `legs`, `currency`, `source` and
+     * `warnings`, which are applied or reported in `warnings` (a one way trip that also has a
+     * `return` is refused; a multi-city trip searches leg 1 and names the dropped legs; the URL's
+     * own warnings come back prefixed "from the URL: ").
      */
     search(query: FlightQuery, options?: CallOptions): Promise<FlightSearchResult>;
 
@@ -9567,6 +9578,12 @@ interface alibabaGetOrderArgs {
      * when needed.
      */
     getOrder(args: alibabaGetOrderArgs, opts?: ConnectionOption): Promise<alibabaAccountPage>;
+
+    /**
+     * The signed-in caller's saved (favourited) products page (raw). Pauses for sign-in when the
+     * caller has none.
+     */
+    listSavedItems(opts?: ConnectionOption): Promise<alibabaAccountPage>;
 
     /**
      * Makes a NEW Alibaba.com account with the person's own email and password, in a session.
@@ -25307,6 +25324,56 @@ interface CbsNewsArticle {
   dateModified: string | null;
   image: string | null;
 }
+interface GetLiveUpdatesArgs {
+  /** The live-updates page: https://www.cbsnews.com/live-updates/<slug>/ or just the slug. */
+  url: string;
+  /** How many posts to return, newest first. Default all the page carries. */
+  limit?: number;
+}
+interface CbsNewsLiveUpdate {
+  headline: string;
+  url: string | null;
+  authors: string[];
+  published: string | null;
+  modified: string | null;
+}
+interface CbsNewsLiveUpdates {
+  url: string;
+  headline: string;
+  description: string | null;
+  authors: string[];
+  published: string | null;
+  modified: string | null;
+  coverageStart: string | null;
+  coverageEnd: string | null;
+  /** Posts in the page's own order (newest first). */
+  updates: CbsNewsLiveUpdate[];
+}
+interface ListVideosArgs {
+  /** A clips feed slug from listRssFeeds, such as "daily-report-clips" (the default). */
+  feed?: string;
+  /** How many videos to return, 1 to 30. Default 30. */
+  limit?: number;
+}
+interface GetVideoArgs {
+  /** A video page address, https://www.cbsnews.com/video/<slug>/, or just the slug. */
+  url: string;
+}
+interface CbsNewsVideo {
+  url: string;
+  title: string;
+  description: string | null;
+  /** ISO 8601 duration as the page states it ("PT0H05M28S"). */
+  duration: string | null;
+  uploaded: string | null;
+  thumbnail: string | null;
+  /** The HLS master playlist, when the page exposes one. */
+  streamUrl: string | null;
+  embedUrl: string | null;
+  /** The spoken transcript, when the page carries one. */
+  transcript: string | null;
+  isLive: boolean;
+}
 interface CbsNewsSearchArgs {
   /** The words to search for, up to 200 characters. */
   query: string;
@@ -25363,6 +25430,31 @@ interface CbsNewsSection {
    * and newsletters.
    */
   interface Unit {
+    /**
+     * Reads one CBS News live-updates page (/live-updates/<slug>/): headline, description,
+     * authors, coverage window and its timestamped posts, newest first.
+     */
+    getLiveUpdates(args: GetLiveUpdatesArgs): Promise<CbsNewsLiveUpdates>;
+
+    /**
+     * Lists the latest CBS News video clips from a clips RSS feed (daily-report-clips by default),
+     * each with title, /video/ url, summary, publish time and image. /video/ itself is the live
+     * player, not a listing.
+     */
+    listVideos(args: ListVideosArgs): Promise<{ feed: string; videos: CbsNewsStory[] }>;
+
+    /**
+     * Reads one CBS News video page: title, description, duration, upload time, thumbnail, HLS
+     * stream url and the transcript when the page carries one.
+     */
+    getVideo(args: GetVideoArgs): Promise<CbsNewsVideo>;
+
+    /**
+     * Gets the CBS News 24/7 live stream from /live/: title, description, thumbnail and the live
+     * flag, as the page's own metadata states them.
+     */
+    getLiveStream(): Promise<CbsNewsVideo>;
+
     /**
      * Searches CBS News stories and videos by keyword, as /search/?q= does: the total matches for
      * the query, then up to 15 results with title, url, summary, date, feed and video duration.
@@ -46684,7 +46776,7 @@ interface FoxnewsAccount {
      * description, url, air date, duration in seconds and whether it is a full episode, and its
      * url goes to getVideo.
      */
-    searchVideos(args: SearchVideosArgs): Promise<{ total: number; videos: FoxnewsVideoRow[] }>;
+    searchVideos(args: SearchVideosArgs): Promise<{ total: number; videos: FoxnewsVideoRow[]; warnings?: string[] }>;
 
     /**
      * Reads one Fox News video clip — title, description, duration, upload date, thumbnail, and
@@ -51200,6 +51292,13 @@ interface GoogleFlightQuery {
   cabin?: "economy" | "premium" | "business" | "first";
   stops?: "any" | "nonstop" | "1";
   passengers?: number;
+  // Carried from parseSearchUrl, so its result can be passed straight in. Each is applied
+  // or reported, never ignored.
+  tripType?: "one way" | "round trip" | "multi-city"; // carried from parseSearchUrl: "one way" + a return is refused; "multi-city" searches leg 1 and warns
+  legs?: { from: string; to: string; date: string }[]; // carried from parseSearchUrl: legs 2+ are dropped and named
+  currency?: string;       // carried from parseSearchUrl: this provider prices USD; another one is warned
+  source?: "tfs" | "q";    // carried from parseSearchUrl: which URL form was read
+  warnings?: string[];     // carried from parseSearchUrl: repeated as "from the URL: …"
 }
 
 // What parseSearchUrl returns: a GoogleFlightQuery plus what the URL says.
@@ -51259,6 +51358,7 @@ interface GooglePriceGraph {
   cheapest: GooglePricePoint | null;  // ties resolve to the earliest date
   url: string;
   checkedAt: string;
+  warnings?: string[];      // from a parseSearchUrl query: legs dropped, currency not applied, the URL's own
 }
 
   /**
@@ -51271,9 +51371,12 @@ interface GooglePriceGraph {
      * Flights URL, in either spelling: the `?q=Flights from SFO to JFK on …` form or the encoded
      * `?tfs=` form Google rewrites the address bar to as soon as a person clicks anything. On a
      * Google Flights page, `bowmark.providers.google_flights.parseSearchUrl({ url: location.href
-     * })` gives the page's trip as a query you can pass to `search`, `getPriceGraph` or
-     * `bowmark.flights.search`. Pure: no network, no browser. Returns null for a URL that is not a
-     * flights search. `warnings` names what could not be read exactly (a metro area such as NYC, a
+     * })` gives the page's trip, which you pass as-is to `search`, `getPriceGraph` or
+     * `bowmark.flights.search` (its `tripType`, `legs`, `currency`, `source` and `warnings` are
+     * accepted there and applied or reported: a one way trip that also has a `return` is refused,
+     * a multi-city trip searches leg 1 and names the dropped legs, a currency other than USD is
+     * warned about). Pure: no network, no browser. Returns null for a URL that is not a flights
+     * search. `warnings` names what could not be read exactly (a metro area such as NYC, a
      * multi-city trip, children or infants in the passenger count).
      */
     parseSearchUrl(args: { url: string }): Promise<GoogleParsedSearch | null>;
@@ -64445,8 +64548,9 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
     listCompanyEmployees(input: string | { company: string; keywords?: string; title?: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember> & { companyId: string }>;
 
     /**
-     * Searches LinkedIn posts by keyword and returns them with author, text, how long ago each was
-     * posted, its reaction, comment and repost counts, and its URL. Signed in: acts as the
+     * Searches LinkedIn posts by keyword and returns 10 per page with author, text, how long ago
+     * each was posted, its reaction, comment and repost counts, and its URL. There is no size
+     * argument: pass `start: nextStart` from one page to read the next. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
      * where they sign in. Paced per LinkedIn account across runs to keep the account inside
      * LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an
