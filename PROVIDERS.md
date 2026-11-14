@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6766 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6767 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3945,6 +3945,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npi_registry.lookup` | npiregistry.cms.hhs.gov | One clinician or organization by its 10-digit NPI: name, credential, specialties with… | 🟢 |
 | `npi_registry.search` | npiregistry.cms.hhs.gov | Search the registry by name, organization, specialty, city, state or ZIP, up to 200… | 🟢 |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
+| `npmjs.getPackageInfo` | npmjs.com | One package's metadata straight off the npm registry (registry.npmjs.org/<package>)… | 🟢 |
 | `npmjs.search` | npmjs.com | Finds published npm packages by keyword through npm's public registry search. | 🟢 |
 | `npr.findStations` | npr.org | Find NPR member stations by city, zip code, call letters or coordinates — call sign… | 🟢 |
 | `npr.getAuthorStories` | npr.org | List one NPR correspondent's or host's latest stories, with their name, bio and… | 🟢 |
@@ -4771,11 +4772,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ring.getCart` | ring.com | Reads the guest cart's lines, quantities and totals before checkout. | ⚪ |
 | `ring.getDevice` | ring.com | Reads one signed-in device's status, battery, firmware and settings snapshot. | ⚪ |
 | `ring.getPlan` | ring.com | Reads the signed-in account's current Ring Protect plan and its renewal date. | ⚪ |
-| `ring.getPlans` | ring.com | Reads Ring Protect's subscription plans with their prices and what each one includes. | ⚪ |
+| `ring.getPlans` | ring.com | Reads Ring Protect's subscription plans with their prices and what each one includes. | 🟢 |
 | `ring.getPlayback` | ring.com | Returns one recorded event's playback menu: the site's embedded player and its own… | ⚪ |
 | `ring.getProduct` | ring.com | Reads a Ring product page's live offer, availability, SKUs, images and server-rendered… | 🟢 |
 | `ring.getProductReviews` | ring.com | Reads a Ring product's customer reviews with their ratings and text. | ⚪ |
-| `ring.getSupportArticle` | ring.com | Reads one Ring support article by the url searchSupport returned. | ⚪ |
+| `ring.getSupportArticle` | ring.com | Reads one Ring support article by the url searchSupport returned. | 🟢 |
 | `ring.listCollection` | ring.com | Reads one collection's product grid by its handle, with each card's name, url, price… | 🟢 |
 | `ring.listCollections` | ring.com | Lists Ring's product collections (category and shelf pages) with their handles and… | 🟢 |
 | `ring.listDevices` | ring.com | Lists the Ring devices on the signed-in account: doorbells, cameras, the alarm base… | ⚪ |
@@ -4783,7 +4784,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ring.listSharedUsers` | ring.com | Lists the people the signed-in account has shared its Ring devices with. | ⚪ |
 | `ring.removeFromCart` | ring.com | Removes one line from the guest cart. | ⚪ |
 | `ring.search` | ring.com | Searches Ring's public catalog by a product name or family and returns matching… | 🟢 |
-| `ring.searchSupport` | ring.com | Searches Ring's support center and returns matching help articles with their titles… | ⚪ |
+| `ring.searchSupport` | ring.com | Searches Ring's support center and returns matching help articles with their titles… | 🟢 |
 | `ring.setAlarmMode` | ring.com | Switches the signed-in account's alarm to a mode such as home, away or disarmed. | ⚪ |
 | `ring.shareUser` | ring.com | Invites a person by email to share the signed-in account's Ring devices. | ⚪ |
 | `ring.subscribePlan` | ring.com | Starts or changes the signed-in account's Ring Protect plan. | ⚪ |
@@ -6303,11 +6304,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellnessliving.updateProfile` | wellnessliving.com | Updates the customer's profile information | ⚪ |
 | `westelm.getProduct` | westelm.com | Reads one product page: every size/colour SKU with its own price, stock and delivery… | ⚪ |
 | `westelm.searchProducts` | westelm.com | Searches the West Elm catalog the way its own search box does ("dresser") and returns… | 🟢 |
-| `whatsapp.addGroupParticipants` | whatsapp.com | Adds people to a group the caller administers, by contact or number, and reports per… | ⚪ |
+| `whatsapp.addGroupParticipants` | whatsapp.com | Adds people to a group the caller administers, by contact or number, and reports per… | 🟢 |
 | `whatsapp.blockContact` | whatsapp.com | Blocks or unblocks a contact or number as the caller, and lists who the caller has… | ⚪ |
 | `whatsapp.checkNumber` | whatsapp.com | Says whether a phone number (international format, digits only) has a WhatsApp… | 🟢 |
 | `whatsapp.createClickToChatLink` | whatsapp.com | Builds WhatsApp's documented click-to-chat link for a phone number in international… | 🟢 |
-| `whatsapp.createGroup` | whatsapp.com | Creates a WhatsApp group as the caller with a name and the starting participants, and… | ⚪ |
+| `whatsapp.createGroup` | whatsapp.com | Creates a WhatsApp group as the caller with a name and the starting participants, and… | 🟢 |
 | `whatsapp.deleteMessage` | whatsapp.com | Deletes a message the caller sent, for everyone when WhatsApp still offers that and… | 🟢 |
 | `whatsapp.downloadMedia` | whatsapp.com | Downloads the attachment on one message (image, video, voice note, sticker or… | 🟢 |
 | `whatsapp.editMessage` | whatsapp.com | Edits the text of a message the caller sent, inside the window WhatsApp allows edits. | 🟢 |
@@ -6335,7 +6336,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟡 |
 | `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | 🟢 |
 | `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message as the caller with an emoji, or removes the caller's reaction when… | 🟢 |
-| `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | ⚪ |
+| `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | 🟢 |
 | `whatsapp.searchChannels` | whatsapp.com | Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does, by… | 🟢 |
 | `whatsapp.searchHelpCenter` | whatsapp.com | Searches WhatsApp's Help Center (faq.whatsapp.com) the way its search box does and… | 🟢 |
 | `whatsapp.searchMessages` | whatsapp.com | Searches the caller's WhatsApp messages the way WhatsApp Web's search box does: each… | 🟢 |
@@ -6344,7 +6345,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.sendPoll` | whatsapp.com | Creates a poll in a chat as the caller: a question, its options and whether several… | 🟢 |
 | `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | ⚪ |
 | `whatsapp.updateChat` | whatsapp.com | Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive… | 🟢 |
-| `whatsapp.updateGroup` | whatsapp.com | Changes a group the caller administers: its name, description, picture, and the… | ⚪ |
+| `whatsapp.updateGroup` | whatsapp.com | Changes a group the caller administers: its name, description, picture, and the… | 🟢 |
 | `whatsapp.updatePrivacySettings` | whatsapp.com | Reads and changes the caller's privacy settings: who sees last seen and online… | ⚪ |
 | `whatsapp.updateProfile` | whatsapp.com | Changes the caller's own profile: display name, about text or profile photo. | ⚪ |
 | `wholefoodsmarket.listStores` | wholefoodsmarket.com | Lists nearby Whole Foods stores by ZIP code or location. | ⚪ |

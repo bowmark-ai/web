@@ -559,7 +559,7 @@ nhc.noaa.gov — nhc: getBestTrack, getForecastCone, getForecastDiscussion, getM
 nike.com — nike: addFavorite, checkSizeAvailability, checkStoreAvailability, findStores, getCart, getLaunch, getMemberProfile, getOrder, getProduct, getProductReviews, getSizeChart, listCategories, listCategoryProducts, listFavorites, listOrders, lookupGuestOrder, removeFavorite, removeFromCart, searchProducts, upcomingLaunches (+3 planned)
 notion.com — notion: appendBlocks, createComment, createPage, getDatabase, getMe, getPage, getPageContent, listComments, listUsers, queryDatabase, search, systemStatus, updatePage
 npiregistry.cms.hhs.gov — npi_registry: lookup, search
-npmjs.com — npmjs: getDownloads, search
+npmjs.com — npmjs: getDownloads, getPackageInfo, search
 npr.org — npr: findStations, getAuthorStories, getLiveStream, getPodcast, getProgramRundown, getStation, getStory, getTranscript, listCategoryPodcasts, listHeadlines, listNewsletters, listPodcastCategories, listPodcastEpisodes, listPodcasts, listSections, listSectionStories, listSeries, listSeriesStories, searchStories (+1 planned)
 nurturelife.com — nurturelife: getMealBundle, getMealPlans
 nutrafol.com — nutrafol: assessHairWellness, computeHairWellness, getQuizOverview, getQuizQuestions
@@ -657,7 +657,7 @@ resy.com — resy: cancelBooking, checkAvailability, confirmBooking, confirmSign
 revisionskincare.com — revisionskincare: getSkincareQuizQuestions, takeSkincareQuiz
 rezdy.com — rezdy: bookSession, checkVoucher, findOperator, getAvailability, getPickupLocations, getPriceQuote, getProduct, listCatalogs, listProducts (+3 planned)
 rightmove.co.uk — rightmove: search
-ring.com — ring: getProduct, listCollection, listCollections, search (+22 planned)
+ring.com — ring: getPlans, getProduct, getSupportArticle, listCollection, listCollections, search, searchSupport (+19 planned)
 rippling.com — rippling: listJobs
 rishi-tea.com — rishitea: getTeaFinderQuiz, matchTeaFinderQuiz
 ritani.com — ritani: getConfigurator, priceConfiguration
@@ -836,7 +836,7 @@ webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)
 westelm.com — westelm: searchProducts (+1 planned)
-whatsapp.com — whatsapp: 32 functions — ask get_library (+12 planned)
+whatsapp.com — whatsapp: 36 functions — ask get_library (+8 planned)
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
 wikipedia.org — wikipedia: 40 functions — ask get_library
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)
