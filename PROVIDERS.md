@@ -6400,7 +6400,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.downloadMedia` | whatsapp.com | Downloads the attachment on one message (image, video, voice note, sticker or… | 🟢 |
 | `whatsapp.editMessage` | whatsapp.com | Edits the text of a message the caller sent, inside the window WhatsApp allows edits. | 🟢 |
 | `whatsapp.findContact` | whatsapp.com | Finds people and chats in the caller's WhatsApp by name, phone number or username, the… | 🟢 |
-| `whatsapp.followChannel` | whatsapp.com | Follows a Channel as the caller. | ⚪ |
+| `whatsapp.followChannel` | whatsapp.com | Follows a Channel as the caller. | 🟢 |
 | `whatsapp.forwardMessage` | whatsapp.com | Forwards one of the caller's messages (by the id getChatMessages returns) from one… | 🟢 |
 | `whatsapp.getBlogPost` | whatsapp.com | Reads one WhatsApp Blog post by slug or url: its title, publish date and body text. | 🟢 |
 | `whatsapp.getChannel` | whatsapp.com | Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the… | 🟢 |
@@ -6411,8 +6411,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.getGroupInviteLink` | whatsapp.com | Reads the current chat.whatsapp.com invite link of a group the caller administers… | 🟢 |
 | `whatsapp.getHelpArticle` | whatsapp.com | Reads one WhatsApp Help Center article by its numeric id or faq.whatsapp.com url… | 🟢 |
 | `whatsapp.getMyProfile` | whatsapp.com | Reads the signed-in caller's own WhatsApp profile: display name, about text, profile… | 🟢 |
-| `whatsapp.joinGroupByInvite` | whatsapp.com | Joins a group from its chat.whatsapp.com invite link as the caller, and returns the… | ⚪ |
-| `whatsapp.leaveGroup` | whatsapp.com | Leaves a group as the caller. | ⚪ |
+| `whatsapp.joinGroupByInvite` | whatsapp.com | Joins a group from its chat.whatsapp.com invite link as the caller, and returns the… | 🟢 |
+| `whatsapp.leaveGroup` | whatsapp.com | Leaves a group as the caller. | 🟢 |
 | `whatsapp.listBlogPosts` | whatsapp.com | Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's slug, title… | 🟢 |
 | `whatsapp.listCatalogProducts` | whatsapp.com | Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the… | 🟢 |
 | `whatsapp.listChats` | whatsapp.com | Lists the signed-in caller's chats off WhatsApp Web's own sidebar, newest activity… | 🟢 |
@@ -6430,7 +6430,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.sendMedia` | whatsapp.com | Sends a file as the caller to a chat opened by its exact displayed name: an image or… | 🟢 |
 | `whatsapp.sendMessage` | whatsapp.com | Sends a text message as the caller to a chat opened by its exact displayed name (from… | 🟢 |
 | `whatsapp.sendPoll` | whatsapp.com | Creates a poll in a chat as the caller: a question, its options and whether several… | 🟢 |
-| `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | ⚪ |
+| `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | 🟢 |
 | `whatsapp.updateChat` | whatsapp.com | Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive… | 🟢 |
 | `whatsapp.updateGroup` | whatsapp.com | Changes a group the caller administers: its name, description, picture, and the… | 🟢 |
 | `whatsapp.updatePrivacySettings` | whatsapp.com | Reads and changes the caller's privacy settings: who sees last seen and online… | ⚪ |
