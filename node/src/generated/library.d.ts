@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0cfb6b266813f8e833be2ae71bfb91930634b7f9bc031cd34d2d0101afbac0d1
-// 98 capabilities, 856 providers, 5301 typed functions, 20 refused.
+// Manifest version: d29d514f01f9a8fdbe64ba0dc207d78d1df23647dfa94fe43ccb16493a56c8b6
+// 98 capabilities, 857 providers, 5325 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14500,6 +14500,15 @@ interface AttMonthlyBill {
     findDevices(query?: string): Promise<AttDevice[]>;
 
     /**
+     * Every tablet on AT&T's own tablets listing (att.com/buy/tablets/): iPads, Galaxy Tabs, TCL
+     * and AT&T amiGO tablets, each with name, brand, product page URL and listedPriceUsd, which is
+     * the MONTHLY installment AT&T shows on the tile (not the outright price). A query narrows by
+     * words ("ipad pro", "galaxy tab"), shortest name first. An empty array with a query means no
+     * tablet matched; the page itself listing none throws.
+     */
+    listTablets(query?: string): Promise<AttDevice[]>;
+
+    /**
      * AT&T's current price and financing for a phone, per storage/colour variant: full retail
      * price, the AT&T Installment Plan (term in months, monthly payment, total), the optional Next
      * Up Anytime monthly charge, the port-in discount and any trade-in promotions. `device` is a
@@ -23238,6 +23247,19 @@ interface CalendlyRescheduleBookingArgs {
   event?: string;
 }
 
+interface CalendlySubmitRoutingFormArgs {
+  form: string; // the form uuid, or any url carrying it
+  answers: Record<string, string>; // keyed by the field id or the question label from getRoutingForm; a choice question takes one of its choices
+  params?: Record<string, string>; // url parameters the landing page was opened with (utm_*, …)
+}
+
+interface CalendlySubmitRoutingFormResult {
+  formUuid: string;
+  resultType: string; // "event_type_id" | "arbitrary_url" | "thank_you_text"
+  url: string | null; // where the form routes you; never followed
+  thankYou: { headline: string; body: string | null } | null;
+}
+
 interface CalendlyCancelBookingArgs {
   link: string;                       // the cancel / reschedule / confirmation link, or the bare invitee uuid
   reason?: string;                    // the reason the host sees
@@ -23361,6 +23383,17 @@ interface CalendlyFindProfilesResult {
      * HubSpot or Marketo form has no questions of its own. Never submits anything.
      */
     getRoutingForm(form: string): Promise<CalendlyRoutingForm>;
+
+    /**
+     * Answers a Calendly routing form the way its landing page does and returns where it sends
+     * you: the booking page or other url (`url`), or the organization's own thank-you message
+     * (`thankYou`). Takes { form, answers } where answers are keyed by the field id or the
+     * question's label from getRoutingForm; a missing required answer or a value outside a
+     * question's choices is refused before anything is sent. The submission lands in the
+     * organization's own records, so submit only a form you mean to answer. Never follows the
+     * returned url, and refuses a form that routes an external HubSpot or Marketo form.
+     */
+    submitRoutingForm(args: CalendlySubmitRoutingFormArgs): Promise<CalendlySubmitRoutingFormResult>;
 
     /**
      * Lists the prepaid session packages a Calendly profile sells (several meetings bought
@@ -25628,6 +25661,40 @@ interface CbsNewsSection {
   name: string | null;
   url: string;
 }
+interface CbsNewsShow {
+  /** The path segment, without slashes: "60-minutes", "face-the-nation". */
+  slug: string;
+  /** The programme's name as the navigation labels it ("60 Minutes"). Null when the link has none. */
+  name: string | null;
+  url: string;
+}
+interface CbsNewsAuthorProfile {
+  slug: string;
+  url: string;
+  name: string;
+  /** The bio's paragraphs, in page order. Empty when the page carries no bio. */
+  bio: string[];
+  /** The profile image, or null when the page has none. */
+  image: string | null;
+  /** The social profile links the author bio lists. */
+  socials: string[];
+}
+interface ListTagArticlesArgs {
+  /** A tag slug such as "politics", or the tag's address https://www.cbsnews.com/tag/<slug>/. */
+  tag: string;
+  /** How many stories to return, 1 to 40. Defaults to all the page shows. */
+  limit?: number;
+}
+interface GetAuthorArgs {
+  /** An author slug such as "camilo-montoya-galvez", or the profile address https://www.cbsnews.com/team/<slug>/. */
+  slug: string;
+}
+interface ListArticlesByAuthorArgs {
+  /** An author slug from getAuthor, or the profile address. */
+  slug: string;
+  /** How many stories to return, 1 to 40. Defaults to all the page shows. */
+  limit?: number;
+}
 
   /**
    * CBS News: articles, live updates, section and local-station fronts, video, shows, podcasts
@@ -25697,6 +25764,32 @@ interface CbsNewsSection {
      * listLatestNews.
      */
     listRssFeeds(): Promise<{ feeds: CbsNewsFeed[] }>;
+
+    /**
+     * Lists the stories filed under one CBS News tag (/tag/<slug>/, e.g. politics): title, url,
+     * summary, relative age and image, in the page's order. Pass a url to getArticle for the full
+     * text.
+     */
+    listTagArticles(args: ListTagArticlesArgs): Promise<{ tag: string; articles: CbsNewsSectionStory[] }>;
+
+    /**
+     * Reads a CBS News correspondent's or writer's profile from /team/<slug>/: name, bio
+     * paragraphs, profile image and social links.
+     */
+    getAuthor(args: GetAuthorArgs): Promise<CbsNewsAuthorProfile>;
+
+    /**
+     * Lists the stories by one CBS News author, from the story list on /team/<slug>/, in the
+     * page's order. The author's name comes back with them.
+     */
+    listArticlesByAuthor(args: ListArticlesByAuthorArgs): Promise<{ author: string; articles: CbsNewsSectionStory[] }>;
+
+    /**
+     * Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings, Evening
+     * News, Sunday Morning, CBS Reports) from the homepage navigation, each with its slug and its
+     * address.
+     */
+    listShows(): Promise<{ shows: CbsNewsShow[] }>;
   }
 }
 
@@ -26044,6 +26137,21 @@ interface CreatedGPT {
   url: string;
 }
 
+interface UploadedFile {
+  /** The file-… id of the upload. */
+  fileId: string;
+  name: string;
+  size: number;
+}
+
+interface GeneratedImages {
+  conversationId: string | null;
+  /** One entry per picture; url is a short-lived download link. */
+  images: { fileId: string; url: string | null }[];
+  reply: string;
+  warnings: string[];
+}
+
 interface CreatedProject {
   /** The g-p-… id getProject and listProjects use. */
   id: string;
@@ -26247,6 +26355,23 @@ interface SharedConversation {
      * they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
      */
     createProject(name: string, opts?: ConnectionOption): Promise<CreatedProject>;
+
+    /**
+     * Asks ChatGPT to create an image from a prompt as the caller and returns the image download
+     * url(s) and the conversation they landed in; warns when no image appeared within about 90
+     * seconds. Needs the caller signed in to chatgpt.com through the relay; the run pauses for a
+     * sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has
+     * expired.
+     */
+    generateImage(prompt: string, opts?: ConnectionOption): Promise<GeneratedImages>;
+
+    /**
+     * Uploads a text file (name and content) to the caller's own ChatGPT file library and returns
+     * its file id. Needs the caller signed in to chatgpt.com through the relay; the run pauses for
+     * a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has
+     * expired.
+     */
+    uploadFile(name: string, content: string, opts?: { contentType?: string }, connectionOpts?: ConnectionOption): Promise<UploadedFile>;
 
     /**
      * Creates a custom GPT in the caller's account, private (only me), and returns its g- id and
@@ -33815,14 +33940,17 @@ interface DatLoadToTruckRatio { equipment: DatEquipment; years: { year: number; 
     loadToTruckRatio(args?: DatEquipmentArgs): Promise<DatLoadToTruckRatio>;
 
     /**
-     * DAT Trendlines' national average truckload spot rates (USD/mile incl. fuel, plus fuel
-     * surcharge) for van, reefer and flatbed over the last four months.
+     * DAT Trendlines' national average truckload spot rates (USD/mile, plus DAT's fuel surcharge;
+     * measured: rateTrend's broker rate = this rate + the surcharge, so add the surcharge here for
+     * an all-in figure) for van, reefer and flatbed over the last four months.
      */
     nationalSpotRates(): Promise<DatNationalSpotRates>;
 
     /**
      * DAT's 12-month national rate trendline for one equipment type: broker-to-carrier spot and
-     * shipper-to-broker rates per month, USD/mile incl. fuel. Defaults to van.
+     * shipper-to-broker rates per month, USD/mile, all-in (the broker rate equals
+     * nationalSpotRates' rate plus its fuel surcharge; do not add the surcharge again). Defaults
+     * to van.
      */
     rateTrend(args?: DatEquipmentArgs): Promise<DatRateTrend>;
   }
@@ -42353,6 +42481,41 @@ interface GetLocationArgs {
 
 declare namespace BowmarkProvider_expedia {
   // ── Expedia — the unit's own declarations, verbatim ──
+interface ExpediaSearchFlightsArgs {
+  from: string; // IATA code, "SFO"
+  to: string; // IATA code, "LHR"
+  /** YYYY-MM-DD. Defaults to 30 days from today. */
+  departDate?: string;
+  /** YYYY-MM-DD; omit for one way. */
+  returnDate?: string;
+  adults?: number;
+  limit?: number;
+}
+interface ExpediaFlightOffer {
+  airline: string;
+  departs: string;
+  arrives: string;
+  arrivesDaysLater: number;
+  stops: string; // "Nonstop", "1 stop"
+  duration: string | null;
+  price: string; // "$807", per traveller
+  amount: number;
+}
+interface ExpediaFlightSearch {
+  from: string;
+  to: string;
+  departDate: string;
+  returnDate: string | null;
+  adults: number;
+  offers: ExpediaFlightOffer[];
+  url: string;
+}
+interface ExpediaDestination {
+  id: string;
+  type: string;
+  name: string;
+  airportCode: string | null;
+}
 interface ExpediaSearchHotelsArgs {
   /** Free text, as typed into Expedia's search box: "Paris, France", "Austin". */
   destination: string;
@@ -42395,11 +42558,28 @@ interface ExpediaHotelSearch {
 }
 
   /**
-   * Expedia hotel search: the hotels Expedia lists for a destination and dates, each with its
-   * total price for the stay, nightly price, guest rating, review count, amenities and Expedia
-   * link.
+   * Expedia flight search (offers with airline, times, stops, duration, price), destination
+   * autocomplete, and hotel search: the hotels Expedia lists for a destination and dates, each
+   * with its total price for the stay, nightly price, guest rating, review count, amenities and
+   * Expedia link.
    */
   interface Unit {
+    /**
+     * Runs Expedia's own flight search — `bowmark.providers.expedia.searchFlights({ from: "SFO",
+     * to: "LHR", departDate: "2026-12-16" })`, add `returnDate` for a round trip — and returns the
+     * offers its results page lists: airline, departure and arrival time, stops, duration and
+     * price per traveller, plus the results URL to pick a fare and book on Expedia (Bowmark never
+     * books). A real browser load, expect 30-60 s.
+     */
+    searchFlights(args: ExpediaSearchFlightsArgs): Promise<ExpediaFlightSearch>;
+
+    /**
+     * Expedia's destination autocomplete — `bowmark.providers.expedia.suggestDestinations({ query:
+     * "lisbon" })` — returns cities, airports (with IATA `airportCode`) and neighbourhoods, to
+     * turn a place name into the code searchFlights needs.
+     */
+    suggestDestinations(args: string | { query: string }): Promise<{ query: string; suggestions: ExpediaDestination[] }>;
+
     /**
      * Runs Expedia's own hotel search — `bowmark.providers.expedia.searchHotels({ destination:
      * "Paris, France", checkIn: "2026-12-04", checkOut: "2026-12-06", adults: 2 })` — and returns
@@ -58784,6 +58964,25 @@ interface ImgurTagArgs {
     addComment(input: { id: string; text: string; parentId?: string }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
 
     /**
+     * Deletes one of the signed-in account's own comments by its numeric id. Refuses any other
+     * account's comment.
+     */
+    deleteComment(comment: { id: string }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /**
+     * Up- or down-votes a comment as the signed-in account, or vetoes (removes) the vote. Sets the
+     * vote, never toggles. Example: voteComment({ id: "123456789", vote: "up" }).
+     */
+    voteComment(input: { id: string; vote?: "up" | "down" | "veto" }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /**
+     * Uploads one image to the signed-in account from a remote https URL or base64 data (exactly
+     * one of url or base64). Returns the new image's id and link. Example: uploadImage({ url:
+     * "https://example.com/cat.png", title: "cat" }).
+     */
+    uploadImage(input: { url?: string; base64?: string; title?: string; description?: string }, opts?: ConnectionOption): Promise<ImgurImage>;
+
+    /**
      * Searches public imgur posts (about 60 a page), top-scored first by default. Example:
      * searchPosts("cats") or searchPosts({ query: "cats", window: "week" }).
      */
@@ -59035,6 +59234,13 @@ interface ListArticlesByDateArgs { date: string; limit?: number; }
 interface ListArticlesByDateResult { date: string; total: number; articles: { url: string; articleId: string | null; lastmod: string | null }[]; }
 interface ListTopicsArgs { letter?: string; query?: string; limit?: number; }
 interface ListTopicsResult { letter: string; total: number; topics: { slug: string; url: string }[]; warnings: string[]; }
+interface IndependentCard { title: string; url: string; articleId: string | null; section: { label: string; path: string } | null; imageUrl: string | null; }
+interface GetTopicArticlesArgs { slug: string; limit?: number; }
+interface GetTopicArticlesResult { slug: string; topic: string | null; total: number; articles: IndependentCard[]; warnings: string[]; }
+interface ListAuthorsArgs { letter?: string; query?: string; limit?: number; }
+interface ListAuthorsResult { letter: string; total: number; authors: { slug: string; url: string }[]; warnings: string[]; }
+interface GetAuthorArticlesArgs { slug: string; limit?: number; }
+interface GetAuthorArticlesResult { slug: string; author: string | null; total: number; articles: IndependentCard[]; warnings: string[]; }
 
   /**
    * The Independent (UK news): articles, live blogs, section and topic fronts, most-read,
@@ -59085,6 +59291,24 @@ interface ListTopicsResult { letter: string; total: number; topics: { slug: stri
      * name fragment.
      */
     listTopics(args?: ListTopicsArgs): Promise<ListTopicsResult>;
+
+    /**
+     * Lists the latest articles on one topic page (e.g. climate-change): headline, URL, section
+     * and image. Takes a listTopics slug.
+     */
+    getTopicArticles(args: GetTopicArticlesArgs): Promise<GetTopicArticlesResult>;
+
+    /**
+     * Finds Independent writers whose profile slug starts with one letter, optionally filtered by
+     * a name fragment. Feeds getAuthorArticles.
+     */
+    listAuthors(args?: ListAuthorsArgs): Promise<ListAuthorsResult>;
+
+    /**
+     * Gets one writer's name and their latest articles from their profile page. Takes a
+     * listAuthors slug.
+     */
+    getAuthorArticles(args: GetAuthorArticlesArgs): Promise<GetAuthorArticlesResult>;
   }
 }
 
@@ -63174,6 +63398,63 @@ interface KickListTopClipsResult {
   nextCursor?: string;
 }
 
+interface KickChatMessage {
+  messageId: string;
+  content: string;
+  type: string;
+  createdAt?: string;
+  sender: { id?: number; username: string; color?: string; badges: string[] };
+}
+interface KickGetChatMessagesArgs {
+  channel: string;
+  cursor?: string;
+}
+interface KickGetChatMessagesResult {
+  channel: string;
+  messages: KickChatMessage[];
+  pinned?: KickChatMessage;
+  nextCursor?: string;
+}
+interface KickGetChatroomSettingsArgs {
+  channel: string;
+}
+interface KickChatroomSettings {
+  channel: string;
+  slowModeSeconds: number;
+  subscribersOnly: boolean;
+  emotesOnly: boolean;
+  followersOnly: { enabled: boolean; minimumMinutes?: number };
+  accountAgeGate: { enabled: boolean; minimumMinutes?: number };
+  rules?: string;
+}
+interface KickListChannelEmotesArgs {
+  channel: string;
+}
+interface KickEmote {
+  emoteId: number;
+  name: string;
+  subscribersOnly: boolean;
+}
+interface KickListChannelEmotesResult {
+  channel: string;
+  emotes: KickEmote[];
+}
+interface KickGetChannelLeaderboardArgs {
+  channel: string;
+}
+interface KickGiftLeader {
+  userId?: number;
+  username: string;
+  giftedSubs: number;
+}
+interface KickGetChannelLeaderboardResult {
+  channel: string;
+  giftsEnabled: boolean;
+  allTime: KickGiftLeader[];
+  thisMonth: KickGiftLeader[];
+  thisWeek: KickGiftLeader[];
+}
+
   /** Kick, the live-streaming site — channels, categories, VODs and clips. */
   interface Unit {
     /**
@@ -63244,6 +63525,30 @@ interface KickListTopClipsResult {
      * window.
      */
     listTopClips(args?: KickListTopClipsArgs): Promise<KickListTopClipsResult>;
+
+    /**
+     * A channel's latest chat messages with sender, colour and badges, newest first, plus the
+     * pinned message and a cursor for older ones.
+     */
+    getChatMessages(args: KickGetChatMessagesArgs): Promise<KickGetChatMessagesResult>;
+
+    /**
+     * A channel's chat rules and modes: slow mode seconds, subscribers-only, emotes-only,
+     * followers-only and account-age gates in minutes, and the written rules.
+     */
+    getChatroomSettings(args: KickGetChatroomSettingsArgs): Promise<KickChatroomSettings>;
+
+    /**
+     * A channel's own emotes by name, with whether each is subscribers-only. Kick's global and
+     * emoji sets are not included.
+     */
+    listChannelEmotes(args: KickListChannelEmotesArgs): Promise<KickListChannelEmotesResult>;
+
+    /**
+     * A channel's gifted-subscription leaderboard: who gifted most, this week, this month and all
+     * time.
+     */
+    getChannelLeaderboard(args: KickGetChannelLeaderboardArgs): Promise<KickGetChannelLeaderboardResult>;
   }
 }
 
@@ -73248,6 +73553,18 @@ interface NbfCheckoutHandoff {
      * and nothing is bought — this provider never posts to the site's own add-to-cart endpoint.
      */
     addToCart(sku: string, selections: Record<string, string>): Promise<NbfCartHandoff>;
+  }
+}
+
+declare namespace BowmarkProvider_nerdwallet {
+  // ── NerdWallet — the unit's own declarations, verbatim ──
+interface NerdWalletCreditCard { rank: number; bestFor?: string; name: string; rating?: number; annualFee?: string; rewardsRate?: string; introOffer?: string; purchaseIntroApr?: string; regularApr?: string; }
+interface NerdWalletCreditCardComparison { cards: NerdWalletCreditCard[]; url: string; updated?: string; }
+
+  /** NerdWallet's current best-credit-card picks, ratings, fees, rewards and APRs. */
+  interface Unit {
+    /** Read NerdWallet's current all-cards or travel-cards editorial ranking. */
+    compareCreditCards(category?: "all" | "travel"): Promise<NerdWalletCreditCardComparison>;
   }
 }
 
@@ -93696,6 +94013,18 @@ interface ShopAppCreatedProductList {
   inviteUrl: string | null;
   warnings: string[];
 }
+interface ShopAppAddAddressArgs {
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  zoneCode?: string;
+  postalCode?: string;
+  country: string;
+  company?: string;
+  phone?: string;
+}
 interface ShopAppAddress {
   id: string | null;
   firstName: string | null;
@@ -93826,6 +94155,12 @@ interface ShopAppListOrdersArgs {
      * a time. Pauses for the caller to sign in to Shop.
      */
     listFollowedStores(args?: ShopAppListPageArgs, opts?: ConnectionOption): Promise<ShopAppFollowedStores>;
+
+    /**
+     * Adds a shipping address to the signed-in caller's Shop account (country is a two-letter
+     * code) and returns it as listAddresses shows it. Pauses for the caller to sign in to Shop.
+     */
+    addAddress(args: ShopAppAddAddressArgs, opts?: ConnectionOption): Promise<ShopAppAddress>;
 
     /**
      * Creates a new named product list on the signed-in caller's Shop account (private unless
@@ -95083,6 +95418,31 @@ interface SnapchatFriendActionResult {
   message?: string;
   username?: string; // set when the add was made by username
 }
+interface SnapchatFriendStorySnap {
+  snapId?: string;
+  mediaUrl?: string;
+  mediaType?: number; // Snapchat's own enum
+  durationSec?: number;
+  thumbnailUrl?: string;
+  caption?: string;
+  title?: string;
+  createdAt?: number; // unix ms
+  expiresAt?: number; // unix ms
+}
+
+interface SnapchatFriendStory {
+  userId?: string;
+  username?: string;
+  displayName?: string;
+  snaps: SnapchatFriendStorySnap[];
+}
+
+interface SnapchatFriendStories {
+  stories: SnapchatFriendStory[];
+  cards: number; // cards the feed returned, the caller's own story included
+  warnings: string[];
+}
+
 interface SnapchatFriendChangeResult {
   userId: string;
   username?: string; // set when called by username
@@ -95217,6 +95577,12 @@ interface SnapchatFriendChangeResult {
      * whether it is an official or popular account.
      */
     getMyProfile(opts?: ConnectionOption): Promise<SnapchatMyProfile>;
+
+    /**
+     * Lists the Stories the signed-in caller's friends have posted, each with its snaps — media
+     * url, thumbnail, caption, posted and expiry times. NEEDS A SIGN-IN.
+     */
+    listFriendStories(opts?: ConnectionOption): Promise<SnapchatFriendStories>;
 
     /**
      * Lists the signed-in caller's Snapchat friends — user id, username, display name, link type
@@ -104828,6 +105194,10 @@ interface tiktokCaptionTrack {
 interface ListCaptionTracksArgs {
   video: string;
 }
+interface tiktokVideoList {
+  videos: tiktokVideoSummary[];
+  warnings: string[];
+}
 interface tiktokVideoSummary {
   id: string;
   caption: string;
@@ -105177,17 +105547,18 @@ type UploadVideoArgs = {
     /**
      * What is trending on TikTok right now — the Explore page's own grid, in TikTok's order: id,
      * caption, play count, cover and play address per video. Uses the browser to load /explore and
-     * read the list it fetches, scrolling for more. Default 6, up to 60 with limit. No login.
+     * read the list it fetches, scrolling for more. Default 6, up to 60 with limit. Returns {
+     * videos, warnings }; a warning says when the grid came back shorter than limit. No login.
      */
-    listTrendingVideos(args?: ListTrendingVideosArgs): Promise<tiktokVideoSummary[]>;
+    listTrendingVideos(args?: ListTrendingVideosArgs): Promise<tiktokVideoList>;
 
     /**
      * The videos a creator has liked, from the public Liked tab on their profile: id, caption,
      * play count, cover and play address. Takes a username. Uses the browser (branded Chrome) to
-     * open the tab and read the list the page fetches; the newest 15 at most. Throws when the
-     * creator keeps their likes private. No login.
+     * open the tab and read the list the page fetches; the newest 15 at most. Returns { videos,
+     * warnings }. Throws when the creator keeps their likes private. No login.
      */
-    listLikedVideos(args: ListLikedVideosArgs): Promise<tiktokVideoSummary[]>;
+    listLikedVideos(args: ListLikedVideosArgs): Promise<tiktokVideoList>;
 
     /**
      * A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed by
@@ -118789,6 +119160,16 @@ interface YelpReviewPage {
   nextCursor: string | null;    // pass as after; null on the last page
 }
 
+// getMessages: the signed-in caller's own Yelp inbox
+interface YelpMessageThread {
+  id: string;
+  url: string;
+  preview: string;   // the thread's visible text as the inbox shows it
+}
+interface YelpMessages {
+  threads: YelpMessageThread[];   // page order; [] when the inbox is empty
+}
+
 // getBookmarks: the signed-in caller's own "My Bookmarks"
 interface YelpBookmark {
   alias: string;   // what getBusiness / getReviews take
@@ -118927,6 +119308,13 @@ interface YelpOwnCollections {
      * is attached. Read-only.
      */
     getCollections(opts?: ConnectionOption): Promise<YelpOwnCollections>;
+
+    /**
+     * Lists the threads in the signed-in caller's own Yelp inbox (/messaging/inbox): each thread's
+     * id, url and the preview text the page shows, in page order, [] when empty. Needs the caller
+     * signed in to Yelp; runs through their own Chrome when Bowmark Link is attached. Read-only.
+     */
+    getMessages(opts?: ConnectionOption): Promise<YelpMessages>;
 
     /**
      * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
@@ -123080,6 +123468,7 @@ interface BowmarkProviders {
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;
   nationalbusinessfurniture: BowmarkProvider_nationalbusinessfurniture.Unit;
+  nerdwallet: BowmarkProvider_nerdwallet.Unit;
   netflix: BowmarkProvider_netflix.Unit;
   newageproducts: BowmarkProvider_newageproducts.Unit;
   newegg: BowmarkProvider_newegg.Unit;

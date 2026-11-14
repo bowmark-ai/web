@@ -1,5 +1,5 @@
 {
-  "version": "0cfb6b266813f8e833be2ae71bfb91930634b7f9bc031cd34d2d0101afbac0d1",
+  "version": "d29d514f01f9a8fdbe64ba0dc207d78d1df23647dfa94fe43ccb16493a56c8b6",
   "units": {
     "address_validation": {
       "defs": {
@@ -17745,6 +17745,15 @@
             "optional": true
           }
         ],
+        "listTablets": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
         "getDevicePricing": [
           {
             "name": "device",
@@ -28745,6 +28754,38 @@
               "optional": true
             }
           ]
+        },
+        "CalendlySubmitRoutingFormArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "form",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "answers",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "params",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -28835,6 +28876,16 @@
             "name": "form",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "submitRoutingForm": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CalendlySubmitRoutingFormArgs"
             },
             "optional": false
           }
@@ -30842,6 +30893,18 @@
             }
           ]
         },
+        "GetAuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetLiveUpdatesArgs": {
           "k": "object",
           "props": [
@@ -30873,6 +30936,25 @@
             }
           ]
         },
+        "ListArticlesByAuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListLatestNewsArgs": {
           "k": "object",
           "props": [
@@ -30897,6 +30979,25 @@
           "props": [
             {
               "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListTagArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "tag",
               "schema": {
                 "k": "string"
               },
@@ -31004,7 +31105,38 @@
           }
         ],
         "listSections": [],
-        "listRssFeeds": []
+        "listRssFeeds": [],
+        "listTagArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTagArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAuthor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAuthorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listArticlesByAuthor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListArticlesByAuthorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listShows": []
       }
     },
     "providers.census_api": {
@@ -31313,6 +31445,79 @@
           },
           {
             "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "generateImage": [
+          {
+            "name": "prompt",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "uploadFile": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "content",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "contentType",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "connectionOpts",
             "schema": {
               "k": "object",
               "props": [
@@ -55641,6 +55846,53 @@
     },
     "providers.expedia": {
       "defs": {
+        "ExpediaSearchFlightsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "departDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "returnDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ExpediaSearchHotelsArgs": {
           "k": "object",
           "props": [
@@ -55683,6 +55935,42 @@
         }
       },
       "functions": {
+        "searchFlights": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ExpediaSearchFlightsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "suggestDestinations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "searchHotels": [
           {
             "name": "args",
@@ -77814,6 +78102,150 @@
             "optional": true
           }
         ],
+        "deleteComment": [
+          {
+            "name": "comment",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "voteComment": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "vote",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "up"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "down"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "veto"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "uploadImage": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "base64",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "searchPosts": [
           {
             "name": "query",
@@ -78044,6 +78476,25 @@
             }
           ]
         },
+        "GetAuthorArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetHomepageHeadlinesArgs": {
           "k": "object",
           "props": [
@@ -78110,6 +78561,25 @@
             }
           ]
         },
+        "GetTopicArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListArticlesByDateArgs": {
           "k": "object",
           "props": [
@@ -78119,6 +78589,32 @@
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListAuthorsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "letter",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             },
             {
               "name": "limit",
@@ -78245,6 +78741,36 @@
               "name": "ListTopicsArgs"
             },
             "optional": true
+          }
+        ],
+        "getTopicArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTopicArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listAuthors": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListAuthorsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getAuthorArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAuthorArticlesArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -83697,6 +84223,49 @@
             }
           ]
         },
+        "KickGetChannelLeaderboardArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "KickGetChatMessagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "KickGetChatroomSettingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "KickGetClipArgs": {
           "k": "object",
           "props": [
@@ -83798,6 +84367,18 @@
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "KickListChannelEmotesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -84032,6 +84613,46 @@
               "name": "KickListTopClipsArgs"
             },
             "optional": true
+          }
+        ],
+        "getChatMessages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickGetChatMessagesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getChatroomSettings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickGetChatroomSettingsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listChannelEmotes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickListChannelEmotesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getChannelLeaderboard": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickGetChannelLeaderboardArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -98070,6 +98691,30 @@
               }
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.nerdwallet": {
+      "defs": {},
+      "functions": {
+        "compareCreditCards": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "all"
+                },
+                {
+                  "k": "literal",
+                  "v": "travel"
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -128778,6 +129423,81 @@
     },
     "providers.shop_app": {
       "defs": {
+        "ShopAppAddAddressArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "address1",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "address2",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zoneCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "postalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "company",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ShopAppAddToCartArgs": {
           "k": "object",
           "props": [
@@ -129195,6 +129915,32 @@
               "name": "ShopAppListPageArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addAddress": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppAddAddressArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -130941,6 +131687,24 @@
           }
         ],
         "getMyProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFriendStories": [
           {
             "name": "opts",
             "schema": {
@@ -165417,6 +166181,24 @@
           }
         ],
         "getCollections": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMessages": [
           {
             "name": "opts",
             "schema": {
