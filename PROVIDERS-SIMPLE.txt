@@ -149,7 +149,7 @@ breezy.hr — breezyhq: listJobs
 brixton.com — brixton: getBrixtonCheckoutLink, getBrixtonProduct, listBrixtonProducts
 browser-use.com — browser_use: cancelRun, createRun, findSessionBrowser, getBrowser, getRun, getRunStatus, getSession, listRunEvents, listSessionRuns, queueMessage, stopBrowser
 bsb.de — bodensee_schiffsbetriebe_berths: searchHarbors (+1 planned)
-bsky.app — bluesky: 66 functions — ask get_library
+bsky.app — bluesky: 69 functions — ask get_library
 buacement.com — buacement: nothing callable yet (+1 planned)
 builder.strucsure.com — builder_strucsure_com: getNewConstructionRegistrationFields, listRegistrationStates
 buildingengines.com — buildingengines: getAccessRequestStatus
@@ -287,7 +287,7 @@ doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getR
 drafthouse.com — drafthouse: findTheaters, getShowtimes (+1 planned)
 drive.google.com — drive_google: addComment, createDocument, createFolder, createPresentation, createSpreadsheet, getAccount, getDocumentText, getFile, getPresentationText, getSheetCsv, listComments, listFiles, moveFile, renameFile, restoreFile, setStarred, trashFile
 drivers.uber.com — uber: getDriverEarnings
-dropbox.com — dropbox: 29 functions — ask get_library (+13 planned)
+dropbox.com — dropbox: 30 functions — ask get_library (+12 planned)
 duckduckgo.com — duckduckgo: changeForwardingAddress, chatWithDuckAi, convertCurrency, createPrivateDuckAddress, defineWord, getEmailProtectionAccount, getInstantAnswer, getLocalTime, getWeather, listBangs, listDuckAiModels, listRegions, resolveBang, searchImages, searchNews, searchPlaces, searchVideos, searchWeb, setPrivateDuckAddressActive, suggestQueries, translateText
 dumpsters.com — dumpsters: getQuote
 e2b.dev — e2b: createSandbox, getSandbox, killSandbox, listSandboxes, readFile, runCommand, setSandboxTimeout, writeFile

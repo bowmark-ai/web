@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6760 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6763 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -51,7 +51,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `accuweather.getStorm` | accuweather.com | One tropical storm's tracker, by a listActiveStorms row's id - basin, current position… | 🟢 |
 | `accuweather.getWinterForecast` | accuweather.com | The Winter Weather (WinterCast) outlook for a location - whether a snow event is… | 🟢 |
 | `accuweather.listActiveStorms` | accuweather.com | Active hurricanes, typhoons and tropical cyclones worldwide, by basin - each storm's… | 🟢 |
-| `accuweather.listAlerts` | accuweather.com | Active weather warnings, watches and advisories for a location, with each alert's… | 🟢 |
+| `accuweather.listAlerts` | accuweather.com | Active weather warnings, watches and advisories for a location, with each alert's… | 🟡 |
 | `accuweather.listLifestyleIndices` | accuweather.com | Today's level for every allergy, health and outdoor-activity index AccuWeather… | 🟢 |
 | `accuweather.listNews` | accuweather.com | Latest AccuWeather news headlines - omit section for Top Stories, or pass a section's… | 🟢 |
 | `accuweather.searchLocations` | accuweather.com | Finds places by name, ZIP or postal code via the site's own search box autocomplete -… | 🟢 |
@@ -601,6 +601,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.createList` | bsky.app | Create a curation or moderation list owned by the caller. | 🟢 |
 | `bluesky.createPost` | bsky.app | Publish a post as the caller: text with links and mentions resolved into facets… | 🟢 |
 | `bluesky.createPostWithImages` | bsky.app | Publish a post with up to four images and their alt text. | 🟢 |
+| `bluesky.createPostWithVideo` | bsky.app | Posts one video, with optional text, alt text and languages. | 🟢 |
 | `bluesky.deleteList` | bsky.app | Delete one of the caller's own lists. | 🟢 |
 | `bluesky.deletePost` | bsky.app | Delete one of the caller's own posts. | 🟢 |
 | `bluesky.followUser` | bsky.app | Follow a person as the caller, or unfollow them. | 🟢 |
@@ -638,6 +639,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.listBlockedUsers` | bsky.app | The accounts the caller has blocked. | 🟢 |
 | `bluesky.listBookmarks` | bsky.app | The posts the caller has saved to Bookmarks. | 🟢 |
 | `bluesky.listConversations` | bsky.app | The caller's direct-message conversations, most recent first, with the last message… | 🟢 |
+| `bluesky.listModerationLists` | bsky.app | One page of the moderation lists the signed-in caller subscribes to: `kind: "mute"`… | 🟢 |
 | `bluesky.listMutedUsers` | bsky.app | The accounts the caller has muted. | 🟢 |
 | `bluesky.listMutedWords` | bsky.app | List the words and tags the caller has muted. | 🟢 |
 | `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | 🟢 |
@@ -659,6 +661,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.searchUsers` | bsky.app | Search people by name, handle or bio words, the way the Search tab's People list does… | 🟢 |
 | `bluesky.sendMessage` | bsky.app | Send a direct message as the caller to a person who accepts DMs from them. | 🟢 |
 | `bluesky.setAvatar` | bsky.app | Change the caller's profile picture (or banner) from an image. | 🟢 |
+| `bluesky.setReplyRestriction` | bsky.app | Sets who may reply to one of the caller's own thread-root posts: `allow: "everyone"`… | 🟢 |
 | `bluesky.suggestUsers` | bsky.app | Handle autocomplete: the few accounts that best match a partial name, as the compose… | 🟢 |
 | `bluesky.updateProfile` | bsky.app | Change the caller's display name and bio. | 🟢 |
 | `bmwusa.buildVehicle` | bmwusa.com | Runs BMW's own Build Your Own configurator for a model code (read off /all-bmws.html's… | 🟢 |
@@ -1826,7 +1829,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.createSharedLink` | dropbox.com | Creates (or returns the existing) shared link for a file or folder in the caller's… | 🟢 |
 | `dropbox.createTransfer` | dropbox.com | Creates a Dropbox Transfer from files in the caller's Dropbox or uploaded with it, and… | ⚪ |
 | `dropbox.deleteFile` | dropbox.com | Deletes a file or folder in the caller's Dropbox (it goes to Deleted files, where… | 🟢 |
-| `dropbox.downloadFile` | dropbox.com | Downloads a file from the caller's Dropbox and returns a Bowmark file URL for it. | ⚪ |
+| `dropbox.downloadFile` | dropbox.com | Downloads a file from the caller's Dropbox and returns a Bowmark file URL for it. | 🟢 |
 | `dropbox.downloadSharedFile` | dropbox.com | Downloads the file behind a shared link and returns a Bowmark file URL for it, with… | 🟢 |
 | `dropbox.downloadSharedFolder` | dropbox.com | Downloads a whole shared folder as a zip and returns a Bowmark file URL for it. | ⚪ |
 | `dropbox.getFileMetadata` | dropbox.com | Reads one file or folder in the caller's own Dropbox by path: kind, size, modified… | 🟢 |
