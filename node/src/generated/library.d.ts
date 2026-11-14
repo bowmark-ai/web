@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2246e280a13befc33db78836580bfabb7899e5b56e93be67ed33cbdc6dda8938
-// 98 capabilities, 844 providers, 5194 typed functions, 20 refused.
+// Manifest version: 7f15229a0b1c5a22e27480005327bd406bb652d47933688b7b2fc95c2a7a71bc
+// 98 capabilities, 846 providers, 5209 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18310,6 +18310,32 @@ interface BlueskyModerationListMuteResult {
   changed: boolean;
 }
 
+interface BlueskyModerationListPage {
+  kind: "mute" | "block";
+  lists: BlueskyUserList[];
+  cursor?: string;
+}
+
+type BlueskyReplyRule = "mentioned" | "followers" | "following" | `at://${string}`;
+
+interface BlueskySetReplyRestrictionArgs {
+  post: string;
+  allow: "everyone" | "nobody" | BlueskyReplyRule[];
+}
+
+interface BlueskyReplyRestrictionResult {
+  post: string;
+  allow: "everyone" | "nobody" | BlueskyReplyRule[];
+  changed: boolean;
+}
+
+interface BlueskyVideoPostArgs {
+  text?: string;
+  video: string;
+  alt?: string;
+  langs?: string[];
+}
+
 interface BlueskySetAvatarArgs {
   image: string;
   banner?: boolean;
@@ -18822,6 +18848,36 @@ interface BlueskySaveFeedResult {
      * the saved sign-in has expired; sign in again.
      */
     muteModerationList(args: BlueskyMuteModerationListArgs, opts?: ConnectionOption): Promise<BlueskyModerationListMuteResult>;
+
+    /**
+     * Posts one video, with optional text, alt text and languages. The video is an https URL of an
+     * MP4, WebM, MPEG or QuickTime file, at most 300 MB; it is uploaded through the video service
+     * and the post embeds it. A video still processing after two minutes is not posted, and the
+     * error names its job. Needs the caller signed in to bsky.app — the run pauses for a sign-in
+     * link when they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in
+     * again.
+     */
+    createPostWithVideo(args: BlueskyVideoPostArgs, opts?: ConnectionOption): Promise<BlueskyCreatedRecord>;
+
+    /**
+     * One page of the moderation lists the signed-in caller subscribes to: `kind: "mute"` (the
+     * default) for the lists they mute, `kind: "block"` for the lists they block. Each list's
+     * `uri` passes straight to muteModerationList. The cursor belongs to the chosen kind. Needs
+     * the caller signed in to bsky.app — the run pauses for a sign-in link when they are not.
+     * THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    listModerationLists(opts?: { kind?: "mute" | "block"; limit?: number; cursor?: string }, connectionOpts?: ConnectionOption): Promise<BlueskyModerationListPage>;
+
+    /**
+     * Sets who may reply to one of the caller's own thread-root posts. `allow: "everyone"` lifts
+     * the restriction, `allow: "nobody"` closes replies, and `allow: ["mentioned", "followers",
+     * "following", <list URI>]` (up to five) admits the named groups. A reply is refused, naming
+     * its root post. Existing hidden replies are kept. A post already in the requested state
+     * returns `changed: false`. Needs the caller signed in to bsky.app — the run pauses for a
+     * sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has expired;
+     * sign in again.
+     */
+    setReplyRestriction(args: BlueskySetReplyRestrictionArgs, opts?: ConnectionOption): Promise<BlueskyReplyRestrictionResult>;
 
     /**
      * Lists the words and #tags the signed-in caller has muted, with what each applies to and when
@@ -37544,6 +37600,14 @@ interface DropboxSaveResult { status: "complete" | "in_progress"; entry: Dropbox
      * folder carries only its name — list it with listSharedFolder. THROWS on a removed link.
      */
     getSharedLink(input: { url: string }): Promise<DropboxSharedLink>;
+
+    /**
+     * Downloads one file from the signed-in caller's own Dropbox by its `path` (from `searchFiles`
+     * or `listFolder`) and saves it to the run's files — returns the saved file with its name,
+     * content type and size. THROWS on a path that is missing or a folder. Needs the caller's
+     * Dropbox sign-in.
+     */
+    downloadFile(input: { path: string }, opts?: ConnectionOption): Promise<DropboxDownload>;
 
     /**
      * Downloads the file behind a Dropbox shared FILE link (logged out, the link's dl=1 hop) and
@@ -86319,6 +86383,30 @@ interface ReutersCompanyProfile {
 interface GetCompanyProfileArgs {
   ric: string;                      // a RIC from searchCompanies, e.g. "AAPL.O"
 }
+interface ReutersFinancialPoint {
+  date: string;                     // period end, YYYY-MM-DD
+  value: number | null;             // millions of the statement currency
+}
+interface ReutersFinancialLine {
+  key: string;                      // e.g. "revenue", "totalAssets"
+  label: string;
+  items: ReutersFinancialPoint[];   // newest first
+}
+interface ReutersFinancialStatement {
+  annual: ReutersFinancialLine[];
+  quarterly: ReutersFinancialLine[];
+}
+interface ReutersCompanyFinancials {
+  ric: string;
+  name: string;
+  currency: string | null;
+  incomeStatement: ReutersFinancialStatement;
+  balanceSheet: ReutersFinancialStatement;
+  cashFlow: ReutersFinancialStatement;
+}
+interface GetCompanyFinancialsArgs {
+  ric: string;                      // a RIC from searchCompanies, e.g. "AAPL.O"
+}
 interface ReutersCompanyKeyMetrics {
   ric: string;
   beta: number | null;
@@ -86604,6 +86692,12 @@ interface GetMyNewsFeedArgs {
      * and its officers and directors. Takes a RIC from searchCompanies.
      */
     getCompanyProfile(args: GetCompanyProfileArgs): Promise<ReutersCompanyProfile>;
+
+    /**
+     * A company's income statement, balance sheet and cash-flow lines, annual and quarterly, as
+     * Reuters publishes them. Takes a RIC from searchCompanies.
+     */
+    getCompanyFinancials(args: GetCompanyFinancialsArgs): Promise<ReutersCompanyFinancials>;
 
     /**
      * A company's key ratios on Reuters — valuation, profitability, growth, dividends and
@@ -102332,6 +102426,137 @@ interface ThreadsActivity {
      * out, by URL or username + code — each with author, text, media and counts.
      */
     getRelatedPosts(args: ThreadsGetPostArgs): Promise<ThreadsRelatedPosts>;
+  }
+}
+
+declare namespace BowmarkProvider_ticketmaster {
+  // ── Ticketmaster — the unit's own declarations, verbatim ──
+interface TicketmasterVenueRef {
+  name: string | null;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  address: string | null;
+  postalCode: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  url: string | null;
+}
+interface TicketmasterEvent {
+  id: string;
+  name: string;
+  url: string;
+  startDate: string | null;
+  onsaleDate: string | null;
+  timeZone: string | null;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  partner: boolean;
+  presales: { name: string; startDate: string | null; endDate: string | null }[];
+  artists: { name: string; url: string | null }[];
+  venue: TicketmasterVenueRef | null;
+}
+interface SearchEventsArgs {
+  /** An artist, team, show or event name. Optional when city is given. */
+  keyword?: string;
+  /** A city name such as "Chicago". */
+  city?: string;
+  /** First day, YYYY-MM-DD. */
+  startDate?: string;
+  /** Last day, YYYY-MM-DD. */
+  endDate?: string;
+  /** "music", "sports", "arts" or "family". Applies to city searches. */
+  category?: string;
+  /** Zero-based page. */
+  page?: number;
+  /** 1-50, default 20. Larger values are clamped to 50. */
+  limit?: number;
+}
+interface TicketmasterEventSearch {
+  events: TicketmasterEvent[];
+  total: number;
+  page: number;
+  appliedLimit: number;
+  source: string;
+  notes: string[];
+}
+interface SuggestArgs {
+  /** An artist, team or venue name. */
+  query: string;
+}
+interface TicketmasterAttraction {
+  id: string;
+  name: string;
+  url: string;
+  category: string | null;
+  upcomingEvents: number | null;
+}
+interface TicketmasterVenueMatch {
+  id: string;
+  name: string;
+  url: string;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  upcomingEvents: number | null;
+}
+interface GetVenueArgs {
+  /** A venue id such as "32882" or a venue url from a search row. */
+  venue: string;
+}
+interface TicketmasterVenue {
+  id: string;
+  name: string;
+  url: string;
+  address: { line1: string | null; city: string | null; state: string | null; postalCode: string | null; country: string | null };
+  latitude: number | null;
+  longitude: number | null;
+  timeZone: string | null;
+  info: Record<string, string>;
+  upcomingEvents: TicketmasterEvent[];
+  upcomingTotal: number;
+}
+interface TicketmasterCategory {
+  id: string;
+  name: string;
+  url: string;
+  subCategories: { id: string; name: string; url: string }[];
+}
+
+  /**
+   * Live event tickets: find concerts, sports, arts and theater by city, artist, venue and date,
+   * with venue, sale status and presale details. Search only, never buys.
+   */
+  interface Unit {
+    /**
+     * Find tickets to live events: concerts, sports games, arts and theater shows, comedy and
+     * family shows, by city (Chicago, Denver, Austin, New York, Los Angeles, Nashville), artist,
+     * team or keyword and a date range. Example: { city: 'Chicago', category: 'music', startDate:
+     * '2026-11-14', endDate: '2026-11-15' } for concerts in Chicago this weekend. Each event has
+     * the venue, start time, sale status, presales and the ticket page url. It never buys; the url
+     * is where a person checks out.
+     */
+    search(args: SearchEventsArgs): Promise<TicketmasterEventSearch>;
+
+    /**
+     * Find artists, teams and other performers by name, with the number of upcoming events and the
+     * artist page url.
+     */
+    searchAttractions(args: SuggestArgs): Promise<TicketmasterAttraction[]>;
+
+    /**
+     * Find venues by name (e.g. 'United Center'), with city, state and upcoming event count. Pass
+     * a row's id to getVenue.
+     */
+    searchVenues(args: SuggestArgs): Promise<TicketmasterVenueMatch[]>;
+
+    /** One venue's address, coordinates, time zone, house rules and its next upcoming events. */
+    getVenue(args: GetVenueArgs): Promise<TicketmasterVenue>;
+
+    /**
+     * The site's category tree (Concerts, Sports, Arts and Theater, Family) with genres under
+     * each, so a caller can pick a valid category.
+     */
+    listClassifications(): Promise<TicketmasterCategory[]>;
   }
 }
 
@@ -118164,6 +118389,208 @@ interface ZeptoProduct { id: string; productId: string | null; name: string; bra
   }
 }
 
+declare namespace BowmarkProvider_zillow {
+  // ── Zillow — the unit's own declarations, verbatim ──
+/** One match from `searchLocations`: a region (city, ZIP, county, neighborhood, state) or a street address. */
+interface ZillowLocation {
+  /** The text Zillow shows, e.g. "Austin, TX" or "78704" or "11008 Sierra Ridge Ct Austin, TX 78739". */
+  display: string;
+  kind: "region" | "address";
+  /** Region id, for kind "region". */
+  regionId: number | null;
+  /** city · zipcode · county · state · neighborhood, for kind "region". */
+  regionType: string | null;
+  city: string | null;
+  state: string | null;
+  county: string | null;
+  zipCode: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  /** Zillow's home id, for kind "address". */
+  zpid: number | null;
+}
+
+interface SearchLocationsArgs {
+  /** A place name, ZIP, neighborhood or street address, e.g. "Austin TX" or "78704". */
+  query: string;
+  /** 1-25, default 10. */
+  limit?: number;
+}
+
+interface SearchHomesArgs {
+  /** A place name or ZIP ("Austin, TX", "78704"), or a searchLocations row. */
+  location: string | { display: string };
+  /** "sale" (default), "rent" or "sold". */
+  listingType?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minBeds?: number;
+  minBaths?: number;
+  /** One of SINGLE_FAMILY, CONDO, TOWNHOUSE, MULTI_FAMILY, LOT, MANUFACTURED. */
+  homeType?: string;
+  /** One-based results page, 41 homes per page. Default 1. */
+  page?: number;
+  /** 1-41, default 41. Larger values are clamped to 41. */
+  limit?: number;
+}
+
+interface ZillowHome {
+  zpid: string;
+  address: string;
+  city: string | null;
+  state: string | null;
+  zipCode: string | null;
+  /** The price text as Zillow prints it ("$1,275,000", "$2,100+/mo"), or null. */
+  priceText: string | null;
+  price: number | null;
+  /** "For sale" · "For rent" · "Sold" style label from Zillow. */
+  statusText: string | null;
+  /** FOR_SALE · FOR_RENT · SOLD · PENDING and so on, when Zillow gives one. */
+  status: string | null;
+  homeType: string | null;
+  beds: number | null;
+  baths: number | null;
+  livingArea: number | null;
+  latitude: number | null;
+  longitude: number | null;
+  zestimate: number | null;
+  rentZestimate: number | null;
+  daysOnZillow: number | null;
+  priceReduction: string | null;
+  brokerName: string | null;
+  url: string | null;
+  imageUrl: string | null;
+  /** Rental buildings list their unit types here. */
+  units: { beds: number | null; price: string | null }[];
+}
+
+interface ZillowHomeSearch {
+  homes: ZillowHome[];
+  /** Homes matching the region on Zillow, before this call's filters. */
+  totalInRegion: number;
+  page: number;
+  totalPages: number;
+  region: string;
+  appliedLimit: number;
+  source: string;
+  /** What was done beyond the plain page, e.g. filters applied to the page's rows. */
+  notes: string[];
+}
+
+interface MortgageRatesArgs {
+  /** Two-letter state code, e.g. "TX". Optional. */
+  state?: string;
+  /** VeryHigh (default), High, Medium or Low. */
+  creditScore?: string;
+}
+
+interface ZillowMortgageRate {
+  program: string;
+  loanType: string;
+  /** Interest rate in percent, or null when Zillow has no quote for this program. */
+  rate: number | null;
+  apr: number | null;
+}
+
+interface MortgageRates {
+  rates: ZillowMortgageRate[];
+  state: string | null;
+  creditScore: string;
+}
+
+interface MortgagePaymentArgs {
+  price: number;
+  /** Down payment in dollars. Default 20 percent of the price. */
+  downPayment?: number;
+  /** Annual interest rate in percent, e.g. 6.5. Read one from getMortgageRates. */
+  rate: number;
+  /** 10-40, default 30. */
+  termYears?: number;
+  /** Property tax as a percent of price per year. Default 1.1. */
+  propertyTaxRate?: number;
+  /** Home insurance per year in dollars. Default 0.35 percent of price. */
+  insuranceAnnual?: number;
+  hoaMonthly?: number;
+}
+
+interface MortgagePayment {
+  monthlyTotal: number;
+  principalAndInterest: number;
+  propertyTax: number;
+  insurance: number;
+  hoa: number;
+  pmi: number;
+  loanAmount: number;
+  downPayment: number;
+  assumptions: string[];
+}
+
+interface AffordabilityArgs {
+  /** Gross yearly household income in dollars. */
+  annualIncome: number;
+  /** Monthly debt payments (cards, car, loans). Default 0. */
+  monthlyDebts?: number;
+  /** Cash for the down payment. Default 0. */
+  downPayment?: number;
+  /** Annual interest rate in percent. */
+  rate: number;
+  termYears?: number;
+  propertyTaxRate?: number;
+  /** Insurance per year as a percent of price. Default 0.35. */
+  insuranceRate?: number;
+  hoaMonthly?: number;
+}
+
+interface Affordability {
+  maxPrice: number;
+  maxMonthlyHousing: number;
+  loanAmount: number;
+  downPaymentPercent: number;
+  assumptions: string[];
+}
+
+  /**
+   * Zillow, the US home listing site: search homes for sale, for rent and sold by city or ZIP,
+   * with price, beds, baths, Zestimate and listing agent; look up places, current mortgage
+   * rates, and calculate payments and affordability.
+   */
+  interface Unit {
+    /**
+     * Turn a place name, ZIP, neighborhood or street address into Zillow regions and addresses
+     * (regionId, city, state, coordinates, zpid for an address).
+     */
+    searchLocations(args: SearchLocationsArgs): Promise<ZillowLocation[]>;
+
+    /**
+     * Find homes, houses, apartments, condos and townhouses for sale, for rent or recently sold in
+     * any US city or ZIP, such as Austin, Denver, Seattle, Chicago, Miami, Boston, Phoenix or New
+     * York (real estate listings). Example: { location: 'Austin, TX', listingType: 'sale',
+     * maxPrice: 600000, minBeds: 3 }. Each home has address, price, beds, baths, size, Zestimate,
+     * days on Zillow and the listing url. Price and bed filters apply to the page's rows (41 per
+     * page).
+     */
+    searchHomes(args: SearchHomesArgs): Promise<ZillowHomeSearch>;
+
+    /**
+     * Today's average mortgage rates and APRs by program (30-year fixed, 15-year fixed, 5/1 ARM,
+     * FHA, VA), optionally for a state and credit-score band.
+     */
+    getMortgageRates(args?: MortgageRatesArgs): Promise<MortgageRates>;
+
+    /**
+     * Monthly payment for a price, down payment, rate and term, split into principal and interest,
+     * property tax, insurance, HOA and PMI. No network.
+     */
+    calculateMortgagePayment(args: MortgagePaymentArgs): Promise<MortgagePayment>;
+
+    /**
+     * How much house can I afford: the highest home price a buyer can afford from income, monthly
+     * debts, down payment and interest rate, using the 36% debt-to-income rule. No network.
+     */
+    calculateAffordability(args: AffordabilityArgs): Promise<Affordability>;
+  }
+}
+
 declare namespace BowmarkProvider_zoom {
   // ── Zoom — the unit's own declarations, verbatim ──
 
@@ -120548,6 +120975,7 @@ interface BowmarkProviders {
   thezebra: BowmarkProvider_thezebra.Unit;
   thibautdesign: BowmarkProvider_thibautdesign.Unit;
   threads: BowmarkProvider_threads.Unit;
+  ticketmaster: BowmarkProvider_ticketmaster.Unit;
   ticketmaster_mx: BowmarkProvider_ticketmaster_mx.Unit;
   ticketmaster_nl: BowmarkProvider_ticketmaster_nl.Unit;
   tiktok: BowmarkProvider_tiktok.Unit;
@@ -120651,6 +121079,7 @@ interface BowmarkProviders {
   zennioptical: BowmarkProvider_zennioptical.Unit;
   zenoti: BowmarkProvider_zenoti.Unit;
   zepto: BowmarkProvider_zepto.Unit;
+  zillow: BowmarkProvider_zillow.Unit;
   zoom: BowmarkProvider_zoom.Unit;
   zoopla: BowmarkProvider_zoopla.Unit;
   "000000band": BowmarkFamily_shopify_store.Unit;

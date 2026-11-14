@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2246e280a13befc33db78836580bfabb7899e5b56e93be67ed33cbdc6dda8938
-// 5166 checked, 20 unchecked.
+// Manifest version: 7f15229a0b1c5a22e27480005327bd406bb652d47933688b7b2fc95c2a7a71bc
+// 5181 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2246e280a13befc33db78836580bfabb7899e5b56e93be67ed33cbdc6dda8938",
+  "version": "7f15229a0b1c5a22e27480005327bd406bb652d47933688b7b2fc95c2a7a71bc",
   "units": {
     "address_validation": {
       "defs": {
@@ -21315,6 +21315,9 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BlueskyReplyRule": {
+          "k": "any"
+        },
         "BlueskyReplyToPostArgs": {
           "k": "object",
           "props": [
@@ -21415,6 +21418,42 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BlueskySetReplyRestrictionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "post",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "allow",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "everyone"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nobody"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "BlueskyReplyRule"
+                    }
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "BlueskyUpdateProfileArgs": {
           "k": "object",
           "props": [
@@ -21429,6 +21468,42 @@ export const VALIDATORS: ValidatorTable = {
               "name": "bio",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BlueskyVideoPostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "alt",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "langs",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
               },
               "optional": true
             }
@@ -23226,6 +23301,116 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BlueskyMuteModerationListArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createPostWithVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyVideoPostArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listModerationLists": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "kind",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "mute"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "block"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "connectionOpts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setReplyRestriction": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskySetReplyRestrictionArgs"
             },
             "optional": false
           },
@@ -49175,6 +49360,40 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ],
+        "downloadFile": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "downloadSharedFile": [
@@ -119216,6 +119435,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetCompanyFinancialsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ric",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetCompanyKeyMetricsArgs": {
           "k": "object",
           "props": [
@@ -119871,6 +120102,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCompanyProfileArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCompanyFinancials": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCompanyFinancialsArgs"
             },
             "optional": false
           }
@@ -141926,6 +142167,131 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.ticketmaster": {
+      "defs": {
+        "GetVenueArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "venue",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "keyword",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SuggestArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchAttractions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SuggestArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchVenues": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SuggestArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVenue": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVenueArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listClassifications": []
       }
     },
     "providers.ticketmaster_mx": {
@@ -164684,6 +165050,300 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.zillow": {
+      "defs": {
+        "AffordabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "annualIncome",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "monthlyDebts",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "downPayment",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rate",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "termYears",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "propertyTaxRate",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "insuranceRate",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "hoaMonthly",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MortgagePaymentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "price",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "downPayment",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rate",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "termYears",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "propertyTaxRate",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "insuranceAnnual",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "hoaMonthly",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MortgageRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "creditScore",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchHomesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "object",
+                    "props": [
+                      {
+                        "name": "display",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "listingType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBeds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBaths",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "homeType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchLocationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchHomes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchHomesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMortgageRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MortgageRatesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "calculateMortgagePayment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MortgagePaymentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "calculateAffordability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AffordabilityArgs"
             },
             "optional": false
           }

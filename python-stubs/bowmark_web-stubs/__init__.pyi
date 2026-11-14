@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2246e280a13befc33db78836580bfabb7899e5b56e93be67ed33cbdc6dda8938
-# 98 capabilities, 844 providers, 5166 typed functions, 20 refused.
+# Manifest version: 7f15229a0b1c5a22e27480005327bd406bb652d47933688b7b2fc95c2a7a71bc
+# 98 capabilities, 846 providers, 5181 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11480,6 +11480,31 @@ class Prv_bluesky_BlueskyMuteModerationListArgs_In(TypedDict):
 class Prv_bluesky_BlueskyModerationListMuteResult_Out(TypedDict):
     list: str
     muted: bool
+    changed: bool
+
+class Prv_bluesky_BlueskyVideoPostArgs_In(TypedDict):
+    text: NotRequired[str]
+    video: str
+    alt: NotRequired[str]
+    langs: NotRequired[Sequence[str]]
+
+class Prv_bluesky_listModerationLists_opts_In(TypedDict):
+    kind: NotRequired[Literal["mute"] | Literal["block"]]
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyModerationListPage_Out(TypedDict):
+    kind: Literal["mute"] | Literal["block"]
+    lists: list[Prv_bluesky_BlueskyUserList_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskySetReplyRestrictionArgs_In(TypedDict):
+    post: str
+    allow: Literal["everyone"] | Literal["nobody"] | Sequence[Any]
+
+class Prv_bluesky_BlueskyReplyRestrictionResult_Out(TypedDict):
+    post: str
+    allow: Literal["everyone"] | Literal["nobody"] | list[Any]
     changed: bool
 
 class Prv_bluesky_BlueskyMutedWordList_Out(TypedDict):
@@ -23725,8 +23750,8 @@ class Prv_dropbox_DropboxSharedLink_Out(TypedDict):
     ownerPhotoUrl: NotRequired[str]
     previews: Mapping[str, str]
 
-class Prv_dropbox_downloadSharedFile_input_In(TypedDict):
-    url: str
+class Prv_dropbox_downloadFile_input_In(TypedDict):
+    path: str
 
 class Prv_dropbox_DropboxDownload_Out(TypedDict):
     url: str
@@ -23743,6 +23768,9 @@ class Prv_dropbox_DropboxDownload_Out_file_Out(TypedDict):
     bytes: float
     url: str
     expiresAt: str
+
+class Prv_dropbox_downloadSharedFile_input_In(TypedDict):
+    url: str
 
 class Prv_dropbox_readSharedFile_input_In(TypedDict):
     url: str
@@ -54112,6 +54140,30 @@ class Prv_reuters_ReutersCompanyOfficer_Out(TypedDict):
     age: float | None
     since: float | None
 
+class Prv_reuters_GetCompanyFinancialsArgs_In(TypedDict):
+    ric: str
+
+class Prv_reuters_ReutersCompanyFinancials_Out(TypedDict):
+    ric: str
+    name: str
+    currency: str | None
+    incomeStatement: Prv_reuters_ReutersFinancialStatement_Out
+    balanceSheet: Prv_reuters_ReutersFinancialStatement_Out
+    cashFlow: Prv_reuters_ReutersFinancialStatement_Out
+
+class Prv_reuters_ReutersFinancialStatement_Out(TypedDict):
+    annual: list[Prv_reuters_ReutersFinancialLine_Out]
+    quarterly: list[Prv_reuters_ReutersFinancialLine_Out]
+
+class Prv_reuters_ReutersFinancialLine_Out(TypedDict):
+    key: str
+    label: str
+    items: list[Prv_reuters_ReutersFinancialPoint_Out]
+
+class Prv_reuters_ReutersFinancialPoint_Out(TypedDict):
+    date: str
+    value: float | None
+
 class Prv_reuters_GetCompanyKeyMetricsArgs_In(TypedDict):
     ric: str
 
@@ -65003,6 +65055,108 @@ class Prv_threads_ThreadsRelatedPosts_Out(TypedDict):
     code: str
     posts: list[Prv_threads_ThreadsPost_Out]
 
+class Prv_ticketmaster_SearchEventsArgs_In(TypedDict):
+    keyword: NotRequired[str]
+    city: NotRequired[str]
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+    category: NotRequired[str]
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_ticketmaster_TicketmasterEventSearch_Out(TypedDict):
+    events: list[Prv_ticketmaster_TicketmasterEvent_Out]
+    total: float
+    page: float
+    appliedLimit: float
+    source: str
+    notes: list[str]
+
+class Prv_ticketmaster_TicketmasterEvent_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    startDate: str | None
+    onsaleDate: str | None
+    timeZone: str | None
+    status: str
+    partner: bool
+    presales: list[Prv_ticketmaster_TicketmasterEvent_Out_presales_item_Out]
+    artists: list[Prv_ticketmaster_TicketmasterEvent_Out_artists_item_Out]
+    venue: Prv_ticketmaster_TicketmasterVenueRef_Out | None
+
+class Prv_ticketmaster_TicketmasterEvent_Out_presales_item_Out(TypedDict):
+    name: str
+    startDate: str | None
+    endDate: str | None
+
+class Prv_ticketmaster_TicketmasterEvent_Out_artists_item_Out(TypedDict):
+    name: str
+    url: str | None
+
+class Prv_ticketmaster_TicketmasterVenueRef_Out(TypedDict):
+    name: str | None
+    city: str | None
+    state: str | None
+    country: str | None
+    address: str | None
+    postalCode: str | None
+    latitude: float | None
+    longitude: float | None
+    url: str | None
+
+class Prv_ticketmaster_SuggestArgs_In(TypedDict):
+    query: str
+
+class Prv_ticketmaster_TicketmasterAttraction_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    category: str | None
+    upcomingEvents: float | None
+
+class Prv_ticketmaster_TicketmasterVenueMatch_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    city: str | None
+    state: str | None
+    country: str | None
+    upcomingEvents: float | None
+
+class Prv_ticketmaster_GetVenueArgs_In(TypedDict):
+    venue: str
+
+class Prv_ticketmaster_TicketmasterVenue_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    address: Prv_ticketmaster_TicketmasterVenue_Out_address_Out
+    latitude: float | None
+    longitude: float | None
+    timeZone: str | None
+    info: Mapping[str, str]
+    upcomingEvents: list[Prv_ticketmaster_TicketmasterEvent_Out]
+    upcomingTotal: float
+
+class Prv_ticketmaster_TicketmasterVenue_Out_address_Out(TypedDict):
+    line1: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    country: str | None
+
+class Prv_ticketmaster_TicketmasterCategory_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    subCategories: list[Prv_ticketmaster_TicketmasterCategory_Out_subCategories_item_Out]
+
+class Prv_ticketmaster_TicketmasterCategory_Out_subCategories_item_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+
 class Prv_ticketmaster_mx_EventLink_Out(TypedDict):
     url: str
     title: str
@@ -75289,6 +75443,128 @@ class Prv_zepto_ZeptoProduct_Out(TypedDict):
     images: list[str]
     url: str
 
+class Prv_zillow_SearchLocationsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_zillow_ZillowLocation_Out(TypedDict):
+    display: str
+    kind: Literal["region"] | Literal["address"]
+    regionId: float | None
+    regionType: str | None
+    city: str | None
+    state: str | None
+    county: str | None
+    zipCode: str | None
+    latitude: float | None
+    longitude: float | None
+    zpid: float | None
+
+class Prv_zillow_SearchHomesArgs_In(TypedDict):
+    location: str | Prv_zillow_SearchHomesArgs_In_location_u1_In
+    listingType: NotRequired[str]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minBeds: NotRequired[float]
+    minBaths: NotRequired[float]
+    homeType: NotRequired[str]
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_zillow_SearchHomesArgs_In_location_u1_In(TypedDict):
+    display: str
+
+class Prv_zillow_ZillowHomeSearch_Out(TypedDict):
+    homes: list[Prv_zillow_ZillowHome_Out]
+    totalInRegion: float
+    page: float
+    totalPages: float
+    region: str
+    appliedLimit: float
+    source: str
+    notes: list[str]
+
+class Prv_zillow_ZillowHome_Out(TypedDict):
+    zpid: str
+    address: str
+    city: str | None
+    state: str | None
+    zipCode: str | None
+    priceText: str | None
+    price: float | None
+    statusText: str | None
+    status: str | None
+    homeType: str | None
+    beds: float | None
+    baths: float | None
+    livingArea: float | None
+    latitude: float | None
+    longitude: float | None
+    zestimate: float | None
+    rentZestimate: float | None
+    daysOnZillow: float | None
+    priceReduction: str | None
+    brokerName: str | None
+    url: str | None
+    imageUrl: str | None
+    units: list[Prv_zillow_ZillowHome_Out_units_item_Out]
+
+class Prv_zillow_ZillowHome_Out_units_item_Out(TypedDict):
+    beds: float | None
+    price: str | None
+
+class Prv_zillow_MortgageRatesArgs_In(TypedDict):
+    state: NotRequired[str]
+    creditScore: NotRequired[str]
+
+class Prv_zillow_MortgageRates_Out(TypedDict):
+    rates: list[Prv_zillow_ZillowMortgageRate_Out]
+    state: str | None
+    creditScore: str
+
+class Prv_zillow_ZillowMortgageRate_Out(TypedDict):
+    program: str
+    loanType: str
+    rate: float | None
+    apr: float | None
+
+class Prv_zillow_MortgagePaymentArgs_In(TypedDict):
+    price: float
+    downPayment: NotRequired[float]
+    rate: float
+    termYears: NotRequired[float]
+    propertyTaxRate: NotRequired[float]
+    insuranceAnnual: NotRequired[float]
+    hoaMonthly: NotRequired[float]
+
+class Prv_zillow_MortgagePayment_Out(TypedDict):
+    monthlyTotal: float
+    principalAndInterest: float
+    propertyTax: float
+    insurance: float
+    hoa: float
+    pmi: float
+    loanAmount: float
+    downPayment: float
+    assumptions: list[str]
+
+class Prv_zillow_AffordabilityArgs_In(TypedDict):
+    annualIncome: float
+    monthlyDebts: NotRequired[float]
+    downPayment: NotRequired[float]
+    rate: float
+    termYears: NotRequired[float]
+    propertyTaxRate: NotRequired[float]
+    insuranceRate: NotRequired[float]
+    hoaMonthly: NotRequired[float]
+
+class Prv_zillow_Affordability_Out(TypedDict):
+    maxPrice: float
+    maxMonthlyHousing: float
+    loanAmount: float
+    downPaymentPercent: float
+    assumptions: list[str]
+
 class Prv_zoom_ZoomPricingResult_Out(TypedDict):
     plans: list[Prv_zoom_ZoomPricingPlan_Out]
 
@@ -82351,6 +82627,33 @@ class Prv_bluesky(Protocol):
         `blueskyError` when the saved sign-in has expired; sign in again.
         """
 
+    async def createPostWithVideo(self, args: Prv_bluesky_BlueskyVideoPostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyCreatedRecord_Out:
+        """Posts one video, with optional text, alt text and languages. The video is an https URL
+        of an MP4, WebM, MPEG or QuickTime file, at most 300 MB; it is uploaded through the
+        video service and the post embeds it. A video still processing after two minutes is not
+        posted, and the error names its job. Needs the caller signed in to bsky.app — the run
+        pauses for a sign-in link when they are not. THROWS `blueskyError` when the saved
+        sign-in has expired; sign in again.
+        """
+
+    async def listModerationLists(self, opts: Prv_bluesky_listModerationLists_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyModerationListPage_Out:
+        """One page of the moderation lists the signed-in caller subscribes to: `kind: "mute"` (the
+        default) for the lists they mute, `kind: "block"` for the lists they block. Each list's
+        `uri` passes straight to muteModerationList. The cursor belongs to the chosen kind.
+        Needs the caller signed in to bsky.app — the run pauses for a sign-in link when they are
+        not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+        """
+
+    async def setReplyRestriction(self, args: Prv_bluesky_BlueskySetReplyRestrictionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyReplyRestrictionResult_Out:
+        """Sets who may reply to one of the caller's own thread-root posts. `allow: "everyone"`
+        lifts the restriction, `allow: "nobody"` closes replies, and `allow: ["mentioned",
+        "followers", "following", <list URI>]` (up to five) admits the named groups. A reply is
+        refused, naming its root post. Existing hidden replies are kept. A post already in the
+        requested state returns `changed: false`. Needs the caller signed in to bsky.app — the
+        run pauses for a sign-in link when they are not. THROWS `blueskyError` when the saved
+        sign-in has expired; sign in again.
+        """
+
     async def listMutedWords(self, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyMutedWordList_Out:
         """Lists the words and #tags the signed-in caller has muted, with what each applies to and
         when it expires. Needs the caller signed in to bsky.app — the run pauses for a sign-in
@@ -88940,6 +89243,13 @@ class Prv_dropbox(Protocol):
         id, owner name, email and photo, and the preview URLs Dropbox serves (pdf_txt is the
         text extract). A folder carries only its name — list it with listSharedFolder. THROWS on
         a removed link.
+        """
+
+    async def downloadFile(self, input: Prv_dropbox_downloadFile_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxDownload_Out:
+        """Downloads one file from the signed-in caller's own Dropbox by its `path` (from
+        `searchFiles` or `listFolder`) and saves it to the run's files — returns the saved file
+        with its name, content type and size. THROWS on a path that is missing or a folder.
+        Needs the caller's Dropbox sign-in.
         """
 
     async def downloadSharedFile(self, input: Prv_dropbox_downloadSharedFile_input_In, /) -> Prv_dropbox_DropboxDownload_Out:
@@ -106509,6 +106819,11 @@ class Prv_reuters(Protocol):
         address and its officers and directors. Takes a RIC from searchCompanies.
         """
 
+    async def getCompanyFinancials(self, args: Prv_reuters_GetCompanyFinancialsArgs_In, /) -> Prv_reuters_ReutersCompanyFinancials_Out:
+        """A company's income statement, balance sheet and cash-flow lines, annual and quarterly,
+        as Reuters publishes them. Takes a RIC from searchCompanies.
+        """
+
     async def getCompanyKeyMetrics(self, args: Prv_reuters_GetCompanyKeyMetricsArgs_In, /) -> Prv_reuters_ReutersCompanyKeyMetrics_Out:
         """A company's key ratios on Reuters — valuation, profitability, growth, dividends and
         per-share figures. Takes a RIC from searchCompanies.
@@ -111805,6 +112120,38 @@ class Prv_threads(Protocol):
     async def getRelatedPosts(self, args: Prv_threads_ThreadsGetPostArgs_In, /) -> Prv_threads_ThreadsRelatedPosts_Out:
         """Lists the posts Threads suggests beside one public post (its "related threads" rail),
         logged out, by URL or username + code — each with author, text, media and counts.
+        """
+
+class Prv_ticketmaster(Protocol):
+    """Live event tickets: find concerts, sports, arts and theater by city, artist, venue and
+    date, with venue, sale status and presale details. Search only, never buys.
+    """
+
+    async def search(self, args: Prv_ticketmaster_SearchEventsArgs_In, /) -> Prv_ticketmaster_TicketmasterEventSearch_Out:
+        """Find tickets to live events: concerts, sports games, arts and theater shows, comedy and
+        family shows, by city (Chicago, Denver, Austin, New York, Los Angeles, Nashville),
+        artist, team or keyword and a date range. Example: { city: 'Chicago', category: 'music',
+        startDate: '2026-11-14', endDate: '2026-11-15' } for concerts in Chicago this weekend.
+        Each event has the venue, start time, sale status, presales and the ticket page url. It
+        never buys; the url is where a person checks out.
+        """
+
+    async def searchAttractions(self, args: Prv_ticketmaster_SuggestArgs_In, /) -> list[Prv_ticketmaster_TicketmasterAttraction_Out]:
+        """Find artists, teams and other performers by name, with the number of upcoming events and
+        the artist page url.
+        """
+
+    async def searchVenues(self, args: Prv_ticketmaster_SuggestArgs_In, /) -> list[Prv_ticketmaster_TicketmasterVenueMatch_Out]:
+        """Find venues by name (e.g. 'United Center'), with city, state and upcoming event count.
+        Pass a row's id to getVenue.
+        """
+
+    async def getVenue(self, args: Prv_ticketmaster_GetVenueArgs_In, /) -> Prv_ticketmaster_TicketmasterVenue_Out:
+        """One venue's address, coordinates, time zone, house rules and its next upcoming events."""
+
+    async def listClassifications(self, /) -> list[Prv_ticketmaster_TicketmasterCategory_Out]:
+        """The site's category tree (Concerts, Sports, Arts and Theater, Family) with genres under
+        each, so a caller can pick a valid category.
         """
 
 class Prv_ticketmaster_mx(Protocol):
@@ -117436,6 +117783,42 @@ class Prv_zepto(Protocol):
         brand, selling price and MRP in rupees, stock, pack size, category, rating and images.
         """
 
+class Prv_zillow(Protocol):
+    """Zillow, the US home listing site: search homes for sale, for rent and sold by city or
+    ZIP, with price, beds, baths, Zestimate and listing agent; look up places, current
+    mortgage rates, and calculate payments and affordability.
+    """
+
+    async def searchLocations(self, args: Prv_zillow_SearchLocationsArgs_In, /) -> list[Prv_zillow_ZillowLocation_Out]:
+        """Turn a place name, ZIP, neighborhood or street address into Zillow regions and addresses
+        (regionId, city, state, coordinates, zpid for an address).
+        """
+
+    async def searchHomes(self, args: Prv_zillow_SearchHomesArgs_In, /) -> Prv_zillow_ZillowHomeSearch_Out:
+        """Find homes, houses, apartments, condos and townhouses for sale, for rent or recently
+        sold in any US city or ZIP, such as Austin, Denver, Seattle, Chicago, Miami, Boston,
+        Phoenix or New York (real estate listings). Example: { location: 'Austin, TX',
+        listingType: 'sale', maxPrice: 600000, minBeds: 3 }. Each home has address, price, beds,
+        baths, size, Zestimate, days on Zillow and the listing url. Price and bed filters apply
+        to the page's rows (41 per page).
+        """
+
+    async def getMortgageRates(self, args: Prv_zillow_MortgageRatesArgs_In | None = None, /) -> Prv_zillow_MortgageRates_Out:
+        """Today's average mortgage rates and APRs by program (30-year fixed, 15-year fixed, 5/1
+        ARM, FHA, VA), optionally for a state and credit-score band.
+        """
+
+    async def calculateMortgagePayment(self, args: Prv_zillow_MortgagePaymentArgs_In, /) -> Prv_zillow_MortgagePayment_Out:
+        """Monthly payment for a price, down payment, rate and term, split into principal and
+        interest, property tax, insurance, HOA and PMI. No network.
+        """
+
+    async def calculateAffordability(self, args: Prv_zillow_AffordabilityArgs_In, /) -> Prv_zillow_Affordability_Out:
+        """How much house can I afford: the highest home price a buyer can afford from income,
+        monthly debts, down payment and interest rate, using the 36% debt-to-income rule. No
+        network.
+        """
+
 class Prv_zoom(Protocol):
     """Video conferencing, meetings, and webinars."""
 
@@ -118328,6 +118711,7 @@ class BowmarkProviders(Protocol):
     thezebra: Prv_thezebra
     thibautdesign: Prv_thibautdesign
     threads: Prv_threads
+    ticketmaster: Prv_ticketmaster
     ticketmaster_mx: Prv_ticketmaster_mx
     ticketmaster_nl: Prv_ticketmaster_nl
     tiktok: Prv_tiktok
@@ -118431,6 +118815,7 @@ class BowmarkProviders(Protocol):
     zennioptical: Prv_zennioptical
     zenoti: Prv_zenoti
     zepto: Prv_zepto
+    zillow: Prv_zillow
     zoom: Prv_zoom
     zoopla: Prv_zoopla
 

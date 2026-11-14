@@ -292,7 +292,7 @@ duckduckgo.com — duckduckgo: changeForwardingAddress, chatWithDuckAi, convertC
 dumpsters.com — dumpsters: getQuote
 e2b.dev — e2b: createSandbox, getSandbox, killSandbox, listSandboxes, readFile, runCommand, setSandboxTimeout, writeFile
 easyclosets.com — thestowcompany: getSampleClosetEstimate
-ebay.com — ebay: getDeals, getItem, getMyListings, getSellerListings, getSellerProfile, getWatchlist, searchAutocomplete, searchByCategory (+10 planned)
+ebay.com — ebay: getDeals, getItem, getMyListings, getSellerListings, getSellerProfile, getWatchlist, searchAutocomplete, searchByCategory, searchSold (+9 planned)
 elase.com — elase: findLocation, listLocations, listServices (+1 planned)
 elevenlabs.io — elevenlabs: cloneVoice, listVoices, synthesize
 embroker.com — embroker: getQuoteEntryPoint, listCoverageLines (+1 planned)
@@ -324,7 +324,7 @@ extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planne
 facebook.com — facebook: 43 functions — ask get_library
 faceforwardaesthetics.com — faceforwardaesthetics: checkAvailability, listLocations, listServices
 facerealityskincare.com — facerealityskincare: searchAcneExperts
-fandom.com — fandom: createPage, editPage, findWiki, getArticle, getCurrentUser, getDiscussionPost, getDiscussionThread, getImage, getInfobox, getRevision, getSection, getSections, getSummary, getUser, getWikiInfo, getWikitext, listBacklinks, listCategories, listCategoryMembers, listDiscussionPosts, listExternalLinks, listImages, listLinks, listRecentChanges, listRevisions, listUserContributions, listWatchlist, postDiscussionPost, search, suggestTitles, undoRevision, unwatchPage, watchPage
+fandom.com — fandom: 33 functions — ask get_library
 fareharbor.com — fareharbor: createBooking, getAvailabilitySlot, getItem, listAvailability, quoteBooking, searchItems (+3 planned)
 fbsappliance.com — fbsappliance: nothing callable yet (+2 planned)
 fedex.com — fedex: getRate
@@ -436,6 +436,7 @@ intactinsurance.com — intactinsurance: getSolution, listSolutions (+1 planned)
 interiordefine.com — interiordefine: addToCart, getConfigurator, priceConfiguration, searchProducts
 intro.co — intro_co: expert, search (+1 planned)
 ipinfo.io — ipinfo: lookup
+irs.gov — irs: getFormInfo
 islllc.com — islllc: searchCommunities
 istanbulkart.istanbul — istanbulkart: getCardFees, getTouristPassFares
 itunes.apple.com — itunes: searchPodcastEpisodes
@@ -637,6 +638,7 @@ pypi.org — pypi: getProject
 quickbooks.intuit.com — quickbooks: 27 functions — ask get_library (+7 planned)
 quince.com — quince: getProduct, searchProducts
 quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+7 planned)
+quotes.toscrape.com — quotes_toscrape: author, listQuotes
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
 raisingcanes.com — raisingcanes: location, locations (+1 planned)
 rakuten.com — rakuten: getStore, search (+2 planned)

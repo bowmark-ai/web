@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6763 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6766 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1909,7 +1909,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.search` | ebay.com | Runs an eBay item search through eBay's documented Browse API and returns the matching… | 🔴 |
 | `ebay.searchAutocomplete` | ebay.com | Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's… | 🟢 |
 | `ebay.searchByCategory` | ebay.com | Searches one eBay category through eBay's documented Browse API by id, with an… | 🟡 |
-| `ebay.searchSold` | ebay.com | Searches eBay's completed/SOLD listings (not live asking prices) for a query and… | ⚪ |
+| `ebay.searchSold` | ebay.com | Sold prices from PriceCharting's record of completed eBay sales; covers video games… | 🟢 |
 | `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🔴 |
 | `elase.findLocation` | elase.com | Resolves a slug/neighborhood query to the matching real Elase location(s) — name… | 🟢 |
 | `elase.listLocations` | elase.com | Reads the live list of every Elase Med Spa location off the site's own /locations/… | 🟢 |
@@ -3203,6 +3203,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `intro_co.expert` | intro.co | Reads one intro.co expert's profile by handle or profile URL — bio, every bookable… | 🟢 |
 | `intro_co.search` | intro.co | Searches intro.co's expert marketplace by keyword (a topic, skill or name —… | 🟢 |
 | `ipinfo.lookup` | ipinfo.io | Look up an IPv4 or IPv6 address: its autonomous system number (ASN), the ISP / network… | 🟢 |
+| `irs.getFormInfo` | irs.gov | Looks up an IRS tax form by number (1040, W-4, 1040-X, 1099-NEC…) or by its irs.gov… | 🟢 |
 | `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
 | `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
 | `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟢 |
@@ -4583,6 +4584,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.searchQuestions` | quora.com | Runs Quora's own search and returns matching questions with their urls — the finder a… | 🟢 |
 | `quora.upvoteAnswer` | quora.com | Upvotes an answer as the signed-in caller. | ⚪ |
 | `quora.writeAnswer` | quora.com | Posts a text answer to a question as the signed-in caller. | ⚪ |
+| `quotes_toscrape.author` | quotes.toscrape.com | Reads one author's page on quotes.toscrape.com: name, birth date, birthplace and… | 🟢 |
+| `quotes_toscrape.listQuotes` | quotes.toscrape.com | Lists one page (10) of quotes from the quotes.toscrape.com catalogue with text, author… | 🟢 |
 | `raadvanstate_nl.getRuling` | raadvanstate.nl | Reads one Council of State ruling in full by ECLI — case number, dates, procedure… | 🟡 |
 | `raadvanstate_nl.searchRulings` | raadvanstate.nl | Searches the Council of State's case register (raadvanstate.nl/uitspraken) by keyword… | 🟢 |
 | `raisingcanes.location` | raisingcanes.com | Returns one Raising Cane's restaurant from its locator page: address, phone… | 🟢 |
