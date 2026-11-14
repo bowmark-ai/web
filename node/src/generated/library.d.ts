@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e3cd00cc028297db6f3dfb6d3ff5e77851d2c1cae377de03b88eeab49a5be0d8
-// 98 capabilities, 839 providers, 5180 typed functions, 20 refused.
+// Manifest version: 2246e280a13befc33db78836580bfabb7899e5b56e93be67ed33cbdc6dda8938
+// 98 capabilities, 844 providers, 5194 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2005,6 +2005,10 @@ type FlightStatusResult = {
      * cheapest' over a range of dates, do not call this once per date**:
      * `bowmark.providers.google_flights.getPriceGraph(query: FlightQuery): Promise<PriceGraph>`
      * (both typed above) prices every departure date from about depart-7 to depart+52 in one call.
+     * **On a Google Flights page**, `bowmark.providers.google_flights.parseSearchUrl({ url:
+     * location.href })` gives the current trip as a FlightQuery-shaped `{ from, to, depart,
+     * return?, cabin?, passengers? }` (or null), reading both the `?q=` and the encoded `?tfs=`
+     * address, with no network call.
      */
     search(query: FlightQuery, options?: CallOptions): Promise<FlightSearchResult>;
 
@@ -10003,6 +10007,24 @@ interface AmazonCart {
   itemCount: number;
   items: AmazonCartItem[];
   readAs?: "signed-in" | "guest"; // addToCart and getCart — which cart answered
+  // The checkout handoff. Amazon never gets an order from Bowmark: give the person handoff.url, tell them
+  // handoff.account.hint, and stop. status "ready_to_checkout" (urlKind "carries_items": Amazon's own
+  // add-to-cart link carrying every cart row, for a guest cart; or "signed_in_cart" with
+  // account.signedInAs: the account's own cart page), "needs_login" (signed in, account name unknown:
+  // the cart page, after signing in to the connected account), or "unavailable" with a reason
+  // (out_of_stock, region_not_served, not_sold_online). Absent on getCart for an empty cart. A status
+  // you do not recognise means: show the person handoff.url and stop.
+  checkout?: {
+    status: string;
+    url: string;
+    urlKind?: string;
+    account: { site: string; hint: string; signedInAs?: string };
+    summary: unknown;
+    warnings: string[];
+    reason?: string;
+    detail?: string;
+  };
+  warnings?: string[]; // only when the cart read answered but no handoff could be built from it
 }
 
 interface SignedInOrder {
@@ -10217,20 +10239,26 @@ interface SignedInOrderPage {
      * account's own cart; with none it is this run's anonymous guest cart, which needs no account.
      * `readAs` says which. Reads the site's own per-row markup (`data-asin`, `data-producttitle`,
      * `data-quantity`, `data-price`) for a populated cart, and the site's own `#sc-empty-cart`
-     * block for an empty one.
+     * block for an empty one. A cart with items also returns a checkout handoff URL (`checkout`):
+     * Amazon's add-to-cart link carrying every row, plus which account to sign in as. Bowmark
+     * never places the order.
      */
     getCart(opts?: { connection?: string }): Promise<AmazonCart>;
 
     /**
-     * Put one unit of a product in the cart and report what the cart then holds. With the caller's
-     * connected Amazon login (the default one, or `{ connection }` naming it) it writes the
-     * signed-in account's own cart; with none it writes an anonymous guest cart. `readAs` says
-     * which. The last step a Bowmark provider may take on a buying flow: it stops at the cart and
-     * never reaches checkout, payment or order placement. Quantity is not yet controllable
-     * (measured 2026-09-30: neither the buy-box's own quantity field nor a repeated add changes
-     * the line's quantity), so this always adds exactly one unit.
+     * Add a product to the cart and hand back a checkout link for everything the cart now holds;
+     * Bowmark never places the order and never reaches checkout or payment. No account needed:
+     * anonymously it writes a guest cart and `checkout.url` is Amazon's own add-to-cart link
+     * carrying every cart row and the quantity asked for, to open in the person's own signed-in
+     * browser. With the caller's connected Amazon login (the default one, or addToCart(asin, {
+     * connection })) it writes that account's own cart and `checkout.url` is the cart page
+     * (`signed_in_cart` when the account name is known, `needs_login` when it is not), never a
+     * link that would add the items a second time; `readAs` says which cart answered. Amazon's
+     * cart takes one unit per add, so a signed-in quantity above 1 comes with a warning to set it
+     * in the cart. `checkout.status` is "unavailable" with a reason (out_of_stock,
+     * region_not_served, not_sold_online) when it cannot be bought as asked.
      */
-    addToCart(asinOrUrl: string | { asin: string; quantity?: 1 } | { product: string | { asin: string }; quantity?: 1 } | { url: string; quantity?: 1 }, opts?: { connection?: string }): Promise<AmazonCart>;
+    addToCart(asinOrUrl: string | { asin: string; quantity?: number } | { product: string | { asin: string }; quantity?: number } | { url: string; quantity?: number }, opts?: { connection?: string }): Promise<AmazonCart>;
 
     /**
      * The signed-in customer's own Amazon orders, newest first — order id, date placed, Amazon's
@@ -13892,6 +13920,23 @@ interface AshleyFurnitureStore {
      * validity signal), rather than returning its non-matching fallback store.
      */
     findStore(args: AshleyFurnitureFindStoreArgs): Promise<AshleyFurnitureStore[]>;
+  }
+}
+
+declare namespace BowmarkProvider_askul {
+  // ── ASKUL — the unit's own declarations, verbatim ──
+interface AskulProduct { id: string; title: string; brand: string | null; priceJpy: number; stock: "in_stock" | "out_of_stock" | "unknown"; rating: number | null; reviewCount: number | null; url: string; }
+
+  /**
+   * Reads an ASKUL product's live title, JPY price, stock state and ratings from its product URL
+   * or id.
+   */
+  interface Unit {
+    /**
+     * Reads an ASKUL product by its product URL or id and returns its live title, JPY price, stock
+     * state, brand and rating.
+     */
+    getProduct(product: string): Promise<AskulProduct>;
   }
 }
 
@@ -23427,6 +23472,22 @@ interface CanvaMyDesign {
   url: string;
 }
 
+interface CanvaDesign {
+  id: string;
+  title: string;
+  editUrl: string;
+  viewUrl: string;
+}
+interface CanvaFolder {
+  id: string;
+  name: string;
+  url: string;
+}
+interface CanvaUpload {
+  id: string;
+  name: string;
+}
+
 interface CanvaMyProfile {
   /** Canva's account id. */
   id: string;
@@ -23680,6 +23741,24 @@ interface CanvaColorCombinations {
      * a keyword on the title. Needs the caller signed in to canva.com.
      */
     searchMyDesigns(query?: string, opts?: ConnectionOption): Promise<{ designs: CanvaMyDesign[]; warnings: string[] }>;
+
+    /**
+     * Reads one of the caller's designs by id or edit url — title, edit and view links. Needs the
+     * caller signed in to canva.com.
+     */
+    getDesign(idOrUrl: string, opts?: ConnectionOption): Promise<{ design: CanvaDesign; warnings: string[] }>;
+
+    /**
+     * Lists the caller's folders, or one folder's subfolders (id, name, url). Needs the caller
+     * signed in to canva.com.
+     */
+    listFolders(folderId?: string, opts?: ConnectionOption): Promise<{ folders: CanvaFolder[]; warnings: string[] }>;
+
+    /**
+     * Lists the images and videos the caller uploaded to Canva (id, name). Needs the caller signed
+     * in to canva.com.
+     */
+    listUploads(opts?: ConnectionOption): Promise<{ uploads: CanvaUpload[]; warnings: string[] }>;
 
     /**
      * Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower count and
@@ -31513,8 +31592,11 @@ interface CraigslistCategory { code: string; name: string; group: string; }
     searchJobs(args: string | CraigslistJobsArgs): Promise<CraigslistSearchResult>;
 
     /**
-     * Searches any Craigslist category (for sale by default) in an area by keyword, price range,
-     * sort and ZIP radius, returning price, neighbourhood, posted time and description.
+     * Searches public Craigslist classified ads in one area (the San Francisco Bay Area by
+     * default) across any section: used items for sale (bikes, furniture, cars) by default,
+     * apartments, rooms and housing for rent, jobs and services. Filters by keyword, price range,
+     * sort and ZIP radius; returns each ad's title, price, neighbourhood, posted time, description
+     * and listing URL.
      */
     searchListings(args: string | CraigslistSearchArgs): Promise<CraigslistSearchResult>;
 
@@ -33609,6 +33691,41 @@ interface DeepMindBlogPost {
      * published time, thumbnail.
      */
     listBlogPosts(args?: ListBlogPostsArgs): Promise<DeepMindBlogPost[]>;
+  }
+}
+
+declare namespace BowmarkProvider_defillama {
+  // ── DefiLlama — the unit's own declarations, verbatim ──
+interface defillamaRound {
+  date: string | null;
+  round: string | null;
+  amountUsd: number | null;
+  leadInvestors: string[];
+  otherInvestors: string[];
+  valuationUsd: number | null;
+}
+interface defillamaRaises {
+  found: boolean;
+  protocol: string;
+  name: string | null;
+  symbol: string | null;
+  url: string | null;
+  rounds: defillamaRound[];
+  investors: string[];
+  warnings: string[];
+}
+
+  /**
+   * Who invested in a crypto project: its recorded funding rounds, amounts and lead/other
+   * investors, from DefiLlama
+   */
+  interface Unit {
+    /**
+     * Funding rounds and investors (backers) of a crypto project by DefiLlama slug or name
+     * ("uniswap", "lido"); a token with no project (a meme coin) returns found:false and rounds:
+     * []
+     */
+    protocolRaises(input: { protocol: string }): Promise<defillamaRaises>;
   }
 }
 
@@ -38110,7 +38227,9 @@ interface ebaySellerProfile {
      * buying option (auction/fixed-price/best-offer), seller and the item's own ebay.com URL.
      * Requires the caller's eBay OAuth key. `limit` caps the row count (default 20, ceiling 200).
      * `marketplace: "DE"` searches the German marketplace, ebay.de, instead — euro prices and
-     * ebay.de URLs.
+     * ebay.de URLs. Without a key no ebay.de listing is reachable from this provider: there is no
+     * keyless German search door, so say a key is needed rather than answering with ebay.com
+     * results.
      */
     search(args: string | { query: string; limit?: number; marketplace?: "US" | "DE" }): Promise<ebayItem[]>;
 
@@ -38164,7 +38283,8 @@ interface ebaySellerProfile {
      * sees on ebay.com — via a plain keyless GET and a DOM parse of the page's own schema.org
      * Product/Offer microdata. Needs no eBay OAuth key, unlike every keyed function on this
      * provider. `originalPrice` and `discountPercent` are present only on a tile that carries a
-     * discount badge.
+     * discount badge. It reads ebay.com only, in USD: there is no ebay.de deals page here, so
+     * these rows are not German-marketplace deals.
      */
     getDeals(): Promise<ebayDeal[]>;
 
@@ -49893,6 +50013,27 @@ interface GlossGeniusWaitlistJoinResult {
   }
 }
 
+declare namespace BowmarkProvider_gmail {
+  // ── Gmail — the unit's own declarations, verbatim ──
+interface GmailThreadRow { id: string; from: string | null; subject: string | null; snippet: string | null; date: string | null; unread: boolean }
+interface GmailSearchArgs { query: string; limit?: number } // Gmail search syntax, e.g. "from:alice newer_than:7d"
+interface GmailGetThreadArgs { threadId: string } // a row id from searchThreads
+interface GmailThreadMessage { from: string | null; to: string[]; date: string | null; body: string | null }
+interface GmailThread { id: string; subject: string | null; messages: GmailThreadMessage[] }
+
+  /**
+   * Searches and reads threads in the CALLER's own Gmail account. Requires the caller signed in
+   * to Google.
+   */
+  interface Unit {
+    /** Searches Gmail threads with Gmail search syntax. */
+    searchThreads(args: GmailSearchArgs, opts?: ConnectionOption): Promise<GmailThreadRow[]>;
+
+    /** Reads one Gmail thread in full by its id. */
+    getThread(args: GmailGetThreadArgs, opts?: ConnectionOption): Promise<GmailThread>;
+  }
+}
+
 declare namespace BowmarkProvider_gobrightwing {
   // ── Brightwing — the unit's own declarations, verbatim ──
 interface JobListing { id: string; title: string; location: string; workType: string; payMin?: number; payMax?: number; payCurrency?: string; postedDate?: string; }
@@ -50010,6 +50151,43 @@ interface GoloadupServiceAvailability {
      * service, same-day pickup allowed, and whether retail assembly is offered there.
      */
     checkServiceAvailability(zip: string): Promise<GoloadupServiceAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_gomry {
+  // ── Gomry — the unit's own declarations, verbatim ──
+interface SearchEventsArgs { query: string; }
+interface EventArgs { id: string; organizationId: string; }
+interface SponsorOfferArgs { eventId: string; }
+interface GomryEventSearchRow { id: string; name: string; when: string; startsAt: string; timezone: string; where: string; price: string | null; categories: string[]; organizationId: string; url: string; image: string | null; }
+interface GomryEvent { id: string; organizationId: string; name: string; description: string; status: string; registrationStatus: string; currency: string; venue: Record<string, unknown> | null; }
+interface GomryProduct { id: string; organizationId: string; name: string; type: string; status: string; ticketClass: Record<string, unknown> | null; }
+
+  /** Search public Gomry events, then read event details, ticket products, and sponsor offers. */
+  interface Unit {
+    /**
+     * Searches Gomry's public event discovery index. Each result carries the id and organizationId
+     * needed by getEvent and listEventProducts.
+     */
+    searchEvents(args: SearchEventsArgs): Promise<{ events: GomryEventSearchRow[] }>;
+
+    /**
+     * Reads a public Gomry event's details, schedule, registration status, currency, description,
+     * and venue.
+     */
+    getEvent(args: EventArgs): Promise<GomryEvent>;
+
+    /**
+     * Lists public ticket products for a Gomry event, including each ticket class's price and
+     * availability metadata.
+     */
+    listEventProducts(args: EventArgs): Promise<GomryProduct[]>;
+
+    /**
+     * Reads Gomry's current public sponsor offer for one event; an empty offers array means no
+     * offer is available.
+     */
+    getSponsorOffer(args: SponsorOfferArgs): Promise<{ offer: unknown; offers: unknown[] }>;
   }
 }
 
@@ -50457,6 +50635,15 @@ interface GoogleFlightQuery {
   passengers?: number;
 }
 
+// What parseSearchUrl returns: a GoogleFlightQuery plus what the URL says.
+interface GoogleParsedSearch extends GoogleFlightQuery {
+  tripType: "one way" | "round trip" | "multi-city";
+  legs?: { from: string; to: string; date: string }[]; // multi-city only
+  currency?: string;       // the URL's curr= param, passed through
+  source: "tfs" | "q";
+  warnings: string[];      // what could not be read exactly
+}
+
 // Google Flights' OWN shapes — not the `flights` capability contract.
 interface GoogleFlight {
   id: string;
@@ -50508,6 +50695,18 @@ interface GooglePriceGraph {
    * read from each row's ARIA label.
    */
   interface Unit {
+    /**
+     * Reads the current trip (from, to, depart, return, cabin, passengers, stops) out of a Google
+     * Flights URL, in either spelling: the `?q=Flights from SFO to JFK on …` form or the encoded
+     * `?tfs=` form Google rewrites the address bar to as soon as a person clicks anything. On a
+     * Google Flights page, `bowmark.providers.google_flights.parseSearchUrl({ url: location.href
+     * })` gives the page's trip as a query you can pass to `search`, `getPriceGraph` or
+     * `bowmark.flights.search`. Pure: no network, no browser. Returns null for a URL that is not a
+     * flights search. `warnings` names what could not be read exactly (a metro area such as NYC, a
+     * multi-city trip, children or infants in the passenger count).
+     */
+    parseSearchUrl(args: { url: string }): Promise<GoogleParsedSearch | null>;
+
     /**
      * Runs the itinerary search and reads the rendered result rows. Interaction-gated: Google
      * renders prices only after its own live query resolves, so this is not reachable as static
@@ -52187,6 +52386,42 @@ interface GoogleTrendsTrending {
      * traffic, start time and the linked news stories, read off Google Trends' own trending feed.
      */
     trending(args?: GoogleTrendsArgs): Promise<GoogleTrendsTrending>;
+  }
+}
+
+declare namespace BowmarkProvider_goplus {
+  // ── GoPlus Security — the unit's own declarations, verbatim ──
+interface goplusFlag {
+  id: string;
+  level: "danger" | "warning" | "ok";
+  say: string;
+}
+interface goplusTokenReport {
+  found: boolean;
+  chain: string;
+  chainId: string;
+  address: string;
+  name: string | null;
+  symbol: string | null;
+  flags: goplusFlag[];
+  holders: { count: number | null; top10Percent: number | null; creatorPercent: number | null; ownerPercent: number | null };
+  liquidity: { totalUsd: number | null; pools: number; lockedPercent: number | null } | null;
+  taxes: { buyPercent: number | null; sellPercent: number | null };
+  listedOn: string[];
+  warnings: string[];
+}
+
+  /**
+   * Rug-pull and scam warning signs for a crypto token contract (honeypot, mintable, owner
+   * powers, taxes, holders, liquidity) from GoPlus Security
+   */
+  interface Unit {
+    /**
+     * Rug-pull warning signs for a token contract on an EVM chain ("ethereum", "bsc", "base", …),
+     * as plain-words flags (danger/warning/ok) plus holder concentration, taxes and exchange
+     * liquidity. A CoinGecko coin page lists the contract address.
+     */
+    tokenSecurity(input: { chain: string, address: string }): Promise<goplusTokenReport>;
   }
 }
 
@@ -104542,9 +104777,10 @@ interface TripadvisorNearbyListing {
     getAttraction(args: GetAttractionArgs): Promise<TripadvisorAttractionDetail>;
 
     /**
-     * Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank,
-     * rating, review count, categories, neighborhood, blurb and url — optionally filtered to one
-     * category (the c<id> in the site's own url), paginated 30 at a time.
+     * Lists the top things to do, sights and attractions in a city or region in Tripadvisor's
+     * ranking — id, name, rank, rating, review count, categories, neighborhood, blurb and url —
+     * optionally filtered to one category (the c<id> in the site's own url), paginated 30 at a
+     * time.
      */
     searchAttractions(args: SearchAttractionsArgs): Promise<SearchAttractionsResult>;
 
@@ -112721,8 +112957,9 @@ interface SearchResult {
   /** Search Wikipedia for sports league standings with goal differential data. */
   interface Unit {
     /**
-     * Searches Wikipedia for sports standings pages and extracts league standings with goal
-     * differential data.
+     * Searches Wikipedia for a sports league's season standings page (a league table such as the
+     * Premier League, La Liga or the NBA) and extracts each team's standing with goal differential
+     * data.
      */
     search(query: string): Promise<SearchResult>;
   }
@@ -116721,6 +116958,23 @@ interface YoutubeLiveChat {
   continuation: string | null; // pass back as { continuation } for the next batch; null once the chat has ended
 }
 
+interface YoutubeDislikeItem {
+  video: string;
+  likes: number;
+  dislikes: number;
+  rating: number | null;
+  viewCount: number | null;
+  ratio: number | null;
+  deleted: boolean;
+  source: "returnyoutubedislike";
+  estimated: true;
+}
+
+interface YoutubeDislikes {
+  items: YoutubeDislikeItem[];
+  warnings: string[];
+}
+
 interface YoutubePlaylist {
   playlistId: string;
   title: string;
@@ -116907,6 +117161,19 @@ interface YoutubePlayback {
      * returns a real, honest empty array rather than throwing.
      */
     suggestSearches(input: { query: string }): Promise<string[]>;
+
+    /**
+     * The dislike count, like count and dislike ratio for up to 50 videos in one call, with no
+     * sign-in. YouTube hides dislike counts, so these are an ESTIMATE from the Return YouTube
+     * Dislike project (extrapolated from its own users), not YouTube's number: each item says
+     * `estimated: true` and `source: "returnyoutubedislike"`. Use it to show dislikes, rank a
+     * search's results by most disliked / highest dislike ratio, or hide heavily disliked videos.
+     * `videos` takes 11-character ids or any watch/shorts/youtu.be URL (a search row's `videoId`
+     * goes straight in); duplicates are read once, and past 50 the rest are dropped with a
+     * warning. `ratio` is dislikes / (likes + dislikes), null when there are no votes. A video
+     * that fails comes back as a warning; if every video fails the call throws.
+     */
+    getDislikes(input: { videos: string[] }): Promise<YoutubeDislikes>;
 
     /**
      * Returns a YouTube video's own caption transcript. `video` is a bare 11-character video id or
@@ -118552,7 +118819,8 @@ interface ShopifyCartLine {
   quantity: number;
   price: string;
   lineTotal: string;
-  url: string;
+  /** The item's page on this store; null when the store named a page off its own host. */
+  url: string | null;
 }
 /** One collection the store publishes — its own merchandised grouping, and the
  * ONE place either yoga retailer states a set. Membership in a collection the
@@ -118630,8 +118898,17 @@ interface ShopifyCart {
   currency: string;
   /** The market asked for with { country }. Absent when the call passed none. */
   country?: string;
+  /** The store's cart permalink (/cart/<variant>:<qty>,...): it carries the items,
+   * so it opens the same cart in the person's own browser. cartUrl lands on the
+   * cart page, checkoutUrl on the store's checkout. */
   cartUrl: string;
   checkoutUrl: string;
+  /** The handoff. Bowmark never pays: give the person checkout.url, tell them
+   * checkout.account.hint, and stop. status is "ready_to_checkout" (urlKind
+   * "carries_items"), or "unavailable" for an empty cart. A status you do not
+   * recognise means: show the person checkout.url and stop. Absent only when the
+   * store's origin cannot carry a handoff; warnings then says why. */
+  checkout?: { status: string; url: string; urlKind?: string; account: { site: string; hint: string; signedInAs?: string }; summary: unknown; warnings: string[] };
   /** Only on addToCart, only when the store took FEWER units than asked: it names
    * how many went in, which is the store's real stock count for that variant. */
   warnings?: string[];
@@ -118744,8 +119021,9 @@ interface ShopifyCart {
     /**
      * Puts variants into THIS run's own cart on the store and returns the cart the store reports
      * back. A real write: the cart exists on the store from the first call and belongs to this
-     * run's cookie jar. Buys nothing — checkoutUrl is where a shopper would pay. Absent on a
-     * member whose cart door is not reachable.
+     * run's cookie jar. Buys nothing: the result carries checkout, a handoff whose url is the
+     * store's cart permalink (it carries the items into the person's own browser) plus which
+     * account to use; the person pays there. Absent on a member whose cart door is not reachable.
      */
     addToCart(items: Array<{ variantId: string; quantity?: number }>, opts?: { country?: string }): Promise<ShopifyCart>;
 
@@ -119040,7 +119318,8 @@ interface ShopifyCartLine {
   quantity: number;
   price: string;
   lineTotal: string;
-  url: string;
+  /** The item's page on this store; null when the store named a page off its own host. */
+  url: string | null;
 }
 /** One collection the store publishes — its own merchandised grouping, and the
  * ONE place either yoga retailer states a set. Membership in a collection the
@@ -119118,8 +119397,17 @@ interface ShopifyCart {
   currency: string;
   /** The market asked for with { country }. Absent when the call passed none. */
   country?: string;
+  /** The store's cart permalink (/cart/<variant>:<qty>,...): it carries the items,
+   * so it opens the same cart in the person's own browser. cartUrl lands on the
+   * cart page, checkoutUrl on the store's checkout. */
   cartUrl: string;
   checkoutUrl: string;
+  /** The handoff. Bowmark never pays: give the person checkout.url, tell them
+   * checkout.account.hint, and stop. status is "ready_to_checkout" (urlKind
+   * "carries_items"), or "unavailable" for an empty cart. A status you do not
+   * recognise means: show the person checkout.url and stop. Absent only when the
+   * store's origin cannot carry a handoff; warnings then says why. */
+  checkout?: { status: string; url: string; urlKind?: string; account: { site: string; hint: string; signedInAs?: string }; summary: unknown; warnings: string[] };
   /** Only on addToCart, only when the store took FEWER units than asked: it names
    * how many went in, which is the store's real stock count for that variant. */
   warnings?: string[];
@@ -119589,6 +119877,7 @@ interface BowmarkProviders {
   arxiv: BowmarkProvider_arxiv.Unit;
   ashby: BowmarkProvider_ashby.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
+  askul: BowmarkProvider_askul.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
   astoundgroup: BowmarkProvider_astoundgroup.Unit;
   atlasoceanvoyages: BowmarkProvider_atlasoceanvoyages.Unit;
@@ -119772,6 +120061,7 @@ interface BowmarkProviders {
   decked: BowmarkProvider_decked.Unit;
   decksdirect: BowmarkProvider_decksdirect.Unit;
   deepmind: BowmarkProvider_deepmind.Unit;
+  defillama: BowmarkProvider_defillama.Unit;
   delaware_corps: BowmarkProvider_delaware_corps.Unit;
   dell: BowmarkProvider_dell.Unit;
   deltadentalma: BowmarkProvider_deltadentalma.Unit;
@@ -119866,9 +120156,11 @@ interface BowmarkProviders {
   glassesusa: BowmarkProvider_glassesusa.Unit;
   glofox: BowmarkProvider_glofox.Unit;
   glossgenius: BowmarkProvider_glossgenius.Unit;
+  gmail: BowmarkProvider_gmail.Unit;
   gobrightwing: BowmarkProvider_gobrightwing.Unit;
   golf_com: BowmarkProvider_golf_com.Unit;
   goloadup: BowmarkProvider_goloadup.Unit;
+  gomry: BowmarkProvider_gomry.Unit;
   goodreads: BowmarkProvider_goodreads.Unit;
   goodway: BowmarkProvider_goodway.Unit;
   google_ads_transparency: BowmarkProvider_google_ads_transparency.Unit;
@@ -119880,6 +120172,7 @@ interface BowmarkProviders {
   google_store: BowmarkProvider_google_store.Unit;
   google_translate: BowmarkProvider_google_translate.Unit;
   google_trends: BowmarkProvider_google_trends.Unit;
+  goplus: BowmarkProvider_goplus.Unit;
   goremutual: BowmarkProvider_goremutual.Unit;
   gostoreit: BowmarkProvider_gostoreit.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;

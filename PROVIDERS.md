@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6747 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6760 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -90,7 +90,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an image (public https URL, under 5 MB) into the signed-in caller's own Creative… | 🟢 |
 | `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟢 |
 | `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟢 |
-| `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text, optionally… | 🟡 |
+| `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text, optionally… | 🟢 |
 | `adobe.sendForSignature` | adobe.com | Sends a PDF out for e-signature from the caller's own Adobe account through Acrobat… | 🟢 |
 | `adoptapet.listPets` | adoptapet.com | Lists public dog or cat adoption listings in a US state, with the pet's name, breed… | 🟢 |
 | `adorama.checkStock` | adorama.com | Answers whether one product is in stock and its availability wording. | ⚪ |
@@ -193,8 +193,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon_br.searchProducts` | www.amazon.com.br | Search amazon.com.br for products by keywords (or a pasted /s?k= URL) with BRL price… | 🟢 |
 | `amazon_ca.getProduct` | www.amazon.ca | Get product details from Amazon Canada by ASIN. | ⚪ |
 | `amazon_ca.searchProducts` | www.amazon.ca | Search Amazon Canada for products by keywords. | ⚪ |
-| `amazon.addToCart` | www.amazon.com | Put one unit of a product in the cart and report what the cart then holds. | 🟢 |
-| `amazon.getCart` | www.amazon.com | Read what is in the cart — line items, quantities, per-item and total price — so an… | 🟢 |
+| `amazon.addToCart` | www.amazon.com | Add a product to the cart and hand back a checkout link for everything the cart now… | 🟢 |
+| `amazon.getCart` | www.amazon.com | Read what is in the cart — line items, quantities, per-item and total price — and, for… | 🟢 |
 | `amazon.getDeliveryEstimate` | www.amazon.com | When a product would actually arrive at a given US ZIP, and what it costs to get it… | 🟢 |
 | `amazon.getProduct` | www.amazon.com | Read one product page the way a shopper reads it: title, brand, ASIN, current price… | 🟢 |
 | `amazon.getReviewSummary` | www.amazon.com | What reviewers say about a product, as Amazon shows it to a shopper who is not logged… | 🟢 |
@@ -1600,6 +1600,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `decksdirect.searchProducts` | decksdirect.com | Searches DecksDirect's decking/railing/hardware catalog by free text and returns each… | 🟢 |
 | `deepmind.listBlogPosts` | deepmind.google | The latest DeepMind blog/news posts from the site's own RSS feed — title, url… | 🟢 |
 | `deepmind.listPublications` | deepmind.google | One page (30 rows, newest first) of DeepMind's research publications index at… | 🟢 |
+| `defillama.protocolRaises` | defillama.com | Recorded funding rounds and investors of a crypto project, by DefiLlama slug or name | 🟢 |
 | `delaware_corps.getEntityDetails` | icis.corp.delaware.gov | One Delaware entity's details page: incorporation date, entity kind and type, state of… | ⚪ |
 | `delaware_corps.searchEntity` | icis.corp.delaware.gov | Search Delaware's Division of Corporations register by entity name or file number… | 🟢 |
 | `dell.getForumThread` | dell.com | Reads one Dell Community thread by the url searchForumThreads returns — the opening… | 🟢 |
@@ -2627,6 +2628,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glossgenius.sendContactMessage` | glossgenius.com | Sends a message to a business through the contact form on its booking site. | ⚪ |
 | `glossgenius.submitIntakeForm` | glossgenius.com | Fills in and submits the intake or consent form a business attaches to an appointment… | ⚪ |
 | `glossgenius.updateMyProfile` | glossgenius.com | Signed in: changes the caller's first and last name at one GlossGenius business, and… | 🟢 |
+| `gmail.getThread` | mail.google.com | Reads one of the CALLER's own Gmail threads in full — subject, each message's sender… | 🟢 |
+| `gmail.searchThreads` | mail.google.com | Searches the CALLER's own Gmail threads with Gmail search syntax and returns matching… | 🟢 |
 | `gobrightwing.getJobDetails` | gobrightwing.com | Get full details for a specific job posting, including description, requirements, and… | 🟢 |
 | `gobrightwing.listLocations` | gobrightwing.com | List all available job location options. | ⚪ |
 | `gobrightwing.listWorkTypes` | gobrightwing.com | List all available work type options (Full-time, Contract, etc.). | ⚪ |
@@ -2636,6 +2639,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goloadup.checkServiceAvailability` | goloadup.com | Checks whether and how LoadUp serves one ZIP code — in service, same-day allowed… | 🟢 |
 | `goloadup.getPricingCatalog` | goloadup.com | Returns LoadUp's full current catalog of pickupable items (couches, mattresses… | 🟢 |
 | `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
+| `gomry.getEvent` | gomry.com | Reads a public Gomry event by the id and organizationId returned from searchEvents… | 🟢 |
+| `gomry.getSponsorOffer` | gomry.com | Reads the public sponsor offer associated with a Gomry event; returns an empty offers… | 🟢 |
+| `gomry.listEventProducts` | gomry.com | Lists public Gomry ticket products for an event, including each ticket class's price… | 🟢 |
+| `gomry.searchEvents` | gomry.com | Searches Gomry's public discovery index for events matching a keyword and returns each… | 🟢 |
 | `goodreads.addToShelf` | goodreads.com | Adds a book to one of the signed-in caller's shelves (want-to-read, currently-reading… | 🟢 |
 | `goodreads.followUser` | goodreads.com | Follows another member as the signed-in caller. | 🟢 |
 | `goodreads.getAuthor` | goodreads.com | Reads one author's bio, genre, influences, website, rating/review/follower stats and a… | 🟢 |
@@ -2665,6 +2672,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_ads_transparency.searchAdvertisers` | adstransparency.google.com | Searches the Ads Transparency Center's advertiser index the way its search box does —… | 🟢 |
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
+| `google_flights.parseSearchUrl` | flights.google.com | Reads the current trip (from, to, dates, cabin, passengers, stops) out of a Google… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
 | `google_maps.addMissingPlace` | google.com/maps | Add a business Google Maps does not list yet — name, address, category and hours —… | 🟢 |
 | `google_maps.geocodeAddress` | google.com/maps | A street address or place name in, coordinates and the matching Google Maps place out. | 🟢 |
@@ -2735,6 +2743,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_trends.trending` | trends.google.com | Google Trends' 'Trending now' list for one country: each trending search, its… | 🟢 |
 | `google.search` | google.com | Runs a Google web search and returns the ranked results — title, destination url and… | ⚪ |
 | `google.searchShopping` | google.com | Searches Google Shopping to compare prices for a product across sellers, returning the… | ⚪ |
+| `goplus.tokenSecurity` | gopluslabs.io | Rug-pull warning signs for a crypto token contract on an EVM chain, as plain-words… | 🟢 |
 | `goremutual.getProductOverview` | goremutual.ca | Returns the public product overview for Gore Mutual's commercial property and casualty… | 🟢 |
 | `gostoreit.findFacilities` | gostoreit.com | Searches Go Store It's public location results by a city, state, or ZIP and returns… | 🟢 |
 | `gostoreit.getFacilityUnits` | gostoreit.com | Reads a public Go Store It facility URL's live rendered unit inventory: size… | 🟢 |
@@ -3743,7 +3752,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `modernize_com.listProjectTypes` | modernize.com | Reads modernize.com's own trade radio group — every home-improvement project type its… | 🟢 |
 | `modularclosets.getKitConfigurator` | modularclosets.com | Reads one kit's real option tree (Color, Width, and — on some kits — a third option… | 🟢 |
 | `modularclosets.priceKitConfiguration` | modularclosets.com | Resolves one exact kit build (a handle + a chosen value for every real option on that… | 🟢 |
-| `modularclosets.searchClosetKits` | modularclosets.com | Searches Modular Closets' real pre-configured kit catalog (closets, wardrobes… | 🟢 |
+| `modularclosets.searchClosetKits` | modularclosets.com | Searches Modular Closets' real pre-configured kit catalog (closets, wardrobes… | 🟡 |
 | `momence.bookSession` | momence.com | Book a session for the signed-in caller, spending an existing membership or pass… | 🟢 |
 | `momence.cancelBooking` | momence.com | Cancel an existing booking as the signed-in user. | ⚪ |
 | `momence.findStudio` | momence.com | Resolve a studio's public momence.com/u/<slug> page (or bare slug) to its host id and… | 🟢 |
@@ -4700,7 +4709,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | 🟢 |
 | `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, bio, photo, social links, how many stories… | 🟢 |
 | `reuters.getCompanyEvents` | www.reuters.com | A company's next scheduled event (typically its next earnings release) and any recent… | 🟡 |
-| `reuters.getCompanyFinancials` | www.reuters.com | A company's income statement, balance sheet and cash-flow statement, annual and… | ⚪ |
+| `reuters.getCompanyFinancials` | www.reuters.com | A company's income statement, balance sheet and cash-flow statement, annual and… | 🟢 |
 | `reuters.getCompanyKeyMetrics` | www.reuters.com | A company's key ratios on Reuters — valuation, profitability, growth, dividends and… | 🟢 |
 | `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile — description, website, sector, industry, head office… | 🟢 |
 | `reuters.getLiveCoverage` | www.reuters.com | Read one Reuters live-coverage page (/live/…) — headline, description, reporters… | 🟢 |
@@ -5684,10 +5693,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ticketmaster_nl.event` | ticketmaster.nl | Returns the event title, venue, local date and time, and sale status for a… | 🟡 |
 | `ticketmaster_nl.search` | ticketmaster.nl | Searches Ticketmaster Netherlands by artist, event or venue name and returns the… | 🟢 |
 | `ticketmaster.getEvent` | ticketmaster.com | Returns one event in full: venue (name, address), date/time, the classification… | ⚪ |
-| `ticketmaster.listClassifications` | ticketmaster.com | Returns the segment/genre/sub-genre taxonomy Ticketmaster uses to categorize events… | ⚪ |
-| `ticketmaster.search` | ticketmaster.com | Searches live events — concerts, sports, arts & theater, family — by keyword, location… | ⚪ |
-| `ticketmaster.searchAttractions` | ticketmaster.com | Finds attractions — artists, sports teams and other performers — by name and returns… | ⚪ |
-| `ticketmaster.searchVenues` | ticketmaster.com | Finds venues by name or location (city/state/postal or geo radius) and returns each… | ⚪ |
+| `ticketmaster.getVenue` | ticketmaster.com | Gets one venue's address, coordinates, time zone and house rules, plus its next… | 🟢 |
+| `ticketmaster.listClassifications` | ticketmaster.com | Returns the category tree the site uses (Concerts, Sports, Arts and Theater, Family)… | 🟢 |
+| `ticketmaster.search` | ticketmaster.com | Find tickets to live events: concerts, sports games, arts and theater shows, comedy… | 🟢 |
+| `ticketmaster.searchAttractions` | ticketmaster.com | Finds artists, sports teams and other performers by name and returns each one's id… | 🟢 |
+| `ticketmaster.searchVenues` | ticketmaster.com | Finds venues by name (for example United Center) and returns each one's id, name… | 🟢 |
 | `tiktok.bookmarkVideo` | tiktok.com | Save a video to the signed-in caller's own Favorites/bookmarks. | 🟢 |
 | `tiktok.deleteComment` | tiktok.com | Delete the caller's own comment — the reverse of postComment, and how a test write is… | 🟢 |
 | `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | 🟢 |
@@ -6161,7 +6171,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | 🟢 |
 | `walmart.getRegistry` | walmart.com | Reads one public registry — the items on it, how many are wanted and how many were… | ⚪ |
 | `walmart.getSeller` | walmart.com | Reads a Marketplace seller's page — name, rating, review count — for the… | 🟢 |
-| `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | 🟡 |
+| `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | 🔴 |
 | `walmart.getWeeklyAd` | walmart.com | Reads the Walmart weekly ad live at a 5-digit US ZIP — the flyer's valid dates and… | 🟢 |
 | `walmart.listAddresses` | walmart.com | Lists the delivery addresses saved on the signed-in account. | 🟢 |
 | `walmart.listDeals` | walmart.com | Lists what is on sale right now — Rollbacks, clearance and the site's current deal… | 🟢 |
@@ -6572,6 +6582,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |
 | `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🟢 |
+| `yellowpages.getBusiness` | yellowpages.com | Gets one business listing: name, phone, address, hours, website, categories, years in… | ⚪ |
+| `yellowpages.search` | yellowpages.com | Searches the directory by business category or name and a city, e.g. plumber in… | ⚪ |
 | `yelp.addToCollection` | yelp.com | Creates a collection for the signed-in caller, or adds a business to one of theirs, or… | ⚪ |
 | `yelp.askQuestion` | yelp.com | Posts a question, or answers one, in a business's 'Ask the Community' from the… | ⚪ |
 | `yelp.followUser` | yelp.com | Follows or unfollows a Yelp member from the signed-in caller's account. | ⚪ |
@@ -6624,6 +6636,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.deleteVideo` | youtube.com | Permanently delete one of the signed-in account's own videos. | 🟢 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
 | `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |
+| `youtube.getDislikes` | youtube.com | Dislike count, like count and dislike ratio for up to 50 videos at once, no sign-in. | 🟢 |
 | `youtube.getLiveChat` | youtube.com | The messages scrolling past a live stream — each with its author, text and timestamp. | 🟢 |
 | `youtube.getPlayableStream` | youtube.com | A link a plain HTML <video> element can play for one ordinary uploaded video: a signed… | 🟢 |
 | `youtube.getPlayback` | youtube.com | Every way to play one video: YouTube's embed (ads included) and every file it serves… | 🟢 |
@@ -6701,8 +6714,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zepto.product` | zepto.com | Reads a Zepto product page (www.zepto.com/pn/<slug>/pvid/<id>) and returns its name… | 🟢 |
 | `zepto.search` | zepto.com | Searches Zepto's grocery catalogue and returns each product card's name, price and MRP… | 🟢 |
 | `zillow.applyToRental` | zillow.com | Submits a Zillow rental application for a listing. | ⚪ |
-| `zillow.calculateAffordability` | zillow.com | Estimates how much house a buyer can afford from income, monthly debts, down payment… | ⚪ |
-| `zillow.calculateMortgagePayment` | zillow.com | Computes a monthly payment from price, down payment, rate and term, broken into… | ⚪ |
+| `zillow.calculateAffordability` | zillow.com | How much house can I afford: the highest home price a buyer can afford from income… | 🟢 |
+| `zillow.calculateMortgagePayment` | zillow.com | Computes a monthly payment from price, down payment, rate and term, broken into… | 🟢 |
 | `zillow.contactAgent` | zillow.com | Sends a question or tour request about a listing to its agent or landlord from the… | ⚪ |
 | `zillow.deleteSavedSearch` | zillow.com | Deletes one of the signed-in caller's saved searches. | ⚪ |
 | `zillow.getAccount` | zillow.com | Reads the signed-in caller's Zillow profile: name, email, phone and account settings. | ⚪ |
@@ -6710,7 +6723,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zillow.getBuilding` | zillow.com | Gets an apartment or condo building page: units and floor plans available, rent… | ⚪ |
 | `zillow.getHome` | zillow.com | Gets one home by zpid, URL or address: price or rent, status, beds/baths/sqft, lot… | ⚪ |
 | `zillow.getMarketOverview` | zillow.com | Gets a region's housing market: typical home value (ZHVI) and its one-year change… | ⚪ |
-| `zillow.getMortgageRates` | zillow.com | Gets today's average mortgage rates and APRs by loan program (30-year fixed, 15-year… | ⚪ |
+| `zillow.getMortgageRates` | zillow.com | Gets today's average mortgage rates and APRs by loan program (30-year fixed, 15-year… | 🟢 |
 | `zillow.getNewConstructionCommunity` | zillow.com | Gets a new-construction community: builder, plans with base prices, available homes… | ⚪ |
 | `zillow.getZestimate` | zillow.com | Gets Zillow's estimated value (Zestimate) and Rent Zestimate for an address, with the… | ⚪ |
 | `zillow.hideHome` | zillow.com | Hides a home from the signed-in caller's search results. | ⚪ |
@@ -6720,8 +6733,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zillow.saveHome` | zillow.com | Saves (hearts) a home to the signed-in caller's saved homes. | ⚪ |
 | `zillow.saveSearch` | zillow.com | Saves a search for the signed-in caller, with its filters and email alert frequency. | ⚪ |
 | `zillow.searchAgents` | zillow.com | Finds real estate agents serving a location, with name, brokerage, rating, review… | ⚪ |
-| `zillow.searchHomes` | zillow.com | Searches homes for sale, for rent or recently sold in a region, with price, beds… | ⚪ |
-| `zillow.searchLocations` | zillow.com | Turns a place name, ZIP, neighborhood or address into Zillow regions and addresses… | ⚪ |
+| `zillow.searchHomes` | zillow.com | Find homes, houses, apartments, condos and townhouses for sale, for rent or recently… | 🟢 |
+| `zillow.searchLocations` | zillow.com | Turns a place name, ZIP, neighborhood or address into Zillow regions and addresses… | 🟢 |
 | `zillow.unsaveHome` | zillow.com | Removes a home from the signed-in caller's saved homes. | ⚪ |
 | `zillow.updateProfile` | zillow.com | Updates the signed-in caller's profile name, phone or photo. | ⚪ |
 | `zoom.deleteMeeting` | zoom.us | Cancels a scheduled meeting. | 🟢 |

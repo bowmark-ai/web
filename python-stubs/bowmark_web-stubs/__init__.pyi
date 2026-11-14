@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e3cd00cc028297db6f3dfb6d3ff5e77851d2c1cae377de03b88eeab49a5be0d8
-# 98 capabilities, 839 providers, 5152 typed functions, 20 refused.
+# Manifest version: 2246e280a13befc33db78836580bfabb7899e5b56e93be67ed33cbdc6dda8938
+# 98 capabilities, 844 providers, 5166 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6171,6 +6171,8 @@ class Prv_amazon_AmazonCart_Out(TypedDict):
     itemCount: float
     items: list[Prv_amazon_AmazonCartItem_Out]
     readAs: NotRequired[Literal["signed-in"] | Literal["guest"]]
+    checkout: NotRequired[Prv_amazon_AmazonCart_Out_checkout_Out]
+    warnings: NotRequired[list[str]]
 
 class Prv_amazon_AmazonCartItem_Out(TypedDict):
     asin: str
@@ -6178,20 +6180,35 @@ class Prv_amazon_AmazonCartItem_Out(TypedDict):
     quantity: float
     price: float | None
 
+class Prv_amazon_AmazonCart_Out_checkout_Out(TypedDict):
+    status: str
+    url: str
+    urlKind: NotRequired[str]
+    account: Prv_amazon_AmazonCart_Out_checkout_Out_account_Out
+    summary: Any
+    warnings: list[str]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+
+class Prv_amazon_AmazonCart_Out_checkout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
 class Prv_amazon_addToCart_asinOrUrl_u1_In(TypedDict):
     asin: str
-    quantity: NotRequired[Literal[1]]
+    quantity: NotRequired[float]
 
 class Prv_amazon_addToCart_asinOrUrl_u2_In(TypedDict):
     product: str | Prv_amazon_addToCart_asinOrUrl_u2_In_product_u1_In
-    quantity: NotRequired[Literal[1]]
+    quantity: NotRequired[float]
 
 class Prv_amazon_addToCart_asinOrUrl_u2_In_product_u1_In(TypedDict):
     asin: str
 
 class Prv_amazon_addToCart_asinOrUrl_u3_In(TypedDict):
     url: str
-    quantity: NotRequired[Literal[1]]
+    quantity: NotRequired[float]
 
 class Prv_amazon_addToCart_opts_In(TypedDict):
     connection: NotRequired[str]
@@ -8526,6 +8543,16 @@ class Prv_ashleyfurniture_AshleyFurnitureStore_Out_hours_item_Out(TypedDict):
     opensAt: str
     closesAt: str
     state: str
+
+class Prv_askul_AskulProduct_Out(TypedDict):
+    id: str
+    title: str
+    brand: str | None
+    priceJpy: float
+    stock: Literal["in_stock"] | Literal["out_of_stock"] | Literal["unknown"]
+    rating: float | None
+    reviewCount: float | None
+    url: str
 
 class Prv_asppoolco_AspZipMatch_Out(TypedDict):
     zip: str
@@ -14556,6 +14583,33 @@ class Prv_canva_CanvaMyDesign_Out(TypedDict):
     id: str
     title: str
     url: str
+
+class Prv_canva_getDesign_return_Out(TypedDict):
+    design: Prv_canva_CanvaDesign_Out
+    warnings: list[str]
+
+class Prv_canva_CanvaDesign_Out(TypedDict):
+    id: str
+    title: str
+    editUrl: str
+    viewUrl: str
+
+class Prv_canva_listFolders_return_Out(TypedDict):
+    folders: list[Prv_canva_CanvaFolder_Out]
+    warnings: list[str]
+
+class Prv_canva_CanvaFolder_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+
+class Prv_canva_listUploads_return_Out(TypedDict):
+    uploads: list[Prv_canva_CanvaUpload_Out]
+    warnings: list[str]
+
+class Prv_canva_CanvaUpload_Out(TypedDict):
+    id: str
+    name: str
 
 class Prv_canva_getCreator_return_Out(TypedDict):
     creator: Prv_canva_CanvaCreator_Out
@@ -20825,6 +20879,27 @@ class Prv_deepmind_DeepMindBlogPost_Out(TypedDict):
     summary: str | None
     publishedAt: str | None
     thumbnailUrl: str | None
+
+class Prv_defillama_protocolRaises_input_In(TypedDict):
+    protocol: str
+
+class Prv_defillama_defillamaRaises_Out(TypedDict):
+    found: bool
+    protocol: str
+    name: str | None
+    symbol: str | None
+    url: str | None
+    rounds: list[Prv_defillama_defillamaRound_Out]
+    investors: list[str]
+    warnings: list[str]
+
+class Prv_defillama_defillamaRound_Out(TypedDict):
+    date: str | None
+    round: str | None
+    amountUsd: float | None
+    leadInvestors: list[str]
+    otherInvestors: list[str]
+    valuationUsd: float | None
 
 class Prv_delaware_corps_SearchEntityArgs_In(TypedDict):
     name: NotRequired[str]
@@ -31595,6 +31670,40 @@ class Prv_glossgenius_GlossGeniusWaitlistJoinResult_Out(TypedDict):
     joined: Literal[True]
     note: str
 
+class Prv_gmail_GmailSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+Prv_gmail_GmailThreadRow_Out = TypedDict(
+    "Prv_gmail_GmailThreadRow_Out",
+    {
+    "id": str,
+    "from": str | None,
+    "subject": str | None,
+    "snippet": str | None,
+    "date": str | None,
+    "unread": bool,
+    },
+)
+
+class Prv_gmail_GmailGetThreadArgs_In(TypedDict):
+    threadId: str
+
+class Prv_gmail_GmailThread_Out(TypedDict):
+    id: str
+    subject: str | None
+    messages: list[Prv_gmail_GmailThreadMessage_Out]
+
+Prv_gmail_GmailThreadMessage_Out = TypedDict(
+    "Prv_gmail_GmailThreadMessage_Out",
+    {
+    "from": str | None,
+    "to": list[str],
+    "date": str | None,
+    "body": str | None,
+    },
+)
+
 class Prv_gobrightwing_SearchJobsArgs_In(TypedDict):
     keyword: NotRequired[str]
     location: NotRequired[str]
@@ -31684,6 +31793,54 @@ class Prv_goloadup_GoloadupServiceAvailability_Out(TypedDict):
     sameDayAllowed: bool
     estimationAllowed: bool
     retailAssembliesAllowed: bool
+
+class Prv_gomry_SearchEventsArgs_In(TypedDict):
+    query: str
+
+class Prv_gomry_searchEvents_return_Out(TypedDict):
+    events: list[Prv_gomry_GomryEventSearchRow_Out]
+
+class Prv_gomry_GomryEventSearchRow_Out(TypedDict):
+    id: str
+    name: str
+    when: str
+    startsAt: str
+    timezone: str
+    where: str
+    price: str | None
+    categories: list[str]
+    organizationId: str
+    url: str
+    image: str | None
+
+class Prv_gomry_EventArgs_In(TypedDict):
+    id: str
+    organizationId: str
+
+class Prv_gomry_GomryEvent_Out(TypedDict):
+    id: str
+    organizationId: str
+    name: str
+    description: str
+    status: str
+    registrationStatus: str
+    currency: str
+    venue: Mapping[str, Any] | None
+
+class Prv_gomry_GomryProduct_Out(TypedDict):
+    id: str
+    organizationId: str
+    name: str
+    type: str
+    status: str
+    ticketClass: Mapping[str, Any] | None
+
+class Prv_gomry_SponsorOfferArgs_In(TypedDict):
+    eventId: str
+
+class Prv_gomry_getSponsorOffer_return_Out(TypedDict):
+    offer: Any
+    offers: list[Any]
 
 class Prv_goodreads_GoodreadsBookRow_Out(TypedDict):
     legacyId: str
@@ -31995,6 +32152,36 @@ class Prv_google_ads_transparency_GoogleAdsTransparencyAd_Out(TypedDict):
 class Prv_google_ads_transparency_GoogleAdsTransparencyAds_Out_totalEstimate_u0_Out(TypedDict):
     min: float
     max: float
+
+class Prv_google_flights_parseSearchUrl_args_In(TypedDict):
+    url: str
+
+Prv_google_flights_GoogleParsedSearch_Out = TypedDict(
+    "Prv_google_flights_GoogleParsedSearch_Out",
+    {
+    "from": str,
+    "to": str,
+    "depart": str,
+    "return": NotRequired[str],
+    "cabin": NotRequired[Literal["economy"] | Literal["premium"] | Literal["business"] | Literal["first"]],
+    "stops": NotRequired[Literal["any"] | Literal["nonstop"] | Literal["1"]],
+    "passengers": NotRequired[float],
+    "tripType": Literal["one way"] | Literal["round trip"] | Literal["multi-city"],
+    "legs": NotRequired[list[Prv_google_flights_GoogleParsedSearch_Out_legs_item_Out]],
+    "currency": NotRequired[str],
+    "source": Literal["tfs"] | Literal["q"],
+    "warnings": list[str],
+    },
+)
+
+Prv_google_flights_GoogleParsedSearch_Out_legs_item_Out = TypedDict(
+    "Prv_google_flights_GoogleParsedSearch_Out_legs_item_Out",
+    {
+    "from": str,
+    "to": str,
+    "date": str,
+    },
+)
 
 Prv_google_flights_GoogleFlightQuery_In = TypedDict(
     "Prv_google_flights_GoogleFlightQuery_In",
@@ -32937,6 +33124,44 @@ class Prv_google_trends_GoogleTrendsNewsItem_Out(TypedDict):
     url: str
     source: str | None
     picture: str | None
+
+class Prv_goplus_tokenSecurity_input_In(TypedDict):
+    chain: str
+    address: str
+
+class Prv_goplus_goplusTokenReport_Out(TypedDict):
+    found: bool
+    chain: str
+    chainId: str
+    address: str
+    name: str | None
+    symbol: str | None
+    flags: list[Prv_goplus_goplusFlag_Out]
+    holders: Prv_goplus_goplusTokenReport_Out_holders_Out
+    liquidity: Prv_goplus_goplusTokenReport_Out_liquidity_u0_Out | None
+    taxes: Prv_goplus_goplusTokenReport_Out_taxes_Out
+    listedOn: list[str]
+    warnings: list[str]
+
+class Prv_goplus_goplusFlag_Out(TypedDict):
+    id: str
+    level: Literal["danger"] | Literal["warning"] | Literal["ok"]
+    say: str
+
+class Prv_goplus_goplusTokenReport_Out_holders_Out(TypedDict):
+    count: float | None
+    top10Percent: float | None
+    creatorPercent: float | None
+    ownerPercent: float | None
+
+class Prv_goplus_goplusTokenReport_Out_liquidity_u0_Out(TypedDict):
+    totalUsd: float | None
+    pools: float
+    lockedPercent: float | None
+
+class Prv_goplus_goplusTokenReport_Out_taxes_Out(TypedDict):
+    buyPercent: float | None
+    sellPercent: float | None
 
 class Prv_goremutual_ProductOverviewResult_Out(TypedDict):
     title: str
@@ -74187,6 +74412,24 @@ class Prv_youtube_YoutubeSearchVideo_Out(TypedDict):
 class Prv_youtube_suggestSearches_input_In(TypedDict):
     query: str
 
+class Prv_youtube_getDislikes_input_In(TypedDict):
+    videos: Sequence[str]
+
+class Prv_youtube_YoutubeDislikes_Out(TypedDict):
+    items: list[Prv_youtube_YoutubeDislikeItem_Out]
+    warnings: list[str]
+
+class Prv_youtube_YoutubeDislikeItem_Out(TypedDict):
+    video: str
+    likes: float
+    dislikes: float
+    rating: float | None
+    viewCount: float | None
+    ratio: float | None
+    deleted: bool
+    source: Literal["returnyoutubedislike"]
+    estimated: Literal[True]
+
 class Prv_youtube_getTranscript_input_u1_In(TypedDict):
     video: str
 
@@ -75952,7 +76195,11 @@ class Cap_flights(Protocol):
         a range of dates, do not call this once per date**:
         `bowmark.providers.google_flights.getPriceGraph(query: FlightQuery):
         Promise<PriceGraph>` (both typed above) prices every departure date from about depart-7
-        to depart+52 in one call.
+        to depart+52 in one call. **On a Google Flights page**,
+        `bowmark.providers.google_flights.parseSearchUrl({ url: location.href })` gives the
+        current trip as a FlightQuery-shaped `{ from, to, depart, return?, cabin?, passengers?
+        }` (or null), reading both the `?q=` and the encoded `?tfs=` address, with no network
+        call.
         """
 
     async def getBookingOptions(self, flight: Cap_flights_FlightResult_In, options: Cap_flights_CallOptions_In | None = None, /) -> Cap_flights_BookingOptionsResult_Out:
@@ -78916,17 +79163,24 @@ class Prv_amazon(Protocol):
         account's own cart; with none it is this run's anonymous guest cart, which needs no
         account. `readAs` says which. Reads the site's own per-row markup (`data-asin`,
         `data-producttitle`, `data-quantity`, `data-price`) for a populated cart, and the site's
-        own `#sc-empty-cart` block for an empty one.
+        own `#sc-empty-cart` block for an empty one. A cart with items also returns a checkout
+        handoff URL (`checkout`): Amazon's add-to-cart link carrying every row, plus which
+        account to sign in as. Bowmark never places the order.
         """
 
     async def addToCart(self, asinOrUrl: str | Prv_amazon_addToCart_asinOrUrl_u1_In | Prv_amazon_addToCart_asinOrUrl_u2_In | Prv_amazon_addToCart_asinOrUrl_u3_In, opts: Prv_amazon_addToCart_opts_In | None = None, /) -> Prv_amazon_AmazonCart_Out:
-        """Put one unit of a product in the cart and report what the cart then holds. With the
-        caller's connected Amazon login (the default one, or `{ connection }` naming it) it
-        writes the signed-in account's own cart; with none it writes an anonymous guest cart.
-        `readAs` says which. The last step a Bowmark provider may take on a buying flow: it
-        stops at the cart and never reaches checkout, payment or order placement. Quantity is
-        not yet controllable (measured 2026-09-30: neither the buy-box's own quantity field nor
-        a repeated add changes the line's quantity), so this always adds exactly one unit.
+        """Add a product to the cart and hand back a checkout link for everything the cart now
+        holds; Bowmark never places the order and never reaches checkout or payment. No account
+        needed: anonymously it writes a guest cart and `checkout.url` is Amazon's own
+        add-to-cart link carrying every cart row and the quantity asked for, to open in the
+        person's own signed-in browser. With the caller's connected Amazon login (the default
+        one, or addToCart(asin, { connection })) it writes that account's own cart and
+        `checkout.url` is the cart page (`signed_in_cart` when the account name is known,
+        `needs_login` when it is not), never a link that would add the items a second time;
+        `readAs` says which cart answered. Amazon's cart takes one unit per add, so a signed-in
+        quantity above 1 comes with a warning to set it in the cart. `checkout.status` is
+        "unavailable" with a reason (out_of_stock, region_not_served, not_sold_online) when it
+        cannot be bought as asked.
         """
 
     async def listOrders(self, args: Prv_amazon_listOrders_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_amazon_SignedInOrderPage_Out:
@@ -80233,6 +80487,16 @@ class Prv_ashleyfurniture(Protocol):
         address, phone, hours, distance (miles), timezone, and the site's own store detail-page
         URL, ranked nearest-first. THROWS when the ZIP does not resolve to a real location (the
         site's own validity signal), rather than returning its non-matching fallback store.
+        """
+
+class Prv_askul(Protocol):
+    """Reads an ASKUL product's live title, JPY price, stock state and ratings from its product
+    URL or id.
+    """
+
+    async def getProduct(self, product: str, /) -> Prv_askul_AskulProduct_Out:
+        """Reads an ASKUL product by its product URL or id and returns its live title, JPY price,
+        stock state, brand and rating.
         """
 
 class Prv_asppoolco(Protocol):
@@ -83533,6 +83797,21 @@ class Prv_canva(Protocol):
         filtered by a keyword on the title. Needs the caller signed in to canva.com.
         """
 
+    async def getDesign(self, idOrUrl: str, opts: ConnectionOption | None = None, /) -> Prv_canva_getDesign_return_Out:
+        """Reads one of the caller's designs by id or edit url — title, edit and view links. Needs
+        the caller signed in to canva.com.
+        """
+
+    async def listFolders(self, folderId: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_canva_listFolders_return_Out:
+        """Lists the caller's folders, or one folder's subfolders (id, name, url). Needs the caller
+        signed in to canva.com.
+        """
+
+    async def listUploads(self, opts: ConnectionOption | None = None, /) -> Prv_canva_listUploads_return_Out:
+        """Lists the images and videos the caller uploaded to Canva (id, name). Needs the caller
+        signed in to canva.com.
+        """
+
     async def getCreator(self, handleOrUrl: str, /) -> Prv_canva_getCreator_return_Out:
         """Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower count
         and the templates and media they publish.
@@ -86443,8 +86722,11 @@ class Prv_craigslist(Protocol):
         """
 
     async def searchListings(self, args: str | Prv_craigslist_CraigslistSearchArgs_In, /) -> Prv_craigslist_CraigslistSearchResult_Out:
-        """Searches any Craigslist category (for sale by default) in an area by keyword, price
-        range, sort and ZIP radius, returning price, neighbourhood, posted time and description.
+        """Searches public Craigslist classified ads in one area (the San Francisco Bay Area by
+        default) across any section: used items for sale (bikes, furniture, cars) by default,
+        apartments, rooms and housing for rent, jobs and services. Filters by keyword, price
+        range, sort and ZIP radius; returns each ad's title, price, neighbourhood, posted time,
+        description and listing URL.
         """
 
     async def signup(self, args: Any, /) -> Prv_craigslist_signup_return_u0_Out | Prv_craigslist_signup_return_u1_Out | Prv_craigslist_signup_return_u2_Out | Prv_craigslist_signup_return_u3_Out:
@@ -87199,6 +87481,17 @@ class Prv_deepmind(Protocol):
     async def listBlogPosts(self, args: Prv_deepmind_ListBlogPostsArgs_In | None = None, /) -> list[Prv_deepmind_DeepMindBlogPost_Out]:
         """The latest DeepMind blog/news posts from the site's own RSS feed — title, url, summary,
         published time, thumbnail.
+        """
+
+class Prv_defillama(Protocol):
+    """Who invested in a crypto project: its recorded funding rounds, amounts and lead/other
+    investors, from DefiLlama
+    """
+
+    async def protocolRaises(self, input: Prv_defillama_protocolRaises_input_In, /) -> Prv_defillama_defillamaRaises_Out:
+        """Funding rounds and investors (backers) of a crypto project by DefiLlama slug or name
+        ("uniswap", "lido"); a token with no project (a meme coin) returns found:false and
+        rounds: []
         """
 
 class Prv_delaware_corps(Protocol):
@@ -88846,7 +89139,9 @@ class Prv_ebay(Protocol):
         buying option (auction/fixed-price/best-offer), seller and the item's own ebay.com URL.
         Requires the caller's eBay OAuth key. `limit` caps the row count (default 20, ceiling
         200). `marketplace: "DE"` searches the German marketplace, ebay.de, instead — euro
-        prices and ebay.de URLs.
+        prices and ebay.de URLs. Without a key no ebay.de listing is reachable from this
+        provider: there is no keyless German search door, so say a key is needed rather than
+        answering with ebay.com results.
         """
 
     async def getItem(self, args: str | Prv_ebay_getItem_args_u1_In, /) -> Prv_ebay_ebayItemDetail_Out:
@@ -88895,7 +89190,8 @@ class Prv_ebay(Protocol):
         shopper sees on ebay.com — via a plain keyless GET and a DOM parse of the page's own
         schema.org Product/Offer microdata. Needs no eBay OAuth key, unlike every keyed function
         on this provider. `originalPrice` and `discountPercent` are present only on a tile that
-        carries a discount badge.
+        carries a discount badge. It reads ebay.com only, in USD: there is no ebay.de deals page
+        here, so these rows are not German-marketplace deals.
         """
 
     async def getWatchlist(self, args: Prv_ebay_getWatchlist_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_ebay_ebayWatchlistItem_Out]:
@@ -92766,6 +93062,17 @@ class Prv_glossgenius(Protocol):
         phone: "5555550123", acknowledgeCancellationPolicy: true })`.
         """
 
+class Prv_gmail(Protocol):
+    """Searches and reads threads in the CALLER's own Gmail account. Requires the caller signed
+    in to Google.
+    """
+
+    async def searchThreads(self, args: Prv_gmail_GmailSearchArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_gmail_GmailThreadRow_Out]:
+        """Searches Gmail threads with Gmail search syntax."""
+
+    async def getThread(self, args: Prv_gmail_GmailGetThreadArgs_In, opts: ConnectionOption | None = None, /) -> Prv_gmail_GmailThread_Out:
+        """Reads one Gmail thread in full by its id."""
+
 class Prv_gobrightwing(Protocol):
     """Search Brightwing's job listings by keyword, location and work type, with live pay
     ranges.
@@ -92821,6 +93128,31 @@ class Prv_goloadup(Protocol):
     async def checkServiceAvailability(self, zip: str, /) -> Prv_goloadup_GoloadupServiceAvailability_Out:
         """Checks whether and how LoadUp serves one ZIP code, independent of any specific items —
         in service, same-day pickup allowed, and whether retail assembly is offered there.
+        """
+
+class Prv_gomry(Protocol):
+    """Search public Gomry events, then read event details, ticket products, and sponsor
+    offers.
+    """
+
+    async def searchEvents(self, args: Prv_gomry_SearchEventsArgs_In, /) -> Prv_gomry_searchEvents_return_Out:
+        """Searches Gomry's public event discovery index. Each result carries the id and
+        organizationId needed by getEvent and listEventProducts.
+        """
+
+    async def getEvent(self, args: Prv_gomry_EventArgs_In, /) -> Prv_gomry_GomryEvent_Out:
+        """Reads a public Gomry event's details, schedule, registration status, currency,
+        description, and venue.
+        """
+
+    async def listEventProducts(self, args: Prv_gomry_EventArgs_In, /) -> list[Prv_gomry_GomryProduct_Out]:
+        """Lists public ticket products for a Gomry event, including each ticket class's price and
+        availability metadata.
+        """
+
+    async def getSponsorOffer(self, args: Prv_gomry_SponsorOfferArgs_In, /) -> Prv_gomry_getSponsorOffer_return_Out:
+        """Reads Gomry's current public sponsor offer for one event; an empty offers array means no
+        offer is available.
         """
 
 class Prv_goodreads(Protocol):
@@ -93004,6 +93336,18 @@ class Prv_google_flights(Protocol):
     """Google Flights (flights.google.com) — itinerary search plus the per-result booking
     panel, read from each row's ARIA label.
     """
+
+    async def parseSearchUrl(self, args: Prv_google_flights_parseSearchUrl_args_In, /) -> Prv_google_flights_GoogleParsedSearch_Out | None:
+        """Reads the current trip (from, to, depart, return, cabin, passengers, stops) out of a
+        Google Flights URL, in either spelling: the `?q=Flights from SFO to JFK on …` form or
+        the encoded `?tfs=` form Google rewrites the address bar to as soon as a person clicks
+        anything. On a Google Flights page, `bowmark.providers.google_flights.parseSearchUrl({
+        url: location.href })` gives the page's trip as a query you can pass to `search`,
+        `getPriceGraph` or `bowmark.flights.search`. Pure: no network, no browser. Returns null
+        for a URL that is not a flights search. `warnings` names what could not be read exactly
+        (a metro area such as NYC, a multi-city trip, children or infants in the passenger
+        count).
+        """
 
     async def search(self, query: Prv_google_flights_GoogleFlightQuery_In, /) -> list[Prv_google_flights_GoogleFlight_Out]:
         """Runs the itinerary search and reads the rendered result rows. Interaction-gated: Google
@@ -93857,6 +94201,17 @@ class Prv_google_trends(Protocol):
         """Today's trending Google searches in one country (`geo`, default US) with approximate
         traffic, start time and the linked news stories, read off Google Trends' own trending
         feed.
+        """
+
+class Prv_goplus(Protocol):
+    """Rug-pull and scam warning signs for a crypto token contract (honeypot, mintable, owner
+    powers, taxes, holders, liquidity) from GoPlus Security
+    """
+
+    async def tokenSecurity(self, input: Prv_goplus_tokenSecurity_input_In, /) -> Prv_goplus_goplusTokenReport_Out:
+        """Rug-pull warning signs for a token contract on an EVM chain ("ethereum", "bsc", "base",
+        …), as plain-words flags (danger/warning/ok) plus holder concentration, taxes and
+        exchange liquidity. A CoinGecko coin page lists the contract address.
         """
 
 class Prv_goremutual(Protocol):
@@ -112290,9 +112645,10 @@ class Prv_tripadvisor(Protocol):
         """
 
     async def searchAttractions(self, args: Prv_tripadvisor_SearchAttractionsArgs_In, /) -> Prv_tripadvisor_SearchAttractionsResult_Out:
-        """Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank,
-        rating, review count, categories, neighborhood, blurb and url — optionally filtered to
-        one category (the c<id> in the site's own url), paginated 30 at a time.
+        """Lists the top things to do, sights and attractions in a city or region in Tripadvisor's
+        ranking — id, name, rank, rating, review count, categories, neighborhood, blurb and url
+        — optionally filtered to one category (the c<id> in the site's own url), paginated 30 at
+        a time.
         """
 
     async def getReviews(self, args: Prv_tripadvisor_GetReviewsArgs_In, /) -> Prv_tripadvisor_TripadvisorReviews_Out:
@@ -115185,7 +115541,8 @@ class Prv_wikipedia_standings(Protocol):
     """Search Wikipedia for sports league standings with goal differential data."""
 
     async def search(self, query: str, /) -> Prv_wikipedia_standings_SearchResult_Out:
-        """Searches Wikipedia for sports standings pages and extracts league standings with goal
+        """Searches Wikipedia for a sports league's season standings page (a league table such as
+        the Premier League, La Liga or the NBA) and extracts each team's standing with goal
         differential data.
         """
 
@@ -116441,6 +116798,18 @@ class Prv_youtube(Protocol):
         nothing returns a real, honest empty array rather than throwing.
         """
 
+    async def getDislikes(self, input: Prv_youtube_getDislikes_input_In, /) -> Prv_youtube_YoutubeDislikes_Out:
+        """The dislike count, like count and dislike ratio for up to 50 videos in one call, with no
+        sign-in. YouTube hides dislike counts, so these are an ESTIMATE from the Return YouTube
+        Dislike project (extrapolated from its own users), not YouTube's number: each item says
+        `estimated: true` and `source: "returnyoutubedislike"`. Use it to show dislikes, rank a
+        search's results by most disliked / highest dislike ratio, or hide heavily disliked
+        videos. `videos` takes 11-character ids or any watch/shorts/youtu.be URL (a search row's
+        `videoId` goes straight in); duplicates are read once, and past 50 the rest are dropped
+        with a warning. `ratio` is dislikes / (likes + dislikes), null when there are no votes.
+        A video that fails comes back as a warning; if every video fails the call throws.
+        """
+
     async def getTranscript(self, input: str | Prv_youtube_getTranscript_input_u1_In, /) -> Prv_youtube_YoutubeTranscript_Out:
         """Returns a YouTube video's own caption transcript. `video` is a bare 11-character video
         id or any watch/shorts/embed/live/youtu.be URL. `segments` is [] — a real, honest answer
@@ -117288,6 +117657,7 @@ class BowmarkProviders(Protocol):
     arxiv: Prv_arxiv
     ashby: Prv_ashby
     ashleyfurniture: Prv_ashleyfurniture
+    askul: Prv_askul
     asppoolco: Prv_asppoolco
     astoundgroup: Prv_astoundgroup
     atlasoceanvoyages: Prv_atlasoceanvoyages
@@ -117471,6 +117841,7 @@ class BowmarkProviders(Protocol):
     decked: Prv_decked
     decksdirect: Prv_decksdirect
     deepmind: Prv_deepmind
+    defillama: Prv_defillama
     delaware_corps: Prv_delaware_corps
     dell: Prv_dell
     deltadentalma: Prv_deltadentalma
@@ -117565,9 +117936,11 @@ class BowmarkProviders(Protocol):
     glassesusa: Prv_glassesusa
     glofox: Prv_glofox
     glossgenius: Prv_glossgenius
+    gmail: Prv_gmail
     gobrightwing: Prv_gobrightwing
     golf_com: Prv_golf_com
     goloadup: Prv_goloadup
+    gomry: Prv_gomry
     goodreads: Prv_goodreads
     goodway: Prv_goodway
     google_ads_transparency: Prv_google_ads_transparency
@@ -117579,6 +117952,7 @@ class BowmarkProviders(Protocol):
     google_store: Prv_google_store
     google_translate: Prv_google_translate
     google_trends: Prv_google_trends
+    goplus: Prv_goplus
     goremutual: Prv_goremutual
     gostoreit: Prv_gostoreit
     gotchacovered: Prv_gotchacovered

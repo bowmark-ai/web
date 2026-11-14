@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e3cd00cc028297db6f3dfb6d3ff5e77851d2c1cae377de03b88eeab49a5be0d8
-// 5152 checked, 20 unchecked.
+// Manifest version: 2246e280a13befc33db78836580bfabb7899e5b56e93be67ed33cbdc6dda8938
+// 5166 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e3cd00cc028297db6f3dfb6d3ff5e77851d2c1cae377de03b88eeab49a5be0d8",
+  "version": "2246e280a13befc33db78836580bfabb7899e5b56e93be67ed33cbdc6dda8938",
   "units": {
     "address_validation": {
       "defs": {
@@ -12857,8 +12857,7 @@ export const VALIDATORS: ValidatorTable = {
                     {
                       "name": "quantity",
                       "schema": {
-                        "k": "literal",
-                        "v": 1
+                        "k": "number"
                       },
                       "optional": true
                     }
@@ -12894,8 +12893,7 @@ export const VALIDATORS: ValidatorTable = {
                     {
                       "name": "quantity",
                       "schema": {
-                        "k": "literal",
-                        "v": 1
+                        "k": "number"
                       },
                       "optional": true
                     }
@@ -12914,8 +12912,7 @@ export const VALIDATORS: ValidatorTable = {
                     {
                       "name": "quantity",
                       "schema": {
-                        "k": "literal",
-                        "v": 1
+                        "k": "number"
                       },
                       "optional": true
                     }
@@ -17226,6 +17223,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AshleyFurnitureFindStoreArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.askul": {
+      "defs": {},
+      "functions": {
+        "getProduct": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -28573,6 +28584,74 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getDesign": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFolders": [
+          {
+            "name": "folderId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listUploads": [
           {
             "name": "opts",
             "schema": {
@@ -42485,6 +42564,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListBlogPostsArgs"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.defillama": {
+      "defs": {},
+      "functions": {
+        "protocolRaises": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "protocol",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -67182,6 +67284,95 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.gmail": {
+      "defs": {
+        "GmailGetThreadArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "threadId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GmailSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchThreads": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GmailSearchArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getThread": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GmailGetThreadArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.gobrightwing": {
       "defs": {
         "GetJobDetailsArgs": {
@@ -67318,6 +67509,95 @@ export const VALIDATORS: ValidatorTable = {
             "name": "zip",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.gomry": {
+      "defs": {
+        "EventArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "organizationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SponsorOfferArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "eventId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EventArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listEventProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EventArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSponsorOffer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SponsorOfferArgs"
             },
             "optional": false
           }
@@ -68095,6 +68375,24 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "parseSearchUrl": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "search": [
           {
             "name": "query",
@@ -70030,6 +70328,36 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GoogleTrendsArgs"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.goplus": {
+      "defs": {},
+      "functions": {
+        "tokenSecurity": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "chain",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "address",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -161735,6 +162063,27 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "query",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getDislikes": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "videos",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
                   },
                   "optional": false
                 }
