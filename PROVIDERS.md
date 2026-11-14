@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6847 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6851 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1696,6 +1696,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.suggestTags` | deviantart.com | Autocompletes a partial tag ("lands" → landscape, landscapephotography… | 🟢 |
 | `deviantart.unfavouriteDeviation` | deviantart.com | Removes a deviation from the signed-in caller's Favourites. | 🟢 |
 | `deviantart.unwatchUser` | deviantart.com | Stops watching an artist from the signed-in caller's account. | 🟢 |
+| `deviantart.updateDeviation` | deviantart.com | Sets the description of a deviation the signed-in caller owns (for example the one… | 🟢 |
 | `deviantart.updateProfile` | deviantart.com | Edits the signed-in caller's own About section: reads the site's current about-module… | 🟢 |
 | `deviantart.watchUser` | deviantart.com | Watches (follows) an artist from the signed-in caller's account, taking their username. | 🟢 |
 | `devto.getProfile` | dev.to | Looks up one public DEV Community profile by username or profile URL, with bio… | 🟢 |
@@ -3448,6 +3449,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `landsend.searchProducts` | landsend.com | Searches the Lands' End catalog the way the site's own search box does ("mens linen… | 🟢 |
 | `lasikplus.findCenters` | lasikplus.com | Runs the site's own iSchedule center locator (lasikplus.com/ischedule/) — given a US… | 🟢 |
 | `lasikplus.getAvailability` | lasikplus.com | Runs the site's own iSchedule appointment lookup for a given centerCode — returns the… | 🟢 |
+| `launchpad.getProject` | code.launchpad.net | Reads a public Launchpad project's metadata, issue-tracker availability, and… | 🟢 |
+| `launchpad.listLatestProjects` | code.launchpad.net | Lists recently registered public Launchpad projects; the zero-argument discovery… | 🟢 |
+| `launchpad.searchProjects` | code.launchpad.net | Searches public Launchpad projects by title, summary, or description. | 🟢 |
 | `lcsc.product` | lcsc.com | Reads one LCSC part by its C-code, including its parametric attributes, stock, price… | 🟢 |
 | `lcsc.search` | lcsc.com | Searches LCSC's electronic-components catalog by part number or description, returning… | 🟢 |
 | `legacyhomesal.getAvailability` | legacyhomesal.com | Reads a Legacy Homes AL community sales rep's real open tour-appointment slots… | 🟢 |

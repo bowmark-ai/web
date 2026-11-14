@@ -226,6 +226,7 @@ cnb.avocat.fr — cnb_avocat_fr: nothing callable yet (+1 planned)
 cnbc.com — cnbc_com: getArticle, getAuthor, getMarketData, getQuote, getVideo, listArticlesByAuthor, listCategories, listCommodities, listCurrencies, listMarkets, listNews, listQuotes, listSectors, listVideosByCategory, search (+9 planned)
 coastpay.com — coast: getFleetCardPricing, getFuelRebate
 code.claude.com — code_claude_com: getDoc, listDocPages
+code.launchpad.net — launchpad: getProject, listLatestProjects, searchProjects
 code.visualstudio.com — vscode: getDoc, listDocPages
 coingecko.com — coingecko: getPrice, searchCoins
 compass-living.com — compass_living: listCommunities
@@ -272,7 +273,7 @@ detailxperts.com — detailxperts: nothing callable yet (+4 planned)
 deutschepost.de — deutschepost: getDialogpostRates
 dev.to — devto: getProfile, searchArticles
 developers.openai.com — developersopenai: getDocPage
-deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getNotifications, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getUserWatchers, getWatchFeed, listGalleryFolders, listNotes, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateProfile, watchUser
+deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getNotifications, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getUserWatchers, getWatchFeed, listGalleryFolders, listNotes, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateDeviation, updateProfile, watchUser
 dhl.com — dhl: getQuote
 dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
