@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6818 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6843 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -77,8 +77,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acuityscheduling.listScheduleSlots` | acuityscheduling.com | Lists open start times for one appointment type over a date range, optionally for one… | 🟢 |
 | `acuityscheduling.rescheduleAppointment` | acuityscheduling.com | Reschedules a booking to a different date/time; caller must own the appointment. | 🟢 |
 | `acuityscheduling.searchSchedule` | acuityscheduling.com | Finds open times across every public class at once, filtered by class text and… | 🟢 |
-| `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
-| `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
+| `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | 🟢 |
+| `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | 🟢 |
 | `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟢 |
 | `adobe.getAgreementStatus` | adobe.com | Reads back one Acrobat Sign agreement the caller sent (the agreementId… | 🟢 |
 | `adobe.getCreativeCloudPlans` | adobe.com | Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html… | 🟢 |
@@ -86,7 +86,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail — title, media type, dimensions, keywords… | 🟢 |
 | `adobe.getTemplate` | adobe.com | Returns one Adobe Express template's detail — title, category, dimensions, whether it… | 🟡 |
 | `adobe.licenseStockAsset` | adobe.com | Takes an Adobe Stock asset (id or URL from searchStockAssets) up to the payment step… | 🟢 |
-| `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | ⚪ |
+| `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | 🟢 |
 | `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an image (public https URL, under 5 MB) into the signed-in caller's own Creative… | 🟢 |
 | `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟢 |
 | `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟢 |
@@ -114,6 +114,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `agentstatus.getServer` | agentstatus.dev | Reads one server's entry on the index by slug, including every tool the index probed… | 🟡 |
 | `agentstatus.searchServers` | agentstatus.dev | Searches the Public MCP Score index (agentstatus.dev/mcp-index) by server name, slug… | 🟡 |
 | `agentstatus.submitServer` | agentstatus.dev | Would submit a public MCP server URL plus an email to the index's "Submit Your MCP… | ⚪ |
+| `agentweb.discover` | agentweb.us | Returns AgentWeb's curated action catalog for one site it has mapped: each action's… | 🟢 |
+| `agentweb.library` | agentweb.us | Lists every site AgentWeb has built a map for, from its public index: the domain, the… | 🟢 |
 | `agoda.findDestinations` | agoda.com | Find Agoda destinations (cities, areas, landmarks, hotels) for a free-text place name… | 🟢 |
 | `agoda.getHotel` | agoda.com | Fetch one hotel's details — description, amenities, room types and rates for given… | ⚪ |
 | `agoda.listHotelReviews` | agoda.com | List guest reviews for one hotel. | ⚪ |
@@ -126,7 +128,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟡 |
 | `airbnb.autocompleteLocation` | airbnb.com | Suggests Airbnb destinations (cities, neighbourhoods, landmarks) for a typed place… | ⚪ |
-| `airbnb.bookListing` | airbnb.com | Reserves an Airbnb stay: confirms the booking for chosen dates and guests and takes… | ⚪ |
+| `airbnb.bookListing` | airbnb.com | Reserve or book an Airbnb stay: returns the checkout link, never books or pays. | 🟢 |
 | `airbnb.cancelReservation` | airbnb.com | Cancels one of the caller's reservations. | ⚪ |
 | `airbnb.changeProfilePhoto` | airbnb.com | Replaces the caller's profile picture with a supplied image. | ⚪ |
 | `airbnb.createWishlist` | airbnb.com | Creates a new private wishlist on the caller's account. | ⚪ |
@@ -296,6 +298,26 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apidirectory_com.listCategories` | apidirectory.com | Lists APIDirectory's public API categories with category slugs, displayed names and… | 🟢 |
 | `apidirectory_com.search` | apidirectory.com | Searches APIDirectory's public registry by topic and returns each API's registry ID… | 🟢 |
 | `apify.store` | apify.com | Search Apify Store actors by what they scrape or automate. | 🟢 |
+| `apnews.getAccount` | apnews.com | Reads the signed-in caller's AP account (/myaccount): email, name and subscriptions. | ⚪ |
+| `apnews.getArticle` | apnews.com | Reads one AP article by URL: headline, byline, dates, section, keywords, lead image… | ⚪ |
+| `apnews.getAuthor` | apnews.com | Reads an AP journalist's author page: name, role, bio and their recent stories —… | ⚪ |
+| `apnews.getLiveUpdates` | apnews.com | Reads one live blog (/live/<slug>): its title and every timestamped update, newest… | ⚪ |
+| `apnews.getPhotoGallery` | apnews.com | Reads one /photo-gallery/<slug>: every photo with caption and credit. | ⚪ |
+| `apnews.getTodayInHistory` | apnews.com | Reads AP's 'Today in History' entry for a date (/today-in-history/<month-day>). | ⚪ |
+| `apnews.getVideo` | apnews.com | Reads one /video/<slug> page: title, description, duration, upload date and the… | ⚪ |
+| `apnews.listFactChecks` | apnews.com | Lists AP Fact Check stories (/ap-fact-check). | ⚪ |
+| `apnews.listLatestNews` | apnews.com | Lists the latest headlines on the apnews.com homepage: title, url, section and… | ⚪ |
+| `apnews.listNewsletters` | apnews.com | Lists AP's newsletters with their descriptions and send cadence (/newsletters, the one… | ⚪ |
+| `apnews.listNewsletterSubscriptions` | apnews.com | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
+| `apnews.listPodcasts` | apnews.com | Lists AP's podcasts and their latest episodes (/podcasts). | ⚪ |
+| `apnews.listPressReleases` | apnews.com | Lists press releases distributed on apnews.com (/press-releases). | ⚪ |
+| `apnews.listSectionArticles` | apnews.com | Lists the stories on one section page (e.g. /politics, /sports) or subsection. | ⚪ |
+| `apnews.listSections` | apnews.com | Lists the site's top-level sections (U.S. News, World, Politics, Sports, Business… | ⚪ |
+| `apnews.listTopicArticles` | apnews.com | Lists the stories on one /hub/<topic> page (e.g. hub/iran, hub/weather), the site's… | ⚪ |
+| `apnews.listVideos` | apnews.com | Lists the videos on /video: title, url, duration and thumbnail. | ⚪ |
+| `apnews.searchArticles` | apnews.com | Searches AP News for a query (/search?q=) and returns matching articles, videos and… | ⚪ |
+| `apnews.subscribeToNewsletter` | apnews.com | Subscribes an email address to an AP newsletter. | ⚪ |
+| `apnews.unsubscribeFromNewsletter` | apnews.com | Unsubscribes the signed-in caller from one newsletter. | ⚪ |
 | `app_store.getApp` | apps.apple.com | Read one app the way its store listing reads: name, developer and seller, price… | 🟢 |
 | `app_store.getAppDetails` | apps.apple.com | Everything the store page shows that the API does not: the five-star histogram behind… | 🟢 |
 | `app_store.getApps` | apps.apple.com | Read up to fifty apps in ONE request, for when an agent already holds a list of ids —… | 🟢 |
@@ -1000,7 +1022,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.getColorPalette` | canva.com | Reads one curated colour palette by slug — its name, hex colours and the colour names. | 🟢 |
 | `canva.getCreator` | canva.com | Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower… | 🟢 |
 | `canva.getDesign` | canva.com | Reads one of the caller's designs by id or edit url — title, owner, created and… | 🟢 |
-| `canva.getDesignContent` | canva.com | Reads the full text and the images on every page (or one page) of one of the caller's… | ⚪ |
+| `canva.getDesignContent` | canva.com | Reads the text and page images of one of the caller's designs, or of one page (pass a… | 🟢 |
 | `canva.getGraphic` | canva.com | Reads one graphic by id or url — title, description, category, free or Pro, the… | 🟢 |
 | `canva.getMyProfile` | canva.com | Reads the signed-in caller's Canva profile — account id, display name and handle. | 🟢 |
 | `canva.getPhoto` | canva.com | Reads one stock photo by id or url — title, description, free-or-Pro licence, the… | 🟢 |
@@ -1011,9 +1033,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.importDesign` | canva.com | Imports a file at a url (PDF, PowerPoint, Word, Keynote) into the caller's account as… | ⚪ |
 | `canva.listColorPalettes` | canva.com | Lists Canva's curated colour palettes (name, hex colours, page url), paged. | 🟢 |
 | `canva.listComments` | canva.com | Lists the comments on one of the caller's designs — author, text, page, resolved or… | ⚪ |
-| `canva.listDesignPages` | canva.com | Lists the pages of one of the caller's designs with each page's thumbnail. | ⚪ |
+| `canva.listDesignPages` | canva.com | Lists the pages of one of the caller's designs with each page's thumbnail (no text). | 🟢 |
 | `canva.listDesignSizes` | canva.com | Reads Canva's design-size wiki for one platform or format (Instagram, YouTube… | 🟢 |
-| `canva.listFolderItems` | canva.com | Lists what is in one of the caller's folders — designs, uploads and subfolders —… | ⚪ |
+| `canva.listFolderItems` | canva.com | Lists what is in one of the caller's folders — designs, uploads and subfolders (id… | 🟢 |
 | `canva.listFolders` | canva.com | Lists the caller's folders (and subfolders of one folder) — folder id, name and item… | 🟢 |
 | `canva.listPrintProducts` | canva.com | Lists what Canva Print sells — business cards, flyers, posters, mugs, t-shirts and the… | 🟢 |
 | `canva.listTemplateCategories` | canva.com | Lists the design types Canva groups templates under (flyers, posters, Instagram posts… | 🟢 |
@@ -5979,6 +6001,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.likePost` | tumblr.com | Like a post from the signed-in account. | 🟢 |
 | `tumblr.listAsks` | tumblr.com | Asks and submissions waiting in the signed-in caller's own blog inbox. | 🟢 |
 | `tumblr.listBlogFollowers` | tumblr.com | List followers of a blog; caller must own the blog. | 🟢 |
+| `tumblr.listDrafts` | tumblr.com | List the drafts or queued posts on the signed-in caller's own blog. | 🟢 |
+| `tumblr.listFollowedTags` | tumblr.com | List the hashtags the signed-in caller follows. | 🟢 |
 | `tumblr.listFollowing` | tumblr.com | List the blogs the signed-in caller follows. | 🟢 |
 | `tumblr.listLikes` | tumblr.com | List the signed-in caller's own likes. | 🟢 |
 | `tumblr.listMyBlogs` | tumblr.com | List the blogs the signed-in caller owns. | 🟢 |
@@ -5991,6 +6015,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.unfollowTag` | tumblr.com | Stop following a hashtag on the signed-in caller's account. | 🟢 |
 | `tumblr.unlikePost` | tumblr.com | Remove a like from a post on the signed-in account. | 🟢 |
 | `tumblr.unreblogPost` | tumblr.com | Remove a reblog from the signed-in account's blog. | 🟢 |
+| `tumblr.updateBlogInfo` | tumblr.com | Change the title and description of one of the signed-in caller's own blogs. | 🟢 |
 | `turbotax.compareEditions` | turbotax.intuit.com | Compare TurboTax editions side by side, showing which features each includes. | 🟢 |
 | `turbotax.estimateRefund` | turbotax.intuit.com | Estimate a federal refund or amount owed with TurboTax's TaxCaster from filing status… | 🟢 |
 | `turbotax.estimateSelfEmploymentTax` | turbotax.intuit.com | Estimate self-employment tax and quarterly payments on 1099 income with TurboTax's… | 🟢 |
@@ -6770,7 +6795,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zenoti.searchServices` | zenoti.com | Lists or searches a center's bookable services: name, description, price, duration and… | 🟢 |
 | `zenoti.updateMyProfile` | zenoti.com | Updates the signed-in caller's name, phone or email preferences at that business. | ⚪ |
 | `zepto.product` | zepto.com | Reads a Zepto product page (www.zepto.com/pn/<slug>/pvid/<id>) and returns its name… | 🟢 |
-| `zepto.search` | zepto.com | Searches Zepto's grocery catalogue and returns each product card's name, price and MRP… | 🟢 |
+| `zepto.search` | zepto.com | Searches Zepto's grocery catalogue and returns each product card's name, current… | 🟢 |
 | `zillow.applyToRental` | zillow.com | Submits a Zillow rental application for a listing. | ⚪ |
 | `zillow.calculateAffordability` | zillow.com | How much house can I afford: the highest home price a buyer can afford from income… | 🟢 |
 | `zillow.calculateMortgagePayment` | zillow.com | Computes a monthly payment from price, down payment, rate and term, broken into… | 🟢 |

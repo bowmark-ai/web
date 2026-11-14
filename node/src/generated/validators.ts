@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f9254f93d62304e009ad857a0081fb148efe13226ff9df97d31cc5db4ab81f86
-// 5228 checked, 20 unchecked.
+// Manifest version: f1d053ab358d7f30891500fbe3416bf572f98fb5554007b137151250f409385e
+// 5238 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f9254f93d62304e009ad857a0081fb148efe13226ff9df97d31cc5db4ab81f86",
+  "version": "f1d053ab358d7f30891500fbe3416bf572f98fb5554007b137151250f409385e",
   "units": {
     "address_validation": {
       "defs": {
@@ -9719,6 +9719,73 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.adobe": {
       "defs": {
+        "CompressPdfArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "pdfUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "level",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "low"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "medium"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "high"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ConvertPdfToWordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "pdfUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MergePdfsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "pdfUrls",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SaveToCreativeCloudArgs": {
           "k": "object",
           "props": [
@@ -9904,6 +9971,36 @@ export const VALIDATORS: ValidatorTable = {
             "name": "idOrUrl",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "compressPdf": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CompressPdfArgs"
+            },
+            "optional": false
+          }
+        ],
+        "convertPdfToWord": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ConvertPdfToWordArgs"
+            },
+            "optional": false
+          }
+        ],
+        "mergePdfs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MergePdfsArgs"
             },
             "optional": false
           }
@@ -11018,6 +11115,59 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getPriceQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "checkin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkout",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "currency",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "bookListing": [
           {
             "name": "args",
             "schema": {
@@ -29021,6 +29171,109 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listUploads": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getDesignContent": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pageNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listDesignPages": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFolderItems": [
+          {
+            "name": "folderId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "kind",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "design"
+                },
+                {
+                  "k": "literal",
+                  "v": "upload"
+                },
+                {
+                  "k": "literal",
+                  "v": "folder"
+                }
+              ]
+            },
+            "optional": true
+          },
           {
             "name": "opts",
             "schema": {
@@ -147243,6 +147496,49 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "TumblrDraftsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "blog",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "draft"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "queue"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TumblrEditPostArgs": {
           "k": "object",
           "props": [
@@ -147717,6 +148013,32 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TumblrUpdateBlogArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "blog",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "description",
               "schema": {
                 "k": "string"
               },
@@ -148257,6 +148579,76 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "TumblrAsksArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listDrafts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrDraftsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowedTags": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateBlogInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrUpdateBlogArgs"
             },
             "optional": false
           },

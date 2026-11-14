@@ -22,7 +22,7 @@ acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
 acqualinaresort.com — acqualinaresort: searchAvailability
 acuityscheduling.com — acuityscheduling: cancelAppointment, findScheduler, getAppointmentTypeDetails, getBookingForm, getPrice, getSchedulerInfo, listAppointmentTypes, listLocations, listMyBookings, listPacks, listScheduleSlots, rescheduleAppointment, searchSchedule (+4 planned)
-adobe.com — adobe: findHelpArticle, getAgreementStatus, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, licenseStockAsset, saveAssetToCreativeCloud, searchFonts, searchStockAssets, searchTemplates, sendForSignature (+3 planned)
+adobe.com — adobe: compressPdf, convertPdfToWord, findHelpArticle, getAgreementStatus, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, licenseStockAsset, mergePdfs, saveAssetToCreativeCloud, searchFonts, searchStockAssets, searchTemplates, sendForSignature
 adoptapet.com — adoptapet: listPets
 adorama.com — adorama: listCategories, search (+2 planned)
 ads.google.com — ads_google: listAccounts, listCampaigns
@@ -33,11 +33,12 @@ agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
 agenticskills.io — agenticskills: get, search
 agentskill.sh — agentskill: getSkill, listSkills (+1 planned)
 agentstatus.dev — agentstatus: getServer, searchServers (+1 planned)
+agentweb.us — agentweb: discover, library
 agoda.com — agoda: findDestinations, searchHotels (+4 planned)
 ahrefs.com — ahrefs: getDomainRating
 ai.engineer — ai_engineer: getSpeaker, listSpeakers
 aiper.store — aiper: listPoolChooserQuestions, recommendPoolCleaner
-airbnb.com — airbnb: getHostProfile, getListing, getListingDetails, getListingReviews, getPriceQuote, listTrips, search, searchExperiences (+19 planned)
+airbnb.com — airbnb: bookListing, getHostProfile, getListing, getListingDetails, getListingReviews, getPriceQuote, listTrips, search, searchExperiences (+18 planned)
 airchina.com — airchina: getDealFares (+1 planned)
 airtable.com — airtable: createRecord, getRecord, listBases, listRecords, listTables, updateRecord
 ajmadison.com — ajmadison: search (+1 planned)
@@ -64,6 +65,7 @@ api.census.gov — census_api: validateAddress (+1 planned)
 api.weather.gov — nws: findRadarStations, findStations, findZones, getActiveAlerts, getAlert, getAlertCounts, getCurrentConditions, getForecast, getForecastDiscussion, getGridpointData, getHourlyForecast, getMarineForecast, getObservationHistory, getOffice, getOfficeHeadlines, getPoint, getTextProduct, getWeatherRadio, getWeatherStories, getZoneForecast, listAlertTypes, listSigmets, listTextProducts, lookupGlossary, searchAlerts, searchLocation (+3 planned)
 apidirectory.com — apidirectory_com: listCategories, search (+1 planned)
 apify.com — apify: store
+apnews.com — apnews: nothing callable yet (+20 planned)
 app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchDeals (+2 planned)
 appfolio.com — appfolio: listings
 apple.com — apple: 32 functions — ask get_library
@@ -168,7 +170,7 @@ camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
-canva.com — canva: browseTemplates, getApp, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getDesign, getGraphic, getMyProfile, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignSizes, listFolders, listPrintProducts, listTemplateCategories, listUploads, searchApps, searchGraphics, searchMyDesigns, searchPhotos, searchTemplates (+29 planned)
+canva.com — canva: browseTemplates, getApp, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getDesign, getDesignContent, getGraphic, getMyProfile, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listDesignPages, listDesignSizes, listFolderItems, listFolders, listPrintProducts, listTemplateCategories, listUploads, searchApps, searchGraphics, searchMyDesigns, searchPhotos, searchTemplates (+26 planned)
 capitaloneshopping.com — capitaloneshopping: getStoreRate, searchStores
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
 careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs
@@ -304,7 +306,7 @@ epromos.com — epromos: getProductConfiguration, listCategoryProducts, quoteBul
 eq3.com — eq3: getSofaConfiguration, listSofas (+1 planned)
 equinox-hotels.com — equinox_hotels: listRooms, searchRates
 erieinsurance.com — erieinsurance: findAgent (+18 planned)
-espn.com — espn: addDropFantasyPlayer, addFavorite, createFantasyLeague, draftPicks, fantasyPlayers, getArticle, getFantasyLeague, getFantasyTeam, getGame, getPlayer, getTeam, injuries, listFavorites, listLeagues, listMyFantasyTeams, listTeams, listVideos, news, odds, playerGameLog, playerStats, proposeFantasyTrade, rankings, removeFavorite, scoreboard, search, setFantasyLineup, standings, statLeaders, submitPicks, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions
+espn.com — espn: 35 functions — ask get_library
 estes-express.com — estes_express: estimateFreightQuote
 ethos.com — ethos: nothing callable yet (+1 planned)
 etsy.com — etsy: browseCategory, estimateShipping, findRegistry, getListing, getRegistry, getShop, getUserProfile, listCategories, listEditorsPicks, listListingReviews, listShopListings, listShopReviews, listTrendingSearches, search, searchShops, suggestSearches (+19 planned)
@@ -797,7 +799,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
-tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, followTag, getBlogInfo, getBlogPosts, getDashboard, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listAsks, listBlogFollowers, listFollowing, listLikes, listMyBlogs, listNotifications, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unfollowTag, unlikePost, unreblogPost
+tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, followTag, getBlogInfo, getBlogPosts, getDashboard, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listAsks, listBlogFollowers, listDrafts, listFollowedTags, listFollowing, listLikes, listMyBlogs, listNotifications, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unfollowTag, unlikePost, unreblogPost, updateBlogInfo
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f9254f93d62304e009ad857a0081fb148efe13226ff9df97d31cc5db4ab81f86
-# 98 capabilities, 850 providers, 5228 typed functions, 20 refused.
+# Manifest version: f1d053ab358d7f30891500fbe3416bf572f98fb5554007b137151250f409385e
+# 98 capabilities, 850 providers, 5238 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4962,6 +4962,24 @@ class Prv_adobe_StockAssetDetail_Out_licensing_item_Out(TypedDict):
     name: str
     price: str
 
+class Prv_adobe_CompressPdfArgs_In(TypedDict):
+    pdfUrl: str
+    level: NotRequired[Literal["low"] | Literal["medium"] | Literal["high"]]
+
+class Prv_adobe_AcrobatPdfResult_Out(TypedDict):
+    name: str
+    mimetype: str
+    downloadUrl: str
+    bytes: float
+    inputBytes: float
+
+class Prv_adobe_ConvertPdfToWordArgs_In(TypedDict):
+    pdfUrl: str
+
+class Prv_adobe_MergePdfsArgs_In(TypedDict):
+    pdfUrls: Sequence[str]
+    name: NotRequired[str]
+
 class Prv_adobe_SaveToCreativeCloudArgs_In(TypedDict):
     assetUrl: str
     name: NotRequired[str]
@@ -5620,6 +5638,43 @@ class Prv_airbnb_AirbnbCalendarDay_Out(TypedDict):
     availableForCheckout: bool
     minNights: float | None
     maxNights: float | None
+
+class Prv_airbnb_bookListing_args_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+    checkin: str
+    checkout: str
+    adults: NotRequired[float]
+    currency: NotRequired[str]
+
+class Prv_airbnb_AirbnbCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_airbnb_AirbnbCheckoutHandoff_Out_account_Out
+    summary: Prv_airbnb_AirbnbCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_airbnb_AirbnbCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_airbnb_AirbnbCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_airbnb_AirbnbCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_airbnb_AirbnbCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_airbnb_searchExperiences_args_In(TypedDict):
     location: str
@@ -15073,6 +15128,45 @@ class Prv_canva_listUploads_return_Out(TypedDict):
 class Prv_canva_CanvaUpload_Out(TypedDict):
     id: str
     name: str
+
+class Prv_canva_getDesignContent_return_Out(TypedDict):
+    design: Prv_canva_CanvaDesignContent_Out
+    pages: list[Prv_canva_CanvaDesignPage_Out]
+    warnings: list[str]
+
+class Prv_canva_CanvaDesignContent_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    pageCount: float
+
+class Prv_canva_CanvaDesignPage_Out(TypedDict):
+    page: float
+    text: str
+    imageUrl: str
+    width: float
+    height: float
+
+class Prv_canva_listDesignPages_return_Out(TypedDict):
+    design: Prv_canva_CanvaDesignContent_Out
+    pages: list[Prv_canva_CanvaDesignPageThumb_Out]
+    warnings: list[str]
+
+class Prv_canva_CanvaDesignPageThumb_Out(TypedDict):
+    page: float
+    imageUrl: str
+    width: float
+    height: float
+
+class Prv_canva_listFolderItems_return_Out(TypedDict):
+    items: list[Prv_canva_CanvaFolderItem_Out]
+    warnings: list[str]
+
+class Prv_canva_CanvaFolderItem_Out(TypedDict):
+    id: str
+    name: str
+    kind: Literal["design"] | Literal["upload"] | Literal["folder"]
+    url: str | None
 
 class Prv_canva_getCreator_return_Out(TypedDict):
     creator: Prv_canva_CanvaCreator_Out
@@ -69808,6 +69902,31 @@ class Prv_tumblr_TumblrAsksPage_Out(TypedDict):
     asks: list[Prv_tumblr_TumblrPost_Out]
     nextOffset: float | None
 
+class Prv_tumblr_TumblrDraftsArgs_In(TypedDict):
+    blog: str
+    state: NotRequired[Literal["draft"] | Literal["queue"]]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_tumblr_TumblrDraftsPage_Out(TypedDict):
+    state: Literal["draft"] | Literal["queue"]
+    posts: list[Prv_tumblr_TumblrPost_Out]
+    nextOffset: float | None
+
+class Prv_tumblr_TumblrFollowedTagsPage_Out(TypedDict):
+    tags: list[str]
+
+class Prv_tumblr_TumblrUpdateBlogArgs_In(TypedDict):
+    blog: str
+    title: NotRequired[str]
+    description: NotRequired[str]
+
+class Prv_tumblr_TumblrUpdateBlogResult_Out(TypedDict):
+    ok: Literal[True]
+    blog: str
+    title: NotRequired[str]
+    description: NotRequired[str]
+
 class Prv_tumblr_TumblrTagArgs_In(TypedDict):
     tag: str
 
@@ -78320,7 +78439,7 @@ class Prv_zoom_ZoomPricingResult_Out(TypedDict):
 
 class Prv_zoom_ZoomPricingPlan_Out(TypedDict):
     name: str
-    price: float
+    price: float | None
     currency: str
     features: list[str]
 
@@ -81486,6 +81605,23 @@ class Prv_adobe(Protocol):
         restatement of the title, so it is not carried as a separate field.
         """
 
+    async def compressPdf(self, args: Prv_adobe_CompressPdfArgs_In, /) -> Prv_adobe_AcrobatPdfResult_Out:
+        """Runs Adobe Acrobat's free online "Compress PDF" on a public PDF URL and returns a link
+        to the smaller PDF plus its size, at level low, medium or high (default medium). No
+        Adobe account needed. A PDF that is already as small as it gets fails with "already
+        compressed".
+        """
+
+    async def convertPdfToWord(self, args: Prv_adobe_ConvertPdfToWordArgs_In, /) -> Prv_adobe_AcrobatPdfResult_Out:
+        """Runs Adobe Acrobat's free online PDF-to-Word converter on a public PDF URL and returns a
+        link to the editable .docx. No Adobe account needed.
+        """
+
+    async def mergePdfs(self, args: Prv_adobe_MergePdfsArgs_In, /) -> Prv_adobe_AcrobatPdfResult_Out:
+        """Runs Adobe Acrobat's free online "Merge PDF" on two to twelve public PDF URLs and
+        returns a link to one combined PDF in the order given. No Adobe account needed.
+        """
+
     async def saveAssetToCreativeCloud(self, args: Prv_adobe_SaveToCreativeCloudArgs_In, opts: ConnectionOption | None = None, /) -> Prv_adobe_SavedCreativeCloudAsset_Out:
         """Saves an image (by public https URL, under 5 MB) into the signed-in caller's own
         Creative Cloud Libraries, the same store Adobe Express's "Save to library" writes to.
@@ -81774,6 +81910,17 @@ class Prv_airbnb(Protocol):
         are YYYY-MM-DD and both required; `adults` default 1, `currency` an ISO code (default
         USD). Nothing is reserved or charged. Same panel as getListing, without the day-by-day
         calendar.
+        """
+
+    async def bookListing(self, args: Prv_airbnb_bookListing_args_In, /) -> Prv_airbnb_AirbnbCheckoutHandoff_Out:
+        """Reserve or book an Airbnb stay: returns the checkout link, never books or pays. Pass the
+        listing `url` (airbnb.com/rooms/<id>) or `id`, `checkin`/`checkout` (`YYYY-MM-DD`),
+        `adults` (default 1) and `currency` (default USD). When the dates can be booked it
+        returns `ready_to_checkout`: a /rooms link carrying the dates and guests, the Airbnb
+        account to be signed in as, and the booking panel's total before taxes. When they cannot
+        (booked, minimum stay) it returns `unavailable` with the site's own reason. The person
+        opens the link, signs in and presses Airbnb's own Reserve button; taxes shown at
+        Airbnb's checkout are the price of record.
         """
 
     async def searchExperiences(self, args: Prv_airbnb_searchExperiences_args_In, /) -> list[Prv_airbnb_AirbnbExperience_Out]:
@@ -86900,6 +87047,21 @@ class Prv_canva(Protocol):
     async def listUploads(self, opts: ConnectionOption | None = None, /) -> Prv_canva_listUploads_return_Out:
         """Lists the images and videos the caller uploaded to Canva (id, name). Needs the caller
         signed in to canva.com.
+        """
+
+    async def getDesignContent(self, idOrUrl: str, pageNumber: float | None = None, opts: ConnectionOption | None = None, /) -> Prv_canva_getDesignContent_return_Out:
+        """Reads the text and page images of one of the caller's designs, or of one page (pass a
+        page number, counting from 1). Needs the caller signed in to canva.com.
+        """
+
+    async def listDesignPages(self, idOrUrl: str, opts: ConnectionOption | None = None, /) -> Prv_canva_listDesignPages_return_Out:
+        """Lists the pages of one of the caller's designs with each page's thumbnail (no text).
+        Needs the caller signed in to canva.com.
+        """
+
+    async def listFolderItems(self, folderId: str, kind: Literal["design"] | Literal["upload"] | Literal["folder"] | None = None, opts: ConnectionOption | None = None, /) -> Prv_canva_listFolderItems_return_Out:
+        """Lists what is in one of the caller's folders — designs, uploads and subfolders (id,
+        name, kind, url), optionally one kind. Needs the caller signed in to canva.com.
         """
 
     async def getCreator(self, handleOrUrl: str, /) -> Prv_canva_getCreator_return_Out:
@@ -116323,6 +116485,17 @@ class Prv_tumblr(Protocol):
         offset.
         """
 
+    async def listDrafts(self, args: Prv_tumblr_TumblrDraftsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrDraftsPage_Out:
+        """The drafts (or, with state "queue", the queued posts) waiting on the signed-in caller's
+        own blog, paged by offset.
+        """
+
+    async def listFollowedTags(self, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrFollowedTagsPage_Out:
+        """The hashtags the signed-in caller follows."""
+
+    async def updateBlogInfo(self, args: Prv_tumblr_TumblrUpdateBlogArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrUpdateBlogResult_Out:
+        """Changes the title and/or description of one of the signed-in caller's own blogs."""
+
     async def followTag(self, args: Prv_tumblr_TumblrTagArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrTagResult_Out:
         """Follow a hashtag so its posts show on the signed-in caller's dashboard."""
 
@@ -120896,9 +121069,9 @@ class Prv_zepto(Protocol):
     """
 
     async def search(self, args: Prv_zepto_search_args_In, /) -> list[Prv_zepto_ZeptoSearchRow_Out]:
-        """Searches Zepto's grocery catalogue and returns each product card's name, price and MRP
-        in rupees, pack size, stock and product URL (pass the url or id to product() for full
-        detail).
+        """Searches Zepto's grocery catalogue and returns each card's name, current product-page
+        price and MRP in rupees, pack size, stock and product URL (pass the url or id to
+        product() for full detail).
         """
 
     async def product(self, args: Prv_zepto_product_args_u0_In | Prv_zepto_product_args_u1_In, /) -> Prv_zepto_ZeptoProduct_Out:

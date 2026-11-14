@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f9254f93d62304e009ad857a0081fb148efe13226ff9df97d31cc5db4ab81f86
-// 98 capabilities, 850 providers, 5256 typed functions, 20 refused.
+// Manifest version: f1d053ab358d7f30891500fbe3416bf572f98fb5554007b137151250f409385e
+// 98 capabilities, 850 providers, 5266 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8158,6 +8158,36 @@ interface SendForSignatureArgs {
   message?: string;
 }
 
+interface CompressPdfArgs {
+  /** A public https URL of the PDF to compress (up to 100 MB). */
+  pdfUrl: string;
+  /** "low" keeps the most quality, "high" the smallest file; defaults to "medium". */
+  level?: "low" | "medium" | "high";
+}
+
+interface ConvertPdfToWordArgs {
+  /** A public https URL of the PDF to convert. */
+  pdfUrl: string;
+}
+
+interface MergePdfsArgs {
+  /** Two to twelve public https PDF URLs, merged in this order. */
+  pdfUrls: string[];
+  /** File name of the merged PDF; defaults to "merged.pdf". */
+  name?: string;
+}
+
+interface AcrobatPdfResult {
+  name: string;
+  mimetype: string;
+  /** A signed Adobe link to the result; short-lived, so fetch or save it promptly. */
+  downloadUrl: string;
+  /** Size of the result in bytes. */
+  bytes: number;
+  /** Combined size of the input PDFs in bytes. */
+  inputBytes: number;
+}
+
 interface SaveToCreativeCloudArgs {
   /** A public https URL of the image (PNG, JPEG, GIF, SVG, WebP), under 5 MB — e.g. a template thumbnail from searchTemplates. */
   assetUrl: string;
@@ -8301,6 +8331,25 @@ interface adobeRow {
      * title, so it is not carried as a separate field.
      */
     getStockAsset(idOrUrl: string): Promise<StockAssetDetail>;
+
+    /**
+     * Runs Adobe Acrobat's free online "Compress PDF" on a public PDF URL and returns a link to
+     * the smaller PDF plus its size, at level low, medium or high (default medium). No Adobe
+     * account needed. A PDF that is already as small as it gets fails with "already compressed".
+     */
+    compressPdf(args: CompressPdfArgs): Promise<AcrobatPdfResult>;
+
+    /**
+     * Runs Adobe Acrobat's free online PDF-to-Word converter on a public PDF URL and returns a
+     * link to the editable .docx. No Adobe account needed.
+     */
+    convertPdfToWord(args: ConvertPdfToWordArgs): Promise<AcrobatPdfResult>;
+
+    /**
+     * Runs Adobe Acrobat's free online "Merge PDF" on two to twelve public PDF URLs and returns a
+     * link to one combined PDF in the order given. No Adobe account needed.
+     */
+    mergePdfs(args: MergePdfsArgs): Promise<AcrobatPdfResult>;
 
     /**
      * Saves an image (by public https URL, under 5 MB) into the signed-in caller's own Creative
@@ -8962,6 +9011,18 @@ interface AiperPoolRecommendation {
 
 declare namespace BowmarkProvider_airbnb {
   // ── Airbnb — the unit's own declarations, verbatim ──
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface AirbnbCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
+}
 interface AirbnbListing {
   id: string;
   title: string;
@@ -9199,6 +9260,18 @@ interface AirbnbExperience {
      * reserved or charged. Same panel as getListing, without the day-by-day calendar.
      */
     getPriceQuote(args: { url?: string, id?: string, checkin: string, checkout: string, adults?: number, currency?: string }): Promise<AirbnbListingAvailability>;
+
+    /**
+     * Reserve or book an Airbnb stay: returns the checkout link, never books or pays. Pass the
+     * listing `url` (airbnb.com/rooms/<id>) or `id`, `checkin`/`checkout` (`YYYY-MM-DD`), `adults`
+     * (default 1) and `currency` (default USD). When the dates can be booked it returns
+     * `ready_to_checkout`: a /rooms link carrying the dates and guests, the Airbnb account to be
+     * signed in as, and the booking panel's total before taxes. When they cannot (booked, minimum
+     * stay) it returns `unavailable` with the site's own reason. The person opens the link, signs
+     * in and presses Airbnb's own Reserve button; taxes shown at Airbnb's checkout are the price
+     * of record.
+     */
+    bookListing(args: { url?: string, id?: string, checkin: string, checkout: string, adults?: number, currency?: string }): Promise<AirbnbCheckoutHandoff>;
 
     /**
      * Tours, classes and things to do (Airbnb Experiences: guided walks, cooking classes,
@@ -23733,6 +23806,34 @@ interface CanvaUpload {
   id: string;
   name: string;
 }
+interface CanvaDesignContent {
+  id: string;
+  title: string;
+  url: string;
+  pageCount: number;
+}
+interface CanvaDesignPage {
+  page: number;
+  /** This page's own text, joined in on-page order. Empty when the page carries no text. */
+  text: string;
+  imageUrl: string;
+  width: number;
+  height: number;
+}
+interface CanvaDesignPageThumb {
+  page: number;
+  imageUrl: string;
+  width: number;
+  height: number;
+}
+interface CanvaFolderItem {
+  id: string;
+  name: string;
+  /** "design", "upload" or "folder". */
+  kind: "design" | "upload" | "folder";
+  /** null for an upload. */
+  url: string | null;
+}
 
 interface CanvaMyProfile {
   /** Canva's account id. */
@@ -24005,6 +24106,24 @@ interface CanvaColorCombinations {
      * in to canva.com.
      */
     listUploads(opts?: ConnectionOption): Promise<{ uploads: CanvaUpload[]; warnings: string[] }>;
+
+    /**
+     * Reads the text and page images of one of the caller's designs, or of one page (pass a page
+     * number, counting from 1). Needs the caller signed in to canva.com.
+     */
+    getDesignContent(idOrUrl: string, pageNumber?: number, opts?: ConnectionOption): Promise<{ design: CanvaDesignContent; pages: CanvaDesignPage[]; warnings: string[] }>;
+
+    /**
+     * Lists the pages of one of the caller's designs with each page's thumbnail (no text). Needs
+     * the caller signed in to canva.com.
+     */
+    listDesignPages(idOrUrl: string, opts?: ConnectionOption): Promise<{ design: CanvaDesignContent; pages: CanvaDesignPageThumb[]; warnings: string[] }>;
+
+    /**
+     * Lists what is in one of the caller's folders — designs, uploads and subfolders (id, name,
+     * kind, url), optionally one kind. Needs the caller signed in to canva.com.
+     */
+    listFolderItems(folderId: string, kind?: "design" | "upload" | "folder", opts?: ConnectionOption): Promise<{ items: CanvaFolderItem[]; warnings: string[] }>;
 
     /**
      * Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower count and
@@ -107175,6 +107294,41 @@ interface TumblrAsksPage {
   nextOffset: number | null;
 }
 
+interface TumblrDraftsArgs {
+  /** The signed-in caller's own blog. */
+  blog: string;
+  /** "draft" (default) or "queue". */
+  state?: "draft" | "queue";
+  limit?: number;
+  offset?: number;
+}
+
+interface TumblrDraftsPage {
+  state: "draft" | "queue";
+  posts: TumblrPost[];
+  /** Pass as offset for the next page, or null on the last. */
+  nextOffset: number | null;
+}
+
+interface TumblrFollowedTagsPage {
+  /** Tag names without the "#". */
+  tags: string[];
+}
+
+interface TumblrUpdateBlogArgs {
+  /** The signed-in caller's own blog. */
+  blog: string;
+  title?: string;
+  description?: string;
+}
+
+interface TumblrUpdateBlogResult {
+  ok: true;
+  blog: string;
+  title?: string;
+  description?: string;
+}
+
 interface TumblrTagArgs {
   /** The hashtag, "cats" or "#cats". */
   tag: string;
@@ -107328,6 +107482,18 @@ interface TumblrTagResult {
 
     /** The asks and submissions waiting in the signed-in caller's own blog inbox, paged by offset. */
     listAsks(args: TumblrAsksArgs, opts?: ConnectionOption): Promise<TumblrAsksPage>;
+
+    /**
+     * The drafts (or, with state "queue", the queued posts) waiting on the signed-in caller's own
+     * blog, paged by offset.
+     */
+    listDrafts(args: TumblrDraftsArgs, opts?: ConnectionOption): Promise<TumblrDraftsPage>;
+
+    /** The hashtags the signed-in caller follows. */
+    listFollowedTags(opts?: ConnectionOption): Promise<TumblrFollowedTagsPage>;
+
+    /** Changes the title and/or description of one of the signed-in caller's own blogs. */
+    updateBlogInfo(args: TumblrUpdateBlogArgs, opts?: ConnectionOption): Promise<TumblrUpdateBlogResult>;
 
     /** Follow a hashtag so its posts show on the signed-in caller's dashboard. */
     followTag(args: TumblrTagArgs, opts?: ConnectionOption): Promise<TumblrTagResult>;
@@ -120016,8 +120182,9 @@ interface ZeptoProduct { id: string; productId: string | null; name: string; bra
    */
   interface Unit {
     /**
-     * Searches Zepto's grocery catalogue and returns each product card's name, price and MRP in
-     * rupees, pack size, stock and product URL (pass the url or id to product() for full detail).
+     * Searches Zepto's grocery catalogue and returns each card's name, current product-page price
+     * and MRP in rupees, pack size, stock and product URL (pass the url or id to product() for
+     * full detail).
      */
     search(args: { query: string }): Promise<ZeptoSearchRow[]>;
 
@@ -120236,7 +120403,7 @@ declare namespace BowmarkProvider_zoom {
 
 interface ZoomPricingPlan {
   name: string;
-  price: number;
+  price: number | null; // null = sales-led plan with no public price (Enterprise)
   currency: string;
   features: string[]; // the site's own labels — read the values off a result, never guess one from prose
 }
