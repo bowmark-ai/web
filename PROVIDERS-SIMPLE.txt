@@ -189,7 +189,7 @@ cb2.com — cb2: searchProducts (+1 planned)
 cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
 cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
-cbsnews.com — cbsnews: getArticle, listLatestNews, listRssFeeds, listSectionArticles, listSections, search (+20 planned)
+cbsnews.com — cbsnews: getArticle, getLiveStream, getLiveUpdates, getVideo, listLatestNews, listRssFeeds, listSectionArticles, listSections, listVideos, search (+16 planned)
 cerebralvalley.ai — cerebralvalley: getEvent, listEvents
 cftc.gov — cftc: searchRules
 champxpress.com — champxpress: nothing callable yet (+2 planned)

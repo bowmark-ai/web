@@ -1073,10 +1073,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbsnews.getAccount` | cbsnews.com | Reads the signed-in caller's CBS News account profile. | ⚪ |
 | `cbsnews.getArticle` | cbsnews.com | Reads one CBS News article: headline, description, the full body text, authors with… | 🟢 |
 | `cbsnews.getAuthor` | cbsnews.com | Gets a correspondent's or writer's profile from /team/<slug>/. | ⚪ |
-| `cbsnews.getLiveStream` | cbsnews.com | Gets the CBS News 24/7 live stream and the current broadcast from /live/. | ⚪ |
-| `cbsnews.getLiveUpdates` | cbsnews.com | Gets a live-updates page (/live-updates/<slug>/) with its timestamped posts. | ⚪ |
+| `cbsnews.getLiveStream` | cbsnews.com | Gets the CBS News 24/7 live stream and the current broadcast from /live/. | 🟢 |
+| `cbsnews.getLiveUpdates` | cbsnews.com | Gets a live-updates page (/live-updates/<slug>/) with its timestamped posts. | 🟢 |
 | `cbsnews.getLocalWeather` | cbsnews.com | Gets a local station's current conditions and forecast. | ⚪ |
-| `cbsnews.getVideo` | cbsnews.com | Gets one video page: title, description, duration, date and stream URL where exposed. | ⚪ |
+| `cbsnews.getVideo` | cbsnews.com | Gets one video page: title, description, duration, date and stream URL where exposed. | 🟢 |
 | `cbsnews.listArticlesByAuthor` | cbsnews.com | Lists the stories by one author. | ⚪ |
 | `cbsnews.listLatestNews` | cbsnews.com | Lists the latest stories from one CBS News RSS feed (main, or a section or show slug… | 🟢 |
 | `cbsnews.listLocalNews` | cbsnews.com | Lists the stories on a local station's front, e.g. /newyork/. | ⚪ |
@@ -1091,7 +1091,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbsnews.listShowEpisodes` | cbsnews.com | Lists a programme's recent segments and full episodes. | ⚪ |
 | `cbsnews.listShows` | cbsnews.com | Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings… | ⚪ |
 | `cbsnews.listTagArticles` | cbsnews.com | Lists the stories filed under a tag (/tag/<slug>/). | ⚪ |
-| `cbsnews.listVideos` | cbsnews.com | Lists videos from /video/ or a video category. | ⚪ |
+| `cbsnews.listVideos` | cbsnews.com | Lists videos from /video/ or a video category. | 🟢 |
 | `cbsnews.search` | cbsnews.com | Searches CBS News stories and videos by keyword, as /search/?q= does. | 🟢 |
 | `cbsnews.subscribeToNewsletter` | cbsnews.com | Subscribes an email address to a CBS News newsletter. | ⚪ |
 | `cbsnews.unsubscribeFromNewsletter` | cbsnews.com | Unsubscribes the signed-in caller from a newsletter. | ⚪ |
