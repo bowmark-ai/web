@@ -5469,7 +5469,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getCommunityHub` | steampowered.com | Reads the first page of a game's public Steam Community hub by appid: announcements… | 🟢 |
 | `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | 🟢 |
 | `steam.getGameDlc` | steampowered.com | Lists a game's DLC by appid: each add-on's appid, name, US price in cents (null when… | 🟢 |
-| `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | 🟡 |
+| `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | 🟢 |
 | `steam.getGameScreenshots` | steampowered.com | Fetches a game's screenshots and promotional images, returning image URLs, captions… | 🟢 |
 | `steam.getGameStats` | steampowered.com | Reads a game's current concurrent player count and its global achievement completion… | 🟢 |
 | `steam.getGameVideos` | steampowered.com | Fetches a game's trailers and video clips by appid, returning each video's name… | 🟢 |
