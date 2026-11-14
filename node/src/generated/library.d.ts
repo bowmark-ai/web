@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: be3e1fbb304fe52fd76e7be01d28c2e9eb59b746d99e1bfe607b05e5764a91c5
-// 98 capabilities, 851 providers, 5269 typed functions, 20 refused.
+// Manifest version: 509267ce4da4974f08df964dac7be75cbf463247ffd414636b292dab5e9694db
+// 98 capabilities, 853 providers, 5277 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35196,6 +35196,11 @@ interface DeviantartSubmittedDeviation {
   submitted: boolean;
 }
 
+interface DeviantartDeviationUpdate {
+  deviationId: string;
+  updated: string[];
+}
+
 interface DeviantartProfileUpdate {
   username: string;
   saved: boolean;
@@ -35416,6 +35421,13 @@ interface DeviantartPostedComment {
      * are not set by this call. Needs a caller signed in to DeviantArt.
      */
     submitDeviation(args: { imageUrl: string; folderName?: string }, opts?: ConnectionOption): Promise<DeviantartSubmittedDeviation>;
+
+    /**
+     * Sets the description of a deviation the signed-in caller owns (for example the one
+     * submitDeviation just uploaded), through the site's own deviation/update door. Title, tags
+     * and the mature flag are not settable yet. Needs a caller signed in to DeviantArt.
+     */
+    updateDeviation(args: { deviationId: string | number; description: string }, opts?: ConnectionOption): Promise<DeviantartDeviationUpdate>;
 
     /**
      * Edits the signed-in caller's own About section: reads the site's current about-module
@@ -49584,6 +49596,41 @@ interface GithubPullRequestCreated {
   }
 }
 
+declare namespace BowmarkProvider_gitlab {
+  // ── GitLab — the unit's own declarations, verbatim ──
+interface GitlabProject { id: number; pathWithNamespace: string; name: string; description: string | null; webUrl: string; stars: number; forks: number; defaultBranch: string | null; lastActivityAt: string | null }
+interface GitlabWorkItem { iid: number; projectId: number; title: string; description: string | null; state: string; author: string | null; webUrl: string; createdAt: string | null; updatedAt: string | null }
+interface GitlabProjectSearchArgs { query: string; limit?: number }
+interface GitlabProjectWorkSearchArgs { project: string; query?: string; limit?: number }
+
+  /**
+   * Search public GitLab projects, then read issues and merge requests from a named project
+   * through GitLab's documented public REST API.
+   */
+  interface Unit {
+    /**
+     * Find public GitLab projects by name or description. Pass the returned pathWithNamespace to
+     * getProject, searchIssues, or searchMergeRequests.
+     */
+    searchProjects(args: GitlabProjectSearchArgs): Promise<GitlabProject[]>;
+
+    /** Gets one public GitLab project by its numeric id or path, such as "gitlab-org/gitlab". */
+    getProject(project: string): Promise<GitlabProject>;
+
+    /**
+     * Searches issues in one public GitLab project. project is a numeric id or path; query is
+     * optional.
+     */
+    searchIssues(args: GitlabProjectWorkSearchArgs): Promise<GitlabWorkItem[]>;
+
+    /**
+     * Searches merge requests in one public GitLab project. project is a numeric id or path; query
+     * is optional.
+     */
+    searchMergeRequests(args: GitlabProjectWorkSearchArgs): Promise<GitlabWorkItem[]>;
+  }
+}
+
 declare namespace BowmarkProvider_glama {
   // ── Glama — the unit's own declarations, verbatim ──
 interface GlamaListedServer {
@@ -63692,6 +63739,44 @@ interface LasikPlusAvailability {
      * consultation slot calendar.
      */
     getAvailability(centerCode: string): Promise<LasikPlusAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_launchpad {
+  // ── Launchpad — the unit's own declarations, verbatim ──
+interface LaunchpadProject {
+  name: string; title: string; summary: string | null; description: string | null;
+  url: string; homepageUrl: string | null; vcs: string | null;
+  hasCodeHosting: boolean; hasBugTracker: boolean;
+  developmentBranch: { url: string; name: string | null; sourceUrl: string | null } | null;
+}
+interface ListProjectsArgs { limit?: number; } // 1–50, default 20
+interface SearchProjectsArgs extends ListProjectsArgs { query: string; }
+
+  /**
+   * Launchpad projects, their public source-development branch, and issue-tracker availability.
+   * For a bare code.launchpad.net request, listLatestProjects returns recently registered
+   * projects.
+   */
+  interface Unit {
+    /**
+     * Reads one public Launchpad project by name, including issue-tracker availability and its
+     * development branch/source URL when published. Returns null when that project name is not
+     * registered.
+     */
+    getProject(name: string): Promise<LaunchpadProject | null>;
+
+    /**
+     * Lists recently registered public Launchpad projects. This is the useful zero-argument action
+     * for a bare code.launchpad.net request; optional limit is 1–50, default 20.
+     */
+    listLatestProjects(args?: ListProjectsArgs): Promise<LaunchpadProject[]>;
+
+    /**
+     * Searches public Launchpad projects by words in their title, summary, or description;
+     * optional limit is 1–50, default 20.
+     */
+    searchProjects(args: SearchProjectsArgs): Promise<LaunchpadProject[]>;
   }
 }
 
@@ -122461,6 +122546,7 @@ interface BowmarkProviders {
   gazelle: BowmarkProvider_gazelle.Unit;
   geico: BowmarkProvider_geico.Unit;
   github: BowmarkProvider_github.Unit;
+  gitlab: BowmarkProvider_gitlab.Unit;
   glama: BowmarkProvider_glama.Unit;
   glassdoor: BowmarkProvider_glassdoor.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
@@ -122576,6 +122662,7 @@ interface BowmarkProviders {
   landmarkhw_com: BowmarkProvider_landmarkhw_com.Unit;
   landsend: BowmarkProvider_landsend.Unit;
   lasikplus: BowmarkProvider_lasikplus.Unit;
+  launchpad: BowmarkProvider_launchpad.Unit;
   lcsc: BowmarkProvider_lcsc.Unit;
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   letterboxd: BowmarkProvider_letterboxd.Unit;

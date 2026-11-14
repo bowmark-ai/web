@@ -256,6 +256,7 @@ cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuil
 dailymail.com — dailymail: browseSection, getArticle, getAuthor, getVideo, listLatest, listSections, listVideos, searchArticles (+16 planned)
 dailymotion.com — dailymotion: 37 functions — ask get_library
 dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
+dat.com — dat: loadToTruckRatio, nationalSpotRates, rateTrend
 data.cms.gov — data_cms: getRows, searchDatasets
 data.medicaid.gov — data_medicaid: getDataset, queryDataset, searchDatasets
 davidsonhomes.com — davidsonhomes: getCommunity, getHome, getRegion, listRegions
@@ -290,7 +291,7 @@ doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getR
 drafthouse.com — drafthouse: findTheaters, getShowtimes (+1 planned)
 drive.google.com — drive_google: addComment, createDocument, createFolder, createPresentation, createSpreadsheet, getAccount, getDocumentText, getFile, getPresentationText, getSheetCsv, listComments, listFiles, moveFile, renameFile, restoreFile, setStarred, trashFile
 drivers.uber.com — uber: getDriverEarnings
-dropbox.com — dropbox: 31 functions — ask get_library (+11 planned)
+dropbox.com — dropbox: 32 functions — ask get_library (+10 planned)
 duckduckgo.com — duckduckgo: changeForwardingAddress, chatWithDuckAi, convertCurrency, createPrivateDuckAddress, defineWord, getEmailProtectionAccount, getInstantAnswer, getLocalTime, getWeather, listBangs, listDuckAiModels, listRegions, resolveBang, searchImages, searchNews, searchPlaces, searchVideos, searchWeb, setPrivateDuckAddressActive, suggestQueries, translateText
 dumpsters.com — dumpsters: getQuote
 e2b.dev — e2b: createSandbox, getSandbox, killSandbox, listSandboxes, readFile, runCommand, setSandboxTimeout, writeFile

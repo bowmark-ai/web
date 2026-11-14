@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: be3e1fbb304fe52fd76e7be01d28c2e9eb59b746d99e1bfe607b05e5764a91c5
-# 98 capabilities, 851 providers, 5241 typed functions, 20 refused.
+# Manifest version: 509267ce4da4974f08df964dac7be75cbf463247ffd414636b292dab5e9694db
+# 98 capabilities, 853 providers, 5249 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22618,6 +22618,14 @@ class Prv_deviantart_DeviantartSubmittedDeviation_Out(TypedDict):
     deviationId: str
     submitted: bool
 
+class Prv_deviantart_updateDeviation_args_In(TypedDict):
+    deviationId: str | float
+    description: str
+
+class Prv_deviantart_DeviantartDeviationUpdate_Out(TypedDict):
+    deviationId: str
+    updated: list[str]
+
 class Prv_deviantart_updateProfile_args_In(TypedDict):
     username: str
     changes: Mapping[str, str | float | bool]
@@ -32028,6 +32036,37 @@ class Prv_github_GithubReviewCommentResult_Out(TypedDict):
     line: float | None
     comment: Any
 
+class Prv_gitlab_GitlabProjectSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_gitlab_GitlabProject_Out(TypedDict):
+    id: float
+    pathWithNamespace: str
+    name: str
+    description: str | None
+    webUrl: str
+    stars: float
+    forks: float
+    defaultBranch: str | None
+    lastActivityAt: str | None
+
+class Prv_gitlab_GitlabProjectWorkSearchArgs_In(TypedDict):
+    project: str
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_gitlab_GitlabWorkItem_Out(TypedDict):
+    iid: float
+    projectId: float
+    title: str
+    description: str | None
+    state: str
+    author: str | None
+    webUrl: str
+    createdAt: str | None
+    updatedAt: str | None
+
 class Prv_glama_search_query_u1_In(TypedDict):
     query: str
 
@@ -40937,6 +40976,30 @@ class Prv_lasikplus_LasikPlusCenterInfo_Out(TypedDict):
 class Prv_lasikplus_LasikPlusDaySlots_Out(TypedDict):
     date: str
     times: list[str]
+
+class Prv_launchpad_LaunchpadProject_Out(TypedDict):
+    name: str
+    title: str
+    summary: str | None
+    description: str | None
+    url: str
+    homepageUrl: str | None
+    vcs: str | None
+    hasCodeHosting: bool
+    hasBugTracker: bool
+    developmentBranch: Prv_launchpad_LaunchpadProject_Out_developmentBranch_u0_Out | None
+
+class Prv_launchpad_LaunchpadProject_Out_developmentBranch_u0_Out(TypedDict):
+    url: str
+    name: str | None
+    sourceUrl: str | None
+
+class Prv_launchpad_ListProjectsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_launchpad_SearchProjectsArgs_In(TypedDict):
+    limit: NotRequired[float]
+    query: str
 
 class Prv_lcsc_LcscSearchArgs_u1_In(TypedDict):
     query: str
@@ -91205,6 +91268,12 @@ class Prv_deviantart(Protocol):
         mature flag are not set by this call. Needs a caller signed in to DeviantArt.
         """
 
+    async def updateDeviation(self, args: Prv_deviantart_updateDeviation_args_In, opts: ConnectionOption | None = None, /) -> Prv_deviantart_DeviantartDeviationUpdate_Out:
+        """Sets the description of a deviation the signed-in caller owns (for example the one
+        submitDeviation just uploaded), through the site's own deviation/update door. Title,
+        tags and the mature flag are not settable yet. Needs a caller signed in to DeviantArt.
+        """
+
     async def updateProfile(self, args: Prv_deviantart_updateProfile_args_In, opts: ConnectionOption | None = None, /) -> Prv_deviantart_DeviantartProfileUpdate_Out:
         """Edits the signed-in caller's own About section: reads the site's current about-module
         settings, overlays `changes` (field names as the site's own editor uses them, returned
@@ -96148,6 +96217,29 @@ class Prv_github(Protocol):
         request's own, read from GitHub's public API; pass both for a private repository. NEEDS
         THE CALLER SIGNED IN. THROWS when signed out, the session is stale, or the line is not
         in the diff.
+        """
+
+class Prv_gitlab(Protocol):
+    """Search public GitLab projects, then read issues and merge requests from a named project
+    through GitLab's documented public REST API.
+    """
+
+    async def searchProjects(self, args: Prv_gitlab_GitlabProjectSearchArgs_In, /) -> list[Prv_gitlab_GitlabProject_Out]:
+        """Find public GitLab projects by name or description. Pass the returned pathWithNamespace
+        to getProject, searchIssues, or searchMergeRequests.
+        """
+
+    async def getProject(self, project: str, /) -> Prv_gitlab_GitlabProject_Out:
+        """Gets one public GitLab project by its numeric id or path, such as "gitlab-org/gitlab"."""
+
+    async def searchIssues(self, args: Prv_gitlab_GitlabProjectWorkSearchArgs_In, /) -> list[Prv_gitlab_GitlabWorkItem_Out]:
+        """Searches issues in one public GitLab project. project is a numeric id or path; query is
+        optional.
+        """
+
+    async def searchMergeRequests(self, args: Prv_gitlab_GitlabProjectWorkSearchArgs_In, /) -> list[Prv_gitlab_GitlabWorkItem_Out]:
+        """Searches merge requests in one public GitLab project. project is a numeric id or path;
+        query is optional.
         """
 
 class Prv_glama(Protocol):
@@ -101197,6 +101289,28 @@ class Prv_lasikplus(Protocol):
     async def getAvailability(self, centerCode: str, /) -> Prv_lasikplus_LasikPlusAvailability_Out:
         """Given a centerCode from findCenters, returns the live, computed in-center and virtual
         consultation slot calendar.
+        """
+
+class Prv_launchpad(Protocol):
+    """Launchpad projects, their public source-development branch, and issue-tracker
+    availability. For a bare code.launchpad.net request, listLatestProjects returns recently
+    registered projects.
+    """
+
+    async def getProject(self, name: str, /) -> Prv_launchpad_LaunchpadProject_Out | None:
+        """Reads one public Launchpad project by name, including issue-tracker availability and its
+        development branch/source URL when published. Returns null when that project name is not
+        registered.
+        """
+
+    async def listLatestProjects(self, args: Prv_launchpad_ListProjectsArgs_In | None = None, /) -> list[Prv_launchpad_LaunchpadProject_Out]:
+        """Lists recently registered public Launchpad projects. This is the useful zero-argument
+        action for a bare code.launchpad.net request; optional limit is 1–50, default 20.
+        """
+
+    async def searchProjects(self, args: Prv_launchpad_SearchProjectsArgs_In, /) -> list[Prv_launchpad_LaunchpadProject_Out]:
+        """Searches public Launchpad projects by words in their title, summary, or description;
+        optional limit is 1–50, default 20.
         """
 
 class Prv_lcsc(Protocol):
@@ -121690,6 +121804,7 @@ class BowmarkProviders(Protocol):
     gazelle: Prv_gazelle
     geico: Prv_geico
     github: Prv_github
+    gitlab: Prv_gitlab
     glama: Prv_glama
     glassdoor: Prv_glassdoor
     glassesusa: Prv_glassesusa
@@ -121805,6 +121920,7 @@ class BowmarkProviders(Protocol):
     landmarkhw_com: Prv_landmarkhw_com
     landsend: Prv_landsend
     lasikplus: Prv_lasikplus
+    launchpad: Prv_launchpad
     lcsc: Prv_lcsc
     legacyhomesal: Prv_legacyhomesal
     letterboxd: Prv_letterboxd

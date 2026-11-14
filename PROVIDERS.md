@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6851 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6854 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1618,6 +1618,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dangotecement.searchNews` | dangotecement.com | Searches Dangote Cement's own news and press releases (newest first when no query) —… | 🟢 |
 | `dansons.identifyProduct` | pitboss-grills.com | Identifies which Pit Boss product(s) a free-text description matches — the same… | 🟢 |
 | `dansons.listRegisterableProducts` | pitboss-grills.com | Lists every Pit Boss product eligible for warranty registration — the exact catalog… | 🟢 |
+| `dat.loadToTruckRatio` | dat.com | Reads DAT Trendlines' monthly load-to-truck ratio (loads posted per truck on the DAT… | 🟢 |
+| `dat.nationalSpotRates` | dat.com | Reads DAT Trendlines' national average truckload spot rates (USD per mile including… | 🟢 |
+| `dat.rateTrend` | dat.com | Reads DAT Trendlines' 12-month national rate trendline for one equipment type… | 🟢 |
 | `data_cms.getRows` | data.cms.gov | Read rows from one data.cms.gov dataset (its latest version), optionally filtered by… | 🟢 |
 | `data_cms.searchDatasets` | data.cms.gov | Search data.cms.gov's dataset catalog by keyword; returns each dataset's id (for… | 🟢 |
 | `data_medicaid.getDataset` | data.medicaid.gov | Read one data.medicaid.gov dataset's record by id: title, description, license… | 🟢 |
@@ -1862,7 +1865,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `drive_google.setStarred` | drive.google.com | Stars or unstars a Drive file. | 🟢 |
 | `drive_google.trashFile` | drive.google.com | Moves a Drive file or folder to trash (recoverable with restoreFile). Requires the… | 🟢 |
 | `dropbox.addFileComment` | dropbox.com | Adds a comment to a file in the caller's Dropbox. | ⚪ |
-| `dropbox.changeProfilePhoto` | dropbox.com | Changes the signed-in caller's profile photo. | ⚪ |
+| `dropbox.changeProfilePhoto` | dropbox.com | Sets the signed-in caller's Dropbox profile photo from base64 image bytes and returns… | 🟢 |
 | `dropbox.closeFileRequest` | dropbox.com | Closes one of the caller's file requests so it stops accepting uploads. | 🟢 |
 | `dropbox.copyFile` | dropbox.com | Copies a file or folder to another place in the caller's Dropbox. | 🟢 |
 | `dropbox.createFileRequest` | dropbox.com | Creates a file request — a link anyone can upload files to, landing in a folder of the… | 🟢 |

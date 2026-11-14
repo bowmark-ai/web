@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: be3e1fbb304fe52fd76e7be01d28c2e9eb59b746d99e1bfe607b05e5764a91c5
-// 5241 checked, 20 unchecked.
+// Manifest version: 509267ce4da4974f08df964dac7be75cbf463247ffd414636b292dab5e9694db
+// 5249 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "be3e1fbb304fe52fd76e7be01d28c2e9eb59b746d99e1bfe607b05e5764a91c5",
+  "version": "509267ce4da4974f08df964dac7be75cbf463247ffd414636b292dab5e9694db",
   "units": {
     "address_validation": {
       "defs": {
@@ -44887,6 +44887,55 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "updateDeviation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "deviationId",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "number"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "updateProfile": [
           {
             "name": "args",
@@ -66601,6 +66650,96 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.gitlab": {
+      "defs": {
+        "GitlabProjectSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GitlabProjectWorkSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "project",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProjects": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GitlabProjectSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProject": [
+          {
+            "name": "project",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchIssues": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GitlabProjectWorkSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchMergeRequests": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GitlabProjectWorkSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.glama": {
       "defs": {},
       "functions": {
@@ -84501,6 +84640,72 @@ export const VALIDATORS: ValidatorTable = {
             "name": "centerCode",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.launchpad": {
+      "defs": {
+        "ListProjectsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchProjectsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProject": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLatestProjects": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListProjectsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchProjects": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProjectsArgs"
             },
             "optional": false
           }
