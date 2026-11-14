@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6744 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6746 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1081,7 +1081,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbsnews.listPodcastEpisodes` | cbsnews.com | Lists the episodes of one podcast. | ⚪ |
 | `cbsnews.listPodcasts` | cbsnews.com | Lists CBS News podcasts from /podcasts/. | ⚪ |
 | `cbsnews.listRssFeeds` | cbsnews.com | Lists every RSS feed CBS News publishes, from its /rss/ page, as slugs usable with… | 🟢 |
-| `cbsnews.listSectionArticles` | cbsnews.com | Lists the stories on a section front such as /politics/ or /moneywatch/. | ⚪ |
+| `cbsnews.listSectionArticles` | cbsnews.com | Lists the stories on a section front such as /politics/ or /moneywatch/. | 🟢 |
 | `cbsnews.listSections` | cbsnews.com | Lists the site's sections and topic hubs (politics, world, moneywatch, crime, space …). | 🟢 |
 | `cbsnews.listShowEpisodes` | cbsnews.com | Lists a programme's recent segments and full episodes. | ⚪ |
 | `cbsnews.listShows` | cbsnews.com | Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings… | ⚪ |
@@ -1462,20 +1462,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `craigslist.deletePosting` | craigslist.org | Delete one of the caller's own postings. | ⚪ |
 | `craigslist.editPosting` | craigslist.org | Edit one of the caller's own postings (title, body, price, images). | ⚪ |
 | `craigslist.getAccountHome` | craigslist.org | Read the caller's account home: their active, draft and expired postings. | ⚪ |
-| `craigslist.getListing` | craigslist.org | Reads a public Craigslist listing URL from searchListings for its full description… | 🟢 |
+| `craigslist.getListing` | craigslist.org | Reads one Craigslist listing from the URL a search returns: full description, posted… | 🟢 |
 | `craigslist.getListingImages` | craigslist.org | Return the full-size image URLs of a public listing. | ⚪ |
 | `craigslist.getListingMap` | craigslist.org | Return a listing's map location (latitude, longitude, accuracy) and cross streets when… | ⚪ |
-| `craigslist.listAreas` | craigslist.org | List Craigslist areas (cities/regions) with their subdomain codes, so a caller holding… | ⚪ |
-| `craigslist.listCategories` | craigslist.org | List Craigslist's category tree (for sale, housing, jobs, services, gigs, community)… | ⚪ |
+| `craigslist.listAreas` | craigslist.org | Lists Craigslist's areas (cities and regions worldwide) with the code the search… | 🟢 |
+| `craigslist.listCategories` | craigslist.org | Lists Craigslist's category tree (housing, for sale, jobs, services, gigs, community)… | 🟢 |
 | `craigslist.listFavorites` | craigslist.org | List the listings the caller has favourited. | ⚪ |
 | `craigslist.listSavedSearches` | craigslist.org | List the caller's saved searches with their alert settings. | ⚪ |
 | `craigslist.renewPosting` | craigslist.org | Renew one of the caller's own eligible postings to bump it back to the top. | ⚪ |
 | `craigslist.replyToListing` | craigslist.org | Send a message to a listing's poster through Craigslist's anonymised reply relay. | ⚪ |
 | `craigslist.repostPosting` | craigslist.org | Repost one of the caller's own expired or deleted postings. | ⚪ |
 | `craigslist.saveSearch` | craigslist.org | Save a search (query, area, category, filters) with optional email alerts, or delete… | ⚪ |
-| `craigslist.searchHousing` | craigslist.org | Search apartments, rooms and sublets in an area with housing filters: rent range… | ⚪ |
-| `craigslist.searchJobs` | craigslist.org | Search job postings in an area by keyword and job category, with employment type and… | ⚪ |
-| `craigslist.searchListings` | craigslist.org | Searches public Craigslist listings by keyword in an area (SF Bay Area by default)… | 🟢 |
+| `craigslist.searchForSale` | craigslist.org | Finds used items for sale on Craigslist in a city or area (San Francisco, New York… | 🟢 |
+| `craigslist.searchHousing` | craigslist.org | Finds apartments and housing for rent on Craigslist in a city or area (San Francisco… | 🟢 |
+| `craigslist.searchJobs` | craigslist.org | Finds job postings or gigs on Craigslist in a city or area (San Francisco, New York… | 🟢 |
+| `craigslist.searchListings` | craigslist.org | Searches any Craigslist category (for sale by default) in an area by keyword, price… | 🟢 |
 | `craigslist.searchNearby` | craigslist.org | Search listings within a radius of a ZIP code or lat/lon instead of a whole area. | ⚪ |
 | `craigslist.updateAccountSettings` | craigslist.org | Change the caller's account settings: handle, default site, email alert preferences. | ⚪ |
 | `crateandbarrel.getProduct` | crateandbarrel.com | Reads one product page: every size, fabric and finish option with its own price… | ⚪ |
@@ -1738,9 +1739,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.sendDirectMessage` | discord.com | Sends a direct message to one user by username or user id, opening the DM if none… | 🟢 |
 | `discord.sendFriendRequest` | discord.com | Sends a friend request to a user by username. | 🟢 |
 | `discord.sendMessage` | discord.com | Posts a message as the signed-in caller to a channel or DM, optionally as a reply to… | 🟢 |
-| `discord.setAvatar` | discord.com | Changes the caller's profile picture. | ⚪ |
-| `discord.setStatus` | discord.com | Sets the caller's presence (online, idle, do not disturb, invisible) and custom status… | ⚪ |
-| `discord.updateProfile` | discord.com | Changes the caller's display name, bio (About Me) or pronouns. | ⚪ |
+| `discord.setAvatar` | discord.com | Changes the caller's profile picture. | 🟢 |
+| `discord.setStatus` | discord.com | Sets the caller's presence (online, idle, do not disturb, invisible) and custom status… | 🟢 |
+| `discord.updateProfile` | discord.com | Changes the caller's display name, bio (About Me) or pronouns. | 🟢 |
 | `discounttire.checkStock` | discounttire.com | Checks whether a specific tire or wheel is actually gettable near a given place — the… | 🟢 |
 | `discounttire.findStores` | discounttire.com | Finds Discount Tire and America's Tire locations near a ZIP, city or coordinate —… | ⚪ |
 | `discounttire.getAppointmentAvailability` | discounttire.com | Reads the installation appointment slots a given store has open — which days and times… | ⚪ |
@@ -4150,6 +4151,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `opentable.search` | opentable.com | Finds restaurants on OpenTable for a name, cuisine or dish: a restaurant's name… | 🟢 |
 | `opentable.startBooking` | opentable.com | Starts a guest reservation for one open time: clicks the time on the restaurant's… | 🟢 |
 | `originenergy_com_au.getBusinessElectricityQuote` | originenergy.com.au | Search originenergy.com.au for business electricity quote: returns every business… | 🟢 |
+| `osu.searchClasses` | osu.edu | Search Ohio State's (osu.edu) class schedule and course catalog by keyword, subject… | 🟢 |
 | `othership.getClassSchedule` | othership.us | Searches one location's real, live class schedule between two dates — sauna, ice bath… | 🟢 |
 | `othership.getLocations` | othership.us | Returns every Othership studio location (Toronto's Adelaide and Yorkville, NYC's… | 🟢 |
 | `otto.browseCategory` | otto.de | Lists products under one of OTTO's own department/category pages (e.g. Damenmode… | ⚪ |

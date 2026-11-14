@@ -188,7 +188,7 @@ cb2.com — cb2: searchProducts (+1 planned)
 cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
 cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
-cbsnews.com — cbsnews: getArticle, listLatestNews, listRssFeeds, listSections, search (+21 planned)
+cbsnews.com — cbsnews: getArticle, listLatestNews, listRssFeeds, listSectionArticles, listSections, search (+20 planned)
 cerebralvalley.ai — cerebralvalley: getEvent, listEvents
 cftc.gov — cftc: searchRules
 champxpress.com — champxpress: nothing callable yet (+2 planned)
@@ -237,7 +237,7 @@ cosign.co — cosign: job, searchJobs
 costco.com — costco: listGiftCards, search (+1 planned)
 countycourt.vic.gov.au — countycourt_vic_gov_au: dailyList
 couponfollow.com — couponfollow: getCodes
-craigslist.org — craigslist: getListing, searchListings (+19 planned)
+craigslist.org — craigslist: getListing, listAreas, listCategories, searchForSale, searchHousing, searchJobs, searchListings (+15 planned)
 crateandbarrel.com — crateandbarrel: searchProducts (+1 planned)
 crecipr.gov.br — crecipr: searchCredenciados, verifyBroker
 credibly.com — credibly_com: getApplicationForm, getEligibilityRequirements
@@ -275,7 +275,7 @@ dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listExtras, listRoomTypes, sendEnquiry (+1 planned)
 discogs.com — discogs: getArtist, getLabel, getMaster, getRelease, listArtistReleases, listLabelReleases, searchDatabase
-discord.com — discord: 47 functions — ask get_library (+3 planned)
+discord.com — discord: 50 functions — ask get_library
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
 dmv.virginia.gov — dmv_virginia_gov: searchLocations
@@ -574,6 +574,7 @@ openai.com — openai_com: listPosts, readPost
 openlibrary.org — open_library: getWork, search
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, listMyReservations, search, startBooking
 originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote
+osu.edu — osu: searchClasses
 othership.us — othership: getClassSchedule, getLocations
 otto.de — otto: getProduct, search (+3 planned)
 outdoorresearch.com — outdoorresearch: checkClaimEligibility, getWarrantyPolicy
