@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b3334efc72ae5fc6cb16ccd4c490ff1efb816d67bb99dee89b352dceac70fddb
-// 5197 checked, 20 unchecked.
+// Manifest version: 4e64c07e666dde4ba485155edbbc413542a3feca406a874635406d0402a49a54
+// 5223 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b3334efc72ae5fc6cb16ccd4c490ff1efb816d67bb99dee89b352dceac70fddb",
+  "version": "4e64c07e666dde4ba485155edbbc413542a3feca406a874635406d0402a49a54",
   "units": {
     "address_validation": {
       "defs": {
@@ -17455,6 +17455,7 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listPlans": [],
         "listPrepaidPlans": [],
+        "listTvPlans": [],
         "listInternetPlans": [],
         "findStores": [
           {
@@ -28338,6 +28339,66 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "CalendlyRescheduleBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "link",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startTime",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "timezone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "guests",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "answers",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "event",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -28399,6 +28460,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CalendlyBookMeetingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "rescheduleBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CalendlyRescheduleBookingArgs"
             },
             "optional": false
           }
@@ -30707,6 +30778,64 @@ export const VALIDATORS: ValidatorTable = {
             "name": "name",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createGPT": [
+          {
+            "name": "draft",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "instructions",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "promptStarters",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           },
@@ -76617,6 +76746,134 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "votePost": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "vote",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "up"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "down"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "clear"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "favoritePost": [
+          {
+            "name": "post",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addComment": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "parentId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "searchPosts": [
           {
             "name": "query",
@@ -76835,6 +77092,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetHomepageHeadlinesArgs": {
           "k": "object",
           "props": [
@@ -76868,11 +77137,89 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetMostPopularArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "area",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "articles"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "videos"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "bulletin"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListArticlesByDateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListLatestNewsArgs": {
           "k": "object",
           "props": [
             {
               "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListTopicsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "letter",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
               "schema": {
                 "k": "string"
               },
@@ -76916,6 +77263,46 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListLatestNewsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMostPopular": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMostPopularArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listArticlesByDate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListArticlesByDateArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listTopics": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTopicsArgs"
             },
             "optional": true
           }
@@ -82346,11 +82733,35 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "KickFeaturedLivestreamsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "KickGetCategoryArgs": {
           "k": "object",
           "props": [
             {
               "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "KickGetClipArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "clip",
               "schema": {
                 "k": "string"
               },
@@ -82389,6 +82800,67 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "KickListChannelClipsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "view"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "date"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "day"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "week"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "month"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "KickListChannelVideosArgs": {
           "k": "object",
           "props": [
@@ -82422,6 +82894,67 @@ export const VALIDATORS: ValidatorTable = {
               "name": "page",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "KickListTopClipsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "view"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "date"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "day"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "week"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "month"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -82519,6 +83052,46 @@ export const VALIDATORS: ValidatorTable = {
               "name": "KickGetCategoryArgs"
             },
             "optional": false
+          }
+        ],
+        "listFeaturedLivestreams": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickFeaturedLivestreamsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listChannelClips": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickListChannelClipsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getClip": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickGetClipArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listTopClips": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickListTopClipsArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -91539,6 +92112,44 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.merriam_webster": {
+      "defs": {
+        "MerriamWebsterWordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "word",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "define": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MerriamWebsterWordArgs"
+            },
+            "optional": false
+          }
+        ],
+        "thesaurus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MerriamWebsterWordArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.microcenter": {
       "defs": {},
       "functions": {
@@ -93578,6 +94189,44 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.mlb": {
       "defs": {
+        "MlbGamePkArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "gamePk",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MlbGetPlayByPlayArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "gamePk",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "inning",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "scoringOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbGetScheduleArgs": {
           "k": "object",
           "props": [
@@ -93613,6 +94262,35 @@ export const VALIDATORS: ValidatorTable = {
               "name": "sportId",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbGetStandingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "leagueId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 103
+                  },
+                  {
+                    "k": "literal",
+                    "v": 104
+                  }
+                ]
               },
               "optional": true
             }
@@ -93694,6 +94372,46 @@ export const VALIDATORS: ValidatorTable = {
               "name": "MlbGetScheduleArgs"
             },
             "optional": true
+          }
+        ],
+        "getStandings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetStandingsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getGame": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGamePkArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getBoxScore": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGamePkArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlayByPlay": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetPlayByPlayArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -97421,6 +98139,84 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "itemId",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "skuId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateMemberProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "fields",
+                  "schema": {
+                    "k": "record",
+                    "value": {
+                      "k": "any"
+                    }
                   },
                   "optional": false
                 }
@@ -126517,6 +127313,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SheinListStoreProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "storeCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SheinSearchArgs": {
           "k": "object",
           "props": [
@@ -126578,6 +127386,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SheinGetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listStoreProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinListStoreProductsArgs"
             },
             "optional": false
           }
@@ -127146,6 +127964,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getShopCash": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getAccount": [
           {
             "name": "opts",
             "schema": {
@@ -144342,6 +145178,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.tomsguide": {
       "defs": {
+        "ListLatestArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -144370,6 +145218,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "listLatest": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLatestArgs"
+            },
+            "optional": true
+          }
+        ],
         "search": [
           {
             "name": "args",
@@ -148666,6 +149524,29 @@ export const VALIDATORS: ValidatorTable = {
                 }
               },
               "optional": false
+            },
+            {
+              "name": "storeUrl",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "checkout",
+              "schema": {
+                "k": "ref",
+                "name": "UbereatsCheckoutHandoff"
+              },
+              "optional": true
             }
           ]
         },
@@ -148681,6 +149562,264 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "UbereatsCheckoutAccount": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "hint",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "signedInAs",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "signInUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "UbereatsCheckoutHandoff": {
+          "k": "object",
+          "props": [
+            {
+              "name": "status",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "ready_to_checkout"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "needs_login"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "unavailable"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "urlKind",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "carries_items"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "signed_in_cart"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "product_page"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "account",
+              "schema": {
+                "k": "ref",
+                "name": "UbereatsCheckoutAccount"
+              },
+              "optional": false
+            },
+            {
+              "name": "summary",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "ref",
+                    "name": "UbereatsCheckoutSummary"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reason",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "detail",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "expiresAt",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "warnings",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
+        "UbereatsCheckoutItem": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "variant",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "unitPrice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "lineTotal",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "UbereatsCheckoutSummary": {
+          "k": "object",
+          "props": [
+            {
+              "name": "items",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "UbereatsCheckoutItem"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "total",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
               "schema": {
                 "k": "string"
               },
@@ -149132,6 +150271,13 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": false
+                },
+                {
+                  "name": "store",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -149167,6 +150313,24 @@ export const VALIDATORS: ValidatorTable = {
                     }
                   },
                   "optional": false
+                },
+                {
+                  "name": "store",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "remaining",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "UbereatsCartItemRef"
+                    }
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -149202,6 +150366,13 @@ export const VALIDATORS: ValidatorTable = {
                     }
                   },
                   "optional": false
+                },
+                {
+                  "name": "store",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -162516,6 +163687,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getOwnProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCollections": [
           {
             "name": "opts",
             "schema": {

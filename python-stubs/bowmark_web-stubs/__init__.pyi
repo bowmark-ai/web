@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b3334efc72ae5fc6cb16ccd4c490ff1efb816d67bb99dee89b352dceac70fddb
-# 98 capabilities, 849 providers, 5197 typed functions, 20 refused.
+# Manifest version: 4e64c07e666dde4ba485155edbbc413542a3feca406a874635406d0402a49a54
+# 98 capabilities, 850 providers, 5223 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1369,6 +1369,12 @@ class Cap_event_tickets_EventListing_Out(TypedDict):
     priceFrom: float | None
     currency: str | None
     status: str | None
+    checkout: Cap_event_tickets_EventListing_Out_checkout_u0_Out | None
+
+class Cap_event_tickets_EventListing_Out_checkout_u0_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    reason: NotRequired[str]
 
 Cap_flights_FlightQuery_In = TypedDict(
     "Cap_flights_FlightQuery_In",
@@ -2592,6 +2598,7 @@ class Cap_products_ProductSearchResult_Out_results_item_Out(TypedDict):
     inStock: bool
     rating: float | None
     ratingCount: float | None
+    condition: Literal["new"] | Literal["used"] | Literal["unknown"]
 
 class Cap_products_ProductAvailability_Out(TypedDict):
     url: str
@@ -2871,6 +2878,7 @@ class Cap_retail_RetailOffer_Out(TypedDict):
     wasPrice: float | None
     url: str | None
     inStock: bool
+    condition: Literal["new"] | Literal["used"] | Literal["unknown"]
 
 class Cap_retirement_ira_comparison_CompareIraArgs_In(TypedDict):
     annualContribution: NotRequired[float]
@@ -8948,6 +8956,15 @@ class Prv_att_AttPrepaidPlan_Out(TypedDict):
     features: list[str]
     shopUrl: str | None
 
+class Prv_att_AttTvPlan_Out(TypedDict):
+    id: str
+    name: str
+    kind: str
+    channels: float | None
+    monthlyUsd: float | None
+    regularMonthlyUsd: float | None
+    shopUrl: str | None
+
 class Prv_att_AttInternetPlan_Out(TypedDict):
     name: str
     speed: str
@@ -14604,6 +14621,15 @@ class Prv_calendly_CalendlyBookMeetingResult_Out_invitee_Out(TypedDict):
     name: str
     email: str
 
+class Prv_calendly_CalendlyRescheduleBookingArgs_In(TypedDict):
+    link: str
+    url: str
+    startTime: str
+    timezone: NotRequired[str]
+    guests: NotRequired[Sequence[str]]
+    answers: NotRequired[Mapping[str, str]]
+    event: NotRequired[str]
+
 class Prv_calendly_CalendlyCancelBookingArgs_In(TypedDict):
     link: str
     reason: NotRequired[str]
@@ -16317,6 +16343,17 @@ class Prv_chatgpt_ShareLink_Out(TypedDict):
 class Prv_chatgpt_CreatedProject_Out(TypedDict):
     id: str
     name: str
+
+class Prv_chatgpt_createGPT_draft_In(TypedDict):
+    name: str
+    description: NotRequired[str]
+    instructions: NotRequired[str]
+    promptStarters: NotRequired[Sequence[str]]
+
+class Prv_chatgpt_CreatedGPT_Out(TypedDict):
+    id: str
+    name: str
+    url: str
 
 class Prv_chatgpt_updateCustomInstructions_update_In(TypedDict):
     aboutUser: NotRequired[str]
@@ -35174,6 +35211,7 @@ class Prv_grubhub_GrubhubCart_Out(TypedDict):
     subtotalCents: float
     currency: str
     restaurantIds: list[str]
+    checkout: Prv_grubhub_GrubhubCheckoutHandoff_Out
 
 class Prv_grubhub_GrubhubCartLine_Out(TypedDict):
     lineId: str
@@ -35185,6 +35223,35 @@ class Prv_grubhub_GrubhubCartLine_Out(TypedDict):
     totalCents: float
     specialInstructions: str
     optionIds: list[str]
+
+class Prv_grubhub_GrubhubCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_grubhub_GrubhubCheckoutHandoff_Out_account_Out
+    summary: Prv_grubhub_GrubhubCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_grubhub_GrubhubCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_grubhub_GrubhubCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_grubhub_GrubhubCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_grubhub_GrubhubCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_grubhub_GrubhubAddToCartArgs_In(TypedDict):
     restaurantId: str
@@ -36866,30 +36933,87 @@ class Prv_ikea_AddToCartArgs_In(TypedDict):
     quantity: float
     cartToken: NotRequired[str]
 
-class Prv_ikea_IkeaCart_Out(TypedDict):
+class Prv_ikea_addToCart_return_Out(TypedDict):
     cartToken: str
     cartId: str
     empty: bool
     items: list[Prv_ikea_IkeaCartItem_Out]
     quantity: float
     updatedAt: str | None
+    checkout: Prv_ikea_IkeaCheckoutHandoff_Out
 
 class Prv_ikea_IkeaCartItem_Out(TypedDict):
     itemNo: str
     quantity: float
     price: float | None
 
+class Prv_ikea_IkeaCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_ikea_IkeaCheckoutHandoff_Out_account_Out
+    summary: Prv_ikea_IkeaCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_ikea_IkeaCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_ikea_IkeaCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_ikea_IkeaCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_ikea_IkeaCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
 class Prv_ikea_GetCartArgs_In(TypedDict):
     cartToken: NotRequired[str]
+
+class Prv_ikea_getCart_return_Out(TypedDict):
+    cartToken: str
+    cartId: str
+    empty: bool
+    items: list[Prv_ikea_IkeaCartItem_Out]
+    quantity: float
+    updatedAt: str | None
+    checkout: Prv_ikea_IkeaCheckoutHandoff_Out
 
 class Prv_ikea_UpdateCartItemArgs_In(TypedDict):
     itemNo: str
     quantity: float
     cartToken: str
 
+class Prv_ikea_updateCartItem_return_Out(TypedDict):
+    cartToken: str
+    cartId: str
+    empty: bool
+    items: list[Prv_ikea_IkeaCartItem_Out]
+    quantity: float
+    updatedAt: str | None
+    checkout: Prv_ikea_IkeaCheckoutHandoff_Out
+
 class Prv_ikea_RemoveFromCartArgs_In(TypedDict):
     itemNo: str
     cartToken: str
+
+class Prv_ikea_removeFromCart_return_Out(TypedDict):
+    cartToken: str
+    cartId: str
+    empty: bool
+    items: list[Prv_ikea_IkeaCartItem_Out]
+    quantity: float
+    updatedAt: str | None
+    checkout: Prv_ikea_IkeaCheckoutHandoff_Out
 
 class Prv_ikea_AddToFavoritesArgs_In(TypedDict):
     itemNo: str
@@ -37272,6 +37396,21 @@ class Prv_imgur_ImgurNotification_Out(TypedDict):
     author: str | None
     createdAt: str | None
 
+class Prv_imgur_votePost_input_In(TypedDict):
+    id: str
+    vote: NotRequired[Literal["up"] | Literal["down"] | Literal["clear"]]
+
+class Prv_imgur_ImgurWriteResult_Out(TypedDict):
+    ok: bool
+    id: str
+    action: str
+    commentId: str | None
+
+class Prv_imgur_addComment_input_In(TypedDict):
+    id: str
+    text: str
+    parentId: NotRequired[str]
+
 class Prv_imgur_ImgurSearchArgs_In(TypedDict):
     query: str
     window: NotRequired[Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
@@ -37487,6 +37626,75 @@ class Prv_independent_ListLatestNewsArgs_In(TypedDict):
 class Prv_independent_ListLatestNewsResult_Out(TypedDict):
     feed: str
     stories: list[Prv_independent_IndependentStory_Out]
+
+class Prv_independent_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_independent_IndependentArticle_Out(TypedDict):
+    url: str
+    articleId: str | None
+    title: str
+    description: str | None
+    published: str | None
+    modified: str | None
+    section: str | None
+    author: Prv_independent_IndependentArticle_Out_author_u0_Out | None
+    imageUrl: str | None
+    freeToRead: bool | None
+    paragraphs: list[str]
+
+class Prv_independent_IndependentArticle_Out_author_u0_Out(TypedDict):
+    name: str
+    url: str | None
+
+class Prv_independent_GetMostPopularArgs_In(TypedDict):
+    area: NotRequired[Literal["articles"] | Literal["videos"] | Literal["bulletin"]]
+    limit: NotRequired[float]
+
+class Prv_independent_GetMostPopularResult_Out(TypedDict):
+    area: str
+    articles: list[Prv_independent_PopularRow_Out]
+
+class Prv_independent_PopularRow_Out(TypedDict):
+    rank: float
+    articleId: str
+    title: str
+    url: str
+    imageUrl: str | None
+    section: Prv_independent_PopularRow_Out_section_u0_Out | None
+
+class Prv_independent_PopularRow_Out_section_u0_Out(TypedDict):
+    title: str
+    path: str
+
+class Prv_independent_ListArticlesByDateArgs_In(TypedDict):
+    date: str
+    limit: NotRequired[float]
+
+class Prv_independent_ListArticlesByDateResult_Out(TypedDict):
+    date: str
+    total: float
+    articles: list[Prv_independent_ListArticlesByDateResult_Out_articles_item_Out]
+
+class Prv_independent_ListArticlesByDateResult_Out_articles_item_Out(TypedDict):
+    url: str
+    articleId: str | None
+    lastmod: str | None
+
+class Prv_independent_ListTopicsArgs_In(TypedDict):
+    letter: NotRequired[str]
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_independent_ListTopicsResult_Out(TypedDict):
+    letter: str
+    total: float
+    topics: list[Prv_independent_ListTopicsResult_Out_topics_item_Out]
+    warnings: list[str]
+
+class Prv_independent_ListTopicsResult_Out_topics_item_Out(TypedDict):
+    slug: str
+    url: str
 
 class Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In(TypedDict):
     state: NotRequired[str]
@@ -40153,6 +40361,56 @@ class Prv_kick_KickCategoryDetail_Out(TypedDict):
     mature: bool
     description: NotRequired[str]
     followers: NotRequired[float]
+
+class Prv_kick_KickFeaturedLivestreamsArgs_In(TypedDict):
+    language: NotRequired[str]
+
+class Prv_kick_KickFeaturedLivestreamsResult_Out(TypedDict):
+    streams: list[Prv_kick_KickStreamRow_Out]
+    hasMore: bool
+
+class Prv_kick_KickListChannelClipsArgs_In(TypedDict):
+    channel: str
+    sort: NotRequired[Literal["view"] | Literal["date"]]
+    time: NotRequired[Literal["day"] | Literal["week"] | Literal["month"] | Literal["all"]]
+    cursor: NotRequired[str]
+
+class Prv_kick_KickListChannelClipsResult_Out(TypedDict):
+    clips: list[Prv_kick_KickClip_Out]
+    nextCursor: NotRequired[str]
+
+class Prv_kick_KickClip_Out(TypedDict):
+    clipId: str
+    title: NotRequired[str]
+    channel: str
+    channelId: NotRequired[float]
+    creator: NotRequired[str]
+    category: NotRequired[Prv_kick_KickClip_Out_category_Out]
+    durationSeconds: NotRequired[float]
+    views: NotRequired[float]
+    likes: NotRequired[float]
+    createdAt: NotRequired[str]
+    mature: bool
+    thumbnailUrl: NotRequired[str]
+    playbackUrl: NotRequired[str]
+    url: str
+
+class Prv_kick_KickClip_Out_category_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_kick_KickGetClipArgs_In(TypedDict):
+    clip: str
+
+class Prv_kick_KickListTopClipsArgs_In(TypedDict):
+    category: NotRequired[str]
+    sort: NotRequired[Literal["view"] | Literal["date"]]
+    time: NotRequired[Literal["day"] | Literal["week"] | Literal["month"] | Literal["all"]]
+    cursor: NotRequired[str]
+
+class Prv_kick_KickListTopClipsResult_Out(TypedDict):
+    clips: list[Prv_kick_KickClip_Out]
+    nextCursor: NotRequired[str]
 
 class Prv_kickstarter_KickstarterSearchArgs_In(TypedDict):
     query: str
@@ -44000,6 +44258,31 @@ class Prv_mergify_mergifyConfigError_Out(TypedDict):
     message: str
     keyword: str
 
+class Prv_merriam_webster_MerriamWebsterWordArgs_In(TypedDict):
+    word: str
+
+class Prv_merriam_webster_MerriamWebsterDefinition_Out(TypedDict):
+    word: str
+    url: str
+    entries: list[Prv_merriam_webster_MerriamWebsterEntry_Out]
+
+class Prv_merriam_webster_MerriamWebsterEntry_Out(TypedDict):
+    headword: str
+    partOfSpeech: str | None
+    pronunciations: list[str]
+    definitions: list[str]
+
+class Prv_merriam_webster_MerriamWebsterThesaurus_Out(TypedDict):
+    word: str
+    url: str
+    senses: list[Prv_merriam_webster_MerriamWebsterSense_Out]
+
+class Prv_merriam_webster_MerriamWebsterSense_Out(TypedDict):
+    partOfSpeech: str | None
+    meaning: str | None
+    synonyms: list[str]
+    antonyms: list[str]
+
 class Prv_microcenter_StoreOffer_Out(TypedDict):
     title: str
     price: float | None
@@ -44555,6 +44838,158 @@ class Prv_mlb_MlbGameSide_Out(TypedDict):
 class Prv_mlb_MlbGameSide_Out_probablePitcher_u0_Out(TypedDict):
     id: float
     name: str
+
+class Prv_mlb_MlbGetStandingsArgs_In(TypedDict):
+    season: NotRequired[float]
+    leagueId: NotRequired[Literal[103] | Literal[104]]
+
+class Prv_mlb_MlbStandingsDivision_Out(TypedDict):
+    divisionId: float | None
+    division: str | None
+    leagueId: float | None
+    teams: list[Prv_mlb_MlbStandingsTeam_Out]
+
+class Prv_mlb_MlbStandingsTeam_Out(TypedDict):
+    teamId: float
+    team: str
+    divisionRank: float | None
+    wins: float
+    losses: float
+    pct: str | None
+    gamesPlayed: float | None
+    gamesBack: str | None
+    wildCardRank: float | None
+    wildCardGamesBack: str | None
+    runsScored: float | None
+    runsAllowed: float | None
+    runDifferential: float | None
+    streak: str | None
+    lastTen: str | None
+    home: str | None
+    away: str | None
+    clinch: str | None
+
+class Prv_mlb_MlbGamePkArgs_In(TypedDict):
+    gamePk: float
+
+class Prv_mlb_MlbGameSummary_Out(TypedDict):
+    gamePk: float
+    date: str | None
+    status: str | None
+    state: str | None
+    inning: str | None
+    venue: str | None
+    weather: str | None
+    attendance: float | None
+    durationMinutes: float | None
+    away: Prv_mlb_MlbGameTeamLine_Out
+    home: Prv_mlb_MlbGameTeamLine_Out
+    innings: list[Prv_mlb_MlbGameSummary_Out_innings_item_Out]
+    winningPitcher: Prv_mlb_MlbGameSummary_Out_winningPitcher_u0_Out | None
+    losingPitcher: Prv_mlb_MlbGameSummary_Out_losingPitcher_u0_Out | None
+    savePitcher: Prv_mlb_MlbGameSummary_Out_savePitcher_u0_Out | None
+
+class Prv_mlb_MlbGameTeamLine_Out(TypedDict):
+    teamId: float | None
+    team: str | None
+    runs: float | None
+    hits: float | None
+    errors: float | None
+    leftOnBase: float | None
+
+class Prv_mlb_MlbGameSummary_Out_innings_item_Out(TypedDict):
+    inning: float
+    away: float | None
+    home: float | None
+
+class Prv_mlb_MlbGameSummary_Out_winningPitcher_u0_Out(TypedDict):
+    id: float
+    name: str
+
+class Prv_mlb_MlbGameSummary_Out_losingPitcher_u0_Out(TypedDict):
+    id: float
+    name: str
+
+class Prv_mlb_MlbGameSummary_Out_savePitcher_u0_Out(TypedDict):
+    id: float
+    name: str
+
+class Prv_mlb_MlbBoxScore_Out(TypedDict):
+    gamePk: float
+    away: Prv_mlb_MlbBoxScoreSide_Out
+    home: Prv_mlb_MlbBoxScoreSide_Out
+    notes: list[Prv_mlb_MlbBoxScore_Out_notes_item_Out]
+    officials: list[Prv_mlb_MlbBoxScore_Out_officials_item_Out]
+
+class Prv_mlb_MlbBoxScoreSide_Out(TypedDict):
+    teamId: float
+    team: str
+    totals: Prv_mlb_MlbBoxScoreSide_Out_totals_Out
+    batters: list[Prv_mlb_MlbBatterLine_Out]
+    pitchers: list[Prv_mlb_MlbPitcherLine_Out]
+
+class Prv_mlb_MlbBoxScoreSide_Out_totals_Out(TypedDict):
+    runs: float
+    hits: float
+    walks: float
+    strikeouts: float
+    homeRuns: float
+    leftOnBase: float
+
+class Prv_mlb_MlbBatterLine_Out(TypedDict):
+    id: float
+    name: str
+    position: str | None
+    battingOrder: float | None
+    atBats: float
+    runs: float
+    hits: float
+    rbi: float
+    walks: float
+    strikeouts: float
+    homeRuns: float
+    seasonAvg: str | None
+
+class Prv_mlb_MlbPitcherLine_Out(TypedDict):
+    id: float
+    name: str
+    inningsPitched: str
+    hits: float
+    runs: float
+    earnedRuns: float
+    walks: float
+    strikeouts: float
+    homeRuns: float
+    pitches: float | None
+    seasonEra: str | None
+
+class Prv_mlb_MlbBoxScore_Out_notes_item_Out(TypedDict):
+    label: str
+    value: str
+
+class Prv_mlb_MlbBoxScore_Out_officials_item_Out(TypedDict):
+    role: str
+    name: str
+
+class Prv_mlb_MlbGetPlayByPlayArgs_In(TypedDict):
+    gamePk: float
+    inning: NotRequired[float]
+    scoringOnly: NotRequired[bool]
+
+class Prv_mlb_MlbPlay_Out(TypedDict):
+    index: float
+    inning: float
+    half: str
+    batter: str | None
+    pitcher: str | None
+    event: str | None
+    description: str | None
+    rbi: float
+    outs: float | None
+    pitches: float
+    isScoring: bool
+    awayScore: float | None
+    homeScore: float | None
 
 class Prv_modernize_com_ModernizeProjectType_Out(TypedDict):
     value: str
@@ -46439,12 +46874,14 @@ class Prv_nike_removeFavorite_return_Out(TypedDict):
     removed: bool
     itemId: str
 
-class Prv_nike_removeFromCart_args_In(TypedDict):
-    itemId: str
+class Prv_nike_addToCart_args_In(TypedDict):
+    skuId: str
+    quantity: NotRequired[float]
 
-class Prv_nike_removeFromCart_return_Out(TypedDict):
-    removed: bool
-    itemId: str
+class Prv_nike_addToCart_return_Out(TypedDict):
+    added: bool
+    skuId: str
+    quantity: float
     cart: Mapping[str, Any]
     checkout: NotRequired[Prv_nike_NikeCheckoutHandoff_Out]
 
@@ -46478,6 +46915,23 @@ class Prv_nike_NikeCheckoutItem_Out(TypedDict):
     lineTotal: str | None
     url: NotRequired[str]
     id: NotRequired[str]
+
+class Prv_nike_updateMemberProfile_args_In(TypedDict):
+    fields: Mapping[str, Any]
+
+class Prv_nike_updateMemberProfile_return_Out(TypedDict):
+    updated: bool
+    fields: list[str]
+    profile: Mapping[str, Any]
+
+class Prv_nike_removeFromCart_args_In(TypedDict):
+    itemId: str
+
+class Prv_nike_removeFromCart_return_Out(TypedDict):
+    removed: bool
+    itemId: str
+    cart: Mapping[str, Any]
+    checkout: NotRequired[Prv_nike_NikeCheckoutHandoff_Out]
 
 class Prv_nike_listOrders_args_In(TypedDict):
     limit: NotRequired[float]
@@ -59114,6 +59568,9 @@ class Prv_shein_sheinStore_Out(TypedDict):
     productCount: str | None
     storeUrl: str
 
+class Prv_shein_SheinListStoreProductsArgs_In(TypedDict):
+    storeCode: str
+
 class Prv_shop_app_ShopAppListPageArgs_In(TypedDict):
     first: NotRequired[float]
     cursor: NotRequired[str]
@@ -59286,6 +59743,11 @@ class Prv_shop_app_ShopAppShopCash_Out(TypedDict):
     amount: float | None
     currency: str | None
     warnings: list[str]
+
+class Prv_shop_app_ShopAppAccount_Out(TypedDict):
+    dataSharingOptOut: bool | None
+    countryCode: str | None
+    isMemberOfEuropeanUnion: bool | None
 
 class Prv_shop_app_ShopAppStartCheckoutArgs_In(TypedDict):
     store: str
@@ -68053,9 +68515,7 @@ class Prv_tock_TockCityVenue_Out(TypedDict):
     currencyCode: str
     businessType: str
 
-class Prv_tomsguide_SearchArgs_In(TypedDict):
-    query: str
-    page: NotRequired[float]
+class Prv_tomsguide_ListLatestArgs_In(TypedDict):
     limit: NotRequired[float]
 
 class Prv_tomsguide_TomsGuideArticle_Out(TypedDict):
@@ -68066,6 +68526,11 @@ class Prv_tomsguide_TomsGuideArticle_Out(TypedDict):
     date: str | None
     synopsis: str | None
     image: str | None
+
+class Prv_tomsguide_SearchArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+    limit: NotRequired[float]
 
 class Prv_topcashback_SearchStoresArgs_In(TypedDict):
     query: str
@@ -70025,7 +70490,7 @@ class Prv_ubereats_UbereatsAddToCartArgs_In(TypedDict):
     customizations: NotRequired[Mapping[str, Sequence[str]]]
     address: NotRequired[str]
 
-class Prv_ubereats_UbereatsCartItemRef_Out(TypedDict):
+class Prv_ubereats_addToCart_return_Out(TypedDict):
     draftOrderUuid: str
     cartUuid: str
     shoppingCartItemUuid: str
@@ -70039,10 +70504,13 @@ class Prv_ubereats_UbereatsCartItemRef_Out(TypedDict):
     imageURL: str
     specialInstructions: str
     customizations: Mapping[str, list[Any]]
+    storeUrl: NotRequired[str | None]
+    checkout: Prv_ubereats_UbereatsCheckoutHandoff_Out
 
 class Prv_ubereats_updateCartItem_args_In(TypedDict):
     item: Prv_ubereats_UbereatsCartItemRef_In
     quantity: float
+    store: NotRequired[str]
 
 class Prv_ubereats_UbereatsCartItemRef_In(TypedDict):
     draftOrderUuid: str
@@ -70058,22 +70526,77 @@ class Prv_ubereats_UbereatsCartItemRef_In(TypedDict):
     imageURL: str
     specialInstructions: str
     customizations: Mapping[str, Sequence[Any]]
+    storeUrl: NotRequired[str | None]
+    checkout: NotRequired[Prv_ubereats_UbereatsCheckoutHandoff_In]
+
+class Prv_ubereats_UbereatsCheckoutHandoff_In(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    account: Prv_ubereats_UbereatsCheckoutAccount_In
+    summary: Prv_ubereats_UbereatsCheckoutSummary_In | None
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    expiresAt: NotRequired[str]
+    warnings: Sequence[str]
+
+class Prv_ubereats_UbereatsCheckoutAccount_In(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_ubereats_UbereatsCheckoutSummary_In(TypedDict):
+    items: Sequence[Prv_ubereats_UbereatsCheckoutItem_In]
+    total: str | None
+    currency: str
+
+class Prv_ubereats_UbereatsCheckoutItem_In(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_ubereats_updateCartItem_return_Out(TypedDict):
+    draftOrderUuid: str
+    cartUuid: str
+    shoppingCartItemUuid: str
+    storeUuid: str
+    sectionUuid: str
+    subsectionUuid: str
+    uuid: str
+    title: str
+    price: float
+    quantity: float
+    imageURL: str
+    specialInstructions: str
+    customizations: Mapping[str, list[Any]]
+    storeUrl: NotRequired[str | None]
+    checkout: Prv_ubereats_UbereatsCheckoutHandoff_Out
 
 class Prv_ubereats_removeFromCart_args_In(TypedDict):
     draftOrderUuid: str
     cartUuid: str
     shoppingCartItemUuids: Sequence[str]
+    store: NotRequired[str]
+    remaining: NotRequired[Sequence[Prv_ubereats_UbereatsCartItemRef_In]]
 
 class Prv_ubereats_removeFromCart_return_Out(TypedDict):
     draftOrderUuid: str
+    checkout: Prv_ubereats_UbereatsCheckoutHandoff_Out
 
 class Prv_ubereats_clearCart_args_In(TypedDict):
     draftOrderUuid: str
     cartUuid: str
     shoppingCartItemUuids: Sequence[str]
+    store: NotRequired[str]
 
 class Prv_ubereats_clearCart_return_Out(TypedDict):
     draftOrderUuid: str
+    checkout: Prv_ubereats_UbereatsCheckoutHandoff_Out
 
 class Prv_ubuntu_keyserver_KeyserverKey_Out(TypedDict):
     fingerprint: str
@@ -76478,6 +77001,14 @@ class Prv_yelp_YelpCategory_Out(TypedDict):
     depth: float
     countries: Literal["all"] | list[str]
 
+class Prv_yelp_YelpOwnCollections_Out(TypedDict):
+    collections: list[Prv_yelp_YelpOwnCollection_Out]
+
+class Prv_yelp_YelpOwnCollection_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+
 class Prv_yelp_YelpBookmarks_Out(TypedDict):
     bookmarks: list[Prv_yelp_YelpBookmark_Out]
 
@@ -79595,10 +80126,12 @@ class Cap_retail(Protocol):
     fanned out in parallel and returned best title match first, cheapest first among equal
     matches, so an agent can answer 'where can I actually buy this and what does it cost
     **and whether it's in stock**' without querying each store by hand. Every offer includes
-    that store's in-stock signal. Rows are the stores' own keyword results, so accessories
-    that name the product come back too and can sort above it; filter on `title`. Best Buy's
-    leg needs the caller's own Best Buy developer key; without one the search still returns
-    Walmart + Target with a `warnings` entry naming the drop.
+    that store's in-stock signal and a `condition` (new, used or unknown) read from the
+    title, so a price comparison compares like with like and never calls a Restored listing
+    a saving. Rows are the stores' own keyword results, so accessories that name the product
+    come back too and can sort above it; filter on `title`. Best Buy's leg needs the
+    caller's own Best Buy developer key; without one the search still returns Walmart +
+    Target with a `warnings` entry naming the drop.
     """
 
     async def search(self, args: Cap_retail_search_args_In, /) -> Cap_retail_RetailSearchResult_Out:
@@ -83044,6 +83577,14 @@ class Prv_att(Protocol):
         listPlans covers postpaid unlimited.
         """
 
+    async def listTvPlans(self, /) -> list[Prv_att_AttTvPlan_Out]:
+        """Every AT&T TV package on AT&T's own TV page (att.com/tv/): streaming (ENTERTAINMENT,
+        CHOICE, ULTIMATE, PREMIER), satellite and Spanish-language packages, plus the genre
+        packs (MyKids, MySports...), each with channel count and shop URL. Genre packs carry
+        their monthly price; base packages are priced live per address, so monthlyUsd is null
+        and regularMonthlyUsd is set only where the page's fine print names it (ENTERTAINMENT).
+        """
+
     async def listInternetPlans(self, /) -> list[Prv_att_AttInternetPlan_Out]:
         """Every AT&T Fiber home-internet speed tier on AT&T's own fiber page
         (att.com/internet/fiber/): tier name ("AT&T Internet 1000"), speed in AT&T's words and
@@ -86021,6 +86562,14 @@ class Prv_calendly(Protocol):
         for a paid event; reports when the host requires an SMS code.
         """
 
+    async def rescheduleBooking(self, args: Prv_calendly_CalendlyRescheduleBookingArgs_In, /) -> Prv_calendly_CalendlyBookMeetingResult_Out:
+        """Moves a Calendly booking to a new slot the way its invitee does from the reschedule
+        link: the link (or invitee uuid), the event url it was booked on, and a startTime
+        exactly as getAvailability returned it. Keeps the invitee's name and email; answers to
+        custom questions go in answers. Emails the host, so move only a booking you mean to.
+        Refuses a cancelled booking.
+        """
+
     async def cancelBooking(self, args: Prv_calendly_CalendlyCancelBookingArgs_In, /) -> Prv_calendly_CalendlyCancelBookingResult_Out:
         """Cancels a Calendly booking the way its invitee does, from the cancel or reschedule link
         Calendly emailed (or the bare invitee uuid, e.g. the one bookMeeting returns), with an
@@ -86921,6 +87470,13 @@ class Prv_chatgpt(Protocol):
         """Creates a new, private project in the caller's sidebar and returns its g-p- id. Needs
         the caller signed in to chatgpt.com through the relay; the run pauses for a sign-in link
         when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def createGPT(self, draft: Prv_chatgpt_createGPT_draft_In, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_CreatedGPT_Out:
+        """Creates a custom GPT in the caller's account, private (only me), and returns its g- id
+        and chatgpt.com/g/ url. Needs the caller signed in to chatgpt.com through the relay; the
+        run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the
+        saved sign-in has expired.
         """
 
     async def updateCustomInstructions(self, update: Prv_chatgpt_updateCustomInstructions_update_In, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_WriteResult_Out:
@@ -97197,30 +97753,37 @@ class Prv_grubhub(Protocol):
     async def getCart(self, cartKey: str | None = None, /) -> Prv_grubhub_GrubhubCart_Out:
         """What is in the Grubhub cart: line items (lineId, item, quantity, price in cents,
         options), item count and subtotal. No account — reads this run's cart, or an earlier
-        run's by the cartKey it returned; an empty cart when none exists yet.
+        run's by the cartKey it returned; an empty cart when none exists yet. The cart also
+        carries `checkout`, the same restaurant-page handoff (a refusal when the cart is empty).
         """
 
     async def addToCart(self, args: Prv_grubhub_GrubhubAddToCartArgs_In, /) -> Prv_grubhub_GrubhubCart_Out:
         """Adds a menu item (ids from getMenu()/getMenuItem(), with optional option ids, quantity
         and instructions) to an anonymous Grubhub cart and returns the cart, including a cartKey
         for later runs — `{ restaurantId: "469121", itemId: "24017014" }`. No account; checkout
-        itself needs a login.
+        itself needs a login. The returned cart also carries `checkout`: the restaurant page the
+        items came from plus the items to add again (a guest cart no link can open; delivery fee
+        and tip are set at Grubhub's own checkout), or a refusal when the cart is empty or spans
+        no single restaurant.
         """
 
     async def removeFromCart(self, args: Prv_grubhub_removeFromCart_args_In, /) -> Prv_grubhub_GrubhubCart_Out:
         """Removes one line (getCart().items[].lineId) from the Grubhub cart and returns what is
-        left.
+        left. The returned cart also carries `checkout`: the restaurant page with what is left,
+        or a refusal when the cart is now empty.
         """
 
     async def updateCartItem(self, args: Prv_grubhub_updateCartItem_args_In, /) -> Prv_grubhub_GrubhubCart_Out:
         """Sets the quantity (1-50) of one Grubhub cart line (getCart().items[].lineId), keeping
-        its options, and returns the cart.
+        its options, and returns the cart. The returned cart also carries `checkout`, the
+        restaurant-page handoff with the new quantity.
         """
 
     async def applyPromoCode(self, args: Prv_grubhub_applyPromoCode_args_In, /) -> Prv_grubhub_GrubhubPromoResult_Out:
         """Applies a Grubhub promo code to the cart (add something first) — `{ code: "WELCOME" }`.
         Answers whether it applied, what the code is for, and Grubhub's own reason when it did
-        not (expired, unknown, wrong order type) rather than throwing. No account.
+        not (expired, unknown, wrong order type) rather than throwing. No account. The `cart` in
+        the answer carries `checkout` too: the restaurant page and the items to add again.
         """
 
     async def getSavedAddresses(self, opts: ConnectionOption | None = None, /) -> list[Prv_grubhub_GrubhubSavedAddress_Out]:
@@ -98236,19 +98799,28 @@ class Prv_ikea(Protocol):
         guides and editorials — with title, image and url.
         """
 
-    async def addToCart(self, args: Prv_ikea_AddToCartArgs_In, /) -> Prv_ikea_IkeaCart_Out:
+    async def addToCart(self, args: Prv_ikea_AddToCartArgs_In, /) -> Prv_ikea_addToCart_return_Out:
         """Adds an item to an IKEA cart by item number and quantity, starting a new guest cart when
-        cartToken is omitted. Never checks out.
+        cartToken is omitted. Never checks out. Also returns `checkout`: the first item's
+        product page with every item to add again (a guest cart no link can open), or a refusal
+        when the cart is empty.
         """
 
-    async def getCart(self, args: Prv_ikea_GetCartArgs_In, /) -> Prv_ikea_IkeaCart_Out:
-        """Reads a cart's items, quantities and total — a fresh empty one if cartToken is omitted."""
+    async def getCart(self, args: Prv_ikea_GetCartArgs_In, /) -> Prv_ikea_getCart_return_Out:
+        """Reads a cart's items, quantities and total — a fresh empty one if cartToken is omitted.
+        Also returns `checkout`, the same product-page handoff (a refusal when the cart is
+        empty).
+        """
 
-    async def updateCartItem(self, args: Prv_ikea_UpdateCartItemArgs_In, /) -> Prv_ikea_IkeaCart_Out:
-        """Sets the quantity of an item already in a cart."""
+    async def updateCartItem(self, args: Prv_ikea_UpdateCartItemArgs_In, /) -> Prv_ikea_updateCartItem_return_Out:
+        """Sets the quantity of an item already in a cart. Also returns `checkout`, the
+        product-page handoff with the new quantity.
+        """
 
-    async def removeFromCart(self, args: Prv_ikea_RemoveFromCartArgs_In, /) -> Prv_ikea_IkeaCart_Out:
-        """Removes an item from a cart."""
+    async def removeFromCart(self, args: Prv_ikea_RemoveFromCartArgs_In, /) -> Prv_ikea_removeFromCart_return_Out:
+        """Removes an item from a cart. Also returns `checkout`: the product-page handoff for what
+        is left, or a refusal when the cart is now empty.
+        """
 
     async def addToFavorites(self, args: Prv_ikea_AddToFavoritesArgs_In, /) -> Prv_ikea_IkeaFavoritesList_Out:
         """Saves a product to an IKEA favorites list (IKEA's shopping list) by item number and
@@ -98390,6 +98962,21 @@ class Prv_imgur(Protocol):
         signed in to imgur.
         """
 
+    async def votePost(self, input: Prv_imgur_votePost_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Up- or down-votes a post as the signed-in account, or clears the vote. Sets the vote,
+        never toggles. Example: votePost({ id: "xfwvhd6", vote: "up" }).
+        """
+
+    async def favoritePost(self, post: str, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Favorites a post on the signed-in account. imgur toggles, so a second call removes the
+        favorite.
+        """
+
+    async def addComment(self, input: Prv_imgur_addComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Comments on a post as the signed-in account (140 characters max), or replies when
+        parentId is given. Returns the new comment's id.
+        """
+
     async def searchPosts(self, query: str | Prv_imgur_ImgurSearchArgs_In, /) -> list[Prv_imgur_ImgurPost_Out]:
         """Searches public imgur posts (about 60 a page), top-scored first by default. Example:
         searchPosts("cats") or searchPosts({ query: "cats", window: "week" }).
@@ -98481,6 +99068,26 @@ class Prv_independent(Protocol):
     async def listLatestNews(self, args: Prv_independent_ListLatestNewsArgs_In | None = None, /) -> Prv_independent_ListLatestNewsResult_Out:
         """Lists the newest stories from The Independent's RSS feed: the whole site, or one section
         path.
+        """
+
+    async def getArticle(self, args: Prv_independent_GetArticleArgs_In, /) -> Prv_independent_IndependentArticle_Out:
+        """Gets one Independent article by URL: headline, standfirst, author, dates, section, image
+        and body paragraphs. Takes a URL any list function returns.
+        """
+
+    async def getMostPopular(self, args: Prv_independent_GetMostPopularArgs_In | None = None, /) -> Prv_independent_GetMostPopularResult_Out:
+        """Lists the most-read Independent articles right now: articles (default), videos or
+        bulletin.
+        """
+
+    async def listArticlesByDate(self, args: Prv_independent_ListArticlesByDateArgs_In, /) -> Prv_independent_ListArticlesByDateResult_Out:
+        """Lists the article URLs The Independent published on one date (YYYY-MM-DD, back to 1995),
+        with the day's total.
+        """
+
+    async def listTopics(self, args: Prv_independent_ListTopicsArgs_In | None = None, /) -> Prv_independent_ListTopicsResult_Out:
+        """Lists Independent topic pages starting with one letter or digit, optionally filtered by
+        a name fragment.
         """
 
 class Prv_inspirecommunities(Protocol):
@@ -100002,6 +100609,24 @@ class Prv_kick(Protocol):
     async def getCategory(self, args: Prv_kick_KickGetCategoryArgs_In, /) -> Prv_kick_KickCategoryDetail_Out:
         """One category by slug: name, group, tags, description, live viewers, follower count and
         banner.
+        """
+
+    async def listFeaturedLivestreams(self, args: Prv_kick_KickFeaturedLivestreamsArgs_In | None = None, /) -> Prv_kick_KickFeaturedLivestreamsResult_Out:
+        """The streams Kick features on its homepage carousel right now, for one language."""
+
+    async def listChannelClips(self, args: Prv_kick_KickListChannelClipsArgs_In, /) -> Prv_kick_KickListChannelClipsResult_Out:
+        """A channel's clips, by most viewed or newest, within a time window (day, week, month,
+        all), paged by cursor.
+        """
+
+    async def getClip(self, args: Prv_kick_KickGetClipArgs_In, /) -> Prv_kick_KickClip_Out:
+        """One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration,
+        views, and its video URL.
+        """
+
+    async def listTopClips(self, args: Prv_kick_KickListTopClipsArgs_In | None = None, /) -> Prv_kick_KickListTopClipsResult_Out:
+        """The most-viewed or newest clips across all of Kick, or within one category, for a time
+        window.
         """
 
 class Prv_kickstarter(Protocol):
@@ -102559,6 +103184,21 @@ class Prv_mergify(Protocol):
         errors } with a JSON-pointer path and message per violation. No key needed.
         """
 
+class Prv_merriam_webster(Protocol):
+    """Look up a word in the Merriam-Webster dictionary (definitions, part of speech,
+    pronunciation) or its thesaurus (synonyms and antonyms).
+    """
+
+    async def define(self, args: Prv_merriam_webster_MerriamWebsterWordArgs_In, /) -> Prv_merriam_webster_MerriamWebsterDefinition_Out:
+        """Looks a word up in the Merriam-Webster dictionary and returns each entry's headword,
+        part of speech, pronunciations and definitions.
+        """
+
+    async def thesaurus(self, args: Prv_merriam_webster_MerriamWebsterWordArgs_In, /) -> Prv_merriam_webster_MerriamWebsterThesaurus_Out:
+        """Looks a word up in the Merriam-Webster thesaurus and returns each sense's meaning with
+        its synonyms and antonyms.
+        """
+
 class Prv_microcenter(Protocol):
     """Micro Center (microcenter.com) — live product search over this store's own catalogue,
     cheapest matching item first.
@@ -102960,6 +103600,26 @@ class Prv_mlb(Protocol):
         """MLB games for a date or date range, optionally one team's: matchup, start time, venue,
         status, score and probable pitchers. The door for every gamePk, e.g. getSchedule({ date:
         "2026-09-20" }).
+        """
+
+    async def getStandings(self, args: Prv_mlb_MlbGetStandingsArgs_In | None = None, /) -> list[Prv_mlb_MlbStandingsDivision_Out]:
+        """Regular-season standings by division: wins, losses, games back, wild card, run
+        differential, streak, last ten, home and away. e.g. getStandings({ season: 2025 }).
+        """
+
+    async def getGame(self, args: Prv_mlb_MlbGamePkArgs_In, /) -> Prv_mlb_MlbGameSummary_Out:
+        """One game's summary: status, inning, line score by inning, runs/hits/errors, winning,
+        losing and save pitchers, venue, weather, attendance. Takes a gamePk from getSchedule.
+        """
+
+    async def getBoxScore(self, args: Prv_mlb_MlbGamePkArgs_In, /) -> Prv_mlb_MlbBoxScore_Out:
+        """A game's box score: every batter's and pitcher's line for both teams, team totals, game
+        notes and umpires. Takes a gamePk from getSchedule.
+        """
+
+    async def getPlayByPlay(self, args: Prv_mlb_MlbGetPlayByPlayArgs_In, /) -> list[Prv_mlb_MlbPlay_Out]:
+        """Every plate appearance of a game: inning, batter, pitcher, event, description, runs
+        batted in and score; filter by inning or scoringOnly. Takes a gamePk from getSchedule.
         """
 
 class Prv_modernize_com(Protocol):
@@ -104062,6 +104722,20 @@ class Prv_nike(Protocol):
     async def removeFavorite(self, args: Prv_nike_removeFavorite_args_In, opts: ConnectionOption | None = None, /) -> Prv_nike_removeFavorite_return_Out:
         """Removes one row from the signed-in caller's nike.com favorites; itemId is a row id from
         listFavorites. Needs the caller signed in to Nike.
+        """
+
+    async def addToCart(self, args: Prv_nike_addToCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_nike_addToCart_return_Out:
+        """Adds one product in one size to the signed-in caller's nike.com bag; skuId is a size's
+        skuId from getProduct, quantity 1-10 (default 1). Never checks out. Needs the caller
+        signed in to Nike. Returns `checkout`: Nike's own bag page and which account to sign in
+        to (Bowmark never pays).
+        """
+
+    async def updateMemberProfile(self, args: Prv_nike_updateMemberProfile_args_In, opts: ConnectionOption | None = None, /) -> Prv_nike_updateMemberProfile_return_Out:
+        """Edits the signed-in caller's own Nike profile. fields is a partial profile object with
+        any of contact, dob, gender, hometown, location, marketing, measurements, motto, name,
+        preferences, screenname, social, shaped as getMemberProfile returns them. Needs the
+        caller signed in to Nike.
         """
 
     async def removeFromCart(self, args: Prv_nike_removeFromCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_nike_removeFromCart_return_Out:
@@ -110657,6 +111331,11 @@ class Prv_shein(Protocol):
         Shein's rounded product count. Takes the product id or url `search` returns.
         """
 
+    async def listStoreProducts(self, args: Prv_shein_SheinListStoreProductsArgs_In, /) -> list[Prv_shein_sheinProduct_Out]:
+        """The first page of products a marketplace store sells (about 20) — title, price, image
+        and product page URL. Takes the `storeCode` `getStore` returns.
+        """
+
     async def listNewArrivals(self, /) -> list[Prv_shein_sheinProduct_Out]:
         """The products on Shein's New In page — title, price, image and product page URL for each,
         newest first as the page orders them.
@@ -110730,6 +111409,12 @@ class Prv_shop_app(Protocol):
     async def getShopCash(self, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppShopCash_Out:
         """Reads the signed-in caller's spendable Shop Cash balance and its currency. Pauses for
         the caller to sign in to Shop.
+        """
+
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppAccount_Out:
+        """Reads the caller's Shop account settings: whether they opted out of data sharing, and
+        the country and EU status Shop resolved for them. Pauses for the caller to sign in to
+        Shop.
         """
 
     async def startCheckout(self, args: Prv_shop_app_ShopAppStartCheckoutArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppCheckout_Out:
@@ -114918,16 +115603,20 @@ class Prv_tock(Protocol):
         """
 
 class Prv_tomsguide(Protocol):
-    """Tom's Guide (tomsguide.com) — a bare site name discovers this provider but is not a
-    search query: do not choose a default topic; ask the caller for one. search then finds
-    consumer-tech articles for the explicit topic or keyword.
+    """Tom's Guide (tomsguide.com) — for a bare site name, call listLatest to return the
+    article cards currently shown on its homepage. search finds consumer-tech articles for
+    an explicit topic or keyword.
     """
 
-    async def search(self, args: Prv_tomsguide_SearchArgs_In, /) -> list[Prv_tomsguide_TomsGuideArticle_Out]:
-        """Searches Tom's Guide for a required article topic or keyword. A bare site name only
-        finds this provider: do not choose a default topic; ask the caller for one before
-        calling search.
+    async def listLatest(self, args: Prv_tomsguide_ListLatestArgs_In | None = None, /) -> list[Prv_tomsguide_TomsGuideArticle_Out]:
+        """Lists the article cards currently shown on Tom's Guide's homepage, in the page's
+        displayed order. This is the useful zero-argument action for a bare tomsguide.com
+        request. Optional limit, 1–100, default 20; homepage cards do not carry bylines or
+        dates, so those fields are null.
         """
+
+    async def search(self, args: Prv_tomsguide_SearchArgs_In, /) -> list[Prv_tomsguide_TomsGuideArticle_Out]:
+        """Searches Tom's Guide for a required article topic or keyword."""
 
 class Prv_topcashback(Protocol):
     """Read a store's TopCashback cash back rate (headline and per-category) and search
@@ -115950,25 +116639,31 @@ class Prv_ubereats(Protocol):
         sign-in the run pauses for one. signedIn is UNMEASURED, see manifest.json.
         """
 
-    async def addToCart(self, args: Prv_ubereats_UbereatsAddToCartArgs_In, /) -> Prv_ubereats_UbereatsCartItemRef_Out:
+    async def addToCart(self, args: Prv_ubereats_UbereatsAddToCartArgs_In, /) -> Prv_ubereats_addToCart_return_Out:
         """Adds one menu item (from getStore()'s menu or getMenuItem()) to a NEW Uber Eats cart for
         that store, with quantity and chosen customization options, and returns the cart item
         reference updateCartItem/removeFromCart/clearCart take back. Anonymous — Uber Eats' own
         guest cart, no sign-in needed (measured 2026-11-02); sign-in is only needed to place the
         order. Pass { address } so the cart has a delivery location; without it, Uber Eats
         refuses the cart unless an earlier call in the same run (checkDeliveryAvailability,
-        browseStores, findChainStore, searchStoreProducts) already set one.
+        browseStores, findChainStore, searchStoreProducts) already set one. Also returns
+        `checkout`: the store page the items came from plus the items to add again (a guest cart
+        no link can open; delivery fee and tip are set at Uber Eats' own checkout), or a refusal
+        when `store` was not a store URL.
         """
 
-    async def updateCartItem(self, args: Prv_ubereats_updateCartItem_args_In, /) -> Prv_ubereats_UbereatsCartItemRef_Out:
+    async def updateCartItem(self, args: Prv_ubereats_updateCartItem_args_In, /) -> Prv_ubereats_updateCartItem_return_Out:
         """Changes the quantity of one cart item — pass the exact object addToCart() returned, with
         a new quantity (at least 1; use removeFromCart to take it out entirely). Anonymous, same
-        as addToCart (measured 2026-11-02).
+        as addToCart (measured 2026-11-02). Also returns `checkout`, the same store-page handoff
+        for the updated item (pass `store` when addToCart's storeUrl was null).
         """
 
     async def removeFromCart(self, args: Prv_ubereats_removeFromCart_args_In, /) -> Prv_ubereats_removeFromCart_return_Out:
         """Removes one or more items from a cart by their shoppingCartItemUuid — all three ids come
-        off addToCart()'s own return. Anonymous, same as addToCart (measured 2026-11-02).
+        off addToCart()'s own return. Anonymous, same as addToCart (measured 2026-11-02). Also
+        returns `checkout`: the store-page handoff listing what is left when `remaining` is
+        passed, otherwise a refusal saying the remaining items are unknown.
         """
 
     async def clearCart(self, args: Prv_ubereats_clearCart_args_In, /) -> Prv_ubereats_clearCart_return_Out:
@@ -115976,7 +116671,8 @@ class Prv_ubereats(Protocol):
         dedicated 'clear cart' endpoint (measured 2026-11-02:
         clearDraftOrderV2/discardDraftOrderV2/cancelDraftOrderV2/deleteDraftOrderV2/emptyCartV2
         all answer ERR_MISSING_HANDLER), so the caller passes every item id to remove at once.
-        Anonymous, same as addToCart (measured 2026-11-02).
+        Anonymous, same as addToCart (measured 2026-11-02). Also returns `checkout`: a refusal
+        saying the cart is empty.
         """
 
 class Prv_ubuntu_keyserver(Protocol):
@@ -119326,6 +120022,13 @@ class Prv_yelp(Protocol):
         through their own Chrome when Bowmark Link is attached. Read-only.
         """
 
+    async def getCollections(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpOwnCollections_Out:
+        """Lists the signed-in caller's own Yelp collections (their My Collections page): each
+        one's id, title and url, in page order, [] when none; pass a url to getCollection for
+        the places in it. Needs the caller signed in to Yelp; runs through their own Chrome when
+        Bowmark Link is attached. Read-only.
+        """
+
     async def getBookmarks(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpBookmarks_Out:
         """Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
         page): each business's alias, name and url, in the order the page shows them, [] when
@@ -120787,6 +121490,7 @@ class BowmarkProviders(Protocol):
     menards: Prv_menards
     mercari: Prv_mercari
     mergify: Prv_mergify
+    merriam_webster: Prv_merriam_webster
     microcenter: Prv_microcenter
     microsoft_365: Prv_microsoft_365
     microsoft_onedrive: Prv_microsoft_onedrive

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b3334efc72ae5fc6cb16ccd4c490ff1efb816d67bb99dee89b352dceac70fddb
-// 98 capabilities, 849 providers, 5225 typed functions, 20 refused.
+// Manifest version: 4e64c07e666dde4ba485155edbbc413542a3feca406a874635406d0402a49a54
+// 98 capabilities, 850 providers, 5251 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1782,6 +1782,9 @@ type EventListing = {
   priceFrom: number | null  // lowest price; always null from eventbrite (call providers.eventbrite.getEvent)
   currency: string | null
   status: string | null     // the site's own availability label
+  // Where the PERSON gets tickets, in their own browser: show them checkout.url and stop.
+  // Bowmark never registers or buys. eventbrite rows carry it; eventim rows: null.
+  checkout: { status: "ready_to_checkout" | "needs_login" | "unavailable"; url: string; reason?: string } | null
 }
 type EventTicketsArgs = {
   query: string             // artist, show or kind of event, e.g. "Coldplay", "jazz"
@@ -4077,7 +4080,8 @@ declare namespace BowmarkCapability_products {
 interface ProductSearchResult {
   results: { store: "walmart" | "target" | "bestbuy" | "amazon"; title: string;
              price: number | null; wasPrice: number | null; url: string | null;
-             inStock: boolean; rating: number | null; ratingCount: number | null }[]  // rating, ratingCount: amazon rows only
+             inStock: boolean; rating: number | null; ratingCount: number | null;  // rating, ratingCount: amazon rows only
+             condition: "new" | "used" | "unknown" }[]  // from the title; compare like with like, a "used" row is never "cheaper"
   warnings: string[]   // names any store that did not answer
 }
 interface ProductAvailability {
@@ -4614,6 +4618,16 @@ type RetailOffer = {
   url: string | null             // product page
   inStock: boolean               // this store's OWN in-stock signal — not comparable
                                   // across stores as one normalized fact
+  condition: "new" | "used" | "unknown"
+                                  // "used" = the title says Restored / Refurbished /
+                                  // Renewed / Used / Open box / Pre-owned. "unknown" =
+                                  // no title to read (never assumed new). COMPARE LIKE WITH
+                                  // LIKE: a price comparison keeps only rows whose condition
+                                  // matches the source page's (default "new"). A "used" row
+                                  // beside a new item is never a "cheaper" claim: label it
+                                  // "Restored" and leave it out of "cheaper by $X". If a
+                                  // store only has it used, say so; never claim it is cheaper.
+                                  // Also check storage size / colour / bundle in the title.
 }
 type RetailSearchResult = {
   results: RetailOffer[]   // ONE query across ALL stores. Rows whose title carries more
@@ -4639,10 +4653,11 @@ type CallOptions = {
    * out in parallel and returned best title match first, cheapest first among equal matches, so
    * an agent can answer 'where can I actually buy this and what does it cost **and whether it's
    * in stock**' without querying each store by hand. Every offer includes that store's in-stock
-   * signal. Rows are the stores' own keyword results, so accessories that name the product come
-   * back too and can sort above it; filter on `title`. Best Buy's leg needs the caller's own
-   * Best Buy developer key; without one the search still returns Walmart + Target with a
-   * `warnings` entry naming the drop.
+   * signal and a `condition` (new, used or unknown) read from the title, so a price comparison
+   * compares like with like and never calls a Restored listing a saving. Rows are the stores'
+   * own keyword results, so accessories that name the product come back too and can sort above
+   * it; filter on `title`. Best Buy's leg needs the caller's own Best Buy developer key; without
+   * one the search still returns Walmart + Target with a `warnings` entry naming the drop.
    */
   interface Unit {
     /**
@@ -9583,6 +9598,8 @@ interface SearchArgs {
 interface aliexpressProduct {
   id: string;
   title: string;
+  /** The card's own price in the page currency (USD), sale price when there is one. Never a
+   *  stand-in 0: a result whose price could not be read is left out of the list. */
   price: number;
   /** Always "" — AliExpress's search card does not carry the seller's name. */
   shop_name: string;
@@ -14215,6 +14232,15 @@ interface AttPrepaidPlan {
   features: string[];            // the card's feature list, AT&T's own words — the site's own labels — read the values off a result, never guess one from prose
   shopUrl: string | null;
 }
+interface AttTvPlan {
+  id: string;                    // "ATT_TV_CHOICE"
+  name: string;                  // "CHOICE"
+  kind: string;                  // "streaming" | "satellite" | "genre-pack" | "mini-pack" | "free"
+  channels: number | null;
+  monthlyUsd: number | null;     // null for base packages: AT&T prices them live per address
+  regularMonthlyUsd: number | null; // "curr. $94.99/mo." fine print, when it names the package
+  shopUrl: string | null;
+}
 interface AttInternetPlan {
   name: string; // "AT&T Internet 1000"
   speed: string; // AT&T's words: "Up to 1 GIG speed"
@@ -14347,6 +14373,15 @@ interface AttMonthlyBill {
      * unlimited.
      */
     listPrepaidPlans(): Promise<AttPrepaidPlan[]>;
+
+    /**
+     * Every AT&T TV package on AT&T's own TV page (att.com/tv/): streaming (ENTERTAINMENT, CHOICE,
+     * ULTIMATE, PREMIER), satellite and Spanish-language packages, plus the genre packs (MyKids,
+     * MySports...), each with channel count and shop URL. Genre packs carry their monthly price;
+     * base packages are priced live per address, so monthlyUsd is null and regularMonthlyUsd is
+     * set only where the page's fine print names it (ENTERTAINMENT).
+     */
+    listTvPlans(): Promise<AttTvPlan[]>;
 
     /**
      * Every AT&T Fiber home-internet speed tier on AT&T's own fiber page
@@ -23018,6 +23053,16 @@ interface CalendlyBookMeetingResult {
   confirmationUrl: string | null;
 }
 
+interface CalendlyRescheduleBookingArgs {
+  link: string;                       // the reschedule / cancel / confirmation link, or the bare invitee uuid
+  url: string;                        // the event url the booking was made on (host page or /d/ share link)
+  startTime: string;                  // the new slot, exactly as getAvailability returned it
+  timezone?: string;
+  guests?: string[];
+  answers?: Record<string, string>;   // custom-question answers keyed by the question name
+  event?: string;
+}
+
 interface CalendlyCancelBookingArgs {
   link: string;                       // the cancel / reschedule / confirmation link, or the bare invitee uuid
   reason?: string;                    // the reason the host sees
@@ -23114,6 +23159,15 @@ interface CalendlyFindProfilesResult {
      * event; reports when the host requires an SMS code.
      */
     bookMeeting(args: CalendlyBookMeetingArgs): Promise<CalendlyBookMeetingResult>;
+
+    /**
+     * Moves a Calendly booking to a new slot the way its invitee does from the reschedule link:
+     * the link (or invitee uuid), the event url it was booked on, and a startTime exactly as
+     * getAvailability returned it. Keeps the invitee's name and email; answers to custom questions
+     * go in answers. Emails the host, so move only a booking you mean to. Refuses a cancelled
+     * booking.
+     */
+    rescheduleBooking(args: CalendlyRescheduleBookingArgs): Promise<CalendlyBookMeetingResult>;
 
     /**
      * Cancels a Calendly booking the way its invitee does, from the cancel or reschedule link
@@ -25687,6 +25741,13 @@ interface ShareLink {
   url: string;
 }
 
+interface CreatedGPT {
+  /** The g-… id getGPT, pinGPT and sendMessage take. */
+  id: string;
+  name: string;
+  url: string;
+}
+
 interface CreatedProject {
   /** The g-p-… id getProject and listProjects use. */
   id: string;
@@ -25890,6 +25951,14 @@ interface SharedConversation {
      * they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
      */
     createProject(name: string, opts?: ConnectionOption): Promise<CreatedProject>;
+
+    /**
+     * Creates a custom GPT in the caller's account, private (only me), and returns its g- id and
+     * chatgpt.com/g/ url. Needs the caller signed in to chatgpt.com through the relay; the run
+     * pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+     * sign-in has expired.
+     */
+    createGPT(draft: { name: string; description?: string; instructions?: string; promptStarters?: string[] }, opts?: ConnectionOption): Promise<CreatedGPT>;
 
     /**
      * Sets the caller's custom instructions — what ChatGPT should know about them (aboutUser) and
@@ -51163,7 +51232,8 @@ interface GoogleBookingOption {
   currency: string;
   deepLink: string | null; // null for JS-driven rows — see the caveat below
   // The handoff: open checkout.url and book with that seller yourself (sign in there
-  // or book as a guest). Bowmark never books. Null whenever deepLink is.
+  // or book as a guest). Bowmark never books. With no deepLink it is the Google Flights page for the same trip (product_page,
+  // warning says so); the person picks this seller there. Null only without a trip query.
   checkout: { status: string; url: string; urlKind: string; account: { site: string; hint: string }; summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number }; warnings: string[] } | null;
 }
 
@@ -54260,6 +54330,20 @@ interface GrubhubCart {
   subtotalCents: number;
   currency: string;
   restaurantIds: string[];
+  // Where the PERSON finishes: the restaurant page, with these items to add again (the cart is an anonymous Grubhub session no link can open). A refusal when the cart is empty or spans no single restaurant. Bowmark never orders.
+  checkout: GrubhubCheckoutHandoff;
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface GrubhubCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 interface GrubhubSavedAddress {
   id: string | null;
@@ -54400,7 +54484,8 @@ interface GrubhubAddToCartArgs {
     /**
      * What is in the Grubhub cart: line items (lineId, item, quantity, price in cents, options),
      * item count and subtotal. No account — reads this run's cart, or an earlier run's by the
-     * cartKey it returned; an empty cart when none exists yet.
+     * cartKey it returned; an empty cart when none exists yet. The cart also carries `checkout`,
+     * the same restaurant-page handoff (a refusal when the cart is empty).
      */
     getCart(cartKey?: string): Promise<GrubhubCart>;
 
@@ -54408,23 +54493,32 @@ interface GrubhubAddToCartArgs {
      * Adds a menu item (ids from getMenu()/getMenuItem(), with optional option ids, quantity and
      * instructions) to an anonymous Grubhub cart and returns the cart, including a cartKey for
      * later runs — `{ restaurantId: "469121", itemId: "24017014" }`. No account; checkout itself
-     * needs a login.
+     * needs a login. The returned cart also carries `checkout`: the restaurant page the items came
+     * from plus the items to add again (a guest cart no link can open; delivery fee and tip are
+     * set at Grubhub's own checkout), or a refusal when the cart is empty or spans no single
+     * restaurant.
      */
     addToCart(args: GrubhubAddToCartArgs): Promise<GrubhubCart>;
 
-    /** Removes one line (getCart().items[].lineId) from the Grubhub cart and returns what is left. */
+    /**
+     * Removes one line (getCart().items[].lineId) from the Grubhub cart and returns what is left.
+     * The returned cart also carries `checkout`: the restaurant page with what is left, or a
+     * refusal when the cart is now empty.
+     */
     removeFromCart(args: { lineId: string; cartKey?: string }): Promise<GrubhubCart>;
 
     /**
      * Sets the quantity (1-50) of one Grubhub cart line (getCart().items[].lineId), keeping its
-     * options, and returns the cart.
+     * options, and returns the cart. The returned cart also carries `checkout`, the
+     * restaurant-page handoff with the new quantity.
      */
     updateCartItem(args: { lineId: string; quantity: number; cartKey?: string }): Promise<GrubhubCart>;
 
     /**
      * Applies a Grubhub promo code to the cart (add something first) — `{ code: "WELCOME" }`.
      * Answers whether it applied, what the code is for, and Grubhub's own reason when it did not
-     * (expired, unknown, wrong order type) rather than throwing. No account.
+     * (expired, unknown, wrong order type) rather than throwing. No account. The `cart` in the
+     * answer carries `checkout` too: the restaurant page and the items to add again.
      */
     applyPromoCode(args: { code: string; cartKey?: string }): Promise<GrubhubPromoResult>;
 
@@ -57537,6 +57631,20 @@ interface IkeaCart {
   items: IkeaCartItem[];
   quantity: number;
   updatedAt: string | null;
+  // Where the PERSON finishes: the first item's product page with every item listed to add again (the cart is a guest cart no link can open); a refusal when the cart is empty. Bowmark never checks out.
+  checkout: IkeaCheckoutHandoff;
+}
+// The checkout handoff: where the PERSON finishes. Bowmark never pays, books or orders.
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface IkeaCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;                       // the https page to open on the site
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: does the link carry the items, or only open the item's page
+  reason?: string;                   // unavailable only: out_of_stock | not_available_for_dates | not_sold_online | region_not_served | quantity_unavailable | empty_cart
+  detail?: string;                   // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
 }
 interface AddToCartArgs {
   /** An itemNo from searchProducts, e.g. "20522046". */
@@ -57748,18 +57856,29 @@ interface RemoveFromFavoritesArgs {
 
     /**
      * Adds an item to an IKEA cart by item number and quantity, starting a new guest cart when
-     * cartToken is omitted. Never checks out.
+     * cartToken is omitted. Never checks out. Also returns `checkout`: the first item's product
+     * page with every item to add again (a guest cart no link can open), or a refusal when the
+     * cart is empty.
      */
-    addToCart(args: AddToCartArgs): Promise<IkeaCart>;
+    addToCart(args: AddToCartArgs): Promise<IkeaCart & { checkout: IkeaCheckoutHandoff }>;
 
-    /** Reads a cart's items, quantities and total — a fresh empty one if cartToken is omitted. */
-    getCart(args: GetCartArgs): Promise<IkeaCart>;
+    /**
+     * Reads a cart's items, quantities and total — a fresh empty one if cartToken is omitted. Also
+     * returns `checkout`, the same product-page handoff (a refusal when the cart is empty).
+     */
+    getCart(args: GetCartArgs): Promise<IkeaCart & { checkout: IkeaCheckoutHandoff }>;
 
-    /** Sets the quantity of an item already in a cart. */
-    updateCartItem(args: UpdateCartItemArgs): Promise<IkeaCart>;
+    /**
+     * Sets the quantity of an item already in a cart. Also returns `checkout`, the product-page
+     * handoff with the new quantity.
+     */
+    updateCartItem(args: UpdateCartItemArgs): Promise<IkeaCart & { checkout: IkeaCheckoutHandoff }>;
 
-    /** Removes an item from a cart. */
-    removeFromCart(args: RemoveFromCartArgs): Promise<IkeaCart>;
+    /**
+     * Removes an item from a cart. Also returns `checkout`: the product-page handoff for what is
+     * left, or a refusal when the cart is now empty.
+     */
+    removeFromCart(args: RemoveFromCartArgs): Promise<IkeaCart & { checkout: IkeaCheckoutHandoff }>;
 
     /**
      * Saves a product to an IKEA favorites list (IKEA's shopping list) by item number and
@@ -58076,6 +58195,7 @@ interface ImdbCustomListsResponse {
 
 declare namespace BowmarkProvider_imgur {
   // ── Imgur — the unit's own declarations, verbatim ──
+interface ImgurWriteResult { ok: boolean; id: string; action: string; commentId: string | null }
 interface ImgurMedia { id: string; type: string; mimeType: string; url: string; width: number | null; height: number | null; size: number | null; title: string | null; description: string | null; isAnimated: boolean; duration: number | null }
 interface ImgurPost { id: string; title: string; description: string | null; url: string; accountId: number | null; createdAt: string | null; views: number; upvotes: number; downvotes: number; points: number; comments: number; favorites: number; imageCount: number; isAlbum: boolean; isMature: boolean; cover: ImgurMedia | null }
 interface ImgurGalleryArgs {
@@ -58203,6 +58323,24 @@ interface ImgurTagArgs {
      * signed in to imgur.
      */
     getNotifications(opts?: ConnectionOption): Promise<ImgurNotification[]>;
+
+    /**
+     * Up- or down-votes a post as the signed-in account, or clears the vote. Sets the vote, never
+     * toggles. Example: votePost({ id: "xfwvhd6", vote: "up" }).
+     */
+    votePost(input: { id: string; vote?: "up" | "down" | "clear" }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /**
+     * Favorites a post on the signed-in account. imgur toggles, so a second call removes the
+     * favorite.
+     */
+    favoritePost(post: string, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /**
+     * Comments on a post as the signed-in account (140 characters max), or replies when parentId
+     * is given. Returns the new comment's id.
+     */
+    addComment(input: { id: string; text: string; parentId?: string }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
 
     /**
      * Searches public imgur posts (about 60 a page), top-scored first by default. Example:
@@ -58447,6 +58585,15 @@ interface GetHomepageHeadlinesArgs { edition?: "uk" | "us" | "asia"; limit?: num
 interface GetHomepageHeadlinesResult { edition: string; stories: IndependentStory[]; }
 interface ListLatestNewsArgs { section?: string; limit?: number; }
 interface ListLatestNewsResult { feed: string; stories: IndependentStory[]; }
+interface IndependentArticle { url: string; articleId: string | null; title: string; description: string | null; published: string | null; modified: string | null; section: string | null; author: { name: string; url: string | null } | null; imageUrl: string | null; freeToRead: boolean | null; paragraphs: string[]; }
+interface GetArticleArgs { url: string; }
+interface GetMostPopularArgs { area?: "articles" | "videos" | "bulletin"; limit?: number; }
+interface PopularRow { rank: number; articleId: string; title: string; url: string; imageUrl: string | null; section: { title: string; path: string } | null; }
+interface GetMostPopularResult { area: string; articles: PopularRow[]; }
+interface ListArticlesByDateArgs { date: string; limit?: number; }
+interface ListArticlesByDateResult { date: string; total: number; articles: { url: string; articleId: string | null; lastmod: string | null }[]; }
+interface ListTopicsArgs { letter?: string; query?: string; limit?: number; }
+interface ListTopicsResult { letter: string; total: number; topics: { slug: string; url: string }[]; warnings: string[]; }
 
   /**
    * The Independent (UK news): articles, live blogs, section and topic fronts, most-read,
@@ -58476,6 +58623,27 @@ interface ListLatestNewsResult { feed: string; stories: IndependentStory[]; }
      * path.
      */
     listLatestNews(args?: ListLatestNewsArgs): Promise<ListLatestNewsResult>;
+
+    /**
+     * Gets one Independent article by URL: headline, standfirst, author, dates, section, image and
+     * body paragraphs. Takes a URL any list function returns.
+     */
+    getArticle(args: GetArticleArgs): Promise<IndependentArticle>;
+
+    /** Lists the most-read Independent articles right now: articles (default), videos or bulletin. */
+    getMostPopular(args?: GetMostPopularArgs): Promise<GetMostPopularResult>;
+
+    /**
+     * Lists the article URLs The Independent published on one date (YYYY-MM-DD, back to 1995),
+     * with the day's total.
+     */
+    listArticlesByDate(args: ListArticlesByDateArgs): Promise<ListArticlesByDateResult>;
+
+    /**
+     * Lists Independent topic pages starting with one letter or digit, optionally filtered by a
+     * name fragment.
+     */
+    listTopics(args?: ListTopicsArgs): Promise<ListTopicsResult>;
   }
 }
 
@@ -62511,6 +62679,60 @@ interface KickCategoryDetail extends KickCategory {
   followers?: number;
 }
 
+interface KickFeaturedLivestreamsArgs {
+  language?: string;
+}
+
+interface KickFeaturedLivestreamsResult {
+  streams: KickStreamRow[];
+  hasMore: boolean;
+}
+
+interface KickClip {
+  clipId: string;
+  title?: string;
+  channel: string;
+  channelId?: number;
+  creator?: string;
+  category?: { name: string; slug: string };
+  durationSeconds?: number;
+  views?: number;
+  likes?: number;
+  createdAt?: string;
+  mature: boolean;
+  thumbnailUrl?: string;
+  playbackUrl?: string;
+  url: string;
+}
+
+interface KickListChannelClipsArgs {
+  channel: string;
+  sort?: "view" | "date";
+  time?: "day" | "week" | "month" | "all";
+  cursor?: string;
+}
+
+interface KickListChannelClipsResult {
+  clips: KickClip[];
+  nextCursor?: string;
+}
+
+interface KickGetClipArgs {
+  clip: string;
+}
+
+interface KickListTopClipsArgs {
+  category?: string;
+  sort?: "view" | "date";
+  time?: "day" | "week" | "month" | "all";
+  cursor?: string;
+}
+
+interface KickListTopClipsResult {
+  clips: KickClip[];
+  nextCursor?: string;
+}
+
   /** Kick, the live-streaming site — channels, categories, VODs and clips. */
   interface Unit {
     /**
@@ -62560,6 +62782,27 @@ interface KickCategoryDetail extends KickCategory {
      * banner.
      */
     getCategory(args: KickGetCategoryArgs): Promise<KickCategoryDetail>;
+
+    /** The streams Kick features on its homepage carousel right now, for one language. */
+    listFeaturedLivestreams(args?: KickFeaturedLivestreamsArgs): Promise<KickFeaturedLivestreamsResult>;
+
+    /**
+     * A channel's clips, by most viewed or newest, within a time window (day, week, month, all),
+     * paged by cursor.
+     */
+    listChannelClips(args: KickListChannelClipsArgs): Promise<KickListChannelClipsResult>;
+
+    /**
+     * One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration,
+     * views, and its video URL.
+     */
+    getClip(args: KickGetClipArgs): Promise<KickClip>;
+
+    /**
+     * The most-viewed or newest clips across all of Kick, or within one category, for a time
+     * window.
+     */
+    listTopClips(args?: KickListTopClipsArgs): Promise<KickListTopClipsResult>;
   }
 }
 
@@ -69294,6 +69537,33 @@ type mergifyConfigValidation =
   }
 }
 
+declare namespace BowmarkProvider_merriam_webster {
+  // ── Merriam-Webster — the unit's own declarations, verbatim ──
+interface MerriamWebsterEntry { headword: string; partOfSpeech: string | null; pronunciations: string[]; definitions: string[] }
+interface MerriamWebsterDefinition { word: string; url: string; entries: MerriamWebsterEntry[] }
+interface MerriamWebsterSense { partOfSpeech: string | null; meaning: string | null; synonyms: string[]; antonyms: string[] }
+interface MerriamWebsterThesaurus { word: string; url: string; senses: MerriamWebsterSense[] }
+interface MerriamWebsterWordArgs { word: string }
+
+  /**
+   * Look up a word in the Merriam-Webster dictionary (definitions, part of speech,
+   * pronunciation) or its thesaurus (synonyms and antonyms).
+   */
+  interface Unit {
+    /**
+     * Looks a word up in the Merriam-Webster dictionary and returns each entry's headword, part of
+     * speech, pronunciations and definitions.
+     */
+    define(args: MerriamWebsterWordArgs): Promise<MerriamWebsterDefinition>;
+
+    /**
+     * Looks a word up in the Merriam-Webster thesaurus and returns each sense's meaning with its
+     * synonyms and antonyms.
+     */
+    thesaurus(args: MerriamWebsterWordArgs): Promise<MerriamWebsterThesaurus>;
+  }
+}
+
 declare namespace BowmarkProvider_microcenter {
   // ── Micro Center — the unit's own declarations, verbatim ──
 // Micro Center's OWN row shape — not the `pcparts` capability contract.
@@ -70284,6 +70554,130 @@ interface MlbScheduledGame {
   away: MlbGameSide;
   home: MlbGameSide;
 }
+interface MlbGetStandingsArgs {
+  /** Season year; default the current one. */
+  season?: number;
+  /** 103 = American League, 104 = National League; default both. */
+  leagueId?: 103 | 104;
+}
+interface MlbStandingsTeam {
+  teamId: number;
+  team: string;
+  divisionRank: number | null;
+  wins: number;
+  losses: number;
+  pct: string | null;
+  gamesPlayed: number | null;
+  gamesBack: string | null;
+  wildCardRank: number | null;
+  wildCardGamesBack: string | null;
+  runsScored: number | null;
+  runsAllowed: number | null;
+  runDifferential: number | null;
+  streak: string | null;
+  lastTen: string | null;
+  home: string | null;
+  away: string | null;
+  clinch: string | null;
+}
+interface MlbStandingsDivision {
+  divisionId: number | null;
+  division: string | null;
+  leagueId: number | null;
+  teams: MlbStandingsTeam[];
+}
+interface MlbGamePkArgs {
+  /** From getSchedule(). */
+  gamePk: number;
+}
+interface MlbGetPlayByPlayArgs {
+  gamePk: number;
+  /** Only this inning. */
+  inning?: number;
+  /** Only scoring plays. */
+  scoringOnly?: boolean;
+}
+interface MlbGameTeamLine {
+  teamId: number | null;
+  team: string | null;
+  runs: number | null;
+  hits: number | null;
+  errors: number | null;
+  leftOnBase: number | null;
+}
+interface MlbGameSummary {
+  gamePk: number;
+  date: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  state: string | null;
+  inning: string | null;
+  venue: string | null;
+  weather: string | null;
+  attendance: number | null;
+  durationMinutes: number | null;
+  away: MlbGameTeamLine;
+  home: MlbGameTeamLine;
+  innings: { inning: number; away: number | null; home: number | null }[];
+  winningPitcher: { id: number; name: string } | null;
+  losingPitcher: { id: number; name: string } | null;
+  savePitcher: { id: number; name: string } | null;
+}
+interface MlbBatterLine {
+  id: number;
+  name: string;
+  position: string | null;
+  battingOrder: number | null;
+  atBats: number;
+  runs: number;
+  hits: number;
+  rbi: number;
+  walks: number;
+  strikeouts: number;
+  homeRuns: number;
+  seasonAvg: string | null;
+}
+interface MlbPitcherLine {
+  id: number;
+  name: string;
+  inningsPitched: string;
+  hits: number;
+  runs: number;
+  earnedRuns: number;
+  walks: number;
+  strikeouts: number;
+  homeRuns: number;
+  pitches: number | null;
+  seasonEra: string | null;
+}
+interface MlbBoxScoreSide {
+  teamId: number;
+  team: string;
+  totals: { runs: number; hits: number; walks: number; strikeouts: number; homeRuns: number; leftOnBase: number };
+  batters: MlbBatterLine[];
+  pitchers: MlbPitcherLine[];
+}
+interface MlbBoxScore {
+  gamePk: number;
+  away: MlbBoxScoreSide;
+  home: MlbBoxScoreSide;
+  notes: { label: string; value: string }[];
+  officials: { role: string; name: string }[];
+}
+interface MlbPlay {
+  index: number;
+  inning: number;
+  half: string;
+  batter: string | null;
+  pitcher: string | null;
+  event: string | null;
+  description: string | null;
+  rbi: number;
+  outs: number | null;
+  pitches: number;
+  isScoring: boolean;
+  awayScore: number | null;
+  homeScore: number | null;
+}
 
   /**
    * MLB.com (Major League Baseball): schedules, scores, box scores, play-by-play, standings,
@@ -70309,6 +70703,30 @@ interface MlbScheduledGame {
      * "2026-09-20" }).
      */
     getSchedule(args?: MlbGetScheduleArgs): Promise<MlbScheduledGame[]>;
+
+    /**
+     * Regular-season standings by division: wins, losses, games back, wild card, run differential,
+     * streak, last ten, home and away. e.g. getStandings({ season: 2025 }).
+     */
+    getStandings(args?: MlbGetStandingsArgs): Promise<MlbStandingsDivision[]>;
+
+    /**
+     * One game's summary: status, inning, line score by inning, runs/hits/errors, winning, losing
+     * and save pitchers, venue, weather, attendance. Takes a gamePk from getSchedule.
+     */
+    getGame(args: MlbGamePkArgs): Promise<MlbGameSummary>;
+
+    /**
+     * A game's box score: every batter's and pitcher's line for both teams, team totals, game
+     * notes and umpires. Takes a gamePk from getSchedule.
+     */
+    getBoxScore(args: MlbGamePkArgs): Promise<MlbBoxScore>;
+
+    /**
+     * Every plate appearance of a game: inning, batter, pitcher, event, description, runs batted
+     * in and score; filter by inning or scoringOnly. Takes a gamePk from getSchedule.
+     */
+    getPlayByPlay(args: MlbGetPlayByPlayArgs): Promise<MlbPlay[]>;
   }
 }
 
@@ -73438,6 +73856,22 @@ interface NikeStoreAvailability {
      * listFavorites. Needs the caller signed in to Nike.
      */
     removeFavorite(args: { itemId: string }, opts?: ConnectionOption): Promise<{ removed: boolean; itemId: string }>;
+
+    /**
+     * Adds one product in one size to the signed-in caller's nike.com bag; skuId is a size's skuId
+     * from getProduct, quantity 1-10 (default 1). Never checks out. Needs the caller signed in to
+     * Nike. Returns `checkout`: Nike's own bag page and which account to sign in to (Bowmark never
+     * pays).
+     */
+    addToCart(args: { skuId: string; quantity?: number }, opts?: ConnectionOption): Promise<{ added: boolean; skuId: string; quantity: number; cart: Record<string, unknown>; checkout?: NikeCheckoutHandoff }>;
+
+    /**
+     * Edits the signed-in caller's own Nike profile. fields is a partial profile object with any
+     * of contact, dob, gender, hometown, location, marketing, measurements, motto, name,
+     * preferences, screenname, social, shaped as getMemberProfile returns them. Needs the caller
+     * signed in to Nike.
+     */
+    updateMemberProfile(args: { fields: Record<string, unknown> }, opts?: ConnectionOption): Promise<{ updated: boolean; fields: string[]; profile: Record<string, unknown> }>;
 
     /**
      * Removes one line from the signed-in caller's nike.com bag; itemId is an item's id from
@@ -92137,6 +92571,9 @@ interface sheinProductDetail {
 interface SheinGetProductArgs {
   productId: string;
 }
+interface SheinListStoreProductsArgs {
+  storeCode: string;
+}
 interface sheinStore {
   storeCode: string;
   name: string;
@@ -92189,6 +92626,12 @@ interface sheinSizeGuide {
      * rounded product count. Takes the product id or url `search` returns.
      */
     getStore(args: SheinGetProductArgs): Promise<sheinStore>;
+
+    /**
+     * The first page of products a marketplace store sells (about 20) — title, price, image and
+     * product page URL. Takes the `storeCode` `getStore` returns.
+     */
+    listStoreProducts(args: SheinListStoreProductsArgs): Promise<sheinProduct[]>;
 
     /**
      * The products on Shein's New In page — title, price, image and product page URL for each,
@@ -92610,6 +93053,11 @@ interface ShopAppShopCash {
   currency: string | null;
   warnings: string[];
 }
+interface ShopAppAccount {
+  dataSharingOptOut: boolean | null;
+  countryCode: string | null;
+  isMemberOfEuropeanUnion: boolean | null;
+}
 interface ShopAppStartCheckoutArgs {
   store: string;
 }
@@ -92752,6 +93200,12 @@ interface ShopAppListOrdersArgs {
      * caller to sign in to Shop.
      */
     getShopCash(opts?: ConnectionOption): Promise<ShopAppShopCash>;
+
+    /**
+     * Reads the caller's Shop account settings: whether they opted out of data sharing, and the
+     * country and EU status Shop resolved for them. Pauses for the caller to sign in to Shop.
+     */
+    getAccount(opts?: ConnectionOption): Promise<ShopAppAccount>;
 
     /**
      * Opens a checkout for the signed-in caller's Shop cart at one store (its Shop id or handle)
@@ -104835,17 +105289,25 @@ interface SearchArgs {
   page?: number;   // 1-based, default 1
   limit?: number;  // default 20 (a page holds ~20)
 }
+interface ListLatestArgs {
+  limit?: number;  // 1–100, default 20
+}
 
   /**
-   * Tom's Guide (tomsguide.com) — a bare site name discovers this provider but is not a search
-   * query: do not choose a default topic; ask the caller for one. search then finds
-   * consumer-tech articles for the explicit topic or keyword.
+   * Tom's Guide (tomsguide.com) — for a bare site name, call listLatest to return the article
+   * cards currently shown on its homepage. search finds consumer-tech articles for an explicit
+   * topic or keyword.
    */
   interface Unit {
     /**
-     * Searches Tom's Guide for a required article topic or keyword. A bare site name only finds
-     * this provider: do not choose a default topic; ask the caller for one before calling search.
+     * Lists the article cards currently shown on Tom's Guide's homepage, in the page's displayed
+     * order. This is the useful zero-argument action for a bare tomsguide.com request. Optional
+     * limit, 1–100, default 20; homepage cards do not carry bylines or dates, so those fields are
+     * null.
      */
+    listLatest(args?: ListLatestArgs): Promise<TomsGuideArticle[]>;
+
+    /** Searches Tom's Guide for a required article topic or keyword. */
     search(args: SearchArgs): Promise<TomsGuideArticle[]>;
   }
 }
@@ -107832,7 +108294,11 @@ interface UbereatsSavedAddress { id: string | null; title: string | null; subtit
 // needed to place the order.
 // addToCart returns this; round-trip it verbatim into updateCartItem, and its
 // draftOrderUuid/cartUuid/shoppingCartItemUuid into removeFromCart/clearCart.
-interface UbereatsCartItemRef { draftOrderUuid: string; cartUuid: string; shoppingCartItemUuid: string; storeUuid: string; sectionUuid: string; subsectionUuid: string; uuid: string; title: string; price: number; quantity: number; imageURL: string; specialInstructions: string; customizations: Record<string, unknown[]>; }
+// `checkout` is for the PERSON: the cart is a guest cart no link can open, so it is the store page
+// the items came from (urlKind product_page) with the items to add again, or a refusal when the
+// store page is unknown (pass { store: "<store URL>" }) or the cart is empty. Bowmark never orders.
+interface UbereatsCartItemRef { draftOrderUuid: string; cartUuid: string; shoppingCartItemUuid: string; storeUuid: string; sectionUuid: string; subsectionUuid: string; uuid: string; title: string; price: number; quantity: number; imageURL: string; specialInstructions: string; customizations: Record<string, unknown[]>; storeUrl?: string | null; checkout?: UbereatsCheckoutHandoff; }
+// removeFromCart / clearCart return { draftOrderUuid, checkout }; pass { store, remaining: UbereatsCartItemRef[] } to removeFromCart so checkout can list what is left. addToCart / updateCartItem list every item Bowmark has seen in the cart this run; pass { cart: UbereatsCartItemRef[] } with the earlier items when they were added elsewhere.
 
 interface UbereatsAddToCartArgs {
   store: string; sectionUuid: string; subsectionUuid: string; itemUuid: string; quantity?: number;
@@ -107975,31 +108441,38 @@ interface UbereatsAddToCartArgs {
      * guest cart, no sign-in needed (measured 2026-11-02); sign-in is only needed to place the
      * order. Pass { address } so the cart has a delivery location; without it, Uber Eats refuses
      * the cart unless an earlier call in the same run (checkDeliveryAvailability, browseStores,
-     * findChainStore, searchStoreProducts) already set one.
+     * findChainStore, searchStoreProducts) already set one. Also returns `checkout`: the store
+     * page the items came from plus the items to add again (a guest cart no link can open;
+     * delivery fee and tip are set at Uber Eats' own checkout), or a refusal when `store` was not
+     * a store URL.
      */
-    addToCart(args: UbereatsAddToCartArgs): Promise<UbereatsCartItemRef>;
+    addToCart(args: UbereatsAddToCartArgs): Promise<UbereatsCartItemRef & { checkout: UbereatsCheckoutHandoff }>;
 
     /**
      * Changes the quantity of one cart item — pass the exact object addToCart() returned, with a
      * new quantity (at least 1; use removeFromCart to take it out entirely). Anonymous, same as
-     * addToCart (measured 2026-11-02).
+     * addToCart (measured 2026-11-02). Also returns `checkout`, the same store-page handoff for
+     * the updated item (pass `store` when addToCart's storeUrl was null).
      */
-    updateCartItem(args: { item: UbereatsCartItemRef; quantity: number }): Promise<UbereatsCartItemRef>;
+    updateCartItem(args: { item: UbereatsCartItemRef; quantity: number; store?: string }): Promise<UbereatsCartItemRef & { checkout: UbereatsCheckoutHandoff }>;
 
     /**
      * Removes one or more items from a cart by their shoppingCartItemUuid — all three ids come off
-     * addToCart()'s own return. Anonymous, same as addToCart (measured 2026-11-02).
+     * addToCart()'s own return. Anonymous, same as addToCart (measured 2026-11-02). Also returns
+     * `checkout`: the store-page handoff listing what is left when `remaining` is passed,
+     * otherwise a refusal saying the remaining items are unknown.
      */
-    removeFromCart(args: { draftOrderUuid: string; cartUuid: string; shoppingCartItemUuids: string[] }): Promise<{ draftOrderUuid: string }>;
+    removeFromCart(args: { draftOrderUuid: string; cartUuid: string; shoppingCartItemUuids: string[]; store?: string; remaining?: UbereatsCartItemRef[] }): Promise<{ draftOrderUuid: string; checkout: UbereatsCheckoutHandoff }>;
 
     /**
      * Empties a cart by removing every item passed in shoppingCartItemUuids — Uber Eats has no
      * dedicated 'clear cart' endpoint (measured 2026-11-02:
      * clearDraftOrderV2/discardDraftOrderV2/cancelDraftOrderV2/deleteDraftOrderV2/emptyCartV2 all
      * answer ERR_MISSING_HANDLER), so the caller passes every item id to remove at once.
-     * Anonymous, same as addToCart (measured 2026-11-02).
+     * Anonymous, same as addToCart (measured 2026-11-02). Also returns `checkout`: a refusal
+     * saying the cart is empty.
      */
-    clearCart(args: { draftOrderUuid: string; cartUuid: string; shoppingCartItemUuids: string[] }): Promise<{ draftOrderUuid: string }>;
+    clearCart(args: { draftOrderUuid: string; cartUuid: string; shoppingCartItemUuids: string[]; store?: string }): Promise<{ draftOrderUuid: string; checkout: UbereatsCheckoutHandoff }>;
   }
 }
 
@@ -117554,6 +118027,16 @@ interface YelpBookmarks {
   bookmarks: YelpBookmark[];   // page order; [] when nothing is saved
 }
 
+// getCollections: the signed-in caller's own collections
+interface YelpOwnCollection {
+  id: string;
+  title: string;
+  url: string;   // pass to getCollection
+}
+interface YelpOwnCollections {
+  collections: YelpOwnCollection[];   // page order; [] when none
+}
+
   /**
    * Yelp's own business search — returns real, currently-listed businesses for a search term and
    * location with Yelp's own star rating, review count, price tier and neighborhood.
@@ -117664,6 +118147,14 @@ interface YelpBookmarks {
      * Read-only.
      */
     getOwnProfile(opts?: ConnectionOption): Promise<YelpUser>;
+
+    /**
+     * Lists the signed-in caller's own Yelp collections (their My Collections page): each one's
+     * id, title and url, in page order, [] when none; pass a url to getCollection for the places
+     * in it. Needs the caller signed in to Yelp; runs through their own Chrome when Bowmark Link
+     * is attached. Read-only.
+     */
+    getCollections(opts?: ConnectionOption): Promise<YelpOwnCollections>;
 
     /**
      * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
@@ -121785,6 +122276,7 @@ interface BowmarkProviders {
   menards: BowmarkProvider_menards.Unit;
   mercari: BowmarkProvider_mercari.Unit;
   mergify: BowmarkProvider_mergify.Unit;
+  merriam_webster: BowmarkProvider_merriam_webster.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
   microsoft_365: BowmarkProvider_microsoft_365.Unit;
   microsoft_onedrive: BowmarkProvider_microsoft_onedrive.Unit;

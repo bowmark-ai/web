@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6770 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6772 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -406,6 +406,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `att.listLines` | att.com | Every line on the caller's AT&T account: phone number, device, plan name, upgrade… | 🟢 |
 | `att.listPlans` | att.com | Every unlimited wireless plan on AT&T's own plan-picker page… | 🟢 |
 | `att.listPrepaidPlans` | att.com | Every AT&T Prepaid plan on AT&T's own prepaid plans page (att.com/prepaid/plans/)… | 🟢 |
+| `att.listTvPlans` | att.com | Every AT&T TV package on AT&T's own TV page (att.com/tv/): streaming (ENTERTAINMENT… | 🟢 |
 | `att.payBill` | att.com | Pay a portion or all of the caller's AT&T bill using a saved payment method or… | ⚪ |
 | `att.viewBillHistory` | att.com | The caller's past 12 months of bills: month, amount due, amount paid, payment date. | 🟢 |
 | `att.viewOrderHistory` | att.com | The caller's past device and accessory orders from AT&T: order date, items, tracking… | 🟢 |
@@ -931,7 +932,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `calendly.listScheduledEvents` | calendly.com | The meetings booked with the signed-in caller — upcoming, past or a date range — with… | ⚪ |
 | `calendly.listWorkflows` | calendly.com | The caller's workflows — the automatic reminder and follow-up emails and texts… | ⚪ |
 | `calendly.markNoShow` | calendly.com | Marks (or un-marks) an invitee of one of the caller's past meetings as a no-show. | ⚪ |
-| `calendly.rescheduleBooking` | calendly.com | Moves a booking the caller made to another open time, from the reschedule link… | ⚪ |
+| `calendly.rescheduleBooking` | calendly.com | Moves a booking the caller made to another open time, from the reschedule link… | 🟢 |
 | `calendly.setEventTypeActive` | calendly.com | Turns one of the caller's event types on or off, so it stops or starts taking bookings… | ⚪ |
 | `calendly.setProfilePicture` | calendly.com | Changes the caller's Calendly profile picture. | ⚪ |
 | `calendly.submitRoutingForm` | calendly.com | Answers a Calendly routing form and returns where it sends you — the booking page… | ⚪ |
@@ -1113,7 +1114,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.archiveConversation` | chatgpt.com | Archives (or un-archives) one of the CALLER's conversations. | 🟢 |
 | `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | ⚪ |
 | `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | 🟢 |
-| `chatgpt.createGPT` | chatgpt.com | Creates a custom GPT in the CALLER's account — name, description, instructions… | ⚪ |
+| `chatgpt.createGPT` | chatgpt.com | Creates a custom GPT in the CALLER's account — name, description, instructions and… | 🟢 |
 | `chatgpt.createProject` | chatgpt.com | Creates a new project in the CALLER's account with a name and optional instructions. | 🟢 |
 | `chatgpt.deleteConversation` | chatgpt.com | Deletes one of the CALLER's conversations. | 🟢 |
 | `chatgpt.deleteMemory` | chatgpt.com | Deletes one saved memory from the CALLER's ChatGPT memory. | 🟢 |
@@ -3028,12 +3029,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imdb.search` | imdb.com | Full-text search across titles and people, returning matching results ranked by… | 🟢 |
 | `imdb.searchSuggestions` | imdb.com | Typeahead search for quick title and person completion as the user types. | 🟢 |
 | `imdb.searchTitles` | imdb.com | Advanced title search: filter by type, genre, release year, rating and vote count… | 🟢 |
-| `imgur.addComment` | imgur.com | Comments on a post, or replies to a comment. | ⚪ |
+| `imgur.addComment` | imgur.com | Comments on a post, or replies to a comment. | 🟢 |
 | `imgur.createPost` | imgur.com | Creates a post from uploaded media, optionally sharing it to the public community with… | ⚪ |
 | `imgur.deleteComment` | imgur.com | Deletes one of the signed-in account's comments. | ⚪ |
 | `imgur.deletePost` | imgur.com | Deletes one of the signed-in account's posts. | ⚪ |
 | `imgur.editPost` | imgur.com | Edits a post's title, description or tags. | ⚪ |
-| `imgur.favoritePost` | imgur.com | Favorites a post. | ⚪ |
+| `imgur.favoritePost` | imgur.com | Favorites a post. | 🟢 |
 | `imgur.followTag` | imgur.com | Follows a tag. | ⚪ |
 | `imgur.followUser` | imgur.com | Follows a user. | ⚪ |
 | `imgur.getGalleryPosts` | imgur.com | Lists the gallery feed (most viral, user submitted, or top) with sort and paging… | 🟢 |
@@ -3056,7 +3057,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imgur.updateProfile` | imgur.com | Changes the signed-in account's bio or avatar. | ⚪ |
 | `imgur.uploadImage` | imgur.com | Uploads an image or video to the signed-in account (hidden by default). | ⚪ |
 | `imgur.voteComment` | imgur.com | Upvotes or downvotes a comment. | ⚪ |
-| `imgur.votePost` | imgur.com | Upvotes, downvotes or clears a vote on a post. | ⚪ |
+| `imgur.votePost` | imgur.com | Upvotes, downvotes or clears a vote on a post. | 🟢 |
 | `indeed.getCompanyDetails` | indeed.com | Fetches a company's full profile off its own /cmp/… snapshot page: overall rating… | 🟢 |
 | `indeed.getJobDetails` | indeed.com | Fetches one job listing's full details — title, company, location, salary… | 🟢 |
 | `indeed.getSalaryDetails` | indeed.com | Fetches the full salary breakdown for one job title off its own… | 🟢 |
@@ -5050,7 +5051,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.claimOffer` | shop.app | Claims a Shop offer or Shop Cash reward for the caller. | ⚪ |
 | `shop_app.createProductList` | shop.app | Creates a new named product list for the caller. | 🟢 |
 | `shop_app.followStore` | shop.app | Follows a store on Shop for the caller, or unfollows it (follow: false), by its Shop… | 🟢 |
-| `shop_app.getAccount` | shop.app | Reads the caller's Shop profile — name, email and privacy settings. | ⚪ |
+| `shop_app.getAccount` | shop.app | Reads the caller's Shop account settings: whether they opted out of data sharing, and… | 🟢 |
 | `shop_app.getCart` | shop.app | Reads the caller's Shop cart: one cart per store with its lines and the store's… | 🟢 |
 | `shop_app.getDeliveryEstimate` | shop.app | Says when a product variant would arrive — the delivery promise Shop shows under the… | ⚪ |
 | `shop_app.getDiscoveryFeed` | shop.app | Reads Shop's home discovery feed — the sections of trending stores and products… | 🟢 |
@@ -5838,6 +5839,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tock.startToGoOrder` | exploretock.com | Start a to-go order — guest checkout, stops before payment. | ⚪ |
 | `tock.transferReservation` | exploretock.com | Transfer one of the signed-in user's reservations to another person. | ⚪ |
 | `tock.updateProfile` | exploretock.com | Update the signed-in user's profile information. | ⚪ |
+| `tomsguide.listLatest` | tomsguide.com | Lists the article cards currently shown on Tom's Guide's homepage, in the page's… | 🟢 |
 | `tomsguide.search` | tomsguide.com | Searches Tom's Guide for a required article topic or keyword. | 🟢 |
 | `topcashback.getStoreRate` | topcashback.com | Reads a store's cashback rate on TopCashback — the base earn rate plus per-category… | 🟢 |
 | `topcashback.listOffers` | topcashback.com | Lists a store's current TopCashback deals and voucher codes alongside its cash back. | ⚪ |
@@ -6600,7 +6602,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.getBookmarks` | yelp.com | Lists the businesses the signed-in caller has bookmarked on Yelp (their own My… | 🟢 |
 | `yelp.getBusiness` | yelp.com | Reads one business's own schema.org listing off its /biz/<alias> page: name, phone… | 🟢 |
 | `yelp.getCollection` | yelp.com | Reads a public Yelp collection (a member's named list of places) from its… | 🟢 |
-| `yelp.getCollections` | yelp.com | Lists the signed-in caller's own collections and the businesses in each. | ⚪ |
+| `yelp.getCollections` | yelp.com | Lists the signed-in caller's own Yelp collections (their My Collections page): id… | 🟢 |
 | `yelp.getMenu` | yelp.com | Reads a restaurant's menu from its /menu/<alias> page's own ld+json Menu block: each… | 🟢 |
 | `yelp.getMessages` | yelp.com | Lists the signed-in caller's Yelp inbox: quote and business threads and their messages. | ⚪ |
 | `yelp.getOwnProfile` | yelp.com | Reads the signed-in caller's own Yelp profile (their /user_details page): name… | 🟢 |
