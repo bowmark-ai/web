@@ -975,7 +975,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `calendly.rescheduleBooking` | calendly.com | Moves a booking the caller made to another open time, from the reschedule link… | 🟢 |
 | `calendly.setEventTypeActive` | calendly.com | Turns one of the caller's event types on or off, so it stops or starts taking bookings… | ⚪ |
 | `calendly.setProfilePicture` | calendly.com | Changes the caller's Calendly profile picture. | ⚪ |
-| `calendly.submitRoutingForm` | calendly.com | Answers a Calendly routing form and returns where it sends you — the booking page… | ⚪ |
+| `calendly.submitRoutingForm` | calendly.com | Answers a Calendly routing form and returns where it sends you — the booking page… | 🟢 |
 | `calendly.updateAvailabilitySchedule` | calendly.com | Changes the caller's weekly working hours on one of their availability schedules. | ⚪ |
 | `calendly.updateEventType` | calendly.com | Edits one of the caller's event types — name, duration, description, location, booking… | ⚪ |
 | `calendly.updateProfile` | calendly.com | Edits the caller's own Calendly profile — display name, welcome message, timezone and… | ⚪ |
@@ -3112,7 +3112,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imdb.searchTitles` | imdb.com | Advanced title search: filter by type, genre, release year, rating and vote count… | 🟢 |
 | `imgur.addComment` | imgur.com | Comments on a post, or replies to a comment. | 🟢 |
 | `imgur.createPost` | imgur.com | Creates a post from uploaded media, optionally sharing it to the public community with… | ⚪ |
-| `imgur.deleteComment` | imgur.com | Deletes one of the signed-in account's comments. | ⚪ |
+| `imgur.deleteComment` | imgur.com | Deletes one of the signed-in account's own comments by its numeric id. | 🟢 |
 | `imgur.deletePost` | imgur.com | Deletes one of the signed-in account's posts. | ⚪ |
 | `imgur.editPost` | imgur.com | Edits a post's title, description or tags. | ⚪ |
 | `imgur.favoritePost` | imgur.com | Favorites a post. | 🟢 |
@@ -3136,8 +3136,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imgur.unfollowTag` | imgur.com | Unfollows a tag. | ⚪ |
 | `imgur.unfollowUser` | imgur.com | Unfollows a user. | ⚪ |
 | `imgur.updateProfile` | imgur.com | Changes the signed-in account's bio or avatar. | ⚪ |
-| `imgur.uploadImage` | imgur.com | Uploads an image or video to the signed-in account (hidden by default). | ⚪ |
-| `imgur.voteComment` | imgur.com | Upvotes or downvotes a comment. | ⚪ |
+| `imgur.uploadImage` | imgur.com | Uploads one image to the signed-in account from a remote https URL or base64 data. | 🟢 |
+| `imgur.voteComment` | imgur.com | Up-, down- or vetoes the signed-in account's vote on a comment. | 🟢 |
 | `imgur.votePost` | imgur.com | Upvotes, downvotes or clears a vote on a post. | 🟢 |
 | `indeed.getCompanyDetails` | indeed.com | Fetches a company's full profile off its own /cmp/… snapshot page: overall rating… | 🟢 |
 | `indeed.getJobDetails` | indeed.com | Fetches one job listing's full details — title, company, location, salary… | 🟢 |
@@ -3152,16 +3152,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `independent.getAccount` | independent.co.uk | Reads the signed-in caller's Independent account profile and membership status. | ⚪ |
 | `independent.getArticle` | independent.co.uk | Gets one article: headline, standfirst, byline, dates, section, body text and images. | 🟢 |
 | `independent.getArticleComments` | independent.co.uk | Reads the reader comments on an article. | ⚪ |
-| `independent.getAuthorArticles` | independent.co.uk | Gets one writer's profile and their latest articles from /author/<slug>. | ⚪ |
+| `independent.getAuthorArticles` | independent.co.uk | Gets one writer's profile and their latest articles from /author/<slug>. | 🟢 |
 | `independent.getHomepageHeadlines` | independent.co.uk | Lists the top stories on The Independent's front page for one edition (UK, US or Asia). | 🟢 |
 | `independent.getLiveBlog` | independent.co.uk | Gets a live blog with its timestamped updates, newest first. | ⚪ |
 | `independent.getMostPopular` | independent.co.uk | Lists the most-read Independent articles right now, overall or for one area (articles… | 🟢 |
 | `independent.getQuiz` | independent.co.uk | Gets one quiz's questions and answer options. | ⚪ |
-| `independent.getTopicArticles` | independent.co.uk | Lists the latest articles on one topic page (/topic/<slug>). | ⚪ |
+| `independent.getTopicArticles` | independent.co.uk | Lists the latest articles on one topic page (/topic/<slug>). | 🟢 |
 | `independent.getVideo` | independent.co.uk | Gets one Independent TV video: title, description, date, duration and stream where… | ⚪ |
 | `independent.getVoucherCodes` | independent.co.uk | Lists the current discount codes and offers for one shop, e.g. /vouchercodes/very. | ⚪ |
 | `independent.listArticlesByDate` | independent.co.uk | Lists every article The Independent published on one date, back to 1995. | 🟢 |
-| `independent.listAuthors` | independent.co.uk | Finds Independent writers by name; the door for getAuthorArticles. | ⚪ |
+| `independent.listAuthors` | independent.co.uk | Finds Independent writers by name; the door for getAuthorArticles. | 🟢 |
 | `independent.listBookmarks` | independent.co.uk | Lists the signed-in caller's bookmarked articles. | ⚪ |
 | `independent.listCompetitions` | independent.co.uk | Lists the open reader competitions and prize draws. | ⚪ |
 | `independent.listLatestNews` | independent.co.uk | Lists the newest stories from an Independent RSS feed: the whole site (/rss) or one… | 🟢 |
