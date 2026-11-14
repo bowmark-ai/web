@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8babe5538517560667a3ec18f5f20511e19fa58ce3575e6122a5ccef68317450
-// 98 capabilities, 855 providers, 5295 typed functions, 20 refused.
+// Manifest version: 0cfb6b266813f8e833be2ae71bfb91930634b7f9bc031cd34d2d0101afbac0d1
+// 98 capabilities, 856 providers, 5301 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32908,6 +32908,22 @@ interface BrowseSectionArgs {
   limit?: number;
 }
 
+interface DailymailTopic {
+  id: string;
+  title: string;
+  url: string;
+}
+
+interface ListTopicsArgs {
+  query?: string;
+  limit?: number;
+}
+
+interface BrowseTopicArgs {
+  id: string;
+  limit?: number;
+}
+
 interface DailymailArticle {
   id: string;
   title: string;
@@ -33062,6 +33078,20 @@ interface DailymailArticleDetail {
      * lists — given a profile url from an article byline or listColumnists.
      */
     getAuthor(args: GetAuthorArgs): Promise<DailymailAuthor>;
+
+    /**
+     * Daily Mail topic pages (people, places, teams, events) from its A–Z topics index: id (the
+     * value browseTopic takes), name and url. Optional query keeps topics whose name contains it
+     * ("apple"); optional limit, 1–2000, default 50. Throws when no topic matches the query.
+     */
+    listTopics(args?: ListTopicsArgs): Promise<DailymailTopic[]>;
+
+    /**
+     * The stories on one Daily Mail topic page, in the order the page lists them: article id,
+     * headline, url, standfirst and image where the card has them, and the section. Takes an id
+     * from listTopics ("sciencetech/apple"). Optional limit, 1–100, default 30.
+     */
+    browseTopic(args: BrowseTopicArgs): Promise<DailymailArticle[]>;
   }
 }
 
@@ -55077,7 +55107,9 @@ interface HackerNewsGetThreadArgs {
     /**
      * The stories on the Hacker News front page right now, in rank order — title, link, points,
      * author, comment count and the HN discussion url. `list` picks top (default), new, best, ask,
-     * show or job; `limit` is 1-30, default 10. Example: topStories({ limit: 5 }).
+     * show or job; `limit` is 1-30, default 10. For list top, `kids` comes back empty (the bodies
+     * come from HN's search index, which has no reply ids); call getItem(id) for a story's reply
+     * ids. Example: topStories({ limit: 5 }).
      */
     topStories(args?: HackerNewsTopStoriesArgs): Promise<HackerNewsItem[]>;
 
@@ -82156,6 +82188,25 @@ interface PremierbuildingsDealer {
   }
 }
 
+declare namespace BowmarkProvider_premierinn {
+  // ── Premier Inn — the unit's own declarations, verbatim ──
+interface PremierInnRoomOccupancy { adults: number; children: number; acceptedRoomTypes: string[] }
+interface PremierInnSearchRules { maxNights: number; maxRooms: number; maxRoomsWhenAmending: number; maxArrivalDaysAhead: number; roomOccupancies: PremierInnRoomOccupancy[] }
+
+  /**
+   * Premier Inn hotel booking-search limits: max nights, max rooms, how far ahead, and allowed
+   * room occupancies.
+   */
+  interface Unit {
+    /**
+     * Reads Premier Inn's booking search rules from api.premierinn.com: maximum nights per stay,
+     * maximum rooms per booking, how many days ahead you can book, and which room types fit each
+     * adults/children mix.
+     */
+    getSearchRules(): Promise<PremierInnSearchRules>;
+  }
+}
+
 declare namespace BowmarkProvider_preppednplated {
   // ── Prepped N Plated — the unit's own declarations, verbatim ──
 interface PreppednplatedNutrition {
@@ -93167,6 +93218,19 @@ interface sheinStore {
   productCount: string | null;
   storeUrl: string;
 }
+interface sheinOrder {
+  orderId: string;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  text: string;
+  orderUrl: string;
+}
+interface sheinPoints {
+  points: number | null;
+  text: string;
+}
+interface sheinCoupon {
+  text: string;
+}
 interface sheinSizeRow {
   size: string;
   measurements: Record<string, string>;
@@ -93229,6 +93293,24 @@ interface sheinSizeGuide {
      * page) — title, sale price, image and product page URL for each.
      */
     listFlashSale(): Promise<sheinProduct[]>;
+
+    /**
+     * The CALLER's own Shein orders — order id, status and the card's text, with the order page
+     * URL. Needs the caller signed in to shein.com; the relay handles it.
+     */
+    listOrders(opts?: ConnectionOption): Promise<sheinOrder[]>;
+
+    /**
+     * The CALLER's SHEIN points balance as the points page shows it. Needs the caller signed in to
+     * shein.com; the relay handles it.
+     */
+    getPoints(opts?: ConnectionOption): Promise<sheinPoints>;
+
+    /**
+     * The coupons in the CALLER's own Shein coupon page, one text block each. Needs the caller
+     * signed in to shein.com; the relay handles it.
+     */
+    listMyCoupons(opts?: ConnectionOption): Promise<sheinCoupon[]>;
   }
 }
 
@@ -112576,8 +112658,11 @@ interface WashingtonpostLiveBlog {
     /** Gets a Washington Post writer's own byline page — name, job title/desk, bio and headshot. */
     getWriter(writer: string): Promise<WashingtonpostWriter>;
 
-    /** Lists a writer's own most recent articles off their byline page, newest first. */
-    listArticlesByWriter(writer: string): Promise<WashingtonpostArticle[]>;
+    /**
+     * Lists a writer's own articles, newest first — the first 20 by default; pass limit and offset
+     * to page deeper into their archive.
+     */
+    listArticlesByWriter(writer: string, opts?: { limit?: number; offset?: number }): Promise<WashingtonpostArticle[]>;
 
     /**
      * Searches Washington Post writers by name off the site's own author sitemap (the site
@@ -123060,6 +123145,7 @@ interface BowmarkProviders {
   posthog: BowmarkProvider_posthog.Unit;
   potterybarn: BowmarkProvider_potterybarn.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
+  premierinn: BowmarkProvider_premierinn.Unit;
   preppednplated: BowmarkProvider_preppednplated.Unit;
   prime_video: BowmarkProvider_prime_video.Unit;
   printful: BowmarkProvider_printful.Unit;

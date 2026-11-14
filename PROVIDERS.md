@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6862 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6863 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1160,7 +1160,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.deleteMemory` | chatgpt.com | Deletes one saved memory from the CALLER's ChatGPT memory. | 🟢 |
 | `chatgpt.deleteScheduledTask` | chatgpt.com | Deletes (or pauses) one of the CALLER's scheduled tasks. | ⚪ |
 | `chatgpt.deleteSharedLink` | chatgpt.com | Deletes one of the CALLER's public share links so the url stops working. | 🟢 |
-| `chatgpt.generateImage` | chatgpt.com | Asks ChatGPT to create an image from a prompt as the CALLER and returns the image… | ⚪ |
+| `chatgpt.generateImage` | chatgpt.com | Asks ChatGPT to create an image from a prompt as the CALLER and returns the image… | 🟢 |
 | `chatgpt.getAccount` | chatgpt.com | Reads the CALLER's account — name, email, plan (Free, Plus, Pro, Business) and the… | 🟢 |
 | `chatgpt.getConversation` | chatgpt.com | Reads one of the CALLER's conversations in full — every message in order, which model… | 🟢 |
 | `chatgpt.getCustomInstructions` | chatgpt.com | Reads the CALLER's personalization — what ChatGPT should call them, their occupation… | 🟢 |
@@ -1185,7 +1185,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.sendMessage` | chatgpt.com | Sends a message as the CALLER and returns ChatGPT's reply — starting a new… | 🟢 |
 | `chatgpt.shareConversation` | chatgpt.com | Creates a public share link for one of the CALLER's conversations and returns the… | 🟢 |
 | `chatgpt.updateCustomInstructions` | chatgpt.com | Updates the CALLER's personalization — what ChatGPT calls them, their occupation, the… | 🟢 |
-| `chatgpt.uploadFile` | chatgpt.com | Uploads a file to the CALLER's account — into a project's files, or as an attachment… | ⚪ |
+| `chatgpt.uploadFile` | chatgpt.com | Uploads a text file to the CALLER's own ChatGPT file library and returns its file id. | 🟢 |
 | `cheapflights.getBookingOptions` | cheapflights.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `cheapflights.search` | cheapflights.com | Runs the itinerary search on cheapflights.com and returns its result rows… | 🟢 |
 | `cheapflights.searchCars` | cheapflights.com | Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup… | 🟢 |
@@ -1554,7 +1554,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dahlconsulting.getJob` | careers.dahlconsulting.com | Reads one job posting's full detail — the complete description, industry… | 🟢 |
 | `dahlconsulting.searchJobs` | careers.dahlconsulting.com | Searches Dahl Consulting's live job board — every open role at… | 🟢 |
 | `dailymail.browseSection` | dailymail.com | The stories on one Daily Mail section front, in the order the page lists them: article… | 🟢 |
-| `dailymail.browseTopic` | dailymail.com | Lists the articles on one Daily Mail topic page, newest first, given a topic url from… | ⚪ |
+| `dailymail.browseTopic` | dailymail.com | Lists the articles on one Daily Mail topic page, newest first, given a topic url from… | 🟢 |
 | `dailymail.getArticle` | dailymail.com | Reads one Daily Mail article in full — headline, description, byline and author… | 🟢 |
 | `dailymail.getArticleComments` | dailymail.com | Reads the reader comments on one Daily Mail article — author, text, time, up/down… | ⚪ |
 | `dailymail.getAuthor` | dailymail.com | Reads one Daily Mail author or columnist's profile — name, photo and the stories the… | 🟢 |
@@ -1569,7 +1569,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymail.listNewsletters` | dailymail.com | Lists Daily Mail's email newsletters with name, description and list id. | ⚪ |
 | `dailymail.listPodcasts` | dailymail.com | Lists Daily Mail's podcasts with title, description and episode links. | ⚪ |
 | `dailymail.listSections` | dailymail.com | Lists Daily Mail's sections and sub-sections (US home, News, U.S. Showbiz, Sport… | 🟢 |
-| `dailymail.listTopics` | dailymail.com | Lists Daily Mail topic pages (people, events, teams) matching a name, so an agent can… | ⚪ |
+| `dailymail.listTopics` | dailymail.com | Lists Daily Mail topic pages (people, places, teams, events) from the site's A–Z… | 🟢 |
 | `dailymail.listVideos` | dailymail.com | Lists Daily Mail videos from the video hub or one video channel (news, showbiz, sport… | 🟢 |
 | `dailymail.postComment` | dailymail.com | Posts a reader comment on a Daily Mail article as the signed-in caller, given an… | ⚪ |
 | `dailymail.replyToComment` | dailymail.com | Replies to one reader comment on a Daily Mail article as the signed-in caller. | ⚪ |
@@ -2144,10 +2144,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `expedia.getHotelReviews` | expedia.com | Returns the guest reviews Expedia shows for one hotel: rating, date, text and… | ⚪ |
 | `expedia.searchActivities` | expedia.com | Searches Expedia's things-to-do (tours, tickets, activities) for a destination and… | ⚪ |
 | `expedia.searchCars` | expedia.com | Runs Expedia's car-rental search for a pickup location and dates and returns priced… | ⚪ |
-| `expedia.searchFlights` | expedia.com | Runs Expedia's flight search for an origin, destination and dates and returns priced… | ⚪ |
+| `expedia.searchFlights` | expedia.com | Runs Expedia's own flight search for an origin, destination and dates and returns the… | 🟢 |
 | `expedia.searchHotels` | expedia.com | Runs Expedia's own hotel search for a destination, dates and adults and returns the… | 🟢 |
 | `expedia.searchPackages` | expedia.com | Runs Expedia's flight+hotel package search and returns bundled prices. | ⚪ |
-| `expedia.suggestDestinations` | expedia.com | Returns Expedia's destination autocomplete suggestions (cities, airports… | ⚪ |
+| `expedia.suggestDestinations` | expedia.com | Returns Expedia's destination autocomplete suggestions (cities, airports… | 🟢 |
 | `extraspace.checkAvailability` | extraspace.com | Checks current availability and price for one specific unit size (e.g. 5x10, 10x10… | 🟢 |
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
@@ -3397,17 +3397,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kick.followChannel` | kick.com | Follows a channel as the signed-in caller. | ⚪ |
 | `kick.getCategory` | kick.com | One category's record by slug: name, group, tags, description, live viewers, follower… | 🟢 |
 | `kick.getChannel` | kick.com | A channel's public record by slug: display name, bio, follower count, verified flag… | 🟢 |
-| `kick.getChannelLeaderboard` | kick.com | A channel's gifted-subscription leaderboard: who gifted most, this week, this month… | ⚪ |
+| `kick.getChannelLeaderboard` | kick.com | A channel's gifted-subscription leaderboard: who gifted most, this week, this month… | 🟢 |
 | `kick.getChannelUser` | kick.com | How one user appears inside one channel: profile picture, badges (subscriber… | ⚪ |
-| `kick.getChatMessages` | kick.com | The most recent messages in a channel's chat, with sender, badges and time, plus the… | ⚪ |
-| `kick.getChatroomSettings` | kick.com | A channel's chat rules and modes: slow mode, followers-only (and how long)… | ⚪ |
+| `kick.getChatMessages` | kick.com | The most recent messages in a channel's chat, with sender, badges and time, plus the… | 🟢 |
+| `kick.getChatroomSettings` | kick.com | A channel's chat rules and modes: slow mode, followers-only (and how long)… | 🟢 |
 | `kick.getClip` | kick.com | One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration… | 🟢 |
 | `kick.getCurrentUser` | kick.com | The signed-in caller's own Kick account: username, email-verified flag, profile… | ⚪ |
 | `kick.getLivestream` | kick.com | What a channel is streaming right now: title, category, viewer count, start time… | 🟢 |
 | `kick.getVideo` | kick.com | One VOD by uuid: title, channel, category, duration, views, created date and its HLS… | 🟢 |
 | `kick.listCategories` | kick.com | Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest… | 🟢 |
 | `kick.listChannelClips` | kick.com | A channel's clips, by most viewed or newest, within a time window (day, week, month… | 🟢 |
-| `kick.listChannelEmotes` | kick.com | The emotes a channel offers (its own and subscriber-only), plus Kick's global set. | ⚪ |
+| `kick.listChannelEmotes` | kick.com | A channel's own emotes by name, with whether each is subscribers-only. | 🟢 |
 | `kick.listChannelLinks` | kick.com | The link panels under a channel (socials, tip pages, sponsors) with their titles and… | ⚪ |
 | `kick.listChannelVideos` | kick.com | A channel's past broadcasts (VODs), newest first: title, category, duration, views… | 🟢 |
 | `kick.listFeaturedLivestreams` | kick.com | The streams Kick features on its homepage carousel right now, for one language. | 🟢 |
@@ -3931,6 +3931,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nationalbusinessfurniture.getProduct` | nationalbusinessfurniture.com | Reads one product's full configurable-option set (e.g. Finish) with every choice's… | 🟢 |
 | `nationalbusinessfurniture.priceConfiguration` | nationalbusinessfurniture.com | Resolves a specific configuration (a choice per option group, e.g. { Finish: "Ash… | 🟢 |
 | `nationalbusinessfurniture.searchProducts` | nationalbusinessfurniture.com | Searches National Business Furniture's office-furniture catalog by free text and… | 🟢 |
+| `nerdwallet.compareCreditCards` | nerdwallet.com | Read NerdWallet's current all-cards or travel-cards editorial ranking, including… | 🟢 |
 | `netflix.addToMyList` | www.netflix.com | Adds a title to the signed-in caller's own Netflix My List by its numeric id (from… | 🟢 |
 | `netflix.browseGenre` | www.netflix.com | Lists the titles in one Netflix genre — the id from listGenres or the number in… | 🟢 |
 | `netflix.findTitles` | www.netflix.com | Finds Netflix titles by name — e.g. findTitles("stranger things") — returning each… | 🟢 |
@@ -5246,7 +5247,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.listChats` | snapchat.com | Lists the signed-in caller's conversations in Snapchat for Web — who, the last… | ⚪ |
 | `snapchat.listDiscoverStories` | snapchat.com | Reads the public Discover feed at www.snapchat.com/discover — publisher Shows and Snap… | 🟢 |
 | `snapchat.listFriends` | snapchat.com | Lists the signed-in caller's Snapchat friends — user id, username, display name, link… | 🟢 |
-| `snapchat.listFriendStories` | snapchat.com | Lists the Stories the signed-in caller's friends have posted, unseen first, with each… | ⚪ |
+| `snapchat.listFriendStories` | snapchat.com | Lists the Stories the signed-in caller's friends have posted, with each Story's snaps… | 🟢 |
 | `snapchat.listLenses` | snapchat.com | Reads the Lens Explorer's top lenses at www.snapchat.com/lens — the default 'For You'… | 🟢 |
 | `snapchat.listLocalCities` | snapchat.com | Lists the cities Snapchat publishes local guides for, off the homepage's 'Explore… | 🟢 |
 | `snapchat.listProfileHighlights` | snapchat.com | Lists a public profile's saved Story highlights (curated Stories kept on the profile)… | 🟢 |
@@ -6303,7 +6304,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `washingtonpost.getTopicArticles` | washingtonpost.com | Lists a topic page's own article grid, newest first — same shape as listArticles. | 🟢 |
 | `washingtonpost.getWriter` | washingtonpost.com | Gets a Washington Post writer's own byline page — name, job title/desk, bio and… | 🟢 |
 | `washingtonpost.listArticles` | washingtonpost.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | 🟢 |
-| `washingtonpost.listArticlesByWriter` | washingtonpost.com | Lists a writer's own most recent articles off their byline page, newest first. | 🟢 |
+| `washingtonpost.listArticlesByWriter` | washingtonpost.com | Lists a writer's own articles, newest first — the first 20 by default; pass limit and… | 🟢 |
 | `washingtonpost.listEpisodes` | washingtonpost.com | Lists a podcast show's own episodes off its RSS feed, newest first — title, url, date… | 🟢 |
 | `washingtonpost.listHomepage` | washingtonpost.com | Lists the stories on the site's front page right now, each with the homepage module it… | 🟢 |
 | `washingtonpost.listNewsletters` | washingtonpost.com | Lists the site's own newsletters off its newsletter directory (the /newsletters/… | 🟢 |

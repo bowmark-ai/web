@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8babe5538517560667a3ec18f5f20511e19fa58ce3575e6122a5ccef68317450
-// 5267 checked, 20 unchecked.
+// Manifest version: 0cfb6b266813f8e833be2ae71bfb91930634b7f9bc031cd34d2d0101afbac0d1
+// 5273 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8babe5538517560667a3ec18f5f20511e19fa58ce3575e6122a5ccef68317450",
+  "version": "0cfb6b266813f8e833be2ae71bfb91930634b7f9bc031cd34d2d0101afbac0d1",
   "units": {
     "address_validation": {
       "defs": {
@@ -41187,6 +41187,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BrowseTopicArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetArticleArgs": {
           "k": "object",
           "props": [
@@ -41226,6 +41245,25 @@ export const VALIDATORS: ValidatorTable = {
         "ListLatestArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListTopicsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
             {
               "name": "limit",
               "schema": {
@@ -41363,6 +41401,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetAuthorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listTopics": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTopicsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "browseTopic": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowseTopicArgs"
             },
             "optional": false
           }
@@ -111394,6 +111452,12 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.premierinn": {
+      "defs": {},
+      "functions": {
+        "getSearchRules": []
+      }
+    },
     "providers.preppednplated": {
       "defs": {
         "PreppednplatedDeliveryArgs": {
@@ -128667,7 +128731,61 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listNewArrivals": [],
-        "listFlashSale": []
+        "listFlashSale": [],
+        "listOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getPoints": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyCoupons": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.shop_app": {
@@ -156555,6 +156673,29 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "searchWriters": [
