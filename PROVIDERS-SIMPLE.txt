@@ -625,6 +625,7 @@ positivegrid.com — positivegrid: findRetailers
 postcodes.io — postcodes_io: lookup (+2 planned)
 potterybarn.com — potterybarn: searchProducts (+1 planned)
 premierbuildings.us — premierbuildings: findDealers, listBuildingStyles, priceBuilding
+premierinn.com — premierinn: getSearchRules
 preppednplated.com — preppednplated: checkDelivery, getCurrentMenu, listPickupLocations, searchMenuItems (+1 planned)
 printful.com — printful: getOrder, searchOrders
 producthunt.com — producthunt: listLaunches

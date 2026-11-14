@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6861 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6862 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4455,6 +4455,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
 | `premierbuildings.listBuildingStyles` | premierbuildings.us | Lists every real building style Premier's ShedView configurator offers (Lofted Barn… | 🟢 |
 | `premierbuildings.priceBuilding` | premierbuildings.us | Prices one real Premier building configuration exactly the way ShedView itself does… | 🟢 |
+| `premierinn.getSearchRules` | premierinn.com | Reads Premier Inn's booking search rules from api.premierinn.com: maximum nights per… | 🟢 |
 | `preppednplated.checkDelivery` | preppednplated.com | Runs the site's ZIP delivery checker: available or not, delivery fee, which weekly… | 🟢 |
 | `preppednplated.getCurrentMenu` | preppednplated.com | Reads this week's published meal plan menu — the dishes, prices, macros, dietary tags… | 🟢 |
 | `preppednplated.listPickupLocations` | preppednplated.com | Lists pickup locations with their weekly pickup windows and capacity state. | 🟢 |
