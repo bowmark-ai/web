@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5c79e079606ab482c7a1139e6dfd328da1f53e98dbca9c57c61d03f77e3267f5
-# 98 capabilities, 870 providers, 5339 typed functions, 20 refused.
+# Manifest version: b3f82b53de57260de7d06f277db03fceb55ac05e3093822b194cd745a2471b08
+# 98 capabilities, 871 providers, 5353 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16691,6 +16691,157 @@ class Prv_cbsnews_listShows_return_Out(TypedDict):
 class Prv_cbsnews_CbsNewsShow_Out(TypedDict):
     slug: str
     name: str | None
+    url: str
+
+class Prv_census_searchTables_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_census_CensusTableSearch_Out(TypedDict):
+    query: str
+    total: float | None
+    tables: list[Prv_census_CensusTableHit_Out]
+    trending: list[str]
+
+class Prv_census_CensusTableHit_Out(TypedDict):
+    tableId: str | None
+    title: str | None
+    program: str | None
+    instances: list[Prv_census_CensusTableInstance_Out]
+
+class Prv_census_CensusTableInstance_Out(TypedDict):
+    id: str
+    dataset: str | None
+    program: str | None
+    vintage: str | None
+    universe: str | None
+    description: str | None
+    provider: str | None
+    type: str | None
+
+class Prv_census_suggest_args_In(TypedDict):
+    text: str
+
+class Prv_census_CensusSuggestions_Out(TypedDict):
+    text: str
+    options: list[Prv_census_CensusSuggestions_Out_options_item_Out]
+    profiles: list[Prv_census_CensusSuggestions_Out_profiles_item_Out]
+
+class Prv_census_CensusSuggestions_Out_options_item_Out(TypedDict):
+    title: str
+    type: str | None
+    facets: Mapping[str, Any]
+
+class Prv_census_CensusSuggestions_Out_profiles_item_Out(TypedDict):
+    label: str
+    level: str | None
+    geoId: str | None
+    teaser: str | None
+
+class Prv_census_tableData_args_In(TypedDict):
+    id: str
+    geoId: NotRequired[str]
+    raw: NotRequired[bool]
+
+class Prv_census_CensusTableData_Out(TypedDict):
+    id: str
+    columns: list[str]
+    rows: list[Mapping[str, str | None]]
+
+class Prv_census_tableMetadata_args_In(TypedDict):
+    id: str
+
+class Prv_census_CensusTableMetadata_Out(TypedDict):
+    id: str | None
+    title: str | None
+    dataset: str | None
+    universe: str | None
+    apiUrl: str | None
+    measures: list[Prv_census_CensusMeasure_Out]
+
+class Prv_census_CensusMeasure_Out(TypedDict):
+    id: str
+    label: str | None
+    unitType: str | None
+    classification: str | None
+    annotations: list[str]
+
+class Prv_census_tableLinks_args_In(TypedDict):
+    id: str
+
+class Prv_census_CensusTableLinks_Out(TypedDict):
+    objectId: str | None
+    tableId: str | None
+    dataUri: str | None
+    metadataUri: str | None
+
+class Prv_census_CensusTableArgs_In(TypedDict):
+    id: str
+    geoId: NotRequired[str]
+
+class Prv_census_tableDownload_return_Out(TypedDict):
+    downloadId: str | None
+    url: str | None
+
+class Prv_census_CensusGeoArgs_In(TypedDict):
+    geoId: str
+
+class Prv_census_CensusProfile_Out(TypedDict):
+    geoId: str
+    name: str | None
+    type: str | None
+    parents: list[Prv_census_CensusProfile_Out_parents_item_Out]
+    subtitle: str | None
+    description: str | None
+    highlights: list[Prv_census_CensusHighlight_Out]
+
+class Prv_census_CensusProfile_Out_parents_item_Out(TypedDict):
+    geoId: str
+    name: str | None
+
+class Prv_census_CensusHighlight_Out(TypedDict):
+    label: str
+    value: str | None
+    format: str | None
+    topic: str | None
+    source: str | None
+    sourceLink: str | None
+    tableId: str | None
+
+class Prv_census_profileHighlights_return_Out(TypedDict):
+    label: str | None
+    highlights: list[Prv_census_CensusHighlight_Out]
+
+class Prv_census_relatedProfiles_return_Out(TypedDict):
+    label: str | None
+    related: list[Prv_census_CensusProfileRef_Out]
+
+class Prv_census_CensusProfileRef_Out(TypedDict):
+    label: str
+    geoId: str | None
+
+class Prv_census_locations_args_In(TypedDict):
+    geoIds: Sequence[str]
+
+class Prv_census_geographyLevels_args_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_census_geographyLevels_return_item_Out(TypedDict):
+    code: str
+    name: str
+
+class Prv_census_populationClock_return_Out(TypedDict):
+    us: float | None
+    world: float | None
+
+class Prv_census_CensusMenuSection_Out(TypedDict):
+    section: str
+    title: str
+    description: str | None
+    links: list[Prv_census_CensusMenuSection_Out_links_item_Out]
+
+class Prv_census_CensusMenuSection_Out_links_item_Out(TypedDict):
+    text: str
     url: str
 
 class Prv_census_api_ValidateAddressArgs_In(TypedDict):
@@ -89173,6 +89324,74 @@ class Prv_cbsnews(Protocol):
         its address.
         """
 
+class Prv_census(Protocol):
+    """US Census Bureau data explorer (data.census.gov): search Census data tables, read a
+    table's rows and variables, geography profiles with highlight statistics, related
+    places, the live US and world population clock, and census.gov's site menu. Keyless.
+    """
+
+    async def searchTables(self, args: Prv_census_searchTables_args_In, /) -> Prv_census_CensusTableSearch_Out:
+        """Searches data.census.gov for Census data tables on a topic ("population", "median
+        income"), each with its dataset instances and table ids like "DECENNIALPL2020.P1".
+        """
+
+    async def suggest(self, args: Prv_census_suggest_args_In, /) -> Prv_census_CensusSuggestions_Out:
+        """Typeahead suggestions for a partial Census search: matching topics and geography
+        profiles (with their geoIds).
+        """
+
+    async def tableData(self, args: Prv_census_tableData_args_In, /) -> Prv_census_CensusTableData_Out:
+        """Reads a Census data table's values (e.g. "DECENNIALPL2020.P1") for a geography (default
+        United States), one row per geography keyed by variable code plus NAME and GEO_ID.
+        Annotation columns are dropped unless raw is true.
+        """
+
+    async def tableMetadata(self, args: Prv_census_tableMetadata_args_In, /) -> Prv_census_CensusTableMetadata_Out:
+        """Reads a Census table's title, dataset, universe and every measure/variable with its
+        label (what each column code means).
+        """
+
+    async def tableLinks(self, args: Prv_census_tableLinks_args_In, /) -> Prv_census_CensusTableLinks_Out:
+        """Resolves a Census table id to its data and metadata access URLs."""
+
+    async def tableDownload(self, args: Prv_census_CensusTableArgs_In, /) -> Prv_census_tableDownload_return_Out:
+        """Prepares a CSV download of a Census table for a geography and returns its download URL."""
+
+    async def profile(self, args: Prv_census_CensusGeoArgs_In, /) -> Prv_census_CensusProfile_Out:
+        """Reads the data.census.gov profile of a geography ("040XX00US06" = California): name,
+        parent geographies, area description and highlight stats (population, median household
+        income, housing units…).
+        """
+
+    async def profileHighlights(self, args: Prv_census_CensusGeoArgs_In, /) -> Prv_census_profileHighlights_return_Out:
+        """Reads just the highlight statistics of a geography's Census profile, each with its
+        source table.
+        """
+
+    async def relatedProfiles(self, args: Prv_census_CensusGeoArgs_In, /) -> Prv_census_relatedProfiles_return_Out:
+        """Lists geographies related to one (e.g. neighbouring states of California), with their
+        geoIds.
+        """
+
+    async def locations(self, args: Prv_census_locations_args_In, /) -> list[Prv_census_CensusProfileRef_Out]:
+        """Resolves Census geography ids to their place names."""
+
+    async def geographyLevels(self, args: Prv_census_geographyLevels_args_In | None = None, /) -> list[Prv_census_geographyLevels_return_item_Out]:
+        """Lists the geography levels Census data is published at (Nation, State, County, Census
+        Tract, ZIP Code Tabulation Area…).
+        """
+
+    async def vintages(self, /) -> list[str]:
+        """Lists the data years (vintages) data.census.gov offers."""
+
+    async def populationClock(self, /) -> Prv_census_populationClock_return_Out:
+        """Reads the Census Bureau's live population clock: current estimated US and world
+        population.
+        """
+
+    async def siteMenu(self, /) -> list[Prv_census_CensusMenuSection_Out]:
+        """Reads census.gov's navigation menu: topic and data sections with their links."""
+
 class Prv_census_api(Protocol):
     """Query US Census Bureau data on demographics by location"""
 
@@ -123554,6 +123773,7 @@ class BowmarkProviders(Protocol):
     cbhhomes: Prv_cbhhomes
     cbp: Prv_cbp
     cbsnews: Prv_cbsnews
+    census: Prv_census
     census_api: Prv_census_api
     cerebralvalley: Prv_cerebralvalley
     cftc: Prv_cftc

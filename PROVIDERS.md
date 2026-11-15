@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6968 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6982 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1153,6 +1153,20 @@ One function per row, with the site it is called on.
 | `cbsnews.updateProfile` | cbsnews.com | Edits the signed-in caller's profile (name, zip code). | ⚪ |
 | `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | ⚪ |
 | `census_api.validateAddress` | api.census.gov | Validates and standardizes a US street address against the Census Geocoder… | 🟢 |
+| `census.geographyLevels` | census.gov | Lists the geography levels US Census data is published at: Nation, State, County… | 🟢 |
+| `census.locations` | census.gov | Resolves US Census geography ids to their place names. | 🟢 |
+| `census.populationClock` | census.gov | Reads the US Census Bureau population clock: the current estimated US and world… | 🟢 |
+| `census.profile` | census.gov | Reads the data.census.gov profile of a US geography: name, parent geographies, area… | 🟢 |
+| `census.profileHighlights` | census.gov | Reads the highlight statistics of a US geography Census profile (population, median… | 🟢 |
+| `census.relatedProfiles` | census.gov | Lists geographies related to a US Census geography, such as neighbouring states, with… | 🟢 |
+| `census.searchTables` | census.gov | Searches data.census.gov for US Census data tables on a topic, returning each table… | 🟢 |
+| `census.siteMenu` | census.gov | Reads the census.gov site navigation menu: topic and data sections with their links. | 🟢 |
+| `census.suggest` | census.gov | Returns data.census.gov search suggestions for partial text: matching Census topics… | 🟢 |
+| `census.tableData` | census.gov | Reads the values of a US Census data table for a geography, one row per geography… | 🟢 |
+| `census.tableDownload` | census.gov | Prepares a download of a US Census data table for a geography and returns its download… | 🟢 |
+| `census.tableLinks` | census.gov | Resolves a US Census table id to its data and metadata access URLs. | 🟢 |
+| `census.tableMetadata` | census.gov | Reads a US Census data table title, universe and every variable with its label. | 🟢 |
+| `census.vintages` | census.gov | Lists the data years (vintages) data.census.gov offers. | 🟢 |
 | `cerebralvalley.getEvent` | cerebralvalley.ai | Reads one cerebralvalley.ai event page (/e/<slug>) and returns its name, date and time… | 🟢 |
 | `cerebralvalley.listEvents` | cerebralvalley.ai | Lists the upcoming events on cerebralvalley.ai/events with each one's slug, url and… | 🟢 |
 | `cftc.searchRules` | cftc.gov | Searches the CFTC's Designated Contract Market rule filings register —… | 🟢 |

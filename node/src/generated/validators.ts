@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5c79e079606ab482c7a1139e6dfd328da1f53e98dbca9c57c61d03f77e3267f5
-// 5339 checked, 20 unchecked.
+// Manifest version: b3f82b53de57260de7d06f277db03fceb55ac05e3093822b194cd745a2471b08
+// 5353 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5c79e079606ab482c7a1139e6dfd328da1f53e98dbca9c57c61d03f77e3267f5",
+  "version": "b3f82b53de57260de7d06f277db03fceb55ac05e3093822b194cd745a2471b08",
   "units": {
     "address_validation": {
       "defs": {
@@ -31730,6 +31730,236 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listShows": []
+      }
+    },
+    "providers.census": {
+      "defs": {
+        "CensusGeoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "geoId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "CensusTableArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "geoId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchTables": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "suggest": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "tableData": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "geoId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "raw",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "tableMetadata": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "tableLinks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "tableDownload": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CensusTableArgs"
+            },
+            "optional": false
+          }
+        ],
+        "profile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CensusGeoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "profileHighlights": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CensusGeoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "relatedProfiles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CensusGeoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "locations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "geoIds",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "geographyLevels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "vintages": [],
+        "populationClock": [],
+        "siteMenu": []
       }
     },
     "providers.census_api": {
