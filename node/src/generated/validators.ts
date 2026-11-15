@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3b76b309c67d4a08c6700f0ae84f39f3476bd3141e14ae39cf6008daa178423a
-// 5370 checked, 20 unchecked.
+// Manifest version: 8ee0457cc01dcf02068830ee2274d2f5e4d68444b4b53d53e81ce2102f370bf6
+// 5372 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3b76b309c67d4a08c6700f0ae84f39f3476bd3141e14ae39cf6008daa178423a",
+  "version": "8ee0457cc01dcf02068830ee2274d2f5e4d68444b4b53d53e81ce2102f370bf6",
   "units": {
     "address_validation": {
       "defs": {
@@ -78531,6 +78531,49 @@ export const VALIDATORS: ValidatorTable = {
               "name": "IllinoisLotteryQuickPickArgs"
             },
             "optional": false
+          }
+        ],
+        "stores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "latitude",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "longitude",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

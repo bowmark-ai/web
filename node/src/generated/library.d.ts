@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3b76b309c67d4a08c6700f0ae84f39f3476bd3141e14ae39cf6008daa178423a
-// 98 capabilities, 877 providers, 5398 typed functions, 20 refused.
+// Manifest version: 8ee0457cc01dcf02068830ee2274d2f5e4d68444b4b53d53e81ce2102f370bf6
+// 98 capabilities, 877 providers, 5400 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -59083,12 +59083,14 @@ declare namespace BowmarkProvider_illinois_lottery {
   // ── Illinois Lottery — the unit's own declarations, verbatim ──
 interface IllinoisLotteryJackpot { gameId: string; amount: number; progressive: boolean; lastUpdated: string | null; url: string; }
 interface IllinoisLotteryQuickPick { game: string; name: string; lines: { primary: number[]; secondary: number[] }[]; }
+interface IllinoisLotteryRetailer { name: string; address: string | null; distance: number | null; latitude: number | null; longitude: number | null; phone: string | null; games: string[]; hours: Record<string, string>; }
+interface IllinoisLotteryCart { url: string; pageData: Record<string, unknown>; }
 interface IllinoisLotteryQuickPickArgs { game: "powerball" | "megamillions" | "lotto" | "luckydaylotto" | "pick3" | "pick4"; lines?: number; }
 
   /**
    * Illinois Lottery (illinoislottery.com): current instant-game (Fast Play) jackpot amounts,
-   * and a quick-pick number generator for Powerball, Mega Millions, Lotto, Lucky Day Lotto, Pick
-   * 3 and Pick 4.
+   * lottery retailers near a location, the signed-in player's own cart, and a quick-pick number
+   * generator for Powerball, Mega Millions, Lotto, Lucky Day Lotto, Pick 3 and Pick 4.
    */
   interface Unit {
     /**
@@ -59102,6 +59104,18 @@ interface IllinoisLotteryQuickPickArgs { game: "powerball" | "megamillions" | "l
      * Millions, Lotto, Lucky Day Lotto, Pick 3, Pick 4), one or more lines. Buys nothing.
      */
     quickPick(args: IllinoisLotteryQuickPickArgs): Promise<IllinoisLotteryQuickPick>;
+
+    /**
+     * Finds Illinois Lottery retailers (stores that sell tickets) nearest a latitude/longitude,
+     * with address, phone, distance and opening hours per day. Opens a real browser.
+     */
+    stores(args: { latitude: number; longitude: number }): Promise<IllinoisLotteryRetailer[]>;
+
+    /**
+     * Reads the signed-in player's own Illinois Lottery draw-games cart (My Cart). Needs the
+     * caller signed in to illinoislottery.com; buys nothing.
+     */
+    getCart(opts?: ConnectionOption): Promise<IllinoisLotteryCart>;
   }
 }
 

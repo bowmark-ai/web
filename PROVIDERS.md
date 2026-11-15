@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7018 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7020 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3210,8 +3210,10 @@ One function per row, with the site it is called on.
 | `ikea.suggestSearchTerms` | ikea.com | Returns IKEA's own search-as-you-type suggestions for a partial query (e.g. 'sof' →… | 🟢 |
 | `ikea.updateCartItem` | ikea.com | Changes the quantity of an item already in a cart. | 🟢 |
 | `ikea.updateProfile` | ikea.com | Edits the signed-in caller's own IKEA personal details — first name, last name, birth… | 🟢 |
+| `illinois_lottery.getCart` | illinoislottery.com | Reads the signed-in player's own Illinois Lottery draw-games cart (My Cart). Needs the… | 🟢 |
 | `illinois_lottery.jackpots` | illinoislottery.com | Lists the current Illinois Lottery instant/Fast Play game jackpots with amount… | 🟢 |
 | `illinois_lottery.quickPick` | illinoislottery.com | Generates random quick-pick numbers for an Illinois Lottery draw game (Powerball, Mega… | 🟢 |
+| `illinois_lottery.stores` | illinoislottery.com | Finds Illinois Lottery retailers nearest a latitude/longitude, with address, phone… | 🟢 |
 | `imdb.getPerson` | imdb.com | Reads a person's biography, birth year, filmography, awards, and known roles. | 🟢 |
 | `imdb.getTitle` | imdb.com | Reads a title's full details: year, runtime, genres, plot, ratings, cast, crew… | 🟢 |
 | `imdb.getTitleReviews` | imdb.com | Reads user reviews for a title, with user rating, text, and helpfulness count. | 🟢 |

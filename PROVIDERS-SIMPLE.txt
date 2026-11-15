@@ -440,7 +440,7 @@ idealista.com — idealista: search (+3 planned)
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
 ikea.com — ikea: 28 functions — ask get_library
-illinoislottery.com — illinois_lottery: jackpots, quickPick
+illinoislottery.com — illinois_lottery: getCart, jackpots, quickPick, stores
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 imgur.com — imgur: addComment, deleteComment, favoritePost, getGalleryPosts, getImage, getMyFavorites, getMyPosts, getNotifications, getPost, getPostComments, getTag, getUser, getUserComments, getUserFavorites, getUserPosts, listTags, searchPosts, uploadImage, voteComment, votePost (+9 planned)
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries

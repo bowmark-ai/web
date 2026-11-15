@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3b76b309c67d4a08c6700f0ae84f39f3476bd3141e14ae39cf6008daa178423a
-# 98 capabilities, 877 providers, 5370 typed functions, 20 refused.
+# Manifest version: 8ee0457cc01dcf02068830ee2274d2f5e4d68444b4b53d53e81ce2102f370bf6
+# 98 capabilities, 877 providers, 5372 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -38266,6 +38266,24 @@ class Prv_illinois_lottery_IllinoisLotteryQuickPick_Out(TypedDict):
 class Prv_illinois_lottery_IllinoisLotteryQuickPick_Out_lines_item_Out(TypedDict):
     primary: list[float]
     secondary: list[float]
+
+class Prv_illinois_lottery_stores_args_In(TypedDict):
+    latitude: float
+    longitude: float
+
+class Prv_illinois_lottery_IllinoisLotteryRetailer_Out(TypedDict):
+    name: str
+    address: str | None
+    distance: float | None
+    latitude: float | None
+    longitude: float | None
+    phone: str | None
+    games: list[str]
+    hours: Mapping[str, str]
+
+class Prv_illinois_lottery_IllinoisLotteryCart_Out(TypedDict):
+    url: str
+    pageData: Mapping[str, Any]
 
 class Prv_imdb_ImdbSearchArgs_In(TypedDict):
     query: str
@@ -101443,8 +101461,9 @@ class Prv_ikea(Protocol):
 
 class Prv_illinois_lottery(Protocol):
     """Illinois Lottery (illinoislottery.com): current instant-game (Fast Play) jackpot
-    amounts, and a quick-pick number generator for Powerball, Mega Millions, Lotto, Lucky
-    Day Lotto, Pick 3 and Pick 4.
+    amounts, lottery retailers near a location, the signed-in player's own cart, and a
+    quick-pick number generator for Powerball, Mega Millions, Lotto, Lucky Day Lotto, Pick 3
+    and Pick 4.
     """
 
     async def jackpots(self, /) -> list[Prv_illinois_lottery_IllinoisLotteryJackpot_Out]:
@@ -101455,6 +101474,17 @@ class Prv_illinois_lottery(Protocol):
     async def quickPick(self, args: Prv_illinois_lottery_IllinoisLotteryQuickPickArgs_In, /) -> Prv_illinois_lottery_IllinoisLotteryQuickPick_Out:
         """Generates random quick-pick numbers for an Illinois Lottery draw game (Powerball, Mega
         Millions, Lotto, Lucky Day Lotto, Pick 3, Pick 4), one or more lines. Buys nothing.
+        """
+
+    async def stores(self, args: Prv_illinois_lottery_stores_args_In, /) -> list[Prv_illinois_lottery_IllinoisLotteryRetailer_Out]:
+        """Finds Illinois Lottery retailers (stores that sell tickets) nearest a
+        latitude/longitude, with address, phone, distance and opening hours per day. Opens a
+        real browser.
+        """
+
+    async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_illinois_lottery_IllinoisLotteryCart_Out:
+        """Reads the signed-in player's own Illinois Lottery draw-games cart (My Cart). Needs the
+        caller signed in to illinoislottery.com; buys nothing.
         """
 
 class Prv_imdb(Protocol):
