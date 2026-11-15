@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7117 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7119 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1125,6 +1125,8 @@ One function per row, with the site it is called on.
 | `cbhhomes.getInquiryFormSchema` | cbhhomes.com | Reads the site's own live 'get in touch about a home' Gravity Forms inquiry form… | 🟢 |
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
 | `cbp.waitTimes` | cbp.gov | Current wait in minutes and lanes open at US land border crossings with Canada and… | 🟢 |
+| `cbs_sports.scoreboard` | cbssports.com | CBS Sports' current all-sports homepage scoreboard — each matchup's teams, records… | 🟢 |
+| `cbs_sports.standings` | cbssports.com | CBS Sports league standings by conference and division. | ⚪ |
 | `cbsnews.getAccount` | cbsnews.com | Reads the signed-in caller's CBS News account profile. | ⚪ |
 | `cbsnews.getArticle` | cbsnews.com | Reads one CBS News article: headline, description, the full body text, authors with… | 🟢 |
 | `cbsnews.getAuthor` | cbsnews.com | Gets a correspondent's or writer's profile from /team/<slug>/. | 🟢 |
@@ -1688,7 +1690,7 @@ One function per row, with the site it is called on.
 | `dansons.identifyProduct` | pitboss-grills.com | Identifies which Pit Boss product(s) a free-text description matches — the same… | 🟢 |
 | `dansons.listRegisterableProducts` | pitboss-grills.com | Lists every Pit Boss product eligible for warranty registration — the exact catalog… | 🟢 |
 | `dat.loadToTruckRatio` | dat.com | Reads DAT Trendlines' monthly load-to-truck ratio (loads posted per truck on the DAT… | 🟢 |
-| `dat.nationalSpotRates` | dat.com | Reads DAT Trendlines' national average truckload spot rates (USD per mile, which DAT… | 🟢 |
+| `dat.nationalSpotRates` | dat.com | Reads DAT Trendlines' national average truckload spot rates (all-in USD per mile: the… | 🟢 |
 | `dat.rateTrend` | dat.com | Reads DAT Trendlines' 12-month national rate trendline for one equipment type… | 🟢 |
 | `data_cms.getRows` | data.cms.gov | Read rows from one data.cms.gov dataset (its latest version), optionally filtered by… | 🟢 |
 | `data_cms.searchDatasets` | data.cms.gov | Search data.cms.gov's dataset catalog by keyword; returns each dataset's id (for… | 🟢 |

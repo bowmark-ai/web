@@ -196,6 +196,7 @@ cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
 cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
 cbsnews.com — cbsnews: getArticle, getAuthor, getLiveStream, getLiveUpdates, getVideo, listArticlesByAuthor, listLatestNews, listRssFeeds, listSectionArticles, listSections, listShows, listTagArticles, listVideos, search (+12 planned)
+cbssports.com — cbs_sports: scoreboard (+1 planned)
 census.gov — census: geographyLevels, locations, populationClock, profile, profileHighlights, relatedProfiles, searchTables, siteMenu, suggest, tableData, tableDownload, tableLinks, tableMetadata, vintages
 cerebralvalley.ai — cerebralvalley: getEvent, listEvents
 cftc.gov — cftc: searchRules
