@@ -918,4 +918,4 @@ zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDe
 zepto.com — zepto: product, search
 zillow.com — zillow: calculateAffordability, calculateMortgagePayment, getMortgageRates, searchHomes, searchLocations (+19 planned)
 zoom.us — zoom: 29 functions — ask get_library
-zoopla.co.uk — zoopla: search (+1 planned)
+zoopla.co.uk — zoopla: nothing callable yet (+2 planned)

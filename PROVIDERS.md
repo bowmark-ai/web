@@ -7124,4 +7124,4 @@ One function per row, with the site it is called on.
 | `zoom.updateProfile` | zoom.us | Updates user profile bio, timezone, or other settings. | 🟢 |
 | `zoom.updateProfilePicture` | zoom.us | Uploads a new profile picture. | 🟢 |
 | `zoopla.listings` | zoopla.co.uk | Lists property listings from a search query — alternative to search(). | ⚪ |
-| `zoopla.search` | zoopla.co.uk | Searches property listings by location, price range, and bedrooms. | 🟡 |
+| `zoopla.search` | zoopla.co.uk | Searches property listings by location, price range, and bedrooms. | 🔴 |
