@@ -409,7 +409,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `article_com.getProduct` | article.com | Reads one Article product by id or article.com URL: USD and CAD list price and sale… | 🟢 |
 | `article_com.searchProducts` | article.com | Searches Article's furniture catalog by free text — the same Bloomreach-backed search… | 🟢 |
 | `artificialanalysis_ai.getEvaluation` | artificialanalysis.ai | Returns Artificial Analysis's public AutomationBench-AA model leaderboard, including… | 🟢 |
-| `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟡 |
+| `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟢 |
 | `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟢 |
 | `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟢 |
 | `arxiv.getPaper` | arxiv.org | Reads one arXiv paper by its id or abs/pdf url — title, authors, abstract, categories… | 🟢 |
@@ -5851,7 +5851,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id, caption, play count, cover and play address for each —… | 🟢 |
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | 🟢 |
 | `tiktok.searchUsers` | tiktok.com | Find creators matching a name or a topic and get back handle, nickname, bio, avatar… | 🟢 |
-| `tiktok.searchVideos` | tiktok.com | Find TikTok videos on a topic and get back the top posts — id, caption, author… | 🟡 |
+| `tiktok.searchVideos` | tiktok.com | Find TikTok videos on a topic and get back the top posts — id, caption, author… | 🟢 |
 | `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller to a TikTok account, by handle — drives TikTok's own… | 🟢 |
 | `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | 🟢 |
 | `tiktok.unlikeVideo` | tiktok.com | Remove a like the caller placed — the reverse of likeVideo. | 🟢 |
