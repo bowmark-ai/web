@@ -167,6 +167,7 @@ cal.com — cal_com: findProfiles, getAvailability, getBookingForm, getEventType
 calendly.com — calendly: bookMeeting, cancelBooking, findProfiles, getAvailability, getBooking, getBookingForm, getEventTypes, getRoutingForm, listPackages, rescheduleBooking, submitRoutingForm (+27 planned)
 caliberhealth.com — caliberhealth: getJob, search
 califloors.com — califloors: getProduct, listCategories, searchProducts
+calottery.com — calottery: checkNumbers, draws, retailers, scratchers, search
 camelcamelcamel.com — camelcamelcamel: getPriceHistory, search
 camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
@@ -816,7 +817,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
-tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, followTag, getBlogInfo, getBlogPosts, getDashboard, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listAsks, listBlogFollowers, listDrafts, listFollowedTags, listFollowing, listLikes, listMyBlogs, listNotifications, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unfollowTag, unlikePost, unreblogPost, updateBlogInfo
+tumblr.com — tumblr: 33 functions — ask get_library
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
@@ -877,6 +878,7 @@ www.amazon.com.br — amazon_br: getProduct, searchProducts
 www.bestbuy.ca — bestbuy_ca: getProduct, search
 www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepartments, listNews, listPublicData, listServices, queryPublicData, searchNews, searchPublicData, searchServices
 www.cnn.com — cnn: followTopic, getArticle, getMarketsData, getVideo, listCategories, listHeadlines, listMyNews, listNewsletters, listSectionHeadlines, listTrendingTopics, listVideos, searchArticles, subscribeToNewsletter, unfollowTopic (+1 planned)
+www.disneyplus.com — disney_plus: nothing callable yet (+26 planned)
 www.gap.com — gap: getProduct, searchProducts
 www.grammarly.com — grammarly: addToDictionary, checkGrammar, countWords, createDocument, deleteDocument, detectAI, detectPlagiarism, detectTone, getAccount, getDocument, humanize, listDocuments, listGoals, listPlans, paraphrase, removeFromDictionary, setGoals (+2 planned)
 www.marks.com — marks: findStores, getProduct, searchProducts

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6911 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6942 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -995,6 +995,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `califloors.getProduct` | califloors.com | Reads one product's own detail page — its real current price, live stock status… | 🟢 |
 | `califloors.listCategories` | califloors.com | Lists CALI's own flooring and decking category tree — Vinyl, Hardwood, Laminate… | 🟢 |
 | `califloors.searchProducts` | califloors.com | Browses one category (from `listCategories`, e.g. the free-sample category or a… | 🟢 |
+| `calottery.checkNumbers` | calottery.com | Checks five picked numbers and a bonus number against every past California Lottery… | 🟢 |
+| `calottery.draws` | calottery.com | Reads California Lottery winning numbers, prize payouts and the next jackpot for… | 🟢 |
+| `calottery.retailers` | calottery.com | Finds California Lottery retailers near a latitude and longitude, with address and… | 🟢 |
+| `calottery.scratchers` | calottery.com | Lists California Lottery Scratchers games with price, top prize and odds, filtered by… | 🟢 |
+| `calottery.search` | calottery.com | Searches calottery.com's pages and documents, returning titles and URLs. | 🟢 |
 | `camelcamelcamel.getPriceHistory` | camelcamelcamel.com | Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the… | 🟡 |
 | `camelcamelcamel.search` | camelcamelcamel.com | Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title… | 🟢 |
 | `campspot.findCampgrounds` | campspot.com | Given a free-text region (a US state, a Canadian province, or one of Campspot's own… | 🟢 |
@@ -1821,6 +1826,32 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.searchTiresByVehicle` | discounttire.com | Searches the tires Discount Tire will actually sell for a specific vehicle — year… | ⚪ |
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
+| `disney_plus.addToWatchlist` | www.disneyplus.com | Adds a series or movie to the signed-in caller's own Disney+ watchlist by its id. | ⚪ |
+| `disney_plus.browseCollection` | www.disneyplus.com | Lists the titles in one Disney+ collection (a brand such as Marvel or Pixar, or a… | ⚪ |
+| `disney_plus.cancelSubscription` | www.disneyplus.com | Cancels the signed-in caller's Disney+ subscription. | ⚪ |
+| `disney_plus.createProfile` | www.disneyplus.com | Creates a new profile on the signed-in caller's own Disney+ account with a name and… | ⚪ |
+| `disney_plus.deleteProfile` | www.disneyplus.com | Deletes a non-primary profile from the signed-in caller's own Disney+ account. | ⚪ |
+| `disney_plus.getAccount` | www.disneyplus.com | Reads the signed-in caller's Disney+ account: email, current plan or bundle, billing… | ⚪ |
+| `disney_plus.getArticle` | www.disneyplus.com | Reads one Disney+ editorial article by slug or URL: headline, date, body text and the… | ⚪ |
+| `disney_plus.getBillingHistory` | www.disneyplus.com | Lists the signed-in caller's past Disney+ charges: date, plan and amount. | ⚪ |
+| `disney_plus.getContinueWatching` | www.disneyplus.com | Reads the signed-in caller's Continue Watching row: what they are part-way through and… | ⚪ |
+| `disney_plus.getEpisodes` | www.disneyplus.com | Lists every season and episode of a Disney+ series by its id or URL, optionally one… | ⚪ |
+| `disney_plus.getHomeFeed` | www.disneyplus.com | Reads the signed-in caller's personalised Disney+ home page rows (recommended for you… | ⚪ |
+| `disney_plus.getNewThisMonth` | www.disneyplus.com | Lists what is new on Disney+ this month, with each title's date, from Disney+'s own… | ⚪ |
+| `disney_plus.getPlans` | www.disneyplus.com | Lists Disney+'s current US plans, bundles and prices (Disney+ with ads and Premium… | ⚪ |
+| `disney_plus.getSimilarTitles` | www.disneyplus.com | Lists titles Disney+ suggests alongside a given series or movie, by its id or URL. | ⚪ |
+| `disney_plus.getTitle` | www.disneyplus.com | Reads one Disney+ series or movie by its id or URL (a /browse/entity-<uuid> link, or… | ⚪ |
+| `disney_plus.getTop10` | www.disneyplus.com | Reads the Disney+ Top 10 row in the US today: rank, title and id of each. | ⚪ |
+| `disney_plus.getWatchlist` | www.disneyplus.com | Reads the signed-in caller's own Disney+ watchlist for the active profile. | ⚪ |
+| `disney_plus.listArticles` | www.disneyplus.com | Lists Disney+'s editorial articles (what's new, guides, watch orders) with title and… | ⚪ |
+| `disney_plus.listCatalog` | www.disneyplus.com | Walks the full Disney+ US catalog page by page from the site's own sitemaps, returning… | ⚪ |
+| `disney_plus.listCollections` | www.disneyplus.com | Lists Disney+'s brand and genre collections (Disney, Pixar, Marvel, Star Wars… | ⚪ |
+| `disney_plus.listProfiles` | www.disneyplus.com | Lists the profiles on the signed-in caller's Disney+ account: name, avatar, kids… | ⚪ |
+| `disney_plus.redeemGiftCard` | www.disneyplus.com | Redeems a Disney+ gift card onto the signed-in caller's account. | ⚪ |
+| `disney_plus.removeFromWatchlist` | www.disneyplus.com | Removes a series or movie from the signed-in caller's own Disney+ watchlist by its id. | ⚪ |
+| `disney_plus.searchTitles` | www.disneyplus.com | Searches the whole Disney+ catalog by words, e.g. searchTitles("mandalorian")… | ⚪ |
+| `disney_plus.switchPlan` | www.disneyplus.com | Changes the signed-in caller's Disney+ plan or bundle. | ⚪ |
+| `disney_plus.updateProfile` | www.disneyplus.com | Edits a profile on the signed-in caller's own Disney+ account: name, avatar, kids… | ⚪ |
 | `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟢 |
 | `dmv_virginia_gov.searchLocations` | dmv.virginia.gov | Finds Virginia DMV customer-service centers near a city, address, or ZIP and returns… | 🟢 |
 | `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🟢 |
