@@ -16,8 +16,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 5 | 🟢 |
 | `brand.get` | Reads the company's homepage and returns its brand profile. `target` is a domain… | 0 | 🟢 |
 | `browser_agent.list` | Lists this account's browser agent sessions (open ones by default) — check how many… | 1 | 🟢 |
-| `browser_agent.send` | Sends the agent a follow-up in the same session: an answer to its question, the… | 1 | 🟡 |
-| `browser_agent.start` | A one-shot live browser for ONE task on a site nothing in the library covers; returns… | 1 | 🟡 |
+| `browser_agent.send` | Sends the agent a follow-up in the same session: an answer to its question, the… | 1 | 🟢 |
+| `browser_agent.start` | A one-shot live browser for ONE task on a site nothing in the library covers; returns… | 1 | 🟢 |
 | `browser_agent.status` | Reads a session: `running`, `needs_input` (relay `question` to your user, answer with… | 1 | 🟢 |
 | `browser_agent.stop` | Stops the agent and shuts its browser; the watch link stops working. | 1 | 🟢 |
 | `browser_agent.watchLink` | Makes a NEW watch link for an open session, for when the one from `start` was lost. | 1 | 🟢 |
@@ -144,7 +144,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `used_car_search.search` | Finds used cars for sale near a US ZIP — `bowmark.used_car_search.search("used toyota… | 1 | 🟢 |
 | `vacation_rental.quote` | The total price for a stay at one vacation rental — `id` or `url` from `search`, plus… | 1 | 🟢 |
 | `vacation_rental.search` | Search vacation rentals for a free-text location (e.g. "Austin, Texas"), optional… | 1 | 🟢 |
-| `video_editing.editFootage` | Trims, cuts or blurs one of the caller's own YouTube videos by starting a hosted… | 1 | 🟡 |
+| `video_editing.editFootage` | Trims, cuts or blurs one of the caller's own YouTube videos by starting a hosted… | 1 | 🟢 |
 | `video_library.addToPlaylist` | Adds one or many videos to one of the caller's own playlists, as a single edit. | 1 | 🟢 |
 | `video_library.createChannel` | Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and… | 1 | 🟢 |
 | `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟢 |

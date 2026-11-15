@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6998 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7018 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -894,7 +894,7 @@ One function per row, with the site it is called on.
 | `brixton.getBrixtonProduct` | brixton.com | Reads one product by its handle — every size/color variant, its exact price and… | 🟢 |
 | `brixton.listBrixtonProducts` | brixton.com | Reads the live Brixton catalogue as the storefront publishes it — every hat, tee… | 🟢 |
 | `browser_use.cancelRun` | browser-use.com | Cancels an in-flight agent run via POST /api/v4/runs/{id}/cancel; idempotent on a… | 🟢 |
-| `browser_use.createRun` | browser-use.com | Starts a Browser Use Cloud agent run on a natural-language task (optionally continuing… | 🟡 |
+| `browser_use.createRun` | browser-use.com | Starts a Browser Use Cloud agent run on a natural-language task (optionally continuing… | 🟢 |
 | `browser_use.findSessionBrowser` | browser-use.com | Finds the cloud browser attached to an agent session via GET… | 🟢 |
 | `browser_use.getBrowser` | browser-use.com | Reads one cloud browser via GET /api/v4/browsers/{id}: status, live view url, browser… | 🟢 |
 | `browser_use.getRun` | browser-use.com | Reads one agent run via GET /api/v4/runs/{id}: status, final result or error, token… | 🟢 |
@@ -5804,6 +5804,8 @@ One function per row, with the site it is called on.
 | `tenders_go_ke.listTenders` | tenders.go.ke | List Kenya government procurement tenders from the Public Procurement Information… | 🟡 |
 | `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
 | `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
+| `texas_lottery.draws` | texaslottery.com | Reads Texas Lottery winning numbers for Powerball, Mega Millions, Lotto Texas, Texas… | 🟢 |
+| `texas_lottery.scratchers` | texaslottery.com | Lists Texas Lottery scratch tickets on sale with price, start date, top prize and… | 🟢 |
 | `thataicollection_com.browseCategory` | thataicollection.com | Browses AI tools in one category by linkName, with pagination. | 🟢 |
 | `thataicollection_com.compareTools` | thataicollection.com | Compares two listed AI tools and returns available structured attributes. | 🟢 |
 | `thataicollection_com.getAlternatives` | thataicollection.com | Lists same-category alternatives to one AI tool. | 🟢 |
@@ -5959,6 +5961,7 @@ One function per row, with the site it is called on.
 | `tiktok.uploadVideo` | tiktok.com | Upload a video to the signed-in caller's own account, with caption, hashtags and… | 🟢 |
 | `tilsonhomes.getElevationDetails` | tilsonhomes.com | Reads one plan's elevation — the exterior style's customization range (how far… | 🟢 |
 | `tilsonhomes.listPlans` | tilsonhomes.com | Lists Tilson Homes' Build-On-Your-Land floor plans — model name, bed/bath/size and the… | 🟢 |
+| `timeanddate.search` | timeanddate.com | Searches timeanddate.com for a city, country or time-zone page and returns each… | 🟢 |
 | `titlenine.calculateBraSize` | titlenine.com | Runs Title Nine's own bra-size calculator — chest, bust and under-bust measurements… | 🟢 |
 | `tmobile.getUpgradeOffer` | t-mobile.com | Reads one t-mobile.com device page's own pricing call — real list price, real monthly… | 🟢 |
 | `tmz.newsSidebar` | tmz.com | Reads TMZ's desktop news sidebar — the Most Popular stories, Hot Galleries and the… | 🟢 |
@@ -6697,10 +6700,27 @@ One function per row, with the site it is called on.
 | `workable.listJobs` | workable.com | Lists every published job on one company's Workable careers page… | 🟢 |
 | `workday.getJob` | myworkdayjobs.com | Reads one posting's full description, exact posted date, time type and every location… | ⚪ |
 | `workday.listJobs` | myworkdayjobs.com | Lists open jobs on one company's Workday careers site… | 🟢 |
-| `wps.getTemplate` | wps.com | Reads one WPS template's page: its title, format, preview images, category and… | ⚪ |
-| `wps.listCloudDocuments` | wps.com | Lists the documents in the signed-in account's WPS Cloud storage. | ⚪ |
+| `wps.compressPdf` | wps.com | Compresses a PDF with WPS's free online tool on pdf.wps.com and returns the smaller… | ⚪ |
+| `wps.convertPdfToWord` | wps.com | Converts a PDF to an editable Word document with WPS's online converter. | ⚪ |
+| `wps.createCloudFolder` | wps.com | Creates a folder in the signed-in account's WPS Cloud. | ⚪ |
+| `wps.deleteCloudDocument` | wps.com | Moves a document or folder in the signed-in account's WPS Cloud to its trash. | ⚪ |
+| `wps.downloadTemplate` | wps.com | Gets the downloadable file for one template, as a file the caller can open. | ⚪ |
+| `wps.getAccountProfile` | wps.com | Reads the signed-in WPS account's profile: name, email, avatar, plan and cloud storage… | ⚪ |
+| `wps.getCloudDocument` | wps.com | Reads one WPS Cloud document's details and a download link; listCloudDocuments or… | ⚪ |
+| `wps.getSharedDocument` | wps.com | Reads one DocShare document: its title, author, page count, preview text or images and… | ⚪ |
+| `wps.getTemplate` | wps.com | Reads one WPS template's page: its title, format, preview images, category, tags and… | ⚪ |
+| `wps.listCloudDocuments` | wps.com | Lists the documents and folders in the signed-in account's WPS Cloud storage, newest… | ⚪ |
+| `wps.listSharedCategories` | wps.com | Lists DocShare's document and template categories (exam papers, literature, resumes… | ⚪ |
+| `wps.listTemplateCategories` | wps.com | Lists the template library's categories and channels (Resume, Invoices, Business… | ⚪ |
+| `wps.mergePdf` | wps.com | Merges several PDFs into one with WPS's free online tool on pdf.wps.com. | ⚪ |
+| `wps.renameCloudDocument` | wps.com | Renames a document or folder in the signed-in account's WPS Cloud. | ⚪ |
+| `wps.searchAcademyTutorials` | wps.com | Searches WPS Academy's free tutorials and courses for Writer, Spreadsheet… | ⚪ |
+| `wps.searchCloudDocuments` | wps.com | Searches the signed-in account's WPS Cloud documents by name. | ⚪ |
 | `wps.searchSharedDocuments` | wps.com | Searches WPS DocShare, the public library of documents and templates people have… | ⚪ |
 | `wps.searchTemplates` | wps.com | Searches WPS Office's free template library (Word, Excel, PowerPoint and PDF… | ⚪ |
+| `wps.shareCloudDocument` | wps.com | Makes a share link for a WPS Cloud document, with view or edit permission, and returns… | ⚪ |
+| `wps.splitPdf` | wps.com | Splits a PDF into pages or ranges with WPS's free online tool on pdf.wps.com. | ⚪ |
+| `wps.uploadCloudDocument` | wps.com | Uploads a file into the signed-in account's WPS Cloud, optionally into a folder. | ⚪ |
 | `wsj.addToWatchlist` | wsj.com | Adds a stock to the caller's own WSJ watchlist through their signed-in WSJ session, by… | 🟢 |
 | `wsj.getArticle` | wsj.com | Gets one article's own headline, byline, dek, section, publish date and body. | 🟢 |
 | `wsj.getArticleFullText` | wsj.com | Gets the full text of a subscriber-only article using the CALLER's own WSJ… | 🟢 |

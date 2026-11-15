@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 11ca60114d3dacf10809da4f00fb83c9f367b2cf5c8738785c77f511de5d3e36
-# 98 capabilities, 875 providers, 5367 typed functions, 20 refused.
+# Manifest version: 3b76b309c67d4a08c6700f0ae84f39f3476bd3141e14ae39cf6008daa178423a
+# 98 capabilities, 877 providers, 5370 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -68351,6 +68351,44 @@ class Prv_teneohg_TeneohgRfpHandoff_Out(TypedDict):
     url: str
     hotelsOfInterestValue: str
 
+class Prv_texas_lottery_TexasLotteryDrawsArgs_In(TypedDict):
+    game: Literal["powerball"] | Literal["megamillions"] | Literal["lottotexas"] | Literal["texastwostep"] | Literal["cashfive"]
+    limit: NotRequired[float]
+    since: NotRequired[str]
+
+class Prv_texas_lottery_TexasLotteryDraws_Out(TypedDict):
+    game: str
+    name: str
+    draws: list[Prv_texas_lottery_TexasLotteryDraw_Out]
+    source: str
+
+class Prv_texas_lottery_TexasLotteryDraw_Out(TypedDict):
+    date: str
+    numbers: list[float]
+    bonus: float | None
+    multiplier: float | None
+
+class Prv_texas_lottery_TexasLotteryScratchersArgs_In(TypedDict):
+    price: NotRequired[float]
+    name: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_texas_lottery_TexasLotteryScratcher_Out(TypedDict):
+    gameNumber: str
+    name: str
+    price: float
+    startDate: str | None
+    closingSoon: bool
+    topPrize: str
+    prizes: list[Prv_texas_lottery_TexasLotteryScratcher_Out_prizes_item_Out]
+    url: str
+
+class Prv_texas_lottery_TexasLotteryScratcher_Out_prizes_item_Out(TypedDict):
+    amount: str
+    printed: float
+    claimed: float
+    remaining: float
+
 class Prv_thataicollection_com_browseCategory_linkName_u1_In(TypedDict):
     linkName: str
     limit: NotRequired[float]
@@ -69939,6 +69977,30 @@ class Prv_tilsonhomes_TilsonhomesFinishOption_Out(TypedDict):
 class Prv_tilsonhomes_TilsonhomesFinishOption_Out_swatches_item_Out(TypedDict):
     id: float
     name: str | None
+
+class Prv_timeanddate_TimeanddateSearchArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_timeanddate_TimeanddateSearch_Out(TypedDict):
+    query: str
+    page: float
+    totalResults: float | None
+    places: list[Prv_timeanddate_TimeanddatePlace_Out]
+    pages: list[Prv_timeanddate_TimeanddatePage_Out]
+    source: str
+
+class Prv_timeanddate_TimeanddatePlace_Out(TypedDict):
+    name: str
+    country: str | None
+    url: str
+    links: Mapping[str, str | None]
+
+class Prv_timeanddate_TimeanddatePage_Out(TypedDict):
+    title: str
+    url: str
+    breadcrumb: list[str]
+    description: str | None
 
 class Prv_titlenine_TitlenineBraMeasurements_In(TypedDict):
     chestInches: float
@@ -117225,6 +117287,22 @@ class Prv_teneohg(Protocol):
         to find current ones.
         """
 
+class Prv_texas_lottery(Protocol):
+    """Texas Lottery (texaslottery.com): past winning numbers for Powerball, Mega Millions,
+    Lotto Texas, Texas Two Step and Cash Five, and every scratch ticket on sale with price,
+    top prize and prizes still unclaimed.
+    """
+
+    async def draws(self, args: Prv_texas_lottery_TexasLotteryDrawsArgs_In, /) -> Prv_texas_lottery_TexasLotteryDraws_Out:
+        """Reads Texas Lottery winning numbers for Powerball, Mega Millions, Lotto Texas, Texas Two
+        Step or Cash Five, newest draw first, back to the game's first draw.
+        """
+
+    async def scratchers(self, args: Prv_texas_lottery_TexasLotteryScratchersArgs_In | None = None, /) -> list[Prv_texas_lottery_TexasLotteryScratcher_Out]:
+        """Lists Texas Lottery scratch tickets on sale with game number, price, start date, top
+        prize and how many of each prize tier are printed, claimed and still remaining.
+        """
+
 class Prv_thataicollection_com(Protocol):
     """Search AI Collection's public AI-tool directory, inspect tools, browse categories, find
     alternatives and compare tools.
@@ -118290,6 +118368,17 @@ class Prv_tilsonhomes(Protocol):
         bed/bath/size can be pushed by the site's own add-a-room options) and its exterior
         finish categories (roof, trim, body, accent) with the swatch currently assigned to each.
         The read behind 'add a covered porch and a 4th bedroom, show me the finishes'.
+        """
+
+class Prv_timeanddate(Protocol):
+    """timeanddate.com: search for a city, country or time zone and get its world clock,
+    weather, time zone, DST change and sunrise/sunset pages.
+    """
+
+    async def search(self, args: Prv_timeanddate_TimeanddateSearchArgs_In, /) -> Prv_timeanddate_TimeanddateSearch_Out:
+        """Searches timeanddate.com for a city, country or time-zone page; returns each matching
+        place with its world clock, weather, time zone, DST and sun and moon links, plus
+        matching articles.
         """
 
 class Prv_titlenine(Protocol):
@@ -124669,6 +124758,7 @@ class BowmarkProviders(Protocol):
     temu: Prv_temu
     tenders_go_ke: Prv_tenders_go_ke
     teneohg: Prv_teneohg
+    texas_lottery: Prv_texas_lottery
     thataicollection_com: Prv_thataicollection_com
     thefork: Prv_thefork
     theguardian_com: Prv_theguardian_com
@@ -124685,6 +124775,7 @@ class BowmarkProviders(Protocol):
     ticketmaster_nl: Prv_ticketmaster_nl
     tiktok: Prv_tiktok
     tilsonhomes: Prv_tilsonhomes
+    timeanddate: Prv_timeanddate
     titlenine: Prv_titlenine
     tmobile: Prv_tmobile
     tmz: Prv_tmz

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 11ca60114d3dacf10809da4f00fb83c9f367b2cf5c8738785c77f511de5d3e36
-// 98 capabilities, 875 providers, 5395 typed functions, 20 refused.
+// Manifest version: 3b76b309c67d4a08c6700f0ae84f39f3476bd3141e14ae39cf6008daa178423a
+// 98 capabilities, 877 providers, 5398 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -103855,6 +103855,34 @@ interface TeneohgHotelDetail {
   }
 }
 
+declare namespace BowmarkProvider_texas_lottery {
+  // ── Texas Lottery — the unit's own declarations, verbatim ──
+interface TexasLotteryDraw { date: string; numbers: number[]; bonus: number | null; multiplier: number | null; }
+interface TexasLotteryDraws { game: string; name: string; draws: TexasLotteryDraw[]; source: string; }
+interface TexasLotteryDrawsArgs { game: "powerball" | "megamillions" | "lottotexas" | "texastwostep" | "cashfive"; limit?: number; since?: string; }
+interface TexasLotteryScratcher { gameNumber: string; name: string; price: number; startDate: string | null; closingSoon: boolean; topPrize: string; prizes: { amount: string; printed: number; claimed: number; remaining: number }[]; url: string; }
+interface TexasLotteryScratchersArgs { price?: number; name?: string; limit?: number; }
+
+  /**
+   * Texas Lottery (texaslottery.com): past winning numbers for Powerball, Mega Millions, Lotto
+   * Texas, Texas Two Step and Cash Five, and every scratch ticket on sale with price, top prize
+   * and prizes still unclaimed.
+   */
+  interface Unit {
+    /**
+     * Reads Texas Lottery winning numbers for Powerball, Mega Millions, Lotto Texas, Texas Two
+     * Step or Cash Five, newest draw first, back to the game's first draw.
+     */
+    draws(args: TexasLotteryDrawsArgs): Promise<TexasLotteryDraws>;
+
+    /**
+     * Lists Texas Lottery scratch tickets on sale with game number, price, start date, top prize
+     * and how many of each prize tier are printed, claimed and still remaining.
+     */
+    scratchers(args?: TexasLotteryScratchersArgs): Promise<TexasLotteryScratcher[]>;
+  }
+}
+
 declare namespace BowmarkProvider_thataicollection_com {
   // ── AI Collection — the unit's own declarations, verbatim ──
 interface AiCollectionTool { name: string; linkName: string; url: string; shortDescription: string; categoryName: string | null; }
@@ -106588,6 +106616,27 @@ interface TilsonhomesFinishOption {
      * a covered porch and a 4th bedroom, show me the finishes'.
      */
     getElevationDetails(elevationId: number | string): Promise<TilsonhomesElevationDetails>;
+  }
+}
+
+declare namespace BowmarkProvider_timeanddate {
+  // ── timeanddate.com — the unit's own declarations, verbatim ──
+interface TimeanddatePlace { name: string; country: string | null; url: string; links: { worldClock?: string; weather?: string; timeZone?: string; dstChanges?: string; sunAndMoon?: string; eclipses?: string; [k: string]: string | undefined }; }
+interface TimeanddatePage { title: string; url: string; breadcrumb: string[]; description: string | null; }
+interface TimeanddateSearch { query: string; page: number; totalResults: number | null; places: TimeanddatePlace[]; pages: TimeanddatePage[]; source: string; }
+interface TimeanddateSearchArgs { query: string; page?: number; }
+
+  /**
+   * timeanddate.com: search for a city, country or time zone and get its world clock, weather,
+   * time zone, DST change and sunrise/sunset pages.
+   */
+  interface Unit {
+    /**
+     * Searches timeanddate.com for a city, country or time-zone page; returns each matching place
+     * with its world clock, weather, time zone, DST and sun and moon links, plus matching
+     * articles.
+     */
+    search(args: TimeanddateSearchArgs): Promise<TimeanddateSearch>;
   }
 }
 
@@ -124566,6 +124615,7 @@ interface BowmarkProviders {
   temu: BowmarkProvider_temu.Unit;
   tenders_go_ke: BowmarkProvider_tenders_go_ke.Unit;
   teneohg: BowmarkProvider_teneohg.Unit;
+  texas_lottery: BowmarkProvider_texas_lottery.Unit;
   thataicollection_com: BowmarkProvider_thataicollection_com.Unit;
   thefork: BowmarkProvider_thefork.Unit;
   theguardian_com: BowmarkProvider_theguardian_com.Unit;
@@ -124582,6 +124632,7 @@ interface BowmarkProviders {
   ticketmaster_nl: BowmarkProvider_ticketmaster_nl.Unit;
   tiktok: BowmarkProvider_tiktok.Unit;
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
+  timeanddate: BowmarkProvider_timeanddate.Unit;
   titlenine: BowmarkProvider_titlenine.Unit;
   tmobile: BowmarkProvider_tmobile.Unit;
   tmz: BowmarkProvider_tmz.Unit;

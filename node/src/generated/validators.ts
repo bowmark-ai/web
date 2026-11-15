@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 11ca60114d3dacf10809da4f00fb83c9f367b2cf5c8738785c77f511de5d3e36
-// 5367 checked, 20 unchecked.
+// Manifest version: 3b76b309c67d4a08c6700f0ae84f39f3476bd3141e14ae39cf6008daa178423a
+// 5370 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "11ca60114d3dacf10809da4f00fb83c9f367b2cf5c8738785c77f511de5d3e36",
+  "version": "3b76b309c67d4a08c6700f0ae84f39f3476bd3141e14ae39cf6008daa178423a",
   "units": {
     "address_validation": {
       "defs": {
@@ -144848,6 +144848,106 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.texas_lottery": {
+      "defs": {
+        "TexasLotteryDrawsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "game",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "powerball"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "megamillions"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "lottotexas"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "texastwostep"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "cashfive"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "since",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TexasLotteryScratchersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "price",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "draws": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TexasLotteryDrawsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "scratchers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TexasLotteryScratchersArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.thataicollection_com": {
       "defs": {},
       "functions": {
@@ -148565,6 +148665,41 @@ export const VALIDATORS: ValidatorTable = {
                   "k": "string"
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.timeanddate": {
+      "defs": {
+        "TimeanddateSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TimeanddateSearchArgs"
             },
             "optional": false
           }

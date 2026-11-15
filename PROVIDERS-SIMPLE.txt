@@ -785,6 +785,7 @@ teamtailor.com — teamtailor: listJobs
 teladochealth.com — teladoc: getInsurancePricing, getPricing (+2 planned)
 tenders.go.ke — tenders_go_ke: getTender, listTenders
 teneohg.com — teneohg: getMemberHotel, searchMemberHotels
+texaslottery.com — texas_lottery: draws, scratchers
 thataicollection.com — thataicollection_com: browseCategory, compareTools, getAlternatives, getTool, getTopPicks, listCategories, searchTools
 thefork.com — thefork: search (+2 planned)
 theguardian.com — theguardian_com: getArticle, getArticleComments, getContributorArticles, getCrossword, getFootballTable, getLiveBlog, getMostRead, getPhotoGallery, getReview, getTopicArticles, getVideo, listArticlesBySection, listBreakingNews, listContributors, listFootballMatches, listLiveBlogs, listNewsletters, listOpinionPieces, listPhotos, listPodcastEpisodes, listReviews, listSections, listTopics, listVideos (+2 planned)
@@ -801,6 +802,7 @@ ticketmaster.nl — ticketmaster_nl: event, search
 tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getHighTideFloodingHistory, getMeteorologicalObservations, getMonthlyMeanWaterLevel, getSeaLevelTrend, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
 tiktok.com — tiktok: 36 functions — ask get_library
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
+timeanddate.com — timeanddate: search
 titlenine.com — titlenine: calculateBraSize
 tmz.com — tmz: newsSidebar, search
 toasttab.com — toast: getMenu, getMenuItem, getOrderingOptions, getPopularItems, getReservationAvailability, getRestaurant, listCities, listCityRestaurants, searchMenu, searchRestaurants (+47 planned)
@@ -873,7 +875,7 @@ wineaccess.com — wineaccess: getProduct, searchProducts
 winestyles.com — winestyles: listStores, searchStoreInventory
 wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, getMyBookings, getMyMembership, listGymSchedule, listInstructors, listMemberships, listPrices, listPrograms, readTerms (+26 planned)
 workable.com — workable: listJobs
-wps.com — wps: nothing callable yet (+4 planned)
+wps.com — wps: nothing callable yet (+21 planned)
 wsj.com — wsj: addToWatchlist, getArticle, getArticleFullText, getAuthor, getNewsletter, getPodcast, getQuote, getWatchlist, listArticles, listArticlesByAuthor, listCommodities, listCurrencies, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSavedArticles, listSections, listTreasuryYields, listTrending, removeFromWatchlist, saveArticle, searchArticles, unsaveArticle
 wunderflats.com — wunderflats: search
 www.amazon.ca — amazon_ca: nothing callable yet (+2 planned)
