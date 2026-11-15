@@ -721,7 +721,6 @@ shop.app — shop_app: 34 functions — ask get_library (+4 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopdisney.com — shopdisney: getProduct, search
-shopify.com (102396 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
 sitmeanssit.com — sitmeanssit: findNearestLocations
 sixflags.com — sixflags: getTickets
 skills.rest — skills_rest: listSkills
@@ -818,7 +817,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
-tumblr.com — tumblr: 33 functions — ask get_library
+tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, followTag, getBlogInfo, getBlogPosts, getDashboard, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listAsks, listBlogFollowers, listDrafts, listFollowedTags, listFollowing, listLikes, listMyBlogs, listNotifications, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unfollowTag, unlikePost, unreblogPost, updateBlogInfo
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
@@ -868,7 +867,6 @@ windscribe.com — windscribe: getDedicatedIp (+1 planned)
 wineaccess.com — wineaccess: getProduct, searchProducts
 winestyles.com — winestyles: listStores, searchStoreInventory
 wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, getMyBookings, getMyMembership, listGymSchedule, listInstructors, listMemberships, listPrices, listPrograms, readTerms (+26 planned)
-woocommerce.com (27157 stores) — woocommerce: addToCart, getCart, getProduct, listCategories, listProducts, searchProducts (+3 planned)
 workable.com — workable: listJobs
 wps.com — wps: nothing callable yet (+4 planned)
 wsj.com — wsj: addToWatchlist, getArticle, getArticleFullText, getAuthor, getNewsletter, getPodcast, getQuote, getWatchlist, listArticles, listArticlesByAuthor, listCommodities, listCurrencies, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSavedArticles, listSections, listTreasuryYields, listTrending, removeFromWatchlist, saveArticle, searchArticles, unsaveArticle

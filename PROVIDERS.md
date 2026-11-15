@@ -1,10 +1,10 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6992 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6968 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
-One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
+One function per row, with the site it is called on.
 
 | Function | Site | What it does | Status |
 |---|---|---|---|
@@ -2821,7 +2821,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.getMemberFollowers` | goodreads.com | Lists the readers who follow a member, from the member's followers page. | ⚪ |
 | `goodreads.getMemberFollowing` | goodreads.com | Lists the readers a member follows. | ⚪ |
 | `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | 🟢 |
-| `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | 🟡 |
+| `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | 🟢 |
 | `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | 🟢 |
 | `goodreads.getOwnProfile` | goodreads.com | Reads the signed-in caller's own profile — their shelves with counts, friend list, and… | 🟢 |
 | `goodreads.getSeries` | goodreads.com | Reads a book series' reading order — each book's position number, title, author… | 🟢 |
@@ -5276,21 +5276,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.writeReview` | shop.app | Leaves a star rating and review on a product the caller bought through Shop. | ⚪ |
 | `shopdisney.getProduct` | shopdisney.com | Reads one shopDisney / Disney Store product page by URL or id and returns its title… | 🟢 |
 | `shopdisney.search` | shopdisney.com | Searches shopDisney / Disney Store (shopdisney.com → disneystore.com) for merchandise… | 🟢 |
-| `shopify.addToCart` | shopify.com (102396 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
-| `shopify.getCart` | shopify.com (102396 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
-| `shopify.getCollection` | shopify.com (102396 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
-| `shopify.getProduct` | shopify.com (102396 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
-| `shopify.getProducts` | shopify.com (102396 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
-| `shopify.getSetEvidence` | shopify.com (102396 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
-| `shopify.getShippingRates` | shopify.com (102396 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
-| `shopify.getStyleDetails` | shopify.com (102396 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |
-| `shopify.listCollections` | shopify.com (102396 stores) | Lists EVERY one of the store's own merchandised collections, walked page by page… | 🟢 |
-| `shopify.listProducts` | shopify.com (102396 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
-| `shopify.removeFromCart` | shopify.com (102396 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
-| `shopify.resolveProductUrl` | shopify.com (102396 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
-| `shopify.search` | shopify.com (102396 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
-| `shopify.searchPolicies` | shopify.com (102396 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
-| `shopify.searchProducts` | shopify.com (102396 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
 | `skills_rest.listSkills` | skills.rest | Lists the public skill cards currently featured on skills.rest, returning each card's… | 🟢 |
@@ -6679,15 +6664,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wodify.signWaiver` | wodify.com | Sign health and liability waiver for membership. | ⚪ |
 | `wodify.updateProfile` | wodify.com | Update the member's profile information. | ⚪ |
 | `wodify.updateProfilePicture` | wodify.com | Upload or change the member's profile picture. | ⚪ |
-| `woocommerce.addToCart` | woocommerce.com (27157 stores) | Puts products or variations into THIS run's own cart on the store and returns the cart… | 🟢 |
-| `woocommerce.getCart` | woocommerce.com (27157 stores) | Reads THIS run's cart back — lines, quantities, line totals and the order total. | 🟢 |
-| `woocommerce.getProduct` | woocommerce.com (27157 stores) | Reads one product by its numeric id or slug — every variation, price, stock flag… | 🟢 |
-| `woocommerce.getShippingRates` | woocommerce.com (27157 stores) | Returns the shipping options and prices for a destination once the cart is full. | ⚪ |
-| `woocommerce.listCategories` | woocommerce.com (27157 stores) | Lists the store's own product categories with the number of products in each; an id or… | 🟢 |
-| `woocommerce.listProducts` | woocommerce.com (27157 stores) | Walks the store's whole catalogue a page at a time, optionally inside one category… | 🟢 |
-| `woocommerce.listReviews` | woocommerce.com (27157 stores) | Reads the product reviews the store publishes. | ⚪ |
-| `woocommerce.removeFromCart` | woocommerce.com (27157 stores) | Takes a line back out of this run's cart, or changes its quantity. | ⚪ |
-| `woocommerce.searchProducts` | woocommerce.com (27157 stores) | Searches the store's live catalogue through its own WooCommerce Store API (GET… | 🟢 |
 | `workable.listJobs` | workable.com | Lists every published job on one company's Workable careers page… | 🟢 |
 | `workday.getJob` | myworkdayjobs.com | Reads one posting's full description, exact posted date, time type and every location… | ⚪ |
 | `workday.listJobs` | myworkdayjobs.com | Lists open jobs on one company's Workday careers site… | 🟢 |

@@ -68,15 +68,14 @@ async with session() as bm:
     cart = await bm.providers.gymshark.getCart()   # itemCount is 1
 ```
 
-**A type checker will not know `gymshark`, and that is not a bug.** It is a Shopify family
-member; there are half a million storefronts and no manifest carries one, so neither
-client's generated types enumerate them. The call works. Silence the checker with
-`getattr(bm.providers, "gymshark")` if you want a clean run.
+**A type checker will not know `gymshark`, and that is not a bug.** Most sites are not
+listed in the generated types, so neither client's types enumerate them. The call works.
+Silence the checker with `getattr(bm.providers, "gymshark")` if you want a clean run.
 
 **`bowmark.<unit>.<fn>()` is wrong for a multi-step flow, and it fails quietly.** Two
 calls get two instances and two cookie jars, so a cart the first filled does not exist
-for the second — Shopify answers `POST /cart/add.js` with a 200 and the line echoed
-back, then reports `item_count: 0`. Reach for `session()` the moment a flow has a second
+for the second — a store's cart endpoint answers `POST /cart/add.js` with a 200 and the line
+echoed back, then reports `item_count: 0`. Reach for `session()` the moment a flow has a second
 step.
 
 **Each call inside a session is a round trip.** Said out loud rather than hidden: a
@@ -154,9 +153,8 @@ Two consequences worth knowing:
 
 - **An unknown FUNCTION on a known unit is refused**, naming the manifest version. Upgrade
   the package, or use `run(script)`, which is untyped by construction and reaches anything.
-- **An unknown UNIT passes straight through.** Most of the library is Shopify family
-  members (`bowmark.providers.gymshark.…`) which are deliberately in no manifest — there
-  are half a million of them.
+- **An unknown UNIT passes straight through.** Most sites (`bowmark.providers.gymshark.…`)
+  are deliberately not listed in the generated manifest.
 
 ## `run(script)` — the string surface
 

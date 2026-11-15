@@ -50,9 +50,8 @@ why. Those functions are real and callable at runtime — the stub withholds onl
 compile-time claim, because we have none to make. A `(*args: Any) -> Any` stand-in would
 pass every check and tell you nothing.
 
-**Family members are not enumerated.** `bowmark.providers.gymshark.search(…)` works and is
-not in these stubs: there are half a million Shopify storefronts and no manifest carries
-one. Type checkers will not complete them; the client sends them happily.
+**Most sites are not enumerated.** `bowmark.providers.gymshark.search(…)` works and is
+not in these stubs. Type checkers will not complete them; the client sends them happily.
 
 **Everything leans toward accepting.** An argument-position list is `Sequence[T]`, a
 number is `float` (so an `int` is fine), and anything the schema could not model is `Any`.

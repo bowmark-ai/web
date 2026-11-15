@@ -96,7 +96,7 @@ const envelope = await run("return await bowmark.music.search('x')");   // the a
 
 **`bowmark` and `client()` are correct for ONE call and wrong for several.** Two calls
 get two instances and two cookie jars, so a cart filled by the first does not exist for
-the second — and the failure is silent: Shopify answers `POST /cart/add.js` with 200 and
+the second — and the failure is silent: a store's cart endpoint answers `POST /cart/add.js` with 200 and
 the added line echoed back, then reports `item_count: 0`. Reach for `session()` the
 moment a flow has a second step.
 
