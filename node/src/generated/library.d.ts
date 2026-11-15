@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cd93433cf6cc56d00464c8f7a5fcafc4ecba8499e2614d7e32d5f3acb5075953
-// 98 capabilities, 869 providers, 5362 typed functions, 20 refused.
+// Manifest version: 5c79e079606ab482c7a1139e6dfd328da1f53e98dbca9c57c61d03f77e3267f5
+// 98 capabilities, 870 providers, 5367 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -23761,6 +23761,66 @@ interface CaliProductDetail extends CaliProduct {
 
     /** One product's own page — its real current price, live stock and description. */
     getProduct(path: string): Promise<CaliProductDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_calottery {
+  // ── California Lottery — the unit's own declarations, verbatim ──
+interface CalotteryNumber { number: string; special: boolean; name: string | null; }
+interface CalotteryPrize { tier: string; winners: number | null; amount: number | null; }
+interface CalotteryDraw { drawNumber: number; drawDate: string; numbers: CalotteryNumber[]; prizes: CalotteryPrize[]; }
+interface CalotteryDrawResults { gameId: number; game: string; nextDraw: { drawNumber: number; drawDate: string; jackpot: number | null; cashValue: number | null } | null; totalDraws: number | null; draws: CalotteryDraw[]; }
+interface CalotteryMatchedDraw { drawDate: string; numbers: { number: number; matching: boolean }[]; bonus: { number: number; matching: boolean } | null; matches: number; }
+interface CalotteryScratcher { gameNumber: number; name: string; price: string | null; topPrize: string | null; overallOdds: string | null; gameType: string | null; shows: string[]; launched: string | null; imageUrl: string | null; url: string | null; }
+interface CalotteryScratchers { total: number; pages: number; page: number; games: CalotteryScratcher[]; }
+interface CalotterySearchHit { id: string; title: string; path: string; url: string; language: string | null; }
+interface CalotterySearch { total: number; results: CalotterySearchHit[]; }
+interface CalotteryRetailer { id: string; name: string; displayName: string | null; address: string; city: string | null; state: string | null; zip: string | null; latitude: number | null; longitude: number | null; hasAllGames: boolean; hasHotSpot: boolean; onlyInstantGames: boolean; lucky: boolean; }
+type CalotteryGame = "powerball" | "megamillions" | "superlotto" | "fantasy5" | "daily3" | "daily4" | "dailyderby" | number;
+interface CalotteryDrawsArgs { game: CalotteryGame; page?: number; size?: number; }
+interface CalotteryCheckNumbersArgs { game: "powerball" | "megamillions" | "superlotto" | "fantasy5" | number; numbers: number[]; bonus?: number; since?: string; }
+interface CalotteryScratchersArgs { query?: string; price?: number; gameType?: string; show?: string; sort?: string; page?: number; size?: number; }
+interface CalotterySearchArgs { query: string; limit?: number; offset?: number; }
+interface CalotteryRetailersArgs { latitude: number; longitude: number; limit?: number; }
+
+  /**
+   * California Lottery: winning numbers and prizes for Powerball, Mega Millions, SuperLotto
+   * Plus, Fantasy 5 and Daily games, check your numbers against past draws, Scratchers games,
+   * site search and retailers near a point.
+   */
+  interface Unit {
+    /**
+     * Reads California Lottery winning numbers and prize payouts for a draw game (most recent
+     * first), plus the next draw's date and estimated jackpot. game is "powerball",
+     * "megamillions", "superlotto", "fantasy5", "daily3", "daily4" or "dailyderby".
+     */
+    draws(args: CalotteryDrawsArgs): Promise<CalotteryDrawResults>;
+
+    /**
+     * Checks five picked numbers (and a Powerball/Mega/bonus number) against every past California
+     * Lottery draw of a game, returning the draws where they hit and which numbers matched. since
+     * is an optional MM/DD/YYYY lower bound.
+     */
+    checkNumbers(args: CalotteryCheckNumbersArgs): Promise<CalotteryMatchedDraw[]>;
+
+    /**
+     * Lists California Lottery Scratchers games with ticket price, top prize, overall odds and
+     * launch date; filter by name or game number, price, game type or show ("Hot Sellers", "Newest
+     * Games").
+     */
+    scratchers(args?: CalotteryScratchersArgs): Promise<CalotteryScratchers>;
+
+    /**
+     * Searches calottery.com's pages and documents (games, press releases, FAQs, PDFs), returning
+     * titles and URLs.
+     */
+    search(args: CalotterySearchArgs): Promise<CalotterySearch>;
+
+    /**
+     * Finds California Lottery retailers near a latitude/longitude, nearest first, with address
+     * and whether they sell all games, Hot Spot, or only Scratchers.
+     */
+    retailers(args: CalotteryRetailersArgs): Promise<CalotteryRetailer[]>;
   }
 }
 
@@ -123689,6 +123749,7 @@ interface BowmarkProviders {
   calendly: BowmarkProvider_calendly.Unit;
   caliberhealth: BowmarkProvider_caliberhealth.Unit;
   califloors: BowmarkProvider_califloors.Unit;
+  calottery: BowmarkProvider_calottery.Unit;
   camelcamelcamel: BowmarkProvider_camelcamelcamel.Unit;
   campspot: BowmarkProvider_campspot.Unit;
   canadacomputers: BowmarkProvider_canadacomputers.Unit;

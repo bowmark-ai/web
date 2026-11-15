@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cd93433cf6cc56d00464c8f7a5fcafc4ecba8499e2614d7e32d5f3acb5075953
-# 98 capabilities, 869 providers, 5334 typed functions, 20 refused.
+# Manifest version: 5c79e079606ab482c7a1139e6dfd328da1f53e98dbca9c57c61d03f77e3267f5
+# 98 capabilities, 870 providers, 5339 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15092,6 +15092,123 @@ class Prv_califloors_CaliProductDetail_Out(TypedDict):
     description: str | None
     inStock: bool
     categories: list[str]
+
+class Prv_calottery_CalotteryDrawsArgs_In(TypedDict):
+    game: Literal["powerball"] | Literal["megamillions"] | Literal["superlotto"] | Literal["fantasy5"] | Literal["daily3"] | Literal["daily4"] | Literal["dailyderby"] | float
+    page: NotRequired[float]
+    size: NotRequired[float]
+
+class Prv_calottery_CalotteryDrawResults_Out(TypedDict):
+    gameId: float
+    game: str
+    nextDraw: Prv_calottery_CalotteryDrawResults_Out_nextDraw_u0_Out | None
+    totalDraws: float | None
+    draws: list[Prv_calottery_CalotteryDraw_Out]
+
+class Prv_calottery_CalotteryDrawResults_Out_nextDraw_u0_Out(TypedDict):
+    drawNumber: float
+    drawDate: str
+    jackpot: float | None
+    cashValue: float | None
+
+class Prv_calottery_CalotteryDraw_Out(TypedDict):
+    drawNumber: float
+    drawDate: str
+    numbers: list[Prv_calottery_CalotteryNumber_Out]
+    prizes: list[Prv_calottery_CalotteryPrize_Out]
+
+class Prv_calottery_CalotteryNumber_Out(TypedDict):
+    number: str
+    special: bool
+    name: str | None
+
+class Prv_calottery_CalotteryPrize_Out(TypedDict):
+    tier: str
+    winners: float | None
+    amount: float | None
+
+class Prv_calottery_CalotteryCheckNumbersArgs_In(TypedDict):
+    game: Literal["powerball"] | Literal["megamillions"] | Literal["superlotto"] | Literal["fantasy5"] | float
+    numbers: Sequence[float]
+    bonus: NotRequired[float]
+    since: NotRequired[str]
+
+class Prv_calottery_CalotteryMatchedDraw_Out(TypedDict):
+    drawDate: str
+    numbers: list[Prv_calottery_CalotteryMatchedDraw_Out_numbers_item_Out]
+    bonus: Prv_calottery_CalotteryMatchedDraw_Out_bonus_u0_Out | None
+    matches: float
+
+class Prv_calottery_CalotteryMatchedDraw_Out_numbers_item_Out(TypedDict):
+    number: float
+    matching: bool
+
+class Prv_calottery_CalotteryMatchedDraw_Out_bonus_u0_Out(TypedDict):
+    number: float
+    matching: bool
+
+class Prv_calottery_CalotteryScratchersArgs_In(TypedDict):
+    query: NotRequired[str]
+    price: NotRequired[float]
+    gameType: NotRequired[str]
+    show: NotRequired[str]
+    sort: NotRequired[str]
+    page: NotRequired[float]
+    size: NotRequired[float]
+
+class Prv_calottery_CalotteryScratchers_Out(TypedDict):
+    total: float
+    pages: float
+    page: float
+    games: list[Prv_calottery_CalotteryScratcher_Out]
+
+class Prv_calottery_CalotteryScratcher_Out(TypedDict):
+    gameNumber: float
+    name: str
+    price: str | None
+    topPrize: str | None
+    overallOdds: str | None
+    gameType: str | None
+    shows: list[str]
+    launched: str | None
+    imageUrl: str | None
+    url: str | None
+
+class Prv_calottery_CalotterySearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_calottery_CalotterySearch_Out(TypedDict):
+    total: float
+    results: list[Prv_calottery_CalotterySearchHit_Out]
+
+class Prv_calottery_CalotterySearchHit_Out(TypedDict):
+    id: str
+    title: str
+    path: str
+    url: str
+    language: str | None
+
+class Prv_calottery_CalotteryRetailersArgs_In(TypedDict):
+    latitude: float
+    longitude: float
+    limit: NotRequired[float]
+
+class Prv_calottery_CalotteryRetailer_Out(TypedDict):
+    id: str
+    name: str
+    displayName: str | None
+    address: str
+    city: str | None
+    state: str | None
+    zip: str | None
+    latitude: float | None
+    longitude: float | None
+    hasAllGames: bool
+    hasHotSpot: bool
+    onlyInstantGames: bool
+    lucky: bool
 
 class Prv_camelcamelcamel_CamelSearchResult_Out(TypedDict):
     asin: str
@@ -88296,6 +88413,40 @@ class Prv_califloors(Protocol):
     async def getProduct(self, path: str, /) -> Prv_califloors_CaliProductDetail_Out:
         """One product's own page — its real current price, live stock and description."""
 
+class Prv_calottery(Protocol):
+    """California Lottery: winning numbers and prizes for Powerball, Mega Millions, SuperLotto
+    Plus, Fantasy 5 and Daily games, check your numbers against past draws, Scratchers
+    games, site search and retailers near a point.
+    """
+
+    async def draws(self, args: Prv_calottery_CalotteryDrawsArgs_In, /) -> Prv_calottery_CalotteryDrawResults_Out:
+        """Reads California Lottery winning numbers and prize payouts for a draw game (most recent
+        first), plus the next draw's date and estimated jackpot. game is "powerball",
+        "megamillions", "superlotto", "fantasy5", "daily3", "daily4" or "dailyderby".
+        """
+
+    async def checkNumbers(self, args: Prv_calottery_CalotteryCheckNumbersArgs_In, /) -> list[Prv_calottery_CalotteryMatchedDraw_Out]:
+        """Checks five picked numbers (and a Powerball/Mega/bonus number) against every past
+        California Lottery draw of a game, returning the draws where they hit and which numbers
+        matched. since is an optional MM/DD/YYYY lower bound.
+        """
+
+    async def scratchers(self, args: Prv_calottery_CalotteryScratchersArgs_In | None = None, /) -> Prv_calottery_CalotteryScratchers_Out:
+        """Lists California Lottery Scratchers games with ticket price, top prize, overall odds and
+        launch date; filter by name or game number, price, game type or show ("Hot Sellers",
+        "Newest Games").
+        """
+
+    async def search(self, args: Prv_calottery_CalotterySearchArgs_In, /) -> Prv_calottery_CalotterySearch_Out:
+        """Searches calottery.com's pages and documents (games, press releases, FAQs, PDFs),
+        returning titles and URLs.
+        """
+
+    async def retailers(self, args: Prv_calottery_CalotteryRetailersArgs_In, /) -> list[Prv_calottery_CalotteryRetailer_Out]:
+        """Finds California Lottery retailers near a latitude/longitude, nearest first, with
+        address and whether they sell all games, Hot Spot, or only Scratchers.
+        """
+
 class Prv_camelcamelcamel(Protocol):
     """Independent Amazon price-history tracker — real lowest/highest/current/average price per
     item, each dated, so a claimed 'sale' can be checked against what the item actually sold
@@ -123378,6 +123529,7 @@ class BowmarkProviders(Protocol):
     calendly: Prv_calendly
     caliberhealth: Prv_caliberhealth
     califloors: Prv_califloors
+    calottery: Prv_calottery
     camelcamelcamel: Prv_camelcamelcamel
     campspot: Prv_campspot
     canadacomputers: Prv_canadacomputers

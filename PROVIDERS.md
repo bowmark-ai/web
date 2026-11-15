@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6942 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6968 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4404,6 +4404,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `peek.updateProfile` | peek.com | Edits the signed-in traveler's own profile -- first name, last name, phone or email --… | 🟢 |
 | `peek.writeReview` | peek.com | Leaves a star rating and review on an experience the signed-in traveler has booked and… | ⚪ |
 | `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟢 |
+| `people.getAccount` | people.com | Reads the signed-in caller's People account (/account/settings): email, name and… | ⚪ |
+| `people.getArticle` | people.com | Reads one People story by URL: headline, byline, dates, section, lead image and the… | ⚪ |
+| `people.getCelebrity` | people.com | Reads one celebrity topic page (/<name>-<id> person hub or /person/ page): name, bio… | ⚪ |
+| `people.getGallery` | people.com | Reads one photo gallery by URL: title, and each slide's image, caption and credit. | ⚪ |
+| `people.getVideo` | people.com | Reads one People video page: title, description, duration, thumbnail and stream URL… | ⚪ |
+| `people.listLatestNews` | people.com | Lists the stories on the people.com homepage right now: headline, URL, image and… | ⚪ |
+| `people.listScoopFeed` | people.com | Reads 'The Scoop', People's rolling feed of short celebrity updates… | ⚪ |
+| `people.listSectionArticles` | people.com | Lists the stories on one section page such as /celebrity/ or /royals/, from its… | ⚪ |
+| `people.listSections` | people.com | Lists People's sections and subsections from the header nav (celebrity, royals, crime… | ⚪ |
+| `people.listVideos` | people.com | Lists People's videos from /video: title, URL, thumbnail and duration. | ⚪ |
+| `people.searchArticles` | people.com | Searches people.com (/search?q=) and returns matching stories with headline, URL and… | ⚪ |
+| `people.searchCelebrities` | people.com | Finds a celebrity's topic page by name: the finder for getCelebrity. | ⚪ |
+| `people.subscribeToNewsletter` | people.com | Signs an email address up for a People newsletter. | ⚪ |
+| `people.updateAccountProfile` | people.com | Changes the signed-in caller's People account profile fields (name, display name) on… | ⚪ |
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟢 |
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
 | `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |
@@ -6228,7 +6242,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.saveArticle` | usatoday.com | Saves an article to the signed-in user's reading list. | ⚪ |
 | `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | 🟢 |
 | `uscis.caseStatus` | uscis.gov | The current status of one USCIS case by its 13-character receipt number: the form… | 🟢 |
+| `usps.addToStoreCart` | usps.com | Adds one product to the anonymous USPS store cart on store.usps.com and returns the… | ⚪ |
+| `usps.findCitiesByZip` | usps.com | The city names USPS lists for one ZIP code, from the 'city by ZIP' tool on the ZIP… | ⚪ |
+| `usps.findEddmRoutes` | usps.com | Every Door Direct Mail route search on eddm.usps.com: the carrier routes near an… | ⚪ |
+| `usps.findPostOffices` | usps.com | Post offices, retail counters, collection boxes and other USPS locations near an… | ⚪ |
+| `usps.findZipsByCityState` | usps.com | The ZIP codes USPS lists for one city and state, from the 'ZIP by city' tool on the… | ⚪ |
+| `usps.getInternationalRate` | usps.com | The price to send one package from the US to a named country by weight, from the… | ⚪ |
+| `usps.getPostOfficeDetails` | usps.com | One location's full record from the Post Office locator (hours by day, services… | ⚪ |
+| `usps.getPriceList` | usps.com | USPS's published price list (Notice 123) from pe.usps.com: the domestic rate tables by… | ⚪ |
 | `usps.getRate` | usps.com | Prices a domestic package across USPS's own Mail Services (Priority Mail Express… | 🟢 |
+| `usps.getServiceAlerts` | usps.com | USPS's current service alerts (delays, closures, weather or holiday notices) from… | ⚪ |
+| `usps.listStoreProducts` | usps.com | The stamps, shipping supplies and other products on USPS's online store… | ⚪ |
+| `usps.lookupZipByAddress` | usps.com | The five-digit ZIP and ZIP+4 for one street address, plus its carrier route, from the… | ⚪ |
+| `usps.searchFaq` | usps.com | Searches USPS's help articles on faq.usps.com and returns the matching titles and links. | ⚪ |
 | `usps.trackPackage` | usps.com | USPS Tracking for one tracking number: the item's steps newest first and whether it… | 🟢 |
 | `va_gov.findFacilities` | va.gov | VA medical centers, clinics, benefits offices, Vet Centers and national cemeteries… | 🟢 |
 | `vagaro.bookAppointment` | www.vagaro.com | Books an appointment for the signed-in caller: services, add-ons, staff, date and… | ⚪ |

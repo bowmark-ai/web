@@ -613,6 +613,7 @@ pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, getServiceStatus, searchHelp, searchShoppingOffers (+2 planned)
 peek.com — peek: getAvailability, getExperience, getMyProfile, getPriceQuote, listDestinations, listReviews, listSimilarExperiences, listTags, searchExperiences, searchRegions, updateProfile (+8 planned)
 peerspace.com — peerspace: searchVenues
+people.com — people: nothing callable yet (+14 planned)
 perennialsandsutherland.com — perennialsandsutherland: getRugVariant, getTearsheetUrl, searchRugs
 personio.de — personio: listJobs
 pexels.com — pexels: search
@@ -834,7 +835,7 @@ urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
 us.posthog.com — posthog: getInsight, listInsights, listProjects, runRetentionQuery
 usatoday.com — usatoday: browseSection, getArticle, getCrossword, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+2 planned)
 uscis.gov — uscis: caseStatus
-usps.com — usps: getRate, trackPackage
+usps.com — usps: getRate, trackPackage (+12 planned)
 va.gov — va_gov: findFacilities
 vbt.com — vbt: getTourDepartures, listTours
 vercel.com — vercel: getDoc, listDocPages

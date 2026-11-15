@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cd93433cf6cc56d00464c8f7a5fcafc4ecba8499e2614d7e32d5f3acb5075953
-// 5334 checked, 20 unchecked.
+// Manifest version: 5c79e079606ab482c7a1139e6dfd328da1f53e98dbca9c57c61d03f77e3267f5
+// 5339 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cd93433cf6cc56d00464c8f7a5fcafc4ecba8499e2614d7e32d5f3acb5075953",
+  "version": "5c79e079606ab482c7a1139e6dfd328da1f53e98dbca9c57c61d03f77e3267f5",
   "units": {
     "address_validation": {
       "defs": {
@@ -29329,6 +29329,288 @@ export const VALIDATORS: ValidatorTable = {
             "name": "path",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.calottery": {
+      "defs": {
+        "CalotteryCheckNumbersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "game",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "powerball"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "megamillions"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "superlotto"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fantasy5"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "numbers",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "bonus",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "since",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CalotteryDrawsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "game",
+              "schema": {
+                "k": "ref",
+                "name": "CalotteryGame"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CalotteryGame": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "powerball"
+            },
+            {
+              "k": "literal",
+              "v": "megamillions"
+            },
+            {
+              "k": "literal",
+              "v": "superlotto"
+            },
+            {
+              "k": "literal",
+              "v": "fantasy5"
+            },
+            {
+              "k": "literal",
+              "v": "daily3"
+            },
+            {
+              "k": "literal",
+              "v": "daily4"
+            },
+            {
+              "k": "literal",
+              "v": "dailyderby"
+            },
+            {
+              "k": "number"
+            }
+          ]
+        },
+        "CalotteryRetailersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CalotteryScratchersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "gameType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "show",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CalotterySearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "draws": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CalotteryDrawsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkNumbers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CalotteryCheckNumbersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "scratchers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CalotteryScratchersArgs"
+            },
+            "optional": true
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CalotterySearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "retailers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CalotteryRetailersArgs"
             },
             "optional": false
           }
