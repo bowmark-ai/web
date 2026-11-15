@@ -328,7 +328,7 @@ exchangerate-api.com — currency_exchange: getRate
 executivehomecare.com — executivehomecare: findLocalOffice
 exhalespa.com — exhalespa: getLocation, listLocations (+2 planned)
 expedia.com — expedia: searchFlights, searchHotels, suggestDestinations (+18 planned)
-expireddomains.com — expireddomains: nothing callable yet (+4 planned)
+expireddomains.com — expireddomains: nothing callable yet (+28 planned)
 exploretock.com — tock: findBusiness, getBusiness, getExperience, listExperiences, searchBusinesses (+28 planned)
 extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planned)
 facebook.com — facebook: 43 functions — ask get_library

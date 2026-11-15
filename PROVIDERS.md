@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6968 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6992 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2205,10 +2205,34 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `expedia.searchVacationRentals` | expedia.com | Runs Expedia's vacation-rental (homes, cabins, condos) search for a destination and… | ⚪ |
 | `expedia.suggestDestinations` | expedia.com | Returns Expedia's destination autocomplete suggestions (cities, airports… | 🟢 |
 | `expedia.updateProfile` | expedia.com | Edits the signed-in caller's Expedia profile fields (name, phone, preferences). | ⚪ |
+| `expireddomains.addDomainNote` | expireddomains.com | Writes a private note on a domain in the signed-in ExpiredDomains.com account. | ⚪ |
 | `expireddomains.addToWatchlist` | expireddomains.com | Adds a domain to the signed-in account's watchlist on ExpiredDomains.com, so the site… | ⚪ |
+| `expireddomains.chatSearch` | expireddomains.com | Asks ExpiredDomains.com's conversational search to turn a plain brief into table… | ⚪ |
+| `expireddomains.compareDomains` | expireddomains.com | Compares two or more catalogue domains side by side on ExpiredDomains.com's metrics. | ⚪ |
+| `expireddomains.createApiKey` | expireddomains.com | Creates an API key on the signed-in ExpiredDomains.com account. | ⚪ |
+| `expireddomains.deleteSavedSearch` | expireddomains.com | Deletes one of the signed-in account's saved filter sets on ExpiredDomains.com. | ⚪ |
+| `expireddomains.exportDomains` | expireddomains.com | Exports a filtered ExpiredDomains.com result table as a file. | ⚪ |
+| `expireddomains.getCreditBalance` | expireddomains.com | Reads the signed-in account's credit balance and plan on ExpiredDomains.com. | ⚪ |
 | `expireddomains.getDomain` | expireddomains.com | Reads one domain's page on ExpiredDomains.com: where it is listed or dropping, its… | ⚪ |
-| `expireddomains.listWatchlist` | expireddomains.com | Lists the domains on the signed-in account's watchlist on ExpiredDomains.com. | ⚪ |
+| `expireddomains.getDomainBacklinks` | expireddomains.com | Reads the backlink summary ExpiredDomains.com shows for one domain (its… | ⚪ |
+| `expireddomains.getKnowledgebaseArticle` | expireddomains.com | Reads one ExpiredDomains.com knowledgebase guide by its slug. | ⚪ |
+| `expireddomains.getSharedList` | expireddomains.com | Reads a domain list someone shared from ExpiredDomains.com by its /s/<token> link. | ⚪ |
+| `expireddomains.hideDomain` | expireddomains.com | Hides a domain from the signed-in account's ExpiredDomains.com results. | ⚪ |
+| `expireddomains.inspectDomain` | expireddomains.com | Runs ExpiredDomains.com's domain inspection (whois and investigation links) for one… | ⚪ |
+| `expireddomains.listChatHistory` | expireddomains.com | Lists the signed-in account's past conversational searches on ExpiredDomains.com. | ⚪ |
+| `expireddomains.listHiddenDomains` | expireddomains.com | Lists the domains the signed-in account has hidden from its ExpiredDomains.com results. | ⚪ |
+| `expireddomains.listKnowledgebaseArticles` | expireddomains.com | Lists ExpiredDomains.com's knowledgebase guides by topic. | ⚪ |
+| `expireddomains.listMyBackorders` | expireddomains.com | Lists the backorders the signed-in account placed through ExpiredDomains.com's… | ⚪ |
+| `expireddomains.listSavedSearches` | expireddomains.com | Lists the signed-in account's saved filter sets on ExpiredDomains.com. | ⚪ |
+| `expireddomains.listWatchlist` | expireddomains.com | Lists the domains on the signed-in account's watchlist (favourites) on… | ⚪ |
+| `expireddomains.placeBackorder` | expireddomains.com | Places a backorder on a dropping domain through ExpiredDomains.com's backorder… | ⚪ |
+| `expireddomains.promoteDomain` | expireddomains.com | Lists a domain the account owns in ExpiredDomains.com's Promote Domain placement. | ⚪ |
+| `expireddomains.removeFromWatchlist` | expireddomains.com | Removes a domain from the signed-in account's watchlist on ExpiredDomains.com. | ⚪ |
+| `expireddomains.saveSearch` | expireddomains.com | Saves a set of search filters under a name on the signed-in ExpiredDomains.com account. | ⚪ |
 | `expireddomains.searchDomains` | expireddomains.com | Searches ExpiredDomains.com's catalogue of expired, expiring and auction domains by… | ⚪ |
+| `expireddomains.shareDomain` | expireddomains.com | Creates a share link for a domain or list from the signed-in ExpiredDomains.com account. | ⚪ |
+| `expireddomains.unhideDomain` | expireddomains.com | Takes a domain back off the signed-in account's ExpiredDomains.com hide list. | ⚪ |
+| `expireddomains.updateProfile` | expireddomains.com | Edits the signed-in account's ExpiredDomains.com profile (name). | ⚪ |
 | `extraspace.checkAvailability` | extraspace.com | Checks current availability and price for one specific unit size (e.g. 5x10, 10x10… | 🟢 |
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
