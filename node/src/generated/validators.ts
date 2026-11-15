@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d29d514f01f9a8fdbe64ba0dc207d78d1df23647dfa94fe43ccb16493a56c8b6
-// 5297 checked, 20 unchecked.
+// Manifest version: ea50e7b2d08b404da680e25168161e29e973879fda752e84e77a1526c7961667
+// 5301 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d29d514f01f9a8fdbe64ba0dc207d78d1df23647dfa94fe43ccb16493a56c8b6",
+  "version": "ea50e7b2d08b404da680e25168161e29e973879fda752e84e77a1526c7961667",
   "units": {
     "address_validation": {
       "defs": {
@@ -2692,6 +2692,40 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             },
             {
+              "name": "siteName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "siteNames",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "onThisSite",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "otherSiteNames",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
               "name": "sites",
               "schema": {
                 "k": "array",
@@ -2771,8 +2805,23 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "options",
             "schema": {
-              "k": "ref",
-              "name": "CallOptions"
+              "k": "object",
+              "props": [
+                {
+                  "name": "timeoutMs",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "currentHost",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": true
           }
@@ -159857,6 +159906,194 @@ export const VALIDATORS: ValidatorTable = {
             "name": "channelName",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postStatus": [
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "update",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "about",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "blockContact": [
+          {
+            "name": "contactName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "action",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "block"
+                },
+                {
+                  "k": "literal",
+                  "v": "unblock"
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updatePrivacySettings": [
+          {
+            "name": "setting",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "lastSeen"
+                },
+                {
+                  "k": "literal",
+                  "v": "profilePhoto"
+                },
+                {
+                  "k": "literal",
+                  "v": "about"
+                },
+                {
+                  "k": "literal",
+                  "v": "status"
+                },
+                {
+                  "k": "literal",
+                  "v": "groups"
+                },
+                {
+                  "k": "literal",
+                  "v": "readReceipts"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "value",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "everyone"
+                },
+                {
+                  "k": "literal",
+                  "v": "contacts"
+                },
+                {
+                  "k": "literal",
+                  "v": "nobody"
+                },
+                {
+                  "k": "literal",
+                  "v": "on"
+                },
+                {
+                  "k": "literal",
+                  "v": "off"
+                }
+              ]
             },
             "optional": false
           },

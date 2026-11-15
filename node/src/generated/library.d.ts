@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d29d514f01f9a8fdbe64ba0dc207d78d1df23647dfa94fe43ccb16493a56c8b6
-// 98 capabilities, 857 providers, 5325 typed functions, 20 refused.
+// Manifest version: ea50e7b2d08b404da680e25168161e29e973879fda752e84e77a1526c7961667
+// 98 capabilities, 857 providers, 5329 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1876,7 +1876,13 @@ type FlightResult = {
   durationMinutes: number | null
   tripType: "round trip" | "one way"
   url: string               // link to view/book this flight on its site
-  site: string              // the site this result comes from
+  site: string              // the site this result comes from (routing id, e.g. "google_flights")
+  siteName: string          // that site in plain words ("Google Flights") — label rows with THIS, never `site`
+  siteNames: string[]       // `sites` in plain words
+  onThisSite: boolean       // true when options.currentHost is a site this flight was found on
+  otherSiteNames: string[]  // siteNames minus the page's own site. Empty = no other site had this flight.
+                            // For a "check other sites" list pass options.currentHost = location.hostname
+                            // and show only otherSiteNames; never list the page's own site as another site.
   sites: string[]           // every site this same flight was found on. A site MISSING
                             // here had no matching flight — it does NOT tell you the
                             // site was reached. Read warnings for that
@@ -1998,9 +2004,12 @@ type FlightStatusResult = {
    * Search flights across four fare aggregators (Google Flights, Kayak, Momondo, Cheapflights)
    * with one call — never an airline's own website, so it cannot return the price an airline
    * quotes on its own site. Results are normalized and price-sorted (the same physical flight
-   * appears once). Each result carries the site it came from (`site`) and every site it was
-   * found on (`sites`). Returns `{ flights, warnings }` — `warnings` names any site that was
-   * dropped from the fan-out, so a degraded search cannot read as a complete one.
+   * appears once). Each result carries the site it came from (`site`, a routing id; label it
+   * with `siteName`, e.g. "Google Flights") and every site it was found on (`sites` /
+   * `siteNames`). Pass `options.currentHost` (the page's `location.hostname`) and
+   * `otherSiteNames` omits the site the person is already on. Returns `{ flights, warnings }` —
+   * `warnings` names any site that was dropped from the fan-out, so a degraded search cannot
+   * read as a complete one.
    */
   interface Unit {
     /**
@@ -2032,7 +2041,7 @@ type FlightStatusResult = {
      * `return` is refused; a multi-city trip searches leg 1 and names the dropped legs; the URL's
      * own warnings come back prefixed "from the URL: ").
      */
-    search(query: FlightQuery, options?: CallOptions): Promise<FlightSearchResult>;
+    search(query: FlightQuery, options?: CallOptions & { currentHost?: string }): Promise<FlightSearchResult>;
 
     /**
      * Every seller on offer for ONE result — pass the whole row from `search()`, not its id. A
@@ -8159,19 +8168,19 @@ interface SendForSignatureArgs {
 }
 
 interface CompressPdfArgs {
-  /** A public https URL of the PDF to compress (up to 100 MB). */
+  /** A public https URL of the PDF to compress (up to 5 MB, the most Adobe's guest upload takes). */
   pdfUrl: string;
   /** "low" keeps the most quality, "high" the smallest file; defaults to "medium". */
   level?: "low" | "medium" | "high";
 }
 
 interface ConvertPdfToWordArgs {
-  /** A public https URL of the PDF to convert. */
+  /** A public https URL of the PDF to convert (up to 5 MB). */
   pdfUrl: string;
 }
 
 interface MergePdfsArgs {
-  /** Two to twelve public https PDF URLs, merged in this order. */
+  /** Two to twelve public https PDF URLs (each up to 5 MB), merged in this order. */
   pdfUrls: string[];
   /** File name of the merged PDF; defaults to "merged.pdf". */
   name?: string;
@@ -106952,7 +106961,7 @@ declare namespace BowmarkProvider_travelodge {
   // ── Travelodge Ireland — the unit's own declarations, verbatim ──
 interface TravelodgeSearchArgs { location: string; checkIn: string; checkOut: string; adults?: number; children?: number }
 interface TravelodgeHotelSummary { id: number; code: string; name: string; url: string; latitude: number | null; longitude: number | null; distanceMiles: number | null; available: boolean; lowAvailability: boolean; currency: string | null; fromPrice: number | null; rating: number | null; reviewCount: number | null; facilities: string[]; openingSoon: boolean }
-interface TravelodgeSearchResult { location: string; checkIn: string; checkOut: string; hotels: TravelodgeHotelSummary[] }
+interface TravelodgeSearchResult { location: string; checkIn: string; checkOut: string; hotels: TravelodgeHotelSummary[]; warnings?: string[] }
 interface TravelodgeGetHotelArgs { hotelId: number }
 interface TravelodgeNearby { name: string; distanceMiles: number | null }
 interface TravelodgeHotel { id: number; code: string; name: string; url: string; latitude: number | null; longitude: number | null; address: string; town: string | null; country: string | null; phone: string | null; strapLine: string | null; parking: string[]; facilities: string[]; transportLinks: TravelodgeNearby[]; placesToVisit: TravelodgeNearby[]; imageUrl: string | null }
@@ -114779,6 +114788,28 @@ interface WhatsappChannelChange {
   applied: string[];
 }
 
+interface WhatsappStatusPost {
+  applied: string[];
+  text: string;
+}
+
+interface WhatsappProfileChange {
+  /** What was done, e.g. "name set", "about set". */
+  applied: string[];
+}
+
+interface WhatsappBlockChange {
+  contact: string;
+  /** "blocked" or "unblocked". */
+  applied: string[];
+}
+
+interface WhatsappPrivacyChange {
+  setting: string;
+  value: string;
+  applied: string[];
+}
+
   /**
    * WhatsApp, Meta's messaging app: preview public Channels, group invite links and business
    * catalogs, search the Help Center; signed in through WhatsApp Web, read and search the
@@ -115028,6 +115059,24 @@ interface WhatsappChannelChange {
      * in.
      */
     unfollowChannel(channelName: string, opts?: ConnectionOption): Promise<WhatsappChannelChange>;
+
+    /**
+     * Posts a text Status update as the caller; their contacts see it for 24 hours. Needs the
+     * caller signed in.
+     */
+    postStatus(text: string, opts?: ConnectionOption): Promise<WhatsappStatusPost>;
+
+    /** Changes the caller's own display name and/or about text. Needs the caller signed in. */
+    updateProfile(update: { name?: string; about?: string }, opts?: ConnectionOption): Promise<WhatsappProfileChange>;
+
+    /** Blocks (default) or unblocks a contact by exact displayed name. Needs the caller signed in. */
+    blockContact(contactName: string, action?: "block" | "unblock", opts?: ConnectionOption): Promise<WhatsappBlockChange>;
+
+    /**
+     * Sets one privacy setting: who sees last seen, profile photo, about or status, who may add
+     * the caller to groups, or read receipts on/off. Needs the caller signed in.
+     */
+    updatePrivacySettings(setting: "lastSeen" | "profilePhoto" | "about" | "status" | "groups" | "readReceipts", value: "everyone" | "contacts" | "nobody" | "on" | "off", opts?: ConnectionOption): Promise<WhatsappPrivacyChange>;
 
     /**
      * Deletes a message the caller sent, for everyone when WhatsApp still offers that and for the

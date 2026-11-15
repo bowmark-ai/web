@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d29d514f01f9a8fdbe64ba0dc207d78d1df23647dfa94fe43ccb16493a56c8b6
-# 98 capabilities, 857 providers, 5297 typed functions, 20 refused.
+# Manifest version: ea50e7b2d08b404da680e25168161e29e973879fda752e84e77a1526c7961667
+# 98 capabilities, 857 providers, 5301 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1403,8 +1403,9 @@ Cap_flights_FlightQuery_In_legs_item_In = TypedDict(
     },
 )
 
-class Cap_flights_CallOptions_In(TypedDict):
+class Cap_flights_search_options_In(TypedDict):
     timeoutMs: NotRequired[float]
+    currentHost: NotRequired[str]
 
 class Cap_flights_FlightSearchResult_Out(TypedDict):
     flights: list[Cap_flights_FlightResult_Out]
@@ -1422,6 +1423,10 @@ class Cap_flights_FlightResult_Out(TypedDict):
     tripType: Literal["round trip"] | Literal["one way"]
     url: str
     site: str
+    siteName: str
+    siteNames: list[str]
+    onThisSite: bool
+    otherSiteNames: list[str]
     sites: list[str]
     sponsored: bool
     id: str
@@ -1438,9 +1443,16 @@ class Cap_flights_FlightResult_In(TypedDict):
     tripType: Literal["round trip"] | Literal["one way"]
     url: str
     site: str
+    siteName: str
+    siteNames: Sequence[str]
+    onThisSite: bool
+    otherSiteNames: Sequence[str]
     sites: Sequence[str]
     sponsored: bool
     id: str
+
+class Cap_flights_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
 
 class Cap_flights_BookingOptionsResult_Out(TypedDict):
     options: list[Cap_flights_BookingOption_Out]
@@ -69660,6 +69672,7 @@ class Prv_travelodge_TravelodgeSearchResult_Out(TypedDict):
     checkIn: str
     checkOut: str
     hotels: list[Prv_travelodge_TravelodgeHotelSummary_Out]
+    warnings: NotRequired[list[str]]
 
 class Prv_travelodge_TravelodgeHotelSummary_Out(TypedDict):
     id: float
@@ -74982,6 +74995,26 @@ class Prv_whatsapp_WhatsappChannelChange_Out(TypedDict):
     channel: str
     applied: list[str]
 
+class Prv_whatsapp_WhatsappStatusPost_Out(TypedDict):
+    applied: list[str]
+    text: str
+
+class Prv_whatsapp_updateProfile_update_In(TypedDict):
+    name: NotRequired[str]
+    about: NotRequired[str]
+
+class Prv_whatsapp_WhatsappProfileChange_Out(TypedDict):
+    applied: list[str]
+
+class Prv_whatsapp_WhatsappBlockChange_Out(TypedDict):
+    contact: str
+    applied: list[str]
+
+class Prv_whatsapp_WhatsappPrivacyChange_Out(TypedDict):
+    setting: str
+    value: str
+    applied: list[str]
+
 class Prv_whatsapp_WhatsappCatalogProduct_Out(TypedDict):
     name: str
     price: str | None
@@ -80007,13 +80040,15 @@ class Cap_flights(Protocol):
     """Search flights across four fare aggregators (Google Flights, Kayak, Momondo,
     Cheapflights) with one call — never an airline's own website, so it cannot return the
     price an airline quotes on its own site. Results are normalized and price-sorted (the
-    same physical flight appears once). Each result carries the site it came from (`site`)
-    and every site it was found on (`sites`). Returns `{ flights, warnings }` — `warnings`
-    names any site that was dropped from the fan-out, so a degraded search cannot read as a
-    complete one.
+    same physical flight appears once). Each result carries the site it came from (`site`, a
+    routing id; label it with `siteName`, e.g. "Google Flights") and every site it was found
+    on (`sites` / `siteNames`). Pass `options.currentHost` (the page's `location.hostname`)
+    and `otherSiteNames` omits the site the person is already on. Returns `{ flights,
+    warnings }` — `warnings` names any site that was dropped from the fan-out, so a degraded
+    search cannot read as a complete one.
     """
 
-    async def search(self, query: Cap_flights_FlightQuery_In, options: Cap_flights_CallOptions_In | None = None, /) -> Cap_flights_FlightSearchResult_Out:
+    async def search(self, query: Cap_flights_FlightQuery_In, options: Cap_flights_search_options_In | None = None, /) -> Cap_flights_FlightSearchResult_Out:
         """Searches four fare AGGREGATORS for flights matching the query — never an airline's own
         website, so an airline's own-site price is not something this can return — and returns
         `{ flights, warnings }`. `flights` are normalized `FlightResult`s, price-sorted, deduped
@@ -119898,6 +119933,24 @@ class Prv_whatsapp(Protocol):
     async def unfollowChannel(self, channelName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelChange_Out:
         """Unfollows a Channel the caller follows, by its exact displayed name. Needs the caller
         signed in.
+        """
+
+    async def postStatus(self, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappStatusPost_Out:
+        """Posts a text Status update as the caller; their contacts see it for 24 hours. Needs the
+        caller signed in.
+        """
+
+    async def updateProfile(self, update: Prv_whatsapp_updateProfile_update_In, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappProfileChange_Out:
+        """Changes the caller's own display name and/or about text. Needs the caller signed in."""
+
+    async def blockContact(self, contactName: str, action: Literal["block"] | Literal["unblock"] | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappBlockChange_Out:
+        """Blocks (default) or unblocks a contact by exact displayed name. Needs the caller signed
+        in.
+        """
+
+    async def updatePrivacySettings(self, setting: Literal["lastSeen"] | Literal["profilePhoto"] | Literal["about"] | Literal["status"] | Literal["groups"] | Literal["readReceipts"], value: Literal["everyone"] | Literal["contacts"] | Literal["nobody"] | Literal["on"] | Literal["off"], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappPrivacyChange_Out:
+        """Sets one privacy setting: who sees last seen, profile photo, about or status, who may
+        add the caller to groups, or read receipts on/off. Needs the caller signed in.
         """
 
     async def deleteMessage(self, chatName: str, messageId: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMessageChange_Out:

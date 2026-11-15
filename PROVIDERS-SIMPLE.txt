@@ -847,7 +847,7 @@ webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)
 westelm.com — westelm: searchProducts (+1 planned)
-whatsapp.com — whatsapp: 40 functions — ask get_library (+4 planned)
+whatsapp.com — whatsapp: 44 functions — ask get_library
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
 wikipedia.org — wikipedia: 40 functions — ask get_library
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)

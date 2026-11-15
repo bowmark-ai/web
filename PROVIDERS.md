@@ -6401,7 +6401,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `westelm.getProduct` | westelm.com | Reads one product page: every size/colour SKU with its own price, stock and delivery… | ⚪ |
 | `westelm.searchProducts` | westelm.com | Searches the West Elm catalog the way its own search box does ("dresser") and returns… | 🟢 |
 | `whatsapp.addGroupParticipants` | whatsapp.com | Adds people to a group the caller administers, by contact or number, and reports per… | 🟢 |
-| `whatsapp.blockContact` | whatsapp.com | Blocks or unblocks a contact or number as the caller, and lists who the caller has… | ⚪ |
+| `whatsapp.blockContact` | whatsapp.com | Blocks (default) or unblocks a contact by exact displayed name. | 🟢 |
 | `whatsapp.checkNumber` | whatsapp.com | Says whether a phone number (international format, digits only) has a WhatsApp… | 🟢 |
 | `whatsapp.createClickToChatLink` | whatsapp.com | Builds WhatsApp's documented click-to-chat link for a phone number in international… | 🟢 |
 | `whatsapp.createGroup` | whatsapp.com | Creates a WhatsApp group as the caller with a name and the starting participants, and… | 🟢 |
@@ -6428,7 +6428,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.listContacts` | whatsapp.com | Lists the caller's contacts off WhatsApp Web's own new-chat panel: each contact's… | 🟢 |
 | `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows as WhatsApp Web's Channels tab shows them: each… | 🟢 |
 | `whatsapp.listStatusUpdates` | whatsapp.com | Lists the contacts who have a Status up in the caller's WhatsApp Web Status tab: each… | 🟢 |
-| `whatsapp.postStatus` | whatsapp.com | Posts a text or image Status update as the caller, and deletes one. | ⚪ |
+| `whatsapp.postStatus` | whatsapp.com | Posts a text Status update as the caller; their contacts see it for 24 hours. | 🟢 |
 | `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟡 |
 | `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | 🟢 |
 | `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message as the caller with an emoji, or removes the caller's reaction when… | 🟢 |
@@ -6442,8 +6442,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | 🟢 |
 | `whatsapp.updateChat` | whatsapp.com | Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive… | 🟢 |
 | `whatsapp.updateGroup` | whatsapp.com | Changes a group the caller administers: its name, description, picture, and the… | 🟢 |
-| `whatsapp.updatePrivacySettings` | whatsapp.com | Reads and changes the caller's privacy settings: who sees last seen and online… | ⚪ |
-| `whatsapp.updateProfile` | whatsapp.com | Changes the caller's own profile: display name, about text or profile photo. | ⚪ |
+| `whatsapp.updatePrivacySettings` | whatsapp.com | Sets one privacy setting: who sees last seen, profile photo, about or status, who may… | 🟢 |
+| `whatsapp.updateProfile` | whatsapp.com | Changes the caller's own display name and/or about text. | 🟢 |
 | `wholefoodsmarket.listStores` | wholefoodsmarket.com | Lists nearby Whole Foods stores by ZIP code or location. | ⚪ |
 | `wholefoodsmarket.search` | wholefoodsmarket.com | Searches Whole Foods product catalog with pricing and availability. | 🟢 |
 | `wikipedia_standings.search` | en.wikipedia.org | Searches Wikipedia for sports standings pages and extracts league standings with goal… | 🟢 |
