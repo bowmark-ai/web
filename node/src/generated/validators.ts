@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c
-// 5305 checked, 20 unchecked.
+// Manifest version: 1b7c919836551eb7c128235c3e345d5093bdfa89213152f6b213454a609652fa
+// 5309 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c",
+  "version": "1b7c919836551eb7c128235c3e345d5093bdfa89213152f6b213454a609652fa",
   "units": {
     "address_validation": {
       "defs": {
@@ -56050,6 +56050,29 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.expireddomains": {
+      "defs": {},
+      "functions": {
         "signup": [
           {
             "name": "args",
@@ -162529,6 +162552,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "WorkdayListOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.wps": {
+      "defs": {},
+      "functions": {
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
           }
         ]
       }

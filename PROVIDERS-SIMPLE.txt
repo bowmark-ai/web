@@ -322,7 +322,7 @@ evreward.com — evreward: getStoreRewards (+1 planned)
 exchangerate-api.com — currency_exchange: getRate
 executivehomecare.com — executivehomecare: findLocalOffice
 exhalespa.com — exhalespa: getLocation, listLocations (+2 planned)
-expedia.com — expedia: searchFlights, searchHotels, suggestDestinations (+6 planned)
+expedia.com — expedia: searchFlights, searchHotels, suggestDestinations (+18 planned)
 expireddomains.com — expireddomains: nothing callable yet (+4 planned)
 exploretock.com — tock: findBusiness, getBusiness, getExperience, listExperiences, searchBusinesses (+28 planned)
 extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planned)
@@ -378,7 +378,7 @@ glossgenius.com — glossgenius: cancelMyMembership, findBusiness, getAvailabili
 gmail-smtp-in.l.google.com — smtp_probe: lookupMx, probeMailboxes
 gobrightwing.com — gobrightwing: getJobDetails, searchJobs (+2 planned)
 gokenko.com — kenko: cancelBooking, cancelMembership, findStudio, getAppointmentAvailability, getClass, getClassSpots, getMyProfile, listAppointmentTypes, listClasses, listGiftCards, listInstructors, listMyBookings, listMyMemberships, listMyPurchases, listPricing, listProducts, listScheduleFilters, pauseMembership, updateMyProfile (+8 planned)
-golf.com — golf_com: getCourse (+1 planned)
+golf.com — golf_com: findCourses, getCourse
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
 gomry.com — gomry: getEvent, getSponsorOffer, listEventProducts, searchEvents
 goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, getSimilarBooks, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, unfollowUser, writeReview (+4 planned)
@@ -859,6 +859,7 @@ winestyles.com — winestyles: listStores, searchStoreInventory
 wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, getMyBookings, getMyMembership, listGymSchedule, listInstructors, listMemberships, listPrices, listPrograms, readTerms (+26 planned)
 woocommerce.com (27157 stores) — woocommerce: addToCart, getCart, getProduct, listCategories, listProducts, searchProducts (+3 planned)
 workable.com — workable: listJobs
+wps.com — wps: nothing callable yet (+4 planned)
 wsj.com — wsj: addToWatchlist, getArticle, getArticleFullText, getAuthor, getNewsletter, getPodcast, getQuote, getWatchlist, listArticles, listArticlesByAuthor, listCommodities, listCurrencies, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSavedArticles, listSections, listTreasuryYields, listTrending, removeFromWatchlist, saveArticle, searchArticles, unsaveArticle
 wunderflats.com — wunderflats: search
 www.amazon.ca — amazon_ca: nothing callable yet (+2 planned)

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c
-# 98 capabilities, 858 providers, 5305 typed functions, 20 refused.
+# Manifest version: 1b7c919836551eb7c128235c3e345d5093bdfa89213152f6b213454a609652fa
+# 98 capabilities, 860 providers, 5309 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27889,6 +27889,46 @@ class Prv_expedia_confirmSignup_return_u2_Out(TypedDict):
     retryAfterSeconds: float
 
 class Prv_expedia_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_expireddomains_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_expireddomains_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_expireddomains_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_expireddomains_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_expireddomains_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_expireddomains_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_expireddomains_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_expireddomains_confirmSignup_return_u3_Out(TypedDict):
     status: Literal["signed_up"]
     username: str
     email: str
@@ -76305,6 +76345,46 @@ class Prv_workday_WorkdayPosting_Out(TypedDict):
     requisitionId: str | None
     url: str
 
+class Prv_wps_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_wps_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_wps_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_wps_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_wps_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_wps_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_wps_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_wps_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_wsj_WsjSection_Out(TypedDict):
     name: str
     path: str
@@ -91486,16 +91566,16 @@ class Prv_dat(Protocol):
 
     async def nationalSpotRates(self, /) -> Prv_dat_DatNationalSpotRates_Out:
         """DAT Trendlines' national average truckload spot rates (USD/mile, plus DAT's fuel
-        surcharge; measured: rateTrend's broker rate = this rate + the surcharge, so add the
-        surcharge here for an all-in figure) for van, reefer and flatbed over the last four
-        months.
+        surcharge; DAT describes the spot rate as all-in, so do not add the surcharge to it;
+        rateTrend's broker rate measures exactly this rate + the surcharge, which this unit
+        cannot explain) for van, reefer and flatbed over the last four months.
         """
 
     async def rateTrend(self, args: Prv_dat_DatEquipmentArgs_In | None = None, /) -> Prv_dat_DatRateTrend_Out:
         """DAT's 12-month national rate trendline for one equipment type: broker-to-carrier spot
-        and shipper-to-broker rates per month, USD/mile, all-in (the broker rate equals
-        nationalSpotRates' rate plus its fuel surcharge; do not add the surcharge again).
-        Defaults to van.
+        and shipper-to-broker rates per month, USD/mile (the broker rate measures exactly
+        nationalSpotRates' rate plus its fuel surcharge; DAT calls both all-in, so do not add
+        the surcharge to either). Defaults to van.
         """
 
 class Prv_data_cms(Protocol):
@@ -94499,6 +94579,24 @@ class Prv_expedia(Protocol):
         `code`, the email's verification `link`, or the person's `phone`.
         """
 
+class Prv_expireddomains(Protocol):
+    """ExpiredDomains.com, a search over expired, expiring and auction domains with a watchlist
+    and drop alerts for signed-in accounts. Its search and watchlist functions are not built
+    yet; an account can already be made here through `signup`.
+    """
+
+    async def signup(self, args: Any, /) -> Prv_expireddomains_signup_return_u0_Out | Prv_expireddomains_signup_return_u1_Out | Prv_expireddomains_signup_return_u2_Out | Prv_expireddomains_signup_return_u3_Out:
+        """Makes a NEW ExpiredDomains.com account with the person's own email and password, in a
+        session. Pauses with `needs_code` / `needs_phone` whenever the site wants something only
+        the person has; continue with `confirmSignup` in the same session. Ends `signed_up` with
+        the login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_expireddomains_confirmSignup_return_u0_Out | Prv_expireddomains_confirmSignup_return_u1_Out | Prv_expireddomains_confirmSignup_return_u2_Out | Prv_expireddomains_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_extraspace(Protocol):
     """Extra Space Storage — self-storage facility search and detail. `search` takes a US city
     or ZIP and returns the nearby facilities its own locator would, nearest first, each with
@@ -94632,9 +94730,10 @@ class Prv_facebook(Protocol):
         """
 
     async def searchAdLibrary(self, args: Prv_facebook_SearchAdLibraryArgs_In, /) -> Prv_facebook_FacebookAdLibrarySearch_Out:
-        """Search Meta's public Ad Library, logged out — every ad matching a keyword or run by a
-        Page, active and inactive, with start and end dates, creative text, images and videos,
-        CTA, link, platforms, and Facebook's own total count. Pages through with nextCursor.
+        """Search Meta's public Ad Library, logged out — every ad matching a keyword, an ad archive
+        id, or run by a Page, active and inactive, with start and end dates, creative text,
+        images and videos, CTA, link, platforms, and Facebook's own total count. Pass an Ad
+        Library ad URL as pageUrl. Pages through with nextCursor.
         """
 
     async def listPageAds(self, args: Prv_facebook_ListPageAdsArgs_In, /) -> Prv_facebook_FacebookPageAds_Out:
@@ -102153,10 +102252,12 @@ class Prv_landsend(Protocol):
         pre-pick from a link.
         """
 
-    async def getActivePromo(self, /) -> Prv_landsend_LandsEndPromo_Out | None:
+    async def getActivePromo(self, /) -> Prv_landsend_LandsEndPromo_Out:
         """Reads the sitewide promo code Lands' End is running right now (e.g. MALLARDS — 40% off),
         with its name, terms, dates and free-shipping threshold, from the endpoint the site's
-        header banner uses. Returns null if the endpoint is blocked by Akamai's defense.
+        header banner uses. Throws when no sitewide promo is running, and throws with a
+        call-again verdict when Akamai refuses the request (never null: a refusal is not a
+        missing promo).
         """
 
 class Prv_lasikplus(Protocol):
@@ -120660,6 +120761,24 @@ class Prv_workday(Protocol):
         department or exact date — `postedOn` is its own relative text.
         """
 
+class Prv_wps(Protocol):
+    """WPS Office (Kingsoft), a free office suite with a template library, DocShare's public
+    documents and WPS Cloud storage for signed-in accounts. Its template and document
+    functions are not built yet; an account can already be made here through `signup`.
+    """
+
+    async def signup(self, args: Any, /) -> Prv_wps_signup_return_u0_Out | Prv_wps_signup_return_u1_Out | Prv_wps_signup_return_u2_Out | Prv_wps_signup_return_u3_Out:
+        """Makes a NEW WPS Office account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_wps_confirmSignup_return_u0_Out | Prv_wps_confirmSignup_return_u1_Out | Prv_wps_confirmSignup_return_u2_Out | Prv_wps_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_wsj(Protocol):
     """WSJ news, markets data and articles — a DataDome wall in front, cleared by a browser;
     most of the site is reachable with no account, full paywalled articles need the caller's
@@ -122807,6 +122926,7 @@ class BowmarkProviders(Protocol):
     executivehomecare: Prv_executivehomecare
     exhalespa: Prv_exhalespa
     expedia: Prv_expedia
+    expireddomains: Prv_expireddomains
     extraspace: Prv_extraspace
     facebook: Prv_facebook
     faceforwardaesthetics: Prv_faceforwardaesthetics
@@ -123339,6 +123459,7 @@ class BowmarkProviders(Protocol):
     wodify: Prv_wodify
     workable: Prv_workable
     workday: Prv_workday
+    wps: Prv_wps
     wsj: Prv_wsj
     wunderflats: Prv_wunderflats
     x: Prv_x

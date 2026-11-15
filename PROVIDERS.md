@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6868 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6884 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -410,8 +410,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `article_com.searchProducts` | article.com | Searches Article's furniture catalog by free text — the same Bloomreach-backed search… | 🟢 |
 | `artificialanalysis_ai.getEvaluation` | artificialanalysis.ai | Returns Artificial Analysis's public AutomationBench-AA model leaderboard, including… | 🟢 |
 | `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟡 |
-| `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟡 |
-| `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟡 |
+| `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟢 |
+| `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟢 |
 | `arxiv.getPaper` | arxiv.org | Reads one arXiv paper by its id or abs/pdf url — title, authors, abstract, categories… | 🟢 |
 | `arxiv.search` | arxiv.org | Searches arXiv preprints by keyword, author, title or category through arXiv's own… | 🟢 |
 | `ashby.listJobs` | ashbyhq.com | Lists every listed job on one company's Ashby board (jobs.ashbyhq.com/{name}) — title… | 🟢 |
@@ -520,7 +520,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | 🟢 |
 | `bbc.saveArticle` | bbc.com | Save a BBC article to the signed-in reader's saved list (the page's bookmark button).… | 🟢 |
 | `bbc.searchArticles` | bbc.com | Search the BBC the way its search box does: headline, summary, url, article id… | 🟢 |
-| `bbc.searchWeatherLocations` | bbc.com | Find BBC Weather locations by place name or postcode: name, region, country and the… | 🟡 |
+| `bbc.searchWeatherLocations` | bbc.com | Find BBC Weather locations by place name or postcode: name, region, country and the… | 🟢 |
 | `bbc.subscribeNewsletter` | bbc.com | Sign the signed-in reader up to a BBC newsletter. | 🟢 |
 | `bbc.unfollowPodcast` | bbc.com | Stop following a BBC podcast or series for the signed-in reader. | 🟢 |
 | `bbc.unsubscribeNewsletter` | bbc.com | Take the signed-in reader off a BBC newsletter. | 🟢 |
@@ -1621,7 +1621,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dansons.identifyProduct` | pitboss-grills.com | Identifies which Pit Boss product(s) a free-text description matches — the same… | 🟢 |
 | `dansons.listRegisterableProducts` | pitboss-grills.com | Lists every Pit Boss product eligible for warranty registration — the exact catalog… | 🟢 |
 | `dat.loadToTruckRatio` | dat.com | Reads DAT Trendlines' monthly load-to-truck ratio (loads posted per truck on the DAT… | 🟢 |
-| `dat.nationalSpotRates` | dat.com | Reads DAT Trendlines' national average truckload spot rates (USD per mile, plus the… | 🟢 |
+| `dat.nationalSpotRates` | dat.com | Reads DAT Trendlines' national average truckload spot rates (USD per mile, which DAT… | 🟢 |
 | `dat.rateTrend` | dat.com | Reads DAT Trendlines' 12-month national rate trendline for one equipment type… | 🟢 |
 | `data_cms.getRows` | data.cms.gov | Read rows from one data.cms.gov dataset (its latest version), optionally filtered by… | 🟢 |
 | `data_cms.searchDatasets` | data.cms.gov | Search data.cms.gov's dataset catalog by keyword; returns each dataset's id (for… | 🟢 |
@@ -2141,14 +2141,26 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `exhalespa.listLocations` | exhalespa.com | Lists every physical exhale spa location (Midtown Atlanta, Battery Wharf Boston… | 🟢 |
 | `exhalespa.listSpaServices` | exhalespa.com | Lists one location's bookable spa treatments (massages, facials, body treatments) with… | ⚪ |
 | `expedia.bookTrip` | expedia.com | Books a hotel, flight, car or package on Expedia. | ⚪ |
+| `expedia.findBooking` | expedia.com | Looks up an existing Expedia booking by itinerary number and the booking email, the… | ⚪ |
+| `expedia.getActivityDetails` | expedia.com | Reads one Expedia things-to-do listing: description, duration, price options and rating. | ⚪ |
 | `expedia.getHotelDetails` | expedia.com | Loads one Expedia hotel's page (its Hotel-Information URL from searchHotels) and… | ⚪ |
 | `expedia.getHotelReviews` | expedia.com | Returns the guest reviews Expedia shows for one hotel: rating, date, text and… | ⚪ |
+| `expedia.getProfile` | expedia.com | Reads the signed-in caller's Expedia profile: name, contact details, traveller… | ⚪ |
+| `expedia.getRewards` | expedia.com | Reads the signed-in caller's One Key tier and OneKeyCash balance. | ⚪ |
+| `expedia.getTrip` | expedia.com | Reads one of the signed-in caller's trips by itinerary number: bookings, dates… | ⚪ |
+| `expedia.listDeals` | expedia.com | Lists Expedia's current travel deals that show a real reduction (struck-through price… | ⚪ |
+| `expedia.listSavedLists` | expedia.com | Lists the signed-in caller's saved lists (hearted properties and activities) and their… | ⚪ |
+| `expedia.listTrips` | expedia.com | Lists the signed-in caller's Expedia trips, upcoming and past, with itinerary numbers. | ⚪ |
+| `expedia.saveToList` | expedia.com | Saves (hearts) a hotel or activity to one of the signed-in caller's private saved… | ⚪ |
 | `expedia.searchActivities` | expedia.com | Searches Expedia's things-to-do (tours, tickets, activities) for a destination and… | ⚪ |
 | `expedia.searchCars` | expedia.com | Runs Expedia's car-rental search for a pickup location and dates and returns priced… | ⚪ |
+| `expedia.searchCruises` | expedia.com | Runs Expedia Cruises search for a destination and month and returns sailings with… | ⚪ |
 | `expedia.searchFlights` | expedia.com | Runs Expedia's own flight search for an origin, destination and dates and returns the… | 🟢 |
 | `expedia.searchHotels` | expedia.com | Runs Expedia's own hotel search for a destination, dates and adults and returns the… | 🟢 |
 | `expedia.searchPackages` | expedia.com | Runs Expedia's flight+hotel package search and returns bundled prices. | ⚪ |
+| `expedia.searchVacationRentals` | expedia.com | Runs Expedia's vacation-rental (homes, cabins, condos) search for a destination and… | ⚪ |
 | `expedia.suggestDestinations` | expedia.com | Returns Expedia's destination autocomplete suggestions (cities, airports… | 🟢 |
+| `expedia.updateProfile` | expedia.com | Edits the signed-in caller's Expedia profile fields (name, phone, preferences). | ⚪ |
 | `expireddomains.addToWatchlist` | expireddomains.com | Adds a domain to the signed-in account's watchlist on ExpiredDomains.com, so the site… | ⚪ |
 | `expireddomains.getDomain` | expireddomains.com | Reads one domain's page on ExpiredDomains.com: where it is listed or dropping, its… | ⚪ |
 | `expireddomains.listWatchlist` | expireddomains.com | Lists the domains on the signed-in account's watchlist on ExpiredDomains.com. | ⚪ |
@@ -2192,7 +2204,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.reactToPost` | facebook.com | React to a post with like, love, haha, wow, sad or angry, by its permalink URL. | 🟢 |
 | `facebook.replyToComment` | facebook.com | Reply to a comment on a post, by the comment's own permalink URL. | 🟢 |
 | `facebook.savePost` | facebook.com | Save (bookmark) a post for later or add to a saved collection. | 🟢 |
-| `facebook.searchAdLibrary` | facebook.com | Search Meta's public Ad Library, logged out — every ad matching a keyword or run by a… | 🟢 |
+| `facebook.searchAdLibrary` | facebook.com | Search Meta's public Ad Library, logged out — every ad matching a keyword, an ad… | 🟢 |
 | `facebook.searchGroups` | facebook.com | Search for Groups by name or topic. | 🟢 |
 | `facebook.searchPages` | facebook.com | Search for Pages by name or category. | 🟢 |
 | `facebook.searchPeople` | facebook.com | Search for Facebook users by name. | 🟢 |
@@ -2720,7 +2732,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gobrightwing.listLocations` | gobrightwing.com | List all available job location options. | ⚪ |
 | `gobrightwing.listWorkTypes` | gobrightwing.com | List all available work type options (Full-time, Contract, etc.). | ⚪ |
 | `gobrightwing.searchJobs` | gobrightwing.com | Search Brightwing's live job listings by keyword, location, and work type. | 🟢 |
-| `golf_com.findCourses` | golf.com | Searches GOLF.com's Course Finder by course name, city or ZIP and returns actual… | 🔴 |
+| `golf_com.findCourses` | golf.com | Searches GOLF.com's Course Finder by course name, city or ZIP and returns actual… | 🟢 |
 | `golf_com.getCourse` | golf.com | Reads one Course Finder record: address, phone and the course's own tee-time/trip… | 🟢 |
 | `goloadup.checkServiceAvailability` | goloadup.com | Checks whether and how LoadUp serves one ZIP code — in service, same-day allowed… | 🟢 |
 | `goloadup.getPricingCatalog` | goloadup.com | Returns LoadUp's full current catalog of pickupable items (couches, mattresses… | 🟢 |
@@ -6571,6 +6583,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `workable.listJobs` | workable.com | Lists every published job on one company's Workable careers page… | 🟢 |
 | `workday.getJob` | myworkdayjobs.com | Reads one posting's full description, exact posted date, time type and every location… | ⚪ |
 | `workday.listJobs` | myworkdayjobs.com | Lists open jobs on one company's Workday careers site… | 🟢 |
+| `wps.getTemplate` | wps.com | Reads one WPS template's page: its title, format, preview images, category and… | ⚪ |
+| `wps.listCloudDocuments` | wps.com | Lists the documents in the signed-in account's WPS Cloud storage. | ⚪ |
+| `wps.searchSharedDocuments` | wps.com | Searches WPS DocShare, the public library of documents and templates people have… | ⚪ |
+| `wps.searchTemplates` | wps.com | Searches WPS Office's free template library (Word, Excel, PowerPoint and PDF… | ⚪ |
 | `wsj.addToWatchlist` | wsj.com | Adds a stock to the caller's own WSJ watchlist through their signed-in WSJ session, by… | 🟢 |
 | `wsj.getArticle` | wsj.com | Gets one article's own headline, byline, dek, section, publish date and body. | 🟢 |
 | `wsj.getArticleFullText` | wsj.com | Gets the full text of a subscriber-only article using the CALLER's own WSJ… | 🟢 |

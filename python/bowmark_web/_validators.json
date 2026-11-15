@@ -1,5 +1,5 @@
 {
-  "version": "4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c",
+  "version": "1b7c919836551eb7c128235c3e345d5093bdfa89213152f6b213454a609652fa",
   "units": {
     "address_validation": {
       "defs": {
@@ -56038,6 +56038,29 @@
             "optional": false
           }
         ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.expireddomains": {
+      "defs": {},
+      "functions": {
         "signup": [
           {
             "name": "args",
@@ -162517,6 +162540,29 @@
               "name": "WorkdayListOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.wps": {
+      "defs": {},
+      "functions": {
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
           }
         ]
       }

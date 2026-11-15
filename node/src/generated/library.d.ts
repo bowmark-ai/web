@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c
-// 98 capabilities, 858 providers, 5333 typed functions, 20 refused.
+// Manifest version: 1b7c919836551eb7c128235c3e345d5093bdfa89213152f6b213454a609652fa
+// 98 capabilities, 860 providers, 5337 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -33950,16 +33950,17 @@ interface DatLoadToTruckRatio { equipment: DatEquipment; years: { year: number; 
 
     /**
      * DAT Trendlines' national average truckload spot rates (USD/mile, plus DAT's fuel surcharge;
-     * measured: rateTrend's broker rate = this rate + the surcharge, so add the surcharge here for
-     * an all-in figure) for van, reefer and flatbed over the last four months.
+     * DAT describes the spot rate as all-in, so do not add the surcharge to it; rateTrend's broker
+     * rate measures exactly this rate + the surcharge, which this unit cannot explain) for van,
+     * reefer and flatbed over the last four months.
      */
     nationalSpotRates(): Promise<DatNationalSpotRates>;
 
     /**
      * DAT's 12-month national rate trendline for one equipment type: broker-to-carrier spot and
-     * shipper-to-broker rates per month, USD/mile, all-in (the broker rate equals
-     * nationalSpotRates' rate plus its fuel surcharge; do not add the surcharge again). Defaults
-     * to van.
+     * shipper-to-broker rates per month, USD/mile (the broker rate measures exactly
+     * nationalSpotRates' rate plus its fuel surcharge; DAT calls both all-in, so do not add the
+     * surcharge to either). Defaults to van.
      */
     rateTrend(args?: DatEquipmentArgs): Promise<DatRateTrend>;
   }
@@ -42616,6 +42617,34 @@ interface ExpediaHotelSearch {
   }
 }
 
+declare namespace BowmarkProvider_expireddomains {
+  // ── ExpiredDomains.com — the unit's own declarations, verbatim ──
+interface ExpiredDomainsRow {
+  domain: string;
+}
+
+  /**
+   * ExpiredDomains.com, a search over expired, expiring and auction domains with a watchlist and
+   * drop alerts for signed-in accounts. Its search and watchlist functions are not built yet; an
+   * account can already be made here through `signup`.
+   */
+  interface Unit {
+    /**
+     * Makes a NEW ExpiredDomains.com account with the person's own email and password, in a
+     * session. Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+     * person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+     * login saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+  }
+}
+
 declare namespace BowmarkProvider_extraspace {
   // ── Extra Space Storage — the unit's own declarations, verbatim ──
 interface ExtraspaceSearchResult {
@@ -43473,9 +43502,10 @@ interface FacebookPageAds {
     listPageReels(args: ListPageReelsArgs): Promise<FacebookReel[]>;
 
     /**
-     * Search Meta's public Ad Library, logged out — every ad matching a keyword or run by a Page,
-     * active and inactive, with start and end dates, creative text, images and videos, CTA, link,
-     * platforms, and Facebook's own total count. Pages through with nextCursor.
+     * Search Meta's public Ad Library, logged out — every ad matching a keyword, an ad archive id,
+     * or run by a Page, active and inactive, with start and end dates, creative text, images and
+     * videos, CTA, link, platforms, and Facebook's own total count. Pass an Ad Library ad URL as
+     * pageUrl. Pages through with nextCursor.
      */
     searchAdLibrary(args: SearchAdLibraryArgs): Promise<FacebookAdLibrarySearch>;
 
@@ -64101,9 +64131,10 @@ interface LandsEndPromo {
     /**
      * Reads the sitewide promo code Lands' End is running right now (e.g. MALLARDS — 40% off),
      * with its name, terms, dates and free-shipping threshold, from the endpoint the site's header
-     * banner uses. Returns null if the endpoint is blocked by Akamai's defense.
+     * banner uses. Throws when no sitewide promo is running, and throws with a call-again verdict
+     * when Akamai refuses the request (never null: a refusal is not a missing promo).
      */
-    getActivePromo(): Promise<LandsEndPromo | null>;
+    getActivePromo(): Promise<LandsEndPromo>;
   }
 }
 
@@ -116615,6 +116646,35 @@ interface WorkdayListOptions {
   }
 }
 
+declare namespace BowmarkProvider_wps {
+  // ── WPS Office — the unit's own declarations, verbatim ──
+interface WpsTemplate {
+  title: string;
+  url: string;
+}
+
+  /**
+   * WPS Office (Kingsoft), a free office suite with a template library, DocShare's public
+   * documents and WPS Cloud storage for signed-in accounts. Its template and document functions
+   * are not built yet; an account can already be made here through `signup`.
+   */
+  interface Unit {
+    /**
+     * Makes a NEW WPS Office account with the person's own email and password, in a session.
+     * Pauses with `needs_code` / `needs_phone` whenever the site wants something only the person
+     * has; continue with `confirmSignup` in the same session. Ends `signed_up` with the login
+     * saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+  }
+}
+
 declare namespace BowmarkProvider_wsj {
   // ── The Wall Street Journal — the unit's own declarations, verbatim ──
 interface wsjRow {
@@ -123328,6 +123388,7 @@ interface BowmarkProviders {
   executivehomecare: BowmarkProvider_executivehomecare.Unit;
   exhalespa: BowmarkProvider_exhalespa.Unit;
   expedia: BowmarkProvider_expedia.Unit;
+  expireddomains: BowmarkProvider_expireddomains.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
   facebook: BowmarkProvider_facebook.Unit;
   faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
@@ -123860,6 +123921,7 @@ interface BowmarkProviders {
   wodify: BowmarkProvider_wodify.Unit;
   workable: BowmarkProvider_workable.Unit;
   workday: BowmarkProvider_workday.Unit;
+  wps: BowmarkProvider_wps.Unit;
   wsj: BowmarkProvider_wsj.Unit;
   wunderflats: BowmarkProvider_wunderflats.Unit;
   x: BowmarkProvider_x.Unit;
