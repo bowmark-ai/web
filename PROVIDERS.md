@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7112 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7117 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -5571,6 +5571,9 @@ One function per row, with the site it is called on.
 | `speedrun.submitRun` | www.speedrun.com | Submits a speedrun to a game category, with optional video URL and user variables. | ⚪ |
 | `spirithalloween.getProduct` | spirithalloween.com | Reads one product page's full live variant matrix — every real color/size combination… | 🟢 |
 | `spirithalloween.search` | spirithalloween.com | Browses Spirit Halloween's category listing for a query resolved against a small… | 🟢 |
+| `sports247.search` | 247sports.com | Searches 247Sports news articles (default) or message-board posts for a phrase: title… | 🟢 |
+| `sports247.searchRecruits` | 247sports.com | Finds a college football or basketball recruit on 247Sports by name: position, size… | 🟢 |
+| `sports247.teamRankings` | 247sports.com | Reads 247Sports' composite team recruiting class rankings for college football or… | 🟢 |
 | `spotapps.applyForJob` | spotapps.co | Submits a job application (name, email, phone, positions, cover letter, experience… | 🟢 |
 | `spotapps.bookReservation` | spotapps.co | Sends a guest reservation request (name, email, phone, party size, date, time, notes)… | 🟢 |
 | `spotapps.cancelReservation` | spotapps.co | Cancels a guest reservation made through the widget. | ⚪ |
@@ -6228,6 +6231,8 @@ One function per row, with the site it is called on.
 | `trustpilot.getCompany` | trustpilot.com | Trustpilot reviews and rating for a company, by its website domain (`{ domain… | 🟢 |
 | `tryalma_com.listPages` | tryalma.com | List all pages and sections available on the Alma website by category. | 🟢 |
 | `tryalma_com.search` | tryalma.com | Search Alma's content, including pages, resources, and team member profiles. | 🟢 |
+| `tubitv.search` | tubitv.com | Searches Tubi's free movie and TV catalog the way the site's search box does… | 🟢 |
+| `tubitv.title` | tubitv.com | Reads one Tubi movie or series: description, cast, directors, rating, language, IMDb… | 🟢 |
 | `tumblr.createPost` | tumblr.com | Create a new post on the signed-in account's blog. | 🟢 |
 | `tumblr.deletePost` | tumblr.com | Delete a post from the signed-in account's blog. | 🟢 |
 | `tumblr.editPost` | tumblr.com | Edit an existing post on the signed-in account's blog. | 🟢 |

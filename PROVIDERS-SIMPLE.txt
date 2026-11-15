@@ -11,6 +11,7 @@ GET https://api.bowmark.ai/v1/library?query=<site-or-function>
   (requires Authorization: Bearer $BOWMARK_API_KEY)
 1aauto.com — aauto: getProduct, search
 1stdibs.com — firstdibs: getListing, search
+247sports.com — sports247: search, searchRecruits, teamRankings
 2ndswing.com — secondswing: getQuoteAttributes, getTradeInValue, searchClubs
 a1storage.com — a1storage: getFacilityUnits, getMoveInCost, listFacilities
 aa.com — aa: getBaggageAllowance, getFlightStatus, retrieveBooking (+6 planned)
@@ -826,6 +827,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
+tubitv.com — tubitv: search, title
 tumblr.com — tumblr: 33 functions — ask get_library
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
