@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1b7c919836551eb7c128235c3e345d5093bdfa89213152f6b213454a609652fa
-// 5309 checked, 20 unchecked.
+// Manifest version: 6b75cab8965e205e2fbe2231a76c0a5ac0585446f89cd0c054ed9eef09bcd802
+// 5315 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1b7c919836551eb7c128235c3e345d5093bdfa89213152f6b213454a609652fa",
+  "version": "6b75cab8965e205e2fbe2231a76c0a5ac0585446f89cd0c054ed9eef09bcd802",
   "units": {
     "address_validation": {
       "defs": {
@@ -33324,6 +33324,84 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ChesmarSearchFilters"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.chick_fil_a": {
+      "defs": {
+        "ChickFilALocationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ChickFilASearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "location": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ChickFilALocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ChickFilASearchArgs"
             },
             "optional": false
           }
@@ -117660,6 +117738,60 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.quintoandar": {
+      "defs": {
+        "QuintoandarSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "businessContext",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "SALE"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "RENT"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "QuintoandarSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.quora": {
       "defs": {
         "GetAnswersArgs": {
@@ -138886,6 +139018,70 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSteamDeckCompatibilityArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.stepstone": {
+      "defs": {
+        "StepstoneJobArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "StepstoneSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "job": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StepstoneJobArgs"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StepstoneSearchArgs"
             },
             "optional": false
           }

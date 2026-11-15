@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1b7c919836551eb7c128235c3e345d5093bdfa89213152f6b213454a609652fa
-// 98 capabilities, 860 providers, 5337 typed functions, 20 refused.
-// 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: 6b75cab8965e205e2fbe2231a76c0a5ac0585446f89cd0c054ed9eef09bcd802
+// 98 capabilities, 863 providers, 5343 typed functions, 20 refused.
+// 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -27180,6 +27180,38 @@ interface ChesmarSearchFilters {
      * `minBaths`, `minSqft`, `minPrice`, `maxPrice`.
      */
     searchQuickMoveInHomes(filters: ChesmarSearchFilters): Promise<ChesmarQuickMoveInHome[]>;
+  }
+}
+
+declare namespace BowmarkProvider_chick_fil_a {
+  // ── Chick-fil-A — the unit's own declarations, verbatim ──
+interface ChickFilASearchArgs { query: string; limit?: number; page?: number }
+interface ChickFilALocationRow { id: number; name: string; slug: string; state: string | null; url: string }
+interface ChickFilASearchResponse { locations: ChickFilALocationRow[]; query: string; page: number }
+interface ChickFilALocationArgs { url?: string; state?: string; slug?: string }
+interface ChickFilAHours { days: string[] | null; date: string | null; opens: string | null; closes: string | null; closed: boolean }
+interface ChickFilALocation { name: string; url: string; phone: string | null; image: string | null; address: { street: string | null; city: string | null; state: string | null; postalCode: string | null; country: string | null }; latitude: number | null; longitude: number | null; hours: ChickFilAHours[] }
+
+  /**
+   * Chick-fil-A restaurant finder (chick-fil-a.com) — search locations by city or name, then one
+   * restaurant's address, phone, coordinates and opening hours.
+   */
+  interface Unit {
+    /**
+     * One Chick-fil-A restaurant by the `url` a searchLocations row carries (or { state, slug }):
+     * name, street address, city, state, ZIP, phone, latitude/longitude, photo and opening hours —
+     * the weekly rows plus dated holiday overrides. `closed: true` marks a closed day (Sundays).
+     * THROWS an input error for a URL that names no restaurant.
+     */
+    location(args: ChickFilALocationArgs): Promise<ChickFilALocation>;
+
+    /**
+     * Searches Chick-fil-A restaurant locations by a word in the location's name — a city, street,
+     * mall, airport or campus (e.g. "Austin", "Peachtree"). Up to `limit` rows (default 20, max
+     * 100) with id, name, slug, two-letter state and the location URL `location` takes. It is a
+     * NAME search, not a radius search; zero rows is an empty list, not an error.
+     */
+    searchLocations(args: ChickFilASearchArgs): Promise<ChickFilASearchResponse>;
   }
 }
 
@@ -85899,6 +85931,28 @@ interface QuinceProduct {
   }
 }
 
+declare namespace BowmarkProvider_quintoandar {
+  // ── QuintoAndar — the unit's own declarations, verbatim ──
+interface QuintoandarSearchArgs { location: string; businessContext?: "SALE" | "RENT" }
+interface QuintoandarListing { id: string; title: string; url: string; price: number | null; currency: string | null; bedrooms: number | null; bathrooms: number | null; areaSqm: number | null; address: string | null; city: string | null; state: string | null; description: string | null }
+interface QuintoandarListingDetail extends QuintoandarListing { acceptsPets: boolean | null; furnished: boolean | null; parkingSpaces: number | null; photos: { url: string; subtitle: string | null }[] }
+
+  /**
+   * Searches QuintoAndar’s public Brazil property listings by location and reads one listing’s
+   * price, address, size, rooms and photos.
+   */
+  interface Unit {
+    /**
+     * Reads one public QuintoAndar listing from the url search() returned for it: price, address,
+     * rooms, area, description and photos.
+     */
+    getListing(url: string): Promise<QuintoandarListingDetail>;
+
+    /** Searches public QuintoAndar sale or rental listings in a location slug. */
+    search(args: QuintoandarSearchArgs): Promise<QuintoandarListing[]>;
+  }
+}
+
 declare namespace BowmarkProvider_quora {
   // ── Quora — the unit's own declarations, verbatim ──
 interface QuoraQuestion {
@@ -90666,7 +90720,8 @@ interface ScentProduct {
   interface Unit {
     /**
      * Lists Salt & Stone's real six named scent families, each with its own real top/heart/base
-     * fragrance notes and mood description, read off the site's own collection pages.
+     * fragrance notes and mood description, read off the site's own collection index in one
+     * request.
      */
     listScentFamilies(): Promise<ScentFamily[]>;
 
@@ -100386,6 +100441,38 @@ interface GetSteamDeckCompatibilityResponse {
      * Valve's individual test results behind it, each a pass, caveat, fail or info. No sign-in.
      */
     getSteamDeckCompatibility(args: GetSteamDeckCompatibilityArgs): Promise<GetSteamDeckCompatibilityResponse>;
+  }
+}
+
+declare namespace BowmarkProvider_stepstone {
+  // ── StepStone — the unit's own declarations, verbatim ──
+interface StepstoneSearchArgs { query: string; location?: string; page?: number }
+interface StepstoneSalary { min: number | null; max: number | null; currency: string | null; period: string | null; type: string | null }
+interface StepstoneJobRow { id: string; title: string; companyName: string; location: string; url: string; datePosted: string | null; snippet: string; salary: StepstoneSalary | null; workFromHome: string | null; labels: string[] }
+interface StepstoneSearchResponse { jobs: StepstoneJobRow[]; total: number; page: number; pageCount: number; url: string }
+interface StepstoneJobArgs { id: string }
+interface StepstoneJob { id: string; title: string; url: string; companyName: string | null; companyUrl: string | null; location: string | null; employmentType: string | string[] | null; industry: string | null; datePosted: string | null; validThrough: string | null; directApply: boolean | null; description: string }
+
+  /**
+   * StepStone (stepstone.de) job search in Germany — postings by keyword and city, and one
+   * posting's full detail.
+   */
+  interface Unit {
+    /**
+     * One StepStone posting in full by the `id` a search row carries (or its URL): title,
+     * employer, location, employment type, industry, posting and expiry dates, whether it takes a
+     * direct application, and the complete HTML description. THROWS an input error when the id
+     * names no live posting.
+     */
+    job(args: StepstoneJobArgs): Promise<StepstoneJob>;
+
+    /**
+     * Searches stepstone.de job postings by keyword and optional city/region, 25 per page. Each
+     * row: id, title, employer, location, URL, posting date, a text snippet, the salary band
+     * (StepStone's own estimate when type is "Predicted"), home-office code and labels. `total` is
+     * the full match count; an unknown keyword returns zero rows, not an error.
+     */
+    search(args: StepstoneSearchArgs): Promise<StepstoneSearchResponse>;
   }
 }
 
@@ -123274,6 +123361,7 @@ interface BowmarkProviders {
   cheapflights: BowmarkProvider_cheapflights.Unit;
   checkfront: BowmarkProvider_checkfront.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
+  chick_fil_a: BowmarkProvider_chick_fil_a.Unit;
   chipotle: BowmarkProvider_chipotle.Unit;
   chownow: BowmarkProvider_chownow.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;
@@ -123708,6 +123796,7 @@ interface BowmarkProviders {
   pypi: BowmarkProvider_pypi.Unit;
   quickbooks: BowmarkProvider_quickbooks.Unit;
   quince: BowmarkProvider_quince.Unit;
+  quintoandar: BowmarkProvider_quintoandar.Unit;
   quora: BowmarkProvider_quora.Unit;
   quotes_toscrape: BowmarkProvider_quotes_toscrape.Unit;
   raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
@@ -123801,6 +123890,7 @@ interface BowmarkProviders {
   statefarm: BowmarkProvider_statefarm.Unit;
   statista: BowmarkProvider_statista.Unit;
   steam: BowmarkProvider_steam.Unit;
+  stepstone: BowmarkProvider_stepstone.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
   stripe: BowmarkProvider_stripe.Unit;
   stubhub: BowmarkProvider_stubhub.Unit;
@@ -170391,6 +170481,7 @@ interface BowmarkProviders {
   americanrevivalministries: BowmarkFamily_shopify_store.Unit;
   americansexualhealthassociation: BowmarkFamily_shopify_store.Unit;
   americansocietyforsurgeryofthehand: BowmarkFamily_shopify_store.Unit;
+  americansongwriter: BowmarkFamily_shopify_store.Unit;
   americansportsmanstuff: BowmarkFamily_shopify_store.Unit;
   americantracktruckonlinepartsstore: BowmarkFamily_shopify_store.Unit;
   americanwarriorassociation: BowmarkFamily_shopify_store.Unit;

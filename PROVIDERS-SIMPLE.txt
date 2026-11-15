@@ -203,6 +203,7 @@ chatgpt.com — chatgpt: 33 functions — ask get_library (+2 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
+chick-fil-a.com — chick_fil_a: location, searchLocations
 chipotle.com — chipotle: getBowlBuilder
 chownow.com — chownow: findRestaurant, getMenu, getMenuItem, getOrderDetails, getPickupTimes, getRestaurant, getRestaurantHours, getRewardsBalance, listMenuCategories, listMenuItems, listOrders, listRestaurants, listSavedPaymentMethods, searchRestaurants, validateOrder
 chriscraft.com — chriscraft: getConfigurator, priceConfiguration, searchModels
@@ -222,6 +223,7 @@ cloudflare.com — cloudflare: comparePlans, compareTeamsPlans, searchDomainAvai
 clubchampion.com — clubchampion: checkAvailability, getFittings, listFitters, listStudios
 clubpilates.com — clubpilates: bookClass, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, joinWaitlist, listClassCategories, listClasses, listClassTypes, listInstructors, listMyBookings, listPricing, updateProfile (+1 planned)
 clubready.com — clubready: bookClass, bookService, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, getWorkoutStats, joinWaitlist, listBrands, listClassCategories, listClasses, listClassTypes, listInstructors, listInvoices, listMyBookings, listPricing, listServiceAvailability, listServiceTypes, updateProfile (+1 planned)
+clutch.co — clutch: getCompany, search
 cnb.avocat.fr — cnb_avocat_fr: nothing callable yet (+1 planned)
 cnbc.com — cnbc_com: getArticle, getAuthor, getMarketData, getQuote, getVideo, listArticlesByAuthor, listCategories, listCommodities, listCurrencies, listMarkets, listNews, listQuotes, listSectors, listVideosByCategory, search (+9 planned)
 coastpay.com — coast: getFleetCardPricing, getFuelRebate
@@ -648,6 +650,7 @@ pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyPr
 pypi.org — pypi: getProject
 quickbooks.intuit.com — quickbooks: 27 functions — ask get_library (+7 planned)
 quince.com — quince: getProduct, searchProducts
+quintoandar.com.br — quintoandar: getListing, search
 quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+7 planned)
 quotes.toscrape.com — quotes_toscrape: author, listQuotes
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
@@ -713,7 +716,7 @@ shop.app — shop_app: 34 functions — ask get_library (+4 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopdisney.com — shopdisney: getProduct, search
-shopify.com (102395 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
+shopify.com (102396 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
 sitmeanssit.com — sitmeanssit: findNearestLocations
 sixflags.com — sixflags: getTickets
 skills.rest — skills_rest: listSkills
@@ -745,6 +748,7 @@ start.gg — start_gg: findVideogames, searchTournaments
 statefarm.com — statefarm: findAgent, getBusinessQuote, getLifeQuote, getRentersQuote (+14 planned)
 statista.com — statista: getStatistic, search
 steampowered.com — steam: 32 functions — ask get_library
+stepstone.de — stepstone: job, search
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard

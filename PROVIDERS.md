@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6884 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6892 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1207,6 +1207,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `checkfront.listItems` | checkfront.com | Lists an operator's bookable items (tours, rentals, rooms, tickets, packages, gift… | 🟢 |
 | `checkfront.updateCart` | checkfront.com | Changes a booking cart: set a line's quantity, remove a line, opt in or out of a… | 🟢 |
 | `chesmar.searchQuickMoveInHomes` | chesmar.com | Runs Chesmar Homes' quick-move-in home search against the site's own live inventory… | 🟢 |
+| `chick_fil_a.location` | chick-fil-a.com | Returns one Chick-fil-A restaurant from its chick-fil-a.com location page: name… | 🟢 |
+| `chick_fil_a.searchLocations` | chick-fil-a.com | Searches Chick-fil-A restaurant locations by a word in the location's name (city… | 🟢 |
 | `chipotle.getBowlBuilder` | chipotle.com | Reads chipotle.com's own universal menu rules and returns every burrito-bowl protein… | 🟢 |
 | `chownow.findRestaurant` | chownow.com | Resolves a ChowNow ordering URL (www/order/direct/eat subdomain, or the bare apex)… | 🟢 |
 | `chownow.getMenu` | chownow.com | Reads one restaurant's complete menu: categories with items, descriptions, prices… | 🟡 |
@@ -1388,6 +1390,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubready.listServiceAvailability` | clubready.com | Lists who can take a one-on-one session at a studio on a date — the flexologists or… | 🟢 |
 | `clubready.listServiceTypes` | clubready.com | Lists the one-on-one session types a studio sells — StretchLab's assisted stretches… | 🟢 |
 | `clubready.updateProfile` | clubready.com | Edits the signed-in member's own profile — `fields` is the snake_case profile fields… | 🟢 |
+| `clutch.getCompany` | clutch.co | Reads a public Clutch agency profile by profile URL or slug, including visible company… | 🟢 |
+| `clutch.search` | clutch.co | Searches Clutch's public ranked agency directory for software or web-development… | 🟢 |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | ⚪ |
 | `cnbc_com.followTopic` | cnbc.com | Follows a CNBC news topic to receive articles about it. | ⚪ |
@@ -4676,6 +4680,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.searchHelpArticles` | quickbooks.intuit.com | Searches the QuickBooks help center (/learn-support/en-us/) for articles matching a… | 🟢 |
 | `quince.getProduct` | quince.com | Reads one Quince product's variant-level sizes and colors, price, traditional-retail… | 🟢 |
 | `quince.searchProducts` | quince.com | Searches Quince's live apparel catalog (quince.com clothing store) for what a shopper… | 🟢 |
+| `quintoandar.getListing` | quintoandar.com.br | Reads one public QuintoAndar listing from the url search() returned for it: price… | 🟢 |
+| `quintoandar.search` | quintoandar.com.br | Searches public QuintoAndar sale or rental listings in a location and returns… | 🟢 |
 | `quora.askQuestion` | quora.com | Posts a new question as the signed-in caller. | ⚪ |
 | `quora.followEntity` | quora.com | Follows a person, a topic, or a Space as the signed-in caller, taking that entity's… | ⚪ |
 | `quora.getAnswers` | quora.com | Pages through a question's answers beyond the first page getQuestion embeds, using the… | 🟡 |
@@ -5188,21 +5194,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.writeReview` | shop.app | Leaves a star rating and review on a product the caller bought through Shop. | ⚪ |
 | `shopdisney.getProduct` | shopdisney.com | Reads one shopDisney / Disney Store product page by URL or id and returns its title… | 🟢 |
 | `shopdisney.search` | shopdisney.com | Searches shopDisney / Disney Store (shopdisney.com → disneystore.com) for merchandise… | 🟢 |
-| `shopify.addToCart` | shopify.com (102395 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
-| `shopify.getCart` | shopify.com (102395 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
-| `shopify.getCollection` | shopify.com (102395 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
-| `shopify.getProduct` | shopify.com (102395 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
-| `shopify.getProducts` | shopify.com (102395 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
-| `shopify.getSetEvidence` | shopify.com (102395 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
-| `shopify.getShippingRates` | shopify.com (102395 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
-| `shopify.getStyleDetails` | shopify.com (102395 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |
-| `shopify.listCollections` | shopify.com (102395 stores) | Lists EVERY one of the store's own merchandised collections, walked page by page… | 🟢 |
-| `shopify.listProducts` | shopify.com (102395 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
-| `shopify.removeFromCart` | shopify.com (102395 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
-| `shopify.resolveProductUrl` | shopify.com (102395 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
-| `shopify.search` | shopify.com (102395 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
-| `shopify.searchPolicies` | shopify.com (102395 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
-| `shopify.searchProducts` | shopify.com (102395 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
+| `shopify.addToCart` | shopify.com (102396 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
+| `shopify.getCart` | shopify.com (102396 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
+| `shopify.getCollection` | shopify.com (102396 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
+| `shopify.getProduct` | shopify.com (102396 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
+| `shopify.getProducts` | shopify.com (102396 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
+| `shopify.getSetEvidence` | shopify.com (102396 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
+| `shopify.getShippingRates` | shopify.com (102396 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
+| `shopify.getStyleDetails` | shopify.com (102396 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |
+| `shopify.listCollections` | shopify.com (102396 stores) | Lists EVERY one of the store's own merchandised collections, walked page by page… | 🟢 |
+| `shopify.listProducts` | shopify.com (102396 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
+| `shopify.removeFromCart` | shopify.com (102396 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
+| `shopify.resolveProductUrl` | shopify.com (102396 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
+| `shopify.search` | shopify.com (102396 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
+| `shopify.searchPolicies` | shopify.com (102396 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
+| `shopify.searchProducts` | shopify.com (102396 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
 | `skills_rest.listSkills` | skills.rest | Lists the public skill cards currently featured on skills.rest, returning each card's… | 🟢 |
@@ -5551,6 +5557,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.viewFriends` | steampowered.com | Lists the signed-in caller's Steam friends — name, profile url, avatar, and… | 🟢 |
 | `steam.viewInventory` | steampowered.com | Reads a PUBLIC Steam profile's inventory by steamid64, appid and context — no sign-in… | 🟢 |
 | `steam.viewMarketHistory` | steampowered.com | Lists the signed-in caller's own Steam Community Market history — item, game… | 🟢 |
+| `stepstone.job` | stepstone.de | Returns one stepstone.de job posting in full from the id a search row carries (or the… | 🟢 |
+| `stepstone.search` | stepstone.de | Searches StepStone, the German job board, for postings by keyword or job title and an… | 🟢 |
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
 | `stripe.getDoc` | stripe.com | Reads one Stripe docs page by URL or path (docs.stripe.com/... or stripe.com/docs/...)… | 🟢 |

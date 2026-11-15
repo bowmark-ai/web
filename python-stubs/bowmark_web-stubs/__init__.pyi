@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1b7c919836551eb7c128235c3e345d5093bdfa89213152f6b213454a609652fa
-# 98 capabilities, 860 providers, 5309 typed functions, 20 refused.
+# Manifest version: 6b75cab8965e205e2fbe2231a76c0a5ac0585446f89cd0c054ed9eef09bcd802
+# 98 capabilities, 863 providers, 5315 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17281,6 +17281,52 @@ class Prv_chesmar_ChesmarQuickMoveInHome_Out(TypedDict):
     baths: float | None
     sqft: float | None
     garage: str | None
+    url: str
+
+class Prv_chick_fil_a_ChickFilALocationArgs_In(TypedDict):
+    url: NotRequired[str]
+    state: NotRequired[str]
+    slug: NotRequired[str]
+
+class Prv_chick_fil_a_ChickFilALocation_Out(TypedDict):
+    name: str
+    url: str
+    phone: str | None
+    image: str | None
+    address: Prv_chick_fil_a_ChickFilALocation_Out_address_Out
+    latitude: float | None
+    longitude: float | None
+    hours: list[Prv_chick_fil_a_ChickFilAHours_Out]
+
+class Prv_chick_fil_a_ChickFilALocation_Out_address_Out(TypedDict):
+    street: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    country: str | None
+
+class Prv_chick_fil_a_ChickFilAHours_Out(TypedDict):
+    days: list[str] | None
+    date: str | None
+    opens: str | None
+    closes: str | None
+    closed: bool
+
+class Prv_chick_fil_a_ChickFilASearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_chick_fil_a_ChickFilASearchResponse_Out(TypedDict):
+    locations: list[Prv_chick_fil_a_ChickFilALocationRow_Out]
+    query: str
+    page: float
+
+class Prv_chick_fil_a_ChickFilALocationRow_Out(TypedDict):
+    id: float
+    name: str
+    slug: str
+    state: str | None
     url: str
 
 class Prv_chipotle_getBowlBuilder_options_In(TypedDict):
@@ -55055,6 +55101,46 @@ class Prv_quince_QuinceVariant_Out(TypedDict):
     available: float | None
     inStock: bool
 
+class Prv_quintoandar_QuintoandarListingDetail_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    price: float | None
+    currency: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    areaSqm: float | None
+    address: str | None
+    city: str | None
+    state: str | None
+    description: str | None
+    acceptsPets: bool | None
+    furnished: bool | None
+    parkingSpaces: float | None
+    photos: list[Prv_quintoandar_QuintoandarListingDetail_Out_photos_item_Out]
+
+class Prv_quintoandar_QuintoandarListingDetail_Out_photos_item_Out(TypedDict):
+    url: str
+    subtitle: str | None
+
+class Prv_quintoandar_QuintoandarSearchArgs_In(TypedDict):
+    location: str
+    businessContext: NotRequired[Literal["SALE"] | Literal["RENT"]]
+
+class Prv_quintoandar_QuintoandarListing_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    price: float | None
+    currency: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    areaSqm: float | None
+    address: str | None
+    city: str | None
+    state: str | None
+    description: str | None
+
 class Prv_quora_GetQuestionArgs_In(TypedDict):
     url: NotRequired[str]
     title: NotRequired[str]
@@ -65330,6 +65416,54 @@ class Prv_steam_GetSteamDeckCompatibilityResponse_Out(TypedDict):
 class Prv_steam_SteamDeckTestResult_Out(TypedDict):
     result: str
     kind: Literal["pass"] | Literal["caveat"] | Literal["fail"] | Literal["info"] | Literal["other"]
+
+class Prv_stepstone_StepstoneJobArgs_In(TypedDict):
+    id: str
+
+class Prv_stepstone_StepstoneJob_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    companyName: str | None
+    companyUrl: str | None
+    location: str | None
+    employmentType: str | list[str] | None
+    industry: str | None
+    datePosted: str | None
+    validThrough: str | None
+    directApply: bool | None
+    description: str
+
+class Prv_stepstone_StepstoneSearchArgs_In(TypedDict):
+    query: str
+    location: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_stepstone_StepstoneSearchResponse_Out(TypedDict):
+    jobs: list[Prv_stepstone_StepstoneJobRow_Out]
+    total: float
+    page: float
+    pageCount: float
+    url: str
+
+class Prv_stepstone_StepstoneJobRow_Out(TypedDict):
+    id: str
+    title: str
+    companyName: str
+    location: str
+    url: str
+    datePosted: str | None
+    snippet: str
+    salary: Prv_stepstone_StepstoneSalary_Out | None
+    workFromHome: str | None
+    labels: list[str]
+
+class Prv_stepstone_StepstoneSalary_Out(TypedDict):
+    min: float | None
+    max: float | None
+    currency: str | None
+    period: str | None
+    type: str | None
 
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
@@ -89075,6 +89209,26 @@ class Prv_chesmar(Protocol):
         `minBeds`, `minBaths`, `minSqft`, `minPrice`, `maxPrice`.
         """
 
+class Prv_chick_fil_a(Protocol):
+    """Chick-fil-A restaurant finder (chick-fil-a.com) — search locations by city or name, then
+    one restaurant's address, phone, coordinates and opening hours.
+    """
+
+    async def location(self, args: Prv_chick_fil_a_ChickFilALocationArgs_In, /) -> Prv_chick_fil_a_ChickFilALocation_Out:
+        """One Chick-fil-A restaurant by the `url` a searchLocations row carries (or { state, slug
+        }): name, street address, city, state, ZIP, phone, latitude/longitude, photo and opening
+        hours — the weekly rows plus dated holiday overrides. `closed: true` marks a closed day
+        (Sundays). THROWS an input error for a URL that names no restaurant.
+        """
+
+    async def searchLocations(self, args: Prv_chick_fil_a_ChickFilASearchArgs_In, /) -> Prv_chick_fil_a_ChickFilASearchResponse_Out:
+        """Searches Chick-fil-A restaurant locations by a word in the location's name — a city,
+        street, mall, airport or campus (e.g. "Austin", "Peachtree"). Up to `limit` rows
+        (default 20, max 100) with id, name, slug, two-letter state and the location URL
+        `location` takes. It is a NAME search, not a radius search; zero rows is an empty list,
+        not an error.
+        """
+
 class Prv_chipotle(Protocol):
     """Chipotle's own burrito-bowl builder — every protein with its full
     rice/beans/salsa/topping list, straight off the site's ordering API.
@@ -110191,6 +110345,19 @@ class Prv_quince(Protocol):
         stock.
         """
 
+class Prv_quintoandar(Protocol):
+    """Searches QuintoAndar’s public Brazil property listings by location and reads one
+    listing’s price, address, size, rooms and photos.
+    """
+
+    async def getListing(self, url: str, /) -> Prv_quintoandar_QuintoandarListingDetail_Out:
+        """Reads one public QuintoAndar listing from the url search() returned for it: price,
+        address, rooms, area, description and photos.
+        """
+
+    async def search(self, args: Prv_quintoandar_QuintoandarSearchArgs_In, /) -> list[Prv_quintoandar_QuintoandarListing_Out]:
+        """Searches public QuintoAndar sale or rental listings in a location slug."""
+
 class Prv_quora(Protocol):
     """A question-and-answer site: questions and their answers, member profiles and Spaces, and
     (once a caller signs in) search, topic feeds, asking, answering, commenting, upvoting
@@ -111857,7 +112024,7 @@ class Prv_saltandstone(Protocol):
     async def listScentFamilies(self, /) -> list[Prv_saltandstone_ScentFamily_Out]:
         """Lists Salt & Stone's real six named scent families, each with its own real
         top/heart/base fragrance notes and mood description, read off the site's own collection
-        pages.
+        index in one request.
         """
 
     async def matchScent(self, preferences: str, /) -> list[Prv_saltandstone_ScentMatch_Out]:
@@ -114972,6 +115139,25 @@ class Prv_steam(Protocol):
         """Reads a game's Steam Deck rating by appid (verified, playable, unsupported or unknown)
         and Valve's individual test results behind it, each a pass, caveat, fail or info. No
         sign-in.
+        """
+
+class Prv_stepstone(Protocol):
+    """StepStone (stepstone.de) job search in Germany — postings by keyword and city, and one
+    posting's full detail.
+    """
+
+    async def job(self, args: Prv_stepstone_StepstoneJobArgs_In, /) -> Prv_stepstone_StepstoneJob_Out:
+        """One StepStone posting in full by the `id` a search row carries (or its URL): title,
+        employer, location, employment type, industry, posting and expiry dates, whether it
+        takes a direct application, and the complete HTML description. THROWS an input error
+        when the id names no live posting.
+        """
+
+    async def search(self, args: Prv_stepstone_StepstoneSearchArgs_In, /) -> Prv_stepstone_StepstoneSearchResponse_Out:
+        """Searches stepstone.de job postings by keyword and optional city/region, 25 per page.
+        Each row: id, title, employer, location, URL, posting date, a text snippet, the salary
+        band (StepStone's own estimate when type is "Predicted"), home-office code and labels.
+        `total` is the full match count; an unknown keyword returns zero rows, not an error.
         """
 
 class Prv_stickergiant(Protocol):
@@ -122812,6 +122998,7 @@ class BowmarkProviders(Protocol):
     cheapflights: Prv_cheapflights
     checkfront: Prv_checkfront
     chesmar: Prv_chesmar
+    chick_fil_a: Prv_chick_fil_a
     chipotle: Prv_chipotle
     chownow: Prv_chownow
     chriscraft: Prv_chriscraft
@@ -123246,6 +123433,7 @@ class BowmarkProviders(Protocol):
     pypi: Prv_pypi
     quickbooks: Prv_quickbooks
     quince: Prv_quince
+    quintoandar: Prv_quintoandar
     quora: Prv_quora
     quotes_toscrape: Prv_quotes_toscrape
     raadvanstate_nl: Prv_raadvanstate_nl
@@ -123339,6 +123527,7 @@ class BowmarkProviders(Protocol):
     statefarm: Prv_statefarm
     statista: Prv_statista
     steam: Prv_steam
+    stepstone: Prv_stepstone
     stickergiant: Prv_stickergiant
     stripe: Prv_stripe
     stubhub: Prv_stubhub
