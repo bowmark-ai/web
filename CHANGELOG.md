@@ -6,6 +6,44 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.29.1 (2026-11-15)
+
+**Providers**
+
+- New provider **alaskaair.com** (4 functions): `alaskaair.getFeatures`, `alaskaair.getTravelAdvisories`, `alaskaair.listAirports`, `alaskaair.searchCities`
+- New provider **bricklink.com** (5 functions): `bricklink.categories`, `bricklink.images`, `bricklink.item`, `bricklink.offers`, `bricklink.search`
+- New provider **calottery.com** (5 functions): `calottery.checkNumbers`, `calottery.draws`, `calottery.retailers`, `calottery.scratchers`, `calottery.search`
+- New provider **census.gov** (14 functions): `census.geographyLevels`, `census.locations`, `census.populationClock`, `census.profile`, `census.profileHighlights`, `census.relatedProfiles`, `census.searchTables`, `census.siteMenu`, and 6 more
+- New provider **chick-fil-a.com** (2 functions): `chick_fil_a.location`, `chick_fil_a.searchLocations`
+- New provider **clutch.co** (2 functions): `clutch.getCompany`, `clutch.search`
+- New provider **dominos.com** (5 functions): `dominos.categories`, `dominos.category`, `dominos.product`, `dominos.searchStores`, `dominos.store`
+- New provider **edmunds.com** (5 functions): `edmunds.getDiscussion`, `edmunds.listCarModels`, `edmunds.listForumTags`, `edmunds.searchForumPosts`, `edmunds.searchForums`
+- New provider **faroutmagazine.co.uk** (3 functions): `faroutmagazine.article`, `faroutmagazine.latest`, `faroutmagazine.search`
+- New provider **illinoislottery.com** (4 functions): `illinois_lottery.getCart`, `illinois_lottery.jackpots`, `illinois_lottery.quickPick`, `illinois_lottery.stores`
+- New provider **publix.com** (4 functions): `publix.navigation`, `publix.searchStores`, `publix.store`, `publix.suggestions`
+- New provider **quintoandar.com.br** (2 functions): `quintoandar.getListing`, `quintoandar.search`
+- New provider **rumble.com** (2 functions): `rumble.editorPicks`, `rumble.video`
+- New provider **stepstone.de** (2 functions): `stepstone.job`, `stepstone.search`
+- New provider **texaslottery.com** (2 functions): `texas_lottery.draws`, `texas_lottery.scratchers`
+- New provider **thestreet.com** (2 functions): `thestreet.commentCount`, `thestreet.sections`
+- New provider **timeanddate.com** (1 function): `timeanddate.search`
+- New provider **tmz.com** (2 functions): `tmz.newsSidebar`, `tmz.search`
+- Added `att.listTablets`
+- Added `cbsnews.getAuthor`
+- Added `cbsnews.listArticlesByAuthor`
+- Added `cbsnews.listShows`
+- Added `cbsnews.listTagArticles`
+- Added `shop_app.addAddress`
+- Added `whatsapp.blockContact`
+- Added `whatsapp.postStatus`
+- Added `whatsapp.updatePrivacySettings`
+- Added `whatsapp.updateProfile`
+- Added `yelp.getMessages`
+- Removed **shopify**
+- Removed **woocommerce**
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.29.0 (2026-11-14)
 
 **Capabilities**
