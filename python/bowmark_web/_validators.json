@@ -1,5 +1,5 @@
 {
-  "version": "ea50e7b2d08b404da680e25168161e29e973879fda752e84e77a1526c7961667",
+  "version": "4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c",
   "units": {
     "address_validation": {
       "defs": {
@@ -56034,6 +56034,24 @@
                   "name": "ExpediaSearchHotelsArgs"
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
@@ -128033,6 +128051,29 @@
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.sentry": {
+      "defs": {},
+      "functions": {
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }

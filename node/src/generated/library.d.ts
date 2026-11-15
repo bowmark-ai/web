@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ea50e7b2d08b404da680e25168161e29e973879fda752e84e77a1526c7961667
-// 98 capabilities, 857 providers, 5329 typed functions, 20 refused.
+// Manifest version: 4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c
+// 98 capabilities, 858 providers, 5333 typed functions, 20 refused.
 // 129,552 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -42599,6 +42599,20 @@ interface ExpediaHotelSearch {
      * 30-60 s.
      */
     searchHotels(args: string | ExpediaSearchHotelsArgs): Promise<ExpediaHotelSearch>;
+
+    /**
+     * Makes a NEW Expedia account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -92467,6 +92481,34 @@ interface SemihandmadePriceResult {
   }
 }
 
+declare namespace BowmarkProvider_sentry {
+  // ── Sentry — the unit's own declarations, verbatim ──
+interface sentryRow {
+  id: string;
+}
+
+  /**
+   * Error monitoring and performance tracing. The product itself sits entirely behind an
+   * organization login — this pass only lands the sign-up adapter; `search` stays a stub until
+   * the signed-in surface is surveyed.
+   */
+  interface Unit {
+    /**
+     * Makes a NEW Sentry account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+  }
+}
+
 declare namespace BowmarkProvider_seoulfood {
   // ── SEOUL FOOD — the unit's own declarations, verbatim ──
 interface SeoulFoodBoothPackage {
@@ -123658,6 +123700,7 @@ interface BowmarkProviders {
   selectblinds: BowmarkProvider_selectblinds.Unit;
   sellcell: BowmarkProvider_sellcell.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;
+  sentry: BowmarkProvider_sentry.Unit;
   seoulfood: BowmarkProvider_seoulfood.Unit;
   serper: BowmarkProvider_serper.Unit;
   sessionize: BowmarkProvider_sessionize.Unit;

@@ -323,6 +323,7 @@ exchangerate-api.com — currency_exchange: getRate
 executivehomecare.com — executivehomecare: findLocalOffice
 exhalespa.com — exhalespa: getLocation, listLocations (+2 planned)
 expedia.com — expedia: searchFlights, searchHotels, suggestDestinations (+6 planned)
+expireddomains.com — expireddomains: nothing callable yet (+4 planned)
 exploretock.com — tock: findBusiness, getBusiness, getExperience, listExperiences, searchBusinesses (+28 planned)
 extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planned)
 facebook.com — facebook: 43 functions — ask get_library
@@ -700,6 +701,7 @@ seegarsfence.com — seegarsfence: checkServiceArea (+1 planned)
 selectblinds.com — selectblinds: getConfigurator, listBlindStyles, priceConfiguration
 sellcell.com — sellcell: getTradeInOffers
 semihandmade.com — semihandmade: getPartOptions, priceConfiguration, searchParts
+sentry.io — sentry: nothing callable yet (+1 planned)
 seoulfood.kotra.or.kr — seoulfood: getBoothQuote, getExhibitorPricing (+1 planned)
 serper.dev — serper: search, searchGoogle, searchShopping
 services.gst.gov.in — gst_india: lookup

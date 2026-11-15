@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6863 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6868 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2149,6 +2149,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `expedia.searchHotels` | expedia.com | Runs Expedia's own hotel search for a destination, dates and adults and returns the… | 🟢 |
 | `expedia.searchPackages` | expedia.com | Runs Expedia's flight+hotel package search and returns bundled prices. | ⚪ |
 | `expedia.suggestDestinations` | expedia.com | Returns Expedia's destination autocomplete suggestions (cities, airports… | 🟢 |
+| `expireddomains.addToWatchlist` | expireddomains.com | Adds a domain to the signed-in account's watchlist on ExpiredDomains.com, so the site… | ⚪ |
+| `expireddomains.getDomain` | expireddomains.com | Reads one domain's page on ExpiredDomains.com: where it is listed or dropping, its… | ⚪ |
+| `expireddomains.listWatchlist` | expireddomains.com | Lists the domains on the signed-in account's watchlist on ExpiredDomains.com. | ⚪ |
+| `expireddomains.searchDomains` | expireddomains.com | Searches ExpiredDomains.com's catalogue of expired, expiring and auction domains by… | ⚪ |
 | `extraspace.checkAvailability` | extraspace.com | Checks current availability and price for one specific unit size (e.g. 5x10, 10x10… | 🟢 |
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
@@ -5046,6 +5050,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `semihandmade.getPartOptions` | semihandmade.com | Reads one part's real live size grid: every real size combination with its own real… | 🟢 |
 | `semihandmade.priceConfiguration` | semihandmade.com | Resolves one exact size selection to Semihandmade's own real price, availability and… | 🟡 |
 | `semihandmade.searchParts` | semihandmade.com | Searches Semihandmade's real catalog for one IKEA cabinet system (Sektion, Akurum… | 🟡 |
+| `sentry.search` | sentry.io | Reads Sentry's own developer docs search as a stand-in for the site's product surface… | ⚪ |
 | `seoulfood.getBoothQuote` | seoulfood.kotra.or.kr | A list-price exhibitor booth quote for N booths of one package (Space Only, Walk on… | 🟢 |
 | `seoulfood.getExhibitorPricing` | seoulfood.kotra.or.kr | Reads the organizer's published exhibitor booth rate card (trade show booth quote)… | 🟢 |
 | `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |

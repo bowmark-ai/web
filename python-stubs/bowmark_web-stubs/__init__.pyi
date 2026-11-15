@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ea50e7b2d08b404da680e25168161e29e973879fda752e84e77a1526c7961667
-# 98 capabilities, 857 providers, 5301 typed functions, 20 refused.
+# Manifest version: 4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c
+# 98 capabilities, 858 providers, 5305 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27855,6 +27855,46 @@ class Prv_expedia_ExpediaHotel_Out(TypedDict):
     sponsored: bool
     vipAccess: bool
     url: str
+
+class Prv_expedia_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_expedia_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_expedia_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_expedia_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_expedia_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_expedia_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_expedia_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_expedia_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_extraspace_ExtraspaceSearchOptions_In(TypedDict):
     climateControlled: NotRequired[bool]
@@ -59522,6 +59562,46 @@ class Prv_semihandmade_SemihandmadePriceResult_Out(TypedDict):
     available: bool
     sku: str
     productUrl: str
+
+class Prv_sentry_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_sentry_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_sentry_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_sentry_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_sentry_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_sentry_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_sentry_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_sentry_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_seoulfood_SeoulFoodExhibitorPricing_Out(TypedDict):
     edition: str | None
@@ -94407,6 +94487,18 @@ class Prv_expedia(Protocol):
         load, so expect 30-60 s.
         """
 
+    async def signup(self, args: Any, /) -> Prv_expedia_signup_return_u0_Out | Prv_expedia_signup_return_u1_Out | Prv_expedia_signup_return_u2_Out | Prv_expedia_signup_return_u3_Out:
+        """Makes a NEW Expedia account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_expedia_confirmSignup_return_u0_Out | Prv_expedia_confirmSignup_return_u1_Out | Prv_expedia_confirmSignup_return_u2_Out | Prv_expedia_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_extraspace(Protocol):
     """Extra Space Storage — self-storage facility search and detail. `search` takes a US city
     or ZIP and returns the nearby facilities its own locator would, nearest first, each with
@@ -112329,6 +112421,24 @@ class Prv_semihandmade(Protocol):
         plus the product page to finish there.
         """
 
+class Prv_sentry(Protocol):
+    """Error monitoring and performance tracing. The product itself sits entirely behind an
+    organization login — this pass only lands the sign-up adapter; `search` stays a stub
+    until the signed-in surface is surveyed.
+    """
+
+    async def signup(self, args: Any, /) -> Prv_sentry_signup_return_u0_Out | Prv_sentry_signup_return_u1_Out | Prv_sentry_signup_return_u2_Out | Prv_sentry_signup_return_u3_Out:
+        """Makes a NEW Sentry account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_sentry_confirmSignup_return_u0_Out | Prv_sentry_confirmSignup_return_u1_Out | Prv_sentry_confirmSignup_return_u2_Out | Prv_sentry_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_seoulfood(Protocol):
     """SEOUL FOOD (Seoul Food & Hotel), Korea's international food trade show run by KOTRA at
     KINTEX. getExhibitorPricing returns the organizer's published exhibitor booth quote:
@@ -123069,6 +123179,7 @@ class BowmarkProviders(Protocol):
     selectblinds: Prv_selectblinds
     sellcell: Prv_sellcell
     semihandmade: Prv_semihandmade
+    sentry: Prv_sentry
     seoulfood: Prv_seoulfood
     serper: Prv_serper
     sessionize: Prv_sessionize

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ea50e7b2d08b404da680e25168161e29e973879fda752e84e77a1526c7961667
-// 5301 checked, 20 unchecked.
+// Manifest version: 4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c
+// 5305 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ea50e7b2d08b404da680e25168161e29e973879fda752e84e77a1526c7961667",
+  "version": "4cb6e0705c787561b7c5bfe07489ad2022172cda06a0b328e89826f526ec3b0c",
   "units": {
     "address_validation": {
       "defs": {
@@ -56046,6 +56046,24 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "ExpediaSearchHotelsArgs"
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
@@ -128045,6 +128063,29 @@ export const VALIDATORS: ValidatorTable = {
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.sentry": {
+      "defs": {},
+      "functions": {
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
