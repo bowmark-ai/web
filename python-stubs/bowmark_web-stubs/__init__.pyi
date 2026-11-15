@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 32e41706bf177e96a7ac6684440bde103e91a67fac7244f9c68475d321971862
-# 98 capabilities, 866 providers, 5323 typed functions, 20 refused.
+# Manifest version: cd93433cf6cc56d00464c8f7a5fcafc4ecba8499e2614d7e32d5f3acb5075953
+# 98 capabilities, 869 providers, 5334 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5928,6 +5928,42 @@ class Prv_akc_org_AkcTrait_Out(TypedDict):
     selected: list[str]
     low: str | None
     high: str | None
+
+class Prv_alaskaair_AlaskaSiteNotices_Out(TypedDict):
+    advisories: list[Prv_alaskaair_AlaskaAdvisory_Out]
+    socialLinks: list[Prv_alaskaair_AlaskaSiteNotices_Out_socialLinks_item_Out]
+    copyright: str | None
+
+class Prv_alaskaair_AlaskaAdvisory_Out(TypedDict):
+    title: str
+    text: str
+    html: str
+    links: list[str]
+    updatedAt: str | None
+
+class Prv_alaskaair_AlaskaSiteNotices_Out_socialLinks_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_alaskaair_AlaskaListAirportsArgs_In(TypedDict):
+    query: NotRequired[str]
+    alaskaOnly: NotRequired[bool]
+    country: NotRequired[str]
+
+class Prv_alaskaair_AlaskaAirport_Out(TypedDict):
+    code: str
+    name: str
+    country: str
+    region: str
+    isAlaska: bool
+
+class Prv_alaskaair_AlaskaSearchCitiesArgs_In(TypedDict):
+    query: str
+
+class Prv_alaskaair_AlaskaCity_Out(TypedDict):
+    name: str
+    code: str
+    stations: list[Prv_alaskaair_AlaskaCity_Out]
 
 class Prv_alibaba_searchProducts_args_In(TypedDict):
     query: str
@@ -13933,6 +13969,107 @@ class Prv_breezyhq_BreezyhqJob_Out(TypedDict):
     salary: str | None
     url: str
     publishedAt: str | None
+
+class Prv_bricklink_categories_return_Out(TypedDict):
+    categories: list[Prv_bricklink_BricklinkCategory_Out]
+
+class Prv_bricklink_BricklinkCategory_Out(TypedDict):
+    name: str
+    itemCount: float | None
+    url: str | None
+
+class Prv_bricklink_BricklinkImagesArgs_In(TypedDict):
+    itemId: float
+    colorId: NotRequired[float]
+
+class Prv_bricklink_images_return_Out(TypedDict):
+    itemNo: str | None
+    name: str | None
+    images: list[Prv_bricklink_BricklinkImage_Out]
+
+class Prv_bricklink_BricklinkImage_Out(TypedDict):
+    kind: str | None
+    colorId: float | None
+    url: str | None
+    thumbUrl: str | None
+
+class Prv_bricklink_BricklinkItemArgs_In(TypedDict):
+    itemNo: str
+    type: NotRequired[str]
+
+class Prv_bricklink_BricklinkItem_Out(TypedDict):
+    itemId: float | None
+    type: str
+    typeName: str | None
+    itemNo: str
+    name: str | None
+    category: list[str]
+    yearReleased: str | None
+    weight: str | None
+    studDimensions: str | None
+    packageDimensions: str | None
+    imageUrl: str | None
+    url: str
+
+class Prv_bricklink_BricklinkOffersArgs_In(TypedDict):
+    itemId: float
+    colorId: NotRequired[float]
+    condition: NotRequired[Literal["new"] | Literal["used"]]
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+
+class Prv_bricklink_offers_return_Out(TypedDict):
+    total: float
+    page: float
+    offers: list[Prv_bricklink_BricklinkOffer_Out]
+
+class Prv_bricklink_BricklinkOffer_Out(TypedDict):
+    lotId: float | None
+    condition: Literal["new"] | Literal["used"] | None
+    completeness: str | None
+    description: str | None
+    quantity: float | None
+    color: str | None
+    price: str | None
+    storePrice: str | None
+    salePercent: float | None
+    store: str | None
+    seller: str | None
+    sellerFeedback: float | None
+    sellerCountry: str | None
+    minBuy: str | None
+
+class Prv_bricklink_BricklinkSearchArgs_In(TypedDict):
+    query: str
+    type: NotRequired[str]
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+
+class Prv_bricklink_search_return_Out(TypedDict):
+    groups: list[Prv_bricklink_BricklinkSearchGroup_Out]
+
+class Prv_bricklink_BricklinkSearchGroup_Out(TypedDict):
+    type: str | None
+    typeName: str | None
+    count: float | None
+    items: list[Prv_bricklink_BricklinkSearchItem_Out]
+
+class Prv_bricklink_BricklinkSearchItem_Out(TypedDict):
+    itemId: float | None
+    type: str | None
+    typeName: str | None
+    itemNo: str | None
+    name: str | None
+    newQty: float | None
+    newSellers: float | None
+    newMinPrice: str | None
+    newMaxPrice: str | None
+    usedQty: float | None
+    usedSellers: float | None
+    usedMinPrice: str | None
+    usedMaxPrice: str | None
+    imageColorId: float | None
+    url: str | None
 
 class Prv_brius_BriusProviderSearch_Out(TypedDict):
     query: str
@@ -69343,6 +69480,29 @@ class Prv_tmobile_TmobileTradeInMatch_Out(TypedDict):
     promoDisplayName: str
     creditUsd: float
 
+class Prv_tmz_TmzNewsSidebar_Out(TypedDict):
+    sections: list[Prv_tmz_TmzNewsSidebar_Out_sections_item_Out]
+
+class Prv_tmz_TmzNewsSidebar_Out_sections_item_Out(TypedDict):
+    title: str
+    items: list[Prv_tmz_TmzItem_Out]
+
+class Prv_tmz_TmzItem_Out(TypedDict):
+    title: str
+    url: str
+    type: str
+    image: str | None
+
+class Prv_tmz_search_args_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_tmz_TmzSearchResult_Out(TypedDict):
+    query: str
+    page: float
+    results: list[Prv_tmz_TmzItem_Out]
+    hasMore: bool
+
 class Prv_toast_ToastRestaurant_Out(TypedDict):
     guid: str
     shortUrl: str | None
@@ -83115,9 +83275,9 @@ class Prv_airbnb(Protocol):
         """SIGNED IN — the caller's own Airbnb trips from their Trips tab: upcoming, past and
         cancelled, newest first, each with the site's status word, `cancelled` and `upcoming`
         flags, dates, cover photo and the trip's own page. `limit` caps each of the three lists
-        (1-100, default 40). Runs through the caller's own Chrome when Bowmark Link is attached,
-        otherwise from a saved Airbnb sign-in; with neither, the run pauses for the caller to
-        sign in. No trips is `{ trips: [] }`.
+        (1-100, default 40). Runs through the caller's own Chrome when Bowmark Buddy is
+        attached, otherwise from a saved Airbnb sign-in; with neither, the run pauses for the
+        caller to sign in. No trips is `{ trips: [] }`.
         """
 
 class Prv_airchina(Protocol):
@@ -83178,6 +83338,36 @@ class Prv_akc_org(Protocol):
     async def breed(self, args: Prv_akc_org_breed_args_u0_In | Prv_akc_org_breed_args_u1_In | Prv_akc_org_breed_args_u2_In, /) -> Prv_akc_org_AkcBreed_Out:
         """Reads one AKC breed profile: group, height, weight, life expectancy, popularity rank,
         temperament, trait scores, health, colours, parent club.
+        """
+
+class Prv_alaskaair(Protocol):
+    """Alaska Airlines' own public data: resolve a city or airport to its station codes, list
+    every airport it books (and which it flies itself), read its current travel advisories,
+    and its enabled site features.
+    """
+
+    async def getFeatures(self, /) -> list[str]:
+        """The feature flags alaskaair.com currently has switched on for an anonymous visitor (e.g.
+        "quote_cart", "multi_city_awards").
+        """
+
+    async def getTravelAdvisories(self, /) -> Prv_alaskaair_AlaskaSiteNotices_Out:
+        """Alaska Airlines' current travel advisories (the banner alerts on alaskaair.com —
+        weather, ground stops, flexible travel policies) with their links, plus the site's
+        social links and copyright line. An empty advisories[] means the site shows none right
+        now.
+        """
+
+    async def listAirports(self, args: Prv_alaskaair_AlaskaListAirportsArgs_In | None = None, /) -> list[Prv_alaskaair_AlaskaAirport_Out]:
+        """Every airport bookable on alaskaair.com (~1,400, partners included); isAlaska marks the
+        ones Alaska Airlines flies itself. Filter by query (code or name substring), alaskaOnly,
+        or country.
+        """
+
+    async def searchCities(self, args: Prv_alaskaair_AlaskaSearchCitiesArgs_In, /) -> list[Prv_alaskaair_AlaskaCity_Out]:
+        """Alaska Airlines' own city/airport lookup: a city name or code ("Seattle", "SEA")
+        resolves to metro groupings and their station codes, as the booking form does. An empty
+        array means alaskaair.com matched nothing.
         """
 
 class Prv_alibaba(Protocol):
@@ -83536,7 +83726,7 @@ class Prv_amazon(Protocol):
         """The signed-in customer's own Amazon orders, newest first — order id, date placed,
         Amazon's own status words (a cancelled or refunded order keeps them), total, item count
         and the order's page. Pages with `nextCursor`. Reads Your Orders through the caller's
-        own browser via Bowmark Link; with no sign-in the run pauses for one, never answers [].
+        own browser via Bowmark Buddy; with no sign-in the run pauses for one, never answers [].
         """
 
 class Prv_amazon_br(Protocol):
@@ -83719,8 +83909,8 @@ class Prv_andstr(Protocol):
 class Prv_anthem_directory(Protocol):
     """In-network doctors near a US ZIP code for one Anthem plan from Anthem's public find-care
     directory: name, titles, specialties, NPI, office address, phone, distance and network
-    status. Read through the CALLER's own browser (the Bowmark Link extension), because only
-    Anthem's own app can make its search
+    status. Read through the CALLER's own browser (the Bowmark Buddy extension), because
+    only Anthem's own app can make its search
     """
 
     async def findProviders(self, query: str | Prv_anthem_directory_findProviders_query_u1_In, /) -> Prv_anthem_directory_anthem_directoryProviderSearch_Out:
@@ -83731,7 +83921,7 @@ class Prv_anthem_directory(Protocol):
         and is clamped to 1-20; Anthem searches a fixed 20-mile radius and distanceMiles only
         narrows the returned rows; total is Anthem's count for the full radius, before
         distanceMiles and limit. A California HMO plan is refused (Anthem never searches one).
-        Needs the caller's own browser (Bowmark Link) and throws naming it when none is
+        Needs the caller's own browser (Bowmark Buddy) and throws naming it when none is
         connected
         """
 
@@ -86249,7 +86439,7 @@ class Prv_blueribbonhomewarranty_com(Protocol):
 class Prv_blueshieldca_directory(Protocol):
     """In-network doctors near a California ZIP code from Blue Shield of California's public
     Find a Doctor: name, specialty, nearest office, phone, distance, NPI and whether they
-    take new patients. Read through the CALLER's own browser (the Bowmark Link extension),
+    take new patients. Read through the CALLER's own browser (the Bowmark Buddy extension),
     because Blue Shield's search refuses every client Bowmark runs
     """
 
@@ -86258,7 +86448,7 @@ class Prv_blueshieldca_directory(Protocol):
         Shield of California PPO Network" unless plan names another), by specialty words
         (primary care when omitted), nearest first; limit defaults to 10 and is clamped to 1-60.
         A ZIP outside California returns no providers and a warning. Needs the caller's own
-        browser (Bowmark Link) and throws naming it when none is connected
+        browser (Bowmark Buddy) and throws naming it when none is connected
         """
 
 class Prv_bluesignal(Protocol):
@@ -87233,7 +87423,7 @@ class Prv_booking_com(Protocol):
         """SIGNED IN — the caller's own Booking.com trips ("My trips"), upcoming and past, newest
         first: the trip's title, the site's status word, `cancelled` and `upcoming` flags,
         dates, cover image and how many bookings it holds. `limit` caps the list (1-200, default
-        50). Runs through the caller's own Chrome when Bowmark Link is attached, otherwise from
+        50). Runs through the caller's own Chrome when Bowmark Buddy is attached, otherwise from
         a saved Booking.com sign-in; with neither, the run pauses for the caller to sign in. No
         trips is `{ trips: [] }`.
         """
@@ -87533,6 +87723,39 @@ class Prv_breezyhq(Protocol):
         Breezy subdomain ("census"), a {company}.breezy.hr URL, or the company name. Throws,
         caller-fixable, when Breezy has no such portal — the company may use a different ATS
         (`bowmark.job_search.atCompany` finds which).
+        """
+
+class Prv_bricklink(Protocol):
+    """BrickLink, the LEGO marketplace and catalogue: search sets, parts and minifigures with
+    new/used price ranges, read a catalogue item, list the stores selling it in a colour,
+    its images, and the catalogue categories.
+    """
+
+    async def categories(self, /) -> Prv_bricklink_categories_return_Out:
+        """List BrickLink's top-level LEGO catalogue categories (Sets, Parts, Minifigures, Gear, …)
+        with how many items each holds and its catalogue link.
+        """
+
+    async def images(self, args: Prv_bricklink_BricklinkImagesArgs_In, /) -> Prv_bricklink_images_return_Out:
+        """List the BrickLink catalogue images for one item in one colour: main and large image
+        URLs plus thumbnails.
+        """
+
+    async def item(self, args: str | Prv_bricklink_BricklinkItemArgs_In, /) -> Prv_bricklink_BricklinkItem_Out:
+        """Read one BrickLink catalogue item (set, part, minifigure…) by its item number: name,
+        category, year released, weight, stud and package dimensions, image and BrickLink's
+        internal itemId for offers/images.
+        """
+
+    async def offers(self, args: Prv_bricklink_BricklinkOffersArgs_In, /) -> Prv_bricklink_offers_return_Out:
+        """List the BrickLink marketplace stores selling one catalogue item in one colour: price,
+        quantity, new or used, store name, seller feedback and country, paged.
+        """
+
+    async def search(self, args: str | Prv_bricklink_BricklinkSearchArgs_In, /) -> Prv_bricklink_search_return_Out:
+        """Search the BrickLink LEGO catalogue for sets, parts, minifigures, gear and instructions
+        by name or number; results are grouped by type with item number, name, and new/used
+        quantities, seller counts and min/max prices.
         """
 
 class Prv_brius(Protocol):
@@ -91353,7 +91576,7 @@ class Prv_crunchbase(Protocol):
     """Crunchbase — which startups raised money this week (the week's biggest U.S. rounds with
     amount, round type, lead investors and the company's Crunchbase slug), Crunchbase News
     coverage of any company, and a company's own Crunchbase profile, funding rounds and the
-    company search — the last three read through the caller's own browser (the Bowmark Link
+    company search — the last three read through the caller's own browser (the Bowmark Buddy
     extension), since www.crunchbase.com's Cloudflare firewall blocks every address and
     browser Bowmark runs on its own.
     """
@@ -91378,7 +91601,7 @@ class Prv_crunchbase(Protocol):
         """Reads one company's Crunchbase profile at `/organization/<slug>` — name, website, short
         description, HQ, founded date, employee band, operating/IPO status, total funding and
         last funding type/date, number of rounds, categories and LinkedIn URL. Reaches the page
-        through the CALLER's own browser (the Bowmark Link extension) — www.crunchbase.com
+        through the CALLER's own browser (the Bowmark Buddy extension) — www.crunchbase.com
         blocks every address and browser Bowmark runs on its own — and throws naming the
         extension when none is connected. Not every field is always present; a field
         Crunchbase's own profile leaves blank comes back null.
@@ -92847,7 +93070,7 @@ class Prv_discord(Protocol):
     async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_discord_discordMyProfile_Out:
         """Reads the SIGNED-IN user's own Discord account — id, username, display name, avatar url,
         bio, pronouns, email-verified flag, Nitro tier and locale. Needs a Discord sign-in made
-        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
         browser yet.
         """
 
@@ -92864,7 +93087,7 @@ class Prv_discord(Protocol):
         timestamps. `channelId` is the last number in a discord.com/channels/<server>/<channel>
         url; `limit` is 1-100 (default 50). An empty channel returns `messages: []`. Throws when
         the account is not a member of that channel or cannot read it. Needs a Discord sign-in
-        made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your
+        made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your
         own browser yet.
         """
 
@@ -92872,7 +93095,7 @@ class Prv_discord(Protocol):
         """Lists one joined server's channels AS THE SIGNED-IN USER — id, name, type (text, voice,
         announcement, stage, forum), topic and the category it sits under. `guildId` is a row's
         id from listMyServers(). Pass a row's id to listMessages. Needs a Discord sign-in made
-        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
         browser yet.
         """
 
@@ -92880,21 +93103,21 @@ class Prv_discord(Protocol):
         """Lists the SIGNED-IN USER's DM and group-DM conversations, most recently active first —
         the channel id, the other people in it, a group's name and the last message id. Pass a
         row's id to listMessages or searchMessages({ channelId }). Needs a Discord sign-in made
-        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
         browser yet.
         """
 
     async def listFriends(self, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordFriend_Out]:
         """Lists the SIGNED-IN USER's Discord friends — user id, username, display name, the
         caller's nickname for them, avatar and since when. Needs a Discord sign-in made through
-        Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser
+        Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser
         yet.
         """
 
     async def listFriendRequests(self, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordFriendRequest_Out]:
         """Lists the SIGNED-IN USER's pending friend requests, each marked `incoming` or
         `outgoing`, with the other user's id, username, display name and avatar. Needs a Discord
-        sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token
+        sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token
         from your own browser yet.
         """
 
@@ -92902,7 +93125,7 @@ class Prv_discord(Protocol):
         """Reads another Discord user's profile AS THE SIGNED-IN USER — username, display name,
         avatar, banner, bio, pronouns, badges, and the servers and friends the caller shares
         with them. `userId` comes off a message author, a friend or a DM recipient. Needs a
-        Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+        Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's
         token from your own browser yet.
         """
 
@@ -92910,14 +93133,14 @@ class Prv_discord(Protocol):
         """Lists recent messages that mentioned the SIGNED-IN USER (directly, by role or @everyone)
         — the Inbox's Mentions tab, newest first, each with its server id. `limit` 1-100
         (default 25); `guildId` narrows to one server. Needs a Discord sign-in made through
-        Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser
+        Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser
         yet.
         """
 
     async def listPinnedMessages(self, args: Prv_discord_listPinnedMessages_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordPinnedMessage_Out]:
         """Lists the messages pinned in one channel or DM the SIGNED-IN USER can read, with when
         each was pinned. `channelId` from listChannels() or listDirectMessages(). Needs a
-        Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+        Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's
         token from your own browser yet.
         """
 
@@ -92925,7 +93148,7 @@ class Prv_discord(Protocol):
         """Lists the threads in a text channel, or the posts in a forum channel, AS THE SIGNED-IN
         USER — name, starter, message count, tags — most recently active first, 25 a page.
         `archived: true` lists archived ones instead. Pass a thread's id to listMessages. Needs
-        a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+        a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass
         Discord's token from your own browser yet.
         """
 
@@ -92934,7 +93157,7 @@ class Prv_discord(Protocol):
         starts with `query` — id, username, display name, server nickname, avatar, role ids,
         join date. `guildId` from listMyServers(); `limit` 1-1000 (default 25). Pass a member's
         id to getUserProfile. Needs a Discord sign-in made through Bowmark's sign-in link:
-        Bowmark Link cannot pass Discord's token from your own browser yet.
+        Bowmark Buddy cannot pass Discord's token from your own browser yet.
         """
 
     async def listServerEvents(self, args: Prv_discord_listServerEvents_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordServerEvent_Out]:
@@ -92942,7 +93165,7 @@ class Prv_discord(Protocol):
         description, start and end, status, whether it is in a stage or voice channel or
         external (with its location), and how many are interested. `guildId` from
         listMyServers(). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark
-        Link cannot pass Discord's token from your own browser yet.
+        Buddy cannot pass Discord's token from your own browser yet.
         """
 
     async def sendMessage(self, args: Prv_discord_sendMessage_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordMessage_Out:
@@ -92950,7 +93173,7 @@ class Prv_discord(Protocol):
         listChannels() or listDirectMessages()), optionally as a reply to `replyToMessageId`.
         `content` is 1-2000 characters. Returns the posted message. Sending the same text to the
         same channel twice in one run posts it once. Needs a Discord sign-in made through
-        Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser
+        Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser
         yet.
         """
 
@@ -92959,34 +93182,34 @@ class Prv_discord(Protocol):
         listFriends(), searchServerMembers() or a message's author), opening the DM if none
         exists yet. `content` is 1-2000 characters. Returns the posted message; its channelId is
         the DM to pass to listMessages. Sending the same text to the same user twice in one run
-        sends it once. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
-        cannot pass Discord's token from your own browser yet.
+        sends it once. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark
+        Buddy cannot pass Discord's token from your own browser yet.
         """
 
     async def addReaction(self, args: Prv_discord_addReaction_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordReactionResult_Out:
         """Adds the SIGNED-IN USER's emoji reaction to a message. `emoji` is a unicode emoji ("👍")
         or a custom server emoji as "name:id". `channelId` and `messageId` from listMessages().
-        Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+        Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass
         Discord's token from your own browser yet.
         """
 
     async def removeReaction(self, args: Prv_discord_removeReaction_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordReactionResult_Out:
         """Removes the SIGNED-IN USER's own emoji reaction from a message — same arguments as
-        addReaction. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+        addReaction. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy
         cannot pass Discord's token from your own browser yet.
         """
 
     async def editMessage(self, args: Prv_discord_editMessage_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordMessage_Out:
         """Replaces the text of a message the SIGNED-IN USER sent (`channelId` and `messageId` from
         listMessages() or sendMessage()). `content` is 1-2000 characters. Returns the edited
-        message. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+        message. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy
         cannot pass Discord's token from your own browser yet.
         """
 
     async def deleteMessage(self, args: Prv_discord_deleteMessage_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordDeleteResult_Out:
         """Deletes a message AS THE SIGNED-IN USER — their own, or anyone's in a server where they
         can manage messages (`channelId` and `messageId` from listMessages()). Cannot be undone.
-        Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+        Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass
         Discord's token from your own browser yet.
         """
 
@@ -92994,73 +93217,73 @@ class Prv_discord(Protocol):
         """Joins a server AS THE SIGNED-IN USER from an invite code or link (`invite`: "N8AWaBP6"
         or discord.gg/N8AWaBP6). Returns the server id and name and the channel the invite lands
         on. Discord sometimes demands an hCaptcha for a join; that comes back as an error saying
-        so. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot
+        so. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot
         pass Discord's token from your own browser yet.
         """
 
     async def leaveServer(self, args: Prv_discord_leaveServer_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordLeaveResult_Out:
         """Leaves a server the SIGNED-IN USER is in (`guildId` from listServers() or joinServer()).
         An owner cannot leave their own server. Needs a Discord sign-in made through Bowmark's
-        sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+        sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
         """
 
     async def createServer(self, args: Prv_discord_createServer_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordCreatedServer_Out:
         """Creates a new server owned by the SIGNED-IN USER. `name` is 2-100 characters; `icon` is
         an optional image as a data: URI. Returns the server id and its first text channel
         (systemChannelId). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark
-        Link cannot pass Discord's token from your own browser yet.
+        Buddy cannot pass Discord's token from your own browser yet.
         """
 
     async def createInvite(self, args: Prv_discord_createInvite_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordCreatedInvite_Out:
         """Creates an invite link to a channel AS THE SIGNED-IN USER (`channelId` from
         listChannels()). `expiresInSeconds` 0-604800 (default 7 days, 0 = never expires),
         `useLimit` 0-100 (default 0 = unlimited). Returns the code and its discord.gg url. Needs
-        a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+        a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass
         Discord's token from your own browser yet.
         """
 
     async def sendFriendRequest(self, args: Prv_discord_sendFriendRequest_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordRelationshipResult_Out:
         """Sends a friend request AS THE SIGNED-IN USER, by `username` (the new unique handle) or
         `userId` (from getUserProfile()). Discord may ask for a captcha on a new account. Needs
-        a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+        a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass
         Discord's token from your own browser yet.
         """
 
     async def acceptFriendRequest(self, args: Prv_discord_acceptFriendRequest_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordRelationshipResult_Out:
         """Accepts an incoming friend request from `userId` (see listFriendRequests()). Needs a
-        Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+        Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's
         token from your own browser yet.
         """
 
     async def removeFriend(self, args: Prv_discord_removeFriend_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordRelationshipResult_Out:
         """Removes a friend, or cancels / declines a pending request, for `userId` (see
         listFriends(), listFriendRequests()). Needs a Discord sign-in made through Bowmark's
-        sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+        sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
         """
 
     async def blockUser(self, args: Prv_discord_blockUser_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordRelationshipResult_Out:
         """Blocks `userId` for the signed-in user; this also ends any friendship. Needs a Discord
-        sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token
+        sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token
         from your own browser yet.
         """
 
     async def updateProfile(self, args: Prv_discord_updateProfile_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordProfileResult_Out:
         """Changes the SIGNED-IN USER's display name (1-32), bio / About Me (up to 190) or pronouns
         (up to 40); pass only what should change, "" clears one. Needs a Discord sign-in made
-        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
         browser yet.
         """
 
     async def setAvatar(self, args: Prv_discord_setAvatar_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordAvatarResult_Out:
         """Changes the SIGNED-IN USER's profile picture; `image` is a data: URI
         ("data:image/png;base64,…"), or null to remove it. Needs a Discord sign-in made through
-        Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser
+        Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser
         yet.
         """
 
     async def setStatus(self, args: Prv_discord_setStatus_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordStatusResult_Out:
         """Sets the SIGNED-IN USER's presence and/or custom status text (up to 128 characters, null
-        clears). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+        clears). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy
         cannot pass Discord's token from your own browser yet.
         """
 
@@ -93069,14 +93292,14 @@ class Prv_discord(Protocol):
         post with `content` (its first message, optional forum `tagIds`), or as an empty thread
         in a text channel with neither. `name` is 1-100 characters. Returns the thread; its id
         is the channelId to pass to sendMessage or listMessages. Needs a Discord sign-in made
-        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
         browser yet.
         """
 
     async def listQuests(self, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordQuest_Out]:
         """Lists the Quests Discord currently offers the SIGNED-IN USER — quest and game name, the
         task (e.g. play for 15 minutes), rewards, expiry, and the caller's enrolment, completion
-        and progress. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+        and progress. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy
         cannot pass Discord's token from your own browser yet.
         """
 
@@ -93086,7 +93309,7 @@ class Prv_discord(Protocol):
         (`channelId` alone). Give at least one of `query` (text), `authorId` or `has`. Returns
         25 hits a page with Discord's total hit count; step `offset` by 25 for more. Throws a
         retry message while Discord is still indexing a server. Needs a Discord sign-in made
-        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
         browser yet.
         """
 
@@ -93250,7 +93473,7 @@ class Prv_doordash(Protocol):
         """The signed-in customer's own DoorDash orders, newest first — order id, when, the store,
         status (Cancelled / Delivered / In progress), total, item count and the order's page.
         Pages with `nextCursor`. Reads the site's own getConsumerOrdersWithDetails through the
-        caller's own browser via Bowmark Link; a guest (which DoorDash answers with an empty
+        caller's own browser via Bowmark Buddy; a guest (which DoorDash answers with an empty
         list) pauses the run for sign-in, never answers [].
         """
 
@@ -97480,7 +97703,7 @@ class Prv_glassdoor(Protocol):
     """Glassdoor's employer review summary — overall rating, review count, best/worst rating
     scale and the employer's own site, off its public Overview page's structured data. Takes
     an overview URL, a numeric employer id, or a company name. Read through the CALLER's own
-    browser (the Bowmark Link extension), because glassdoor.com refuses every address and
+    browser (the Bowmark Buddy extension), because glassdoor.com refuses every address and
     browser Bowmark runs on its own.
     """
 
@@ -97492,7 +97715,7 @@ class Prv_glassdoor(Protocol):
         matched by name — a stray unrelated link elsewhere on the results page never wins).
         Returns null when a name search finds nobody, rather than throwing; throws instead when
         the search page itself isn't recognizable (a sign-in wall, a challenge). Reaches
-        glassdoor.com through the CALLER's own browser (the Bowmark Link extension), on a tab
+        glassdoor.com through the CALLER's own browser (the Bowmark Buddy extension), on a tab
         matching the URL's own host, and throws naming the extension when none is connected.
         """
 
@@ -100862,7 +101085,7 @@ class Prv_instacart(Protocol):
         """The signed-in customer's own Instacart orders, newest first — order id, when, the store,
         Instacart's own status, total, item count and the order's page. Pages with `nextCursor`.
         Reads the site's own CurrentUser and OrderDeliveriesConnection through the caller's own
-        browser via Bowmark Link; a guest (which Instacart answers with an empty list) pauses
+        browser via Bowmark Buddy; a guest (which Instacart answers with an empty list) pauses
         the run for sign-in, never answers [].
         """
 
@@ -106622,7 +106845,7 @@ class Prv_notion(Protocol):
     async def search(self, args: Prv_notion_NotionSearchArgs_In | None = None, /) -> Any:
         """Search your Notion workspace's pages and databases by title — the door to every pageId
         and databaseId. With no token held, on a run with egress: "link", it reads your own
-        signed-in Notion through Bowmark Link instead: rows { object, id, title, url,
+        signed-in Notion through Bowmark Buddy instead: rows { object, id, title, url,
         last_edited_time }, one page, no cursor, spaceId picks the workspace.
         """
 
@@ -107859,7 +108082,7 @@ class Prv_opentable(Protocol):
         """Lists the signed-in diner's own OpenTable reservations, upcoming and past, newest first:
         restaurant, date and time, party size, OpenTable's status, a cancelled flag, and the
         reservation's page link when OpenTable gives one. Needs the caller signed in to
-        OpenTable (through Bowmark Link, or a saved sign-in); empty when they have none. One
+        OpenTable (through Bowmark Buddy, or a saved sign-in); empty when they have none. One
         page read, no browser launched.
         """
 
@@ -113118,7 +113341,7 @@ class Prv_sevenrooms(Protocol):
         """Lists the signed-in guest's own SevenRooms reservations across every venue, upcoming and
         past, newest first: venue, city, date and time, party size, status, a cancelled flag,
         and the manage and modify links. Needs the caller signed in to SevenRooms (through
-        Bowmark Link, or a saved sign-in); empty when they have none.
+        Bowmark Buddy, or a saved sign-in); empty when they have none.
         """
 
     async def validatePromoCode(self, args: Prv_sevenrooms_ValidatePromoCodeArgs_In, /) -> Prv_sevenrooms_SevenroomsPromoValidation_u0_Out | Prv_sevenrooms_SevenroomsPromoValidation_u1_Out:
@@ -116825,19 +117048,19 @@ class Prv_threads(Protocol):
     async def getMe(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsMe_Out:
         """Reads the signed-in caller's own Threads account — id, username, name, profile picture,
         verified flag — the handle to pass to getProfile and the rest. Needs the caller signed
-        in to Threads; runs through their own Chrome when Bowmark Link is attached.
+        in to Threads; runs through their own Chrome when Bowmark Buddy is attached.
         """
 
     async def getHomeFeed(self, args: Prv_threads_GetHomeFeedArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsHomeFeed_Out:
         """Reads the signed-in caller's own Threads home feed — For You (default) or Following —
         first page of posts with author, text, media and counts. Needs the caller signed in to
-        Threads; runs through their own Chrome when Bowmark Link is attached.
+        Threads; runs through their own Chrome when Bowmark Buddy is attached.
         """
 
     async def createPost(self, args: Prv_threads_ThreadsCreatePostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsPublished_Out:
         """Publishes a new text thread (up to 500 characters) as the signed-in caller and returns
         its id and URL. Needs the caller signed in to Threads; runs through their own Chrome
-        when Bowmark Link is attached.
+        when Bowmark Buddy is attached.
         """
 
     async def replyToPost(self, args: Prv_threads_ThreadsReplyArgs_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsPublished_Out:
@@ -116915,26 +117138,26 @@ class Prv_threads(Protocol):
     async def getSavedPosts(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsSavedPosts_Out:
         """Reads the posts the signed-in caller has saved on Threads (first page) — author, text,
         media and counts. Needs the caller signed in to Threads; runs through their own Chrome
-        when Bowmark Link is attached.
+        when Bowmark Buddy is attached.
         """
 
     async def listCustomFeeds(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsCustomFeeds_Out:
         """Lists the custom feeds the signed-in caller follows or built on Threads, with the ids
         getCustomFeed takes. Needs the caller signed in to Threads; runs through their own
-        Chrome when Bowmark Link is attached.
+        Chrome when Bowmark Buddy is attached.
         """
 
     async def getCustomFeed(self, args: Prv_threads_GetCustomFeedArgs_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsCustomFeedPosts_Out:
         """Reads the posts in one of the signed-in caller's Threads custom feeds (first page) —
         author, text, media and counts. Needs the caller signed in to Threads; runs through
-        their own Chrome when Bowmark Link is attached.
+        their own Chrome when Bowmark Buddy is attached.
         """
 
     async def getActivity(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActivity_Out:
         """Reads the signed-in caller's own Threads activity (their notifications): new followers,
         replies, mentions, quotes, reposts and likes on their posts, newest first, each with its
         kind, text, time, the other account and the post code. [] when there is none. Needs the
-        caller signed in to Threads; runs through their own Chrome when Bowmark Link is
+        caller signed in to Threads; runs through their own Chrome when Bowmark Buddy is
         attached.
         """
 
@@ -117401,6 +117624,21 @@ class Prv_tmobile(Protocol):
         and every applicable promotion's per-trade-in-device credit tier) and, when
         `tradeInModel` is given, resolves the BEST matching credit across all of them — e.g.
         "iPhone 13" against a page carrying tiers like "Save $830: iPhone 13".
+        """
+
+class Prv_tmz(Protocol):
+    """TMZ (tmz.com), the celebrity news site — search its news by keyword, and read the news
+    sidebar (most popular stories, hot galleries).
+    """
+
+    async def newsSidebar(self, /) -> Prv_tmz_TmzNewsSidebar_Out:
+        """TMZ's news sidebar — the Most Popular stories, Hot Galleries and other promoted
+        sections, each item with title, url and image.
+        """
+
+    async def search(self, args: Prv_tmz_search_args_In, /) -> Prv_tmz_TmzSearchResult_Out:
+        """Search TMZ celebrity news by keyword — article title, url and thumbnail for each result,
+        one page at a time.
         """
 
 class Prv_toast(Protocol):
@@ -118524,20 +118762,20 @@ class Prv_ubereats(Protocol):
         """The signed-in eater's own past Uber Eats orders, newest first — order id, when, the
         restaurant, status (a cancelled order says Cancelled), total, item count and the order's
         page. Pages with `nextCursor`. Reads the site's own getPastOrdersV1 through the caller's
-        own browser via Bowmark Link; with no sign-in the run pauses for one, never answers [].
+        own browser via Bowmark Buddy; with no sign-in the run pauses for one, never answers [].
         """
 
     async def getOrder(self, args: Prv_ubereats_getOrder_args_In, opts: ConnectionOption | None = None, /) -> Prv_ubereats_SignedInOrder_Out:
         """Returns one of the caller's own past or active Uber Eats orders in full, by its uuid
         (from listOrders() or listActiveOrders()). Reads the site's own getOrderEntityByUuidV1
-        through the caller's own browser via Bowmark Link; with no sign-in the run pauses for
+        through the caller's own browser via Bowmark Buddy; with no sign-in the run pauses for
         one.
         """
 
     async def listActiveOrders(self, opts: ConnectionOption | None = None, /) -> list[Prv_ubereats_SignedInOrder_Out]:
         """Lists the caller's own Uber Eats orders that are in progress right now. Reads the site's
-        own getActiveOrdersV1 through the caller's own browser via Bowmark Link; with no sign-in
-        the run pauses for one.
+        own getActiveOrdersV1 through the caller's own browser via Bowmark Buddy; with no
+        sign-in the run pauses for one.
         """
 
     async def getCart(self, opts: ConnectionOption | None = None, /) -> list[Prv_ubereats_UbereatsCartOrder_Out]:
@@ -118568,7 +118806,7 @@ class Prv_ubereats(Protocol):
 
     async def listMyAddresses(self, opts: ConnectionOption | None = None, /) -> list[Prv_ubereats_UbereatsSavedAddress_Out]:
         """Lists the delivery addresses saved on the caller's Uber Eats account. Reads the site's
-        own getDeliveryLocationsV2 through the caller's own browser via Bowmark Link; with no
+        own getDeliveryLocationsV2 through the caller's own browser via Bowmark Buddy; with no
         sign-in the run pauses for one. signedIn is UNMEASURED, see manifest.json.
         """
 
@@ -118915,8 +119153,8 @@ class Prv_usatoday(Protocol):
 class Prv_uscis(Protocol):
     """U.S. Citizenship and Immigration Services' Case Status Online — the current status of
     one immigration case by its receipt number (form, headline status and USCIS's own
-    sentence). Read through the caller's own browser via the Bowmark Link extension, because
-    egov.uscis.gov refuses every address Bowmark runs.
+    sentence). Read through the caller's own browser via the Bowmark Buddy extension,
+    because egov.uscis.gov refuses every address Bowmark runs.
     """
 
     async def caseStatus(self, args: Prv_uscis_CaseStatusArgs_In, /) -> Prv_uscis_uscisCaseStatus_Out:
@@ -118924,7 +119162,7 @@ class Prv_uscis(Protocol):
         ten digits, from the I-797 notice): the form, USCIS's headline status and its full
         sentence. `found: false` when USCIS does not recognise the number. A malformed number is
         refused before any request. Reaches egov.uscis.gov through the CALLER's own browser (the
-        Bowmark Link extension), calling the Case Status page's own Next.js server action, and
+        Bowmark Buddy extension), calling the Case Status page's own Next.js server action, and
         throws naming the extension when none is connected.
         """
 
@@ -118934,7 +119172,7 @@ class Prv_usps(Protocol):
     optional dimensions, and returns the counter price, the discounted Click-N-Ship price
     and USPS's own delivery-commitment date (one keyless GET, no browser) — and USPS
     Tracking for one tracking number, read through the caller's own browser via the Bowmark
-    Link extension because tools.usps.com refuses every address Bowmark runs.
+    Buddy extension because tools.usps.com refuses every address Bowmark runs.
     """
 
     async def getRate(self, args: Prv_usps_getRate_args_In, /) -> list[Prv_usps_uspsRateOption_Out]:
@@ -118950,7 +119188,7 @@ class Prv_usps(Protocol):
         it was delivered, `not_found` when USPS says tracking is not available (an invalid
         number among the reasons — an answer, not an error), or `ambiguous` when several items
         share the number and USPS wants a send date or destination ZIP. Reaches tools.usps.com
-        through the CALLER's own browser (the Bowmark Link extension) — USPS refuses every
+        through the CALLER's own browser (the Bowmark Buddy extension) — USPS refuses every
         address and client Bowmark runs — and throws naming the extension when none is
         connected.
         """
@@ -122010,20 +122248,20 @@ class Prv_yelp(Protocol):
         location, join month, tagline, photo, Elite years,
         review/photo/friend/follower/compliment counts, filled-in About answers and latest
         reviews (the same YelpUser getUser returns). Needs the caller signed in to Yelp; runs
-        through their own Chrome when Bowmark Link is attached. Read-only.
+        through their own Chrome when Bowmark Buddy is attached. Read-only.
         """
 
     async def getCollections(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpOwnCollections_Out:
         """Lists the signed-in caller's own Yelp collections (their My Collections page): each
         one's id, title and url, in page order, [] when none; pass a url to getCollection for
         the places in it. Needs the caller signed in to Yelp; runs through their own Chrome when
-        Bowmark Link is attached. Read-only.
+        Bowmark Buddy is attached. Read-only.
         """
 
     async def getMessages(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpMessages_Out:
         """Lists the threads in the signed-in caller's own Yelp inbox (/messaging/inbox): each
         thread's id, url and the preview text the page shows, in page order, [] when empty.
-        Needs the caller signed in to Yelp; runs through their own Chrome when Bowmark Link is
+        Needs the caller signed in to Yelp; runs through their own Chrome when Bowmark Buddy is
         attached. Read-only.
         """
 
@@ -122031,7 +122269,7 @@ class Prv_yelp(Protocol):
         """Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
         page): each business's alias, name and url, in the order the page shows them, [] when
         nothing is saved. Needs the caller signed in to Yelp; runs through their own Chrome when
-        Bowmark Link is attached. Read-only.
+        Bowmark Buddy is attached. Read-only.
         """
 
 class Prv_yogatreecollective(Protocol):
@@ -123016,6 +123254,7 @@ class BowmarkProviders(Protocol):
     airtable: Prv_airtable
     ajmadison: Prv_ajmadison
     akc_org: Prv_akc_org
+    alaskaair: Prv_alaskaair
     alibaba: Prv_alibaba
     aliexpress: Prv_aliexpress
     allied: Prv_allied
@@ -123123,6 +123362,7 @@ class BowmarkProviders(Protocol):
     boxlunch: Prv_boxlunch
     boydsleep: Prv_boydsleep
     breezyhq: Prv_breezyhq
+    bricklink: Prv_bricklink
     brius: Prv_brius
     brixton: Prv_brixton
     builder_strucsure_com: Prv_builder_strucsure_com
@@ -123748,6 +123988,7 @@ class BowmarkProviders(Protocol):
     tilsonhomes: Prv_tilsonhomes
     titlenine: Prv_titlenine
     tmobile: Prv_tmobile
+    tmz: Prv_tmz
     toast: Prv_toast
     tock: Prv_tock
     tomsguide: Prv_tomsguide

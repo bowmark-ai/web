@@ -43,6 +43,7 @@ airchina.com — airchina: getDealFares (+1 planned)
 airtable.com — airtable: createRecord, getRecord, listBases, listRecords, listTables, updateRecord
 ajmadison.com — ajmadison: search (+1 planned)
 akc.org — akc_org: breed, searchBreeds
+alaskaair.com — alaskaair: getFeatures, getTravelAdvisories, listAirports, searchCities
 alibaba.com — alibaba: getOrder, getProduct, getProductReviews, getProfile, getSuggestions, getSupplier, listCategories, listMessages, listOrders, listSavedItems, listSupplierProducts, listSuppliers, searchProducts (+19 planned)
 aliexpress.us — aliexpress: addToCart, getProduct, getStore, listCart, listCategories, listOrders, listWishlist, search
 allied.com — allied: estimatePackingSupplies
@@ -148,6 +149,7 @@ boxlunch.com — boxlunch: search
 boydsleep.com — boydsleep: calibrateSixZoneSupportNumber, calibrateSupportNumber
 bravabraces.com — brius: findProviders
 breezy.hr — breezyhq: listJobs
+bricklink.com — bricklink: categories, images, item, offers, search
 brixton.com — brixton: getBrixtonCheckoutLink, getBrixtonProduct, listBrixtonProducts
 browser-use.com — browser_use: cancelRun, createRun, findSessionBrowser, getBrowser, getRun, getRunStatus, getSession, listRunEvents, listSessionRuns, queueMessage, stopBrowser
 bsb.de — bodensee_schiffsbetriebe_berths: searchHarbors (+1 planned)
@@ -794,6 +796,7 @@ tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHigh
 tiktok.com — tiktok: 36 functions — ask get_library
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
+tmz.com — tmz: newsSidebar, search
 toasttab.com — toast: getMenu, getMenuItem, getOrderingOptions, getPopularItems, getReservationAvailability, getRestaurant, listCities, listCityRestaurants, searchMenu, searchRestaurants (+47 planned)
 tomsguide.com — tomsguide: listLatest, search
 topcashback.com — topcashback: getStoreRate, searchStores (+1 planned)

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 32e41706bf177e96a7ac6684440bde103e91a67fac7244f9c68475d321971862
-// 5323 checked, 20 unchecked.
+// Manifest version: cd93433cf6cc56d00464c8f7a5fcafc4ecba8499e2614d7e32d5f3acb5075953
+// 5334 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "32e41706bf177e96a7ac6684440bde103e91a67fac7244f9c68475d321971862",
+  "version": "cd93433cf6cc56d00464c8f7a5fcafc4ecba8499e2614d7e32d5f3acb5075953",
   "units": {
     "address_validation": {
       "defs": {
@@ -11883,6 +11883,72 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.alaskaair": {
+      "defs": {
+        "AlaskaListAirportsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "alaskaOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "AlaskaSearchCitiesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getFeatures": [],
+        "getTravelAdvisories": [],
+        "listAirports": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AlaskaListAirportsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchCities": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AlaskaSearchCitiesArgs"
             },
             "optional": false
           }
@@ -27517,6 +27583,190 @@ export const VALIDATORS: ValidatorTable = {
             "name": "company",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bricklink": {
+      "defs": {
+        "BricklinkImagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "colorId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BricklinkItemArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemNo",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BricklinkOffersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "colorId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "condition",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "new"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "used"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BricklinkSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "categories": [],
+        "images": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BricklinkImagesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "item": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "BricklinkItemArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "offers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BricklinkOffersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "BricklinkSearchArgs"
+                }
+              ]
             },
             "optional": false
           }
@@ -147473,6 +147723,37 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "tradeInModel",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tmz": {
+      "defs": {},
+      "functions": {
+        "newsSidebar": [],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
                   },
                   "optional": true
                 }

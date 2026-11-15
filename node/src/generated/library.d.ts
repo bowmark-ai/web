@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 32e41706bf177e96a7ac6684440bde103e91a67fac7244f9c68475d321971862
-// 98 capabilities, 866 providers, 5351 typed functions, 20 refused.
+// Manifest version: cd93433cf6cc56d00464c8f7a5fcafc4ecba8499e2614d7e32d5f3acb5075953
+// 98 capabilities, 869 providers, 5362 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9381,7 +9381,7 @@ interface AirbnbExperience {
      * SIGNED IN — the caller's own Airbnb trips from their Trips tab: upcoming, past and
      * cancelled, newest first, each with the site's status word, `cancelled` and `upcoming` flags,
      * dates, cover photo and the trip's own page. `limit` caps each of the three lists (1-100,
-     * default 40). Runs through the caller's own Chrome when Bowmark Link is attached, otherwise
+     * default 40). Runs through the caller's own Chrome when Bowmark Buddy is attached, otherwise
      * from a saved Airbnb sign-in; with neither, the run pauses for the caller to sign in. No
      * trips is `{ trips: [] }`.
      */
@@ -9554,6 +9554,74 @@ interface AkcBreed { slug: string; name: string; url: string; group: string | nu
      * temperament, trait scores, health, colours, parent club.
      */
     breed(args: { slug: string } | { url: string } | { name: string }): Promise<AkcBreed>;
+  }
+}
+
+declare namespace BowmarkProvider_alaskaair {
+  // ── Alaska Airlines — the unit's own declarations, verbatim ──
+interface AlaskaCity {
+  name: string;          // e.g. "Seattle Area (All Airports)"
+  code: string;          // station or metro code, e.g. "SA2", "SEA"
+  stations: AlaskaCity[];
+}
+interface AlaskaAirport {
+  code: string;          // IATA
+  name: string;
+  country: string;       // ISO-3166 alpha-2
+  region: string;
+  isAlaska: boolean;     // true when Alaska Airlines itself serves it
+}
+interface AlaskaAdvisory {
+  title: string;
+  text: string;          // description with HTML stripped
+  html: string;
+  links: string[];       // absolute URLs found in the description
+  updatedAt: string | null;
+}
+interface AlaskaSiteNotices {
+  advisories: AlaskaAdvisory[];
+  socialLinks: { title: string; url: string }[];
+  copyright: string | null;
+}
+interface AlaskaSearchCitiesArgs { query: string }
+interface AlaskaListAirportsArgs {
+  query?: string;        // substring of code or name
+  alaskaOnly?: boolean;  // only airports Alaska Airlines itself serves
+  country?: string;      // ISO-3166 alpha-2, e.g. "US"
+}
+
+  /**
+   * Alaska Airlines' own public data: resolve a city or airport to its station codes, list every
+   * airport it books (and which it flies itself), read its current travel advisories, and its
+   * enabled site features.
+   */
+  interface Unit {
+    /**
+     * The feature flags alaskaair.com currently has switched on for an anonymous visitor (e.g.
+     * "quote_cart", "multi_city_awards").
+     */
+    getFeatures(): Promise<string[]>;
+
+    /**
+     * Alaska Airlines' current travel advisories (the banner alerts on alaskaair.com — weather,
+     * ground stops, flexible travel policies) with their links, plus the site's social links and
+     * copyright line. An empty advisories[] means the site shows none right now.
+     */
+    getTravelAdvisories(): Promise<AlaskaSiteNotices>;
+
+    /**
+     * Every airport bookable on alaskaair.com (~1,400, partners included); isAlaska marks the ones
+     * Alaska Airlines flies itself. Filter by query (code or name substring), alaskaOnly, or
+     * country.
+     */
+    listAirports(args?: AlaskaListAirportsArgs): Promise<AlaskaAirport[]>;
+
+    /**
+     * Alaska Airlines' own city/airport lookup: a city name or code ("Seattle", "SEA") resolves to
+     * metro groupings and their station codes, as the booking form does. An empty array means
+     * alaskaair.com matched nothing.
+     */
+    searchCities(args: AlaskaSearchCitiesArgs): Promise<AlaskaCity[]>;
   }
 }
 
@@ -10472,7 +10540,7 @@ interface SignedInOrderPage {
      * The signed-in customer's own Amazon orders, newest first — order id, date placed, Amazon's
      * own status words (a cancelled or refunded order keeps them), total, item count and the
      * order's page. Pages with `nextCursor`. Reads Your Orders through the caller's own browser
-     * via Bowmark Link; with no sign-in the run pauses for one, never answers [].
+     * via Bowmark Buddy; with no sign-in the run pauses for one, never answers [].
      */
     listOrders(args?: { limit?: number; cursor?: string }, opts?: ConnectionOption): Promise<SignedInOrderPage>;
   }
@@ -10954,7 +11022,7 @@ interface anthem_directoryProviderSearch {
   /**
    * In-network doctors near a US ZIP code for one Anthem plan from Anthem's public find-care
    * directory: name, titles, specialties, NPI, office address, phone, distance and network
-   * status. Read through the CALLER's own browser (the Bowmark Link extension), because only
+   * status. Read through the CALLER's own browser (the Bowmark Buddy extension), because only
    * Anthem's own app can make its search
    */
   interface Unit {
@@ -10966,7 +11034,7 @@ interface anthem_directoryProviderSearch {
      * clamped to 1-20; Anthem searches a fixed 20-mile radius and distanceMiles only narrows the
      * returned rows; total is Anthem's count for the full radius, before distanceMiles and limit.
      * A California HMO plan is refused (Anthem never searches one). Needs the caller's own browser
-     * (Bowmark Link) and throws naming it when none is connected
+     * (Bowmark Buddy) and throws naming it when none is connected
      */
     findProviders(query: string | { zip: string; specialty?: string; state?: string; plan?: string; distanceMiles?: number; limit?: number }): Promise<anthem_directoryProviderSearch>;
   }
@@ -17947,7 +18015,7 @@ interface blueshieldca_directoryProviderSearch {
   /**
    * In-network doctors near a California ZIP code from Blue Shield of California's public Find a
    * Doctor: name, specialty, nearest office, phone, distance, NPI and whether they take new
-   * patients. Read through the CALLER's own browser (the Bowmark Link extension), because Blue
+   * patients. Read through the CALLER's own browser (the Bowmark Buddy extension), because Blue
    * Shield's search refuses every client Bowmark runs
    */
   interface Unit {
@@ -17956,7 +18024,7 @@ interface blueshieldca_directoryProviderSearch {
      * Shield of California PPO Network" unless plan names another), by specialty words (primary
      * care when omitted), nearest first; limit defaults to 10 and is clamped to 1-60. A ZIP
      * outside California returns no providers and a warning. Needs the caller's own browser
-     * (Bowmark Link) and throws naming it when none is connected
+     * (Bowmark Buddy) and throws naming it when none is connected
      */
     findProviders(query: string | { zip: string; specialty?: string; limit?: number; plan?: string }): Promise<blueshieldca_directoryProviderSearch>;
   }
@@ -20906,7 +20974,7 @@ interface AccountProfile {
      * SIGNED IN — the caller's own Booking.com trips ("My trips"), upcoming and past, newest
      * first: the trip's title, the site's status word, `cancelled` and `upcoming` flags, dates,
      * cover image and how many bookings it holds. `limit` caps the list (1-200, default 50). Runs
-     * through the caller's own Chrome when Bowmark Link is attached, otherwise from a saved
+     * through the caller's own Chrome when Bowmark Buddy is attached, otherwise from a saved
      * Booking.com sign-in; with neither, the run pauses for the caller to sign in. No trips is `{
      * trips: [] }`.
      */
@@ -21949,6 +22017,148 @@ interface BreezyhqBoard {
      * (`bowmark.job_search.atCompany` finds which).
      */
     listJobs(company: string): Promise<BreezyhqBoard>;
+  }
+}
+
+declare namespace BowmarkProvider_bricklink {
+  // ── BrickLink — the unit's own declarations, verbatim ──
+interface BricklinkSearchArgs {
+  query: string;
+  /** "set" | "part" | "minifigure" | "book" | "gear" | "catalog" | "instructions" | "original box"; omit for all */
+  type?: string;
+  page?: number;
+  /** 1-100, default 25 */
+  perPage?: number;
+}
+interface BricklinkSearchItem {
+  /** BrickLink's internal id — pass to offers / images */
+  itemId: number | null;
+  /** one-letter type, e.g. "S" */
+  type: string | null;
+  typeName: string | null;
+  /** catalogue number, e.g. "75192-1" or "3001" */
+  itemNo: string | null;
+  name: string | null;
+  newQty: number | null;
+  newSellers: number | null;
+  /** display price string in the currency BrickLink picked, e.g. "GBP 421.30"; null when nobody sells it */
+  newMinPrice: string | null;
+  newMaxPrice: string | null;
+  usedQty: number | null;
+  usedSellers: number | null;
+  usedMinPrice: string | null;
+  usedMaxPrice: string | null;
+  imageColorId: number | null;
+  url: string | null;
+}
+interface BricklinkSearchGroup {
+  type: string | null;
+  typeName: string | null;
+  /** total matches of this type across every page */
+  count: number | null;
+  items: BricklinkSearchItem[];
+}
+interface BricklinkItemArgs {
+  /** e.g. "75192-1" (set) or "47543pb05" (part), or a catalogitem.page URL */
+  itemNo: string;
+  /** default: "set" when itemNo looks like 1234-1, otherwise "part" */
+  type?: string;
+}
+interface BricklinkItem {
+  itemId: number | null;
+  type: string;
+  typeName: string | null;
+  itemNo: string;
+  name: string | null;
+  /** breadcrumb, e.g. ["Star Wars", "Ultimate Collector Series"] */
+  category: string[];
+  yearReleased: string | null;
+  weight: string | null;
+  studDimensions: string | null;
+  packageDimensions: string | null;
+  imageUrl: string | null;
+  url: string;
+}
+interface BricklinkOffersArgs {
+  itemId: number;
+  /** BrickLink colour id; 0 (default) for sets and uncoloured items */
+  colorId?: number;
+  condition?: "new" | "used";
+  page?: number;
+  perPage?: number;
+}
+interface BricklinkOffer {
+  lotId: number | null;
+  condition: "new" | "used" | null;
+  completeness: string | null;
+  description: string | null;
+  quantity: number | null;
+  color: string | null;
+  /** in the caller's display currency */
+  price: string | null;
+  /** in the store's own currency */
+  storePrice: string | null;
+  salePercent: number | null;
+  store: string | null;
+  seller: string | null;
+  sellerFeedback: number | null;
+  sellerCountry: string | null;
+  minBuy: string | null;
+}
+interface BricklinkImagesArgs {
+  itemId: number;
+  colorId?: number;
+}
+interface BricklinkImage {
+  /** "main" | "large" | other BrickLink codes */
+  kind: string | null;
+  colorId: number | null;
+  url: string | null;
+  thumbUrl: string | null;
+}
+interface BricklinkCategory {
+  name: string;
+  itemCount: number | null;
+  url: string | null;
+}
+
+  /**
+   * BrickLink, the LEGO marketplace and catalogue: search sets, parts and minifigures with
+   * new/used price ranges, read a catalogue item, list the stores selling it in a colour, its
+   * images, and the catalogue categories.
+   */
+  interface Unit {
+    /**
+     * List BrickLink's top-level LEGO catalogue categories (Sets, Parts, Minifigures, Gear, …)
+     * with how many items each holds and its catalogue link.
+     */
+    categories(): Promise<{ categories: BricklinkCategory[] }>;
+
+    /**
+     * List the BrickLink catalogue images for one item in one colour: main and large image URLs
+     * plus thumbnails.
+     */
+    images(args: BricklinkImagesArgs): Promise<{ itemNo: string | null; name: string | null; images: BricklinkImage[] }>;
+
+    /**
+     * Read one BrickLink catalogue item (set, part, minifigure…) by its item number: name,
+     * category, year released, weight, stud and package dimensions, image and BrickLink's internal
+     * itemId for offers/images.
+     */
+    item(args: string | BricklinkItemArgs): Promise<BricklinkItem>;
+
+    /**
+     * List the BrickLink marketplace stores selling one catalogue item in one colour: price,
+     * quantity, new or used, store name, seller feedback and country, paged.
+     */
+    offers(args: BricklinkOffersArgs): Promise<{ total: number; page: number; offers: BricklinkOffer[] }>;
+
+    /**
+     * Search the BrickLink LEGO catalogue for sets, parts, minifigures, gear and instructions by
+     * name or number; results are grouped by type with item number, name, and new/used quantities,
+     * seller counts and min/max prices.
+     */
+    search(args: string | BricklinkSearchArgs): Promise<{ groups: BricklinkSearchGroup[] }>;
   }
 }
 
@@ -32704,7 +32914,7 @@ interface CrunchbaseOrganizationSearchHit {
    * Crunchbase — which startups raised money this week (the week's biggest U.S. rounds with
    * amount, round type, lead investors and the company's Crunchbase slug), Crunchbase News
    * coverage of any company, and a company's own Crunchbase profile, funding rounds and the
-   * company search — the last three read through the caller's own browser (the Bowmark Link
+   * company search — the last three read through the caller's own browser (the Bowmark Buddy
    * extension), since www.crunchbase.com's Cloudflare firewall blocks every address and browser
    * Bowmark runs on its own.
    */
@@ -32731,7 +32941,7 @@ interface CrunchbaseOrganizationSearchHit {
      * Reads one company's Crunchbase profile at `/organization/<slug>` — name, website, short
      * description, HQ, founded date, employee band, operating/IPO status, total funding and last
      * funding type/date, number of rounds, categories and LinkedIn URL. Reaches the page through
-     * the CALLER's own browser (the Bowmark Link extension) — www.crunchbase.com blocks every
+     * the CALLER's own browser (the Bowmark Buddy extension) — www.crunchbase.com blocks every
      * address and browser Bowmark runs on its own — and throws naming the extension when none is
      * connected. Not every field is always present; a field Crunchbase's own profile leaves blank
      * comes back null.
@@ -37317,7 +37527,7 @@ interface discordMessageSearch {
     /**
      * Reads the SIGNED-IN user's own Discord account — id, username, display name, avatar url,
      * bio, pronouns, email-verified flag, Nitro tier and locale. Needs a Discord sign-in made
-     * through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+     * through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
      * browser yet.
      */
     getMyProfile(opts?: ConnectionOption): Promise<discordMyProfile>;
@@ -37336,7 +37546,7 @@ interface discordMessageSearch {
      * `channelId` is the last number in a discord.com/channels/<server>/<channel> url; `limit` is
      * 1-100 (default 50). An empty channel returns `messages: []`. Throws when the account is not
      * a member of that channel or cannot read it. Needs a Discord sign-in made through Bowmark's
-     * sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     listMessages(args: { channelId: string; limit?: number }, opts?: ConnectionOption): Promise<discordChannelMessages>;
 
@@ -37344,7 +37554,7 @@ interface discordMessageSearch {
      * Lists one joined server's channels AS THE SIGNED-IN USER — id, name, type (text, voice,
      * announcement, stage, forum), topic and the category it sits under. `guildId` is a row's id
      * from listMyServers(). Pass a row's id to listMessages. Needs a Discord sign-in made through
-     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     listChannels(guildId: string, opts?: ConnectionOption): Promise<discordChannel[]>;
 
@@ -37352,21 +37562,21 @@ interface discordMessageSearch {
      * Lists the SIGNED-IN USER's DM and group-DM conversations, most recently active first — the
      * channel id, the other people in it, a group's name and the last message id. Pass a row's id
      * to listMessages or searchMessages({ channelId }). Needs a Discord sign-in made through
-     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     listDirectMessages(opts?: ConnectionOption): Promise<discordDirectMessage[]>;
 
     /**
      * Lists the SIGNED-IN USER's Discord friends — user id, username, display name, the caller's
      * nickname for them, avatar and since when. Needs a Discord sign-in made through Bowmark's
-     * sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     listFriends(opts?: ConnectionOption): Promise<discordFriend[]>;
 
     /**
      * Lists the SIGNED-IN USER's pending friend requests, each marked `incoming` or `outgoing`,
      * with the other user's id, username, display name and avatar. Needs a Discord sign-in made
-     * through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+     * through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
      * browser yet.
      */
     listFriendRequests(opts?: ConnectionOption): Promise<discordFriendRequest[]>;
@@ -37375,7 +37585,7 @@ interface discordMessageSearch {
      * Reads another Discord user's profile AS THE SIGNED-IN USER — username, display name, avatar,
      * banner, bio, pronouns, badges, and the servers and friends the caller shares with them.
      * `userId` comes off a message author, a friend or a DM recipient. Needs a Discord sign-in
-     * made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+     * made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
      * browser yet.
      */
     getUserProfile(args: { userId: string }, opts?: ConnectionOption): Promise<discordUserProfile>;
@@ -37384,14 +37594,14 @@ interface discordMessageSearch {
      * Lists recent messages that mentioned the SIGNED-IN USER (directly, by role or @everyone) —
      * the Inbox's Mentions tab, newest first, each with its server id. `limit` 1-100 (default 25);
      * `guildId` narrows to one server. Needs a Discord sign-in made through Bowmark's sign-in
-     * link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     listMentions(args?: { limit?: number; guildId?: string }, opts?: ConnectionOption): Promise<discordMention[]>;
 
     /**
      * Lists the messages pinned in one channel or DM the SIGNED-IN USER can read, with when each
      * was pinned. `channelId` from listChannels() or listDirectMessages(). Needs a Discord sign-in
-     * made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+     * made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own
      * browser yet.
      */
     listPinnedMessages(args: { channelId: string }, opts?: ConnectionOption): Promise<discordPinnedMessage[]>;
@@ -37400,7 +37610,7 @@ interface discordMessageSearch {
      * Lists the threads in a text channel, or the posts in a forum channel, AS THE SIGNED-IN USER
      * — name, starter, message count, tags — most recently active first, 25 a page. `archived:
      * true` lists archived ones instead. Pass a thread's id to listMessages. Needs a Discord
-     * sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from
+     * sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from
      * your own browser yet.
      */
     listThreads(args: { channelId: string; archived?: boolean; offset?: number }, opts?: ConnectionOption): Promise<discordThreadList>;
@@ -37409,7 +37619,7 @@ interface discordMessageSearch {
      * Finds members of a server the SIGNED-IN USER has joined whose username or nickname starts
      * with `query` — id, username, display name, server nickname, avatar, role ids, join date.
      * `guildId` from listMyServers(); `limit` 1-1000 (default 25). Pass a member's id to
-     * getUserProfile. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+     * getUserProfile. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy
      * cannot pass Discord's token from your own browser yet.
      */
     searchServerMembers(args: { guildId: string; query: string; limit?: number }, opts?: ConnectionOption): Promise<discordServerMember[]>;
@@ -37418,7 +37628,7 @@ interface discordMessageSearch {
      * Lists a joined server's scheduled events AS THE SIGNED-IN USER, soonest first — name,
      * description, start and end, status, whether it is in a stage or voice channel or external
      * (with its location), and how many are interested. `guildId` from listMyServers(). Needs a
-     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's
      * token from your own browser yet.
      */
     listServerEvents(args: { guildId: string }, opts?: ConnectionOption): Promise<discordServerEvent[]>;
@@ -37428,7 +37638,7 @@ interface discordMessageSearch {
      * listChannels() or listDirectMessages()), optionally as a reply to `replyToMessageId`.
      * `content` is 1-2000 characters. Returns the posted message. Sending the same text to the
      * same channel twice in one run posts it once. Needs a Discord sign-in made through Bowmark's
-     * sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     sendMessage(args: { channelId: string; content: string; replyToMessageId?: string }, opts?: ConnectionOption): Promise<discordMessage>;
 
@@ -37437,7 +37647,7 @@ interface discordMessageSearch {
      * searchServerMembers() or a message's author), opening the DM if none exists yet. `content`
      * is 1-2000 characters. Returns the posted message; its channelId is the DM to pass to
      * listMessages. Sending the same text to the same user twice in one run sends it once. Needs a
-     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's
      * token from your own browser yet.
      */
     sendDirectMessage(args: { userId: string; content: string }, opts?: ConnectionOption): Promise<discordMessage>;
@@ -37445,14 +37655,14 @@ interface discordMessageSearch {
     /**
      * Adds the SIGNED-IN USER's emoji reaction to a message. `emoji` is a unicode emoji ("👍") or
      * a custom server emoji as "name:id". `channelId` and `messageId` from listMessages(). Needs a
-     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's
      * token from your own browser yet.
      */
     addReaction(args: { channelId: string; messageId: string; emoji: string }, opts?: ConnectionOption): Promise<discordReactionResult>;
 
     /**
      * Removes the SIGNED-IN USER's own emoji reaction from a message — same arguments as
-     * addReaction. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
+     * addReaction. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy
      * cannot pass Discord's token from your own browser yet.
      */
     removeReaction(args: { channelId: string; messageId: string; emoji: string }, opts?: ConnectionOption): Promise<discordReactionResult>;
@@ -37460,7 +37670,7 @@ interface discordMessageSearch {
     /**
      * Replaces the text of a message the SIGNED-IN USER sent (`channelId` and `messageId` from
      * listMessages() or sendMessage()). `content` is 1-2000 characters. Returns the edited
-     * message. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot
+     * message. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot
      * pass Discord's token from your own browser yet.
      */
     editMessage(args: { channelId: string; messageId: string; content: string }, opts?: ConnectionOption): Promise<discordMessage>;
@@ -37468,7 +37678,7 @@ interface discordMessageSearch {
     /**
      * Deletes a message AS THE SIGNED-IN USER — their own, or anyone's in a server where they can
      * manage messages (`channelId` and `messageId` from listMessages()). Cannot be undone. Needs a
-     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's
      * token from your own browser yet.
      */
     deleteMessage(args: { channelId: string; messageId: string }, opts?: ConnectionOption): Promise<discordDeleteResult>;
@@ -37477,7 +37687,7 @@ interface discordMessageSearch {
      * Joins a server AS THE SIGNED-IN USER from an invite code or link (`invite`: "N8AWaBP6" or
      * discord.gg/N8AWaBP6). Returns the server id and name and the channel the invite lands on.
      * Discord sometimes demands an hCaptcha for a join; that comes back as an error saying so.
-     * Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass
+     * Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass
      * Discord's token from your own browser yet.
      */
     joinServer(args: { invite: string }, opts?: ConnectionOption): Promise<discordJoinResult>;
@@ -37485,15 +37695,15 @@ interface discordMessageSearch {
     /**
      * Leaves a server the SIGNED-IN USER is in (`guildId` from listServers() or joinServer()). An
      * owner cannot leave their own server. Needs a Discord sign-in made through Bowmark's sign-in
-     * link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     leaveServer(args: { guildId: string }, opts?: ConnectionOption): Promise<discordLeaveResult>;
 
     /**
      * Creates a new server owned by the SIGNED-IN USER. `name` is 2-100 characters; `icon` is an
      * optional image as a data: URI. Returns the server id and its first text channel
-     * (systemChannelId). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link
-     * cannot pass Discord's token from your own browser yet.
+     * (systemChannelId). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark
+     * Buddy cannot pass Discord's token from your own browser yet.
      */
     createServer(args: { name: string; icon?: string }, opts?: ConnectionOption): Promise<discordCreatedServer>;
 
@@ -37501,21 +37711,21 @@ interface discordMessageSearch {
      * Creates an invite link to a channel AS THE SIGNED-IN USER (`channelId` from listChannels()).
      * `expiresInSeconds` 0-604800 (default 7 days, 0 = never expires), `useLimit` 0-100 (default 0
      * = unlimited). Returns the code and its discord.gg url. Needs a Discord sign-in made through
-     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     createInvite(args: { channelId: string; expiresInSeconds?: number; useLimit?: number }, opts?: ConnectionOption): Promise<discordCreatedInvite>;
 
     /**
      * Sends a friend request AS THE SIGNED-IN USER, by `username` (the new unique handle) or
      * `userId` (from getUserProfile()). Discord may ask for a captcha on a new account. Needs a
-     * Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's
+     * Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's
      * token from your own browser yet.
      */
     sendFriendRequest(args: { username?: string; userId?: string }, opts?: ConnectionOption): Promise<discordRelationshipResult>;
 
     /**
      * Accepts an incoming friend request from `userId` (see listFriendRequests()). Needs a Discord
-     * sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from
+     * sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from
      * your own browser yet.
      */
     acceptFriendRequest(args: { userId: string }, opts?: ConnectionOption): Promise<discordRelationshipResult>;
@@ -37523,13 +37733,13 @@ interface discordMessageSearch {
     /**
      * Removes a friend, or cancels / declines a pending request, for `userId` (see listFriends(),
      * listFriendRequests()). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark
-     * Link cannot pass Discord's token from your own browser yet.
+     * Buddy cannot pass Discord's token from your own browser yet.
      */
     removeFriend(args: { userId: string }, opts?: ConnectionOption): Promise<discordRelationshipResult>;
 
     /**
      * Blocks `userId` for the signed-in user; this also ends any friendship. Needs a Discord
-     * sign-in made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from
+     * sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from
      * your own browser yet.
      */
     blockUser(args: { userId: string }, opts?: ConnectionOption): Promise<discordRelationshipResult>;
@@ -37537,20 +37747,20 @@ interface discordMessageSearch {
     /**
      * Changes the SIGNED-IN USER's display name (1-32), bio / About Me (up to 190) or pronouns (up
      * to 40); pass only what should change, "" clears one. Needs a Discord sign-in made through
-     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     updateProfile(args: { displayName?: string; bio?: string; pronouns?: string }, opts?: ConnectionOption): Promise<discordProfileResult>;
 
     /**
      * Changes the SIGNED-IN USER's profile picture; `image` is a data: URI
      * ("data:image/png;base64,…"), or null to remove it. Needs a Discord sign-in made through
-     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     setAvatar(args: { image: string | null }, opts?: ConnectionOption): Promise<discordAvatarResult>;
 
     /**
      * Sets the SIGNED-IN USER's presence and/or custom status text (up to 128 characters, null
-     * clears). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot
+     * clears). Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot
      * pass Discord's token from your own browser yet.
      */
     setStatus(args: { status?: 'online' | 'idle' | 'dnd' | 'invisible'; text?: string | null }, opts?: ConnectionOption): Promise<discordStatusResult>;
@@ -37560,14 +37770,14 @@ interface discordMessageSearch {
      * with `content` (its first message, optional forum `tagIds`), or as an empty thread in a text
      * channel with neither. `name` is 1-100 characters. Returns the thread; its id is the
      * channelId to pass to sendMessage or listMessages. Needs a Discord sign-in made through
-     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     createThread(args: { channelId: string; name: string; messageId?: string; content?: string; tagIds?: string[] }, opts?: ConnectionOption): Promise<discordThread>;
 
     /**
      * Lists the Quests Discord currently offers the SIGNED-IN USER — quest and game name, the task
      * (e.g. play for 15 minutes), rewards, expiry, and the caller's enrolment, completion and
-     * progress. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Link cannot
+     * progress. Needs a Discord sign-in made through Bowmark's sign-in link: Bowmark Buddy cannot
      * pass Discord's token from your own browser yet.
      */
     listQuests(opts?: ConnectionOption): Promise<discordQuest[]>;
@@ -37578,7 +37788,7 @@ interface discordMessageSearch {
      * (`channelId` alone). Give at least one of `query` (text), `authorId` or `has`. Returns 25
      * hits a page with Discord's total hit count; step `offset` by 25 for more. Throws a retry
      * message while Discord is still indexing a server. Needs a Discord sign-in made through
-     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     * Bowmark's sign-in link: Bowmark Buddy cannot pass Discord's token from your own browser yet.
      */
     searchMessages(args: { guildId?: string; channelId?: string; query?: string; authorId?: string; has?: "link" | "embed" | "file" | "image" | "video" | "sound" | "sticker" | "poll"; offset?: number }, opts?: ConnectionOption): Promise<discordMessageSearch>;
   }
@@ -38039,8 +38249,8 @@ interface DoordashRetailStore {
      * The signed-in customer's own DoorDash orders, newest first — order id, when, the store,
      * status (Cancelled / Delivered / In progress), total, item count and the order's page. Pages
      * with `nextCursor`. Reads the site's own getConsumerOrdersWithDetails through the caller's
-     * own browser via Bowmark Link; a guest (which DoorDash answers with an empty list) pauses the
-     * run for sign-in, never answers [].
+     * own browser via Bowmark Buddy; a guest (which DoorDash answers with an empty list) pauses
+     * the run for sign-in, never answers [].
      */
     listOrders(args?: { limit?: number; cursor?: string }, opts?: ConnectionOption): Promise<SignedInOrderPage>;
 
@@ -50085,7 +50295,7 @@ interface GlassdoorEmployerReviews {
    * Glassdoor's employer review summary — overall rating, review count, best/worst rating scale
    * and the employer's own site, off its public Overview page's structured data. Takes an
    * overview URL, a numeric employer id, or a company name. Read through the CALLER's own
-   * browser (the Bowmark Link extension), because glassdoor.com refuses every address and
+   * browser (the Bowmark Buddy extension), because glassdoor.com refuses every address and
    * browser Bowmark runs on its own.
    */
   interface Unit {
@@ -50097,7 +50307,7 @@ interface GlassdoorEmployerReviews {
      * name — a stray unrelated link elsewhere on the results page never wins). Returns null when a
      * name search finds nobody, rather than throwing; throws instead when the search page itself
      * isn't recognizable (a sign-in wall, a challenge). Reaches glassdoor.com through the CALLER's
-     * own browser (the Bowmark Link extension), on a tab matching the URL's own host, and throws
+     * own browser (the Bowmark Buddy extension), on a tab matching the URL's own host, and throws
      * naming the extension when none is connected.
      */
     getEmployerReviews(query: string | number | { url?: string; employerId?: string | number; name?: string }): Promise<GlassdoorEmployerReviews | null>;
@@ -59782,7 +59992,7 @@ interface SignedInOrderPage {
      * The signed-in customer's own Instacart orders, newest first — order id, when, the store,
      * Instacart's own status, total, item count and the order's page. Pages with `nextCursor`.
      * Reads the site's own CurrentUser and OrderDeliveriesConnection through the caller's own
-     * browser via Bowmark Link; a guest (which Instacart answers with an empty list) pauses the
+     * browser via Bowmark Buddy; a guest (which Instacart answers with an empty list) pauses the
      * run for sign-in, never answers [].
      */
     listOrders(args?: { limit?: number; cursor?: string }, opts?: ConnectionOption): Promise<SignedInOrderPage>;
@@ -75144,7 +75354,7 @@ type NotionCreateCommentArgs = ({ pageId: string } | { discussionId: string }) &
     /**
      * Search your Notion workspace's pages and databases by title — the door to every pageId and
      * databaseId. With no token held, on a run with egress: "link", it reads your own signed-in
-     * Notion through Bowmark Link instead: rows { object, id, title, url, last_edited_time }, one
+     * Notion through Bowmark Buddy instead: rows { object, id, title, url, last_edited_time }, one
      * page, no cursor, spaceId picks the workspace.
      */
     search(args?: NotionSearchArgs): Promise<NotionList<NotionObject>>;
@@ -78842,7 +79052,7 @@ interface OpenTableBookingStatus {
      * Lists the signed-in diner's own OpenTable reservations, upcoming and past, newest first:
      * restaurant, date and time, party size, OpenTable's status, a cancelled flag, and the
      * reservation's page link when OpenTable gives one. Needs the caller signed in to OpenTable
-     * (through Bowmark Link, or a saved sign-in); empty when they have none. One page read, no
+     * (through Bowmark Buddy, or a saved sign-in); empty when they have none. One page read, no
      * browser launched.
      */
     listMyReservations(opts?: ConnectionOption): Promise<OpenTableMyReservations>;
@@ -93647,8 +93857,8 @@ type SevenroomsPromoValidation =
     /**
      * Lists the signed-in guest's own SevenRooms reservations across every venue, upcoming and
      * past, newest first: venue, city, date and time, party size, status, a cancelled flag, and
-     * the manage and modify links. Needs the caller signed in to SevenRooms (through Bowmark Link,
-     * or a saved sign-in); empty when they have none.
+     * the manage and modify links. Needs the caller signed in to SevenRooms (through Bowmark
+     * Buddy, or a saved sign-in); empty when they have none.
      */
     listMyReservations(opts?: ConnectionOption): Promise<SevenroomsMyReservations>;
 
@@ -104940,21 +105150,21 @@ interface ThreadsActivity {
     /**
      * Reads the signed-in caller's own Threads account — id, username, name, profile picture,
      * verified flag — the handle to pass to getProfile and the rest. Needs the caller signed in to
-     * Threads; runs through their own Chrome when Bowmark Link is attached.
+     * Threads; runs through their own Chrome when Bowmark Buddy is attached.
      */
     getMe(opts?: ConnectionOption): Promise<ThreadsMe>;
 
     /**
      * Reads the signed-in caller's own Threads home feed — For You (default) or Following — first
      * page of posts with author, text, media and counts. Needs the caller signed in to Threads;
-     * runs through their own Chrome when Bowmark Link is attached.
+     * runs through their own Chrome when Bowmark Buddy is attached.
      */
     getHomeFeed(args?: GetHomeFeedArgs, opts?: ConnectionOption): Promise<ThreadsHomeFeed>;
 
     /**
      * Publishes a new text thread (up to 500 characters) as the signed-in caller and returns its
      * id and URL. Needs the caller signed in to Threads; runs through their own Chrome when
-     * Bowmark Link is attached.
+     * Bowmark Buddy is attached.
      */
     createPost(args: ThreadsCreatePostArgs, opts?: ConnectionOption): Promise<ThreadsPublished>;
 
@@ -105046,21 +105256,21 @@ interface ThreadsActivity {
     /**
      * Reads the posts the signed-in caller has saved on Threads (first page) — author, text, media
      * and counts. Needs the caller signed in to Threads; runs through their own Chrome when
-     * Bowmark Link is attached.
+     * Bowmark Buddy is attached.
      */
     getSavedPosts(opts?: ConnectionOption): Promise<ThreadsSavedPosts>;
 
     /**
      * Lists the custom feeds the signed-in caller follows or built on Threads, with the ids
      * getCustomFeed takes. Needs the caller signed in to Threads; runs through their own Chrome
-     * when Bowmark Link is attached.
+     * when Bowmark Buddy is attached.
      */
     listCustomFeeds(opts?: ConnectionOption): Promise<ThreadsCustomFeeds>;
 
     /**
      * Reads the posts in one of the signed-in caller's Threads custom feeds (first page) — author,
      * text, media and counts. Needs the caller signed in to Threads; runs through their own Chrome
-     * when Bowmark Link is attached.
+     * when Bowmark Buddy is attached.
      */
     getCustomFeed(args: GetCustomFeedArgs, opts?: ConnectionOption): Promise<ThreadsCustomFeedPosts>;
 
@@ -105068,7 +105278,7 @@ interface ThreadsActivity {
      * Reads the signed-in caller's own Threads activity (their notifications): new followers,
      * replies, mentions, quotes, reposts and likes on their posts, newest first, each with its
      * kind, text, time, the other account and the post code. [] when there is none. Needs the
-     * caller signed in to Threads; runs through their own Chrome when Bowmark Link is attached.
+     * caller signed in to Threads; runs through their own Chrome when Bowmark Buddy is attached.
      */
     getActivity(opts?: ConnectionOption): Promise<ThreadsActivity>;
 
@@ -106169,6 +106379,45 @@ interface TmobileUpgradeOffer {
      * page carrying tiers like "Save $830: iPhone 13".
      */
     getUpgradeOffer(arg: { devicePath: string; tradeInModel?: string }): Promise<TmobileUpgradeOffer>;
+  }
+}
+
+declare namespace BowmarkProvider_tmz {
+  // ── TMZ — the unit's own declarations, verbatim ──
+interface TmzItem {
+  title: string;
+  url: string;
+  type: string; // "article" | "gallery" | "video"
+  image: string | null;
+}
+
+interface TmzSearchResult {
+  query: string;
+  page: number;
+  results: TmzItem[]; // ~12 per page, newest first
+  hasMore: boolean;
+}
+
+interface TmzNewsSidebar {
+  sections: { title: string; items: TmzItem[] }[]; // e.g. "Most Popular", "Hot Galleries"
+}
+
+  /**
+   * TMZ (tmz.com), the celebrity news site — search its news by keyword, and read the news
+   * sidebar (most popular stories, hot galleries).
+   */
+  interface Unit {
+    /**
+     * TMZ's news sidebar — the Most Popular stories, Hot Galleries and other promoted sections,
+     * each item with title, url and image.
+     */
+    newsSidebar(): Promise<TmzNewsSidebar>;
+
+    /**
+     * Search TMZ celebrity news by keyword — article title, url and thumbnail for each result, one
+     * page at a time.
+     */
+    search(args: { query: string; page?: number }): Promise<TmzSearchResult>;
   }
 }
 
@@ -109774,21 +110023,21 @@ interface UbereatsAddToCartArgs {
      * The signed-in eater's own past Uber Eats orders, newest first — order id, when, the
      * restaurant, status (a cancelled order says Cancelled), total, item count and the order's
      * page. Pages with `nextCursor`. Reads the site's own getPastOrdersV1 through the caller's own
-     * browser via Bowmark Link; with no sign-in the run pauses for one, never answers [].
+     * browser via Bowmark Buddy; with no sign-in the run pauses for one, never answers [].
      */
     listOrders(args?: { limit?: number; cursor?: string }, opts?: ConnectionOption): Promise<SignedInOrderPage>;
 
     /**
      * Returns one of the caller's own past or active Uber Eats orders in full, by its uuid (from
      * listOrders() or listActiveOrders()). Reads the site's own getOrderEntityByUuidV1 through the
-     * caller's own browser via Bowmark Link; with no sign-in the run pauses for one.
+     * caller's own browser via Bowmark Buddy; with no sign-in the run pauses for one.
      */
     getOrder(args: { orderId: string }, opts?: ConnectionOption): Promise<SignedInOrder>;
 
     /**
      * Lists the caller's own Uber Eats orders that are in progress right now. Reads the site's own
-     * getActiveOrdersV1 through the caller's own browser via Bowmark Link; with no sign-in the run
-     * pauses for one.
+     * getActiveOrdersV1 through the caller's own browser via Bowmark Buddy; with no sign-in the
+     * run pauses for one.
      */
     listActiveOrders(opts?: ConnectionOption): Promise<SignedInOrder[]>;
 
@@ -109824,7 +110073,7 @@ interface UbereatsAddToCartArgs {
 
     /**
      * Lists the delivery addresses saved on the caller's Uber Eats account. Reads the site's own
-     * getDeliveryLocationsV2 through the caller's own browser via Bowmark Link; with no sign-in
+     * getDeliveryLocationsV2 through the caller's own browser via Bowmark Buddy; with no sign-in
      * the run pauses for one. signedIn is UNMEASURED, see manifest.json.
      */
     listMyAddresses(opts?: ConnectionOption): Promise<UbereatsSavedAddress[]>;
@@ -110798,8 +111047,8 @@ interface uscisCaseStatus {
   /**
    * U.S. Citizenship and Immigration Services' Case Status Online — the current status of one
    * immigration case by its receipt number (form, headline status and USCIS's own sentence).
-   * Read through the caller's own browser via the Bowmark Link extension, because egov.uscis.gov
-   * refuses every address Bowmark runs.
+   * Read through the caller's own browser via the Bowmark Buddy extension, because
+   * egov.uscis.gov refuses every address Bowmark runs.
    */
   interface Unit {
     /**
@@ -110807,8 +111056,8 @@ interface uscisCaseStatus {
      * digits, from the I-797 notice): the form, USCIS's headline status and its full sentence.
      * `found: false` when USCIS does not recognise the number. A malformed number is refused
      * before any request. Reaches egov.uscis.gov through the CALLER's own browser (the Bowmark
-     * Link extension), calling the Case Status page's own Next.js server action, and throws naming
-     * the extension when none is connected.
+     * Buddy extension), calling the Case Status page's own Next.js server action, and throws
+     * naming the extension when none is connected.
      */
     caseStatus(args: CaseStatusArgs): Promise<uscisCaseStatus>;
   }
@@ -110852,7 +111101,7 @@ interface uspsTracking {
    * across every USPS Mail Service that quotes it for a ZIP-to-ZIP move, weight and optional
    * dimensions, and returns the counter price, the discounted Click-N-Ship price and USPS's own
    * delivery-commitment date (one keyless GET, no browser) — and USPS Tracking for one tracking
-   * number, read through the caller's own browser via the Bowmark Link extension because
+   * number, read through the caller's own browser via the Bowmark Buddy extension because
    * tools.usps.com refuses every address Bowmark runs.
    */
   interface Unit {
@@ -110870,7 +111119,7 @@ interface uspsTracking {
      * was delivered, `not_found` when USPS says tracking is not available (an invalid number among
      * the reasons — an answer, not an error), or `ambiguous` when several items share the number
      * and USPS wants a send date or destination ZIP. Reaches tools.usps.com through the CALLER's
-     * own browser (the Bowmark Link extension) — USPS refuses every address and client Bowmark
+     * own browser (the Bowmark Buddy extension) — USPS refuses every address and client Bowmark
      * runs — and throws naming the extension when none is connected.
      */
     trackPackage(args: TrackPackageArgs): Promise<uspsTracking>;
@@ -119647,7 +119896,7 @@ interface YelpOwnCollections {
      * Reads the signed-in caller's own Yelp profile from their /user_details page: name, location,
      * join month, tagline, photo, Elite years, review/photo/friend/follower/compliment counts,
      * filled-in About answers and latest reviews (the same YelpUser getUser returns). Needs the
-     * caller signed in to Yelp; runs through their own Chrome when Bowmark Link is attached.
+     * caller signed in to Yelp; runs through their own Chrome when Bowmark Buddy is attached.
      * Read-only.
      */
     getOwnProfile(opts?: ConnectionOption): Promise<YelpUser>;
@@ -119655,7 +119904,7 @@ interface YelpOwnCollections {
     /**
      * Lists the signed-in caller's own Yelp collections (their My Collections page): each one's
      * id, title and url, in page order, [] when none; pass a url to getCollection for the places
-     * in it. Needs the caller signed in to Yelp; runs through their own Chrome when Bowmark Link
+     * in it. Needs the caller signed in to Yelp; runs through their own Chrome when Bowmark Buddy
      * is attached. Read-only.
      */
     getCollections(opts?: ConnectionOption): Promise<YelpOwnCollections>;
@@ -119663,7 +119912,7 @@ interface YelpOwnCollections {
     /**
      * Lists the threads in the signed-in caller's own Yelp inbox (/messaging/inbox): each thread's
      * id, url and the preview text the page shows, in page order, [] when empty. Needs the caller
-     * signed in to Yelp; runs through their own Chrome when Bowmark Link is attached. Read-only.
+     * signed in to Yelp; runs through their own Chrome when Bowmark Buddy is attached. Read-only.
      */
     getMessages(opts?: ConnectionOption): Promise<YelpMessages>;
 
@@ -119671,7 +119920,7 @@ interface YelpOwnCollections {
      * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
      * page): each business's alias, name and url, in the order the page shows them, [] when
      * nothing is saved. Needs the caller signed in to Yelp; runs through their own Chrome when
-     * Bowmark Link is attached. Read-only.
+     * Bowmark Buddy is attached. Read-only.
      */
     getBookmarks(opts?: ConnectionOption): Promise<YelpBookmarks>;
   }
@@ -123316,6 +123565,7 @@ interface BowmarkProviders {
   airtable: BowmarkProvider_airtable.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
   akc_org: BowmarkProvider_akc_org.Unit;
+  alaskaair: BowmarkProvider_alaskaair.Unit;
   alibaba: BowmarkProvider_alibaba.Unit;
   aliexpress: BowmarkProvider_aliexpress.Unit;
   allied: BowmarkProvider_allied.Unit;
@@ -123423,6 +123673,7 @@ interface BowmarkProviders {
   boxlunch: BowmarkProvider_boxlunch.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;
   breezyhq: BowmarkProvider_breezyhq.Unit;
+  bricklink: BowmarkProvider_bricklink.Unit;
   brius: BowmarkProvider_brius.Unit;
   brixton: BowmarkProvider_brixton.Unit;
   builder_strucsure_com: BowmarkProvider_builder_strucsure_com.Unit;
@@ -124048,6 +124299,7 @@ interface BowmarkProviders {
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
   titlenine: BowmarkProvider_titlenine.Unit;
   tmobile: BowmarkProvider_tmobile.Unit;
+  tmz: BowmarkProvider_tmz.Unit;
   toast: BowmarkProvider_toast.Unit;
   tock: BowmarkProvider_tock.Unit;
   tomsguide: BowmarkProvider_tomsguide.Unit;

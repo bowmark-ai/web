@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6900 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6911 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -166,6 +166,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ajmadison.search` | ajmadison.com | Runs AJ Madison's own category + facet filter (brand, size/capacity, price band… | 🟡 |
 | `akc_org.breed` | akc.org | Reads one AKC dog breed profile: group, height, weight, life expectancy, popularity… | 🟢 |
 | `akc_org.searchBreeds` | akc.org | Searches the American Kennel Club's dog breed library by name or keyword and returns… | 🟢 |
+| `alaskaair.getFeatures` | alaskaair.com | The feature flags alaskaair.com currently has switched on for an anonymous visitor… | 🟢 |
+| `alaskaair.getTravelAdvisories` | alaskaair.com | Alaska Airlines' current travel advisories (the site banner alerts) with their links… | 🟢 |
+| `alaskaair.listAirports` | alaskaair.com | Every airport bookable on alaskaair.com, flagging the ones Alaska Airlines flies… | 🟢 |
+| `alaskaair.searchCities` | alaskaair.com | Alaska Airlines' own city/airport lookup — a city name or code resolves to metro… | 🟢 |
 | `alibaba.addToCart` | alibaba.com | Add a product to the shopping cart with specified quantity. | ⚪ |
 | `alibaba.cancelOrder` | alibaba.com | Cancel an order (if eligible). | ⚪ |
 | `alibaba.contactSupplier` | alibaba.com | Send a message to a supplier asking about products or availability. | ⚪ |
@@ -880,6 +884,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boydsleep.calibrateSixZoneSupportNumber` | boydsleep.com | Runs Boyd's own '6-Zone Smart Support Number' calibration for the 6-zone Nautica Home… | 🟢 |
 | `boydsleep.calibrateSupportNumber` | boydsleep.com | Runs Boyd's own '2-Zone Smart Support Number' calibration — sleep position, gender… | 🟢 |
 | `breezyhq.listJobs` | breezy.hr | Lists every published position on one company's Breezy HR careers portal — title… | 🟢 |
+| `bricklink.categories` | bricklink.com | List BrickLink's top-level LEGO catalogue categories (Sets, Parts, Minifigures, Gear… | 🟢 |
+| `bricklink.images` | bricklink.com | List the BrickLink catalogue images for one item in one colour: main and large image… | 🟢 |
+| `bricklink.item` | bricklink.com | Read one BrickLink catalogue item (set, part, minifigure…) by its item number: name… | 🟢 |
+| `bricklink.offers` | bricklink.com | List the BrickLink marketplace stores selling one catalogue item in one colour: price… | 🟢 |
+| `bricklink.search` | bricklink.com | Search the BrickLink LEGO catalogue for sets, parts, minifigures, gear and… | 🟢 |
 | `brius.findProviders` | bravabraces.com | Runs Brava's own find-a-provider locator search for a zip code (or free-text location)… | 🟢 |
 | `brixton.getBrixtonCheckoutLink` | brixton.com | Resolves a product handle + chosen variant (size and/or color) to a real, purchasable… | 🟢 |
 | `brixton.getBrixtonProduct` | brixton.com | Reads one product by its handle — every size/color variant, its exact price and… | 🟢 |
@@ -5868,6 +5877,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tilsonhomes.listPlans` | tilsonhomes.com | Lists Tilson Homes' Build-On-Your-Land floor plans — model name, bed/bath/size and the… | 🟢 |
 | `titlenine.calculateBraSize` | titlenine.com | Runs Title Nine's own bra-size calculator — chest, bust and under-bust measurements… | 🟢 |
 | `tmobile.getUpgradeOffer` | t-mobile.com | Reads one t-mobile.com device page's own pricing call — real list price, real monthly… | 🟢 |
+| `tmz.newsSidebar` | tmz.com | Reads TMZ's desktop news sidebar — the Most Popular stories, Hot Galleries and the… | 🟢 |
+| `tmz.search` | tmz.com | Searches TMZ celebrity news by keyword, as the site's search box does, returning each… | 🟢 |
 | `toast.addMyAddress` | toasttab.com | Saves a delivery address to the signed-in guest's account. | ⚪ |
 | `toast.addToCart` | toasttab.com | Adds a menu item (with its size and modifier choices) to a cart for one restaurant… | ⚪ |
 | `toast.applyPromoCode` | toasttab.com | Applies a promo code to the cart, returning the discount or the site's own reason it… | ⚪ |
@@ -6364,11 +6375,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟡 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | 🟢 |
 | `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |
-| `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | 🟡 |
+| `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | 🟢 |
 | `weather_channel.getDailyForecast` | weather.com | Daily forecast — high/low, conditions, precipitation chance, wind. 10-day and 15-day… | 🟢 |
 | `weather_channel.getFifteenMinuteForecast` | weather.com | Sub-hourly precipitation forecast — arrival time and intensity of rain/snow in… | 🟢 |
 | `weather_channel.getHistoricalDaily` | weather.com | Historical daily summaries — past 30 days of high, low, and precipitation records. | 🟢 |
-| `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | 🟡 |
+| `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | 🟢 |
 | `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | 🟡 |
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | 🟢 |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
