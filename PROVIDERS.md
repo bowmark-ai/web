@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7020 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7112 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1235,6 +1235,41 @@ One function per row, with the site it is called on.
 | `checkfront.listItems` | checkfront.com | Lists an operator's bookable items (tours, rentals, rooms, tickets, packages, gift… | 🟢 |
 | `checkfront.updateCart` | checkfront.com | Changes a booking cart: set a line's quantity, remove a line, opt in or out of a… | 🟢 |
 | `chesmar.searchQuickMoveInHomes` | chesmar.com | Runs Chesmar Homes' quick-move-in home search against the site's own live inventory… | 🟢 |
+| `chess_com.createDailyChallenge` | chess.com | Sends a daily-game challenge to a named player from the signed-in account. | ⚪ |
+| `chess_com.explainOpening` | chess.com | Names the opening of a move sequence and its ECO code, using the Chess.com opening… | ⚪ |
+| `chess_com.getArticle` | chess.com | Reads one Chess.com news story or article: title, author, date, body. | ⚪ |
+| `chess_com.getClub` | chess.com | Reads a club: name, description, admins, member count, rating, visibility, join link. | ⚪ |
+| `chess_com.getCountry` | chess.com | Reads a country profile and the players registered to it. | ⚪ |
+| `chess_com.getDailyPuzzle` | chess.com | Reads today's daily puzzle: title, FEN, PGN solution, image and URL. | ⚪ |
+| `chess_com.getGame` | chess.com | Reads one finished game by its chess.com URL: moves (PGN), players, ratings, result… | ⚪ |
+| `chess_com.getLeaderboards` | chess.com | Reads the top-50 leaderboards for each game type, puzzles and Puzzle Rush. | ⚪ |
+| `chess_com.getMyProfile` | chess.com | Reads the signed-in account's own profile, ratings, membership tier and settings. | ⚪ |
+| `chess_com.getPlayer` | chess.com | Reads a Chess.com player profile: name, title, country, avatar, join date, last… | ⚪ |
+| `chess_com.getPlayerStats` | chess.com | Reads a player's current and best ratings and win/loss/draw record for bullet, blitz… | ⚪ |
+| `chess_com.getRandomPuzzle` | chess.com | Reads a random daily puzzle from the archive. | ⚪ |
+| `chess_com.getTeamMatch` | chess.com | Reads a team match: the two teams, boards, players and scores. | ⚪ |
+| `chess_com.getTournament` | chess.com | Reads a tournament: settings, players, status and its rounds. | ⚪ |
+| `chess_com.isPlayerOnline` | chess.com | Says whether a player is online now (from last_online on the profile). | ⚪ |
+| `chess_com.joinClub` | chess.com | Joins (or requests to join) a club from the signed-in account. | ⚪ |
+| `chess_com.listClubMatches` | chess.com | Lists a club's team matches: finished, in progress and registered. | ⚪ |
+| `chess_com.listClubMembers` | chess.com | Lists a club's members by activity (weekly, monthly, all-time). | ⚪ |
+| `chess_com.listCountryClubs` | chess.com | Lists the clubs registered to a country. | ⚪ |
+| `chess_com.listMyFriends` | chess.com | Lists the signed-in account's friends and who is online. | ⚪ |
+| `chess_com.listMyMessages` | chess.com | Lists the signed-in account's message threads. | ⚪ |
+| `chess_com.listPlayerClubs` | chess.com | Lists the clubs a player belongs to. | ⚪ |
+| `chess_com.listPlayerCurrentGames` | chess.com | Lists a player's ongoing daily (correspondence) games and whose move it is. | ⚪ |
+| `chess_com.listPlayerGames` | chess.com | Lists a player's finished games for a month (or the latest months), with players… | ⚪ |
+| `chess_com.listPlayerMatches` | chess.com | Lists the team matches a player has played in or is registered for. | ⚪ |
+| `chess_com.listPlayerTournaments` | chess.com | Lists the tournaments a player has entered, finished or been invited to. | ⚪ |
+| `chess_com.listStreamers` | chess.com | Lists Chess.com streamers and whether each is live. | ⚪ |
+| `chess_com.listTitledPlayers` | chess.com | Lists every username holding a title (GM, IM, FM, WGM, …). | ⚪ |
+| `chess_com.makeDailyMove` | chess.com | Plays a move in one of the signed-in account's daily games. | ⚪ |
+| `chess_com.postForumReply` | chess.com | Posts a reply in a Chess.com forum thread from the signed-in account. | ⚪ |
+| `chess_com.searchClubs` | chess.com | Finds clubs by name, so a caller holding words can reach getClub. | ⚪ |
+| `chess_com.searchNews` | chess.com | Searches and lists Chess.com news and event coverage. | ⚪ |
+| `chess_com.searchPlayers` | chess.com | Finds players by a partial username or name, so a caller holding a name can reach… | ⚪ |
+| `chess_com.sendMessage` | chess.com | Sends a private message to another player from the signed-in account. | ⚪ |
+| `chess_com.updateProfile` | chess.com | Edits the signed-in account's profile: bio, location, name, avatar. | ⚪ |
 | `chick_fil_a.location` | chick-fil-a.com | Returns one Chick-fil-A restaurant from its chick-fil-a.com location page: name… | 🟢 |
 | `chick_fil_a.searchLocations` | chick-fil-a.com | Searches Chick-fil-A restaurant locations by a word in the location's name (city… | 🟢 |
 | `chipotle.getBowlBuilder` | chipotle.com | Reads chipotle.com's own universal menu rules and returns every burrito-bowl protein… | 🟢 |
@@ -1768,13 +1803,67 @@ One function per row, with the site it is called on.
 | `direct_book.listExtras` | direct-book.com | Lists the add-ons a hotel sells with a stay — breakfast, parking, transfers — with… | 🟢 |
 | `direct_book.listRoomTypes` | direct-book.com | Lists a hotel's room types with their ids, names, category (room or suite), beds… | 🟢 |
 | `direct_book.sendEnquiry` | direct-book.com | Sends a question to a hotel through its booking page's contact form. | 🟢 |
+| `discogs.addToCart` | discogs.com | Add a marketplace listing to the signed-in caller's Discogs cart (the 'Add to Cart'… | ⚪ |
+| `discogs.addToCollection` | discogs.com | Add a release to the signed-in caller's Discogs collection, into a chosen folder (the… | ⚪ |
+| `discogs.addToList` | discogs.com | Add a release, master, artist or label to one of the signed-in caller's Discogs lists… | ⚪ |
+| `discogs.addToWantlist` | discogs.com | Add a release to the signed-in caller's Discogs wantlist, with optional notes and… | ⚪ |
+| `discogs.checkout` | discogs.com | Check out the signed-in caller's Discogs cart and pay for an order. | ⚪ |
+| `discogs.createCollectionFolder` | discogs.com | Create a folder in the signed-in caller's Discogs collection. | ⚪ |
+| `discogs.createList` | discogs.com | Create a Discogs list (public or private) as the signed-in caller. | ⚪ |
+| `discogs.createListing` | discogs.com | List a record for sale in the Discogs marketplace as the signed-in seller: release… | ⚪ |
+| `discogs.deleteCollectionFolder` | discogs.com | Delete an empty folder from the signed-in caller's Discogs collection. | ⚪ |
+| `discogs.deleteListing` | discogs.com | Delete one of the signed-in seller's Discogs marketplace listings. | ⚪ |
+| `discogs.editProfile` | discogs.com | Edit the signed-in caller's Discogs profile: name, location, home page, profile text… | ⚪ |
 | `discogs.getArtist` | discogs.com | Read one Discogs artist's profile by id: name, real name, biography text, links… | 🟢 |
+| `discogs.getCollectionValue` | discogs.com | Read the minimum, median and maximum value of the signed-in caller's Discogs collection. | ⚪ |
+| `discogs.getForumThread` | discogs.com | Read one Discogs forum thread: its title and posts with author and date. | ⚪ |
 | `discogs.getLabel` | discogs.com | Read one Discogs record label by id: name, profile text, contact info, links, parent… | 🟢 |
+| `discogs.getList` | discogs.com | Read one Discogs user list by id: its title, description and the releases, masters… | ⚪ |
+| `discogs.getListing` | discogs.com | Read one Discogs marketplace listing by id: the release, condition, price, shipping… | ⚪ |
 | `discogs.getMaster` | discogs.com | Read one Discogs master release (an album across all its editions) by id: title, year… | 🟢 |
+| `discogs.getMyIdentity` | discogs.com | Read the signed-in caller's own Discogs identity: username, id and profile link — the… | ⚪ |
+| `discogs.getOrder` | discogs.com | Read one Discogs marketplace order by id: items, buyer, shipping address, totals… | ⚪ |
+| `discogs.getPriceSuggestions` | discogs.com | Read Discogs' suggested selling price for a release at each condition grade, for the… | ⚪ |
 | `discogs.getRelease` | discogs.com | Read one Discogs release (a specific edition of an album, EP or single) by id… | 🟢 |
+| `discogs.getReleaseMarketStats` | discogs.com | Read what a Discogs release sells for: copies for sale now and the lowest price, plus… | ⚪ |
+| `discogs.getReleaseRating` | discogs.com | Read a Discogs release's community rating (average and count), and optionally one… | ⚪ |
+| `discogs.getSalesHistory` | discogs.com | Read a Discogs release's past marketplace sales: date, condition and price of each… | ⚪ |
+| `discogs.getSellerFeedback` | discogs.com | Read a Discogs seller's feedback: rating summary and recent buyer comments. | ⚪ |
+| `discogs.getSellingFee` | discogs.com | Work out the Discogs marketplace fee the signed-in seller would pay on a given sale… | ⚪ |
+| `discogs.getUserProfile` | discogs.com | Read a Discogs user's public profile by username: name, location, profile text, join… | ⚪ |
 | `discogs.listArtistReleases` | discogs.com | List an artist's discography and credits on Discogs, paged and sortable by year, title… | 🟢 |
+| `discogs.listCart` | discogs.com | Read the signed-in caller's Discogs marketplace cart, grouped by seller, with item… | ⚪ |
+| `discogs.listCollectionFields` | discogs.com | List the custom note fields on a Discogs collection (media condition, sleeve… | ⚪ |
+| `discogs.listCollectionFolders` | discogs.com | List a Discogs user's collection folders with item counts; a public collection reads… | ⚪ |
+| `discogs.listCollectionItems` | discogs.com | List the releases in a Discogs user's collection folder, paged and sortable, with each… | ⚪ |
 | `discogs.listLabelReleases` | discogs.com | List a record label's catalogue on Discogs, paged: one row per release with title… | 🟢 |
+| `discogs.listMasterVersions` | discogs.com | List every edition (release) of a Discogs master — one album's pressings, reissues and… | ⚪ |
+| `discogs.listOrderMessages` | discogs.com | Read the message thread on one Discogs marketplace order. | ⚪ |
+| `discogs.listOrders` | discogs.com | List the signed-in seller's Discogs marketplace orders, filterable by status: order… | ⚪ |
+| `discogs.listPurchases` | discogs.com | List the signed-in caller's Discogs purchases (orders placed as a buyer), with seller… | ⚪ |
+| `discogs.listReleaseListings` | discogs.com | List the copies of one Discogs release for sale in the marketplace, paged and… | ⚪ |
+| `discogs.listReleaseReviews` | discogs.com | Read the community reviews on a Discogs release or master: reviewer, date, rating and… | ⚪ |
+| `discogs.listSellerInventory` | discogs.com | List what a Discogs seller has for sale, paged and sortable: each listing's id… | ⚪ |
+| `discogs.listUserContributions` | discogs.com | List the database entries a Discogs user has contributed to, paged. | ⚪ |
+| `discogs.listUserLists` | discogs.com | List the public lists a Discogs user has made. | ⚪ |
+| `discogs.listUserSubmissions` | discogs.com | List a Discogs user's database submissions (new releases, artists, labels and edits)… | ⚪ |
+| `discogs.listWantlist` | discogs.com | List a Discogs user's wantlist, paged: each wanted release with its notes and rating. | ⚪ |
+| `discogs.makeOffer` | discogs.com | Make an offer on a Discogs marketplace listing that accepts offers. | ⚪ |
+| `discogs.rateRelease` | discogs.com | Rate a Discogs release from 1 to 5 stars as the signed-in caller. | ⚪ |
+| `discogs.removeFromCart` | discogs.com | Remove an item from the signed-in caller's Discogs cart. | ⚪ |
+| `discogs.removeFromCollection` | discogs.com | Remove one item from the signed-in caller's Discogs collection. | ⚪ |
+| `discogs.removeFromWantlist` | discogs.com | Remove a release from the signed-in caller's Discogs wantlist. | ⚪ |
+| `discogs.removeReleaseRating` | discogs.com | Remove the signed-in caller's star rating from a Discogs release. | ⚪ |
+| `discogs.renameCollectionFolder` | discogs.com | Rename a folder in the signed-in caller's Discogs collection. | ⚪ |
 | `discogs.searchDatabase` | discogs.com | Search the Discogs music database for artists, bands, labels, releases (albums… | 🟢 |
+| `discogs.searchForum` | discogs.com | Search the Discogs forum for topics by keyword. | ⚪ |
+| `discogs.searchMarketplace` | discogs.com | Search the Discogs marketplace for items for sale by artist, title, label or format… | ⚪ |
+| `discogs.sendOrderMessage` | discogs.com | Send a message on a Discogs marketplace order to the other party. | ⚪ |
+| `discogs.updateCollectionItem` | discogs.com | Change one item in the signed-in caller's Discogs collection: move it to another… | ⚪ |
+| `discogs.updateListing` | discogs.com | Edit one of the signed-in seller's Discogs marketplace listings: price, condition… | ⚪ |
+| `discogs.updateOrder` | discogs.com | Change a Discogs marketplace order's status or shipping as the signed-in seller (e.g.… | ⚪ |
+| `discogs.updateWantlistItem` | discogs.com | Edit the notes or rating on a release in the signed-in caller's Discogs wantlist. | ⚪ |
+| `discogs.writeReview` | discogs.com | Post a review on a Discogs release or master as the signed-in caller. | ⚪ |
 | `discord.acceptFriendRequest` | discord.com | Accepts a pending incoming friend request. | 🟢 |
 | `discord.addReaction` | discord.com | Adds an emoji reaction to a message as the caller. | 🟢 |
 | `discord.blockUser` | discord.com | Blocks a user. | 🟢 |
@@ -2350,6 +2439,9 @@ One function per row, with the site it is called on.
 | `fareharbor.listOperators` | fareharbor.com | List available tour operators that use the FareHarbor platform. | ⚪ |
 | `fareharbor.quoteBooking` | fareharbor.com | Prices a booking up to the payment step (ticket lines, booking fee, tax, total due)… | 🟢 |
 | `fareharbor.searchItems` | fareharbor.com | Lists every tour, activity or rental a FareHarbor operator sells, optionally filtered… | 🟢 |
+| `faroutmagazine.article` | faroutmagazine.co.uk | Reads one Far Out Magazine article: headline, description, author, sections, tags… | 🟢 |
+| `faroutmagazine.latest` | faroutmagazine.co.uk | Lists Far Out Magazine's newest stories from its own RSS feed, 10 a page, newest first. | 🟢 |
+| `faroutmagazine.search` | faroutmagazine.co.uk | Finds Far Out Magazine stories by keyword across the newest feed pages, matching… | 🟢 |
 | `fbsappliance.getProductDetails` | fbsappliance.com | Reads one product's detail page for its full spec sheet, real per-showroom inventory… | ⚪ |
 | `fbsappliance.searchAppliances` | fbsappliance.com | Runs the site's own category grid (e.g. built-in-refrigerators) and returns real… | 🔴 |
 | `fedex.getRate` | fedex.com | Prices a domestic package across FedEx's own service levels (Ground, Home Delivery… | 🟢 |

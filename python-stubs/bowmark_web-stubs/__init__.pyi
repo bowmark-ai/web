@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8ee0457cc01dcf02068830ee2274d2f5e4d68444b4b53d53e81ce2102f370bf6
-# 98 capabilities, 877 providers, 5372 typed functions, 20 refused.
+# Manifest version: a10441a0673f21a0073e84e232bda8ff6c7a8354916f7cc972e0d19f0f6b1221
+# 98 capabilities, 878 providers, 5375 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -29806,6 +29806,53 @@ class Prv_fareharbor_FareharborBookingResult_Out(TypedDict):
     status: str | None
     totalDueCents: float | None
     checkoutUrl: str
+
+class Prv_faroutmagazine_LatestArgs_In(TypedDict):
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_faroutmagazine_latest_return_Out(TypedDict):
+    page: float
+    stories: list[Prv_faroutmagazine_FarOutStory_Out]
+
+class Prv_faroutmagazine_FarOutStory_Out(TypedDict):
+    id: str | None
+    title: str
+    url: str
+    author: str | None
+    published: str | None
+    summary: str | None
+    categories: list[str]
+
+class Prv_faroutmagazine_SearchArgs_In(TypedDict):
+    query: str
+    pages: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_faroutmagazine_search_return_Out(TypedDict):
+    query: str
+    scannedPages: float
+    stories: list[Prv_faroutmagazine_FarOutStory_Out]
+    warnings: list[str]
+
+class Prv_faroutmagazine_ArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_faroutmagazine_FarOutArticle_Out(TypedDict):
+    url: str
+    headline: str
+    description: str | None
+    body: str
+    author: Prv_faroutmagazine_FarOutArticle_Out_author_u0_Out | None
+    sections: list[str]
+    keywords: list[str]
+    datePublished: str | None
+    dateModified: str | None
+    image: str | None
+
+class Prv_faroutmagazine_FarOutArticle_Out_author_u0_Out(TypedDict):
+    name: str
+    url: str | None
 
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
@@ -96349,6 +96396,27 @@ class Prv_fareharbor(Protocol):
         refused in FareHarbor's own words with the checkout url. Returns the order uuid.
         """
 
+class Prv_faroutmagazine(Protocol):
+    """Far Out Magazine (faroutmagazine.co.uk), the UK music, film and culture magazine: latest
+    stories, keyword search over recent stories, and full article text.
+    """
+
+    async def latest(self, args: Prv_faroutmagazine_LatestArgs_In | None = None, /) -> Prv_faroutmagazine_latest_return_Out:
+        """Lists Far Out Magazine's newest stories from its own feed, 10 a page, newest first; page
+        2 and on go back through the archive.
+        """
+
+    async def search(self, args: Prv_faroutmagazine_SearchArgs_In, /) -> Prv_faroutmagazine_search_return_Out:
+        """Finds Far Out Magazine stories about an artist, film or topic by matching every query
+        word against the title, summary, author and tags of the most recent feed pages (the
+        site's own search is behind a Cloudflare challenge).
+        """
+
+    async def article(self, args: Prv_faroutmagazine_ArticleArgs_In, /) -> Prv_faroutmagazine_FarOutArticle_Out:
+        """Reads one Far Out Magazine article: headline, description, author, sections, tags,
+        dates, image and the full text.
+        """
+
 class Prv_fbsappliance(Protocol):
     """FBS Appliance's real catalog across 8 Texas showrooms — searchAppliances runs the site's
     own category grid and returns real, currently-listed appliances with live selling price,
@@ -124353,6 +124421,7 @@ class BowmarkProviders(Protocol):
     facerealityskincare: Prv_facerealityskincare
     fandom: Prv_fandom
     fareharbor: Prv_fareharbor
+    faroutmagazine: Prv_faroutmagazine
     fbsappliance: Prv_fbsappliance
     fedex: Prv_fedex
     ferguson: Prv_ferguson

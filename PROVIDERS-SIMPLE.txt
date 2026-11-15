@@ -207,6 +207,7 @@ chatgpt.com — chatgpt: 33 functions — ask get_library (+2 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
+chess.com — chess_com: nothing callable yet (+35 planned)
 chick-fil-a.com — chick_fil_a: location, searchLocations
 chipotle.com — chipotle: getBowlBuilder
 chownow.com — chownow: findRestaurant, getMenu, getMenuItem, getOrderDetails, getPickupTimes, getRestaurant, getRestaurantHours, getRewardsBalance, listMenuCategories, listMenuItems, listOrders, listRestaurants, listSavedPaymentMethods, searchRestaurants, validateOrder
@@ -286,7 +287,7 @@ dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listExtras, listRoomTypes, sendEnquiry (+1 planned)
-discogs.com — discogs: getArtist, getLabel, getMaster, getRelease, listArtistReleases, listLabelReleases, searchDatabase
+discogs.com — discogs: getArtist, getLabel, getMaster, getRelease, listArtistReleases, listLabelReleases, searchDatabase (+54 planned)
 discord.com — discord: 50 functions — ask get_library
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
@@ -339,6 +340,7 @@ faceforwardaesthetics.com — faceforwardaesthetics: checkAvailability, listLoca
 facerealityskincare.com — facerealityskincare: searchAcneExperts
 fandom.com — fandom: 33 functions — ask get_library
 fareharbor.com — fareharbor: createBooking, getAvailabilitySlot, getItem, listAvailability, quoteBooking, searchItems (+3 planned)
+faroutmagazine.co.uk — faroutmagazine: article, latest, search
 fbsappliance.com — fbsappliance: nothing callable yet (+2 planned)
 fedex.com — fedex: getRate
 ferguson.com — ferguson: findBranches, findProducts (+1 planned)
@@ -621,7 +623,7 @@ people.com — people: nothing callable yet (+14 planned)
 perennialsandsutherland.com — perennialsandsutherland: getRugVariant, getTearsheetUrl, searchRugs
 personio.de — personio: listJobs
 pexels.com — pexels: search
-pike13.com — pike13: bookClass, cancelVisit, checkEnrollmentEligibility, findBusiness, getAppointmentAvailability, getAppointmentAvailabilitySummary, getBusiness, getClass, getMyProfile, getPlan, getSchedule, getScheduleSummary, getService, getWaitlistEligibility, joinWaitlist, leaveWaitlist, listClassSeries, listLocations, listMyBusinesses, listMyPlans, listMyVisits, listMyWaitlistEntries, listMyWaivers, listPlans, listServices, listStaff (+1 planned)
+pike13.com — pike13: 26 functions — ask get_library (+1 planned)
 pilotprotocol.network — pilotprotocol: getApp, listApps
 pinterest.com — pinterest: 43 functions — ask get_library (+4 planned)
 pirateship.com — pirateship: getRates (+2 planned)

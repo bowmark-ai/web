@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8ee0457cc01dcf02068830ee2274d2f5e4d68444b4b53d53e81ce2102f370bf6
-// 5372 checked, 20 unchecked.
+// Manifest version: a10441a0673f21a0073e84e232bda8ff6c7a8354916f7cc972e0d19f0f6b1221
+// 5375 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8ee0457cc01dcf02068830ee2274d2f5e4d68444b4b53d53e81ce2102f370bf6",
+  "version": "a10441a0673f21a0073e84e232bda8ff6c7a8354916f7cc972e0d19f0f6b1221",
   "units": {
     "address_validation": {
       "defs": {
@@ -60575,6 +60575,99 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FareharborCreateBookingArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.faroutmagazine": {
+      "defs": {
+        "ArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "LatestArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "pages",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "latest": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LatestArgs"
+            },
+            "optional": true
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "article": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ArticleArgs"
             },
             "optional": false
           }

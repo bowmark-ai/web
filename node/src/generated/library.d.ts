@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8ee0457cc01dcf02068830ee2274d2f5e4d68444b4b53d53e81ce2102f370bf6
-// 98 capabilities, 877 providers, 5400 typed functions, 20 refused.
+// Manifest version: a10441a0673f21a0073e84e232bda8ff6c7a8354916f7cc972e0d19f0f6b1221
+// 98 capabilities, 878 providers, 5403 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -44995,6 +44995,76 @@ interface FareharborBookingResult {
      * FareHarbor's own words with the checkout url. Returns the order uuid.
      */
     createBooking(args: FareharborCreateBookingArgs): Promise<FareharborBookingResult>;
+  }
+}
+
+declare namespace BowmarkProvider_faroutmagazine {
+  // ── Far Out Magazine — the unit's own declarations, verbatim ──
+interface FarOutStory {
+  id: string | null;
+  title: string;
+  url: string;
+  author: string | null;
+  /** RFC 822, as the feed sends it. */
+  published: string | null;
+  summary: string | null;
+  /** Sections (Music, Film, From The Vault) and tags (artists, decades), as the feed lists them. */
+  categories: string[];
+}
+interface FarOutArticle {
+  url: string;
+  headline: string;
+  description: string | null;
+  /** Article text, one paragraph per line. */
+  body: string;
+  author: { name: string; url: string | null } | null;
+  sections: string[];
+  keywords: string[];
+  datePublished: string | null;
+  dateModified: string | null;
+  image: string | null;
+}
+interface LatestArgs {
+  /** Feed page, 1 = newest. 10 stories a page. Default 1. */
+  page?: number;
+  /** Max stories, 1-10. Default 10. */
+  limit?: number;
+}
+interface SearchArgs {
+  /** Words that must all appear in a story's title, summary, author or tags. */
+  query: string;
+  /** How many feed pages (10 stories each, newest first) to scan, 1-30. Default 10. */
+  pages?: number;
+  /** Max matches, 1-100. Default 20. */
+  limit?: number;
+}
+interface ArticleArgs {
+  url: string;
+}
+
+  /**
+   * Far Out Magazine (faroutmagazine.co.uk), the UK music, film and culture magazine: latest
+   * stories, keyword search over recent stories, and full article text.
+   */
+  interface Unit {
+    /**
+     * Lists Far Out Magazine's newest stories from its own feed, 10 a page, newest first; page 2
+     * and on go back through the archive.
+     */
+    latest(args?: LatestArgs): Promise<{ page: number; stories: FarOutStory[] }>;
+
+    /**
+     * Finds Far Out Magazine stories about an artist, film or topic by matching every query word
+     * against the title, summary, author and tags of the most recent feed pages (the site's own
+     * search is behind a Cloudflare challenge).
+     */
+    search(args: SearchArgs): Promise<{ query: string; scannedPages: number; stories: FarOutStory[]; warnings: string[] }>;
+
+    /**
+     * Reads one Far Out Magazine article: headline, description, author, sections, tags, dates,
+     * image and the full text.
+     */
+    article(args: ArticleArgs): Promise<FarOutArticle>;
   }
 }
 
@@ -124194,6 +124264,7 @@ interface BowmarkProviders {
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
   fandom: BowmarkProvider_fandom.Unit;
   fareharbor: BowmarkProvider_fareharbor.Unit;
+  faroutmagazine: BowmarkProvider_faroutmagazine.Unit;
   fbsappliance: BowmarkProvider_fbsappliance.Unit;
   fedex: BowmarkProvider_fedex.Unit;
   ferguson: BowmarkProvider_ferguson.Unit;
