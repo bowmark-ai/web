@@ -1,5 +1,5 @@
 {
-  "version": "b3f82b53de57260de7d06f277db03fceb55ac05e3093822b194cd745a2471b08",
+  "version": "11ca60114d3dacf10809da4f00fb83c9f367b2cf5c8738785c77f511de5d3e36",
   "units": {
     "address_validation": {
       "defs": {
@@ -49364,6 +49364,155 @@
         ]
       }
     },
+    "providers.dominos": {
+      "defs": {
+        "DominosCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "storeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "DominosProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "storeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "DominosStoreRef": {
+          "k": "object",
+          "props": [
+            {
+              "name": "storeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "DominosStoreSearch": {
+          "k": "object",
+          "props": [
+            {
+              "name": "postalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "street",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "cityLine",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "serviceMethod",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Carryout"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Delivery"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "categories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DominosStoreRef"
+            },
+            "optional": false
+          }
+        ],
+        "category": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DominosCategoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "product": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DominosProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DominosStoreSearch"
+            },
+            "optional": false
+          }
+        ],
+        "store": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DominosStoreRef"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.donsappliances": {
       "defs": {
         "DonsAppliancesSearchArgs": {
@@ -52612,6 +52761,164 @@
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.edmunds": {
+      "defs": {
+        "EdmundsCarModelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "make",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "EdmundsDiscussionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "discussionId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "commentLimit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "EdmundsPostSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "term",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "EdmundsSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "EdmundsTagArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "CarMake"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "CarModel"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "User"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getDiscussion": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EdmundsDiscussionArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCarModels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EdmundsCarModelArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listForumTags": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EdmundsTagArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchForumPosts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EdmundsPostSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchForums": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EdmundsSearchArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -78148,6 +78455,68 @@
             "schema": {
               "k": "ref",
               "name": "RemoveFromFavoritesArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.illinois_lottery": {
+      "defs": {
+        "IllinoisLotteryQuickPickArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "game",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "powerball"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "megamillions"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "lotto"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "luckydaylotto"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pick3"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pick4"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "lines",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "jackpots": [],
+        "quickPick": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "IllinoisLotteryQuickPickArgs"
             },
             "optional": false
           }
@@ -126174,6 +126543,35 @@
             "schema": {
               "k": "ref",
               "name": "GetRugArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.rumble": {
+      "defs": {
+        "RumbleVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "editorPicks": [],
+        "video": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RumbleVideoArgs"
             },
             "optional": false
           }

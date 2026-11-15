@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b3f82b53de57260de7d06f277db03fceb55ac05e3093822b194cd745a2471b08
-// 98 capabilities, 871 providers, 5381 typed functions, 20 refused.
+// Manifest version: 11ca60114d3dacf10809da4f00fb83c9f367b2cf5c8738785c77f511de5d3e36
+// 98 capabilities, 875 providers, 5395 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22129,7 +22129,7 @@ interface BricklinkCategory {
    */
   interface Unit {
     /**
-     * List BrickLink's top-level LEGO catalogue categories (Sets, Parts, Minifigures, Gear, …)
+     * List BrickLink's top-level LEGO catalogue categories (Sets, Parts, Minifigures, MOCs, …)
      * with how many items each holds and its catalogue link.
      */
     categories(): Promise<{ categories: BricklinkCategory[] }>;
@@ -38180,6 +38180,57 @@ interface DmvVirginiaGovSearchLocationsArgs { near: string; radiusMiles?: 5 | 10
   }
 }
 
+declare namespace BowmarkProvider_dominos {
+  // ── Domino's — the unit's own declarations, verbatim ──
+interface DominosStoreSearch { postalCode?: string; street?: string; cityLine?: string; serviceMethod?: "Carryout" | "Delivery"; }
+interface DominosStore { id: string; address: string; phone: string; isOnlineNow: boolean; isOpen: boolean; isDeliveryStore: boolean; allowCarryout: boolean; allowDelivery: boolean; hours: string; carryoutWaitMinutes: string | null; deliveryWaitMinutes: string | null; }
+interface DominosStoreProfile { id: string; name: string; street: string; city: string; region: string; postalCode: string; phone: string; isOpen: boolean; isOnlineNow: boolean; allowCarryout: boolean; allowDelivery: boolean; hours: string; serviceHours: Record<string, string>; estimatedWaitMinutes: Record<string, string>; acceptablePaymentTypes: string[]; acceptableCreditCards: string[]; minimumDeliveryOrderAmount: number | null; latitude: number | null; longitude: number | null; }
+interface DominosStoreRef { storeId: string; }
+interface DominosCategory { id: string; name: string; productCount: number; subCategories: { id: string; name: string; productCount: number }[]; }
+interface DominosCategoryArgs { storeId: string; categoryId: string; }
+interface DominosMenuProduct { code: string; name: string; description: string; productType: string; imageUrl: string; fromPrice: number | null; }
+interface DominosCategoryPage { storeId: string; id: string; name: string; products: DominosMenuProduct[]; subCategories: { id: string; name: string; products: DominosMenuProduct[] }[]; }
+interface DominosProductArgs { storeId: string; productCode: string; }
+interface DominosVariant { code: string; name: string; price: number | null; sizeCode: string; flavorCode: string; }
+interface DominosProduct extends DominosMenuProduct { storeId: string; defaultToppings: string; availableToppings: { code: string; name: string }[]; variants: DominosVariant[]; }
+
+  /**
+   * Domino's Pizza (dominos.com): find stores near a ZIP, read a store's hours and wait times,
+   * and browse its live menu with prices. Read-only — never builds a cart or orders.
+   */
+  interface Unit {
+    /**
+     * Lists the menu categories (Pizza, Specialty, Chicken, Breads, Desserts…) on one Domino's
+     * store's live menu.
+     */
+    categories(args: DominosStoreRef): Promise<DominosCategory[]>;
+
+    /**
+     * Lists every product in one Domino's menu category at a store, with codes, descriptions and
+     * from-prices.
+     */
+    category(args: DominosCategoryArgs): Promise<DominosCategoryPage>;
+
+    /**
+     * Reads one Domino's menu product at a store: sizes and crusts with prices, default and
+     * available toppings.
+     */
+    product(args: DominosProductArgs): Promise<DominosProduct>;
+
+    /**
+     * Finds Domino's stores near a ZIP or address in the order the site lists them, with hours,
+     * open status and wait times.
+     */
+    searchStores(args: DominosStoreSearch): Promise<DominosStore[]>;
+
+    /**
+     * Reads one Domino's store's profile: address, phone, hours per service method, wait times,
+     * payment types.
+     */
+    store(args: DominosStoreRef): Promise<DominosStoreProfile>;
+  }
+}
+
 declare namespace BowmarkProvider_donsappliances {
   // ── Don's Appliances — the unit's own declarations, verbatim ──
 interface DonsAppliancesListing {
@@ -39750,6 +39801,46 @@ interface ebaySoldSearch {
      * `limit` caps the row count (default 20, ceiling 200).
      */
     getMyListings(args?: { limit?: number }, opts?: ConnectionOption): Promise<ebayItem[]>;
+  }
+}
+
+declare namespace BowmarkProvider_edmunds {
+  // ── Edmunds — the unit's own declarations, verbatim ──
+interface EdmundsBreadcrumb { name: string; url: string }
+interface EdmundsForumResult { recordType: string; recordId: number; discussionId: number | null; categoryId: number | null; title: string; excerpt: string; url: string; dateInserted: string | null; breadcrumbs: EdmundsBreadcrumb[] }
+interface EdmundsForumPost { recordType: string; primaryId: number; discussionId: number | null; categoryId: number | null; title: string; summary: string; url: string; dateInserted: string | null; authorName: string | null; authorId: number | null; breadcrumbs: EdmundsBreadcrumb[] }
+interface EdmundsForumTag { tagId: number; name: string; type: string; urlcode: string; url: string; parentTagId: number | null; countDiscussions: number; numPosts: number; dateInserted: string | null }
+interface EdmundsCarModel { carModelId: number; makeId: number; id: string; name: string; niceName: string; categoryId: number | null; tagId: number | null; fullName: string }
+interface EdmundsComment { commentId: number; author: string | null; body: string; dateInserted: string | null; url: string }
+interface EdmundsDiscussion { discussionId: number; title: string; body: string; url: string; categoryId: number | null; author: string | null; dateInserted: string | null; dateLastComment: string | null; countComments: number; countViews: number; closed: boolean; tags: string[]; comments: EdmundsComment[] }
+interface EdmundsSearchArgs { query: string; limit?: number }
+interface EdmundsPostSearchArgs { term: string }
+interface EdmundsTagArgs { query?: string; type?: "CarMake" | "CarModel" | "User"; limit?: number }
+interface EdmundsCarModelArgs { make: string }
+interface EdmundsDiscussionArgs { discussionId: number; commentLimit?: number }
+
+  /**
+   * Edmunds car forums (forums.edmunds.com): search discussions and posts, browse make/model
+   * tags, list a make's car models, read a thread.
+   */
+  interface Unit {
+    /** Read one Edmunds forum thread by discussion id, with its latest comments. */
+    getDiscussion(args: EdmundsDiscussionArgs): Promise<EdmundsDiscussion>;
+
+    /** List the car models Edmunds forums know for a make, e.g. { make: "honda" }. */
+    listCarModels(args: EdmundsCarModelArgs): Promise<EdmundsCarModel[]>;
+
+    /**
+     * List or search Edmunds forum tags (car makes, car models, user topic tags) with discussion
+     * counts.
+     */
+    listForumTags(args?: EdmundsTagArgs): Promise<EdmundsForumTag[]>;
+
+    /** Quick search of Edmunds forum posts (top matches, with author and thread id). */
+    searchForumPosts(args: EdmundsPostSearchArgs): Promise<EdmundsForumPost[]>;
+
+    /** Full-text search of the Edmunds car forums, e.g. { query: "Honda Accord lease" }. */
+    searchForums(args: EdmundsSearchArgs): Promise<EdmundsForumResult[]>;
   }
 }
 
@@ -58985,6 +59076,32 @@ interface RemoveFromFavoritesArgs {
 
     /** Removes a product from a favorites list. */
     removeFromFavorites(args: RemoveFromFavoritesArgs): Promise<IkeaFavoritesList>;
+  }
+}
+
+declare namespace BowmarkProvider_illinois_lottery {
+  // ── Illinois Lottery — the unit's own declarations, verbatim ──
+interface IllinoisLotteryJackpot { gameId: string; amount: number; progressive: boolean; lastUpdated: string | null; url: string; }
+interface IllinoisLotteryQuickPick { game: string; name: string; lines: { primary: number[]; secondary: number[] }[]; }
+interface IllinoisLotteryQuickPickArgs { game: "powerball" | "megamillions" | "lotto" | "luckydaylotto" | "pick3" | "pick4"; lines?: number; }
+
+  /**
+   * Illinois Lottery (illinoislottery.com): current instant-game (Fast Play) jackpot amounts,
+   * and a quick-pick number generator for Powerball, Mega Millions, Lotto, Lucky Day Lotto, Pick
+   * 3 and Pick 4.
+   */
+  interface Unit {
+    /**
+     * Lists the current Illinois Lottery instant/Fast Play game jackpots: game id, amount in
+     * dollars, whether it is progressive, and when it was last updated.
+     */
+    jackpots(): Promise<IllinoisLotteryJackpot[]>;
+
+    /**
+     * Generates random quick-pick numbers for an Illinois Lottery draw game (Powerball, Mega
+     * Millions, Lotto, Lucky Day Lotto, Pick 3, Pick 4), one or more lines. Buys nothing.
+     */
+    quickPick(args: IllinoisLotteryQuickPickArgs): Promise<IllinoisLotteryQuickPick>;
   }
 }
 
@@ -90577,6 +90694,31 @@ type GetRugArgs = string;
      * its price and availability, description, collections.
      */
     getRug(handle: GetRugArgs): Promise<RuggableRug>;
+  }
+}
+
+declare namespace BowmarkProvider_rumble {
+  // ── Rumble — the unit's own declarations, verbatim ──
+interface RumbleVideo { title: string; channel: string | null; channelUrl: string | null; durationSeconds: number | null; width: number | null; height: number | null; thumbnailUrl: string | null; embedUrl: string | null; embedId: string | null; url: string }
+interface RumbleVideoArgs { url: string }
+interface RumbleListedVideo { title: string; url: string; channel: string | null; channelUrl: string | null; duration: string | null; views: number | null; publishedAt: string | null; thumbnailUrl: string | null }
+
+  /**
+   * List Rumble's editor-picked videos, and look up a Rumble video by URL: title, channel,
+   * duration, thumbnail and embed player URL.
+   */
+  interface Unit {
+    /**
+     * Lists the videos on Rumble's editor-picks page with title, watch URL, channel, duration,
+     * view count, publish time and thumbnail.
+     */
+    editorPicks(): Promise<RumbleListedVideo[]>;
+
+    /**
+     * Looks up a Rumble video by its watch or embed URL through Rumble's oEmbed endpoint and
+     * returns its title, channel, duration, size, thumbnail and embed URL.
+     */
+    video(args: RumbleVideoArgs): Promise<RumbleVideo>;
   }
 }
 
@@ -123950,6 +124092,7 @@ interface BowmarkProviders {
   discounttire: BowmarkProvider_discounttire.Unit;
   disney: BowmarkProvider_disney.Unit;
   dmv_virginia_gov: BowmarkProvider_dmv_virginia_gov.Unit;
+  dominos: BowmarkProvider_dominos.Unit;
   donsappliances: BowmarkProvider_donsappliances.Unit;
   doordash: BowmarkProvider_doordash.Unit;
   drafthouse: BowmarkProvider_drafthouse.Unit;
@@ -123958,6 +124101,7 @@ interface BowmarkProviders {
   duckduckgo: BowmarkProvider_duckduckgo.Unit;
   dumpsters: BowmarkProvider_dumpsters.Unit;
   ebay: BowmarkProvider_ebay.Unit;
+  edmunds: BowmarkProvider_edmunds.Unit;
   elase: BowmarkProvider_elase.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
@@ -124089,6 +124233,7 @@ interface BowmarkProviders {
   identitygroup: BowmarkProvider_identitygroup.Unit;
   ihg: BowmarkProvider_ihg.Unit;
   ikea: BowmarkProvider_ikea.Unit;
+  illinois_lottery: BowmarkProvider_illinois_lottery.Unit;
   imdb: BowmarkProvider_imdb.Unit;
   imgur: BowmarkProvider_imgur.Unit;
   indeed: BowmarkProvider_indeed.Unit;
@@ -124334,6 +124479,7 @@ interface BowmarkProviders {
   rover: BowmarkProvider_rover.Unit;
   rtings: BowmarkProvider_rtings.Unit;
   ruggable: BowmarkProvider_ruggable.Unit;
+  rumble: BowmarkProvider_rumble.Unit;
   rvshare: BowmarkProvider_rvshare.Unit;
   ryanair: BowmarkProvider_ryanair.Unit;
   saatva: BowmarkProvider_saatva.Unit;

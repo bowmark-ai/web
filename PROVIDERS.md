@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6982 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6998 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -884,7 +884,7 @@ One function per row, with the site it is called on.
 | `boydsleep.calibrateSixZoneSupportNumber` | boydsleep.com | Runs Boyd's own '6-Zone Smart Support Number' calibration for the 6-zone Nautica Home… | 🟢 |
 | `boydsleep.calibrateSupportNumber` | boydsleep.com | Runs Boyd's own '2-Zone Smart Support Number' calibration — sleep position, gender… | 🟢 |
 | `breezyhq.listJobs` | breezy.hr | Lists every published position on one company's Breezy HR careers portal — title… | 🟢 |
-| `bricklink.categories` | bricklink.com | List BrickLink's top-level LEGO catalogue categories (Sets, Parts, Minifigures, Gear… | 🟢 |
+| `bricklink.categories` | bricklink.com | List BrickLink's top-level LEGO catalogue categories (Sets, Parts, Minifigures, MOCs… | 🟢 |
 | `bricklink.images` | bricklink.com | List the BrickLink catalogue images for one item in one colour: main and large image… | 🟢 |
 | `bricklink.item` | bricklink.com | Read one BrickLink catalogue item (set, part, minifigure…) by its item number: name… | 🟢 |
 | `bricklink.offers` | bricklink.com | List the BrickLink marketplace stores selling one catalogue item in one colour: price… | 🟢 |
@@ -1868,6 +1868,11 @@ One function per row, with the site it is called on.
 | `disney_plus.updateProfile` | www.disneyplus.com | Edits a profile on the signed-in caller's own Disney+ account: name, avatar, kids… | ⚪ |
 | `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟢 |
 | `dmv_virginia_gov.searchLocations` | dmv.virginia.gov | Finds Virginia DMV customer-service centers near a city, address, or ZIP and returns… | 🟢 |
+| `dominos.categories` | dominos.com | Lists the menu categories on one Domino's store's live menu, read from the site's own… | 🟢 |
+| `dominos.category` | dominos.com | Lists every product in one Domino's menu category at a store, with codes, descriptions… | 🟢 |
+| `dominos.product` | dominos.com | Reads one Domino's menu product at a store: sizes and crusts with prices, default and… | 🟢 |
+| `dominos.searchStores` | dominos.com | Finds Domino's stores near a ZIP or address through the site's store locator, with… | 🟢 |
+| `dominos.store` | dominos.com | Reads one Domino's store's profile: address, phone, hours per service method, wait… | 🟢 |
 | `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🟢 |
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
 | `doordash.addAddress` | doordash.com | Saves a new delivery address (with apartment, drop-off instructions) to the signed-in… | ⚪ |
@@ -2014,6 +2019,11 @@ One function per row, with the site it is called on.
 | `ebay.searchAutocomplete` | ebay.com | Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's… | 🟢 |
 | `ebay.searchByCategory` | ebay.com | Searches one eBay category through eBay's documented Browse API by id, with an… | 🟡 |
 | `ebay.searchSold` | ebay.com | Sold prices from PriceCharting's record of completed eBay sales; covers video games… | 🟢 |
+| `edmunds.getDiscussion` | edmunds.com | Reads one Edmunds forum thread by discussion id, with its newest comments. | 🟢 |
+| `edmunds.listCarModels` | edmunds.com | Lists the car models the Edmunds forums know for a make (e.g. honda), with forum tag… | 🟢 |
+| `edmunds.listForumTags` | edmunds.com | Lists or searches Edmunds forum tags (car makes, car models, user topic tags) with… | 🟢 |
+| `edmunds.searchForumPosts` | edmunds.com | Quick search of Edmunds forum posts and comments, returning the top matches with… | 🟢 |
+| `edmunds.searchForums` | edmunds.com | Full-text search of the Edmunds car forums (discussions and comments) with excerpts… | 🟢 |
 | `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🔴 |
 | `elase.findLocation` | elase.com | Resolves a slug/neighborhood query to the matching real Elase location(s) — name… | 🟢 |
 | `elase.listLocations` | elase.com | Reads the live list of every Elase Med Spa location off the site's own /locations/… | 🟢 |
@@ -3200,6 +3210,8 @@ One function per row, with the site it is called on.
 | `ikea.suggestSearchTerms` | ikea.com | Returns IKEA's own search-as-you-type suggestions for a partial query (e.g. 'sof' →… | 🟢 |
 | `ikea.updateCartItem` | ikea.com | Changes the quantity of an item already in a cart. | 🟢 |
 | `ikea.updateProfile` | ikea.com | Edits the signed-in caller's own IKEA personal details — first name, last name, birth… | 🟢 |
+| `illinois_lottery.jackpots` | illinoislottery.com | Lists the current Illinois Lottery instant/Fast Play game jackpots with amount… | 🟢 |
+| `illinois_lottery.quickPick` | illinoislottery.com | Generates random quick-pick numbers for an Illinois Lottery draw game (Powerball, Mega… | 🟢 |
 | `imdb.getPerson` | imdb.com | Reads a person's biography, birth year, filmography, awards, and known roles. | 🟢 |
 | `imdb.getTitle` | imdb.com | Reads a title's full details: year, runtime, genres, plot, ratings, cast, crew… | 🟢 |
 | `imdb.getTitleReviews` | imdb.com | Reads user reviews for a title, with user rating, text, and helpfulness count. | 🟢 |
@@ -3445,7 +3457,7 @@ One function per row, with the site it is called on.
 | `kaggle_com.searchKernels` | kaggle.com | Searches public Kaggle notebooks. | 🟢 |
 | `kaggle_com.searchSuggestions` | kaggle.com | Gets grouped Kaggle search suggestions. | 🟢 |
 | `kaggle_com.searchTags` | kaggle.com | Searches Kaggle tags and usage metadata. | ⚪ |
-| `kaiser_directory.findProviders` | kp.org | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
+| `kaiser_directory.findProviders` | kp.org | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟡 |
 | `kaiser_permanente.getServiceArea` | healthy.kaiserpermanente.org | Says whether a ZIP is inside a Kaiser Permanente plan service area, using the 2026… | 🟢 |
 | `kaiser_permanente.listSearchSuggestions` | healthy.kaiserpermanente.org | Reads the plan-shopping page's own ZIP / county / state suggestion dataset, filtered… | 🟢 |
 | `kaiser_permanente.searchFacilitiesByZip` | healthy.kaiserpermanente.org | Runs Kaiser Permanente's own find-a-facility search for a US ZIP and returns… | 🟢 |
@@ -5025,13 +5037,17 @@ One function per row, with the site it is called on.
 | `rtings.getReview` | rtings.com | Reads one product's RTINGS review — the overall score out of 10, the verdict text… | 🟢 |
 | `ruggable.getRug` | ruggable.com | Reads one Ruggable rug by handle or url and returns its price range plus every size ×… | 🟢 |
 | `ruggable.searchRugs` | ruggable.com | Searches Ruggable's whole washable-rug catalog (rugs, runners, doormats, rug pads) by… | 🟢 |
+| `rumble.channelVideos` | rumble.com | Lists the videos on a Rumble channel's /c/<channel>/videos page. | ⚪ |
+| `rumble.editorPicks` | rumble.com | Lists the videos on Rumble's editor-picks page with title, watch URL, channel… | 🟢 |
+| `rumble.search` | rumble.com | Searches Rumble for videos and channels matching a query, as /search/all?q=<query> does. | ⚪ |
+| `rumble.video` | rumble.com | Looks up a Rumble video by its watch or embed URL through Rumble's oEmbed endpoint and… | 🟢 |
 | `rvshare.searchListings` | rvshare.com | Runs RVshare's own results grid for a US city/state… | 🟢 |
 | `ryanair.fareCalendar` | ryanair.com | The low-fare calendar for one route and month: cheapest one-way price per day. | 🟢 |
 | `ryanair.findAirport` | ryanair.com | Airports Ryanair flies to whose IATA code, name, city or country match the words. | 🟢 |
 | `ryanair.listMyBookings` | ryanair.com | The signed-in customer's upcoming and past Ryanair bookings. | ⚪ |
 | `ryanair.searchFares` | ryanair.com | The lowest one-way fare on a day or over the next 30 days: the cheapest flight on one… | 🟢 |
-| `saatva.listMattresses` | saatva.com | Lists every mattress product line Saatva currently sells with every buyable variant —… | 🟢 |
-| `saatva.recommendMattress` | saatva.com | Runs Saatva's mattress-quiz goal-flow for a stated sleep position, firmness preference… | 🟢 |
+| `saatva.listMattresses` | saatva.com | Lists every mattress product line Saatva currently sells with every buyable variant —… | 🟡 |
+| `saatva.recommendMattress` | saatva.com | Runs Saatva's mattress-quiz goal-flow for a stated sleep position, firmness preference… | 🟡 |
 | `safetywing.getQuote` | safetywing.com | Runs SafetyWing's own Nomad Insurance quote calculator — plan (Essential or Complete)… | 🟢 |
 | `safeway.addToCart` | safeway.com | Adds a product to the signed-in customer's cart. | 🟢 |
 | `safeway.addToShoppingList` | safeway.com | Adds a product or a free-text item to the signed-in customer's shopping list. | ⚪ |

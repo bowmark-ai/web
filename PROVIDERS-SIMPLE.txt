@@ -292,6 +292,7 @@ discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+1
 disneyworld.disney.go.com — disney: getTicketPrice
 dmv.virginia.gov — dmv_virginia_gov: searchLocations
 docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 planned)
+dominos.com — dominos: categories, category, product, searchStores, store
 donsappliances.com — donsappliances: getProduct, search
 doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getRetailStore, getStore, getStoreReviews, listCuisines, listOrders, search, searchDishes (+23 planned)
 drafthouse.com — drafthouse: findTheaters, getShowtimes (+1 planned)
@@ -303,6 +304,7 @@ dumpsters.com — dumpsters: getQuote
 e2b.dev — e2b: createSandbox, getSandbox, killSandbox, listSandboxes, readFile, runCommand, setSandboxTimeout, writeFile
 easyclosets.com — thestowcompany: getSampleClosetEstimate
 ebay.com — ebay: getDeals, getItem, getMyListings, getSellerListings, getSellerProfile, getWatchlist, searchAutocomplete, searchByCategory, searchSold (+9 planned)
+edmunds.com — edmunds: getDiscussion, listCarModels, listForumTags, searchForumPosts, searchForums
 elase.com — elase: findLocation, listLocations, listServices (+1 planned)
 elevenlabs.io — elevenlabs: cloneVoice, listVoices, synthesize
 embroker.com — embroker: getQuoteEntryPoint, listCoverageLines (+1 planned)
@@ -438,6 +440,7 @@ idealista.com — idealista: search (+3 planned)
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
 ikea.com — ikea: 28 functions — ask get_library
+illinoislottery.com — illinois_lottery: jackpots, quickPick
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 imgur.com — imgur: addComment, deleteComment, favoritePost, getGalleryPosts, getImage, getMyFavorites, getMyPosts, getNotifications, getPost, getPostComments, getTag, getUser, getUserComments, getUserFavorites, getUserPosts, listTags, searchPosts, uploadImage, voteComment, votePost (+9 planned)
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
@@ -690,6 +693,7 @@ rottentomatoes.com — rottentomatoes: getTitle, search (+4 planned)
 rover.com — rover: searchBoarding
 rtings.com — rtings: getReview
 ruggable.com — ruggable: getRug, searchRugs
+rumble.com — rumble: editorPicks, video (+2 planned)
 rvshare.com — rvshare: searchListings
 ryanair.com — ryanair: fareCalendar, findAirport, searchFares (+1 planned)
 saatva.com — saatva: listMattresses, recommendMattress
@@ -818,7 +822,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
-tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, followTag, getBlogInfo, getBlogPosts, getDashboard, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listAsks, listBlogFollowers, listDrafts, listFollowedTags, listFollowing, listLikes, listMyBlogs, listNotifications, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unfollowTag, unlikePost, unreblogPost, updateBlogInfo
+tumblr.com — tumblr: 33 functions — ask get_library
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals

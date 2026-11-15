@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b3f82b53de57260de7d06f277db03fceb55ac05e3093822b194cd745a2471b08
-# 98 capabilities, 871 providers, 5353 typed functions, 20 refused.
+# Manifest version: 11ca60114d3dacf10809da4f00fb83c9f367b2cf5c8738785c77f511de5d3e36
+# 98 capabilities, 875 providers, 5367 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24793,6 +24793,111 @@ class Prv_dmv_virginia_gov_DmvVirginiaGovLocation_Out(TypedDict):
     distance: str | None
     locationUrl: str
 
+class Prv_dominos_DominosStoreRef_In(TypedDict):
+    storeId: str
+
+class Prv_dominos_DominosCategory_Out(TypedDict):
+    id: str
+    name: str
+    productCount: float
+    subCategories: list[Prv_dominos_DominosCategory_Out_subCategories_item_Out]
+
+class Prv_dominos_DominosCategory_Out_subCategories_item_Out(TypedDict):
+    id: str
+    name: str
+    productCount: float
+
+class Prv_dominos_DominosCategoryArgs_In(TypedDict):
+    storeId: str
+    categoryId: str
+
+class Prv_dominos_DominosCategoryPage_Out(TypedDict):
+    storeId: str
+    id: str
+    name: str
+    products: list[Prv_dominos_DominosMenuProduct_Out]
+    subCategories: list[Prv_dominos_DominosCategoryPage_Out_subCategories_item_Out]
+
+class Prv_dominos_DominosMenuProduct_Out(TypedDict):
+    code: str
+    name: str
+    description: str
+    productType: str
+    imageUrl: str
+    fromPrice: float | None
+
+class Prv_dominos_DominosCategoryPage_Out_subCategories_item_Out(TypedDict):
+    id: str
+    name: str
+    products: list[Prv_dominos_DominosMenuProduct_Out]
+
+class Prv_dominos_DominosProductArgs_In(TypedDict):
+    storeId: str
+    productCode: str
+
+class Prv_dominos_DominosProduct_Out(TypedDict):
+    code: str
+    name: str
+    description: str
+    productType: str
+    imageUrl: str
+    fromPrice: float | None
+    storeId: str
+    defaultToppings: str
+    availableToppings: list[Prv_dominos_DominosProduct_Out_availableToppings_item_Out]
+    variants: list[Prv_dominos_DominosVariant_Out]
+
+class Prv_dominos_DominosProduct_Out_availableToppings_item_Out(TypedDict):
+    code: str
+    name: str
+
+class Prv_dominos_DominosVariant_Out(TypedDict):
+    code: str
+    name: str
+    price: float | None
+    sizeCode: str
+    flavorCode: str
+
+class Prv_dominos_DominosStoreSearch_In(TypedDict):
+    postalCode: NotRequired[str]
+    street: NotRequired[str]
+    cityLine: NotRequired[str]
+    serviceMethod: NotRequired[Literal["Carryout"] | Literal["Delivery"]]
+
+class Prv_dominos_DominosStore_Out(TypedDict):
+    id: str
+    address: str
+    phone: str
+    isOnlineNow: bool
+    isOpen: bool
+    isDeliveryStore: bool
+    allowCarryout: bool
+    allowDelivery: bool
+    hours: str
+    carryoutWaitMinutes: str | None
+    deliveryWaitMinutes: str | None
+
+class Prv_dominos_DominosStoreProfile_Out(TypedDict):
+    id: str
+    name: str
+    street: str
+    city: str
+    region: str
+    postalCode: str
+    phone: str
+    isOpen: bool
+    isOnlineNow: bool
+    allowCarryout: bool
+    allowDelivery: bool
+    hours: str
+    serviceHours: Mapping[str, str]
+    estimatedWaitMinutes: Mapping[str, str]
+    acceptablePaymentTypes: list[str]
+    acceptableCreditCards: list[str]
+    minimumDeliveryOrderAmount: float | None
+    latitude: float | None
+    longitude: float | None
+
 class Prv_donsappliances_DonsAppliancesSearchArgs_In(TypedDict):
     category: str
     maxPrice: NotRequired[float]
@@ -25999,6 +26104,96 @@ class Prv_ebay_ebayWatchlistItem_Out_price_u0_Out(TypedDict):
 
 class Prv_ebay_getMyListings_args_In(TypedDict):
     limit: NotRequired[float]
+
+class Prv_edmunds_EdmundsDiscussionArgs_In(TypedDict):
+    discussionId: float
+    commentLimit: NotRequired[float]
+
+class Prv_edmunds_EdmundsDiscussion_Out(TypedDict):
+    discussionId: float
+    title: str
+    body: str
+    url: str
+    categoryId: float | None
+    author: str | None
+    dateInserted: str | None
+    dateLastComment: str | None
+    countComments: float
+    countViews: float
+    closed: bool
+    tags: list[str]
+    comments: list[Prv_edmunds_EdmundsComment_Out]
+
+class Prv_edmunds_EdmundsComment_Out(TypedDict):
+    commentId: float
+    author: str | None
+    body: str
+    dateInserted: str | None
+    url: str
+
+class Prv_edmunds_EdmundsCarModelArgs_In(TypedDict):
+    make: str
+
+class Prv_edmunds_EdmundsCarModel_Out(TypedDict):
+    carModelId: float
+    makeId: float
+    id: str
+    name: str
+    niceName: str
+    categoryId: float | None
+    tagId: float | None
+    fullName: str
+
+class Prv_edmunds_EdmundsTagArgs_In(TypedDict):
+    query: NotRequired[str]
+    type: NotRequired[Literal["CarMake"] | Literal["CarModel"] | Literal["User"]]
+    limit: NotRequired[float]
+
+class Prv_edmunds_EdmundsForumTag_Out(TypedDict):
+    tagId: float
+    name: str
+    type: str
+    urlcode: str
+    url: str
+    parentTagId: float | None
+    countDiscussions: float
+    numPosts: float
+    dateInserted: str | None
+
+class Prv_edmunds_EdmundsPostSearchArgs_In(TypedDict):
+    term: str
+
+class Prv_edmunds_EdmundsForumPost_Out(TypedDict):
+    recordType: str
+    primaryId: float
+    discussionId: float | None
+    categoryId: float | None
+    title: str
+    summary: str
+    url: str
+    dateInserted: str | None
+    authorName: str | None
+    authorId: float | None
+    breadcrumbs: list[Prv_edmunds_EdmundsBreadcrumb_Out]
+
+class Prv_edmunds_EdmundsBreadcrumb_Out(TypedDict):
+    name: str
+    url: str
+
+class Prv_edmunds_EdmundsSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_edmunds_EdmundsForumResult_Out(TypedDict):
+    recordType: str
+    recordId: float
+    discussionId: float | None
+    categoryId: float | None
+    title: str
+    excerpt: str
+    url: str
+    dateInserted: str | None
+    breadcrumbs: list[Prv_edmunds_EdmundsBreadcrumb_Out]
 
 class Prv_elase_ElaseLocationLink_Out(TypedDict):
     slug: str
@@ -38051,6 +38246,26 @@ class Prv_ikea_RemoveFromFavoritesArgs_In(TypedDict):
     itemNo: str
     favoritesToken: str
     listId: NotRequired[str]
+
+class Prv_illinois_lottery_IllinoisLotteryJackpot_Out(TypedDict):
+    gameId: str
+    amount: float
+    progressive: bool
+    lastUpdated: str | None
+    url: str
+
+class Prv_illinois_lottery_IllinoisLotteryQuickPickArgs_In(TypedDict):
+    game: Literal["powerball"] | Literal["megamillions"] | Literal["lotto"] | Literal["luckydaylotto"] | Literal["pick3"] | Literal["pick4"]
+    lines: NotRequired[float]
+
+class Prv_illinois_lottery_IllinoisLotteryQuickPick_Out(TypedDict):
+    game: str
+    name: str
+    lines: list[Prv_illinois_lottery_IllinoisLotteryQuickPick_Out_lines_item_Out]
+
+class Prv_illinois_lottery_IllinoisLotteryQuickPick_Out_lines_item_Out(TypedDict):
+    primary: list[float]
+    secondary: list[float]
 
 class Prv_imdb_ImdbSearchArgs_In(TypedDict):
     query: str
@@ -58656,6 +58871,31 @@ class Prv_ruggable_RuggableVariant_Out(TypedDict):
     compareAtPrice: float | None
     currency: str | None
     available: bool
+
+class Prv_rumble_RumbleListedVideo_Out(TypedDict):
+    title: str
+    url: str
+    channel: str | None
+    channelUrl: str | None
+    duration: str | None
+    views: float | None
+    publishedAt: str | None
+    thumbnailUrl: str | None
+
+class Prv_rumble_RumbleVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_rumble_RumbleVideo_Out(TypedDict):
+    title: str
+    channel: str | None
+    channelUrl: str | None
+    durationSeconds: float | None
+    width: float | None
+    height: float | None
+    thumbnailUrl: str | None
+    embedUrl: str | None
+    embedId: str | None
+    url: str
 
 class Prv_rvshare_RvshareListing_Out(TypedDict):
     sku: str
@@ -88000,7 +88240,7 @@ class Prv_bricklink(Protocol):
     """
 
     async def categories(self, /) -> Prv_bricklink_categories_return_Out:
-        """List BrickLink's top-level LEGO catalogue categories (Sets, Parts, Minifigures, Gear, …)
+        """List BrickLink's top-level LEGO catalogue categories (Sets, Parts, Minifigures, MOCs, …)
         with how many items each holds and its catalogue link.
         """
 
@@ -93759,6 +93999,36 @@ class Prv_dmv_virginia_gov(Protocol):
         their published address, hours, distance, and location page.
         """
 
+class Prv_dominos(Protocol):
+    """Domino's Pizza (dominos.com): find stores near a ZIP, read a store's hours and wait
+    times, and browse its live menu with prices. Read-only — never builds a cart or orders.
+    """
+
+    async def categories(self, args: Prv_dominos_DominosStoreRef_In, /) -> list[Prv_dominos_DominosCategory_Out]:
+        """Lists the menu categories (Pizza, Specialty, Chicken, Breads, Desserts…) on one Domino's
+        store's live menu.
+        """
+
+    async def category(self, args: Prv_dominos_DominosCategoryArgs_In, /) -> Prv_dominos_DominosCategoryPage_Out:
+        """Lists every product in one Domino's menu category at a store, with codes, descriptions
+        and from-prices.
+        """
+
+    async def product(self, args: Prv_dominos_DominosProductArgs_In, /) -> Prv_dominos_DominosProduct_Out:
+        """Reads one Domino's menu product at a store: sizes and crusts with prices, default and
+        available toppings.
+        """
+
+    async def searchStores(self, args: Prv_dominos_DominosStoreSearch_In, /) -> list[Prv_dominos_DominosStore_Out]:
+        """Finds Domino's stores near a ZIP or address in the order the site lists them, with
+        hours, open status and wait times.
+        """
+
+    async def store(self, args: Prv_dominos_DominosStoreRef_In, /) -> Prv_dominos_DominosStoreProfile_Out:
+        """Reads one Domino's store's profile: address, phone, hours per service method, wait
+        times, payment types.
+        """
+
 class Prv_donsappliances(Protocol):
     """Browses Don's Appliances' own public catalog and reads a product's live price,
     availability and inventory-label wording straight off the site's own data.
@@ -94444,6 +94714,28 @@ class Prv_ebay(Protocol):
         since the page is the caller's own listings and does not print their username back to
         them. `limit` caps the row count (default 20, ceiling 200).
         """
+
+class Prv_edmunds(Protocol):
+    """Edmunds car forums (forums.edmunds.com): search discussions and posts, browse make/model
+    tags, list a make's car models, read a thread.
+    """
+
+    async def getDiscussion(self, args: Prv_edmunds_EdmundsDiscussionArgs_In, /) -> Prv_edmunds_EdmundsDiscussion_Out:
+        """Read one Edmunds forum thread by discussion id, with its latest comments."""
+
+    async def listCarModels(self, args: Prv_edmunds_EdmundsCarModelArgs_In, /) -> list[Prv_edmunds_EdmundsCarModel_Out]:
+        """List the car models Edmunds forums know for a make, e.g. { make: "honda" }."""
+
+    async def listForumTags(self, args: Prv_edmunds_EdmundsTagArgs_In | None = None, /) -> list[Prv_edmunds_EdmundsForumTag_Out]:
+        """List or search Edmunds forum tags (car makes, car models, user topic tags) with
+        discussion counts.
+        """
+
+    async def searchForumPosts(self, args: Prv_edmunds_EdmundsPostSearchArgs_In, /) -> list[Prv_edmunds_EdmundsForumPost_Out]:
+        """Quick search of Edmunds forum posts (top matches, with author and thread id)."""
+
+    async def searchForums(self, args: Prv_edmunds_EdmundsSearchArgs_In, /) -> list[Prv_edmunds_EdmundsForumResult_Out]:
+        """Full-text search of the Edmunds car forums, e.g. { query: "Honda Accord lease" }."""
 
 class Prv_elase(Protocol):
     """Elase Med Spa's real location directory, live per-location service catalog, and real
@@ -101086,6 +101378,22 @@ class Prv_ikea(Protocol):
 
     async def removeFromFavorites(self, args: Prv_ikea_RemoveFromFavoritesArgs_In, /) -> Prv_ikea_IkeaFavoritesList_Out:
         """Removes a product from a favorites list."""
+
+class Prv_illinois_lottery(Protocol):
+    """Illinois Lottery (illinoislottery.com): current instant-game (Fast Play) jackpot
+    amounts, and a quick-pick number generator for Powerball, Mega Millions, Lotto, Lucky
+    Day Lotto, Pick 3 and Pick 4.
+    """
+
+    async def jackpots(self, /) -> list[Prv_illinois_lottery_IllinoisLotteryJackpot_Out]:
+        """Lists the current Illinois Lottery instant/Fast Play game jackpots: game id, amount in
+        dollars, whether it is progressive, and when it was last updated.
+        """
+
+    async def quickPick(self, args: Prv_illinois_lottery_IllinoisLotteryQuickPickArgs_In, /) -> Prv_illinois_lottery_IllinoisLotteryQuickPick_Out:
+        """Generates random quick-pick numbers for an Illinois Lottery draw game (Powerball, Mega
+        Millions, Lotto, Lucky Day Lotto, Pick 3, Pick 4), one or more lines. Buys nothing.
+        """
 
 class Prv_imdb(Protocol):
     """IMDb — the movie and TV database. Search films, shows and people; read a title's rating,
@@ -112596,6 +112904,21 @@ class Prv_ruggable(Protocol):
         with its price and availability, description, collections.
         """
 
+class Prv_rumble(Protocol):
+    """List Rumble's editor-picked videos, and look up a Rumble video by URL: title, channel,
+    duration, thumbnail and embed player URL.
+    """
+
+    async def editorPicks(self, /) -> list[Prv_rumble_RumbleListedVideo_Out]:
+        """Lists the videos on Rumble's editor-picks page with title, watch URL, channel, duration,
+        view count, publish time and thumbnail.
+        """
+
+    async def video(self, args: Prv_rumble_RumbleVideoArgs_In, /) -> Prv_rumble_RumbleVideo_Out:
+        """Looks up a Rumble video by its watch or embed URL through Rumble's oEmbed endpoint and
+        returns its title, channel, duration, size, thumbnail and embed URL.
+        """
+
 class Prv_rvshare(Protocol):
     """RVshare's own RV rental search (rvshare.com/rv-rental/<city>/<state>) — given a US city
     and state, returns the real, priced listings the site itself shows: nightly rate, sleeps
@@ -123872,6 +124195,7 @@ class BowmarkProviders(Protocol):
     discounttire: Prv_discounttire
     disney: Prv_disney
     dmv_virginia_gov: Prv_dmv_virginia_gov
+    dominos: Prv_dominos
     donsappliances: Prv_donsappliances
     doordash: Prv_doordash
     drafthouse: Prv_drafthouse
@@ -123880,6 +124204,7 @@ class BowmarkProviders(Protocol):
     duckduckgo: Prv_duckduckgo
     dumpsters: Prv_dumpsters
     ebay: Prv_ebay
+    edmunds: Prv_edmunds
     elase: Prv_elase
     elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
@@ -124011,6 +124336,7 @@ class BowmarkProviders(Protocol):
     identitygroup: Prv_identitygroup
     ihg: Prv_ihg
     ikea: Prv_ikea
+    illinois_lottery: Prv_illinois_lottery
     imdb: Prv_imdb
     imgur: Prv_imgur
     indeed: Prv_indeed
@@ -124256,6 +124582,7 @@ class BowmarkProviders(Protocol):
     rover: Prv_rover
     rtings: Prv_rtings
     ruggable: Prv_ruggable
+    rumble: Prv_rumble
     rvshare: Prv_rvshare
     ryanair: Prv_ryanair
     saatva: Prv_saatva
