@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6892 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6900 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4579,6 +4579,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prusa3d.updateAddress` | prusa3d.com | Edit a saved delivery address. | ⚪ |
 | `prusa3d.updateCartItem` | prusa3d.com | Change a cart line's quantity. | ⚪ |
 | `prusa3d.verifyEmail` | prusa3d.com | Open the Prusa account activation link to finish signup. | ⚪ |
+| `publix.navigation` | publix.com | Returns the section links publix.com shows in its secondary navigation (Catering, Gift… | 🟢 |
+| `publix.searchStores` | publix.com | Finds Publix supermarket stores near a city and state or a ZIP code, as the publix.com… | 🟢 |
+| `publix.store` | publix.com | Returns one Publix store by its store number, as the publix.com store page shows it… | 🟢 |
+| `publix.suggestions` | publix.com | Returns the search type-ahead suggestions the publix.com grocery search box shows for… | 🟢 |
 | `pullandbear.getProduct` | pullandbear.com | Reads one Pull&Bear product's colours and sizes with each colour's price, compare-at… | 🟢 |
 | `pullandbear.listCategories` | pullandbear.com | Lists Pull&Bear's US catalog categories (jackets, jeans, t-shirts…), read live off the… | 🟢 |
 | `pullandbear.searchProducts` | pullandbear.com | Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer… | 🟢 |
@@ -5749,6 +5753,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `therowhouse.getSchedule` | therowhouse.com | Reads one studio's live class schedule — real class names, instructor, start/end time… | 🟢 |
 | `therowhouse.listLocations` | therowhouse.com | Lists every Row House studio's slug and canonical page URL, enumerated from the site's… | 🟢 |
 | `thestowcompany.getSampleClosetEstimate` | easyclosets.com | Copies EasyClosets' own popular sample layout for a given closet shape (reach-in or… | 🟢 |
+| `thestreet.commentCount` | thestreet.com | Reads how many reader comments a TheStreet article has, by its numeric article id (the… | 🟢 |
+| `thestreet.newsletters` | thestreet.com | Reads TheStreet newsletter metadata — title, description, frequency and whether it is… | ⚪ |
+| `thestreet.sections` | thestreet.com | Lists TheStreet's site sections and topics — the primary navigation menu (Tech… | 🟢 |
+| `thestreet.topComments` | thestreet.com | Reads the highlighted top reader comments on a TheStreet article by its numeric… | ⚪ |
 | `theweathernetwork_com.getCurrentConditions` | theweathernetwork.com | Current conditions at a latitude/longitude — temperature, feels-like, wind, humidity… | 🟢 |
 | `thezebra.estimateCoverageCost` | thezebra.com | Returns The Zebra's own estimate of what a driver should expect to pay, and what… | ⚪ |
 | `thezebra.getAutoQuotes` | thezebra.com | Returns real side-by-side auto insurance rates from the carriers that will write a… | 🔴 |

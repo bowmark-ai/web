@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6b75cab8965e205e2fbe2231a76c0a5ac0585446f89cd0c054ed9eef09bcd802
-// 98 capabilities, 863 providers, 5343 typed functions, 20 refused.
+// Manifest version: 32e41706bf177e96a7ac6684440bde103e91a67fac7244f9c68475d321971862
+// 98 capabilities, 866 providers, 5351 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30612,6 +30612,31 @@ interface ClubreadyInstructor {
      * them with `favorite: false`. An authFunction, reached-and-refused only, returned raw.
      */
     favoriteInstructor(args: { studio: string, instructorId: string, favorite?: boolean }, opts?: ConnectionOption): Promise<unknown>;
+  }
+}
+
+declare namespace BowmarkProvider_clutch {
+  // ── Clutch — business-services marketplace — the unit's own declarations, verbatim ──
+interface clutchCompany { id: string; name: string; url: string; rating: number | null; reviewCount: number | null; location: string | null; services: string[] }
+interface clutchSearchArgs { category: string; location?: string; limit?: number }
+interface clutchCompanyProfile extends clutchCompany { description: string | null; reviews: { rating: number | null; title: string | null; text: string }[] }
+
+  /**
+   * Search Clutch's public software and web-development agency rankings, or read an agency's
+   * public profile and reviews.
+   */
+  interface Unit {
+    /**
+     * Reads a public Clutch agency profile by profile URL or slug, including visible company
+     * details and review text.
+     */
+    getCompany(profile: string): Promise<clutchCompanyProfile>;
+
+    /**
+     * Searches Clutch's public ranked agency directory for software or web-development companies,
+     * optionally in one country, returning identity, rating, review count, location and services.
+     */
+    search(args: clutchSearchArgs): Promise<clutchCompany[]>;
   }
 }
 
@@ -84258,6 +84283,55 @@ interface PrusaEmailCheck { email: string; available: boolean; verdict: string |
   }
 }
 
+declare namespace BowmarkProvider_publix {
+  // ── Publix — the unit's own declarations, verbatim ──
+interface PublixStoreSearchArgs { city?: string; state?: string; zip?: string; limit?: number; radiusMiles?: number }
+interface PublixStoreArgs { storeNumber: string }
+interface PublixSuggestionsArgs { keyword: string; storeNumber?: string }
+interface PublixHours { openTime: string | null; closeTime: string | null; isOpen24Hours: boolean; isClosed: boolean; reason: string | null }
+interface PublixStore { storeNumber: string; name: string; type: string | null; address: { street: string | null; city: string | null; state: string | null; zip: string | null }; phones: { store: string | null; pharmacy: string | null; eventPlanning: string | null }; latitude: number | null; longitude: number | null; distance: number | null; timeZone: string | null; hours: PublixHours[]; departments: string[]; services: string[]; secondaryLocations: { name: string; phone: string | null; hours: PublixHours[] }[]; image: string | null; url: string }
+interface PublixStoreSearchResponse { stores: PublixStore[]; correctedSearchTerm: string | null }
+interface PublixSuggestionsResponse { keyword: string; suggestions: string[] }
+interface PublixNavLink { title: string; url: string }
+interface PublixNavigationResponse { links: PublixNavLink[] }
+
+  /**
+   * Publix supermarkets (publix.com) — find Publix stores by city/state or ZIP, one store's
+   * address, phones, hours, departments and services, grocery search type-ahead suggestions, and
+   * the site's section links.
+   */
+  interface Unit {
+    /**
+     * The section links publix.com shows in its secondary navigation (Catering, Gift Cards,
+     * Pharmacy, Weekly Ad, …) as { title, url } rows. Disabled entries are dropped.
+     */
+    navigation(): Promise<PublixNavigationResponse>;
+
+    /**
+     * Finds Publix stores near a city and two-letter state ({ city: "Miami", state: "FL" }) or a
+     * 5-digit ZIP, nearest first: store number, name, address, phones (store, pharmacy),
+     * coordinates, distance in miles, the next seven days of dated hours, departments, services
+     * and pharmacy/liquor sub-locations. `limit` default 10 (max 50), `radiusMiles` default 25. A
+     * place the locator cannot find THROWS an input error.
+     */
+    searchStores(args: PublixStoreSearchArgs): Promise<PublixStoreSearchResponse>;
+
+    /**
+     * One Publix store by its store number (e.g. { storeNumber: "1614" }, from a searchStores
+     * row): address, phones, coordinates, seven days of dated hours, departments, services and
+     * sub-locations. An unknown number THROWS an input error.
+     */
+    store(args: PublixStoreArgs): Promise<PublixStore>;
+
+    /**
+     * Publix's grocery search type-ahead: up to 10 suggested search phrases for a partial keyword
+     * (e.g. "chick" → "chicken wings", "chicken tenders", …), optionally scoped to a store number.
+     * Suggestions only — no prices or product rows.
+     */
+    suggestions(args: PublixSuggestionsArgs): Promise<PublixSuggestionsResponse>;
+  }
+}
+
 declare namespace BowmarkProvider_pullandbear {
   // ── Pull&Bear — the unit's own declarations, verbatim ──
 interface PullAndBearCategory { id: string; gender: "men" | "women"; title: string; keyword: string }
@@ -104011,6 +104085,45 @@ interface SampleClosetEstimate {
   }
 }
 
+declare namespace BowmarkProvider_thestreet {
+  // ── TheStreet — the unit's own declarations, verbatim ──
+interface CommentCountArgs {
+  articleId: string; // numeric id at the end of a thestreet.com article URL; a full URL works too
+}
+
+interface CommentCount {
+  articleId: string;
+  count: number;
+}
+
+interface TheStreetSection {
+  id: number;
+  title: string;
+  url: string;
+  children: TheStreetSection[];
+}
+
+interface TheStreetSections {
+  sections: TheStreetSection[]; // primary navigation
+  topics: TheStreetSection[];
+}
+
+  /**
+   * TheStreet (thestreet.com), the financial news site — reader comment counts on an article,
+   * and the site's sections and topics.
+   */
+  interface Unit {
+    /** How many reader comments a TheStreet article has, by its numeric article id or URL. */
+    commentCount(args: CommentCountArgs): Promise<CommentCount>;
+
+    /**
+     * TheStreet's site sections (primary navigation, with sub-sections) and topics, each with its
+     * url.
+     */
+    sections(): Promise<TheStreetSections>;
+  }
+}
+
 declare namespace BowmarkProvider_theweathernetwork_com {
   // ── The Weather Network — the unit's own declarations, verbatim ──
 interface Coordinates { latitude: number; longitude: number }
@@ -123384,6 +123497,7 @@ interface BowmarkProviders {
   clubchampion: BowmarkProvider_clubchampion.Unit;
   clubpilates: BowmarkProvider_clubpilates.Unit;
   clubready: BowmarkProvider_clubready.Unit;
+  clutch: BowmarkProvider_clutch.Unit;
   cnbc_com: BowmarkProvider_cnbc_com.Unit;
   cnn: BowmarkProvider_cnn.Unit;
   coast: BowmarkProvider_coast.Unit;
@@ -123787,6 +123901,7 @@ interface BowmarkProviders {
   proxmox: BowmarkProvider_proxmox.Unit;
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
   prusa3d: BowmarkProvider_prusa3d.Unit;
+  publix: BowmarkProvider_publix.Unit;
   pullandbear: BowmarkProvider_pullandbear.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
   pulsemcp_com: BowmarkProvider_pulsemcp_com.Unit;
@@ -123921,6 +124036,7 @@ interface BowmarkProviders {
   therabody: BowmarkProvider_therabody.Unit;
   therowhouse: BowmarkProvider_therowhouse.Unit;
   thestowcompany: BowmarkProvider_thestowcompany.Unit;
+  thestreet: BowmarkProvider_thestreet.Unit;
   theweathernetwork_com: BowmarkProvider_theweathernetwork_com.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   thibautdesign: BowmarkProvider_thibautdesign.Unit;

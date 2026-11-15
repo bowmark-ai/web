@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6b75cab8965e205e2fbe2231a76c0a5ac0585446f89cd0c054ed9eef09bcd802
-// 5315 checked, 20 unchecked.
+// Manifest version: 32e41706bf177e96a7ac6684440bde103e91a67fac7244f9c68475d321971862
+// 5323 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6b75cab8965e205e2fbe2231a76c0a5ac0585446f89cd0c054ed9eef09bcd802",
+  "version": "32e41706bf177e96a7ac6684440bde103e91a67fac7244f9c68475d321971862",
   "units": {
     "address_validation": {
       "defs": {
@@ -38370,6 +38370,57 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.clutch": {
+      "defs": {
+        "clutchSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getCompany": [
+          {
+            "name": "profile",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "clutchSearchArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -115723,6 +115774,114 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.publix": {
+      "defs": {
+        "PublixStoreArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "storeNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PublixStoreSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PublixSuggestionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "keyword",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "storeNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "navigation": [],
+        "searchStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PublixStoreSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "store": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PublixStoreArgs"
+            },
+            "optional": false
+          }
+        ],
+        "suggestions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PublixSuggestionsArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.pullandbear": {
       "defs": {
         "PullAndBearSearchArgs": {
@@ -144353,6 +144512,35 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.thestreet": {
+      "defs": {
+        "CommentCountArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "articleId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "commentCount": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CommentCountArgs"
+            },
+            "optional": false
+          }
+        ],
+        "sections": []
       }
     },
     "providers.theweathernetwork_com": {

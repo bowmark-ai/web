@@ -62,7 +62,7 @@ antunes.com — antunes: findServiceAgencies
 aol.com — aol: addFavorite, getArticle, getArticleComments, getDailyHoroscope, getFrontPage, getLocalNews, getMarketSummary, getRecipe, getWeather, listFavorites, listGames, listNewsletters, listSectionArticles, listSections, removeFavorite, searchRecipes, searchWeatherLocations, subscribeNewsletter (+1 planned)
 aosom.com — aosom: getProduct, searchProducts
 api.census.gov — census_api: validateAddress (+1 planned)
-api.weather.gov — nws: findRadarStations, findStations, findZones, getActiveAlerts, getAlert, getAlertCounts, getCurrentConditions, getForecast, getForecastDiscussion, getGridpointData, getHourlyForecast, getMarineForecast, getObservationHistory, getOffice, getOfficeHeadlines, getPoint, getTextProduct, getWeatherRadio, getWeatherStories, getZoneForecast, listAlertTypes, listSigmets, listTextProducts, lookupGlossary, searchAlerts, searchLocation (+3 planned)
+api.weather.gov — nws: 26 functions — ask get_library (+3 planned)
 apidirectory.com — apidirectory_com: listCategories, search (+1 planned)
 apify.com — apify: store
 apnews.com — apnews: nothing callable yet (+20 planned)
@@ -641,6 +641,7 @@ provenwinners.com — provenwinners: getRecipeDetails, searchContainerRecipes
 proxmox.com — proxmox: getIsoDownloads
 proxy-cheap.com — proxy_cheap: listCoverage, listPlans
 prusa3d.com — prusa3d: checkEmail, getProduct, getReviews, listBlogPosts, listCategory, listCountries, listNewProducts, searchProducts (+22 planned)
+publix.com — publix: navigation, searchStores, store, suggestions
 pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
 puls.com — puls_com: getRepairQuote, listApplianceCategories
 pulsemcp.com — pulsemcp_com: search
@@ -781,6 +782,7 @@ thefork.com — thefork: search (+2 planned)
 theguardian.com — theguardian_com: getArticle, getArticleComments, getContributorArticles, getCrossword, getFootballTable, getLiveBlog, getMostRead, getPhotoGallery, getReview, getTopicArticles, getVideo, listArticlesBySection, listBreakingNews, listContributors, listFootballMatches, listLiveBlogs, listNewsletters, listOpinionPieces, listPhotos, listPodcastEpisodes, listReviews, listSections, listTopics, listVideos (+2 planned)
 therabody.com — therabody: getTheragunProduct, listTheragunProducts, recommendTheragun
 therowhouse.com — therowhouse: getSchedule, listLocations
+thestreet.com — thestreet: commentCount, sections (+2 planned)
 theweathernetwork.com — theweathernetwork_com: getCurrentConditions
 thezebra.com — thezebra: getCarrierRates, getCityRates, getRatesByDriverProfile, getRentersQuotes, getStateRates, getStateRequirements, getVehicleRates (+11 planned)
 thibautdesign.com — thibautdesign: calculateRollsNeeded

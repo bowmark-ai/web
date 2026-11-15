@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6b75cab8965e205e2fbe2231a76c0a5ac0585446f89cd0c054ed9eef09bcd802
-# 98 capabilities, 863 providers, 5315 typed functions, 20 refused.
+# Manifest version: 32e41706bf177e96a7ac6684440bde103e91a67fac7244f9c68475d321971862
+# 98 capabilities, 866 providers, 5323 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19533,6 +19533,36 @@ class Prv_clubready_favoriteInstructor_args_In(TypedDict):
     studio: str
     instructorId: str
     favorite: NotRequired[bool]
+
+class Prv_clutch_clutchCompanyProfile_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    rating: float | None
+    reviewCount: float | None
+    location: str | None
+    services: list[str]
+    description: str | None
+    reviews: list[Prv_clutch_clutchCompanyProfile_Out_reviews_item_Out]
+
+class Prv_clutch_clutchCompanyProfile_Out_reviews_item_Out(TypedDict):
+    rating: float | None
+    title: str | None
+    text: str
+
+class Prv_clutch_clutchSearchArgs_In(TypedDict):
+    category: str
+    location: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_clutch_clutchCompany_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    rating: float | None
+    reviewCount: float | None
+    location: str | None
+    services: list[str]
 
 class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
     symbol: str
@@ -54046,6 +54076,75 @@ class Prv_prusa3d_PrusaEmailCheck_Out(TypedDict):
     verdict: str | None
     disposable: bool | None
 
+class Prv_publix_PublixNavigationResponse_Out(TypedDict):
+    links: list[Prv_publix_PublixNavLink_Out]
+
+class Prv_publix_PublixNavLink_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_publix_PublixStoreSearchArgs_In(TypedDict):
+    city: NotRequired[str]
+    state: NotRequired[str]
+    zip: NotRequired[str]
+    limit: NotRequired[float]
+    radiusMiles: NotRequired[float]
+
+class Prv_publix_PublixStoreSearchResponse_Out(TypedDict):
+    stores: list[Prv_publix_PublixStore_Out]
+    correctedSearchTerm: str | None
+
+class Prv_publix_PublixStore_Out(TypedDict):
+    storeNumber: str
+    name: str
+    type: str | None
+    address: Prv_publix_PublixStore_Out_address_Out
+    phones: Prv_publix_PublixStore_Out_phones_Out
+    latitude: float | None
+    longitude: float | None
+    distance: float | None
+    timeZone: str | None
+    hours: list[Prv_publix_PublixHours_Out]
+    departments: list[str]
+    services: list[str]
+    secondaryLocations: list[Prv_publix_PublixStore_Out_secondaryLocations_item_Out]
+    image: str | None
+    url: str
+
+class Prv_publix_PublixStore_Out_address_Out(TypedDict):
+    street: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+
+class Prv_publix_PublixStore_Out_phones_Out(TypedDict):
+    store: str | None
+    pharmacy: str | None
+    eventPlanning: str | None
+
+class Prv_publix_PublixHours_Out(TypedDict):
+    openTime: str | None
+    closeTime: str | None
+    isOpen24Hours: bool
+    isClosed: bool
+    reason: str | None
+
+class Prv_publix_PublixStore_Out_secondaryLocations_item_Out(TypedDict):
+    name: str
+    phone: str | None
+    hours: list[Prv_publix_PublixHours_Out]
+
+class Prv_publix_PublixStoreArgs_In(TypedDict):
+    storeNumber: str
+
+class Prv_publix_PublixSuggestionsArgs_In(TypedDict):
+    keyword: str
+    storeNumber: NotRequired[str]
+
+class Prv_publix_PublixSuggestionsResponse_Out(TypedDict):
+    keyword: str
+    suggestions: list[str]
+
 class Prv_pullandbear_listCategories_args_In(TypedDict):
     gender: NotRequired[Literal["men"] | Literal["women"]]
 
@@ -68065,6 +68164,23 @@ class Prv_thestowcompany_SampleClosetEstimate_Out(TypedDict):
     financingPerMonth: float | None
     designId: str
     designUrl: str
+
+class Prv_thestreet_CommentCountArgs_In(TypedDict):
+    articleId: str
+
+class Prv_thestreet_CommentCount_Out(TypedDict):
+    articleId: str
+    count: float
+
+class Prv_thestreet_TheStreetSections_Out(TypedDict):
+    sections: list[Prv_thestreet_TheStreetSection_Out]
+    topics: list[Prv_thestreet_TheStreetSection_Out]
+
+class Prv_thestreet_TheStreetSection_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    children: list[Prv_thestreet_TheStreetSection_Out]
 
 class Prv_theweathernetwork_com_Coordinates_In(TypedDict):
     latitude: float
@@ -90507,6 +90623,22 @@ class Prv_clubready(Protocol):
         them with `favorite: false`. An authFunction, reached-and-refused only, returned raw.
         """
 
+class Prv_clutch(Protocol):
+    """Search Clutch's public software and web-development agency rankings, or read an agency's
+    public profile and reviews.
+    """
+
+    async def getCompany(self, profile: str, /) -> Prv_clutch_clutchCompanyProfile_Out:
+        """Reads a public Clutch agency profile by profile URL or slug, including visible company
+        details and review text.
+        """
+
+    async def search(self, args: Prv_clutch_clutchSearchArgs_In, /) -> list[Prv_clutch_clutchCompany_Out]:
+        """Searches Clutch's public ranked agency directory for software or web-development
+        companies, optionally in one country, returning identity, rating, review count, location
+        and services.
+        """
+
 class Prv_cnbc_com(Protocol):
     """Stock quotes, market data, news, videos and analysis from CNBC."""
 
@@ -109902,6 +110034,37 @@ class Prv_prusa3d(Protocol):
         registration pre-check.
         """
 
+class Prv_publix(Protocol):
+    """Publix supermarkets (publix.com) — find Publix stores by city/state or ZIP, one store's
+    address, phones, hours, departments and services, grocery search type-ahead suggestions,
+    and the site's section links.
+    """
+
+    async def navigation(self, /) -> Prv_publix_PublixNavigationResponse_Out:
+        """The section links publix.com shows in its secondary navigation (Catering, Gift Cards,
+        Pharmacy, Weekly Ad, …) as { title, url } rows. Disabled entries are dropped.
+        """
+
+    async def searchStores(self, args: Prv_publix_PublixStoreSearchArgs_In, /) -> Prv_publix_PublixStoreSearchResponse_Out:
+        """Finds Publix stores near a city and two-letter state ({ city: "Miami", state: "FL" }) or
+        a 5-digit ZIP, nearest first: store number, name, address, phones (store, pharmacy),
+        coordinates, distance in miles, the next seven days of dated hours, departments,
+        services and pharmacy/liquor sub-locations. `limit` default 10 (max 50), `radiusMiles`
+        default 25. A place the locator cannot find THROWS an input error.
+        """
+
+    async def store(self, args: Prv_publix_PublixStoreArgs_In, /) -> Prv_publix_PublixStore_Out:
+        """One Publix store by its store number (e.g. { storeNumber: "1614" }, from a searchStores
+        row): address, phones, coordinates, seven days of dated hours, departments, services and
+        sub-locations. An unknown number THROWS an input error.
+        """
+
+    async def suggestions(self, args: Prv_publix_PublixSuggestionsArgs_In, /) -> Prv_publix_PublixSuggestionsResponse_Out:
+        """Publix's grocery search type-ahead: up to 10 suggested search phrases for a partial
+        keyword (e.g. "chick" → "chicken wings", "chicken tenders", …), optionally scoped to a
+        store number. Suggestions only — no prices or product rows.
+        """
+
 class Prv_pullandbear(Protocol):
     """Pull&Bear (pullandbear.com) fast-fashion store, US catalog. Lists a men's/women's
     category (jackets, jeans, t-shirts…) with per-colour price, sale compare-at price and
@@ -116387,6 +116550,19 @@ class Prv_thestowcompany(Protocol):
         """Copies EasyClosets' own popular sample layout for the given closet shape into a fresh
         anonymous design and returns the total EasyClosets' own pricer computes for it, plus a
         resumable design URL. Read-only — never saves to an account, adds to cart or checks out.
+        """
+
+class Prv_thestreet(Protocol):
+    """TheStreet (thestreet.com), the financial news site — reader comment counts on an
+    article, and the site's sections and topics.
+    """
+
+    async def commentCount(self, args: Prv_thestreet_CommentCountArgs_In, /) -> Prv_thestreet_CommentCount_Out:
+        """How many reader comments a TheStreet article has, by its numeric article id or URL."""
+
+    async def sections(self, /) -> Prv_thestreet_TheStreetSections_Out:
+        """TheStreet's site sections (primary navigation, with sub-sections) and topics, each with
+        its url.
         """
 
 class Prv_theweathernetwork_com(Protocol):
@@ -123021,6 +123197,7 @@ class BowmarkProviders(Protocol):
     clubchampion: Prv_clubchampion
     clubpilates: Prv_clubpilates
     clubready: Prv_clubready
+    clutch: Prv_clutch
     cnbc_com: Prv_cnbc_com
     cnn: Prv_cnn
     coast: Prv_coast
@@ -123424,6 +123601,7 @@ class BowmarkProviders(Protocol):
     proxmox: Prv_proxmox
     proxy_cheap: Prv_proxy_cheap
     prusa3d: Prv_prusa3d
+    publix: Prv_publix
     pullandbear: Prv_pullandbear
     puls_com: Prv_puls_com
     pulsemcp_com: Prv_pulsemcp_com
@@ -123558,6 +123736,7 @@ class BowmarkProviders(Protocol):
     therabody: Prv_therabody
     therowhouse: Prv_therowhouse
     thestowcompany: Prv_thestowcompany
+    thestreet: Prv_thestreet
     theweathernetwork_com: Prv_theweathernetwork_com
     thezebra: Prv_thezebra
     thibautdesign: Prv_thibautdesign
