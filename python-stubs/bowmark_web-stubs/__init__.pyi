@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b1720eb95aaef3a394fdc49fbcd51dfcea54060fc4b60275ec7dafcf04c0def6
+# Manifest version: f41937005b7b72fc16f82200bc92b477cb8ef7500124c55477489d99fd7f3003
 # 98 capabilities, 886 providers, 5392 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -106208,9 +106208,10 @@ class Prv_maurices(Protocol):
         """Searches maurices.com (women's clothing, jeans, plus sizes) by what a shopper would type
         — 'bootcut jeans', 'plaid shacket' — and returns 72 products per page with list price,
         sale price under the running promotion, colors, sizes and the product url getProduct
-        takes. When the site refuses its own search (often), rows are matched by name from its
-        product sitemap instead (source: "sitemap", url and name only — read prices with
-        getProduct). Pass offset (72, 144, …) for the next page.
+        takes. When the site refuses its own search (often), rows are matched by name against
+        its category pages and product sitemap instead (source: "sitemap"): rows a category page
+        lists carry its price and come first; the rest are url and name only — read prices with
+        getProduct. Pass offset (72, 144, …) for the next page.
         """
 
 class Prv_mayoclinic(Protocol):
