@@ -169,6 +169,10 @@ Returns the envelope rather than raising, because a script is composite: `status
 and `result` are read together. Untyped by construction — a string gets no checking, so
 the generated stubs cover `session()` and `bowmark` and never this.
 
+A callable is refused before anything is sent: `run(lambda: …)` raises `BowmarkError` with
+`code="run_not_a_string"`, naming `session()`. It used to come back as an envelope about raw
+HTTP bodies.
+
 ## `login()` is TYPED, but not yet wired here
 
 Multi-account connections' `packages/catalog/src/manifest.ts` synthesizes a `login()`

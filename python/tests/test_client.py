@@ -203,6 +203,22 @@ class Guards(unittest.TestCase):
     `fake.requests` asserts. A guard that ran server-side would report a mangled value
     as a capability failure, after it had been metered."""
 
+    def test_run_refuses_a_function_and_names_session(self) -> None:
+        """A callable has no wire form. Refused here, not returned as an envelope."""
+        fake = FakeApi([])
+
+        async def body() -> None:
+            with TransportPatch(fake):
+                await bowmark_web.run(lambda: None)  # type: ignore[arg-type]
+
+        with self.assertRaises(BowmarkError) as caught:
+            asyncio.run(body())
+        self.assertEqual(caught.exception.code, "run_not_a_string")
+        self.assertIn("STRING", str(caught.exception))
+        self.assertIn("a function", str(caught.exception))
+        self.assertIn("session()", str(caught.exception))
+        self.assertEqual(fake.requests, [], "the request was sent anyway")
+
     def _refuse(self, call: Any) -> BowmarkError:
         fake = FakeApi([])
 

@@ -55,7 +55,7 @@ One function per row, with the site it is called on.
 | `accuweather.listLifestyleIndices` | accuweather.com | Today's level for every allergy, health and outdoor-activity index AccuWeather… | 🟢 |
 | `accuweather.listNews` | accuweather.com | Latest AccuWeather news headlines - omit section for Top Stories, or pass a section's… | 🟢 |
 | `accuweather.searchLocations` | accuweather.com | Finds places by name, ZIP or postal code via the site's own search box autocomplete -… | 🟢 |
-| `acerentacar.searchAvailability` | acerentacar.com | Returns ACE's live vehicle availability and rate totals for a public pickup location… | 🟡 |
+| `acerentacar.searchAvailability` | acerentacar.com | Returns ACE's live vehicle availability and rate totals for a public pickup location… | 🟢 |
 | `acerentacar.searchLocations` | acerentacar.com | Matches a free-text city, airport or state against ACE's public location catalog and… | 🟢 |
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |
 | `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟡 |
@@ -2647,7 +2647,7 @@ One function per row, with the site it is called on.
 | `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | 🟢 |
 | `forbes.listBillionaires` | forbes.com | List the current real-time billionaires ranked by net worth. | 🟢 |
 | `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | 🟢 |
-| `forbes.listLists` | forbes.com | List all available Forbes rankings/lists (Forbes 400, Global 2000, Most Powerful… | 🟡 |
+| `forbes.listLists` | forbes.com | List all available Forbes rankings/lists (Forbes 400, Global 2000, Most Powerful… | 🟢 |
 | `forbes.listNews` | forbes.com | List latest news articles. | 🟢 |
 | `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | 🟡 |
 | `forbes.listVideos` | forbes.com | List video content from Forbes Video. | 🟢 |

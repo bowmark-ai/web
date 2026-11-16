@@ -17,7 +17,13 @@
 // the two must stay in sync — see `packages/runtime/src/namespace.ts`.
 
 import { client } from "./session.js";
-import { type ClientOptions, postRun, type RunEnvelope, resolveClient } from "./transport.js";
+import {
+  BowmarkError,
+  type ClientOptions,
+  postRun,
+  type RunEnvelope,
+  resolveClient,
+} from "./transport.js";
 
 export { type WireProblem, wireProblem } from "./guard.js";
 export {
@@ -62,12 +68,33 @@ export const bowmark: BowmarkLibrary = client();
  *
  * Returns the envelope rather than throwing: a script is composite, so `status`,
  * `logs` and `result` are read together. `needs_user` carries a handoff URL in
- * `meta.handoff`. */
+ * `meta.handoff`.
+ *
+ * A NON-string is refused here, before anything is sent. A function does not
+ * serialize, so it reached the server as a missing `script` and came back as an
+ * envelope saying to send raw HTTP — a message that points at the wrong layer, in
+ * a return value a script never reads. A function belongs in `session()`. */
 export function run<T = unknown>(
   script: string,
   opts: ClientOptions = {},
 ): Promise<RunEnvelope<T>> {
+  if (typeof script !== "string") {
+    return Promise.reject(
+      new BowmarkError(
+        `run() takes the script as a STRING, and got ${describeValue(script)}. ` +
+          "Write the script as text, e.g. run(\"return await bowmark.music.search('x')\"). " +
+          "To write code in your own file, use session(async (bm) => …), which takes a function.",
+        { code: "run_not_a_string" },
+      ),
+    );
+  }
   return postRun<T>(resolveClient(opts), script);
+}
+
+function describeValue(value: unknown): string {
+  if (value === null) return "null";
+  if (typeof value === "function") return "a function";
+  return Array.isArray(value) ? "an array" : `a ${typeof value}`;
 }
 
 // ALIASES, not re-exports. A global from an ambient file is not a local declaration,

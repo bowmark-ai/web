@@ -363,6 +363,14 @@ def client(
     return _library(_dispatch_through(send))
 
 
+def _describe_value(value: object) -> str:
+    if value is None:
+        return "None"
+    if callable(value):
+        return "a function"
+    return "a list" if isinstance(value, list) else f"a {type(value).__name__}"
+
+
 async def run(
     script: str,
     *,
@@ -382,7 +390,19 @@ async def run(
     Returns the envelope rather than raising: a script is composite, so ``status``,
     ``logs`` and ``result`` are read together. ``needs_user`` carries a handoff URL in
     ``meta["handoff"]``.
+
+    A NON-string is refused before anything is sent. A callable does not serialize, so
+    it reached the server as a missing ``script`` and came back as an envelope telling
+    you to send raw HTTP. A function belongs in ``session()``.
     """
+    if not isinstance(script, str):
+        raise BowmarkError(
+            f"run() takes the script as a STRING, and got {_describe_value(script)}. "
+            "Write the script as text, e.g. run('return await bowmark.music.search(\"x\")'). "
+            "To write code in your own file, use `async with session() as bm:`, which runs "
+            "your code here and calls the library through bm.",
+            code="run_not_a_string",
+        )
     return await post_run(
         resolve_client(
             api_key=api_key,

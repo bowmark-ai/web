@@ -103,7 +103,10 @@ moment a flow has a second step.
 **`run(string)` is untyped by construction** and stays as the agent path. A template
 literal gets no typechecking, so the generated types cover `session()` and `bowmark`
 and never this. It returns the envelope rather than throwing, because a script is
-composite: `status`, `logs` and `result` are read together.
+composite: `status`, `logs` and `result` are read together. A NON-string is refused before
+anything is sent: `run(async () => …)` rejects with a `BowmarkError` (`code: "run_not_a_string"`)
+that names `session()`. Before 2026-11-16 it came back as an envelope about raw HTTP bodies, and
+a script that printed only that envelope exited 0 with no output.
 
 **`run()` is designed for agents, not for you.** If you're writing code in your editor,
 use `session()` instead. For **reading a page** — fetching and parsing HTML — use the
