@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8a393c40c2a692834cf51f77e2e85235cdfd70b95538b085d349e7a9e7326e70
+# Manifest version: cee8f33bf91120b3f2af0ce7912fd39427002656bffa27a07869e3798fa23994
 # 98 capabilities, 886 providers, 5392 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -66714,7 +66714,8 @@ class Prv_steam_SteamDeckTestResult_Out(TypedDict):
     kind: Literal["pass"] | Literal["caveat"] | Literal["fail"] | Literal["info"] | Literal["other"]
 
 class Prv_stepstone_StepstoneJobArgs_In(TypedDict):
-    id: str
+    id: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_stepstone_StepstoneJob_Out(TypedDict):
     id: str

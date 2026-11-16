@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8a393c40c2a692834cf51f77e2e85235cdfd70b95538b085d349e7a9e7326e70
+// Manifest version: cee8f33bf91120b3f2af0ce7912fd39427002656bffa27a07869e3798fa23994
 // 98 capabilities, 886 providers, 5420 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -101622,7 +101622,7 @@ interface StepstoneSearchArgs { query: string; location?: string; page?: number 
 interface StepstoneSalary { min: number | null; max: number | null; currency: string | null; period: string | null; type: string | null }
 interface StepstoneJobRow { id: string; title: string; companyName: string; location: string; url: string; datePosted: string | null; snippet: string; salary: StepstoneSalary | null; workFromHome: string | null; labels: string[] }
 interface StepstoneSearchResponse { jobs: StepstoneJobRow[]; total: number; page: number; pageCount: number; url: string }
-interface StepstoneJobArgs { id: string }
+interface StepstoneJobArgs { /** the posting id a search row carries */ id?: string; /** or the posting URL itself (a search row's `url`); pass one of the two */ url?: string }
 interface StepstoneJob { id: string; title: string; url: string; companyName: string | null; companyUrl: string | null; location: string | null; employmentType: string | string[] | null; industry: string | null; datePosted: string | null; validThrough: string | null; directApply: boolean | null; description: string }
 
   /**
