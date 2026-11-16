@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7144 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7198 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -608,6 +608,31 @@ One function per row, with the site it is called on.
 | `bhphoto.checkStock` | bhphotovideo.com | Answers whether a specific item is actually gettable right now, rather than merely… | 🟢 |
 | `bhphoto.getProduct` | bhphotovideo.com | Reads one product page in full — the identity a search row cannot carry (SKU… | 🟢 |
 | `bhphoto.search` | bhphotovideo.com | Searches bhphotovideo.com for a part and returns matching rows cheapest-first… | 🟡 |
+| `biblegateway.addBookmark` | biblegateway.com | Bookmarks a passage in the signed-in caller's library. | ⚪ |
+| `biblegateway.addHighlight` | biblegateway.com | Highlights a verse in the signed-in caller's library. | ⚪ |
+| `biblegateway.addNote` | biblegateway.com | Adds a note to a verse in the signed-in caller's library. | ⚪ |
+| `biblegateway.comparePassage` | biblegateway.com | Reads the same passage side by side in several translations (e.g. NIV, KJV, ESV), one… | ⚪ |
+| `biblegateway.getCommentary` | biblegateway.com | Reads a free commentary's notes on a passage. | ⚪ |
+| `biblegateway.getDevotional` | biblegateway.com | Reads today's (or a dated) entry of a named devotional. | ⚪ |
+| `biblegateway.getPassage` | biblegateway.com | Reads a Bible passage (a verse, range or whole chapter, e.g. "John 3:16" or "Genesis… | ⚪ |
+| `biblegateway.getPassageAudio` | biblegateway.com | Returns the audio Bible link and narrator options for a chapter in a translation. | ⚪ |
+| `biblegateway.getPlusStatus` | biblegateway.com | Reads whether the signed-in caller has Bible Gateway Plus and which premium study… | ⚪ |
+| `biblegateway.getReadingPlanDay` | biblegateway.com | Reads one day of a reading plan: the passages assigned for that date. | ⚪ |
+| `biblegateway.getTopicalVerses` | biblegateway.com | Lists Bible verses on a topic (e.g. love, anxiety, forgiveness) from the topical index. | ⚪ |
+| `biblegateway.getVerseOfTheDay` | biblegateway.com | Reads today's verse of the day in a named translation: reference, text, permalink and… | ⚪ |
+| `biblegateway.getVerseTopics` | biblegateway.com | Reads the topical page for one verse (/verse/en/John 3:16): related verses and the… | ⚪ |
+| `biblegateway.getVersionInfo` | biblegateway.com | Reads one translation's information page: full name, abbreviation, language, copyright… | ⚪ |
+| `biblegateway.listCommentaries` | biblegateway.com | Lists the free commentaries in the resources library. | ⚪ |
+| `biblegateway.listDevotionals` | biblegateway.com | Lists the daily devotionals offered. | ⚪ |
+| `biblegateway.listNewsletters` | biblegateway.com | Lists the email newsletters (verse of the day, devotionals, reading plans) a reader… | ⚪ |
+| `biblegateway.listNotes` | biblegateway.com | Lists the signed-in caller's notes, highlights and bookmarks (My Library). | ⚪ |
+| `biblegateway.listReadingPlans` | biblegateway.com | Lists the available Bible reading plans with length and description. | ⚪ |
+| `biblegateway.listVersions` | biblegateway.com | Lists the Bible translations Bible Gateway offers, grouped by language, with each… | ⚪ |
+| `biblegateway.searchBible` | biblegateway.com | Searches the Bible text for words or a phrase in one translation, returning matching… | ⚪ |
+| `biblegateway.searchDictionary` | biblegateway.com | Looks up a term in the free Bible dictionaries and encyclopedias. | ⚪ |
+| `biblegateway.setPreferences` | biblegateway.com | Sets the signed-in caller's default translation and display preferences. | ⚪ |
+| `biblegateway.startReadingPlan` | biblegateway.com | Subscribes the signed-in caller to a reading plan and reads their progress. | ⚪ |
+| `biblegateway.subscribeNewsletter` | biblegateway.com | Subscribes the signed-in caller's email to a Bible Gateway newsletter. | ⚪ |
 | `bigairusa.listLocations` | bigairusa.com | Lists every Big Air Trampoline Park location off the site's own location-picker (name… | 🟢 |
 | `bigairusa.listPasses` | bigairusa.com | Lists every ticket/pass group and item at one open location's CenterEdge webstore —… | 🟢 |
 | `bigjoeforklifts.estimateRuntimeAndRoi` | bigjoeforklifts.com | Would answer the ROI estimator's 17 questions and return the tool's real computed… | ⚪ |
@@ -3895,7 +3920,36 @@ One function per row, with the site it is called on.
 | `marriott.search` | marriott.com | Searches Marriott's live cash room availability the way its own booking widget does —… | ⚪ |
 | `maurices.getProduct` | maurices.com | Reads one maurices.com product by its page url (a searchProducts row's url) — name… | 🟢 |
 | `maurices.searchProducts` | maurices.com | Searches maurices.com (women's clothing, jeans, plus sizes) by what a shopper would… | 🟢 |
+| `mayoclinic.calculateCalories` | mayoclinic.org | Estimates daily calorie needs from age, sex, height, weight and activity level, the… | ⚪ |
+| `mayoclinic.checkSymptom` | mayoclinic.org | Runs Mayo Clinic's Symptom Checker for a symptom and chosen related factors and… | ⚪ |
+| `mayoclinic.findDoctors` | mayoclinic.org | Finds Mayo Clinic doctors by name, specialty or condition keyword, or by last-name… | ⚪ |
+| `mayoclinic.getArticle` | mayoclinic.org | Gets the text of a Mayo Clinic health article (a healthy-lifestyle in-depth article or… | ⚪ |
+| `mayoclinic.getCondition` | mayoclinic.org | Gets a disease or condition's Symptoms and causes page: overview, symptoms, when to… | ⚪ |
+| `mayoclinic.getConditionDoctors` | mayoclinic.org | Lists the Mayo Clinic doctors and departments that treat a condition, with each… | ⚪ |
+| `mayoclinic.getConditionTreatment` | mayoclinic.org | Gets a condition's Diagnosis and treatment page: how it is diagnosed, treatments… | ⚪ |
+| `mayoclinic.getDepartment` | mayoclinic.org | Gets a Mayo Clinic department or center's overview page: what it treats, its locations… | ⚪ |
+| `mayoclinic.getDoctor` | mayoclinic.org | Gets a Mayo Clinic doctor's profile: departments, location, languages, biographical… | ⚪ |
+| `mayoclinic.getDrug` | mayoclinic.org | Gets a drug monograph: US and Canadian brand names, description, before using, proper… | ⚪ |
+| `mayoclinic.getFirstAid` | mayoclinic.org | Gets a first-aid page's step-by-step instructions and when to call for emergency help. | ⚪ |
+| `mayoclinic.getSupplement` | mayoclinic.org | Gets a supplement page: overview, what the research says, Mayo Clinic's take, safety… | ⚪ |
+| `mayoclinic.getSymptom` | mayoclinic.org | Gets a symptom page: its definition, the conditions that commonly cause it, and when… | ⚪ |
+| `mayoclinic.getSymptomCheckerFactors` | mayoclinic.org | Gets the related factors (kind, onset, triggers, accompanying symptoms) Mayo Clinic's… | ⚪ |
+| `mayoclinic.getTest` | mayoclinic.org | Gets a test or procedure page: why it is done, risks, how you prepare, what you can… | ⚪ |
+| `mayoclinic.listConditions` | mayoclinic.org | Lists the diseases and conditions in Mayo Clinic's A-Z index for a letter, with each… | ⚪ |
+| `mayoclinic.listDepartments` | mayoclinic.org | Lists Mayo Clinic's medical departments and centers A-Z, optionally narrowed to a… | ⚪ |
+| `mayoclinic.listDrugs` | mayoclinic.org | Lists the drugs in Mayo Clinic's A-Z drug list for a letter, with each drug's name… | ⚪ |
+| `mayoclinic.listFirstAid` | mayoclinic.org | Lists Mayo Clinic's first-aid topics A-Z, with each topic's name and page URL. | ⚪ |
+| `mayoclinic.listLifestyleArticles` | mayoclinic.org | Lists the articles under one healthy-lifestyle topic, by section (basics, in-depth… | ⚪ |
+| `mayoclinic.listLifestyleTopics` | mayoclinic.org | Lists Mayo Clinic's healthy-lifestyle topics (nutrition, fitness, pregnancy, stress… | ⚪ |
+| `mayoclinic.listLocations` | mayoclinic.org | Lists Mayo Clinic's campuses (Arizona, Florida, Minnesota, London) and Health System… | ⚪ |
+| `mayoclinic.listSupplements` | mayoclinic.org | Lists the herbs and supplements Mayo Clinic covers, with each one's name and page URL. | ⚪ |
+| `mayoclinic.listSymptomCheckerSymptoms` | mayoclinic.org | Lists the adult and child symptoms Mayo Clinic's Symptom Checker accepts, with the id… | ⚪ |
+| `mayoclinic.listSymptoms` | mayoclinic.org | Lists the symptoms in Mayo Clinic's symptoms library, with each symptom's name and… | ⚪ |
+| `mayoclinic.listTests` | mayoclinic.org | Lists the tests and procedures in Mayo Clinic's A-Z index for a letter, with each… | ⚪ |
+| `mayoclinic.requestAppointment` | mayoclinic.org | Starts a Mayo Clinic appointment request for a patient: where they live, whether they… | ⚪ |
 | `mayoclinic.search` | mayoclinic.org | Searches Mayo Clinic's diseases and conditions library for a health topic and returns… | 🟢 |
+| `mayoclinic.searchSite` | mayoclinic.org | Searches all of Mayo Clinic's site (conditions, drugs, tests, symptoms, articles) for… | ⚪ |
+| `mayoclinic.subscribeNewsletter` | mayoclinic.org | Subscribes an email address to Mayo Clinic's free health newsletter ('From Mayo Clinic… | ⚪ |
 | `mcdonalds.checkDeliveryAvailability` | mcdonalds.com | Answers whether McDelivery (McDonald's own delivery, fulfilled through Uber Eats /… | ⚪ |
 | `mcdonalds.findStores` | mcdonalds.com | Finds McDonald's restaurants near a location — pass EITHER a 5-digit US `zip`… | 🟢 |
 | `mcdonalds.getDeals` | mcdonalds.com | Reads the current public deals, value-menu items and promotions McDonald's is… | ⚪ |

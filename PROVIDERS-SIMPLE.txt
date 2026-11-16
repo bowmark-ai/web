@@ -119,6 +119,7 @@ benningtonmarine.com — bennington: search
 bestbuy.com — bestbuy: getProduct, search (+28 planned)
 bestmcp.dev — bestmcp_dev: search
 bhphotovideo.com — bhphoto: checkStock, getProduct, search
+biblegateway.com — biblegateway: nothing callable yet (+25 planned)
 bigairusa.com — bigairusa: listLocations, listPasses
 bigjoeforklifts.com — bigjoeforklifts: listForkliftModels, prepareQuoteRequest (+2 planned)
 bigrentz.com — bigrentz: getEquipment, listCategories, search (+1 planned)
@@ -529,7 +530,7 @@ marketplace.visualstudio.com — marketplace_visualstudio: getExtensionStats, se
 marketplace.vts.com — vts_marketplace: getListing, listMarkets, searchListings
 marriott.com — marriott: findHotels (+5 planned)
 maurices.com — maurices: getProduct, searchProducts
-mayoclinic.org — mayoclinic: search
+mayoclinic.org — mayoclinic: search (+29 planned)
 mcdonalds.com — mcdonalds: findStores, getMenu, getMenuItem (+2 planned)
 mcp.directory — mcp_directory: search
 mcp.so — mcp_so: search

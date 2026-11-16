@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e5eb2417a2d3ac3e6a5bb84b8ccb348e04e7ae632b63b6af29e7ba920d089d76
+// Manifest version: b1720eb95aaef3a394fdc49fbcd51dfcea54060fc4b60275ec7dafcf04c0def6
 // 98 capabilities, 886 providers, 5420 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -79255,7 +79255,7 @@ interface OnlyfansProfile {
 declare namespace BowmarkProvider_onthemarket {
   // ── OnTheMarket — the unit's own declarations, verbatim ──
 interface SearchArgs {
-  location: string; // fuzzy area match — a town, county or postcode district, not a boundary
+  location: string; // an OnTheMarket area: a town, county or postcode district ("SW4"), not a neighbourhood name
   type: "sale" | "rent";
   page?: number; // 1-based, defaults to 1 — read hasMore/totalResults, don't assume a page size
   minBedrooms?: number;
@@ -79284,13 +79284,15 @@ interface OnTheMarketSearchResult {
 
   /**
    * Search for residential property listings for sale or rent in the UK, paged, with bedroom and
-   * price filters. `location` is a fuzzy area match (a town, a postcode district, a county)
-   * rather than a postcode boundary — two adjacent districts can return overlapping properties.
+   * price filters. `location` must be one of OnTheMarket's areas: a town, a county or a postcode
+   * district ("London", "SW4"). A neighbourhood name ("Clapham South") is not an area; the call
+   * says so and names the wider one. Two adjacent districts can return overlapping properties.
    */
   interface Unit {
     /**
      * Search for residential properties by location and type (sale or rent), with paging and
-     * bedroom/price filters. location is a fuzzy area match, not a postcode boundary.
+     * bedroom/price filters. location is an OnTheMarket area (a town, county or postcode
+     * district); a neighbourhood name errors and names the wider area to use.
      */
     search(args: SearchArgs): Promise<OnTheMarketSearchResult>;
   }
