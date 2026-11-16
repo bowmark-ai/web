@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7204 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7205 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -5086,7 +5086,7 @@ One function per row, with the site it is called on.
 | `reserve_with_google.checkAvailability` | google.com/maps/reserve | For a Google-hosted merchant and party size, returns every bookable day plus the time… | 🟢 |
 | `reserve_with_google.findBookablePlaces` | google.com/maps/reserve | Finds places you can book through Reserve with Google from words — "sushi near Union… | 🟢 |
 | `reserve_with_google.getBooking` | google.com/maps/reserve | Finds one of the caller's bookings on their Bookings page by the venue's feature id —… | 🟢 |
-| `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists the booking action one place offers on Google — "Reserve a table", "Book online"… | 🟡 |
+| `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists the booking action one place offers on Google — "Reserve a table", "Book online"… | 🟢 |
 | `reserve_with_google.getMerchant` | google.com/maps/reserve | Reads one Google-hosted booking page by merchant id or its… | 🟢 |
 | `reserve_with_google.getSettings` | google.com/maps/reserve | Reads the caller's Reserve with Google Settings page and returns the page's own data… | 🟢 |
 | `reserve_with_google.joinWaitlist` | google.com/maps/reserve | Adds the caller to a Google-hosted restaurant's waitlist with a party size, where the… | 🟢 |
@@ -6436,6 +6436,7 @@ One function per row, with the site it is called on.
 | `upkeepstl_com.estimatePlanCost` | upkeepstl.com | Computes the total contract price and per-year price for one plan selection (home… | 🟢 |
 | `upkeepstl_com.getPlanBuilder` | upkeepstl.com | Reads UPKEEP's public 'Build Your Plan' quote-form schema: the home-warranty plan… | 🟢 |
 | `ups.calculateShippingCost` | ups.com | Retail shipping quote from ups.com's public calculator: UPS® Simple Rate (box-size… | 🟢 |
+| `ups.calculateTimeAndCost` | ups.com | Public retail rates and delivery dates from ups.com's "Calculate Time and Cost"… | 🟢 |
 | `ups.estimateDeliveryDate` | ups.com | Estimates delivery date and timeframe for shipment between two locations with a… | 🟢 |
 | `ups.findNearbyLocation` | ups.com | Finds UPS drop-off/pickup locations near a ZIP Code or street/city address — UPS… | 🟢 |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
@@ -6758,7 +6759,7 @@ One function per row, with the site it is called on.
 | `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows as WhatsApp Web's Channels tab shows them: each… | 🟢 |
 | `whatsapp.listStatusUpdates` | whatsapp.com | Lists the contacts who have a Status up in the caller's WhatsApp Web Status tab: each… | 🟢 |
 | `whatsapp.postStatus` | whatsapp.com | Posts a text Status update as the caller; their contacts see it for 24 hours. | 🟢 |
-| `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟡 |
+| `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟢 |
 | `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | 🟢 |
 | `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message as the caller with an emoji, or removes the caller's reaction when… | 🟢 |
 | `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | 🟢 |

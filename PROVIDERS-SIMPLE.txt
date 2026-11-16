@@ -849,7 +849,7 @@ ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfi
 uniqlo.com — uniqlo: getProduct, searchProducts
 unsplash.com — unsplash: search
 upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
-ups.com — ups: calculateShippingCost, estimateDeliveryDate, findNearbyLocation, getRate, getServiceAlerts, schedulePickup, trackShipment, validateAddress
+ups.com — ups: calculateShippingCost, calculateTimeAndCost, estimateDeliveryDate, findNearbyLocation, getRate, getServiceAlerts, schedulePickup, trackShipment, validateAddress
 urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
 us.posthog.com — posthog: getInsight, listInsights, listProjects, runRetentionQuery
 usatoday.com — usatoday: browseSection, getArticle, getCrossword, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+3 planned)

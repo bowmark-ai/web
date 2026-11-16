@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 311d6d8b281ed74d93ddfa4bd3ae9e0b1f6721fb5eb4196533d4479ca027550b
+// Manifest version: bc1511aab02c9788e91ab280ec0aca59758dfe22ba52addfab5b92ea6caaf641
 // 98 capabilities, 887 providers, 5425 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -423,7 +423,7 @@ interface StartBrowserAgentOptions {
   maxCostUsd?: number;      // spend ceiling per turn, in the dollars YOU are charged; default 2, max 25
   proxyCountry?: string;    // e.g. "us"
   timeoutMs?: number;
-  outputSchema?: Record<string, unknown>; // JSON Schema — result validated against this if provided
+  outputSchema?: Record<string, unknown>; // JSON Schema — result checked against type/required/properties/items/enum, recursively; other keywords ignored
 }
 interface StartBrowserAgentResult {
   id: string;               // keep this: status/send/stop take it

@@ -59,7 +59,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `entertainment_merch.search` | Searches Hot Topic and BoxLunch in parallel for a franchise/character/show and returns… | 2 | 🟢 |
 | `essen_roadworks.list` | Roadworks in Essen. | 0 | 🟢 |
 | `event_space_quote.getQuotes` | Submit an event space quote request form: get pricing for venues that fit a headcount… | 1 | 🟢 |
-| `event_tickets.search` | Searches event-ticket listings by artist, show or keyword, optionally in one city —… | 2 | 🟢 |
+| `event_tickets.search` | Searches event-ticket listings by artist, show or keyword, optionally in one city —… | 3 | 🟢 |
 | `flights.getBookingOptions` | Every seller on offer for ONE result — pass the whole row from `search()`, not its id. | 5 | 🟢 |
 | `flights.getFlightStatus` | A flight's live status, checked directly with the airline that flies it. | 5 | 🟢 |
 | `flights.search` | Searches four fare AGGREGATORS for flights matching the query — never an airline's own… | 5 | 🟢 |
