@@ -211,6 +211,7 @@ async def run(
     headers: Mapping[str, str] | None = ...,
     timeout: float | None = ...,
     on_log: Callable[[str], None] | None = ...,
+    idempotent: bool = ...,
 ) -> RunEnvelope:
     """Run a SCRIPT, as a string, in our sandbox — the agent path.
 
