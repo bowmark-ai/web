@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7125 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7130 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1294,7 +1294,7 @@ One function per row, with the site it is called on.
 | `chriscraft.priceConfiguration` | chriscraft.com | Prices a specific build (a choice, or choices, per option group) against… | 🟢 |
 | `chriscraft.searchModels` | chriscraft.com | Lists every current Chris-Craft model reachable from the public "Build Your Own"… | 🟢 |
 | `christianbrothersauto.checkAppointmentAvailability` | cbac.com | Checks real, currently-open appointment slots at one Christian Brothers Automotive… | 🟢 |
-| `christianbrothersauto.getShopDetails` | cbac.com | Resolves a Christian Brothers Automotive shop — by its scheduler slug (e.g.… | 🟢 |
+| `christianbrothersauto.getShopDetails` | cbac.com | Resolves a Christian Brothers Automotive shop — by its scheduler slug (e.g.… | 🟡 |
 | `christydawn.search` | christydawn.com | Searches the Christy Dawn catalog for clothing and returns matching product rows with… | 🟢 |
 | `chromium_googlesource_com.getFile` | chromium.googlesource.com | Reads one source code file from a chromium.googlesource.com repository by gitiles url… | 🟢 |
 | `chromium_googlesource_com.listDirectory` | chromium.googlesource.com | Lists one directory of a chromium.googlesource.com repository (default chromium/src at… | 🟢 |
@@ -3494,7 +3494,7 @@ One function per row, with the site it is called on.
 | `intro_co.search` | intro.co | Searches intro.co's expert marketplace by keyword (a topic, skill or name —… | 🟢 |
 | `ipinfo.lookup` | ipinfo.io | Look up an IPv4 or IPv6 address: its autonomous system number (ASN), the ISP / network… | 🟢 |
 | `irs.getFormInfo` | irs.gov | Looks up an IRS tax form by number (1040, W-4, 1040-X, 1099-NEC…) or by its irs.gov… | 🟢 |
-| `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
+| `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟡 |
 | `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
 | `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟢 |
 | `itunes.searchPodcastEpisodes` | itunes.apple.com | Searches Apple Podcasts episodes by words (a guest's name, a company) and returns each… | 🟢 |
@@ -4458,6 +4458,8 @@ One function per row, with the site it is called on.
 | `openai_com.readPost` | openai.com | Read the complete text of any OpenAI research paper or blog post from openai.com by… | 🟢 |
 | `openai.helpArticle` | learn.chatgpt.com | Retrieves the full text of a help article by its ID from OpenAI's documentation. | 🟢 |
 | `openai.plans` | learn.chatgpt.com | Returns per-(plan, model) usage limits from learn.chatgpt.com/docs/pricing. | 🟢 |
+| `openrent.getListing` | openrent.co.uk | Read one OpenRent (openrent.co.uk) rental listing in full by its link or number… | 🟢 |
+| `openrent.searchListings` | openrent.co.uk | Search OpenRent (openrent.co.uk) for UK homes and rooms to rent from private landlords… | 🟢 |
 | `opentable.cancelBooking` | opentable.com | Cancels a reservation from its OpenTable confirmation page: Cancel, then Confirm… | 🟢 |
 | `opentable.checkAvailability` | opentable.com | Reads one restaurant's open reservation times around a time on a date for a party… | 🟡 |
 | `opentable.confirmBooking` | opentable.com | Finishes the booking startBooking began in the same session: enters the texted code… | 🟢 |
@@ -5551,6 +5553,8 @@ One function per row, with the site it is called on.
 | `sourceforge.listFiles` | sourceforge.net | A SourceForge project's most recent downloadable files with download URL, date, size… | 🟢 |
 | `sourceforge.search` | sourceforge.net | Searches SourceForge's software directory by keyword. | ⚪ |
 | `spacest.search` | spacest.com | Searches furnished apartments and corporate rentals by city and optional dates… | ⚪ |
+| `spareroom.getListing` | spareroom.co.uk | Reads ONE SpareRoom ad offering a room or a whole property, from its link or reference… | 🟢 |
+| `spareroom.searchRooms` | spareroom.co.uk | Searches SpareRoom (spareroom.co.uk), the UK flatshare and room-to-rent site, for… | 🟢 |
 | `spectrum.cancelServiceAppointment` | spectrum.com | Cancel one of the signed-in caller's Spectrum technician visits, by the appointmentId… | 🟢 |
 | `spectrum.checkMobileCoverage` | spectrum.com | Spectrum Mobile's network coverage at an address, city or ZIP, off the raster overlay… | 🟢 |
 | `spectrum.checkServiceAvailability` | spectrum.com | What Spectrum offers at a residential street address — which internet/TV/mobile plans… | ⚪ |
@@ -5857,7 +5861,7 @@ One function per row, with the site it is called on.
 | `sweathouz.myBookings` | sweathouz.com | Reads the signed-in customer's sweathouz.com/account/ page. | 🟢 |
 | `sweathouz.reserveMembership` | sweathouz.com | Pre-reserves a membership for an upcoming opening. | ⚪ |
 | `szukajwarchiwach_gov_pl.getFond` | szukajwarchiwach.gov.pl | Reads one numbered archive fond's title, reference code, number of series and number… | 🟢 |
-| `szukajwarchiwach_gov_pl.searchFonds` | szukajwarchiwach.gov.pl | Searches the archive portal for fonds and returns each matching fond's title, id and… | 🟢 |
+| `szukajwarchiwach_gov_pl.searchFonds` | szukajwarchiwach.gov.pl | Searches the archive portal for fonds and returns each matching fond's title, id and… | 🟡 |
 | `tagtrans_net.createShipmentRateEmail` | tagtrans.net | Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request… | 🟢 |
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
@@ -6390,6 +6394,7 @@ One function per row, with the site it is called on.
 | `usatoday.listVideos` | usatoday.com | Lists the videos on USA Today's videos hub, each with a title, description, thumbnail… | 🟢 |
 | `usatoday.saveArticle` | usatoday.com | Saves an article to the signed-in user's reading list. | ⚪ |
 | `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | 🟢 |
+| `usatoday.subscribeToNewsletter` | usatoday.com | Subscribes an email address the caller owns to one USA Today newsletter, given a… | ⚪ |
 | `uscis.caseStatus` | uscis.gov | The current status of one USCIS case by its 13-character receipt number: the form… | 🟢 |
 | `usps.addToStoreCart` | usps.com | Adds one product to the anonymous USPS store cart on store.usps.com and returns the… | ⚪ |
 | `usps.findCitiesByZip` | usps.com | The city names USPS lists for one ZIP code, from the 'city by ZIP' tool on the ZIP… | ⚪ |

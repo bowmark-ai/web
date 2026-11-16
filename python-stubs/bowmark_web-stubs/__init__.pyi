@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 51139cdb0092630e914d5d24117bb0e33c092c61fc5d739cc61dae0a3ff3ae39
-# 98 capabilities, 884 providers, 5388 typed functions, 20 refused.
+# Manifest version: 8a393c40c2a692834cf51f77e2e85235cdfd70b95538b085d349e7a9e7326e70
+# 98 capabilities, 886 providers, 5392 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -51144,6 +51144,77 @@ class Prv_openai_com_OpenAiComArticle_Out(TypedDict):
     description: str | None
     text: str
 
+class Prv_openrent_OpenRentGetListingArgs_In(TypedDict):
+    listing: str | float
+
+class Prv_openrent_OpenRentListing_Out(TypedDict):
+    status: Literal["available"] | Literal["let_agreed"] | Literal["not_found"]
+    id: str
+    url: str
+    title: str | None
+    city: str | None
+    rentPcm: float | None
+    deposit: float | None
+    bedrooms: float | None
+    bathrooms: float | None
+    availableFrom: str | None
+    minimumTenancy: str | None
+    furnishing: str | None
+    epc: str | None
+    features: Mapping[str, bool]
+    description: str | None
+    photos: list[str]
+    latitude: float | None
+    longitude: float | None
+
+class Prv_openrent_OpenRentSearchListingsArgs_In(TypedDict):
+    location: str
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minBedrooms: NotRequired[float]
+    maxBedrooms: NotRequired[float]
+    petsAllowed: NotRequired[bool]
+    studentsAllowed: NotRequired[bool]
+    billsIncluded: NotRequired[bool]
+    furnished: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_openrent_OpenRentSearchResult_Out(TypedDict):
+    location: str
+    url: str
+    totalInArea: float
+    total: float
+    listings: list[Prv_openrent_OpenRentSearchListing_Out]
+
+class Prv_openrent_OpenRentSearchListing_Out(TypedDict):
+    id: str
+    url: str
+    title: str | None
+    imageUrl: str | None
+    rentPcm: float
+    bedrooms: float
+    bathrooms: float
+    isStudio: bool
+    isShared: bool
+    furnished: bool
+    unfurnished: bool
+    studentsAllowed: bool
+    familiesAllowed: bool
+    petsAllowed: bool
+    dssAccepted: bool
+    billsIncluded: bool
+    garden: bool
+    parking: bool
+    fireplace: bool
+    hasVideo: bool
+    videoViewings: bool
+    availableInDays: float | None
+    minimumTenancyMonths: float | None
+    firstListed: str | None
+    distanceMiles: float | None
+    latitude: float | None
+    longitude: float | None
+
 class Prv_opentable_OpenTableSearchArgs_In(TypedDict):
     query: str
     date: NotRequired[str]
@@ -63670,6 +63741,71 @@ class Prv_sourceforge_SourceForgeFile_Out(TypedDict):
     date: str | None
     bytes: float | None
     md5: str | None
+
+class Prv_spareroom_SpareroomListingArgs_In(TypedDict):
+    listing: str
+
+class Prv_spareroom_SpareroomListing_Out(TypedDict):
+    id: str
+    url: str
+    status: Literal["available"] | Literal["unavailable"] | Literal["removed"] | Literal["not_found"]
+    title: str | None
+    description: str | None
+    propertyType: str | None
+    area: str | None
+    postcode: str | None
+    latitude: float | None
+    longitude: float | None
+    priceAmount: float | None
+    priceFrequency: Literal["pcm"] | Literal["pw"] | None
+    billsIncluded: bool | None
+    rooms: list[Prv_spareroom_SpareroomRoom_Out]
+    availability: Mapping[str, str]
+    extraCost: Mapping[str, str]
+    amenities: Mapping[str, str]
+    currentHousehold: Mapping[str, str]
+    housematePreferences: Mapping[str, str]
+    image: str | None
+
+class Prv_spareroom_SpareroomRoom_Out(TypedDict):
+    name: str
+    rent: float | None
+    rentPeriod: Literal["pcm"] | Literal["pw"] | None
+    deposit: float | None
+    status: Literal["available"] | Literal["let"]
+
+class Prv_spareroom_SpareroomSearchArgs_In(TypedDict):
+    location: str
+    minRent: NotRequired[float]
+    maxRent: NotRequired[float]
+    per: NotRequired[Literal["pcm"] | Literal["pw"]]
+    offset: NotRequired[float]
+
+class Prv_spareroom_SpareroomSearchResult_Out(TypedDict):
+    location: str
+    total: float | None
+    offset: float
+    rooms: list[Prv_spareroom_SpareroomSearchRow_Out]
+
+class Prv_spareroom_SpareroomSearchRow_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    type: str
+    neighbourhood: str | None
+    postcode: str | None
+    propertyType: str | None
+    roomsInProperty: float | None
+    advertiserRole: str | None
+    rent: float | None
+    rentPeriod: Literal["pcm"] | Literal["pw"] | None
+    rentNormalised: float | None
+    rentNormalisedPeriod: Literal["pcm"] | Literal["pw"] | None
+    availableNow: bool
+    daysOld: float | None
+    photos: float
+    image: str | None
+    promotion: str | None
 
 class Prv_spectrum_SpectrumInternetPlan_Out(TypedDict):
     name: str
@@ -109330,6 +109466,34 @@ class Prv_openai_com(Protocol):
         listPosts returns.
         """
 
+class Prv_openrent(Protocol):
+    """OpenRent (openrent.co.uk) — UK homes and rooms to rent, let directly by private
+    landlords. searchListings() lists what is to let around a UK place or postcode with
+    rent, bedrooms and the tenant flags (pets, students, bills); getListing() reads one
+    listing in full by its link or number.
+    """
+
+    async def getListing(self, args: Prv_openrent_OpenRentGetListingArgs_In | str | float, /) -> Prv_openrent_OpenRentListing_Out:
+        """Read one OpenRent listing in full by its link or number (`{ listing: 2733150 }` or the
+        openrent.co.uk/property-to-rent/… url). Returns status (`available`, `let_agreed`, or
+        `not_found` when OpenRent has no page for that number), title, city, rent pcm and
+        deposit in GBP, bedrooms, bathrooms, available-from, minimum tenancy, furnishing, EPC,
+        every yes/no feature OpenRent ticks (Bills Included, Pets Allowed, Student Friendly,
+        Garden, Parking, Live-In Landlord…), the landlord's description, photos and coordinates.
+        Get a listing number from searchListings.
+        """
+
+    async def searchListings(self, args: Prv_openrent_OpenRentSearchListingsArgs_In | str, /) -> Prv_openrent_OpenRentSearchResult_Out:
+        """Find homes and rooms to rent on OpenRent around a UK place or postcode (`{ location:
+        "Bristol", maxPrice: 1200, minBedrooms: 2, petsAllowed: true }`). Returns every listing
+        OpenRent has for that area (often several hundred, nearest first) after your filters:
+        id, url, rent pcm, bedrooms, bathrooms, studio/shared, furnished, the students /
+        families / pets / DSS / bills flags, garden, parking, days until available, minimum
+        tenancy, date first listed, distance in miles and coordinates; the first ~20 also carry
+        OpenRent's card title and photo. An unrecognised place is an input error. Pass a
+        result's id to getListing for the full listing.
+        """
+
 class Prv_opentable(Protocol):
     """Restaurant search, real-time table availability and booking on OpenTable: find
     restaurants by name, cuisine or place, read the open times for a date, time and party
@@ -115728,6 +115892,27 @@ class Prv_sourceforge(Protocol):
     async def listFiles(self, args: Prv_sourceforge_SourceForgeListFilesArgs_In, /) -> list[Prv_sourceforge_SourceForgeFile_Out]:
         """A SourceForge project's most recent downloadable files, newest first, with download URL,
         date, size and md5. `path` narrows to a folder such as "/7-Zip/26.06".
+        """
+
+class Prv_spareroom(Protocol):
+    """spareroom.co.uk — the UK's flatshare site. Search rooms to rent by place and budget,
+    then read one ad's rooms, rents, deposits and household.
+    """
+
+    async def getListing(self, args: Prv_spareroom_SpareroomListingArgs_In, /) -> Prv_spareroom_SpareroomListing_Out:
+        """Reads ONE SpareRoom ad offering a room or a whole property, from its link or reference
+        number: status (available, unavailable when now let, removed when expired, not_found),
+        the cheapest open rent (price_amount and pcm/pw frequency), each room's rent, deposit
+        and let status, bills included, availability and term, amenities, the current household
+        and the housemate preferences.
+        """
+
+    async def searchRooms(self, args: Prv_spareroom_SpareroomSearchArgs_In, /) -> Prv_spareroom_SpareroomSearchResult_Out:
+        """Searches SpareRoom (spareroom.co.uk), the UK flatshare and room-to-rent site, for rooms
+        offered in a town, area, postcode or tube station — 'Manchester', 'SE15' — optionally
+        under a max rent per month (or per week). Returns 10 ads per page with rent, area,
+        postcode, property type, rooms in the property, advertiser, availability and the ad url
+        getListing takes; pass offset (10, 20, …) for the next page.
         """
 
 class Prv_spectrum(Protocol):
@@ -125214,6 +125399,7 @@ class BowmarkProviders(Protocol):
     open_library: Prv_open_library
     openai: Prv_openai
     openai_com: Prv_openai_com
+    openrent: Prv_openrent
     opentable: Prv_opentable
     originenergy_com_au: Prv_originenergy_com_au
     osu: Prv_osu
@@ -125356,6 +125542,7 @@ class BowmarkProviders(Protocol):
     soulcycle: Prv_soulcycle
     soundcloud: Prv_soundcloud
     sourceforge: Prv_sourceforge
+    spareroom: Prv_spareroom
     spectrum: Prv_spectrum
     speedrun: Prv_speedrun
     spirithalloween: Prv_spirithalloween

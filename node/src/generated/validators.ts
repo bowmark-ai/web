@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 51139cdb0092630e914d5d24117bb0e33c092c61fc5d739cc61dae0a3ff3ae39
-// 5388 checked, 20 unchecked.
+// Manifest version: 8a393c40c2a692834cf51f77e2e85235cdfd70b95538b085d349e7a9e7326e70
+// 5392 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "51139cdb0092630e914d5d24117bb0e33c092c61fc5d739cc61dae0a3ff3ae39",
+  "version": "8a393c40c2a692834cf51f77e2e85235cdfd70b95538b085d349e7a9e7326e70",
   "units": {
     "address_validation": {
       "defs": {
@@ -107885,6 +107885,146 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.openrent": {
+      "defs": {
+        "OpenRentGetListingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listing",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "OpenRentSearchListingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "petsAllowed",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "studentsAllowed",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "billsIncluded",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "furnished",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "OpenRentGetListingArgs"
+                },
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "OpenRentSearchListingsArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.opentable": {
       "defs": {
         "OpenTableAvailabilityArgs": {
@@ -135511,6 +135651,94 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SourceForgeListFilesArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.spareroom": {
+      "defs": {
+        "SpareroomListingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listing",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SpareroomSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "minRent",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxRent",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "per",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "pcm"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pw"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpareroomListingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchRooms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpareroomSearchArgs"
             },
             "optional": false
           }

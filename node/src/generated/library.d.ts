@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 51139cdb0092630e914d5d24117bb0e33c092c61fc5d739cc61dae0a3ff3ae39
-// 98 capabilities, 884 providers, 5416 typed functions, 20 refused.
+// Manifest version: 8a393c40c2a692834cf51f77e2e85235cdfd70b95538b085d349e7a9e7326e70
+// 98 capabilities, 886 providers, 5420 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -79428,6 +79428,116 @@ interface ReadPostArgs {
   }
 }
 
+declare namespace BowmarkProvider_openrent {
+  // ── OpenRent — the unit's own declarations, verbatim ──
+interface OpenRentSearchListing {
+  id: string;
+  url: string;
+  title: string | null;
+  imageUrl: string | null;
+  rentPcm: number;
+  bedrooms: number;
+  bathrooms: number;
+  isStudio: boolean;
+  isShared: boolean;
+  furnished: boolean;
+  unfurnished: boolean;
+  studentsAllowed: boolean;
+  familiesAllowed: boolean;
+  petsAllowed: boolean;
+  dssAccepted: boolean;
+  billsIncluded: boolean;
+  garden: boolean;
+  parking: boolean;
+  fireplace: boolean;
+  hasVideo: boolean;
+  videoViewings: boolean;
+  availableInDays: number | null;
+  minimumTenancyMonths: number | null;
+  firstListed: string | null;
+  distanceMiles: number | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+interface OpenRentSearchResult {
+  location: string;
+  url: string;
+  totalInArea: number;
+  total: number;
+  listings: OpenRentSearchListing[];
+}
+
+interface OpenRentSearchListingsArgs {
+  location: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minBedrooms?: number;
+  maxBedrooms?: number;
+  petsAllowed?: boolean;
+  studentsAllowed?: boolean;
+  billsIncluded?: boolean;
+  furnished?: boolean;
+  limit?: number;
+}
+
+interface OpenRentListing {
+  status: "available" | "let_agreed" | "not_found";
+  id: string;
+  url: string;
+  title: string | null;
+  city: string | null;
+  rentPcm: number | null;
+  deposit: number | null;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  availableFrom: string | null;
+  minimumTenancy: string | null;
+  furnishing: string | null;
+  epc: string | null;
+  features: Record<string, boolean>;
+  description: string | null;
+  photos: string[];
+  latitude: number | null;
+  longitude: number | null;
+}
+
+interface OpenRentGetListingArgs {
+  listing: string | number;
+}
+
+  /**
+   * OpenRent (openrent.co.uk) — UK homes and rooms to rent, let directly by private landlords.
+   * searchListings() lists what is to let around a UK place or postcode with rent, bedrooms and
+   * the tenant flags (pets, students, bills); getListing() reads one listing in full by its link
+   * or number.
+   */
+  interface Unit {
+    /**
+     * Read one OpenRent listing in full by its link or number (`{ listing: 2733150 }` or the
+     * openrent.co.uk/property-to-rent/… url). Returns status (`available`, `let_agreed`, or
+     * `not_found` when OpenRent has no page for that number), title, city, rent pcm and deposit in
+     * GBP, bedrooms, bathrooms, available-from, minimum tenancy, furnishing, EPC, every yes/no
+     * feature OpenRent ticks (Bills Included, Pets Allowed, Student Friendly, Garden, Parking,
+     * Live-In Landlord…), the landlord's description, photos and coordinates. Get a listing number
+     * from searchListings.
+     */
+    getListing(args: OpenRentGetListingArgs | string | number): Promise<OpenRentListing>;
+
+    /**
+     * Find homes and rooms to rent on OpenRent around a UK place or postcode (`{ location:
+     * "Bristol", maxPrice: 1200, minBedrooms: 2, petsAllowed: true }`). Returns every listing
+     * OpenRent has for that area (often several hundred, nearest first) after your filters: id,
+     * url, rent pcm, bedrooms, bathrooms, studio/shared, furnished, the students / families / pets
+     * / DSS / bills flags, garden, parking, days until available, minimum tenancy, date first
+     * listed, distance in miles and coordinates; the first ~20 also carry OpenRent's card title
+     * and photo. An unrecognised place is an input error. Pass a result's id to getListing for the
+     * full listing.
+     */
+    searchListings(args: OpenRentSearchListingsArgs | string): Promise<OpenRentSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_opentable {
   // ── OpenTable — the unit's own declarations, verbatim ──
 interface OpenTableMyReservation {
@@ -97543,6 +97653,113 @@ interface SourceForgeListFilesArgs { project: string; path?: string }
      * date, size and md5. `path` narrows to a folder such as "/7-Zip/26.06".
      */
     listFiles(args: SourceForgeListFilesArgs): Promise<SourceForgeFile[]>;
+  }
+}
+
+declare namespace BowmarkProvider_spareroom {
+  // ── SpareRoom — the unit's own declarations, verbatim ──
+interface SpareroomSearchArgs {
+  /** A UK town, area, postcode or tube station, e.g. "Manchester" or "SE15". */
+  location: string;
+  /** Rent bounds in GBP, in the 'per' period. */
+  minRent?: number;
+  maxRent?: number;
+  /** "pcm" (default) or "pw". */
+  per?: "pcm" | "pw";
+  /** Result offset; pages are 10 ads. Default 0. */
+  offset?: number;
+}
+
+interface SpareroomListingArgs {
+  /** An ad link (…flatshare_detail.pl?flatshare_id=17308434) or its reference number "17308434" — a searchRooms row's url or id. */
+  listing: string;
+}
+
+interface SpareroomSearchRow {
+  id: string;
+  title: string;
+  /** Pass to getListing({ listing }). */
+  url: string;
+  type: string;
+  neighbourhood: string | null;
+  postcode: string | null;
+  propertyType: string | null; // the site's own label, e.g. "house"
+  roomsInProperty: number | null;
+  advertiserRole: string | null;
+  /** GBP, as the ad states it. */
+  rent: number | null;
+  rentPeriod: "pcm" | "pw" | null;
+  rentNormalised: number | null;
+  rentNormalisedPeriod: "pcm" | "pw" | null;
+  availableNow: boolean;
+  daysOld: number | null;
+  photos: number;
+  image: string | null;
+  promotion: string | null;
+}
+
+interface SpareroomSearchResult {
+  location: string;
+  /** Total ads the site reports. */
+  total: number | null;
+  offset: number;
+  rooms: SpareroomSearchRow[];
+}
+
+interface SpareroomRoom {
+  name: string;
+  rent: number | null;
+  rentPeriod: "pcm" | "pw" | null;
+  deposit: number | null;
+  status: "available" | "let";
+}
+
+interface SpareroomListing {
+  id: string;
+  url: string;
+  status: "available" | "unavailable" | "removed" | "not_found";
+  title: string | null;
+  description: string | null;
+  propertyType: string | null; // the ad's first key feature, e.g. "House share"
+  area: string | null;
+  postcode: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  /** The cheapest room still available, GBP. */
+  priceAmount: number | null;
+  priceFrequency: "pcm" | "pw" | null;
+  billsIncluded: boolean | null;
+  rooms: SpareroomRoom[];
+  availability: Record<string, string>;
+  extraCost: Record<string, string>;
+  amenities: Record<string, string>;
+  currentHousehold: Record<string, string>;
+  housematePreferences: Record<string, string>;
+  image: string | null;
+}
+
+  /**
+   * spareroom.co.uk — the UK's flatshare site. Search rooms to rent by place and budget, then
+   * read one ad's rooms, rents, deposits and household.
+   */
+  interface Unit {
+    /**
+     * Reads ONE SpareRoom ad offering a room or a whole property, from its link or reference
+     * number: status (available, unavailable when now let, removed when expired, not_found), the
+     * cheapest open rent (price_amount and pcm/pw frequency), each room's rent, deposit and let
+     * status, bills included, availability and term, amenities, the current household and the
+     * housemate preferences.
+     */
+    getListing(args: SpareroomListingArgs): Promise<SpareroomListing>;
+
+    /**
+     * Searches SpareRoom (spareroom.co.uk), the UK flatshare and room-to-rent site, for rooms
+     * offered in a town, area, postcode or tube station — 'Manchester', 'SE15' — optionally under
+     * a max rent per month (or per week). Returns 10 ads per page with rent, area, postcode,
+     * property type, rooms in the property, advertiser, availability and the ad url getListing
+     * takes; pass offset (10, 20, …) for the next page.
+     */
+    searchRooms(args: SpareroomSearchArgs): Promise<SpareroomSearchResult>;
   }
 }
 
@@ -124878,6 +125095,7 @@ interface BowmarkProviders {
   open_library: BowmarkProvider_open_library.Unit;
   openai: BowmarkProvider_openai.Unit;
   openai_com: BowmarkProvider_openai_com.Unit;
+  openrent: BowmarkProvider_openrent.Unit;
   opentable: BowmarkProvider_opentable.Unit;
   originenergy_com_au: BowmarkProvider_originenergy_com_au.Unit;
   osu: BowmarkProvider_osu.Unit;
@@ -125020,6 +125238,7 @@ interface BowmarkProviders {
   soulcycle: BowmarkProvider_soulcycle.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   sourceforge: BowmarkProvider_sourceforge.Unit;
+  spareroom: BowmarkProvider_spareroom.Unit;
   spectrum: BowmarkProvider_spectrum.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;
   spirithalloween: BowmarkProvider_spirithalloween.Unit;

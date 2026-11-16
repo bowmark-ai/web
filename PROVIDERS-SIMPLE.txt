@@ -603,6 +603,7 @@ onthemarket.com — onthemarket: search
 open.spotify.com — spotify: 35 functions — ask get_library (+2 planned)
 openai.com — openai_com: listPosts, readPost
 openlibrary.org — open_library: getWork, search
+openrent.co.uk — openrent: getListing, searchListings
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, listMyReservations, search, startBooking
 originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote
 osu.edu — osu: searchClasses
@@ -752,6 +753,7 @@ soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, g
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 sourceforge.net — sourceforge: getLatestRelease, getProject, listFiles (+1 planned)
 spacest.com — spacest: nothing callable yet (+1 planned)
+spareroom.co.uk — spareroom: getListing, searchRooms
 spectrum.com — spectrum: cancelServiceAppointment, checkMobileCoverage, getAccountBalance, getBillingHistory, getByTheGigPlan, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getOutageStatus, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listServiceAppointments, listTvAddOns, listTvPlans, rescheduleServiceAppointment, restartEquipment, scheduleServiceAppointment, updateWifiNetwork (+2 planned)
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
@@ -847,7 +849,7 @@ upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
 ups.com — ups: calculateShippingCost, estimateDeliveryDate, findNearbyLocation, getRate, getServiceAlerts, schedulePickup, trackShipment, validateAddress
 urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
 us.posthog.com — posthog: getInsight, listInsights, listProjects, runRetentionQuery
-usatoday.com — usatoday: browseSection, getArticle, getCrossword, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+2 planned)
+usatoday.com — usatoday: browseSection, getArticle, getCrossword, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+3 planned)
 uscis.gov — uscis: caseStatus
 usps.com — usps: getRate, trackPackage (+12 planned)
 va.gov — va_gov: findFacilities
