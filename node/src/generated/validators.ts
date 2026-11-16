@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 23b67b4b2bb0b0b4b37c5ec3c39dfcfd0870f061349cd45cd2936d148db94d98
-// 5386 checked, 20 unchecked.
+// Manifest version: 51139cdb0092630e914d5d24117bb0e33c092c61fc5d739cc61dae0a3ff3ae39
+// 5388 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "23b67b4b2bb0b0b4b37c5ec3c39dfcfd0870f061349cd45cd2936d148db94d98",
+  "version": "51139cdb0092630e914d5d24117bb0e33c092c61fc5d739cc61dae0a3ff3ae39",
   "units": {
     "address_validation": {
       "defs": {
@@ -94263,6 +94263,63 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.maurices": {
+      "defs": {
+        "MauricesProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MauricesSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MauricesProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MauricesSearchArgs"
             },
             "optional": false
           }

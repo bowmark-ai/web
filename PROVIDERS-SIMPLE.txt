@@ -219,7 +219,7 @@ chromium.googlesource.com — chromium_googlesource_com: getFile, listDirectory,
 cigna.com — cigna_directory: findProviders
 classichome.com — classichome: addToCart, getProduct, searchProducts
 classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) — classicrockfab: checkAvailability, listAppointmentTypes
-classpass.com — classpass: addFavorite, checkAvailability, checkIn, findLocation, findStudio, getBillingHistory, getBookingQuote, getClass, getClassReviews, getCreditBalance, getMyProfile, getMySubscription, getReservation, getSchedule, getStudio, getStudioReviews, getVideo, listCategories, listFavorites, listMarkets, listMyReservations, listOnDemandVideos, listSimilarStudios, listStudioBranches, listStudioClasses, removeFavorite, search (+13 planned)
+classpass.com — classpass: 27 functions — ask get_library (+13 planned)
 claude.ai — claude: 34 functions — ask get_library
 claude.com — claude_com: getDoc, listDocPages
 claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
@@ -527,6 +527,7 @@ marianatek.com — marianatek: 34 functions — ask get_library (+1 planned)
 marketplace.visualstudio.com — marketplace_visualstudio: getExtensionStats, searchExtensions
 marketplace.vts.com — vts_marketplace: getListing, listMarkets, searchListings
 marriott.com — marriott: findHotels (+5 planned)
+maurices.com — maurices: getProduct, searchProducts
 mayoclinic.org — mayoclinic: search
 mcdonalds.com — mcdonalds: findStores, getMenu, getMenuItem (+2 planned)
 mcp.directory — mcp_directory: search

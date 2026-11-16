@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 23b67b4b2bb0b0b4b37c5ec3c39dfcfd0870f061349cd45cd2936d148db94d98
-# 98 capabilities, 883 providers, 5386 typed functions, 20 refused.
+# Manifest version: 51139cdb0092630e914d5d24117bb0e33c092c61fc5d739cc61dae0a3ff3ae39
+# 98 capabilities, 884 providers, 5388 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -45116,6 +45116,71 @@ class Prv_marriott_MarriottHotelListing_Out(TypedDict):
     brand: str
     url: str
     place: str
+
+class Prv_maurices_MauricesProductArgs_In(TypedDict):
+    url: str
+
+class Prv_maurices_MauricesProduct_Out(TypedDict):
+    productId: str
+    name: str
+    url: str | None
+    image: str | None
+    price: float | None
+    salePrice: float | None
+    promotion: str | None
+    orderable: bool
+    colors: list[Prv_maurices_MauricesProduct_Out_colors_item_Out]
+    sizes: list[str]
+    brand: str | None
+    category: str | None
+    description: str | None
+    details: list[str]
+    care: list[str]
+    sizeDetails: list[str]
+    material: str | None
+    rating: float | None
+    reviewCount: float
+    images: list[str]
+    variants: list[Prv_maurices_MauricesVariant_Out]
+
+class Prv_maurices_MauricesProduct_Out_colors_item_Out(TypedDict):
+    code: str
+    name: str | None
+
+class Prv_maurices_MauricesVariant_Out(TypedDict):
+    sku: str
+    color: str | None
+    size: str | None
+    length: str | None
+    price: float | None
+    orderable: bool
+    inStock: float | None
+
+class Prv_maurices_MauricesSearchArgs_In(TypedDict):
+    query: str
+    offset: NotRequired[float]
+
+class Prv_maurices_MauricesSearchResult_Out(TypedDict):
+    query: str
+    total: float
+    offset: float
+    products: list[Prv_maurices_MauricesProductSummary_Out]
+
+class Prv_maurices_MauricesProductSummary_Out(TypedDict):
+    productId: str
+    name: str
+    url: str | None
+    image: str | None
+    price: float | None
+    salePrice: float | None
+    promotion: str | None
+    orderable: bool
+    colors: list[Prv_maurices_MauricesProductSummary_Out_colors_item_Out]
+    sizes: list[str]
+
+class Prv_maurices_MauricesProductSummary_Out_colors_item_Out(TypedDict):
+    code: str
+    name: str | None
 
 class Prv_mayoclinic_search_args_In(TypedDict):
     query: str
@@ -105986,6 +106051,24 @@ class Prv_marriott(Protocol):
         brand and overview URL.
         """
 
+class Prv_maurices(Protocol):
+    """maurices.com — women's fashion retailer (jeans, tops, dresses, plus sizes). Search the
+    catalog, then read a product's prices, sizes and per-variant stock.
+    """
+
+    async def getProduct(self, args: Prv_maurices_MauricesProductArgs_In, /) -> Prv_maurices_MauricesProduct_Out:
+        """Reads one maurices.com product by its page url (a searchProducts row's url) — name, list
+        and promotional price, description, details, care, size notes, material, rating, images,
+        and every color/size/length variant with its own price, orderability and stock count.
+        """
+
+    async def searchProducts(self, args: Prv_maurices_MauricesSearchArgs_In, /) -> Prv_maurices_MauricesSearchResult_Out:
+        """Searches maurices.com (women's clothing, jeans, plus sizes) by what a shopper would type
+        — 'bootcut jeans', 'plaid shacket' — and returns 72 products per page with list price,
+        sale price under the running promotion, colors, sizes and the product url getProduct
+        takes. Pass offset (72, 144, …) for the next page.
+        """
+
 class Prv_mayoclinic(Protocol):
     """Search Mayo Clinic's diseases and conditions library by a health topic."""
 
@@ -125056,6 +125139,7 @@ class BowmarkProviders(Protocol):
     marketplace_visualstudio: Prv_marketplace_visualstudio
     marks: Prv_marks
     marriott: Prv_marriott
+    maurices: Prv_maurices
     mayoclinic: Prv_mayoclinic
     mcdonalds: Prv_mcdonalds
     mcp_directory: Prv_mcp_directory

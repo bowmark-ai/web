@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7123 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7125 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3879,6 +3879,8 @@ One function per row, with the site it is called on.
 | `marriott.getHotelDetails` | marriott.com | Reads one Marriott-family property in full — full address, phone number, brand… | ⚪ |
 | `marriott.getReservation` | marriott.com | Reads an existing Marriott reservation the way the site's own "Find Reservations" page… | ⚪ |
 | `marriott.search` | marriott.com | Searches Marriott's live cash room availability the way its own booking widget does —… | ⚪ |
+| `maurices.getProduct` | maurices.com | Reads one maurices.com product by its page url (a searchProducts row's url) — name… | 🟢 |
+| `maurices.searchProducts` | maurices.com | Searches maurices.com (women's clothing, jeans, plus sizes) by what a shopper would… | 🟢 |
 | `mayoclinic.search` | mayoclinic.org | Searches Mayo Clinic's diseases and conditions library for a health topic and returns… | 🟢 |
 | `mcdonalds.checkDeliveryAvailability` | mcdonalds.com | Answers whether McDelivery (McDonald's own delivery, fulfilled through Uber Eats /… | ⚪ |
 | `mcdonalds.findStores` | mcdonalds.com | Finds McDonald's restaurants near a location — pass EITHER a 5-digit US `zip`… | 🟢 |

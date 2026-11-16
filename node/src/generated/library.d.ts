@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 23b67b4b2bb0b0b4b37c5ec3c39dfcfd0870f061349cd45cd2936d148db94d98
-// 98 capabilities, 883 providers, 5414 typed functions, 20 refused.
+// Manifest version: 51139cdb0092630e914d5d24117bb0e33c092c61fc5d739cc61dae0a3ff3ae39
+// 98 capabilities, 884 providers, 5416 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -69732,6 +69732,91 @@ interface MarriottHotelListing {
   }
 }
 
+declare namespace BowmarkProvider_maurices {
+  // ── maurices — the unit's own declarations, verbatim ──
+interface MauricesSearchArgs {
+  /** What a shopper would type, e.g. "bootcut jeans". */
+  query: string;
+  /** Result offset; pages are 72 products. Default 0. */
+  offset?: number;
+}
+
+interface MauricesProductArgs {
+  /** A maurices.com product page url — a searchProducts row's url. The slug is required. */
+  url: string;
+}
+
+interface MauricesProductSummary {
+  productId: string;
+  name: string;
+  /** The product page — pass to getProduct({ url }). */
+  url: string | null;
+  image: string | null;
+  /** List price, USD. */
+  price: number | null;
+  /** Price after the running promotion, USD, when one applies. */
+  salePrice: number | null;
+  promotion: string | null;
+  orderable: boolean;
+  colors: { code: string; name: string | null }[];
+  sizes: string[];
+}
+
+interface MauricesSearchResult {
+  query: string;
+  /** Total matches the site reports; products holds one page of them. */
+  total: number;
+  offset: number;
+  products: MauricesProductSummary[];
+}
+
+interface MauricesVariant {
+  sku: string;
+  color: string | null;
+  size: string | null;
+  /** Inseam length (Short/Regular/Long) where the product has one. */
+  length: string | null;
+  price: number | null;
+  orderable: boolean;
+  inStock: number | null;
+}
+
+interface MauricesProduct extends MauricesProductSummary {
+  brand: string | null;
+  category: string | null;
+  description: string | null;
+  details: string[];
+  care: string[];
+  sizeDetails: string[];
+  material: string | null;
+  rating: number | null;
+  reviewCount: number;
+  images: string[];
+  variants: MauricesVariant[];
+}
+
+  /**
+   * maurices.com — women's fashion retailer (jeans, tops, dresses, plus sizes). Search the
+   * catalog, then read a product's prices, sizes and per-variant stock.
+   */
+  interface Unit {
+    /**
+     * Reads one maurices.com product by its page url (a searchProducts row's url) — name, list and
+     * promotional price, description, details, care, size notes, material, rating, images, and
+     * every color/size/length variant with its own price, orderability and stock count.
+     */
+    getProduct(args: MauricesProductArgs): Promise<MauricesProduct>;
+
+    /**
+     * Searches maurices.com (women's clothing, jeans, plus sizes) by what a shopper would type —
+     * 'bootcut jeans', 'plaid shacket' — and returns 72 products per page with list price, sale
+     * price under the running promotion, colors, sizes and the product url getProduct takes. Pass
+     * offset (72, 144, …) for the next page.
+     */
+    searchProducts(args: MauricesSearchArgs): Promise<MauricesSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_mayoclinic {
   // ── Mayo Clinic — the unit's own declarations, verbatim ──
 interface MayoClinicSearchRow { title: string; summary: string | null; url: string }
@@ -124718,6 +124803,7 @@ interface BowmarkProviders {
   marketplace_visualstudio: BowmarkProvider_marketplace_visualstudio.Unit;
   marks: BowmarkProvider_marks.Unit;
   marriott: BowmarkProvider_marriott.Unit;
+  maurices: BowmarkProvider_maurices.Unit;
   mayoclinic: BowmarkProvider_mayoclinic.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
   mcp_directory: BowmarkProvider_mcp_directory.Unit;
