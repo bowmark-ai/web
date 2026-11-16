@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a10441a0673f21a0073e84e232bda8ff6c7a8354916f7cc972e0d19f0f6b1221
-# 98 capabilities, 878 providers, 5375 typed functions, 20 refused.
+# Manifest version: a8e4b03fca3e7b573d1fb31f4ee0a5445e5b0cf56b19767ea2a76a97d8060a8b
+# 98 capabilities, 881 providers, 5381 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16526,6 +16526,24 @@ class Prv_cbp_cbpPort_Out_pedestrian_Out(TypedDict):
     standard: Prv_cbp_cbpLane_Out | None
     ready: Prv_cbp_cbpLane_Out | None
 
+class Prv_cbs_sports_ScoreboardArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_cbs_sports_CbsSportsGame_Out(TypedDict):
+    id: str
+    league: str
+    status: str | None
+    broadcast: str | None
+    awayTeam: Prv_cbs_sports_CbsSportsTeam_Out
+    homeTeam: Prv_cbs_sports_CbsSportsTeam_Out
+
+class Prv_cbs_sports_CbsSportsTeam_Out(TypedDict):
+    id: str
+    name: str
+    abbreviation: str
+    wins: float | None
+    losses: float | None
+
 class Prv_cbsnews_GetLiveUpdatesArgs_In(TypedDict):
     url: str
     limit: NotRequired[float]
@@ -19947,6 +19965,7 @@ class Prv_clutch_clutchCompanyProfile_Out(TypedDict):
     reviewCount: float | None
     location: str | None
     services: list[str]
+    sponsored: NotRequired[bool]
     description: str | None
     reviews: list[Prv_clutch_clutchCompanyProfile_Out_reviews_item_Out]
 
@@ -19968,6 +19987,7 @@ class Prv_clutch_clutchCompany_Out(TypedDict):
     reviewCount: float | None
     location: str | None
     services: list[str]
+    sponsored: NotRequired[bool]
 
 class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
     symbol: str
@@ -63771,6 +63791,99 @@ class Prv_spirithalloween_SpiritHalloweenSizeVariant_Out(TypedDict):
     shipStockQuantity: float
     variantId: str
 
+class Prv_sports247_Sports247TeamRankingsArgs_In(TypedDict):
+    sport: NotRequired[Literal["football"] | Literal["basketball"]]
+    year: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_sports247_Sports247TeamRankings_Out(TypedDict):
+    sport: str
+    year: float
+    page: float
+    pageCount: float | None
+    url: str
+    teams: list[Prv_sports247_Sports247TeamRanking_Out]
+
+class Prv_sports247_Sports247TeamRanking_Out(TypedDict):
+    rank: float | None
+    compositeRank: float | None
+    name: str
+    fullName: str | None
+    commits: float | None
+    fiveStars: float | None
+    fourStars: float | None
+    threeStars: float | None
+    averageRating: float | None
+    points: float | None
+    compositePoints: float | None
+    city: str | None
+    state: str | None
+    logoUrl: str | None
+    teamUrl: str | None
+
+class Prv_sports247_Sports247SearchRecruitsArgs_In(TypedDict):
+    query: str
+    year: NotRequired[float]
+    sport: NotRequired[Literal["football"] | Literal["basketball"]]
+
+class Prv_sports247_Sports247Recruits_Out(TypedDict):
+    query: str
+    sport: str
+    years: list[float]
+    complete: bool
+    recruits: list[Prv_sports247_Sports247Recruit_Out]
+    warnings: list[str]
+
+class Prv_sports247_Sports247Recruit_Out(TypedDict):
+    id: float
+    name: str
+    url: str
+    position: str | None
+    height: str | None
+    weight: float | None
+    classYear: float | None
+    highSchool: str | None
+    city: str | None
+    state: str | None
+    committedTo: str | None
+    offerCount: float | None
+    stars: float | None
+    rating: float | None
+    nationalRank: float | None
+    positionRank: float | None
+    stateRank: float | None
+    compositeStars: float | None
+    compositeRating: float | None
+    compositeNationalRank: float | None
+    photoUrl: str | None
+
+class Prv_sports247_Sports247SearchArgs_In(TypedDict):
+    query: str
+    type: NotRequired[Literal["articles"] | Literal["posts"]]
+    page: NotRequired[float]
+
+class Prv_sports247_Sports247Search_Out(TypedDict):
+    query: str
+    type: str
+    page: float
+    total: float | None
+    results: list[Prv_sports247_Sports247SearchResult_Out]
+
+class Prv_sports247_Sports247SearchResult_Out(TypedDict):
+    id: float
+    type: str
+    title: str
+    url: str
+    snippet: str
+    author: str | None
+    postedAt: str | None
+    views: float | None
+    replies: float | None
+    vip: bool
+    site: str | None
+    board: str | None
+    imageUrl: str | None
+
 class Prv_spotapps_SpotappsFindRestaurantArgs_In(TypedDict):
     url: str
 
@@ -71503,6 +71616,73 @@ class Prv_tryalma_com_Page_Out(TypedDict):
     url: str
     title: str
     category: str
+
+class Prv_tubitv_TubiSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_tubitv_search_return_Out(TypedDict):
+    query: str
+    titles: list[Prv_tubitv_TubiTitle_Out]
+
+class Prv_tubitv_TubiTitle_Out(TypedDict):
+    id: str
+    kind: Literal["movie"] | Literal["series"]
+    title: str
+    year: float | None
+    description: str | None
+    genres: list[str]
+    actors: list[str]
+    directors: list[str]
+    rating: Prv_tubitv_TubiTitle_Out_rating_u0_Out | None
+    durationSeconds: float | None
+    poster: str | None
+    url: str
+    needsLogin: bool
+
+class Prv_tubitv_TubiTitle_Out_rating_u0_Out(TypedDict):
+    system: str
+    value: str
+
+class Prv_tubitv_TubiTitleArgs_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_tubitv_TubiTitleDetail_Out(TypedDict):
+    id: str
+    kind: Literal["movie"] | Literal["series"]
+    title: str
+    year: float | None
+    description: str | None
+    genres: list[str]
+    actors: list[str]
+    directors: list[str]
+    rating: Prv_tubitv_TubiTitleDetail_Out_rating_u0_Out | None
+    durationSeconds: float | None
+    poster: str | None
+    url: str
+    needsLogin: bool
+    language: str | None
+    country: str | None
+    imdbId: str | None
+    hasSubtitles: bool
+    availableUntil: str | None
+    seasons: list[Prv_tubitv_TubiTitleDetail_Out_seasons_item_Out]
+
+class Prv_tubitv_TubiTitleDetail_Out_rating_u0_Out(TypedDict):
+    system: str
+    value: str
+
+class Prv_tubitv_TubiTitleDetail_Out_seasons_item_Out(TypedDict):
+    name: str
+    episodes: list[Prv_tubitv_TubiEpisode_Out]
+
+class Prv_tubitv_TubiEpisode_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    durationSeconds: float | None
+    url: str
 
 class Prv_tumblr_findBlog_args_In(TypedDict):
     name: str
@@ -89610,6 +89790,14 @@ class Prv_cbp(Protocol):
         border: "canada" | "mexico" } narrows it
         """
 
+class Prv_cbs_sports(Protocol):
+    """CBS Sports' current all-sports homepage scoreboard."""
+
+    async def scoreboard(self, args: Prv_cbs_sports_ScoreboardArgs_In | None = None, /) -> list[Prv_cbs_sports_CbsSportsGame_Out]:
+        """CBS Sports' current all-sports homepage scoreboard — each matchup's teams, records,
+        current status and broadcast.
+        """
+
 class Prv_cbsnews(Protocol):
     """CBS News: articles, live updates, section and local-station fronts, video, shows,
     podcasts and newsletters.
@@ -91595,8 +91783,8 @@ class Prv_clutch(Protocol):
 
     async def search(self, args: Prv_clutch_clutchSearchArgs_In, /) -> list[Prv_clutch_clutchCompany_Out]:
         """Searches Clutch's public ranked agency directory for software or web-development
-        companies, optionally in one country, returning identity, rating, review count, location
-        and services.
+        companies, optionally in one country, returning identity, rating, review count,
+        location, services and whether the row is a sponsored placement.
         """
 
 class Prv_cnbc_com(Protocol):
@@ -92811,17 +92999,16 @@ class Prv_dat(Protocol):
         """
 
     async def nationalSpotRates(self, /) -> Prv_dat_DatNationalSpotRates_Out:
-        """DAT Trendlines' national average truckload spot rates (USD/mile, plus DAT's fuel
-        surcharge; DAT describes the spot rate as all-in, so do not add the surcharge to it;
-        rateTrend's broker rate measures exactly this rate + the surcharge, which this unit
-        cannot explain) for van, reefer and flatbed over the last four months.
+        """DAT Trendlines' national average truckload spot rates (all-in USD/mile: the fuel
+        surcharge is already included in rateUsdPerMile and is shown separately only as a
+        breakdown, never an add-on) for van, reefer and flatbed over the last four months.
         """
 
     async def rateTrend(self, args: Prv_dat_DatEquipmentArgs_In | None = None, /) -> Prv_dat_DatRateTrend_Out:
         """DAT's 12-month national rate trendline for one equipment type: broker-to-carrier spot
-        and shipper-to-broker rates per month, USD/mile (the broker rate measures exactly
-        nationalSpotRates' rate plus its fuel surcharge; DAT calls both all-in, so do not add
-        the surcharge to either). Defaults to van.
+        and shipper-to-broker rates per month, USD/mile (all-in figures: any fuel surcharge is
+        already included, so quote each rate as-is and never add a surcharge to it). Defaults to
+        van.
         """
 
 class Prv_data_cms(Protocol):
@@ -94746,11 +94933,11 @@ class Prv_dumpsters(Protocol):
         """
 
 class Prv_ebay(Protocol):
-    """Live eBay listings on ebay.com or the German marketplace ebay.de — search by keyword,
-    category or seller, read one listing, autosuggest and deals — returning title, price,
-    condition, buying option, seller and the item's own ebay.com URL. No key needed: it
-    reads eBay's own pages, and uses eBay's documented Browse API instead when a caller
-    brings an OAuth key.
+    """Live eBay listing details, category or seller listings, autosuggest and deals on
+    ebay.com or the German marketplace ebay.de — returning title, price, condition, buying
+    option, seller and the item's own eBay URL. Keyword search uses eBay's documented Browse
+    API when the caller brings an OAuth key; when it is unavailable, use searchByCategory or
+    getSellerListings only when the caller already knows the category or seller.
     """
 
     async def search(self, args: str | Prv_ebay_search_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
@@ -94764,35 +94951,33 @@ class Prv_ebay(Protocol):
         """
 
     async def getItem(self, args: str | Prv_ebay_getItem_args_u1_In, /) -> Prv_ebay_ebayItemDetail_Out:
-        """Reads one eBay listing through the documented Browse API by the `itemId` `search`
-        returns (`137474897118`, or `v1|110034424734|0`, or an ebay.com/itm/ URL) — title,
-        price, condition, buying options, seller feedback, item location, the site's own default
-        shipping option, and current bid / bid count for an active auction. Requires the
-        caller's eBay OAuth key. An ebay.de/itm/ URL, or `{ itemId, marketplace: "DE" }`, reads
-        the listing on ebay.de.
+        """Reads one eBay listing through the documented Browse API by item id (`137474897118`, or
+        `v1|110034424734|0`) or an ebay.com/itm/ URL — title, price, condition, buying options,
+        seller feedback, item location, the site's own default shipping option, and current bid
+        / bid count for an active auction. Requires the caller's eBay OAuth key. An ebay.de/itm/
+        URL, or `{ itemId, marketplace: "DE" }`, reads the listing on ebay.de.
         """
 
     async def searchByCategory(self, args: str | Prv_ebay_searchByCategory_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
         """Searches one eBay category through the documented Browse API by id (e.g. `"15709"` for
         Men's Athletic Shoes), with an optional keyword query narrowing within the category.
-        Same rows and fields as `search`. Requires the caller's eBay OAuth key. `limit` caps the
-        row count (default 20, ceiling 200).
+        Returns listing title, price, condition, buying option, seller and item URL. Requires
+        the caller's eBay OAuth key. `limit` caps the row count (default 20, ceiling 200).
         """
 
     async def getSellerListings(self, args: Prv_ebay_getSellerListings_args_In, /) -> list[Prv_ebay_ebayItem_Out]:
-        """Searches one seller's own eBay listings through the documented Browse API (the username
-        `search`/`getItem` rows carry under `seller`) that match `query` — a seller filter
-        cannot stand alone on eBay's Browse API, so `query` is required alongside `seller`.
-        Requires the caller's eBay OAuth key. Same rows and fields as `search`; `limit` caps the
-        row count (default 20, ceiling 200).
+        """Searches one seller's own eBay listings through the documented Browse API by seller
+        username and `query` — a seller filter cannot stand alone on eBay's Browse API, so
+        `query` is required alongside `seller`. Returns listing title, price, condition, buying
+        option, seller and item URL. Requires the caller's eBay OAuth key. `limit` caps the row
+        count (default 20, ceiling 200).
         """
 
     async def getSellerProfile(self, args: str | Prv_ebay_getSellerProfile_args_u1_In, /) -> Prv_ebay_ebaySellerProfile_Out:
-        """Reads one eBay seller's public feedback profile by username (the `seller` a
-        `search`/`getItem` row carries) — lifetime feedback score, positive-feedback percentage
-        over the last 12 months, business or individual seller, the date they joined, the
-        country eBay lists them in, and their eBay Store when they run one. Needs no eBay OAuth
-        key. Throws for a username eBay has no profile for.
+        """Reads one eBay seller's public feedback profile by username — lifetime feedback score,
+        positive-feedback percentage over the last 12 months, business or individual seller, the
+        date they joined, the country eBay lists them in, and their eBay Store when they run
+        one. Needs no eBay OAuth key. Throws for a username eBay has no profile for.
         """
 
     async def searchAutocomplete(self, args: str | Prv_ebay_searchAutocomplete_args_u1_In, /) -> Prv_ebay_ebayAutocompleteResult_Out:
@@ -94830,16 +95015,16 @@ class Prv_ebay(Protocol):
 
     async def getWatchlist(self, args: Prv_ebay_getWatchlist_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_ebay_ebayWatchlistItem_Out]:
         """Get the caller's watch list — items they are monitoring for price changes. Needs a
-        signed-in eBay account; the caller supplies their session. Returns the same fields as
-        `search`, plus a `watchlistPosition` (1-indexed order in the list). `limit` caps the row
-        count (default 20, ceiling 200).
+        signed-in eBay account; the caller supplies their session. Returns listing fields plus a
+        `watchlistPosition` (1-indexed order in the list). `limit` caps the row count (default
+        20, ceiling 200).
         """
 
     async def getMyListings(self, args: Prv_ebay_getMyListings_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_ebay_ebayItem_Out]:
         """Get the caller's own active selling listings. Needs a signed-in eBay account; the caller
-        supplies their session. Returns the same fields as `search` — `seller` is always `null`,
-        since the page is the caller's own listings and does not print their username back to
-        them. `limit` caps the row count (default 20, ceiling 200).
+        supplies their session. Returns listing fields; `seller` is always `null`, since the
+        page is the caller's own listings and does not print their username back to them.
+        `limit` caps the row count (default 20, ceiling 200).
         """
 
 class Prv_edmunds(Protocol):
@@ -115443,6 +115628,30 @@ class Prv_spirithalloween(Protocol):
         search.
         """
 
+class Prv_sports247(Protocol):
+    """247Sports (247sports.com): college football and basketball recruiting — team recruiting
+    class rankings, recruit lookup (star rating, national/position/state rank, commitment,
+    offers) and search of 247Sports news articles and message-board posts.
+    """
+
+    async def teamRankings(self, args: Prv_sports247_Sports247TeamRankingsArgs_In, /) -> Prv_sports247_Sports247TeamRankings_Out:
+        """Reads 247Sports' composite team recruiting class rankings for a sport and class year
+        (default: football, the current class), 10 teams per page: rank, commits, 5/4/3-star
+        counts, average rating and points.
+        """
+
+    async def searchRecruits(self, args: Prv_sports247_Sports247SearchRecruitsArgs_In, /) -> Prv_sports247_Sports247Recruits_Out:
+        """Finds a football or basketball recruit on 247Sports by name: position, size, high
+        school, class year, star rating, 247 and composite rating and national/position/state
+        rank, commitment and offer count. Searches the last eight classes unless a year is
+        given.
+        """
+
+    async def search(self, args: Prv_sports247_Sports247SearchArgs_In, /) -> Prv_sports247_Sports247Search_Out:
+        """Searches 247Sports news articles (default) or message-board posts for a phrase: title,
+        url, snippet, author, time, views, replies, the team site and board it sits on.
+        """
+
 class Prv_spotapps(Protocol):
     """SpotHopper restaurant sites (tmt.spotapps.co): reservations, menus, online ordering,
     party and catering inquiries.
@@ -119125,6 +119334,21 @@ class Prv_tryalma_com(Protocol):
 
     async def listPages(self, /) -> Prv_tryalma_com_ListPagesResponse_Out:
         """List all pages and sections available on the Alma website by category."""
+
+class Prv_tubitv(Protocol):
+    """Tubi (tubitv.com), the free ad-supported streaming service: search its catalog of movies
+    and TV shows, and read a title's details, cast, rating, availability and episode list.
+    """
+
+    async def search(self, args: Prv_tubitv_TubiSearchArgs_In, /) -> Prv_tubitv_search_return_Out:
+        """Searches Tubi's free movie and TV catalog the way the site's search box does, returning
+        ranked titles with year, genres, cast, rating, runtime and watch url.
+        """
+
+    async def title(self, args: Prv_tubitv_TubiTitleArgs_In, /) -> Prv_tubitv_TubiTitleDetail_Out:
+        """Reads one Tubi movie or series: description, cast, directors, rating, language, IMDb id,
+        subtitles, when it leaves Tubi, and for a series every season's episodes.
+        """
 
 class Prv_tumblr(Protocol):
     """Tumblr's public API — blog info, posts, tag timelines, trending, and site-wide or
@@ -124282,6 +124506,7 @@ class BowmarkProviders(Protocol):
     cb2: Prv_cb2
     cbhhomes: Prv_cbhhomes
     cbp: Prv_cbp
+    cbs_sports: Prv_cbs_sports
     cbsnews: Prv_cbsnews
     census: Prv_census
     census_api: Prv_census_api
@@ -124821,6 +125046,7 @@ class BowmarkProviders(Protocol):
     spectrum: Prv_spectrum
     speedrun: Prv_speedrun
     spirithalloween: Prv_spirithalloween
+    sports247: Prv_sports247
     spotapps: Prv_spotapps
     spotify: Prv_spotify
     square_appointments: Prv_square_appointments
@@ -124896,6 +125122,7 @@ class BowmarkProviders(Protocol):
     trueup: Prv_trueup
     trustpilot: Prv_trustpilot
     tryalma_com: Prv_tryalma_com
+    tubitv: Prv_tubitv
     tumblr: Prv_tumblr
     turbotax: Prv_turbotax
     tweethunter: Prv_tweethunter

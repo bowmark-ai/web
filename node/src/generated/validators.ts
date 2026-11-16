@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a10441a0673f21a0073e84e232bda8ff6c7a8354916f7cc972e0d19f0f6b1221
-// 5375 checked, 20 unchecked.
+// Manifest version: a8e4b03fca3e7b573d1fb31f4ee0a5445e5b0cf56b19767ea2a76a97d8060a8b
+// 5381 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a10441a0673f21a0073e84e232bda8ff6c7a8354916f7cc972e0d19f0f6b1221",
+  "version": "a8e4b03fca3e7b573d1fb31f4ee0a5445e5b0cf56b19767ea2a76a97d8060a8b",
   "units": {
     "address_validation": {
       "defs": {
@@ -31447,6 +31447,34 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "cbpWaitTimesQuery"
                 }
               ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.cbs_sports": {
+      "defs": {
+        "ScoreboardArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "scoreboard": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ScoreboardArgs"
             },
             "optional": true
           }
@@ -135760,6 +135788,150 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.sports247": {
+      "defs": {
+        "Sports247SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "articles"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "posts"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "Sports247SearchRecruitsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sport",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "basketball"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "Sports247TeamRankingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sport",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "basketball"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "teamRankings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "Sports247TeamRankingsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchRecruits": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "Sports247SearchRecruitsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "Sports247SearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.spotapps": {
       "defs": {
         "SpotappsApplyForJobArgs": {
@@ -151017,6 +151189,70 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listPages": []
+      }
+    },
+    "providers.tubitv": {
+      "defs": {
+        "TubiSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TubiTitleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TubiSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "title": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TubiTitleArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.tumblr": {

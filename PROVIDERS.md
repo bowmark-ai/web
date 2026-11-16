@@ -2096,12 +2096,12 @@ One function per row, with the site it is called on.
 | `ebay.addToWatchlist` | ebay.com | Add an item to the caller's watch list. | ⚪ |
 | `ebay.getCart` | ebay.com | Get the caller's shopping cart — items they have added but not yet purchased. | ⚪ |
 | `ebay.getDeals` | ebay.com | Reads eBay's own `/deals` page — the spotlight, trending and featured deals a shopper… | 🟢 |
-| `ebay.getItem` | ebay.com | Reads one eBay listing by the id `search` returns — title, current price, condition… | 🟡 |
+| `ebay.getItem` | ebay.com | Reads one eBay listing by item id or URL — title, current price, condition, buying… | 🟡 |
 | `ebay.getMyAccount` | ebay.com | Get the caller's account settings and preferences. | ⚪ |
 | `ebay.getMyListings` | ebay.com | Get the caller's own active selling listings. | 🟢 |
 | `ebay.getMyMessages` | ebay.com | Get the caller's eBay messages — inbox, sent, and resolved messages. | ⚪ |
 | `ebay.getProfile` | ebay.com | Get the caller's profile information. | ⚪ |
-| `ebay.getSellerListings` | ebay.com | Searches one seller's own eBay listings for a keyword — the same rows `search` returns. | 🟢 |
+| `ebay.getSellerListings` | ebay.com | Searches one seller's own eBay listings for a keyword by seller username and query. | 🟢 |
 | `ebay.getSellerProfile` | ebay.com | Reads one seller's public feedback profile by username — lifetime feedback score… | 🟢 |
 | `ebay.getWatchlist` | ebay.com | Get the caller's watch list — items they are monitoring for price changes. | 🟢 |
 | `ebay.removeFromCart` | ebay.com | Remove an item from the caller's shopping cart. | ⚪ |

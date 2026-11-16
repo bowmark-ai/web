@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a10441a0673f21a0073e84e232bda8ff6c7a8354916f7cc972e0d19f0f6b1221
-// 98 capabilities, 878 providers, 5403 typed functions, 20 refused.
+// Manifest version: a8e4b03fca3e7b573d1fb31f4ee0a5445e5b0cf56b19767ea2a76a97d8060a8b
+// 98 capabilities, 881 providers, 5409 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -25793,6 +25793,22 @@ interface cbpWaitTimesQuery {
   }
 }
 
+declare namespace BowmarkProvider_cbs_sports {
+  // ── CBS Sports scores — the unit's own declarations, verbatim ──
+interface ScoreboardArgs { limit?: number; }
+interface CbsSportsTeam { id: string; name: string; abbreviation: string; wins: number | null; losses: number | null; }
+interface CbsSportsGame { id: string; league: string; status: string | null; broadcast: string | null; awayTeam: CbsSportsTeam; homeTeam: CbsSportsTeam; }
+
+  /** CBS Sports' current all-sports homepage scoreboard. */
+  interface Unit {
+    /**
+     * CBS Sports' current all-sports homepage scoreboard — each matchup's teams, records, current
+     * status and broadcast.
+     */
+    scoreboard(args?: ScoreboardArgs): Promise<CbsSportsGame[]>;
+  }
+}
+
 declare namespace BowmarkProvider_cbsnews {
   // ── CBS News — the unit's own declarations, verbatim ──
 interface cbsnewsRow {
@@ -30980,7 +30996,7 @@ interface ClubreadyInstructor {
 
 declare namespace BowmarkProvider_clutch {
   // ── Clutch — business-services marketplace — the unit's own declarations, verbatim ──
-interface clutchCompany { id: string; name: string; url: string; rating: number | null; reviewCount: number | null; location: string | null; services: string[] }
+interface clutchCompany { id: string; name: string; url: string; rating: number | null; reviewCount: number | null; location: string | null; services: string[]; sponsored?: boolean }
 interface clutchSearchArgs { category: string; location?: string; limit?: number }
 interface clutchCompanyProfile extends clutchCompany { description: string | null; reviews: { rating: number | null; title: string | null; text: string }[] }
 
@@ -30997,7 +31013,8 @@ interface clutchCompanyProfile extends clutchCompany { description: string | nul
 
     /**
      * Searches Clutch's public ranked agency directory for software or web-development companies,
-     * optionally in one country, returning identity, rating, review count, location and services.
+     * optionally in one country, returning identity, rating, review count, location, services and
+     * whether the row is a sponsored placement.
      */
     search(args: clutchSearchArgs): Promise<clutchCompany[]>;
   }
@@ -34369,18 +34386,16 @@ interface DatLoadToTruckRatio { equipment: DatEquipment; years: { year: number; 
     loadToTruckRatio(args?: DatEquipmentArgs): Promise<DatLoadToTruckRatio>;
 
     /**
-     * DAT Trendlines' national average truckload spot rates (USD/mile, plus DAT's fuel surcharge;
-     * DAT describes the spot rate as all-in, so do not add the surcharge to it; rateTrend's broker
-     * rate measures exactly this rate + the surcharge, which this unit cannot explain) for van,
-     * reefer and flatbed over the last four months.
+     * DAT Trendlines' national average truckload spot rates (all-in USD/mile: the fuel surcharge
+     * is already included in rateUsdPerMile and is shown separately only as a breakdown, never an
+     * add-on) for van, reefer and flatbed over the last four months.
      */
     nationalSpotRates(): Promise<DatNationalSpotRates>;
 
     /**
      * DAT's 12-month national rate trendline for one equipment type: broker-to-carrier spot and
-     * shipper-to-broker rates per month, USD/mile (the broker rate measures exactly
-     * nationalSpotRates' rate plus its fuel surcharge; DAT calls both all-in, so do not add the
-     * surcharge to either). Defaults to van.
+     * shipper-to-broker rates per month, USD/mile (all-in figures: any fuel surcharge is already
+     * included, so quote each rate as-is and never add a surcharge to it). Defaults to van.
      */
     rateTrend(args?: DatEquipmentArgs): Promise<DatRateTrend>;
   }
@@ -39698,11 +39713,11 @@ interface ebaySoldSearch {
 }
 
   /**
-   * Live eBay listings on ebay.com or the German marketplace ebay.de — search by keyword,
-   * category or seller, read one listing, autosuggest and deals — returning title, price,
-   * condition, buying option, seller and the item's own ebay.com URL. No key needed: it reads
-   * eBay's own pages, and uses eBay's documented Browse API instead when a caller brings an
-   * OAuth key.
+   * Live eBay listing details, category or seller listings, autosuggest and deals on ebay.com or
+   * the German marketplace ebay.de — returning title, price, condition, buying option, seller
+   * and the item's own eBay URL. Keyword search uses eBay's documented Browse API when the
+   * caller brings an OAuth key; when it is unavailable, use searchByCategory or
+   * getSellerListings only when the caller already knows the category or seller.
    */
   interface Unit {
     /**
@@ -39717,37 +39732,36 @@ interface ebaySoldSearch {
     search(args: string | { query: string; limit?: number; marketplace?: "US" | "DE" }): Promise<ebayItem[]>;
 
     /**
-     * Reads one eBay listing through the documented Browse API by the `itemId` `search` returns
-     * (`137474897118`, or `v1|110034424734|0`, or an ebay.com/itm/ URL) — title, price, condition,
-     * buying options, seller feedback, item location, the site's own default shipping option, and
-     * current bid / bid count for an active auction. Requires the caller's eBay OAuth key. An
-     * ebay.de/itm/ URL, or `{ itemId, marketplace: "DE" }`, reads the listing on ebay.de.
+     * Reads one eBay listing through the documented Browse API by item id (`137474897118`, or
+     * `v1|110034424734|0`) or an ebay.com/itm/ URL — title, price, condition, buying options,
+     * seller feedback, item location, the site's own default shipping option, and current bid /
+     * bid count for an active auction. Requires the caller's eBay OAuth key. An ebay.de/itm/ URL,
+     * or `{ itemId, marketplace: "DE" }`, reads the listing on ebay.de.
      */
     getItem(args: string | { itemId: string; marketplace?: "US" | "DE" }): Promise<ebayItemDetail>;
 
     /**
      * Searches one eBay category through the documented Browse API by id (e.g. `"15709"` for Men's
-     * Athletic Shoes), with an optional keyword query narrowing within the category. Same rows and
-     * fields as `search`. Requires the caller's eBay OAuth key. `limit` caps the row count
-     * (default 20, ceiling 200).
+     * Athletic Shoes), with an optional keyword query narrowing within the category. Returns
+     * listing title, price, condition, buying option, seller and item URL. Requires the caller's
+     * eBay OAuth key. `limit` caps the row count (default 20, ceiling 200).
      */
     searchByCategory(args: string | { categoryId: string; query?: string; limit?: number }): Promise<ebayItem[]>;
 
     /**
-     * Searches one seller's own eBay listings through the documented Browse API (the username
-     * `search`/`getItem` rows carry under `seller`) that match `query` — a seller filter cannot
-     * stand alone on eBay's Browse API, so `query` is required alongside `seller`. Requires the
-     * caller's eBay OAuth key. Same rows and fields as `search`; `limit` caps the row count
-     * (default 20, ceiling 200).
+     * Searches one seller's own eBay listings through the documented Browse API by seller username
+     * and `query` — a seller filter cannot stand alone on eBay's Browse API, so `query` is
+     * required alongside `seller`. Returns listing title, price, condition, buying option, seller
+     * and item URL. Requires the caller's eBay OAuth key. `limit` caps the row count (default 20,
+     * ceiling 200).
      */
     getSellerListings(args: { seller: string; query: string; limit?: number }): Promise<ebayItem[]>;
 
     /**
-     * Reads one eBay seller's public feedback profile by username (the `seller` a
-     * `search`/`getItem` row carries) — lifetime feedback score, positive-feedback percentage over
-     * the last 12 months, business or individual seller, the date they joined, the country eBay
-     * lists them in, and their eBay Store when they run one. Needs no eBay OAuth key. Throws for a
-     * username eBay has no profile for.
+     * Reads one eBay seller's public feedback profile by username — lifetime feedback score,
+     * positive-feedback percentage over the last 12 months, business or individual seller, the
+     * date they joined, the country eBay lists them in, and their eBay Store when they run one.
+     * Needs no eBay OAuth key. Throws for a username eBay has no profile for.
      */
     getSellerProfile(args: string | { seller: string }): Promise<ebaySellerProfile>;
 
@@ -39788,7 +39802,7 @@ interface ebaySoldSearch {
 
     /**
      * Get the caller's watch list — items they are monitoring for price changes. Needs a signed-in
-     * eBay account; the caller supplies their session. Returns the same fields as `search`, plus a
+     * eBay account; the caller supplies their session. Returns listing fields plus a
      * `watchlistPosition` (1-indexed order in the list). `limit` caps the row count (default 20,
      * ceiling 200).
      */
@@ -39796,9 +39810,9 @@ interface ebaySoldSearch {
 
     /**
      * Get the caller's own active selling listings. Needs a signed-in eBay account; the caller
-     * supplies their session. Returns the same fields as `search` — `seller` is always `null`,
-     * since the page is the caller's own listings and does not print their username back to them.
-     * `limit` caps the row count (default 20, ceiling 200).
+     * supplies their session. Returns listing fields; `seller` is always `null`, since the page is
+     * the caller's own listings and does not print their username back to them. `limit` caps the
+     * row count (default 20, ceiling 200).
      */
     getMyListings(args?: { limit?: number }, opts?: ConnectionOption): Promise<ebayItem[]>;
   }
@@ -97851,6 +97865,46 @@ interface SpiritHalloweenProduct {
   }
 }
 
+declare namespace BowmarkProvider_sports247 {
+  // ── 247Sports — the unit's own declarations, verbatim ──
+interface Sports247TeamRanking { rank: number | null; compositeRank: number | null; name: string; fullName: string | null; commits: number | null; fiveStars: number | null; fourStars: number | null; threeStars: number | null; averageRating: number | null; points: number | null; compositePoints: number | null; city: string | null; state: string | null; logoUrl: string | null; teamUrl: string | null; }
+interface Sports247TeamRankingsArgs { sport?: "football" | "basketball"; year?: number; page?: number; }
+interface Sports247TeamRankings { sport: string; year: number; page: number; pageCount: number | null; url: string; teams: Sports247TeamRanking[]; }
+interface Sports247Recruit { id: number; name: string; url: string; position: string | null; height: string | null; weight: number | null; classYear: number | null; highSchool: string | null; city: string | null; state: string | null; committedTo: string | null; offerCount: number | null; stars: number | null; rating: number | null; nationalRank: number | null; positionRank: number | null; stateRank: number | null; compositeStars: number | null; compositeRating: number | null; compositeNationalRank: number | null; photoUrl: string | null; }
+interface Sports247SearchRecruitsArgs { query: string; year?: number; sport?: "football" | "basketball"; }
+interface Sports247Recruits { query: string; sport: string; years: number[]; complete: boolean; recruits: Sports247Recruit[]; warnings: string[]; }
+interface Sports247SearchResult { id: number; type: string; title: string; url: string; snippet: string; author: string | null; postedAt: string | null; views: number | null; replies: number | null; vip: boolean; site: string | null; board: string | null; imageUrl: string | null; }
+interface Sports247SearchArgs { query: string; type?: "articles" | "posts"; page?: number; }
+interface Sports247Search { query: string; type: string; page: number; total: number | null; results: Sports247SearchResult[]; }
+
+  /**
+   * 247Sports (247sports.com): college football and basketball recruiting — team recruiting
+   * class rankings, recruit lookup (star rating, national/position/state rank, commitment,
+   * offers) and search of 247Sports news articles and message-board posts.
+   */
+  interface Unit {
+    /**
+     * Reads 247Sports' composite team recruiting class rankings for a sport and class year
+     * (default: football, the current class), 10 teams per page: rank, commits, 5/4/3-star counts,
+     * average rating and points.
+     */
+    teamRankings(args: Sports247TeamRankingsArgs): Promise<Sports247TeamRankings>;
+
+    /**
+     * Finds a football or basketball recruit on 247Sports by name: position, size, high school,
+     * class year, star rating, 247 and composite rating and national/position/state rank,
+     * commitment and offer count. Searches the last eight classes unless a year is given.
+     */
+    searchRecruits(args: Sports247SearchRecruitsArgs): Promise<Sports247Recruits>;
+
+    /**
+     * Searches 247Sports news articles (default) or message-board posts for a phrase: title, url,
+     * snippet, author, time, views, replies, the team site and board it sits on.
+     */
+    search(args: Sports247SearchArgs): Promise<Sports247Search>;
+  }
+}
+
 declare namespace BowmarkProvider_spotapps {
   // ── SpotHopper — the unit's own declarations, verbatim ──
 interface SpotappsFindRestaurantArgs {
@@ -108738,6 +108792,69 @@ interface SearchArgs {
 
     /** List all pages and sections available on the Alma website by category. */
     listPages(): Promise<ListPagesResponse>;
+  }
+}
+
+declare namespace BowmarkProvider_tubitv {
+  // ── Tubi — the unit's own declarations, verbatim ──
+interface TubiTitle {
+  /** Tubi's id, as in the url. */
+  id: string;
+  kind: "movie" | "series";
+  title: string;
+  year: number | null;
+  description: string | null;
+  genres: string[];
+  actors: string[];
+  directors: string[];
+  /** e.g. { system: "mpaa", value: "PG-13" } */
+  rating: { system: string; value: string } | null;
+  /** Running time in seconds; null for a series. */
+  durationSeconds: number | null;
+  poster: string | null;
+  /** Watch page on tubitv.com. */
+  url: string;
+  needsLogin: boolean;
+}
+interface TubiEpisode { id: string; title: string; description: string | null; durationSeconds: number | null; url: string }
+interface TubiTitleDetail extends TubiTitle {
+  language: string | null;
+  country: string | null;
+  imdbId: string | null;
+  hasSubtitles: boolean;
+  /** ISO date Tubi stops streaming it; null when open-ended. */
+  availableUntil: string | null;
+  /** Series only: seasons with their episodes. */
+  seasons: { name: string; episodes: TubiEpisode[] }[];
+}
+interface TubiSearchArgs {
+  /** Title, actor or keyword. */
+  query: string;
+  /** Max rows, 1-100. Default 20. */
+  limit?: number;
+}
+interface TubiTitleArgs {
+  /** A search() row's id, or a tubitv.com movies/series url. */
+  id?: string;
+  url?: string;
+}
+
+  /**
+   * Tubi (tubitv.com), the free ad-supported streaming service: search its catalog of movies and
+   * TV shows, and read a title's details, cast, rating, availability and episode list.
+   */
+  interface Unit {
+    /**
+     * Searches Tubi's free movie and TV catalog the way the site's search box does, returning
+     * ranked titles with year, genres, cast, rating, runtime and watch url.
+     */
+    search(args: TubiSearchArgs): Promise<{ query: string; titles: TubiTitle[] }>;
+
+    /**
+     * Reads one Tubi movie or series: description, cast, directors, rating, language, IMDb id,
+     * subtitles, when it leaves Tubi, and for a series every season's episodes.
+     */
+    title(args: TubiTitleArgs): Promise<TubiTitleDetail>;
   }
 }
 
@@ -124125,6 +124242,7 @@ interface BowmarkProviders {
   cb2: BowmarkProvider_cb2.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
   cbp: BowmarkProvider_cbp.Unit;
+  cbs_sports: BowmarkProvider_cbs_sports.Unit;
   cbsnews: BowmarkProvider_cbsnews.Unit;
   census: BowmarkProvider_census.Unit;
   census_api: BowmarkProvider_census_api.Unit;
@@ -124664,6 +124782,7 @@ interface BowmarkProviders {
   spectrum: BowmarkProvider_spectrum.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;
   spirithalloween: BowmarkProvider_spirithalloween.Unit;
+  sports247: BowmarkProvider_sports247.Unit;
   spotapps: BowmarkProvider_spotapps.Unit;
   spotify: BowmarkProvider_spotify.Unit;
   square_appointments: BowmarkProvider_square_appointments.Unit;
@@ -124739,6 +124858,7 @@ interface BowmarkProviders {
   trueup: BowmarkProvider_trueup.Unit;
   trustpilot: BowmarkProvider_trustpilot.Unit;
   tryalma_com: BowmarkProvider_tryalma_com.Unit;
+  tubitv: BowmarkProvider_tubitv.Unit;
   tumblr: BowmarkProvider_tumblr.Unit;
   turbotax: BowmarkProvider_turbotax.Unit;
   tweethunter: BowmarkProvider_tweethunter.Unit;
