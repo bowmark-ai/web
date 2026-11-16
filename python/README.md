@@ -173,6 +173,14 @@ A callable is refused before anything is sent: `run(lambda: …)` raises `Bowmar
 `code="run_not_a_string"`, naming `session()`. It used to come back as an envelope about raw
 HTTP bodies.
 
+A polling `run()` passes `idempotent=True`, and only then is a connection reset that returns no
+response retried (three attempts in about a second). Use it only for a script that is safe to
+send twice: a read, a status poll, or a `stop()` of a session that may already be stopped.
+
+```python
+polled = await run(f"return bowmark.browser_agent.status({id!r}, {{ waitMs: 45000 }})", idempotent=True)
+```
+
 ## `login()` is TYPED, but not yet wired here
 
 Multi-account connections' `packages/catalog/src/manifest.ts` synthesizes a `login()`

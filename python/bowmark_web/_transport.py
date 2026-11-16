@@ -28,6 +28,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -160,8 +161,25 @@ NO_API_KEY_MESSAGE = (
 )
 
 
+#: Attempts for a request with no response, when the caller declared it safe to repeat
+#: (``retry_transport``), and the waits between them. Mirrors ``TRANSPORT_ATTEMPTS`` in
+#: the node client: three attempts in about one second, and responses are never retried.
+TRANSPORT_ATTEMPTS = 3
+TRANSPORT_RETRY_WAITS_S = (0.25, 0.75)
+
+
+def _send_once(request: urllib.request.Request, timeout: float | None) -> tuple[int, str]:
+    """One round trip. A 4xx/5xx still carries our envelope, so it returns the status and
+    body; anything that never produced a response raises."""
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            return response.status, response.read().decode("utf-8", errors="replace")
+    except urllib.error.HTTPError as err:
+        return err.code, err.read().decode("utf-8", errors="replace")
+
+
 def _post_json_blocking(
-    client: ResolvedClient, path: str, body: Any
+    client: ResolvedClient, path: str, body: Any, retry_transport: bool = False
 ) -> tuple[int, Any]:
     url = f"{client.base_url}{path}"
     # The caller's headers go on FIRST so `authorization` and `content-type` win — a
@@ -179,20 +197,28 @@ def _post_json_blocking(
     request = urllib.request.Request(
         url, data=json.dumps(body).encode("utf-8"), headers=headers, method="POST"
     )
-    try:
-        with urllib.request.urlopen(request, timeout=client.timeout) as response:
-            status = response.status
-            text = response.read().decode("utf-8", errors="replace")
-    except urllib.error.HTTPError as err:
-        # A 4xx/5xx still carries our envelope, and the envelope is the useful part.
-        status = err.code
-        text = err.read().decode("utf-8", errors="replace")
-    except Exception as err:  # noqa: BLE001 — a transport failure is not a capability failure
-        # Conflating the two is how a caller comes to retry a DNS problem against a
-        # site.
-        raise BowmarkError(
-            f"could not reach {url}: {err}", code="network_error"
-        ) from err
+    for attempt in range(TRANSPORT_ATTEMPTS):
+        try:
+            status, text = _send_once(request, client.timeout)
+            break
+        except Exception as err:  # noqa: BLE001 — a transport failure is not a capability failure
+            # No response came back, so the request may not have reached Bowmark at all.
+            # A caller who declared it safe to repeat gets the bounded retry; every other
+            # caller gets the error at once, because a retry may start a billed action twice.
+            if retry_transport and attempt < TRANSPORT_ATTEMPTS - 1:
+                wait = TRANSPORT_RETRY_WAITS_S[attempt]
+                if client.on_log is not None:
+                    client.on_log(
+                        f"[bowmark] {path} did not reach Bowmark ({err}), retrying in "
+                        f"{int(wait * 1000)}ms"
+                    )
+                time.sleep(wait)
+                continue
+            # Conflating a transport failure with a capability failure is how a caller
+            # comes to retry a DNS problem against a site.
+            raise BowmarkError(
+                f"could not reach {url}: {err}", code="network_error"
+            ) from err
 
     if not text:
         return status, None
@@ -209,8 +235,10 @@ def _post_json_blocking(
         ) from err
 
 
-async def post_json(client: ResolvedClient, path: str, body: Any) -> tuple[int, Any]:
-    return await asyncio.to_thread(_post_json_blocking, client, path, body)
+async def post_json(
+    client: ResolvedClient, path: str, body: Any, retry_transport: bool = False
+) -> tuple[int, Any]:
+    return await asyncio.to_thread(_post_json_blocking, client, path, body, retry_transport)
 
 
 def _drain_logs(client: ResolvedClient, payload: Any) -> None:
@@ -282,21 +310,34 @@ async def call_in_session(
 
 async def close_session(client: ResolvedClient, session_id: str) -> dict[str, Any] | None:
     """Close a session. Idempotent server-side, so a ``finally`` that runs twice is
-    fine."""
+    fine, and so a reset is retried. A close that still cannot reach Bowmark raises
+    ``network_error``; every caller (``ManagedSession.close``, ``session()``, ``client()``)
+    catches it and reports it through ``on_log``, because the caller's result is already
+    in hand."""
     status, payload = await post_json(
-        client, f"/v1/session/{urllib.parse.quote(session_id, safe='')}/close", {}
+        client,
+        f"/v1/session/{urllib.parse.quote(session_id, safe='')}/close",
+        {},
+        retry_transport=True,
     )
     if status != 200 or not isinstance(payload, dict) or payload.get("ok") is not True:
         return None
     return {"ok": True, "calls": payload.get("calls"), "ms": payload.get("ms")}
 
 
-async def post_run(client: ResolvedClient, script: str) -> dict[str, Any]:
+async def post_run(
+    client: ResolvedClient, script: str, *, idempotent: bool = False
+) -> dict[str, Any]:
     """The string surface. Returns the ENVELOPE rather than raising, because a script
     is composite: a ``needs_user`` or an ``error`` is a fact about the run that a
     caller reads alongside ``logs`` and ``result``, not an exception in their control
-    flow."""
-    status, payload = await post_json(client, "/v1/run", {"script": script})
+    flow.
+
+    Retried on a transport reset ONLY when ``idempotent`` is true: the transport cannot
+    tell from the text whether a script starts a billed session or polls one."""
+    status, payload = await post_json(
+        client, "/v1/run", {"script": script}, retry_transport=idempotent
+    )
     _drain_logs(client, payload)
     if not isinstance(payload, dict):
         raise BowmarkError(

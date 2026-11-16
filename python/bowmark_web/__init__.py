@@ -379,6 +379,7 @@ async def run(
     headers: Mapping[str, str] | None = None,
     timeout: float | None = None,
     on_log: Callable[[str], None] | None = None,
+    idempotent: bool = False,
 ) -> dict[str, Any]:
     """Run a SCRIPT, as a string, in our sandbox — the agent path.
 
@@ -390,6 +391,12 @@ async def run(
     Returns the envelope rather than raising: a script is composite, so ``status``,
     ``logs`` and ``result`` are read together. ``needs_user`` carries a handoff URL in
     ``meta["handoff"]``.
+
+    ``idempotent=True`` says the script can be sent again without doing anything twice
+    — a read, a poll, or a ``stop()`` of a session that may already be stopped. Only then
+    is a connection reset that returns no response retried (three attempts in about a
+    second). Left false, a reset raises ``network_error`` at once, because the request
+    may already have started a billed action that a retry would start again.
 
     A NON-string is refused before anything is sent. A callable does not serialize, so
     it reached the server as a missing ``script`` and came back as an envelope telling
@@ -412,6 +419,7 @@ async def run(
             on_log=on_log,
         ),
         script,
+        idempotent=idempotent,
     )
 
 

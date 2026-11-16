@@ -108,6 +108,18 @@ anything is sent: `run(async () => …)` rejects with a `BowmarkError` (`code: "
 that names `session()`. Before 2026-11-16 it came back as an envelope about raw HTTP bodies, and
 a script that printed only that envelope exited 0 with no output.
 
+**A polling `run()` passes `{ idempotent: true }`.** Pass it only when the script is safe
+to send twice: a read, a status poll, or a `stop()` of a session that may already be stopped.
+Then a connection reset that returns no response is retried, three attempts in about a second.
+Left unset, a reset throws `network_error` at once, because the request may already have started
+a billed action, and a retry would start it again. A response is never retried, whatever its status.
+
+```ts
+const polled = await run(`return bowmark.browser_agent.status("${id}", { waitMs: 45000 })`, {
+  idempotent: true,
+});
+```
+
 **`run()` is designed for agents, not for you.** If you're writing code in your editor,
 use `session()` instead. For **reading a page** — fetching and parsing HTML — use the
 `read.page()` capability from within a `session()` callback:
@@ -174,7 +186,12 @@ client does — see `packages/bowmark-web/python/README.md` if you hit this from
 | `BowmarkError`, `code: "wire_refused"` | An argument the wire cannot carry | Fix the argument; the message names the exact path, `args[0].when.checkIn` |
 | `BowmarkError`, `code: "bad_argument"` | An argument the declared signature does not accept | Same — the message names the path and what was expected |
 | `BowmarkError`, `code: "unknown_function"` | A KNOWN unit, and no such function on it in this package's declarations | Check the name, or upgrade — the library may have grown it since this version |
+| `BowmarkError`, `code: "network_error"` | No response came back: the request may not have reached Bowmark | Retried already where it is safe (`run(…, { idempotent: true })`, a session close). Otherwise call again, after checking first if the call started anything billed |
 | `BowmarkError`, any other `code` | The call failed, or the transport did | Branch on `code`; `error` is prose written for an agent, `code` is for your `catch` |
+
+A session **close** never throws on a reset. `closeSession` retries it, and a close that still
+cannot reach Bowmark returns `null` and is reported through `onLog`, because the caller's work is
+finished by then and the session's TTL closes it.
 
 `needs_user` is a **status, not an error**, and it is a separate class for that reason:
 an agent that reads a failure retries, and retrying a login halt buys the same halt.

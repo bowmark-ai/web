@@ -38,7 +38,9 @@ class FakeApi:
         self.responses = list(responses)
         self.requests: list[tuple[str, Any]] = []
 
-    async def __call__(self, client: Any, path: str, body: Any) -> tuple[int, Any]:
+    async def __call__(
+        self, client: Any, path: str, body: Any, retry_transport: bool = False
+    ) -> tuple[int, Any]:
         self.requests.append((path, body))
         if not self.responses:
             raise AssertionError(f"no scripted response left for {path}")
@@ -410,6 +412,111 @@ class ValidatorTable(unittest.TestCase):
         from bowmark_web._validate import validators
 
         self.assertEqual(json.loads(embedded[start:end]), validators())
+
+
+class TransportResets(unittest.TestCase):
+    """A reset is "no response came back". The retry is bounded, is taken only for a
+    request the caller declared safe to repeat, and a response is never retried.
+
+    ``urlopen`` is the one socket boundary, so it is stubbed here and every attempt is
+    counted. ``time.sleep`` is stubbed too, so the waits cost nothing in a test."""
+
+    def _urlopen(self, outcomes: list[Any]) -> tuple[Any, list[int]]:
+        """Scripted answers: an exception is raised, a ``(status, body)`` is returned
+        (4xx/5xx arrives as ``HTTPError``, the way urllib delivers it). The last outcome
+        repeats once the script runs out."""
+        import io
+        import urllib.error
+        from unittest import mock
+
+        calls: list[int] = []
+        script = list(outcomes)
+
+        class Body:
+            def __init__(self, data: bytes) -> None:
+                self.data = data
+                self.status = 200
+
+            def read(self) -> bytes:
+                return self.data
+
+            def __enter__(self) -> "Body":
+                return self
+
+            def __exit__(self, *_: object) -> None:
+                return None
+
+        def fake(request: Any, timeout: float = 0) -> Body:
+            calls.append(1)
+            outcome = script.pop(0) if len(script) > 1 else script[0]
+            if isinstance(outcome, BaseException):
+                raise outcome
+            status, body = outcome
+            data = json.dumps(body).encode("utf-8")
+            if status >= 400:
+                raise urllib.error.HTTPError(
+                    request.full_url, status, "x", {}, io.BytesIO(data)  # type: ignore[arg-type]
+                )
+            return Body(data)
+
+        patcher = mock.patch.object(_transport.urllib.request, "urlopen", fake)
+        sleeper = mock.patch.object(_transport.time, "sleep", lambda _s: None)
+        patcher.start()
+        sleeper.start()
+        self.addCleanup(patcher.stop)
+        self.addCleanup(sleeper.stop)
+        return fake, calls
+
+    def test_a_close_that_resets_once_is_retried(self) -> None:
+        _, calls = self._urlopen([OSError("connection reset"), CLOSED])
+        client = _transport.resolve_client(api_key="bmk_test")
+        result = asyncio.run(_transport.close_session(client, "sess_1"))
+        self.assertEqual(result, {"ok": True, "calls": 3, "ms": 12})
+        self.assertEqual(len(calls), 2)
+
+    def test_a_close_that_never_lands_raises_network_error_after_three_attempts(self) -> None:
+        _, calls = self._urlopen([OSError("connection reset")])
+        client = _transport.resolve_client(api_key="bmk_test")
+        with self.assertRaises(BowmarkError) as raised:
+            asyncio.run(_transport.close_session(client, "sess_1"))
+        self.assertEqual(raised.exception.code, "network_error")
+        self.assertEqual(len(calls), 3)
+
+    def test_run_without_idempotent_does_not_retry_a_reset(self) -> None:
+        _, calls = self._urlopen([OSError("connection reset")])
+        with self.assertRaises(BowmarkError) as raised:
+            asyncio.run(
+                bowmark_web.run("await bowmark.browser_agent.stop('a')", api_key="bmk_test")
+            )
+        self.assertEqual(raised.exception.code, "network_error")
+        self.assertEqual(len(calls), 1)
+
+    def test_idempotent_run_retries_resets_and_returns_the_envelope(self) -> None:
+        _, calls = self._urlopen(
+            [OSError("reset"), OSError("reset"), (200, {"ok": True, "status": "ok", "result": "polled"})]
+        )
+        envelope = asyncio.run(
+            bowmark_web.run(
+                "return await bowmark.browser_agent.status('a')",
+                api_key="bmk_test",
+                idempotent=True,
+            )
+        )
+        self.assertEqual(envelope["result"], "polled")
+        self.assertEqual(len(calls), 3)
+
+    def test_idempotent_run_still_raises_once_every_attempt_has_reset(self) -> None:
+        _, calls = self._urlopen([OSError("reset")])
+        with self.assertRaises(BowmarkError) as raised:
+            asyncio.run(bowmark_web.run("return 1", api_key="bmk_test", idempotent=True))
+        self.assertEqual(raised.exception.code, "network_error")
+        self.assertEqual(len(calls), 3)
+
+    def test_a_500_is_never_retried_even_when_idempotent(self) -> None:
+        _, calls = self._urlopen([(500, {"ok": False, "status": "error", "error": "boom"})])
+        envelope = asyncio.run(bowmark_web.run("return 1", api_key="bmk_test", idempotent=True))
+        self.assertEqual(envelope["status"], "error")
+        self.assertEqual(len(calls), 1)
 
 
 if __name__ == "__main__":

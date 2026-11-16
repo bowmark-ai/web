@@ -19,9 +19,9 @@
 import { client } from "./session.js";
 import {
   BowmarkError,
-  type ClientOptions,
   postRun,
   type RunEnvelope,
+  type RunOptions,
   resolveClient,
 } from "./transport.js";
 
@@ -45,6 +45,7 @@ export {
   type Handoff,
   type OpenedSession,
   type RunEnvelope,
+  type RunOptions,
 } from "./transport.js";
 
 /** The whole callable library, typed. `await bowmark.music.search("aphex twin")`.
@@ -74,10 +75,7 @@ export const bowmark: BowmarkLibrary = client();
  * serialize, so it reached the server as a missing `script` and came back as an
  * envelope saying to send raw HTTP — a message that points at the wrong layer, in
  * a return value a script never reads. A function belongs in `session()`. */
-export function run<T = unknown>(
-  script: string,
-  opts: ClientOptions = {},
-): Promise<RunEnvelope<T>> {
+export function run<T = unknown>(script: string, opts: RunOptions = {}): Promise<RunEnvelope<T>> {
   if (typeof script !== "string") {
     return Promise.reject(
       new BowmarkError(
@@ -88,7 +86,7 @@ export function run<T = unknown>(
       ),
     );
   }
-  return postRun<T>(resolveClient(opts), script);
+  return postRun<T>(resolveClient(opts), script, { idempotent: opts.idempotent });
 }
 
 function describeValue(value: unknown): string {

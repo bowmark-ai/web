@@ -1,9 +1,11 @@
 // The transport — `fetch` and nothing else.
 //
-// Three session endpoints plus the string surface. No retries, no backoff, no
-// connection pool: every one of those is a policy a caller can hold better than we
-// can, and a client that silently retries a `addToCart` is the bug the idempotency
-// discussion in `docs/reference/building-capabilities.md` exists to prevent.
+// Three session endpoints plus the string surface. No connection pool, and no retry
+// of anything a caller did not say is safe to repeat: a client that silently retries
+// an `addToCart` is the bug the idempotency discussion in
+// `docs/reference/building-capabilities.md` exists to prevent. The two exceptions are
+// bounded and named: an edge 429 (never reached the api), and a transport reset on a
+// request the caller declared `idempotent` or a session close (see `sendRequest`).
 //
 // ZERO RUNTIME DEPENDENCIES, permanently — including on `@bowmark/schema`. The
 // envelope shapes below are hand-restated rather than imported, because importing a
@@ -88,6 +90,16 @@ export interface RunEnvelope<T = unknown> {
     acceptUrl: string;
     documents: { slug: string; title: string; version: string; url: string }[];
   };
+}
+
+/** `run()`'s options: the client options, plus the one thing only the caller knows. */
+export interface RunOptions extends ClientOptions {
+  /** Set `true` ONLY if the script can be sent again without doing anything twice: a
+   * read, a poll, or a `stop()` of a session that may already be stopped. Then a
+   * connection reset that returns no response is retried (3 attempts in about 1s).
+   * Left unset, a reset throws `network_error` at once, because the request may have
+   * started a billed action that a retry would start again. */
+  idempotent?: boolean;
 }
 
 /** Which (capability, provider) pair has no live grant. */
@@ -250,6 +262,7 @@ async function sendRequest<T>(
   path: string,
   body?: unknown,
   extraHeaders?: Record<string, string>,
+  retryTransport = false,
 ): Promise<{ status: number; payload: T }> {
   const headers: Record<string, string> = {
     ...client.headers,
@@ -279,6 +292,17 @@ async function sendRequest<T>(
       const cause = err instanceof Error ? err : undefined;
       const causeMessage =
         cause?.cause instanceof Error ? `${cause.cause.message}` : cause?.message || String(err);
+      // No response arrived, so the request may not have reached Bowmark at all. A
+      // caller who declared this request safe to repeat gets the same bounded retry the
+      // edge 429 gets. Responses are never retried here, whatever their status.
+      if (retryTransport && attempt < TRANSPORT_ATTEMPTS - 1 && !client.signal?.aborted) {
+        const wait = TRANSPORT_RETRY_WAITS_MS[attempt] ?? TRANSPORT_RETRY_WAITS_MS.at(-1) ?? 0;
+        client.onLog?.(
+          `[bowmark] ${path} did not reach Bowmark (${causeMessage}), retrying in ${wait}ms`,
+        );
+        await new Promise((resolve) => setTimeout(resolve, wait));
+        continue;
+      }
       const message = `could not reach ${client.baseUrl}${path}: ${causeMessage}`;
       throw new BowmarkError(message, {
         code: "network_error",
@@ -362,6 +386,14 @@ async function paceForEdge(baseUrl: string): Promise<void> {
 const EDGE_429_RETRIES = 3;
 const EDGE_429_MAX_WAIT_MS = 10_000;
 
+/** Attempts for a request the caller declared safe to repeat, when no response came
+ * back (`retryTransport`), and the waits between them. Three attempts in 1.0s total:
+ * a reset is usually one dropped socket, and a longer wait just holds a caller's
+ * script open while the answer it already has goes unused. Responses are never
+ * retried, so a request the origin answered is never sent twice by this path. */
+const TRANSPORT_ATTEMPTS = 3;
+const TRANSPORT_RETRY_WAITS_MS = [250, 750] as const;
+
 /** POST JSON and parse JSON back. `extraHeaders` rides THIS call only — never
  * captured, never applied to a later call on the same client. */
 async function postJson<T>(
@@ -369,8 +401,9 @@ async function postJson<T>(
   path: string,
   body: unknown,
   extraHeaders?: Record<string, string>,
+  retryTransport = false,
 ): Promise<{ status: number; payload: T }> {
-  return sendRequest<T>(client, "POST", path, body, extraHeaders);
+  return sendRequest<T>(client, "POST", path, body, extraHeaders, retryTransport);
 }
 
 export async function openSession(client: ResolvedClient): Promise<OpenedSession> {
@@ -437,16 +470,34 @@ export async function callInSession(
   return payload.result;
 }
 
-/** Close a session. Idempotent server-side, so a `finally` that runs twice is fine. */
+/** Close a session. Idempotent server-side, so a `finally` that runs twice is fine.
+ *
+ * A close is retried on a transport reset, and a close that still cannot reach Bowmark
+ * RETURNS `null` (reported through `onLog`) rather than throwing. By the time it runs
+ * the caller's work is done and its result is in hand, so a dropped socket here must
+ * not turn a finished script into a failed one. The session's TTL reaps what was not
+ * closed. Any other failure still throws. */
 export async function closeSession(
   client: ResolvedClient,
   sessionId: string,
 ): Promise<ClosedSession | null> {
-  const { status, payload } = await postJson<ClosedSession & Partial<CallEnvelope>>(
-    client,
-    `/v1/session/${encodeURIComponent(sessionId)}/close`,
-    {},
-  );
+  let response: { status: number; payload: ClosedSession & Partial<CallEnvelope> };
+  try {
+    response = await postJson<ClosedSession & Partial<CallEnvelope>>(
+      client,
+      `/v1/session/${encodeURIComponent(sessionId)}/close`,
+      {},
+      undefined,
+      true,
+    );
+  } catch (err) {
+    if (err instanceof BowmarkError && err.code === "network_error") {
+      client.onLog?.(`[bowmark] could not close session ${sessionId}: ${err.message}`);
+      return null;
+    }
+    throw err;
+  }
+  const { status, payload } = response;
   if (status !== 200 || payload?.ok !== true) return null;
   return { ok: true, calls: payload.calls, ms: payload.ms };
 }
@@ -490,7 +541,7 @@ export async function listConnections(
   const { status, payload } = await sendRequest<{
     connections?: ConnectionSummary[];
     error?: string;
-  }>(client, "GET", "/v1/connections");
+  }>(client, "GET", "/v1/connections", undefined, undefined, true);
   if (status !== 200 || !payload?.connections) {
     throw new BowmarkError(payload?.error ?? `could not list connections (HTTP ${status})`, {
       code: `http_${status}`,
@@ -593,8 +644,22 @@ export async function updateConnection(
 /** The string surface. Returns the ENVELOPE rather than throwing, because a script
  * is composite: a `needs_user` or an `error` is a fact about the run that a caller
  * reads alongside `logs` and `result`, not an exception in their control flow. */
-export async function postRun<T>(client: ResolvedClient, script: string): Promise<RunEnvelope<T>> {
-  const { status, payload } = await postJson<RunEnvelope<T>>(client, "/v1/run", { script });
+export async function postRun<T>(
+  client: ResolvedClient,
+  script: string,
+  opts: { idempotent?: boolean } = {},
+): Promise<RunEnvelope<T>> {
+  // Retried on a transport reset ONLY when the caller says the script is safe to send
+  // twice. The transport cannot tell from the text: a script that starts a billed
+  // browser session and one that polls it are the same string shape, and a retry of
+  // the first is a second session.
+  const { status, payload } = await postJson<RunEnvelope<T>>(
+    client,
+    "/v1/run",
+    { script },
+    undefined,
+    opts.idempotent === true,
+  );
   if (client.onLog) for (const line of payload?.logs ?? []) client.onLog(line);
   if (!payload) {
     throw new BowmarkError(`/v1/run answered ${status} with an empty body`, {
