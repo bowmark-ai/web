@@ -103,6 +103,7 @@ bahn.de — bahn: listDisruptions
 bamboohr.com — bamboohr: listJobs
 bananarepublic.gap.com — banana_republic: getProduct, searchProducts
 bankmycell.com — bankmycell: getTradeInQuote, searchDevices
+bankofamerica.com — bankofamerica: nothing callable yet (+14 planned)
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
 bbc.com — bbc: 31 functions — ask get_library

@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cee8f33bf91120b3f2af0ce7912fd39427002656bffa27a07869e3798fa23994
+// Manifest version: e5eb2417a2d3ac3e6a5bb84b8ccb348e04e7ae632b63b6af29e7ba920d089d76
 // 98 capabilities, 886 providers, 5420 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -4138,15 +4138,19 @@ interface ProductAvailability {
 
     /**
      * Reads one product page and returns its price and stock status — from the page's own
-     * schema.org Product/Offer markup when it carries one (no browser, no per-site adapter), and
+     * schema.org Product/Offer markup when it carries one (a plain Product, a ProductGroup with
+     * its variants, or a Product wrapped in a BuyAction; no browser, no per-site adapter), and
      * otherwise, for a handful of stores this library already has a provider for (today: Target,
      * Amazon), by reading that store's own product-detail function instead of reporting "no data".
      * That list is the whole fallback: any other page with no schema.org markup comes back `ok:
-     * false`, `source: "none"`, with no price or stock. `source` says which one answered. Reports
-     * a failure or an unread page IN the result rather than throwing. If the caller hasn't named a
-     * specific product page yet, DO NOT ask them for a url first — immediately `run` the worked
-     * example below, which is a real, live product page, to demonstrate a genuine price+stock
-     * read, THEN ask which product url to check next.
+     * false`, `source: "none"`, with no price or stock. For such a page, read the page itself with
+     * `bowmark.read.page(url, { format: "html" })` and take the price from its `<script
+     * type="application/ld+json">` blocks. `source` says which one answered. Where a page lists
+     * several sellers the price is the lowest, and `warnings` says so. Reports a failure or an
+     * unread page IN the result rather than throwing. If the caller hasn't named a specific
+     * product page yet, DO NOT ask them for a url first — immediately `run` the worked example
+     * below, which is a real, live product page, to demonstrate a genuine price+stock read, THEN
+     * ask which product url to check next.
      */
     getAvailability(url: string): Promise<ProductAvailability>;
   }
@@ -65291,8 +65295,8 @@ interface LinkedinProfile {
   followers: number | null;
   connections: number | null;  // first-degree connections, where the page shows them (capped at 500)
   currentTitle: string | null;
-  // "headline" when the position title was masked and currentTitle was parsed
-  // out of the member's unmasked headline instead ("Co-Founder @Checkly" → "Co-Founder").
+  // "position" only when LinkedIn publishes the current position title. A masked
+  // position remains null; the anonymous headline is not promoted into a current title.
   currentTitleSource: "position" | "headline" | null;
   currentEmployer: string | null;
   currentEmployerUrl: string | null;
@@ -65753,18 +65757,18 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * and former employers/board seats, discriminated only by an internal type marker never
      * exposed here — a school stays a school, a past employer never gets reported as one.
      * `currentTitle`/`currentEmployer` are the first entry of `positions`, which is null on a
-     * profile that publishes no positions at all — not every member does. When LinkedIn MASKS the
-     * position titles on an anonymous read, `currentTitle` is recovered from the member's unmasked
-     * headline where it can be, and `currentTitleSource` says "headline" rather than "position".
-     * Skills and certifications are NOT returned in this version: they live in a separate DOM
-     * region this parse does not read yet, and reporting empty arrays for a section that is really
-     * unread would be indistinguishable from a member who has none. WHO IT CAN READ WITHOUT A
-     * SIGN-IN: anyone. LinkedIn walls most members from an anonymous browser, so this reads the
-     * page LinkedIn serves to link-preview clients instead (`readAs: "anonymous"` for the full
-     * public record, `"preview"` for a thinner one with titles withheld). Some members' titles and
-     * employers still come back hidden (`masked: true`); with a live LinkedIn sign-in this
-     * re-reads exactly those members signed in (`readAs: "signed-in"`), and never asks you to sign
-     * in. A slug nobody holds throws "no member at" (HTTP 404). `connections` is the member's
+     * profile that publishes no positions at all — not every member does. When LinkedIn MASKS a
+     * position title on an anonymous read, `currentTitle` and `currentTitleSource` stay null: the
+     * anonymous headline can be truncated, prose, or a former role, so it is never reported as a
+     * current position. Skills and certifications are NOT returned in this version: they live in a
+     * separate DOM region this parse does not read yet, and reporting empty arrays for a section
+     * that is really unread would be indistinguishable from a member who has none. WHO IT CAN READ
+     * WITHOUT A SIGN-IN: anyone. LinkedIn walls most members from an anonymous browser, so this
+     * reads the page LinkedIn serves to link-preview clients instead (`readAs: "anonymous"` for
+     * the full public record, `"preview"` for a thinner one with titles withheld). Some members'
+     * titles and employers still come back hidden (`masked: true`); with a live LinkedIn sign-in
+     * this re-reads exactly those members signed in (`readAs: "signed-in"`), and never asks you to
+     * sign in. A slug nobody holds throws "no member at" (HTTP 404). `connections` is the member's
      * connection count where the page shows one. Throws rather than returning a profile of nulls
      * when the page does not render, because "this person has no name" and "we could not read
      * them" are opposite answers.
@@ -69768,6 +69772,10 @@ interface MauricesSearchResult {
   total: number;
   offset: number;
   products: MauricesProductSummary[];
+  /** "search" = the site's own search. "sitemap" = the site refused its search, so rows were
+   * matched by name against its product sitemap: no price/image/colors/sizes — call getProduct({ url }). */
+  source: "search" | "sitemap";
+  warnings: string[];
 }
 
 interface MauricesVariant {
@@ -69810,8 +69818,10 @@ interface MauricesProduct extends MauricesProductSummary {
     /**
      * Searches maurices.com (women's clothing, jeans, plus sizes) by what a shopper would type —
      * 'bootcut jeans', 'plaid shacket' — and returns 72 products per page with list price, sale
-     * price under the running promotion, colors, sizes and the product url getProduct takes. Pass
-     * offset (72, 144, …) for the next page.
+     * price under the running promotion, colors, sizes and the product url getProduct takes. When
+     * the site refuses its own search (often), rows are matched by name from its product sitemap
+     * instead (source: "sitemap", url and name only — read prices with getProduct). Pass offset
+     * (72, 144, …) for the next page.
      */
     searchProducts(args: MauricesSearchArgs): Promise<MauricesSearchResult>;
   }

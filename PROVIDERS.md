@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7130 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7144 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -219,7 +219,7 @@ One function per row, with the site it is called on.
 | `amazon.addToCart` | www.amazon.com | Add a product to the cart and hand back a checkout link for everything the cart now… | 🟢 |
 | `amazon.getCart` | www.amazon.com | Read what is in the cart — line items, quantities, per-item and total price — and, for… | 🟢 |
 | `amazon.getDeliveryEstimate` | www.amazon.com | When a product would actually arrive at a given US ZIP, and what it costs to get it… | 🟢 |
-| `amazon.getProduct` | www.amazon.com | Read one product page the way a shopper reads it: title, brand, ASIN, current price… | 🟢 |
+| `amazon.getProduct` | www.amazon.com | Read one product page on any Amazon market the way a shopper reads it — the URL… | 🟢 |
 | `amazon.getReviewSummary` | www.amazon.com | What reviewers say about a product, as Amazon shows it to a shopper who is not logged… | 🟢 |
 | `amazon.getSeller` | www.amazon.com | Read a marketplace seller's storefront — their name, feedback across four windows (30… | 🟢 |
 | `amazon.listBestSellerCategories` | www.amazon.com | List the departments Amazon publishes rankings for — Electronics, Kitchen & Dining… | 🟢 |
@@ -236,7 +236,7 @@ One function per row, with the site it is called on.
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | 🟢 |
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
-| `amazon.searchProducts` | www.amazon.com | Paginate through all Amazon search results by keywords, reaching every row from 1 to… | 🟢 |
+| `amazon.searchProducts` | www.amazon.com | Search any Amazon market by keywords — amazon.com by default, or pass `market` for… | 🟢 |
 | `amazon.searchWholeFoods` | www.amazon.com | Search Whole Foods Market groceries on amazon.com by keyword and get product cards… | 🟢 |
 | `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | 🟢 |
 | `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | ⚪ |
@@ -487,6 +487,20 @@ One function per row, with the site it is called on.
 | `banana_republic.searchProducts` | bananarepublic.gap.com | Searches Banana Republic's live apparel catalog (bananarepublic.gap.com clothing… | 🟢 |
 | `bankmycell.getTradeInQuote` | bankmycell.com | Reads live trade-in offers for a device's bankmycell.com sell page from every merchant… | 🟢 |
 | `bankmycell.searchDevices` | bankmycell.com | Searches BankMyCell's own device index by free text (e.g. "iPhone 14") and returns… | 🟢 |
+| `bankofamerica.bookAppointment` | bankofamerica.com | Books an appointment with a Bank of America specialist at a financial center or by… | ⚪ |
+| `bankofamerica.findLocations` | bankofamerica.com | Finds Bank of America financial centers and ATMs near an address or ZIP code, with… | ⚪ |
+| `bankofamerica.getAutoLoanRates` | bankofamerica.com | Gets published auto loan APRs for new, used and refinance loans by term and state. | ⚪ |
+| `bankofamerica.getCdRates` | bankofamerica.com | Gets the published CD terms and APYs (featured and standard) for a ZIP code. | ⚪ |
+| `bankofamerica.getCreditCard` | bankofamerica.com | Gets one credit card's published terms: APRs, annual fee, balance-transfer and… | ⚪ |
+| `bankofamerica.getHomeEquityRates` | bankofamerica.com | Gets the published HELOC rate and APR for a state and ZIP code. | ⚪ |
+| `bankofamerica.getLocation` | bankofamerica.com | Gets one financial center or ATM: address, phone, lobby and drive-up hours, services… | ⚪ |
+| `bankofamerica.getMortgageRates` | bankofamerica.com | Gets today's published purchase or refinance mortgage rates and APRs by product… | ⚪ |
+| `bankofamerica.getRoutingNumber` | bankofamerica.com | Gets Bank of America's ABA routing number for the state where an account was opened… | ⚪ |
+| `bankofamerica.listAppointmentTopics` | bankofamerica.com | Lists the topics a visitor can book a financial-center or phone appointment about. | ⚪ |
+| `bankofamerica.listCreditCards` | bankofamerica.com | Lists Bank of America's consumer credit cards with each card's name, intro and ongoing… | ⚪ |
+| `bankofamerica.listDepositAccounts` | bankofamerica.com | Lists checking and savings accounts with each one's monthly fee, how to waive it… | ⚪ |
+| `bankofamerica.search` | bankofamerica.com | Searches Bank of America's public site for products, rates, help answers and pages… | ⚪ |
+| `bankofamerica.searchHelp` | bankofamerica.com | Searches Bank of America's public help and FAQ answers and returns each question… | ⚪ |
 | `barletta.getConfigurator` | barlettapontoonboats.com | Reads one model's whole builder: every option group (Railskin Color, Furniture… | 🟢 |
 | `barletta.priceConfiguration` | barlettapontoonboats.com | Prices a specific build (a choice per option group) against getConfigurator's live… | 🟢 |
 | `barletta.searchModels` | barlettapontoonboats.com | Lists every current Barletta floorplan from the public "Build Your Pontoon Boat"… | 🟢 |
