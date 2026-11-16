@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4cc4aa0a235ab9b78e93ed7f0e0c4ae5235189a249fd7614a32b870ec05d28ba
-// 98 capabilities, 882 providers, 5411 typed functions, 20 refused.
+// Manifest version: 23b67b4b2bb0b0b4b37c5ec3c39dfcfd0870f061349cd45cd2936d148db94d98
+// 98 capabilities, 883 providers, 5414 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6291,7 +6291,7 @@ type FormFillResult = {
   url: string
   filled: string[]           // the values keys that matched a field and were written
   notFound: string[]         // the values keys that were not set — matched nothing, or matched a field that could not be set (a warning names which and why)
-  advanced: boolean           // a Next/Continue control was found and clicked
+  advanced: boolean           // a Next/Continue was clicked AND the page moved to another step; false + a warning when it left the same step showing
   submitted: boolean          // a submit control was clicked AND the site took it (navigated, or the
                               // form's own submit event fired with no validation text, or new results
                               // were drawn in place after the click). False with
@@ -6353,22 +6353,30 @@ type FormFillResult = {
      * true` — confirm the message with the caller once, then send it; do not refuse it by default.
      * Ask before submitting only when the form is binding or irreversible (a payment, a booking, a
      * contract, an application) or would send more than the caller authorized. One call is one
-     * step — call it again with the next step's `values` to walk a wizard forward. `notFound`
-     * names any `values` key that was not set, so a caller who guessed a label wrong sees that
-     * rather than silence; when the key DID match a field that could not be set (disabled until an
-     * earlier choice, no option matching the value), a warning names the field and the reason. A
-     * pop-up menu with no text box (a select-only combobox) is opened and the option matching the
-     * value is clicked — never a default one. When a click registers, `resultContent` carries what
-     * the site answered back — a matched branch, a calculated price, a stock status — read off the
-     * destination page or widget and capped at 4000 characters; `null` when neither `submit` nor
-     * `advance` was requested or the click never registered. **Two ways it falls short, and
-     * neither is fixed by calling again with the same values.** On a page with several forms, keys
-     * are matched against every field on the page, so a key can land in a DIFFERENT form than the
-     * one you meant (a site search, a tracking-number box) and still be listed in `filled`, and a
-     * submit then answers for that form: check `resultContent` reads like the answer you asked
-     * for. And a calculator `getFields` listed may still refuse values (fields built from custom
-     * controls, or swapped out as you type): those keys come back in `notFound` or a warning. For
-     * either, `bowmark.browser_agent` (billed) operates the page like a person.
+     * step — call it again with the next step's `values` to walk a wizard forward, unless that
+     * step depends on a session the earlier call held (see below). `advanced` is true only when
+     * the click moved the page to a different step — its fields or step label changed, or the URL
+     * changed with new text — and a click that left the same form showing comes back `advanced:
+     * false` with a warning naming the step it is still on. Each call opens the page afresh, so a
+     * step held only by an earlier call's session does not carry over: on one checkout (measured
+     * 2026-11-11) the next call read the blank address form again on a new token. The `url` the
+     * call returned is the only state it hands back, so check `advanced` before reading a later
+     * step as the answer. `notFound` names any `values` key that was not set, so a caller who
+     * guessed a label wrong sees that rather than silence; when the key DID match a field that
+     * could not be set (disabled until an earlier choice, no option matching the value), a warning
+     * names the field and the reason. A pop-up menu with no text box (a select-only combobox) is
+     * opened and the option matching the value is clicked — never a default one. When a click
+     * registers, `resultContent` carries what the site answered back — a matched branch, a
+     * calculated price, a stock status — read off the destination page or widget and capped at
+     * 4000 characters; `null` when neither `submit` nor `advance` was requested or the click never
+     * registered. **Two ways it falls short, and neither is fixed by calling again with the same
+     * values.** On a page with several forms, keys are matched against every field on the page, so
+     * a key can land in a DIFFERENT form than the one you meant (a site search, a tracking-number
+     * box) and still be listed in `filled`, and a submit then answers for that form: check
+     * `resultContent` reads like the answer you asked for. And a calculator `getFields` listed may
+     * still refuse values (fields built from custom controls, or swapped out as you type): those
+     * keys come back in `notFound` or a warning. For either, `bowmark.browser_agent` (billed)
+     * operates the page like a person.
      */
     fillForm(url: string, values: Record<string, string>, options?: FormFillOptions): Promise<FormFillResult>;
   }
@@ -10082,7 +10090,7 @@ interface AlphavantageSignUpResult {
 
 declare namespace BowmarkProvider_amazon {
   // ── Amazon — the unit's own declarations, verbatim ──
-type AmazonMarket = "com" | "in" | "com.br" | "ca" | "co.uk" | "de" | "com.mx";
+type AmazonMarket = "com" | "in" | "com.br" | "ca" | "co.uk" | "de" | "fr" | "com.mx";
 interface AmazonMarketOptions {
   market?: AmazonMarket; // which Amazon store to ask; amazon.com when omitted. A product URL on another store's host selects it by itself
 }
@@ -10103,7 +10111,7 @@ interface AmazonSearchResult {
   totalResultCount: number;
 }
 // `query` is the same field as `keywords`: the runtime reads either, so the type admits either.
-// `market` picks which Amazon store: "com" (default), "in", "com.br", "ca", "co.uk", "de", "com.mx".
+// `market` picks which Amazon store: "com" (default), "in", "com.br", "ca", "co.uk", "de", "fr", "com.mx".
 type SearchProductsArgs =
   | { market?: AmazonMarket; keywords: string; department?: string; sort?: string; priceMin?: number; priceMax?: number; brand?: string; page?: number }
   | { market?: AmazonMarket; query: string; department?: string; sort?: string; priceMin?: number; priceMax?: number; brand?: string; page?: number };
@@ -10113,7 +10121,7 @@ interface SearchWholeFoodsArgs {
   page?: number;
 }
 interface ListCategoryProductsArgs {
-  market?: AmazonMarket; // which Amazon store: "com" (default), "in", "com.br", "ca", "co.uk", "de", "com.mx"
+  market?: AmazonMarket; // which Amazon store: "com" (default), "in", "com.br", "ca", "co.uk", "de", "fr", "com.mx"
   department: string;
   sort?: string;
   page?: number;
@@ -10131,7 +10139,7 @@ interface AmazonBestSellerCategory {
   slug: string;
 }
 interface ListBestSellersArgs {
-  market?: AmazonMarket; // which Amazon store: "com" (default), "in", "com.br", "ca", "co.uk", "de", "com.mx"
+  market?: AmazonMarket; // which Amazon store: "com" (default), "in", "com.br", "ca", "co.uk", "de", "fr", "com.mx"
   department: string;
   page?: number;
 }
@@ -43091,6 +43099,51 @@ interface ExpediaHotelSearch {
   hotels: ExpediaHotel[];
   url: string;
 }
+interface ExpediaGetHotelDetailsArgs {
+  /** A hotel page: the `url` of a hotel from searchHotels (keeps its dates). */
+  url: string;
+}
+interface ExpediaRoomOption {
+  label: string; // "Non-Refundable", "Fully refundable before Dec 7"
+  extraCost: string | null; // "+ $37"
+}
+interface ExpediaRoom {
+  name: string;
+  rating: number | null;
+  reviewCount: number | null;
+  size: string | null; // "452 sq ft"
+  sleeps: number | null;
+  bedrooms: string | null;
+  beds: string | null; // "2 Queen Beds"
+  features: string[];
+  soldOut: boolean;
+  /** Total for the stay with taxes and fees; null when sold out. */
+  totalPrice: string | null;
+  totalAmount: number | null;
+  nightlyPrice: string | null;
+  previousPrice: string | null;
+  discount: string | null;
+  lowestPrice: boolean;
+  cancellationOptions: ExpediaRoomOption[];
+  extras: ExpediaRoomOption[];
+}
+interface ExpediaHotelDetails {
+  propertyId: string;
+  name: string;
+  starRating: number | null;
+  rating: number | null;
+  ratingLabel: string | null;
+  reviewCount: number | null;
+  address: string | null;
+  highlights: string[];
+  amenities: string[];
+  policies: Record<string, string[]>; // "Check-in", "Pets", "Fees"…
+  nearby: { name: string; distance: string | null }[];
+  priceInsight: string | null;
+  stay: { dates: string | null; travelers: string | null };
+  rooms: ExpediaRoom[];
+  url: string;
+}
 
   /**
    * Expedia flight search (offers with airline, times, stops, duration, price), destination
@@ -43114,6 +43167,17 @@ interface ExpediaHotelSearch {
      * turn a place name into the code searchFlights needs.
      */
     suggestDestinations(args: string | { query: string }): Promise<{ query: string; suggestions: ExpediaDestination[] }>;
+
+    /**
+     * Opens one Expedia hotel page — `bowmark.providers.expedia.getHotelDetails({ url })` with the
+     * `url` a `searchHotels` hotel carries (its dates ride along) — and returns the property:
+     * name, star class, guest rating and review count, address, highlights, amenities,
+     * check-in/out, pet, fee and other policies, nearby places, and every room type with size,
+     * beds, sleeps, total and nightly price, discount, cancellation options and add-ons, or
+     * `soldOut`. Bowmark never books: to reserve, the person opens the returned `url` and picks
+     * the room on Expedia. A real browser load, expect 30-60 s.
+     */
+    getHotelDetails(args: string | ExpediaGetHotelDetailsArgs): Promise<ExpediaHotelDetails>;
 
     /**
      * Runs Expedia's own hotel search — `bowmark.providers.expedia.searchHotels({ destination:
@@ -86955,6 +87019,36 @@ interface AuthorArgs {
   }
 }
 
+declare namespace BowmarkProvider_qvc {
+  // ── QVC — the unit's own declarations, verbatim ──
+interface qvcProductSummary { productNumber: string; title: string; brand: string | null; price: number | null; qvcPrice: number | null; priceBadge: string | null; rating: number | null; reviewCount: number | null; inStock: boolean; imageUrl: string | null; url: string; }
+interface qvcSearchResult { query: string; total: number; offset: number; products: qvcProductSummary[]; }
+interface qvcSearchProductsArgs { query: string; limit?: number; offset?: number; }
+interface qvcProductVariant { itemNumber: string; colorCode: string | null; sizeCode: string | null; price: number | null; inStock: boolean; }
+interface qvcProduct extends qvcProductSummary { description: string | null; currency: string | null; installments: string | null; shippingCharge: number | null; variants: qvcProductVariant[]; attachments: { title: string; url: string }[]; }
+interface qvcGetProductArgs { productNumber: string; }
+
+  /**
+   * QVC (qvc.com) — search the QVC shopping catalog by keyword and read one product's price,
+   * sale badge, rating, stock, variants and description.
+   */
+  interface Unit {
+    /**
+     * Reads one QVC product by item number (for example { productNumber: "K46588" }, or a qvc.com
+     * product URL): current and QVC price, sale badge, rating, stock, shipping, payment-plan text,
+     * variants, description and manuals.
+     */
+    getProduct(args: qvcGetProductArgs): Promise<qvcProduct>;
+
+    /**
+     * Searches the QVC catalog by keyword (for example { query: "ninja blender" }): item number,
+     * title, price, sale badge, rating, stock, image and product URL. limit 1-96 (default 24),
+     * offset to page.
+     */
+    searchProducts(args: qvcSearchProductsArgs): Promise<qvcSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_raadvanstate_nl {
   // ── Raad van State — the unit's own declarations, verbatim ──
 interface RaadvanstateRulingHit {
@@ -124761,6 +124855,7 @@ interface BowmarkProviders {
   quintoandar: BowmarkProvider_quintoandar.Unit;
   quora: BowmarkProvider_quora.Unit;
   quotes_toscrape: BowmarkProvider_quotes_toscrape.Unit;
+  qvc: BowmarkProvider_qvc.Unit;
   raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
   raisingcanes: BowmarkProvider_raisingcanes.Unit;
   rakuten: BowmarkProvider_rakuten.Unit;

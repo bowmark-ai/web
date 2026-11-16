@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4cc4aa0a235ab9b78e93ed7f0e0c4ae5235189a249fd7614a32b870ec05d28ba
-# 98 capabilities, 882 providers, 5383 typed functions, 20 refused.
+# Manifest version: 23b67b4b2bb0b0b4b37c5ec3c39dfcfd0870f061349cd45cd2936d148db94d98
+# 98 capabilities, 883 providers, 5386 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6300,7 +6300,7 @@ class Prv_alphavantage_AlphavantageSignUpResult_Out(TypedDict):
     message: str
 
 class Prv_amazon_SearchProductsArgs_u0_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
     keywords: str
     department: NotRequired[str]
     sort: NotRequired[str]
@@ -6310,7 +6310,7 @@ class Prv_amazon_SearchProductsArgs_u0_In(TypedDict):
     page: NotRequired[float]
 
 class Prv_amazon_SearchProductsArgs_u1_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
     query: str
     department: NotRequired[str]
     sort: NotRequired[str]
@@ -6341,7 +6341,7 @@ class Prv_amazon_SearchWholeFoodsArgs_In(TypedDict):
     page: NotRequired[float]
 
 class Prv_amazon_ListCategoryProductsArgs_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
     department: str
     sort: NotRequired[str]
     page: NotRequired[float]
@@ -6352,7 +6352,7 @@ class Prv_amazon_AmazonCategoryListing_Out(TypedDict):
     products: list[Prv_amazon_AmazonProduct_Out]
 
 class Prv_amazon_AmazonMarketOptions_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
 
 class Prv_amazon_AmazonKeywordSuggestion_Out(TypedDict):
     value: str
@@ -6435,7 +6435,7 @@ class Prv_amazon_AmazonRelatedProduct_Out(TypedDict):
     ratingCount: float | None
 
 class Prv_amazon_ListBestSellersArgs_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
     department: str
     page: NotRequired[float]
 
@@ -28517,6 +28517,57 @@ class Prv_expedia_ExpediaDestination_Out(TypedDict):
     type: str
     name: str
     airportCode: str | None
+
+class Prv_expedia_ExpediaGetHotelDetailsArgs_In(TypedDict):
+    url: str
+
+class Prv_expedia_ExpediaHotelDetails_Out(TypedDict):
+    propertyId: str
+    name: str
+    starRating: float | None
+    rating: float | None
+    ratingLabel: str | None
+    reviewCount: float | None
+    address: str | None
+    highlights: list[str]
+    amenities: list[str]
+    policies: Mapping[str, list[str]]
+    nearby: list[Prv_expedia_ExpediaHotelDetails_Out_nearby_item_Out]
+    priceInsight: str | None
+    stay: Prv_expedia_ExpediaHotelDetails_Out_stay_Out
+    rooms: list[Prv_expedia_ExpediaRoom_Out]
+    url: str
+
+class Prv_expedia_ExpediaHotelDetails_Out_nearby_item_Out(TypedDict):
+    name: str
+    distance: str | None
+
+class Prv_expedia_ExpediaHotelDetails_Out_stay_Out(TypedDict):
+    dates: str | None
+    travelers: str | None
+
+class Prv_expedia_ExpediaRoom_Out(TypedDict):
+    name: str
+    rating: float | None
+    reviewCount: float | None
+    size: str | None
+    sleeps: float | None
+    bedrooms: str | None
+    beds: str | None
+    features: list[str]
+    soldOut: bool
+    totalPrice: str | None
+    totalAmount: float | None
+    nightlyPrice: str | None
+    previousPrice: str | None
+    discount: str | None
+    lowestPrice: bool
+    cancellationOptions: list[Prv_expedia_ExpediaRoomOption_Out]
+    extras: list[Prv_expedia_ExpediaRoomOption_Out]
+
+class Prv_expedia_ExpediaRoomOption_Out(TypedDict):
+    label: str
+    extraCost: str | None
 
 class Prv_expedia_ExpediaSearchHotelsArgs_In(TypedDict):
     destination: str
@@ -56248,6 +56299,63 @@ class Prv_quotes_toscrape_QuotesToscrapeAuthor_Out(TypedDict):
     description: str
     url: str
 
+class Prv_qvc_qvcGetProductArgs_In(TypedDict):
+    productNumber: str
+
+class Prv_qvc_qvcProduct_Out(TypedDict):
+    productNumber: str
+    title: str
+    brand: str | None
+    price: float | None
+    qvcPrice: float | None
+    priceBadge: str | None
+    rating: float | None
+    reviewCount: float | None
+    inStock: bool
+    imageUrl: str | None
+    url: str
+    description: str | None
+    currency: str | None
+    installments: str | None
+    shippingCharge: float | None
+    variants: list[Prv_qvc_qvcProductVariant_Out]
+    attachments: list[Prv_qvc_qvcProduct_Out_attachments_item_Out]
+
+class Prv_qvc_qvcProductVariant_Out(TypedDict):
+    itemNumber: str
+    colorCode: str | None
+    sizeCode: str | None
+    price: float | None
+    inStock: bool
+
+class Prv_qvc_qvcProduct_Out_attachments_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_qvc_qvcSearchProductsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_qvc_qvcSearchResult_Out(TypedDict):
+    query: str
+    total: float
+    offset: float
+    products: list[Prv_qvc_qvcProductSummary_Out]
+
+class Prv_qvc_qvcProductSummary_Out(TypedDict):
+    productNumber: str
+    title: str
+    brand: str | None
+    price: float | None
+    qvcPrice: float | None
+    priceBadge: str | None
+    rating: float | None
+    reviewCount: float | None
+    inStock: bool
+    imageUrl: str | None
+    url: str
+
 class Prv_raadvanstate_nl_RaadvanstateSearchResult_Out(TypedDict):
     query: str
     page: float
@@ -83162,23 +83270,30 @@ class Cap_web_form_fields(Protocol):
         then send it; do not refuse it by default. Ask before submitting only when the form is
         binding or irreversible (a payment, a booking, a contract, an application) or would send
         more than the caller authorized. One call is one step — call it again with the next
-        step's `values` to walk a wizard forward. `notFound` names any `values` key that was not
-        set, so a caller who guessed a label wrong sees that rather than silence; when the key
-        DID match a field that could not be set (disabled until an earlier choice, no option
-        matching the value), a warning names the field and the reason. A pop-up menu with no
-        text box (a select-only combobox) is opened and the option matching the value is clicked
-        — never a default one. When a click registers, `resultContent` carries what the site
-        answered back — a matched branch, a calculated price, a stock status — read off the
-        destination page or widget and capped at 4000 characters; `null` when neither `submit`
-        nor `advance` was requested or the click never registered. **Two ways it falls short,
-        and neither is fixed by calling again with the same values.** On a page with several
-        forms, keys are matched against every field on the page, so a key can land in a
-        DIFFERENT form than the one you meant (a site search, a tracking-number box) and still
-        be listed in `filled`, and a submit then answers for that form: check `resultContent`
-        reads like the answer you asked for. And a calculator `getFields` listed may still
-        refuse values (fields built from custom controls, or swapped out as you type): those
-        keys come back in `notFound` or a warning. For either, `bowmark.browser_agent` (billed)
-        operates the page like a person.
+        step's `values` to walk a wizard forward, unless that step depends on a session the
+        earlier call held (see below). `advanced` is true only when the click moved the page to
+        a different step — its fields or step label changed, or the URL changed with new text —
+        and a click that left the same form showing comes back `advanced: false` with a warning
+        naming the step it is still on. Each call opens the page afresh, so a step held only by
+        an earlier call's session does not carry over: on one checkout (measured 2026-11-11) the
+        next call read the blank address form again on a new token. The `url` the call returned
+        is the only state it hands back, so check `advanced` before reading a later step as the
+        answer. `notFound` names any `values` key that was not set, so a caller who guessed a
+        label wrong sees that rather than silence; when the key DID match a field that could not
+        be set (disabled until an earlier choice, no option matching the value), a warning names
+        the field and the reason. A pop-up menu with no text box (a select-only combobox) is
+        opened and the option matching the value is clicked — never a default one. When a click
+        registers, `resultContent` carries what the site answered back — a matched branch, a
+        calculated price, a stock status — read off the destination page or widget and capped at
+        4000 characters; `null` when neither `submit` nor `advance` was requested or the click
+        never registered. **Two ways it falls short, and neither is fixed by calling again with
+        the same values.** On a page with several forms, keys are matched against every field on
+        the page, so a key can land in a DIFFERENT form than the one you meant (a site search, a
+        tracking-number box) and still be listed in `filled`, and a submit then answers for that
+        form: check `resultContent` reads like the answer you asked for. And a calculator
+        `getFields` listed may still refuse values (fields built from custom controls, or
+        swapped out as you type): those keys come back in `notFound` or a warning. For either,
+        `bowmark.browser_agent` (billed) operates the page like a person.
         """
 
 class Cap_wireless(Protocol):
@@ -96103,6 +96218,16 @@ class Prv_expedia(Protocol):
         """Expedia's destination autocomplete — `bowmark.providers.expedia.suggestDestinations({
         query: "lisbon" })` — returns cities, airports (with IATA `airportCode`) and
         neighbourhoods, to turn a place name into the code searchFlights needs.
+        """
+
+    async def getHotelDetails(self, args: str | Prv_expedia_ExpediaGetHotelDetailsArgs_In, /) -> Prv_expedia_ExpediaHotelDetails_Out:
+        """Opens one Expedia hotel page — `bowmark.providers.expedia.getHotelDetails({ url })` with
+        the `url` a `searchHotels` hotel carries (its dates ride along) — and returns the
+        property: name, star class, guest rating and review count, address, highlights,
+        amenities, check-in/out, pet, fee and other policies, nearby places, and every room type
+        with size, beds, sleeps, total and nightly price, discount, cancellation options and
+        add-ons, or `soldOut`. Bowmark never books: to reserve, the person opens the returned
+        `url` and picks the room on Expedia. A real browser load, expect 30-60 s.
         """
 
     async def searchHotels(self, args: str | Prv_expedia_ExpediaSearchHotelsArgs_In, /) -> Prv_expedia_ExpediaHotelSearch_Out:
@@ -111951,6 +112076,23 @@ class Prv_quotes_toscrape(Protocol):
         biography.
         """
 
+class Prv_qvc(Protocol):
+    """QVC (qvc.com) — search the QVC shopping catalog by keyword and read one product's price,
+    sale badge, rating, stock, variants and description.
+    """
+
+    async def getProduct(self, args: Prv_qvc_qvcGetProductArgs_In, /) -> Prv_qvc_qvcProduct_Out:
+        """Reads one QVC product by item number (for example { productNumber: "K46588" }, or a
+        qvc.com product URL): current and QVC price, sale badge, rating, stock, shipping,
+        payment-plan text, variants, description and manuals.
+        """
+
+    async def searchProducts(self, args: Prv_qvc_qvcSearchProductsArgs_In, /) -> Prv_qvc_qvcSearchResult_Out:
+        """Searches the QVC catalog by keyword (for example { query: "ninja blender" }): item
+        number, title, price, sale badge, rating, stock, image and product URL. limit 1-96
+        (default 24), offset to page.
+        """
+
 class Prv_raadvanstate_nl(Protocol):
     """Searches the Dutch Council of State's (Raad van State) case register of
     administrative-court rulings and reads any ruling in full by ECLI — no key, no browser.
@@ -125051,6 +125193,7 @@ class BowmarkProviders(Protocol):
     quintoandar: Prv_quintoandar
     quora: Prv_quora
     quotes_toscrape: Prv_quotes_toscrape
+    qvc: Prv_qvc
     raadvanstate_nl: Prv_raadvanstate_nl
     raisingcanes: Prv_raisingcanes
     rakuten: Prv_rakuten

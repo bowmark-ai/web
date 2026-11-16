@@ -333,7 +333,7 @@ evreward.com — evreward: getStoreRewards (+1 planned)
 exchangerate-api.com — currency_exchange: getRate
 executivehomecare.com — executivehomecare: findLocalOffice
 exhalespa.com — exhalespa: getLocation, listLocations (+2 planned)
-expedia.com — expedia: searchFlights, searchHotels, suggestDestinations (+18 planned)
+expedia.com — expedia: getHotelDetails, searchFlights, searchHotels, suggestDestinations (+17 planned)
 expireddomains.com — expireddomains: nothing callable yet (+28 planned)
 exploretock.com — tock: findBusiness, getBusiness, getExperience, listExperiences, searchBusinesses (+28 planned)
 extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planned)
@@ -667,6 +667,7 @@ quince.com — quince: getProduct, searchProducts
 quintoandar.com.br — quintoandar: getListing, search
 quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+7 planned)
 quotes.toscrape.com — quotes_toscrape: author, listQuotes
+qvc.com — qvc: getProduct, searchProducts
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
 raisingcanes.com — raisingcanes: location, locations (+1 planned)
 rakuten.com — rakuten: getStore, search (+2 planned)

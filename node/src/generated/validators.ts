@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4cc4aa0a235ab9b78e93ed7f0e0c4ae5235189a249fd7614a32b870ec05d28ba
-// 5383 checked, 20 unchecked.
+// Manifest version: 23b67b4b2bb0b0b4b37c5ec3c39dfcfd0870f061349cd45cd2936d148db94d98
+// 5386 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4cc4aa0a235ab9b78e93ed7f0e0c4ae5235189a249fd7614a32b870ec05d28ba",
+  "version": "23b67b4b2bb0b0b4b37c5ec3c39dfcfd0870f061349cd45cd2936d148db94d98",
   "units": {
     "address_validation": {
       "defs": {
@@ -12716,6 +12716,10 @@ export const VALIDATORS: ValidatorTable = {
             {
               "k": "literal",
               "v": "de"
+            },
+            {
+              "k": "literal",
+              "v": "fr"
             },
             {
               "k": "literal",
@@ -57133,6 +57137,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.expedia": {
       "defs": {
+        "ExpediaGetHotelDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ExpediaSearchFlightsArgs": {
           "k": "object",
           "props": [
@@ -57252,6 +57268,24 @@ export const VALIDATORS: ValidatorTable = {
                       "optional": false
                     }
                   ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getHotelDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ExpediaGetHotelDetailsArgs"
                 }
               ]
             },
@@ -119698,6 +119732,70 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AuthorArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.qvc": {
+      "defs": {
+        "qvcGetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "qvcSearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "qvcGetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "qvcSearchProductsArgs"
             },
             "optional": false
           }

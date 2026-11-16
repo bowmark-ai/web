@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7121 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7123 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -949,7 +949,7 @@ One function per row, with the site it is called on.
 | `cabinsforyou.getCabinDetail` | cabinsforyou.com | Reads one cabin's own listing page — bedrooms/bathrooms/sleeps/parking, pet policy… | 🟢 |
 | `cabinsforyou.search` | cabinsforyou.com | Runs Cabins For You's own homepage cabin-availability search (Check In / Check Out /… | 🟢 |
 | `cal_com.findProfiles` | cal.com | Finds a person's own Cal.com page from their full name and, optionally, their company… | 🟢 |
-| `cal_com.getAvailability` | cal.com | Returns the real, currently-open time slots for one Cal.com event type — accepts a… | 🟡 |
+| `cal_com.getAvailability` | cal.com | Returns the real, currently-open time slots for one Cal.com event type — accepts a… | 🟢 |
 | `cal_com.getBookingForm` | cal.com | Reads what a Cal.com booking page will ask before anyone books — the event's title… | 🟢 |
 | `cal_com.getEventTypes` | cal.com | Lists every event type a Cal.com username currently publishes — the entry point. | 🟢 |
 | `calendly.addDateOverride` | calendly.com | Sets different hours, or no hours at all, for specific dates on the caller's… | ⚪ |
@@ -1878,7 +1878,7 @@ One function per row, with the site it is called on.
 | `discord.getApp` | discord.com | Reads one App Directory listing (discord.com/discovery/applications/<id>) — name… | 🟢 |
 | `discord.getDocPage` | discord.com | Reads one Discord developer docs page by url or path (e.g.… | 🟢 |
 | `discord.getGame` | discord.com | Reads one game's page on Discord (discord.com/game/<slug>-<id>) — name, description… | 🟢 |
-| `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | 🟡 |
+| `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | 🟢 |
 | `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | 🟢 |
 | `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | 🟡 |
 | `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | 🟢 |
@@ -2302,7 +2302,7 @@ One function per row, with the site it is called on.
 | `expedia.bookTrip` | expedia.com | Books a hotel, flight, car or package on Expedia. | ⚪ |
 | `expedia.findBooking` | expedia.com | Looks up an existing Expedia booking by itinerary number and the booking email, the… | ⚪ |
 | `expedia.getActivityDetails` | expedia.com | Reads one Expedia things-to-do listing: description, duration, price options and rating. | ⚪ |
-| `expedia.getHotelDetails` | expedia.com | Loads one Expedia hotel's page (its Hotel-Information URL from searchHotels) and… | ⚪ |
+| `expedia.getHotelDetails` | expedia.com | Loads one Expedia hotel's page (the url searchHotels returns) and returns its name… | 🟢 |
 | `expedia.getHotelReviews` | expedia.com | Returns the guest reviews Expedia shows for one hotel: rating, date, text and… | ⚪ |
 | `expedia.getProfile` | expedia.com | Reads the signed-in caller's Expedia profile: name, contact details, traveller… | ⚪ |
 | `expedia.getRewards` | expedia.com | Reads the signed-in caller's One Key tier and OneKeyCash balance. | ⚪ |
@@ -4906,6 +4906,8 @@ One function per row, with the site it is called on.
 | `quora.writeAnswer` | quora.com | Posts a text answer to a question as the signed-in caller. | ⚪ |
 | `quotes_toscrape.author` | quotes.toscrape.com | Reads one author's page on quotes.toscrape.com: name, birth date, birthplace and… | 🟢 |
 | `quotes_toscrape.listQuotes` | quotes.toscrape.com | Lists one page (10) of quotes from the quotes.toscrape.com catalogue with text, author… | 🟢 |
+| `qvc.getProduct` | qvc.com | Reads one QVC product by item number or qvc.com URL: current and QVC price, sale… | 🟢 |
+| `qvc.searchProducts` | qvc.com | Searches the QVC shopping catalog by keyword and returns item number, title, price… | 🟢 |
 | `raadvanstate_nl.getRuling` | raadvanstate.nl | Reads one Council of State ruling in full by ECLI — case number, dates, procedure… | 🟡 |
 | `raadvanstate_nl.searchRulings` | raadvanstate.nl | Searches the Council of State's case register (raadvanstate.nl/uitspraken) by keyword… | 🟢 |
 | `raisingcanes.location` | raisingcanes.com | Returns one Raising Cane's restaurant from its locator page: address, phone… | 🟢 |
@@ -6088,7 +6090,7 @@ One function per row, with the site it is called on.
 | `toast.getMyOrder` | toasttab.com | Reads one of the signed-in guest's past orders in full: items, choices, totals… | ⚪ |
 | `toast.getMyRewards` | toasttab.com | Reads the signed-in guest's loyalty points and rewards at each Toast restaurant they… | ⚪ |
 | `toast.getMyWallet` | toasttab.com | Reads the offers the signed-in guest has saved to their Toast wallet. | ⚪ |
-| `toast.getOrderingOptions` | toasttab.com | Says how a restaurant takes online orders right now: takeout, delivery and catering on… | 🟢 |
+| `toast.getOrderingOptions` | toasttab.com | Says how a restaurant takes online orders right now: takeout, delivery and catering on… | 🟡 |
 | `toast.getOrderReceipt` | toasttab.com | Gets the receipt for one of the signed-in guest's orders as a PDF file. | ⚪ |
 | `toast.getPopularItems` | toasttab.com | Lists a restaurant's most-ordered items with price and guid. | 🟢 |
 | `toast.getReservationAvailability` | toasttab.com | Reads a Toast Tables restaurant's open reservation times for a party size across a… | 🟡 |
