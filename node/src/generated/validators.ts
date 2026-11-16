@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8db54394e31e8bed621ef562099979b8bf5f4fd0cde154c1dc2877023a29873c
-// 5392 checked, 20 unchecked.
+// Manifest version: 311d6d8b281ed74d93ddfa4bd3ae9e0b1f6721fb5eb4196533d4479ca027550b
+// 5397 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8db54394e31e8bed621ef562099979b8bf5f4fd0cde154c1dc2877023a29873c",
+  "version": "311d6d8b281ed74d93ddfa4bd3ae9e0b1f6721fb5eb4196533d4479ca027550b",
   "units": {
     "address_validation": {
       "defs": {
@@ -144116,6 +144116,119 @@ export const VALIDATORS: ValidatorTable = {
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tableau_public": {
+      "defs": {
+        "TableauProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "profile",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TableauSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TableauWorkbookArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "workbook",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TableauProfileArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getWorkbook": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TableauWorkbookArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchAuthors": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TableauSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchDatasources": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TableauSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchWorkbooks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TableauSearchArgs"
             },
             "optional": false
           }

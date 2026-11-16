@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8db54394e31e8bed621ef562099979b8bf5f4fd0cde154c1dc2877023a29873c
-// 98 capabilities, 886 providers, 5420 typed functions, 20 refused.
+// Manifest version: 311d6d8b281ed74d93ddfa4bd3ae9e0b1f6721fb5eb4196533d4479ca027550b
+// 98 capabilities, 887 providers, 5425 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -103378,6 +103378,153 @@ interface SzukajFondSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_tableau_public {
+  // ── Tableau Public — the unit's own declarations, verbatim ──
+interface TableauSearchArgs {
+  /** A keyword, e.g. "covid". */
+  query: string;
+  /** 1-100, default 20. */
+  limit?: number;
+}
+
+interface TableauWorkbookArgs {
+  /** A workbookRepoUrl from searchWorkbooks, e.g. "OregonCOVID-19Update" — or pass url. */
+  workbook?: string;
+  /** A viz URL, e.g. "https://public.tableau.com/app/profile/x/viz/OregonCOVID-19Update/DailyDataUpdate". */
+  url?: string;
+}
+
+interface TableauProfileArgs {
+  /** A profileName from searchAuthors, e.g. "covid.19.data.resource.hub" — or pass url. */
+  profile?: string;
+  /** A profile URL, e.g. "https://public.tableau.com/app/profile/covid.19.data.resource.hub". */
+  url?: string;
+}
+
+interface TableauWorkbookSummary {
+  title: string;
+  description: string;
+  authorProfileName: string;
+  authorDisplayName: string;
+  /** Pass to getWorkbook({ workbook }). */
+  workbookRepoUrl: string;
+  defaultViewRepoUrl: string | null;
+  /** The viz page a person opens. */
+  url: string | null;
+  viewCount: number | null;
+  numberOfFavorites: number | null;
+}
+
+interface TableauWorkbookSearchResult {
+  /** Total matches the site reports; workbooks holds at most limit. */
+  total: number;
+  workbooks: TableauWorkbookSummary[];
+}
+
+interface TableauAuthorSummary {
+  /** Pass to getProfile({ profile }). */
+  profileName: string;
+  name: string;
+  title: string | null;
+  location: string | null;
+  avatarUrl: string | null;
+  followers: number | null;
+  following: number | null;
+  workbookCount: number | null;
+  url: string;
+}
+
+interface TableauAuthorSearchResult {
+  total: number;
+  authors: TableauAuthorSummary[];
+}
+
+interface TableauDatasource {
+  id: string;
+  name: string;
+  description: string;
+  contentUrl: string;
+  authorProfileName: string;
+  authorDisplayName: string;
+  isCertified: boolean;
+  workbookCount: number | null;
+  tags: string[];
+  /** ISO 8601. */
+  createdAt: string | null;
+  updatedAt: string | null;
+}
+
+interface TableauDatasourceSearchResult {
+  total: number;
+  datasources: TableauDatasource[];
+}
+
+interface TableauWorkbook extends TableauWorkbookSummary {
+  id: number | null;
+  defaultViewName: string | null;
+  /** ISO 8601. */
+  firstPublished: string | null;
+  lastPublished: string | null;
+  sizeBytes: number | null;
+  allowDataAccess: boolean;
+  embedUrl: string | null;
+}
+
+interface TableauProfile extends TableauAuthorSummary {
+  organization: string | null;
+  websites: string[];
+  featuredWorkbookRepoUrl: string | null;
+  createdAt: string | null;
+  /** Up to 50 of the author's public workbooks. */
+  workbooks: TableauWorkbookSummary[];
+  /** Names a part that could not be read; empty when complete. */
+  warnings: string[];
+}
+
+  /**
+   * Tableau Public (public.tableau.com) — the free gallery of published Tableau data
+   * visualizations. Search vizzes, authors and data sources, then read a workbook or an author's
+   * profile and their vizzes.
+   */
+  interface Unit {
+    /**
+     * Reads one Tableau Public author's profile by profile name or profile URL — name,
+     * organization, location, websites, followers, featured viz — plus the list of public
+     * workbooks they have published.
+     */
+    getProfile(args: TableauProfileArgs): Promise<TableauProfile>;
+
+    /**
+     * Reads one public Tableau workbook (viz) by its workbookRepoUrl or viz URL — title,
+     * description, author, default view and its URL, embed URL, view count, favorites, publish
+     * dates, size and whether data download is allowed.
+     */
+    getWorkbook(args: TableauWorkbookArgs): Promise<TableauWorkbook>;
+
+    /**
+     * Searches Tableau Public author profiles by name or keyword and returns matching authors with
+     * profile name, display name, location, avatar, follower counts and how many vizzes they
+     * publish.
+     */
+    searchAuthors(args: TableauSearchArgs): Promise<TableauAuthorSearchResult>;
+
+    /**
+     * Searches the data sources published on Tableau Public by keyword and returns each one's
+     * name, description, author, tags, certification, how many workbooks use it and its
+     * created/updated dates.
+     */
+    searchDatasources(args: TableauSearchArgs): Promise<TableauDatasourceSearchResult>;
+
+    /**
+     * Searches Tableau Public's gallery of published vizzes (workbooks) by keyword — a topic,
+     * dataset or title like 'covid', 'NBA', 'sales dashboard' — through the site's own search and
+     * returns matching workbooks with title, description, author, view count, favorites and the
+     * viz URL.
+     */
+    searchWorkbooks(args: TableauSearchArgs): Promise<TableauWorkbookSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_tagtrans_net {
   // ── TAG Trans — the unit's own declarations, verbatim ──
 interface TagtransShipmentRateField { id: string; label: string; required: boolean; }
@@ -125289,6 +125436,7 @@ interface BowmarkProviders {
   surveymonkey: BowmarkProvider_surveymonkey.Unit;
   sweathouz: BowmarkProvider_sweathouz.Unit;
   szukajwarchiwach_gov_pl: BowmarkProvider_szukajwarchiwach_gov_pl.Unit;
+  tableau_public: BowmarkProvider_tableau_public.Unit;
   tagtrans_net: BowmarkProvider_tagtrans_net.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
   tapfiliate: BowmarkProvider_tapfiliate.Unit;

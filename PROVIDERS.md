@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7198 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7204 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -5930,6 +5930,12 @@ One function per row, with the site it is called on.
 | `sweathouz.reserveMembership` | sweathouz.com | Pre-reserves a membership for an upcoming opening. | ⚪ |
 | `szukajwarchiwach_gov_pl.getFond` | szukajwarchiwach.gov.pl | Reads one numbered archive fond's title, reference code, number of series and number… | 🟢 |
 | `szukajwarchiwach_gov_pl.searchFonds` | szukajwarchiwach.gov.pl | Searches the archive portal for fonds and returns each matching fond's title, id and… | 🟡 |
+| `tableau_public.filterView` | public.tableau.com | Applies a filter (categorical, relative-date, keep-only/exclude), selects marks or… | ⚪ |
+| `tableau_public.getProfile` | public.tableau.com | Reads one Tableau Public author's profile by profile name or profile URL — name… | 🟢 |
+| `tableau_public.getWorkbook` | public.tableau.com | Reads one public Tableau workbook (viz) by its workbookRepoUrl or viz URL — title… | 🟢 |
+| `tableau_public.searchAuthors` | public.tableau.com | Searches Tableau Public author profiles by name or keyword and returns matching… | 🟢 |
+| `tableau_public.searchDatasources` | public.tableau.com | Searches the data sources published on Tableau Public by keyword and returns each… | 🟢 |
+| `tableau_public.searchWorkbooks` | public.tableau.com | Searches Tableau Public's gallery of published vizzes (workbooks) by keyword — a… | 🟢 |
 | `tagtrans_net.createShipmentRateEmail` | tagtrans.net | Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request… | 🟢 |
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |

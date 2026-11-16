@@ -658,6 +658,7 @@ provenwinners.com — provenwinners: getRecipeDetails, searchContainerRecipes
 proxmox.com — proxmox: getIsoDownloads
 proxy-cheap.com — proxy_cheap: listCoverage, listPlans
 prusa3d.com — prusa3d: checkEmail, getProduct, getReviews, listBlogPosts, listCategory, listCountries, listNewProducts, searchProducts (+22 planned)
+public.tableau.com — tableau_public: getProfile, getWorkbook, searchAuthors, searchDatasources, searchWorkbooks (+1 planned)
 publix.com — publix: navigation, searchStores, store, suggestions
 pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
 puls.com — puls_com: getRepairQuote, listApplianceCategories
@@ -806,7 +807,7 @@ thestreet.com — thestreet: commentCount, sections (+2 planned)
 theweathernetwork.com — theweathernetwork_com: getCurrentConditions
 thezebra.com — thezebra: getCarrierRates, getCityRates, getRatesByDriverProfile, getRentersQuotes, getStateRates, getStateRequirements, getVehicleRates (+11 planned)
 thibautdesign.com — thibautdesign: calculateRollsNeeded
-threads.com — threads: blockUser, createPost, deletePost, followUser, getActivity, getCustomFeed, getHomeFeed, getMe, getPost, getProfile, getProfileMedia, getProfilePosts, getProfileReplies, getProfileReposts, getRelatedPosts, getSavedPosts, likePost, listCustomFeeds, muteUser, quotePost, replyToPost, repostPost, searchAccounts, searchPosts, searchTopics, unblockUser, unfollowUser, unlikePost, unmuteUser, unrepostPost, updateProfile (+10 planned)
+threads.com — threads: 31 functions — ask get_library (+10 planned)
 ticketmaster.com — ticketmaster: getVenue, listClassifications, search, searchAttractions, searchVenues (+1 planned)
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search

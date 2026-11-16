@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8db54394e31e8bed621ef562099979b8bf5f4fd0cde154c1dc2877023a29873c
-# 98 capabilities, 886 providers, 5392 typed functions, 20 refused.
+# Manifest version: 311d6d8b281ed74d93ddfa4bd3ae9e0b1f6721fb5eb4196533d4479ca027550b
+# 98 capabilities, 887 providers, 5397 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -68049,6 +68049,100 @@ class Prv_szukajwarchiwach_gov_pl_SzukajFond_Out(TypedDict):
 class Prv_szukajwarchiwach_gov_pl_SzukajFondSearchResult_Out(TypedDict):
     fonds: list[Prv_szukajwarchiwach_gov_pl_SzukajFond_Out]
 
+class Prv_tableau_public_TableauProfileArgs_In(TypedDict):
+    profile: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_tableau_public_TableauProfile_Out(TypedDict):
+    profileName: str
+    name: str
+    title: str | None
+    location: str | None
+    avatarUrl: str | None
+    followers: float | None
+    following: float | None
+    workbookCount: float | None
+    url: str
+    organization: str | None
+    websites: list[str]
+    featuredWorkbookRepoUrl: str | None
+    createdAt: str | None
+    workbooks: list[Prv_tableau_public_TableauWorkbookSummary_Out]
+    warnings: list[str]
+
+class Prv_tableau_public_TableauWorkbookSummary_Out(TypedDict):
+    title: str
+    description: str
+    authorProfileName: str
+    authorDisplayName: str
+    workbookRepoUrl: str
+    defaultViewRepoUrl: str | None
+    url: str | None
+    viewCount: float | None
+    numberOfFavorites: float | None
+
+class Prv_tableau_public_TableauWorkbookArgs_In(TypedDict):
+    workbook: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_tableau_public_TableauWorkbook_Out(TypedDict):
+    title: str
+    description: str
+    authorProfileName: str
+    authorDisplayName: str
+    workbookRepoUrl: str
+    defaultViewRepoUrl: str | None
+    url: str | None
+    viewCount: float | None
+    numberOfFavorites: float | None
+    id: float | None
+    defaultViewName: str | None
+    firstPublished: str | None
+    lastPublished: str | None
+    sizeBytes: float | None
+    allowDataAccess: bool
+    embedUrl: str | None
+
+class Prv_tableau_public_TableauSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_tableau_public_TableauAuthorSearchResult_Out(TypedDict):
+    total: float
+    authors: list[Prv_tableau_public_TableauAuthorSummary_Out]
+
+class Prv_tableau_public_TableauAuthorSummary_Out(TypedDict):
+    profileName: str
+    name: str
+    title: str | None
+    location: str | None
+    avatarUrl: str | None
+    followers: float | None
+    following: float | None
+    workbookCount: float | None
+    url: str
+
+class Prv_tableau_public_TableauDatasourceSearchResult_Out(TypedDict):
+    total: float
+    datasources: list[Prv_tableau_public_TableauDatasource_Out]
+
+class Prv_tableau_public_TableauDatasource_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    contentUrl: str
+    authorProfileName: str
+    authorDisplayName: str
+    isCertified: bool
+    workbookCount: float | None
+    tags: list[str]
+    createdAt: str | None
+    updatedAt: str | None
+
+class Prv_tableau_public_TableauWorkbookSearchResult_Out(TypedDict):
+    total: float
+    workbooks: list[Prv_tableau_public_TableauWorkbookSummary_Out]
+
 class Prv_tagtrans_net_TagtransShipmentRateForm_Out(TypedDict):
     formUrl: str
     recipient: str
@@ -117742,6 +117836,43 @@ class Prv_szukajwarchiwach_gov_pl(Protocol):
         detail-page URL.
         """
 
+class Prv_tableau_public(Protocol):
+    """Tableau Public (public.tableau.com) — the free gallery of published Tableau data
+    visualizations. Search vizzes, authors and data sources, then read a workbook or an
+    author's profile and their vizzes.
+    """
+
+    async def getProfile(self, args: Prv_tableau_public_TableauProfileArgs_In, /) -> Prv_tableau_public_TableauProfile_Out:
+        """Reads one Tableau Public author's profile by profile name or profile URL — name,
+        organization, location, websites, followers, featured viz — plus the list of public
+        workbooks they have published.
+        """
+
+    async def getWorkbook(self, args: Prv_tableau_public_TableauWorkbookArgs_In, /) -> Prv_tableau_public_TableauWorkbook_Out:
+        """Reads one public Tableau workbook (viz) by its workbookRepoUrl or viz URL — title,
+        description, author, default view and its URL, embed URL, view count, favorites, publish
+        dates, size and whether data download is allowed.
+        """
+
+    async def searchAuthors(self, args: Prv_tableau_public_TableauSearchArgs_In, /) -> Prv_tableau_public_TableauAuthorSearchResult_Out:
+        """Searches Tableau Public author profiles by name or keyword and returns matching authors
+        with profile name, display name, location, avatar, follower counts and how many vizzes
+        they publish.
+        """
+
+    async def searchDatasources(self, args: Prv_tableau_public_TableauSearchArgs_In, /) -> Prv_tableau_public_TableauDatasourceSearchResult_Out:
+        """Searches the data sources published on Tableau Public by keyword and returns each one's
+        name, description, author, tags, certification, how many workbooks use it and its
+        created/updated dates.
+        """
+
+    async def searchWorkbooks(self, args: Prv_tableau_public_TableauSearchArgs_In, /) -> Prv_tableau_public_TableauWorkbookSearchResult_Out:
+        """Searches Tableau Public's gallery of published vizzes (workbooks) by keyword — a topic,
+        dataset or title like 'covid', 'NBA', 'sales dashboard' — through the site's own search
+        and returns matching workbooks with title, description, author, view count, favorites
+        and the viz URL.
+        """
+
 class Prv_tagtrans_net(Protocol):
     """TAG Trans's public freight shipment-rate request form: its current fields and services,
     plus a prefilled email handoff the site itself uses.
@@ -125590,6 +125721,7 @@ class BowmarkProviders(Protocol):
     surveymonkey: Prv_surveymonkey
     sweathouz: Prv_sweathouz
     szukajwarchiwach_gov_pl: Prv_szukajwarchiwach_gov_pl
+    tableau_public: Prv_tableau_public
     tagtrans_net: Prv_tagtrans_net
     tamarackidaho: Prv_tamarackidaho
     tapfiliate: Prv_tapfiliate
