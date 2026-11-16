@@ -552,6 +552,7 @@ mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, 
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
 mlb.com — mlb: getBoxScore, getGame, getPlayByPlay, getPlayer, getPlayerStats, getRoster, getSchedule, getStandings, getStatLeaders, listTeams, searchPlayers (+39 planned)
+mobile.de — mobile_de: search
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
 modularclosets.com — modularclosets: getKitConfigurator, priceKitConfiguration, searchClosetKits
@@ -561,7 +562,7 @@ mossyoak.com — mossyoak: getMossyoakCheckoutLink, getMossyoakProduct, listMoss
 msc.com — msc: trackShipment
 msc.fema.gov — msc_fema: getFloodZone
 msccruzeiros.com.br — msccruzeiros: quoteCabins, searchCruises (+1 planned)
-msn.com — msn: convertCurrency, getArticle, getHourlyForecast, getMarketSummary, getScores, getSectionFeed, getStandings, getStockQuote, getTopStories, getVideoFeed, getWeatherForecast, listSavedArticles, saveArticle, searchNews, searchVideos
+msn.com — msn: convertCurrency, getArticle, getHourlyForecast, getMarketSummary, getPlayback, getScores, getSectionFeed, getStandings, getStockQuote, getTopStories, getVideoFeed, getWeatherForecast, listSavedArticles, saveArticle, searchNews, searchVideos
 muze.gov.tr — muze_gov_tr: getVisitingHours
 my.auroramedicalspa.com — my_auroramedicalspa_com: getProviders, getServiceCategories, getServices, listLocations
 mybeststudio.us — my_best_studio: bookClass, cancelBooking, findStudio, getClass, joinWaitlist, listClasses, listInstructors, listMemberships, listMyBookings (+2 planned)

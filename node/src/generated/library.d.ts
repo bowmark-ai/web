@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a8e4b03fca3e7b573d1fb31f4ee0a5445e5b0cf56b19767ea2a76a97d8060a8b
-// 98 capabilities, 881 providers, 5409 typed functions, 20 refused.
+// Manifest version: 4cc4aa0a235ab9b78e93ed7f0e0c4ae5235189a249fd7614a32b870ec05d28ba
+// 98 capabilities, 882 providers, 5411 typed functions, 20 refused.
 // 129,553 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -72320,6 +72320,26 @@ interface MlbPlay {
   }
 }
 
+declare namespace BowmarkProvider_mobile_de {
+  // ── mobile.de — the unit's own declarations, verbatim ──
+interface MobileDeSearchInput { url?: string; makeId?: number; minPrice?: number; maxPrice?: number; minYear?: number; maxYear?: number; maxMileageKm?: number; page?: number; }
+interface MobileDeListing { id: string; title: string; priceEur: number | null; firstRegistration: string | null; year: number | null; mileageKm: number | null; powerKw: number | null; powerPs: number | null; fuel: string | null; seller: string | null; sponsored: boolean; url: string; }
+interface MobileDeSearchResult { url: string; total: number | null; listings: MobileDeListing[]; }
+
+  /**
+   * Searches mobile.de, Germany's largest car marketplace, for used and new car listings with
+   * EUR price, year, mileage, power, fuel and seller.
+   */
+  interface Unit {
+    /**
+     * Searches mobile.de's used and new car listings by make id, price, first-registration year
+     * and mileage (or a mobile.de search URL) and returns each listing's title, EUR price, year,
+     * mileage, power, fuel, seller and URL.
+     */
+    search(input?: MobileDeSearchInput): Promise<MobileDeSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_modernize_com {
   // ── Modernize — the unit's own declarations, verbatim ──
 interface ModernizeProjectType {
@@ -73262,6 +73282,35 @@ interface MsnVideoFeed {
   nextPageUrl: string | null;
 }
 
+interface MsnPlaybackFile {
+  url: string;
+  mimeType: string;
+  codecs: string | null;
+  width: number | null;
+  height: number | null;
+  fps: number | null;
+  bitrate: number | null;
+  bytes: number | null;
+  qualityLabel: string | null;
+  itag: number;
+}
+
+interface MsnPlayback {
+  videoId: string;
+  title: string | null;
+  durationMs: number | null;
+  live: boolean;
+  embed: { url: string; hasAds: boolean | "unknown"; note: string } | null;
+  files: { muxed: MsnPlaybackFile[]; videoOnly: MsnPlaybackFile[]; audioOnly: MsnPlaybackFile[] };
+  expiresAt: string | null;
+  referrer: "any" | "none" | string;
+  warnings: string[];
+}
+
+interface MsnGetPlaybackArgs {
+  video: string;
+}
+
 interface MsnVideoFeedOptions {
   limit?: 5 | 10 | 20;
   cursor?: string;  // a prior call's nextPageUrl
@@ -73468,6 +73517,15 @@ interface MsnStandings {
      * the next page.
      */
     getVideoFeed(options?: MsnVideoFeedOptions): Promise<MsnVideoFeed>;
+
+    /**
+     * Returns every measured way to play one MSN video: all of MSN's direct progressive MP4 files,
+     * one per rendition, in the site's muxed menu. The files play without MSN's player chrome or
+     * ads and the model can choose the resolution; MSN's iframe embed is not included yet because
+     * its embed URL has not been measured. `video` is an MSN `/vi-<id>` URL or the id from
+     * getVideoFeed.
+     */
+    getPlayback(args: MsnGetPlaybackArgs): Promise<MsnPlayback>;
 
     /**
      * Finds videos in MSN's video section by a topic the caller types (e.g. "apollo 11 moon
@@ -97867,7 +97925,7 @@ interface SpiritHalloweenProduct {
 
 declare namespace BowmarkProvider_sports247 {
   // ── 247Sports — the unit's own declarations, verbatim ──
-interface Sports247TeamRanking { rank: number | null; compositeRank: number | null; name: string; fullName: string | null; commits: number | null; fiveStars: number | null; fourStars: number | null; threeStars: number | null; averageRating: number | null; points: number | null; compositePoints: number | null; city: string | null; state: string | null; logoUrl: string | null; teamUrl: string | null; }
+interface Sports247TeamRanking { rank: number | null; sports247Rank: number | null; name: string; fullName: string | null; commits: number | null; fiveStars: number | null; fourStars: number | null; threeStars: number | null; averageRating: number | null; points: number | null; sports247Points: number | null; city: string | null; state: string | null; logoUrl: string | null; teamUrl: string | null; }
 interface Sports247TeamRankingsArgs { sport?: "football" | "basketball"; year?: number; page?: number; }
 interface Sports247TeamRankings { sport: string; year: number; page: number; pageCount: number | null; url: string; teams: Sports247TeamRanking[]; }
 interface Sports247Recruit { id: number; name: string; url: string; position: string | null; height: string | null; weight: number | null; classYear: number | null; highSchool: string | null; city: string | null; state: string | null; committedTo: string | null; offerCount: number | null; stars: number | null; rating: number | null; nationalRank: number | null; positionRank: number | null; stateRank: number | null; compositeStars: number | null; compositeRating: number | null; compositeNationalRank: number | null; photoUrl: string | null; }
@@ -97885,8 +97943,9 @@ interface Sports247Search { query: string; type: string; page: number; total: nu
   interface Unit {
     /**
      * Reads 247Sports' composite team recruiting class rankings for a sport and class year
-     * (default: football, the current class), 10 teams per page: rank, commits, 5/4/3-star counts,
-     * average rating and points.
+     * (default: football, the current class), 10 teams per page: composite rank and points (the
+     * list order), 247Sports' own rank and points beside them, commits, 5/4/3-star counts and
+     * average rating.
      */
     teamRankings(args: Sports247TeamRankingsArgs): Promise<Sports247TeamRankings>;
 
@@ -124592,6 +124651,7 @@ interface BowmarkProviders {
   minimax: BowmarkProvider_minimax.Unit;
   mixbook: BowmarkProvider_mixbook.Unit;
   mlb: BowmarkProvider_mlb.Unit;
+  mobile_de: BowmarkProvider_mobile_de.Unit;
   modernize_com: BowmarkProvider_modernize_com.Unit;
   modularclosets: BowmarkProvider_modularclosets.Unit;
   momence: BowmarkProvider_momence.Unit;

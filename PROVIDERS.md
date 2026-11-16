@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7119 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7121 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -4046,6 +4046,7 @@ One function per row, with the site it is called on.
 | `mlb.unsubscribeFromNewsletter` | mlb.com | Unsubscribes the signed-in caller from one MLB or team newsletter. | ⚪ |
 | `mlb.updateProfile` | mlb.com | Edits the signed-in caller's MLB account profile: name, display name, birthdate… | ⚪ |
 | `mlb.watchGame` | mlb.com | Plays a live or archived game on MLB.TV for a subscribed caller. | ⚪ |
+| `mobile_de.search` | mobile.de | Searches mobile.de's used and new car listings by make id, price, first-registration… | 🟢 |
 | `mobygames.searchByTitle` | mobygames.com | Search for video games by title and return matching releases with box art cover image… | ⚪ |
 | `modernize_com.getQuoteFlow` | modernize.com | Reads modernize.com's own multi-step homeowner quote wizard for one project type and… | 🟢 |
 | `modernize_com.listProjectTypes` | modernize.com | Reads modernize.com's own trade radio group — every home-improvement project type its… | 🟢 |
@@ -4091,6 +4092,7 @@ One function per row, with the site it is called on.
 | `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟢 |
 | `msn.getHourlyForecast` | msn.com | Reads the hour-by-hour forecast for a named city off MSN Weather's hourly page… | 🟢 |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
+| `msn.getPlayback` | msn.com | Returns every measured way to play one MSN video: all of MSN's direct progressive MP4… | 🟢 |
 | `msn.getScores` | msn.com | Returns one league's games on one date the way MSN Sports' scores page does for a… | 🟢 |
 | `msn.getSectionFeed` | msn.com | Returns a top-stories feed scoped to one of six sections — sports, entertainment… | 🟢 |
 | `msn.getStandings` | msn.com | Returns one league's current standings table the way MSN Sports' standings page does… | 🟢 |
@@ -5129,7 +5131,7 @@ One function per row, with the site it is called on.
 | `rottentomatoes.getCriticReviews` | rottentomatoes.com | Lists the individual critic reviews behind a title's Tomatometer — critic… | ⚪ |
 | `rottentomatoes.getTitle` | rottentomatoes.com | Reads one movie or TV series page: Tomatometer and Popcornmeter with their review and… | 🟢 |
 | `rottentomatoes.search` | rottentomatoes.com | Runs the site's own title search and returns movies and TV series with their… | 🟢 |
-| `rover.searchBoarding` | rover.com | Searches Rover's live overnight-boarding sitter results for a city and a specific date… | 🟢 |
+| `rover.searchBoarding` | rover.com | Searches Rover's live overnight-boarding sitter results for a city and a specific date… | 🟡 |
 | `rtings.getReview` | rtings.com | Reads one product's RTINGS review — the overall score out of 10, the verdict text… | 🟢 |
 | `ruggable.getRug` | ruggable.com | Reads one Ruggable rug by handle or url and returns its price range plus every size ×… | 🟢 |
 | `ruggable.searchRugs` | ruggable.com | Searches Ruggable's whole washable-rug catalog (rugs, runners, doormats, rug pads) by… | 🟢 |
@@ -6834,7 +6836,7 @@ One function per row, with the site it is called on.
 | `wsj.listArticlesByAuthor` | wsj.com | Lists a journalist's own articles off their byline page, newest first, 50 a page via… | 🟢 |
 | `wsj.listCommodities` | wsj.com | Lists the commodity futures on WSJ's Commodities and Futures page — crude oil, Brent… | 🟢 |
 | `wsj.listCurrencies` | wsj.com | Lists exchange rates off WSJ's Currencies page — the major pairs such as EUR/USD and… | 🟢 |
-| `wsj.listEpisodes` | wsj.com | Lists a podcast's own episodes, newest first, off the show's RSS feed on Dow Jones'… | 🟢 |
+| `wsj.listEpisodes` | wsj.com | Lists a podcast's own episodes, newest first, off the show's RSS feed on Dow Jones'… | 🟡 |
 | `wsj.listMarketIndices` | wsj.com | Lists the major indices WSJ's own Markets front ships inline — Dow Jones Industrial… | 🟢 |
 | `wsj.listNewsletters` | wsj.com | Lists WSJ's own email newsletters off its newsletter catalog — name, description… | 🟢 |
 | `wsj.listPodcasts` | wsj.com | Lists WSJ's own podcasts (What's News, The Journal, Minute Briefing, etc.) off the… | 🟢 |

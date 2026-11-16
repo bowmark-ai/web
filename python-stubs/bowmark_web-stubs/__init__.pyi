@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a8e4b03fca3e7b573d1fb31f4ee0a5445e5b0cf56b19767ea2a76a97d8060a8b
-# 98 capabilities, 881 providers, 5381 typed functions, 20 refused.
+# Manifest version: 4cc4aa0a235ab9b78e93ed7f0e0c4ae5235189a249fd7614a32b870ec05d28ba
+# 98 capabilities, 882 providers, 5383 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -46536,6 +46536,35 @@ class Prv_mlb_MlbRosterEntry_Out(TypedDict):
     positionType: str | None
     status: str | None
 
+class Prv_mobile_de_MobileDeSearchInput_In(TypedDict):
+    url: NotRequired[str]
+    makeId: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minYear: NotRequired[float]
+    maxYear: NotRequired[float]
+    maxMileageKm: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_mobile_de_MobileDeSearchResult_Out(TypedDict):
+    url: str
+    total: float | None
+    listings: list[Prv_mobile_de_MobileDeListing_Out]
+
+class Prv_mobile_de_MobileDeListing_Out(TypedDict):
+    id: str
+    title: str
+    priceEur: float | None
+    firstRegistration: str | None
+    year: float | None
+    mileageKm: float | None
+    powerKw: float | None
+    powerPs: float | None
+    fuel: str | None
+    seller: str | None
+    sponsored: bool
+    url: str
+
 class Prv_modernize_com_ModernizeProjectType_Out(TypedDict):
     value: str
     label: str
@@ -47304,6 +47333,42 @@ class Prv_msn_MsnVideo_Out(TypedDict):
     durationSec: float | None
     mp4Url: str | None
     captionsUrl: str | None
+
+class Prv_msn_MsnGetPlaybackArgs_In(TypedDict):
+    video: str
+
+class Prv_msn_MsnPlayback_Out(TypedDict):
+    videoId: str
+    title: str | None
+    durationMs: float | None
+    live: bool
+    embed: Prv_msn_MsnPlayback_Out_embed_u0_Out | None
+    files: Prv_msn_MsnPlayback_Out_files_Out
+    expiresAt: str | None
+    referrer: Literal["any"] | Literal["none"] | str
+    warnings: list[str]
+
+class Prv_msn_MsnPlayback_Out_embed_u0_Out(TypedDict):
+    url: str
+    hasAds: bool | Literal["unknown"]
+    note: str
+
+class Prv_msn_MsnPlayback_Out_files_Out(TypedDict):
+    muxed: list[Prv_msn_MsnPlaybackFile_Out]
+    videoOnly: list[Prv_msn_MsnPlaybackFile_Out]
+    audioOnly: list[Prv_msn_MsnPlaybackFile_Out]
+
+class Prv_msn_MsnPlaybackFile_Out(TypedDict):
+    url: str
+    mimeType: str
+    codecs: str | None
+    width: float | None
+    height: float | None
+    fps: float | None
+    bitrate: float | None
+    bytes: float | None
+    qualityLabel: str | None
+    itag: float
 
 class Prv_msn_MsnScoresArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["nhl"] | Literal["mlb"] | Literal["ncaaf"] | Literal["mls"] | Literal["epl"] | Literal["laliga"] | Literal["bundesliga"] | Literal["seriea"] | Literal["ligue1"]
@@ -63806,7 +63871,7 @@ class Prv_sports247_Sports247TeamRankings_Out(TypedDict):
 
 class Prv_sports247_Sports247TeamRanking_Out(TypedDict):
     rank: float | None
-    compositeRank: float | None
+    sports247Rank: float | None
     name: str
     fullName: str | None
     commits: float | None
@@ -63815,7 +63880,7 @@ class Prv_sports247_Sports247TeamRanking_Out(TypedDict):
     threeStars: float | None
     averageRating: float | None
     points: float | None
-    compositePoints: float | None
+    sports247Points: float | None
     city: str | None
     state: str | None
     logoUrl: str | None
@@ -106624,6 +106689,17 @@ class Prv_mlb(Protocol):
         number, position and status. Takes a teamId from listTeams.
         """
 
+class Prv_mobile_de(Protocol):
+    """Searches mobile.de, Germany's largest car marketplace, for used and new car listings
+    with EUR price, year, mileage, power, fuel and seller.
+    """
+
+    async def search(self, input: Prv_mobile_de_MobileDeSearchInput_In | None = None, /) -> Prv_mobile_de_MobileDeSearchResult_Out:
+        """Searches mobile.de's used and new car listings by make id, price, first-registration
+        year and mileage (or a mobile.de search URL) and returns each listing's title, EUR
+        price, year, mileage, power, fuel, seller and URL.
+        """
+
 class Prv_modernize_com(Protocol):
     """Home-improvement lead-gen site — listProjectTypes returns every trade its homeowner
     quote flow covers (roofing, HVAC, windows, …), and getQuoteFlow reads the multi-step
@@ -107020,6 +107096,14 @@ class Prv_msn(Protocol):
         mp4 link and a captions link where the site has them. `url` is the video's own MSN page.
         `limit` is 5, 10 or 20 (default 10). Pass a prior call's `nextPageUrl` back as `{ cursor
         }` to read the next page.
+        """
+
+    async def getPlayback(self, args: Prv_msn_MsnGetPlaybackArgs_In, /) -> Prv_msn_MsnPlayback_Out:
+        """Returns every measured way to play one MSN video: all of MSN's direct progressive MP4
+        files, one per rendition, in the site's muxed menu. The files play without MSN's player
+        chrome or ads and the model can choose the resolution; MSN's iframe embed is not
+        included yet because its embed URL has not been measured. `video` is an MSN `/vi-<id>`
+        URL or the id from getVideoFeed.
         """
 
     async def searchVideos(self, query: str, options: Prv_msn_MsnVideoFeedOptions_In | None = None, /) -> Prv_msn_MsnVideoFeed_Out:
@@ -115636,8 +115720,9 @@ class Prv_sports247(Protocol):
 
     async def teamRankings(self, args: Prv_sports247_Sports247TeamRankingsArgs_In, /) -> Prv_sports247_Sports247TeamRankings_Out:
         """Reads 247Sports' composite team recruiting class rankings for a sport and class year
-        (default: football, the current class), 10 teams per page: rank, commits, 5/4/3-star
-        counts, average rating and points.
+        (default: football, the current class), 10 teams per page: composite rank and points
+        (the list order), 247Sports' own rank and points beside them, commits, 5/4/3-star counts
+        and average rating.
         """
 
     async def searchRecruits(self, args: Prv_sports247_Sports247SearchRecruitsArgs_In, /) -> Prv_sports247_Sports247Recruits_Out:
@@ -124856,6 +124941,7 @@ class BowmarkProviders(Protocol):
     minimax: Prv_minimax
     mixbook: Prv_mixbook
     mlb: Prv_mlb
+    mobile_de: Prv_mobile_de
     modernize_com: Prv_modernize_com
     modularclosets: Prv_modularclosets
     momence: Prv_momence

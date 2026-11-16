@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a8e4b03fca3e7b573d1fb31f4ee0a5445e5b0cf56b19767ea2a76a97d8060a8b
-// 5381 checked, 20 unchecked.
+// Manifest version: 4cc4aa0a235ab9b78e93ed7f0e0c4ae5235189a249fd7614a32b870ec05d28ba
+// 5383 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a8e4b03fca3e7b573d1fb31f4ee0a5445e5b0cf56b19767ea2a76a97d8060a8b",
+  "version": "4cc4aa0a235ab9b78e93ed7f0e0c4ae5235189a249fd7614a32b870ec05d28ba",
   "units": {
     "address_validation": {
       "defs": {
@@ -97834,6 +97834,83 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.mobile_de": {
+      "defs": {
+        "MobileDeSearchInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "makeId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minYear",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxYear",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxMileageKm",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "MobileDeSearchInput"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.modernize_com": {
       "defs": {},
       "functions": {
@@ -99057,6 +99134,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MsnGetPlaybackArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "MsnHourlyOptions": {
           "k": "object",
           "props": [
@@ -99457,6 +99546,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "MsnVideoFeedOptions"
             },
             "optional": true
+          }
+        ],
+        "getPlayback": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MsnGetPlaybackArgs"
+            },
+            "optional": false
           }
         ],
         "searchVideos": [
