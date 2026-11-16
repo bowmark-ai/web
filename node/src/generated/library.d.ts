@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bc1511aab02c9788e91ab280ec0aca59758dfe22ba52addfab5b92ea6caaf641
-// 98 capabilities, 887 providers, 5425 typed functions, 20 refused.
+// Manifest version: ad3c754759bc3676ccc83a128a4e9f8ae845bedf9a534f7ff6ab1b6f8f7f0654
+// 98 capabilities, 887 providers, 5426 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1774,25 +1774,25 @@ type CallOptions = {
 declare namespace BowmarkCapability_event_tickets {
   // ── Event tickets — the unit's own declarations, verbatim ──
 type EventListing = {
-  provider: string          // "eventbrite" | "eventim"
+  provider: string          // "eventbrite" | "eventim" | "ticketmaster"
   id: string
   name: string
   url: string               // the ticket page on that site
   start: string | null      // "2026-11-02" or "2026-11-02T19:30"
   venue: string | null
   city: string | null
-  priceFrom: number | null  // lowest price; always null from eventbrite (call providers.eventbrite.getEvent)
+  priceFrom: number | null  // lowest price; always null from eventbrite and ticketmaster (call providers.eventbrite.getEvent)
   currency: string | null
   status: string | null     // the site's own availability label
   // Where the PERSON gets tickets, in their own browser: show them checkout.url and stop.
-  // Bowmark never registers or buys. eventbrite rows carry it; eventim rows: null.
+  // Bowmark never registers or buys. eventbrite rows carry it; eventim and ticketmaster rows: null (url is the ticket page).
   checkout: { status: "ready_to_checkout" | "needs_login" | "unavailable"; url: string; reason?: string } | null
 }
 type EventTicketsArgs = {
   query: string             // artist, show or kind of event, e.g. "Coldplay", "jazz"
   location?: string         // a city, e.g. "New York, NY" or "Berlin". Eventbrite is only searched when this is set
-  startDate?: string        // YYYY-MM-DD, eventbrite only
-  endDate?: string          // YYYY-MM-DD, eventbrite only
+  startDate?: string        // YYYY-MM-DD, eventbrite and ticketmaster
+  endDate?: string          // YYYY-MM-DD, eventbrite and ticketmaster
 }
 type event_ticketsResult = {
   events: EventListing[]
@@ -1807,17 +1807,19 @@ type CallOptions = {
 
   /**
    * Finds live events with tickets on sale — concerts, shows, performances — by artist or
-   * keyword and an optional city, across Eventbrite and Eventim (eventim.de), merged into one
-   * list with date, venue, lowest price where the site shows one, and the ticket page link. No
-   * login, no purchase.
+   * keyword and an optional city, across Eventbrite, Eventim (eventim.de) and Ticketmaster,
+   * merged into one list with date, venue, lowest price where the site shows one, and the ticket
+   * page link. No login, no purchase.
    */
   interface Unit {
     /**
      * Searches event-ticket listings by artist, show or keyword, optionally in one city —
      * `bowmark.event_tickets.search({ query: "jazz", location: "New York, NY" })`. Fans out to
-     * Eventbrite (only when a location is given) and Eventim, and returns every match with its
-     * name, start, venue, city, lowest price (Eventim only), availability and ticket page url.
-     * `warnings` names any site skipped or that did not answer.
+     * Eventbrite (only when a location is given), Eventim and Ticketmaster (a query such as
+     * "concerts", "sports" or "theater" with a location reads that city's category on
+     * Ticketmaster; an artist or team is searched by name and kept to the location's city), and
+     * returns every match with its name, start, venue, city, lowest price (Eventim only),
+     * availability and ticket page url. `warnings` names any site skipped or that did not answer.
      */
     search(args: string | EventTicketsArgs, options?: CallOptions): Promise<event_ticketsResult>;
   }
@@ -87703,9 +87705,24 @@ interface RedditSearchResult {
   subreddit: string | null;    // null = the whole site
   sort: "relevance" | "hot" | "top" | "new" | "comments";
   time: "hour" | "day" | "week" | "month" | "year" | "all";
-  posts: RedditPost[];
+  posts: RedditPost[] | RedditPostBrief[];  // RedditPostBrief[] under detail "brief"
   nextCursor: string | null;   // pass back as "after"; null = no more
   warnings: string[];          // one line per result reddit refused; the posts are incomplete by these
+}
+
+interface RedditPostBrief {    // a search row as reddit's search page shows it — detail "brief", no per-post read
+  id: string;                  // fullname "t3_…" — what getPost takes
+  title: string;
+  author: string | null;
+  subreddit: string;
+  permalink: string;
+  score: number | null;
+  numComments: number | null;
+  createdAt: string | null;
+  over18: boolean;
+  spoiler: boolean;
+  thumbnail: string | null;
+  snippet: string | null;      // the text reddit matched, when it shows one
 }
 
 interface RedditSubredditPostsResult {
@@ -87980,16 +87997,21 @@ interface RedditProfileText {
      * ENFORCED on every sort: a post created before the window opens is never returned, even where
      * reddit itself ignores the window (it does under `new`), so `{sort: "new", time: "day"}` is
      * the last 24 hours, newest first, and the walk stops at older posts — a quiet query can
-     * return fewer than `limit`, or none. `limit` is per page (max 100) and costs reddit ONE
-     * request per result (50 results is about 50 requests, so several large searches in one script
-     * can exhaust reddit's per-address limit — keep `limit` near what you will read); a result
-     * reddit refuses is left out and named in `warnings`, and the call fails only when every
-     * result is refused. Pass `nextCursor` back as `after`, unchanged, for the next page (it is
-     * opaque: reddit pages search 7 posts at a time and the cursor says where in one of its pages
-     * this call stopped). Every post's `id` is exactly what `getPost` takes. No match returns an
-     * empty `posts` array; a community that does not exist throws.
+     * return fewer than `limit`, or none. `limit` is per page (max 100). COST: with `detail:
+     * "full"` (the default) each result costs reddit ONE extra request (50 results is about 50
+     * requests, so several large searches in one script can exhaust reddit's per-address limit); a
+     * result reddit refuses is left out and named in `warnings`, and the call fails only when
+     * every result is refused. `detail: "brief"` costs one request per 7 results instead — it
+     * returns each post as the search page shows it (`RedditPostBrief`: id, title, author,
+     * subreddit, permalink, score, comment count, age, nsfw, spoiler, thumbnail and the matched
+     * snippet; NO self-text, link, upvote ratio or flair) — so use brief to scan many results or
+     * run several searches, then `getPost` the few worth reading. Pass `nextCursor` back as
+     * `after`, unchanged, for the next page (it is opaque: reddit pages search 7 posts at a time
+     * and the cursor says where in one of its pages this call stopped). Every post's `id` is
+     * exactly what `getPost` takes. No match returns an empty `posts` array; a community that does
+     * not exist throws.
      */
-    search(query: string | {query: string, subreddit?: string, sort?: "relevance"|"hot"|"top"|"new"|"comments", time?: "hour"|"day"|"week"|"month"|"year"|"all", limit?: number, after?: string}): Promise<RedditSearchResult>;
+    search(query: string | {query: string, subreddit?: string, sort?: "relevance"|"hot"|"top"|"new"|"comments", time?: "hour"|"day"|"week"|"month"|"year"|"all", limit?: number, after?: string, detail?: "full"|"brief"}): Promise<RedditSearchResult>;
 
     /**
      * Reads one Reddit thread from a thread URL, a `t3_…` fullname or a post id: the post with its
@@ -111896,6 +111918,20 @@ interface UpsServiceAlerts {
      * and `daysInTransit` comes back null.
      */
     calculateShippingCost(args: { fromZip: string; toZip: string; toCountry?: string; toCity?: string; packageSize?: "extraSmall" | "small" | "medium" | "large" | "extraLarge"; weightLbs?: number; lengthIn?: number; widthIn?: number; heightIn?: number; customsValue?: number; shipDate?: string }): Promise<UpsSimpleRateQuote[]>;
+
+    /**
+     * Public retail rates and delivery dates from ups.com's own "Calculate Time and Cost" tool
+     * (ups.com/ctc) for a weighed parcel between ANY two countries — no key, no login, no account,
+     * international lanes included (e.g. DE 20095 -> FR 69002). Countries are ISO 2-letter codes;
+     * `units` defaults to "metric" (weight in kg, box in cm), "imperial" is lb and in.
+     * `customsValue` (in the origin currency) is needed on a lane that crosses customs and ignored
+     * inside one customs union. Returns one row per UPS service (UPS Standard, Express Saver,
+     * Express, Express Plus…) with cost and the currency the calculator quoted in (the origin's,
+     * e.g. EUR from Germany), the delivery date and whether it is guaranteed. Use this rather than
+     * `calculateShippingCost` when the origin is not in the US. Drives the calculator in a
+     * headless browser, so it takes about a minute.
+     */
+    calculateTimeAndCost(args: { fromCountry: string; fromPostalCode: string; fromCity?: string; toCountry: string; toPostalCode: string; toCity?: string; weight: number; length: number; width: number; height: number; units?: "metric" | "imperial"; customsValue?: number; shipDate?: string }): Promise<UpsSimpleRateQuote[]>;
 
     /**
      * Finds UPS drop-off/pickup locations near a ZIP Code or street/city address — UPS Customer

@@ -3729,7 +3729,7 @@ One function per row, with the site it is called on.
 | `linkedin.deletePost` | linkedin.com | Deletes one of the signed-in caller's own posts or reposts. | 🟢 |
 | `linkedin.followCompany` | linkedin.com | Follows or unfollows a company page as the signed-in caller. `company` is the numeric… | 🟢 |
 | `linkedin.followMember` | linkedin.com | Follows or unfollows a member as the signed-in caller, so their posts appear in the… | 🟢 |
-| `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | 🟢 |
+| `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | 🟡 |
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟡 |
 | `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟢 |
 | `linkedin.getEvent` | linkedin.com | Returns one LinkedIn event by its URL or numeric id (from searchEvents) — name… | 🟢 |

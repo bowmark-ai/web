@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bc1511aab02c9788e91ab280ec0aca59758dfe22ba52addfab5b92ea6caaf641
-# 98 capabilities, 887 providers, 5397 typed functions, 20 refused.
+# Manifest version: ad3c754759bc3676ccc83a128a4e9f8ae845bedf9a534f7ff6ab1b6f8f7f0654
+# 98 capabilities, 887 providers, 5398 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -56690,13 +56690,14 @@ class Prv_reddit_search_query_u1_In(TypedDict):
     time: NotRequired[Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
     limit: NotRequired[float]
     after: NotRequired[str]
+    detail: NotRequired[Literal["full"] | Literal["brief"]]
 
 class Prv_reddit_RedditSearchResult_Out(TypedDict):
     query: str
     subreddit: str | None
     sort: Literal["relevance"] | Literal["hot"] | Literal["top"] | Literal["new"] | Literal["comments"]
     time: Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]
-    posts: list[Prv_reddit_RedditPost_Out]
+    posts: list[Prv_reddit_RedditPost_Out] | list[Prv_reddit_RedditPostBrief_Out]
     nextCursor: str | None
     warnings: list[str]
 
@@ -56731,6 +56732,20 @@ class Prv_reddit_RedditPost_Out_viewer_u0_Out(TypedDict):
     vote: Literal["up"] | Literal["down"] | None
     saved: bool
     hidden: bool
+
+class Prv_reddit_RedditPostBrief_Out(TypedDict):
+    id: str
+    title: str
+    author: str | None
+    subreddit: str
+    permalink: str
+    score: float | None
+    numComments: float | None
+    createdAt: str | None
+    over18: bool
+    spoiler: bool
+    thumbnail: str | None
+    snippet: str | None
 
 class Prv_reddit_getPost_post_u1_In(TypedDict):
     post: str
@@ -73703,6 +73718,21 @@ class Prv_ups_UpsSimpleRateQuote_Out(TypedDict):
     deliveredBy: str | None
     guaranteed: bool
 
+class Prv_ups_calculateTimeAndCost_args_In(TypedDict):
+    fromCountry: str
+    fromPostalCode: str
+    fromCity: NotRequired[str]
+    toCountry: str
+    toPostalCode: str
+    toCity: NotRequired[str]
+    weight: float
+    length: float
+    width: float
+    height: float
+    units: NotRequired[Literal["metric"] | Literal["imperial"]]
+    customsValue: NotRequired[float]
+    shipDate: NotRequired[str]
+
 class Prv_ups_findNearbyLocation_args_In(TypedDict):
     address: str
     maxResults: NotRequired[float]
@@ -81882,17 +81912,20 @@ class Cap_event_space_quote(Protocol):
 
 class Cap_event_tickets(Protocol):
     """Finds live events with tickets on sale — concerts, shows, performances — by artist or
-    keyword and an optional city, across Eventbrite and Eventim (eventim.de), merged into
-    one list with date, venue, lowest price where the site shows one, and the ticket page
-    link. No login, no purchase.
+    keyword and an optional city, across Eventbrite, Eventim (eventim.de) and Ticketmaster,
+    merged into one list with date, venue, lowest price where the site shows one, and the
+    ticket page link. No login, no purchase.
     """
 
     async def search(self, args: str | Cap_event_tickets_EventTicketsArgs_In, options: Cap_event_tickets_CallOptions_In | None = None, /) -> Cap_event_tickets_event_ticketsResult_Out:
         """Searches event-ticket listings by artist, show or keyword, optionally in one city —
         `bowmark.event_tickets.search({ query: "jazz", location: "New York, NY" })`. Fans out to
-        Eventbrite (only when a location is given) and Eventim, and returns every match with its
-        name, start, venue, city, lowest price (Eventim only), availability and ticket page url.
-        `warnings` names any site skipped or that did not answer.
+        Eventbrite (only when a location is given), Eventim and Ticketmaster (a query such as
+        "concerts", "sports" or "theater" with a location reads that city's category on
+        Ticketmaster; an artist or team is searched by name and kept to the location's city),
+        and returns every match with its name, start, venue, city, lowest price (Eventim only),
+        availability and ticket page url. `warnings` names any site skipped or that did not
+        answer.
         """
 
 class Cap_flights(Protocol):
@@ -112566,14 +112599,18 @@ class Prv_reddit(Protocol):
         returned, even where reddit itself ignores the window (it does under `new`), so `{sort:
         "new", time: "day"}` is the last 24 hours, newest first, and the walk stops at older
         posts — a quiet query can return fewer than `limit`, or none. `limit` is per page (max
-        100) and costs reddit ONE request per result (50 results is about 50 requests, so
-        several large searches in one script can exhaust reddit's per-address limit — keep
-        `limit` near what you will read); a result reddit refuses is left out and named in
-        `warnings`, and the call fails only when every result is refused. Pass `nextCursor` back
-        as `after`, unchanged, for the next page (it is opaque: reddit pages search 7 posts at a
-        time and the cursor says where in one of its pages this call stopped). Every post's `id`
-        is exactly what `getPost` takes. No match returns an empty `posts` array; a community
-        that does not exist throws.
+        100). COST: with `detail: "full"` (the default) each result costs reddit ONE extra
+        request (50 results is about 50 requests, so several large searches in one script can
+        exhaust reddit's per-address limit); a result reddit refuses is left out and named in
+        `warnings`, and the call fails only when every result is refused. `detail: "brief"`
+        costs one request per 7 results instead — it returns each post as the search page shows
+        it (`RedditPostBrief`: id, title, author, subreddit, permalink, score, comment count,
+        age, nsfw, spoiler, thumbnail and the matched snippet; NO self-text, link, upvote ratio
+        or flair) — so use brief to scan many results or run several searches, then `getPost`
+        the few worth reading. Pass `nextCursor` back as `after`, unchanged, for the next page
+        (it is opaque: reddit pages search 7 posts at a time and the cursor says where in one of
+        its pages this call stopped). Every post's `id` is exactly what `getPost` takes. No
+        match returns an empty `posts` array; a community that does not exist throws.
         """
 
     async def getPost(self, post: str | Prv_reddit_getPost_post_u1_In, /) -> Prv_reddit_RedditThread_Out:
@@ -120787,6 +120824,19 @@ class Prv_ups(Protocol):
         code as `toZip`, ideally `toCity`, and instead of `packageSize` give `weightLbs`,
         `lengthIn`, `widthIn`, `heightIn` and `customsValue` (USD) — Simple Rate is US-only, so
         those lanes are priced by weight and box, and `daysInTransit` comes back null.
+        """
+
+    async def calculateTimeAndCost(self, args: Prv_ups_calculateTimeAndCost_args_In, /) -> list[Prv_ups_UpsSimpleRateQuote_Out]:
+        """Public retail rates and delivery dates from ups.com's own "Calculate Time and Cost" tool
+        (ups.com/ctc) for a weighed parcel between ANY two countries — no key, no login, no
+        account, international lanes included (e.g. DE 20095 -> FR 69002). Countries are ISO
+        2-letter codes; `units` defaults to "metric" (weight in kg, box in cm), "imperial" is lb
+        and in. `customsValue` (in the origin currency) is needed on a lane that crosses customs
+        and ignored inside one customs union. Returns one row per UPS service (UPS Standard,
+        Express Saver, Express, Express Plus…) with cost and the currency the calculator quoted
+        in (the origin's, e.g. EUR from Germany), the delivery date and whether it is
+        guaranteed. Use this rather than `calculateShippingCost` when the origin is not in the
+        US. Drives the calculator in a headless browser, so it takes about a minute.
         """
 
     async def findNearbyLocation(self, args: Prv_ups_findNearbyLocation_args_In, /) -> list[Prv_ups_UpsNearbyLocation_Out]:

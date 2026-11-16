@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bc1511aab02c9788e91ab280ec0aca59758dfe22ba52addfab5b92ea6caaf641
-// 5397 checked, 20 unchecked.
+// Manifest version: ad3c754759bc3676ccc83a128a4e9f8ae845bedf9a534f7ff6ab1b6f8f7f0654
+// 5398 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bc1511aab02c9788e91ab280ec0aca59758dfe22ba52addfab5b92ea6caaf641",
+  "version": "ad3c754759bc3676ccc83a128a4e9f8ae845bedf9a534f7ff6ab1b6f8f7f0654",
   "units": {
     "address_validation": {
       "defs": {
@@ -120383,6 +120383,23 @@ export const VALIDATORS: ValidatorTable = {
                         "k": "string"
                       },
                       "optional": true
+                    },
+                    {
+                      "name": "detail",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "full"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "brief"
+                          }
+                        ]
+                      },
+                      "optional": true
                     }
                   ]
                 }
@@ -156531,6 +156548,118 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "heightIn",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "customsValue",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "shipDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "calculateTimeAndCost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "fromCountry",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "fromPostalCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "fromCity",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "toCountry",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "toPostalCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "toCity",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "weight",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "length",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "width",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "height",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "units",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "metric"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "imperial"
+                      }
+                    ]
                   },
                   "optional": true
                 },
