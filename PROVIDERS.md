@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7284 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7287 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3873,6 +3873,8 @@ One function per row, with the site it is called on.
 | `lmstudio.getDoc` | lmstudio.ai | Fetches one lmstudio.ai/docs/... documentation page and returns its title and body… | 🟢 |
 | `lmstudio.listDocPages` | lmstudio.ai | Lists every documentation page lmstudio.ai publishes under /docs — url and the page's… | 🟢 |
 | `lobehub_com.search` | lobehub.com | Searches LobeHub's public MCP-server marketplace (lobehub.com/mcp) by keyword and… | 🟢 |
+| `loc8me.getListing` | loc8me.co.uk | Reads one public Loc8me student-housing listing by its link or slug — availability… | 🟢 |
+| `loc8me.searchListings` | loc8me.co.uk | Finds current Loc8me listings by their title, which is a building or street name such… | 🟢 |
 | `lonelyplanet.getBestInTravel` | lonelyplanet.com | Reads Lonely Planet's annually curated 'Best in Travel' list — the destinations and… | ⚪ |
 | `lonelyplanet.getDestinationGuide` | lonelyplanet.com | Reads one destination's guide page (e.g. lonelyplanet.com/destinations/italy) — its… | ⚪ |
 | `lonelyplanet.search` | lonelyplanet.com | Searches lonelyplanet.com's site-wide index — destinations, articles, curated trip… | 🟢 |
@@ -5829,7 +5831,7 @@ One function per row, with the site it is called on.
 | `squire.getAppointment` | getsquire.com | Returns one of the caller's appointments or sales in full: services, barber, time… | ⚪ |
 | `squire.getAvailability` | getsquire.com | Returns the open appointment times for a service at a shop over a date range -- per… | 🟢 |
 | `squire.getBarber` | getsquire.com | Returns one barber's profile: name, photos and portfolio, rating, the shop they work… | 🟢 |
-| `squire.getBookingQuote` | getsquire.com | Prices an appointment before booking it -- service, barber, time and add-ons --… | 🟢 |
+| `squire.getBookingQuote` | getsquire.com | Prices an appointment before booking it -- service, barber, time and add-ons --… | 🟡 |
 | `squire.getBrand` | getsquire.com | Returns a multi-location brand and its shops, so a caller can pick the branch nearest… | 🟢 |
 | `squire.getMyProfile` | getsquire.com | Returns the signed-in caller's Squire profile: name, phone, email, photo and… | ⚪ |
 | `squire.getMyWalkInEntry` | getsquire.com | Returns the caller's place on a shop's walk-in list: position, estimated wait and… | ⚪ |
@@ -6509,6 +6511,7 @@ One function per row, with the site it is called on.
 | `ulrichlifestyle.getConfigurator` | ulrichlifestyle.com | Reads one model's default configurator: its base price (before delivery/tax) plus… | 🟢 |
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
 | `ulrichlifestyle.priceConfiguration` | ulrichlifestyle.com | Configures and prices one specific build (dimensions, wall height, siding, delivery… | 🟢 |
+| `unihomes_co_uk.getListing` | unihomes.co.uk | Reads one public UniHomes student-home listing by its URL or reference number —… | 🟢 |
 | `uniqlo.getProduct` | uniqlo.com | Reads one Uniqlo product's every color × size with its price, live stock status and… | 🟢 |
 | `uniqlo.searchProducts` | uniqlo.com | Searches Uniqlo's live clothing catalog, the US store (uniqlo.com/us, USD) by default… | 🟢 |
 | `unsplash.search` | unsplash.com | Searches Unsplash's photo library by keyword and returns the first page of photos with… | 🟢 |

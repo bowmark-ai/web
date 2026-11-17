@@ -512,6 +512,7 @@ liquidspace.com — liquidspace: getListingDetails, search
 littlewordsproject.com — littlewordsproject: getLittleWordsProjectCheckoutLink, getLittleWordsProjectProduct, listLittleWordsProjectCollections, listLittleWordsProjectProducts
 lmstudio.ai — lmstudio: getDoc, listDocPages
 lobehub.com — lobehub_com: search
+loc8me.co.uk — loc8me: getListing, searchListings
 lonelyplanet.com — lonelyplanet: search (+4 planned)
 louvershop.com — louvershop: findLocalDealer (+1 planned)
 lovelybride.com — lovelybride: getAvailableSlots, getStoreAppointmentTypes, listStores
@@ -853,6 +854,7 @@ ubereats.com — ubereats: addToCart, applyPromoCode, browseStores, checkDeliver
 uhaul.com — uhaul: getRates
 uhc.com — uhc_directory: findProviders
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration
+unihomes.co.uk — unihomes_co_uk: getListing
 uniqlo.com — uniqlo: getProduct, searchProducts
 unsplash.com — unsplash: search
 upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
