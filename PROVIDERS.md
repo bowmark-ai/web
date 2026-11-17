@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7277 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7284 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -33,6 +33,9 @@ One function per row, with the site it is called on.
 | `abqplumb.listServices` | abqplumb.com | Lists ABQ Plumb's public booking-widget services and their issue types — the entry… | 🟢 |
 | `abt.getProduct` | abt.com | Reads one abt.com product page's schema.org Product data — live offer price and… | 🟢 |
 | `abt.search` | abt.com | Runs abt.com's own keyword search (appliances, refrigerators, TVs, electronics) and… | 🟢 |
+| `accommodationforstudents.getListing` | accommodationforstudents.com | Reads one Accommodation for Students listing by link or number — status, weekly From… | 🟢 |
+| `accommodationforstudents.listCities` | accommodationforstudents.com | Lists every UK city Accommodation for Students covers, with its listing count. | 🟢 |
+| `accommodationforstudents.searchListings` | accommodationforstudents.com | Finds student houses, flats, studios and halls in a UK city, with weekly rent and… | 🟢 |
 | `accuweather.browseLocations` | accuweather.com | Walks AccuWeather's location directory - continents, countries, states or provinces… | 🟢 |
 | `accuweather.getActivityForecast` | accuweather.com | Outdoor activity outlook for a location by activity - running, hiking, biking, golf… | 🟢 |
 | `accuweather.getAirQuality` | accuweather.com | Current air quality for a location - the AQI value and category, health message, and… | 🟢 |
@@ -3194,6 +3197,8 @@ One function per row, with the site it is called on.
 | `harmar.getCompatibleLifts` | harmar.com | Runs the calculator's actual 'Lift Lookup' — given a model year, the calculator's own… | 🔴 |
 | `harmar.searchChairModels` | harmar.com | Looks up every wheelchair/scooter model the calculator has data for under a given… | 🔴 |
 | `harmar.searchVehicleModels` | harmar.com | Looks up every vehicle (make + model, with the calculator's own internal model id)… | 🟢 |
+| `harringtonsdurham.getListing` | harringtonsdurham.com | Reads one Harringtons (Durham lettings) listing from its link, slug or number: rent… | 🟢 |
+| `harringtonsdurham.listListings` | harringtonsdurham.com | Lists every property Harringtons advertises in Durham, filterable by street name… | 🟢 |
 | `hauslabs.getHauslabsProduct` | hauslabs.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `hauslabs.listHauslabsProducts` | hauslabs.com | Reads the live Haus Labs catalogue as the storefront publishes it — every product, its… | 🟢 |
 | `hauslabs.runFoundationShadeFinder` | hauslabs.com | Resolves a buyer's Foundation Lab quiz answers to ONE specific shade: the variant… | 🟢 |
@@ -4333,6 +4338,8 @@ One function per row, with the site it is called on.
 | `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name and classification. | 🟢 |
 | `nhc.listStormAdvisories` | nhc.noaa.gov | List every forecast advisory, public advisory, discussion and wind probability product… | 🟡 |
 | `nhc.searchStorms` | nhc.noaa.gov | Find a storm by name. | 🟢 |
+| `nicholashumphreys.getListing` | nicholashumphreys.com | Reads one Nicholas Humphreys letting listing in full by its link, postId or reference… | 🟢 |
+| `nicholashumphreys.searchLettings` | nicholashumphreys.com | Searches Nicholas Humphreys' student and residential properties to rent by town or… | 🟢 |
 | `nike.addFavorite` | nike.com | Adds one product to the signed-in caller's nike.com favorites. | 🟢 |
 | `nike.addToCart` | nike.com | Adds one product in one size to the signed-in caller's nike.com bag. | 🟢 |
 | `nike.checkSizeAvailability` | nike.com | Checks which sizes of one product (style-colour code) are in stock online right now… | 🟢 |

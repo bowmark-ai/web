@@ -1,5 +1,5 @@
 {
-  "version": "8f8aee9665600e8ec9fb1aa61c88baafb1f7537d450bc58ce87f12d4bf016013",
+  "version": "e833508f87ff769b64f6a12623b3ccad6f500f766c22203b865d927ad4e09460",
   "units": {
     "address_validation": {
       "defs": {
@@ -56850,6 +56850,84 @@
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "login": [
+          {
+            "name": "creds",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "password",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "totpCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "totpSeed",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "keepAlive",
+                  "optional": true,
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "everyHours",
+                            "schema": {
+                              "k": "number"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      },
+                      {
+                        "k": "literal",
+                        "v": false
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "expiresAt",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -142174,6 +142252,63 @@
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.sturents": {
+      "defs": {
+        "SturentsGetListingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listing",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "contract",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SturentsListListingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SturentsGetListingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SturentsListListingsArgs"
+            },
+            "optional": false
           }
         ]
       }

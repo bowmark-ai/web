@@ -18,6 +18,7 @@ aa.com — aa: getBaggageAllowance, getFlightStatus, retrieveBooking (+6 planned
 abercrombie.com — abercrombie: checkStock, findStores, getProduct, search (+2 planned)
 abqplumb.com — abqplumb: getAvailability, listServices
 abt.com — abt: getProduct, search
+accommodationforstudents.com — accommodationforstudents: getListing, listCities, searchListings
 accuweather.com — accuweather: browseLocations, getActivityForecast, getAirQuality, getAllergyForecast, getArticle, getCurrentConditions, getDailyForecast, getDayDetails, getHealthForecast, getHourlyForecast, getLocation, getMinuteCast, getMonthlyForecast, getRadarMap, getStorm, getWinterForecast, listActiveStorms, listAlerts, listLifestyleIndices, listNews, searchLocations (+1 planned)
 acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
@@ -416,6 +417,7 @@ hamptonwaterwine.com — hamptonwaterwine: findNearbyRetailers
 handypro.com — handypro: checkServiceArea, searchServiceCategories (+2 planned)
 hansons.com — hansons: checkAvailability (+1 planned)
 harmar.com — harmar: findCompatibleLifts, searchVehicleModels (+2 planned)
+harringtonsdurham.com — harringtonsdurham: getListing, listListings
 hauslabs.com — hauslabs: getHauslabsProduct, listHauslabsProducts, runFoundationShadeFinder
 havenenergy.com — havenenergy: getPricingPrograms, getPropertyDetails, listPricingPrograms
 hayden-homes.com — haydenhomes: searchQuickMoveIns (+2 planned)
@@ -585,6 +587,7 @@ news.google.com — google_news: followTopic, getForYou, getFullCoverage, getTop
 news.ycombinator.com — hackernews: getItem, getThread, search, searchComments, topStories
 nfa.futures.org — nfa_futures_org: lookupByNfaId, searchFirms, searchIndividuals
 nhc.noaa.gov — nhc: getBestTrack, getForecastCone, getForecastDiscussion, getMarineForecast, getReconObservations, getSatelliteImagery, getStormAdvisory, getStormForecast, getStormGraphics, getStormInfo, getStormNames, getTropicalCycloneReport, getTropicalOutlook, getTropicalWeatherDiscussion, getWatchesWarnings, getWindSpeedProbabilities, listCurrentStorms, listMarineZones, listSeasonStorms, listStormAdvisories, searchStorms (+2 planned)
+nicholashumphreys.com — nicholashumphreys: getListing, searchLettings
 nike.com — nike: addFavorite, addToCart, checkSizeAvailability, checkStoreAvailability, findStores, getCart, getLaunch, getMemberProfile, getOrder, getProduct, getProductReviews, getSizeChart, listCategories, listCategoryProducts, listFavorites, listOrders, lookupGuestOrder, removeFavorite, removeFromCart, searchProducts, upcomingLaunches, updateMemberProfile (+1 planned)
 notion.com — notion: appendBlocks, createComment, createPage, getDatabase, getMe, getPage, getPageContent, listComments, listUsers, queryDatabase, search, systemStatus, updatePage
 npiregistry.cms.hhs.gov — npi_registry: lookup, search
@@ -872,7 +875,7 @@ visit.barnesfoundation.org — barnesfoundation: getAdmissionCalendar, priceAdmi
 vistaprint.com — vistaprint: getShippingBoxPrice (+1 planned)
 voluspa.com — voluspa: getFragranceQuizIntro (+1 planned)
 walkerhughes.com — walkerhughes: findNearestOffice, listOffices, listQuoteProducts (+1 planned)
-walmart.com — walmart: addAddress, addToCart, addToList, browseBrand, browseCategory, createList, findBrand, getAccountProfile, getCart, getList, getOrder, getPickupDeliverySlots, getProduct, getSeller, getWeeklyAd, listAddresses, listDeals, listDepartments, listLists, listOrders, listPurchasedItems, listReviews, listSellerOffers, removeFromCart, removeFromList, search, setPreferredStore, suggestSearches, updateCartItem, updateProfile (+8 planned)
+walmart.com — walmart: 30 functions — ask get_library (+8 planned)
 washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getElectionResults, getLiveBlog, getNewsletter, getPodcast, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listEpisodes, listHomepage, listNewsletters, listPodcasts, listSavedArticles, listSections, listTopics, listTrending, listVideos, saveArticle, searchWriters, unsaveArticle (+1 planned)
 waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)

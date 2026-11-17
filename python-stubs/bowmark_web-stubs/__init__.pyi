@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8f8aee9665600e8ec9fb1aa61c88baafb1f7537d450bc58ce87f12d4bf016013
-# 98 capabilities, 888 providers, 5407 typed functions, 20 refused.
+# Manifest version: e833508f87ff769b64f6a12623b3ccad6f500f766c22203b865d927ad4e09460
+# 98 capabilities, 889 providers, 5410 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -28243,6 +28243,12 @@ class Prv_eventbrite_EventbriteTicketClassRow_Out(TypedDict):
     soldOut: bool
     availabilityNote: str | None
     salesEndNote: str | None
+
+class Prv_eventbrite_login_return_Out(TypedDict):
+    connection: str
+    account: str
+    expiresAt: str
+    warnings: NotRequired[list[str]]
 
 class Prv_eventbrite_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -67162,6 +67168,58 @@ class Prv_stubhub_stubhubFavorite_Out(TypedDict):
     kind: str | None
     url: str | None
 
+class Prv_sturents_SturentsGetListingArgs_In(TypedDict):
+    listing: str
+    contract: NotRequired[str]
+
+class Prv_sturents_SturentsListing_Out(TypedDict):
+    id: str
+    url: str
+    status: Literal["available"] | Literal["unavailable"] | Literal["not_found"]
+    title: str | None
+    description: str | None
+    address: str | None
+    postcode: str | None
+    city: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    photo: str | None
+    amenities: list[str]
+    headline: Prv_sturents_SturentsContract_Out | None
+    contracts: list[Prv_sturents_SturentsContract_Out]
+
+class Prv_sturents_SturentsContract_Out(TypedDict):
+    contractId: str
+    label: str | None
+    priceAmount: float | None
+    rent: str | None
+    deposit: str | None
+    billsIncluded: list[str]
+    beds: str | None
+    rentalType: str | None
+    dates: Mapping[str, str]
+    bookNow: bool
+
+class Prv_sturents_SturentsListListingsArgs_In(TypedDict):
+    city: str
+
+class Prv_sturents_SturentsListingsPage_Out(TypedDict):
+    city: str
+    total: float | None
+    listings: list[Prv_sturents_SturentsListingSummary_Out]
+
+class Prv_sturents_SturentsListingSummary_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    city: str | None
+    address: str | None
+    beds: str | None
+    fromPrice: str | None
+    availableFrom: str | None
+    landlord: str | None
+    contractsCount: float | None
+
 class Prv_styleseat_StyleseatPlace_Out(TypedDict):
     formattedAddress: str
     latitude: float
@@ -96549,6 +96607,20 @@ class Prv_eventbrite(Protocol):
         price range; this is the per-tier detail.
         """
 
+    async def login(self, creds: LoginInput, /) -> Prv_eventbrite_login_return_Out:
+        """Signs in with the given credentials and saves a NEW connection — every call creates one,
+        never replacing an existing login, unless `connection` names an existing id to sign back
+        in to (its cookies replaced, its id and settings kept, a logged-out one revived). The
+        returned `connection` is usable on the very next call in the same script or session.
+        `warnings` names the account's other connections to this site. `username`, `password`,
+        `totpCode` and `totpSeed` are plain values here; a caller on the run/session script
+        surface instead passes each as a `bowmark.secret()` reference. Pass the returned
+        `connection` id as `{ connection }` on a later signed-in call to act as this account.
+        Optionally set `keepAlive: { everyHours }` (or `false` to turn it off) and/or
+        `expiresAt` (an ISO date/datetime, a hard ceiling); both default to a 12-hour keep-alive
+        and can be changed later with `bm.connections.update(id, …)`.
+        """
+
     async def signup(self, args: Any, /) -> Prv_eventbrite_signup_return_u0_Out | Prv_eventbrite_signup_return_u1_Out | Prv_eventbrite_signup_return_u2_Out | Prv_eventbrite_signup_return_u3_Out:
         """Makes a NEW Eventbrite account with the person's own email and password, in a session.
         Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
@@ -117571,6 +117643,27 @@ class Prv_stubhub(Protocol):
         10-25s.
         """
 
+class Prv_sturents(Protocol):
+    """StuRents (sturents.com), UK student accommodation: list a city's student houses and
+    flats, and read one listing's rent per person per week, deposit, bills and tenancy
+    dates.
+    """
+
+    async def getListing(self, args: Prv_sturents_SturentsGetListingArgs_In, /) -> Prv_sturents_SturentsListing_Out:
+        """Reads one StuRents student accommodation listing by its link or number: status
+        (available / unavailable / not_found), address, bedrooms, amenities, and every tenancy
+        option with rent per person per week, deposit, bills included and move-in / move-out
+        dates. `headline` is the option the link's `?contract=` (or `contract`) names, else the
+        first one shown.
+        """
+
+    async def listListings(self, args: Prv_sturents_SturentsListListingsArgs_In, /) -> Prv_sturents_SturentsListingsPage_Out:
+        """Lists the student houses and flats StuRents shows first for a UK city (its first results
+        page, ~12 rows, plus the city's total count): link, title, beds, lowest rent per person
+        per week, available-from date and landlord. Pass a row's `url` to getListing for the
+        details.
+        """
+
 class Prv_styleseat(Protocol):
     """StyleSeat marketplace for hair stylists, barbers, braiders, nail, lash and brow pros:
     search pros near a place by service, a pro's services, prices, open times, reviews and
@@ -125938,6 +126031,7 @@ class BowmarkProviders(Protocol):
     stickergiant: Prv_stickergiant
     stripe: Prv_stripe
     stubhub: Prv_stubhub
+    sturents: Prv_sturents
     styleseat: Prv_styleseat
     substack: Prv_substack
     suitsupply: Prv_suitsupply
