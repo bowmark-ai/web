@@ -2688,7 +2688,7 @@ One function per row, with the site it is called on.
 | `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | 🟢 |
 | `forbes.listLists` | forbes.com | List all available Forbes rankings/lists (Forbes 400, Global 2000, Most Powerful… | 🟢 |
 | `forbes.listNews` | forbes.com | List latest news articles. | 🟢 |
-| `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | 🟡 |
+| `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | 🟢 |
 | `forbes.listVideos` | forbes.com | List video content from Forbes Video. | 🟢 |
 | `forbes.searchArticles` | forbes.com | Search articles across Forbes by keyword. | ⚪ |
 | `ford.buildAndPrice` | ford.com | Walks Ford's own build-and-price configurator for a model and year — choosing trim… | ⚪ |
