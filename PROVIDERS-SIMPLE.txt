@@ -427,7 +427,7 @@ hellotend.com — hellotend: listMarkets, listServices, listStudios (+2 planned)
 hellowalla.com — walla: bookClass, bookPrivateSession, cancelBooking, enrollWorkshop, findStudio, getClass, getMyProfile, getPrivateSessionAvailability, joinWaitlist, listClassCategories, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listMyPurchases, listOnDemandVideos, listPricing, listPrivateSessions, listWorkshops, requestMembershipCancellation, updateMyProfile (+1 planned)
 higgsfield.ai — higgsfield: estimateCost, generateImage, generateVideo, getRequestStatus, listModels
 highlandhomes.org — highlandhomes: search
-hilton.com — hilton: nothing callable yet (+6 planned)
+hilton.com — hilton: nothing callable yet (+11 planned)
 hipcamp.com — hipcamp: search
 historymaker.com — historymaker: getHome, listCommunities, searchQuickMoveIns
 hobie.com — hobie: checkLocalAvailability, listKayakModels, listModelColors, listModels

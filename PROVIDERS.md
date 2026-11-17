@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7205 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7210 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3213,11 +3213,16 @@ One function per row, with the site it is called on.
 | `higgsfield.getRequestStatus` | higgsfield.ai | Checks one submitted generation by the request id a generate call returned, and hands… | 🟢 |
 | `higgsfield.listModels` | higgsfield.ai | Lists every generation model Bowmark's Higgsfield account can actually call — id… | 🟢 |
 | `highlandhomes.search` | highlandhomes.org | Searches Highland Homes' live new-construction inventory (Florida only) by city… | 🟢 |
+| `hilton.bookRoom` | hilton.com | Books a room at a Hilton-family property for the caller's dates and party, paid with… | ⚪ |
 | `hilton.findHotels` | hilton.com | Finds Hilton-family properties near a city, region, or landmark — the site's own… | ⚪ |
 | `hilton.getAwardAvailability` | hilton.com | Searches Hilton's live award (Hilton Honors points) availability for a property and… | ⚪ |
 | `hilton.getDeals` | hilton.com | Reads Hilton's currently published promotions and offers — the site's own "Offers"… | ⚪ |
+| `hilton.getHonorsAccount` | hilton.com | Reads the signed-in caller's own Hilton Honors membership: member number, tier, points… | ⚪ |
+| `hilton.getHonorsPrograms` | hilton.com | Reads the published Hilton Honors membership tiers and what each earns, as the… | ⚪ |
 | `hilton.getHotelDetails` | hilton.com | Reads one Hilton-family property in full — full address, phone number, brand tier… | ⚪ |
+| `hilton.getHotelReviews` | hilton.com | Reads a Hilton-family property's published guest reviews and overall score, for a… | ⚪ |
 | `hilton.getReservation` | hilton.com | Reads an existing Hilton reservation the way the site's own "Find Your Reservation"… | ⚪ |
+| `hilton.listMyStays` | hilton.com | Lists the signed-in caller's upcoming and past Hilton stays: property, dates, room and… | ⚪ |
 | `hilton.search` | hilton.com | Searches Hilton's live cash room availability for one property (a hilton.com URL… | 🔴 |
 | `hipcamp.search` | hipcamp.com | Given a destination name (a national park, region, or city, or a bare US state)… | 🟢 |
 | `historymaker.getHome` | historymaker.com | Reads one quick-move-in home's full detail: address, current and original price… | 🟢 |
