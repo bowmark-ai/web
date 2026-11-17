@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7210 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7274 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -2836,6 +2836,34 @@ One function per row, with the site it is called on.
 | `geico.listPartnerCompanies` | geico.com | Returns which insurance companies GEICO Insurance Agency actually places each line of… | 🟢 |
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
+| `genius.askQuestion` | genius.com | Asks a question on a song page from the signed-in account. | ⚪ |
+| `genius.createAnnotation` | genius.com | Annotates a lyric line on a song from the signed-in account. | ⚪ |
+| `genius.followArtist` | genius.com | Follows or unfollows an artist from the signed-in account. | ⚪ |
+| `genius.followUser` | genius.com | Follows or unfollows a Genius user from the signed-in account. | ⚪ |
+| `genius.getAlbum` | genius.com | Reads an album: release date, cover, description and its track list. | ⚪ |
+| `genius.getAnnotation` | genius.com | Reads one annotation with its author, votes and the lyric fragment it explains. | ⚪ |
+| `genius.getArticle` | genius.com | Reads one Genius article. | ⚪ |
+| `genius.getArtist` | genius.com | Reads an artist page: bio, aliases, social links, followers. | ⚪ |
+| `genius.getCharts` | genius.com | Reads Genius charts (top songs, albums or artists; by day/week/month/all time; by… | ⚪ |
+| `genius.getLyrics` | genius.com | Reads a song's full lyrics, section by section, from its page. | ⚪ |
+| `genius.getMyProfile` | genius.com | Reads the signed-in account's profile, IQ and notifications. | ⚪ |
+| `genius.getSong` | genius.com | Reads one song: title, artists, album, release date, producers/writers credits… | ⚪ |
+| `genius.getUser` | genius.com | Reads a public Genius user profile: IQ, role, annotations count. | ⚪ |
+| `genius.listArticles` | genius.com | Lists Genius's own music news and video articles. | ⚪ |
+| `genius.listArtistAlbums` | genius.com | Lists an artist's albums. | ⚪ |
+| `genius.listArtistSongs` | genius.com | Lists an artist's songs, sortable by popularity or title, paged. | ⚪ |
+| `genius.listSongAnnotations` | genius.com | Lists the annotated lines (referents) on a song with each annotation's text and votes. | ⚪ |
+| `genius.listSongComments` | genius.com | Lists comments on a song. | ⚪ |
+| `genius.listSongQuestions` | genius.com | Lists the Q&A on a song page (questions and their answers). | ⚪ |
+| `genius.listUserAnnotations` | genius.com | Lists a user's public contributions. | ⚪ |
+| `genius.postComment` | genius.com | Comments on a song or annotation from the signed-in account. | ⚪ |
+| `genius.searchAlbums` | genius.com | Finds albums by title or artist. | ⚪ |
+| `genius.searchArtists` | genius.com | Finds artists by name — the finder for every artist function. | ⚪ |
+| `genius.searchLyrics` | genius.com | Finds songs from a line of lyrics (the lyric section of search). | ⚪ |
+| `genius.searchSongs` | genius.com | Searches Genius for songs by title, artist or a remembered lyric line (the site's… | ⚪ |
+| `genius.suggestLyricsEdit` | genius.com | Proposes a correction to a song's lyrics from the signed-in account. | ⚪ |
+| `genius.updateProfile` | genius.com | Edits the signed-in account's bio or avatar. | ⚪ |
+| `genius.voteAnnotation` | genius.com | Upvotes or downvotes an annotation from the signed-in account. | ⚪ |
 | `github.compareCommits` | github.com | Compares two refs of a public repo — ahead/behind counts, the commits between them and… | 🟢 |
 | `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
 | `github.createIssue` | github.com | Opens a new issue on a repository, off github.com's own issue-creation mutation (POST… | 🟢 |
@@ -3708,6 +3736,42 @@ One function per row, with the site it is called on.
 | `landsend.searchProducts` | landsend.com | Searches the Lands' End catalog the way the site's own search box does ("mens linen… | 🟢 |
 | `lasikplus.findCenters` | lasikplus.com | Runs the site's own iSchedule center locator (lasikplus.com/ischedule/) — given a US… | 🟢 |
 | `lasikplus.getAvailability` | lasikplus.com | Runs the site's own iSchedule appointment lookup for a given centerCode — returns the… | 🟢 |
+| `latimes.browseSection` | latimes.com | Lists a section front's stories newest-first, paged by the page's own Load More token… | ⚪ |
+| `latimes.browseTopic` | latimes.com | Lists a topic page's stories (/topic/<slug>) newest-first, paged by the same Load More… | ⚪ |
+| `latimes.cancelSubscription` | latimes.com | Starts cancellation of the signed-in account's digital subscription through the… | ⚪ |
+| `latimes.getAccount` | latimes.com | Reads the signed-in account's profile on membership.latimes.com: name, email, ZIP code. | ⚪ |
+| `latimes.getArticle` | latimes.com | Reads one article, newsletter issue or Español story in full: headline, byline, dates… | ⚪ |
+| `latimes.getAuthor` | latimes.com | Reads a staff writer's page (/people/<slug>): name, role, bio, photo, social links and… | ⚪ |
+| `latimes.getCrossword` | latimes.com | Reads a day's LA Times Daily, Midi or Mini Crossword from the Amuse Labs puzzle host… | ⚪ |
+| `latimes.getGuide` | latimes.com | Reads one guide (/food/list/<slug>, /travel/list/<slug>…): each place's rank, name… | ⚪ |
+| `latimes.getPodcast` | latimes.com | Reads one podcast show: description, listen links and its episodes with dates and pages. | ⚪ |
+| `latimes.getPrivacySettings` | latimes.com | Reads the signed-in account's privacy choices on… | ⚪ |
+| `latimes.getRecipe` | latimes.com | Reads one recipe: ingredients, steps, yield, time, category, diet, author and image… | ⚪ |
+| `latimes.getSubscription` | latimes.com | Reads the signed-in account's subscription: plan, status, price, next bill date and… | ⚪ |
+| `latimes.getVideo` | latimes.com | Reads one video page: title, description, authors and its playable MP4 and HLS urls on… | ⚪ |
+| `latimes.listComments` | latimes.com | Reads the reader comments under an article from the Times' Coral comment service… | ⚪ |
+| `latimes.listGuides` | latimes.com | Lists the food, travel and lifestyle guides (101 Best Restaurants, best pizza, gift… | ⚪ |
+| `latimes.listHeadlines` | latimes.com | Reads the homepage's top stories: headline, url, section, summary, byline and time, in… | ⚪ |
+| `latimes.listLatestArticles` | latimes.com | Lists every story published in the last two days from the site's own Google News… | ⚪ |
+| `latimes.listMyNewsletters` | latimes.com | Lists the newsletters the signed-in account is subscribed to (GET… | ⚪ |
+| `latimes.listNewsletters` | latimes.com | Lists every newsletter the Times offers (57 measured) with id, name, category… | ⚪ |
+| `latimes.listNewsroomContacts` | latimes.com | Reads the newsroom directory (/newsroom-directory): the editors and desk heads by… | ⚪ |
+| `latimes.listPodcasts` | latimes.com | Lists the Times' podcast shows (/podcasts) with their pages and Apple/Spotify links. | ⚪ |
+| `latimes.listPuzzles` | latimes.com | Lists the free daily games (/games): Daily, Midi and Mini Crossword, Sudoku, Killer… | ⚪ |
+| `latimes.listSections` | latimes.com | Lists the site's sections and their sub-sections (California, Politics, Business… | ⚪ |
+| `latimes.listTopics` | latimes.com | Lists the editorial topic pages (/archives/topics: Abortion, Earthquakes, Wildfires… | ⚪ |
+| `latimes.listVideos` | latimes.com | Lists the video hub's videos (/video): title, url, authors, date and thumbnail. | ⚪ |
+| `latimes.postComment` | latimes.com | Posts a comment on an article from the signed-in account, through Coral with the… | ⚪ |
+| `latimes.replyToComment` | latimes.com | Replies to a comment on an article from the signed-in account. | ⚪ |
+| `latimes.searchArticles` | latimes.com | Searches the archive (/search?q=) with the site's own filters: topic (f0), content… | ⚪ |
+| `latimes.searchRecipes` | latimes.com | Searches L.A. Times Cooking (/recipes/search?q=) with its filters for course, diet… | ⚪ |
+| `latimes.startSubscription` | latimes.com | Starts a paid digital or print subscription through the site's subscribe offer page. | ⚪ |
+| `latimes.submitLetterToEditor` | latimes.com | Sends a letter to the editor through /opinion/submit-letter-to-the-editor (full name… | ⚪ |
+| `latimes.submitNewsTip` | latimes.com | Sends a news tip to the newsroom through /tips/. | ⚪ |
+| `latimes.subscribeToNewsletter` | latimes.com | Signs an email address up to one or more newsletters by id (POST… | ⚪ |
+| `latimes.unsubscribeFromNewsletter` | latimes.com | Unsubscribes the signed-in account from a newsletter (DELETE… | ⚪ |
+| `latimes.updatePrivacySettings` | latimes.com | Opts the signed-in account in or out of the sale and sharing of personal information… | ⚪ |
+| `latimes.updateProfile` | latimes.com | Edits the signed-in account's name or ZIP code on membership.latimes.com. | ⚪ |
 | `launchpad.getProject` | code.launchpad.net | Reads a public Launchpad project's metadata, issue-tracker availability, and… | 🟢 |
 | `launchpad.listLatestProjects` | code.launchpad.net | Lists recently registered public Launchpad projects; the zero-argument discovery… | 🟢 |
 | `launchpad.searchProjects` | code.launchpad.net | Searches public Launchpad projects by title, summary, or description. | 🟢 |

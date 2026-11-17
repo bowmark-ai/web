@@ -380,6 +380,7 @@ games.nytimes.com — nyt_games: getConnections, getCrosswordArchive, getCrosswo
 gasbuddy.com — gasbuddy: findCheapestNearby
 gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, listDiscounts, listPartnerCompanies (+34 planned)
+genius.com — genius: nothing callable yet (+28 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
 getsquire.com — squire: findShopsNear, getAvailability, getBarber, getBookingQuote, getBrand, getReviews, getShop, getWalkInStatus, listBarbers, listServices, lookupReservation, searchShops (+16 planned)
 github.com — github: 46 functions — ask get_library
@@ -496,6 +497,7 @@ labcorp.com — labcorp: getTest, search (+3 planned)
 landmarkhw.com — landmarkhw_com: getOrderFormOptions, listOrderStates
 landsend.com — landsend: getActivePromo, searchProducts (+2 planned)
 lasikplus.com — lasikplus: findCenters, getAvailability
+latimes.com — latimes: nothing callable yet (+36 planned)
 lcsc.com — lcsc: product, search
 learn.chatgpt.com — openai: helpArticle, plans
 legacyhomesal.com — legacyhomesal: getAvailability, listCommunities
