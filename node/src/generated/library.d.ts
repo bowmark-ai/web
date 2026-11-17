@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e833508f87ff769b64f6a12623b3ccad6f500f766c22203b865d927ad4e09460
-// 98 capabilities, 889 providers, 5438 typed functions, 20 refused.
+// Manifest version: 4aef97a8c9cd2fb72619c970e94f5ddfe5def2bad755acbf6487c85c9a4db3cf
+// 98 capabilities, 903 providers, 5467 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -526,28 +526,32 @@ type CallOptions = {
      * and `watchUrl`. When the task names the site (a URL or a host like example.com), Bowmark may
      * first try a fast agent INSIDE `start` (usually 5-20 s, at most ~40 s): if it finishes,
      * `start` returns `status: "idle"` and the answer is already in `status(id).result`; otherwise
-     * Browser Use runs the session and `start` returns `running`. Handle both. Not a watcher — it
-     * does not poll by itself; on a public page with no login or CAPTCHA a script can start and
-     * poll it unattended, while a login needs your user present every run. Billed per turn: if
-     * your user already asked you to get the thing done, start it and in the same reply tell them
-     * it is running, that it costs money, and give them `watchUrl` — a login only they hold is
-     * signed in there, on the live page, as their real account on the real site, so anything the
-     * agent then adds to a cart or saves is really on their account rather than lost inside
-     * Bowmark's own browser. Otherwise tell them what it costs and get a yes before you start it.
-     * Either way, never end on a manual workaround without mentioning this option and its cost.
-     * **Same question, same answer:** for a lookup your app repeats, put the exact search page's
-     * URL in `task`, not just the site — a site with two ways to search can otherwise be entered
-     * differently each run and give two different answers. **One session = one independent goal**
-     * — never bundle multiple date ranges, SKUs or queries into one session; the agent silently
-     * reuses results across them. Start a separate session for each distinct query. One list read
-     * in full under one filter, across its pages, is ONE goal. Then `status(id)` from later runs
-     * (each `run()` is capped at 90s; the agent is not — a task normally takes 1-3 minutes, so do
-     * not give up on it before 5); on `needs_input` relay `question` and `send` the answer; on
-     * `idle` read `result` and `stop(id)`. A login persists for the life of the session, so later
-     * `send()` calls into the same session do not need re-authentication. Always stop sessions
-     * when done — idle browsers keep costing money. Account limit: 3 open sessions, counting ones
-     * still starting — start 9 at once and 3 run while 6 are refused with the limit error, so
-     * start at most 3 and `stop()` one before starting the next.
+     * Browser Use runs the session and `start` returns `running`. Handle both. A fast-agent turn
+     * that ran no steps and was asked to search or look something up is never used as the answer:
+     * it falls through to Browser Use the same way. `backend` (default `"auto"`) decides this:
+     * pass `backend: "browser_use"` to skip the fast agent entirely, and read the `backend` field
+     * of the returned object to see which one ran. Not a watcher — it does not poll by itself; on
+     * a public page with no login or CAPTCHA a script can start and poll it unattended, while a
+     * login needs your user present every run. Billed per turn: if your user already asked you to
+     * get the thing done, start it and in the same reply tell them it is running, that it costs
+     * money, and give them `watchUrl` — a login only they hold is signed in there, on the live
+     * page, as their real account on the real site, so anything the agent then adds to a cart or
+     * saves is really on their account rather than lost inside Bowmark's own browser. Otherwise
+     * tell them what it costs and get a yes before you start it. Either way, never end on a manual
+     * workaround without mentioning this option and its cost. **Same question, same answer:** for
+     * a lookup your app repeats, put the exact search page's URL in `task`, not just the site — a
+     * site with two ways to search can otherwise be entered differently each run and give two
+     * different answers. **One session = one independent goal** — never bundle multiple date
+     * ranges, SKUs or queries into one session; the agent silently reuses results across them.
+     * Start a separate session for each distinct query. One list read in full under one filter,
+     * across its pages, is ONE goal. Then `status(id)` from later runs (each `run()` is capped at
+     * 90s; the agent is not — a task normally takes 1-3 minutes, so do not give up on it before
+     * 5); on `needs_input` relay `question` and `send` the answer; on `idle` read `result` and
+     * `stop(id)`. A login persists for the life of the session, so later `send()` calls into the
+     * same session do not need re-authentication. Always stop sessions when done — idle browsers
+     * keep costing money. Account limit: 3 open sessions, counting ones still starting — start 9
+     * at once and 3 run while 6 are refused with the limit error, so start at most 3 and `stop()`
+     * one before starting the next.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -3339,7 +3343,7 @@ interface Lead {
 }
 
 declare namespace BowmarkCapability_llm {
-  // ── Ask a model, from inside a jig page — the unit's own declarations, verbatim ──
+  // ── Ask a model to read text and answer: classify, label, judge or summarize — the unit's own declarations, verbatim ──
 interface LlmUsage { model: string; inputTokens: number; outputTokens: number; costUsd: number; servedBy: "gateway" | "chat" | "link" }  // model is "chatgpt (via Link)" / "chat" when not gateway
 
 interface LlmCompleteArgs {
@@ -3360,9 +3364,10 @@ interface LlmJudgeVerdict { id: string; about: string; hide: boolean; reason?: s
 interface LlmJudgeResult { verdicts: LlmJudgeVerdict[]; usage: LlmUsage; warnings: string[] }
 
   /**
-   * Calls a model and returns its answer, metered to this run's account — for a jig page that
-   * must judge live content on every load rather than wait for the chat model to curate it. Not
-   * a site wrapper.
+   * Calls a model from a script and returns its answer: classify or label items (positive,
+   * negative, neutral, on-topic or not), judge them, summarize, or return a structured object.
+   * Metered to the caller's account, and `items` is untrusted data, never instructions. A jig
+   * page can call it too, to judge live content on every load. Not a site wrapper.
    */
   interface Unit {
     /**
@@ -4105,8 +4110,10 @@ interface ProductSearchResult {
   results: { store: "walmart" | "target" | "bestbuy" | "amazon"; title: string;
              price: number | null; wasPrice: number | null; url: string | null;
              inStock: boolean; rating: number | null; ratingCount: number | null;  // rating, ratingCount: amazon rows only
-             condition: "new" | "used" | "unknown" }[]  // from the title; compare like with like, a "used" row is never "cheaper"
+             condition: "new" | "used" | "unknown";  // from the title; compare like with like, a "used" row is never "cheaper"
+             currency: string }[]  // ISO 4217 of price and wasPrice: "EUR" on amazon.fr, "USD" on the US stores
   warnings: string[]   // names any store that did not answer
+  market: string       // which store answered: "amazon.fr", "amazon.com", or "us" for the Walmart/Target/Best Buy fan-out
 }
 interface ProductAvailability {
   url: string
@@ -4133,12 +4140,15 @@ interface ProductAvailability {
      * returns one list of offers, best title match for the query first and cheapest first among
      * equal matches — the same fan-out as `bowmark.retail.search`, reachable under the name
      * callers guess first. The default fan-out does NOT include Amazon; to search Amazon, pass
-     * `site: 'amazon'` (any `site` searches that one store only). `limit` caps the rows. The
-     * answer is `{ results, warnings }`, not a bare array. Rows are each store's own keyword
-     * results, so filter on `title` before reading a price off the top row. `warnings` names any
-     * store that did not answer.
+     * `site: 'amazon'` (any `site` searches that one store only); Amazon answers from amazon.com
+     * unless you pass `market` (`'fr'` is amazon.fr in EUR; `site: 'amazon.fr'` means the same),
+     * and `market` with any other site is refused because those stores are US-only. Every row
+     * carries its `currency`, and `market` on the answer names the store that answered. `limit`
+     * caps the rows. The answer is `{ results, warnings }`, not a bare array. Rows are each
+     * store's own keyword results, so filter on `title` before reading a price off the top row.
+     * `warnings` names any store that did not answer.
      */
-    search(args: { query: string; site?: 'walmart' | 'target' | 'bestbuy' | 'amazon'; limit?: number }): Promise<ProductSearchResult>;
+    search(args: { query: string; site?: 'walmart' | 'target' | 'bestbuy' | 'amazon'; market?: 'com' | 'in' | 'com.br' | 'ca' | 'co.uk' | 'de' | 'fr' | 'com.mx'; limit?: number }): Promise<ProductSearchResult>;
 
     /**
      * Reads one product page and returns its price and stock status — from the page's own
@@ -6367,28 +6377,29 @@ type FormFillResult = {
      * contract, an application) or would send more than the caller authorized. One call is one
      * step — call it again with the next step's `values` to walk a wizard forward, unless that
      * step depends on a session the earlier call held (see below). `advanced` is true only when
-     * the click moved the page to a different step — its fields or step label changed, or the URL
-     * changed with new text — and a click that left the same form showing comes back `advanced:
-     * false` with a warning naming the step it is still on. Each call opens the page afresh, so a
-     * step held only by an earlier call's session does not carry over: on one checkout (measured
-     * 2026-11-11) the next call read the blank address form again on a new token. The `url` the
-     * call returned is the only state it hands back, so check `advanced` before reading a later
-     * step as the answer. `notFound` names any `values` key that was not set, so a caller who
-     * guessed a label wrong sees that rather than silence; when the key DID match a field that
-     * could not be set (disabled until an earlier choice, no option matching the value), a warning
-     * names the field and the reason. A pop-up menu with no text box (a select-only combobox) is
-     * opened and the option matching the value is clicked — never a default one. When a click
-     * registers, `resultContent` carries what the site answered back — a matched branch, a
-     * calculated price, a stock status — read off the destination page or widget and capped at
-     * 4000 characters; `null` when neither `submit` nor `advance` was requested or the click never
-     * registered. **Two ways it falls short, and neither is fixed by calling again with the same
-     * values.** On a page with several forms, keys are matched against every field on the page, so
-     * a key can land in a DIFFERENT form than the one you meant (a site search, a tracking-number
-     * box) and still be listed in `filled`, and a submit then answers for that form: check
-     * `resultContent` reads like the answer you asked for. And a calculator `getFields` listed may
-     * still refuse values (fields built from custom controls, or swapped out as you type): those
-     * keys come back in `notFound` or a warning. For either, `bowmark.browser_agent` (billed)
-     * operates the page like a person.
+     * the click, or a value written with no control to click (a dropdown whose choice renders the
+     * next step), moved the page to a different step — its fields or step label changed, or the
+     * URL changed with new text — and a click that left the same form showing comes back
+     * `advanced: false` with a warning naming the step it is still on. Each call opens the page
+     * afresh, so a step held only by an earlier call's session does not carry over: on one
+     * checkout (measured 2026-11-11) the next call read the blank address form again on a new
+     * token. The `url` the call returned is the only state it hands back, so check `advanced`
+     * before reading a later step as the answer. `notFound` names any `values` key that was not
+     * set, so a caller who guessed a label wrong sees that rather than silence; when the key DID
+     * match a field that could not be set (disabled until an earlier choice, no option matching
+     * the value), a warning names the field and the reason. A pop-up menu with no text box (a
+     * select-only combobox) is opened and the option matching the value is clicked — never a
+     * default one. When a click registers, `resultContent` carries what the site answered back — a
+     * matched branch, a calculated price, a stock status — read off the destination page or widget
+     * and capped at 4000 characters; `null` when neither `submit` nor `advance` was requested or
+     * the click never registered. **Two ways it falls short, and neither is fixed by calling again
+     * with the same values.** On a page with several forms, keys are matched against every field
+     * on the page, so a key can land in a DIFFERENT form than the one you meant (a site search, a
+     * tracking-number box) and still be listed in `filled`, and a submit then answers for that
+     * form: check `resultContent` reads like the answer you asked for. And a calculator
+     * `getFields` listed may still refuse values (fields built from custom controls, or swapped
+     * out as you type): those keys come back in `notFound` or a warning. For either,
+     * `bowmark.browser_agent` (billed) operates the page like a person.
      */
     fillForm(url: string, values: Record<string, string>, options?: FormFillOptions): Promise<FormFillResult>;
   }
@@ -7204,6 +7215,36 @@ interface AbtProduct {
      * schema.org Product data.
      */
     getProduct(url: string): Promise<AbtProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_accommodationforstudents {
+  // ── Accommodation for Students — the unit's own declarations, verbatim ──
+interface AfsListing { id: string; url: string; status: "available" | "removed" | "not_found"; title: string | null; propertyType: string | null; address: { area: string | null; city: string | null; postcode: string | null } | null; priceAmount: number | null; priceFrequency: "pw"; currency: string | null; deposit: number | null; billsIncluded: string | null; bills: string[]; bedrooms: number | null; roomsAvailable: number | null; bathrooms: number | null; availableFrom: string | null; forGroupsOnly: boolean; provider: { name: string | null; type: string | null; phone: string | null } | null; rooms: { size: string | null; bed: string | null; ensuite: boolean; rentPerWeek: number | null; available: boolean }[]; amenities: string[]; description: string | null; images: string[]; }
+interface AfsCity { name: string; slug: string; listings: number }
+interface AfsListingSummary { id: string; url: string; propertyType: string; address: string; area: string | null; priceAmount: number | null; priceFrequency: "pw"; billsIncluded: string | null; roomsAvailable: number | null; provider: string | null }
+
+  /**
+   * UK student homes on Accommodation for Students — list cities, find the latest houses, flats,
+   * studios and halls in a city, and read one listing's weekly rent, rooms, bills and landlord.
+   */
+  interface Unit {
+    /**
+     * Reads one Accommodation for Students listing by its /property/ link or number: status
+     * (available, removed, not_found), weekly From rent, deposit, rooms, bills, amenities,
+     * availability and the landlord or agent.
+     */
+    getListing(listing: string): Promise<AfsListing>;
+
+    /** Lists every UK city Accommodation for Students covers, with its slug and live listing count. */
+    listCities(): Promise<AfsCity[]>;
+
+    /**
+     * Finds student accommodation in a UK city: the latest houses, flats, studios and halls the
+     * city page shows (up to 32), each with its weekly rent and listing link, plus the city's
+     * total listing count.
+     */
+    searchListings(city: string): Promise<{ city: string; totalListings: number | null; listings: AfsListingSummary[] }>;
   }
 }
 
@@ -56288,6 +56329,76 @@ interface HarmarFindCompatibleLiftsResult extends HarmarCompatibleLiftsResult {
   }
 }
 
+declare namespace BowmarkProvider_harringtonsdurham {
+  // ── Harringtons — the unit's own declarations, verbatim ──
+interface HarringtonsListing {
+  url: string;
+  slug: string;
+  status: "available" | "not_found";  // not_found = the site has no listing there (taken down included)
+  title: string | null;
+  priceAmount: number | null;         // GBP, e.g. 209
+  priceFrequency: "pw" | "pcm" | null;
+  pricePerPerson: boolean | null;     // true for "PPPW"
+  price: string | null;               // "£209.00 PPPW"
+  depositAmount: number | null;       // GBP, e.g. 700
+  depositPerPerson: boolean | null;   // true for "£700.00pp"
+  availableFrom: string | null;       // move-in date, "2027-07-01"
+  bedrooms: number | null;
+  bathrooms: number | null;
+  billsIncluded: string[];            // e.g. ["broadband"]
+  rentalType: string | null;          // "House", "Flat", …
+  facilities: string[];              // the site's own labels
+  description: string | null;
+  photo: string | null;
+}
+interface HarringtonsGetListingArgs {
+  listing: string;  // a harringtonsdurham.com/properties/<slug>/ link, its slug, or its number (post id)
+}
+interface HarringtonsListingSummary {
+  url: string;
+  slug: string;
+  title: string;
+  priceAmount: number | null;
+  price: string | null;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  photo: string | null;
+}
+interface HarringtonsListListingsArgs {
+  query?: string;     // optional words to match in the street / property name, e.g. "Old Elvet"
+  minBedrooms?: number;
+  maxPrice?: number;  // GBP per person per week
+  limit?: number;     // default 50
+}
+interface HarringtonsListingsPage {
+  total: number;      // how many matched, before limit
+  listings: HarringtonsListingSummary[];
+}
+
+  /**
+   * Harringtons (harringtonsdurham.com), Durham student and residential lettings: list every
+   * property it advertises, and read one listing's rent per person per week, deposit, move-in
+   * date, bills and facilities.
+   */
+  interface Unit {
+    /**
+     * Reads one Harringtons (Durham lettings) listing from its link, slug or number: rent amount,
+     * frequency (pw) and per-person flag, deposit per person, move-in date, bedrooms, bathrooms,
+     * bills included, rental type and facilities. status is available, or not_found when the site
+     * has no listing there.
+     */
+    getListing(args: HarringtonsGetListingArgs): Promise<HarringtonsListing>;
+
+    /**
+     * Lists the properties Harringtons advertises in Durham (every one on its /properties/ page),
+     * optionally filtered by street name, minimum bedrooms or maximum rent per person per week:
+     * link, name, rent per person per week, bedrooms and bathrooms. Pass a row's `url` to
+     * getListing for deposit and move-in date.
+     */
+    listListings(args?: HarringtonsListListingsArgs): Promise<HarringtonsListingsPage>;
+  }
+}
+
 declare namespace BowmarkProvider_hauslabs {
   // ── Haus Labs by Lady Gaga — the unit's own declarations, verbatim ──
 interface HauslabsVariant {
@@ -66953,6 +67064,59 @@ interface LobehubMcpListing {
   }
 }
 
+declare namespace BowmarkProvider_loc8me {
+  // ── Loc8me — the unit's own declarations, verbatim ──
+interface loc8meListing {
+  id: string;
+  listingId: string;
+  status: "available" | "unavailable" | "not_found";
+  title?: string;
+  // the site's own labels — read the values off a result, never guess one from prose.
+  // Blank on every row measured 2026-11-17, so usually absent. Never defaulted.
+  listingType?: string;
+  bedrooms?: number;
+  priceAmount?: number;
+  priceFrequency?: string;
+  url?: string;
+  description?: string;
+  city?: string;
+  postcode?: string;
+  images?: string[];
+}
+interface loc8meListingSearchResult {
+  id: string;
+  listingId: string;
+  title: string;
+  bedrooms: number | null;
+  priceAmount: number | null;
+  priceFrequency: string | null;
+  available: boolean | null;
+  city: string | null;
+  url: string;
+}
+
+  /**
+   * Read Loc8me's student lettings by building name, then the rent, bedrooms and availability of
+   * one listing.
+   */
+  interface Unit {
+    /**
+     * Reads one Loc8me student-housing listing by its full Loc8me URL, /lettings/<slug>/ path, or
+     * slug. Returns its availability, weekly rent, bedrooms, description, photos and address
+     * fields; returns status: not_found when Loc8me no longer has that slug.
+     */
+    getListing(listing: string): Promise<loc8meListing>;
+
+    /**
+     * Finds current Loc8me listings by their title, which is a building or street name such as
+     * Yalta Court or Hull Road, and returns rows whose listingId or url getListing can read. A
+     * city name or a phrase such as student housing matches no title, so an empty result means no
+     * title matched, not that Loc8me has no listings.
+     */
+    searchListings(query: string): Promise<loc8meListingSearchResult[]>;
+  }
+}
+
 declare namespace BowmarkProvider_lonelyplanet {
   // ── Lonely Planet — the unit's own declarations, verbatim ──
 interface LonelyPlanetSearchResult {
@@ -75493,6 +75657,36 @@ interface nhcReconObservation {
   }
 }
 
+declare namespace BowmarkProvider_nicholashumphreys {
+  // ── Nicholas Humphreys — the unit's own declarations, verbatim ──
+type NicholasHumphreysStatus = "available" | "let_agreed" | "let" | "not_found";
+interface NicholasHumphreysSearchInput { location?: string; department?: "student" | "residential"; bedrooms?: number; sort?: "newest" | "price_asc" | "price_desc"; page?: number; }
+interface NicholasHumphreysSearchRow { postId: number; reference: string; link: string; address: string; town: string; postcode: string; status: NicholasHumphreysStatus; status_label: string; department: string; property_type: string; furnishing: string | null; bedrooms: number | null; bathrooms: number | null; price_amount: number | null; rent_frequency: string | null; deposit: number | null; available_from: string | null; bills_included: boolean; features: string[]; summary: string; latitude: number | null; longitude: number | null; image: string | null; }
+interface NicholasHumphreysSearchResult { total: number; page: number; pages: number; listings: NicholasHumphreysSearchRow[]; }
+interface NicholasHumphreysListingInput { listing: string | number; }
+interface NicholasHumphreysListing { status: NicholasHumphreysStatus; status_label: string | null; url: string; postId: number | null; reference: string | null; title: string | null; property_type: string | null; listing_type: string | null; bedrooms: number | null; bathrooms: number | null; price_amount: number | null; price_currency: string | null; price_display: string | null; rent_frequency: string | null; deposit: number | null; features: string[]; description: string | null; address: { street: string | null; locality: string | null; postcode: string | null } | null; latitude: number | null; longitude: number | null; images: string[]; date_posted: string | null; branch: { name: string | null; phone: string | null } | null; }
+
+  /**
+   * Nicholas Humphreys, a UK estate, letting and student letting agent: search its properties to
+   * rent and read one letting listing in full (price, status, bedrooms, deposit, features).
+   */
+  interface Unit {
+    /**
+     * Searches Nicholas Humphreys' properties to rent (student and residential lettings) by town
+     * or postcode, bedrooms and department, 8 per page. The entry point: each row's postId or link
+     * feeds getListing.
+     */
+    searchLettings(input?: NicholasHumphreysSearchInput): Promise<NicholasHumphreysSearchResult>;
+
+    /**
+     * Reads one Nicholas Humphreys letting listing in full by its link, postId or reference:
+     * status (available, let_agreed, let, or not_found), price, deposit, bedrooms, bathrooms,
+     * features, address, images and branch.
+     */
+    getListing(input: NicholasHumphreysListingInput): Promise<NicholasHumphreysListing>;
+  }
+}
+
 declare namespace BowmarkProvider_nike {
   // ── Nike SNKRS — the unit's own declarations, verbatim ──
 interface NikeCheckoutAccount { site: string; hint: string; signedInAs?: string; signInUrl?: string; }
@@ -76025,6 +76219,62 @@ interface NintendoRewardsBalance {
      * sign-in.
      */
     getMyNintendoRewardsBalance(opts?: ConnectionOption): Promise<NintendoRewardsBalance>;
+  }
+}
+
+declare namespace BowmarkProvider_nops {
+  // ── North Oxford Property Services (NOPS) — the unit's own declarations, verbatim ──
+type NopsStatus = "available" | "let_agreed" | "let" | "not_found";
+interface NopsListing {
+  listingNumber: string;
+  status: NopsStatus;
+  statusLabel?: string; // the site's own badge, e.g. "To Let", "Let Agreed", "Under Offer"
+  url: string;
+  address?: string;
+  priceAmount?: number;
+  priceFrequency?: string; // "pcm" on every listing measured
+  bedrooms?: number;
+  propertyType?: string; // the site's own label, e.g. "Flat", "House"
+  depositAmount?: number;
+  councilTaxBand?: string;
+  features?: string[];
+  description?: string;
+  image?: string;
+}
+interface NopsListingSummary {
+  listingNumber: string;
+  url: string;
+  address: string;
+  postcode: string | null;
+  priceAmount: number | null;
+  priceFrequency: "pcm";
+  bedrooms: number | null;
+  bathrooms: number | null;
+  propertyType: string | null;
+  statusLabel: string | null;
+  branchId: string;
+}
+interface NopsSearchResult { listings: NopsListingSummary[]; warnings: string[] }
+
+  /**
+   * List the Oxford rental properties North Oxford Property Services (nops.co.uk) has to let,
+   * then read one listing in full: rent, deposit, bedrooms, features and whether it is still
+   * available.
+   */
+  interface Unit {
+    /**
+     * Reads one nops.co.uk letting listing by its link or listing number: address, monthly rent,
+     * deposit, bedrooms, property type, features, council tax band, description and status
+     * (available, let_agreed, let, or not_found when the site has no listing under that number).
+     */
+    getListing(listing: string): Promise<NopsListing>;
+
+    /**
+     * Lists every Oxford property NOPS currently has to let across both its offices, optionally
+     * filtered by address text, minimum bedrooms or maximum monthly rent; each row's url or
+     * listingNumber goes straight into getListing.
+     */
+    searchListings(filter?: { query?: string; minBedrooms?: number; maxPrice?: number }): Promise<NopsSearchResult>;
   }
 }
 
@@ -79566,6 +79816,64 @@ interface ReadPostArgs {
      * listPosts returns.
      */
     readPost(args: ReadPostArgs): Promise<OpenAiComArticle>;
+  }
+}
+
+declare namespace BowmarkProvider_openarch {
+  // ── OpenArch — the unit's own declarations, verbatim ──
+interface OpenarchListing {
+  listingId: string;            // the link's last number
+  url: string;
+  status: "available" | "let" | "not_found";
+  statusLabel: string | null;   // "Available", "Available Soon", …
+  title: string | null;         // "217 Arbury Road, Cambridge"
+  summary: string | null;
+  description: string | null;
+  address: string | null;
+  location: string | null;      // "Cambridge"
+  propertyType: string | null;  // "House Of Multiple Occupancy", "Student Property - Flat"
+  listingType: string | null;   // "student" | "residential" | "commercial"
+  bedrooms: number | null;
+  priceAmount: number | null;   // GBP; null when unpublished (student listings)
+  priceFrequency: string | null;// "pcm"
+  priceText: string | null;     // "£885 pcm"
+  depositAmount: number | null;
+  availableFrom: string | null; // "9 December 2026", "Now"
+  furnished: string | null;
+  virtualTour: string | null;
+  photos: string[];
+  features: Record<string, string>; // every visible feature row, verbatim
+}
+interface OpenarchListingSummary {
+  listingId: string; url: string; title: string; statusLabel: string | null;
+  listingType: string | null; bedrooms: number | null; propertyType: string | null;
+  priceAmount: number | null; priceFrequency: string | null; priceText: string | null;
+}
+interface OpenarchListListingsArgs {
+  sector?: "student" | "residential" | "commercial";
+  town?: string;                // e.g. "cambridge", "ely", "st-neots"
+}
+
+  /**
+   * OpenArch (openarch.co.uk), Cambridgeshire lettings agent: list its student and residential
+   * lettings, and read one listing's status, address, bedrooms, rent, deposit and available-from
+   * date.
+   */
+  interface Unit {
+    /**
+     * Reads one OpenArch (Cambridgeshire lettings) student or residential listing by its full
+     * openarch.co.uk link: status (available / let / not_found when the link has no page), title,
+     * address, property type, bedrooms, rent with frequency, deposit, available-from date and
+     * furnishing.
+     */
+    getListing(args: { listing: string }): Promise<OpenarchListing>;
+
+    /**
+     * Lists the lettings OpenArch shows on its search page (every live listing, ~70), optionally
+     * narrowed to a sector (student / residential / commercial) and a town: link, status,
+     * bedrooms, type and rent. Pass a row's `url` to getListing for the deposit and dates.
+     */
+    listListings(args?: OpenarchListListingsArgs): Promise<{ url: string; listings: OpenarchListingSummary[] }>;
   }
 }
 
@@ -84301,6 +84609,75 @@ interface PrimeVideoLiveSportsEvent {
   }
 }
 
+declare namespace BowmarkProvider_primestudentlets {
+  // ── Prime Student Lets — the unit's own declarations, verbatim ──
+interface PrimeListing {
+  slug: string;
+  url: string;
+  status: "available" | "let_agreed" | "not_found";
+  statusLabel: string | null;
+  title: string | null;
+  address: string | null;
+  bedrooms: number | null;
+  bathrooms: string | null;          // "2" or "2 and an additional toilet"
+  priceAmount: number | null;        // GBP per person per week, EXCLUDING bills
+  priceFrequency: "pw" | null;
+  pricePerPerson: boolean;
+  allInclusiveAmount: number | null; // GBP per person per week WITH bills, when offered
+  billsIncluded: boolean;            // whether priceAmount itself includes bills
+  priceText: string | null;          // the rent line as shown
+  depositAmount: number | null;      // GBP
+  forRent: boolean | null;
+  description: string | null;
+  keyFeatures: string[];
+  photos: string[];
+  videoUrl: string | null;
+}
+interface PrimeGetListingArgs {
+  listing: string;   // a primestudentlets.co.uk listing link, or its slug, e.g. "45-garendon-green"
+}
+interface PrimeListingSummary {
+  slug: string;
+  url: string;
+  address: string;
+  bedrooms: number | null;
+  bathrooms: string | null;
+  priceText: string | null;
+  priceAmount: number | null;        // GBP per person per week excluding bills
+  photo: string | null;
+}
+interface PrimeListingsPage {
+  listings: PrimeListingSummary[];
+  warnings: string[];                // names any bedroom page that could not be read
+  complete: boolean;
+}
+interface PrimeListListingsArgs {
+  bedrooms?: number;   // 1..8; omit for every house
+}
+
+  /**
+   * Prime Student Lets (primestudentlets.co.uk), Loughborough student houses: list every house
+   * (or those with N bedrooms) and read one listing's rent per person per week, bills option,
+   * deposit, address and bedrooms.
+   */
+  interface Unit {
+    /**
+     * Reads one Prime Student Lets Loughborough student house by its link or slug: status
+     * (available / let_agreed / not_found), address, bedrooms, bathrooms, rent per person per week
+     * excluding bills and the all-inclusive-of-bills rent, deposit, description, key features and
+     * photos.
+     */
+    getListing(args: PrimeGetListingArgs): Promise<PrimeListing>;
+
+    /**
+     * Lists Prime Student Lets' Loughborough student houses — all of them, or only those with
+     * `bedrooms` bedrooms (1-8): link, slug, address, bedrooms, bathrooms and rent per person per
+     * week. Pass a row's `url` to getListing for deposit, bills and features.
+     */
+    listListings(args?: PrimeListListingsArgs): Promise<PrimeListingsPage>;
+  }
+}
+
 declare namespace BowmarkProvider_printful {
   // ── Printful — the unit's own declarations, verbatim ──
 interface PrintfulOrder {
@@ -88832,6 +89209,32 @@ interface AssembledApplication {
   }
 }
 
+declare namespace BowmarkProvider_rentrightstudents_co_uk {
+  // ── RentRight Students — the unit's own declarations, verbatim ──
+interface RentRightListing { id: string; status: "available" | "let_agreed"; title: string; url: string; agent: string | null; agentReference: string | null; propertyType: string | null; bedrooms: number | null; bathrooms: number | null; rentPcm: number | null; priceText: string | null; depositGbp: number | null; availableFrom: string | null; furnishing: string | null; address: { street: string | null; locality: string | null; region: string | null; postcode: string | null }; latitude: number | null; longitude: number | null; description: string | null; images: string[]; }
+interface RentRightListingLink { id: string; url: string; street: string | null; postcode: string | null; }
+
+  /**
+   * Read UK student rental listings on RentRight Students (rentrightstudents.co.uk) — the newest
+   * listings, and one property in full: monthly rent, deposit, bedrooms, availability date,
+   * address and letting agent.
+   */
+  interface Unit {
+    /**
+     * Reads one RentRight Students property by its /property/<id>/ URL or numeric id: let-agreed
+     * status, monthly rent, deposit, bedrooms, bathrooms, availability date, furnishing, address,
+     * letting agent, description and photos.
+     */
+    getListing(listing: string): Promise<RentRightListing | { id: string; status: "not_found" }>;
+
+    /**
+     * Lists the newest student rental listings on RentRight Students (id, URL, street, postcode),
+     * from the site's own latest-listings sitemap. Default limit 50.
+     */
+    listLatestListings(opts?: { limit?: number }): Promise<{ listings: RentRightListingLink[] }>;
+  }
+}
+
 declare namespace BowmarkProvider_renttherunway {
   // ── Rent the Runway — the unit's own declarations, verbatim ──
 interface RentTheRunwayProduct {
@@ -92521,6 +92924,36 @@ interface ScentbirdCatalogueResult {
      * (standard/discount/membership) — straight off the site's own public GraphQL endpoint.
      */
     browseCatalogue(catalogue: "perfumes" | "colognes", limit?: number, offset?: number): Promise<ScentbirdCatalogueResult>;
+  }
+}
+
+declare namespace BowmarkProvider_scottfraser_co_uk {
+  // ── Scott Fraser — the unit's own declarations, verbatim ──
+type ScottFraserStatus = "available" | "let_agreed" | "let" | "not_found";
+interface ScottFraserListing { reference: string; url: string; status: ScottFraserStatus; statusLabel: string | null; title: string | null; propertyType: string | null; listingType: "lettings"; bedrooms: number | null; bathrooms: number | null; receptions: number | null; priceAmount: number | null; priceFrequency: string | null; depositAmount: number | null; holdingDepositAmount: number | null; availableFrom: string | null; councilTaxBand: string | null; epcBand: string | null; address: string | null; postcode: string | null; area: string | null; latitude: number | null; longitude: number | null; summary: string | null; description: string | null; features: string[]; images: string[]; agent: { name: string | null; email: string | null; jobTitle: string | null } | null; }
+interface ScottFraserNotFound { reference: string; url: string; status: "not_found"; }
+interface ScottFraserLettingRef { reference: string; url: string; bedrooms: number | null; propertyType: string | null; location: string | null; }
+interface ListLettingsArgs { query?: string; limit?: number; }
+
+  /**
+   * Scott Fraser, the Oxfordshire estate and letting agent: list its rental listing links and
+   * read one letting — status, rent, deposit, rooms, availability and features.
+   */
+  interface Unit {
+    /**
+     * Reads one Scott Fraser letting by its link or reference (e.g. "eox250306"): status
+     * (available, let_agreed, let, or not_found for a removed listing or a sale), monthly rent,
+     * deposit and holding deposit, bedrooms, bathrooms, availability date, council tax and EPC
+     * bands, address, features, photos and the lettings negotiator.
+     */
+    getListing(listing: string): Promise<ScottFraserListing | ScottFraserNotFound>;
+
+    /**
+     * Lists Scott Fraser rental listing links from its sitemap (current and recently let),
+     * optionally filtered by area or postcode text such as "headington" or "ox4" — the door to
+     * getListing.
+     */
+    listLettings(args?: ListLettingsArgs): Promise<ScottFraserLettingRef[]>;
   }
 }
 
@@ -102257,6 +102690,97 @@ interface stubhubFavoritesResult {
   }
 }
 
+declare namespace BowmarkProvider_studentaccommodationbath {
+  // ── Peter Moore Lets — the unit's own declarations, verbatim ──
+interface StudentAccommodationBathListing {
+  url: string;
+  slug: string;              // the listing id, e.g. "4-bedroom-student-flat-in-bath"
+  status: "not_found" | null; // null on a found page: the site publishes no live availability
+  title: string | null;      // "4 Bedroom Maisonette"
+  headline: string | null;   // "4 bedroom 2nd and 3rd floor maisonette in central Bath"
+  summary: string | null;
+  features: string[];        // the page's "Key features" list
+  bedrooms: number | null;
+  photos: string[];
+  price: null;               // the agency publishes no prices
+  contactPhone: string;      // ask about availability here
+  contactEmail: string;
+}
+interface StudentAccommodationBathGetListingArgs {
+  listing: string | number;  // a studentaccommodationbath.com page link, its id (last part of the link), or a bedroom count 1-9
+}
+interface StudentAccommodationBathListingSummary {
+  url: string;
+  slug: string;
+  title: string;             // "9 Bedroom House"
+  summary: string | null;
+  bedrooms: number | null;
+  photo: string | null;
+}
+interface StudentAccommodationBathListListingsArgs {
+  minBedrooms?: number;
+  maxBedrooms?: number;
+}
+interface StudentAccommodationBathListingsPage {
+  total: number;
+  listings: StudentAccommodationBathListingSummary[];
+}
+
+  /**
+   * Peter Moore Lets (studentaccommodationbath.com), Bath student lettings: list its example
+   * properties (1 to 9 bedrooms) and read one's description, key features and photos. No prices
+   * or live availability are published; ask by phone or email.
+   */
+  interface Unit {
+    /**
+     * Reads one Peter Moore Lets (studentaccommodationbath.com, Bath student lettings) example
+     * property page from its link, its id or a bedroom count: title, headline, summary, key
+     * features, bedrooms and photos, plus the phone and email to ask about availability. No price
+     * or availability is published, so price and status are null; status is not_found when there
+     * is no such page.
+     */
+    getListing(args: StudentAccommodationBathGetListingArgs): Promise<StudentAccommodationBathListing>;
+
+    /**
+     * Lists the example properties Peter Moore Lets shows on studentaccommodationbath.com (one per
+     * size, 1 to 9 bedrooms), optionally by bedroom range: link, title, summary, bedrooms and
+     * photo. Pass a row's url to getListing for its features and photos.
+     */
+    listListings(args?: StudentAccommodationBathListListingsArgs): Promise<StudentAccommodationBathListingsPage>;
+  }
+}
+
+declare namespace BowmarkProvider_studenthomes_net {
+  // ── Student Homes — the unit's own declarations, verbatim ──
+interface StudentHomesPrice { weeklyPerPerson: number | null; weeklyPerPersonInclBills: number | null; monthlyPerPerson: number | null; monthlyPerPersonInclBills: number | null; monthlyTotal: number | null; monthlyTotalInclBills: number | null; deposit: number | null; currency: "GBP" }
+interface StudentHomesListing { id: string; url: string; status: "available" | "not_found"; availability: string | null; title: string | null; area: string | null; heading: string | null; priceAmount: number | null; priceFrequency: "pppw"; billsIncluded: boolean; price: StudentHomesPrice; bedrooms: number | null; bathrooms: number | null; receptions: number | null; furnishing: string | null; features: string[]; description: string | null; images: string[]; phone: string | null; reserveUrl: string | null }
+interface StudentHomesListingSummary { id: string; url: string; title: string; area: string | null; availability: string | null; bedrooms: number | null; bathrooms: number | null; features: string[]; priceAmount: number | null; weeklyPerPersonExclBills: number | null; billsIncluded: boolean; monthlyTotalInclBills: number | null; deposit: number | null; image: string | null }
+interface StudentHomesSearchArgs { location?: "Coventry" | "Kenilworth" | "Leamington Spa" | "Leicester" | "Liverpool" | "Manchester" | "Southampton" | "Warwick"; minBedrooms?: number; maxBedrooms?: number; sort?: "price_desc" | "price_asc"; page?: number }
+interface StudentHomesSearchResult { page: number; totalPages: number; listings: StudentHomesListingSummary[] }
+
+  /**
+   * Student Homes (studenthomes.net), a student letting agent around Leamington Spa, Coventry
+   * and Warwick — search its student houses and flats by town and bedrooms, and read one
+   * listing's weekly rent per person, bills, deposit, rooms and description.
+   */
+  interface Unit {
+    /**
+     * Reads one Student Homes listing by its /student-property/ link or number: availability,
+     * weekly rent per person (with and without bills), monthly and total cost, deposit, bedrooms,
+     * bathrooms, furnishing, description, photos and the reserve link. status is not_found when
+     * the site has no page for it.
+     */
+    getListing(listing: string): Promise<StudentHomesListing>;
+
+    /**
+     * Searches Student Homes' student houses and flats, 12 a page, optionally by town (Leamington
+     * Spa, Coventry, Warwick, Kenilworth, Leicester, …) and bedroom range, sorted by rent; each
+     * with its weekly rent per person, bills, bedrooms and listing link.
+     */
+    searchListings(args?: StudentHomesSearchArgs): Promise<StudentHomesSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_sturents {
   // ── StuRents — the unit's own declarations, verbatim ──
 interface SturentsContract {
@@ -111720,6 +112244,41 @@ interface UhcSmallbusinessQuote {
   }
 }
 
+declare namespace BowmarkProvider_ukstudenthouses {
+  // ── UK Student Houses — the unit's own declarations, verbatim ──
+interface UkshCity { name: string; slug: string; url: string; }
+interface UkshListingCard { id: string; city: string; url: string; name: string; postcode: string | null; bedrooms: number | null; bathrooms: number | null; priceFromPerPersonPerMonth: number | null; availability: string | null; }
+interface UkshContract { title: string; startDate: string | null; endDate: string | null; pricePerPersonPerWeek: number | null; deposit: number | null; viewingUrl: string | null; }
+interface UkshListing { id: string; city: string; url: string; status: "available" | "let"; title: string; address: string | null; propertyType: string; bedrooms: number | null; bathrooms: number | null; roomsAvailable: number | null; roomsLetIndividually: boolean; pricePerPersonPerWeek: number | null; contracts: UkshContract[]; amenities: string[]; description: string | null; photos: string[]; coordinates: { lat: number; lng: number } | null; }
+interface UkshNotFound { id: string; city: string | null; status: "not_found"; }
+
+  /**
+   * UK Student Houses (ukstudenthouses.com) — list its cities, search the student houses let
+   * room by room in a city, and read one listing in full: availability, bedrooms, bathrooms and
+   * weekly per-person rent.
+   */
+  interface Unit {
+    /**
+     * Lists every city UK Student Houses lets student houses in, with the slug searchListings
+     * takes.
+     */
+    listCities(): Promise<UkshCity[]>;
+
+    /**
+     * Lists the student houses in one city (name or slug, e.g. "Derby"): listing number, link,
+     * postcode, bedrooms, bathrooms, from-price per person per month and availability tag.
+     */
+    searchListings(city: string): Promise<UkshListingCard[]>;
+
+    /**
+     * Reads one listing in full by its link, or by its number plus city: status (available; let
+     * when every room is taken; not_found), title, property type, bedrooms, bathrooms, rooms left,
+     * weekly per-person price per contract, amenities and photos.
+     */
+    getListing(listing: string, city?: string): Promise<UkshListing | UkshNotFound>;
+  }
+}
+
 declare namespace BowmarkProvider_ulrichlifestyle {
   // ── Ulrich Lifestyle Structures — the unit's own declarations, verbatim ──
 // Ulrich Lifestyle Structures' OWN shapes — not a capability contract.
@@ -111788,6 +112347,24 @@ interface UlrichPriceResult {
      * this provider's file-top note.
      */
     priceConfiguration(code: string, selections: { width?: string, length?: string, wallHeight?: string, siding?: string, zip: string }): Promise<UlrichPriceResult>;
+  }
+}
+
+declare namespace BowmarkProvider_unihomes_co_uk {
+  // ── UniHomes — the unit's own declarations, verbatim ──
+interface UniHomesListing { id: string; title: string; url: string; status: "available" | "let"; statusLabel: string; bedrooms: number | null; priceAmount: number | null; priceAmountMax: number | null; priceText: string | null; billsIncluded: boolean; includedBills: string[]; availableFrom: string | null; features: string[]; }
+
+  /**
+   * Read a public UniHomes UK student-housing listing by URL or property reference —
+   * availability, weekly rent, bills and features.
+   */
+  interface Unit {
+    /**
+     * Reads one public UniHomes student-home listing by its /property/<reference>/ URL or numeric
+     * reference: availability, bedrooms, weekly per-person rent, included bills, availability date
+     * and key features.
+     */
+    getListing(listing: string): Promise<UniHomesListing>;
   }
 }
 
@@ -119616,6 +120193,7 @@ interface YahooFinanceMarketSummary {
   topGainers: YahooFinanceMover[];
   topLosers: YahooFinanceMover[];
   mostActive: YahooFinanceMover[];
+  warnings: string[];          // one per part that failed, e.g. "day_losers: HTTP 401"; [] = complete
 }
 
 interface YahooFinancePriceBar {
@@ -120970,6 +121548,31 @@ interface YCombinatorSearchHit {
   }
 }
 
+declare namespace BowmarkProvider_yellowdoorlets_co_uk {
+  // ── Yellow Door Lets — the unit's own declarations, verbatim ──
+interface YellowDoorProperty { id: number; slug: string; url: string; title: string; status: "available" | "let" | "unknown"; type: string | null; area: string | null; address: string | null; bedrooms: number | null; bathrooms: number | null; pricePerPersonPerWeek: number | null; priceText: string | null; availableFrom: string | null; features: string[]; latitude: number | null; longitude: number | null; description: string; modified: string | null; }
+interface YellowDoorSearchOptions { query?: string; status?: "available" | "let"; type?: "house" | "studio" | "room"; area?: string; minBedrooms?: number; maxPrice?: number; limit?: number; }
+
+  /**
+   * Search and read Yellow Door Lets' Lancaster student houses, studios and rooms —
+   * availability, weekly rent per person, bedrooms, address and features.
+   */
+  interface Unit {
+    /**
+     * Lists Yellow Door Lets' Lancaster student properties, optionally filtered by text, status
+     * ("available"/"let"), type ("house"/"studio"/"room"), area (e.g. "city-centre", "fairfield"),
+     * minimum bedrooms and maximum weekly rent per person.
+     */
+    searchProperties(options?: YellowDoorSearchOptions | string): Promise<YellowDoorProperty[]>;
+
+    /**
+     * Reads one Yellow Door Lets property by its /property/<slug>/ URL or slug: status, weekly
+     * rent per person, bedrooms, bathrooms, address, availability date, features and description.
+     */
+    getProperty(property: string): Promise<YellowDoorProperty | { slug: string; status: "not_found" }>;
+  }
+}
+
 declare namespace BowmarkProvider_yelp {
   // ── Yelp — the unit's own declarations, verbatim ──
 interface YelpSearchArgs {
@@ -121662,6 +122265,7 @@ interface YoutubeSearchVideo {
   lengthSeconds: number | null;      // length in whole seconds; null exactly when length is
   views: number | null;
   thumbnail: string | null;
+  channelAvatar: string | null;      // the channel's avatar picture (absolute https URL); null when the row has none
 }
 
 interface YoutubeChannelRef {
@@ -124967,6 +125571,7 @@ interface BowmarkProviders {
   abercrombie: BowmarkProvider_abercrombie.Unit;
   abqplumb: BowmarkProvider_abqplumb.Unit;
   abt: BowmarkProvider_abt.Unit;
+  accommodationforstudents: BowmarkProvider_accommodationforstudents.Unit;
   accuweather: BowmarkProvider_accuweather.Unit;
   acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
@@ -125356,6 +125961,7 @@ interface BowmarkProviders {
   handypro: BowmarkProvider_handypro.Unit;
   hansons: BowmarkProvider_hansons.Unit;
   harmar: BowmarkProvider_harmar.Unit;
+  harringtonsdurham: BowmarkProvider_harringtonsdurham.Unit;
   hauslabs: BowmarkProvider_hauslabs.Unit;
   havenenergy: BowmarkProvider_havenenergy.Unit;
   haydenhomes: BowmarkProvider_haydenhomes.Unit;
@@ -125444,6 +126050,7 @@ interface BowmarkProviders {
   littlewordsproject: BowmarkProvider_littlewordsproject.Unit;
   lmstudio: BowmarkProvider_lmstudio.Unit;
   lobehub_com: BowmarkProvider_lobehub_com.Unit;
+  loc8me: BowmarkProvider_loc8me.Unit;
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
   louvershop: BowmarkProvider_louvershop.Unit;
   lovelybride: BowmarkProvider_lovelybride.Unit;
@@ -125515,8 +126122,10 @@ interface BowmarkProviders {
   newegg: BowmarkProvider_newegg.Unit;
   nfa_futures_org: BowmarkProvider_nfa_futures_org.Unit;
   nhc: BowmarkProvider_nhc.Unit;
+  nicholashumphreys: BowmarkProvider_nicholashumphreys.Unit;
   nike: BowmarkProvider_nike.Unit;
   nintendo: BowmarkProvider_nintendo.Unit;
+  nops: BowmarkProvider_nops.Unit;
   notion: BowmarkProvider_notion.Unit;
   npi_registry: BowmarkProvider_npi_registry.Unit;
   npmjs: BowmarkProvider_npmjs.Unit;
@@ -125538,6 +126147,7 @@ interface BowmarkProviders {
   open_library: BowmarkProvider_open_library.Unit;
   openai: BowmarkProvider_openai.Unit;
   openai_com: BowmarkProvider_openai_com.Unit;
+  openarch: BowmarkProvider_openarch.Unit;
   openrent: BowmarkProvider_openrent.Unit;
   opentable: BowmarkProvider_opentable.Unit;
   originenergy_com_au: BowmarkProvider_originenergy_com_au.Unit;
@@ -125579,6 +126189,7 @@ interface BowmarkProviders {
   premierinn: BowmarkProvider_premierinn.Unit;
   preppednplated: BowmarkProvider_preppednplated.Unit;
   prime_video: BowmarkProvider_prime_video.Unit;
+  primestudentlets: BowmarkProvider_primestudentlets.Unit;
   printful: BowmarkProvider_printful.Unit;
   producthunt: BowmarkProvider_producthunt.Unit;
   progressive: BowmarkProvider_progressive.Unit;
@@ -125613,6 +126224,7 @@ interface BowmarkProviders {
   redfin: BowmarkProvider_redfin.Unit;
   rei: BowmarkProvider_rei.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
+  rentrightstudents_co_uk: BowmarkProvider_rentrightstudents_co_uk.Unit;
   renttherunway: BowmarkProvider_renttherunway.Unit;
   resend: BowmarkProvider_resend.Unit;
   reserve_with_google: BowmarkProvider_reserve_with_google.Unit;
@@ -125643,6 +126255,7 @@ interface BowmarkProviders {
   samsclub: BowmarkProvider_samsclub.Unit;
   samsung: BowmarkProvider_samsung.Unit;
   scentbird: BowmarkProvider_scentbird.Unit;
+  scottfraser_co_uk: BowmarkProvider_scottfraser_co_uk.Unit;
   scribd: BowmarkProvider_scribd.Unit;
   seakeeper: BowmarkProvider_seakeeper.Unit;
   sears: BowmarkProvider_sears.Unit;
@@ -125702,6 +126315,8 @@ interface BowmarkProviders {
   stickergiant: BowmarkProvider_stickergiant.Unit;
   stripe: BowmarkProvider_stripe.Unit;
   stubhub: BowmarkProvider_stubhub.Unit;
+  studentaccommodationbath: BowmarkProvider_studentaccommodationbath.Unit;
+  studenthomes_net: BowmarkProvider_studenthomes_net.Unit;
   sturents: BowmarkProvider_sturents.Unit;
   styleseat: BowmarkProvider_styleseat.Unit;
   substack: BowmarkProvider_substack.Unit;
@@ -125777,7 +126392,9 @@ interface BowmarkProviders {
   uhaul: BowmarkProvider_uhaul.Unit;
   uhc_directory: BowmarkProvider_uhc_directory.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
+  ukstudenthouses: BowmarkProvider_ukstudenthouses.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
+  unihomes_co_uk: BowmarkProvider_unihomes_co_uk.Unit;
   uniqlo: BowmarkProvider_uniqlo.Unit;
   unsplash: BowmarkProvider_unsplash.Unit;
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
@@ -125837,6 +126454,7 @@ interface BowmarkProviders {
   yahoo_sports: BowmarkProvider_yahoo_sports.Unit;
   yargitay: BowmarkProvider_yargitay.Unit;
   ycombinator: BowmarkProvider_ycombinator.Unit;
+  yellowdoorlets_co_uk: BowmarkProvider_yellowdoorlets_co_uk.Unit;
   yelp: BowmarkProvider_yelp.Unit;
   yogatreecollective: BowmarkProvider_yogatreecollective.Unit;
   yorkwallcoverings: BowmarkProvider_yorkwallcoverings.Unit;

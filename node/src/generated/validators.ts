@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e833508f87ff769b64f6a12623b3ccad6f500f766c22203b865d927ad4e09460
-// 5410 checked, 20 unchecked.
+// Manifest version: 4aef97a8c9cd2fb72619c970e94f5ddfe5def2bad755acbf6487c85c9a4db3cf
+// 5439 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e833508f87ff769b64f6a12623b3ccad6f500f766c22203b865d927ad4e09460",
+  "version": "4aef97a8c9cd2fb72619c970e94f5ddfe5def2bad755acbf6487c85c9a4db3cf",
   "units": {
     "address_validation": {
       "defs": {
@@ -5129,6 +5129,47 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 },
                 {
+                  "name": "market",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "com"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "in"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "com.br"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "ca"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "co.uk"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "de"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "fr"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "com.mx"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
                   "name": "limit",
                   "schema": {
                     "k": "number"
@@ -8771,6 +8812,30 @@ export const VALIDATORS: ValidatorTable = {
         "getProduct": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.accommodationforstudents": {
+      "defs": {},
+      "functions": {
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listCities": [],
+        "searchListings": [
+          {
+            "name": "city",
             "schema": {
               "k": "string"
             },
@@ -76037,6 +76102,77 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.harringtonsdurham": {
+      "defs": {
+        "HarringtonsGetListingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listing",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "HarringtonsListListingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HarringtonsGetListingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HarringtonsListListingsArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.hauslabs": {
       "defs": {},
       "functions": {
@@ -90324,6 +90460,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.loc8me": {
+      "defs": {},
+      "functions": {
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchListings": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.lonelyplanet": {
       "defs": {},
       "functions": {
@@ -101641,6 +101800,116 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.nicholashumphreys": {
+      "defs": {
+        "NicholasHumphreysListingInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listing",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "NicholasHumphreysSearchInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "department",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "student"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "residential"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "bedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "price_asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "price_desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLettings": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "NicholasHumphreysSearchInput"
+            },
+            "optional": true
+          }
+        ],
+        "getListing": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "NicholasHumphreysListingInput"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.nike": {
       "defs": {
         "NikeCategoryArgs": {
@@ -102445,6 +102714,52 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.nops": {
+      "defs": {},
+      "functions": {
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchListings": [
+          {
+            "name": "filter",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minBedrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -108148,6 +108463,73 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ReadPostArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.openarch": {
+      "defs": {
+        "OpenarchListListingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sector",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "student"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "residential"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "commercial"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "town",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "listing",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OpenarchListListingsArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -114560,6 +114942,56 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.primestudentlets": {
+      "defs": {
+        "PrimeGetListingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listing",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PrimeListListingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "bedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PrimeGetListingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PrimeListListingsArgs"
             },
             "optional": true
           }
@@ -123413,6 +123845,38 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.rentrightstudents_co_uk": {
+      "defs": {},
+      "functions": {
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLatestListings": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.renttherunway": {
       "defs": {
         "CatalogFilters": {
@@ -128878,6 +129342,50 @@ export const VALIDATORS: ValidatorTable = {
             "name": "offset",
             "schema": {
               "k": "number"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.scottfraser_co_uk": {
+      "defs": {
+        "ListLettingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLettings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLettingsArgs"
             },
             "optional": true
           }
@@ -142262,6 +142770,180 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.studentaccommodationbath": {
+      "defs": {
+        "StudentAccommodationBathGetListingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listing",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "StudentAccommodationBathListListingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "minBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StudentAccommodationBathGetListingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StudentAccommodationBathListListingsArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.studenthomes_net": {
+      "defs": {
+        "StudentHomesSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Coventry"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Kenilworth"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Leamington Spa"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Leicester"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Liverpool"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Manchester"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Southampton"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Warwick"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "minBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "price_desc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "price_asc"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StudentHomesSearchArgs"
             },
             "optional": true
           }
@@ -156185,6 +156867,37 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.ukstudenthouses": {
+      "defs": {},
+      "functions": {
+        "listCities": [],
+        "searchListings": [
+          {
+            "name": "city",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "city",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.ulrichlifestyle": {
       "defs": {},
       "functions": {
@@ -156247,6 +156960,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.unihomes_co_uk": {
+      "defs": {},
+      "functions": {
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -169433,6 +170160,117 @@ export const VALIDATORS: ValidatorTable = {
         "search": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.yellowdoorlets_co_uk": {
+      "defs": {
+        "YellowDoorSearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "status",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "available"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "let"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "house"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "studio"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "room"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "area",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProperties": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "YellowDoorSearchOptions"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getProperty": [
+          {
+            "name": "property",
             "schema": {
               "k": "string"
             },

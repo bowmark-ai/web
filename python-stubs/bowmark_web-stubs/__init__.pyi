@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e833508f87ff769b64f6a12623b3ccad6f500f766c22203b865d927ad4e09460
-# 98 capabilities, 889 providers, 5410 typed functions, 20 refused.
+# Manifest version: 4aef97a8c9cd2fb72619c970e94f5ddfe5def2bad755acbf6487c85c9a4db3cf
+# 98 capabilities, 903 providers, 5439 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2611,11 +2611,13 @@ class Cap_pricing_PersonaRead_Out_price_u0_Out(TypedDict):
 class Cap_products_search_args_In(TypedDict):
     query: str
     site: NotRequired[Literal["walmart"] | Literal["target"] | Literal["bestbuy"] | Literal["amazon"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
     limit: NotRequired[float]
 
 class Cap_products_ProductSearchResult_Out(TypedDict):
     results: list[Cap_products_ProductSearchResult_Out_results_item_Out]
     warnings: list[str]
+    market: str
 
 class Cap_products_ProductSearchResult_Out_results_item_Out(TypedDict):
     store: Literal["walmart"] | Literal["target"] | Literal["bestbuy"] | Literal["amazon"]
@@ -2627,6 +2629,7 @@ class Cap_products_ProductSearchResult_Out_results_item_Out(TypedDict):
     rating: float | None
     ratingCount: float | None
     condition: Literal["new"] | Literal["used"] | Literal["unknown"]
+    currency: str
 
 class Cap_products_ProductAvailability_Out(TypedDict):
     url: str
@@ -4291,6 +4294,69 @@ class Prv_abt_AbtProduct_Out(TypedDict):
     images: list[str]
     specs: Mapping[str, str]
     url: str
+
+class Prv_accommodationforstudents_AfsListing_Out(TypedDict):
+    id: str
+    url: str
+    status: Literal["available"] | Literal["removed"] | Literal["not_found"]
+    title: str | None
+    propertyType: str | None
+    address: Prv_accommodationforstudents_AfsListing_Out_address_u0_Out | None
+    priceAmount: float | None
+    priceFrequency: Literal["pw"]
+    currency: str | None
+    deposit: float | None
+    billsIncluded: str | None
+    bills: list[str]
+    bedrooms: float | None
+    roomsAvailable: float | None
+    bathrooms: float | None
+    availableFrom: str | None
+    forGroupsOnly: bool
+    provider: Prv_accommodationforstudents_AfsListing_Out_provider_u0_Out | None
+    rooms: list[Prv_accommodationforstudents_AfsListing_Out_rooms_item_Out]
+    amenities: list[str]
+    description: str | None
+    images: list[str]
+
+class Prv_accommodationforstudents_AfsListing_Out_address_u0_Out(TypedDict):
+    area: str | None
+    city: str | None
+    postcode: str | None
+
+class Prv_accommodationforstudents_AfsListing_Out_provider_u0_Out(TypedDict):
+    name: str | None
+    type: str | None
+    phone: str | None
+
+class Prv_accommodationforstudents_AfsListing_Out_rooms_item_Out(TypedDict):
+    size: str | None
+    bed: str | None
+    ensuite: bool
+    rentPerWeek: float | None
+    available: bool
+
+class Prv_accommodationforstudents_AfsCity_Out(TypedDict):
+    name: str
+    slug: str
+    listings: float
+
+class Prv_accommodationforstudents_searchListings_return_Out(TypedDict):
+    city: str
+    totalListings: float | None
+    listings: list[Prv_accommodationforstudents_AfsListingSummary_Out]
+
+class Prv_accommodationforstudents_AfsListingSummary_Out(TypedDict):
+    id: str
+    url: str
+    propertyType: str
+    address: str
+    area: str | None
+    priceAmount: float | None
+    priceFrequency: Literal["pw"]
+    billsIncluded: str | None
+    roomsAvailable: float | None
+    provider: str | None
 
 class Prv_accuweather_MonthlyForecastArgs_In(TypedDict):
     key: str
@@ -36867,6 +36933,49 @@ class Prv_harmar_HarmarFindCompatibleLiftsResult_Out(TypedDict):
     chairMake: str
     chairModel: str
 
+class Prv_harringtonsdurham_HarringtonsGetListingArgs_In(TypedDict):
+    listing: str
+
+class Prv_harringtonsdurham_HarringtonsListing_Out(TypedDict):
+    url: str
+    slug: str
+    status: Literal["available"] | Literal["not_found"]
+    title: str | None
+    priceAmount: float | None
+    priceFrequency: Literal["pw"] | Literal["pcm"] | None
+    pricePerPerson: bool | None
+    price: str | None
+    depositAmount: float | None
+    depositPerPerson: bool | None
+    availableFrom: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    billsIncluded: list[str]
+    rentalType: str | None
+    facilities: list[str]
+    description: str | None
+    photo: str | None
+
+class Prv_harringtonsdurham_HarringtonsListListingsArgs_In(TypedDict):
+    query: NotRequired[str]
+    minBedrooms: NotRequired[float]
+    maxPrice: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_harringtonsdurham_HarringtonsListingsPage_Out(TypedDict):
+    total: float
+    listings: list[Prv_harringtonsdurham_HarringtonsListingSummary_Out]
+
+class Prv_harringtonsdurham_HarringtonsListingSummary_Out(TypedDict):
+    url: str
+    slug: str
+    title: str
+    priceAmount: float | None
+    price: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    photo: str | None
+
 class Prv_hauslabs_listHauslabsProducts_opts_In(TypedDict):
     limit: NotRequired[float]
     productType: NotRequired[str]
@@ -43388,6 +43497,32 @@ class Prv_lobehub_com_LobehubMcpListing_Out_github_u0_Out(TypedDict):
     stars: float
     language: str | None
 
+class Prv_loc8me_loc8meListing_Out(TypedDict):
+    id: str
+    listingId: str
+    status: Literal["available"] | Literal["unavailable"] | Literal["not_found"]
+    title: NotRequired[str]
+    listingType: NotRequired[str]
+    bedrooms: NotRequired[float]
+    priceAmount: NotRequired[float]
+    priceFrequency: NotRequired[str]
+    url: NotRequired[str]
+    description: NotRequired[str]
+    city: NotRequired[str]
+    postcode: NotRequired[str]
+    images: NotRequired[list[str]]
+
+class Prv_loc8me_loc8meListingSearchResult_Out(TypedDict):
+    id: str
+    listingId: str
+    title: str
+    bedrooms: float | None
+    priceAmount: float | None
+    priceFrequency: str | None
+    available: bool | None
+    city: str | None
+    url: str
+
 class Prv_lonelyplanet_LonelyPlanetSearchResult_Out(TypedDict):
     title: str
     subtitle: str | None
@@ -48507,6 +48642,81 @@ class Prv_nhc_nhcReconObservation_Out(TypedDict):
     title: str
     text: str
 
+class Prv_nicholashumphreys_NicholasHumphreysSearchInput_In(TypedDict):
+    location: NotRequired[str]
+    department: NotRequired[Literal["student"] | Literal["residential"]]
+    bedrooms: NotRequired[float]
+    sort: NotRequired[Literal["newest"] | Literal["price_asc"] | Literal["price_desc"]]
+    page: NotRequired[float]
+
+class Prv_nicholashumphreys_NicholasHumphreysSearchResult_Out(TypedDict):
+    total: float
+    page: float
+    pages: float
+    listings: list[Prv_nicholashumphreys_NicholasHumphreysSearchRow_Out]
+
+class Prv_nicholashumphreys_NicholasHumphreysSearchRow_Out(TypedDict):
+    postId: float
+    reference: str
+    link: str
+    address: str
+    town: str
+    postcode: str
+    status: Literal["available"] | Literal["let_agreed"] | Literal["let"] | Literal["not_found"]
+    status_label: str
+    department: str
+    property_type: str
+    furnishing: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    price_amount: float | None
+    rent_frequency: str | None
+    deposit: float | None
+    available_from: str | None
+    bills_included: bool
+    features: list[str]
+    summary: str
+    latitude: float | None
+    longitude: float | None
+    image: str | None
+
+class Prv_nicholashumphreys_NicholasHumphreysListingInput_In(TypedDict):
+    listing: str | float
+
+class Prv_nicholashumphreys_NicholasHumphreysListing_Out(TypedDict):
+    status: Literal["available"] | Literal["let_agreed"] | Literal["let"] | Literal["not_found"]
+    status_label: str | None
+    url: str
+    postId: float | None
+    reference: str | None
+    title: str | None
+    property_type: str | None
+    listing_type: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    price_amount: float | None
+    price_currency: str | None
+    price_display: str | None
+    rent_frequency: str | None
+    deposit: float | None
+    features: list[str]
+    description: str | None
+    address: Prv_nicholashumphreys_NicholasHumphreysListing_Out_address_u0_Out | None
+    latitude: float | None
+    longitude: float | None
+    images: list[str]
+    date_posted: str | None
+    branch: Prv_nicholashumphreys_NicholasHumphreysListing_Out_branch_u0_Out | None
+
+class Prv_nicholashumphreys_NicholasHumphreysListing_Out_address_u0_Out(TypedDict):
+    street: str | None
+    locality: str | None
+    postcode: str | None
+
+class Prv_nicholashumphreys_NicholasHumphreysListing_Out_branch_u0_Out(TypedDict):
+    name: str | None
+    phone: str | None
+
 class Prv_nike_NikeLaunch_Out(TypedDict):
     slug: str
     title: str
@@ -48914,6 +49124,44 @@ class Prv_nintendo_NintendoRewardsBalance_Out(TypedDict):
     wallet: Mapping[str, Any]
     history: list[Mapping[str, Any]]
     nextCursor: str | None
+
+class Prv_nops_NopsListing_Out(TypedDict):
+    listingNumber: str
+    status: Literal["available"] | Literal["let_agreed"] | Literal["let"] | Literal["not_found"]
+    statusLabel: NotRequired[str]
+    url: str
+    address: NotRequired[str]
+    priceAmount: NotRequired[float]
+    priceFrequency: NotRequired[str]
+    bedrooms: NotRequired[float]
+    propertyType: NotRequired[str]
+    depositAmount: NotRequired[float]
+    councilTaxBand: NotRequired[str]
+    features: NotRequired[list[str]]
+    description: NotRequired[str]
+    image: NotRequired[str]
+
+class Prv_nops_searchListings_filter_In(TypedDict):
+    query: NotRequired[str]
+    minBedrooms: NotRequired[float]
+    maxPrice: NotRequired[float]
+
+class Prv_nops_NopsSearchResult_Out(TypedDict):
+    listings: list[Prv_nops_NopsListingSummary_Out]
+    warnings: list[str]
+
+class Prv_nops_NopsListingSummary_Out(TypedDict):
+    listingNumber: str
+    url: str
+    address: str
+    postcode: str | None
+    priceAmount: float | None
+    priceFrequency: Literal["pcm"]
+    bedrooms: float | None
+    bathrooms: float | None
+    propertyType: str | None
+    statusLabel: str | None
+    branchId: str
 
 class Prv_notion_NotionSystemStatus_Out(TypedDict):
     status: str
@@ -51222,6 +51470,52 @@ class Prv_openai_com_OpenAiComArticle_Out(TypedDict):
     category: str | None
     description: str | None
     text: str
+
+class Prv_openarch_getListing_args_In(TypedDict):
+    listing: str
+
+class Prv_openarch_OpenarchListing_Out(TypedDict):
+    listingId: str
+    url: str
+    status: Literal["available"] | Literal["let"] | Literal["not_found"]
+    statusLabel: str | None
+    title: str | None
+    summary: str | None
+    description: str | None
+    address: str | None
+    location: str | None
+    propertyType: str | None
+    listingType: str | None
+    bedrooms: float | None
+    priceAmount: float | None
+    priceFrequency: str | None
+    priceText: str | None
+    depositAmount: float | None
+    availableFrom: str | None
+    furnished: str | None
+    virtualTour: str | None
+    photos: list[str]
+    features: Mapping[str, str]
+
+class Prv_openarch_OpenarchListListingsArgs_In(TypedDict):
+    sector: NotRequired[Literal["student"] | Literal["residential"] | Literal["commercial"]]
+    town: NotRequired[str]
+
+class Prv_openarch_listListings_return_Out(TypedDict):
+    url: str
+    listings: list[Prv_openarch_OpenarchListingSummary_Out]
+
+class Prv_openarch_OpenarchListingSummary_Out(TypedDict):
+    listingId: str
+    url: str
+    title: str
+    statusLabel: str | None
+    listingType: str | None
+    bedrooms: float | None
+    propertyType: str | None
+    priceAmount: float | None
+    priceFrequency: str | None
+    priceText: str | None
 
 class Prv_openrent_OpenRentGetListingArgs_In(TypedDict):
     listing: str | float
@@ -54373,6 +54667,49 @@ class Prv_prime_video_toggleWatchlist_return_Out(TypedDict):
     titleId: str
     action: Literal["add"] | Literal["remove"]
     ok: Literal[True]
+
+class Prv_primestudentlets_PrimeGetListingArgs_In(TypedDict):
+    listing: str
+
+class Prv_primestudentlets_PrimeListing_Out(TypedDict):
+    slug: str
+    url: str
+    status: Literal["available"] | Literal["let_agreed"] | Literal["not_found"]
+    statusLabel: str | None
+    title: str | None
+    address: str | None
+    bedrooms: float | None
+    bathrooms: str | None
+    priceAmount: float | None
+    priceFrequency: Literal["pw"] | None
+    pricePerPerson: bool
+    allInclusiveAmount: float | None
+    billsIncluded: bool
+    priceText: str | None
+    depositAmount: float | None
+    forRent: bool | None
+    description: str | None
+    keyFeatures: list[str]
+    photos: list[str]
+    videoUrl: str | None
+
+class Prv_primestudentlets_PrimeListListingsArgs_In(TypedDict):
+    bedrooms: NotRequired[float]
+
+class Prv_primestudentlets_PrimeListingsPage_Out(TypedDict):
+    listings: list[Prv_primestudentlets_PrimeListingSummary_Out]
+    warnings: list[str]
+    complete: bool
+
+class Prv_primestudentlets_PrimeListingSummary_Out(TypedDict):
+    slug: str
+    url: str
+    address: str
+    bedrooms: float | None
+    bathrooms: str | None
+    priceText: str | None
+    priceAmount: float | None
+    photo: str | None
 
 class Prv_printful_PrintfulOrder_Out(TypedDict):
     id: float
@@ -57685,6 +58022,49 @@ class Prv_reliancepartners_AssembledApplication_Out(TypedDict):
     formFields: Mapping[str, str]
     summary: str
 
+class Prv_rentrightstudents_co_uk_RentRightListing_Out(TypedDict):
+    id: str
+    status: Literal["available"] | Literal["let_agreed"]
+    title: str
+    url: str
+    agent: str | None
+    agentReference: str | None
+    propertyType: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    rentPcm: float | None
+    priceText: str | None
+    depositGbp: float | None
+    availableFrom: str | None
+    furnishing: str | None
+    address: Prv_rentrightstudents_co_uk_RentRightListing_Out_address_Out
+    latitude: float | None
+    longitude: float | None
+    description: str | None
+    images: list[str]
+
+class Prv_rentrightstudents_co_uk_RentRightListing_Out_address_Out(TypedDict):
+    street: str | None
+    locality: str | None
+    region: str | None
+    postcode: str | None
+
+class Prv_rentrightstudents_co_uk_getListing_return_u1_Out(TypedDict):
+    id: str
+    status: Literal["not_found"]
+
+class Prv_rentrightstudents_co_uk_listLatestListings_opts_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_rentrightstudents_co_uk_listLatestListings_return_Out(TypedDict):
+    listings: list[Prv_rentrightstudents_co_uk_RentRightListingLink_Out]
+
+class Prv_rentrightstudents_co_uk_RentRightListingLink_Out(TypedDict):
+    id: str
+    url: str
+    street: str | None
+    postcode: str | None
+
 class Prv_renttherunway_CatalogFilters_In(TypedDict):
     zipCode: NotRequired[str]
     availableOnly: NotRequired[bool]
@@ -60199,6 +60579,56 @@ class Prv_scentbird_ScentbirdPrice_Out(TypedDict):
     discount: float | None
     membership: float | None
     currencyCode: str | None
+
+class Prv_scottfraser_co_uk_ScottFraserListing_Out(TypedDict):
+    reference: str
+    url: str
+    status: Literal["available"] | Literal["let_agreed"] | Literal["let"] | Literal["not_found"]
+    statusLabel: str | None
+    title: str | None
+    propertyType: str | None
+    listingType: Literal["lettings"]
+    bedrooms: float | None
+    bathrooms: float | None
+    receptions: float | None
+    priceAmount: float | None
+    priceFrequency: str | None
+    depositAmount: float | None
+    holdingDepositAmount: float | None
+    availableFrom: str | None
+    councilTaxBand: str | None
+    epcBand: str | None
+    address: str | None
+    postcode: str | None
+    area: str | None
+    latitude: float | None
+    longitude: float | None
+    summary: str | None
+    description: str | None
+    features: list[str]
+    images: list[str]
+    agent: Prv_scottfraser_co_uk_ScottFraserListing_Out_agent_u0_Out | None
+
+class Prv_scottfraser_co_uk_ScottFraserListing_Out_agent_u0_Out(TypedDict):
+    name: str | None
+    email: str | None
+    jobTitle: str | None
+
+class Prv_scottfraser_co_uk_ScottFraserNotFound_Out(TypedDict):
+    reference: str
+    url: str
+    status: Literal["not_found"]
+
+class Prv_scottfraser_co_uk_ListLettingsArgs_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_scottfraser_co_uk_ScottFraserLettingRef_Out(TypedDict):
+    reference: str
+    url: str
+    bedrooms: float | None
+    propertyType: str | None
+    location: str | None
 
 class Prv_scribd_ScribdSearchResult_Out(TypedDict):
     id: float
@@ -67168,6 +67598,99 @@ class Prv_stubhub_stubhubFavorite_Out(TypedDict):
     kind: str | None
     url: str | None
 
+class Prv_studentaccommodationbath_StudentAccommodationBathGetListingArgs_In(TypedDict):
+    listing: str | float
+
+class Prv_studentaccommodationbath_StudentAccommodationBathListing_Out(TypedDict):
+    url: str
+    slug: str
+    status: Literal["not_found"] | None
+    title: str | None
+    headline: str | None
+    summary: str | None
+    features: list[str]
+    bedrooms: float | None
+    photos: list[str]
+    price: None
+    contactPhone: str
+    contactEmail: str
+
+class Prv_studentaccommodationbath_StudentAccommodationBathListListingsArgs_In(TypedDict):
+    minBedrooms: NotRequired[float]
+    maxBedrooms: NotRequired[float]
+
+class Prv_studentaccommodationbath_StudentAccommodationBathListingsPage_Out(TypedDict):
+    total: float
+    listings: list[Prv_studentaccommodationbath_StudentAccommodationBathListingSummary_Out]
+
+class Prv_studentaccommodationbath_StudentAccommodationBathListingSummary_Out(TypedDict):
+    url: str
+    slug: str
+    title: str
+    summary: str | None
+    bedrooms: float | None
+    photo: str | None
+
+class Prv_studenthomes_net_StudentHomesListing_Out(TypedDict):
+    id: str
+    url: str
+    status: Literal["available"] | Literal["not_found"]
+    availability: str | None
+    title: str | None
+    area: str | None
+    heading: str | None
+    priceAmount: float | None
+    priceFrequency: Literal["pppw"]
+    billsIncluded: bool
+    price: Prv_studenthomes_net_StudentHomesPrice_Out
+    bedrooms: float | None
+    bathrooms: float | None
+    receptions: float | None
+    furnishing: str | None
+    features: list[str]
+    description: str | None
+    images: list[str]
+    phone: str | None
+    reserveUrl: str | None
+
+class Prv_studenthomes_net_StudentHomesPrice_Out(TypedDict):
+    weeklyPerPerson: float | None
+    weeklyPerPersonInclBills: float | None
+    monthlyPerPerson: float | None
+    monthlyPerPersonInclBills: float | None
+    monthlyTotal: float | None
+    monthlyTotalInclBills: float | None
+    deposit: float | None
+    currency: Literal["GBP"]
+
+class Prv_studenthomes_net_StudentHomesSearchArgs_In(TypedDict):
+    location: NotRequired[Literal["Coventry"] | Literal["Kenilworth"] | Literal["Leamington Spa"] | Literal["Leicester"] | Literal["Liverpool"] | Literal["Manchester"] | Literal["Southampton"] | Literal["Warwick"]]
+    minBedrooms: NotRequired[float]
+    maxBedrooms: NotRequired[float]
+    sort: NotRequired[Literal["price_desc"] | Literal["price_asc"]]
+    page: NotRequired[float]
+
+class Prv_studenthomes_net_StudentHomesSearchResult_Out(TypedDict):
+    page: float
+    totalPages: float
+    listings: list[Prv_studenthomes_net_StudentHomesListingSummary_Out]
+
+class Prv_studenthomes_net_StudentHomesListingSummary_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    area: str | None
+    availability: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    features: list[str]
+    priceAmount: float | None
+    weeklyPerPersonExclBills: float | None
+    billsIncluded: bool
+    monthlyTotalInclBills: float | None
+    deposit: float | None
+    image: str | None
+
 class Prv_sturents_SturentsGetListingArgs_In(TypedDict):
     listing: str
     contract: NotRequired[str]
@@ -73585,6 +74108,58 @@ class Prv_uhc_smallbusiness_UhcSmallbusinessPlan_Out(TypedDict):
     primaryCareVisit: str | None
     findYourDoctorUrl: str | None
 
+class Prv_ukstudenthouses_UkshCity_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+
+class Prv_ukstudenthouses_UkshListingCard_Out(TypedDict):
+    id: str
+    city: str
+    url: str
+    name: str
+    postcode: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    priceFromPerPersonPerMonth: float | None
+    availability: str | None
+
+class Prv_ukstudenthouses_UkshListing_Out(TypedDict):
+    id: str
+    city: str
+    url: str
+    status: Literal["available"] | Literal["let"]
+    title: str
+    address: str | None
+    propertyType: str
+    bedrooms: float | None
+    bathrooms: float | None
+    roomsAvailable: float | None
+    roomsLetIndividually: bool
+    pricePerPersonPerWeek: float | None
+    contracts: list[Prv_ukstudenthouses_UkshContract_Out]
+    amenities: list[str]
+    description: str | None
+    photos: list[str]
+    coordinates: Prv_ukstudenthouses_UkshListing_Out_coordinates_u0_Out | None
+
+class Prv_ukstudenthouses_UkshContract_Out(TypedDict):
+    title: str
+    startDate: str | None
+    endDate: str | None
+    pricePerPersonPerWeek: float | None
+    deposit: float | None
+    viewingUrl: str | None
+
+class Prv_ukstudenthouses_UkshListing_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_ukstudenthouses_UkshNotFound_Out(TypedDict):
+    id: str
+    city: str | None
+    status: Literal["not_found"]
+
 class Prv_ulrichlifestyle_UlrichModel_Out(TypedDict):
     code: str
     name: str
@@ -73626,6 +74201,21 @@ class Prv_ulrichlifestyle_UlrichPriceResult_Out(TypedDict):
 class Prv_ulrichlifestyle_UlrichPriceLine_Out(TypedDict):
     description: str
     price: float
+
+class Prv_unihomes_co_uk_UniHomesListing_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    status: Literal["available"] | Literal["let"]
+    statusLabel: str
+    bedrooms: float | None
+    priceAmount: float | None
+    priceAmountMax: float | None
+    priceText: str | None
+    billsIncluded: bool
+    includedBills: list[str]
+    availableFrom: str | None
+    features: list[str]
 
 class Prv_uniqlo_UniqloSearchArgs_In(TypedDict):
     query: NotRequired[str]
@@ -78945,6 +79535,7 @@ class Prv_yahoo_finance_YahooFinanceMarketSummary_Out(TypedDict):
     topGainers: list[Prv_yahoo_finance_YahooFinanceMover_Out]
     topLosers: list[Prv_yahoo_finance_YahooFinanceMover_Out]
     mostActive: list[Prv_yahoo_finance_YahooFinanceMover_Out]
+    warnings: list[str]
 
 class Prv_yahoo_finance_YahooFinanceMarketIndex_Out(TypedDict):
     symbol: str
@@ -79704,6 +80295,39 @@ class Prv_ycombinator_YCombinatorSearchHit_Out(TypedDict):
     category: str | None
     excerpt: str
 
+class Prv_yellowdoorlets_co_uk_YellowDoorSearchOptions_In(TypedDict):
+    query: NotRequired[str]
+    status: NotRequired[Literal["available"] | Literal["let"]]
+    type: NotRequired[Literal["house"] | Literal["studio"] | Literal["room"]]
+    area: NotRequired[str]
+    minBedrooms: NotRequired[float]
+    maxPrice: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_yellowdoorlets_co_uk_YellowDoorProperty_Out(TypedDict):
+    id: float
+    slug: str
+    url: str
+    title: str
+    status: Literal["available"] | Literal["let"] | Literal["unknown"]
+    type: str | None
+    area: str | None
+    address: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    pricePerPersonPerWeek: float | None
+    priceText: str | None
+    availableFrom: str | None
+    features: list[str]
+    latitude: float | None
+    longitude: float | None
+    description: str
+    modified: str | None
+
+class Prv_yellowdoorlets_co_uk_getProperty_return_u1_Out(TypedDict):
+    slug: str
+    status: Literal["not_found"]
+
 class Prv_yelp_YelpSearchArgs_In(TypedDict):
     term: str
     location: str
@@ -80192,6 +80816,7 @@ class Prv_youtube_YoutubeSearchVideo_Out(TypedDict):
     lengthSeconds: float | None
     views: float | None
     thumbnail: str | None
+    channelAvatar: str | None
 
 class Prv_youtube_suggestSearches_input_In(TypedDict):
     query: str
@@ -81597,19 +82222,23 @@ class Cap_browser_agent(Protocol):
         Bowmark may first try a fast agent INSIDE `start` (usually 5-20 s, at most ~40 s): if it
         finishes, `start` returns `status: "idle"` and the answer is already in
         `status(id).result`; otherwise Browser Use runs the session and `start` returns
-        `running`. Handle both. Not a watcher — it does not poll by itself; on a public page
-        with no login or CAPTCHA a script can start and poll it unattended, while a login needs
-        your user present every run. Billed per turn: if your user already asked you to get the
-        thing done, start it and in the same reply tell them it is running, that it costs money,
-        and give them `watchUrl` — a login only they hold is signed in there, on the live page,
-        as their real account on the real site, so anything the agent then adds to a cart or
-        saves is really on their account rather than lost inside Bowmark's own browser.
-        Otherwise tell them what it costs and get a yes before you start it. Either way, never
-        end on a manual workaround without mentioning this option and its cost. **Same question,
-        same answer:** for a lookup your app repeats, put the exact search page's URL in `task`,
-        not just the site — a site with two ways to search can otherwise be entered differently
-        each run and give two different answers. **One session = one independent goal** — never
-        bundle multiple date ranges, SKUs or queries into one session; the agent silently reuses
+        `running`. Handle both. A fast-agent turn that ran no steps and was asked to search or
+        look something up is never used as the answer: it falls through to Browser Use the same
+        way. `backend` (default `"auto"`) decides this: pass `backend: "browser_use"` to skip
+        the fast agent entirely, and read the `backend` field of the returned object to see
+        which one ran. Not a watcher — it does not poll by itself; on a public page with no
+        login or CAPTCHA a script can start and poll it unattended, while a login needs your
+        user present every run. Billed per turn: if your user already asked you to get the thing
+        done, start it and in the same reply tell them it is running, that it costs money, and
+        give them `watchUrl` — a login only they hold is signed in there, on the live page, as
+        their real account on the real site, so anything the agent then adds to a cart or saves
+        is really on their account rather than lost inside Bowmark's own browser. Otherwise tell
+        them what it costs and get a yes before you start it. Either way, never end on a manual
+        workaround without mentioning this option and its cost. **Same question, same answer:**
+        for a lookup your app repeats, put the exact search page's URL in `task`, not just the
+        site — a site with two ways to search can otherwise be entered differently each run and
+        give two different answers. **One session = one independent goal** — never bundle
+        multiple date ranges, SKUs or queries into one session; the agent silently reuses
         results across them. Start a separate session for each distinct query. One list read in
         full under one filter, across its pages, is ONE goal. Then `status(id)` from later runs
         (each `run()` is capped at 90s; the agent is not — a task normally takes 1-3 minutes, so
@@ -82664,9 +83293,11 @@ class Cap_leads(Protocol):
         """
 
 class Cap_llm(Protocol):
-    """Calls a model and returns its answer, metered to this run's account — for a jig page
-    that must judge live content on every load rather than wait for the chat model to curate
-    it. Not a site wrapper.
+    """Calls a model from a script and returns its answer: classify or label items (positive,
+    negative, neutral, on-topic or not), judge them, summarize, or return a structured
+    object. Metered to the caller's account, and `items` is untrusted data, never
+    instructions. A jig page can call it too, to judge live content on every load. Not a
+    site wrapper.
     """
 
     async def complete(self, args: Cap_llm_LlmCompleteArgs_In, /) -> Cap_llm_LlmCompleteResult_Out:
@@ -82937,10 +83568,13 @@ class Cap_products(Protocol):
         returns one list of offers, best title match for the query first and cheapest first
         among equal matches — the same fan-out as `bowmark.retail.search`, reachable under the
         name callers guess first. The default fan-out does NOT include Amazon; to search Amazon,
-        pass `site: 'amazon'` (any `site` searches that one store only). `limit` caps the rows.
-        The answer is `{ results, warnings }`, not a bare array. Rows are each store's own
-        keyword results, so filter on `title` before reading a price off the top row. `warnings`
-        names any store that did not answer.
+        pass `site: 'amazon'` (any `site` searches that one store only); Amazon answers from
+        amazon.com unless you pass `market` (`'fr'` is amazon.fr in EUR; `site: 'amazon.fr'`
+        means the same), and `market` with any other site is refused because those stores are
+        US-only. Every row carries its `currency`, and `market` on the answer names the store
+        that answered. `limit` caps the rows. The answer is `{ results, warnings }`, not a bare
+        array. Rows are each store's own keyword results, so filter on `title` before reading a
+        price off the top row. `warnings` names any store that did not answer.
         """
 
     async def getAvailability(self, url: str, /) -> Cap_products_ProductAvailability_Out:
@@ -83796,29 +84430,30 @@ class Cap_web_form_fields(Protocol):
         binding or irreversible (a payment, a booking, a contract, an application) or would send
         more than the caller authorized. One call is one step — call it again with the next
         step's `values` to walk a wizard forward, unless that step depends on a session the
-        earlier call held (see below). `advanced` is true only when the click moved the page to
-        a different step — its fields or step label changed, or the URL changed with new text —
-        and a click that left the same form showing comes back `advanced: false` with a warning
-        naming the step it is still on. Each call opens the page afresh, so a step held only by
-        an earlier call's session does not carry over: on one checkout (measured 2026-11-11) the
-        next call read the blank address form again on a new token. The `url` the call returned
-        is the only state it hands back, so check `advanced` before reading a later step as the
-        answer. `notFound` names any `values` key that was not set, so a caller who guessed a
-        label wrong sees that rather than silence; when the key DID match a field that could not
-        be set (disabled until an earlier choice, no option matching the value), a warning names
-        the field and the reason. A pop-up menu with no text box (a select-only combobox) is
-        opened and the option matching the value is clicked — never a default one. When a click
-        registers, `resultContent` carries what the site answered back — a matched branch, a
-        calculated price, a stock status — read off the destination page or widget and capped at
-        4000 characters; `null` when neither `submit` nor `advance` was requested or the click
-        never registered. **Two ways it falls short, and neither is fixed by calling again with
-        the same values.** On a page with several forms, keys are matched against every field on
-        the page, so a key can land in a DIFFERENT form than the one you meant (a site search, a
-        tracking-number box) and still be listed in `filled`, and a submit then answers for that
-        form: check `resultContent` reads like the answer you asked for. And a calculator
-        `getFields` listed may still refuse values (fields built from custom controls, or
-        swapped out as you type): those keys come back in `notFound` or a warning. For either,
-        `bowmark.browser_agent` (billed) operates the page like a person.
+        earlier call held (see below). `advanced` is true only when the click, or a value
+        written with no control to click (a dropdown whose choice renders the next step), moved
+        the page to a different step — its fields or step label changed, or the URL changed with
+        new text — and a click that left the same form showing comes back `advanced: false` with
+        a warning naming the step it is still on. Each call opens the page afresh, so a step
+        held only by an earlier call's session does not carry over: on one checkout (measured
+        2026-11-11) the next call read the blank address form again on a new token. The `url`
+        the call returned is the only state it hands back, so check `advanced` before reading a
+        later step as the answer. `notFound` names any `values` key that was not set, so a
+        caller who guessed a label wrong sees that rather than silence; when the key DID match a
+        field that could not be set (disabled until an earlier choice, no option matching the
+        value), a warning names the field and the reason. A pop-up menu with no text box (a
+        select-only combobox) is opened and the option matching the value is clicked — never a
+        default one. When a click registers, `resultContent` carries what the site answered back
+        — a matched branch, a calculated price, a stock status — read off the destination page
+        or widget and capped at 4000 characters; `null` when neither `submit` nor `advance` was
+        requested or the click never registered. **Two ways it falls short, and neither is fixed
+        by calling again with the same values.** On a page with several forms, keys are matched
+        against every field on the page, so a key can land in a DIFFERENT form than the one you
+        meant (a site search, a tracking-number box) and still be listed in `filled`, and a
+        submit then answers for that form: check `resultContent` reads like the answer you asked
+        for. And a calculator `getFields` listed may still refuse values (fields built from
+        custom controls, or swapped out as you type): those keys come back in `notFound` or a
+        warning. For either, `bowmark.browser_agent` (billed) operates the page like a person.
         """
 
 class Cap_wireless(Protocol):
@@ -84074,6 +84709,29 @@ class Prv_abt(Protocol):
         """Reads one abt.com product page (a url from search) — live offer price and availability,
         brand, model, SKU, GTIN, rating, description, images and named specs from the page's own
         schema.org Product data.
+        """
+
+class Prv_accommodationforstudents(Protocol):
+    """UK student homes on Accommodation for Students — list cities, find the latest houses,
+    flats, studios and halls in a city, and read one listing's weekly rent, rooms, bills and
+    landlord.
+    """
+
+    async def getListing(self, listing: str, /) -> Prv_accommodationforstudents_AfsListing_Out:
+        """Reads one Accommodation for Students listing by its /property/ link or number: status
+        (available, removed, not_found), weekly From rent, deposit, rooms, bills, amenities,
+        availability and the landlord or agent.
+        """
+
+    async def listCities(self, /) -> list[Prv_accommodationforstudents_AfsCity_Out]:
+        """Lists every UK city Accommodation for Students covers, with its slug and live listing
+        count.
+        """
+
+    async def searchListings(self, city: str, /) -> Prv_accommodationforstudents_searchListings_return_Out:
+        """Finds student accommodation in a UK city: the latest houses, flats, studios and halls
+        the city page shows (up to 32), each with its weekly rent and listing link, plus the
+        city's total listing count.
         """
 
 class Prv_accuweather(Protocol):
@@ -101563,6 +102221,26 @@ class Prv_harmar(Protocol):
         resolved to the calculator's own ids and run through the real Lift Lookup.
         """
 
+class Prv_harringtonsdurham(Protocol):
+    """Harringtons (harringtonsdurham.com), Durham student and residential lettings: list every
+    property it advertises, and read one listing's rent per person per week, deposit,
+    move-in date, bills and facilities.
+    """
+
+    async def getListing(self, args: Prv_harringtonsdurham_HarringtonsGetListingArgs_In, /) -> Prv_harringtonsdurham_HarringtonsListing_Out:
+        """Reads one Harringtons (Durham lettings) listing from its link, slug or number: rent
+        amount, frequency (pw) and per-person flag, deposit per person, move-in date, bedrooms,
+        bathrooms, bills included, rental type and facilities. status is available, or not_found
+        when the site has no listing there.
+        """
+
+    async def listListings(self, args: Prv_harringtonsdurham_HarringtonsListListingsArgs_In | None = None, /) -> Prv_harringtonsdurham_HarringtonsListingsPage_Out:
+        """Lists the properties Harringtons advertises in Durham (every one on its /properties/
+        page), optionally filtered by street name, minimum bedrooms or maximum rent per person
+        per week: link, name, rent per person per week, bedrooms and bathrooms. Pass a row's
+        `url` to getListing for deposit and move-in date.
+        """
+
 class Prv_hauslabs(Protocol):
     """Haus Labs by Lady Gaga product catalogue — every clean-beauty SKU, its variants, its
     prices and what is in stock — read off the live Shopify Plus storefront. The Foundation
@@ -105738,6 +106416,24 @@ class Prv_lobehub_com(Protocol):
         (when the listing names a repo), install count and detail-page URL.
         """
 
+class Prv_loc8me(Protocol):
+    """Read Loc8me's student lettings by building name, then the rent, bedrooms and
+    availability of one listing.
+    """
+
+    async def getListing(self, listing: str, /) -> Prv_loc8me_loc8meListing_Out:
+        """Reads one Loc8me student-housing listing by its full Loc8me URL, /lettings/<slug>/ path,
+        or slug. Returns its availability, weekly rent, bedrooms, description, photos and
+        address fields; returns status: not_found when Loc8me no longer has that slug.
+        """
+
+    async def searchListings(self, query: str, /) -> list[Prv_loc8me_loc8meListingSearchResult_Out]:
+        """Finds current Loc8me listings by their title, which is a building or street name such as
+        Yalta Court or Hull Road, and returns rows whose listingId or url getListing can read. A
+        city name or a phrase such as student housing matches no title, so an empty result means
+        no title matched, not that Loc8me has no listings.
+        """
+
 class Prv_lonelyplanet(Protocol):
     """Travel guides: destination guides, site search, Best in Travel picks, curated trips and
     guidebooks.
@@ -108457,6 +109153,24 @@ class Prv_nhc(Protocol):
         dropsonde soundings. NHC flies no Central Pacific missions.
         """
 
+class Prv_nicholashumphreys(Protocol):
+    """Nicholas Humphreys, a UK estate, letting and student letting agent: search its
+    properties to rent and read one letting listing in full (price, status, bedrooms,
+    deposit, features).
+    """
+
+    async def searchLettings(self, input: Prv_nicholashumphreys_NicholasHumphreysSearchInput_In | None = None, /) -> Prv_nicholashumphreys_NicholasHumphreysSearchResult_Out:
+        """Searches Nicholas Humphreys' properties to rent (student and residential lettings) by
+        town or postcode, bedrooms and department, 8 per page. The entry point: each row's
+        postId or link feeds getListing.
+        """
+
+    async def getListing(self, input: Prv_nicholashumphreys_NicholasHumphreysListingInput_In, /) -> Prv_nicholashumphreys_NicholasHumphreysListing_Out:
+        """Reads one Nicholas Humphreys letting listing in full by its link, postId or reference:
+        status (available, let_agreed, let, or not_found), price, deposit, bedrooms, bathrooms,
+        features, address, images and branch.
+        """
+
 class Prv_nike(Protocol):
     """Nike SNKRS launch calendar — the sneaker drops coming up on nike.com/launch, each with
     release date and time, draw or first-come, price and colourway, read straight off Nike's
@@ -108648,6 +109362,25 @@ class Prv_nintendo(Protocol):
         """The signed-in caller's My Nintendo Points — current balance by kind with upcoming
         expirations, plus their recent point history. Needs the caller's own Nintendo Account
         sign-in.
+        """
+
+class Prv_nops(Protocol):
+    """List the Oxford rental properties North Oxford Property Services (nops.co.uk) has to
+    let, then read one listing in full: rent, deposit, bedrooms, features and whether it is
+    still available.
+    """
+
+    async def getListing(self, listing: str, /) -> Prv_nops_NopsListing_Out:
+        """Reads one nops.co.uk letting listing by its link or listing number: address, monthly
+        rent, deposit, bedrooms, property type, features, council tax band, description and
+        status (available, let_agreed, let, or not_found when the site has no listing under that
+        number).
+        """
+
+    async def searchListings(self, filter: Prv_nops_searchListings_filter_In | None = None, /) -> Prv_nops_NopsSearchResult_Out:
+        """Lists every Oxford property NOPS currently has to let across both its offices,
+        optionally filtered by address text, minimum bedrooms or maximum monthly rent; each
+        row's url or listingNumber goes straight into getListing.
         """
 
 class Prv_notion(Protocol):
@@ -109835,6 +110568,26 @@ class Prv_openai_com(Protocol):
     async def readPost(self, args: Prv_openai_com_ReadPostArgs_In, /) -> Prv_openai_com_OpenAiComArticle_Out:
         """Reads one openai.com research / blog post's full article text, by url or by the slug
         listPosts returns.
+        """
+
+class Prv_openarch(Protocol):
+    """OpenArch (openarch.co.uk), Cambridgeshire lettings agent: list its student and
+    residential lettings, and read one listing's status, address, bedrooms, rent, deposit
+    and available-from date.
+    """
+
+    async def getListing(self, args: Prv_openarch_getListing_args_In, /) -> Prv_openarch_OpenarchListing_Out:
+        """Reads one OpenArch (Cambridgeshire lettings) student or residential listing by its full
+        openarch.co.uk link: status (available / let / not_found when the link has no page),
+        title, address, property type, bedrooms, rent with frequency, deposit, available-from
+        date and furnishing.
+        """
+
+    async def listListings(self, args: Prv_openarch_OpenarchListListingsArgs_In | None = None, /) -> Prv_openarch_listListings_return_Out:
+        """Lists the lettings OpenArch shows on its search page (every live listing, ~70),
+        optionally narrowed to a sector (student / residential / commercial) and a town: link,
+        status, bedrooms, type and rent. Pass a row's `url` to getListing for the deposit and
+        dates.
         """
 
 class Prv_openrent(Protocol):
@@ -111785,6 +112538,25 @@ class Prv_prime_video(Protocol):
         never buys or rents anything. Read getWatchlist() afterwards to confirm.
         """
 
+class Prv_primestudentlets(Protocol):
+    """Prime Student Lets (primestudentlets.co.uk), Loughborough student houses: list every
+    house (or those with N bedrooms) and read one listing's rent per person per week, bills
+    option, deposit, address and bedrooms.
+    """
+
+    async def getListing(self, args: Prv_primestudentlets_PrimeGetListingArgs_In, /) -> Prv_primestudentlets_PrimeListing_Out:
+        """Reads one Prime Student Lets Loughborough student house by its link or slug: status
+        (available / let_agreed / not_found), address, bedrooms, bathrooms, rent per person per
+        week excluding bills and the all-inclusive-of-bills rent, deposit, description, key
+        features and photos.
+        """
+
+    async def listListings(self, args: Prv_primestudentlets_PrimeListListingsArgs_In | None = None, /) -> Prv_primestudentlets_PrimeListingsPage_Out:
+        """Lists Prime Student Lets' Loughborough student houses — all of them, or only those with
+        `bedrooms` bedrooms (1-8): link, slug, address, bedrooms, bathrooms and rent per person
+        per week. Pass a row's `url` to getListing for deposit, bills and features.
+        """
+
 class Prv_printful(Protocol):
     """Printful's documented REST API — retrieves order status (production, shipping, tracking)
     for print-on-demand stores by order ID from the store's own Printful account.
@@ -113263,6 +114035,23 @@ class Prv_reliancepartners(Protocol):
         human underwriting follow-up, not an instant quote.
         """
 
+class Prv_rentrightstudents_co_uk(Protocol):
+    """Read UK student rental listings on RentRight Students (rentrightstudents.co.uk) — the
+    newest listings, and one property in full: monthly rent, deposit, bedrooms, availability
+    date, address and letting agent.
+    """
+
+    async def getListing(self, listing: str, /) -> Prv_rentrightstudents_co_uk_RentRightListing_Out | Prv_rentrightstudents_co_uk_getListing_return_u1_Out:
+        """Reads one RentRight Students property by its /property/<id>/ URL or numeric id:
+        let-agreed status, monthly rent, deposit, bedrooms, bathrooms, availability date,
+        furnishing, address, letting agent, description and photos.
+        """
+
+    async def listLatestListings(self, opts: Prv_rentrightstudents_co_uk_listLatestListings_opts_In | None = None, /) -> Prv_rentrightstudents_co_uk_listLatestListings_return_Out:
+        """Lists the newest student rental listings on RentRight Students (id, URL, street,
+        postcode), from the site's own latest-listings sitemap. Default limit 50.
+        """
+
 class Prv_renttherunway(Protocol):
     """Rent the Runway's designer clothing rental catalog — search, browse a category or a
     designer, with size, occasion and season filters; each product with designer, retail
@@ -114509,6 +115298,24 @@ class Prv_scentbird(Protocol):
         """Reads one page of Scentbird's own live subscription catalogue (867 perfumes / 631
         colognes) — real per-item brand, category, rating, in-stock state and price
         (standard/discount/membership) — straight off the site's own public GraphQL endpoint.
+        """
+
+class Prv_scottfraser_co_uk(Protocol):
+    """Scott Fraser, the Oxfordshire estate and letting agent: list its rental listing links
+    and read one letting — status, rent, deposit, rooms, availability and features.
+    """
+
+    async def getListing(self, listing: str, /) -> Prv_scottfraser_co_uk_ScottFraserListing_Out | Prv_scottfraser_co_uk_ScottFraserNotFound_Out:
+        """Reads one Scott Fraser letting by its link or reference (e.g. "eox250306"): status
+        (available, let_agreed, let, or not_found for a removed listing or a sale), monthly
+        rent, deposit and holding deposit, bedrooms, bathrooms, availability date, council tax
+        and EPC bands, address, features, photos and the lettings negotiator.
+        """
+
+    async def listLettings(self, args: Prv_scottfraser_co_uk_ListLettingsArgs_In | None = None, /) -> list[Prv_scottfraser_co_uk_ScottFraserLettingRef_Out]:
+        """Lists Scott Fraser rental listing links from its sitemap (current and recently let),
+        optionally filtered by area or postcode text such as "headington" or "ox4" — the door to
+        getListing.
         """
 
 class Prv_scribd(Protocol):
@@ -117641,6 +118448,45 @@ class Prv_stubhub(Protocol):
         `/favorites` in this container — so this reads the page's own index-data blob and throws
         a clear error if the shape differs from what it expects. Opens a browser, so expect
         10-25s.
+        """
+
+class Prv_studentaccommodationbath(Protocol):
+    """Peter Moore Lets (studentaccommodationbath.com), Bath student lettings: list its example
+    properties (1 to 9 bedrooms) and read one's description, key features and photos. No
+    prices or live availability are published; ask by phone or email.
+    """
+
+    async def getListing(self, args: Prv_studentaccommodationbath_StudentAccommodationBathGetListingArgs_In, /) -> Prv_studentaccommodationbath_StudentAccommodationBathListing_Out:
+        """Reads one Peter Moore Lets (studentaccommodationbath.com, Bath student lettings) example
+        property page from its link, its id or a bedroom count: title, headline, summary, key
+        features, bedrooms and photos, plus the phone and email to ask about availability. No
+        price or availability is published, so price and status are null; status is not_found
+        when there is no such page.
+        """
+
+    async def listListings(self, args: Prv_studentaccommodationbath_StudentAccommodationBathListListingsArgs_In | None = None, /) -> Prv_studentaccommodationbath_StudentAccommodationBathListingsPage_Out:
+        """Lists the example properties Peter Moore Lets shows on studentaccommodationbath.com (one
+        per size, 1 to 9 bedrooms), optionally by bedroom range: link, title, summary, bedrooms
+        and photo. Pass a row's url to getListing for its features and photos.
+        """
+
+class Prv_studenthomes_net(Protocol):
+    """Student Homes (studenthomes.net), a student letting agent around Leamington Spa,
+    Coventry and Warwick — search its student houses and flats by town and bedrooms, and
+    read one listing's weekly rent per person, bills, deposit, rooms and description.
+    """
+
+    async def getListing(self, listing: str, /) -> Prv_studenthomes_net_StudentHomesListing_Out:
+        """Reads one Student Homes listing by its /student-property/ link or number: availability,
+        weekly rent per person (with and without bills), monthly and total cost, deposit,
+        bedrooms, bathrooms, furnishing, description, photos and the reserve link. status is
+        not_found when the site has no page for it.
+        """
+
+    async def searchListings(self, args: Prv_studenthomes_net_StudentHomesSearchArgs_In | None = None, /) -> Prv_studenthomes_net_StudentHomesSearchResult_Out:
+        """Searches Student Homes' student houses and flats, 12 a page, optionally by town
+        (Leamington Spa, Coventry, Warwick, Kenilworth, Leicester, …) and bedroom range, sorted
+        by rent; each with its weekly rent per person, bills, bedrooms and listing link.
         """
 
 class Prv_sturents(Protocol):
@@ -120958,6 +121804,28 @@ class Prv_uhc_smallbusiness(Protocol):
         back with an empty `plans` array, and that is a real answer, not a failure.
         """
 
+class Prv_ukstudenthouses(Protocol):
+    """UK Student Houses (ukstudenthouses.com) — list its cities, search the student houses let
+    room by room in a city, and read one listing in full: availability, bedrooms, bathrooms
+    and weekly per-person rent.
+    """
+
+    async def listCities(self, /) -> list[Prv_ukstudenthouses_UkshCity_Out]:
+        """Lists every city UK Student Houses lets student houses in, with the slug searchListings
+        takes.
+        """
+
+    async def searchListings(self, city: str, /) -> list[Prv_ukstudenthouses_UkshListingCard_Out]:
+        """Lists the student houses in one city (name or slug, e.g. "Derby"): listing number, link,
+        postcode, bedrooms, bathrooms, from-price per person per month and availability tag.
+        """
+
+    async def getListing(self, listing: str, city: str | None = None, /) -> Prv_ukstudenthouses_UkshListing_Out | Prv_ukstudenthouses_UkshNotFound_Out:
+        """Reads one listing in full by its link, or by its number plus city: status (available;
+        let when every room is taken; not_found), title, property type, bedrooms, bathrooms,
+        rooms left, weekly per-person price per contract, amenities and photos.
+        """
+
 class Prv_ulrichlifestyle(Protocol):
     """Ulrich Lifestyle Structures' 3D shed/cabin configurator — list the model catalog, read
     one model's default configurator (dimensions, wall height, siding, each with its live
@@ -120986,6 +121854,17 @@ class Prv_ulrichlifestyle(Protocol):
         not match a real choice, rather than silently mispricing. Roof material/color is NOT yet
         selectable here — recon found the field that looks like the roof switch does not move
         the priced total; see this provider's file-top note.
+        """
+
+class Prv_unihomes_co_uk(Protocol):
+    """Read a public UniHomes UK student-housing listing by URL or property reference —
+    availability, weekly rent, bills and features.
+    """
+
+    async def getListing(self, listing: str, /) -> Prv_unihomes_co_uk_UniHomesListing_Out:
+        """Reads one public UniHomes student-home listing by its /property/<reference>/ URL or
+        numeric reference: availability, bedrooms, weekly per-person rent, included bills,
+        availability date and key features.
         """
 
 class Prv_uniqlo(Protocol):
@@ -124217,6 +125096,23 @@ class Prv_ycombinator(Protocol):
         search("how to pitch your startup").
         """
 
+class Prv_yellowdoorlets_co_uk(Protocol):
+    """Search and read Yellow Door Lets' Lancaster student houses, studios and rooms —
+    availability, weekly rent per person, bedrooms, address and features.
+    """
+
+    async def searchProperties(self, options: Prv_yellowdoorlets_co_uk_YellowDoorSearchOptions_In | str | None = None, /) -> list[Prv_yellowdoorlets_co_uk_YellowDoorProperty_Out]:
+        """Lists Yellow Door Lets' Lancaster student properties, optionally filtered by text,
+        status ("available"/"let"), type ("house"/"studio"/"room"), area (e.g. "city-centre",
+        "fairfield"), minimum bedrooms and maximum weekly rent per person.
+        """
+
+    async def getProperty(self, property: str, /) -> Prv_yellowdoorlets_co_uk_YellowDoorProperty_Out | Prv_yellowdoorlets_co_uk_getProperty_return_u1_Out:
+        """Reads one Yellow Door Lets property by its /property/<slug>/ URL or slug: status, weekly
+        rent per person, bedrooms, bathrooms, address, availability date, features and
+        description.
+        """
+
 class Prv_yelp(Protocol):
     """Yelp's own business search — returns real, currently-listed businesses for a search term
     and location with Yelp's own star rating, review count, price tier and neighborhood.
@@ -125296,6 +126192,7 @@ class BowmarkProviders(Protocol):
     abercrombie: Prv_abercrombie
     abqplumb: Prv_abqplumb
     abt: Prv_abt
+    accommodationforstudents: Prv_accommodationforstudents
     accuweather: Prv_accuweather
     acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
@@ -125685,6 +126582,7 @@ class BowmarkProviders(Protocol):
     handypro: Prv_handypro
     hansons: Prv_hansons
     harmar: Prv_harmar
+    harringtonsdurham: Prv_harringtonsdurham
     hauslabs: Prv_hauslabs
     havenenergy: Prv_havenenergy
     haydenhomes: Prv_haydenhomes
@@ -125773,6 +126671,7 @@ class BowmarkProviders(Protocol):
     littlewordsproject: Prv_littlewordsproject
     lmstudio: Prv_lmstudio
     lobehub_com: Prv_lobehub_com
+    loc8me: Prv_loc8me
     lonelyplanet: Prv_lonelyplanet
     louvershop: Prv_louvershop
     lovelybride: Prv_lovelybride
@@ -125844,8 +126743,10 @@ class BowmarkProviders(Protocol):
     newegg: Prv_newegg
     nfa_futures_org: Prv_nfa_futures_org
     nhc: Prv_nhc
+    nicholashumphreys: Prv_nicholashumphreys
     nike: Prv_nike
     nintendo: Prv_nintendo
+    nops: Prv_nops
     notion: Prv_notion
     npi_registry: Prv_npi_registry
     npmjs: Prv_npmjs
@@ -125867,6 +126768,7 @@ class BowmarkProviders(Protocol):
     open_library: Prv_open_library
     openai: Prv_openai
     openai_com: Prv_openai_com
+    openarch: Prv_openarch
     openrent: Prv_openrent
     opentable: Prv_opentable
     originenergy_com_au: Prv_originenergy_com_au
@@ -125908,6 +126810,7 @@ class BowmarkProviders(Protocol):
     premierinn: Prv_premierinn
     preppednplated: Prv_preppednplated
     prime_video: Prv_prime_video
+    primestudentlets: Prv_primestudentlets
     printful: Prv_printful
     producthunt: Prv_producthunt
     progressive: Prv_progressive
@@ -125942,6 +126845,7 @@ class BowmarkProviders(Protocol):
     redfin: Prv_redfin
     rei: Prv_rei
     reliancepartners: Prv_reliancepartners
+    rentrightstudents_co_uk: Prv_rentrightstudents_co_uk
     renttherunway: Prv_renttherunway
     resend: Prv_resend
     reserve_with_google: Prv_reserve_with_google
@@ -125972,6 +126876,7 @@ class BowmarkProviders(Protocol):
     samsclub: Prv_samsclub
     samsung: Prv_samsung
     scentbird: Prv_scentbird
+    scottfraser_co_uk: Prv_scottfraser_co_uk
     scribd: Prv_scribd
     seakeeper: Prv_seakeeper
     sears: Prv_sears
@@ -126031,6 +126936,8 @@ class BowmarkProviders(Protocol):
     stickergiant: Prv_stickergiant
     stripe: Prv_stripe
     stubhub: Prv_stubhub
+    studentaccommodationbath: Prv_studentaccommodationbath
+    studenthomes_net: Prv_studenthomes_net
     sturents: Prv_sturents
     styleseat: Prv_styleseat
     substack: Prv_substack
@@ -126106,7 +127013,9 @@ class BowmarkProviders(Protocol):
     uhaul: Prv_uhaul
     uhc_directory: Prv_uhc_directory
     uhc_smallbusiness: Prv_uhc_smallbusiness
+    ukstudenthouses: Prv_ukstudenthouses
     ulrichlifestyle: Prv_ulrichlifestyle
+    unihomes_co_uk: Prv_unihomes_co_uk
     uniqlo: Prv_uniqlo
     unsplash: Prv_unsplash
     upkeepstl_com: Prv_upkeepstl_com
@@ -126166,6 +127075,7 @@ class BowmarkProviders(Protocol):
     yahoo_sports: Prv_yahoo_sports
     yargitay: Prv_yargitay
     ycombinator: Prv_ycombinator
+    yellowdoorlets_co_uk: Prv_yellowdoorlets_co_uk
     yelp: Prv_yelp
     yogatreecollective: Prv_yogatreecollective
     yorkwallcoverings: Prv_yorkwallcoverings

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7287 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7311 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1547,7 +1547,7 @@ One function per row, with the site it is called on.
 | `coingecko.searchCoins` | coingecko.com | Find cryptocurrencies by name or ticker symbol, returning CoinGecko ids and market-cap… | 🟢 |
 | `compass_living.listCommunities` | compass-living.com | Lists up to 10 senior living communities with their contact-form fields and… | 🟢 |
 | `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
-| `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟡 |
+| `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |
 | `concur.getReport` | concur.com | Checks the status of one SAP Concur expense report by id — approval status, payment… | 🟢 |
 | `concur.listReports` | concur.com | Lists your own SAP Concur expense reports (travel and expense) with each report's… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
@@ -1778,7 +1778,7 @@ One function per row, with the site it is called on.
 | `dell.listSupportCategories` | dell.com | Lists the main support categories (drivers, firmware, manuals, community forum, etc.). | 🟢 |
 | `dell.searchForumThreads` | dell.com | Searches Dell's community forum for threads matching a query, returning titles, URLs… | 🟡 |
 | `dell.searchProducts` | dell.com | Searches the Dell store for products by keyword, returning product names, URLs… | 🟢 |
-| `dell.searchSupport` | dell.com | Searches Dell's support knowledge base for articles, drivers, and troubleshooting… | 🟡 |
+| `dell.searchSupport` | dell.com | Searches Dell's support knowledge base for articles, drivers, and troubleshooting… | 🟢 |
 | `deltadentalma.lastUpdated` | deltadentalma.com | Returns the timestamp the directory data was last refreshed, so a caller can say how… | 🟢 |
 | `deltadentalma.search` | deltadentalma.com | Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network… | 🟢 |
 | `dentalplans.getPlan` | dentalplans.com | Reads one plan's own detail page — its marketing description and the site's own… | 🟢 |
@@ -2495,6 +2495,8 @@ One function per row, with the site it is called on.
 | `fieldstonehomes.getAppointmentFormSchema` | fieldstonehomes.com | Reads Fieldstone Homes' live schedule-appointment form, including its required fields… | 🟢 |
 | `fieldstonehomes.prepareAppointment` | fieldstonehomes.com | Validates an appointment request against Fieldstone Homes' live form and returns the… | 🟢 |
 | `fieldstonehomes.searchQuickMoveIns` | fieldstonehomes.com | Searches Fieldstone Homes' live quick-move-in inventory by city, home type, price… | 🟢 |
+| `finders.getListing` | finders.co.uk | Reads one finders.co.uk Oxford letting (incl. student and shared houses) by its link… | 🟢 |
+| `finders.searchListings` | finders.co.uk | Lists the Oxford properties Finders Keepers (finders.co.uk) has to let, ten per page… | 🟢 |
 | `findmcp_app.search` | findmcp.app | Searches FindMCP's public MCP-server directory by keyword and returns each displayed… | 🟢 |
 | `firstamericahomes.getCommunity` | firstamericahomes.com | Reads one community's full detail: address, sales-office phone, description… | 🟢 |
 | `firstamericahomes.searchCommunities` | firstamericahomes.com | Searches First America Homes' current live community list (Houston and San Antonio… | 🟢 |
@@ -3168,7 +3170,7 @@ One function per row, with the site it is called on.
 | `grubhub.getOrderHistory` | grubhub.com | The signed-in diner's past Grubhub orders — restaurant, status, total in cents and… | 🟢 |
 | `grubhub.getOrderStatus` | grubhub.com | One Grubhub order's status, ETA and line items, by the id getOrderHistory() returns. | 🟢 |
 | `grubhub.getPaymentMethods` | grubhub.com | The signed-in diner's saved Grubhub payment methods — cards (brand, last four, expiry)… | 🟢 |
-| `grubhub.getPromoOffers` | grubhub.com | Active promo codes, spend-based thresholds and the delivery-fee badge Grubhub shows… | 🟡 |
+| `grubhub.getPromoOffers` | grubhub.com | Active promo codes, spend-based thresholds and the delivery-fee badge Grubhub shows… | 🟢 |
 | `grubhub.getRestaurant` | grubhub.com | Reads one Grubhub restaurant by search()'s id: address, cuisines, rating, price level… | 🟢 |
 | `grubhub.getRestaurantReviews` | grubhub.com | A page of diner reviews for one Grubhub restaurant: stars, text, date, sentiment and… | 🟢 |
 | `grubhub.getSavedAddresses` | grubhub.com | The signed-in diner's saved Grubhub delivery addresses: label, street, unit, city… | 🟢 |
@@ -4375,6 +4377,8 @@ One function per row, with the site it is called on.
 | `nintendo.listOrders` | www.nintendo.com | Read the signed-in caller's Nintendo eShop / store order history. | ⚪ |
 | `nintendo.searchProducts` | www.nintendo.com | Search Nintendo's own store catalog by keyword — games, hardware, accessories and… | 🟢 |
 | `nintendo.searchSupport` | www.nintendo.com | Search Nintendo's support knowledge base by keyword — "Switch won't charge", "error… | 🟢 |
+| `nops.getListing` | nops.co.uk | Reads one nops.co.uk Oxford letting listing by its link or listing number: address… | 🟢 |
+| `nops.searchListings` | nops.co.uk | Lists every Oxford property North Oxford Property Services currently has to let across… | 🟢 |
 | `notion.appendBlocks` | notion.com | Add text (or any blocks) to the end of a Notion page. | 🟢 |
 | `notion.createComment` | notion.com | Comment on a Notion page, or reply in an existing discussion. | 🟢 |
 | `notion.createPage` | notion.com | Create a Notion page under a page or as a new row in a database, with optional text. | 🟢 |
@@ -4604,6 +4608,8 @@ One function per row, with the site it is called on.
 | `openai_com.readPost` | openai.com | Read the complete text of any OpenAI research paper or blog post from openai.com by… | 🟢 |
 | `openai.helpArticle` | learn.chatgpt.com | Retrieves the full text of a help article by its ID from OpenAI's documentation. | 🟢 |
 | `openai.plans` | learn.chatgpt.com | Returns per-(plan, model) usage limits from learn.chatgpt.com/docs/pricing. | 🟢 |
+| `openarch.getListing` | openarch.co.uk | Reads one OpenArch (Cambridgeshire lettings) student or residential listing by its… | 🟢 |
+| `openarch.listListings` | openarch.co.uk | Lists the student and residential lettings OpenArch shows on its search page… | 🟢 |
 | `openrent.getListing` | openrent.co.uk | Read one OpenRent (openrent.co.uk) rental listing in full by its link or number… | 🟢 |
 | `openrent.searchListings` | openrent.co.uk | Search OpenRent (openrent.co.uk) for UK homes and rooms to rent from private landlords… | 🟢 |
 | `opentable.cancelBooking` | opentable.com | Cancels a reservation from its OpenTable confirmation page: Cancel, then Confirm… | 🟢 |
@@ -4858,6 +4864,8 @@ One function per row, with the site it is called on.
 | `prime_video.searchTitles` | www.primevideo.com | Search Prime Video's whole catalogue for what a person would type — "matrix", "the… | 🟢 |
 | `prime_video.suggestTitles` | www.primevideo.com | Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy"… | 🟢 |
 | `prime_video.toggleWatchlist` | www.primevideo.com | Add a title to the caller's watchlist, or take one off it — the one write a person… | 🟢 |
+| `primestudentlets.getListing` | primestudentlets.co.uk | Reads one Prime Student Lets Loughborough student house by link or slug: status… | 🟢 |
+| `primestudentlets.listListings` | primestudentlets.co.uk | Lists Prime Student Lets' Loughborough student houses, all or by bedroom count (1-8)… | 🟢 |
 | `printful.getOrder` | printful.com | Fetches details of a single order by order ID from a Printful store, including status… | 🟢 |
 | `printful.searchOrders` | printful.com | Finds orders matching a customer's email or the order's own reference (external_id)… | 🟢 |
 | `producthunt.listLaunches` | producthunt.com | Lists the latest product launches on Product Hunt (up to 50, newest first) from the… | 🟢 |
@@ -5040,6 +5048,7 @@ One function per row, with the site it is called on.
 | `quintoandar.search` | quintoandar.com.br | Searches public QuintoAndar sale or rental listings in a location and returns… | 🟢 |
 | `quora.askQuestion` | quora.com | Posts a new question as the signed-in caller. | ⚪ |
 | `quora.followEntity` | quora.com | Follows a person, a topic, or a Space as the signed-in caller, taking that entity's… | ⚪ |
+| `quora.getAnswer` | quora.com | Opens one answer from the shared link people send —… | 🟢 |
 | `quora.getAnswers` | quora.com | Pages through a question's answers beyond the first page getQuestion embeds, using the… | 🟡 |
 | `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | 🟢 |
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary off /settings. | 🟢 |
@@ -5122,6 +5131,8 @@ One function per row, with the site it is called on.
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟢 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
+| `rentrightstudents_co_uk.getListing` | rentrightstudents.co.uk | Reads one RentRight Students student rental property by its URL or numeric id —… | 🟢 |
+| `rentrightstudents_co_uk.listLatestListings` | rentrightstudents.co.uk | Lists the newest student rental listings on RentRight Students from the site's own… | 🟢 |
 | `renttherunway.browseCategory` | renttherunway.com | Browses one Rent the Runway catalog category ("dress", "CocktailDresses", "Gowns") the… | 🟢 |
 | `renttherunway.browseDesigner` | renttherunway.com | Lists every Rent the Runway rental from one designer by designerId (as search returns… | 🟢 |
 | `renttherunway.search` | renttherunway.com | Free-text search of Rent the Runway's designer clothing rental catalog (e.g. "black… | 🟢 |
@@ -5364,6 +5375,8 @@ One function per row, with the site it is called on.
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | 🟢 |
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟢 |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
+| `scottfraser_co_uk.getListing` | scottfraser.co.uk | Reads one public Scott Fraser letting by its link or reference — status (available… | 🟢 |
+| `scottfraser_co_uk.listLettings` | scottfraser.co.uk | Lists Scott Fraser rental listing links and references from its public properties… | 🟢 |
 | `scribd.addDocumentToList` | scribd.com | Adds a document to one of the signed-in caller's lists. | 🟢 |
 | `scribd.askDocument` | scribd.com | Asks Scribd's AI assistant a question about one document and returns its answer, as… | 🟢 |
 | `scribd.createList` | scribd.com | Creates a new list (collection) on the signed-in caller's account, private unless… | 🟢 |
@@ -5466,7 +5479,7 @@ One function per row, with the site it is called on.
 | `sevenrooms.findVenue` | sevenrooms.com | Finds the SevenRooms venue slug for a restaurant from its name and city, its own… | ⚪ |
 | `sevenrooms.getAvailability` | sevenrooms.com | Returns a venue's open reservation times for a date range, party size and preferred… | 🟢 |
 | `sevenrooms.getAvailableDates` | sevenrooms.com | Lists the dates a venue is taking online bookings over a window, so a caller can pick… | 🟢 |
-| `sevenrooms.getBookingTerms` | sevenrooms.com | Reads the checkout terms of one open slot before booking it — by date and time, or the… | 🟡 |
+| `sevenrooms.getBookingTerms` | sevenrooms.com | Reads the checkout terms of one open slot before booking it — by date and time, or the… | 🟢 |
 | `sevenrooms.getExperience` | sevenrooms.com | Returns one experience or event at a venue: title, description, photos, price per… | ⚪ |
 | `sevenrooms.getMyProfile` | sevenrooms.com | Returns the signed-in guest's SevenRooms profile: name, contact details, profile… | ⚪ |
 | `sevenrooms.getRequest` | sevenrooms.com | Reads a submitted booking request or priority alert from its id: venue, date, time… | ⚪ |
@@ -5927,6 +5940,10 @@ One function per row, with the site it is called on.
 | `stubhub.listFavorites` | stubhub.com | The signed-in caller's followed performers, teams and venues — the StubHub app… | 🟢 |
 | `stubhub.listMyOrders` | stubhub.com | The signed-in caller's own order history — tickets bought and sold, each with its… | 🟢 |
 | `stubhub.search` | stubhub.com | Runs the site's own search for a performer, team, event or venue name and returns the… | 🟢 |
+| `studentaccommodationbath.getListing` | studentaccommodationbath.com | Reads one Peter Moore Lets (Bath student lettings) example property page from its… | 🟢 |
+| `studentaccommodationbath.listListings` | studentaccommodationbath.com | Lists the example properties Peter Moore Lets shows on studentaccommodationbath.com… | 🟢 |
+| `studenthomes_net.getListing` | studenthomes.net | Reads one Student Homes listing by link or number: availability, weekly rent per… | 🟢 |
+| `studenthomes_net.searchListings` | studenthomes.net | Searches Student Homes' student houses and flats by town and bedroom range, 12 a page… | 🟢 |
 | `sturents.getListing` | sturents.com | Reads one StuRents student accommodation listing by link or number: status, address… | 🟢 |
 | `sturents.listListings` | sturents.com | Lists the student houses and flats StuRents shows first for a UK city, with link… | 🟢 |
 | `styleseat.addFavorite` | styleseat.com | Saves a pro to the signed-in caller's favorites. | 🟢 |
@@ -6508,6 +6525,9 @@ One function per row, with the site it is called on.
 | `uhaul.getRates` | uhaul.com | Gets U-Haul truck or trailer rental rates for a pickup location and date — in-town, or… | 🟢 |
 | `uhc_directory.findProviders` | uhc.com | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
 | `uhc_smallbusiness.getGroupHealthQuote` | smallbusiness.uhc.com | Real level-funded and fully-insured small-group health plan premiums for a ZIP code… | 🟢 |
+| `ukstudenthouses.getListing` | ukstudenthouses.com | Reads one UK Student Houses listing in full by its link, or its number plus city… | 🟢 |
+| `ukstudenthouses.listCities` | ukstudenthouses.com | Lists the cities UK Student Houses lets student houses in, with the slug… | 🟢 |
+| `ukstudenthouses.searchListings` | ukstudenthouses.com | Lists the student houses UK Student Houses lets in one city: listing number, link… | 🟢 |
 | `ulrichlifestyle.getConfigurator` | ulrichlifestyle.com | Reads one model's default configurator: its base price (before delivery/tax) plus… | 🟢 |
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
 | `ulrichlifestyle.priceConfiguration` | ulrichlifestyle.com | Configures and prices one specific build (dimensions, wall height, siding, delivery… | 🟢 |
@@ -6526,6 +6546,8 @@ One function per row, with the site it is called on.
 | `ups.schedulePickup` | ups.com | Quotes UPS's one-time pickup fee for a US address and date, through the guest Schedule… | 🟢 |
 | `ups.trackShipment` | ups.com | Tracks a shipment by tracking number and returns status, delivery date, and current… | 🟢 |
 | `ups.validateAddress` | ups.com | Validates and standardizes a US shipping address against UPS's Address Validation API… | 🟢 |
+| `upwork.getJob` | upwork.com | Reads one public Upwork job posting by the url or id searchJobs() returned: full… | 🟢 |
+| `upwork.searchJobs` | upwork.com | Searches Upwork's public freelance job postings by keyword, as the Find Work search… | 🟢 |
 | `urbanoutfitters.browseCategory` | urbanoutfitters.com | Lists the products under one of Urban Outfitters' own department pages — the site's… | ⚪ |
 | `urbanoutfitters.checkGiftCardBalance` | urbanoutfitters.com | Checks the remaining balance on a Urban Outfitters gift card from the card number and… | ⚪ |
 | `urbanoutfitters.checkStock` | urbanoutfitters.com | Answers whether one specific size in one specific colour of a Urban Outfitters product… | ⚪ |
@@ -7109,6 +7131,8 @@ One function per row, with the site it is called on.
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |
 | `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🟢 |
+| `yellowdoorlets_co_uk.getProperty` | yellowdoorlets.co.uk | Reads one Yellow Door Lets Lancaster student property by URL or slug — let/available… | 🟢 |
+| `yellowdoorlets_co_uk.searchProperties` | yellowdoorlets.co.uk | Lists Yellow Door Lets' Lancaster student houses, studios and rooms, filtered by text… | 🟢 |
 | `yellowpages.getBusiness` | yellowpages.com | Gets one business listing: name, phone, address, hours, website, categories, years in… | ⚪ |
 | `yellowpages.search` | yellowpages.com | Searches the directory by business category or name and a city, e.g. plumber in… | ⚪ |
 | `yelp.addToCollection` | yelp.com | Creates a collection for the signed-in caller, or adds a business to one of theirs, or… | ⚪ |
