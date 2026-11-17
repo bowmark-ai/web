@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2df643b5f053243e141bc935d7a781626859aba81542b85a67dbb80321137f29
-# 98 capabilities, 887 providers, 5398 typed functions, 20 refused.
+# Manifest version: 8f8aee9665600e8ec9fb1aa61c88baafb1f7537d450bc58ce87f12d4bf016013
+# 98 capabilities, 888 providers, 5407 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27758,6 +27758,10 @@ class Prv_etsy_EtsyShop_Out(TypedDict):
     onEtsySince: float | None
     url: str
 
+class Prv_etsy_listShopListings_nameOrUrl_u1_In(TypedDict):
+    shop: str
+    page: NotRequired[float]
+
 class Prv_etsy_listShopReviews_nameOrUrl_u1_In(TypedDict):
     shop: str
     page: NotRequired[float]
@@ -34363,6 +34367,13 @@ class Prv_goodreads_GoodreadsQuote_Out(TypedDict):
     authorUrl: NotRequired[str]
     bookTitle: NotRequired[str]
     bookUrl: NotRequired[str]
+    likes: NotRequired[float]
+    tags: list[str]
+
+class Prv_goodreads_GoodreadsBookQuote_Out(TypedDict):
+    id: str
+    text: str
+    authorName: NotRequired[str]
     likes: NotRequired[float]
     tags: list[str]
 
@@ -46655,6 +46666,65 @@ class Prv_mlb_MlbRosterEntry_Out(TypedDict):
     positionType: str | None
     status: str | None
 
+class Prv_mlb_MlbListNewsArgs_In(TypedDict):
+    team: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_mlb_MlbNewsItem_Out(TypedDict):
+    title: str
+    url: str
+    author: str | None
+    publishedAt: str | None
+    imageUrl: str | None
+
+class Prv_mlb_MlbArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_mlb_MlbArticle_Out(TypedDict):
+    url: str
+    headline: str
+    author: str | None
+    publishedAt: str | None
+    modifiedAt: str | None
+    description: str | None
+    imageUrl: str | None
+    paragraphs: list[str]
+    playerIds: list[float]
+
+class Prv_mlb_MlbSearchContentArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    language: NotRequired[Literal["en"] | Literal["es"]]
+
+class Prv_mlb_MlbContentHit_Out(TypedDict):
+    title: str
+    url: str
+    contentType: str | None
+    blurb: str | None
+    publishedAt: str | None
+    players: list[str]
+    teams: list[str]
+    imageUrl: str | None
+
+class Prv_mlb_MlbSearchVideosArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_mlb_MlbVideoSearch_Out(TypedDict):
+    total: float
+    videos: list[Prv_mlb_MlbVideo_Out]
+
+class Prv_mlb_MlbVideo_Out(TypedDict):
+    id: str
+    slug: str
+    title: str
+    description: str | None
+    date: str | None
+    durationSeconds: float | None
+    feeds: list[str]
+    url: str
+
 class Prv_mobile_de_MobileDeSearchInput_In(TypedDict):
     url: NotRequired[str]
     makeId: NotRequired[float]
@@ -58850,6 +58920,49 @@ class Prv_ring_RingCompareSpec_Out(TypedDict):
     key: str
     values: Mapping[str, str | None]
 
+class Prv_ring_addToCart_args_In(TypedDict):
+    url: str
+    sku: NotRequired[str]
+    quantity: NotRequired[float]
+    lines: NotRequired[Sequence[Prv_ring_RingCartLine_In]]
+
+class Prv_ring_RingCartLine_In(TypedDict):
+    sku: str
+    quantity: float
+    handle: str
+    priceId: str
+
+class Prv_ring_RingCart_Out(TypedDict):
+    lines: list[Prv_ring_RingCartLine_Out]
+    items: list[Prv_ring_RingCartItem_Out]
+    itemCount: float
+    currency: str | None
+    subtotal: float | None
+    total: float | None
+
+class Prv_ring_RingCartLine_Out(TypedDict):
+    sku: str
+    quantity: float
+    handle: str
+    priceId: str
+
+class Prv_ring_RingCartItem_Out(TypedDict):
+    sku: str
+    title: str
+    color: str | None
+    quantity: float
+    unitPrice: float | None
+    linePrice: float | None
+    url: str
+    imageUrl: str | None
+
+class Prv_ring_getCart_args_In(TypedDict):
+    lines: Sequence[Prv_ring_RingCartLine_In]
+
+class Prv_ring_removeFromCart_args_In(TypedDict):
+    sku: str
+    lines: Sequence[Prv_ring_RingCartLine_In]
+
 class Prv_ring_getProductReviews_args_In(TypedDict):
     url: NotRequired[str]
     asin: NotRequired[str]
@@ -62308,6 +62421,19 @@ class Prv_shopdisney_ShopDisneyProduct_Out(TypedDict):
 class Prv_shopdisney_ShopDisneyProductArgs_In(TypedDict):
     url: NotRequired[str]
     id: NotRequired[str]
+
+class Prv_simplisafe_search_query_u1_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_simplisafe_SimplisafeSearchResponse_Out(TypedDict):
+    results: list[Prv_simplisafe_SimplisafeSearchResult_Out]
+    warnings: list[str]
+
+class Prv_simplisafe_SimplisafeSearchResult_Out(TypedDict):
+    title: str
+    description: str | None
+    kind: Literal["system"] | Literal["monitoring"]
+    url: str
 
 class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
     zip: str
@@ -96187,10 +96313,10 @@ class Prv_etsy(Protocol):
         and review count, total sales, admirers and the year it opened on Etsy.
         """
 
-    async def listShopListings(self, nameOrUrl: str, /) -> list[Prv_etsy_etsyListing_Out]:
-        """The items on the first page of an Etsy shop — listing id, title, price, currency and URL
-        (quantity and tags are `null`/empty, as on the keyless search door). Takes the same name
-        or URL as `getShop`.
+    async def listShopListings(self, nameOrUrl: str | Prv_etsy_listShopListings_nameOrUrl_u1_In, /) -> list[Prv_etsy_etsyListing_Out]:
+        """The items on one page of an Etsy shop (`page` from 1, default 1, about 35 per page) —
+        listing id, title, price, currency and URL (quantity and tags are `null`/empty, as on
+        the keyless search door). Takes the same name or URL as `getShop`.
         """
 
     async def listShopReviews(self, nameOrUrl: str | Prv_etsy_listShopReviews_nameOrUrl_u1_In, /) -> Prv_etsy_EtsyShopReviewPage_Out:
@@ -99691,6 +99817,11 @@ class Prv_goodreads(Protocol):
     async def searchQuotes(self, query: str, /) -> list[Prv_goodreads_GoodreadsQuote_Out]:
         """Runs the public quotes search and returns quote text with its attributed author, the
         book it's from (when the card names one), like count and tags.
+        """
+
+    async def getBookQuotes(self, idOrUrl: str, page: float | None = None, /) -> list[Prv_goodreads_GoodreadsBookQuote_Out]:
+        """Lists the quotes readers attached to one book, 30 a page — quote text, author, like
+        count and tags. Takes a book id or url and an optional 1-indexed page.
         """
 
     async def getMemberProfile(self, idOrUrl: str, /) -> Prv_goodreads_GoodreadsMemberProfile_Out:
@@ -107178,6 +107309,27 @@ class Prv_mlb(Protocol):
         number, position and status. Takes a teamId from listTeams.
         """
 
+    async def listNews(self, args: Prv_mlb_MlbListNewsArgs_In | None = None, /) -> list[Prv_mlb_MlbNewsItem_Out]:
+        """The latest MLB.com news stories, league-wide or one team's: headline, link, author, time
+        and image. e.g. listNews({ team: "yankees", limit: 10 }).
+        """
+
+    async def getArticle(self, args: Prv_mlb_MlbArticleArgs_In, /) -> Prv_mlb_MlbArticle_Out:
+        """One MLB.com article: headline, author, dates, description, image, the body as paragraphs
+        and the player ids it links. Takes a url from listNews or searchContent.
+        """
+
+    async def searchContent(self, args: Prv_mlb_MlbSearchContentArgs_In | str, /) -> list[Prv_mlb_MlbContentHit_Out]:
+        """Searches MLB.com's articles and videos by keyword, as the site search does: title, link,
+        type, blurb, date, players and teams. e.g. searchContent("Aaron Judge").
+        """
+
+    async def searchVideos(self, args: Prv_mlb_MlbSearchVideosArgs_In | str, /) -> Prv_mlb_MlbVideoSearch_Out:
+        """Searches MLB Film Room video (highlights, every play) by free text: title, description,
+        date, length and page URL, with the total match count. e.g. searchVideos("aaron judge
+        home run").
+        """
+
 class Prv_mobile_de(Protocol):
     """Searches mobile.de, Germany's largest car marketplace, for used and new car listings
     with EUR price, year, mileage, power, fuel and seller.
@@ -113655,6 +113807,17 @@ class Prv_ring(Protocol):
     async def compareProducts(self, /) -> Prv_ring_RingComparison_Out:
         """Compare every Ring doorbell side by side: name, power type, price and each spec row."""
 
+    async def addToCart(self, args: Prv_ring_addToCart_args_In, /) -> Prv_ring_RingCart_Out:
+        """Add a Ring product to a cart and price it. The cart lives in the shopper's browser: pass
+        the `lines` of an earlier cart call to add to it.
+        """
+
+    async def getCart(self, args: Prv_ring_getCart_args_In, /) -> Prv_ring_RingCart_Out:
+        """Price a Ring cart from the `lines` an earlier cart call returned."""
+
+    async def removeFromCart(self, args: Prv_ring_removeFromCart_args_In, /) -> Prv_ring_RingCart_Out:
+        """Remove one sku from a Ring cart's lines and return the re-priced cart."""
+
     async def getProductReviews(self, args: Prv_ring_getProductReviews_args_In, /) -> Prv_ring_RingReviewsPage_Out:
         """Read customer reviews of a Ring product (by url or ASIN): stars, title, text, verified
         flag; pass nextPage for more.
@@ -115323,6 +115486,17 @@ class Prv_shopdisney(Protocol):
     async def getProduct(self, args: Prv_shopdisney_ShopDisneyProductArgs_In | str, /) -> Prv_shopdisney_ShopDisneyProduct_Out:
         """Reads one shopDisney / Disney Store product page by URL or id and returns its title, USD
         price, original price, stock, category, character, rating and image.
+        """
+
+class Prv_simplisafe(Protocol):
+    """Lists SimpliSafe's public home-security system and professional monitoring pages, with
+    their current descriptions.
+    """
+
+    async def search(self, query: str | Prv_simplisafe_search_query_u1_In | None = None, /) -> Prv_simplisafe_SimplisafeSearchResponse_Out:
+        """Lists SimpliSafe's current public security-system packages and monitoring page. Call
+        search() for the overview, or pass a word such as "monitoring" to narrow the current
+        pages. warnings names any source page SimpliSafe did not serve.
         """
 
 class Prv_sitmeanssit(Protocol):
@@ -125726,6 +125900,7 @@ class BowmarkProviders(Protocol):
     shein: Prv_shein
     shop_app: Prv_shop_app
     shopdisney: Prv_shopdisney
+    simplisafe: Prv_simplisafe
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
     skills_rest: Prv_skills_rest

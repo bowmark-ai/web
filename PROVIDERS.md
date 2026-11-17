@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7274 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7277 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -279,7 +279,7 @@ One function per row, with the site it is called on.
 | `aol_mail.updateAccountProfile` | mail.aol.com | Changes the first and/or last name on the CALLER's own AOL account by filling the… | 🟢 |
 | `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | 🟢 |
 | `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | 🟢 |
-| `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter name, text, time, likes… | 🟢 |
+| `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter name, text, time, likes… | 🟡 |
 | `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | 🟢 |
 | `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | 🟢 |
 | `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | 🟢 |
@@ -1332,7 +1332,7 @@ One function per row, with the site it is called on.
 | `chriscraft.getConfigurator` | chriscraft.com | Reads one model+boat-type's whole builder off build.chriscraft.com: every option group… | 🟢 |
 | `chriscraft.priceConfiguration` | chriscraft.com | Prices a specific build (a choice, or choices, per option group) against… | 🟢 |
 | `chriscraft.searchModels` | chriscraft.com | Lists every current Chris-Craft model reachable from the public "Build Your Own"… | 🟢 |
-| `christianbrothersauto.checkAppointmentAvailability` | cbac.com | Checks real, currently-open appointment slots at one Christian Brothers Automotive… | 🟢 |
+| `christianbrothersauto.checkAppointmentAvailability` | cbac.com | Checks real, currently-open appointment slots at one Christian Brothers Automotive… | 🟡 |
 | `christianbrothersauto.getShopDetails` | cbac.com | Resolves a Christian Brothers Automotive shop — by its scheduler slug (e.g.… | 🟡 |
 | `christydawn.search` | christydawn.com | Searches the Christy Dawn catalog for clothing and returns matching product rows with… | 🟢 |
 | `chromium_googlesource_com.getFile` | chromium.googlesource.com | Reads one source code file from a chromium.googlesource.com repository by gitiles url… | 🟢 |
@@ -1543,7 +1543,7 @@ One function per row, with the site it is called on.
 | `coingecko.getPrice` | coingecko.com | Current price of a cryptocurrency, given by symbol or name, in a fiat or crypto quote… | 🟢 |
 | `coingecko.searchCoins` | coingecko.com | Find cryptocurrencies by name or ticker symbol, returning CoinGecko ids and market-cap… | 🟢 |
 | `compass_living.listCommunities` | compass-living.com | Lists up to 10 senior living communities with their contact-form fields and… | 🟢 |
-| `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟡 |
+| `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
 | `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟡 |
 | `concur.getReport` | concur.com | Checks the status of one SAP Concur expense report by id — approval status, payment… | 🟢 |
 | `concur.listReports` | concur.com | Lists your own SAP Concur expense reports (travel and expense) with each report's… | 🟢 |
@@ -2126,7 +2126,7 @@ One function per row, with the site it is called on.
 | `e2b.createSandbox` | e2b.dev | Boots a fresh Linux sandbox from a template (the `claude` template ships Claude Code)… | 🟢 |
 | `e2b.getSandbox` | e2b.dev | Reads one sandbox via GET /sandboxes/{id}: state, vCPU and RAM, start time and… | 🟢 |
 | `e2b.killSandbox` | e2b.dev | Destroys a sandbox via DELETE /sandboxes/{id}, which cannot be undone; idempotent on… | 🟢 |
-| `e2b.listSandboxes` | e2b.dev | Lists running sandboxes on the team via GET /v2/sandboxes, optionally filtered by… | 🟡 |
+| `e2b.listSandboxes` | e2b.dev | Lists running sandboxes on the team via GET /v2/sandboxes, optionally filtered by… | 🟢 |
 | `e2b.readFile` | e2b.dev | Reads a text file from inside a sandbox via the daemon's GET /files; null when it does… | 🟢 |
 | `e2b.runCommand` | e2b.dev | Runs `bash -l -c <cmd>` inside a sandbox through its in-sandbox daemon's Connect-RPC… | 🟢 |
 | `e2b.setSandboxTimeout` | e2b.dev | Moves a sandbox's kill time via POST /sandboxes/{id}/timeout, in seconds from now. | 🟢 |
@@ -3000,7 +3000,7 @@ One function per row, with the site it is called on.
 | `goodreads.getAuthorBooks` | goodreads.com | Lists an author's full bibliography, 30 books a page. | 🟢 |
 | `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | 🟢 |
 | `goodreads.getBookEditions` | goodreads.com | Lists the editions of a book (publisher, date, format, pages, ISBN, language, rating)… | 🟢 |
-| `goodreads.getBookQuotes` | goodreads.com | Lists the quotes readers have attached to one book, with the quote text, its page and… | ⚪ |
+| `goodreads.getBookQuotes` | goodreads.com | Lists the quotes readers have attached to one book, with the quote text, its page and… | 🟢 |
 | `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer name, review text, and creation… | 🟢 |
 | `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | 🟢 |
 | `goodreads.getMemberFollowers` | goodreads.com | Lists the readers who follow a member, from the member's followers page. | ⚪ |
@@ -4139,7 +4139,7 @@ One function per row, with the site it is called on.
 | `mlb.buyTickets` | mlb.com | Buys tickets to a game, stopping at the payment step. | ⚪ |
 | `mlb.findTickets` | mlb.com | Lists upcoming games for a team with links to buy tickets on MLB's ticketing partner. | ⚪ |
 | `mlb.getAccount` | mlb.com | Reads the signed-in caller's MLB account profile: name, email, birthdate, favourite… | ⚪ |
-| `mlb.getArticle` | mlb.com | Gets one MLB.com article: headline, author, date, body text, images and tagged players… | ⚪ |
+| `mlb.getArticle` | mlb.com | Gets one MLB.com article: headline, author, date, body text, images and tagged players… | 🟢 |
 | `mlb.getAwards` | mlb.com | Lists the winners of an MLB award (MVP, Cy Young, Rookie of the Year, Gold Glove, Hall… | ⚪ |
 | `mlb.getBoxScore` | mlb.com | Gets a game's box score: every batter's and pitcher's line for both teams, plus team… | 🟢 |
 | `mlb.getDraft` | mlb.com | Lists a year's MLB Draft picks: round, pick, team, player, position and school. | ⚪ |
@@ -4171,15 +4171,15 @@ One function per row, with the site it is called on.
 | `mlb.listFavorites` | mlb.com | Lists the signed-in caller's favourite teams and players. | ⚪ |
 | `mlb.listFreeAgents` | mlb.com | Lists the current free agents with their positions and former teams. | ⚪ |
 | `mlb.listGlossaryTerms` | mlb.com | Lists MLB.com's glossary of stats and rules, by category (standard stats, advanced… | ⚪ |
-| `mlb.listNews` | mlb.com | Lists the latest MLB.com news stories, league-wide or for one team: headline, link… | ⚪ |
+| `mlb.listNews` | mlb.com | Lists the latest MLB.com news stories, league-wide or for one team: headline, link… | 🟢 |
 | `mlb.listNewsletterSubscriptions` | mlb.com | Lists the MLB and team newsletters the signed-in caller is subscribed to. | ⚪ |
 | `mlb.listPlayerStats` | mlb.com | Lists every qualified player's season stats, sortable by any column, as the /stats… | ⚪ |
 | `mlb.listTeams` | mlb.com | Lists the 30 MLB teams (or a minor league's teams) with ids, names, abbreviations… | 🟢 |
 | `mlb.listTransactions` | mlb.com | Lists player transactions (trades, signings, injured list moves, call-ups) for a date… | ⚪ |
 | `mlb.removeFavorite` | mlb.com | Removes a team or player from the signed-in caller's favourites. | ⚪ |
-| `mlb.searchContent` | mlb.com | Searches MLB.com's news articles and videos by keyword, as the site search does. | ⚪ |
+| `mlb.searchContent` | mlb.com | Searches MLB.com's news articles and videos by keyword, as the site search does. | 🟢 |
 | `mlb.searchPlayers` | mlb.com | Finds players by name, current or retired, and returns their ids, positions and teams. | 🟢 |
-| `mlb.searchVideos` | mlb.com | Searches MLB's video library (Film Room): highlights and every pitch, by player, team… | ⚪ |
+| `mlb.searchVideos` | mlb.com | Searches MLB's video library (Film Room): highlights and every pitch, by player, team… | 🟢 |
 | `mlb.subscribeToMlbTv` | mlb.com | Starts an MLB.TV subscription for the signed-in caller, stopping at the payment step. | ⚪ |
 | `mlb.subscribeToNewsletter` | mlb.com | Signs an email address up to MLB or a team's newsletter. | ⚪ |
 | `mlb.unsubscribeFromNewsletter` | mlb.com | Unsubscribes the signed-in caller from one MLB or team newsletter. | ⚪ |
@@ -5226,12 +5226,12 @@ One function per row, with the site it is called on.
 | `rezdy.listProducts` | rezdy.com | Lists an operator's bookable products (tours, activities, rentals, transfers, gift… | 🟢 |
 | `rezdy.sendEnquiry` | rezdy.com | Sends the operator a question through its booking site's contact form (name, email… | ⚪ |
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
-| `ring.addToCart` | ring.com | Adds a Ring product, by its url and quantity, to the guest cart. | ⚪ |
+| `ring.addToCart` | ring.com | Adds a Ring product (by url, optional sku and quantity) to a cart and prices it. | 🟢 |
 | `ring.checkout` | ring.com | Reads the order summary up to the payment step. | ⚪ |
 | `ring.compareProducts` | ring.com | Reads a Ring product category's comparison, the specifications of each model side by… | 🟢 |
 | `ring.findRetailer` | ring.com | Lists Ring's authorized retail partners that carry Ring hardware. | 🟢 |
 | `ring.getAlarmMode` | ring.com | Reads the signed-in account's current alarm mode, such as home, away or disarmed. | ⚪ |
-| `ring.getCart` | ring.com | Reads the guest cart's lines, quantities and totals before checkout. | ⚪ |
+| `ring.getCart` | ring.com | Prices a cart's lines (the `lines` an earlier cart call returned): items, quantities… | 🟢 |
 | `ring.getDevice` | ring.com | Reads one signed-in device's status, battery, firmware and settings snapshot. | ⚪ |
 | `ring.getPlan` | ring.com | Reads the signed-in account's current Ring Protect plan and its renewal date. | ⚪ |
 | `ring.getPlans` | ring.com | Reads Ring Protect's subscription plans with their prices and what each one includes. | 🟢 |
@@ -5244,7 +5244,7 @@ One function per row, with the site it is called on.
 | `ring.listDevices` | ring.com | Lists the Ring devices on the signed-in account: doorbells, cameras, the alarm base… | ⚪ |
 | `ring.listEvents` | ring.com | Lists the signed-in account's doorbell, motion and alarm events, newest first, with… | ⚪ |
 | `ring.listSharedUsers` | ring.com | Lists the people the signed-in account has shared its Ring devices with. | ⚪ |
-| `ring.removeFromCart` | ring.com | Removes one line from the guest cart. | ⚪ |
+| `ring.removeFromCart` | ring.com | Removes one sku from a cart's `lines` and returns the re-priced cart. | 🟢 |
 | `ring.search` | ring.com | Searches Ring's public catalog by a product name or family and returns matching… | 🟢 |
 | `ring.searchSupport` | ring.com | Searches Ring's support center and returns matching help articles with their titles… | 🟢 |
 | `ring.setAlarmMode` | ring.com | Switches the signed-in account's alarm to a mode such as home, away or disarmed. | ⚪ |
@@ -5547,6 +5547,7 @@ One function per row, with the site it is called on.
 | `shop_app.writeReview` | shop.app | Leaves a star rating and review on a product the caller bought through Shop. | ⚪ |
 | `shopdisney.getProduct` | shopdisney.com | Reads one shopDisney / Disney Store product page by URL or id and returns its title… | 🟢 |
 | `shopdisney.search` | shopdisney.com | Searches shopDisney / Disney Store (shopdisney.com → disneystore.com) for merchandise… | 🟢 |
+| `simplisafe.search` | simplisafe.com | Lists SimpliSafe's public security-system packages and monitoring page, returning the… | 🟢 |
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
 | `skills_rest.listSkills` | skills.rest | Lists the public skill cards currently featured on skills.rest, returning each card's… | 🟢 |
@@ -5917,6 +5918,8 @@ One function per row, with the site it is called on.
 | `stubhub.listFavorites` | stubhub.com | The signed-in caller's followed performers, teams and venues — the StubHub app… | 🟢 |
 | `stubhub.listMyOrders` | stubhub.com | The signed-in caller's own order history — tickets bought and sold, each with its… | 🟢 |
 | `stubhub.search` | stubhub.com | Runs the site's own search for a performer, team, event or venue name and returns the… | 🟢 |
+| `sturents.getListing` | sturents.com | Reads one StuRents student accommodation listing by link or number: status, address… | 🟢 |
+| `sturents.listListings` | sturents.com | Lists the student houses and flats StuRents shows first for a UK city, with link… | 🟢 |
 | `styleseat.addFavorite` | styleseat.com | Saves a pro to the signed-in caller's favorites. | 🟢 |
 | `styleseat.bookAppointment` | styleseat.com | Books an appointment with a pro for the signed-in caller: services at a date and start… | 🟢 |
 | `styleseat.buyServicePackage` | styleseat.com | Buys a prepaid package of a pro's services. | ⚪ |

@@ -1,5 +1,5 @@
 {
-  "version": "2df643b5f053243e141bc935d7a781626859aba81542b85a67dbb80321137f29",
+  "version": "8f8aee9665600e8ec9fb1aa61c88baafb1f7537d450bc58ce87f12d4bf016013",
   "units": {
     "address_validation": {
       "defs": {
@@ -55808,7 +55808,31 @@
           {
             "name": "nameOrUrl",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "shop",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -70779,6 +70803,22 @@
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getBookQuotes": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ],
         "getMemberProfile": [
@@ -97421,6 +97461,18 @@
     },
     "providers.mlb": {
       "defs": {
+        "MlbArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "MlbGamePkArgs": {
           "k": "object",
           "props": [
@@ -97753,6 +97805,25 @@
             }
           ]
         },
+        "MlbListNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbListTeamsArgs": {
           "k": "object",
           "props": [
@@ -97772,6 +97843,42 @@
             }
           ]
         },
+        "MlbSearchContentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "en"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "es"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbSearchPlayersArgs": {
           "k": "object",
           "props": [
@@ -97786,6 +97893,32 @@
               "name": "activeOnly",
               "schema": {
                 "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbSearchVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -97907,6 +98040,62 @@
             "schema": {
               "k": "ref",
               "name": "MlbGetRosterArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbListNewsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchContent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "MlbSearchContentArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "MlbSearchVideosArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
             },
             "optional": false
           }
@@ -126158,6 +126347,39 @@
     },
     "providers.ring": {
       "defs": {
+        "RingCartLine": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sku",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "priceId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "RingSearchArgs": {
           "k": "object",
           "props": [
@@ -126212,6 +126434,100 @@
         ],
         "getPlans": [],
         "compareProducts": [],
+        "addToCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "sku",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "lines",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "RingCartLine"
+                    }
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lines",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "RingCartLine"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "removeFromCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "sku",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "lines",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "RingCartLine"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getProductReviews": [
           {
             "name": "args",
@@ -132759,6 +133075,37 @@
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.simplisafe": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

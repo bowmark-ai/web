@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2df643b5f053243e141bc935d7a781626859aba81542b85a67dbb80321137f29
-// 98 capabilities, 887 providers, 5426 typed functions, 20 refused.
+// Manifest version: 8f8aee9665600e8ec9fb1aa61c88baafb1f7537d450bc58ce87f12d4bf016013
+// 98 capabilities, 888 providers, 5435 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -42272,11 +42272,11 @@ interface EtsyShippingEstimate {
     getShop(nameOrUrl: string): Promise<EtsyShop>;
 
     /**
-     * The items on the first page of an Etsy shop — listing id, title, price, currency and URL
-     * (quantity and tags are `null`/empty, as on the keyless search door). Takes the same name or
-     * URL as `getShop`.
+     * The items on one page of an Etsy shop (`page` from 1, default 1, about 35 per page) —
+     * listing id, title, price, currency and URL (quantity and tags are `null`/empty, as on the
+     * keyless search door). Takes the same name or URL as `getShop`.
      */
-    listShopListings(nameOrUrl: string): Promise<etsyListing[]>;
+    listShopListings(nameOrUrl: string | { shop: string; page?: number }): Promise<etsyListing[]>;
 
     /**
      * One page of the reviews an Etsy shop has received across all its listings, newest first —
@@ -52198,6 +52198,13 @@ interface GoodreadsReviewRow {
   reviewerName?: string;
   reviewerUrl?: string;
 }
+interface GoodreadsBookQuote {
+  id: string;
+  text: string;
+  authorName?: string;
+  likes?: number;
+  tags: string[];
+}
 interface GoodreadsQuote {
   id: string;
   text: string;
@@ -52342,6 +52349,12 @@ interface GoodreadsShelfBook {
      * it's from (when the card names one), like count and tags.
      */
     searchQuotes(query: string): Promise<GoodreadsQuote[]>;
+
+    /**
+     * Lists the quotes readers attached to one book, 30 a page — quote text, author, like count
+     * and tags. Takes a book id or url and an optional 1-indexed page.
+     */
+    getBookQuotes(idOrUrl: string, page?: number): Promise<GoodreadsBookQuote[]>;
 
     /**
      * Reads a member's PUBLIC profile summary — display name, shelf counts, favorite genres and
@@ -72397,6 +72410,72 @@ interface MlbBoxScore {
   notes: { label: string; value: string }[];
   officials: { role: string; name: string }[];
 }
+interface MlbListNewsArgs {
+  /** mlb.com team slug, e.g. "yankees" or "red-sox"; omit for league-wide. */
+  team?: string;
+  /** 1-100, default 25. */
+  limit?: number;
+}
+interface MlbNewsItem {
+  title: string;
+  url: string;
+  author: string | null;
+  publishedAt: string | null;
+  imageUrl: string | null;
+}
+interface MlbArticleArgs {
+  /** An mlb.com /news/<slug> link, from listNews or searchContent. */
+  url: string;
+}
+interface MlbArticle {
+  url: string;
+  headline: string;
+  author: string | null;
+  publishedAt: string | null;
+  modifiedAt: string | null;
+  description: string | null;
+  imageUrl: string | null;
+  paragraphs: string[];
+  playerIds: number[];
+}
+interface MlbSearchContentArgs {
+  query: string;
+  /** 1-50, default 10. */
+  limit?: number;
+  /** "es" for Spanish-language content; default English. */
+  language?: "en" | "es";
+}
+interface MlbContentHit {
+  title: string;
+  url: string;
+  contentType: string | null;
+  blurb: string | null;
+  publishedAt: string | null;
+  players: string[];
+  teams: string[];
+  imageUrl: string | null;
+}
+interface MlbSearchVideosArgs {
+  query: string;
+  /** 1-50, default 10. */
+  limit?: number;
+  /** Zero-based page of results. */
+  page?: number;
+}
+interface MlbVideo {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  date: string | null;
+  durationSeconds: number | null;
+  feeds: string[];
+  url: string;
+}
+interface MlbVideoSearch {
+  total: number;
+  videos: MlbVideo[];
+}
 interface MlbPlay {
   index: number;
   inning: number;
@@ -72486,6 +72565,31 @@ interface MlbPlay {
      * number, position and status. Takes a teamId from listTeams.
      */
     getRoster(args: MlbGetRosterArgs): Promise<MlbRosterEntry[]>;
+
+    /**
+     * The latest MLB.com news stories, league-wide or one team's: headline, link, author, time and
+     * image. e.g. listNews({ team: "yankees", limit: 10 }).
+     */
+    listNews(args?: MlbListNewsArgs): Promise<MlbNewsItem[]>;
+
+    /**
+     * One MLB.com article: headline, author, dates, description, image, the body as paragraphs and
+     * the player ids it links. Takes a url from listNews or searchContent.
+     */
+    getArticle(args: MlbArticleArgs): Promise<MlbArticle>;
+
+    /**
+     * Searches MLB.com's articles and videos by keyword, as the site search does: title, link,
+     * type, blurb, date, players and teams. e.g. searchContent("Aaron Judge").
+     */
+    searchContent(args: MlbSearchContentArgs | string): Promise<MlbContentHit[]>;
+
+    /**
+     * Searches MLB Film Room video (highlights, every play) by free text: title, description,
+     * date, length and page URL, with the total match count. e.g. searchVideos("aaron judge home
+     * run").
+     */
+    searchVideos(args: MlbSearchVideosArgs | string): Promise<MlbVideoSearch>;
   }
 }
 
@@ -90517,6 +90621,9 @@ interface RingReviewsPage { asin: string; total: number | null; reviews: RingRev
 interface RingPlan { name: string; monthlyPrice: number | null; yearlyPrice: number | null; pricing: string; description: string | null; features: string[]; }
 interface RingSupportHit { id: string; title: string; url: string; }
 interface RingSupportArticle { id: string; title: string; url: string; updatedAt: string | null; body: string; }
+interface RingCartLine { sku: string; quantity: number; handle: string; priceId: string; }
+interface RingCartItem { sku: string; title: string; color: string | null; quantity: number; unitPrice: number | null; linePrice: number | null; url: string; imageUrl: string | null; }
+interface RingCart { lines: RingCartLine[]; items: RingCartItem[]; itemCount: number; currency: string | null; subtotal: number | null; total: number | null; }
 interface RingProduct { name: string; url: string; price: number | null; wasPrice: number | null; currency: string | null; available: boolean | null; skus: string[]; images: string[]; specs: Record<string, string>; }
 
   /**
@@ -90541,6 +90648,18 @@ interface RingProduct { name: string; url: string; price: number | null; wasPric
 
     /** Compare every Ring doorbell side by side: name, power type, price and each spec row. */
     compareProducts(): Promise<RingComparison>;
+
+    /**
+     * Add a Ring product to a cart and price it. The cart lives in the shopper's browser: pass the
+     * `lines` of an earlier cart call to add to it.
+     */
+    addToCart(args: { url: string; sku?: string; quantity?: number; lines?: RingCartLine[] }): Promise<RingCart>;
+
+    /** Price a Ring cart from the `lines` an earlier cart call returned. */
+    getCart(args: { lines: RingCartLine[] }): Promise<RingCart>;
+
+    /** Remove one sku from a Ring cart's lines and return the re-priced cart. */
+    removeFromCart(args: { sku: string; lines: RingCartLine[] }): Promise<RingCart>;
 
     /**
      * Read customer reviews of a Ring product (by url or ASIN): stars, title, text, verified flag;
@@ -95627,6 +95746,33 @@ interface ShopDisneyProductArgs {
      * price, original price, stock, category, character, rating and image.
      */
     getProduct(args: ShopDisneyProductArgs | string): Promise<ShopDisneyProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_simplisafe {
+  // ── SimpliSafe — the unit's own declarations, verbatim ──
+interface SimplisafeSearchResult {
+  title: string;
+  description: string | null;
+  kind: "system" | "monitoring";
+  url: string;
+}
+interface SimplisafeSearchResponse {
+  results: SimplisafeSearchResult[];
+  warnings: string[];
+}
+
+  /**
+   * Lists SimpliSafe's public home-security system and professional monitoring pages, with their
+   * current descriptions.
+   */
+  interface Unit {
+    /**
+     * Lists SimpliSafe's current public security-system packages and monitoring page. Call
+     * search() for the overview, or pass a word such as "monitoring" to narrow the current pages.
+     * warnings names any source page SimpliSafe did not serve.
+     */
+    search(query?: string | { query?: string }): Promise<SimplisafeSearchResponse>;
   }
 }
 
@@ -125426,6 +125572,7 @@ interface BowmarkProviders {
   shein: BowmarkProvider_shein.Unit;
   shop_app: BowmarkProvider_shop_app.Unit;
   shopdisney: BowmarkProvider_shopdisney.Unit;
+  simplisafe: BowmarkProvider_simplisafe.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
   skills_rest: BowmarkProvider_skills_rest.Unit;

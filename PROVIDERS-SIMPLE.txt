@@ -396,7 +396,7 @@ gokenko.com — kenko: cancelBooking, cancelMembership, findStudio, getAppointme
 golf.com — golf_com: findCourses, getCourse
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
 gomry.com — gomry: getEvent, getSponsorOffer, listEventProducts, searchEvents
-goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, getSimilarBooks, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, unfollowUser, writeReview (+4 planned)
+goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookQuotes, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, getSimilarBooks, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, unfollowUser, writeReview (+3 planned)
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: addMissingPlace, geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaceEdit, suggestPlaces, writeReview
@@ -556,7 +556,7 @@ millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisiting
 mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
-mlb.com — mlb: getBoxScore, getGame, getPlayByPlay, getPlayer, getPlayerStats, getRoster, getSchedule, getStandings, getStatLeaders, listTeams, searchPlayers (+39 planned)
+mlb.com — mlb: getArticle, getBoxScore, getGame, getPlayByPlay, getPlayer, getPlayerStats, getRoster, getSchedule, getStandings, getStatLeaders, listNews, listTeams, searchContent, searchPlayers, searchVideos (+35 planned)
 mobile.de — mobile_de: search
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
@@ -693,7 +693,7 @@ resy.com — resy: cancelBooking, checkAvailability, confirmBooking, confirmSign
 revisionskincare.com — revisionskincare: getSkincareQuizQuestions, takeSkincareQuiz
 rezdy.com — rezdy: bookSession, checkVoucher, findOperator, getAvailability, getPickupLocations, getPriceQuote, getProduct, listCatalogs, listProducts (+3 planned)
 rightmove.co.uk — rightmove: search
-ring.com — ring: compareProducts, findRetailer, getPlans, getProduct, getProductReviews, getSupportArticle, listCollection, listCollections, search, searchSupport (+16 planned)
+ring.com — ring: addToCart, compareProducts, findRetailer, getCart, getPlans, getProduct, getProductReviews, getSupportArticle, listCollection, listCollections, removeFromCart, search, searchSupport (+13 planned)
 rippling.com — rippling: listJobs
 rishi-tea.com — rishitea: getTeaFinderQuiz, matchTeaFinderQuiz
 ritani.com — ritani: getConfigurator, priceConfiguration
@@ -739,6 +739,7 @@ shop.app — shop_app: 34 functions — ask get_library (+4 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopdisney.com — shopdisney: getProduct, search
+simplisafe.com — simplisafe: search
 sitmeanssit.com — sitmeanssit: findNearestLocations
 sixflags.com — sixflags: getTickets
 skills.rest — skills_rest: listSkills
@@ -777,6 +778,7 @@ store.google.com — google_store: getProduct, listProducts, searchProducts (+1 
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stripe.com — stripe: getDoc, searchDocs
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
+sturents.com — sturents: getListing, listListings
 styleseat.com — styleseat: 27 functions — ask get_library (+2 planned)
 substack.com — substack: post, posts, search
 suitsupply.com — suitsupply: getProduct, listCategory, search

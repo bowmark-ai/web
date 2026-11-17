@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2df643b5f053243e141bc935d7a781626859aba81542b85a67dbb80321137f29
-// 5398 checked, 20 unchecked.
+// Manifest version: 8f8aee9665600e8ec9fb1aa61c88baafb1f7537d450bc58ce87f12d4bf016013
+// 5407 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2df643b5f053243e141bc935d7a781626859aba81542b85a67dbb80321137f29",
+  "version": "8f8aee9665600e8ec9fb1aa61c88baafb1f7537d450bc58ce87f12d4bf016013",
   "units": {
     "address_validation": {
       "defs": {
@@ -55820,7 +55820,31 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "nameOrUrl",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "shop",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -70791,6 +70815,22 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getBookQuotes": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ],
         "getMemberProfile": [
@@ -97433,6 +97473,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.mlb": {
       "defs": {
+        "MlbArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "MlbGamePkArgs": {
           "k": "object",
           "props": [
@@ -97765,6 +97817,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbListNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbListTeamsArgs": {
           "k": "object",
           "props": [
@@ -97784,6 +97855,42 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbSearchContentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "en"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "es"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbSearchPlayersArgs": {
           "k": "object",
           "props": [
@@ -97798,6 +97905,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "activeOnly",
               "schema": {
                 "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbSearchVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -97919,6 +98052,62 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "MlbGetRosterArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbListNewsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchContent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "MlbSearchContentArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "MlbSearchVideosArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
             },
             "optional": false
           }
@@ -126170,6 +126359,39 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.ring": {
       "defs": {
+        "RingCartLine": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sku",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "priceId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "RingSearchArgs": {
           "k": "object",
           "props": [
@@ -126224,6 +126446,100 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getPlans": [],
         "compareProducts": [],
+        "addToCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "sku",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "lines",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "RingCartLine"
+                    }
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lines",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "RingCartLine"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "removeFromCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "sku",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "lines",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "RingCartLine"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getProductReviews": [
           {
             "name": "args",
@@ -132771,6 +133087,37 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.simplisafe": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
