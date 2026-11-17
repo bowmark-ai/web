@@ -6,6 +6,25 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.29.2 (2026-11-17)
+
+**Providers**
+
+- New provider **cbssports.com** (1 function): `cbs_sports.scoreboard`
+- New provider **maurices.com** (2 functions): `maurices.getProduct`, `maurices.searchProducts`
+- New provider **mobile.de** (1 function): `mobile_de.search`
+- New provider **openrent.co.uk** (2 functions): `openrent.getListing`, `openrent.searchListings`
+- New provider **qvc.com** (2 functions): `qvc.getProduct`, `qvc.searchProducts`
+- New provider **spareroom.co.uk** (2 functions): `spareroom.getListing`, `spareroom.searchRooms`
+- New provider **247sports.com** (3 functions): `sports247.search`, `sports247.searchRecruits`, `sports247.teamRankings`
+- New provider **public.tableau.com** (5 functions): `tableau_public.getProfile`, `tableau_public.getWorkbook`, `tableau_public.searchAuthors`, `tableau_public.searchDatasources`, `tableau_public.searchWorkbooks`
+- New provider **tubitv.com** (2 functions): `tubitv.search`, `tubitv.title`
+- Added `expedia.getHotelDetails`
+- Added `msn.getPlayback`
+- Added `ups.calculateTimeAndCost`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.29.1 (2026-11-15)
 
 **Providers**

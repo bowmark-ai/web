@@ -58,7 +58,7 @@ One function per row, with the site it is called on.
 | `acerentacar.searchAvailability` | acerentacar.com | Returns ACE's live vehicle availability and rate totals for a public pickup location… | 🟢 |
 | `acerentacar.searchLocations` | acerentacar.com | Matches a free-text city, airport or state against ACE's public location catalog and… | 🟢 |
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |
-| `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟡 |
+| `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟢 |
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
 | `acuityscheduling.bookAppointment` | acuityscheduling.com | Books an appointment; accepts guest checkout with email and phone. | ⚪ |
 | `acuityscheduling.cancelAppointment` | acuityscheduling.com | Cancels a booking; caller must own the appointment. | 🟢 |
@@ -4013,7 +4013,7 @@ One function per row, with the site it is called on.
 | `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🔴 |
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟡 |
-| `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
+| `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟡 |
 | `microsoft_365.createDocument` | m365.cloud.microsoft.com | Creates a new document in the user's Microsoft 365 OneDrive with the specified name… | 🟢 |
 | `microsoft_365.deleteDocument` | m365.cloud.microsoft.com | Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. | 🟢 |
 | `microsoft_365.getDocument` | m365.cloud.microsoft.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
