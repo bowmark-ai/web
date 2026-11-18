@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7311 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7314 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -2441,6 +2441,9 @@ One function per row, with the site it is called on.
 | `faceforwardaesthetics.listLocations` | faceforwardaesthetics.com | Lists Face Forward Aesthetics' real bookable Zenoti locations (9 centers, OH/IN/NV/PA). | 🟢 |
 | `faceforwardaesthetics.listServices` | faceforwardaesthetics.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
 | `facerealityskincare.searchAcneExperts` | facerealityskincare.com | Runs Face Reality's own Acne Expert Locator search — matches a free-text query (city… | 🟢 |
+| `famousfootwear.findStores` | famousfootwear.com | Finds Famous Footwear stores near a US city, state or ZIP code, with address and hours. | ⚪ |
+| `famousfootwear.getProduct` | famousfootwear.com | Reads one Famous Footwear product (one colourway) by item number or product URL… | 🟢 |
+| `famousfootwear.searchProducts` | famousfootwear.com | Searches Famous Footwear's shoe catalogue by keyword, optionally narrowed by brand… | 🟢 |
 | `fandom.createPage` | fandom.com | Create an article that does not exist yet, under the caller's own account. `POST… | 🟢 |
 | `fandom.editPage` | fandom.com | Change an article — replace a page or one of its sections with new wikitext, under the… | 🟢 |
 | `fandom.findWiki` | fandom.com | Find which Fandom wiki covers a topic — hand it "star wars" or "minecraft" and get… | 🟢 |
@@ -2546,12 +2549,12 @@ One function per row, with the site it is called on.
 | `fiverr.createSavedList` | fiverr.com | Creates a new saved list on the caller's account. | ⚪ |
 | `fiverr.getCategory` | fiverr.com | Reads one category or subcategory page: its gigs, the subcategory list and the filters… | ⚪ |
 | `fiverr.getConversation` | fiverr.com | Every message in one inbox conversation, oldest to newest, with attachments. | ⚪ |
-| `fiverr.getGig` | fiverr.com | Reads one gig by url: title, description, seller, packages (Basic/Standard/Premium… | ⚪ |
-| `fiverr.getGigReviews` | fiverr.com | The buyer reviews of one gig, paginated through the whole set: reviewer, country… | ⚪ |
+| `fiverr.getGig` | fiverr.com | Reads one gig by url: title, description, seller, packages (Basic/Standard/Premium… | 🟢 |
+| `fiverr.getGigReviews` | fiverr.com | The buyer reviews of one gig, paginated through the whole set: reviewer, country… | 🟢 |
 | `fiverr.getOrder` | fiverr.com | One of the caller's orders in full: requirements, delivery, timeline, messages and… | ⚪ |
 | `fiverr.getProfile` | fiverr.com | The signed-in caller's own Fiverr profile: username, display name, photo, description… | ⚪ |
 | `fiverr.getSavedList` | fiverr.com | The gigs and sellers saved in one of the caller's lists. | ⚪ |
-| `fiverr.getSeller` | fiverr.com | Reads a seller's public profile by username: name, level, country, languages, member… | ⚪ |
+| `fiverr.getSeller` | fiverr.com | Reads a seller's public profile by username: name, level, country, languages, member… | 🟢 |
 | `fiverr.getSellerReviews` | fiverr.com | Reviews across all of a seller's gigs, paginated through the whole set. | ⚪ |
 | `fiverr.leaveReview` | fiverr.com | Leaves the buyer review on a completed order. | ⚪ |
 | `fiverr.listBriefs` | fiverr.com | The briefs (project requests) the caller has posted and the seller offers on each. | ⚪ |
@@ -2567,7 +2570,7 @@ One function per row, with the site it is called on.
 | `fiverr.postBrief` | fiverr.com | Posts a brief describing a project so sellers can send offers; private to Fiverr's… | ⚪ |
 | `fiverr.removeSavedGig` | fiverr.com | Removes a gig from one of the caller's lists. | ⚪ |
 | `fiverr.saveGig` | fiverr.com | Saves a gig to one of the caller's lists. | ⚪ |
-| `fiverr.searchGigs` | fiverr.com | Searches Fiverr gigs (fixed-price freelance services) for a query such as "logo… | ⚪ |
+| `fiverr.searchGigs` | fiverr.com | Searches Fiverr gigs (freelance services) for a query such as "logo design", 48 per… | 🟢 |
 | `fiverr.sendMessage` | fiverr.com | Sends a message to a seller from the caller's account, in an existing conversation or… | ⚪ |
 | `fiverr.updateProfile` | fiverr.com | Edits the caller's own profile fields (display name, description, languages). | ⚪ |
 | `fivestarbathsolutions.bookAppointment` | fivestarbathsolutions.com | Would submit the final 3-step booking form (chosen slot +… | ⚪ |

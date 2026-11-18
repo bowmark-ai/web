@@ -343,6 +343,7 @@ extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planne
 facebook.com — facebook: 43 functions — ask get_library
 faceforwardaesthetics.com — faceforwardaesthetics: checkAvailability, listLocations, listServices
 facerealityskincare.com — facerealityskincare: searchAcneExperts
+famousfootwear.com — famousfootwear: getProduct, searchProducts (+1 planned)
 fandom.com — fandom: 33 functions — ask get_library
 fareharbor.com — fareharbor: createBooking, getAvailabilitySlot, getItem, listAvailability, quoteBooking, searchItems (+3 planned)
 faroutmagazine.co.uk — faroutmagazine: article, latest, search
@@ -357,7 +358,7 @@ firstamericahomes.com — firstamericahomes: getCommunity, searchCommunities
 fitdegree.com — fitdegree: findStudio, getCancellationPolicy, getClass, getInstructor, getMembershipPricing, getMyProfile, getStudio, listAnnouncements, listClasses, listEvents, listInstructors, listIntroOffers, listLocations, listMemberships, listMyBookings, listMyPasses, listPrivateSessionTypes, listScheduleDates, listSeries, listWaiversToSign (+16 planned)
 fitness1440.com — fitness1440: getDayPassRequestInfo, listLocations
 fivebelow.com — fivebelow: nothing callable yet (+1 planned)
-fiverr.com — fiverr: nothing callable yet (+29 planned)
+fiverr.com — fiverr: getGig, getGigReviews, getSeller, searchGigs (+25 planned)
 fivestarbathsolutions.com — fivestarbathsolutions: getAvailableSlots, listLocations (+1 planned)
 flightradar24.com — flightradar24: getAirline, getAirportArrivals (+10 planned)
 flights.google.com — google_flights: getBookingOptions, getPriceGraph, parseSearchUrl, search
