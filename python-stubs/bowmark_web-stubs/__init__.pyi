@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4aef97a8c9cd2fb72619c970e94f5ddfe5def2bad755acbf6487c85c9a4db3cf
-# 98 capabilities, 903 providers, 5439 typed functions, 20 refused.
+# Manifest version: 0a775a63f6bdddd40caf7332f0622a1359dc49cebcedffd1039211c3c692942b
+# 98 capabilities, 907 providers, 5450 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -29446,6 +29446,72 @@ class Prv_facerealityskincare_FaceRealitySkincareEstheticianRow_Out_address_u0_O
     lat: float | None
     lng: float | None
 
+class Prv_famousfootwear_searchProducts_args_In(TypedDict):
+    query: str
+    brand: NotRequired[str]
+    gender: NotRequired[Literal["men"] | Literal["women"] | Literal["boys"] | Literal["girls"] | Literal["kids"]]
+    onSale: NotRequired[bool]
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+
+class Prv_famousfootwear_FamousFootwearSearchResult_Out(TypedDict):
+    query: str
+    total: float
+    page: float
+    pageSize: float
+    products: list[Prv_famousfootwear_FamousFootwearProduct_Out]
+
+class Prv_famousfootwear_FamousFootwearProduct_Out(TypedDict):
+    itemNumber: str
+    styleNumber: str | None
+    name: str
+    brand: str | None
+    color: str | None
+    gender: list[str]
+    price: float | None
+    originalPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    badges: list[str]
+    rating: float | None
+    reviewCount: float | None
+    categories: list[str]
+    material: list[str]
+    vendorSku: str | None
+    url: str
+    image: str | None
+
+class Prv_famousfootwear_getProduct_args_u0_In(TypedDict):
+    itemNumber: str
+
+class Prv_famousfootwear_getProduct_args_u1_In(TypedDict):
+    url: str
+
+class Prv_famousfootwear_FamousFootwearProductDetail_Out(TypedDict):
+    itemNumber: str
+    styleNumber: str | None
+    name: str
+    brand: str | None
+    color: str | None
+    gender: list[str]
+    price: float | None
+    originalPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    badges: list[str]
+    rating: float | None
+    reviewCount: float | None
+    categories: list[str]
+    material: list[str]
+    vendorSku: str | None
+    url: str
+    image: str | None
+    images: list[str]
+    description: str | None
+    finalSale: bool
+    couponExcluded: bool
+    storePickupOnly: bool
+
 class Prv_fandom_WikiInfo_Out(TypedDict):
     name: str
     description: NotRequired[str]
@@ -30136,6 +30202,57 @@ class Prv_fieldstonehomes_FieldstonehomesCheckoutHandoff_Out_summary_u0_Out_item
     url: NotRequired[str]
     id: NotRequired[str]
 
+class Prv_finders_FindersListing_Out(TypedDict):
+    propertyNumber: str
+    url: str
+    status: Literal["available"] | Literal["let_agreed"] | Literal["let"] | Literal["not_found"]
+    statusLabel: NotRequired[str]
+    address: NotRequired[str]
+    postcode: NotRequired[str | None]
+    priceAmount: NotRequired[float | None]
+    priceFrequency: NotRequired[Literal["pcm"]]
+    priceText: NotRequired[str | None]
+    bedrooms: NotRequired[float | None]
+    bathrooms: NotRequired[float | None]
+    propertyType: NotRequired[str | None]
+    isStudent: NotRequired[bool]
+    branchName: NotRequired[str | None]
+    summary: NotRequired[str | None]
+    image: NotRequired[str | None]
+    depositAmount: NotRequired[float]
+    councilTaxBand: NotRequired[str]
+    availableDate: NotRequired[str]
+    furnishing: NotRequired[str]
+    reference: NotRequired[str]
+    features: NotRequired[list[str]]
+    description: NotRequired[str]
+
+class Prv_finders_FindersSearchArgs_In(TypedDict):
+    page: NotRequired[float]
+
+class Prv_finders_FindersSearchResult_Out(TypedDict):
+    listings: list[Prv_finders_FindersListingSummary_Out]
+    page: float
+    hasMore: bool
+
+class Prv_finders_FindersListingSummary_Out(TypedDict):
+    propertyNumber: str
+    url: str
+    address: str
+    postcode: str | None
+    priceAmount: float | None
+    priceFrequency: Literal["pcm"]
+    priceText: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    propertyType: str | None
+    isStudent: bool
+    status: Literal["available"] | Literal["let_agreed"] | Literal["let"]
+    statusLabel: str
+    branchName: str | None
+    summary: str | None
+    image: str | None
+
 class Prv_findmcp_app_search_query_u1_In(TypedDict):
     query: NotRequired[str]
 
@@ -30624,6 +30741,129 @@ class Prv_fivebelow_FiveBelowVariant_Out(TypedDict):
     price: float | None
     inventory: float | None
     available: bool
+
+class Prv_fiverr_GetGigArgs_In(TypedDict):
+    url: str
+
+class Prv_fiverr_FiverrGig_Out(TypedDict):
+    gigId: float
+    url: str
+    title: str
+    category: str | None
+    subCategory: str | None
+    description: str | None
+    rating: float | None
+    ratingsCount: float | None
+    seller: Prv_fiverr_FiverrGig_Out_seller_Out
+    packages: list[Prv_fiverr_FiverrPackage_Out]
+    faq: list[Prv_fiverr_FiverrGig_Out_faq_item_Out]
+    tags: list[str]
+    images: list[str]
+    reviews: list[Prv_fiverr_FiverrReview_Out]
+
+class Prv_fiverr_FiverrGig_Out_seller_Out(TypedDict):
+    username: str
+    displayName: str | None
+    url: str
+    country: str | None
+    rating: float | None
+    ratingsCount: float | None
+    responseTimeHours: float | None
+
+class Prv_fiverr_FiverrPackage_Out(TypedDict):
+    title: str
+    description: str | None
+    priceUsd: float | None
+    deliveryDays: float | None
+    revisions: float | Literal["unlimited"] | None
+    includes: list[str]
+    extras: list[Prv_fiverr_FiverrPackage_Out_extras_item_Out]
+
+class Prv_fiverr_FiverrPackage_Out_extras_item_Out(TypedDict):
+    label: str
+    priceUsd: float | None
+
+class Prv_fiverr_FiverrGig_Out_faq_item_Out(TypedDict):
+    question: str
+    answer: str
+
+class Prv_fiverr_FiverrReview_Out(TypedDict):
+    id: str
+    username: str | None
+    country: str | None
+    rating: float | None
+    comment: str | None
+    createdAt: str | None
+    priceRange: str | None
+    orderDuration: str | None
+    repeatBuyer: bool
+    gigId: float | None
+
+class Prv_fiverr_GetGigReviewsArgs_In(TypedDict):
+    url: str
+    limit: NotRequired[float]
+
+class Prv_fiverr_FiverrReviewsResult_Out(TypedDict):
+    gigId: float
+    url: str
+    total: float | None
+    averageRating: float | None
+    reviews: list[Prv_fiverr_FiverrReview_Out]
+    hasMore: bool
+
+class Prv_fiverr_GetSellerArgs_In(TypedDict):
+    username: str
+
+class Prv_fiverr_FiverrSeller_Out(TypedDict):
+    username: str
+    displayName: str | None
+    url: str
+    oneLiner: str | None
+    description: str | None
+    country: str | None
+    languages: list[Prv_fiverr_FiverrSeller_Out_languages_item_Out]
+    memberSince: str | None
+    level: str | None
+    rating: float | None
+    ratingsCount: float | None
+    responseTimeHours: float | None
+    completedOrders: float | None
+    skills: list[str]
+    gigs: list[Prv_fiverr_FiverrGigSummary_Out]
+    recentReviews: list[Prv_fiverr_FiverrReview_Out]
+
+class Prv_fiverr_FiverrSeller_Out_languages_item_Out(TypedDict):
+    code: str
+    level: str | None
+
+class Prv_fiverr_FiverrGigSummary_Out(TypedDict):
+    gigId: float
+    title: str
+    url: str
+    seller: Prv_fiverr_FiverrGigSummary_Out_seller_Out
+    priceFromUsd: float | None
+    deliveryDays: float | None
+    rating: float | None
+    ratingsCount: float | None
+    image: str | None
+    isPro: bool
+
+class Prv_fiverr_FiverrGigSummary_Out_seller_Out(TypedDict):
+    username: str
+    displayName: str | None
+    url: str
+    level: str | None
+    country: str | None
+
+class Prv_fiverr_SearchGigsArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_fiverr_FiverrSearchResult_Out(TypedDict):
+    query: str
+    page: float
+    total: float | None
+    gigs: list[Prv_fiverr_FiverrGigSummary_Out]
 
 class Prv_fivestarbathsolutions_FivestarLocation_Out(TypedDict):
     id: str
@@ -36965,6 +37205,7 @@ class Prv_harringtonsdurham_HarringtonsListListingsArgs_In(TypedDict):
 class Prv_harringtonsdurham_HarringtonsListingsPage_Out(TypedDict):
     total: float
     listings: list[Prv_harringtonsdurham_HarringtonsListingSummary_Out]
+    warnings: list[str]
 
 class Prv_harringtonsdurham_HarringtonsListingSummary_Out(TypedDict):
     url: str
@@ -56633,11 +56874,27 @@ class Prv_quora_QuoraQuestion_Out_answers_item_Out(TypedDict):
     content: str
     upvotes: float
     createdAt: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_quora_QuoraQuestion_Out_relatedQuestions_item_Out(TypedDict):
     id: str
     title: str
     url: str
+
+class Prv_quora_QuoraAnswerLookup_Out(TypedDict):
+    questionId: str
+    questionTitle: str
+    questionUrl: str
+    answer: Prv_quora_QuoraAnswerLookup_Out_answer_Out
+
+class Prv_quora_QuoraAnswerLookup_Out_answer_Out(TypedDict):
+    id: str
+    author: str
+    authorUrl: str
+    content: str
+    upvotes: float
+    createdAt: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_quora_GetAnswersArgs_In(TypedDict):
     url: NotRequired[str]
@@ -74206,7 +74463,7 @@ class Prv_unihomes_co_uk_UniHomesListing_Out(TypedDict):
     id: str
     title: str
     url: str
-    status: Literal["available"] | Literal["let"]
+    status: Literal["available"] | Literal["let"] | Literal["not_found"]
     statusLabel: str
     bedrooms: float | None
     priceAmount: float | None
@@ -74566,6 +74823,39 @@ class Prv_ups_UpsServiceAlert_Out(TypedDict):
     targeted: bool
     segment: str | None
     sourceUrl: str
+
+class Prv_upwork_UpworkSearchJobsArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_upwork_UpworkJobSummary_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    posted: str | None
+    budget: str | None
+    experienceLevel: str | None
+    duration: str | None
+    description: str
+    skills: list[str]
+
+class Prv_upwork_UpworkGetJobArgs_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_upwork_UpworkJob_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    datePosted: str | None
+    description: str
+    employmentType: list[str]
+    clientCountry: str | None
+    applicantCountries: list[str]
+    budget: str | None
+    experienceLevel: str | None
+    skills: list[str]
+    proposals: str | None
 
 class Prv_usatoday_usatodaySection_Out(TypedDict):
     id: str
@@ -97729,6 +98019,26 @@ class Prv_facerealityskincare(Protocol):
         Instagram and booking link.
         """
 
+class Prv_famousfootwear(Protocol):
+    """Famous Footwear (famousfootwear.com), the US family shoe retailer — search its shoe
+    catalogue by keyword, brand, gender or sale, and read one product's price, sale price,
+    colour, rating, images and link.
+    """
+
+    async def searchProducts(self, args: Prv_famousfootwear_searchProducts_args_In, /) -> Prv_famousfootwear_FamousFootwearSearchResult_Out:
+        """Searches Famous Footwear's shoe catalogue by keyword (e.g. "nike air max", "kids rain
+        boots"), optionally narrowed to a brand, a gender (men, women, boys, girls, kids) or
+        sale items only, and returns a page of products with current price, regular price,
+        colour, rating, badges and link, plus the total match count. Browserless, about a
+        second.
+        """
+
+    async def getProduct(self, args: Prv_famousfootwear_getProduct_args_u0_In | Prv_famousfootwear_getProduct_args_u1_In, /) -> Prv_famousfootwear_FamousFootwearProductDetail_Out:
+        """Reads one Famous Footwear product (one colourway) by its item number from searchProducts
+        or its famousfootwear.com/product/... URL: price, sale price, colour, rating, all
+        images, a description, and whether it is final sale or excluded from coupons.
+        """
+
 class Prv_fandom(Protocol):
     """Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game
     and franchise community — without a browser: find the right wiki, search it, pull an
@@ -98059,6 +98369,25 @@ class Prv_fieldstonehomes(Protocol):
         handoff values. Never submits the POST.
         """
 
+class Prv_finders(Protocol):
+    """Oxford lettings from Finders Keepers (finders.co.uk), incl. student and shared houses:
+    browse what is to let, then read one letting in full — rent, deposit, bedrooms,
+    available date, features and whether it is still available.
+    """
+
+    async def getListing(self, listing: str, /) -> Prv_finders_FindersListing_Out:
+        """Reads one finders.co.uk Oxford letting by its link or property number: address, monthly
+        rent, deposit, bedrooms, bathrooms, type, available date, furnishing, council tax band,
+        features, description and status (available, let_agreed, let, or not_found when the site
+        has no letting under that number).
+        """
+
+    async def searchListings(self, args: Prv_finders_FindersSearchArgs_In | None = None, /) -> Prv_finders_FindersSearchResult_Out:
+        """Lists the Oxford properties Finders Keepers has to let, ten per page, newest-priced
+        first as the site orders them; pass { page } for later pages while hasMore is true. Each
+        row's url goes straight into getListing.
+        """
+
 class Prv_findmcp_app(Protocol):
     """Search FindMCP's public directory of MCP servers by keyword."""
 
@@ -98267,6 +98596,35 @@ class Prv_fivebelow(Protocol):
         REQUIRED and REFUSES an empty string — it is not a store-wide browse. If the caller only
         named the store and gave no product, category or keyword, ask them what to search for;
         do not call this with an empty or guessed query to see what comes back.
+        """
+
+class Prv_fiverr(Protocol):
+    """Fiverr freelance marketplace: search gigs, read gig packages, reviews and seller
+    profiles; signed-in lists, inbox and orders.
+    """
+
+    async def getGig(self, args: Prv_fiverr_GetGigArgs_In, /) -> Prv_fiverr_FiverrGig_Out:
+        """Reads one Fiverr gig by url (from searchGigs): title, category, description, seller,
+        packages (Basic/Standard/Premium with USD price, delivery days, revisions, what each
+        includes and paid extras), FAQ, tags, rating, review count and the first reviews.
+        """
+
+    async def getGigReviews(self, args: Prv_fiverr_GetGigReviewsArgs_In, /) -> Prv_fiverr_FiverrReviewsResult_Out:
+        """Buyer reviews of one Fiverr gig, most relevant first, paged through Fiverr's own reviews
+        endpoint up to `limit` (default 20, max 200): rating, comment, date, reviewer country,
+        order price range and duration.
+        """
+
+    async def getSeller(self, args: Prv_fiverr_GetSellerArgs_In, /) -> Prv_fiverr_FiverrSeller_Out:
+        """Reads a Fiverr seller's profile by username or profile url: bio, country, languages,
+        member since, level, rating, response time, completed orders, skills, their gigs and
+        recent reviews.
+        """
+
+    async def searchGigs(self, args: Prv_fiverr_SearchGigsArgs_In, /) -> Prv_fiverr_FiverrSearchResult_Out:
+        """Searches Fiverr gigs (freelance services) for a query such as "logo design", 48 per
+        page: title, gig url, seller username, level and country, starting price in USD,
+        delivery days, rating and review count. The door into this provider.
         """
 
 class Prv_fivestarbathsolutions(Protocol):
@@ -102237,8 +102595,9 @@ class Prv_harringtonsdurham(Protocol):
     async def listListings(self, args: Prv_harringtonsdurham_HarringtonsListListingsArgs_In | None = None, /) -> Prv_harringtonsdurham_HarringtonsListingsPage_Out:
         """Lists the properties Harringtons advertises in Durham (every one on its /properties/
         page), optionally filtered by street name, minimum bedrooms or maximum rent per person
-        per week: link, name, rent per person per week, bedrooms and bathrooms. Pass a row's
-        `url` to getListing for deposit and move-in date.
+        per week: link, name, rent per person per week, bedrooms and bathrooms. When the filters
+        remove every listing, warnings names them and how many the site has. Pass a row's `url`
+        to getListing for deposit and move-in date.
         """
 
 class Prv_hauslabs(Protocol):
@@ -113378,6 +113737,14 @@ class Prv_quora(Protocol):
         URL or its exact title text.
         """
 
+    async def getAnswer(self, url: str, /) -> Prv_quora_QuoraAnswerLookup_Out:
+        """Opens one answer from the shared link people send —
+        `https://www.quora.com/<question>/answer/<Author-Slug>` — and returns that answer
+        (author, content, upvotes, and its own url) with the question it belongs to. Reads the
+        answer off its question page, which the answer link itself walls, and pages further
+        answers only when it is not among the first ones. Signed out.
+        """
+
     async def getAnswers(self, args: Prv_quora_GetAnswersArgs_In, /) -> Prv_quora_QuoraAnswersPage_Out:
         """Pages through a question's answers beyond the first page getQuestion embeds, using the
         site's own answer-pagination request — taking the SAME url/title getQuestion takes, plus
@@ -122014,6 +122381,21 @@ class Prv_ups(Protocol):
         No account, no browser.
         """
 
+class Prv_upwork(Protocol):
+    """Search Upwork's public freelance job postings by keyword and read one posting's budget,
+    description, skills and client country.
+    """
+
+    async def searchJobs(self, args: Prv_upwork_UpworkSearchJobsArgs_In, /) -> list[Prv_upwork_UpworkJobSummary_Out]:
+        """Searches Upwork's public freelance job postings by keyword, newest-relevant first, ~10
+        per page.
+        """
+
+    async def getJob(self, args: Prv_upwork_UpworkGetJobArgs_In, /) -> Prv_upwork_UpworkJob_Out:
+        """Reads one public Upwork job posting by the url or id searchJobs() returned: full
+        description, budget, experience level, skills, proposals and client country.
+        """
+
 class Prv_usatoday(Protocol):
     """USA Today news site — articles, sections, search, sports scores and puzzles."""
 
@@ -126504,6 +126886,7 @@ class BowmarkProviders(Protocol):
     facebook: Prv_facebook
     faceforwardaesthetics: Prv_faceforwardaesthetics
     facerealityskincare: Prv_facerealityskincare
+    famousfootwear: Prv_famousfootwear
     fandom: Prv_fandom
     fareharbor: Prv_fareharbor
     faroutmagazine: Prv_faroutmagazine
@@ -126511,12 +126894,14 @@ class BowmarkProviders(Protocol):
     fedex: Prv_fedex
     ferguson: Prv_ferguson
     fieldstonehomes: Prv_fieldstonehomes
+    finders: Prv_finders
     findmcp_app: Prv_findmcp_app
     firstamericahomes: Prv_firstamericahomes
     firstdibs: Prv_firstdibs
     fitdegree: Prv_fitdegree
     fitness1440: Prv_fitness1440
     fivebelow: Prv_fivebelow
+    fiverr: Prv_fiverr
     fivestarbathsolutions: Prv_fivestarbathsolutions
     flightradar24: Prv_flightradar24
     floathelm: Prv_floathelm
@@ -127020,6 +127405,7 @@ class BowmarkProviders(Protocol):
     unsplash: Prv_unsplash
     upkeepstl_com: Prv_upkeepstl_com
     ups: Prv_ups
+    upwork: Prv_upwork
     usatoday: Prv_usatoday
     uscis: Prv_uscis
     usps: Prv_usps

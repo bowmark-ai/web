@@ -4340,7 +4340,7 @@ One function per row, with the site it is called on.
 | `nhc.getTropicalWeatherDiscussion` | nhc.noaa.gov | Get the Tropical Weather Discussion for the Atlantic or East Pacific: the analysts'… | 🟢 |
 | `nhc.getWatchesWarnings` | nhc.noaa.gov | Get the watches and warnings in effect for a storm from its public advisory —… | 🟢 |
 | `nhc.getWindSpeedProbabilities` | nhc.noaa.gov | Get the probability of tropical-storm-force (34 kt), 50 kt and hurricane-force (64 kt)… | 🟢 |
-| `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | 🟡 |
+| `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | 🟢 |
 | `nhc.listMarineZones` | nhc.noaa.gov | List the offshore waters and high seas forecast areas NHC covers, with the zone code… | 🟢 |
 | `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name and classification. | 🟢 |
 | `nhc.listStormAdvisories` | nhc.noaa.gov | List every forecast advisory, public advisory, discussion and wind probability product… | 🟡 |

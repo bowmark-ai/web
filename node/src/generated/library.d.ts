@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4aef97a8c9cd2fb72619c970e94f5ddfe5def2bad755acbf6487c85c9a4db3cf
-// 98 capabilities, 903 providers, 5467 typed functions, 20 refused.
+// Manifest version: 0a775a63f6bdddd40caf7332f0622a1359dc49cebcedffd1039211c3c692942b
+// 98 capabilities, 907 providers, 5478 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -44333,6 +44333,60 @@ interface FaceRealitySkincareEstheticianRow {
   }
 }
 
+declare namespace BowmarkProvider_famousfootwear {
+  // ── Famous Footwear — the unit's own declarations, verbatim ──
+interface FamousFootwearProduct {
+  itemNumber: string;          // this colourway's item number — pass to getProduct
+  styleNumber: string | null;  // the style shared by every colourway
+  name: string;                // e.g. "Men's Air Max 270 Sneaker"
+  brand: string | null;
+  color: string | null;        // e.g. "White/Black/Red"
+  gender: string[];            // e.g. ["Men's"]
+  price: number | null;        // current price, USD
+  originalPrice: number | null;// regular price, only when above price
+  percentOff: number | null;
+  onSale: boolean;
+  badges: string[];            // e.g. ["Clearance", "Sale"]
+  rating: number | null;       // 0-5
+  reviewCount: number | null;
+  categories: string[];
+  material: string[];
+  vendorSku: string | null;    // the brand's own style code, e.g. "BV2523-100"
+  url: string;
+  image: string | null;
+}
+interface FamousFootwearSearchResult {
+  query: string; total: number; page: number; pageSize: number;
+  products: FamousFootwearProduct[];
+}
+interface FamousFootwearProductDetail extends FamousFootwearProduct {
+  images: string[]; description: string | null;
+  finalSale: boolean; couponExcluded: boolean; storePickupOnly: boolean;
+}
+
+  /**
+   * Famous Footwear (famousfootwear.com), the US family shoe retailer — search its shoe
+   * catalogue by keyword, brand, gender or sale, and read one product's price, sale price,
+   * colour, rating, images and link.
+   */
+  interface Unit {
+    /**
+     * Searches Famous Footwear's shoe catalogue by keyword (e.g. "nike air max", "kids rain
+     * boots"), optionally narrowed to a brand, a gender (men, women, boys, girls, kids) or sale
+     * items only, and returns a page of products with current price, regular price, colour,
+     * rating, badges and link, plus the total match count. Browserless, about a second.
+     */
+    searchProducts(args: { query: string; brand?: string; gender?: 'men'|'women'|'boys'|'girls'|'kids'; onSale?: boolean; page?: number; pageSize?: number }): Promise<FamousFootwearSearchResult>;
+
+    /**
+     * Reads one Famous Footwear product (one colourway) by its item number from searchProducts or
+     * its famousfootwear.com/product/... URL: price, sale price, colour, rating, all images, a
+     * description, and whether it is final sale or excluded from coupons.
+     */
+    getProduct(args: { itemNumber: string } | { url: string }): Promise<FamousFootwearProductDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_fandom {
   // ── Fandom — the unit's own declarations, verbatim ──
 interface fandomRow {
@@ -45370,6 +45424,78 @@ interface FieldstonehomesCheckoutHandoff {
   }
 }
 
+declare namespace BowmarkProvider_finders {
+  // ── Finders Keepers — the unit's own declarations, verbatim ──
+type FindersStatus = "available" | "let_agreed" | "let" | "not_found";
+interface FindersListingSummary {
+  propertyNumber: string;
+  url: string;
+  address: string;
+  postcode: string | null;
+  priceAmount: number | null;
+  priceFrequency: "pcm";
+  priceText: string | null; // the site's own, e.g. "£3,200 pcm"
+  bedrooms: number | null;
+  bathrooms: number | null;
+  propertyType: string | null; // the site's own, e.g. "apartment", "detached house"
+  isStudent: boolean;
+  status: "available" | "let_agreed" | "let";
+  statusLabel: string; // the site's own word, e.g. "To let", "Let agreed"
+  branchName: string | null;
+  summary: string | null;
+  image: string | null;
+}
+interface FindersListing {
+  propertyNumber: string;
+  url: string;
+  status: FindersStatus; // "not_found" carries only propertyNumber and url
+  statusLabel?: string;
+  address?: string;
+  postcode?: string | null;
+  priceAmount?: number | null;
+  priceFrequency?: "pcm";
+  priceText?: string | null;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  propertyType?: string | null;
+  isStudent?: boolean;
+  branchName?: string | null;
+  summary?: string | null;
+  image?: string | null;
+  depositAmount?: number;
+  councilTaxBand?: string;
+  availableDate?: string; // dd/mm/yyyy as printed
+  furnishing?: string;
+  reference?: string;
+  features?: string[];
+  description?: string;
+}
+interface FindersSearchArgs { page?: number }
+interface FindersSearchResult { listings: FindersListingSummary[]; page: number; hasMore: boolean }
+
+  /**
+   * Oxford lettings from Finders Keepers (finders.co.uk), incl. student and shared houses:
+   * browse what is to let, then read one letting in full — rent, deposit, bedrooms, available
+   * date, features and whether it is still available.
+   */
+  interface Unit {
+    /**
+     * Reads one finders.co.uk Oxford letting by its link or property number: address, monthly
+     * rent, deposit, bedrooms, bathrooms, type, available date, furnishing, council tax band,
+     * features, description and status (available, let_agreed, let, or not_found when the site has
+     * no letting under that number).
+     */
+    getListing(listing: string): Promise<FindersListing>;
+
+    /**
+     * Lists the Oxford properties Finders Keepers has to let, ten per page, newest-priced first as
+     * the site orders them; pass { page } for later pages while hasMore is true. Each row's url
+     * goes straight into getListing.
+     */
+    searchListings(args?: FindersSearchArgs): Promise<FindersSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_findmcp_app {
   // ── FindMCP — the unit's own declarations, verbatim ──
 interface FindMcpServer { name: string; description: string; category: string | null; url: string; }
@@ -45912,6 +46038,55 @@ interface FiveBelowSearchResults {
      * or guessed query to see what comes back.
      */
     search(args: { query: string, limit?: number, page?: number }): Promise<FiveBelowSearchResults>;
+  }
+}
+
+declare namespace BowmarkProvider_fiverr {
+  // ── Fiverr — the unit's own declarations, verbatim ──
+interface SearchGigsArgs { query: string; page?: number }
+interface FiverrGigSummary { gigId: number; title: string; url: string; seller: { username: string; displayName: string | null; url: string; level: string | null; country: string | null }; priceFromUsd: number | null; deliveryDays: number | null; rating: number | null; ratingsCount: number | null; image: string | null; isPro: boolean }
+interface FiverrSearchResult { query: string; page: number; total: number | null; gigs: FiverrGigSummary[] }
+interface GetGigArgs { url: string }
+interface FiverrReview { id: string; username: string | null; country: string | null; rating: number | null; comment: string | null; createdAt: string | null; priceRange: string | null; orderDuration: string | null; repeatBuyer: boolean; gigId: number | null }
+interface FiverrPackage { title: string; description: string | null; priceUsd: number | null; deliveryDays: number | null; revisions: number | "unlimited" | null; includes: string[]; extras: { label: string; priceUsd: number | null }[] }
+interface FiverrGig { gigId: number; url: string; title: string; category: string | null; subCategory: string | null; description: string | null; rating: number | null; ratingsCount: number | null; seller: { username: string; displayName: string | null; url: string; country: string | null; rating: number | null; ratingsCount: number | null; responseTimeHours: number | null }; packages: FiverrPackage[]; faq: { question: string; answer: string }[]; tags: string[]; images: string[]; reviews: FiverrReview[] }
+interface GetGigReviewsArgs { url: string; limit?: number }
+interface FiverrReviewsResult { gigId: number; url: string; total: number | null; averageRating: number | null; reviews: FiverrReview[]; hasMore: boolean }
+interface GetSellerArgs { username: string }
+interface FiverrSeller { username: string; displayName: string | null; url: string; oneLiner: string | null; description: string | null; country: string | null; languages: { code: string; level: string | null }[]; memberSince: string | null; level: string | null; rating: number | null; ratingsCount: number | null; responseTimeHours: number | null; completedOrders: number | null; skills: string[]; gigs: FiverrGigSummary[]; recentReviews: FiverrReview[] }
+
+  /**
+   * Fiverr freelance marketplace: search gigs, read gig packages, reviews and seller profiles;
+   * signed-in lists, inbox and orders.
+   */
+  interface Unit {
+    /**
+     * Reads one Fiverr gig by url (from searchGigs): title, category, description, seller,
+     * packages (Basic/Standard/Premium with USD price, delivery days, revisions, what each
+     * includes and paid extras), FAQ, tags, rating, review count and the first reviews.
+     */
+    getGig(args: GetGigArgs): Promise<FiverrGig>;
+
+    /**
+     * Buyer reviews of one Fiverr gig, most relevant first, paged through Fiverr's own reviews
+     * endpoint up to `limit` (default 20, max 200): rating, comment, date, reviewer country, order
+     * price range and duration.
+     */
+    getGigReviews(args: GetGigReviewsArgs): Promise<FiverrReviewsResult>;
+
+    /**
+     * Reads a Fiverr seller's profile by username or profile url: bio, country, languages, member
+     * since, level, rating, response time, completed orders, skills, their gigs and recent
+     * reviews.
+     */
+    getSeller(args: GetSellerArgs): Promise<FiverrSeller>;
+
+    /**
+     * Searches Fiverr gigs (freelance services) for a query such as "logo design", 48 per page:
+     * title, gig url, seller username, level and country, starting price in USD, delivery days,
+     * rating and review count. The door into this provider.
+     */
+    searchGigs(args: SearchGigsArgs): Promise<FiverrSearchResult>;
   }
 }
 
@@ -56373,6 +56548,7 @@ interface HarringtonsListListingsArgs {
 interface HarringtonsListingsPage {
   total: number;      // how many matched, before limit
   listings: HarringtonsListingSummary[];
+  warnings: string[]; // set when the query/filters removed every listing the site has
 }
 
   /**
@@ -56392,8 +56568,9 @@ interface HarringtonsListingsPage {
     /**
      * Lists the properties Harringtons advertises in Durham (every one on its /properties/ page),
      * optionally filtered by street name, minimum bedrooms or maximum rent per person per week:
-     * link, name, rent per person per week, bedrooms and bathrooms. Pass a row's `url` to
-     * getListing for deposit and move-in date.
+     * link, name, rent per person per week, bedrooms and bathrooms. When the filters remove every
+     * listing, warnings names them and how many the site has. Pass a row's `url` to getListing for
+     * deposit and move-in date.
      */
     listListings(args?: HarringtonsListListingsArgs): Promise<HarringtonsListingsPage>;
   }
@@ -87455,12 +87632,27 @@ interface QuoraQuestion {
     content: string;
     upvotes: number;
     createdAt?: string;
+    url?: string;
   }>;
   relatedQuestions?: Array<{
     id: string;
     title: string;
     url: string;
   }>;
+}
+interface QuoraAnswerLookup {
+  questionId: string;
+  questionTitle: string;
+  questionUrl: string;
+  answer: {
+    id: string;
+    author: string;
+    authorUrl: string;
+    content: string;
+    upvotes: number;
+    createdAt?: string;
+    url?: string;
+  };
 }
 interface GetQuestionArgs {
   url?: string;
@@ -87597,6 +87789,15 @@ interface QuoraAnswersPage {
      * its exact title text.
      */
     getQuestion(args: GetQuestionArgs): Promise<QuoraQuestion>;
+
+    /**
+     * Opens one answer from the shared link people send —
+     * `https://www.quora.com/<question>/answer/<Author-Slug>` — and returns that answer (author,
+     * content, upvotes, and its own url) with the question it belongs to. Reads the answer off its
+     * question page, which the answer link itself walls, and pages further answers only when it is
+     * not among the first ones. Signed out.
+     */
+    getAnswer(url: string): Promise<QuoraAnswerLookup>;
 
     /**
      * Pages through a question's answers beyond the first page getQuestion embeds, using the
@@ -112352,7 +112553,7 @@ interface UlrichPriceResult {
 
 declare namespace BowmarkProvider_unihomes_co_uk {
   // ── UniHomes — the unit's own declarations, verbatim ──
-interface UniHomesListing { id: string; title: string; url: string; status: "available" | "let"; statusLabel: string; bedrooms: number | null; priceAmount: number | null; priceAmountMax: number | null; priceText: string | null; billsIncluded: boolean; includedBills: string[]; availableFrom: string | null; features: string[]; }
+interface UniHomesListing { id: string; title: string; url: string; status: "available" | "let" | "not_found"; statusLabel: string; bedrooms: number | null; priceAmount: number | null; priceAmountMax: number | null; priceText: string | null; billsIncluded: boolean; includedBills: string[]; availableFrom: string | null; features: string[]; }
 
   /**
    * Read a public UniHomes UK student-housing listing by URL or property reference —
@@ -112778,6 +112979,32 @@ interface UpsServiceAlerts {
      * no browser.
      */
     getServiceAlerts(args?: { includeTargeted?: boolean }): Promise<UpsServiceAlerts>;
+  }
+}
+
+declare namespace BowmarkProvider_upwork {
+  // ── Upwork — the unit's own declarations, verbatim ──
+interface UpworkJobSummary { id: string; title: string; url: string; posted: string | null; budget: string | null; experienceLevel: string | null; duration: string | null; description: string; skills: string[]; }
+interface UpworkJob { id: string; title: string; url: string; datePosted: string | null; description: string; employmentType: string[]; clientCountry: string | null; applicantCountries: string[]; budget: string | null; experienceLevel: string | null; skills: string[]; proposals: string | null; }
+interface UpworkSearchJobsArgs { query: string; page?: number; }
+interface UpworkGetJobArgs { url?: string; id?: string; }
+
+  /**
+   * Search Upwork's public freelance job postings by keyword and read one posting's budget,
+   * description, skills and client country.
+   */
+  interface Unit {
+    /**
+     * Searches Upwork's public freelance job postings by keyword, newest-relevant first, ~10 per
+     * page.
+     */
+    searchJobs(args: UpworkSearchJobsArgs): Promise<UpworkJobSummary[]>;
+
+    /**
+     * Reads one public Upwork job posting by the url or id searchJobs() returned: full
+     * description, budget, experience level, skills, proposals and client country.
+     */
+    getJob(args: UpworkGetJobArgs): Promise<UpworkJob>;
   }
 }
 
@@ -125883,6 +126110,7 @@ interface BowmarkProviders {
   facebook: BowmarkProvider_facebook.Unit;
   faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
+  famousfootwear: BowmarkProvider_famousfootwear.Unit;
   fandom: BowmarkProvider_fandom.Unit;
   fareharbor: BowmarkProvider_fareharbor.Unit;
   faroutmagazine: BowmarkProvider_faroutmagazine.Unit;
@@ -125890,12 +126118,14 @@ interface BowmarkProviders {
   fedex: BowmarkProvider_fedex.Unit;
   ferguson: BowmarkProvider_ferguson.Unit;
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
+  finders: BowmarkProvider_finders.Unit;
   findmcp_app: BowmarkProvider_findmcp_app.Unit;
   firstamericahomes: BowmarkProvider_firstamericahomes.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
   fitdegree: BowmarkProvider_fitdegree.Unit;
   fitness1440: BowmarkProvider_fitness1440.Unit;
   fivebelow: BowmarkProvider_fivebelow.Unit;
+  fiverr: BowmarkProvider_fiverr.Unit;
   fivestarbathsolutions: BowmarkProvider_fivestarbathsolutions.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;
   floathelm: BowmarkProvider_floathelm.Unit;
@@ -126399,6 +126629,7 @@ interface BowmarkProviders {
   unsplash: BowmarkProvider_unsplash.Unit;
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
   ups: BowmarkProvider_ups.Unit;
+  upwork: BowmarkProvider_upwork.Unit;
   usatoday: BowmarkProvider_usatoday.Unit;
   uscis: BowmarkProvider_uscis.Unit;
   usps: BowmarkProvider_usps.Unit;

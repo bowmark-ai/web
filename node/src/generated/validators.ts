@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4aef97a8c9cd2fb72619c970e94f5ddfe5def2bad755acbf6487c85c9a4db3cf
-// 5439 checked, 20 unchecked.
+// Manifest version: 0a775a63f6bdddd40caf7332f0622a1359dc49cebcedffd1039211c3c692942b
+// 5450 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4aef97a8c9cd2fb72619c970e94f5ddfe5def2bad755acbf6487c85c9a4db3cf",
+  "version": "0a775a63f6bdddd40caf7332f0622a1359dc49cebcedffd1039211c3c692942b",
   "units": {
     "address_validation": {
       "defs": {
@@ -59316,6 +59316,121 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.famousfootwear": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "brand",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "gender",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "men"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "women"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "boys"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "girls"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "kids"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "onSale",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "pageSize",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "itemNumber",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.fandom": {
       "defs": {
         "CreatePageArgs": {
@@ -61188,6 +61303,43 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.finders": {
+      "defs": {
+        "FindersSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindersSearchArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.findmcp_app": {
       "defs": {},
       "functions": {
@@ -61804,6 +61956,114 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.fiverr": {
+      "defs": {
+        "GetGigArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetGigReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetSellerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchGigsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getGig": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGigArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getGigReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGigReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSeller": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSellerArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchGigs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchGigsArgs"
             },
             "optional": false
           }
@@ -120410,6 +120670,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getAnswer": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getAnswers": [
           {
             "name": "args",
@@ -158046,6 +158315,70 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.upwork": {
+      "defs": {
+        "UpworkGetJobArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "UpworkSearchJobsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchJobs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpworkSearchJobsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getJob": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpworkGetJobArgs"
+            },
+            "optional": false
           }
         ]
       }
