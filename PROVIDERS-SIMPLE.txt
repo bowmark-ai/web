@@ -20,6 +20,7 @@ abqplumb.com — abqplumb: getAvailability, listServices
 abt.com — abt: getProduct, search
 accommodationforstudents.com — accommodationforstudents: getListing, listCities, searchListings
 accuweather.com — accuweather: browseLocations, getActivityForecast, getAirQuality, getAllergyForecast, getArticle, getCurrentConditions, getDailyForecast, getDayDetails, getHealthForecast, getHourlyForecast, getLocation, getMinuteCast, getMonthlyForecast, getRadarMap, getStorm, getWinterForecast, listActiveStorms, listAlerts, listLifestyleIndices, listNews, searchLocations (+1 planned)
+acehardware.com — acehardware: findStores, getProduct, getStoreInventory, searchProducts
 acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
 acqualinaresort.com — acqualinaresort: searchAvailability
@@ -336,7 +337,7 @@ evreward.com — evreward: getStoreRewards (+1 planned)
 exchangerate-api.com — currency_exchange: getRate
 executivehomecare.com — executivehomecare: findLocalOffice
 exhalespa.com — exhalespa: getLocation, listLocations (+2 planned)
-expedia.com — expedia: getHotelDetails, searchFlights, searchHotels, suggestDestinations (+17 planned)
+expedia.com — expedia: getHotelDetails, searchFlights, searchHotels, searchPackages, suggestDestinations (+16 planned)
 expireddomains.com — expireddomains: nothing callable yet (+28 planned)
 exploretock.com — tock: findBusiness, getBusiness, getExperience, listExperiences, searchBusinesses (+28 planned)
 extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planned)
@@ -552,6 +553,7 @@ medicare.gov — medicare: findDoctors, findHospitals, findNursingHomes, getCost
 medium.com — medium: authorPosts, publicationPosts, tagPosts
 meetup.com — meetup: getGroup, searchEvents
 menards.com — menards: search (+3 planned)
+mensjournal.com — mensjournal: latestArticles (+1 planned)
 mercadolibre.com — mercadolibre: nothing callable yet (+6 planned)
 mercari.com — mercari: search
 mergify.com — mergify: queueStatus, validateConfig (+1 planned)
@@ -773,7 +775,7 @@ soundcloud.com — soundcloud: getPlayback, getPlaylist, getTrack, search
 sourceforge.net — sourceforge: getLatestRelease, getProject, listFiles (+1 planned)
 spacest.com — spacest: nothing callable yet (+1 planned)
 spareroom.co.uk — spareroom: getListing, searchRooms
-spectrum.com — spectrum: cancelServiceAppointment, checkMobileCoverage, getAccountBalance, getBillingHistory, getByTheGigPlan, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getOutageStatus, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listServiceAppointments, listTvAddOns, listTvPlans, rescheduleServiceAppointment, restartEquipment, scheduleServiceAppointment, updateWifiNetwork (+2 planned)
+spectrum.com — spectrum: 20 functions — ask get_library (+2 planned)
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getPlayerNews, getRankings, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamNews, getTeamRoster, getTeamStats, listTeams, searchPlayers (+1 planned)
@@ -841,6 +843,7 @@ tomsguide.com — tomsguide: listLatest, search
 topcashback.com — topcashback: getStoreRate, searchStores (+1 planned)
 topviewtix.com — topviewtix: getPackageDetails, listPackages (+1 planned)
 totalplastics.com — totalplastics: getQuoteFormFieldOptions, getQuoteFormFields
+toyota.com — toyota: getModel, listModels (+2 planned)
 translate.google.com — google_translate: checkSpelling, deleteHistory, detectLanguage, getAlternativeTranslations, getDefinitions, getSynonyms, listHistory, listLanguages, listSavedPhrases, lookupWord, romanize, savePhrase, speak, translate, translateDocument, translateImage, translateWebPage, unsavePhrase
 travelinsured.com — travelinsured: getZipInfo, searchDestinations (+1 planned)
 travelocity.com — travelocity: nothing callable yet (+7 planned)
@@ -853,6 +856,7 @@ tripadvisor.com — tripadvisor: getAttraction, getDestination, getHotel, getHot
 trojanstorage.com — trojanstorage: getFacilityUnits, listFacilities
 trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, searchHomes (+1 planned)
 trueup.io — trueup: searchJobs
+trulia.com — trulia: getHome, searchHomes
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
 tubitv.com — tubitv: search, title
@@ -889,6 +893,7 @@ visible.com — visible: checkCoverage, getPhone, getPlans, listDeals, searchPho
 visit.barnesfoundation.org — barnesfoundation: getAdmissionCalendar, priceAdmission
 vistaprint.com — vistaprint: getShippingBoxPrice (+1 planned)
 voluspa.com — voluspa: getFragranceQuizIntro (+1 planned)
+vrbo.com — vrbo: search (+1 planned)
 walkerhughes.com — walkerhughes: findNearestOffice, listOffices, listQuoteProducts (+1 planned)
 walmart.com — walmart: 30 functions — ask get_library (+8 planned)
 washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getElectionResults, getLiveBlog, getNewsletter, getPodcast, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listEpisodes, listHomepage, listNewsletters, listPodcasts, listSavedArticles, listSections, listTopics, listTrending, listVideos, saveArticle, searchWriters, unsaveArticle (+1 planned)
@@ -948,6 +953,7 @@ zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, search
 zenoti.com — zenoti: bookAppointment, cancelAppointment, findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, rescheduleAppointment, searchServices (+4 planned)
 zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDetails, getMemberInfo, getMembershipStatus, getPrice, listClasses, listMyBookings, listPackages, listScheduleSlots, searchSchedule, updateMemberInfo (+2 planned)
 zepto.com — zepto: product, search
+zestlovesproperty.com — zestlovesproperty: getListing, searchLettings
 zillow.com — zillow: calculateAffordability, calculateMortgagePayment, getMortgageRates, searchHomes, searchLocations (+19 planned)
 zoom.us — zoom: 29 functions — ask get_library
 zoopla.co.uk — zoopla: nothing callable yet (+2 planned)

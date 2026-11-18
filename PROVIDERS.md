@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7325 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7341 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -58,6 +58,10 @@ One function per row, with the site it is called on.
 | `accuweather.listLifestyleIndices` | accuweather.com | Today's level for every allergy, health and outdoor-activity index AccuWeather… | 🟢 |
 | `accuweather.listNews` | accuweather.com | Latest AccuWeather news headlines - omit section for Top Stories, or pass a section's… | 🟢 |
 | `accuweather.searchLocations` | accuweather.com | Finds places by name, ZIP or postal code via the site's own search box autocomplete -… | 🟢 |
+| `acehardware.findStores` | acehardware.com | Finds Ace Hardware stores near a US ZIP (or lat/lng), nearest first, with the store… | 🟢 |
+| `acehardware.getProduct` | acehardware.com | Reads one Ace Hardware product by product code or URL: name, description, price… | 🟢 |
+| `acehardware.getStoreInventory` | acehardware.com | Checks whether one Ace Hardware product is in stock at one store and how many units… | 🟢 |
+| `acehardware.searchProducts` | acehardware.com | Runs Ace Hardware's own product search and returns matching products with live list… | 🟢 |
 | `acerentacar.searchAvailability` | acerentacar.com | Returns ACE's live vehicle availability and rate totals for a public pickup location… | 🟢 |
 | `acerentacar.searchLocations` | acerentacar.com | Matches a free-text city, airport or state against ACE's public location catalog and… | 🟢 |
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |
@@ -1652,7 +1656,7 @@ One function per row, with the site it is called on.
 | `crutchfield.getProduct` | crutchfield.com | Reads one product's full page — price, availability, images, brand, spec/description… | ⚪ |
 | `crutchfield.search` | crutchfield.com | Searches Crutchfield's catalog for car audio products — items found, price, brand, URL… | 🟡 |
 | `culturefly.buildCultureFlyCheckoutLink` | culturefly.com | Resolves a chosen size + cadence against getCultureFlyBoxOptions and returns the exact… | 🟡 |
-| `culturefly.getCultureFlyBoxOptions` | culturefly.com | Reads one box's full configure surface off its own product page — every apparel size… | 🟢 |
+| `culturefly.getCultureFlyBoxOptions` | culturefly.com | Reads one box's full configure surface off its own product page — every apparel size… | 🟡 |
 | `culturefly.listCultureFlyBoxes` | culturefly.com | Reads the live CultureFly catalogue for exactly the licensed subscription-box product… | 🟢 |
 | `curiocity.listEvents` | curiocity.com | Reads curiocity.com's own city 'things to do' feed and returns individual events… | 🟢 |
 | `currency_exchange.getRate` | exchangerate-api.com | Returns the current exchange rate between two currency codes | 🟢 |
@@ -2035,7 +2039,7 @@ One function per row, with the site it is called on.
 | `doordash.rateOrder` | doordash.com | Rates a past order and its items the way the post-delivery prompt does (thumbs, stars… | ⚪ |
 | `doordash.removeFromCart` | doordash.com | Removes one item from the cart. | ⚪ |
 | `doordash.saveStore` | doordash.com | Saves a store to, or removes it from, the signed-in customer's saved stores. | ⚪ |
-| `doordash.search` | doordash.com | Runs DoorDash's own store search for a free-text query and returns the real… | 🟡 |
+| `doordash.search` | doordash.com | Runs DoorDash's own store search for a cuisine, dish or store and returns the real… | 🟡 |
 | `doordash.searchDishes` | doordash.com | Searches for a DISH rather than a restaurant ("pizza", "pad thai") near a location and… | 🟢 |
 | `doordash.searchStoreProducts` | doordash.com | Searches for products inside one grocery, convenience or retail store ("milk" at a… | ⚪ |
 | `doordash.setDefaultAddress` | doordash.com | Makes one saved address the signed-in customer's default delivery address. | ⚪ |
@@ -2358,7 +2362,7 @@ One function per row, with the site it is called on.
 | `expedia.searchCruises` | expedia.com | Runs Expedia Cruises search for a destination and month and returns sailings with… | ⚪ |
 | `expedia.searchFlights` | expedia.com | Runs Expedia's own flight search for an origin, destination and dates and returns the… | 🟢 |
 | `expedia.searchHotels` | expedia.com | Runs Expedia's own hotel search for a destination, dates and adults and returns the… | 🟢 |
-| `expedia.searchPackages` | expedia.com | Runs Expedia's flight+hotel package search and returns bundled prices. | ⚪ |
+| `expedia.searchPackages` | expedia.com | Runs Expedia's flight+hotel package search and returns the packages its first results… | 🟢 |
 | `expedia.searchVacationRentals` | expedia.com | Runs Expedia's vacation-rental (homes, cabins, condos) search for a destination and… | ⚪ |
 | `expedia.suggestDestinations` | expedia.com | Returns Expedia's destination autocomplete suggestions (cities, airports… | 🟢 |
 | `expedia.updateProfile` | expedia.com | Edits the signed-in caller's Expedia profile fields (name, phone, preferences). | ⚪ |
@@ -4083,6 +4087,8 @@ One function per row, with the site it is called on.
 | `menards.findStores` | menards.com | Finds Menards stores near a ZIP or city, with address and hours. | ⚪ |
 | `menards.getProduct` | menards.com | Reads one product page: specifications, price, rebate and store availability for an… | ⚪ |
 | `menards.search` | menards.com | Searches Menards' product catalog for a shopper's query (e.g. "cordless drill") and… | 🟢 |
+| `mensjournal.latestArticles` | mensjournal.com | Lists Men's Journal's latest published articles (up to 50) from the site's own RSS… | 🟢 |
+| `mensjournal.sections` | mensjournal.com | Lists Men's Journal's site sections (primary navigation) with each section's url. | ⚪ |
 | `mercadolibre.getBestSellers` | mercadolibre.com | Reads the site's own "Más vendidos" (best sellers) ranked feed —… | ⚪ |
 | `mercadolibre.getProduct` | mercadolibre.com | Reads one listing in full — price, condition, description, images, seller and… | ⚪ |
 | `mercadolibre.getSellerReputation` | mercadolibre.com | Looks up one seller's reputation — level, percent positive, sales volume, the site's… | ⚪ |
@@ -6360,6 +6366,10 @@ One function per row, with the site it is called on.
 | `topviewtix.reserve` | topviewtix.com | Would pick a date, ticket quantity and seating tier for a package and hand back a… | ⚪ |
 | `totalplastics.getQuoteFormFieldOptions` | totalplastics.com | Reads one named field off the live quote form (e.g. "Material Type" or "Annual… | 🟢 |
 | `totalplastics.getQuoteFormFields` | totalplastics.com | Reads Total Plastics' own "Request a Quote" form (a POWR form-builder widget embedded… | 🟢 |
+| `toyota.buildAndPrice` | toyota.com | Price a Toyota build on toyota.com's configurator — pick a trim, powertrain, color and… | ⚪ |
+| `toyota.findDealerInventory` | toyota.com | Search new Toyota inventory at dealers near a ZIP code for a model, with VIN, trim… | ⚪ |
+| `toyota.getModel` | toyota.com | Look up one Toyota model by name or code (Camry, RAV4, Tacoma) and return every model… | 🟢 |
+| `toyota.listModels` | toyota.com | List Toyota's current US vehicle lineup from toyota.com — cars, SUVs, trucks… | 🟢 |
 | `tradingview.getChartData` | www.tradingview.com | Get historical candlestick/OHLCV data for charting. | 🟢 |
 | `tradingview.getCompanyInfo` | www.tradingview.com | Get fundamental information about a company: description, sector, market cap, employees. | 🟢 |
 | `tradingview.getDividends` | www.tradingview.com | Get dividend history and yield information for a symbol. | 🟢 |
@@ -6425,6 +6435,8 @@ One function per row, with the site it is called on.
 | `trophysignaturehomes.listPlans` | trophysignaturehomes.com | Lists the floor plans (as opposed to priced, addressed spec homes) available per… | ⚪ |
 | `trophysignaturehomes.searchHomes` | trophysignaturehomes.com | Searches Trophy Signature Homes' current live inventory (all metros) by city… | 🟢 |
 | `trueup.searchJobs` | trueup.io | Searches TrueUp's tech and startup job board (trueup.io/jobs) by title, skill or… | 🟢 |
+| `trulia.getHome` | trulia.com | Read one Trulia listing (a url from searchHomes): price, status, beds, baths, size… | 🟢 |
+| `trulia.searchHomes` | trulia.com | Search Trulia real-estate listings in a US city: homes for sale, rentals or recently… | 🟢 |
 | `trustpilot.getCompany` | trustpilot.com | Trustpilot reviews and rating for a company, by its website domain (`{ domain… | 🟢 |
 | `tryalma_com.listPages` | tryalma.com | List all pages and sections available on the Alma website by category. | 🟢 |
 | `tryalma_com.search` | tryalma.com | Search Alma's content, including pages, resources, and team member profiles. | 🟢 |
@@ -6671,6 +6683,8 @@ One function per row, with the site it is called on.
 | `vistaprint.getShippingBoxPrice` | vistaprint.com | Prices Vistaprint's Full-Print Shipping Boxes (product PRD-Y1LEPL3MX) for a given box… | 🟢 |
 | `voluspa.getFragranceQuizIntro` | voluspa.com | Reads the "Find Your Fragrance" quiz suite's entry screen — the two branching paths… | 🟢 |
 | `voluspa.matchFragranceQuiz` | voluspa.com | Drives the actual multi-step quiz end to end with a caller-supplied path and set of… | ⚪ |
+| `vrbo.getProperty` | vrbo.com | Opens one Vrbo listing for its dates and returns the property: description, rooms and… | ⚪ |
+| `vrbo.search` | vrbo.com | Runs Vrbo's own vacation-rental search for a destination, dates and party and returns… | 🟢 |
 | `vscode.getDoc` | code.visualstudio.com | Returns one code.visualstudio.com documentation page's structured content by its URL —… | 🟢 |
 | `vscode.listDocPages` | code.visualstudio.com | Lists every doc page code.visualstudio.com publishes, parsed from the site's own… | 🟢 |
 | `vts_marketplace.getListing` | marketplace.vts.com | One VTS Marketplace listing by id or URL — description, photos, coordinates, days on… | 🟢 |
@@ -6783,7 +6797,7 @@ One function per row, with the site it is called on.
 | `weather_channel.getFifteenMinuteForecast` | weather.com | Sub-hourly precipitation forecast — arrival time and intensity of rain/snow in… | 🟢 |
 | `weather_channel.getHistoricalDaily` | weather.com | Historical daily summaries — past 30 days of high, low, and precipitation records. | 🟢 |
 | `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | 🟢 |
-| `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | 🟡 |
+| `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | 🟢 |
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | 🟢 |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
 | `weather_channel.getLiveBlog` | weather.com | A hurricane or storm live-updates page — every update's headline, time, authors and… | 🟢 |
@@ -7278,6 +7292,8 @@ One function per row, with the site it is called on.
 | `zenoti.updateMyProfile` | zenoti.com | Updates the signed-in caller's name, phone or email preferences at that business. | ⚪ |
 | `zepto.product` | zepto.com | Reads a Zepto product page (www.zepto.com/pn/<slug>/pvid/<id>) and returns its name… | 🟢 |
 | `zepto.search` | zepto.com | Searches Zepto's grocery catalogue and returns each product card's name, current… | 🟢 |
+| `zestlovesproperty.getListing` | zestlovesproperty.com | Reads one Zest letting listing by its link, slug (last part of the link) or id: status… | 🟢 |
+| `zestlovesproperty.searchLettings` | zestlovesproperty.com | Lists Zest's Bath and Bristol properties to rent (student and residential lets) by… | 🟢 |
 | `zillow.applyToRental` | zillow.com | Submits a Zillow rental application for a listing. | ⚪ |
 | `zillow.calculateAffordability` | zillow.com | How much house can I afford: the highest home price a buyer can afford from income… | 🟢 |
 | `zillow.calculateMortgagePayment` | zillow.com | Computes a monthly payment from price, down payment, rate and term, broken into… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 926ece4434da9ab0356e31f1fdaf0c54e25efa58d3d251ca6ab99aa1f785e129
-// 5457 checked, 20 unchecked.
+// Manifest version: 43b8b954f78be0c57f3cd9374ab2377cf412e666a4dd859ea23bcff0f664862c
+// 5471 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "926ece4434da9ab0356e31f1fdaf0c54e25efa58d3d251ca6ab99aa1f785e129",
+  "version": "43b8b954f78be0c57f3cd9374ab2377cf412e666a4dd859ea23bcff0f664862c",
   "units": {
     "address_validation": {
       "defs": {
@@ -9336,6 +9336,149 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "DayDetailsArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.acehardware": {
+      "defs": {
+        "AcehardwareFindStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "AcehardwareInventoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "storeCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "AcehardwareProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "AcehardwareSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AcehardwareSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AcehardwareProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AcehardwareFindStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStoreInventory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AcehardwareInventoryArgs"
             },
             "optional": false
           }
@@ -49756,6 +49899,27 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             },
             {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
               "name": "limit",
               "schema": {
                 "k": "number"
@@ -57448,9 +57612,66 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ExpediaSearchPackagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "departDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "returnDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
+        "searchPackages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ExpediaSearchPackagesArgs"
+            },
+            "optional": false
+          }
+        ],
         "searchFlights": [
           {
             "name": "args",
@@ -87918,6 +88139,161 @@ export const VALIDATORS: ValidatorTable = {
             "name": "company",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.lichess": {
+      "defs": {
+        "ExportGameArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchPlayersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "TopPlayersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "perf",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "ultraBullet"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "bullet"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "blitz"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rapid"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "classical"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "chess960"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "crazyhouse"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "antichess"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "atomic"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "horde"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "kingOfTheHill"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "racingKings"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "threeCheck"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "UsernameArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchPlayers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchPlayersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UsernameArgs"
+            },
+            "optional": false
+          }
+        ],
+        "topPlayers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TopPlayersArgs"
+            },
+            "optional": true
+          }
+        ],
+        "exportGame": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ExportGameArgs"
             },
             "optional": false
           }
@@ -136894,6 +137270,32 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getPlayback": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getPlaylist": [
           {
             "name": "playlist",
@@ -151780,6 +152182,77 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.toyota": {
+      "defs": {
+        "GetModelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListModelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxMsrp",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getModel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetModelArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listModels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListModelsArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -174178,6 +174651,119 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.zestlovesproperty": {
+      "defs": {
+        "ZestListingInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listing",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ZestSearchInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "bath"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "bristol"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "department",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "student"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "residential"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "availability",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "to_let"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "let_agreed"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "any"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLettings": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "ZestSearchInput"
+            },
+            "optional": true
+          }
+        ],
+        "getListing": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "ZestListingInput"
             },
             "optional": false
           }

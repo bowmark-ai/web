@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 926ece4434da9ab0356e31f1fdaf0c54e25efa58d3d251ca6ab99aa1f785e129
-// 98 capabilities, 909 providers, 5485 typed functions, 20 refused.
+// Manifest version: 43b8b954f78be0c57f3cd9374ab2377cf412e666a4dd859ea23bcff0f664862c
+// 98 capabilities, 913 providers, 5499 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4666,6 +4666,10 @@ type RetailOffer = {
                                   // "Restored" and leave it out of "cheaper by $X". If a
                                   // store only has it used, say so; never claim it is cheaper.
                                   // Also check storage size / colour / bundle in the title.
+  marketplace?: boolean           // only when the store says who sells it: true = a
+                                  // third-party Marketplace seller (Best Buy today), false =
+                                  // the store itself. Absent = not reported. Say "Marketplace
+                                  // seller" beside a true row; it is not the store's own price.
 }
 type RetailSearchResult = {
   results: RetailOffer[]   // ONE query across ALL stores. Rows whose title carries more
@@ -7707,6 +7711,60 @@ interface AccuweatherArticle {
      * and the Temperature History table (forecast vs. average, last year and the record).
      */
     getDayDetails(args: DayDetailsArgs): Promise<AccuweatherDayDetails>;
+  }
+}
+
+declare namespace BowmarkProvider_acehardware {
+  // ── Ace Hardware — the unit's own declarations, verbatim ──
+interface AcehardwareSearchArgs { query: string; limit?: number /* default 20, max 30 */ }
+interface AcehardwareProductArgs { productCode?: string; url?: string /* one of them */ }
+interface AcehardwareFindStoresArgs { zip?: string; lat?: number; lng?: number; radiusMiles?: number /* default 25 */; limit?: number /* default 10 */ }
+interface AcehardwareInventoryArgs { productCode: string; storeCode: string }
+interface AcehardwareProduct {
+  productCode: string; name: string; url: string;
+  price: number | null;        // list price, USD
+  salePrice: number | null;    // current selling price when on sale
+  imageUrl: string | null; upc: string | null; mfgPartNumber: string | null; productType: string | null;
+  fulfillment: string[];       // e.g. ["DirectShip","InStorePickup","Delivery"]
+  purchasable: boolean;
+  description?: string | null; // getProduct only
+}
+interface AcehardwareSearchResult { query: string; totalCount: number; products: AcehardwareProduct[] }
+interface AcehardwareStore {
+  storeCode: string; name: string; address: string; city: string; state: string; zip: string;
+  phone: string | null; lat: number | null; lng: number | null; supportsInventory: boolean;
+}
+interface AcehardwareInventory { productCode: string; storeCode: string; inStock: boolean; stockAvailable: number }
+
+  /**
+   * Ace Hardware (acehardware.com) — search the hardware catalog with live prices, read one
+   * product, find Ace stores near a ZIP, and check a product's in-stock count at a specific
+   * store.
+   */
+  interface Unit {
+    /**
+     * Runs Ace Hardware's own product search and returns matching products with live list and sale
+     * price, product code, UPC, manufacturer part number and the product URL.
+     */
+    searchProducts(args: AcehardwareSearchArgs): Promise<AcehardwareSearchResult>;
+
+    /**
+     * Reads one Ace Hardware product by product code or URL: name, description, live price,
+     * images, UPC, part number and fulfillment options.
+     */
+    getProduct(args: AcehardwareProductArgs): Promise<AcehardwareProduct>;
+
+    /**
+     * Finds Ace Hardware stores near a US ZIP code (or lat/lng), nearest first, with store code,
+     * address and phone — the storeCode getStoreInventory takes.
+     */
+    findStores(args: AcehardwareFindStoresArgs): Promise<AcehardwareStore[]>;
+
+    /**
+     * Checks whether one Ace Hardware product is in stock at one store, and how many units the
+     * store shows available.
+     */
+    getStoreInventory(args: AcehardwareInventoryArgs): Promise<AcehardwareInventory>;
   }
 }
 
@@ -17061,6 +17119,8 @@ interface bestbuyProduct {
   upc: string | null;
   customerReviewAverage: number | null;
   customerReviewCount: number | null;
+  /** true: a Best Buy Marketplace (third-party) seller; false: sold by Best Buy; null: not reported. */
+  marketplace: boolean | null;
 }
 
   /**
@@ -38386,8 +38446,10 @@ interface AddressPrediction {
 }
 
 interface DoordashSearchArgs {
-  query: string;   // free text, e.g. "pad thai austin tx" — DoorDash resolves location itself
-  limit?: number;  // default 10, clamped to [1, 30]
+  query: string;     // what to look for, e.g. "sushi" or "pad thai"
+  address?: string;  // where it is delivered, e.g. "San Francisco, CA" — DoorDash ranks by this, never by a city in query
+  lat?: number; lng?: number;  // coordinates instead of address (both)
+  limit?: number;    // default 10, clamped to [1, 30]
 }
 
 interface DoordashSearchResult {
@@ -38396,6 +38458,10 @@ interface DoordashSearchResult {
   deliveryFee: number | null;  // DoorDash's own advertised delivery fee, in dollars
   rating: number | null;
   etaMinutes: number | null;
+  // only with address or lat/lng:
+  storeId?: string; cuisine?: string | null;  // "$$ • Japanese, Sushi"
+  distance?: string | null;  // from the delivery address, "0.9 mi"
+  deliveryAddress?: string;  // what DoorDash resolved address to
 }
 
 interface DoordashStore {
@@ -38489,8 +38555,12 @@ interface DoordashRetailStore {
     findAddress(args: DoordashFindAddressArgs): Promise<AddressPrediction[]>;
 
     /**
-     * Runs DoorDash's own store search for a free-text query and returns real, currently-listed
-     * stores with DoorDash's own advertised delivery fee, rating and ETA. Read-only.
+     * Runs DoorDash's own store search for a cuisine, dish or store and returns real,
+     * currently-listed stores with DoorDash's own advertised delivery fee, rating and ETA. Pass
+     * `address` ("San Francisco, CA" or a street address) for stores delivering THERE: A query
+     * ending in a city and US state ("pad thai austin tx") is read the same way. A bare city with
+     * no state is refused rather than guessed. Without either, DoorDash answers for Bowmark's own
+     * exit. Read-only.
      */
     search(args: DoordashSearchArgs): Promise<DoordashSearchResult[]>;
 
@@ -43186,7 +43256,41 @@ interface ExpediaHotelSearch {
   adults: number;
   totalResults: number | null;
   hotels: ExpediaHotel[];
+  warnings: string[]; // e.g. fewer hotels than `limit` asked for
   url: string;
+}
+interface ExpediaSearchPackagesArgs {
+  from: string; // "LAX", "New York"
+  to: string; // "Cancun", "Lisbon"
+  departDate?: string; // YYYY-MM-DD, default 14 days out
+  returnDate?: string; // YYYY-MM-DD, default 5 nights later
+  adults?: number; // 1-6, default 2
+  limit?: number;
+}
+interface ExpediaPackage {
+  propertyId: string;
+  name: string;
+  location: string | null;
+  rating: number | null;
+  ratingLabel: string | null;
+  reviewCount: number | null;
+  pricePerTraveler: string | null; // "$1,535", flight + stay per traveller
+  perTravelerAmount: number | null;
+  packageTotal: string | null; // "$3,071", the whole package
+  packageTotalAmount: number | null;
+  previousPrice: string | null;
+  sponsored: boolean;
+  url: string;
+}
+interface ExpediaPackageSearch {
+  from: string;
+  to: string;
+  departDate: string;
+  returnDate: string;
+  adults: number;
+  packages: ExpediaPackage[];
+  warnings: string[]; // e.g. fewer packages than `limit` asked for
+  url: string; // Expedia's package results page, to pick and book there
 }
 interface ExpediaGetHotelDetailsArgs {
   /** A hotel page: the `url` of a hotel from searchHotels (keeps its dates). */
@@ -43231,7 +43335,14 @@ interface ExpediaHotelDetails {
   priceInsight: string | null;
   stay: { dates: string | null; travelers: string | null };
   rooms: ExpediaRoom[];
+  calendarPrices: ExpediaCalendarPrice[]; // the date picker's nightly "from" price per date
+  warnings: string[]; // what the answer lacks, e.g. a room list that was not read
   url: string;
+}
+interface ExpediaCalendarPrice {
+  date: string; // YYYY-MM-DD
+  price: string | null; // "$134"
+  amount: number | null;
 }
 
   /**
@@ -43241,6 +43352,17 @@ interface ExpediaHotelDetails {
    * Expedia link.
    */
   interface Unit {
+    /**
+     * Runs Expedia's own flight + hotel package search —
+     * `bowmark.providers.expedia.searchPackages({ from: "LAX", to: "Cancun", departDate:
+     * "2026-12-10", returnDate: "2026-12-15", adults: 2 })` — and returns the vacation packages
+     * its first results page lists: hotel, guest rating, review count, the bundled price per
+     * traveller (round-trip flight plus stay) and the whole package total, plus the results `url`
+     * to pick a flight and book on Expedia (Bowmark never books). One plain request, a few
+     * seconds.
+     */
+    searchPackages(args: ExpediaSearchPackagesArgs): Promise<ExpediaPackageSearch>;
+
     /**
      * Runs Expedia's own flight search — `bowmark.providers.expedia.searchFlights({ from: "SFO",
      * to: "LHR", departDate: "2026-12-16" })`, add `returnDate` for a round trip — and returns the
@@ -43261,10 +43383,12 @@ interface ExpediaHotelDetails {
      * Opens one Expedia hotel page — `bowmark.providers.expedia.getHotelDetails({ url })` with the
      * `url` a `searchHotels` hotel carries (its dates ride along) — and returns the property:
      * name, star class, guest rating and review count, address, highlights, amenities,
-     * check-in/out, pet, fee and other policies, nearby places, and every room type with size,
-     * beds, sleeps, total and nightly price, discount, cancellation options and add-ons, or
-     * `soldOut`. Bowmark never books: to reserve, the person opens the returned `url` and picks
-     * the room on Expedia. A real browser load, expect 30-60 s.
+     * check-in/out, pet, fee and other policies, nearby places, the date picker's nightly prices
+     * per date when the page carries them (`calendarPrices`), and every room type with size, beds,
+     * sleeps, total and nightly price, discount, cancellation options and add-ons, or `soldOut`.
+     * Usually one plain request, a few seconds; then `rooms` may be empty with a `warnings` line
+     * saying the room list was not read (it is NOT sold out). Bowmark never books: to reserve, the
+     * person opens the returned `url` and picks the room on Expedia.
      */
     getHotelDetails(args: string | ExpediaGetHotelDetailsArgs): Promise<ExpediaHotelDetails>;
 
@@ -43274,8 +43398,8 @@ interface ExpediaHotelDetails {
      * the hotels its first results page lists, in Expedia's order (paid placements flagged
      * `sponsored`): name, total price for the stay with taxes, nightly price, guest rating out of
      * 10, review count, amenities, free cancellation and the property's Expedia link with the
-     * dates. Dates default to two nights starting 14 days out. A real browser load, so expect
-     * 30-60 s.
+     * dates. Dates default to two nights starting 14 days out. Usually one plain request (a few
+     * seconds, the first few hotels); a browser load (30-60 s) when Expedia walls it.
      */
     searchHotels(args: string | ExpediaSearchHotelsArgs): Promise<ExpediaHotelSearch>;
 
@@ -50862,8 +50986,8 @@ interface GitlabProjectWorkSearchArgs { project: string; query?: string; limit?:
    */
   interface Unit {
     /**
-     * Find public GitLab projects by name or description. Pass the returned pathWithNamespace to
-     * getProject, searchIssues, or searchMergeRequests.
+     * Find public GitLab projects by name or description, most-starred first. Pass the returned
+     * pathWithNamespace to getProject, searchIssues, or searchMergeRequests.
      */
     searchProjects(args: GitlabProjectSearchArgs): Promise<GitlabProject[]>;
 
@@ -65528,6 +65652,65 @@ interface LeverBoard {
   }
 }
 
+declare namespace BowmarkProvider_lichess {
+  // ── Lichess — the unit's own declarations, verbatim ──
+interface UsernameArgs { username: string }
+interface SearchPlayersArgs { query: string }
+interface ExportGameArgs { id: string }
+interface TopPlayersArgs { perf?: "ultraBullet" | "bullet" | "blitz" | "rapid" | "classical" | "chess960" | "crazyhouse" | "antichess" | "atomic" | "horde" | "kingOfTheHill" | "racingKings" | "threeCheck"; limit?: number }
+interface LichessRating { perf: string; rating: number; games: number; provisional: boolean }
+interface LichessUser {
+  id: string; username: string; title: string | null; url: string;
+  createdAt: string | null; seenAt: string | null; disabled: boolean;
+  bio: string | null; country: string | null;
+  ratings: LichessRating[];
+  games: { all: number; rated: number; win: number; loss: number; draw: number } | null;
+  playTimeSeconds: number | null;
+}
+interface LichessPlayerMatch { id: string; username: string; title: string | null; online: boolean }
+interface LichessTopPlayer { id: string; username: string; title: string | null; rating: number; progress: number | null }
+interface LichessGamePlayer { username: string | null; title: string | null; rating: number | null; ratingDiff: number | null; aiLevel: number | null }
+interface LichessGame {
+  id: string; url: string; rated: boolean; variant: string; speed: string; status: string;
+  winner: "white" | "black" | null; createdAt: string | null; lastMoveAt: string | null;
+  white: LichessGamePlayer; black: LichessGamePlayer;
+  opening: { eco: string; name: string } | null;
+  moves: string; pgn: string | null;
+}
+
+  /**
+   * Lichess (lichess.org), the free open-source chess site: look up a player's ratings and
+   * record, search players by name, read the leaderboards, and export a game's moves and PGN.
+   */
+  interface Unit {
+    /**
+     * Finds Lichess players whose username starts with query (at least 3 characters), up to 12.
+     * The way in when you only have a name: pass a result's username to getUser.
+     */
+    searchPlayers(args: SearchPlayersArgs): Promise<{ players: LichessPlayerMatch[] }>;
+
+    /**
+     * A Lichess player's public profile: title, ratings per time control/variant (only ones they
+     * have played, most-played first), win/loss/draw counts, join and last-seen dates, bio and
+     * flag. user is null when no such account exists.
+     */
+    getUser(args: UsernameArgs): Promise<{ user: LichessUser | null }>;
+
+    /**
+     * The Lichess leaderboard for one time control or variant (default "blitz"), highest rated
+     * first, limit 1-200 (default 10).
+     */
+    topPlayers(args?: TopPlayersArgs): Promise<{ perf: string; players: LichessTopPlayer[] }>;
+
+    /**
+     * One Lichess game by id or URL: both players with ratings and rating change, result, status,
+     * opening (ECO + name), the moves in SAN and the full PGN. game is null when the id does not
+     * exist.
+     */
+    exportGame(args: ExportGameArgs): Promise<{ game: LichessGame | null }>;
+  }
+}
+
 declare namespace BowmarkProvider_lime {
   // ── Lime — the unit's own declarations, verbatim ──
 interface LimeCity {
@@ -65969,7 +66152,9 @@ interface LinkedinPostResult {
 interface LinkedinReactToPostResult { reacted: true; reaction: "LIKE" | "PRAISE" | "APPRECIATION" | "EMPATHY" | "INTEREST" | "ENTERTAINMENT"; }
 
 // Paged results carry { start, nextStart } — pass nextStart back as start; null means the last page.
-interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: number; nextStart: number | null; }
+// `warnings` appears when LinkedIn cut the page short on purpose (the account's monthly
+// search limit: at most 3 people a page). Read it before counting people.
+interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: number; nextStart: number | null; warnings?: string[]; }
 
   /**
    * The professional network — people, employers, jobs and posts. With no sign-in: read one
@@ -98494,6 +98679,24 @@ interface ScTrackDetail extends ScTrack {
   labelName: string | null
 }
 
+// getPlayback's menu: SoundCloud's widget and the track's stream.
+interface ScPlayback {
+  trackId: number
+  title: string
+  artist: string
+  url: string                 // the track page
+  durationMs: number
+  artworkUrl: string | null
+  live: false
+  preview: boolean            // a Go+ track: SoundCloud serves 30 s only
+  embed: { url: string; hasAds: boolean; note: string }   // w.soundcloud.com widget
+  files: { muxed: []; videoOnly: []; audioOnly: { url: string; mimeType: string; codecs: string | null; preset: string }[] }
+  hls: { url: string; live: false; mimeType: string; codecs: string | null; audioOnly: true } | null  // AAC HLS, no CORS header
+  expiresAt: string | null    // when the signed stream URLs stop answering
+  referrer: "any"
+  warnings: string[]
+}
+
 // A set — playlist, album, EP or compilation. SoundCloud stores all four as one
 // kind and tells them apart with isAlbum/setType.
 interface ScPlaylist {
@@ -98536,6 +98739,16 @@ interface ScPlaylist {
      * track, so a wrong object would be worse than an error.
      */
     getTrack(track: string | ScTrack): Promise<ScTrackDetail>;
+
+    /**
+     * Every way to play one soundcloud.com track: SoundCloud's own widget (`embed.url`) and its
+     * stream, `hls` (an AAC HLS playlist, signed, ~2 h, plays from any address) plus any plain
+     * file in `files.audioOnly`. The HLS answers with no CORS header, so a page's own fetch cannot
+     * read it; Bowmark Buddy's player plays it through the person's Chrome. `preview: true` is a
+     * Go+ track's 30 s preview; an encrypted-only (DRM) track comes back with only the embed and a
+     * warning. Same JSON API, no browser, ~1-3 s.
+     */
+    getPlayback(input: string | { url: string }): Promise<ScPlayback>;
 
     /**
      * Reads a SoundCloud set URL — `soundcloud.com/<account>/sets/<name>`, a playlist, album, EP
@@ -109206,6 +109419,31 @@ interface TotalplasticsQuoteFormFields {
      * submitting.
      */
     getQuoteFormFieldOptions(label: string): Promise<TotalplasticsQuoteFormField>;
+  }
+}
+
+declare namespace BowmarkProvider_toyota {
+  // ── Toyota — the unit's own declarations, verbatim ──
+interface ToyotaModel { modelCode: string; name: string; year: number; categories: string[]; startingMsrp: number | null; asShownMsrp: number | null; cityMpg: number | null; highwayMpg: number | null; combinedMpg: number | null; economyUnit: string | null; seats: number | null; powertrainLabel: string | null; upcoming: boolean; pageUrl: string; buildUrl: string; imageUrl: string | null }
+interface ListModelsArgs { category?: string; year?: number; maxMsrp?: number }
+interface GetModelArgs { model: string; year?: number }
+
+  /**
+   * Toyota's US lineup from toyota.com — every model and year with starting MSRP, MPG, seating
+   * and its build-and-price link.
+   */
+  interface Unit {
+    /**
+     * One Toyota model by name (Camry, RAV4, Tacoma…) — every model year on sale with starting
+     * MSRP, as-shown MSRP, MPG, seats and build-and-price URL.
+     */
+    getModel(args: GetModelArgs): Promise<ToyotaModel[]>;
+
+    /**
+     * Toyota's current US lineup — cars, SUVs, trucks, hybrids and EVs — with starting MSRP and
+     * MPG, filterable by category, year and max price.
+     */
+    listModels(args?: ListModelsArgs): Promise<ToyotaModel[]>;
   }
 }
 
@@ -124141,6 +124379,38 @@ interface ZeptoProduct { id: string; productId: string | null; name: string; bra
   }
 }
 
+declare namespace BowmarkProvider_zestlovesproperty {
+  // ── Zest — the unit's own declarations, verbatim ──
+type ZestStatus = "available" | "let_agreed" | "removed" | "not_found";
+interface ZestSearchInput { location?: "bath" | "bristol"; department?: "student" | "residential"; availability?: "to_let" | "let_agreed" | "any"; page?: number; }
+interface ZestSearchRow { id: number; slug: string; link: string; title: string; status: ZestStatus; status_label: string; department: "student" | "residential" | null; property_type: string | null; location: string | null; summary: string; }
+interface ZestSearchResult { total: number; page: number; pages: number; listings: ZestSearchRow[]; }
+interface ZestListingInput { listing: string | number; }
+interface ZestListing { status: ZestStatus; status_label: string | null; url: string; id: number | null; slug: string | null; title: string | null; address: { street: string | null; locality: string | null; region: string | null; postcode: string | null } | null; property_type: string | null; listing_type: "student" | "residential" | null; bedrooms: number | null; bathrooms: number | null; receptions: number | null; furnished: string | null; price_amount: number | null; price_currency: string | null; price_display: string | null; rent_frequency: "Monthly" | "Weekly" | null; features: string[]; summary: string | null; latitude: number | null; longitude: number | null; images: string[]; date_posted: string | null; }
+
+  /**
+   * Zest (zestlovesproperty.com), a Bath and Bristol letting agent: list its student and
+   * residential properties to rent and read one letting listing (status, address, bedrooms,
+   * bathrooms, rent).
+   */
+  interface Unit {
+    /**
+     * Lists Zest's Bath and Bristol properties to rent (student and residential lets) by location,
+     * department and to_let / let_agreed (default to_let), 100 per page; total/pages count before
+     * the department filter. The entry point: each row's slug, id or link feeds getListing.
+     */
+    searchLettings(input?: ZestSearchInput): Promise<ZestSearchResult>;
+
+    /**
+     * Reads one Zest letting listing by its link, slug (last part of the link) or id: status
+     * (available, let_agreed, removed — off the market but still shown — or not_found, which
+     * includes sales listings), address, property type, bedrooms, bathrooms, rent, features and
+     * images.
+     */
+    getListing(input: ZestListingInput): Promise<ZestListing>;
+  }
+}
+
 declare namespace BowmarkProvider_zillow {
   // ── Zillow — the unit's own declarations, verbatim ──
 /** One match from `searchLocations`: a region (city, ZIP, county, neighborhood, state) or a street address. */
@@ -125983,6 +126253,7 @@ interface BowmarkProviders {
   abt: BowmarkProvider_abt.Unit;
   accommodationforstudents: BowmarkProvider_accommodationforstudents.Unit;
   accuweather: BowmarkProvider_accuweather.Unit;
+  acehardware: BowmarkProvider_acehardware.Unit;
   acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
@@ -126456,6 +126727,7 @@ interface BowmarkProviders {
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   letterboxd: BowmarkProvider_letterboxd.Unit;
   lever: BowmarkProvider_lever.Unit;
+  lichess: BowmarkProvider_lichess.Unit;
   lime: BowmarkProvider_lime.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
@@ -126781,6 +127053,7 @@ interface BowmarkProviders {
   topcashback: BowmarkProvider_topcashback.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
   totalplastics: BowmarkProvider_totalplastics.Unit;
+  toyota: BowmarkProvider_toyota.Unit;
   tradingview: BowmarkProvider_tradingview.Unit;
   travelinsured: BowmarkProvider_travelinsured.Unit;
   travelodge: BowmarkProvider_travelodge.Unit;
@@ -126880,6 +127153,7 @@ interface BowmarkProviders {
   zennioptical: BowmarkProvider_zennioptical.Unit;
   zenoti: BowmarkProvider_zenoti.Unit;
   zepto: BowmarkProvider_zepto.Unit;
+  zestlovesproperty: BowmarkProvider_zestlovesproperty.Unit;
   zillow: BowmarkProvider_zillow.Unit;
   zoom: BowmarkProvider_zoom.Unit;
   zoopla: BowmarkProvider_zoopla.Unit;

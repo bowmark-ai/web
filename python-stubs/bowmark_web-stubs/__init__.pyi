@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 926ece4434da9ab0356e31f1fdaf0c54e25efa58d3d251ca6ab99aa1f785e129
-# 98 capabilities, 909 providers, 5457 typed functions, 20 refused.
+# Manifest version: 43b8b954f78be0c57f3cd9374ab2377cf412e666a4dd859ea23bcff0f664862c
+# 98 capabilities, 913 providers, 5471 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2910,6 +2910,7 @@ class Cap_retail_RetailOffer_Out(TypedDict):
     url: str | None
     inStock: bool
     condition: Literal["new"] | Literal["used"] | Literal["unknown"]
+    marketplace: NotRequired[bool]
 
 class Cap_retirement_ira_comparison_CompareIraArgs_In(TypedDict):
     annualContribution: NotRequired[float]
@@ -4649,6 +4650,62 @@ class Prv_accuweather_AccuweatherTemperatureHistoryRow_Out(TypedDict):
     highYear: str | None
     low: str | None
     lowYear: str | None
+
+class Prv_acehardware_AcehardwareSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_acehardware_AcehardwareSearchResult_Out(TypedDict):
+    query: str
+    totalCount: float
+    products: list[Prv_acehardware_AcehardwareProduct_Out]
+
+class Prv_acehardware_AcehardwareProduct_Out(TypedDict):
+    productCode: str
+    name: str
+    url: str
+    price: float | None
+    salePrice: float | None
+    imageUrl: str | None
+    upc: str | None
+    mfgPartNumber: str | None
+    productType: str | None
+    fulfillment: list[str]
+    purchasable: bool
+    description: NotRequired[str | None]
+
+class Prv_acehardware_AcehardwareProductArgs_In(TypedDict):
+    productCode: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_acehardware_AcehardwareFindStoresArgs_In(TypedDict):
+    zip: NotRequired[str]
+    lat: NotRequired[float]
+    lng: NotRequired[float]
+    radiusMiles: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_acehardware_AcehardwareStore_Out(TypedDict):
+    storeCode: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str | None
+    lat: float | None
+    lng: float | None
+    supportsInventory: bool
+
+class Prv_acehardware_AcehardwareInventoryArgs_In(TypedDict):
+    productCode: str
+    storeCode: str
+
+class Prv_acehardware_AcehardwareInventory_Out(TypedDict):
+    productCode: str
+    storeCode: str
+    inStock: bool
+    stockAvailable: float
 
 class Prv_acerentacar_AcerentacarSearchArgs_In(TypedDict):
     pickupLocationCode: str
@@ -10780,6 +10837,7 @@ class Prv_bestbuy_bestbuyProduct_Out(TypedDict):
     upc: str | None
     customerReviewAverage: float | None
     customerReviewCount: float | None
+    marketplace: bool | None
 
 class Prv_bestbuy_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -25040,6 +25098,9 @@ class Prv_doordash_AddressPrediction_Out(TypedDict):
 
 class Prv_doordash_DoordashSearchArgs_In(TypedDict):
     query: str
+    address: NotRequired[str]
+    lat: NotRequired[float]
+    lng: NotRequired[float]
     limit: NotRequired[float]
 
 class Prv_doordash_DoordashSearchResult_Out(TypedDict):
@@ -25048,6 +25109,10 @@ class Prv_doordash_DoordashSearchResult_Out(TypedDict):
     deliveryFee: float | None
     rating: float | None
     etaMinutes: float | None
+    storeId: NotRequired[str]
+    cuisine: NotRequired[str | None]
+    distance: NotRequired[str | None]
+    deliveryAddress: NotRequired[str]
 
 class Prv_doordash_getStore_args_In(TypedDict):
     store: str
@@ -28564,6 +28629,47 @@ class Prv_exhalespa_ExhaleLocation_Out(TypedDict):
     mindbodyStudioId: str | None
     bookingUrl: str | None
 
+Prv_expedia_ExpediaSearchPackagesArgs_In = TypedDict(
+    "Prv_expedia_ExpediaSearchPackagesArgs_In",
+    {
+    "from": str,
+    "to": str,
+    "departDate": NotRequired[str],
+    "returnDate": NotRequired[str],
+    "adults": NotRequired[float],
+    "limit": NotRequired[float],
+    },
+)
+
+Prv_expedia_ExpediaPackageSearch_Out = TypedDict(
+    "Prv_expedia_ExpediaPackageSearch_Out",
+    {
+    "from": str,
+    "to": str,
+    "departDate": str,
+    "returnDate": str,
+    "adults": float,
+    "packages": list[Prv_expedia_ExpediaPackage_Out],
+    "warnings": list[str],
+    "url": str,
+    },
+)
+
+class Prv_expedia_ExpediaPackage_Out(TypedDict):
+    propertyId: str
+    name: str
+    location: str | None
+    rating: float | None
+    ratingLabel: str | None
+    reviewCount: float | None
+    pricePerTraveler: str | None
+    perTravelerAmount: float | None
+    packageTotal: str | None
+    packageTotalAmount: float | None
+    previousPrice: str | None
+    sponsored: bool
+    url: str
+
 Prv_expedia_ExpediaSearchFlightsArgs_In = TypedDict(
     "Prv_expedia_ExpediaSearchFlightsArgs_In",
     {
@@ -28630,6 +28736,8 @@ class Prv_expedia_ExpediaHotelDetails_Out(TypedDict):
     priceInsight: str | None
     stay: Prv_expedia_ExpediaHotelDetails_Out_stay_Out
     rooms: list[Prv_expedia_ExpediaRoom_Out]
+    calendarPrices: list[Prv_expedia_ExpediaCalendarPrice_Out]
+    warnings: list[str]
     url: str
 
 class Prv_expedia_ExpediaHotelDetails_Out_nearby_item_Out(TypedDict):
@@ -28663,6 +28771,11 @@ class Prv_expedia_ExpediaRoomOption_Out(TypedDict):
     label: str
     extraCost: str | None
 
+class Prv_expedia_ExpediaCalendarPrice_Out(TypedDict):
+    date: str
+    price: str | None
+    amount: float | None
+
 class Prv_expedia_ExpediaSearchHotelsArgs_In(TypedDict):
     destination: str
     checkIn: NotRequired[str]
@@ -28677,6 +28790,7 @@ class Prv_expedia_ExpediaHotelSearch_Out(TypedDict):
     adults: float
     totalResults: float | None
     hotels: list[Prv_expedia_ExpediaHotel_Out]
+    warnings: list[str]
     url: str
 
 class Prv_expedia_ExpediaHotel_Out(TypedDict):
@@ -42810,6 +42924,99 @@ class Prv_lever_LeverSalaryRange_Out(TypedDict):
     max: float | None
     currency: str | None
     interval: str | None
+
+class Prv_lichess_SearchPlayersArgs_In(TypedDict):
+    query: str
+
+class Prv_lichess_searchPlayers_return_Out(TypedDict):
+    players: list[Prv_lichess_LichessPlayerMatch_Out]
+
+class Prv_lichess_LichessPlayerMatch_Out(TypedDict):
+    id: str
+    username: str
+    title: str | None
+    online: bool
+
+class Prv_lichess_UsernameArgs_In(TypedDict):
+    username: str
+
+class Prv_lichess_getUser_return_Out(TypedDict):
+    user: Prv_lichess_LichessUser_Out | None
+
+class Prv_lichess_LichessUser_Out(TypedDict):
+    id: str
+    username: str
+    title: str | None
+    url: str
+    createdAt: str | None
+    seenAt: str | None
+    disabled: bool
+    bio: str | None
+    country: str | None
+    ratings: list[Prv_lichess_LichessRating_Out]
+    games: Prv_lichess_LichessUser_Out_games_u0_Out | None
+    playTimeSeconds: float | None
+
+class Prv_lichess_LichessRating_Out(TypedDict):
+    perf: str
+    rating: float
+    games: float
+    provisional: bool
+
+class Prv_lichess_LichessUser_Out_games_u0_Out(TypedDict):
+    all: float
+    rated: float
+    win: float
+    loss: float
+    draw: float
+
+class Prv_lichess_TopPlayersArgs_In(TypedDict):
+    perf: NotRequired[Literal["ultraBullet"] | Literal["bullet"] | Literal["blitz"] | Literal["rapid"] | Literal["classical"] | Literal["chess960"] | Literal["crazyhouse"] | Literal["antichess"] | Literal["atomic"] | Literal["horde"] | Literal["kingOfTheHill"] | Literal["racingKings"] | Literal["threeCheck"]]
+    limit: NotRequired[float]
+
+class Prv_lichess_topPlayers_return_Out(TypedDict):
+    perf: str
+    players: list[Prv_lichess_LichessTopPlayer_Out]
+
+class Prv_lichess_LichessTopPlayer_Out(TypedDict):
+    id: str
+    username: str
+    title: str | None
+    rating: float
+    progress: float | None
+
+class Prv_lichess_ExportGameArgs_In(TypedDict):
+    id: str
+
+class Prv_lichess_exportGame_return_Out(TypedDict):
+    game: Prv_lichess_LichessGame_Out | None
+
+class Prv_lichess_LichessGame_Out(TypedDict):
+    id: str
+    url: str
+    rated: bool
+    variant: str
+    speed: str
+    status: str
+    winner: Literal["white"] | Literal["black"] | None
+    createdAt: str | None
+    lastMoveAt: str | None
+    white: Prv_lichess_LichessGamePlayer_Out
+    black: Prv_lichess_LichessGamePlayer_Out
+    opening: Prv_lichess_LichessGame_Out_opening_u0_Out | None
+    moves: str
+    pgn: str | None
+
+class Prv_lichess_LichessGamePlayer_Out(TypedDict):
+    username: str | None
+    title: str | None
+    rating: float | None
+    ratingDiff: float | None
+    aiLevel: float | None
+
+class Prv_lichess_LichessGame_Out_opening_u0_Out(TypedDict):
+    eco: str
+    name: str
 
 class Prv_lime_LimeCity_Out(TypedDict):
     name: str
@@ -64608,6 +64815,48 @@ class Prv_soundcloud_ScTrackDetail_Out(TypedDict):
     publisherArtist: str | None
     labelName: str | None
 
+class Prv_soundcloud_getPlayback_input_u1_In(TypedDict):
+    url: str
+
+class Prv_soundcloud_ScPlayback_Out(TypedDict):
+    trackId: float
+    title: str
+    artist: str
+    url: str
+    durationMs: float
+    artworkUrl: str | None
+    live: Literal[False]
+    preview: bool
+    embed: Prv_soundcloud_ScPlayback_Out_embed_Out
+    files: Prv_soundcloud_ScPlayback_Out_files_Out
+    hls: Prv_soundcloud_ScPlayback_Out_hls_u0_Out | None
+    expiresAt: str | None
+    referrer: Literal["any"]
+    warnings: list[str]
+
+class Prv_soundcloud_ScPlayback_Out_embed_Out(TypedDict):
+    url: str
+    hasAds: bool
+    note: str
+
+class Prv_soundcloud_ScPlayback_Out_files_Out(TypedDict):
+    muxed: tuple[()]
+    videoOnly: tuple[()]
+    audioOnly: list[Prv_soundcloud_ScPlayback_Out_files_Out_audioOnly_item_Out]
+
+class Prv_soundcloud_ScPlayback_Out_files_Out_audioOnly_item_Out(TypedDict):
+    url: str
+    mimeType: str
+    codecs: str | None
+    preset: str
+
+class Prv_soundcloud_ScPlayback_Out_hls_u0_Out(TypedDict):
+    url: str
+    live: Literal[False]
+    mimeType: str
+    codecs: str | None
+    audioOnly: Literal[True]
+
 class Prv_soundcloud_ScPlaylist_In(TypedDict):
     id: float
     title: str
@@ -72236,6 +72485,33 @@ class Prv_totalplastics_TotalplasticsQuoteFormField_Out(TypedDict):
     label: str
     required: bool
     options: list[str]
+
+class Prv_toyota_GetModelArgs_In(TypedDict):
+    model: str
+    year: NotRequired[float]
+
+class Prv_toyota_ToyotaModel_Out(TypedDict):
+    modelCode: str
+    name: str
+    year: float
+    categories: list[str]
+    startingMsrp: float | None
+    asShownMsrp: float | None
+    cityMpg: float | None
+    highwayMpg: float | None
+    combinedMpg: float | None
+    economyUnit: str | None
+    seats: float | None
+    powertrainLabel: str | None
+    upcoming: bool
+    pageUrl: str
+    buildUrl: str
+    imageUrl: str | None
+
+class Prv_toyota_ListModelsArgs_In(TypedDict):
+    category: NotRequired[str]
+    year: NotRequired[float]
+    maxMsrp: NotRequired[float]
 
 class Prv_tradingview_SymbolSearchResult_Out(TypedDict):
     symbol: str
@@ -82195,6 +82471,64 @@ class Prv_zepto_ZeptoProduct_Out(TypedDict):
     images: list[str]
     url: str
 
+class Prv_zestlovesproperty_ZestSearchInput_In(TypedDict):
+    location: NotRequired[Literal["bath"] | Literal["bristol"]]
+    department: NotRequired[Literal["student"] | Literal["residential"]]
+    availability: NotRequired[Literal["to_let"] | Literal["let_agreed"] | Literal["any"]]
+    page: NotRequired[float]
+
+class Prv_zestlovesproperty_ZestSearchResult_Out(TypedDict):
+    total: float
+    page: float
+    pages: float
+    listings: list[Prv_zestlovesproperty_ZestSearchRow_Out]
+
+class Prv_zestlovesproperty_ZestSearchRow_Out(TypedDict):
+    id: float
+    slug: str
+    link: str
+    title: str
+    status: Literal["available"] | Literal["let_agreed"] | Literal["removed"] | Literal["not_found"]
+    status_label: str
+    department: Literal["student"] | Literal["residential"] | None
+    property_type: str | None
+    location: str | None
+    summary: str
+
+class Prv_zestlovesproperty_ZestListingInput_In(TypedDict):
+    listing: str | float
+
+class Prv_zestlovesproperty_ZestListing_Out(TypedDict):
+    status: Literal["available"] | Literal["let_agreed"] | Literal["removed"] | Literal["not_found"]
+    status_label: str | None
+    url: str
+    id: float | None
+    slug: str | None
+    title: str | None
+    address: Prv_zestlovesproperty_ZestListing_Out_address_u0_Out | None
+    property_type: str | None
+    listing_type: Literal["student"] | Literal["residential"] | None
+    bedrooms: float | None
+    bathrooms: float | None
+    receptions: float | None
+    furnished: str | None
+    price_amount: float | None
+    price_currency: str | None
+    price_display: str | None
+    rent_frequency: Literal["Monthly"] | Literal["Weekly"] | None
+    features: list[str]
+    summary: str | None
+    latitude: float | None
+    longitude: float | None
+    images: list[str]
+    date_posted: str | None
+
+class Prv_zestlovesproperty_ZestListing_Out_address_u0_Out(TypedDict):
+    street: str | None
+    locality: str | None
+    region: str | None
+    postcode: str | None
+
 class Prv_zillow_SearchLocationsArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -85321,6 +85655,32 @@ class Prv_accuweather(Protocol):
         Shade, wind, gusts, precipitation chance and type, cloud cover, UV, the Sun & Moon
         rise/set times, and the Temperature History table (forecast vs. average, last year and
         the record).
+        """
+
+class Prv_acehardware(Protocol):
+    """Ace Hardware (acehardware.com) — search the hardware catalog with live prices, read one
+    product, find Ace stores near a ZIP, and check a product's in-stock count at a specific
+    store.
+    """
+
+    async def searchProducts(self, args: Prv_acehardware_AcehardwareSearchArgs_In, /) -> Prv_acehardware_AcehardwareSearchResult_Out:
+        """Runs Ace Hardware's own product search and returns matching products with live list and
+        sale price, product code, UPC, manufacturer part number and the product URL.
+        """
+
+    async def getProduct(self, args: Prv_acehardware_AcehardwareProductArgs_In, /) -> Prv_acehardware_AcehardwareProduct_Out:
+        """Reads one Ace Hardware product by product code or URL: name, description, live price,
+        images, UPC, part number and fulfillment options.
+        """
+
+    async def findStores(self, args: Prv_acehardware_AcehardwareFindStoresArgs_In, /) -> list[Prv_acehardware_AcehardwareStore_Out]:
+        """Finds Ace Hardware stores near a US ZIP code (or lat/lng), nearest first, with store
+        code, address and phone — the storeCode getStoreInventory takes.
+        """
+
+    async def getStoreInventory(self, args: Prv_acehardware_AcehardwareInventoryArgs_In, /) -> Prv_acehardware_AcehardwareInventory_Out:
+        """Checks whether one Ace Hardware product is in stock at one store, and how many units the
+        store shows available.
         """
 
 class Prv_acerentacar(Protocol):
@@ -96212,9 +96572,12 @@ class Prv_doordash(Protocol):
         """
 
     async def search(self, args: Prv_doordash_DoordashSearchArgs_In, /) -> list[Prv_doordash_DoordashSearchResult_Out]:
-        """Runs DoorDash's own store search for a free-text query and returns real,
+        """Runs DoorDash's own store search for a cuisine, dish or store and returns real,
         currently-listed stores with DoorDash's own advertised delivery fee, rating and ETA.
-        Read-only.
+        Pass `address` ("San Francisco, CA" or a street address) for stores delivering THERE: A
+        query ending in a city and US state ("pad thai austin tx") is read the same way. A bare
+        city with no state is refused rather than guessed. Without either, DoorDash answers for
+        Bowmark's own exit. Read-only.
         """
 
     async def getStore(self, args: Prv_doordash_getStore_args_In, /) -> Prv_doordash_DoordashStore_Out:
@@ -97881,6 +98244,16 @@ class Prv_expedia(Protocol):
     amenities and Expedia link.
     """
 
+    async def searchPackages(self, args: Prv_expedia_ExpediaSearchPackagesArgs_In, /) -> Prv_expedia_ExpediaPackageSearch_Out:
+        """Runs Expedia's own flight + hotel package search —
+        `bowmark.providers.expedia.searchPackages({ from: "LAX", to: "Cancun", departDate:
+        "2026-12-10", returnDate: "2026-12-15", adults: 2 })` — and returns the vacation
+        packages its first results page lists: hotel, guest rating, review count, the bundled
+        price per traveller (round-trip flight plus stay) and the whole package total, plus the
+        results `url` to pick a flight and book on Expedia (Bowmark never books). One plain
+        request, a few seconds.
+        """
+
     async def searchFlights(self, args: Prv_expedia_ExpediaSearchFlightsArgs_In, /) -> Prv_expedia_ExpediaFlightSearch_Out:
         """Runs Expedia's own flight search — `bowmark.providers.expedia.searchFlights({ from:
         "SFO", to: "LHR", departDate: "2026-12-16" })`, add `returnDate` for a round trip — and
@@ -97899,10 +98272,13 @@ class Prv_expedia(Protocol):
         """Opens one Expedia hotel page — `bowmark.providers.expedia.getHotelDetails({ url })` with
         the `url` a `searchHotels` hotel carries (its dates ride along) — and returns the
         property: name, star class, guest rating and review count, address, highlights,
-        amenities, check-in/out, pet, fee and other policies, nearby places, and every room type
-        with size, beds, sleeps, total and nightly price, discount, cancellation options and
-        add-ons, or `soldOut`. Bowmark never books: to reserve, the person opens the returned
-        `url` and picks the room on Expedia. A real browser load, expect 30-60 s.
+        amenities, check-in/out, pet, fee and other policies, nearby places, the date picker's
+        nightly prices per date when the page carries them (`calendarPrices`), and every room
+        type with size, beds, sleeps, total and nightly price, discount, cancellation options
+        and add-ons, or `soldOut`. Usually one plain request, a few seconds; then `rooms` may be
+        empty with a `warnings` line saying the room list was not read (it is NOT sold out).
+        Bowmark never books: to reserve, the person opens the returned `url` and picks the room
+        on Expedia.
         """
 
     async def searchHotels(self, args: str | Prv_expedia_ExpediaSearchHotelsArgs_In, /) -> Prv_expedia_ExpediaHotelSearch_Out:
@@ -97911,8 +98287,9 @@ class Prv_expedia(Protocol):
         returns the hotels its first results page lists, in Expedia's order (paid placements
         flagged `sponsored`): name, total price for the stay with taxes, nightly price, guest
         rating out of 10, review count, amenities, free cancellation and the property's Expedia
-        link with the dates. Dates default to two nights starting 14 days out. A real browser
-        load, so expect 30-60 s.
+        link with the dates. Dates default to two nights starting 14 days out. Usually one plain
+        request (a few seconds, the first few hotels); a browser load (30-60 s) when Expedia
+        walls it.
         """
 
     async def signup(self, args: Any, /) -> Prv_expedia_signup_return_u0_Out | Prv_expedia_signup_return_u1_Out | Prv_expedia_signup_return_u2_Out | Prv_expedia_signup_return_u3_Out:
@@ -100596,8 +100973,8 @@ class Prv_gitlab(Protocol):
     """
 
     async def searchProjects(self, args: Prv_gitlab_GitlabProjectSearchArgs_In, /) -> list[Prv_gitlab_GitlabProject_Out]:
-        """Find public GitLab projects by name or description. Pass the returned pathWithNamespace
-        to getProject, searchIssues, or searchMergeRequests.
+        """Find public GitLab projects by name or description, most-starred first. Pass the
+        returned pathWithNamespace to getProject, searchIssues, or searchMergeRequests.
         """
 
     async def getProject(self, project: str, /) -> Prv_gitlab_GitlabProject_Out:
@@ -105900,6 +106277,34 @@ class Prv_lever(Protocol):
         name ("spotify"), any jobs.lever.co URL, or the company name ("Spotify"). Throws,
         caller-fixable, when Lever has no site by that name — the company may use a different
         ATS (`bowmark.job_search.atCompany` finds which).
+        """
+
+class Prv_lichess(Protocol):
+    """Lichess (lichess.org), the free open-source chess site: look up a player's ratings and
+    record, search players by name, read the leaderboards, and export a game's moves and
+    PGN.
+    """
+
+    async def searchPlayers(self, args: Prv_lichess_SearchPlayersArgs_In, /) -> Prv_lichess_searchPlayers_return_Out:
+        """Finds Lichess players whose username starts with query (at least 3 characters), up to
+        12. The way in when you only have a name: pass a result's username to getUser.
+        """
+
+    async def getUser(self, args: Prv_lichess_UsernameArgs_In, /) -> Prv_lichess_getUser_return_Out:
+        """A Lichess player's public profile: title, ratings per time control/variant (only ones
+        they have played, most-played first), win/loss/draw counts, join and last-seen dates,
+        bio and flag. user is null when no such account exists.
+        """
+
+    async def topPlayers(self, args: Prv_lichess_TopPlayersArgs_In | None = None, /) -> Prv_lichess_topPlayers_return_Out:
+        """The Lichess leaderboard for one time control or variant (default "blitz"), highest rated
+        first, limit 1-200 (default 10).
+        """
+
+    async def exportGame(self, args: Prv_lichess_ExportGameArgs_In, /) -> Prv_lichess_exportGame_return_Out:
+        """One Lichess game by id or URL: both players with ratings and rating change, result,
+        status, opening (ECO + name), the moves in SAN and the full PGN. game is null when the
+        id does not exist.
         """
 
 class Prv_lime(Protocol):
@@ -117649,6 +118054,15 @@ class Prv_soundcloud(Protocol):
         specific track, so a wrong object would be worse than an error.
         """
 
+    async def getPlayback(self, input: str | Prv_soundcloud_getPlayback_input_u1_In, /) -> Prv_soundcloud_ScPlayback_Out:
+        """Every way to play one soundcloud.com track: SoundCloud's own widget (`embed.url`) and
+        its stream, `hls` (an AAC HLS playlist, signed, ~2 h, plays from any address) plus any
+        plain file in `files.audioOnly`. The HLS answers with no CORS header, so a page's own
+        fetch cannot read it; Bowmark Buddy's player plays it through the person's Chrome.
+        `preview: true` is a Go+ track's 30 s preview; an encrypted-only (DRM) track comes back
+        with only the embed and a warning. Same JSON API, no browser, ~1-3 s.
+        """
+
     async def getPlaylist(self, playlist: str | Prv_soundcloud_ScPlaylist_In, limit: float | None = None, /) -> Prv_soundcloud_ScPlaylist_Out:
         """Reads a SoundCloud set URL — `soundcloud.com/<account>/sets/<name>`, a playlist, album,
         EP or compilation — and returns the set plus its tracks IN THE CURATOR'S ORDER, which is
@@ -121284,6 +121698,21 @@ class Prv_totalplastics(Protocol):
         """Reads one named field off the live "Request a Quote" form — e.g. "Material Type" or
         "Annual Plastics Spend" — and returns its option list, so a caller can pick a valid
         value before submitting.
+        """
+
+class Prv_toyota(Protocol):
+    """Toyota's US lineup from toyota.com — every model and year with starting MSRP, MPG,
+    seating and its build-and-price link.
+    """
+
+    async def getModel(self, args: Prv_toyota_GetModelArgs_In, /) -> list[Prv_toyota_ToyotaModel_Out]:
+        """One Toyota model by name (Camry, RAV4, Tacoma…) — every model year on sale with starting
+        MSRP, as-shown MSRP, MPG, seats and build-and-price URL.
+        """
+
+    async def listModels(self, args: Prv_toyota_ListModelsArgs_In | None = None, /) -> list[Prv_toyota_ToyotaModel_Out]:
+        """Toyota's current US lineup — cars, SUVs, trucks, hybrids and EVs — with starting MSRP
+        and MPG, filterable by category, year and max price.
         """
 
 class Prv_tradingview(Protocol):
@@ -126625,6 +127054,26 @@ class Prv_zepto(Protocol):
         brand, selling price and MRP in rupees, stock, pack size, category, rating and images.
         """
 
+class Prv_zestlovesproperty(Protocol):
+    """Zest (zestlovesproperty.com), a Bath and Bristol letting agent: list its student and
+    residential properties to rent and read one letting listing (status, address, bedrooms,
+    bathrooms, rent).
+    """
+
+    async def searchLettings(self, input: Prv_zestlovesproperty_ZestSearchInput_In | None = None, /) -> Prv_zestlovesproperty_ZestSearchResult_Out:
+        """Lists Zest's Bath and Bristol properties to rent (student and residential lets) by
+        location, department and to_let / let_agreed (default to_let), 100 per page; total/pages
+        count before the department filter. The entry point: each row's slug, id or link feeds
+        getListing.
+        """
+
+    async def getListing(self, input: Prv_zestlovesproperty_ZestListingInput_In, /) -> Prv_zestlovesproperty_ZestListing_Out:
+        """Reads one Zest letting listing by its link, slug (last part of the link) or id: status
+        (available, let_agreed, removed — off the market but still shown — or not_found, which
+        includes sales listings), address, property type, bedrooms, bathrooms, rent, features
+        and images.
+        """
+
 class Prv_zillow(Protocol):
     """Zillow, the US home listing site: search homes for sale, for rent and sold by city or
     ZIP, with price, beds, baths, Zestimate and listing agent; look up places, current
@@ -126823,6 +127272,7 @@ class BowmarkProviders(Protocol):
     abt: Prv_abt
     accommodationforstudents: Prv_accommodationforstudents
     accuweather: Prv_accuweather
+    acehardware: Prv_acehardware
     acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
     acqualinaresort: Prv_acqualinaresort
@@ -127296,6 +127746,7 @@ class BowmarkProviders(Protocol):
     legacyhomesal: Prv_legacyhomesal
     letterboxd: Prv_letterboxd
     lever: Prv_lever
+    lichess: Prv_lichess
     lime: Prv_lime
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
@@ -127621,6 +128072,7 @@ class BowmarkProviders(Protocol):
     topcashback: Prv_topcashback
     topviewtix: Prv_topviewtix
     totalplastics: Prv_totalplastics
+    toyota: Prv_toyota
     tradingview: Prv_tradingview
     travelinsured: Prv_travelinsured
     travelodge: Prv_travelodge
@@ -127720,6 +128172,7 @@ class BowmarkProviders(Protocol):
     zennioptical: Prv_zennioptical
     zenoti: Prv_zenoti
     zepto: Prv_zepto
+    zestlovesproperty: Prv_zestlovesproperty
     zillow: Prv_zillow
     zoom: Prv_zoom
     zoopla: Prv_zoopla

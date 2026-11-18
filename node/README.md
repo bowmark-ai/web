@@ -121,15 +121,15 @@ const polled = await run(`return bowmark.browser_agent.status("${id}", { waitMs:
 ```
 
 **`run()` is designed for agents, not for you.** If you're writing code in your editor,
-use `session()` instead. For **reading a page** — fetching and parsing HTML — use the
-`read.page()` capability from within a `session()` callback:
+use `session()` instead, with one exception: **reading a page**. `read.page`, `read.pages`,
+`browser_agent` and `web_form_fields` cannot run inside a `session()` (each call there is
+refused with `rung_undeclared`), so call them through `run()`:
 
 ```ts
-import { session } from "@bowmark/web";
+import { run } from "@bowmark/web";
 
-const parsed = await session(async (bm) => {
-  return await bm.read.page(url);  // fetches and parses the page
-}, { apiKey: "bmk_…" });
+const res = await run(`return bowmark.read.page(${JSON.stringify(url)})`, { apiKey: "bmk_…" });
+const page = res.result; // { status, text, … }
 ```
 
 ### Signing in — `login()`, `{ connection }`, and `bm.connections.*`
