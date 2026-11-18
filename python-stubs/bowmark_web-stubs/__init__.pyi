@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 43b8b954f78be0c57f3cd9374ab2377cf412e666a4dd859ea23bcff0f664862c
-# 98 capabilities, 913 providers, 5471 typed functions, 20 refused.
+# Manifest version: e62ab3c79b18519af378541497a54da6cecf185da4a9c3188c0ddbb69780e79f
+# 98 capabilities, 916 providers, 5482 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22017,6 +22017,7 @@ class Prv_dailymotion_DailymotionPlayback_Out(TypedDict):
     files: Prv_dailymotion_DailymotionPlayback_Out_files_Out
     expiresAt: str | None
     referrer: str
+    hls: Prv_dailymotion_DailymotionPlayback_Out_hls_u0_Out | None
     warnings: list[str]
 
 class Prv_dailymotion_DailymotionPlayback_Out_embed_u0_Out(TypedDict):
@@ -22040,6 +22041,11 @@ class Prv_dailymotion_DailymotionPlaybackFile_Out(TypedDict):
     bitrate: float | None
     bytes: float | None
     qualityLabel: str | None
+
+class Prv_dailymotion_DailymotionPlayback_Out_hls_u0_Out(TypedDict):
+    url: str
+    live: bool
+    boundTo: Literal["reader"]
 
 class Prv_dailymotion_DailymotionStreamFormatsResult_Out(TypedDict):
     video: str
@@ -39988,6 +39994,45 @@ class Prv_instagram_InstagramPost_Out(TypedDict):
     commentCount: float
     takenAt: str
 
+class Prv_instagram_getPlayback_input_u1_In(TypedDict):
+    video: NotRequired[str]
+    url: NotRequired[str]
+    shortcode: NotRequired[str]
+
+class Prv_instagram_InstagramPlayback_Out(TypedDict):
+    videoId: str
+    title: str | None
+    durationMs: float | None
+    live: Literal[False]
+    embed: Prv_instagram_InstagramPlayback_Out_embed_Out
+    files: Prv_instagram_InstagramPlayback_Out_files_Out
+    hls: None
+    expiresAt: str | None
+    referrer: Literal["any"]
+    warnings: list[str]
+
+class Prv_instagram_InstagramPlayback_Out_embed_Out(TypedDict):
+    url: str
+    hasAds: Literal[False]
+    note: str
+
+class Prv_instagram_InstagramPlayback_Out_files_Out(TypedDict):
+    muxed: list[Prv_instagram_InstagramPlaybackFile_Out]
+    videoOnly: tuple[()]
+    audioOnly: tuple[()]
+
+class Prv_instagram_InstagramPlaybackFile_Out(TypedDict):
+    itag: None
+    url: str
+    mimeType: Literal["video/mp4"]
+    codecs: None
+    width: float | None
+    height: float | None
+    fps: None
+    bitrate: None
+    bytes: None
+    qualityLabel: str | None
+
 class Prv_instagram_getPost_input_u1_In(TypedDict):
     url: NotRequired[str]
     shortcode: NotRequired[str]
@@ -44618,6 +44663,7 @@ class Prv_mango_MangoSearchResult_Out(TypedDict):
     currency: str
     category: Prv_mango_MangoCategory_Out
     totalInCategory: float
+    productsInCategory: float | None
     offset: float
     scanned: float
     hits: list[Prv_mango_MangoProduct_Out]
@@ -46395,6 +46441,26 @@ class Prv_menards_MenardsProduct_Out(TypedDict):
     availableForPickup: bool | None
     imageUrl: str | None
     url: str
+
+class Prv_mensjournal_LatestArticlesArgs_In(TypedDict):
+    query: NotRequired[str]
+    category: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_mensjournal_LatestArticles_Out(TypedDict):
+    articles: list[Prv_mensjournal_MensJournalArticle_Out]
+    total: float
+    feedSize: float
+
+class Prv_mensjournal_MensJournalArticle_Out(TypedDict):
+    title: str
+    url: str
+    summary: str | None
+    author: str | None
+    published: str | None
+    categories: list[str]
+    imageUrl: str | None
+    text: str
 
 class Prv_mercari_search_query_u1_In(TypedDict):
     query: str
@@ -52660,6 +52726,41 @@ class Prv_partsgeek_PartsgeekMakeCatalog_Out_partCategories_item_Out(TypedDict):
     slug: str
     url: str
 
+class Prv_partsgeek_addToCart_arg0_In(TypedDict):
+    query: str
+    productId: str
+    quantity: NotRequired[float]
+
+class Prv_partsgeek_PartsgeekCart_Out(TypedDict):
+    items: list[Prv_partsgeek_PartsgeekCartLine_Out]
+    amounts: list[Prv_partsgeek_PartsgeekAmount_Out]
+    total: float | None
+    url: str
+
+class Prv_partsgeek_PartsgeekCartLine_Out(TypedDict):
+    lineId: str | None
+    title: str
+    brand: str | None
+    vehicle: str | None
+    sku: str | None
+    note: str | None
+    price: float | None
+    quantity: float
+    imageUrl: str | None
+
+class Prv_partsgeek_PartsgeekAmount_Out(TypedDict):
+    id: str
+    name: str
+    value: float | str
+
+class Prv_partsgeek_PartsgeekCheckout_Out(TypedDict):
+    items: list[Prv_partsgeek_PartsgeekCartLine_Out]
+    amounts: list[Prv_partsgeek_PartsgeekAmount_Out]
+    total: float | None
+    url: str
+    available: bool
+    shipping: Mapping[str, str]
+
 class Prv_partsgeek_searchParts_arg0_In(TypedDict):
     query: str
     page: NotRequired[float]
@@ -52684,6 +52785,24 @@ class Prv_partsgeek_PartsgeekPart_Out(TypedDict):
     fits: list[str]
     productId: str | None
     imageUrl: str | None
+
+class Prv_partsgeek_PartsgeekShippingArgs_In(TypedDict):
+    email: str
+    firstName: str
+    lastName: str
+    street: str
+    street2: NotRequired[str]
+    city: str
+    state: str
+    zip: str
+    country: NotRequired[str]
+    phone: str
+
+class Prv_partsgeek_PartsgeekShippingUpdate_Out(TypedDict):
+    ok: bool
+    message: str | None
+    missingFields: Mapping[str, str]
+    amounts: list[Prv_partsgeek_PartsgeekAmount_Out]
 
 class Prv_patreon_SearchCreatorsArgs_In(TypedDict):
     query: str
@@ -68251,7 +68370,7 @@ class Prv_studenthomes_net_StudentHomesListing_Out(TypedDict):
     heading: str | None
     priceAmount: float | None
     priceFrequency: Literal["pppw"]
-    billsIncluded: bool
+    billsIncluded: bool | None
     price: Prv_studenthomes_net_StudentHomesPrice_Out
     bedrooms: float | None
     bathrooms: float | None
@@ -68296,7 +68415,8 @@ class Prv_studenthomes_net_StudentHomesListingSummary_Out(TypedDict):
     features: list[str]
     priceAmount: float | None
     weeklyPerPersonExclBills: float | None
-    billsIncluded: bool
+    weeklyPerPersonInclBills: float | None
+    billsIncluded: None
     monthlyTotalInclBills: float | None
     deposit: float | None
     image: str | None
@@ -71523,6 +71643,44 @@ class Prv_tiktok_tiktokProfile_Out(TypedDict):
     isOrganization: bool
     category: NotRequired[str]
 
+class Prv_tiktok_getPlayback_args_In(TypedDict):
+    video: str
+
+class Prv_tiktok_tiktokPlayback_Out(TypedDict):
+    videoId: str
+    title: str | None
+    durationMs: float | None
+    live: Literal[False]
+    embed: Prv_tiktok_tiktokPlayback_Out_embed_Out
+    files: Prv_tiktok_tiktokPlayback_Out_files_Out
+    hls: None
+    expiresAt: str | None
+    referrer: Literal["https://www.tiktok.com/"]
+    cookie: str | None
+    warnings: list[str]
+
+class Prv_tiktok_tiktokPlayback_Out_embed_Out(TypedDict):
+    url: str
+    hasAds: Literal[False]
+    note: str
+
+class Prv_tiktok_tiktokPlayback_Out_files_Out(TypedDict):
+    muxed: list[Prv_tiktok_tiktokPlaybackFile_Out]
+    videoOnly: tuple[()]
+    audioOnly: tuple[()]
+
+class Prv_tiktok_tiktokPlaybackFile_Out(TypedDict):
+    itag: None
+    url: str
+    mimeType: str
+    codecs: str | None
+    width: float | None
+    height: float | None
+    fps: float | None
+    bitrate: float | None
+    bytes: float | None
+    qualityLabel: str | None
+
 class Prv_tiktok_GetVideoArgs_In(TypedDict):
     video: str
     lite: NotRequired[bool]
@@ -73398,6 +73556,67 @@ class Prv_trueup_TrueupSearchResult_Out_locations_item_Out(TypedDict):
     name: str
     count: float
 
+class Prv_trulia_searchHomes_args_u1_In(TypedDict):
+    location: str
+    listingType: NotRequired[Literal["for_sale"] | Literal["for_rent"] | Literal["sold"]]
+    page: NotRequired[float]
+
+class Prv_trulia_TruliaSearchResult_Out(TypedDict):
+    location: str
+    listingType: Literal["for_sale"] | Literal["for_rent"] | Literal["sold"]
+    page: float
+    totalHomes: NotRequired[float]
+    homes: list[Prv_trulia_TruliaHomeSummary_Out]
+    url: str
+
+class Prv_trulia_TruliaHomeSummary_Out(TypedDict):
+    url: str
+    kind: str
+    address: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
+    zip: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    price: NotRequired[float]
+    priceText: NotRequired[str]
+    beds: NotRequired[str]
+    baths: NotRequired[str]
+    floorSpace: NotRequired[str]
+    lotSize: NotRequired[str]
+    tags: list[str]
+    listingType: NotRequired[str]
+
+class Prv_trulia_TruliaHome_Out(TypedDict):
+    url: str
+    address: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
+    zip: NotRequired[str]
+    neighborhood: NotRequired[str]
+    status: NotRequired[str]
+    price: NotRequired[float]
+    priceText: NotRequired[str]
+    beds: NotRequired[str]
+    baths: NotRequired[str]
+    floorSpace: NotRequired[str]
+    lotSize: NotRequired[str]
+    propertyType: NotRequired[str]
+    description: NotRequired[str]
+    highlights: Mapping[str, str]
+    features: Mapping[str, Mapping[str, str]]
+    priceHistory: list[Prv_trulia_TruliaPriceEvent_Out]
+    listingAgent: NotRequired[str]
+    broker: NotRequired[str]
+    dateListed: NotRequired[str]
+    photos: list[str]
+
+class Prv_trulia_TruliaPriceEvent_Out(TypedDict):
+    date: NotRequired[str]
+    event: NotRequired[str]
+    price: NotRequired[float]
+    source: NotRequired[str]
+
 class Prv_trustpilot_TrustpilotGetCompanyArgs_In(TypedDict):
     domain: str
 
@@ -74066,6 +74285,35 @@ class Prv_twitch_TwitchStream_Out(TypedDict):
     gameName: str | None
     viewerCount: float | None
     startedAt: str | None
+
+class Prv_twitch_getPlayback_args_In(TypedDict):
+    video: str
+
+class Prv_twitch_TwitchPlayback_Out(TypedDict):
+    kind: Literal["channel"] | Literal["vod"]
+    id: str
+    title: str | None
+    live: bool
+    durationMs: float | None
+    files: Prv_twitch_TwitchPlayback_Out_files_Out
+    hls: Prv_twitch_TwitchPlayback_Out_hls_u0_Out | None
+    embed: Prv_twitch_TwitchPlayback_Out_embed_Out
+    expiresAt: str | None
+    warnings: list[str]
+
+class Prv_twitch_TwitchPlayback_Out_files_Out(TypedDict):
+    muxed: list[Any]
+    videoOnly: list[Any]
+    audioOnly: list[Any]
+
+class Prv_twitch_TwitchPlayback_Out_hls_u0_Out(TypedDict):
+    url: str
+    live: bool
+
+class Prv_twitch_TwitchPlayback_Out_embed_Out(TypedDict):
+    url: str
+    hasAds: Literal[True]
+    note: str
 
 class Prv_twitch_ListLiveStreamsArgs_In(TypedDict):
     category: NotRequired[str]
@@ -76272,6 +76520,46 @@ class Prv_voluspa_VoluspaQuizButton_Out(TypedDict):
     action: str
     url: NotRequired[str]
     selectedValue: NotRequired[str]
+
+class Prv_vrbo_VrboSearchArgs_In(TypedDict):
+    destination: str
+    checkIn: NotRequired[str]
+    checkOut: NotRequired[str]
+    adults: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_vrbo_VrboSearch_Out(TypedDict):
+    destination: str
+    region: str | None
+    checkIn: str
+    checkOut: str
+    adults: float
+    totalResults: float | None
+    rentals: list[Prv_vrbo_VrboRental_Out]
+    url: str
+    warnings: list[str]
+
+class Prv_vrbo_VrboRental_Out(TypedDict):
+    id: str
+    kind: Literal["home"] | Literal["lodging"]
+    name: str
+    url: str
+    highlight: str | None
+    details: str | None
+    propertyType: str | None
+    bedrooms: float | None
+    amenities: list[str]
+    rating: float | None
+    ratingLabel: str | None
+    reviewCount: float | None
+    nightlyPrice: str | None
+    previousPrice: str | None
+    totalPrice: str | None
+    totalAmount: float | None
+    nights: float | None
+    feesIncluded: bool
+    cancellation: str | None
+    sponsored: bool
 
 class Prv_vscode_VscodeDoc_Out(TypedDict):
     url: str
@@ -81547,6 +81835,7 @@ class Prv_youtube_YoutubeSearchVideo_Out(TypedDict):
     title: str
     channel: str | None
     channelId: str | None
+    channelHandle: str | None
     published: str | None
     publishedAgeSeconds: float | None
     length: str | None
@@ -81963,6 +82252,7 @@ class Prv_youtube_YoutubePlaylistVideo_Out(TypedDict):
     title: str
     channelId: str | None
     channelTitle: str | None
+    channelHandle: str | None
     views: str | None
     published: str | None
     publishedAgeSeconds: float | None
@@ -84476,7 +84766,10 @@ class Cap_read(Protocol):
         Next.js data) instead of parsing `{ format: "html" }`. RUN-ONLY: because how each page
         is loaded is decided per call, neither `session()` nor the bare top-level `bowmark`
         client (which opens a session internally, even for one call) can serve this — both are
-        refused with code "rung_undeclared". Call it through `run()` instead.
+        refused with code "rung_undeclared". Call it through `run()` instead. CONTENT IS CAPPED
+        at 200,000 characters by default: a longer page comes back cut, with `truncated: true`
+        and status `partial`. Pass `{ maxChars }` to raise it, or read `result.structured` for
+        the page's tables and JSON-LD.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -85209,7 +85502,10 @@ class Cap_web_form_fields(Protocol):
         picker is read as one `type: "date"` field per visible month, carrying the month and
         year — each option's `value` is a real ISO date (`"2026-10-06"`), never the bare
         day-of-month a day button displays — plus a `type: "dateNav"` field naming its
-        prev/next-month controls when the calendar has more than one visible month.
+        prev/next-month controls when the calendar has more than one visible month. A booking
+        calendar of time-slot buttons (pick a time, no fields) has no form fields, so it comes
+        back empty with a "no form elements" warning: read its slots with
+        `bowmark.browser_agent` (billed) instead.
         """
 
     async def fillForm(self, url: str, values: Mapping[str, str], options: Cap_web_form_fields_FormFillOptions_In | None = None, /) -> Cap_web_form_fields_FormFillResult_Out:
@@ -85223,32 +85519,37 @@ class Cap_web_form_fields(Protocol):
         ordinary, intended use of `submit: true` — confirm the message with the caller once,
         then send it; do not refuse it by default. Ask before submitting only when the form is
         binding or irreversible (a payment, a booking, a contract, an application) or would send
-        more than the caller authorized. One call is one step — call it again with the next
-        step's `values` to walk a wizard forward, unless that step depends on a session the
-        earlier call held (see below). `advanced` is true only when the click, or a value
-        written with no control to click (a dropdown whose choice renders the next step), moved
-        the page to a different step — its fields or step label changed, or the URL changed with
-        new text — and a click that left the same form showing comes back `advanced: false` with
-        a warning naming the step it is still on. Each call opens the page afresh, so a step
-        held only by an earlier call's session does not carry over: on one checkout (measured
-        2026-11-11) the next call read the blank address form again on a new token. The `url`
-        the call returned is the only state it hands back, so check `advanced` before reading a
-        later step as the answer. `notFound` names any `values` key that was not set, so a
-        caller who guessed a label wrong sees that rather than silence; when the key DID match a
-        field that could not be set (disabled until an earlier choice, no option matching the
-        value), a warning names the field and the reason. A pop-up menu with no text box (a
-        select-only combobox) is opened and the option matching the value is clicked — never a
-        default one. When a click registers, `resultContent` carries what the site answered back
-        — a matched branch, a calculated price, a stock status — read off the destination page
-        or widget and capped at 4000 characters; `null` when neither `submit` nor `advance` was
-        requested or the click never registered. **Two ways it falls short, and neither is fixed
-        by calling again with the same values.** On a page with several forms, keys are matched
-        against every field on the page, so a key can land in a DIFFERENT form than the one you
-        meant (a site search, a tracking-number box) and still be listed in `filled`, and a
-        submit then answers for that form: check `resultContent` reads like the answer you asked
-        for. And a calculator `getFields` listed may still refuse values (fields built from
-        custom controls, or swapped out as you type): those keys come back in `notFound` or a
-        warning. For either, `bowmark.browser_agent` (billed) operates the page like a person.
+        more than the caller authorized. Treat a step as binding when its submit button or
+        heading says so: "Buy", "Pay", "Place order", "Book now", "Confirm booking", "Sign",
+        "Apply now", "kostenpflichtig bestellen", "Jetzt abschließen" (HanseMerkur's insurance
+        wizard, which concludes a contract), or a page asking for payment details, a signature
+        or acceptance of contract terms. On such a step, stop with `submit: false` and ask the
+        caller. One call is one step — call it again with the next step's `values` to walk a
+        wizard forward, unless that step depends on a session the earlier call held (see below).
+        `advanced` is true only when the click, or a value written with no control to click (a
+        dropdown whose choice renders the next step), moved the page to a different step — its
+        fields or step label changed, or the URL changed with new text — and a click that left
+        the same form showing comes back `advanced: false` with a warning naming the step it is
+        still on. Each call opens the page afresh, so a step held only by an earlier call's
+        session does not carry over: on one checkout (measured 2026-11-11) the next call read
+        the blank address form again on a new token. The `url` the call returned is the only
+        state it hands back, so check `advanced` before reading a later step as the answer.
+        `notFound` names any `values` key that was not set, so a caller who guessed a label
+        wrong sees that rather than silence; when the key DID match a field that could not be
+        set (disabled until an earlier choice, no option matching the value), a warning names
+        the field and the reason. A pop-up menu with no text box (a select-only combobox) is
+        opened and the option matching the value is clicked — never a default one. When a click
+        registers, `resultContent` carries what the site answered back — a matched branch, a
+        calculated price, a stock status — read off the destination page or widget and capped at
+        4000 characters; `null` when neither `submit` nor `advance` was requested or the click
+        never registered. **Two ways it falls short, and neither is fixed by calling again with
+        the same values.** On a page with several forms, keys are matched against every field on
+        the page, so a key can land in a DIFFERENT form than the one you meant (a site search, a
+        tracking-number box) and still be listed in `filled`, and a submit then answers for that
+        form: check `resultContent` reads like the answer you asked for. And a calculator
+        `getFields` listed may still refuse values (fields built from custom controls, or
+        swapped out as you type): those keys come back in `notFound` or a warning. For either,
+        `bowmark.browser_agent` (billed) operates the page like a person.
         """
 
 class Cap_wireless(Protocol):
@@ -91374,17 +91675,21 @@ class Prv_campspot(Protocol):
     """
 
     async def findCampgrounds(self, region: str, /) -> list[Prv_campspot_CampspotCampgroundSummary_Out]:
-        """Given a free-text region (a US state, a Canadian province, or a Campspot "near
-        <city>"/"near <national park>" area), returns the campgrounds from Campspot's own
-        curated directory page for that region — a small curated list of ~10 highlights per US
-        state, not an exhaustive marketplace catalog. A real Campspot customer not on this
-        curated list may still exist on the platform; use a direct park-name search for
-        comprehensive matching.
+        """Given a free-text region (a US state or Canadian province by full name, such as "Texas",
+        or one of Campspot's own "near <city>"/"near <national park>" areas; a bare "City, ST"
+        usually matches nothing, and the error lists the regions on offer), returns the
+        campgrounds from Campspot's own curated directory page for that region — a small curated
+        list of ~10 highlights per US state, not an exhaustive marketplace catalog. A real
+        Campspot customer not on this curated list may still exist on the platform; use a direct
+        park-name search for comprehensive matching.
         """
 
     async def getCampground(self, url: str, /) -> Prv_campspot_CampspotCampground_Out:
         """Given a campspot.com/park/<slug> url from findCampgrounds, returns that campground's own
-        published listing.
+        published listing. Its `priceRange` and `offers` are the listing's UNDATED advertised
+        range and base prices, not a rate for any stay, so do not compare them with another
+        site's dated price. For a dated rate and availability use
+        `bowmark.sites["campspot.com"].check_availability`.
         """
 
 class Prv_canadacomputers(Protocol):
@@ -95034,8 +95339,9 @@ class Prv_dailymotion(Protocol):
     async def getPlayback(self, video: str, /) -> Prv_dailymotion_DailymotionPlayback_Out:
         """The playable menu for one Dailymotion video: its embed (Dailymotion's own player, with
         ads, captions and quality menu) and `files`, which is always empty because Dailymotion
-        serves video only as an HLS stream signed to the address that requested it. Use the
-        embed to play a Dailymotion video in a page; a live, private or password-protected video
+        serves video only as an HLS stream signed to the address that requested it. Read in the
+        person's own Chrome (a Bowmark Buddy run), `hls` carries that stream, playable only from
+        that same Chrome; otherwise use the embed. A live, private or password-protected video
         adds a warning.
         """
 
@@ -98259,7 +98565,8 @@ class Prv_expedia(Protocol):
         "SFO", to: "LHR", departDate: "2026-12-16" })`, add `returnDate` for a round trip — and
         returns the offers its results page lists: airline, departure and arrival time, stops,
         duration and price per traveller, plus the results URL to pick a fare and book on
-        Expedia (Bowmark never books). A real browser load, expect 30-60 s.
+        Expedia (Bowmark never books). Usually 3-8 s; an empty `offers` means Expedia listed no
+        flights for that search.
         """
 
     async def suggestDestinations(self, args: str | Prv_expedia_suggestDestinations_args_u1_In, /) -> Prv_expedia_suggestDestinations_return_Out:
@@ -100551,7 +100858,9 @@ class Prv_github(Protocol):
         `options.page` page through history, newest first (GitHub's own ordering).
         Unauthenticated calls are capped at 60 requests/hour per IP, the same shared ceiling
         `listCommits` spends against. THROWS on an unknown owner/repo (404) or a rate limit
-        (403/429); a repo with no releases yet returns `releases: []`, not a throw.
+        (403/429); a repo with no releases yet returns `releases: []`, not a throw. For a
+        package's LATEST changelog entry read this, not `getFileContents` on CHANGELOG.md: a
+        committed changelog can lag the Releases feed by a release.
         """
 
     async def listContributors(self, owner: str, repo: str, options: Prv_github_GithubListContributorsOptions_In | None = None, /) -> Prv_github_GithubListContributorsResult_Out:
@@ -100569,7 +100878,8 @@ class Prv_github(Protocol):
         repo root). `options.ref` reads a branch, tag or commit other than the default branch.
         Off GitHub's own unauthenticated REST contents endpoint; shares the 60 requests/hour per
         IP ceiling. A file over 1 MB comes back with `content: null` — use `downloadUrl`. THROWS
-        on a path, ref or repo that does not exist (404) or a rate limit (403/429).
+        on a path, ref or repo that does not exist (404) or a rate limit (403/429). A committed
+        CHANGELOG.md can lag the repo's releases; for the latest entry use `listReleases`.
         """
 
     async def listIssueComments(self, owner: str, repo: str, issueNumber: float, options: Prv_github_GithubListIssueCommentsOptions_In | None = None, /) -> Prv_github_GithubListIssueCommentsResult_Out:
@@ -100764,7 +101074,9 @@ class Prv_github(Protocol):
         `getProfileReadme`. The `merged` field is derived from GitHub's own `merged_at`, since
         GitHub reports `state: "closed"` for both a merged PR and one closed without merging.
         Shares the same 60 requests/hour per IP unauthenticated ceiling as `listPullRequests`.
-        THROWS on an unknown owner/repo/PR number (404) or a rate limit (403/429).
+        THROWS on an unknown owner/repo/PR number (404) or a rate limit (403/429). `url` is
+        GitHub's canonical address, so a renamed repo answers under its new owner
+        (facebook/react comes back as react/react).
         """
 
     async def listTrendingRepositories(self, opts: Prv_github_listTrendingRepositories_opts_In | None = None, /) -> Prv_github_GithubListTrendingRepositoriesResult_Out:
@@ -104495,6 +104807,16 @@ class Prv_instagram(Protocol):
         """Reads the most recent posts (the newest six, newest first) on one public Instagram
         profile — shortcode, permalink, image/video flag, caption, like count, comment count and
         timestamp. Throws if the username does not exist or the account is private.
+        """
+
+    async def getPlayback(self, input: str | Prv_instagram_getPlayback_input_u1_In, /) -> Prv_instagram_InstagramPlayback_Out:
+        """The playback menu for one Instagram video, reel or carousel (a post or reel URL, or a
+        shortcode), read logged out: the video file(s) the post query names (picture and sound
+        in one mp4, a carousel's every video slide), Instagram's own post embed, and expiresAt
+        (about a day and a half). The files play from any page and any address with no cookie,
+        so a page's own <video> or Bowmark's player plays them with no ads and its own controls;
+        the embed is Instagram's post card. Logged out Instagram serves one file per video, so
+        there is no choice of size. A photo post throws (getPost returns its images).
         """
 
     async def getPost(self, input: str | Prv_instagram_getPost_input_u1_In, /) -> Prv_instagram_InstagramPostDetail_Out:
@@ -108542,6 +108864,16 @@ class Prv_menards(Protocol):
         browser load, so expect 10-30 s.
         """
 
+class Prv_mensjournal(Protocol):
+    """Men's Journal (mensjournal.com), the men's fitness, health, gear and style magazine —
+    its latest articles with full text, filterable by keyword or category.
+    """
+
+    async def latestArticles(self, args: Prv_mensjournal_LatestArticlesArgs_In | None = None, /) -> Prv_mensjournal_LatestArticles_Out:
+        """Men's Journal's newest ~50 articles with full text, optionally filtered by keyword or
+        category. Covers recent articles only, not the archive.
+        """
+
 class Prv_mercari(Protocol):
     """Large peer-to-peer resale marketplace (clothing, electronics, collectibles) — keyword
     search over live listings with real, current prices.
@@ -111866,10 +112198,34 @@ class Prv_partsgeek(Protocol):
         'Honda'), each with its Parts Geek page link.
         """
 
+    async def addToCart(self, arg0: Prv_partsgeek_addToCart_arg0_In, /) -> Prv_partsgeek_PartsgeekCart_Out:
+        """Adds one part to a Parts Geek guest cart (no sign-in) — pass the searchParts query and
+        the part's productId — and returns the cart. The cart lives only for this run: call
+        viewCart/getCheckout in the same script. Never checks out or pays.
+        """
+
+    async def getCheckout(self, /) -> Prv_partsgeek_PartsgeekCheckout_Out:
+        """Opens Parts Geek's checkout for this run's guest cart: lines, order-summary amounts and
+        the shipping form's current values. `available: false` when the cart is empty (the site
+        sends checkout back to the cart).
+        """
+
     async def searchParts(self, arg0: Prv_partsgeek_searchParts_arg0_In, /) -> Prv_partsgeek_PartsgeekSearchResult_Out:
         """Searches Parts Geek's auto-parts catalog like its search box (20 per page): title,
         vehicle, price, brand, part number, stock, notes, attributes and the vehicles each part
         fits. An empty `parts` means the site found nothing. Read-only.
+        """
+
+    async def updateCheckoutShipping(self, args: Prv_partsgeek_PartsgeekShippingArgs_In, /) -> Prv_partsgeek_PartsgeekShippingUpdate_Out:
+        """Saves the shipping address and contact for this run's guest checkout (Parts Geek's own
+        POST /v1/checkout/update) and returns the site's verdict plus the recalculated amounts
+        (tax, shipping, total). Add a part first. Places no order.
+        """
+
+    async def viewCart(self, /) -> Prv_partsgeek_PartsgeekCart_Out:
+        """Reads this run's Parts Geek guest cart: each line (title, brand, vehicle, SKU, price,
+        quantity) and the order summary (subtotal, shipping protection, shipping, tax, total).
+        Empty `items` means the cart is empty.
         """
 
 class Prv_patreon(Protocol):
@@ -121162,6 +121518,17 @@ class Prv_tiktok(Protocol):
         render of the page, the cheaper of TikTok's two.
         """
 
+    async def getPlayback(self, args: Prv_tiktok_getPlayback_args_In, /) -> Prv_tiktok_tiktokPlayback_Out:
+        """The playback menu for one TikTok video (a `/@<handle>/video/<id>` URL or a bare numeric
+        id): every rendition the watch page names (about 540p-1080p, h264 and HEVC mp4s with
+        picture and sound together, tallest first), TikTok's own embed player, and expiresAt
+        (about 48 h). The files answer ONLY with the returned `cookie` (tt_chain_token) and a
+        tiktok.com Referer, which a page's own <video> cannot send: Bowmark's player (Buddy)
+        fetches them with both in the person's Chrome; anywhere else use the embed. Files for no
+        ads, a chosen size or your own controls; the embed for TikTok's own player. A photo post
+        throws (getVideo returns its images).
+        """
+
     async def getVideo(self, args: Prv_tiktok_GetVideoArgs_In, /) -> Prv_tiktok_tiktokVideo_Out:
         """One video's own facts, off the watch page's embedded state: url, caption, hashtags,
         mentions, create time, duration, the stats block (plays, likes, comments, shares,
@@ -122122,6 +122489,21 @@ class Prv_trueup(Protocol):
         and apply link.
         """
 
+class Prv_trulia(Protocol):
+    """Trulia real-estate listings: search homes for sale, for rent or recently sold in a US
+    city, and read one listing's price, details, features and price history.
+    """
+
+    async def searchHomes(self, args: str | Prv_trulia_searchHomes_args_u1_In, /) -> Prv_trulia_TruliaSearchResult_Out:
+        """Search Trulia listings in a US city ("Austin, TX"): homes for sale, rentals or recently
+        sold, 40 per page with price, beds, baths, size and the listing url.
+        """
+
+    async def getHome(self, url: str, /) -> Prv_trulia_TruliaHome_Out:
+        """Read one Trulia listing (a url from searchHomes): price, status, beds, baths, size,
+        description, features, price history, agent and photos.
+        """
+
 class Prv_trustpilot(Protocol):
     """Trustpilot — public consumer reviews of any business. getCompany() reads a company's
     TrustScore, star rating, total review count, 1-5 star breakdown, category and latest
@@ -122448,6 +122830,14 @@ class Prv_twitch(Protocol):
         """Reads a channel's LIVE state right now: whether it is live, title, game, viewer count,
         and when the broadcast started. `live: false` and null fields when offline — not an
         error. No sign-in. THROWS naming the login when Twitch has no such channel.
+        """
+
+    async def getPlayback(self, args: Prv_twitch_getPlayback_args_In, /) -> Prv_twitch_TwitchPlayback_Out:
+        """The playback menu for a Twitch live channel (a login or twitch.tv/<login>) or a past
+        broadcast (twitch.tv/videos/<id>): the HLS master playlist Twitch's own player reads
+        (160p-1080p, MPEG-TS, no file), whether it is live, and Twitch's embed, so a page plays
+        it in its own player. An offline channel comes back with `hls: null` and a warning, not
+        an error. No sign-in.
         """
 
     async def listLiveStreams(self, args: Prv_twitch_ListLiveStreamsArgs_In | None = None, /) -> list[Prv_twitch_TwitchLiveStream_Out]:
@@ -123536,6 +123926,22 @@ class Prv_voluspa(Protocol):
         question's scent-family options for one of them (0 = home fragrance, 1 = personal
         fragrance/EDP, as the splash screen lists them; default 0) — decoded from Digioh's own
         campaign config.
+        """
+
+class Prv_vrbo(Protocol):
+    """Vrbo's own vacation-rental search: homes, cabins and condos for a destination and dates,
+    with nightly and total price, rating and the listing link.
+    """
+
+    async def search(self, args: Prv_vrbo_VrboSearchArgs_In, /) -> Prv_vrbo_VrboSearch_Out:
+        """Runs Vrbo's own vacation-rental search — `bowmark.providers.vrbo.search({ destination:
+        "South Lake Tahoe, California", checkIn: "2026-12-11", checkOut: "2026-12-13", adults: 2
+        })` — and returns the first page of rentals in Vrbo's order (about 50): name, type,
+        bedrooms, highlight, amenities, rating out of 10, review count, nightly price, total
+        price for the stay with fees, cancellation and the listing link with the dates, plus
+        `region`, the place Vrbo actually searched (a mismatch with `destination` is named in
+        `warnings`). Read-only: to book, the person opens `url`. A real browser load, so expect
+        30-60 s.
         """
 
 class Prv_vscode(Protocol):
@@ -126165,8 +126571,9 @@ class Prv_yellowpages(Protocol):
         """
 
     async def search(self, args: Prv_yellowpages_SearchArgs_In, /) -> list[Prv_yellowpages_yellowpagesRow_Out]:
-        """Searches the directory by business category or name and a city, e.g. plumber in Denver,
-        CO, and returns each business's name, phone, address, categories and listing url.
+        """Finds a local business near a city, such as a plumber, electrician or dentist near me,
+        by business category or name and a city, e.g. plumber in Denver, CO, and returns each
+        business's name, phone, address, categories and listing url.
         """
 
 class Prv_yelp(Protocol):
@@ -127790,6 +128197,7 @@ class BowmarkProviders(Protocol):
     medium: Prv_medium
     meetup: Prv_meetup
     menards: Prv_menards
+    mensjournal: Prv_mensjournal
     mercari: Prv_mercari
     mergify: Prv_mergify
     merriam_webster: Prv_merriam_webster
@@ -128083,6 +128491,7 @@ class BowmarkProviders(Protocol):
     trojanstorage: Prv_trojanstorage
     trophysignaturehomes: Prv_trophysignaturehomes
     trueup: Prv_trueup
+    trulia: Prv_trulia
     trustpilot: Prv_trustpilot
     tryalma_com: Prv_tryalma_com
     tubitv: Prv_tubitv
@@ -128122,6 +128531,7 @@ class BowmarkProviders(Protocol):
     visible: Prv_visible
     vistaprint: Prv_vistaprint
     voluspa: Prv_voluspa
+    vrbo: Prv_vrbo
     vscode: Prv_vscode
     vts_marketplace: Prv_vts_marketplace
     walkerhughes: Prv_walkerhughes

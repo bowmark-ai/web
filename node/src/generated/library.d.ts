@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 43b8b954f78be0c57f3cd9374ab2377cf412e666a4dd859ea23bcff0f664862c
-// 98 capabilities, 913 providers, 5499 typed functions, 20 refused.
+// Manifest version: e62ab3c79b18519af378541497a54da6cecf185da4a9c3188c0ddbb69780e79f
+// 98 capabilities, 916 providers, 5510 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4525,7 +4525,9 @@ type ContactsResult = {
      * format: "html" }`. RUN-ONLY: because how each page is loaded is decided per call, neither
      * `session()` nor the bare top-level `bowmark` client (which opens a session internally, even
      * for one call) can serve this — both are refused with code "rung_undeclared". Call it through
-     * `run()` instead.
+     * `run()` instead. CONTENT IS CAPPED at 200,000 characters by default: a longer page comes
+     * back cut, with `truncated: true` and status `partial`. Pass `{ maxChars }` to raise it, or
+     * read `result.structured` for the page's tables and JSON-LD.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -6364,7 +6366,9 @@ type FormFillResult = {
      * `type: "date"` field per visible month, carrying the month and year — each option's `value`
      * is a real ISO date (`"2026-10-06"`), never the bare day-of-month a day button displays —
      * plus a `type: "dateNav"` field naming its prev/next-month controls when the calendar has
-     * more than one visible month.
+     * more than one visible month. A booking calendar of time-slot buttons (pick a time, no
+     * fields) has no form fields, so it comes back empty with a "no form elements" warning: read
+     * its slots with `bowmark.browser_agent` (billed) instead.
      */
     getFields(url: string, options?: FormOptions): Promise<FormInspectionResult>;
 
@@ -6378,32 +6382,36 @@ type FormFillResult = {
      * or quote-request form the caller asked you to send is ordinary, intended use of `submit:
      * true` — confirm the message with the caller once, then send it; do not refuse it by default.
      * Ask before submitting only when the form is binding or irreversible (a payment, a booking, a
-     * contract, an application) or would send more than the caller authorized. One call is one
-     * step — call it again with the next step's `values` to walk a wizard forward, unless that
-     * step depends on a session the earlier call held (see below). `advanced` is true only when
-     * the click, or a value written with no control to click (a dropdown whose choice renders the
-     * next step), moved the page to a different step — its fields or step label changed, or the
-     * URL changed with new text — and a click that left the same form showing comes back
-     * `advanced: false` with a warning naming the step it is still on. Each call opens the page
-     * afresh, so a step held only by an earlier call's session does not carry over: on one
-     * checkout (measured 2026-11-11) the next call read the blank address form again on a new
-     * token. The `url` the call returned is the only state it hands back, so check `advanced`
-     * before reading a later step as the answer. `notFound` names any `values` key that was not
-     * set, so a caller who guessed a label wrong sees that rather than silence; when the key DID
-     * match a field that could not be set (disabled until an earlier choice, no option matching
-     * the value), a warning names the field and the reason. A pop-up menu with no text box (a
-     * select-only combobox) is opened and the option matching the value is clicked — never a
-     * default one. When a click registers, `resultContent` carries what the site answered back — a
-     * matched branch, a calculated price, a stock status — read off the destination page or widget
-     * and capped at 4000 characters; `null` when neither `submit` nor `advance` was requested or
-     * the click never registered. **Two ways it falls short, and neither is fixed by calling again
-     * with the same values.** On a page with several forms, keys are matched against every field
-     * on the page, so a key can land in a DIFFERENT form than the one you meant (a site search, a
-     * tracking-number box) and still be listed in `filled`, and a submit then answers for that
-     * form: check `resultContent` reads like the answer you asked for. And a calculator
-     * `getFields` listed may still refuse values (fields built from custom controls, or swapped
-     * out as you type): those keys come back in `notFound` or a warning. For either,
-     * `bowmark.browser_agent` (billed) operates the page like a person.
+     * contract, an application) or would send more than the caller authorized. Treat a step as
+     * binding when its submit button or heading says so: "Buy", "Pay", "Place order", "Book now",
+     * "Confirm booking", "Sign", "Apply now", "kostenpflichtig bestellen", "Jetzt abschließen"
+     * (HanseMerkur's insurance wizard, which concludes a contract), or a page asking for payment
+     * details, a signature or acceptance of contract terms. On such a step, stop with `submit:
+     * false` and ask the caller. One call is one step — call it again with the next step's
+     * `values` to walk a wizard forward, unless that step depends on a session the earlier call
+     * held (see below). `advanced` is true only when the click, or a value written with no control
+     * to click (a dropdown whose choice renders the next step), moved the page to a different step
+     * — its fields or step label changed, or the URL changed with new text — and a click that left
+     * the same form showing comes back `advanced: false` with a warning naming the step it is
+     * still on. Each call opens the page afresh, so a step held only by an earlier call's session
+     * does not carry over: on one checkout (measured 2026-11-11) the next call read the blank
+     * address form again on a new token. The `url` the call returned is the only state it hands
+     * back, so check `advanced` before reading a later step as the answer. `notFound` names any
+     * `values` key that was not set, so a caller who guessed a label wrong sees that rather than
+     * silence; when the key DID match a field that could not be set (disabled until an earlier
+     * choice, no option matching the value), a warning names the field and the reason. A pop-up
+     * menu with no text box (a select-only combobox) is opened and the option matching the value
+     * is clicked — never a default one. When a click registers, `resultContent` carries what the
+     * site answered back — a matched branch, a calculated price, a stock status — read off the
+     * destination page or widget and capped at 4000 characters; `null` when neither `submit` nor
+     * `advance` was requested or the click never registered. **Two ways it falls short, and
+     * neither is fixed by calling again with the same values.** On a page with several forms, keys
+     * are matched against every field on the page, so a key can land in a DIFFERENT form than the
+     * one you meant (a site search, a tracking-number box) and still be listed in `filled`, and a
+     * submit then answers for that form: check `resultContent` reads like the answer you asked
+     * for. And a calculator `getFields` listed may still refuse values (fields built from custom
+     * controls, or swapped out as you type): those keys come back in `notFound` or a warning. For
+     * either, `bowmark.browser_agent` (billed) operates the page like a person.
      */
     fillForm(url: string, values: Record<string, string>, options?: FormFillOptions): Promise<FormFillResult>;
   }
@@ -24057,17 +24065,22 @@ interface CampspotCampground {
    */
   interface Unit {
     /**
-     * Given a free-text region (a US state, a Canadian province, or a Campspot "near <city>"/"near
-     * <national park>" area), returns the campgrounds from Campspot's own curated directory page
-     * for that region — a small curated list of ~10 highlights per US state, not an exhaustive
-     * marketplace catalog. A real Campspot customer not on this curated list may still exist on
-     * the platform; use a direct park-name search for comprehensive matching.
+     * Given a free-text region (a US state or Canadian province by full name, such as "Texas", or
+     * one of Campspot's own "near <city>"/"near <national park>" areas; a bare "City, ST" usually
+     * matches nothing, and the error lists the regions on offer), returns the campgrounds from
+     * Campspot's own curated directory page for that region — a small curated list of ~10
+     * highlights per US state, not an exhaustive marketplace catalog. A real Campspot customer not
+     * on this curated list may still exist on the platform; use a direct park-name search for
+     * comprehensive matching.
      */
     findCampgrounds(region: string): Promise<CampspotCampgroundSummary[]>;
 
     /**
      * Given a campspot.com/park/<slug> url from findCampgrounds, returns that campground's own
-     * published listing.
+     * published listing. Its `priceRange` and `offers` are the listing's UNDATED advertised range
+     * and base prices, not a rate for any stay, so do not compare them with another site's dated
+     * price. For a dated rate and availability use
+     * `bowmark.sites["campspot.com"].check_availability`.
      */
     getCampground(url: string): Promise<CampspotCampground>;
   }
@@ -34001,6 +34014,7 @@ interface DailymotionPlayback {
   files: { muxed: DailymotionPlaybackFile[]; videoOnly: DailymotionPlaybackFile[]; audioOnly: DailymotionPlaybackFile[] }; // always empty: Dailymotion serves only IP-bound HLS
   expiresAt: string | null;
   referrer: string;
+  hls: { url: string; live: boolean; boundTo: "reader" } | null; // only when read through the person's Chrome; plays only from that Chrome
   warnings: string[];
 }
 interface DailymotionCaptionTracksResult {
@@ -34294,8 +34308,9 @@ interface DailymotionListMyPlaylistsResult {
     /**
      * The playable menu for one Dailymotion video: its embed (Dailymotion's own player, with ads,
      * captions and quality menu) and `files`, which is always empty because Dailymotion serves
-     * video only as an HLS stream signed to the address that requested it. Use the embed to play a
-     * Dailymotion video in a page; a live, private or password-protected video adds a warning.
+     * video only as an HLS stream signed to the address that requested it. Read in the person's
+     * own Chrome (a Bowmark Buddy run), `hls` carries that stream, playable only from that same
+     * Chrome; otherwise use the embed. A live, private or password-protected video adds a warning.
      */
     getPlayback(video: string): Promise<DailymotionPlayback>;
 
@@ -43368,7 +43383,7 @@ interface ExpediaCalendarPrice {
      * to: "LHR", departDate: "2026-12-16" })`, add `returnDate` for a round trip — and returns the
      * offers its results page lists: airline, departure and arrival time, stops, duration and
      * price per traveller, plus the results URL to pick a fare and book on Expedia (Bowmark never
-     * books). A real browser load, expect 30-60 s.
+     * books). Usually 3-8 s; an empty `offers` means Expedia listed no flights for that search.
      */
     searchFlights(args: ExpediaSearchFlightsArgs): Promise<ExpediaFlightSearch>;
 
@@ -50527,7 +50542,9 @@ interface GithubPullRequestCreated {
      * page through history, newest first (GitHub's own ordering). Unauthenticated calls are capped
      * at 60 requests/hour per IP, the same shared ceiling `listCommits` spends against. THROWS on
      * an unknown owner/repo (404) or a rate limit (403/429); a repo with no releases yet returns
-     * `releases: []`, not a throw.
+     * `releases: []`, not a throw. For a package's LATEST changelog entry read this, not
+     * `getFileContents` on CHANGELOG.md: a committed changelog can lag the Releases feed by a
+     * release.
      */
     listReleases(owner: string, repo: string, options?: GithubListReleasesOptions): Promise<GithubListReleasesResult>;
 
@@ -50547,7 +50564,8 @@ interface GithubPullRequestCreated {
      * root). `options.ref` reads a branch, tag or commit other than the default branch. Off
      * GitHub's own unauthenticated REST contents endpoint; shares the 60 requests/hour per IP
      * ceiling. A file over 1 MB comes back with `content: null` — use `downloadUrl`. THROWS on a
-     * path, ref or repo that does not exist (404) or a rate limit (403/429).
+     * path, ref or repo that does not exist (404) or a rate limit (403/429). A committed
+     * CHANGELOG.md can lag the repo's releases; for the latest entry use `listReleases`.
      */
     getFileContents(owner: string, repo: string, path: string, options?: GithubGetFileContentsOptions): Promise<GithubFileContents>;
 
@@ -50754,7 +50772,8 @@ interface GithubPullRequestCreated {
      * field is derived from GitHub's own `merged_at`, since GitHub reports `state: "closed"` for
      * both a merged PR and one closed without merging. Shares the same 60 requests/hour per IP
      * unauthenticated ceiling as `listPullRequests`. THROWS on an unknown owner/repo/PR number
-     * (404) or a rate limit (403/429).
+     * (404) or a rate limit (403/429). `url` is GitHub's canonical address, so a renamed repo
+     * answers under its new owner (facebook/react comes back as react/react).
      */
     getPullRequest(owner: string, repo: string, pullRequestNumber: number): Promise<GithubPullRequestDetail>;
 
@@ -61175,6 +61194,27 @@ interface InstagramSavedPosts {
   hasNextPage: boolean;
 }
 
+interface InstagramPlayback {
+  videoId: string;             // the post's shortcode
+  title: string | null;        // the caption, first 200 characters
+  durationMs: number | null;
+  live: false;
+  embed: { url: string; hasAds: false; note: string };  // Instagram's own post embed
+  files: {
+    muxed: InstagramPlaybackFile[];  // picture + sound; a carousel lists each video slide
+    videoOnly: []; audioOnly: [];
+  };
+  hls: null;
+  expiresAt: string | null;    // ISO, off the URL's own oe= (about a day and a half)
+  referrer: "any";             // plays from any page and any address
+  warnings: string[];
+}
+interface InstagramPlaybackFile {
+  itag: null; url: string; mimeType: "video/mp4"; codecs: null;
+  width: number | null; height: number | null; fps: null;
+  bitrate: null; bytes: null; qualityLabel: string | null;  // SHORT side of the post's frame
+}
+
   /**
    * Reads public Instagram (instagram.com) without a login: a profile with its bio, links,
    * follower and following counts and twelve latest posts; one post or reel by URL with its
@@ -61198,6 +61238,17 @@ interface InstagramSavedPosts {
      * Throws if the username does not exist or the account is private.
      */
     getPosts(username: string): Promise<InstagramPost[]>;
+
+    /**
+     * The playback menu for one Instagram video, reel or carousel (a post or reel URL, or a
+     * shortcode), read logged out: the video file(s) the post query names (picture and sound in
+     * one mp4, a carousel's every video slide), Instagram's own post embed, and expiresAt (about a
+     * day and a half). The files play from any page and any address with no cookie, so a page's
+     * own <video> or Bowmark's player plays them with no ads and its own controls; the embed is
+     * Instagram's post card. Logged out Instagram serves one file per video, so there is no choice
+     * of size. A photo post throws (getPost returns its images).
+     */
+    getPlayback(input: string | { video?: string; url?: string; shortcode?: string }): Promise<InstagramPlayback>;
 
     /**
      * Reads one public Instagram post or reel by URL (/p/, /reel/, /reels/, /tv/) or shortcode,
@@ -68683,8 +68734,10 @@ interface MangoSearchResult {
   country: MangoCountry;
   currency: string;
   category: MangoCategory;
-  /** Tiles Mango lists (one per product COLOR), so distinct products are fewer. */
+  /** Tiles Mango lists (one per product COLOR), so distinct products are fewer — 219 tiles were 104 T-shirts. */
   totalInCategory: number;
+  /** Distinct products in the category; set once the whole listing has been read (always when hasMore is false), else null. */
+  productsInCategory: number | null;
   offset: number;
   /** Products read this call to find the hits; one call reads at most 120. */
   scanned: number;
@@ -71665,6 +71718,44 @@ interface MenardsSearchResult {
      * load, so expect 10-30 s.
      */
     search(args: MenardsSearchArgs): Promise<MenardsSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_mensjournal {
+  // ── Men's Journal — the unit's own declarations, verbatim ──
+interface LatestArticlesArgs {
+  query?: string; // keyword(s), all must appear in the title, summary, categories or text
+  category?: string; // e.g. "Fitness", "Health", "Gear", "Style", "Entertainment"
+  limit?: number; // default 50
+}
+
+interface MensJournalArticle {
+  title: string;
+  url: string;
+  summary: string | null;
+  author: string | null;
+  published: string | null; // RFC 822, as the feed sends it
+  categories: string[];
+  imageUrl: string | null;
+  text: string; // full article body as plain text
+}
+
+interface LatestArticles {
+  articles: MensJournalArticle[];
+  total: number; // matches before limit
+  feedSize: number; // articles in the feed (the newest ~50 only)
+}
+
+  /**
+   * Men's Journal (mensjournal.com), the men's fitness, health, gear and style magazine — its
+   * latest articles with full text, filterable by keyword or category.
+   */
+  interface Unit {
+    /**
+     * Men's Journal's newest ~50 articles with full text, optionally filtered by keyword or
+     * category. Covers recent articles only, not the archive.
+     */
+    latestArticles(args?: LatestArticlesArgs): Promise<LatestArticles>;
   }
 }
 
@@ -81265,6 +81356,17 @@ interface PartsgeekMakeCatalog {
   models: { name: string; slug: string; url: string }[];
   partCategories: { name: string; slug: string; url: string }[];
 }
+interface PartsgeekCartLine { lineId: string | null; title: string; brand: string | null; vehicle: string | null; sku: string | null; note: string | null; price: number | null; quantity: number; imageUrl: string | null }
+interface PartsgeekAmount { id: string; name: string; value: number | string }
+interface PartsgeekCart { items: PartsgeekCartLine[]; amounts: PartsgeekAmount[]; total: number | null; url: string }
+interface PartsgeekCheckout extends PartsgeekCart { available: boolean; shipping: Record<string, string> }
+interface PartsgeekShippingArgs {
+  email: string; firstName: string; lastName: string; street: string; street2?: string;
+  city: string; state: string; // 2-letter code, e.g. "CA"
+  zip: string; country?: string; // default "US"
+  phone: string;
+}
+interface PartsgeekShippingUpdate { ok: boolean; message: string | null; missingFields: Record<string, string>; amounts: PartsgeekAmount[] }
 
   /**
    * Parts Geek (partsgeek.com), an online auto-parts store — search its catalog for a part
@@ -81279,11 +81381,39 @@ interface PartsgeekMakeCatalog {
     getMakeCatalog(arg0: { make: string }): Promise<PartsgeekMakeCatalog>;
 
     /**
+     * Adds one part to a Parts Geek guest cart (no sign-in) — pass the searchParts query and the
+     * part's productId — and returns the cart. The cart lives only for this run: call
+     * viewCart/getCheckout in the same script. Never checks out or pays.
+     */
+    addToCart(arg0: { query: string; productId: string; quantity?: number }): Promise<PartsgeekCart>;
+
+    /**
+     * Opens Parts Geek's checkout for this run's guest cart: lines, order-summary amounts and the
+     * shipping form's current values. `available: false` when the cart is empty (the site sends
+     * checkout back to the cart).
+     */
+    getCheckout(): Promise<PartsgeekCheckout>;
+
+    /**
      * Searches Parts Geek's auto-parts catalog like its search box (20 per page): title, vehicle,
      * price, brand, part number, stock, notes, attributes and the vehicles each part fits. An
      * empty `parts` means the site found nothing. Read-only.
      */
     searchParts(arg0: { query: string; page?: number }): Promise<PartsgeekSearchResult>;
+
+    /**
+     * Saves the shipping address and contact for this run's guest checkout (Parts Geek's own POST
+     * /v1/checkout/update) and returns the site's verdict plus the recalculated amounts (tax,
+     * shipping, total). Add a part first. Places no order.
+     */
+    updateCheckoutShipping(args: PartsgeekShippingArgs): Promise<PartsgeekShippingUpdate>;
+
+    /**
+     * Reads this run's Parts Geek guest cart: each line (title, brand, vehicle, SKU, price,
+     * quantity) and the order summary (subtotal, shipping protection, shipping, tax, total). Empty
+     * `items` means the cart is empty.
+     */
+    viewCart(): Promise<PartsgeekCart>;
   }
 }
 
@@ -103261,8 +103391,8 @@ interface StudentAccommodationBathListingsPage {
 declare namespace BowmarkProvider_studenthomes_net {
   // ── Student Homes — the unit's own declarations, verbatim ──
 interface StudentHomesPrice { weeklyPerPerson: number | null; weeklyPerPersonInclBills: number | null; monthlyPerPerson: number | null; monthlyPerPersonInclBills: number | null; monthlyTotal: number | null; monthlyTotalInclBills: number | null; deposit: number | null; currency: "GBP" }
-interface StudentHomesListing { id: string; url: string; status: "available" | "not_found"; availability: string | null; title: string | null; area: string | null; heading: string | null; priceAmount: number | null; priceFrequency: "pppw"; billsIncluded: boolean; price: StudentHomesPrice; bedrooms: number | null; bathrooms: number | null; receptions: number | null; furnishing: string | null; features: string[]; description: string | null; images: string[]; phone: string | null; reserveUrl: string | null }
-interface StudentHomesListingSummary { id: string; url: string; title: string; area: string | null; availability: string | null; bedrooms: number | null; bathrooms: number | null; features: string[]; priceAmount: number | null; weeklyPerPersonExclBills: number | null; billsIncluded: boolean; monthlyTotalInclBills: number | null; deposit: number | null; image: string | null }
+interface StudentHomesListing { id: string; url: string; status: "available" | "not_found"; availability: string | null; title: string | null; area: string | null; heading: string | null; priceAmount: number | null; priceFrequency: "pppw"; billsIncluded: boolean | null; price: StudentHomesPrice; bedrooms: number | null; bathrooms: number | null; receptions: number | null; furnishing: string | null; features: string[]; description: string | null; images: string[]; phone: string | null; reserveUrl: string | null }
+interface StudentHomesListingSummary { id: string; url: string; title: string; area: string | null; availability: string | null; bedrooms: number | null; bathrooms: number | null; features: string[]; priceAmount: number | null; weeklyPerPersonExclBills: number | null; weeklyPerPersonInclBills: number | null; billsIncluded: null; monthlyTotalInclBills: number | null; deposit: number | null; image: string | null }
 interface StudentHomesSearchArgs { location?: "Coventry" | "Kenilworth" | "Leamington Spa" | "Leicester" | "Liverpool" | "Manchester" | "Southampton" | "Warwick"; minBedrooms?: number; maxBedrooms?: number; sort?: "price_desc" | "price_asc"; page?: number }
 interface StudentHomesSearchResult { page: number; totalPages: number; listings: StudentHomesListingSummary[] }
 
@@ -108273,6 +108403,28 @@ type UploadVideoArgs = {
   privacy?: "public" | "friends" | "private";
 };
 
+interface tiktokPlayback {
+  videoId: string;
+  title: string | null;        // the caption, first 200 characters
+  durationMs: number | null;
+  live: false;
+  embed: { url: string; hasAds: false; note: string };  // TikTok's own embed player
+  files: {
+    muxed: tiktokPlaybackFile[];  // every rendition (picture + sound), tallest first
+    videoOnly: []; audioOnly: [];
+  };
+  hls: null;
+  expiresAt: string | null;    // ISO, off the URLs' own expire= (about 48 h)
+  referrer: "https://www.tiktok.com/";  // the CDN refuses any other
+  cookie: string | null;       // "tt_chain_token=..." — the files 403 without it
+  warnings: string[];
+}
+interface tiktokPlaybackFile {
+  itag: null; url: string; mimeType: string; codecs: string | null;  // "hvc1" = HEVC
+  width: number | null; height: number | null; fps: number | null;
+  bitrate: number | null; bytes: number | null; qualityLabel: string | null;  // SHORT side
+}
+
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
    * login, no browser.
@@ -108286,6 +108438,18 @@ type UploadVideoArgs = {
      * cheaper of TikTok's two.
      */
     getProfile(args: GetProfileArgs): Promise<tiktokProfile>;
+
+    /**
+     * The playback menu for one TikTok video (a `/@<handle>/video/<id>` URL or a bare numeric id):
+     * every rendition the watch page names (about 540p-1080p, h264 and HEVC mp4s with picture and
+     * sound together, tallest first), TikTok's own embed player, and expiresAt (about 48 h). The
+     * files answer ONLY with the returned `cookie` (tt_chain_token) and a tiktok.com Referer,
+     * which a page's own <video> cannot send: Bowmark's player (Buddy) fetches them with both in
+     * the person's Chrome; anywhere else use the embed. Files for no ads, a chosen size or your
+     * own controls; the embed for TikTok's own player. A photo post throws (getVideo returns its
+     * images).
+     */
+    getPlayback(args: { video: string }): Promise<tiktokPlayback>;
 
     /**
      * One video's own facts, off the watch page's embedded state: url, caption, hashtags,
@@ -110649,6 +110813,33 @@ interface TrueupSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_trulia {
+  // ── Trulia — the unit's own declarations, verbatim ──
+type TruliaListingType = "for_sale" | "for_rent" | "sold";
+interface TruliaHomeSummary { url: string; kind: string; address?: string; city?: string; state?: string; zip?: string; latitude?: number; longitude?: number; price?: number; priceText?: string; beds?: string; baths?: string; floorSpace?: string; lotSize?: string; tags: string[]; listingType?: string; }
+interface TruliaSearchResult { location: string; listingType: TruliaListingType; page: number; totalHomes?: number; homes: TruliaHomeSummary[]; url: string; }
+interface TruliaPriceEvent { date?: string; event?: string; price?: number; source?: string; }
+interface TruliaHome { url: string; address?: string; city?: string; state?: string; zip?: string; neighborhood?: string; status?: string; price?: number; priceText?: string; beds?: string; baths?: string; floorSpace?: string; lotSize?: string; propertyType?: string; description?: string; highlights: Record<string, string>; features: Record<string, Record<string, string>>; priceHistory: TruliaPriceEvent[]; listingAgent?: string; broker?: string; dateListed?: string; photos: string[]; }
+
+  /**
+   * Trulia real-estate listings: search homes for sale, for rent or recently sold in a US city,
+   * and read one listing's price, details, features and price history.
+   */
+  interface Unit {
+    /**
+     * Search Trulia listings in a US city ("Austin, TX"): homes for sale, rentals or recently
+     * sold, 40 per page with price, beds, baths, size and the listing url.
+     */
+    searchHomes(args: string | { location: string; listingType?: "for_sale" | "for_rent" | "sold"; page?: number }): Promise<TruliaSearchResult>;
+
+    /**
+     * Read one Trulia listing (a url from searchHomes): price, status, beds, baths, size,
+     * description, features, price history, agent and photos.
+     */
+    getHome(url: string): Promise<TruliaHome>;
+  }
+}
+
 declare namespace BowmarkProvider_trustpilot {
   // ── Trustpilot — the unit's own declarations, verbatim ──
 interface TrustpilotReview {
@@ -111775,6 +111966,24 @@ interface TwitchChannelInfo {
   /** When the channel was created. */
   createdAt: string;
 }
+interface TwitchPlayback {
+  /** "channel" for a live channel, "vod" for a past broadcast. */
+  kind: "channel" | "vod";
+  /** The channel login, or the VOD id. */
+  id: string;
+  title: string | null;
+  live: boolean;
+  durationMs: number | null;
+  /** Twitch serves no plain file: always empty, kept for the shared playback-menu shape. */
+  files: { muxed: never[]; videoOnly: never[]; audioOnly: never[] };
+  /** The HLS master playlist (every rendition, MPEG-TS segments). live: re-read the media
+   * playlist, it has no EXT-X-ENDLIST. Null when the channel is offline. */
+  hls: { url: string; live: boolean } | null;
+  /** Twitch's own player; set parent=<the showing page's hostname>. */
+  embed: { url: string; hasAds: true; note: string };
+  expiresAt: string | null;
+  warnings: string[];
+}
 interface GetStreamArgs {
   /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
   login: string;
@@ -112076,6 +112285,15 @@ interface TwitchFollowChannelResult {
      * sign-in. THROWS naming the login when Twitch has no such channel.
      */
     getStream(args: GetStreamArgs): Promise<TwitchStream>;
+
+    /**
+     * The playback menu for a Twitch live channel (a login or twitch.tv/<login>) or a past
+     * broadcast (twitch.tv/videos/<id>): the HLS master playlist Twitch's own player reads
+     * (160p-1080p, MPEG-TS, no file), whether it is live, and Twitch's embed, so a page plays it
+     * in its own player. An offline channel comes back with `hls: null` and a warning, not an
+     * error. No sign-in.
+     */
+    getPlayback(args: { video: string }): Promise<TwitchPlayback>;
 
     /**
      * Browses channels live right now, ranked by Twitch's own live viewer count (highest first):
@@ -114845,6 +115063,67 @@ interface VoluspaQuizIntro {
      * splash screen lists them; default 0) — decoded from Digioh's own campaign config.
      */
     getFragranceQuizIntro(pathIndex?: number): Promise<VoluspaQuizIntro>;
+  }
+}
+
+declare namespace BowmarkProvider_vrbo {
+  // ── Vrbo — the unit's own declarations, verbatim ──
+interface VrboSearchArgs {
+  destination: string;  // as typed into Vrbo's search box, e.g. "South Lake Tahoe, California"
+  checkIn?: string;     // YYYY-MM-DD, default 14 days out
+  checkOut?: string;    // YYYY-MM-DD, default two nights after checkIn
+  adults?: number;      // 1-30, default 2
+  limit?: number;       // at most this many rentals, default the whole first page (~50)
+}
+
+interface VrboRental {
+  id: string;
+  kind: "home" | "lodging";     // a private rental, or a hotel-like property (lodge, resort)
+  name: string;
+  url: string;                  // the listing with the dates and party; where a person books
+  highlight: string | null;     // e.g. "3 min drive to the beach"
+  details: string | null;       // e.g. "Cabin · 2 bedrooms · 4 beds"
+  propertyType: string | null;  // "Cabin", "Condo", "House", "Resort"
+  bedrooms: number | null;
+  amenities: string[];          // up to three, as the card shows them; the site's own labels — read the values off a result, never guess one from prose
+  rating: number | null;        // out of 10
+  ratingLabel: string | null;   // "Exceptional"
+  reviewCount: number | null;
+  nightlyPrice: string | null;  // "$295"
+  previousPrice: string | null; // the struck-through nightly price, when discounted
+  totalPrice: string | null;    // "$589 for 2 nights"
+  totalAmount: number | null;   // 589
+  nights: number | null;
+  feesIncluded: boolean;        // "All fees included" under the total
+  cancellation: string | null;  // "Free cancellation until Nov 27"
+  sponsored: boolean;           // a paid placement
+}
+
+interface VrboSearch {
+  destination: string;          // what you asked for
+  region: string | null;        // the place Vrbo actually searched; check it before trusting the rentals
+  checkIn: string; checkOut: string; adults: number;
+  totalResults: number | null;  // Vrbo's own count for the whole search
+  rentals: VrboRental[];
+  url: string;                  // the results page
+  warnings: string[];           // e.g. Vrbo searched another place than the one asked for
+}
+
+  /**
+   * Vrbo's own vacation-rental search: homes, cabins and condos for a destination and dates,
+   * with nightly and total price, rating and the listing link.
+   */
+  interface Unit {
+    /**
+     * Runs Vrbo's own vacation-rental search — `bowmark.providers.vrbo.search({ destination:
+     * "South Lake Tahoe, California", checkIn: "2026-12-11", checkOut: "2026-12-13", adults: 2 })`
+     * — and returns the first page of rentals in Vrbo's order (about 50): name, type, bedrooms,
+     * highlight, amenities, rating out of 10, review count, nightly price, total price for the
+     * stay with fees, cancellation and the listing link with the dates, plus `region`, the place
+     * Vrbo actually searched (a mismatch with `destination` is named in `warnings`). Read-only: to
+     * book, the person opens `url`. A real browser load, so expect 30-60 s.
+     */
+    search(args: VrboSearchArgs): Promise<VrboSearch>;
   }
 }
 
@@ -122213,8 +122492,9 @@ interface GetBusinessArgs {
     getBusiness(args: GetBusinessArgs): Promise<yellowpagesBusiness>;
 
     /**
-     * Searches the directory by business category or name and a city, e.g. plumber in Denver, CO,
-     * and returns each business's name, phone, address, categories and listing url.
+     * Finds a local business near a city, such as a plumber, electrician or dentist near me, by
+     * business category or name and a city, e.g. plumber in Denver, CO, and returns each
+     * business's name, phone, address, categories and listing url.
      */
     search(args: SearchArgs): Promise<yellowpagesRow[]>;
   }
@@ -122907,6 +123187,7 @@ interface YoutubeSearchVideo {
   title: string;
   channel: string | null;  // display name — pass channelId (below), not this, to getChannel / listChannel* / searchWithinChannel
   channelId: string | null;
+  channelHandle: string | null;      // the channel's @handle, e.g. "@MrBeast"; null when YouTube links it by /channel/UC...
   published: string | null;          // YouTube's own phrase, e.g. "4 weeks ago"
   publishedAgeSeconds: number | null; // that phrase in seconds, to order newest-first
   length: string | null;             // e.g. "22:28"; null for a live stream
@@ -123186,6 +123467,7 @@ interface YoutubePlaylistVideo {
   title: string;
   channelId: string | null;   // the PUBLISHING channel, which can differ from the playlist owner
   channelTitle: string | null;
+  channelHandle: string | null;  // the publishing channel's @handle; null when linked by /channel/UC...
   views: string | null;       // YouTube's own abbreviated text, e.g. "4.9M views"
   published: string | null;   // YouTube's own phrase, e.g. "5 years ago"
   publishedAgeSeconds: number | null;
@@ -126771,6 +127053,7 @@ interface BowmarkProviders {
   medium: BowmarkProvider_medium.Unit;
   meetup: BowmarkProvider_meetup.Unit;
   menards: BowmarkProvider_menards.Unit;
+  mensjournal: BowmarkProvider_mensjournal.Unit;
   mercari: BowmarkProvider_mercari.Unit;
   mergify: BowmarkProvider_mergify.Unit;
   merriam_webster: BowmarkProvider_merriam_webster.Unit;
@@ -127064,6 +127347,7 @@ interface BowmarkProviders {
   trojanstorage: BowmarkProvider_trojanstorage.Unit;
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
   trueup: BowmarkProvider_trueup.Unit;
+  trulia: BowmarkProvider_trulia.Unit;
   trustpilot: BowmarkProvider_trustpilot.Unit;
   tryalma_com: BowmarkProvider_tryalma_com.Unit;
   tubitv: BowmarkProvider_tubitv.Unit;
@@ -127103,6 +127387,7 @@ interface BowmarkProviders {
   visible: BowmarkProvider_visible.Unit;
   vistaprint: BowmarkProvider_vistaprint.Unit;
   voluspa: BowmarkProvider_voluspa.Unit;
+  vrbo: BowmarkProvider_vrbo.Unit;
   vscode: BowmarkProvider_vscode.Unit;
   vts_marketplace: BowmarkProvider_vts_marketplace.Unit;
   walkerhughes: BowmarkProvider_walkerhughes.Unit;

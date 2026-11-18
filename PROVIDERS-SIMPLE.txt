@@ -167,6 +167,7 @@ bungalow.com — bungalow: getListing, listMarkets, searchListings
 businessinsider.com — businessinsider_com: findTicker, getArticle, getArticleComments, getAuthorArticles, getGuide, getMarketQuote, getVideo, listArticlesBySection, listCryptoCurrencies, listGuides, listMarketIndices, listOpinionPieces, listSections, listTrendingArticles, listVideos, postComment, searchArticles
 bykoket.com — bykoket: addToCart, getProduct, searchProducts
 byltbasics.com — byltbasics: buildPackHandoff, getPackOptions, listBundlePacks
+cabelas.com — cabelas: findStores, listStores
 cabinsforyou.com — cabinsforyou: getCabinDetail, search
 cal.com — cal_com: findProfiles, getAvailability, getBookingForm, getEventTypes
 calendly.com — calendly: bookMeeting, cancelBooking, findProfiles, getAvailability, getBooking, getBookingForm, getEventTypes, getRoutingForm, listPackages, rescheduleBooking, submitRoutingForm (+27 planned)
@@ -459,7 +460,7 @@ indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searc
 independent.co.uk — independent: browseSection, getArticle, getAuthorArticles, getHomepageHeadlines, getMostPopular, getTopicArticles, listArticlesByDate, listAuthors, listLatestNews, listSections, listTopics (+23 planned)
 inspirecommunities.com — inspirecommunities: searchHomes
 instacart.com — instacart: compareStores, findLocation, getCart, getDeliveryEstimate, getMyAccount, getProduct, getStore, getStoreHours, getWeeklyAd, listCarts, listDeals, listDepartmentProducts, listDepartments, listMyAddresses, listOrders, listStores, suggestSearches (+25 planned)
-instagram.com — instagram: blockUser, commentOnPost, followUser, getDirectMessages, getFeed, getHomeFeed, getNotifications, getPost, getPosts, getProfile, getSavedPosts, getStories, getThreadMessages, likePost, muteUser, savePost, searchAccounts, sendDirectMessage, unblockUser, unfollowUser, unlikePost, unmuteUser, unsavePost, updateProfile
+instagram.com — instagram: blockUser, commentOnPost, followUser, getDirectMessages, getFeed, getHomeFeed, getNotifications, getPlayback, getPost, getPosts, getProfile, getSavedPosts, getStories, getThreadMessages, likePost, muteUser, savePost, searchAccounts, sendDirectMessage, unblockUser, unfollowUser, unlikePost, unmuteUser, unsavePost, updateProfile
 insurify.com — insurify: getAutoQuotes, getCarrierReview, getCarrierUserReviews, getCityRates, getHomeQuotes, getRentersQuotes, getStateRates, getVehicleRates, listInsightsReports, rankCarriers (+19 planned)
 intactinsurance.com — intactinsurance: getSolution, listSolutions (+1 planned)
 interiordefine.com — interiordefine: addToCart, getConfigurator, priceConfiguration, searchProducts
@@ -633,7 +634,7 @@ pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
 packlane.com — packlane: getQuote
 pallet2ship.co.uk — pallet2ship: getQuote
 partiful.com — partiful: discoverEvents, getEvent
-partsgeek.com — partsgeek: getMakeCatalog, searchParts (+1 planned)
+partsgeek.com — partsgeek: addToCart, getCheckout, getMakeCatalog, searchParts, updateCheckoutShipping, viewCart (+2 planned)
 patreon.com — patreon: commentOnPost, deleteComment, followCreator, getCreator, getCurrentUserFeed, getPost, likePost, listConversations, listCreatorCollections, listCreatorPosts, listCreatorShop, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators, unfollowCreator, unlikePost
 pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, getServiceDetails, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listMyMemberships, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
@@ -833,7 +834,7 @@ ticketmaster.com — ticketmaster: getVenue, listClassifications, search, search
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
 tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getHighTideFloodingHistory, getMeteorologicalObservations, getMonthlyMeanWaterLevel, getSeaLevelTrend, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
-tiktok.com — tiktok: 36 functions — ask get_library
+tiktok.com — tiktok: 37 functions — ask get_library
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 timeanddate.com — timeanddate: search
 titlenine.com — titlenine: calculateBraSize
@@ -864,7 +865,7 @@ tumblr.com — tumblr: 33 functions — ask get_library
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
-twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getCurrentUser, getFollowStatus, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, unfollowChannel (+1 planned)
+twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getCurrentUser, getFollowStatus, getPlayback, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, unfollowChannel (+1 planned)
 ubereats.com — ubereats: addToCart, applyPromoCode, browseStores, checkDeliveryAvailability, clearCart, findAddress, findChainStore, getCart, getCheckoutTotal, getMenuItem, getMyAccount, getOrder, getStore, listActiveOrders, listMyAddresses, listOrders, removeFromCart, search, searchStoreProducts, updateCartItem (+8 planned)
 uhaul.com — uhaul: getRates
 uhc.com — uhc_directory: findProviders

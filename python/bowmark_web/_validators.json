@@ -1,5 +1,5 @@
 {
-  "version": "43b8b954f78be0c57f3cd9374ab2377cf412e666a4dd859ea23bcff0f664862c",
+  "version": "e62ab3c79b18519af378541497a54da6cecf185da4a9c3188c0ddbb69780e79f",
   "units": {
     "address_validation": {
       "defs": {
@@ -81836,6 +81836,46 @@
             "optional": false
           }
         ],
+        "getPlayback": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "video",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "shortcode",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getPost": [
           {
             "name": "input",
@@ -96217,6 +96257,48 @@
         ]
       }
     },
+    "providers.mensjournal": {
+      "defs": {
+        "LatestArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "latestArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LatestArticlesArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.mercari": {
       "defs": {},
       "functions": {
@@ -110386,7 +110468,83 @@
       }
     },
     "providers.partsgeek": {
-      "defs": {},
+      "defs": {
+        "PartsgeekShippingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "street",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "street2",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "getMakeCatalog": [
           {
@@ -110406,6 +110564,39 @@
             "optional": false
           }
         ],
+        "addToCart": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "productId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getCheckout": [],
         "searchParts": [
           {
             "name": "arg0",
@@ -110430,7 +110621,18 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "updateCheckoutShipping": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PartsgeekShippingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "viewCart": []
       }
     },
     "providers.patreon": {
@@ -150860,6 +151062,24 @@
             "optional": false
           }
         ],
+        "getPlayback": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getVideo": [
           {
             "name": "args",
@@ -153765,6 +153985,74 @@
         ]
       }
     },
+    "providers.trulia": {
+      "defs": {},
+      "functions": {
+        "searchHomes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "location",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "listingType",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "for_sale"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "for_rent"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "sold"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getHome": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.trustpilot": {
       "defs": {
         "TrustpilotGetCompanyArgs": {
@@ -156040,6 +156328,24 @@
             "schema": {
               "k": "ref",
               "name": "GetStreamArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlayback": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
@@ -160393,6 +160699,62 @@
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.vrbo": {
+      "defs": {
+        "VrboSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "VrboSearchArgs"
+            },
+            "optional": false
           }
         ]
       }

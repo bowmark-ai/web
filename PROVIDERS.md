@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7341 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7351 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -992,6 +992,8 @@ One function per row, with the site it is called on.
 | `ca_gov.searchNews` | www.ca.gov | Searches the Governor's newsroom (gov.ca.gov), which CA.gov's home page links to for… | 🟢 |
 | `ca_gov.searchPublicData` | www.ca.gov | Searches California's open data portal (data.ca.gov) for public datasets by keyword —… | 🟢 |
 | `ca_gov.searchServices` | www.ca.gov | Searches the State of California's service directory for public services by keyword or… | 🟢 |
+| `cabelas.findStores` | cabelas.com | Finds the Cabela's stores nearest a US ZIP or a lat/lng from the site's own store… | 🟢 |
+| `cabelas.listStores` | cabelas.com | Lists every Cabela's store from the site's own store locator (stores.cabelas.com)… | 🟢 |
 | `cabinsforyou.getCabinDetail` | cabinsforyou.com | Reads one cabin's own listing page — bedrooms/bathrooms/sleeps/parking, pet policy… | 🟢 |
 | `cabinsforyou.search` | cabinsforyou.com | Runs Cabins For You's own homepage cabin-availability search (Check In / Check Out /… | 🟢 |
 | `cal_com.findProfiles` | cal.com | Finds a person's own Cal.com page from their full name and, optionally, their company… | 🟢 |
@@ -2805,7 +2807,7 @@ One function per row, with the site it is called on.
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟡 |
 | `g2.getProduct` | g2.com | Reads one product's `/products/<slug>/reviews` page for its published aggregate rating… | 🟢 |
 | `g2.listReviews` | g2.com | The 25 most recent reviews of one G2 product, off G2's own per-product review feed —… | 🟢 |
-| `g2.search` | g2.com | Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a… | 🟢 |
+| `g2.search` | g2.com | Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a… | 🟡 |
 | `gap.getProduct` | www.gap.com | Reads one Gap product's variant-level sizes, colors and fits with each SKU's sale… | 🟢 |
 | `gap.searchProducts` | www.gap.com | Searches Gap's live apparel catalog (www.gap.com) for what a shopper types — men's… | 🟢 |
 | `gasbuddy.findCheapestNearby` | gasbuddy.com | Runs GasBuddy's own ZIP-radius station search and returns real, currently-reported… | 🟢 |
@@ -3522,6 +3524,7 @@ One function per row, with the site it is called on.
 | `instagram.getFeed` | instagram.com | Reads the public posts behind an Instagram hashtag, keyword or location URL, without a… | 🟢 |
 | `instagram.getHomeFeed` | instagram.com | Reads the signed-in user's home feed — the newest posts from accounts they follow… | 🟢 |
 | `instagram.getNotifications` | instagram.com | Reads the signed-in user's activity feed — likes, comments, follows, and direct… | 🟢 |
+| `instagram.getPlayback` | instagram.com | The playback menu for one Instagram video, reel or carousel (a post or reel URL, or a… | 🟢 |
 | `instagram.getPost` | instagram.com | Reads one public Instagram post or reel by URL (/p/, /reel/, /reels/, /tv/) or… | 🟢 |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟢 |
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile without a login: full name, biography, bio links… | 🟢 |
@@ -4658,9 +4661,14 @@ One function per row, with the site it is called on.
 | `pallet2ship.getQuote` | pallet2ship.co.uk | Live pallet freight quotes between two UK-mainland postcodes for one or more pallets… | 🟢 |
 | `partiful.discoverEvents` | partiful.com | Lists the public events Partiful's explore page shows for one region (sf, nyc, la… | 🟢 |
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
+| `partsgeek.addToCart` | partsgeek.com | Adds one part (searchParts query + productId) to a Parts Geek guest cart through the… | 🟢 |
+| `partsgeek.getCheckout` | partsgeek.com | Reads Parts Geek's checkout page (/checkout/) for the run's guest cart: lines… | 🟢 |
 | `partsgeek.getMakeCatalog` | partsgeek.com | Lists the vehicle models and part categories Parts Geek carries for one vehicle make… | 🟢 |
 | `partsgeek.searchParts` | partsgeek.com | Searches Parts Geek's auto-parts catalog through its own search page (/ss/?ssq=)… | 🟢 |
 | `partsgeek.trackOrder` | partsgeek.com | Looks up a Parts Geek order's status from its order number and the email on the order… | ⚪ |
+| `partsgeek.updateCheckoutShipping` | partsgeek.com | Saves the guest checkout's shipping address and contact through Parts Geek's own POST… | 🟢 |
+| `partsgeek.verifyAddress` | partsgeek.com | Checks a US postal address against the checkout's Experian/QAS address verification… | ⚪ |
+| `partsgeek.viewCart` | partsgeek.com | Reads the run's Parts Geek guest cart page (/cart/): lines with title, brand, vehicle… | 🟢 |
 | `patreon.commentOnPost` | patreon.com | Leave a comment on a post as the signed-in caller; returns the comment as Patreon… | 🟢 |
 | `patreon.deleteComment` | patreon.com | Delete one of the signed-in caller's own comments. | 🟢 |
 | `patreon.followCreator` | patreon.com | Follow a creator for free as the signed-in caller — Patreon's free membership, no tier… | 🟢 |
@@ -6230,6 +6238,7 @@ One function per row, with the site it is called on.
 | `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller — takes the userId and secUid off… | 🟢 |
 | `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟢 |
 | `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | 🟢 |
+| `tiktok.getPlayback` | tiktok.com | The playback menu for one TikTok video (a `/@<handle>/video/<id>` URL or a bare… | 🟢 |
 | `tiktok.getProfile` | tiktok.com | A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId… | 🟢 |
 | `tiktok.getSound` | tiktok.com | A sound/music track's own facts — title, artist, duration, how many videos use it —… | 🟢 |
 | `tiktok.getTranscript` | tiktok.com | A video's own caption track, read off `itemStruct.video.subtitleInfos` — the WebVTT… | 🟢 |
@@ -6407,7 +6416,7 @@ One function per row, with the site it is called on.
 | `tripadvisor.getDestination` | tripadvisor.com | Reads a city or region's overview page (/Tourism-g<geoId>-…): its name, parent places… | 🟡 |
 | `tripadvisor.getForumThread` | tripadvisor.com | Reads one forum thread — the opening post and every reply, with author, date and text… | ⚪ |
 | `tripadvisor.getForumTopics` | tripadvisor.com | Lists a destination's travel-forum topics — title, author, reply count, last post date… | ⚪ |
-| `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟡 |
+| `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel, usually in about a second: name, address, phone, star class, rating… | 🟡 |
 | `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | 🟡 |
 | `tripadvisor.getMemberProfile` | tripadvisor.com | Reads a member's public profile — handle, display name, home town, join date… | ⚪ |
 | `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a listing (/HotelsNear-… | 🟡 |
@@ -6499,6 +6508,7 @@ One function per row, with the site it is called on.
 | `twitch.getClip` | twitch.tv | Reads one clip by its slug, a clips.twitch.tv link or a twitch.tv/<login>/clip/<slug>… | 🟢 |
 | `twitch.getCurrentUser` | twitch.tv | Reads which Twitch account the saved sign-in belongs to: its numeric id and login… | 🟢 |
 | `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | 🟢 |
+| `twitch.getPlayback` | twitch.tv | The playback menu for a Twitch live channel (a login or twitch.tv/<login>) or a past… | 🟢 |
 | `twitch.getStream` | twitch.tv | Reads a channel's LIVE state right now: whether it is live, title, game, viewer count… | 🟢 |
 | `twitch.getSubscriptionStatus` | twitch.tv | Checks whether the signed-in user is subscribed to one named channel: id, Twitch's own… | 🟢 |
 | `twitch.getVideo` | twitch.tv | Reads one public Twitch video by id or twitch.tv/videos link: title, length in… | 🟢 |
