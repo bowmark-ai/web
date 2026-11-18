@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e62ab3c79b18519af378541497a54da6cecf185da4a9c3188c0ddbb69780e79f
-// 5482 checked, 20 unchecked.
+// Manifest version: 79dbead23f788368e1a4f3c28888c1ff28615dc8ce7014ca20ec9319c2ee4162
+// 5492 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e62ab3c79b18519af378541497a54da6cecf185da4a9c3188c0ddbb69780e79f",
+  "version": "79dbead23f788368e1a4f3c28888c1ff28615dc8ce7014ca20ec9319c2ee4162",
   "units": {
     "address_validation": {
       "defs": {
@@ -28998,6 +28998,119 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.cabelas": {
+      "defs": {
+        "FindStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "brand",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "cabelas"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "basspro"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "brand",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "cabelas"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "basspro"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListStoresArgs"
+            },
+            "optional": true
+          }
+        ],
+        "findStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindStoresArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.cabinsforyou": {
       "defs": {
         "CabinsforyouSearchArgs": {
@@ -46805,6 +46918,57 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "findStores": null
+      }
+    },
+    "providers.dignitymemorial": {
+      "defs": {
+        "DignityMemorialSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchObituaries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DignityMemorialSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getObituary": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.dillards": {
@@ -66667,6 +66831,372 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.gap_factory": {
+      "defs": {
+        "GapFactorySearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "department",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "men"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "women"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "inStockOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "onSaleOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GapFactorySearchHit": {
+          "k": "object",
+          "props": [
+            {
+              "name": "styleId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "ccId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "color",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "colorDescription",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "productType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "regularPrice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "percentOff",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "onSale",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "inStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "lowStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "inventoryStatus",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewScore",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewCount",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "image",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "GapFactorySearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "ccId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "us"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "ref",
+                  "name": "GapFactorySearchHit"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.gasbuddy": {
       "defs": {
         "GasbuddyFindCheapestNearbyArgs": {
@@ -77563,6 +78093,43 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCommunities": []
+      }
+    },
+    "providers.hobbylobby": {
+      "defs": {
+        "HobbyLobbySearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HobbyLobbySearchArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.hobie": {
@@ -130303,6 +130870,63 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.scheels": {
+      "defs": {
+        "GetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sku",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
+            },
+            "optional": false
           }
         ]
       }

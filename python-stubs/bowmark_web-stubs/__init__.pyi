@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e62ab3c79b18519af378541497a54da6cecf185da4a9c3188c0ddbb69780e79f
-# 98 capabilities, 916 providers, 5482 typed functions, 20 refused.
+# Manifest version: 79dbead23f788368e1a4f3c28888c1ff28615dc8ce7014ca20ec9319c2ee4162
+# 98 capabilities, 921 providers, 5492 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -583,6 +583,7 @@ class Cap_browser_agent_BrowserAgentSummary_Out(TypedDict):
     question: Cap_browser_agent_BrowserAgentQuestion_Out | None
     createdAt: str
     closedAt: str | None
+    holdsSlot: bool
 
 class Cap_browser_agent_WatchLinkResult_Out(TypedDict):
     id: str
@@ -6463,6 +6464,7 @@ class Prv_amazon_SearchProductsArgs_u1_In(TypedDict):
 class Prv_amazon_AmazonSearchResult_Out(TypedDict):
     products: list[Prv_amazon_AmazonProduct_Out]
     totalResultCount: float
+    warnings: NotRequired[list[str]]
 
 class Prv_amazon_AmazonProduct_Out(TypedDict):
     asin: str
@@ -14783,6 +14785,70 @@ class Prv_ca_gov_ca_govDataRows_Out_fields_item_Out(TypedDict):
     id: str
     type: str
     label: NotRequired[str]
+
+class Prv_cabelas_ListStoresArgs_In(TypedDict):
+    state: NotRequired[str]
+    brand: NotRequired[Literal["cabelas"] | Literal["basspro"] | Literal["all"]]
+
+class Prv_cabelas_CabelasStore_Out(TypedDict):
+    id: str
+    name: str
+    brand: Literal["cabelas"] | Literal["basspro"] | Literal["other"]
+    locality: str | None
+    address: Prv_cabelas_CabelasStore_Out_address_Out
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    url: str | None
+    timezone: str | None
+    hours: Mapping[str, str]
+    holidayHours: list[Prv_cabelas_CabelasStore_Out_holidayHours_item_Out]
+    googlePlaceId: str | None
+
+class Prv_cabelas_CabelasStore_Out_address_Out(TypedDict):
+    line1: str | None
+    city: str | None
+    region: str | None
+    postalCode: str | None
+    countryCode: str | None
+
+class Prv_cabelas_CabelasStore_Out_holidayHours_item_Out(TypedDict):
+    date: str
+    hours: str
+
+class Prv_cabelas_FindStoresArgs_In(TypedDict):
+    zip: NotRequired[str]
+    lat: NotRequired[float]
+    lng: NotRequired[float]
+    brand: NotRequired[Literal["cabelas"] | Literal["basspro"] | Literal["all"]]
+    limit: NotRequired[float]
+
+class Prv_cabelas_CabelasStoreNear_Out(TypedDict):
+    id: str
+    name: str
+    brand: Literal["cabelas"] | Literal["basspro"] | Literal["other"]
+    locality: str | None
+    address: Prv_cabelas_CabelasStoreNear_Out_address_Out
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    url: str | None
+    timezone: str | None
+    hours: Mapping[str, str]
+    holidayHours: list[Prv_cabelas_CabelasStoreNear_Out_holidayHours_item_Out]
+    googlePlaceId: str | None
+    distanceMiles: float
+
+class Prv_cabelas_CabelasStoreNear_Out_address_Out(TypedDict):
+    line1: str | None
+    city: str | None
+    region: str | None
+    postalCode: str | None
+    countryCode: str | None
+
+class Prv_cabelas_CabelasStoreNear_Out_holidayHours_item_Out(TypedDict):
+    date: str
+    hours: str
 
 class Prv_cabinsforyou_CabinsforyouSearchArgs_In(TypedDict):
     checkIn: str
@@ -23513,6 +23579,65 @@ class Prv_dice_DiceJobDetails_Out(TypedDict):
     description: str
     skills: list[str]
     warnings: list[str]
+
+class Prv_dignitymemorial_DignityMemorialSearchArgs_In(TypedDict):
+    name: str
+    state: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_dignitymemorial_DignityMemorialSearchResult_Out(TypedDict):
+    total: float
+    obituaries: list[Prv_dignitymemorial_DignityMemorialObituaryHit_Out]
+
+class Prv_dignitymemorial_DignityMemorialObituaryHit_Out(TypedDict):
+    id: str
+    name: str
+    firstName: str | None
+    lastName: str | None
+    birthDate: str | None
+    deathDate: str | None
+    snippet: str | None
+    brand: str | None
+    imageUrl: str | None
+    url: str
+
+class Prv_dignitymemorial_DignityMemorialObituary_Out(TypedDict):
+    id: str
+    name: str
+    firstName: str | None
+    middleName: str | None
+    lastName: str | None
+    nickname: str | None
+    maidenName: str | None
+    birthDate: str | None
+    deathDate: str | None
+    birthPlace: Prv_dignitymemorial_DignityMemorialPlace_Out | None
+    deathPlace: Prv_dignitymemorial_DignityMemorialPlace_Out | None
+    obituary: str | None
+    imageUrl: str | None
+    funeralHome: Prv_dignitymemorial_DignityMemorialObituary_Out_funeralHome_u0_Out | None
+    services: list[Prv_dignitymemorial_DignityMemorialService_Out]
+    publishDate: str | None
+
+class Prv_dignitymemorial_DignityMemorialPlace_Out(TypedDict):
+    city: str | None
+    stateOrProv: str | None
+    country: str | None
+
+class Prv_dignitymemorial_DignityMemorialObituary_Out_funeralHome_u0_Out(TypedDict):
+    id: str | None
+    name: str | None
+    address: str | None
+    phone: str | None
+
+class Prv_dignitymemorial_DignityMemorialService_Out(TypedDict):
+    name: str | None
+    date: str | None
+    startTime: str | None
+    endTime: str | None
+    venue: str | None
+    address: str | None
+    liveStreamUrl: str | None
 
 class Prv_dillards_dillardsSearchQuery_In(TypedDict):
     query: str
@@ -32730,6 +32855,116 @@ class Prv_gap_GapSku_Out(TypedDict):
     lowStock: bool
     status: str | None
 
+class Prv_gap_factory_GapFactorySearchArgs_In(TypedDict):
+    query: str
+    department: NotRequired[Literal["men"] | Literal["women"]]
+    inStockOnly: NotRequired[bool]
+    onSaleOnly: NotRequired[bool]
+    limit: NotRequired[float]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
+
+class Prv_gap_factory_GapFactorySearchResult_Out(TypedDict):
+    query: str
+    department: Literal["Men"] | Literal["Women"] | None
+    country: Literal["us"] | Literal["ca"]
+    currency: str
+    total: float
+    pagesRead: float
+    pageCount: float
+    hasMore: bool
+    hits: list[Prv_gap_factory_GapFactorySearchHit_Out]
+    warnings: list[str]
+
+class Prv_gap_factory_GapFactorySearchHit_Out(TypedDict):
+    styleId: str
+    ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
+    url: str
+    title: str
+    color: str | None
+    colorDescription: str | None
+    productType: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    inventoryStatus: str | None
+    reviewScore: float | None
+    reviewCount: float | None
+    image: str | None
+
+class Prv_gap_factory_getProduct_product_u1_In(TypedDict):
+    ccId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
+
+class Prv_gap_factory_GapFactorySearchHit_In(TypedDict):
+    styleId: str
+    ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
+    url: str
+    title: str
+    color: str | None
+    colorDescription: str | None
+    productType: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    inventoryStatus: str | None
+    reviewScore: float | None
+    reviewCount: float | None
+    image: str | None
+
+class Prv_gap_factory_GapFactoryProduct_Out(TypedDict):
+    styleId: str
+    ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
+    url: str
+    title: str
+    fits: list[str]
+    sizes: list[str]
+    colors: list[Prv_gap_factory_GapFactoryColor_Out]
+    skus: list[Prv_gap_factory_GapFactorySku_Out]
+    inStock: bool
+
+class Prv_gap_factory_GapFactoryColor_Out(TypedDict):
+    ccId: str
+    color: str | None
+    fit: str
+    url: str
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    sizesInStock: list[str]
+    sizesOutOfStock: list[str]
+    image: str | None
+    images: list[str]
+    swatch: str | None
+
+class Prv_gap_factory_GapFactorySku_Out(TypedDict):
+    skuId: str
+    fit: str
+    ccId: str
+    color: str | None
+    size: str | None
+    size2: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    status: str | None
+
 class Prv_gasbuddy_GasbuddyFindCheapestNearbyArgs_In(TypedDict):
     zip: str
     limit: NotRequired[float]
@@ -37897,6 +38132,43 @@ class Prv_historymaker_HistorymakerCommunity_Out(TypedDict):
     bathsRange: str
     activeHomesCount: float
     url: str
+
+class Prv_hobbylobby_HobbyLobbyProduct_Out(TypedDict):
+    sku: str | None
+    name: str
+    brand: str | None
+    description: str | None
+    price: float | None
+    currency: str | None
+    rating: float | None
+    reviewCount: float | None
+    images: list[str]
+    categories: list[str]
+    url: str
+
+class Prv_hobbylobby_HobbyLobbySearchArgs_In(TypedDict):
+    query: str
+
+class Prv_hobbylobby_HobbyLobbySearchPage_Out(TypedDict):
+    query: str
+    total: float
+    results: list[Prv_hobbylobby_HobbyLobbySearchResult_Out]
+
+class Prv_hobbylobby_HobbyLobbySearchResult_Out(TypedDict):
+    productKey: str | None
+    sku: str | None
+    name: str
+    productName: str | None
+    brand: str | None
+    url: str
+    price: float | None
+    wasPrice: float | None
+    inStock: bool | None
+    rating: float | None
+    reviewCount: float | None
+    variantCount: float | None
+    image: str | None
+    category: str | None
 
 class Prv_hobie_HobieModelSummary_Out(TypedDict):
     slug: str
@@ -61267,6 +61539,45 @@ class Prv_scentbird_ScentbirdPrice_Out(TypedDict):
     membership: float | None
     currencyCode: str | None
 
+class Prv_scheels_GetProductArgs_In(TypedDict):
+    sku: str
+
+class Prv_scheels_ScheelsProduct_Out(TypedDict):
+    sku: str
+    name: str
+    brand: str | None
+    description: str | None
+    gtin: str | None
+    url: str
+    images: list[str]
+    price: float | None
+    currency: str | None
+    availability: str | None
+    storeStock: list[Prv_scheels_ScheelsStoreStock_Out]
+
+class Prv_scheels_ScheelsStoreStock_Out(TypedDict):
+    storeId: str
+    storeUrl: str
+    quantity: float | None
+
+class Prv_scheels_SearchProductsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_scheels_ScheelsSearchResult_Out(TypedDict):
+    query: str
+    products: list[Prv_scheels_ScheelsSearchItem_Out]
+
+class Prv_scheels_ScheelsSearchItem_Out(TypedDict):
+    sku: str
+    name: str
+    url: str
+    imageUrl: str | None
+    price: float | None
+    regularPrice: float | None
+    rating: float | None
+    reviewCount: float | None
+
 class Prv_scottfraser_co_uk_ScottFraserListing_Out(TypedDict):
     reference: str
     url: str
@@ -73152,6 +73463,7 @@ class Prv_tripadvisor_TripadvisorHotelDetail_Out(TypedDict):
     roomFeatures: NotRequired[list[str]]
     nearbyPlaces: NotRequired[list[Prv_tripadvisor_TripadvisorHotelDetail_Out_nearbyPlaces_item_Out]]
     priceFrom: NotRequired[float]
+    warnings: NotRequired[list[str]]
 
 class Prv_tripadvisor_TripadvisorHotelDetail_Out_nearbyPlaces_item_Out(TypedDict):
     name: str
@@ -83376,7 +83688,8 @@ class Cap_browser_agent(Protocol):
         """Lists this account's browser agent sessions (open ones by default) — check how many
         you're holding before starting a new one, especially when looping. Every session it
         lists — idle, needs_input or `failed` alike — counts against the 3-session concurrent
-        limit until you `stop()` it.
+        limit until you `stop(id)` it; each row's `holdsSlot` says whether it still occupies
+        that limit.
         """
 
     async def watchLink(self, id: str, /) -> Cap_browser_agent_WatchLinkResult_Out:
@@ -86872,7 +87185,10 @@ class Prv_amazon(Protocol):
         price, listPrice, rating, ratingCount, sponsored, image }`; feed an `asin` to getProduct
         for detail. Optional `sort` (e.g. "price-asc-rank") and `page`. Prices are Amazon's
         national Whole Foods prices, not one store's: picking a store needs a signed-in Prime
-        address. Never places an order.
+        address. When Amazon answers no results to a session with no location (some exits), it
+        sets guest ZIP 10001 and asks once more, and the run notes say the rows are for that
+        ZIP. `warnings` appears only when an empty answer could not be confirmed that way. Never
+        places an order.
         """
 
     async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:
@@ -91392,6 +91708,22 @@ class Prv_ca_gov(Protocol):
         listPublicData()/searchPublicData() whose `datastoreActive` is true; `query` is
         full-text, `filters` matches columns exactly, `limit` (default 20, max 100) and `offset`
         page.
+        """
+
+class Prv_cabelas(Protocol):
+    """Cabela's (and Bass Pro Shops) store locator — list every store, or find the nearest ones
+    to a ZIP or lat/lng, with address, phone, hours and coordinates.
+    """
+
+    async def listStores(self, args: Prv_cabelas_ListStoresArgs_In | None = None, /) -> list[Prv_cabelas_CabelasStore_Out]:
+        """Every Cabela's store (or Bass Pro Shops with brand: "basspro", or both with "all"),
+        optionally only those in one state or province, with address, phone, weekly and holiday
+        hours, coordinates and the store's own page.
+        """
+
+    async def findStores(self, args: Prv_cabelas_FindStoresArgs_In, /) -> list[Prv_cabelas_CabelasStoreNear_Out]:
+        """The Cabela's stores nearest a US ZIP or a lat/lng, nearest first, each with its
+        straight-line distance in miles. brand: "basspro" or "all" widens it to Bass Pro Shops.
         """
 
 class Prv_cabinsforyou(Protocol):
@@ -96158,6 +96490,24 @@ class Prv_dickssportinggoods(Protocol):
     # It is CALLABLE at runtime; `bowmark.providers.dickssportinggoods.findStores` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
+class Prv_dignitymemorial(Protocol):
+    """Dignity Memorial obituaries — search published obituaries by the deceased's name
+    (optionally by state) and read one in full: dates, places, obituary text, funeral home
+    and services.
+    """
+
+    async def searchObituaries(self, args: Prv_dignitymemorial_DignityMemorialSearchArgs_In, /) -> Prv_dignitymemorial_DignityMemorialSearchResult_Out:
+        """Searches Dignity Memorial's published obituaries by the deceased's name, optionally
+        narrowed to a state or province, returning name, birth and death dates, a text snippet
+        and the obituary link.
+        """
+
+    async def getObituary(self, idOrUrl: str, /) -> Prv_dignitymemorial_DignityMemorialObituary_Out:
+        """Reads one Dignity Memorial obituary in full by its id or dignitymemorial.com URL: full
+        name, birth and death dates and places, obituary text, the funeral home and any
+        scheduled services.
+        """
+
 class Prv_dillards(Protocol):
     """Dillard's department store catalog, store-level stock, store locator and wedding/gift
     registry search.
@@ -100635,6 +100985,28 @@ class Prv_gap(Protocol):
         Canadian ccId needs country: "ca" (a hit or url carries it).
         """
 
+class Prv_gap_factory(Protocol):
+    """Gap Factory (www.gapfactory.com, and the Canadian store www.gapfactory.ca) outlet
+    apparel store. Searches the live catalog (men's/women's, on-sale, in-stock, with sale
+    and regular prices, every page) and reads one product's per-size, per-color price, live
+    stock and photos. Pass country: "ca" for the Canadian store in CAD.
+    """
+
+    async def searchProducts(self, args: Prv_gap_factory_GapFactorySearchArgs_In | str, /) -> Prv_gap_factory_GapFactorySearchResult_Out:
+        """Searches Gap Factory's live apparel catalog the way a shopper would ("shirt"),
+        optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
+        `limit` is met, from the US store or (country: "ca") the Canadian one in CAD. One row
+        per product color with sale price, regular (compare-at) price, percent off, stock, a
+        photo, and the ccId getProduct takes. The way in.
+        """
+
+    async def getProduct(self, product: str | Prv_gap_factory_getProduct_product_u1_In | Prv_gap_factory_GapFactorySearchHit_In, /) -> Prv_gap_factory_GapFactoryProduct_Out:
+        """Reads one Gap Factory product's every fit × color × size SKU with its price, regular
+        price and live in-stock flag, plus per-color in-stock and sold-out size lists and
+        photos, so a sold-out size is never shown. Takes the hit, ccId or url searchProducts
+        returns; a Canadian ccId needs country: "ca" (a hit or url carries it).
+        """
+
 class Prv_gasbuddy(Protocol):
     """GasBuddy's real, crowdsourced per-station gas prices — runs the site's own ZIP-radius
     search and returns currently-reported stations (brand, address, fuel price, how long ago
@@ -103899,6 +104271,24 @@ class Prv_historymaker(Protocol):
         """Lists HistoryMaker's active DFW communities with city, price range, beds/baths range,
         sqft range and how many homes are currently active in each — the site's own
         community-picker data.
+        """
+
+class Prv_hobbylobby(Protocol):
+    """The arts-and-crafts retailer. Search hobbylobby.com for craft supplies, yarn, fabric,
+    frames, home decor, seasonal and party goods with live prices, sale prices, stock and
+    ratings; read any product page.
+    """
+
+    async def getProduct(self, url: str, /) -> Prv_hobbylobby_HobbyLobbyProduct_Out:
+        """Reads one hobbylobby.com product page (a url from searchProducts) — price, brand,
+        rating, review count, description, images and category trail from the page's own
+        schema.org data.
+        """
+
+    async def searchProducts(self, args: Prv_hobbylobby_HobbyLobbySearchArgs_In, /) -> Prv_hobbylobby_HobbyLobbySearchPage_Out:
+        """Runs hobbylobby.com's own product search and returns the total match count plus the
+        first 12 products with live price, sale was-price, stock, rating and the url getProduct
+        takes. results is [] when nothing matches.
         """
 
 class Prv_hobie(Protocol):
@@ -116646,6 +117036,21 @@ class Prv_scentbird(Protocol):
         (standard/discount/membership) — straight off the site's own public GraphQL endpoint.
         """
 
+class Prv_scheels(Protocol):
+    """SCHEELS sporting goods (scheels.com): product search with prices and ratings, and
+    product details with per-store stock.
+    """
+
+    async def getProduct(self, args: Prv_scheels_GetProductArgs_In, /) -> Prv_scheels_ScheelsProduct_Out:
+        """Reads one SCHEELS product by SKU: name, brand, GTIN, price, availability, images and the
+        stores stocking it with quantities.
+        """
+
+    async def searchProducts(self, args: Prv_scheels_SearchProductsArgs_In, /) -> Prv_scheels_ScheelsSearchResult_Out:
+        """Searches scheels.com the way its search box does and returns products with SKU, price,
+        sale price, rating and review count.
+        """
+
 class Prv_scottfraser_co_uk(Protocol):
     """Scott Fraser, the Oxfordshire estate and letting agent: list its rental listing links
     and read one letting — status, rent, deposit, rooms, availability and features.
@@ -122359,8 +122764,11 @@ class Prv_tripadvisor(Protocol):
         """
 
     async def getHotel(self, args: Prv_tripadvisor_GetHotelArgs_In, /) -> Prv_tripadvisor_TripadvisorHotelDetail_Out:
-        """Reads one hotel in full: name, address, phone, star class, rating and sub-ratings,
-        review count, amenities, room features, nearby places and headline price.
+        """Reads one hotel, usually in about a second: name, address, phone, star class, rating,
+        review count and amenities, taking a hotel url or its location id (the d<id> in
+        /Hotel_Review-g<geo>-d<id>-…). Room features, nearby places and the headline price come
+        only when the full page was read; otherwise they are named in `warnings` (for prices,
+        call getHotelPrices).
         """
 
     async def getHotelPrices(self, args: Prv_tripadvisor_GetHotelPricesArgs_In, /) -> Prv_tripadvisor_TripadvisorHotelPrices_Out:
@@ -123940,8 +124348,8 @@ class Prv_vrbo(Protocol):
         bedrooms, highlight, amenities, rating out of 10, review count, nightly price, total
         price for the stay with fees, cancellation and the listing link with the dates, plus
         `region`, the place Vrbo actually searched (a mismatch with `destination` is named in
-        `warnings`). Read-only: to book, the person opens `url`. A real browser load, so expect
-        30-60 s.
+        `warnings`). Read-only: to book, the person opens `url`. Usually one plain GET (~2 s);
+        when the Vrbo bot wall refuses it, a real browser load (30-60 s).
         """
 
 class Prv_vscode(Protocol):
@@ -127823,6 +128231,7 @@ class BowmarkProviders(Protocol):
     bykoket: Prv_bykoket
     byltbasics: Prv_byltbasics
     ca_gov: Prv_ca_gov
+    cabelas: Prv_cabelas
     cabinsforyou: Prv_cabinsforyou
     cal_com: Prv_cal_com
     calendly: Prv_calendly
@@ -127946,6 +128355,7 @@ class BowmarkProviders(Protocol):
     dhl: Prv_dhl
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
+    dignitymemorial: Prv_dignitymemorial
     dillards: Prv_dillards
     direct_book: Prv_direct_book
     discogs: Prv_discogs
@@ -128026,6 +128436,7 @@ class BowmarkProviders(Protocol):
     furniture: Prv_furniture
     g2: Prv_g2
     gap: Prv_gap
+    gap_factory: Prv_gap_factory
     gasbuddy: Prv_gasbuddy
     gazelle: Prv_gazelle
     geico: Prv_geico
@@ -128085,6 +128496,7 @@ class BowmarkProviders(Protocol):
     hilton: Prv_hilton
     hipcamp: Prv_hipcamp
     historymaker: Prv_historymaker
+    hobbylobby: Prv_hobbylobby
     hobie: Prv_hobie
     hodjapasha: Prv_hodjapasha
     holidaybuilders: Prv_holidaybuilders
@@ -128368,6 +128780,7 @@ class BowmarkProviders(Protocol):
     samsclub: Prv_samsclub
     samsung: Prv_samsung
     scentbird: Prv_scentbird
+    scheels: Prv_scheels
     scottfraser_co_uk: Prv_scottfraser_co_uk
     scribd: Prv_scribd
     seakeeper: Prv_seakeeper
