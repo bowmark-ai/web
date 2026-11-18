@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0a775a63f6bdddd40caf7332f0622a1359dc49cebcedffd1039211c3c692942b
-// 5450 checked, 20 unchecked.
+// Manifest version: 73ad3970cc63471c894b324509d5fcec6e395365f8729a3c992157a826b0b046
+// 5453 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0a775a63f6bdddd40caf7332f0622a1359dc49cebcedffd1039211c3c692942b",
+  "version": "73ad3970cc63471c894b324509d5fcec6e395365f8729a3c992157a826b0b046",
   "units": {
     "address_validation": {
       "defs": {
@@ -109975,6 +109975,54 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.partsgeek": {
+      "defs": {},
+      "functions": {
+        "getMakeCatalog": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "make",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchParts": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.patreon": {
       "defs": {
         "CommentOnPostArgs": {
@@ -123373,6 +123421,24 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "getPlayback": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ],
         "login": [

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0a775a63f6bdddd40caf7332f0622a1359dc49cebcedffd1039211c3c692942b
-# 98 capabilities, 907 providers, 5450 typed functions, 20 refused.
+# Manifest version: 73ad3970cc63471c894b324509d5fcec6e395365f8729a3c992157a826b0b046
+# 98 capabilities, 908 providers, 5453 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -52414,6 +52414,51 @@ class Prv_partiful_PartifulQuestion_Out(TypedDict):
 class Prv_partiful_DiscoverEventsArgs_In(TypedDict):
     region: str
 
+class Prv_partsgeek_getMakeCatalog_arg0_In(TypedDict):
+    make: str
+
+class Prv_partsgeek_PartsgeekMakeCatalog_Out(TypedDict):
+    make: str
+    title: str
+    url: str
+    models: list[Prv_partsgeek_PartsgeekMakeCatalog_Out_models_item_Out]
+    partCategories: list[Prv_partsgeek_PartsgeekMakeCatalog_Out_partCategories_item_Out]
+
+class Prv_partsgeek_PartsgeekMakeCatalog_Out_models_item_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+
+class Prv_partsgeek_PartsgeekMakeCatalog_Out_partCategories_item_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+
+class Prv_partsgeek_searchParts_arg0_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_partsgeek_PartsgeekSearchResult_Out(TypedDict):
+    query: str
+    page: float
+    hasNextPage: bool
+    parts: list[Prv_partsgeek_PartsgeekPart_Out]
+    url: str
+
+class Prv_partsgeek_PartsgeekPart_Out(TypedDict):
+    title: str
+    vehicle: str | None
+    partNumber: str | None
+    brand: str | None
+    price: float | None
+    stock: str | None
+    freeShipping: bool
+    notes: str | None
+    attributes: Mapping[str, str]
+    fits: list[str]
+    productId: str | None
+    imageUrl: str | None
+
 class Prv_patreon_SearchCreatorsArgs_In(TypedDict):
     query: str
 
@@ -58002,6 +58047,46 @@ class Prv_reddit_setProfilePicture_input_u1_In(TypedDict):
 
 class Prv_reddit_setProfilePicture_return_Out(TypedDict):
     iconUrl: str
+
+class Prv_reddit_getPlayback_input_In(TypedDict):
+    video: str
+
+class Prv_reddit_RedditPlayback_Out(TypedDict):
+    videoId: str
+    title: str | None
+    durationMs: float | None
+    live: Literal[False]
+    embed: Prv_reddit_RedditPlayback_Out_embed_u0_Out | None
+    files: Prv_reddit_RedditPlayback_Out_files_Out
+    hls: Prv_reddit_RedditPlayback_Out_hls_u0_Out | None
+    expiresAt: None
+    referrer: Literal["any"]
+    warnings: list[str]
+
+class Prv_reddit_RedditPlayback_Out_embed_u0_Out(TypedDict):
+    url: str
+    hasAds: Literal[False]
+    note: str
+
+class Prv_reddit_RedditPlayback_Out_files_Out(TypedDict):
+    muxed: list[Prv_reddit_RedditPlaybackFile_Out]
+    videoOnly: list[Prv_reddit_RedditPlaybackFile_Out]
+    audioOnly: list[Prv_reddit_RedditPlaybackFile_Out]
+
+class Prv_reddit_RedditPlaybackFile_Out(TypedDict):
+    itag: None
+    url: str
+    mimeType: str
+    codecs: str | None
+    width: float | None
+    height: float | None
+    fps: float | None
+    bitrate: float | None
+    bytes: None
+    qualityLabel: str | None
+
+class Prv_reddit_RedditPlayback_Out_hls_u0_Out(TypedDict):
+    url: str
 
 class Prv_reddit_login_return_Out(TypedDict):
     connection: str
@@ -74369,6 +74454,11 @@ class Prv_ukstudenthouses_UkshCity_Out(TypedDict):
     name: str
     slug: str
     url: str
+
+class Prv_ukstudenthouses_searchListings_return_Out(TypedDict):
+    city: str
+    totalListings: float
+    listings: list[Prv_ukstudenthouses_UkshListingCard_Out]
 
 class Prv_ukstudenthouses_UkshListingCard_Out(TypedDict):
     id: str
@@ -111259,6 +111349,23 @@ class Prv_partiful(Protocol):
         getEvent for its hosts and RSVP form.
         """
 
+class Prv_partsgeek(Protocol):
+    """Parts Geek (partsgeek.com), an online auto-parts store — search its catalog for a part
+    (price, brand, part number, stock, which vehicles it fits), and list the models and part
+    categories it carries for a vehicle make.
+    """
+
+    async def getMakeCatalog(self, arg0: Prv_partsgeek_getMakeCatalog_arg0_In, /) -> Prv_partsgeek_PartsgeekMakeCatalog_Out:
+        """Lists the vehicle models and part categories Parts Geek carries for one make (e.g.
+        'Honda'), each with its Parts Geek page link.
+        """
+
+    async def searchParts(self, arg0: Prv_partsgeek_searchParts_arg0_In, /) -> Prv_partsgeek_PartsgeekSearchResult_Out:
+        """Searches Parts Geek's auto-parts catalog like its search box (20 per page): title,
+        vehicle, price, brand, part number, stock, notes, attributes and the vehicles each part
+        fits. An empty `parts` means the site found nothing. Read-only.
+        """
+
 class Prv_patreon(Protocol):
     """Reads a Patreon creator's page, tiers, and public posts and comments — logged out. With
     the caller signed in: their memberships, their home feed, and a creator's member-only
@@ -114316,6 +114423,16 @@ class Prv_reddit(Protocol):
         the signed-in caller's profile picture, or with `reset: true` puts back reddit's
         default. Returns the profile picture's URL as the profile now shows it. NEEDS THE CALLER
         SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def getPlayback(self, input: Prv_reddit_getPlayback_input_In, /) -> Prv_reddit_RedditPlayback_Out:
+        """The playback menu for a Reddit-hosted video (a post URL, a t3_ id, or a v.redd.it
+        address): every rendition v.redd.it serves (about 220p to 1080p, video-only files with
+        the sound as a separate file, tallest first), the same video as HLS, and Reddit's own
+        post card as the embed, so a page plays the video in its own player with no browser.
+        Reddit serves no file with picture and sound together, so `files.muxed` is always empty:
+        play one `videoOnly` file with one `audioOnly` file (Bowmark's player does). A post that
+        links YouTube or another site throws: use that site's getPlayback.
         """
 
     async def login(self, creds: LoginInput, /) -> Prv_reddit_login_return_Out:
@@ -122182,9 +122299,10 @@ class Prv_ukstudenthouses(Protocol):
         takes.
         """
 
-    async def searchListings(self, city: str, /) -> list[Prv_ukstudenthouses_UkshListingCard_Out]:
-        """Lists the student houses in one city (name or slug, e.g. "Derby"): listing number, link,
-        postcode, bedrooms, bathrooms, from-price per person per month and availability tag.
+    async def searchListings(self, city: str, /) -> Prv_ukstudenthouses_searchListings_return_Out:
+        """Lists every student house in one city (name or slug, e.g. "Derby"), across all of the
+        grid's pages, with the count: listing number, link, postcode, bedrooms, bathrooms,
+        from-price per person per month and availability tag.
         """
 
     async def getListing(self, listing: str, city: str | None = None, /) -> Prv_ukstudenthouses_UkshListing_Out | Prv_ukstudenthouses_UkshNotFound_Out:
@@ -127168,6 +127286,7 @@ class BowmarkProviders(Protocol):
     packlane: Prv_packlane
     pallet2ship: Prv_pallet2ship
     partiful: Prv_partiful
+    partsgeek: Prv_partsgeek
     patreon: Prv_patreon
     pausestudio: Prv_pausestudio
     pawsup: Prv_pawsup

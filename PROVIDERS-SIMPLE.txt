@@ -418,7 +418,7 @@ grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate
 hamptonwaterwine.com — hamptonwaterwine: findNearbyRetailers
 handypro.com — handypro: checkServiceArea, searchServiceCategories (+2 planned)
 hansons.com — hansons: checkAvailability (+1 planned)
-harmar.com — harmar: findCompatibleLifts, searchVehicleModels (+2 planned)
+harmar.com — harmar: findCompatibleLifts, getCompatibleLifts, searchChairModels, searchVehicleModels
 harringtonsdurham.com — harringtonsdurham: getListing, listListings
 hauslabs.com — hauslabs: getHauslabsProduct, listHauslabsProducts, runFoundationShadeFinder
 havenenergy.com — havenenergy: getPricingPrograms, getPropertyDetails, listPricingPrograms
@@ -630,6 +630,7 @@ pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
 packlane.com — packlane: getQuote
 pallet2ship.co.uk — pallet2ship: getQuote
 partiful.com — partiful: discoverEvents, getEvent
+partsgeek.com — partsgeek: getMakeCatalog, searchParts (+1 planned)
 patreon.com — patreon: commentOnPost, deleteComment, followCreator, getCreator, getCurrentUserFeed, getPost, likePost, listConversations, listCreatorCollections, listCreatorPosts, listCreatorShop, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators, unfollowCreator, unlikePost
 pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, getServiceDetails, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listMyMemberships, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
@@ -691,7 +692,7 @@ reboot.floathelm.com — floathelm: createAccount, findStudio, getRoom, listAvai
 recreation.gov — recreation_gov: campgroundAvailability, searchCampgrounds
 recruitee.com — recruitee: listJobs
 redbull.com — redbull: listEvents
-reddit.com — reddit: 40 functions — ask get_library (+2 planned)
+reddit.com — reddit: 41 functions — ask get_library (+2 planned)
 redfin.com — redfin: search
 registry.modelcontextprotocol.io — mcp_registry: search
 rei.com — rei: getProduct, search (+4 planned)
@@ -763,7 +764,7 @@ smartsign.com — smartsign: nothing callable yet (+2 planned)
 smartwool.com — smartwool: getSockRecommendation
 smithery.ai — smithery: search
 smry.ai — smry_ai: listDocPages, readArticle
-snapchat.com — snapchat: addFriend, blockUser, getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSpotlightVideo, listDiscoverStories, listFriends, listFriendStories, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, listTopicSpotlights, removeFriend, searchSnapchat, unblockUser, updateDisplayName (+8 planned)
+snapchat.com — snapchat: 25 functions — ask get_library (+8 planned)
 solidcore.co — solidcore: bookClass, checkAvailability, getClass, getCoach, getPack, getPricing, getSchedule, getStudio, joinWaitlist, listClassCategories, listCoaches, listMuscleGroups, listStudios, searchClasses (+10 planned)
 solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updatePreferences (+6 planned)
@@ -931,7 +932,7 @@ www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends,
 www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getCancellationPolicy, getClass, getOpenTimes, getService, getStaffMember, listAddOns, listClasses, listPhotos, listPromotions, listReviews, listServices, listStaff, searchBusinesses (+19 planned)
 www.walmart.ca — walmart_ca: search
 www.wixapis.com — wix_bookings: bookAppointment, cancelBooking, findSite, getOpenTimes, getService, listCategories, listLocations, listServices, listStaff, searchServices (+11 planned)
-x.com — x: blockUser, bookmarkPost, createPost, deletePost, followUser, getConversation, getListPosts, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listLists, listNotifications, listTrending, muteUser, post, profile, quotePost, replyToPost, repost, search, sendDirectMessage, updateProfile, uploadProfilePicture, userTimeline
+x.com — x: blockUser, bookmarkPost, createPost, deletePost, followUser, getConversation, getListPosts, getPlayback, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listLists, listNotifications, listTrending, muteUser, post, profile, quotePost, replyToPost, repost, search, sendDirectMessage, updateProfile, uploadProfilePicture, userTimeline
 xola.com — xola: findSeller, getAvailability, getExperience, getPriceQuote, listExperiences, listWaivers (+3 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search

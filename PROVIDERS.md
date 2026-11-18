@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7314 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7319 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -137,8 +137,8 @@ One function per row, with the site it is called on.
 | `airbnb.createWishlist` | airbnb.com | Creates a new private wishlist on the caller's account. | ⚪ |
 | `airbnb.getExperience` | airbnb.com | One Airbnb Experience's details: title, host, duration, price, language, what's… | ⚪ |
 | `airbnb.getExperienceReviews` | airbnb.com | Guest reviews of one Airbnb Experience, paginated through the whole set. | ⚪ |
-| `airbnb.getHostProfile` | airbnb.com | A vacation rental host's public Airbnb profile (airbnb.com/users/show/<id>): name… | 🟢 |
-| `airbnb.getListing` | airbnb.com | Is one Airbnb vacation rental available for given dates, and what does it cost per… | 🟢 |
+| `airbnb.getHostProfile` | airbnb.com | Get host info for an Airbnb listing: a vacation rental host's public Airbnb profile… | 🟢 |
+| `airbnb.getListing` | airbnb.com | Check the availability calendar for one Airbnb listing: is the vacation rental… | 🟢 |
 | `airbnb.getListingCalendar` | airbnb.com | A listing's day-by-day availability calendar for the coming months: which nights are… | ⚪ |
 | `airbnb.getListingDetails` | airbnb.com | Everything the Airbnb listing page (airbnb.com/rooms/<id>) shows about one vacation… | 🟢 |
 | `airbnb.getListingReviews` | airbnb.com | Guest reviews of one Airbnb vacation rental, read from the listing page's own reviews… | 🟢 |
@@ -960,7 +960,7 @@ One function per row, with the site it is called on.
 | `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | 🟢 |
 | `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟡 |
 | `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | 🟢 |
-| `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | 🟡 |
+| `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | 🟢 |
 | `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | 🟢 |
 | `businessinsider_com.listCryptoCurrencies` | businessinsider.com | List cryptocurrencies with their current prices from the Cryptocurrencies vertical. | 🟢 |
 | `businessinsider_com.listGuides` | businessinsider.com | List buying guides and product reviews from the Guides vertical. | 🟢 |
@@ -2184,7 +2184,7 @@ One function per row, with the site it is called on.
 | `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | 🟢 |
 | `epicgames.getRewardsBalance` | epicgames.com | The signed-in caller's Epic Rewards balance — the store credit they have earned from… | 🟢 |
 | `epicgames.getServiceStatus` | epicgames.com | Whether Epic's services are up — the Epic Games Store, launcher, login, Fortnite… | 🟢 |
-| `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | 🟡 |
+| `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | 🟢 |
 | `epicgames.getWishlist` | epicgames.com | The signed-in caller's Epic Games Store wishlist, with each game's current price and… | 🟢 |
 | `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Most Popular, Top… | 🟢 |
 | `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | 🟢 |
@@ -3199,8 +3199,8 @@ One function per row, with the site it is called on.
 | `hansons.bookEstimate` | hansons.com | Would submit the final booking (name/phone/email/address + chosen slot) and return the… | ⚪ |
 | `hansons.checkAvailability` | hansons.com | Checks a ZIP code against Hansons' real Free Estimate scheduler and returns the actual… | 🟢 |
 | `harmar.findCompatibleLifts` | harmar.com | The whole goal-flow in one call: takes a plain vehicle year/make/model and… | 🟢 |
-| `harmar.getCompatibleLifts` | harmar.com | Runs the calculator's actual 'Lift Lookup' — given a model year, the calculator's own… | 🔴 |
-| `harmar.searchChairModels` | harmar.com | Looks up every wheelchair/scooter model the calculator has data for under a given… | 🔴 |
+| `harmar.getCompatibleLifts` | harmar.com | Runs the calculator's actual 'Lift Lookup' — given a model year, the calculator's own… | 🟢 |
+| `harmar.searchChairModels` | harmar.com | Looks up every wheelchair/scooter model the calculator has data for under a given… | 🟢 |
 | `harmar.searchVehicleModels` | harmar.com | Looks up every vehicle (make + model, with the calculator's own internal model id)… | 🟢 |
 | `harringtonsdurham.getListing` | harringtonsdurham.com | Reads one Harringtons (Durham lettings) listing from its link, slug or number: rent… | 🟢 |
 | `harringtonsdurham.listListings` | harringtonsdurham.com | Lists every property Harringtons advertises in Durham, filterable by street name… | 🟢 |
@@ -4647,6 +4647,9 @@ One function per row, with the site it is called on.
 | `pallet2ship.getQuote` | pallet2ship.co.uk | Live pallet freight quotes between two UK-mainland postcodes for one or more pallets… | 🟢 |
 | `partiful.discoverEvents` | partiful.com | Lists the public events Partiful's explore page shows for one region (sf, nyc, la… | 🟢 |
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
+| `partsgeek.getMakeCatalog` | partsgeek.com | Lists the vehicle models and part categories Parts Geek carries for one vehicle make… | 🟢 |
+| `partsgeek.searchParts` | partsgeek.com | Searches Parts Geek's auto-parts catalog through its own search page (/ss/?ssq=)… | 🟢 |
+| `partsgeek.trackOrder` | partsgeek.com | Looks up a Parts Geek order's status from its order number and the email on the order… | ⚪ |
 | `patreon.commentOnPost` | patreon.com | Leave a comment on a post as the signed-in caller; returns the comment as Patreon… | 🟢 |
 | `patreon.deleteComment` | patreon.com | Delete one of the signed-in caller's own comments. | 🟢 |
 | `patreon.followCreator` | patreon.com | Follow a creator for free as the signed-in caller — Patreon's free membership, no tier… | 🟢 |
@@ -5094,6 +5097,7 @@ One function per row, with the site it is called on.
 | `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | 🟡 |
 | `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | 🟢 |
 | `reddit.getMyAccount` | reddit.com | Returns the signed-in caller's own account — username, karma, account age, whether… | 🟢 |
+| `reddit.getPlayback` | reddit.com | The playback menu for a Reddit-hosted video (a post URL, a t3_ id, or a v.redd.it… | 🟢 |
 | `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟡 |
 | `reddit.getSubreddit` | reddit.com | Returns the facts about one community rather than its content — the subreddit's title… | 🟢 |
 | `reddit.getSubredditPosts` | reddit.com | Returns a community's own front page — the submissions in one subreddit under a chosen… | 🟢 |
@@ -6530,7 +6534,7 @@ One function per row, with the site it is called on.
 | `uhc_smallbusiness.getGroupHealthQuote` | smallbusiness.uhc.com | Real level-funded and fully-insured small-group health plan premiums for a ZIP code… | 🟢 |
 | `ukstudenthouses.getListing` | ukstudenthouses.com | Reads one UK Student Houses listing in full by its link, or its number plus city… | 🟢 |
 | `ukstudenthouses.listCities` | ukstudenthouses.com | Lists the cities UK Student Houses lets student houses in, with the slug… | 🟢 |
-| `ukstudenthouses.searchListings` | ukstudenthouses.com | Lists the student houses UK Student Houses lets in one city: listing number, link… | 🟢 |
+| `ukstudenthouses.searchListings` | ukstudenthouses.com | Lists every student house UK Student Houses lets in one city, across all of the grid's… | 🟢 |
 | `ulrichlifestyle.getConfigurator` | ulrichlifestyle.com | Reads one model's default configurator: its base price (before delivery/tax) plus… | 🟢 |
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
 | `ulrichlifestyle.priceConfiguration` | ulrichlifestyle.com | Configures and prices one specific build (dimensions, wall height, siding, delivery… | 🟢 |
@@ -6765,7 +6769,7 @@ One function per row, with the site it is called on.
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
 | `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
 | `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟡 |
-| `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟡 |
+| `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟢 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | 🟢 |
 | `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |
 | `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | 🟢 |
@@ -7048,6 +7052,7 @@ One function per row, with the site it is called on.
 | `x.followUser` | x.com | Follow or unfollow a user as the signed-in account — one `follow` boolean argument… | 🟢 |
 | `x.getConversation` | x.com | The messages inside one of the signed-in account's DM conversations. | 🟢 |
 | `x.getListPosts` | x.com | The posts in an X List, read as the signed-in caller. | 🟢 |
+| `x.getPlayback` | x.com | The playback menu for the video on one X (Twitter) post: every mp4 rendition X serves… | 🟢 |
 | `x.getPostReplies` | x.com | Reads the reply thread under a single X post — the same status page `post` reads, but… | 🟢 |
 | `x.likePost` | x.com | Like or unlike a post as the signed-in account — one `like` boolean argument picks the… | 🟢 |
 | `x.listBookmarks` | x.com | The signed-in account's saved bookmarks. | 🟢 |

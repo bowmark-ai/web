@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0a775a63f6bdddd40caf7332f0622a1359dc49cebcedffd1039211c3c692942b
-// 98 capabilities, 907 providers, 5478 typed functions, 20 refused.
+// Manifest version: 73ad3970cc63471c894b324509d5fcec6e395365f8729a3c992157a826b0b046
+// 98 capabilities, 908 providers, 5481 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -81041,6 +81041,41 @@ interface DiscoverEventsArgs {
   }
 }
 
+declare namespace BowmarkProvider_partsgeek {
+  // ── Parts Geek — the unit's own declarations, verbatim ──
+interface PartsgeekPart {
+  title: string; vehicle: string | null; partNumber: string | null; brand: string | null;
+  price: number | null; stock: string | null; freeShipping: boolean; notes: string | null;
+  attributes: Record<string, string>; fits: string[]; productId: string | null; imageUrl: string | null;
+}
+interface PartsgeekSearchResult { query: string; page: number; hasNextPage: boolean; parts: PartsgeekPart[]; url: string }
+interface PartsgeekMakeCatalog {
+  make: string; title: string; url: string;
+  models: { name: string; slug: string; url: string }[];
+  partCategories: { name: string; slug: string; url: string }[];
+}
+
+  /**
+   * Parts Geek (partsgeek.com), an online auto-parts store — search its catalog for a part
+   * (price, brand, part number, stock, which vehicles it fits), and list the models and part
+   * categories it carries for a vehicle make.
+   */
+  interface Unit {
+    /**
+     * Lists the vehicle models and part categories Parts Geek carries for one make (e.g. 'Honda'),
+     * each with its Parts Geek page link.
+     */
+    getMakeCatalog(arg0: { make: string }): Promise<PartsgeekMakeCatalog>;
+
+    /**
+     * Searches Parts Geek's auto-parts catalog like its search box (20 per page): title, vehicle,
+     * price, brand, part number, stock, notes, attributes and the vehicles each part fits. An
+     * empty `parts` means the site found nothing. Read-only.
+     */
+    searchParts(arg0: { query: string; page?: number }): Promise<PartsgeekSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_patreon {
   // ── Patreon — the unit's own declarations, verbatim ──
 interface patreonCreator {
@@ -88677,6 +88712,28 @@ interface RedditProfileText {
   about: string;               // the profile bio; "" when unset
 }
 
+interface RedditPlayback {
+  videoId: string;             // the v.redd.it media id
+  title: string | null;        // the post's title (null for a bare v.redd.it address)
+  durationMs: number | null;
+  live: false;
+  embed: { url: string; hasAds: false; note: string } | null;  // reddit's own post card
+  files: {
+    muxed: RedditPlaybackFile[];     // always empty: reddit serves no file with sound
+    videoOnly: RedditPlaybackFile[]; // tallest first; pair one with an audioOnly file
+    audioOnly: RedditPlaybackFile[]; // empty when the video has no sound
+  };
+  hls: { url: string } | null; // the same video as HLS (video and sound)
+  expiresAt: null;             // v.redd.it addresses do not expire
+  referrer: "any";
+  warnings: string[];
+}
+interface RedditPlaybackFile {
+  itag: null; url: string; mimeType: string; codecs: string | null;
+  width: number | null; height: number | null; fps: number | null;
+  bitrate: number | null; bytes: null; qualityLabel: string | null;  // "720p" = the SHORT side
+}
+
   /**
    * Communities, threads and comment trees, and the signed-in account. Public reads need
    * nothing: find communities, qualify one (subscribers, activity, whether you may read it),
@@ -89080,6 +89137,17 @@ interface RedditProfileText {
      * REDDIT; the run pauses with a sign-in link when they are not.
      */
     setProfilePicture(input: { image: { base64: string; mimeType: string } | { url: string } } | { reset: true }, opts?: ConnectionOption): Promise<{ iconUrl: string }>;
+
+    /**
+     * The playback menu for a Reddit-hosted video (a post URL, a t3_ id, or a v.redd.it address):
+     * every rendition v.redd.it serves (about 220p to 1080p, video-only files with the sound as a
+     * separate file, tallest first), the same video as HLS, and Reddit's own post card as the
+     * embed, so a page plays the video in its own player with no browser. Reddit serves no file
+     * with picture and sound together, so `files.muxed` is always empty: play one `videoOnly` file
+     * with one `audioOnly` file (Bowmark's player does). A post that links YouTube or another site
+     * throws: use that site's getPlayback.
+     */
+    getPlayback(input: { video: string }): Promise<RedditPlayback>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -112466,10 +112534,11 @@ interface UkshNotFound { id: string; city: string | null; status: "not_found"; }
     listCities(): Promise<UkshCity[]>;
 
     /**
-     * Lists the student houses in one city (name or slug, e.g. "Derby"): listing number, link,
-     * postcode, bedrooms, bathrooms, from-price per person per month and availability tag.
+     * Lists every student house in one city (name or slug, e.g. "Derby"), across all of the grid's
+     * pages, with the count: listing number, link, postcode, bedrooms, bathrooms, from-price per
+     * person per month and availability tag.
      */
-    searchListings(city: string): Promise<UkshListingCard[]>;
+    searchListings(city: string): Promise<{ city: string; totalListings: number; listings: UkshListingCard[] }>;
 
     /**
      * Reads one listing in full by its link, or by its number plus city: status (available; let
@@ -126392,6 +126461,7 @@ interface BowmarkProviders {
   packlane: BowmarkProvider_packlane.Unit;
   pallet2ship: BowmarkProvider_pallet2ship.Unit;
   partiful: BowmarkProvider_partiful.Unit;
+  partsgeek: BowmarkProvider_partsgeek.Unit;
   patreon: BowmarkProvider_patreon.Unit;
   pausestudio: BowmarkProvider_pausestudio.Unit;
   pawsup: BowmarkProvider_pawsup.Unit;
