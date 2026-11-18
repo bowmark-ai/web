@@ -43,3 +43,4 @@ Copy one and change it: every `bowmark.*` function it calls is documented by
 | Recipe | Give it | Get back |
 |---|---|---|
 | [`find-booking-links`](find-booking-links.js) | `name`, plus any of `company`, `domain`, `email`, `x`, `github`, `urls`, `archive`. Each extra one is another place to find a link they published | Their Calendly or Cal.com link, its events, whether it is open, and how sure we are it is theirs (`confirmed`, `likely`, `unverified`) |
+| [`find-business-owner`](find-business-owner.js) | `company`, plus any of `town`, `region`, `domain`, `linkedin`, `countTitles` | The business's LinkedIn page, its owner or top local manager with their LinkedIn, their work email (verified or not), and optionally a staff count by title. Needs a LinkedIn sign-in |

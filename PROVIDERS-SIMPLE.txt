@@ -40,7 +40,7 @@ agoda.com — agoda: findDestinations, searchHotels (+4 planned)
 ahrefs.com — ahrefs: getDomainRating
 ai.engineer — ai_engineer: getSpeaker, listSpeakers
 aiper.store — aiper: listPoolChooserQuestions, recommendPoolCleaner
-airbnb.com — airbnb: bookListing, getHostProfile, getListing, getListingDetails, getListingReviews, getPriceQuote, listTrips, search, searchExperiences (+18 planned)
+airbnb.com — airbnb: bookListing, getHostProfile, getListing, getListingCalendar, getListingDetails, getListingReviews, getPriceQuote, listTrips, search, searchExperiences (+17 planned)
 airchina.com — airchina: getDealFares (+1 planned)
 airtable.com — airtable: createRecord, getRecord, listBases, listRecords, listTables, updateRecord
 ajmadison.com — ajmadison: search (+1 planned)
@@ -937,7 +937,7 @@ xola.com — xola: findSeller, getAvailability, getExperience, getPriceQuote, li
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
 yellowdoorlets.co.uk — yellowdoorlets_co_uk: getProperty, searchProperties
-yellowpages.com — yellowpages: nothing callable yet (+2 planned)
+yellowpages.com — yellowpages: getBusiness, search
 yelp.com — yelp: getBookmarks, getBusiness, getCollection, getCollections, getMenu, getMessages, getOwnProfile, getPhotos, getReviews, getUser, getWaitlist, listCategories, search, searchEvents, suggest (+15 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
 yorkwallcoverings.com — yorkwallcoverings: nothing callable yet (+3 planned)

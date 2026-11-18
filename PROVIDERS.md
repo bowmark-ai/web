@@ -139,7 +139,7 @@ One function per row, with the site it is called on.
 | `airbnb.getExperienceReviews` | airbnb.com | Guest reviews of one Airbnb Experience, paginated through the whole set. | ⚪ |
 | `airbnb.getHostProfile` | airbnb.com | Get host info for an Airbnb listing: a vacation rental host's public Airbnb profile… | 🟢 |
 | `airbnb.getListing` | airbnb.com | Check the availability calendar for one Airbnb listing: is the vacation rental… | 🟢 |
-| `airbnb.getListingCalendar` | airbnb.com | A listing's day-by-day availability calendar for the coming months: which nights are… | ⚪ |
+| `airbnb.getListingCalendar` | airbnb.com | The availability calendar for one Airbnb vacation rental listing, day by day: which… | 🟢 |
 | `airbnb.getListingDetails` | airbnb.com | Everything the Airbnb listing page (airbnb.com/rooms/<id>) shows about one vacation… | 🟢 |
 | `airbnb.getListingReviews` | airbnb.com | Guest reviews of one Airbnb vacation rental, read from the listing page's own reviews… | 🟢 |
 | `airbnb.getMessageThread` | airbnb.com | Every message in one of the caller's inbox threads, oldest to newest. | ⚪ |
@@ -2151,7 +2151,7 @@ One function per row, with the site it is called on.
 | `ebay.search` | ebay.com | Runs an eBay item search through eBay's documented Browse API and returns the matching… | 🔴 |
 | `ebay.searchAutocomplete` | ebay.com | Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's… | 🟢 |
 | `ebay.searchByCategory` | ebay.com | Searches one eBay category through eBay's documented Browse API by id, with an… | 🟡 |
-| `ebay.searchSold` | ebay.com | Sold prices from PriceCharting's record of completed eBay sales; covers video games… | 🟢 |
+| `ebay.searchSold` | ebay.com | Find sold listings on eBay: sold prices from PriceCharting's record of completed eBay… | 🟢 |
 | `edmunds.getDiscussion` | edmunds.com | Reads one Edmunds forum thread by discussion id, with its newest comments. | 🟢 |
 | `edmunds.listCarModels` | edmunds.com | Lists the car models the Edmunds forums know for a make (e.g. honda), with forum tag… | 🟢 |
 | `edmunds.listForumTags` | edmunds.com | Lists or searches Edmunds forum tags (car makes, car models, user topic tags) with… | 🟢 |
@@ -2921,7 +2921,7 @@ One function per row, with the site it is called on.
 | `gitlab.getProject` | gitlab.com | Gets one public GitLab project by numeric id or path, such as gitlab-org/gitlab. | 🟢 |
 | `gitlab.searchIssues` | gitlab.com | Searches issues in one public GitLab project by project path or id, with an optional… | 🟢 |
 | `gitlab.searchMergeRequests` | gitlab.com | Searches merge requests in one public GitLab project by project path or id, with an… | 🟢 |
-| `gitlab.searchProjects` | gitlab.com | Finds public GitLab projects by name or description, returning a project path for… | 🟢 |
+| `gitlab.searchProjects` | gitlab.com | Finds public GitLab projects by name or description, most-starred first, returning a… | 🟢 |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassdoor.getEmployerReviews` | glassdoor.com | An employer's Glassdoor review summary — overall rating, review count, the scale's… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟡 |
@@ -6302,7 +6302,7 @@ One function per row, with the site it is called on.
 | `toast.saveOfferToWallet` | toasttab.com | Saves a restaurant offer to the signed-in guest's wallet. | ⚪ |
 | `toast.searchMenu` | toasttab.com | Searches one restaurant's menu by words ("paneer") and returns the matching items with… | 🟢 |
 | `toast.searchReservations` | toasttab.com | Finds restaurants near a place with reservation slots open for a party size around a… | ⚪ |
-| `toast.searchRestaurants` | toasttab.com | Finds Toast restaurants near a latitude/longitude, nearest first, optionally by free… | 🟢 |
+| `toast.searchRestaurants` | toasttab.com | Finds Toast restaurants near a latitude/longitude, nearest first, optionally by free… | 🟡 |
 | `toast.setFulfillment` | toasttab.com | Sets how and when the cart's order is fulfilled: takeout or delivery (with the… | ⚪ |
 | `toast.setPrimaryPaymentMethod` | toasttab.com | Makes one saved card the default. | ⚪ |
 | `toast.trackOrder` | toasttab.com | Reads an order's status from its confirmation link: received, in the kitchen, ready… | ⚪ |
@@ -7141,8 +7141,8 @@ One function per row, with the site it is called on.
 | `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🟢 |
 | `yellowdoorlets_co_uk.getProperty` | yellowdoorlets.co.uk | Reads one Yellow Door Lets Lancaster student property by URL or slug — let/available… | 🟢 |
 | `yellowdoorlets_co_uk.searchProperties` | yellowdoorlets.co.uk | Lists Yellow Door Lets' Lancaster student houses, studios and rooms, filtered by text… | 🟢 |
-| `yellowpages.getBusiness` | yellowpages.com | Gets one business listing: name, phone, address, hours, website, categories, years in… | ⚪ |
-| `yellowpages.search` | yellowpages.com | Searches the directory by business category or name and a city, e.g. plumber in… | ⚪ |
+| `yellowpages.getBusiness` | yellowpages.com | Gets one business listing: name, phone, address, hours, website, categories, years in… | 🟢 |
+| `yellowpages.search` | yellowpages.com | Searches the directory by business category or name and a city, e.g. plumber in… | 🟢 |
 | `yelp.addToCollection` | yelp.com | Creates a collection for the signed-in caller, or adds a business to one of theirs, or… | ⚪ |
 | `yelp.askQuestion` | yelp.com | Posts a question, or answers one, in a business's 'Ask the Community' from the… | ⚪ |
 | `yelp.followUser` | yelp.com | Follows or unfollows a Yelp member from the signed-in caller's account. | ⚪ |
