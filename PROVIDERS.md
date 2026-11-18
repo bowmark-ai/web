@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7319 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7325 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3795,6 +3795,11 @@ One function per row, with the site it is called on.
 | `letterboxd.memberFilms` | letterboxd.com | Lists the films a letterboxd member has logged, newest first, off their own films page… | 🟢 |
 | `lever.getJob` | lever.co | Reads one posting's full description and lists off GET /v0/postings/{site}/{id}. | ⚪ |
 | `lever.listJobs` | lever.co | Lists every published job on one company's Lever board (jobs.lever.co/{site}) — title… | 🟢 |
+| `lichess.exportGame` | lichess.org | Exports one Lichess game by id or URL: players, ratings, result, opening, SAN moves… | 🟢 |
+| `lichess.getUser` | lichess.org | Reads a Lichess player's public profile: title, ratings per time control… | 🟢 |
+| `lichess.listUserGames` | lichess.org | Lists a player's recent games, newest first, with result, opening and moves. | ⚪ |
+| `lichess.searchPlayers` | lichess.org | Finds Lichess players whose username starts with a typed name, the way in to getUser. | 🟢 |
+| `lichess.topPlayers` | lichess.org | Reads the Lichess leaderboard for one time control or variant, highest rated first. | 🟢 |
 | `lime.cityPricing` | li.me | Reads one city's Lime ride pricing from its li.me city page: unlock fee, per-minute… | 🟢 |
 | `lime.listCities` | li.me | Lists every city Lime operates e-scooters and e-bikes in, grouped by region, from… | 🟢 |
 | `linkedin.acceptInvitation` | linkedin.com | Accepts a connection invitation the signed-in caller received, by the id and… | 🟢 |
@@ -3865,7 +3870,7 @@ One function per row, with the site it is called on.
 | `linkedin.withdrawInvitation` | linkedin.com | Withdraws a connection invitation the signed-in caller sent and is still pending, by… | 🟢 |
 | `liquiddeath.addToCart` | liquiddeath.com | Builds a filled cart for the shopper to open — cartUrl lands on the store's own cart… | 🟢 |
 | `liquiddeath.getCart` | liquiddeath.com | Reads a cart the shopper already has, by its id — line items, quantities, per-line and… | 🟢 |
-| `liquiddeath.getProduct` | liquiddeath.com | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
+| `liquiddeath.getProduct` | liquiddeath.com | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟡 |
 | `liquiddeath.listProducts` | liquiddeath.com | Lists products from the catalogue without a search term, supporting the same limit… | 🟢 |
 | `liquiddeath.searchPolicies` | liquiddeath.com | Answers questions about shipping, returns, subscriptions and the store's own FAQs… | ⚪ |
 | `liquiddeath.searchProducts` | liquiddeath.com | Searches the live catalogue and returns matching products with their real variants… | 🟢 |
@@ -5712,6 +5717,7 @@ One function per row, with the site it is called on.
 | `soulcycle.setSeriesTransfer` | soul-cycle.com | Turns on or off letting the signed-in rider's series be used in another region. | 🟢 |
 | `soulcycle.updateMyProfile` | soul-cycle.com | Edits the signed-in rider's profile details (name, phone, birthday, bike settings such… | ⚪ |
 | `soulcycle.updatePreferences` | soul-cycle.com | Saves the signed-in rider's Preferences tab: favorite instructors and studios, primary… | 🟢 |
+| `soundcloud.getPlayback` | soundcloud.com | Every way to play one soundcloud.com track: SoundCloud's own widget and its stream (an… | 🟢 |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |

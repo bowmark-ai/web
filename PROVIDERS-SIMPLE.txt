@@ -508,6 +508,7 @@ legacyhomesal.com — legacyhomesal: getAvailability, listCommunities
 letterboxd.com — letterboxd: film, getOwnAccount, memberDiary, memberFilms
 lever.co — lever: listJobs (+1 planned)
 li.me — lime: cityPricing, listCities
+lichess.org — lichess: exportGame, getUser, searchPlayers, topPlayers (+1 planned)
 linkedin.com — linkedin: 66 functions — ask get_library
 liquiddeath.com — liquiddeath: addToCart, getCart, getProduct, listProducts, searchProducts (+1 planned)
 liquidspace.com — liquidspace: getListingDetails, search
@@ -768,7 +769,7 @@ snapchat.com — snapchat: 25 functions — ask get_library (+8 planned)
 solidcore.co — solidcore: bookClass, checkAvailability, getClass, getCoach, getPack, getPricing, getSchedule, getStudio, joinWaitlist, listClassCategories, listCoaches, listMuscleGroups, listStudios, searchClasses (+10 planned)
 solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updatePreferences (+6 planned)
-soundcloud.com — soundcloud: getPlaylist, getTrack, search
+soundcloud.com — soundcloud: getPlayback, getPlaylist, getTrack, search
 sourceforge.net — sourceforge: getLatestRelease, getProject, listFiles (+1 planned)
 spacest.com — spacest: nothing callable yet (+1 planned)
 spareroom.co.uk — spareroom: getListing, searchRooms

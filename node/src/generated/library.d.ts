@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 73ad3970cc63471c894b324509d5fcec6e395365f8729a3c992157a826b0b046
-// 98 capabilities, 908 providers, 5481 typed functions, 20 refused.
+// Manifest version: 926ece4434da9ab0356e31f1fdaf0c54e25efa58d3d251ca6ab99aa1f785e129
+// 98 capabilities, 909 providers, 5485 typed functions, 20 refused.
 // 128,886 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9183,6 +9183,12 @@ interface AirbnbQuote {
   nightlyRate: string | null;
   lines: Array<{ description: string; price: string | null }>;
 }
+interface AirbnbListingCalendar {
+  id: string;
+  url: string;
+  currency: string;
+  calendar: AirbnbCalendarDay[];
+}
 interface AirbnbListingAvailability {
   id: string;
   url: string;
@@ -9352,12 +9358,12 @@ interface AirbnbExperience {
    */
   interface Unit {
     /**
-     * A vacation rental host's public Airbnb profile (airbnb.com/users/show/<id>): name, about
-     * text, where they live, Superhost and identity-verified badges, years hosting, overall rating
-     * and review count, languages, how many properties they host with the first page of those
-     * listings (title, type, beds, rating, url) and recent guest reviews. Pass the `hostId`
-     * (`getListingDetails().host.id` returns it), the profile `url`, or a `listing` url or id to
-     * look up whoever hosts that rental.
+     * Get host info for an Airbnb listing: a vacation rental host's public Airbnb profile
+     * (airbnb.com/users/show/<id>): name, about text, where they live, Superhost and
+     * identity-verified badges, years hosting, overall rating and review count, languages, how
+     * many properties they host with the first page of those listings (title, type, beds, rating,
+     * url) and recent guest reviews. Pass the `hostId` (`getListingDetails().host.id` returns it),
+     * the profile `url`, or a `listing` url or id to look up whoever hosts that rental.
      */
     getHostProfile(args: { hostId?: string, url?: string, listing?: string }): Promise<AirbnbHostProfile>;
 
@@ -9428,15 +9434,26 @@ interface AirbnbExperience {
     search(args: { location: string, checkin?: string, checkout?: string, adults?: number, children?: number, infants?: number, pets?: number, minPrice?: number, maxPrice?: number, roomType?: "entire_home" | "private_room" | "shared_room" | "hotel_room", minBedrooms?: number, minBeds?: number, minBathrooms?: number, page?: number }): Promise<AirbnbListing[]>;
 
     /**
-     * Is one Airbnb vacation rental available for given dates, and what does it cost per night:
-     * pass its `/rooms/<id>` url (or the `id` that `search` returns). With `checkin`/`checkout`
-     * (`YYYY-MM-DD`) it returns the booking panel's own quote (total, pre-discount total, nights,
-     * the per-night rate, discount lines) or the site's reason the dates cannot be booked; either
-     * way it returns the listing's day-by-day open/blocked availability calendar with minimum and
-     * maximum stay, `months` long (default 2) from the check-in month. `currency` is an ISO code,
-     * default USD.
+     * Check the availability calendar for one Airbnb listing: is the vacation rental available for
+     * given dates, and what does it cost per night: pass its `/rooms/<id>` url (or the `id` that
+     * `search` returns). With `checkin`/`checkout` (`YYYY-MM-DD`) it returns the booking panel's
+     * own quote (total, pre-discount total, nights, the per-night rate, discount lines) or the
+     * site's reason the dates cannot be booked; either way it returns the listing's day-by-day
+     * open/blocked availability calendar with minimum and maximum stay, `months` long (default 2)
+     * from the check-in month. `currency` is an ISO code, default USD.
      */
     getListing(args: { url?: string, id?: string, checkin?: string, checkout?: string, adults?: number, months?: number, currency?: string }): Promise<AirbnbListingAvailability>;
+
+    /**
+     * The availability calendar for one Airbnb vacation rental listing, day by day: which nights
+     * are open or blocked, whether a guest can check in or out that day, the minimum and maximum
+     * stay, and the nightly price where the site shows it. Nothing else (no quote, no page copy),
+     * so it is the cheap call for "is this listing free on these dates". Pass its `/rooms/<id>`
+     * `url` or the `id` that `search` returns; `months` is how many months to read (default 2)
+     * starting at the month of `from` (`YYYY-MM-DD`, default today). `currency` is an ISO code,
+     * default USD.
+     */
+    getListingCalendar(args: { url?: string, id?: string, months?: number, from?: string, currency?: string }): Promise<AirbnbListingCalendar>;
 
     /**
      * SIGNED IN — the caller's own Airbnb trips from their Trips tab: upcoming, past and
@@ -33356,7 +33373,7 @@ interface currency_exchangeRow {
 declare namespace BowmarkProvider_currys {
   // ── Currys — the unit's own declarations, verbatim ──
 interface CurrysClearanceArgs {
-  productTypes?: string[]; // Currys' own filter values, e.g. ["Laptops", "Air fryers"]; omit for all clearance
+  productTypes?: string[]; // Currys' own filter values, e.g. ["Chromebooks"]; omit for all clearance
   page?: number;           // 1-based, 20 listings a page
 }
 interface CurrysProduct {
@@ -33384,21 +33401,22 @@ interface CurrysListing {
 
   /**
    * Currys (currys.co.uk), the UK electricals retailer — list its clearance / outlet /
-   * reduced-price deals filtered by product type (laptops, air fryers, small kitchen appliances,
-   * TVs…), or search its catalogue, with current price, was-price, stock status and product link
-   * for each listing.
+   * reduced-price deals filtered by product type (Chromebooks, 2 in 1 laptops, and others), or
+   * search its catalogue, with current price, was-price, stock status and product link for each
+   * listing.
    */
   interface Unit {
     /**
      * Lists Currys' clearance / outlet / reduced-price deals (its clearance-all category),
-     * optionally filtered to one or more product types such as Laptops or Air fryers, with each
-     * listing's current price, was-price, stock status and link, plus the full list of
-     * product-type filters available. **The valid `productTypes` values are Currys' own filter
-     * names, returned as `productTypes` on every call** — call `listClearance({})` once to get
-     * them (about 110), since there is no umbrella name like "small kitchen appliances". Currys
-     * tags loosely: a filter like Coffee machines also returns accessories (milk jugs, frothers)
-     * whose `category` reads e.g. `SDA ACCESSORIES`, so filter on each row's `category` if you
-     * need only the appliances. A real browser load, so expect 15-40 s.
+     * optionally filtered to one or more product types such as Chromebooks or 2 in 1 laptops (the
+     * exact names come from the list call, not from a guess), with each listing's current price,
+     * was-price, stock status and link, plus the full list of product-type filters available.
+     * **The valid `productTypes` values are Currys' own filter names, returned as `productTypes`
+     * on every call** — call `listClearance({})` once to get them (about 110), since there is no
+     * umbrella name like "small kitchen appliances". Currys tags loosely: a filter like Coffee
+     * machines also returns accessories (milk jugs, frothers) whose `category` reads e.g. `SDA
+     * ACCESSORIES`, so filter on each row's `category` if you need only the appliances. A real
+     * browser load, so expect 15-40 s.
      */
     listClearance(args?: CurrysClearanceArgs): Promise<CurrysListing>;
 
@@ -39848,17 +39866,18 @@ interface ebaySoldSearch {
     getDeals(): Promise<ebayDeal[]>;
 
     /**
-     * Sold prices from PriceCharting's record of completed eBay sales; covers video games,
-     * consoles, trading cards, comics and Lego only, in USD for ebay.com. Returns what each item
-     * actually SOLD for (not asking prices): title, sold price, sold date, condition bucket and
-     * the listing URL, newest first, with a median and 25th/75th-percentile `summary` for ONE
-     * condition named in `summaryCondition` (Loose for games and consoles, Ungraded for cards, New
-     * for sealed sets, or the grade named in the query such as "psa 10"), and `byCondition` for
-     * the rest. Keyless (eBay's own sold-listings page is blocked by Akamai on every route we
-     * have). A query with no closely matching product returns no rows, count 0 and a warning, with
-     * the closest titles in `nearestProducts` (not matches), never another product's sales. Reads
-     * ONE product per call, named in `matchedProducts`; `site`-less, USD, query up to 200
-     * characters. `limit` caps the rows (default 60, ceiling 200).
+     * Find sold listings on eBay: sold prices from PriceCharting's record of completed eBay sales
+     * (what a Nintendo Switch, game, console or card sold for); covers video games, consoles,
+     * trading cards, comics and Lego only, in USD for ebay.com. Returns what each item actually
+     * SOLD for (not asking prices): title, sold price, sold date, condition bucket and the listing
+     * URL, newest first, with a median and 25th/75th-percentile `summary` for ONE condition named
+     * in `summaryCondition` (Loose for games and consoles, Ungraded for cards, New for sealed
+     * sets, or the grade named in the query such as "psa 10"), and `byCondition` for the rest.
+     * Keyless (eBay's own sold-listings page is blocked by Akamai on every route we have). A query
+     * with no closely matching product returns no rows, count 0 and a warning, with the closest
+     * titles in `nearestProducts` (not matches), never another product's sales. Reads ONE product
+     * per call, named in `matchedProducts`; `site`-less, USD, query up to 200 characters. `limit`
+     * caps the rows (default 60, ceiling 200).
      */
     searchSold(args: string | { query: string; site?: "ebay.com"; limit?: number }): Promise<ebaySoldSearch>;
 
@@ -42284,12 +42303,13 @@ interface EtsyShippingEstimate {
    */
   interface Unit {
     /**
-     * Searches Etsy's live catalog of active listings by keyword and returns the matching listings
-     * — id, title, price, currency, quantity available, tags and the listing's own etsy.com URL.
-     * `limit` caps the row count (default 10, Etsy's own ceiling 100 when a key is held). Takes a
-     * key optionally: with one (yours, on `x-bowmark-vendor-key-etsy`) it calls Etsy's documented
-     * Open API v3; with none it reads www.etsy.com's own search page instead, which carries a
-     * quantity of `null` and no tags.
+     * Finds handmade and vintage items (e.g. handmade ceramic mugs) by searching Etsy's live
+     * catalog of active listings by keyword and returns the matching listings — id, title, price,
+     * currency, quantity available, tags and the listing's own etsy.com URL. `limit` caps the row
+     * count (default 10, Etsy's own ceiling 100 when a key is held). Takes a key optionally: with
+     * one (yours, on `x-bowmark-vendor-key-etsy`) it calls Etsy's documented Open API v3; with
+     * none it reads www.etsy.com's own search page instead, which carries a quantity of `null` and
+     * no tags.
      */
     search(args: string | { query: string; limit?: number }): Promise<etsyListing[]>;
 
@@ -50449,9 +50469,11 @@ interface GithubPullRequestCreated {
     /**
      * Returns a public repository's own metadata — its full name, description, default branch,
      * star/fork/open-issue counts, primary language, license (if declared), homepage URL (if
-     * declared), and creation/update timestamps. Off GitHub's own documented unauthenticated REST
-     * repos endpoint. Takes an owner and repo name, or a github.com URL. THROWS on an unknown
-     * owner/repo (404) or a rate limit (403/429).
+     * declared), and creation/update timestamps. `updatedAt` is GitHub's last-update time, which
+     * moves on events other than commits (issues, stars, settings), so it is not the date of the
+     * last commit: for that, use `bowmark.git_commit_history.commitHistory`. Off GitHub's own
+     * documented unauthenticated REST repos endpoint. Takes an owner and repo name, or a
+     * github.com URL. THROWS on an unknown owner/repo (404) or a rate limit (403/429).
      */
     getRepo(owner: string, repo: string): Promise<GithubRepository>;
 
@@ -53230,8 +53252,10 @@ interface AddMissingPlaceResult {
     reverseGeocode(args: ReverseGeocodeArgs): Promise<ReverseGeocodeResult>;
 
     /**
-     * Get detailed business information including hours of operation, current open/closed status
-     * and availability. Returns everything Google Maps shows on one business's panel — name, full
+     * Get detailed business information. `website` is the homepage only: a Reserve or Book button
+     * is not read into any field, so a missing booking link does not mean the business takes no
+     * online bookings. Also includes hours of operation, current open/closed status and
+     * availability. Returns everything Google Maps shows on one business's panel — name, full
      * address, coordinates, category, neighborhood, phone, website, rating, review count, weekly
      * hours, the site's own live open/closed line (e.g. "Closed · Opens 7 AM"), its accessibility
      * labels (e.g. "Wheelchair accessible entrance") and businessStatus, present and always
@@ -61010,6 +61034,7 @@ interface InstagramUpdateProfileResult {
 interface InstagramHomeFeedPost extends InstagramPost {
   authorUsername: string;
   authorId: string;
+  authorProfilePicUrl: string | null;
 }
 interface InstagramHomeFeed {
   posts: InstagramHomeFeedPost[];
@@ -61018,6 +61043,7 @@ interface InstagramHomeFeed {
 interface InstagramSavedPost extends InstagramPost {
   authorUsername: string;
   authorId: string;
+  authorProfilePicUrl: string | null;
   collectionName: string | null;
 }
 interface InstagramSavedPosts {
@@ -116923,9 +116949,10 @@ interface webptSearchPagesArgs { query: string; section?: string; limit?: number
 type webptGetPageArgs = string | { url: string };
 
   /**
-   * WebPT (webpt.com), the physical-therapy EMR vendor: list/search every public page on its
-   * site (products, pricing, blog, webinars, guides) and read any page as clean text, flagging
-   * retired URLs that redirect to the homepage.
+   * WebPT (webpt.com), the physical-therapy EMR vendor: list/search the public pages on
+   * webpt.com (products, pricing, blog, webinars, guides), not the clinic-hosted pages on
+   * sites.webpt.com, and read any of them as clean text, flagging retired URLs that redirect to
+   * the homepage.
    */
   interface Unit {
     /**
@@ -120022,6 +120049,31 @@ interface XPost {
   media: XPostMedia[];
 }
 
+interface XPlaybackFile {
+  itag: null;
+  url: string; // an mp4 on video.twimg.com, never expiring
+  mimeType: string;
+  codecs: string | null;
+  width: number | null;
+  height: number | null;
+  fps: null;
+  bitrate: number | null;
+  bytes: null;
+  qualityLabel: string | null; // e.g. "720p"
+}
+
+interface XPlayback {
+  videoId: string; // the post id
+  title: string | null; // the post's text
+  durationMs: number | null;
+  live: false;
+  embed: { url: string; hasAds: false; note: string } | null;
+  files: { muxed: XPlaybackFile[]; videoOnly: XPlaybackFile[]; audioOnly: XPlaybackFile[] };
+  expiresAt: null;
+  referrer: "none"; // video.twimg.com 403s a Referer other than x.com
+  warnings: string[];
+}
+
 interface XTrend {
   name: string;
   context: string | null; // e.g. "Trending in Technology", when the site shows one
@@ -120079,6 +120131,16 @@ interface XUploadProfilePictureResult {
      * bookmarks and media (type, width, height, duration, video url) — browserless.
      */
     post(args: { url: string } | { id: string }): Promise<XPost>;
+
+    /**
+     * The playback menu for the video on one X (Twitter) post (`video` = the post URL or id):
+     * every mp4 rendition X serves (270p to 2160p, video and sound in one file; a GIF is one
+     * silent file), no ads, never expiring, and X's own embed. A `/video/N` URL picks the post's
+     * Nth video. Pick files for a no-ads player, a chosen resolution or your own controls; the
+     * embed for the whole post card. video.twimg.com refuses a Referer other than x.com, so
+     * `referrer` is "none" and the page must send no referrer. A post with no video throws.
+     */
+    getPlayback(input: { video: string }): Promise<XPlayback>;
 
     /**
      * Reads the reply thread under a single X post, scrolling until `limit` is met or replies run
@@ -121869,6 +121931,57 @@ interface YellowDoorSearchOptions { query?: string; status?: "available" | "let"
   }
 }
 
+declare namespace BowmarkProvider_yellowpages {
+  // ── Yellow Pages — the unit's own declarations, verbatim ──
+interface yellowpagesRow {
+  name: string;
+  phone: string | null;
+  address: string | null;
+  categories: string[];
+  url: string;
+  sponsored: boolean;
+}
+
+interface yellowpagesBusiness {
+  name: string;
+  phone: string | null;
+  address: string | null;
+  website: string | null;
+  categories: string[];
+  hours: string[];
+  rating: number | null;
+  reviewCount: number | null;
+  url: string;
+}
+
+interface SearchArgs {
+  query: string;
+  location: string;
+}
+
+interface GetBusinessArgs {
+  url: string;
+}
+
+  /**
+   * Yellow Pages, the US local business directory: find a plumber, dentist or restaurant by
+   * category and city, and read a business's phone, address, hours and reviews.
+   */
+  interface Unit {
+    /**
+     * Gets one business listing: name, phone, address, hours, website, categories and reviews, for
+     * a url a search returned.
+     */
+    getBusiness(args: GetBusinessArgs): Promise<yellowpagesBusiness>;
+
+    /**
+     * Searches the directory by business category or name and a city, e.g. plumber in Denver, CO,
+     * and returns each business's name, phone, address, categories and listing url.
+     */
+    search(args: SearchArgs): Promise<yellowpagesRow[]>;
+  }
+}
+
 declare namespace BowmarkProvider_yelp {
   // ── Yelp — the unit's own declarations, verbatim ──
 interface YelpSearchArgs {
@@ -122136,10 +122249,11 @@ interface YelpOwnCollections {
    */
   interface Unit {
     /**
-     * Runs Yelp's own business search for a term and location, with its sort (recommended, highest
-     * rated, most reviewed), price, open-now, feature and category filters and paging by start
-     * offset, and returns real, currently-listed businesses with their /biz/ alias, Yelp's own
-     * rating, review count, price tier and neighborhood. Read-only.
+     * Finds the best restaurants, shops and local businesses (e.g. best taco restaurants in
+     * Oakland) by running Yelp's own business search for a term and location, with its sort
+     * (recommended, highest rated, most reviewed), price, open-now, feature and category filters
+     * and paging by start offset, and returns real, currently-listed businesses with their /biz/
+     * alias, Yelp's own rating, review count, price tier and neighborhood. Read-only.
      */
     search(args: YelpSearchArgs): Promise<YelpSearchResult[]>;
 
@@ -126756,6 +126870,7 @@ interface BowmarkProviders {
   yargitay: BowmarkProvider_yargitay.Unit;
   ycombinator: BowmarkProvider_ycombinator.Unit;
   yellowdoorlets_co_uk: BowmarkProvider_yellowdoorlets_co_uk.Unit;
+  yellowpages: BowmarkProvider_yellowpages.Unit;
   yelp: BowmarkProvider_yelp.Unit;
   yogatreecollective: BowmarkProvider_yogatreecollective.Unit;
   yorkwallcoverings: BowmarkProvider_yorkwallcoverings.Unit;

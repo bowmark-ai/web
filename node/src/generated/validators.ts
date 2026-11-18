@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 73ad3970cc63471c894b324509d5fcec6e395365f8729a3c992157a826b0b046
-// 5453 checked, 20 unchecked.
+// Manifest version: 926ece4434da9ab0356e31f1fdaf0c54e25efa58d3d251ca6ab99aa1f785e129
+// 5457 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "73ad3970cc63471c894b324509d5fcec6e395365f8729a3c992157a826b0b046",
+  "version": "926ece4434da9ab0356e31f1fdaf0c54e25efa58d3d251ca6ab99aa1f785e129",
   "units": {
     "address_validation": {
       "defs": {
@@ -11574,6 +11574,52 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "months",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "currency",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getListingCalendar": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "months",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": true
                 },
@@ -167759,6 +167805,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getPlayback": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getPostReplies": [
           {
             "name": "args",
@@ -170672,6 +170736,63 @@ export const VALIDATORS: ValidatorTable = {
             "name": "property",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.yellowpages": {
+      "defs": {
+        "GetBusinessArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getBusiness": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetBusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
             },
             "optional": false
           }

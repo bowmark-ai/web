@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 73ad3970cc63471c894b324509d5fcec6e395365f8729a3c992157a826b0b046
-# 98 capabilities, 908 providers, 5453 typed functions, 20 refused.
+# Manifest version: 926ece4434da9ab0356e31f1fdaf0c54e25efa58d3d251ca6ab99aa1f785e129
+# 98 capabilities, 909 providers, 5457 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5844,6 +5844,23 @@ class Prv_airbnb_getListing_args_In(TypedDict):
     adults: NotRequired[float]
     months: NotRequired[float]
     currency: NotRequired[str]
+
+Prv_airbnb_getListingCalendar_args_In = TypedDict(
+    "Prv_airbnb_getListingCalendar_args_In",
+    {
+    "url": NotRequired[str],
+    "id": NotRequired[str],
+    "months": NotRequired[float],
+    "from": NotRequired[str],
+    "currency": NotRequired[str],
+    },
+)
+
+class Prv_airbnb_AirbnbListingCalendar_Out(TypedDict):
+    id: str
+    url: str
+    currency: str
+    calendar: list[Prv_airbnb_AirbnbCalendarDay_Out]
 
 class Prv_airbnb_listTrips_args_In(TypedDict):
     limit: NotRequired[float]
@@ -39980,6 +39997,7 @@ class Prv_instagram_InstagramHomeFeedPost_Out(TypedDict):
     takenAt: str
     authorUsername: str
     authorId: str
+    authorProfilePicUrl: str | None
 
 class Prv_instagram_InstagramSavedPosts_Out(TypedDict):
     posts: list[Prv_instagram_InstagramSavedPost_Out]
@@ -39997,6 +40015,7 @@ class Prv_instagram_InstagramSavedPost_Out(TypedDict):
     takenAt: str
     authorUsername: str
     authorId: str
+    authorProfilePicUrl: str | None
     collectionName: str | None
 
 class Prv_instagram_InstagramDirectMessageThread_Out(TypedDict):
@@ -79552,6 +79571,42 @@ class Prv_x_XPostMedia_Out(TypedDict):
     height: float | None
     durationMs: float | None
 
+class Prv_x_getPlayback_input_In(TypedDict):
+    video: str
+
+class Prv_x_XPlayback_Out(TypedDict):
+    videoId: str
+    title: str | None
+    durationMs: float | None
+    live: Literal[False]
+    embed: Prv_x_XPlayback_Out_embed_u0_Out | None
+    files: Prv_x_XPlayback_Out_files_Out
+    expiresAt: None
+    referrer: Literal["none"]
+    warnings: list[str]
+
+class Prv_x_XPlayback_Out_embed_u0_Out(TypedDict):
+    url: str
+    hasAds: Literal[False]
+    note: str
+
+class Prv_x_XPlayback_Out_files_Out(TypedDict):
+    muxed: list[Prv_x_XPlaybackFile_Out]
+    videoOnly: list[Prv_x_XPlaybackFile_Out]
+    audioOnly: list[Prv_x_XPlaybackFile_Out]
+
+class Prv_x_XPlaybackFile_Out(TypedDict):
+    itag: None
+    url: str
+    mimeType: str
+    codecs: str | None
+    width: float | None
+    height: float | None
+    fps: None
+    bitrate: float | None
+    bytes: None
+    qualityLabel: str | None
+
 class Prv_x_GetPostRepliesArgs_In(TypedDict):
     url: NotRequired[str]
     id: NotRequired[str]
@@ -80707,6 +80762,32 @@ class Prv_yellowdoorlets_co_uk_YellowDoorProperty_Out(TypedDict):
 class Prv_yellowdoorlets_co_uk_getProperty_return_u1_Out(TypedDict):
     slug: str
     status: Literal["not_found"]
+
+class Prv_yellowpages_GetBusinessArgs_In(TypedDict):
+    url: str
+
+class Prv_yellowpages_yellowpagesBusiness_Out(TypedDict):
+    name: str
+    phone: str | None
+    address: str | None
+    website: str | None
+    categories: list[str]
+    hours: list[str]
+    rating: float | None
+    reviewCount: float | None
+    url: str
+
+class Prv_yellowpages_SearchArgs_In(TypedDict):
+    query: str
+    location: str
+
+class Prv_yellowpages_yellowpagesRow_Out(TypedDict):
+    name: str
+    phone: str | None
+    address: str | None
+    categories: list[str]
+    url: str
+    sponsored: bool
 
 class Prv_yelp_YelpSearchArgs_In(TypedDict):
     term: str
@@ -85749,12 +85830,13 @@ class Prv_airbnb(Protocol):
     """
 
     async def getHostProfile(self, args: Prv_airbnb_getHostProfile_args_In, /) -> Prv_airbnb_AirbnbHostProfile_Out:
-        """A vacation rental host's public Airbnb profile (airbnb.com/users/show/<id>): name, about
-        text, where they live, Superhost and identity-verified badges, years hosting, overall
-        rating and review count, languages, how many properties they host with the first page of
-        those listings (title, type, beds, rating, url) and recent guest reviews. Pass the
-        `hostId` (`getListingDetails().host.id` returns it), the profile `url`, or a `listing`
-        url or id to look up whoever hosts that rental.
+        """Get host info for an Airbnb listing: a vacation rental host's public Airbnb profile
+        (airbnb.com/users/show/<id>): name, about text, where they live, Superhost and
+        identity-verified badges, years hosting, overall rating and review count, languages, how
+        many properties they host with the first page of those listings (title, type, beds,
+        rating, url) and recent guest reviews. Pass the `hostId` (`getListingDetails().host.id`
+        returns it), the profile `url`, or a `listing` url or id to look up whoever hosts that
+        rental.
         """
 
     async def getListingDetails(self, args: Prv_airbnb_getListingDetails_args_In, /) -> Prv_airbnb_AirbnbListingDetails_Out:
@@ -85820,13 +85902,24 @@ class Prv_airbnb(Protocol):
         """
 
     async def getListing(self, args: Prv_airbnb_getListing_args_In, /) -> Prv_airbnb_AirbnbListingAvailability_Out:
-        """Is one Airbnb vacation rental available for given dates, and what does it cost per
-        night: pass its `/rooms/<id>` url (or the `id` that `search` returns). With
-        `checkin`/`checkout` (`YYYY-MM-DD`) it returns the booking panel's own quote (total,
-        pre-discount total, nights, the per-night rate, discount lines) or the site's reason the
-        dates cannot be booked; either way it returns the listing's day-by-day open/blocked
-        availability calendar with minimum and maximum stay, `months` long (default 2) from the
-        check-in month. `currency` is an ISO code, default USD.
+        """Check the availability calendar for one Airbnb listing: is the vacation rental available
+        for given dates, and what does it cost per night: pass its `/rooms/<id>` url (or the
+        `id` that `search` returns). With `checkin`/`checkout` (`YYYY-MM-DD`) it returns the
+        booking panel's own quote (total, pre-discount total, nights, the per-night rate,
+        discount lines) or the site's reason the dates cannot be booked; either way it returns
+        the listing's day-by-day open/blocked availability calendar with minimum and maximum
+        stay, `months` long (default 2) from the check-in month. `currency` is an ISO code,
+        default USD.
+        """
+
+    async def getListingCalendar(self, args: Prv_airbnb_getListingCalendar_args_In, /) -> Prv_airbnb_AirbnbListingCalendar_Out:
+        """The availability calendar for one Airbnb vacation rental listing, day by day: which
+        nights are open or blocked, whether a guest can check in or out that day, the minimum
+        and maximum stay, and the nightly price where the site shows it. Nothing else (no quote,
+        no page copy), so it is the cheap call for "is this listing free on these dates". Pass
+        its `/rooms/<id>` `url` or the `id` that `search` returns; `months` is how many months
+        to read (default 2) starting at the month of `from` (`YYYY-MM-DD`, default today).
+        `currency` is an ISO code, default USD.
         """
 
     async def listTrips(self, args: Prv_airbnb_listTrips_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_airbnb_AirbnbTrips_Out:
@@ -94344,21 +94437,22 @@ class Prv_currency_exchange(Protocol):
 
 class Prv_currys(Protocol):
     """Currys (currys.co.uk), the UK electricals retailer — list its clearance / outlet /
-    reduced-price deals filtered by product type (laptops, air fryers, small kitchen
-    appliances, TVs…), or search its catalogue, with current price, was-price, stock status
-    and product link for each listing.
+    reduced-price deals filtered by product type (Chromebooks, 2 in 1 laptops, and others),
+    or search its catalogue, with current price, was-price, stock status and product link
+    for each listing.
     """
 
     async def listClearance(self, args: Prv_currys_CurrysClearanceArgs_In | None = None, /) -> Prv_currys_CurrysListing_Out:
         """Lists Currys' clearance / outlet / reduced-price deals (its clearance-all category),
-        optionally filtered to one or more product types such as Laptops or Air fryers, with
-        each listing's current price, was-price, stock status and link, plus the full list of
-        product-type filters available. **The valid `productTypes` values are Currys' own filter
-        names, returned as `productTypes` on every call** — call `listClearance({})` once to get
-        them (about 110), since there is no umbrella name like "small kitchen appliances".
-        Currys tags loosely: a filter like Coffee machines also returns accessories (milk jugs,
-        frothers) whose `category` reads e.g. `SDA ACCESSORIES`, so filter on each row's
-        `category` if you need only the appliances. A real browser load, so expect 15-40 s.
+        optionally filtered to one or more product types such as Chromebooks or 2 in 1 laptops
+        (the exact names come from the list call, not from a guess), with each listing's current
+        price, was-price, stock status and link, plus the full list of product-type filters
+        available. **The valid `productTypes` values are Currys' own filter names, returned as
+        `productTypes` on every call** — call `listClearance({})` once to get them (about 110),
+        since there is no umbrella name like "small kitchen appliances". Currys tags loosely: a
+        filter like Coffee machines also returns accessories (milk jugs, frothers) whose
+        `category` reads e.g. `SDA ACCESSORIES`, so filter on each row's `category` if you need
+        only the appliances. A real browser load, so expect 15-40 s.
         """
 
     async def search(self, args: Prv_currys_search_args_In, /) -> Prv_currys_CurrysListing_Out:
@@ -96744,7 +96838,8 @@ class Prv_ebay(Protocol):
         """
 
     async def searchSold(self, args: str | Prv_ebay_searchSold_args_u1_In, /) -> Prv_ebay_ebaySoldSearch_Out:
-        """Sold prices from PriceCharting's record of completed eBay sales; covers video games,
+        """Find sold listings on eBay: sold prices from PriceCharting's record of completed eBay
+        sales (what a Nintendo Switch, game, console or card sold for); covers video games,
         consoles, trading cards, comics and Lego only, in USD for ebay.com. Returns what each
         item actually SOLD for (not asking prices): title, sold price, sold date, condition
         bucket and the listing URL, newest first, with a median and 25th/75th-percentile
@@ -97384,12 +97479,13 @@ class Prv_etsy(Protocol):
     """
 
     async def search(self, args: str | Prv_etsy_search_args_u1_In, /) -> list[Prv_etsy_etsyListing_Out]:
-        """Searches Etsy's live catalog of active listings by keyword and returns the matching
-        listings — id, title, price, currency, quantity available, tags and the listing's own
-        etsy.com URL. `limit` caps the row count (default 10, Etsy's own ceiling 100 when a key
-        is held). Takes a key optionally: with one (yours, on `x-bowmark-vendor-key-etsy`) it
-        calls Etsy's documented Open API v3; with none it reads www.etsy.com's own search page
-        instead, which carries a quantity of `null` and no tags.
+        """Finds handmade and vintage items (e.g. handmade ceramic mugs) by searching Etsy's live
+        catalog of active listings by keyword and returns the matching listings — id, title,
+        price, currency, quantity available, tags and the listing's own etsy.com URL. `limit`
+        caps the row count (default 10, Etsy's own ceiling 100 when a key is held). Takes a key
+        optionally: with one (yours, on `x-bowmark-vendor-key-etsy`) it calls Etsy's documented
+        Open API v3; with none it reads www.etsy.com's own search page instead, which carries a
+        quantity of `null` and no tags.
         """
 
     async def getListing(self, idOrUrl: float | str, /) -> Prv_etsy_EtsyListingDetail_Out:
@@ -100139,9 +100235,12 @@ class Prv_github(Protocol):
     async def getRepo(self, owner: str, repo: str, /) -> Prv_github_GithubRepository_Out:
         """Returns a public repository's own metadata — its full name, description, default branch,
         star/fork/open-issue counts, primary language, license (if declared), homepage URL (if
-        declared), and creation/update timestamps. Off GitHub's own documented unauthenticated
-        REST repos endpoint. Takes an owner and repo name, or a github.com URL. THROWS on an
-        unknown owner/repo (404) or a rate limit (403/429).
+        declared), and creation/update timestamps. `updatedAt` is GitHub's last-update time,
+        which moves on events other than commits (issues, stars, settings), so it is not the
+        date of the last commit: for that, use `bowmark.git_commit_history.commitHistory`. Off
+        GitHub's own documented unauthenticated REST repos endpoint. Takes an owner and repo
+        name, or a github.com URL. THROWS on an unknown owner/repo (404) or a rate limit
+        (403/429).
         """
 
     async def getProfileReadme(self, handle: str, /) -> Prv_github_GithubProfileReadme_Out:
@@ -101227,24 +101326,26 @@ class Prv_google_maps(Protocol):
         """
 
     async def getPlace(self, args: Prv_google_maps_GetPlaceArgs_In, /) -> Prv_google_maps_GetPlaceResult_Out:
-        """Get detailed business information including hours of operation, current open/closed
-        status and availability. Returns everything Google Maps shows on one business's panel —
-        name, full address, coordinates, category, neighborhood, phone, website, rating, review
-        count, weekly hours, the site's own live open/closed line (e.g. "Closed · Opens 7 AM"),
-        its accessibility labels (e.g. "Wheelchair accessible entrance") and businessStatus,
-        present and always "closed" ONLY when the site has flagged the listing permanently
-        closed — each present only when the site's own response carried it. openStatus is the
-        site's rendered string, not a boolean this provider computed — hours' display strings
-        carry no timezone, so a caller cannot derive open-right-now from them without it.
-        accessibility is absent when the site publishes nothing for that place, never a guess —
-        the field mask carries no other amenity category (Wi-Fi, outdoor seating, …) at all —
-        service options come from separate signals, see serviceOptions. businessStatus reports a
-        CONFIRMED closure honestly (measured live against Mamnoon, Plum Bistro, Harbor City
-        Restaurant and Copine, all recently closed) but its absence never means the business is
-        open — Google does not flag every real-world closure, confirmed live against two
-        long-defunct Toys "R" Us locations that carry no marker at all. This retries a few times
-        to see past a reduced/rich flap in the site's own response and merges the richest draw;
-        `warnings` is non-empty when every attempt drew the reduced record, meaning
+        """Get detailed business information. `website` is the homepage only: a Reserve or Book
+        button is not read into any field, so a missing booking link does not mean the business
+        takes no online bookings. Also includes hours of operation, current open/closed status
+        and availability. Returns everything Google Maps shows on one business's panel — name,
+        full address, coordinates, category, neighborhood, phone, website, rating, review count,
+        weekly hours, the site's own live open/closed line (e.g. "Closed · Opens 7 AM"), its
+        accessibility labels (e.g. "Wheelchair accessible entrance") and businessStatus, present
+        and always "closed" ONLY when the site has flagged the listing permanently closed — each
+        present only when the site's own response carried it. openStatus is the site's rendered
+        string, not a boolean this provider computed — hours' display strings carry no timezone,
+        so a caller cannot derive open-right-now from them without it. accessibility is absent
+        when the site publishes nothing for that place, never a guess — the field mask carries
+        no other amenity category (Wi-Fi, outdoor seating, …) at all — service options come from
+        separate signals, see serviceOptions. businessStatus reports a CONFIRMED closure
+        honestly (measured live against Mamnoon, Plum Bistro, Harbor City Restaurant and Copine,
+        all recently closed) but its absence never means the business is open — Google does not
+        flag every real-world closure, confirmed live against two long-defunct Toys "R" Us
+        locations that carry no marker at all. This retries a few times to see past a
+        reduced/rich flap in the site's own response and merges the richest draw; `warnings` is
+        non-empty when every attempt drew the reduced record, meaning
         reviewCount/hours/openStatus could not be confirmed either way rather than being
         genuinely absent. `serviceOptions` (the result field) lists how the place serves food —
         "Dine-in", "Takeout", "Delivery", "Drive-through" — read browserless from three signals
@@ -123813,9 +123914,10 @@ class Prv_weather_channel(Protocol):
         """
 
 class Prv_webpt(Protocol):
-    """WebPT (webpt.com), the physical-therapy EMR vendor: list/search every public page on its
-    site (products, pricing, blog, webinars, guides) and read any page as clean text,
-    flagging retired URLs that redirect to the homepage.
+    """WebPT (webpt.com), the physical-therapy EMR vendor: list/search the public pages on
+    webpt.com (products, pricing, blog, webinars, guides), not the clinic-hosted pages on
+    sites.webpt.com, and read any of them as clean text, flagging retired URLs that redirect
+    to the homepage.
     """
 
     async def listPages(self, args: Prv_webpt_webptListPagesArgs_In | None = None, /) -> list[Prv_webpt_webptPageRef_Out]:
@@ -124983,6 +125085,16 @@ class Prv_x(Protocol):
         bookmarks and media (type, width, height, duration, video url) — browserless.
         """
 
+    async def getPlayback(self, input: Prv_x_getPlayback_input_In, /) -> Prv_x_XPlayback_Out:
+        """The playback menu for the video on one X (Twitter) post (`video` = the post URL or id):
+        every mp4 rendition X serves (270p to 2160p, video and sound in one file; a GIF is one
+        silent file), no ads, never expiring, and X's own embed. A `/video/N` URL picks the
+        post's Nth video. Pick files for a no-ads player, a chosen resolution or your own
+        controls; the embed for the whole post card. video.twimg.com refuses a Referer other
+        than x.com, so `referrer` is "none" and the page must send no referrer. A post with no
+        video throws.
+        """
+
     async def getPostReplies(self, args: Prv_x_GetPostRepliesArgs_In, /) -> list[Prv_x_XTweet_Out]:
         """Reads the reply thread under a single X post, scrolling until `limit` is met or replies
         run out.
@@ -125613,16 +125725,33 @@ class Prv_yellowdoorlets_co_uk(Protocol):
         description.
         """
 
+class Prv_yellowpages(Protocol):
+    """Yellow Pages, the US local business directory: find a plumber, dentist or restaurant by
+    category and city, and read a business's phone, address, hours and reviews.
+    """
+
+    async def getBusiness(self, args: Prv_yellowpages_GetBusinessArgs_In, /) -> Prv_yellowpages_yellowpagesBusiness_Out:
+        """Gets one business listing: name, phone, address, hours, website, categories and reviews,
+        for a url a search returned.
+        """
+
+    async def search(self, args: Prv_yellowpages_SearchArgs_In, /) -> list[Prv_yellowpages_yellowpagesRow_Out]:
+        """Searches the directory by business category or name and a city, e.g. plumber in Denver,
+        CO, and returns each business's name, phone, address, categories and listing url.
+        """
+
 class Prv_yelp(Protocol):
     """Yelp's own business search — returns real, currently-listed businesses for a search term
     and location with Yelp's own star rating, review count, price tier and neighborhood.
     """
 
     async def search(self, args: Prv_yelp_YelpSearchArgs_In, /) -> list[Prv_yelp_YelpSearchResult_Out]:
-        """Runs Yelp's own business search for a term and location, with its sort (recommended,
-        highest rated, most reviewed), price, open-now, feature and category filters and paging
-        by start offset, and returns real, currently-listed businesses with their /biz/ alias,
-        Yelp's own rating, review count, price tier and neighborhood. Read-only.
+        """Finds the best restaurants, shops and local businesses (e.g. best taco restaurants in
+        Oakland) by running Yelp's own business search for a term and location, with its sort
+        (recommended, highest rated, most reviewed), price, open-now, feature and category
+        filters and paging by start offset, and returns real, currently-listed businesses with
+        their /biz/ alias, Yelp's own rating, review count, price tier and neighborhood.
+        Read-only.
         """
 
     async def getBusiness(self, ref: str, /) -> Prv_yelp_YelpBusiness_Out:
@@ -127581,6 +127710,7 @@ class BowmarkProviders(Protocol):
     yargitay: Prv_yargitay
     ycombinator: Prv_ycombinator
     yellowdoorlets_co_uk: Prv_yellowdoorlets_co_uk
+    yellowpages: Prv_yellowpages
     yelp: Prv_yelp
     yogatreecollective: Prv_yogatreecollective
     yorkwallcoverings: Prv_yorkwallcoverings
