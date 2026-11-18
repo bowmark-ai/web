@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7351 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7360 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1835,6 +1835,8 @@ One function per row, with the site it is called on.
 | `dickssportinggoods.getProduct` | dickssportinggoods.com | Reads one product's full page — price, available options (size, color), images, brand… | ⚪ |
 | `dickssportinggoods.getWeeklyAd` | dickssportinggoods.com | Reads the current local weekly ad / deals circular for a store or zip — the… | ⚪ |
 | `dickssportinggoods.search` | dickssportinggoods.com | Searches dickssportinggoods.com's catalog for a keyword (optionally scoped by sport… | ⚪ |
+| `dignitymemorial.getObituary` | dignitymemorial.com | Reads one Dignity Memorial obituary in full by its id or dignitymemorial.com URL: full… | 🟢 |
+| `dignitymemorial.searchObituaries` | dignitymemorial.com | Searches Dignity Memorial's published obituaries by the deceased's name, optionally… | 🟢 |
 | `dillards.checkStock` | dillards.com | Answers whether one exact size/color of a product is available right now — both for… | 🟡 |
 | `dillards.findStores` | dillards.com | Finds nearby Dillard's store locations the way the site's own /stores locator does —… | 🟢 |
 | `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟡 |
@@ -2808,6 +2810,8 @@ One function per row, with the site it is called on.
 | `g2.getProduct` | g2.com | Reads one product's `/products/<slug>/reviews` page for its published aggregate rating… | 🟢 |
 | `g2.listReviews` | g2.com | The 25 most recent reviews of one G2 product, off G2's own per-product review feed —… | 🟢 |
 | `g2.search` | g2.com | Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a… | 🟡 |
+| `gap_factory.getProduct` | www.gapfactory.com | Reads one Gap Factory (gapfactory.com outlet) product's variant-level sizes, colors… | 🟢 |
+| `gap_factory.searchProducts` | www.gapfactory.com | Searches Gap Factory's live outlet apparel catalog (gapfactory.com, Gap's factory… | 🟢 |
 | `gap.getProduct` | www.gap.com | Reads one Gap product's variant-level sizes, colors and fits with each SKU's sale… | 🟢 |
 | `gap.searchProducts` | www.gap.com | Searches Gap's live apparel catalog (www.gap.com) for what a shopper types — men's… | 🟢 |
 | `gasbuddy.findCheapestNearby` | gasbuddy.com | Runs GasBuddy's own ZIP-radius station search and returns real, currently-reported… | 🟢 |
@@ -3272,6 +3276,8 @@ One function per row, with the site it is called on.
 | `historymaker.getHome` | historymaker.com | Reads one quick-move-in home's full detail: address, current and original price… | 🟢 |
 | `historymaker.listCommunities` | historymaker.com | Lists HistoryMaker's active DFW communities with city, price range, beds/baths range… | 🟢 |
 | `historymaker.searchQuickMoveIns` | historymaker.com | Searches HistoryMaker's current Dallas/Fort Worth quick-move-in inventory by min/max… | 🟢 |
+| `hobbylobby.getProduct` | hobbylobby.com | Reads one Hobby Lobby product page — name, brand, price, rating, review count… | 🟢 |
+| `hobbylobby.searchProducts` | hobbylobby.com | Searches Hobby Lobby's arts, crafts, yarn, fabric, frames, home decor and party… | 🟢 |
 | `hobie.checkLocalAvailability` | hobie.com | Runs the site's own real-time 'Find it Locally' local-dealer-inventory lookup for one… | 🟢 |
 | `hobie.listKayakModels` | hobie.com | Same as listModels, reshaped into { total_models, models } — for a caller asking how… | 🟢 |
 | `hobie.listModelColors` | hobie.com | Reads one kayak model's own hobie.com product page for its real buildable colors, each… | 🟢 |
@@ -5321,6 +5327,7 @@ One function per row, with the site it is called on.
 | `rottentomatoes.getTitle` | rottentomatoes.com | Reads one movie or TV series page: Tomatometer and Popcornmeter with their review and… | 🟢 |
 | `rottentomatoes.search` | rottentomatoes.com | Runs the site's own title search and returns movies and TV series with their… | 🟢 |
 | `rover.searchBoarding` | rover.com | Searches Rover's live overnight-boarding sitter results for a city and a specific date… | 🟡 |
+| `royal_caribbean.searchCruises` | royalcaribbean.com | Searches Royal Caribbean cruises by destination, sail-date window, departure port… | 🟢 |
 | `rtings.getReview` | rtings.com | Reads one product's RTINGS review — the overall score out of 10, the verdict text… | 🟢 |
 | `ruggable.getRug` | ruggable.com | Reads one Ruggable rug by handle or url and returns its price range plus every size ×… | 🟢 |
 | `ruggable.searchRugs` | ruggable.com | Searches Ruggable's whole washable-rug catalog (rugs, runners, doormats, rug pads) by… | 🟢 |
@@ -5401,6 +5408,8 @@ One function per row, with the site it is called on.
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | 🟢 |
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟢 |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
+| `scheels.getProduct` | scheels.com | Reads one SCHEELS product by SKU: name, brand, GTIN, price, availability, images and… | 🟢 |
+| `scheels.searchProducts` | scheels.com | Searches scheels.com the way its search box does and returns products with SKU, price… | 🟢 |
 | `scottfraser_co_uk.getListing` | scottfraser.co.uk | Reads one public Scott Fraser letting by its link or reference — status (available… | 🟢 |
 | `scottfraser_co_uk.listLettings` | scottfraser.co.uk | Lists Scott Fraser rental listing links and references from its public properties… | 🟢 |
 | `scribd.addDocumentToList` | scribd.com | Adds a document to one of the signed-in caller's lists. | 🟢 |

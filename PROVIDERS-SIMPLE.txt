@@ -288,10 +288,11 @@ detailxperts.com — detailxperts: nothing callable yet (+4 planned)
 deutschepost.de — deutschepost: getDialogpostRates
 dev.to — devto: getProfile, searchArticles
 developers.openai.com — developersopenai: getDocPage
-deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getNotifications, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getUserWatchers, getWatchFeed, listGalleryFolders, listNotes, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateDeviation, updateProfile, watchUser
+deviantart.com — deviantart: 26 functions — ask get_library
 dhl.com — dhl: getQuote
 dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
+dignitymemorial.com — dignitymemorial: getObituary, searchObituaries
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listExtras, listRoomTypes, sendEnquiry (+1 planned)
 discogs.com — discogs: getArtist, getLabel, getMaster, getRelease, listArtistReleases, listLabelReleases, searchDatabase (+54 planned)
@@ -437,6 +438,7 @@ highlandhomes.org — highlandhomes: search
 hilton.com — hilton: nothing callable yet (+11 planned)
 hipcamp.com — hipcamp: search
 historymaker.com — historymaker: getHome, listCommunities, searchQuickMoveIns
+hobbylobby.com — hobbylobby: getProduct, searchProducts
 hobie.com — hobie: checkLocalAvailability, listKayakModels, listModelColors, listModels
 hodjapasha.com — hodjapasha: getAvailability, getShow, listShows
 holidaybuilders.com — holidaybuilders: getHomeDetail, searchAvailableHomes
@@ -719,6 +721,7 @@ roomandboard.com — roomandboard: listCategories, searchProducts (+1 planned)
 rotogrinders.com — dfs_rotogrinderssearch: nothing callable yet (+1 planned)
 rottentomatoes.com — rottentomatoes: getTitle, search (+4 planned)
 rover.com — rover: searchBoarding
+royalcaribbean.com — royal_caribbean: searchCruises
 rtings.com — rtings: getReview
 ruggable.com — ruggable: getRug, searchRugs
 rumble.com — rumble: editorPicks, video (+2 planned)
@@ -731,6 +734,7 @@ saltandstone.com — saltandstone: getScentProducts, listScentFamilies, matchSce
 samsclub.com — samsclub: browseCategory, checkStock, findClubs, getFuelPrices, getInstantSavings, getMembershipPlans, getProduct, search (+2 planned)
 samsung.com — samsung: checkWarrantyStatus, compareProducts, findStore, getOrderStatus, getProduct, getRewardsBalance, getTradeInQuote, listCarrierOffers, listCategories, listCategoryProducts, listDeals, listMyProducts, listOrders, listSupportArticles, search
 scentbird.com — scentbird: browseCatalogue
+scheels.com — scheels: getProduct, searchProducts
 scottfraser.co.uk — scottfraser_co_uk: getListing, listLettings
 scribd.com — scribd: addDocumentToList, askDocument, createList, deleteDocument, downloadDocument, getDocument, getDocumentText, getEmbedCode, getList, getRelatedDocuments, getTrendingDocuments, getUserProfile, listCategories, listMyLists, listSavedDocuments, markDocumentFinished, rateDocument, removeDocumentFromList, saveDocument, searchDocuments, unsaveDocument (+3 planned)
 seakeeper.com — seakeeper: findNearestDealers, listAllDealers
@@ -927,6 +931,7 @@ www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepa
 www.cnn.com — cnn: followTopic, getArticle, getMarketsData, getVideo, listCategories, listHeadlines, listMyNews, listNewsletters, listSectionHeadlines, listTrendingTopics, listVideos, searchArticles, subscribeToNewsletter, unfollowTopic (+1 planned)
 www.disneyplus.com — disney_plus: nothing callable yet (+26 planned)
 www.gap.com — gap: getProduct, searchProducts
+www.gapfactory.com — gap_factory: getProduct, searchProducts
 www.grammarly.com — grammarly: addToDictionary, checkGrammar, countWords, createDocument, deleteDocument, detectAI, detectPlagiarism, detectTone, getAccount, getDocument, humanize, listDocuments, listGoals, listPlans, paraphrase, removeFromDictionary, setGoals (+2 planned)
 www.marks.com — marks: findStores, getProduct, searchProducts
 www.netflix.com — netflix: addToMyList, browseGenre, findTitles, getAccount, getContinueWatching, getEpisodes, getMostPopular, getMyList, getNewOnNetflix, getProfiles, getSimilarTitles, getTitle, getTop10, getTop10ByCountry, getTudumArticle, getViewingHistory, listGenres, listTudumArticles, rateTitle, removeFromMyList, search, searchTudum
