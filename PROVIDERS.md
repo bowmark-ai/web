@@ -7162,7 +7162,7 @@ One function per row, with the site it is called on.
 | `yellowdoorlets_co_uk.getProperty` | yellowdoorlets.co.uk | Reads one Yellow Door Lets Lancaster student property by URL or slug — let/available… | 🟢 |
 | `yellowdoorlets_co_uk.searchProperties` | yellowdoorlets.co.uk | Lists Yellow Door Lets' Lancaster student houses, studios and rooms, filtered by text… | 🟢 |
 | `yellowpages.getBusiness` | yellowpages.com | Gets one business listing: name, phone, address, hours, website, categories, years in… | 🟢 |
-| `yellowpages.search` | yellowpages.com | Searches the directory by business category or name and a city, e.g. plumber in… | 🟢 |
+| `yellowpages.search` | yellowpages.com | Finds a local business near a city, such as a plumber, electrician or dentist near me… | 🟢 |
 | `yelp.addToCollection` | yelp.com | Creates a collection for the signed-in caller, or adds a business to one of theirs, or… | ⚪ |
 | `yelp.askQuestion` | yelp.com | Posts a question, or answers one, in a business's 'Ask the Community' from the… | ⚪ |
 | `yelp.followUser` | yelp.com | Follows or unfollows a Yelp member from the signed-in caller's account. | ⚪ |
