@@ -202,6 +202,7 @@ cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
 cbsnews.com — cbsnews: getArticle, getAuthor, getLiveStream, getLiveUpdates, getVideo, listArticlesByAuthor, listLatestNews, listRssFeeds, listSectionArticles, listSections, listShows, listTagArticles, listVideos, search (+12 planned)
 cbssports.com — cbs_sports: scoreboard (+1 planned)
+cdc.gov — cdc: getPage, search
 census.gov — census: geographyLevels, locations, populationClock, profile, profileHighlights, relatedProfiles, searchTables, siteMenu, suggest, tableData, tableDownload, tableLinks, tableMetadata, vintages
 cerebralvalley.ai — cerebralvalley: getEvent, listEvents
 cftc.gov — cftc: searchRules
@@ -883,6 +884,7 @@ ups.com — ups: calculateShippingCost, calculateTimeAndCost, estimateDeliveryDa
 upwork.com — upwork: getJob, searchJobs
 urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
 us.posthog.com — posthog: getInsight, listInsights, listProjects, runRetentionQuery
+usa.gov — usa_gov: getPage, listPages
 usatoday.com — usatoday: browseSection, getArticle, getCrossword, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+3 planned)
 uscis.gov — uscis: caseStatus
 usps.com — usps: getRate, trackPackage (+12 planned)

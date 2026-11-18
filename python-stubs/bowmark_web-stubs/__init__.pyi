@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 79dbead23f788368e1a4f3c28888c1ff28615dc8ce7014ca20ec9319c2ee4162
-# 98 capabilities, 921 providers, 5492 typed functions, 20 refused.
+# Manifest version: 078bdf48a3aed806e92191000c7d2e740990d5016055776b6d6717ada335d7f4
+# 98 capabilities, 923 providers, 5495 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16918,6 +16918,34 @@ class Prv_cbsnews_CbsNewsShow_Out(TypedDict):
     slug: str
     name: str | None
     url: str
+
+class Prv_cdc_CdcPage_Out(TypedDict):
+    url: str
+    title: str
+    description: str | None
+    topic: str | None
+    lastUpdated: str | None
+    sections: list[Prv_cdc_CdcSection_Out]
+
+class Prv_cdc_CdcSection_Out(TypedDict):
+    heading: str
+    text: str
+
+class Prv_cdc_CdcSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_cdc_CdcSearchPage_Out(TypedDict):
+    query: str
+    total: float
+    results: list[Prv_cdc_CdcSearchResult_Out]
+
+class Prv_cdc_CdcSearchResult_Out(TypedDict):
+    title: str
+    url: str
+    description: str | None
+    updated: str | None
+    snippet: str | None
 
 class Prv_census_searchTables_args_In(TypedDict):
     query: str
@@ -60680,6 +60708,44 @@ class Prv_rover_RoverBoardingRow_Out_startingNightlyRate_Out(TypedDict):
     amount: float
     currency: str
 
+Prv_royal_caribbean_royal_caribbeanSearchCruisesArgs_In = TypedDict(
+    "Prv_royal_caribbean_royal_caribbeanSearchCruisesArgs_In",
+    {
+    "destination": NotRequired[str],
+    "departurePort": NotRequired[str],
+    "ship": NotRequired[str],
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    "minNights": NotRequired[float],
+    "maxNights": NotRequired[float],
+    "limit": NotRequired[float],
+    },
+)
+
+class Prv_royal_caribbean_royal_caribbeanSearchResult_Out(TypedDict):
+    total: float
+    destinations: list[str]
+    cruises: list[Prv_royal_caribbean_royal_caribbeanCruise_Out]
+
+class Prv_royal_caribbean_royal_caribbeanCruise_Out(TypedDict):
+    id: str
+    name: str
+    packageCode: str
+    nights: float | None
+    ship: str
+    shipCode: str
+    destination: str
+    destinationCode: str
+    departurePort: str
+    departurePortCode: str
+    ports: list[str]
+    sailDates: list[str]
+    lowestPrice: float | None
+    currency: str | None
+    lowestPriceSailDate: str | None
+    lowestPriceStateroom: str | None
+    url: str
+
 class Prv_rtings_rtingsGetReviewArgs_In(TypedDict):
     url: NotRequired[str]
     brand: NotRequired[str]
@@ -68714,6 +68780,7 @@ class Prv_studenthomes_net_StudentHomesSearchResult_Out(TypedDict):
     page: float
     totalPages: float
     listings: list[Prv_studenthomes_net_StudentHomesListingSummary_Out]
+    warnings: list[str]
 
 class Prv_studenthomes_net_StudentHomesListingSummary_Out(TypedDict):
     id: str
@@ -72090,6 +72157,13 @@ class Prv_tiktok_tiktokVideoSummary_Out(TypedDict):
     playCount: NotRequired[float]
     coverUrl: NotRequired[str]
     playAddr: NotRequired[str]
+    author: NotRequired[Prv_tiktok_tiktokVideoSummary_Out_author_Out]
+    createTime: NotRequired[float]
+
+class Prv_tiktok_tiktokVideoSummary_Out_author_Out(TypedDict):
+    uniqueId: str
+    nickname: str
+    avatar: NotRequired[str]
 
 class Prv_tiktok_ListUserPlaylistsArgs_In(TypedDict):
     username: NotRequired[str]
@@ -74621,6 +74695,7 @@ class Prv_twitch_TwitchPlayback_Out_files_Out(TypedDict):
 class Prv_twitch_TwitchPlayback_Out_hls_u0_Out(TypedDict):
     url: str
     live: bool
+    hasAds: bool
 
 class Prv_twitch_TwitchPlayback_Out_embed_Out(TypedDict):
     url: str
@@ -84583,10 +84658,12 @@ class Cap_job_search(Protocol):
         Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday/Teamtailor/BambooHR/Rippling/Personio/Breezy
         link) and/or `company` (its name). It follows the company's careers link to find which
         ATS it uses, and falls back to asking each ATS for a board under the company's name
-        (`detectedBy: "name"` — check `company`). `query` / `location` filter by
-        title/department words and location text. Throws when no supported ATS is found, naming
-        what it checked — an ATS it does not support, or a careers page that loads jobs only in
-        the browser, is the usual reason.
+        (`detectedBy: "name"`). A name match is taken only when its postings link the company's
+        own domain, which `url` supplies; the result then says so. Otherwise it comes back with
+        a warning that it may be a different company with the same name, so check `company`
+        before you use it. `query` / `location` filter by title/department words and location
+        text. Throws when no supported ATS is found, naming what it checked — an ATS it does not
+        support, or a careers page that loads jobs only in the browser, is the usual reason.
         """
 
 class Cap_kenya_fuel_prices(Protocol):
@@ -92710,6 +92787,24 @@ class Prv_cbsnews(Protocol):
         """Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings, Evening
         News, Sunday Morning, CBS Reports) from the homepage navigation, each with its slug and
         its address.
+        """
+
+class Prv_cdc(Protocol):
+    """The US Centers for Disease Control and Prevention. Search cdc.gov's health and disease
+    pages (flu, measles, COVID-19, vaccines, travel health, outbreaks) and read any CDC page
+    as its title, last-updated date and sections.
+    """
+
+    async def getPage(self, url: str, /) -> Prv_cdc_CdcPage_Out:
+        """Reads one cdc.gov page (a url from search, e.g.
+        https://www.cdc.gov/flu/about/index.html) as its title, summary, topic, last-updated
+        date and h2 sections of plain text.
+        """
+
+    async def search(self, args: Prv_cdc_CdcSearchArgs_In, /) -> Prv_cdc_CdcSearchPage_Out:
+        """Runs cdc.gov's own site search over CDC health and disease pages and returns the total
+        match count plus ranked pages with title, url, description, updated date and a text
+        snippet. results is [] when nothing matches.
         """
 
 class Prv_census(Protocol):
@@ -107074,17 +107169,19 @@ class Prv_linkedin(Protocol):
 
     async def listCompanyJobs(self, companyUrlOrHandle: str, query: Prv_linkedin_LinkedinJobSearchQuery_In | None = None, /) -> list[Prv_linkedin_LinkedinJobSearchResult_Out]:
         """Returns the open roles one named company is currently advertising — the hiring-signal
-        read: what a company is building right now. `searchJobs` filtered to that one employer,
-        not a distinct surface: it resolves the company's numeric LinkedIn id off its public
-        page (one `getCompany` call, no session) and adds LinkedIn's own `f_C=<id>` employer
-        filter to the same guest job-search surface `searchJobs` uses, so every row, the paging,
-        the empty-page retries and the 1000-row wall are identical. Takes the same
-        second-argument shape as `searchJobs` (`{keywords, location, geoId, postedWithin,
-        limit}`) for narrowing further — "this company's jobs in Iceland" — and defaults
-        `location` to "Worldwide" only when none of those three is given, because `f_C` alone
-        answers the surface's own spurious-empty body on every attempt (measured 2026-10-20)
-        rather than listing anything. Throws when the handle does not resolve to a public
-        company page, exactly as `getCompany` does.
+        read: what a company is building right now. Unlike `searchJobs`, this filters to that
+        company; use `searchJobs` for a keyword search, whose matches can broaden beyond the
+        keywords. Returns 10 rows by default. Pass `limit` to request more, up to 1000.
+        `searchJobs` filtered to that one employer, not a distinct surface: it resolves the
+        company's numeric LinkedIn id off its public page (one `getCompany` call, no session)
+        and adds LinkedIn's own `f_C=<id>` employer filter to the same guest job-search surface
+        `searchJobs` uses, so every row, the paging, the empty-page retries and the 1000-row
+        wall are identical. Takes the same second-argument shape as `searchJobs` (`{keywords,
+        location, geoId, postedWithin, limit}`) for narrowing further — "this company's jobs in
+        Iceland" — and defaults `location` to "Worldwide" only when none of those three is
+        given, because `f_C` alone answers the surface's own spurious-empty body on every
+        attempt (measured 2026-10-20) rather than listing anything. Throws when the handle does
+        not resolve to a public company page, exactly as `getCompany` does.
         """
 
     async def getCompany(self, urlOrHandle: str, /) -> Prv_linkedin_LinkedinCompany_Out:
@@ -116606,6 +116703,20 @@ class Prv_rover(Protocol):
         ~10-11% service fee and before per-pet pricing), rating, review count and distance.
         """
 
+class Prv_royal_caribbean(Protocol):
+    """Royal Caribbean (royalcaribbean.com) — search cruises by destination, sail dates,
+    departure port, ship and length: itinerary, ports, sail dates and the lowest fare.
+    """
+
+    async def searchCruises(self, args: Prv_royal_caribbean_royal_caribbeanSearchCruisesArgs_In, /) -> Prv_royal_caribbean_royal_caribbeanSearchResult_Out:
+        """Searches Royal Caribbean cruises (for example { destination: "Caribbean", from:
+        "2027-02-01", to: "2027-03-31", departurePort: "Miami" }), cheapest first: itinerary
+        name, ship, nights, departure port, port codes, sail dates, lowest fare and its
+        stateroom, and the royalcaribbean.com link. Every argument is optional; destination is a
+        name such as Alaska, Europe, Bahamas or Mexico; ship and departurePort match by name;
+        limit 1-200 (default 25).
+        """
+
 class Prv_rtings(Protocol):
     """RTINGS lab-tested product reviews — a product's overall score out of 10, verdict,
     per-usage verdicts and summary points.
@@ -122049,7 +122160,8 @@ class Prv_tiktok(Protocol):
 
     async def listTrendingVideos(self, args: Prv_tiktok_ListTrendingVideosArgs_In | None = None, /) -> Prv_tiktok_tiktokVideoList_Out:
         """What is trending on TikTok right now — the Explore page's own grid, in TikTok's order:
-        id, caption, play count, cover and play address per video. Uses the browser to load
+        id, caption, creator (author uniqueId, nickname, avatar), post time (createTime, unix
+        seconds), play count, cover and play address per video. Uses the browser to load
         /explore and read the list it fetches, scrolling for more. Default 6, up to 60 with
         limit. Returns { videos, warnings }; a warning says when the grid came back shorter than
         limit. No login.
@@ -122057,9 +122169,10 @@ class Prv_tiktok(Protocol):
 
     async def listLikedVideos(self, args: Prv_tiktok_ListLikedVideosArgs_In, /) -> Prv_tiktok_tiktokVideoList_Out:
         """The videos a creator has liked, from the public Liked tab on their profile: id, caption,
-        play count, cover and play address. Takes a username. Uses the browser (branded Chrome)
-        to open the tab and read the list the page fetches; the newest 15 at most. Returns {
-        videos, warnings }. Throws when the creator keeps their likes private. No login.
+        creator (author), post time (createTime), play count, cover and play address. Takes a
+        username. Uses the browser (branded Chrome) to open the tab and read the list the page
+        fetches; the newest 15 at most. Returns { videos, warnings }. Throws when the creator
+        keeps their likes private. No login.
         """
 
     async def getSound(self, args: Prv_tiktok_GetSoundArgs_In, /) -> Prv_tiktok_tiktokSound_Out:
@@ -127343,23 +127456,20 @@ class Prv_youtube(Protocol):
         """
 
     async def getPlayback(self, input: Prv_youtube_getPlayback_input_In, /) -> Prv_youtube_YoutubePlayback_Out:
-        """Every way to play one video, for you to choose from: YouTube's embed (`embed.url`, its
-        own player in an iframe, ads included) and every file YouTube serves (`files.muxed` is
-        video+audio in one 360p file; `files.videoOnly` is every size from 144p to 2160p, each
-        played in a muted `<video>` beside ONE `files.audioOnly` file in an `<audio>`). `video`
-        is a bare 11-character id or any watch/shorts/embed/live/youtu.be URL. Choose from what
-        the user asked for: no ads, no end-screen suggestions or no site chrome → files; a
-        particular resolution, "the highest" or "save data" → files; the page's own controls, a
-        looping segment, a frame grab, picture-in-picture or audio only → files; a live stream,
-        members-only, age-restricted or DRM'd video → embed; YouTube's own comments, chapters,
-        likes or captions inside the player → embed; no preference → files, falling back to the
-        embed. A page may offer both and let the viewer switch. Inside a jig page, the page
-        kit's `player.mount(box, menu, { mode, quality })` plays any of these and keeps a pair
-        in sync (a jig helper, not a library function). The file URLs play from any address,
-        need no particular Referer, and expire at `expiresAt` (about six hours). The bytes go
-        from YouTube straight to the player; the call moves about 5 KB. A live, age-gated,
-        region- or members-blocked video comes back with empty `files`, the embed, and a
-        `warnings` line saying why. Throws only for a removed or private video.
+        """Every way to play one video: every file YouTube serves (`files.muxed` is video+audio in
+        one 360p file; `files.videoOnly` is every size from 144p to 2160p, each played in a
+        muted `<video>` beside ONE `files.audioOnly` file in an `<audio>`), and YouTube's embed
+        (`embed.url`, its own player in an iframe, ads included). `video` is a bare 11-character
+        id or any watch/shorts/embed/live/youtu.be URL. Always play the files in Bowmark's own
+        player, whatever the user asked for (a resolution, no ads, comments or chapters shown
+        beside it). The embed is a last resort, only when `files` is empty (a live stream,
+        members-only, age-restricted or DRM'd video) or the files fail to play. Inside a jig
+        page, the page kit's `player.mount(box, menu, { mode, quality })` plays any of these and
+        keeps a pair in sync (a jig helper, not a library function). The file URLs play from any
+        address, need no particular Referer, and expire at `expiresAt` (about six hours). The
+        bytes go from YouTube straight to the player; the call moves about 5 KB. A live,
+        age-gated, region- or members-blocked video comes back with empty `files`, the embed,
+        and a `warnings` line saying why. Throws only for a removed or private video.
         `getPlayableStream` is the one-call shortcut to the 360p muxed file.
         """
 
@@ -128263,6 +128373,7 @@ class BowmarkProviders(Protocol):
     cbp: Prv_cbp
     cbs_sports: Prv_cbs_sports
     cbsnews: Prv_cbsnews
+    cdc: Prv_cdc
     census: Prv_census
     census_api: Prv_census_api
     cerebralvalley: Prv_cerebralvalley
@@ -128768,6 +128879,7 @@ class BowmarkProviders(Protocol):
     roomandboard: Prv_roomandboard
     rottentomatoes: Prv_rottentomatoes
     rover: Prv_rover
+    royal_caribbean: Prv_royal_caribbean
     rtings: Prv_rtings
     ruggable: Prv_ruggable
     rumble: Prv_rumble

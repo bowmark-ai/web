@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 79dbead23f788368e1a4f3c28888c1ff28615dc8ce7014ca20ec9319c2ee4162
-// 98 capabilities, 921 providers, 5520 typed functions, 20 refused.
+// Manifest version: 078bdf48a3aed806e92191000c7d2e740990d5016055776b6d6717ada335d7f4
+// 98 capabilities, 923 providers, 5523 typed functions, 20 refused.
 // 128,318 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3069,10 +3069,12 @@ type CallOptions = {
      * Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday/Teamtailor/BambooHR/Rippling/Personio/Breezy
      * link) and/or `company` (its name). It follows the company's careers link to find which ATS
      * it uses, and falls back to asking each ATS for a board under the company's name
-     * (`detectedBy: "name"` — check `company`). `query` / `location` filter by title/department
-     * words and location text. Throws when no supported ATS is found, naming what it checked — an
-     * ATS it does not support, or a careers page that loads jobs only in the browser, is the usual
-     * reason.
+     * (`detectedBy: "name"`). A name match is taken only when its postings link the company's own
+     * domain, which `url` supplies; the result then says so. Otherwise it comes back with a
+     * warning that it may be a different company with the same name, so check `company` before you
+     * use it. `query` / `location` filter by title/department words and location text. Throws when
+     * no supported ATS is found, naming what it checked — an ATS it does not support, or a careers
+     * page that loads jobs only in the browser, is the usual reason.
      */
     atCompany(args: AtCompanyArgs): Promise<CompanyJobsResult>;
   }
@@ -26282,6 +26284,58 @@ interface ListArticlesByAuthorArgs {
      * address.
      */
     listShows(): Promise<{ shows: CbsNewsShow[] }>;
+  }
+}
+
+declare namespace BowmarkProvider_cdc {
+  // ── CDC — the unit's own declarations, verbatim ──
+interface CdcSearchArgs {
+  query: string;                 // e.g. "flu symptoms", "measles cases"
+  limit?: number;                // 1-50, default 10
+}
+interface CdcSearchResult {
+  title: string;
+  url: string;                   // pass to getPage
+  description: string | null;
+  updated: string | null;        // ISO 8601
+  snippet: string | null;
+}
+interface CdcSearchPage {
+  query: string;
+  total: number;
+  results: CdcSearchResult[];
+}
+interface CdcSection {
+  heading: string;
+  text: string;
+}
+interface CdcPage {
+  url: string;
+  title: string;
+  description: string | null;
+  topic: string | null;          // e.g. "Influenza (Flu)"
+  lastUpdated: string | null;    // as CDC prints it, e.g. "February 26, 2026"
+  sections: CdcSection[];
+}
+
+  /**
+   * The US Centers for Disease Control and Prevention. Search cdc.gov's health and disease pages
+   * (flu, measles, COVID-19, vaccines, travel health, outbreaks) and read any CDC page as its
+   * title, last-updated date and sections.
+   */
+  interface Unit {
+    /**
+     * Reads one cdc.gov page (a url from search, e.g. https://www.cdc.gov/flu/about/index.html) as
+     * its title, summary, topic, last-updated date and h2 sections of plain text.
+     */
+    getPage(url: string): Promise<CdcPage>;
+
+    /**
+     * Runs cdc.gov's own site search over CDC health and disease pages and returns the total match
+     * count plus ranked pages with title, url, description, updated date and a text snippet.
+     * results is [] when nothing matches.
+     */
+    search(args: CdcSearchArgs): Promise<CdcSearchPage>;
   }
 }
 
@@ -66550,12 +66604,14 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
 
     /**
      * Returns the open roles one named company is currently advertising — the hiring-signal read:
-     * what a company is building right now. `searchJobs` filtered to that one employer, not a
-     * distinct surface: it resolves the company's numeric LinkedIn id off its public page (one
-     * `getCompany` call, no session) and adds LinkedIn's own `f_C=<id>` employer filter to the
-     * same guest job-search surface `searchJobs` uses, so every row, the paging, the empty-page
-     * retries and the 1000-row wall are identical. Takes the same second-argument shape as
-     * `searchJobs` (`{keywords, location, geoId, postedWithin, limit}`) for narrowing further —
+     * what a company is building right now. Unlike `searchJobs`, this filters to that company; use
+     * `searchJobs` for a keyword search, whose matches can broaden beyond the keywords. Returns 10
+     * rows by default. Pass `limit` to request more, up to 1000. `searchJobs` filtered to that one
+     * employer, not a distinct surface: it resolves the company's numeric LinkedIn id off its
+     * public page (one `getCompany` call, no session) and adds LinkedIn's own `f_C=<id>` employer
+     * filter to the same guest job-search surface `searchJobs` uses, so every row, the paging, the
+     * empty-page retries and the 1000-row wall are identical. Takes the same second-argument shape
+     * as `searchJobs` (`{keywords, location, geoId, postedWithin, limit}`) for narrowing further —
      * "this company's jobs in Iceland" — and defaults `location` to "Worldwide" only when none of
      * those three is given, because `f_C` alone answers the surface's own spurious-empty body on
      * every attempt (measured 2026-10-20) rather than listing anything. Throws when the handle
@@ -92535,6 +92591,28 @@ interface RoverBoardingRow { name: string; profileUrl: string; ratingValue: numb
   }
 }
 
+declare namespace BowmarkProvider_royal_caribbean {
+  // ── Royal Caribbean — the unit's own declarations, verbatim ──
+interface royal_caribbeanCruise { id: string; name: string; packageCode: string; nights: number | null; ship: string; shipCode: string; destination: string; destinationCode: string; departurePort: string; departurePortCode: string; ports: string[]; sailDates: string[]; lowestPrice: number | null; currency: string | null; lowestPriceSailDate: string | null; lowestPriceStateroom: string | null; url: string; }
+interface royal_caribbeanSearchResult { total: number; destinations: string[]; cruises: royal_caribbeanCruise[]; }
+interface royal_caribbeanSearchCruisesArgs { destination?: string; departurePort?: string; ship?: string; from?: string; to?: string; minNights?: number; maxNights?: number; limit?: number; }
+
+  /**
+   * Royal Caribbean (royalcaribbean.com) — search cruises by destination, sail dates, departure
+   * port, ship and length: itinerary, ports, sail dates and the lowest fare.
+   */
+  interface Unit {
+    /**
+     * Searches Royal Caribbean cruises (for example { destination: "Caribbean", from:
+     * "2027-02-01", to: "2027-03-31", departurePort: "Miami" }), cheapest first: itinerary name,
+     * ship, nights, departure port, port codes, sail dates, lowest fare and its stateroom, and the
+     * royalcaribbean.com link. Every argument is optional; destination is a name such as Alaska,
+     * Europe, Bahamas or Mexico; ship and departurePort match by name; limit 1-200 (default 25).
+     */
+    searchCruises(args: royal_caribbeanSearchCruisesArgs): Promise<royal_caribbeanSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_rtings {
   // ── RTINGS — the unit's own declarations, verbatim ──
 interface rtingsGetReviewArgs {
@@ -103772,7 +103850,7 @@ interface StudentHomesPrice { weeklyPerPerson: number | null; weeklyPerPersonInc
 interface StudentHomesListing { id: string; url: string; status: "available" | "not_found"; availability: string | null; title: string | null; area: string | null; heading: string | null; priceAmount: number | null; priceFrequency: "pppw"; billsIncluded: boolean | null; price: StudentHomesPrice; bedrooms: number | null; bathrooms: number | null; receptions: number | null; furnishing: string | null; features: string[]; description: string | null; images: string[]; phone: string | null; reserveUrl: string | null }
 interface StudentHomesListingSummary { id: string; url: string; title: string; area: string | null; availability: string | null; bedrooms: number | null; bathrooms: number | null; features: string[]; priceAmount: number | null; weeklyPerPersonExclBills: number | null; weeklyPerPersonInclBills: number | null; billsIncluded: null; monthlyTotalInclBills: number | null; deposit: number | null; image: string | null }
 interface StudentHomesSearchArgs { location?: "Coventry" | "Kenilworth" | "Leamington Spa" | "Leicester" | "Liverpool" | "Manchester" | "Southampton" | "Warwick"; minBedrooms?: number; maxBedrooms?: number; sort?: "price_desc" | "price_asc"; page?: number }
-interface StudentHomesSearchResult { page: number; totalPages: number; listings: StudentHomesListingSummary[] }
+interface StudentHomesSearchResult { page: number; totalPages: number; listings: StudentHomesListingSummary[]; warnings: string[] }
 
   /**
    * Student Homes (studenthomes.net), a student letting agent around Leamington Spa, Coventry
@@ -108579,6 +108657,10 @@ interface tiktokVideoSummary {
   playCount?: number;
   coverUrl?: string;
   playAddr?: string;
+  /** Creator, when the item carries one (explore and creator item lists do; the embed page does not). */
+  author?: { uniqueId: string; nickname: string; avatar?: string };
+  /** Post time, unix seconds, when the item carries it. */
+  createTime?: number;
 }
 interface ListUserVideosArgs {
   username: string;
@@ -108955,17 +109037,19 @@ interface tiktokPlaybackFile {
 
     /**
      * What is trending on TikTok right now — the Explore page's own grid, in TikTok's order: id,
-     * caption, play count, cover and play address per video. Uses the browser to load /explore and
-     * read the list it fetches, scrolling for more. Default 6, up to 60 with limit. Returns {
-     * videos, warnings }; a warning says when the grid came back shorter than limit. No login.
+     * caption, creator (author uniqueId, nickname, avatar), post time (createTime, unix seconds),
+     * play count, cover and play address per video. Uses the browser to load /explore and read the
+     * list it fetches, scrolling for more. Default 6, up to 60 with limit. Returns { videos,
+     * warnings }; a warning says when the grid came back shorter than limit. No login.
      */
     listTrendingVideos(args?: ListTrendingVideosArgs): Promise<tiktokVideoList>;
 
     /**
      * The videos a creator has liked, from the public Liked tab on their profile: id, caption,
-     * play count, cover and play address. Takes a username. Uses the browser (branded Chrome) to
-     * open the tab and read the list the page fetches; the newest 15 at most. Returns { videos,
-     * warnings }. Throws when the creator keeps their likes private. No login.
+     * creator (author), post time (createTime), play count, cover and play address. Takes a
+     * username. Uses the browser (branded Chrome) to open the tab and read the list the page
+     * fetches; the newest 15 at most. Returns { videos, warnings }. Throws when the creator keeps
+     * their likes private. No login.
      */
     listLikedVideos(args: ListLikedVideosArgs): Promise<tiktokVideoList>;
 
@@ -112361,8 +112445,9 @@ interface TwitchPlayback {
   /** Twitch serves no plain file: always empty, kept for the shared playback-menu shape. */
   files: { muxed: never[]; videoOnly: never[]; audioOnly: never[] };
   /** The HLS master playlist (every rendition, MPEG-TS segments). live: re-read the media
-   * playlist, it has no EXT-X-ENDLIST. Null when the channel is offline. */
-  hls: { url: string; live: boolean } | null;
+   * playlist, it has no EXT-X-ENDLIST. hasAds: true for a live channel (Twitch stitches its
+   * own ads in for a signed-out viewer), false for a VOD. Null when the channel is offline. */
+  hls: { url: string; live: boolean; hasAds: boolean } | null;
   /** Twitch's own player; set parent=<the showing page's hostname>. */
   embed: { url: string; hasAds: true; note: string };
   expiresAt: string | null;
@@ -124144,17 +124229,14 @@ interface YoutubePlayback {
     getPlayableStream(input: { video: string }): Promise<YoutubePlayableStream>;
 
     /**
-     * Every way to play one video, for you to choose from: YouTube's embed (`embed.url`, its own
-     * player in an iframe, ads included) and every file YouTube serves (`files.muxed` is
-     * video+audio in one 360p file; `files.videoOnly` is every size from 144p to 2160p, each
-     * played in a muted `<video>` beside ONE `files.audioOnly` file in an `<audio>`). `video` is a
-     * bare 11-character id or any watch/shorts/embed/live/youtu.be URL. Choose from what the user
-     * asked for: no ads, no end-screen suggestions or no site chrome → files; a particular
-     * resolution, "the highest" or "save data" → files; the page's own controls, a looping
-     * segment, a frame grab, picture-in-picture or audio only → files; a live stream,
-     * members-only, age-restricted or DRM'd video → embed; YouTube's own comments, chapters, likes
-     * or captions inside the player → embed; no preference → files, falling back to the embed. A
-     * page may offer both and let the viewer switch. Inside a jig page, the page kit's
+     * Every way to play one video: every file YouTube serves (`files.muxed` is video+audio in one
+     * 360p file; `files.videoOnly` is every size from 144p to 2160p, each played in a muted
+     * `<video>` beside ONE `files.audioOnly` file in an `<audio>`), and YouTube's embed
+     * (`embed.url`, its own player in an iframe, ads included). `video` is a bare 11-character id
+     * or any watch/shorts/embed/live/youtu.be URL. Always play the files in Bowmark's own player,
+     * whatever the user asked for (a resolution, no ads, comments or chapters shown beside it).
+     * The embed is a last resort, only when `files` is empty (a live stream, members-only,
+     * age-restricted or DRM'd video) or the files fail to play. Inside a jig page, the page kit's
      * `player.mount(box, menu, { mode, quality })` plays any of these and keeps a pair in sync (a
      * jig helper, not a library function). The file URLs play from any address, need no particular
      * Referer, and expire at `expiresAt` (about six hours). The bytes go from YouTube straight to
@@ -127096,6 +127178,7 @@ interface BowmarkProviders {
   cbp: BowmarkProvider_cbp.Unit;
   cbs_sports: BowmarkProvider_cbs_sports.Unit;
   cbsnews: BowmarkProvider_cbsnews.Unit;
+  cdc: BowmarkProvider_cdc.Unit;
   census: BowmarkProvider_census.Unit;
   census_api: BowmarkProvider_census_api.Unit;
   cerebralvalley: BowmarkProvider_cerebralvalley.Unit;
@@ -127601,6 +127684,7 @@ interface BowmarkProviders {
   roomandboard: BowmarkProvider_roomandboard.Unit;
   rottentomatoes: BowmarkProvider_rottentomatoes.Unit;
   rover: BowmarkProvider_rover.Unit;
+  royal_caribbean: BowmarkProvider_royal_caribbean.Unit;
   rtings: BowmarkProvider_rtings.Unit;
   ruggable: BowmarkProvider_ruggable.Unit;
   rumble: BowmarkProvider_rumble.Unit;

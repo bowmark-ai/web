@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7360 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7364 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1201,6 +1201,8 @@ One function per row, with the site it is called on.
 | `cbsnews.subscribeToNewsletter` | cbsnews.com | Subscribes an email address to a CBS News newsletter. | ⚪ |
 | `cbsnews.unsubscribeFromNewsletter` | cbsnews.com | Unsubscribes the signed-in caller from a newsletter. | ⚪ |
 | `cbsnews.updateProfile` | cbsnews.com | Edits the signed-in caller's profile (name, zip code). | ⚪ |
+| `cdc.getPage` | cdc.gov | Reads one cdc.gov health or disease page (e.g. /flu/about/index.html) as its title… | 🟢 |
+| `cdc.search` | cdc.gov | Searches cdc.gov's health and disease pages with CDC's own site search, returning the… | 🟢 |
 | `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | ⚪ |
 | `census_api.validateAddress` | api.census.gov | Validates and standardizes a US street address against the Census Geocoder… | 🟢 |
 | `census.geographyLevels` | census.gov | Lists the geography levels US Census data is published at: Nation, State, County… | 🟢 |
@@ -6602,6 +6604,8 @@ One function per row, with the site it is called on.
 | `urbanoutfitters.getReviews` | urbanoutfitters.com | Reads the customer reviews on one Urban Outfitters product — the star rating and its… | ⚪ |
 | `urbanoutfitters.search` | urbanoutfitters.com | Searches Urban Outfitters' live catalogue the way the site's own search bar does and… | ⚪ |
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
+| `usa_gov.getPage` | usa.gov | Reads one USA.gov page (e.g. /passport, /renew-adult-passport) and returns its title… | 🟢 |
+| `usa_gov.listPages` | usa.gov | Lists English USA.gov pages from the site's own sitemap, optionally filtered by words… | 🟢 |
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟡 |
 | `usatoday.getCrossword` | usatoday.com | Reads today's USA TODAY Crossword, or one by id: title, date, constructor, grid size… | 🟢 |

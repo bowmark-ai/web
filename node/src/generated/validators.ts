@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 79dbead23f788368e1a4f3c28888c1ff28615dc8ce7014ca20ec9319c2ee4162
-// 5492 checked, 20 unchecked.
+// Manifest version: 078bdf48a3aed806e92191000c7d2e740990d5016055776b6d6717ada335d7f4
+// 5495 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "79dbead23f788368e1a4f3c28888c1ff28615dc8ce7014ca20ec9319c2ee4162",
+  "version": "078bdf48a3aed806e92191000c7d2e740990d5016055776b6d6717ada335d7f4",
   "units": {
     "address_validation": {
       "defs": {
@@ -32129,6 +32129,50 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listShows": []
+      }
+    },
+    "providers.cdc": {
+      "defs": {
+        "CdcSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getPage": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CdcSearchArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.census": {
@@ -129409,6 +129453,83 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.royal_caribbean": {
+      "defs": {
+        "royal_caribbeanSearchCruisesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "departurePort",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "ship",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minNights",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxNights",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchCruises": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "royal_caribbeanSearchCruisesArgs"
             },
             "optional": false
           }
