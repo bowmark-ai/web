@@ -2295,7 +2295,7 @@ One function per row, with the site it is called on.
 | `etsy.listShopSoldItems` | etsy.com | The items a shop has already sold, newest first — what actually sells there, with… | ⚪ |
 | `etsy.listTrendingSearches` | etsy.com | What people are searching for on Etsy this week — the 'Top searches this week' list… | 🟡 |
 | `etsy.removeFromCart` | etsy.com | Removes an item from the caller's cart. | ⚪ |
-| `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword and returns each matching… | 🟡 |
+| `etsy.search` | etsy.com | Finds handmade and vintage items (e.g. handmade ceramic mugs) by searching Etsy's live… | 🟡 |
 | `etsy.searchShops` | etsy.com | Finds Etsy shops whose name contains a word — the door from a shop name a person… | 🟡 |
 | `etsy.sendMessage` | etsy.com | Sends a message from the signed-in caller to a shop — a new question about an item, or… | ⚪ |
 | `etsy.suggestSearches` | etsy.com | Etsy's search-box suggestions for what a person has typed so far, including 'find shop… | 🟡 |
@@ -2702,7 +2702,7 @@ One function per row, with the site it is called on.
 | `ford.buildAndPrice` | ford.com | Walks Ford's own build-and-price configurator for a model and year — choosing trim… | ⚪ |
 | `ford.findDealers` | ford.com | Finds franchised Ford dealers near a US ZIP code — name, address, phone, coordinates… | 🟢 |
 | `ford.getModelDetails` | ford.com | Reads one Ford model's showroom page — its trims with starting MSRP, key specs… | ⚪ |
-| `ford.getOffers` | ford.com | Returns Ford's current incentives for one model near a US ZIP — cash back, APR… | 🟡 |
+| `ford.getOffers` | ford.com | Returns Ford's current incentives for one model near a US ZIP — cash back, APR… | 🟢 |
 | `ford.getRecalls` | ford.com | Looks up the open safety recalls and field service actions on one specific Ford… | 🟡 |
 | `ford.getVehicle` | ford.com | Reads one specific vehicle by VIN — its full option list, all Ford-approved images… | 🟢 |
 | `ford.listColors` | ford.com | Lists the exterior paint options actually available for one Ford model near a ZIP code… | ⚪ |
@@ -3215,7 +3215,7 @@ One function per row, with the site it is called on.
 | `haydenhomes.searchQuickMoveIns` | hayden-homes.com | Runs Hayden Homes' quick move-in search against the site's own live inventory — real… | 🟢 |
 | `hccts.checkApplicationAvailability` | hccts.org | Checks appointment booking availability and whether the online application form is… | 🟢 |
 | `healthcare_gov.checkDrugCoverage` | healthcare.gov | Which of a household's available ACA Marketplace plans cover a specific prescription… | 🟢 |
-| `healthcare_gov.checkEnrollmentEligibility` | healthcare.gov | Returns whether somebody can enrol in Marketplace coverage right now and until when —… | 🟡 |
+| `healthcare_gov.checkEnrollmentEligibility` | healthcare.gov | Returns whether somebody can enrol in Marketplace coverage right now and until when —… | 🟢 |
 | `healthcare_gov.checkProviderCoverage` | healthcare.gov | Returns which of a household's available Marketplace plans have a specific doctor… | 🟢 |
 | `healthcare_gov.estimateEligibility` | healthcare.gov | Returns what a household actually qualifies for before it shops — the advance premium… | 🟢 |
 | `healthcare_gov.estimateOutOfPocketCosts` | healthcare.gov | Returns the estimated TOTAL yearly cost of a plan for a household — premiums plus… | 🟢 |
@@ -7166,7 +7166,7 @@ One function per row, with the site it is called on.
 | `yelp.reactToReview` | yelp.com | Marks a review Helpful, Thanks, Love this or Oh no from the signed-in caller's account. | ⚪ |
 | `yelp.requestQuote` | yelp.com | Sends a home-services or local-business quote request (Request a Quote) from the… | ⚪ |
 | `yelp.saveBusiness` | yelp.com | Bookmarks a business for the signed-in caller, or removes the bookmark — a private… | ⚪ |
-| `yelp.search` | yelp.com | Runs Yelp's own business search for a term and location — with its sort (recommended… | 🟢 |
+| `yelp.search` | yelp.com | Finds the best restaurants, shops and local businesses (e.g. best taco restaurants in… | 🟢 |
 | `yelp.searchEvents` | yelp.com | Lists the events on a city's Yelp Events browse page (its first page, in the order the… | 🟢 |
 | `yelp.setProfilePhoto` | yelp.com | Changes the signed-in caller's own profile picture. | ⚪ |
 | `yelp.suggest` | yelp.com | Yelp's own search-as-you-type suggestions for a partial term or place — business names… | 🟡 |
