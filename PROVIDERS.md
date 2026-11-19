@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7379 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7396 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1167,6 +1167,19 @@ One function per row, with the site it is called on.
 | `cashbackmonitor.searchStores` | cashbackmonitor.com | Searches CashbackMonitor's merchants by name and returns each match's slug, url and… | 🟢 |
 | `castlery.getProduct` | castlery.com | Reads one Castlery product page — name, description, price, availability, dimensions… | 🟢 |
 | `castlery.search` | castlery.com | Searches or browses Castlery's furniture and home-goods catalog by keyword, returning… | 🟢 |
+| `caudalie.addToCart` | us.caudalie.com | Add one size of a product to the visitor's Caudalie bag. | ⚪ |
+| `caudalie.getCart` | us.caudalie.com | The visitor's own Caudalie bag: lines, quantities, subtotal and how far from free… | ⚪ |
+| `caudalie.getCheckout` | us.caudalie.com | The checkout's figures before payment: items, delivery, tax and total. | ⚪ |
+| `caudalie.getProduct` | us.caudalie.com | One Caudalie US product as its page shows it: sku, name, description, collection, USD… | 🟢 |
+| `caudalie.getProductReviews` | us.caudalie.com | Customer reviews of one Caudalie US product: average rating, review count and the… | 🟢 |
+| `caudalie.listCategories` | us.caudalie.com | Every product category on Caudalie's US store (e.g. All Products > Face > Cleansers)… | 🟢 |
+| `caudalie.listCategoryProducts` | us.caudalie.com | One Caudalie US category as its page lists it, in page order, with prices and star… | 🟢 |
+| `caudalie.removeCartItem` | us.caudalie.com | Remove one line from the visitor's Caudalie bag. | ⚪ |
+| `caudalie.searchProducts` | us.caudalie.com | Search Caudalie's US skincare store (us.caudalie.com) by words, e.g. "beauty elixir"… | 🟢 |
+| `caudalie.startCheckout` | us.caudalie.com | Start the guest checkout for the bag with a contact email, stopping before payment. | ⚪ |
+| `caudalie.updateCartItem` | us.caudalie.com | Set the quantity of one line in the visitor's Caudalie bag (0 removes it). | ⚪ |
+| `caudalie.updateDeliveryAddress` | us.caudalie.com | Set the US delivery address on the guest checkout and read the delivery options it… | ⚪ |
+| `caudalie.updateDeliveryOption` | us.caudalie.com | Choose a delivery option on the guest checkout. | ⚪ |
 | `cb2.getProduct` | cb2.com | Reads one product page: every size, fabric and finish option with its own price… | ⚪ |
 | `cb2.searchProducts` | cb2.com | Searches CB2's furniture and decor catalog the way its own search box does ("sofas")… | 🟢 |
 | `cbhhomes.assembleInquiry` | cbhhomes.com | Validates a caller's inquiry against the form's live schema and maps it onto the… | 🟢 |
@@ -5022,6 +5035,10 @@ One function per row, with the site it is called on.
 | `punchpass.moveReservation` | punchpass.com | Moves one of the signed-in caller's reservations to another time of the same class, by… | ⚪ |
 | `punchpass.signWaiver` | punchpass.com | Signs the studio's liability waiver as the signed-in caller, when the studio requires… | ⚪ |
 | `punchpass.updateMyProfile` | punchpass.com | Edits the signed-in caller's profile at a studio — name, phone, emergency contact… | ⚪ |
+| `puregym.getGym` | puregym.com | Reads one PureGym gym's own page by slug: address, coordinates, email, opening hours… | 🟢 |
+| `puregym.listCities` | puregym.com | Lists every town and city PureGym has a locations page for, with gym counts. | 🟢 |
+| `puregym.listCityGyms` | puregym.com | Lists the gyms on one PureGym city page, nearest the centre first, with address and… | 🟢 |
+| `puregym.listGyms` | puregym.com | Lists every PureGym gym in the UK (about 500) from the public gym finder page, A to Z… | 🟢 |
 | `purevpn.getDedicatedIp` | purevpn.com | Reads PureVPN's own dedicated / static IP page and returns every country and city it… | 🟢 |
 | `purevpn.getPlans` | purevpn.com | PureVPN's standard VPN subscription plans and prices. | ⚪ |
 | `pushpress.bookAppointment` | pushpress.com | Books a one-on-one appointment slot for the signed-in member with appointment credits… | ⚪ |

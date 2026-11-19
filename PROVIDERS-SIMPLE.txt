@@ -374,7 +374,7 @@ ford.com — ford: findDealers, getOffers, getRecalls, getVehicle, listNameplate
 forms.hubspot.com — forms_hubspot_com: findForms, getFormDefinition
 fortressbp.com — fortressbp: listProductTypes, recommendProduct
 fourseasonsyachts.com — fourseasonsyachts: getVoyage, getVoyageSailing, searchVoyages
-foxnews.com — foxnews: deleteComment, findAuthor, getAccount, getArticle, getAuthor, getComments, getElectionResults, getLiveBlog, getShow, getTopStories, getVideo, listAuthorArticles, listElectionRaces, listLatest, listLiveBlogs, listNewsletters, listPodcastEpisodes, listPodcasts, listSectionArticles, listSections, listShows, listVideoPlaylists, listVideos, postComment, searchArticles, searchVideos, updateProfile (+4 planned)
+foxnews.com — foxnews: 27 functions — ask get_library (+4 planned)
 framebridge.com — framebridge: getConfigurator, listFrameStyles, priceConfiguration
 franklinbbq.com — franklinbbq_com: getPreorderMenu, listPickupSlots
 fred.stlouisfed.org — fred: browseCategory, getSeriesInfo, getSeriesObservations, listReleases, listSources, searchSeries (+1 planned)
@@ -685,6 +685,7 @@ pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
 puls.com — puls_com: getRepairQuote, listApplianceCategories
 pulsemcp.com — pulsemcp_com: search
 punchpass.com — punchpass: getCalendarFeed, getClass, getMyClassHistory, getMyProfile, getPass, getSchedule, getSeries, getStudio, listAppointmentSlots, listInstructors, listMyChildren, listMyPasses, listMyReservations, listPasses, listScheduleFilters, listSeries (+16 planned)
+puregym.com — puregym: getGym, listCities, listCityGyms, listGyms
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
 pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyDocuments, listMyInvoices, listMyPlans, listPlans (+8 planned)
 pypi.org — pypi: getProject
@@ -887,6 +888,7 @@ upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
 ups.com — ups: calculateShippingCost, calculateTimeAndCost, estimateDeliveryDate, findNearbyLocation, getRate, getServiceAlerts, schedulePickup, trackShipment, validateAddress
 upwork.com — upwork: getJob, searchJobs
 urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
+us.caudalie.com — caudalie: getProduct, getProductReviews, listCategories, listCategoryProducts, searchProducts (+8 planned)
 us.posthog.com — posthog: getInsight, listInsights, listProjects, runRetentionQuery
 usa.gov — usa_gov: getPage, listPages
 usatoday.com — usatoday: browseSection, getArticle, getCrossword, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+3 planned)
