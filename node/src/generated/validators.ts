@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5914f05760f5d01e695383b75e001d9e38659eeb4ca4bedb39f1f17caf8a01a6
-// 5512 checked, 20 unchecked.
+// Manifest version: 14306cc90e7a4af32309817ac7f3b785eb08e991cc74d2a36eb35fba8b0a8a58
+// 5518 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5914f05760f5d01e695383b75e001d9e38659eeb4ca4bedb39f1f17caf8a01a6",
+  "version": "14306cc90e7a4af32309817ac7f3b785eb08e991cc74d2a36eb35fba8b0a8a58",
   "units": {
     "address_validation": {
       "defs": {
@@ -31470,6 +31470,103 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.caudalie": {
+      "defs": {
+        "CaudalieCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "CaudalieProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sku",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CaudalieSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CaudalieSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [],
+        "listCategoryProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CaudalieCategoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CaudalieProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProductReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CaudalieProductArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.cb2": {
       "defs": {
         "Cb2SearchArgs": {
@@ -45780,97 +45877,6 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.detailxperts": {
-      "defs": {},
-      "functions": {
-        "checkServiceArea": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "address1",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "address2",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "city",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "state",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "zip",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": false
-          }
-        ],
-        "listVehicleTypes": [],
-        "getQuote": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "vehiclePosition",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "dirtLevel",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "hairLevel",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "dirtInteriorLevel",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": false
-                }
-              ]
             },
             "optional": false
           }
@@ -120578,6 +120584,86 @@ export const VALIDATORS: ValidatorTable = {
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.puregym": {
+      "defs": {
+        "PuregymCityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PuregymGymArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "gym",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PuregymListGymsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listGyms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PuregymListGymsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getGym": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PuregymGymArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCities": [],
+        "listCityGyms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PuregymCityArgs"
             },
             "optional": false
           }

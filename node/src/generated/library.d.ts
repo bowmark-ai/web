@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5914f05760f5d01e695383b75e001d9e38659eeb4ca4bedb39f1f17caf8a01a6
-// 98 capabilities, 929 providers, 5540 typed functions, 20 refused.
+// Manifest version: 14306cc90e7a4af32309817ac7f3b785eb08e991cc74d2a36eb35fba8b0a8a58
+// 98 capabilities, 930 providers, 5546 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -25793,6 +25793,64 @@ interface CastleryProduct {
   }
 }
 
+declare namespace BowmarkProvider_caudalie {
+  // ── Caudalie — the unit's own declarations, verbatim ──
+interface CaudalieProductCard {
+  sku: string; name: string; collection: string | null; price: number | null; currency: "USD";
+  rating: number | null; reviewCount: number | null; url: string;
+}
+interface CaudalieCategory { name: string; path: string; url: string; }
+interface CaudalieSize { size: string; name: string; }
+interface CaudalieProduct {
+  sku: string; name: string; description: string | null; collection: string | null; gtin13: string | null;
+  price: number | null; currency: string; inStock: boolean | null; sizes: CaudalieSize[];
+  rating: number | null; reviewCount: number | null; breadcrumb: string[]; images: string[]; url: string;
+}
+interface CaudalieReview { title: string | null; text: string | null; rating: number | null; date: string | null; author: string | null; photos: string[]; }
+interface CaudalieReviews { sku: string; name: string; averageRating: number | null; reviewCount: number | null; reviews: CaudalieReview[]; url: string; }
+interface CaudalieSearchArgs { query: string; limit?: number; }
+interface CaudalieCategoryArgs { category: string; }
+interface CaudalieProductArgs { sku?: string; url?: string; }
+
+  /**
+   * Caudalie's US skincare store (us.caudalie.com, USD): search products, browse a category,
+   * read a product's price, sizes and stock, and its customer reviews.
+   */
+  interface Unit {
+    /**
+     * Search Caudalie's US skincare store (us.caudalie.com) by words, e.g. "beauty elixir" or
+     * "vitamin c serum": sku, name, collection, USD price, star rating, review count, product
+     * link.
+     */
+    searchProducts(args: CaudalieSearchArgs): Promise<CaudalieProductCard[]>;
+
+    /**
+     * Every product category on Caudalie's US store (e.g. All Products > Face > Cleansers), with
+     * its page link.
+     */
+    listCategories(): Promise<CaudalieCategory[]>;
+
+    /**
+     * One Caudalie US category as its page lists it, in page order, with prices and star ratings.
+     * Pass a name such as "Cleansers", "Face > Serums" or "All Products", or a category link.
+     */
+    listCategoryProducts(args: CaudalieCategoryArgs): Promise<CaudalieProductCard[]>;
+
+    /**
+     * One Caudalie US product as its page shows it: sku, name, description, collection, USD price,
+     * stock, sizes, rating, breadcrumb, images. Pass a sku from searchProducts (e.g. "328") or a
+     * product link.
+     */
+    getProduct(args: CaudalieProductArgs): Promise<CaudalieProduct>;
+
+    /**
+     * Customer reviews of one Caudalie US product: average rating, review count and the newest
+     * reviews the page shows (title, text, stars, date, author, photos).
+     */
+    getProductReviews(args: CaudalieProductArgs): Promise<CaudalieReviews>;
+  }
+}
+
 declare namespace BowmarkProvider_cb2 {
   // ── CB2 — the unit's own declarations, verbatim ──
 interface Cb2SearchArgs {
@@ -35896,65 +35954,6 @@ interface DentalplansPlanDetail {
      * is a plan URL from a `search` result.
      */
     getPlan(url: string): Promise<DentalplansPlanDetail>;
-  }
-}
-
-declare namespace BowmarkProvider_detailxperts {
-  // ── DetailXPerts — the unit's own declarations, verbatim ──
-interface DetailxpertsServiceArea {
-  serviced: boolean;
-  driveTimeMinutes: number | null;
-  driveDistanceMiles: number | null;
-  driveFeeAmount: number | null;
-  message: string | null;
-}
-interface DetailxpertsVehicleType {
-  position: number;
-  title: string;
-  imageUrl: string;
-}
-interface DetailxpertsQuotePackage {
-  title: string;
-  points: string[];
-  price: number;
-  timeMinutes: number;
-}
-interface DetailxpertsQuote {
-  vehicleTitle: string;
-  dirtUpcharge: number;
-  hairUpcharge: number;
-  dirtInteriorUpcharge: number;
-  packages: DetailxpertsQuotePackage[];
-}
-
-  /**
-   * Whether an address falls inside a DetailXPerts mobile-detailing franchise's real service
-   * area (with the site's own computed drive time/distance/fee), and a real, input-varying price
-   * quote for a vehicle type and dirt/pet-hair/interior condition — read off the same
-   * admin-ajax.php actions the site's own booking flow calls.
-   */
-  interface Unit {
-    /**
-     * Checks whether an address is inside a DetailXPerts franchise's real mobile service area, and
-     * when it is, returns the site's own computed drive time (minutes), distance (miles) and drive
-     * fee. Returns serviced: false with the site's own message when it's outside every franchise's
-     * territory.
-     */
-    checkServiceArea(args: { address1: string; address2?: string; city: string; state: string; zip: string }): Promise<DetailxpertsServiceArea>;
-
-    /**
-     * Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …), each
-     * with the 1-based position getQuote's vehiclePosition takes.
-     */
-    listVehicleTypes(): Promise<DetailxpertsVehicleType[]>;
-
-    /**
-     * Prices a mobile detail for one vehicle type and a dirt/pet-hair/interior-dirt condition (1
-     * light to 3 heavy, per the site's own scale), returning the real 4-package ladder (title,
-     * checklist, price, time) with the condition upcharges applied. Call listVehicleTypes() for
-     * real vehiclePosition values.
-     */
-    getQuote(args: { vehiclePosition: number; dirtLevel: number; hairLevel: number; dirtInteriorLevel: number }): Promise<DetailxpertsQuote>;
   }
 }
 
@@ -87396,6 +87395,47 @@ interface PunchpassProfile {
   }
 }
 
+declare namespace BowmarkProvider_puregym {
+  // ── PureGym — the unit's own declarations, verbatim ──
+interface PuregymGymRow { slug: string; name: string; address: string; priceText: string | null; url: string; }
+interface PuregymCity { city: string; name: string; gymCount: number | null; url: string; }
+interface PuregymFeature { name: string; description: string | null; }
+interface PuregymPlan { code: string; name: string; monthlyPrice: string | null; }
+interface PuregymNearbyGym { slug: string; name: string; address: string; distance: string | null; url: string; }
+interface PuregymGym { slug: string; name: string; url: string; address: string; streetAddress: string | null; postcode: string | null; town: string | null; latitude: number | null; longitude: number | null; email: string | null; openingHours: { days: string; hours: string }[]; features: PuregymFeature[]; plans: PuregymPlan[]; joinFee: string | null; joinUrl: string; nearby: PuregymNearbyGym[]; }
+interface PuregymListGymsArgs { query?: string; limit?: number; }
+interface PuregymGymArgs { gym: string; }
+interface PuregymCityArgs { city: string; }
+
+  /**
+   * PureGym UK gyms: list or filter all ~500 gyms, browse by city, and read one gym's opening
+   * hours, features, membership prices and nearby gyms. Read-only.
+   */
+  interface Unit {
+    /**
+     * Every PureGym gym in the UK (about 500), A to Z, with address and starting price; `query`
+     * keeps gyms whose name or address contains the text (a town, street or postcode). Slugs feed
+     * getGym.
+     */
+    listGyms(args?: PuregymListGymsArgs): Promise<PuregymGymRow[]>;
+
+    /**
+     * One gym in full from its slug or page link: address, coordinates, email, opening hours,
+     * features, membership prices and join fee, nearby gyms with distances.
+     */
+    getGym(args: PuregymGymArgs): Promise<PuregymGym>;
+
+    /**
+     * Every town and city PureGym has a page for, with gym counts. The `city` slug feeds
+     * listCityGyms.
+     */
+    listCities(): Promise<PuregymCity[]>;
+
+    /** The gyms PureGym lists for one town or city, nearest the centre first. */
+    listCityGyms(args: PuregymCityArgs): Promise<PuregymGymRow[]>;
+  }
+}
+
 declare namespace BowmarkProvider_purevpn {
   // ── PureVPN — the unit's own declarations, verbatim ──
 // PureVPN's OWN shapes — not a capability contract.
@@ -127570,6 +127610,7 @@ interface BowmarkProviders {
   cascadiaseniorliving_com: BowmarkProvider_cascadiaseniorliving_com.Unit;
   cashbackmonitor: BowmarkProvider_cashbackmonitor.Unit;
   castlery: BowmarkProvider_castlery.Unit;
+  caudalie: BowmarkProvider_caudalie.Unit;
   cb2: BowmarkProvider_cb2.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
   cbp: BowmarkProvider_cbp.Unit;
@@ -127661,7 +127702,6 @@ interface BowmarkProviders {
   dell: BowmarkProvider_dell.Unit;
   deltadentalma: BowmarkProvider_deltadentalma.Unit;
   dentalplans: BowmarkProvider_dentalplans.Unit;
-  detailxperts: BowmarkProvider_detailxperts.Unit;
   deutschepost: BowmarkProvider_deutschepost.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
   deviantart: BowmarkProvider_deviantart.Unit;
@@ -128046,6 +128086,7 @@ interface BowmarkProviders {
   puls_com: BowmarkProvider_puls_com.Unit;
   pulsemcp_com: BowmarkProvider_pulsemcp_com.Unit;
   punchpass: BowmarkProvider_punchpass.Unit;
+  puregym: BowmarkProvider_puregym.Unit;
   purevpn: BowmarkProvider_purevpn.Unit;
   pushpress: BowmarkProvider_pushpress.Unit;
   pypi: BowmarkProvider_pypi.Unit;

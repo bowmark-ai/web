@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5914f05760f5d01e695383b75e001d9e38659eeb4ca4bedb39f1f17caf8a01a6
-# 98 capabilities, 929 providers, 5512 typed functions, 20 refused.
+# Manifest version: 14306cc90e7a4af32309817ac7f3b785eb08e991cc74d2a36eb35fba8b0a8a58
+# 98 capabilities, 930 providers, 5518 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16584,6 +16584,68 @@ class Prv_castlery_CastleryProduct_Out(TypedDict):
     variantCount: float
     url: str
 
+class Prv_caudalie_CaudalieSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_caudalie_CaudalieProductCard_Out(TypedDict):
+    sku: str
+    name: str
+    collection: str | None
+    price: float | None
+    currency: Literal["USD"]
+    rating: float | None
+    reviewCount: float | None
+    url: str
+
+class Prv_caudalie_CaudalieCategory_Out(TypedDict):
+    name: str
+    path: str
+    url: str
+
+class Prv_caudalie_CaudalieCategoryArgs_In(TypedDict):
+    category: str
+
+class Prv_caudalie_CaudalieProductArgs_In(TypedDict):
+    sku: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_caudalie_CaudalieProduct_Out(TypedDict):
+    sku: str
+    name: str
+    description: str | None
+    collection: str | None
+    gtin13: str | None
+    price: float | None
+    currency: str
+    inStock: bool | None
+    sizes: list[Prv_caudalie_CaudalieSize_Out]
+    rating: float | None
+    reviewCount: float | None
+    breadcrumb: list[str]
+    images: list[str]
+    url: str
+
+class Prv_caudalie_CaudalieSize_Out(TypedDict):
+    size: str
+    name: str
+
+class Prv_caudalie_CaudalieReviews_Out(TypedDict):
+    sku: str
+    name: str
+    averageRating: float | None
+    reviewCount: float | None
+    reviews: list[Prv_caudalie_CaudalieReview_Out]
+    url: str
+
+class Prv_caudalie_CaudalieReview_Out(TypedDict):
+    title: str | None
+    text: str | None
+    rating: float | None
+    date: str | None
+    author: str | None
+    photos: list[str]
+
 class Prv_cb2_Cb2SearchArgs_In(TypedDict):
     query: str
     sort: NotRequired[Literal["relevance"] | Literal["price_ascending"] | Literal["price_descending"] | Literal["top_rated"] | Literal["best_selling"] | Literal["newest"]]
@@ -23085,44 +23147,6 @@ class Prv_dentalplans_DentalplansProcedureSaving_Out(TypedDict):
     priceWithoutPlan: float
     priceWithPlan: float
     savingsPercent: float
-
-class Prv_detailxperts_checkServiceArea_args_In(TypedDict):
-    address1: str
-    address2: NotRequired[str]
-    city: str
-    state: str
-    zip: str
-
-class Prv_detailxperts_DetailxpertsServiceArea_Out(TypedDict):
-    serviced: bool
-    driveTimeMinutes: float | None
-    driveDistanceMiles: float | None
-    driveFeeAmount: float | None
-    message: str | None
-
-class Prv_detailxperts_DetailxpertsVehicleType_Out(TypedDict):
-    position: float
-    title: str
-    imageUrl: str
-
-class Prv_detailxperts_getQuote_args_In(TypedDict):
-    vehiclePosition: float
-    dirtLevel: float
-    hairLevel: float
-    dirtInteriorLevel: float
-
-class Prv_detailxperts_DetailxpertsQuote_Out(TypedDict):
-    vehicleTitle: str
-    dirtUpcharge: float
-    hairUpcharge: float
-    dirtInteriorUpcharge: float
-    packages: list[Prv_detailxperts_DetailxpertsQuotePackage_Out]
-
-class Prv_detailxperts_DetailxpertsQuotePackage_Out(TypedDict):
-    title: str
-    points: list[str]
-    price: float
-    timeMinutes: float
 
 class Prv_deutschepost_getDialogpostRates_options_In(TypedDict):
     format: NotRequired[str]
@@ -56925,6 +56949,67 @@ class Prv_punchpass_confirmSignup_return_u3_Out(TypedDict):
     connection: str | None
     twoFactor: Literal["enrolled"] | Literal["none"]
     secrets: list[str]
+
+class Prv_puregym_PuregymListGymsArgs_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_puregym_PuregymGymRow_Out(TypedDict):
+    slug: str
+    name: str
+    address: str
+    priceText: str | None
+    url: str
+
+class Prv_puregym_PuregymGymArgs_In(TypedDict):
+    gym: str
+
+class Prv_puregym_PuregymGym_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    address: str
+    streetAddress: str | None
+    postcode: str | None
+    town: str | None
+    latitude: float | None
+    longitude: float | None
+    email: str | None
+    openingHours: list[Prv_puregym_PuregymGym_Out_openingHours_item_Out]
+    features: list[Prv_puregym_PuregymFeature_Out]
+    plans: list[Prv_puregym_PuregymPlan_Out]
+    joinFee: str | None
+    joinUrl: str
+    nearby: list[Prv_puregym_PuregymNearbyGym_Out]
+
+class Prv_puregym_PuregymGym_Out_openingHours_item_Out(TypedDict):
+    days: str
+    hours: str
+
+class Prv_puregym_PuregymFeature_Out(TypedDict):
+    name: str
+    description: str | None
+
+class Prv_puregym_PuregymPlan_Out(TypedDict):
+    code: str
+    name: str
+    monthlyPrice: str | None
+
+class Prv_puregym_PuregymNearbyGym_Out(TypedDict):
+    slug: str
+    name: str
+    address: str
+    distance: str | None
+    url: str
+
+class Prv_puregym_PuregymCity_Out(TypedDict):
+    city: str
+    name: str
+    gymCount: float | None
+    url: str
+
+class Prv_puregym_PuregymCityArgs_In(TypedDict):
+    city: str
 
 class Prv_purevpn_getDedicatedIp_args_In(TypedDict):
     country: NotRequired[str]
@@ -92994,6 +93079,39 @@ class Prv_castlery(Protocol):
         specs from the page's own schema.org Product data.
         """
 
+class Prv_caudalie(Protocol):
+    """Caudalie's US skincare store (us.caudalie.com, USD): search products, browse a category,
+    read a product's price, sizes and stock, and its customer reviews.
+    """
+
+    async def searchProducts(self, args: Prv_caudalie_CaudalieSearchArgs_In, /) -> list[Prv_caudalie_CaudalieProductCard_Out]:
+        """Search Caudalie's US skincare store (us.caudalie.com) by words, e.g. "beauty elixir" or
+        "vitamin c serum": sku, name, collection, USD price, star rating, review count, product
+        link.
+        """
+
+    async def listCategories(self, /) -> list[Prv_caudalie_CaudalieCategory_Out]:
+        """Every product category on Caudalie's US store (e.g. All Products > Face > Cleansers),
+        with its page link.
+        """
+
+    async def listCategoryProducts(self, args: Prv_caudalie_CaudalieCategoryArgs_In, /) -> list[Prv_caudalie_CaudalieProductCard_Out]:
+        """One Caudalie US category as its page lists it, in page order, with prices and star
+        ratings. Pass a name such as "Cleansers", "Face > Serums" or "All Products", or a
+        category link.
+        """
+
+    async def getProduct(self, args: Prv_caudalie_CaudalieProductArgs_In, /) -> Prv_caudalie_CaudalieProduct_Out:
+        """One Caudalie US product as its page shows it: sku, name, description, collection, USD
+        price, stock, sizes, rating, breadcrumb, images. Pass a sku from searchProducts (e.g.
+        "328") or a product link.
+        """
+
+    async def getProductReviews(self, args: Prv_caudalie_CaudalieProductArgs_In, /) -> Prv_caudalie_CaudalieReviews_Out:
+        """Customer reviews of one Caudalie US product: average rating, review count and the newest
+        reviews the page shows (title, text, stars, date, author, photos).
+        """
+
 class Prv_cb2(Protocol):
     """CB2 (modern furniture and home decor, a Crate & Barrel brand). Searches the catalog —
     sofas, sectionals, tables, decor — with current and regular price, sale/clearance flag,
@@ -96668,32 +96786,6 @@ class Prv_dentalplans(Protocol):
         """Reads one plan's own detail page — its marketing description and the site's own 'Common
         Procedures' sample savings table (real per-procedure price with vs. without the plan).
         `url` is a plan URL from a `search` result.
-        """
-
-class Prv_detailxperts(Protocol):
-    """Whether an address falls inside a DetailXPerts mobile-detailing franchise's real service
-    area (with the site's own computed drive time/distance/fee), and a real, input-varying
-    price quote for a vehicle type and dirt/pet-hair/interior condition — read off the same
-    admin-ajax.php actions the site's own booking flow calls.
-    """
-
-    async def checkServiceArea(self, args: Prv_detailxperts_checkServiceArea_args_In, /) -> Prv_detailxperts_DetailxpertsServiceArea_Out:
-        """Checks whether an address is inside a DetailXPerts franchise's real mobile service area,
-        and when it is, returns the site's own computed drive time (minutes), distance (miles)
-        and drive fee. Returns serviced: false with the site's own message when it's outside
-        every franchise's territory.
-        """
-
-    async def listVehicleTypes(self, /) -> list[Prv_detailxperts_DetailxpertsVehicleType_Out]:
-        """Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …),
-        each with the 1-based position getQuote's vehiclePosition takes.
-        """
-
-    async def getQuote(self, args: Prv_detailxperts_getQuote_args_In, /) -> Prv_detailxperts_DetailxpertsQuote_Out:
-        """Prices a mobile detail for one vehicle type and a dirt/pet-hair/interior-dirt condition
-        (1 light to 3 heavy, per the site's own scale), returning the real 4-package ladder
-        (title, checklist, price, time) with the condition upcharges applied. Call
-        listVehicleTypes() for real vehiclePosition values.
         """
 
 class Prv_deutschepost(Protocol):
@@ -115318,6 +115410,30 @@ class Prv_punchpass(Protocol):
         `code`, the email's verification `link`, or the person's `phone`.
         """
 
+class Prv_puregym(Protocol):
+    """PureGym UK gyms: list or filter all ~500 gyms, browse by city, and read one gym's
+    opening hours, features, membership prices and nearby gyms. Read-only.
+    """
+
+    async def listGyms(self, args: Prv_puregym_PuregymListGymsArgs_In | None = None, /) -> list[Prv_puregym_PuregymGymRow_Out]:
+        """Every PureGym gym in the UK (about 500), A to Z, with address and starting price;
+        `query` keeps gyms whose name or address contains the text (a town, street or postcode).
+        Slugs feed getGym.
+        """
+
+    async def getGym(self, args: Prv_puregym_PuregymGymArgs_In, /) -> Prv_puregym_PuregymGym_Out:
+        """One gym in full from its slug or page link: address, coordinates, email, opening hours,
+        features, membership prices and join fee, nearby gyms with distances.
+        """
+
+    async def listCities(self, /) -> list[Prv_puregym_PuregymCity_Out]:
+        """Every town and city PureGym has a page for, with gym counts. The `city` slug feeds
+        listCityGyms.
+        """
+
+    async def listCityGyms(self, args: Prv_puregym_PuregymCityArgs_In, /) -> list[Prv_puregym_PuregymGymRow_Out]:
+        """The gyms PureGym lists for one town or city, nearest the centre first."""
+
 class Prv_purevpn(Protocol):
     """PureVPN's own dedicated IP offer — every country it sells a dedicated IP in, and the
     Dedicated IP plan price on each billing term.
@@ -128849,6 +128965,7 @@ class BowmarkProviders(Protocol):
     cascadiaseniorliving_com: Prv_cascadiaseniorliving_com
     cashbackmonitor: Prv_cashbackmonitor
     castlery: Prv_castlery
+    caudalie: Prv_caudalie
     cb2: Prv_cb2
     cbhhomes: Prv_cbhhomes
     cbp: Prv_cbp
@@ -128940,7 +129057,6 @@ class BowmarkProviders(Protocol):
     dell: Prv_dell
     deltadentalma: Prv_deltadentalma
     dentalplans: Prv_dentalplans
-    detailxperts: Prv_detailxperts
     deutschepost: Prv_deutschepost
     developersopenai: Prv_developersopenai
     deviantart: Prv_deviantart
@@ -129325,6 +129441,7 @@ class BowmarkProviders(Protocol):
     puls_com: Prv_puls_com
     pulsemcp_com: Prv_pulsemcp_com
     punchpass: Prv_punchpass
+    puregym: Prv_puregym
     purevpn: Prv_purevpn
     pushpress: Prv_pushpress
     pypi: Prv_pypi
