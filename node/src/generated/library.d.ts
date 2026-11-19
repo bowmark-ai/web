@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cd0c2c9cc5363693fe570caa3cd4a9f5fc62f671b1f05db62cab04cc916b11cb
+// Manifest version: 73c0486f6f69c1d0b651f3eca65ca9b733c83f659778b3db2e2dfa39bfdda8a9
 // 98 capabilities, 929 providers, 5540 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -26344,6 +26344,19 @@ declare namespace BowmarkProvider_cdiscount {
   // ── Cdiscount — the unit's own declarations, verbatim ──
 interface SearchArgs {
   query: string;
+  /** 1-based results page, default 1 (~50 rows a page) */
+  page?: number;
+}
+
+interface CdiscountSearchPage {
+  results: CdiscountSearchResult[];
+  /** the site's own "Résultats : N produits" count */
+  total: number | null;
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  /** says when this page is partial (returned < total) and how many rows are accessories */
+  warnings: string[];
 }
 
 interface CdiscountSearchResult {
@@ -26355,7 +26368,9 @@ interface CdiscountSearchResult {
   currency: "EUR";
   rating: number | null;
   reviewCount: number;
-  /** every query word is in the title — cdiscount's search is fuzzy */
+  /** an accessory FOR a product (earpads, case, cable…) the query did not ask for */
+  accessory: boolean;
+  /** every query word is in the title and it is not an accessory — cdiscount's search is fuzzy */
   matchesQuery: boolean;
 }
 
@@ -26364,8 +26379,11 @@ interface CdiscountSearchResult {
    * euros, rating, link
    */
   interface Unit {
-    /** Search cdiscount.com products by name and get price, rating and url for each result */
-    search(args: SearchArgs): Promise<CdiscountSearchResult[]>;
+    /**
+     * Search cdiscount.com products by name, one results page at a time, with the site's total
+     * result count, price, rating and url
+     */
+    search(args: SearchArgs): Promise<CdiscountSearchPage>;
   }
 }
 
@@ -76742,22 +76760,26 @@ interface NikeProductCard {
 interface NikeProductPage {
   title: string | null;
   path: string | null;
+  /** Products on the whole wall. A product is one style; each of its colourways is its own card in products. */
   total: number;
+  /** Products skipped before this page. */
   offset: number;
-  /** Pass as offset for the next page; null on the last. */
+  /** Pass as offset for the next page; null on the last. Counts products, not cards. */
   nextOffset: number | null;
+  /** One card per colourway, so usually more rows than limit. Group them by groupKey. */
   products: NikeProductCard[];
 }
 interface NikeSearchArgs {
   query: string;
   /** A category path from listCategories, e.g. "/w/mens-shoes-nik1zy7ok". */
   category?: string;
-  /** 1-60, default 24. */
+  /** Products per page, 1-60, default 24. Every colourway of each product is returned. */
   limit?: number;
   offset?: number;
 }
 interface NikeCategoryArgs {
   category: string;
+  /** Products per page, 1-60, default 24. Every colourway of each product is returned. */
   limit?: number;
   offset?: number;
 }

@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cd0c2c9cc5363693fe570caa3cd4a9f5fc62f671b1f05db62cab04cc916b11cb
+# Manifest version: 73c0486f6f69c1d0b651f3eca65ca9b733c83f659778b3db2e2dfa39bfdda8a9
 # 98 capabilities, 929 providers, 5512 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -16950,6 +16950,15 @@ class Prv_cdc_CdcSearchResult_Out(TypedDict):
 
 class Prv_cdiscount_SearchArgs_In(TypedDict):
     query: str
+    page: NotRequired[float]
+
+class Prv_cdiscount_CdiscountSearchPage_Out(TypedDict):
+    results: list[Prv_cdiscount_CdiscountSearchResult_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
 
 class Prv_cdiscount_CdiscountSearchResult_Out(TypedDict):
     productId: str
@@ -16960,6 +16969,7 @@ class Prv_cdiscount_CdiscountSearchResult_Out(TypedDict):
     currency: Literal["EUR"]
     rating: float | None
     reviewCount: float
+    accessory: bool
     matchesQuery: bool
 
 class Prv_census_searchTables_args_In(TypedDict):
@@ -93136,8 +93146,10 @@ class Prv_cdiscount(Protocol):
     euros, rating, link
     """
 
-    async def search(self, args: Prv_cdiscount_SearchArgs_In, /) -> list[Prv_cdiscount_CdiscountSearchResult_Out]:
-        """Search cdiscount.com products by name and get price, rating and url for each result"""
+    async def search(self, args: Prv_cdiscount_SearchArgs_In, /) -> Prv_cdiscount_CdiscountSearchPage_Out:
+        """Search cdiscount.com products by name, one results page at a time, with the site's total
+        result count, price, rating and url
+        """
 
 class Prv_census(Protocol):
     """US Census Bureau data explorer (data.census.gov): search Census data tables, read a
