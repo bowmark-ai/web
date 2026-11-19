@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 73c0486f6f69c1d0b651f3eca65ca9b733c83f659778b3db2e2dfa39bfdda8a9
+// Manifest version: 5914f05760f5d01e695383b75e001d9e38659eeb4ca4bedb39f1f17caf8a01a6
 // 98 capabilities, 929 providers, 5540 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -19696,17 +19696,31 @@ interface BodaccNotice {
   url: string | null;
 }
 
-  /** Search BODACC insolvency legal notices (procédures collectives) by company name or SIREN. */
+interface SearchResult {
+  notices: BodaccNotice[];
+  /** BODACC families (familleavis) this search covered. Always ["collective"]. */
+  searchedFamilies: string[];
+  /** Present when notices is empty: says what "none" covers and what it does not. */
+  note?: string;
+}
+
+  /**
+   * Search BODACC insolvency notices only (procédures collectives) by company name or SIREN —
+   * not business sales/transfers (vente) or closures (radiation).
+   */
   interface Unit {
     /**
-     * Returns BODACC insolvency notices (procédures collectives: sauvegarde, redressement
-     * judiciaire, liquidation judiciaire — openings, plans and closures), newest first, up to 100.
-     * noticeType is the judgment's nature, e.g. "Jugement d'ouverture d'une procédure de
-     * redressement judiciaire". since filters on publication date (inclusive). companyName is a
-     * full-text match and can return similarly named companies; pass sirens for an exact match. An
-     * empty result means BODACC has published no insolvency notice for that company.
+     * Searches ONLY BODACC insolvency filings (familleavis=collective); business sales/transfers
+     * (vente), closures (radiation), modifications and filed accounts are NOT searched, so an
+     * empty result is not "no legal notice". Returns insolvency notices (procédures collectives:
+     * sauvegarde, redressement judiciaire, liquidation judiciaire — openings, plans and closures),
+     * newest first, up to 100. noticeType is the judgment's nature, e.g. "Jugement d'ouverture
+     * d'une procédure de redressement judiciaire". since filters on publication date (inclusive).
+     * companyName is a full-text match and can return similarly named companies; pass sirens for
+     * an exact match. An empty result means BODACC has published no insolvency notice for that
+     * company; searchedFamilies names the families covered and note restates it.
      */
-    search(args: SearchArgs): Promise<{ notices: BodaccNotice[] }>;
+    search(args: SearchArgs): Promise<SearchResult>;
   }
 }
 

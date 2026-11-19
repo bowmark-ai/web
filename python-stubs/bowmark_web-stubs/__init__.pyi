@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 73c0486f6f69c1d0b651f3eca65ca9b733c83f659778b3db2e2dfa39bfdda8a9
+# Manifest version: 5914f05760f5d01e695383b75e001d9e38659eeb4ca4bedb39f1f17caf8a01a6
 # 98 capabilities, 929 providers, 5512 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -12293,8 +12293,10 @@ class Prv_bodacc_SearchArgs_In(TypedDict):
     companyName: NotRequired[str]
     since: NotRequired[str]
 
-class Prv_bodacc_search_return_Out(TypedDict):
+class Prv_bodacc_SearchResult_Out(TypedDict):
     notices: list[Prv_bodacc_BodaccNotice_Out]
+    searchedFamilies: list[str]
+    note: NotRequired[str]
 
 class Prv_bodacc_BodaccNotice_Out(TypedDict):
     noticeType: str
@@ -91119,17 +91121,21 @@ class Prv_bobs(Protocol):
         """
 
 class Prv_bodacc(Protocol):
-    """Search BODACC insolvency legal notices (procédures collectives) by company name or
-    SIREN.
+    """Search BODACC insolvency notices only (procédures collectives) by company name or SIREN
+    — not business sales/transfers (vente) or closures (radiation).
     """
 
-    async def search(self, args: Prv_bodacc_SearchArgs_In, /) -> Prv_bodacc_search_return_Out:
-        """Returns BODACC insolvency notices (procédures collectives: sauvegarde, redressement
-        judiciaire, liquidation judiciaire — openings, plans and closures), newest first, up to
-        100. noticeType is the judgment's nature, e.g. "Jugement d'ouverture d'une procédure de
-        redressement judiciaire". since filters on publication date (inclusive). companyName is
-        a full-text match and can return similarly named companies; pass sirens for an exact
-        match. An empty result means BODACC has published no insolvency notice for that company.
+    async def search(self, args: Prv_bodacc_SearchArgs_In, /) -> Prv_bodacc_SearchResult_Out:
+        """Searches ONLY BODACC insolvency filings (familleavis=collective); business
+        sales/transfers (vente), closures (radiation), modifications and filed accounts are NOT
+        searched, so an empty result is not "no legal notice". Returns insolvency notices
+        (procédures collectives: sauvegarde, redressement judiciaire, liquidation judiciaire —
+        openings, plans and closures), newest first, up to 100. noticeType is the judgment's
+        nature, e.g. "Jugement d'ouverture d'une procédure de redressement judiciaire". since
+        filters on publication date (inclusive). companyName is a full-text match and can return
+        similarly named companies; pass sirens for an exact match. An empty result means BODACC
+        has published no insolvency notice for that company; searchedFamilies names the families
+        covered and note restates it.
         """
 
 class Prv_bodensee_schiffsbetriebe_berths(Protocol):

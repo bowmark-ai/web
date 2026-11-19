@@ -118,8 +118,8 @@ One function per row, with the site it is called on.
 | `agentskill.getSkill` | agentskill.sh | Reads one agentskill.sh skill by its owner/skill slug through the site's public JSON… | 🟢 |
 | `agentskill.listSkills` | agentskill.sh | Lists agentskill.sh skills through the site's public JSON API, filtered by owner… | 🟢 |
 | `agentskill.searchSkills` | agentskill.sh | Keyword search over agentskill.sh's skill directory. | ⚪ |
-| `agentstatus.getServer` | agentstatus.dev | Reads one server's entry on the index by slug, including every tool the index probed… | 🟡 |
-| `agentstatus.searchServers` | agentstatus.dev | Searches the Public MCP Score index (agentstatus.dev/mcp-index) by server name, slug… | 🟡 |
+| `agentstatus.getServer` | agentstatus.dev | Reads one server's entry on the index by slug, including every tool the index probed… | 🟢 |
+| `agentstatus.searchServers` | agentstatus.dev | Searches the Public MCP Score index (agentstatus.dev/mcp-index) by server name, slug… | 🟢 |
 | `agentstatus.submitServer` | agentstatus.dev | Would submit a public MCP server URL plus an email to the index's "Submit Your MCP… | ⚪ |
 | `agentweb.discover` | agentweb.us | Returns AgentWeb's curated action catalog for one site it has mapped: each action's… | 🟢 |
 | `agentweb.library` | agentweb.us | Lists every site AgentWeb has built a map for, from its public index: the domain, the… | 🟢 |
@@ -717,7 +717,7 @@ One function per row, with the site it is called on.
 | `bluesky.getStarterPack` | bsky.app | One starter pack: its creator, description, the accounts and feeds it bundles, and how… | 🟢 |
 | `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | 🟢 |
 | `bluesky.getSuggestedFollows` | bsky.app | Accounts Bluesky suggests alongside a given person — its 'similar accounts' list on a… | 🟢 |
-| `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, as shown during onboarding. | 🟡 |
+| `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, as shown during onboarding. | 🟢 |
 | `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | 🟡 |
 | `bluesky.getTimeline` | bsky.app | The caller's home Following feed, newest first, page by page. | 🟢 |
 | `bluesky.getTrendingTopics` | bsky.app | What is trending on Bluesky right now: the topics and the links to their search or… | 🟢 |
@@ -769,7 +769,7 @@ One function per row, with the site it is called on.
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
 | `bobs.searchProducts` | mybobs.com | Searches the Bob's Discount Furniture catalog the way its own search box does ("sofa")… | 🟢 |
-| `bodacc.search` | bodacc.fr | Searches BODACC insolvency notices (procédures collectives: sauvegarde, redressement… | 🟢 |
+| `bodacc.search` | bodacc.fr | Searches ONLY BODACC insolvency notices — not business sales/transfers (vente) or… | 🟢 |
 | `bodensee_schiffsbetriebe_berths.getBerthStatus` | bsb.de | Would return live boat-berth (Liegeplatz) availability, waiting-list status and… | ⚪ |
 | `bodensee_schiffsbetriebe_berths.searchHarbors` | bsb.de | Searches the Lake Constance harbor towns BSB serves, by name. | 🟢 |
 | `boglewinery.checkAvailability` | boglewinery.com | Checks which upcoming dates and times Tock currently shows as open for one Bogle… | 🟢 |
@@ -4545,7 +4545,7 @@ One function per row, with the site it is called on.
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟢 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
-| `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟡 |
+| `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟢 |
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟡 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets a day's Wordle puzzle — the solution, puzzle id and editor. | 🟢 |
