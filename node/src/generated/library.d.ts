@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 078bdf48a3aed806e92191000c7d2e740990d5016055776b6d6717ada335d7f4
-// 98 capabilities, 923 providers, 5523 typed functions, 20 refused.
+// Manifest version: 6eee2e1f39633cfca4f309bb42951c92ef79d7d6290ad3ada986325bd6985222
+// 98 capabilities, 925 providers, 5528 typed functions, 20 refused.
 // 128,318 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36569,8 +36569,8 @@ interface dickssportinggoodsStoreSearch {
 declare namespace BowmarkProvider_dignitymemorial {
   // ── Dignity Memorial — the unit's own declarations, verbatim ──
 interface DignityMemorialSearchArgs {
-  /** The deceased's name, e.g. "John Smith". */
-  name: string;
+  /** The deceased's name, e.g. "John Smith". Omit it for the most recently published obituaries. */
+  name?: string;
   /** Two-letter US state / Canadian province code, e.g. "TX". */
   state?: string;
   /** Max rows, 1-50. Default 20. */
@@ -36630,16 +36630,17 @@ interface DignityMemorialObituary {
 }
 
   /**
-   * Dignity Memorial obituaries — search published obituaries by the deceased's name (optionally
-   * by state) and read one in full: dates, places, obituary text, funeral home and services.
+   * Dignity Memorial obituaries — list the latest published obituaries, search them by the
+   * deceased's name (optionally by state) and read one in full: dates, places, obituary text,
+   * funeral home and services.
    */
   interface Unit {
     /**
-     * Searches Dignity Memorial's published obituaries by the deceased's name, optionally narrowed
-     * to a state or province, returning name, birth and death dates, a text snippet and the
-     * obituary link.
+     * Lists Dignity Memorial's most recently published obituaries (call with {}) or searches them
+     * by the deceased's name, optionally narrowed to a state or province, returning name, birth
+     * and death dates, a text snippet and the obituary link.
      */
-    searchObituaries(args: DignityMemorialSearchArgs): Promise<DignityMemorialSearchResult>;
+    searchObituaries(args?: DignityMemorialSearchArgs): Promise<DignityMemorialSearchResult>;
 
     /**
      * Reads one Dignity Memorial obituary in full by its id or dignitymemorial.com URL: full name,
@@ -81033,6 +81034,74 @@ interface OpenTableBookingStatus {
   }
 }
 
+declare namespace BowmarkProvider_oreilly {
+  // ── O'Reilly Learning — the unit's own declarations, verbatim ──
+interface OreillySearchArgs {
+  query: string;                 // e.g. "kubernetes", "fluent python"
+  page?: number;                 // 0-based
+  limit?: number;                // 1-10, default 10
+}
+interface OreillySearchResult {
+  title: string;
+  format: string | null;         // "book", "video", …
+  archiveId: string;
+  ourn: string | null;           // pass to getContentMetadata
+  authors: string[];
+  publishers: string[];
+  issued: string | null;
+  description: string | null;
+  topics: string[];
+  webUrl: string | null;
+  coverUrl: string | null;
+  apiUrl: string | null;         // pass to getMetadataByUrls
+  pages: number | null;
+  durationSeconds: number | null;
+}
+interface OreillySearchPage { query: string; page: number; total: number; hasMore: boolean; results: OreillySearchResult[]; }
+interface OreillyContentMetadata {
+  identifier: string; ourn: string; name: string; type: string | null;
+  description: string | null; status: string | null; language: string | null;
+  publicationDate: string | null; publishers: string[]; topics: string[];
+  contentLevels: string[]; durationSeconds: number | null; edition: string | null;
+  webUrl: string | null; popularity: number | null;
+}
+interface OreillyMetadataPage { count: number; results: OreillyContentMetadata[]; }
+interface OreillyUrlMetadata {
+  apiUrl: string; identifier: string; ourn: string | null; title: string;
+  type: string | null; contentFormat: string | null; authors: string[]; publishers: string[];
+  issued: string | null; language: string | null; pageCount: number | null;
+  parentTitle: string | null; topics: string[]; webUrl: string | null; coverUrl: string | null;
+}
+
+  /**
+   * O'Reilly Learning (learning.oreilly.com), the technical book and video library. Search its
+   * catalog of books, videos and courses, and read any title's metadata (authors, publisher,
+   * topics, level, duration) by URN or api url.
+   */
+  interface Unit {
+    /**
+     * Reads O'Reilly metadata for one or more content URNs (e.g. "urn:orm:book:9781492056348",
+     * from search) — name, type, description, publishers, topics, level, duration, edition and web
+     * url.
+     */
+    getContentMetadata(args: { ourns: string[]; limit?: number }): Promise<OreillyMetadataPage>;
+
+    /**
+     * Batch-resolves O'Reilly content api paths (e.g. "/api/v1/book/9781492056348/", a search
+     * result's apiUrl) to title, authors, publishers, format, issued date, page count, topics and
+     * cover.
+     */
+    getMetadataByUrls(args: { urls: string[] }): Promise<OreillyUrlMetadata[]>;
+
+    /**
+     * Searches the O'Reilly Learning catalog of books, videos and courses by keyword, returning
+     * the total and ranked titles with authors, publisher, format, issued date, topics, ourn and
+     * apiUrl. results is [] when nothing matches.
+     */
+    search(args: OreillySearchArgs): Promise<OreillySearchPage>;
+  }
+}
+
 declare namespace BowmarkProvider_originenergy_com_au {
   // ── Origin Energy — the unit's own declarations, verbatim ──
 // Origin Energy's OWN shapes — not a capability contract.
@@ -114028,6 +114097,62 @@ interface UpworkGetJobArgs { url?: string; id?: string; }
   }
 }
 
+declare namespace BowmarkProvider_usa_gov {
+  // ── USA.gov — the unit's own declarations, verbatim ──
+interface usa_govLink {
+  text: string;
+  url: string;
+}
+interface usa_govSection {
+  heading: string;
+  level: number;
+  text: string;
+  links: usa_govLink[];
+}
+interface usa_govCard {
+  title: string;
+  url: string;
+  summary: string | null;
+}
+interface usa_govPage {
+  url: string;
+  title: string;
+  description: string | null;
+  intro: string | null;
+  breadcrumb: string[];
+  alerts: string[];
+  sections: usa_govSection[];
+  cards: usa_govCard[];
+}
+interface usa_govPageLink {
+  title: string;
+  url: string;
+}
+interface ListPagesArgs {
+  query?: string;
+}
+
+  /**
+   * Reads USA.gov, the US government's official information portal — passports, benefits, taxes,
+   * IDs and more — as structured sections, alerts and child-page cards, plus a searchable index
+   * of every page.
+   */
+  interface Unit {
+    /**
+     * Reads one USA.gov page (e.g. "https://www.usa.gov/passport" or "/renew-adult-passport") and
+     * returns its title, intro, breadcrumb, alerts, prose sections with their links, and — on a
+     * hub page — the child-page cards with summaries. THROWS on a 404 or a non-usa.gov url.
+     */
+    getPage(url: string): Promise<usa_govPage>;
+
+    /**
+     * Lists English USA.gov pages from the site's own sitemap; `query` keeps pages whose url words
+     * contain every query word (e.g. { query: "passport" }). Pass a result's url to getPage.
+     */
+    listPages(args?: ListPagesArgs): Promise<usa_govPageLink[]>;
+  }
+}
+
 declare namespace BowmarkProvider_usatoday {
   // ── USA Today — the unit's own declarations, verbatim ──
 interface usatodayRow {
@@ -127590,6 +127715,7 @@ interface BowmarkProviders {
   openarch: BowmarkProvider_openarch.Unit;
   openrent: BowmarkProvider_openrent.Unit;
   opentable: BowmarkProvider_opentable.Unit;
+  oreilly: BowmarkProvider_oreilly.Unit;
   originenergy_com_au: BowmarkProvider_originenergy_com_au.Unit;
   osu: BowmarkProvider_osu.Unit;
   othership: BowmarkProvider_othership.Unit;
@@ -127845,6 +127971,7 @@ interface BowmarkProviders {
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
   ups: BowmarkProvider_ups.Unit;
   upwork: BowmarkProvider_upwork.Unit;
+  usa_gov: BowmarkProvider_usa_gov.Unit;
   usatoday: BowmarkProvider_usatoday.Unit;
   uscis: BowmarkProvider_uscis.Unit;
   usps: BowmarkProvider_usps.Unit;

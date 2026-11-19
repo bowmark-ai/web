@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7364 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7368 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1838,7 +1838,7 @@ One function per row, with the site it is called on.
 | `dickssportinggoods.getWeeklyAd` | dickssportinggoods.com | Reads the current local weekly ad / deals circular for a store or zip — the… | ⚪ |
 | `dickssportinggoods.search` | dickssportinggoods.com | Searches dickssportinggoods.com's catalog for a keyword (optionally scoped by sport… | ⚪ |
 | `dignitymemorial.getObituary` | dignitymemorial.com | Reads one Dignity Memorial obituary in full by its id or dignitymemorial.com URL: full… | 🟢 |
-| `dignitymemorial.searchObituaries` | dignitymemorial.com | Searches Dignity Memorial's published obituaries by the deceased's name, optionally… | 🟢 |
+| `dignitymemorial.searchObituaries` | dignitymemorial.com | Lists Dignity Memorial's most recently published obituaries (call with {}) or searches… | 🟢 |
 | `dillards.checkStock` | dillards.com | Answers whether one exact size/color of a product is available right now — both for… | 🟡 |
 | `dillards.findStores` | dillards.com | Finds nearby Dillard's store locations the way the site's own /stores locator does —… | 🟢 |
 | `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟡 |
@@ -3453,7 +3453,7 @@ One function per row, with the site it is called on.
 | `independent.deleteComment` | independent.co.uk | Deletes one of the signed-in caller's own comments. | ⚪ |
 | `independent.donate` | independent.co.uk | Makes a donation to The Independent, stopping at the payment step. | ⚪ |
 | `independent.getAccount` | independent.co.uk | Reads the signed-in caller's Independent account profile and membership status. | ⚪ |
-| `independent.getArticle` | independent.co.uk | Gets one article: headline, standfirst, byline, dates, section, body text and images. | 🟢 |
+| `independent.getArticle` | independent.co.uk | Gets one article: headline, standfirst, byline, dates, section, body text and images. | 🟡 |
 | `independent.getArticleComments` | independent.co.uk | Reads the reader comments on an article. | ⚪ |
 | `independent.getAuthorArticles` | independent.co.uk | Gets one writer's profile and their latest articles from /author/<slug>. | 🟢 |
 | `independent.getHomepageHeadlines` | independent.co.uk | Lists the top stories on The Independent's front page for one edition (UK, US or Asia). | 🟢 |
@@ -3707,7 +3707,7 @@ One function per row, with the site it is called on.
 | `kick.getChatroomSettings` | kick.com | A channel's chat rules and modes: slow mode, followers-only (and how long)… | 🟢 |
 | `kick.getClip` | kick.com | One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration… | 🟢 |
 | `kick.getCurrentUser` | kick.com | The signed-in caller's own Kick account: username, email-verified flag, profile… | ⚪ |
-| `kick.getLivestream` | kick.com | What a channel is streaming right now: title, category, viewer count, start time… | 🟢 |
+| `kick.getLivestream` | kick.com | What a channel is streaming right now: title, category, viewer count, start time… | 🟡 |
 | `kick.getVideo` | kick.com | One VOD by uuid: title, channel, category, duration, views, created date and its HLS… | 🟢 |
 | `kick.listCategories` | kick.com | Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest… | 🟢 |
 | `kick.listChannelClips` | kick.com | A channel's clips, by most viewed or newest, within a time window (day, week, month… | 🟢 |
@@ -4644,6 +4644,10 @@ One function per row, with the site it is called on.
 | `opentable.listMyReservations` | opentable.com | Lists the signed-in diner's own reservations from the dining dashboard, upcoming and… | 🟢 |
 | `opentable.search` | opentable.com | Finds restaurants on OpenTable for a name, cuisine or dish: a restaurant's name… | 🟢 |
 | `opentable.startBooking` | opentable.com | Starts a guest reservation for one open time: clicks the time on the restaurant's… | 🟢 |
+| `oreilly.getContentMetadata` | learning.oreilly.com | Reads O'Reilly's metadata for one or more content URNs (books, videos) via GET… | 🟢 |
+| `oreilly.getMetadataByUrls` | learning.oreilly.com | Batch-resolves O'Reilly content api paths (e.g. /api/v1/book/<isbn>/) via POST… | 🟢 |
+| `oreilly.listPaymentCountries` | learning.oreilly.com | Lists the countries O'Reilly's checkout accepts, with ISO codes, VAT rate and EU… | ⚪ |
+| `oreilly.search` | learning.oreilly.com | Searches the O'Reilly Learning catalog of books, videos and courses by keyword via the… | 🟢 |
 | `originenergy_com_au.getBusinessElectricityQuote` | originenergy.com.au | Search originenergy.com.au for business electricity quote: returns every business… | 🟢 |
 | `osu.searchClasses` | osu.edu | Search Ohio State's (osu.edu) class schedule and course catalog by keyword, subject… | 🟢 |
 | `othership.getClassSchedule` | othership.us | Searches one location's real, live class schedule between two dates — sauna, ice bath… | 🟢 |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 078bdf48a3aed806e92191000c7d2e740990d5016055776b6d6717ada335d7f4
-# 98 capabilities, 923 providers, 5495 typed functions, 20 refused.
+# Manifest version: 6eee2e1f39633cfca4f309bb42951c92ef79d7d6290ad3ada986325bd6985222
+# 98 capabilities, 925 providers, 5500 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23609,7 +23609,7 @@ class Prv_dice_DiceJobDetails_Out(TypedDict):
     warnings: list[str]
 
 class Prv_dignitymemorial_DignityMemorialSearchArgs_In(TypedDict):
-    name: str
+    name: NotRequired[str]
     state: NotRequired[str]
     limit: NotRequired[float]
 
@@ -52579,6 +52579,79 @@ class Prv_opentable_OpenTableMyReservation_Out(TypedDict):
     upcoming: bool
     reservationUrl: str | None
 
+class Prv_oreilly_getContentMetadata_args_In(TypedDict):
+    ourns: Sequence[str]
+    limit: NotRequired[float]
+
+class Prv_oreilly_OreillyMetadataPage_Out(TypedDict):
+    count: float
+    results: list[Prv_oreilly_OreillyContentMetadata_Out]
+
+class Prv_oreilly_OreillyContentMetadata_Out(TypedDict):
+    identifier: str
+    ourn: str
+    name: str
+    type: str | None
+    description: str | None
+    status: str | None
+    language: str | None
+    publicationDate: str | None
+    publishers: list[str]
+    topics: list[str]
+    contentLevels: list[str]
+    durationSeconds: float | None
+    edition: str | None
+    webUrl: str | None
+    popularity: float | None
+
+class Prv_oreilly_getMetadataByUrls_args_In(TypedDict):
+    urls: Sequence[str]
+
+class Prv_oreilly_OreillyUrlMetadata_Out(TypedDict):
+    apiUrl: str
+    identifier: str
+    ourn: str | None
+    title: str
+    type: str | None
+    contentFormat: str | None
+    authors: list[str]
+    publishers: list[str]
+    issued: str | None
+    language: str | None
+    pageCount: float | None
+    parentTitle: str | None
+    topics: list[str]
+    webUrl: str | None
+    coverUrl: str | None
+
+class Prv_oreilly_OreillySearchArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_oreilly_OreillySearchPage_Out(TypedDict):
+    query: str
+    page: float
+    total: float
+    hasMore: bool
+    results: list[Prv_oreilly_OreillySearchResult_Out]
+
+class Prv_oreilly_OreillySearchResult_Out(TypedDict):
+    title: str
+    format: str | None
+    archiveId: str
+    ourn: str | None
+    authors: list[str]
+    publishers: list[str]
+    issued: str | None
+    description: str | None
+    topics: list[str]
+    webUrl: str | None
+    coverUrl: str | None
+    apiUrl: str | None
+    pages: float | None
+    durationSeconds: float | None
+
 class Prv_originenergy_com_au_OriginBusinessElectricityQuoteArgs_In(TypedDict):
     postcode: str
 
@@ -75877,6 +75950,38 @@ class Prv_upwork_UpworkJob_Out(TypedDict):
     skills: list[str]
     proposals: str | None
 
+class Prv_usa_gov_usa_govPage_Out(TypedDict):
+    url: str
+    title: str
+    description: str | None
+    intro: str | None
+    breadcrumb: list[str]
+    alerts: list[str]
+    sections: list[Prv_usa_gov_usa_govSection_Out]
+    cards: list[Prv_usa_gov_usa_govCard_Out]
+
+class Prv_usa_gov_usa_govSection_Out(TypedDict):
+    heading: str
+    level: float
+    text: str
+    links: list[Prv_usa_gov_usa_govLink_Out]
+
+class Prv_usa_gov_usa_govLink_Out(TypedDict):
+    text: str
+    url: str
+
+class Prv_usa_gov_usa_govCard_Out(TypedDict):
+    title: str
+    url: str
+    summary: str | None
+
+class Prv_usa_gov_ListPagesArgs_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_usa_gov_usa_govPageLink_Out(TypedDict):
+    title: str
+    url: str
+
 class Prv_usatoday_usatodaySection_Out(TypedDict):
     id: str
     name: str
@@ -96586,15 +96691,15 @@ class Prv_dickssportinggoods(Protocol):
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
 class Prv_dignitymemorial(Protocol):
-    """Dignity Memorial obituaries — search published obituaries by the deceased's name
-    (optionally by state) and read one in full: dates, places, obituary text, funeral home
-    and services.
+    """Dignity Memorial obituaries — list the latest published obituaries, search them by the
+    deceased's name (optionally by state) and read one in full: dates, places, obituary
+    text, funeral home and services.
     """
 
-    async def searchObituaries(self, args: Prv_dignitymemorial_DignityMemorialSearchArgs_In, /) -> Prv_dignitymemorial_DignityMemorialSearchResult_Out:
-        """Searches Dignity Memorial's published obituaries by the deceased's name, optionally
-        narrowed to a state or province, returning name, birth and death dates, a text snippet
-        and the obituary link.
+    async def searchObituaries(self, args: Prv_dignitymemorial_DignityMemorialSearchArgs_In | None = None, /) -> Prv_dignitymemorial_DignityMemorialSearchResult_Out:
+        """Lists Dignity Memorial's most recently published obituaries (call with {}) or searches
+        them by the deceased's name, optionally narrowed to a state or province, returning name,
+        birth and death dates, a text snippet and the obituary link.
         """
 
     async def getObituary(self, idOrUrl: str, /) -> Prv_dignitymemorial_DignityMemorialObituary_Out:
@@ -112463,6 +112568,30 @@ class Prv_opentable(Protocol):
         page read, no browser launched.
         """
 
+class Prv_oreilly(Protocol):
+    """O'Reilly Learning (learning.oreilly.com), the technical book and video library. Search
+    its catalog of books, videos and courses, and read any title's metadata (authors,
+    publisher, topics, level, duration) by URN or api url.
+    """
+
+    async def getContentMetadata(self, args: Prv_oreilly_getContentMetadata_args_In, /) -> Prv_oreilly_OreillyMetadataPage_Out:
+        """Reads O'Reilly metadata for one or more content URNs (e.g. "urn:orm:book:9781492056348",
+        from search) — name, type, description, publishers, topics, level, duration, edition and
+        web url.
+        """
+
+    async def getMetadataByUrls(self, args: Prv_oreilly_getMetadataByUrls_args_In, /) -> list[Prv_oreilly_OreillyUrlMetadata_Out]:
+        """Batch-resolves O'Reilly content api paths (e.g. "/api/v1/book/9781492056348/", a search
+        result's apiUrl) to title, authors, publishers, format, issued date, page count, topics
+        and cover.
+        """
+
+    async def search(self, args: Prv_oreilly_OreillySearchArgs_In, /) -> Prv_oreilly_OreillySearchPage_Out:
+        """Searches the O'Reilly Learning catalog of books, videos and courses by keyword,
+        returning the total and ranked titles with authors, publisher, format, issued date,
+        topics, ourn and apiUrl. results is [] when nothing matches.
+        """
+
 class Prv_originenergy_com_au(Protocol):
     """originenergy.com.au business electricity quote — every plan Origin Energy offers in a
     postcode's distributor territory, priced at the regulator's standard reference
@@ -123955,6 +124084,25 @@ class Prv_upwork(Protocol):
         description, budget, experience level, skills, proposals and client country.
         """
 
+class Prv_usa_gov(Protocol):
+    """Reads USA.gov, the US government's official information portal — passports, benefits,
+    taxes, IDs and more — as structured sections, alerts and child-page cards, plus a
+    searchable index of every page.
+    """
+
+    async def getPage(self, url: str, /) -> Prv_usa_gov_usa_govPage_Out:
+        """Reads one USA.gov page (e.g. "https://www.usa.gov/passport" or "/renew-adult-passport")
+        and returns its title, intro, breadcrumb, alerts, prose sections with their links, and —
+        on a hub page — the child-page cards with summaries. THROWS on a 404 or a non-usa.gov
+        url.
+        """
+
+    async def listPages(self, args: Prv_usa_gov_ListPagesArgs_In | None = None, /) -> list[Prv_usa_gov_usa_govPageLink_Out]:
+        """Lists English USA.gov pages from the site's own sitemap; `query` keeps pages whose url
+        words contain every query word (e.g. { query: "passport" }). Pass a result's url to
+        getPage.
+        """
+
 class Prv_usatoday(Protocol):
     """USA Today news site — articles, sections, search, sports scores and puzzles."""
 
@@ -128785,6 +128933,7 @@ class BowmarkProviders(Protocol):
     openarch: Prv_openarch
     openrent: Prv_openrent
     opentable: Prv_opentable
+    oreilly: Prv_oreilly
     originenergy_com_au: Prv_originenergy_com_au
     osu: Prv_osu
     othership: Prv_othership
@@ -129040,6 +129189,7 @@ class BowmarkProviders(Protocol):
     upkeepstl_com: Prv_upkeepstl_com
     ups: Prv_ups
     upwork: Prv_upwork
+    usa_gov: Prv_usa_gov
     usatoday: Prv_usatoday
     uscis: Prv_uscis
     usps: Prv_usps

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 078bdf48a3aed806e92191000c7d2e740990d5016055776b6d6717ada335d7f4
-// 5495 checked, 20 unchecked.
+// Manifest version: 6eee2e1f39633cfca4f309bb42951c92ef79d7d6290ad3ada986325bd6985222
+// 5500 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "078bdf48a3aed806e92191000c7d2e740990d5016055776b6d6717ada335d7f4",
+  "version": "6eee2e1f39633cfca4f309bb42951c92ef79d7d6290ad3ada986325bd6985222",
   "units": {
     "address_validation": {
       "defs": {
@@ -46974,7 +46974,7 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "string"
               },
-              "optional": false
+              "optional": true
             },
             {
               "name": "state",
@@ -47001,7 +47001,7 @@ export const VALIDATORS: ValidatorTable = {
               "k": "ref",
               "name": "DignityMemorialSearchArgs"
             },
-            "optional": false
+            "optional": true
           }
         ],
         "getObituary": [
@@ -110326,6 +110326,97 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.oreilly": {
+      "defs": {
+        "OreillySearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getContentMetadata": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "ourns",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getMetadataByUrls": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "urls",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OreillySearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.originenergy_com_au": {
       "defs": {
         "OriginBusinessElectricityQuoteArgs": {
@@ -160015,6 +160106,43 @@ export const VALIDATORS: ValidatorTable = {
               "name": "UpworkGetJobArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.usa_gov": {
+      "defs": {
+        "ListPagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getPage": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPagesArgs"
+            },
+            "optional": true
           }
         ]
       }
