@@ -962,7 +962,7 @@ One function per row, with the site it is called on.
 | `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | 🟢 |
 | `businessinsider_com.getArticleComments` | businessinsider.com | Read the public comments/discussion thread under one article. | 🟢 |
 | `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | 🟢 |
-| `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟡 |
+| `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟢 |
 | `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | 🟢 |
 | `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | 🟢 |
 | `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | 🟢 |

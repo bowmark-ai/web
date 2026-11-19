@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9493c812e1093a8667901b2d5c9a8df260dee73cc9302102c187ac640a38e352
+// Manifest version: 6b321f59afb2e5ec6470e9ecb065c0a86c3f20e5d36297f91a1d924362886942
 // 98 capabilities, 927 providers, 5533 typed functions, 20 refused.
 // 128,318 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -5683,7 +5683,8 @@ interface VacationRentalListing {
   subtitle: string | null;
   rating: number | null;
   reviewCount: number | null;
-  displayPrice: string | null;   // the results page's own price string — NOT the total
+  displayPrice: string | null;   // results page's price string; with dates, Airbnb's is the STAY TOTAL — see priceBasis
+  priceBasis: "stay_total" | "per_night" | null; // what displayPrice is a price of, from the site's own qualifier; null = unstated
   photoUrl: string | null;
   url: string;
   provider: string;

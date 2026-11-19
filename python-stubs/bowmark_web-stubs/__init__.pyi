@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9493c812e1093a8667901b2d5c9a8df260dee73cc9302102c187ac640a38e352
+# Manifest version: 6b321f59afb2e5ec6470e9ecb065c0a86c3f20e5d36297f91a1d924362886942
 # 98 capabilities, 927 providers, 5505 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -3393,6 +3393,7 @@ class Cap_vacation_rental_VacationRentalListing_Out(TypedDict):
     rating: float | None
     reviewCount: float | None
     displayPrice: str | None
+    priceBasis: Literal["stay_total"] | Literal["per_night"] | None
     photoUrl: str | None
     url: str
     provider: str
