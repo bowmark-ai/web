@@ -1,5 +1,5 @@
 {
-  "version": "652d5d08ffc8106878f03c32de7e2ac7c4351157c717ecd4364bd92bc3eb3a92",
+  "version": "6bd41c01a45112b73d4bebcbe182ddf55616cc659175a5178432d8e686d9c24f",
   "units": {
     "address_validation": {
       "defs": {
@@ -123018,6 +123018,23 @@
                       "name": "after",
                       "schema": {
                         "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "detail",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "full"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "brief"
+                          }
+                        ]
                       },
                       "optional": true
                     }

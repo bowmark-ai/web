@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 652d5d08ffc8106878f03c32de7e2ac7c4351157c717ecd4364bd92bc3eb3a92
+// Manifest version: 6bd41c01a45112b73d4bebcbe182ddf55616cc659175a5178432d8e686d9c24f
 // 98 capabilities, 928 providers, 5537 typed functions, 20 refused.
-// 128,318 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
+// 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -89360,13 +89360,32 @@ interface RedditPostBrief {    // a search row as reddit's search page shows it 
   snippet: string | null;      // the text reddit matched, when it shows one
 }
 
+interface RedditFeedPost {     // a post as the community's feed page carries it — detail "brief", sort "new" only, no per-post read
+  id: string;                  // fullname "t3_…" — what getPost takes
+  title: string;
+  author: { id: string | null; name: string; avatarUrl: string | null } | null; // null = deleted account
+  subreddit: string;
+  permalink: string;
+  url: string;                 // what the post points AT; the permalink for a self post
+  domain: string | null;       // null for a self post
+  postType: string | null;     // reddit's own word: "text", "link", "multi_media", …
+  score: number | null;
+  upvoteRatio: number | null;
+  numComments: number | null;
+  createdAt: string | null;    // ISO 8601
+  awardCount: number | null;
+  language: string | null;
+  stickied: boolean;           // pinned by the moderators
+}
+
 interface RedditSubredditPostsResult {
   subreddit: string;
   sort: "hot" | "new" | "top" | "rising" | "controversial";
   time: "hour" | "day" | "week" | "month" | "year" | "all" | null; // null on sorts with no window
-  posts: RedditPost[];
+  detail: "full" | "brief";
+  posts: RedditPost[] | RedditFeedPost[];  // RedditFeedPost[] under detail "brief"
   nextCursor: string | null;
-  warnings: string[];          // sort "new" only: one line per post reddit refused; the page is incomplete by these
+  warnings: string[];          // sort "new" + detail "full" only: one line per post reddit refused; the page is incomplete by these
 }
 
 interface RedditSubredditAccess {
@@ -89381,7 +89400,7 @@ interface RedditSubredditProfile {
   quarantineMessage: string | null;
   newestPostAt: string | null;
   postsLastWeek: number | null;       // among its 25 newest posts
-  warnings: string[];                 // one line per one of those 25 that reddit refused; the liveness answer is approximate by these
+  warnings: string[];                 // always empty: read off the feed page, so no post is read and none can be refused
 }
 
 interface RedditSubredditSearchResult {
@@ -89691,18 +89710,28 @@ interface RedditPlaybackFile {
      * sit at the top of hot). `time` applies only to top and controversial (default day) and is
      * refused on the others. `r/all` and `r/popular` are ordinary names here. Pages of up to 100;
      * pass `nextCursor` back as `after`. The difference from `search`: this needs no topic and
-     * answers "what is this community talking about right now".
+     * answers "what is this community talking about right now". COST: `detail: "full"` (the
+     * default, every sort) reads each post of sort "new" off its own `/duplicates/` request, so a
+     * 50-post `new` listing is about 50 reddit requests and several in one script can exhaust
+     * reddit's per-address limit (a post reddit refuses is named in `warnings`). `detail: "brief"`
+     * (sort "new" only) builds each post from the community's own feed page with NO per-post
+     * request — it returns `RedditFeedPost`: id, title, author {id, name, avatarUrl}, subreddit,
+     * permalink, url, domain, postType, score, upvoteRatio, numComments, createdAt, awardCount,
+     * language, stickied. It does NOT carry self-text, flair, edit time, your vote or removal, so
+     * use full when you need those.
      */
-    getSubredditPosts(input: string | {subreddit: string, sort?: "hot"|"new"|"top"|"rising"|"controversial", time?: "hour"|"day"|"week"|"month"|"year"|"all", limit?: number, after?: string}): Promise<RedditSubredditPostsResult>;
+    getSubredditPosts(input: string | {subreddit: string, sort?: "hot"|"new"|"top"|"rising"|"controversial", time?: "hour"|"day"|"week"|"month"|"year"|"all", limit?: number, after?: string, detail?: "full"|"brief"}): Promise<RedditSubredditPostsResult>;
 
     /**
      * The facts about ONE community, from "webscraping", "r/webscraping" or its URL: subscriber
      * count, active users, title, public description and long sidebar, type (public, restricted,
      * private…), NSFW and quarantine flags, creation date, icon and banner, plus how alive it is —
-     * `newestPostAt` and `postsLastWeek` among its 25 newest posts. CHECK `access.readable` FIRST:
-     * a community reddit will not show you does NOT throw — `access.reason` carries reddit's own
-     * word ("private", "banned", "quarantined", "gold_only") and `info` is null. A name reddit
-     * does not know at all throws; find the real one with `searchSubreddits`.
+     * `newestPostAt` and `postsLastWeek` among its 25 newest posts, read off the community's feed
+     * page with no per-post request (one HTML request per 25 posts, not one per post). CHECK
+     * `access.readable` FIRST: a community reddit will not show you does NOT throw —
+     * `access.reason` carries reddit's own word ("private", "banned", "quarantined", "gold_only")
+     * and `info` is null. A name reddit does not know at all throws; find the real one with
+     * `searchSubreddits`.
      */
     getSubreddit(name: string): Promise<RedditSubredditProfile>;
 
@@ -180492,6 +180521,7 @@ interface BowmarkProviders {
   cascadiaartmuseum: BowmarkSite_0eb976ff.Unit;
   cascadiamushrooms: BowmarkSite_0eb976ff.Unit;
   cascinaalbertawines: BowmarkSite_0eb976ff.Unit;
+  casecoinc: BowmarkSite_0eb976ff.Unit;
   casedboujie: BowmarkSite_0eb976ff.Unit;
   caseintegrativehealth: BowmarkSite_0eb976ff.Unit;
   caselaakino: BowmarkSite_0eb976ff.Unit;

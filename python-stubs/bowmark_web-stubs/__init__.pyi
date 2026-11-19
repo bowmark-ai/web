@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 652d5d08ffc8106878f03c32de7e2ac7c4351157c717ecd4364bd92bc3eb3a92
+# Manifest version: 6bd41c01a45112b73d4bebcbe182ddf55616cc659175a5178432d8e686d9c24f
 # 98 capabilities, 928 providers, 5509 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -58307,14 +58307,38 @@ class Prv_reddit_getSubredditPosts_input_u1_In(TypedDict):
     time: NotRequired[Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
     limit: NotRequired[float]
     after: NotRequired[str]
+    detail: NotRequired[Literal["full"] | Literal["brief"]]
 
 class Prv_reddit_RedditSubredditPostsResult_Out(TypedDict):
     subreddit: str
     sort: Literal["hot"] | Literal["new"] | Literal["top"] | Literal["rising"] | Literal["controversial"]
     time: Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"] | None
-    posts: list[Prv_reddit_RedditPost_Out]
+    detail: Literal["full"] | Literal["brief"]
+    posts: list[Prv_reddit_RedditPost_Out] | list[Prv_reddit_RedditFeedPost_Out]
     nextCursor: str | None
     warnings: list[str]
+
+class Prv_reddit_RedditFeedPost_Out(TypedDict):
+    id: str
+    title: str
+    author: Prv_reddit_RedditFeedPost_Out_author_u0_Out | None
+    subreddit: str
+    permalink: str
+    url: str
+    domain: str | None
+    postType: str | None
+    score: float | None
+    upvoteRatio: float | None
+    numComments: float | None
+    createdAt: str | None
+    awardCount: float | None
+    language: str | None
+    stickied: bool
+
+class Prv_reddit_RedditFeedPost_Out_author_u0_Out(TypedDict):
+    id: str | None
+    name: str
+    avatarUrl: str | None
 
 class Prv_reddit_RedditSubredditProfile_Out(TypedDict):
     name: str
@@ -115778,7 +115802,15 @@ class Prv_reddit(Protocol):
         posts sit at the top of hot). `time` applies only to top and controversial (default day)
         and is refused on the others. `r/all` and `r/popular` are ordinary names here. Pages of
         up to 100; pass `nextCursor` back as `after`. The difference from `search`: this needs
-        no topic and answers "what is this community talking about right now".
+        no topic and answers "what is this community talking about right now". COST: `detail:
+        "full"` (the default, every sort) reads each post of sort "new" off its own
+        `/duplicates/` request, so a 50-post `new` listing is about 50 reddit requests and
+        several in one script can exhaust reddit's per-address limit (a post reddit refuses is
+        named in `warnings`). `detail: "brief"` (sort "new" only) builds each post from the
+        community's own feed page with NO per-post request — it returns `RedditFeedPost`: id,
+        title, author {id, name, avatarUrl}, subreddit, permalink, url, domain, postType, score,
+        upvoteRatio, numComments, createdAt, awardCount, language, stickied. It does NOT carry
+        self-text, flair, edit time, your vote or removal, so use full when you need those.
         """
 
     async def getSubreddit(self, name: str, /) -> Prv_reddit_RedditSubredditProfile_Out:
@@ -115786,10 +115818,11 @@ class Prv_reddit(Protocol):
         subscriber count, active users, title, public description and long sidebar, type
         (public, restricted, private…), NSFW and quarantine flags, creation date, icon and
         banner, plus how alive it is — `newestPostAt` and `postsLastWeek` among its 25 newest
-        posts. CHECK `access.readable` FIRST: a community reddit will not show you does NOT
-        throw — `access.reason` carries reddit's own word ("private", "banned", "quarantined",
-        "gold_only") and `info` is null. A name reddit does not know at all throws; find the
-        real one with `searchSubreddits`.
+        posts, read off the community's feed page with no per-post request (one HTML request per
+        25 posts, not one per post). CHECK `access.readable` FIRST: a community reddit will not
+        show you does NOT throw — `access.reason` carries reddit's own word ("private",
+        "banned", "quarantined", "gold_only") and `info` is null. A name reddit does not know at
+        all throws; find the real one with `searchSubreddits`.
         """
 
     async def searchSubreddits(self, query: str | Prv_reddit_searchSubreddits_query_u1_In, /) -> Prv_reddit_RedditSubredditSearchResult_Out:
