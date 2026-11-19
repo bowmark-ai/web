@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7371 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7372 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1203,6 +1203,7 @@ One function per row, with the site it is called on.
 | `cbsnews.updateProfile` | cbsnews.com | Edits the signed-in caller's profile (name, zip code). | ⚪ |
 | `cdc.getPage` | cdc.gov | Reads one cdc.gov health or disease page (e.g. /flu/about/index.html) as its title… | 🟢 |
 | `cdc.search` | cdc.gov | Searches cdc.gov's health and disease pages with CDC's own site search, returning the… | 🟢 |
+| `cdiscount.search` | www.cdiscount.com | Search cdiscount.com for products by name (the /search/10/<query>.html results page)… | 🟢 |
 | `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | ⚪ |
 | `census_api.validateAddress` | api.census.gov | Validates and standardizes a US street address against the Census Geocoder… | 🟢 |
 | `census.geographyLevels` | census.gov | Lists the geography levels US Census data is published at: Nation, State, County… | 🟢 |
