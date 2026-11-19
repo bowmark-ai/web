@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7368 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7371 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -2179,6 +2179,9 @@ One function per row, with the site it is called on.
 | `embroker.listCoverageLines` | embroker.com | Returns the real list of commercial-insurance coverage lines and policy product types… | 🟢 |
 | `emirates.flightStatus` | emirates.com | Live status of an Emirates flight number on a date: route, status… | 🟢 |
 | `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | ⚪ |
+| `epic_fhir.getCapabilityStatement` | fhir.epic.com | Reads an Epic FHIR R4 server's /metadata CapabilityStatement (fhir.epic.com sandbox by… | 🟢 |
+| `epic_fhir.getDocPage` | fhir.epic.com | Reads one fhir.epic.com Documentation page (Documentation?docId=<id>) and returns its… | ⚪ |
+| `epic_fhir.listOrganizationEndpoints` | fhir.epic.com | Lists the health systems running Epic with each one's production FHIR R4 base URL… | 🟢 |
 | `epicgames.addToCart` | epicgames.com | Put a game or add-on in the signed-in caller's cart. | 🟢 |
 | `epicgames.addToWishlist` | epicgames.com | Add a game to the signed-in caller's wishlist. | 🟢 |
 | `epicgames.browseGames` | epicgames.com | Browse the store catalogue like its Browse page — base games in a tag (genre, feature… | 🟢 |

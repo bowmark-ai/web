@@ -354,6 +354,7 @@ faroutmagazine.co.uk — faroutmagazine: article, latest, search
 fbsappliance.com — fbsappliance: nothing callable yet (+2 planned)
 fedex.com — fedex: getRate
 ferguson.com — ferguson: findBranches, findProducts (+1 planned)
+fhir.epic.com — epic_fhir: getCapabilityStatement, listOrganizationEndpoints (+1 planned)
 fieldstonehomes.com — fieldstonehomes: getAppointmentFormSchema, prepareAppointment, searchQuickMoveIns
 finance.yahoo.com — yahoo_finance: addToWatchlist, getAnalystEstimates, getCompanyProfile, getEarningsDates, getFinancials, getHistoricalPrices, getHolders, getKeyStatistics, getMarketSummary, getNews, getOptionsChain, getQuote, getTrendingTickers, listCryptoPrices, listWatchlists, searchSymbols (+1 planned)
 finders.co.uk — finders: getListing, searchListings
@@ -828,7 +829,7 @@ teneohg.com — teneohg: getMemberHotel, searchMemberHotels
 texaslottery.com — texas_lottery: draws, scratchers
 thataicollection.com — thataicollection_com: browseCategory, compareTools, getAlternatives, getTool, getTopPicks, listCategories, searchTools
 thefork.com — thefork: search (+2 planned)
-theguardian.com — theguardian_com: getArticle, getArticleComments, getContributorArticles, getCrossword, getFootballTable, getLiveBlog, getMostRead, getPhotoGallery, getReview, getTopicArticles, getVideo, listArticlesBySection, listBreakingNews, listContributors, listFootballMatches, listLiveBlogs, listNewsletters, listOpinionPieces, listPhotos, listPodcastEpisodes, listReviews, listSections, listTopics, listVideos (+2 planned)
+theguardian.com — theguardian_com: 24 functions — ask get_library (+2 planned)
 therabody.com — therabody: getTheragunProduct, listTheragunProducts, recommendTheragun
 therowhouse.com — therowhouse: getSchedule, listLocations
 thestreet.com — thestreet: commentCount, sections (+2 planned)
