@@ -3515,7 +3515,7 @@ One function per row, with the site it is called on.
 | `instacart.listDeals` | instacart.com | Lists what is on sale at a store right now — the store's Sales collection — with each… | 🟢 |
 | `instacart.listDeliveryWindows` | instacart.com | Lists the delivery or pickup time slots the signed-in customer can choose for a cart… | ⚪ |
 | `instacart.listDepartmentProducts` | instacart.com | Lists the products in one store department or aisle by its slug, each with price and… | 🟢 |
-| `instacart.listDepartments` | instacart.com | Lists a store's top-level departments and aisles (Produce, Dairy & Eggs, Sales…) with… | 🟡 |
+| `instacart.listDepartments` | instacart.com | Lists a store's top-level departments and aisles (Produce, Dairy & Eggs, Sales…) with… | 🟢 |
 | `instacart.listFavorites` | instacart.com | Lists the products the signed-in customer has saved as favorites. | ⚪ |
 | `instacart.listMyAddresses` | instacart.com | Lists the signed-in customer's saved delivery addresses with their ids, which cart… | 🟢 |
 | `instacart.listMyLists` | instacart.com | Lists the signed-in customer's shopping lists with name and item count. | ⚪ |
