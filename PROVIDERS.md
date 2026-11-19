@@ -2611,7 +2611,7 @@ One function per row, with the site it is called on.
 | `floathelm.getMyProfile` | reboot.floathelm.com | Get the signed-in user's profile information. | ⚪ |
 | `floathelm.getRoom` | reboot.floathelm.com | Reads one room's own detail popup — its description and photo — by the room_id… | 🟢 |
 | `floathelm.joinWaitlist` | reboot.floathelm.com | Join the waitlist for a fully booked time slot. | ⚪ |
-| `floathelm.listAvailableSlots` | reboot.floathelm.com | Lists every slot (open or reserved) on the booking calendar for one day, optionally… | 🟡 |
+| `floathelm.listAvailableSlots` | reboot.floathelm.com | Lists every slot (open or reserved) on the booking calendar for one day, optionally… | 🟢 |
 | `floathelm.listGiftCards` | reboot.floathelm.com | Lists every gift-card denomination and prepaid-service card the gift-card store sells… | 🟢 |
 | `floathelm.listLocations` | reboot.floathelm.com | List all available studio locations. | 🟢 |
 | `floathelm.listMyBookings` | reboot.floathelm.com | List all bookings for the signed-in user. | ⚪ |
