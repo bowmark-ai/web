@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6bd41c01a45112b73d4bebcbe182ddf55616cc659175a5178432d8e686d9c24f
-// 5509 checked, 20 unchecked.
+// Manifest version: 241e9c0b99f64887aea9a06e59d649dee65b8785e5844dc1d574318bdce1ec14
+// 5510 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6bd41c01a45112b73d4bebcbe182ddf55616cc659175a5178432d8e686d9c24f",
+  "version": "241e9c0b99f64887aea9a06e59d649dee65b8785e5844dc1d574318bdce1ec14",
   "units": {
     "address_validation": {
       "defs": {
@@ -154996,6 +154996,82 @@ export const VALIDATORS: ValidatorTable = {
             "name": "idB",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.truckstop": {
+      "defs": {
+        "TruckstopSearchLoadsArgs": {
+          "k": "union",
+          "of": [
+            {
+              "k": "string"
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "equipment",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "any"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "van"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "flatbed"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "reefer"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "specialized"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "hot-shot"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLoads": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TruckstopSearchLoadsArgs"
             },
             "optional": false
           }

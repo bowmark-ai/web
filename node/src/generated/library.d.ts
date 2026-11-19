@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6bd41c01a45112b73d4bebcbe182ddf55616cc659175a5178432d8e686d9c24f
-// 98 capabilities, 928 providers, 5537 typed functions, 20 refused.
+// Manifest version: 241e9c0b99f64887aea9a06e59d649dee65b8785e5844dc1d574318bdce1ec14
+// 98 capabilities, 929 providers, 5538 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -111495,6 +111495,28 @@ interface TrophysignaturehomesComparison {
   }
 }
 
+declare namespace BowmarkProvider_truckstop {
+  // ── Truckstop — the unit's own declarations, verbatim ──
+interface TruckstopLoad { origin: string; originCity: string | null; originState: string | null; destination: string; destinationCity: string | null; destinationState: string | null; pickupDate: string | null; tripMiles: number | null; weightLbs: number | null; lengthFt: number | null; ratePerMile: number | null; brokerExperienceGrade: string | null; }
+interface TruckstopLoadSearch { origin: string; equipment: string; loads: TruckstopLoad[]; url: string; note: string; }
+type TruckstopSearchLoadsArgs = string | { state: string; city?: string; equipment?: "any" | "van" | "flatbed" | "reefer" | "specialized" | "hot-shot" };
+
+  /**
+   * Find available truck loads on the Truckstop.com load board by origin state or city and
+   * equipment (van, flatbed, reefer, hot shot): lanes, pickup dates, miles and weights.
+   */
+  interface Unit {
+    /**
+     * Searches Truckstop.com's freight load board for available loads picking up in a US state
+     * ("TX") or near a city ("Dallas, TX"), optionally by equipment (van, flatbed, reefer,
+     * specialized, hot-shot). Returns up to 20 live loads with origin, destination, pickup date,
+     * trip miles, weight, length and the broker's experience grade. Rates and broker contacts need
+     * a carrier login and come back null.
+     */
+    searchLoads(args: TruckstopSearchLoadsArgs): Promise<TruckstopLoadSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_trueup {
   // ── TrueUp.io — the unit's own declarations, verbatim ──
 interface TrueupSearchArgs {
@@ -128151,6 +128173,7 @@ interface BowmarkProviders {
   tripadvisor: BowmarkProvider_tripadvisor.Unit;
   trojanstorage: BowmarkProvider_trojanstorage.Unit;
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
+  truckstop: BowmarkProvider_truckstop.Unit;
   trueup: BowmarkProvider_trueup.Unit;
   trulia: BowmarkProvider_trulia.Unit;
   trustpilot: BowmarkProvider_trustpilot.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6bd41c01a45112b73d4bebcbe182ddf55616cc659175a5178432d8e686d9c24f
-# 98 capabilities, 928 providers, 5509 typed functions, 20 refused.
+# Manifest version: 241e9c0b99f64887aea9a06e59d649dee65b8785e5844dc1d574318bdce1ec14
+# 98 capabilities, 929 providers, 5510 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -74160,6 +74160,32 @@ class Prv_trophysignaturehomes_TrophysignaturehomesComparison_Out_pricePerSqft_O
     a: float | None
     b: float | None
 
+class Prv_truckstop_TruckstopSearchLoadsArgs_u1_In(TypedDict):
+    state: str
+    city: NotRequired[str]
+    equipment: NotRequired[Literal["any"] | Literal["van"] | Literal["flatbed"] | Literal["reefer"] | Literal["specialized"] | Literal["hot-shot"]]
+
+class Prv_truckstop_TruckstopLoadSearch_Out(TypedDict):
+    origin: str
+    equipment: str
+    loads: list[Prv_truckstop_TruckstopLoad_Out]
+    url: str
+    note: str
+
+class Prv_truckstop_TruckstopLoad_Out(TypedDict):
+    origin: str
+    originCity: str | None
+    originState: str | None
+    destination: str
+    destinationCity: str | None
+    destinationState: str | None
+    pickupDate: str | None
+    tripMiles: float | None
+    weightLbs: float | None
+    lengthFt: float | None
+    ratePerMile: float | None
+    brokerExperienceGrade: str | None
+
 class Prv_trueup_TrueupSearchArgs_In(TypedDict):
     query: NotRequired[str]
     location: NotRequired[str]
@@ -123381,6 +123407,19 @@ class Prv_trophysignaturehomes(Protocol):
         same math.
         """
 
+class Prv_truckstop(Protocol):
+    """Find available truck loads on the Truckstop.com load board by origin state or city and
+    equipment (van, flatbed, reefer, hot shot): lanes, pickup dates, miles and weights.
+    """
+
+    async def searchLoads(self, args: str | Prv_truckstop_TruckstopSearchLoadsArgs_u1_In, /) -> Prv_truckstop_TruckstopLoadSearch_Out:
+        """Searches Truckstop.com's freight load board for available loads picking up in a US state
+        ("TX") or near a city ("Dallas, TX"), optionally by equipment (van, flatbed, reefer,
+        specialized, hot-shot). Returns up to 20 live loads with origin, destination, pickup
+        date, trip miles, weight, length and the broker's experience grade. Rates and broker
+        contacts need a carrier login and come back null.
+        """
+
 class Prv_trueup(Protocol):
     """Tech and startup job listings from TrueUp (trueup.io/jobs) — search by title, skill or
     company, filter by location and company stage, with salary ranges and apply links.
@@ -129420,6 +129459,7 @@ class BowmarkProviders(Protocol):
     tripadvisor: Prv_tripadvisor
     trojanstorage: Prv_trojanstorage
     trophysignaturehomes: Prv_trophysignaturehomes
+    truckstop: Prv_truckstop
     trueup: Prv_trueup
     trulia: Prv_trulia
     trustpilot: Prv_trustpilot

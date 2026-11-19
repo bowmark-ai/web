@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7376 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7377 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -6466,6 +6466,7 @@ One function per row, with the site it is called on.
 | `trophysignaturehomes.getHome` | trophysignaturehomes.com | Reads one home's full detail: address, price, sqft, beds/baths, status, stories… | 🟢 |
 | `trophysignaturehomes.listPlans` | trophysignaturehomes.com | Lists the floor plans (as opposed to priced, addressed spec homes) available per… | ⚪ |
 | `trophysignaturehomes.searchHomes` | trophysignaturehomes.com | Searches Trophy Signature Homes' current live inventory (all metros) by city… | 🟢 |
+| `truckstop.searchLoads` | truckstop.com | Searches Truckstop.com's freight load board for available truck loads by origin state… | 🟢 |
 | `trueup.searchJobs` | trueup.io | Searches TrueUp's tech and startup job board (trueup.io/jobs) by title, skill or… | 🟢 |
 | `trulia.getHome` | trulia.com | Read one Trulia listing (a url from searchHomes): price, status, beds, baths, size… | 🟢 |
 | `trulia.searchHomes` | trulia.com | Search Trulia real-estate listings in a US city: homes for sale, rentals or recently… | 🟢 |

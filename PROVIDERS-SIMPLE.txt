@@ -864,6 +864,7 @@ trip.com — trip: searchFlights
 tripadvisor.com — tripadvisor: getAttraction, getDestination, getHotel, getHotelPrices, getNearby, getPhotos, getQuestions, getRestaurant, getReview, getReviews, search, searchAttractions, searchHotels, searchRestaurants (+13 planned)
 trojanstorage.com — trojanstorage: getFacilityUnits, listFacilities
 trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, searchHomes (+1 planned)
+truckstop.com — truckstop: searchLoads
 trueup.io — trueup: searchJobs
 trulia.com — trulia: getHome, searchHomes
 trustpilot.com — trustpilot: getCompany
