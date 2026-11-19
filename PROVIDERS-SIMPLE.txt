@@ -817,6 +817,7 @@ sweathouz.com — sweathouz: book, cancel, findStudio, getAvailability, getPrici
 szukajwarchiwach.gov.pl — szukajwarchiwach_gov_pl: getFond, searchFonds
 t-mobile.com — tmobile: getUpgradeOffer
 tagtrans.net — tagtrans_net: createShipmentRateEmail, getShipmentRateForm
+talkmezzo.com — talkmezzo: getSpeaker, listTopics, searchEvents, searchSpeakers
 tamarackidaho.com — tamarackidaho: searchLodging
 tapfiliate.com — tapfiliate: listAffiliates
 target.com — target: addToCart, addToList, checkStock, findStore, getCart, getProduct, getRegistry, listCategories, listCategoryProducts, listDeals, listOrders, listQuestions, listReviews, listWishlists, removeFromCart, reviewPhotos, search, writeReview (+2 planned)

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6b321f59afb2e5ec6470e9ecb065c0a86c3f20e5d36297f91a1d924362886942
-# 98 capabilities, 927 providers, 5505 typed functions, 20 refused.
+# Manifest version: 652d5d08ffc8106878f03c32de7e2ac7c4351157c717ecd4364bd92bc3eb3a92
+# 98 capabilities, 928 providers, 5509 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -51813,6 +51813,8 @@ class Prv_ocado_OcadoSearchResult_Out(TypedDict):
     url: str
     total: float
     products: list[Prv_ocado_OcadoProduct_Out]
+    warnings: NotRequired[list[str]]
+    retriedWith: NotRequired[str]
 
 class Prv_ocado_OcadoProduct_Out(TypedDict):
     sku: str
@@ -70152,6 +70154,81 @@ class Prv_tagtrans_net_TagtransShipmentRateEmail_Out(TypedDict):
     recipient: str
     subject: str
     body: str
+
+class Prv_talkmezzo_TalkmezzoSearchSpeakersArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_talkmezzo_searchSpeakers_return_Out(TypedDict):
+    speakers: list[Prv_talkmezzo_TalkmezzoSpeakerHit_Out]
+
+class Prv_talkmezzo_TalkmezzoSpeakerHit_Out(TypedDict):
+    id: str
+    slug: str
+    name: str
+    headline: str | None
+    image: str | None
+    unclaimed: bool
+    url: str
+
+class Prv_talkmezzo_TalkmezzoGetSpeakerArgs_In(TypedDict):
+    slug: str
+
+class Prv_talkmezzo_TalkmezzoSpeaker_Out(TypedDict):
+    slug: str
+    name: str
+    jobTitle: str | None
+    description: str | None
+    summary: str | None
+    image: str | None
+    location: str | None
+    topics: list[str]
+    links: list[str]
+    events: list[Prv_talkmezzo_TalkmezzoSpeakerEvent_Out]
+    url: str
+
+class Prv_talkmezzo_TalkmezzoSpeakerEvent_Out(TypedDict):
+    name: str
+    slug: str | None
+    url: str | None
+    startDate: str | None
+    location: str | None
+
+class Prv_talkmezzo_TalkmezzoSearchEventsArgs_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_talkmezzo_searchEvents_return_Out(TypedDict):
+    events: list[Prv_talkmezzo_TalkmezzoEvent_Out]
+    total: float
+
+class Prv_talkmezzo_TalkmezzoEvent_Out(TypedDict):
+    id: str
+    slug: str
+    name: str
+    description: str | None
+    websiteUrl: str | None
+    orgType: str | None
+    city: str | None
+    country: str | None
+    editionCount: float
+    talkCount: float
+    topics: list[str]
+    url: str
+
+class Prv_talkmezzo_listTopics_return_Out(TypedDict):
+    categories: list[Prv_talkmezzo_TalkmezzoTopicCategory_Out]
+
+class Prv_talkmezzo_TalkmezzoTopicCategory_Out(TypedDict):
+    slug: str
+    name: str
+    topics: list[Prv_talkmezzo_TalkmezzoTopicCategory_Out_topics_item_Out]
+
+class Prv_talkmezzo_TalkmezzoTopicCategory_Out_topics_item_Out(TypedDict):
+    slug: str
+    name: str
+    count: float
 
 class Prv_tamarackidaho_tamarackidahoSearchArgs_In(TypedDict):
     arrivalDate: str
@@ -112335,8 +112412,10 @@ class Prv_ocado(Protocol):
         its first page of products (up to ~50) in Ocado's own order — name, brand, size, current
         and was price, offer text, unit price, rating, availability, category path, image and
         exact product url (`sponsored: true` marks the paid "Featured" slots). Ocado matches
-        every word, so a long phrase can return 0 where a shorter one finds the product. Use
-        this rather than read.page on an ocado.com search url, which is walled.
+        every word, so when a long phrase matches nothing it retries with shorter forms (size
+        dropped, then the first three and two words) and says so in `retriedWith` and
+        `warnings`; a zero always carries a warning. Use this rather than read.page on an
+        ocado.com search url, which is walled.
         """
 
 class Prv_old_navy(Protocol):
@@ -121156,6 +121235,31 @@ class Prv_tagtrans_net(Protocol):
         does not send the email.
         """
 
+class Prv_talkmezzo(Protocol):
+    """Mezzo (talkmezzo.com), the keynote-speaker index: search speakers, read a speaker's
+    profile and speaking history, search conferences, list speaking topics.
+    """
+
+    async def searchSpeakers(self, args: Prv_talkmezzo_TalkmezzoSearchSpeakersArgs_In, /) -> Prv_talkmezzo_searchSpeakers_return_Out:
+        """Search Mezzo's keynote speaker directory by name or keyword (e.g. 'innovation'), ranked
+        by relevance. limit defaults to 10, max 50.
+        """
+
+    async def getSpeaker(self, args: Prv_talkmezzo_TalkmezzoGetSpeakerArgs_In, /) -> Prv_talkmezzo_TalkmezzoSpeaker_Out:
+        """A speaker's Mezzo profile by slug (from searchSpeakers, or a /speakers/<slug> url): bio,
+        job title, topics, links and the events they spoke at.
+        """
+
+    async def searchEvents(self, args: Prv_talkmezzo_TalkmezzoSearchEventsArgs_In | None = None, /) -> Prv_talkmezzo_searchEvents_return_Out:
+        """Search or list the conferences and events Mezzo tracks, by name keyword (empty query
+        lists all, paged with limit/offset; limit defaults to 20, max 100).
+        """
+
+    async def listTopics(self, /) -> Prv_talkmezzo_listTopics_return_Out:
+        """Mezzo's speaking-topic taxonomy: categories, each with topics and how many speakers
+        cover them.
+        """
+
 class Prv_tamarackidaho(Protocol):
     """Tamarack Resort's own direct-managed lodging booking engine (Inntopia RTP) — real
     availability and price per unit type for a date range and party size, straight from the
@@ -129235,6 +129339,7 @@ class BowmarkProviders(Protocol):
     szukajwarchiwach_gov_pl: Prv_szukajwarchiwach_gov_pl
     tableau_public: Prv_tableau_public
     tagtrans_net: Prv_tagtrans_net
+    talkmezzo: Prv_talkmezzo
     tamarackidaho: Prv_tamarackidaho
     tapfiliate: Prv_tapfiliate
     target: Prv_target

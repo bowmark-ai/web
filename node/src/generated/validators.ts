@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6b321f59afb2e5ec6470e9ecb065c0a86c3f20e5d36297f91a1d924362886942
-// 5505 checked, 20 unchecked.
+// Manifest version: 652d5d08ffc8106878f03c32de7e2ac7c4351157c717ecd4364bd92bc3eb3a92
+// 5509 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6b321f59afb2e5ec6470e9ecb065c0a86c3f20e5d36297f91a1d924362886942",
+  "version": "652d5d08ffc8106878f03c32de7e2ac7c4351157c717ecd4364bd92bc3eb3a92",
   "units": {
     "address_validation": {
       "defs": {
@@ -147449,6 +147449,100 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.talkmezzo": {
+      "defs": {
+        "TalkmezzoGetSpeakerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "TalkmezzoSearchEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TalkmezzoSearchSpeakersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchSpeakers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TalkmezzoSearchSpeakersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSpeaker": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TalkmezzoGetSpeakerArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TalkmezzoSearchEventsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listTopics": []
       }
     },
     "providers.tamarackidaho": {

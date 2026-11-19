@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6b321f59afb2e5ec6470e9ecb065c0a86c3f20e5d36297f91a1d924362886942
-// 98 capabilities, 927 providers, 5533 typed functions, 20 refused.
+// Manifest version: 652d5d08ffc8106878f03c32de7e2ac7c4351157c717ecd4364bd92bc3eb3a92
+// 98 capabilities, 928 providers, 5537 typed functions, 20 refused.
 // 128,318 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -79995,6 +79995,8 @@ interface OcadoSearchResult {
   url: string;
   total: number;
   products: OcadoProduct[];
+  warnings?: string[];
+  retriedWith?: string;
 }
 
 interface OcadoSearchProductsArgs {
@@ -80013,9 +80015,10 @@ interface OcadoSearchProductsArgs {
      * works too, including an old `?entry=` link). Returns Ocado's total match count and its first
      * page of products (up to ~50) in Ocado's own order — name, brand, size, current and was
      * price, offer text, unit price, rating, availability, category path, image and exact product
-     * url (`sponsored: true` marks the paid "Featured" slots). Ocado matches every word, so a long
-     * phrase can return 0 where a shorter one finds the product. Use this rather than read.page on
-     * an ocado.com search url, which is walled.
+     * url (`sponsored: true` marks the paid "Featured" slots). Ocado matches every word, so when a
+     * long phrase matches nothing it retries with shorter forms (size dropped, then the first
+     * three and two words) and says so in `retriedWith` and `warnings`; a zero always carries a
+     * warning. Use this rather than read.page on an ocado.com search url, which is walled.
      */
     searchProducts(args: OcadoSearchProductsArgs | string): Promise<OcadoSearchResult>;
   }
@@ -105627,6 +105630,48 @@ interface TagtransShipmentRateEmail { mailtoUrl: string; recipient: string; subj
   }
 }
 
+declare namespace BowmarkProvider_talkmezzo {
+  // ── Mezzo — the unit's own declarations, verbatim ──
+interface TalkmezzoSpeakerHit { id: string; slug: string; name: string; headline: string | null; image: string | null; unclaimed: boolean; url: string }
+interface TalkmezzoSpeakerEvent { name: string; slug: string | null; url: string | null; startDate: string | null; location: string | null }
+interface TalkmezzoSpeaker { slug: string; name: string; jobTitle: string | null; description: string | null; summary: string | null; image: string | null; location: string | null; topics: string[]; links: string[]; events: TalkmezzoSpeakerEvent[]; url: string }
+interface TalkmezzoEvent { id: string; slug: string; name: string; description: string | null; websiteUrl: string | null; orgType: string | null; city: string | null; country: string | null; editionCount: number; talkCount: number; topics: string[]; url: string }
+interface TalkmezzoTopicCategory { slug: string; name: string; topics: { slug: string; name: string; count: number }[] }
+interface TalkmezzoSearchSpeakersArgs { query: string; limit?: number }
+interface TalkmezzoGetSpeakerArgs { slug: string }
+interface TalkmezzoSearchEventsArgs { query?: string; limit?: number; offset?: number }
+
+  /**
+   * Mezzo (talkmezzo.com), the keynote-speaker index: search speakers, read a speaker's profile
+   * and speaking history, search conferences, list speaking topics.
+   */
+  interface Unit {
+    /**
+     * Search Mezzo's keynote speaker directory by name or keyword (e.g. 'innovation'), ranked by
+     * relevance. limit defaults to 10, max 50.
+     */
+    searchSpeakers(args: TalkmezzoSearchSpeakersArgs): Promise<{ speakers: TalkmezzoSpeakerHit[] }>;
+
+    /**
+     * A speaker's Mezzo profile by slug (from searchSpeakers, or a /speakers/<slug> url): bio, job
+     * title, topics, links and the events they spoke at.
+     */
+    getSpeaker(args: TalkmezzoGetSpeakerArgs): Promise<TalkmezzoSpeaker>;
+
+    /**
+     * Search or list the conferences and events Mezzo tracks, by name keyword (empty query lists
+     * all, paged with limit/offset; limit defaults to 20, max 100).
+     */
+    searchEvents(args?: TalkmezzoSearchEventsArgs): Promise<{ events: TalkmezzoEvent[]; total: number }>;
+
+    /**
+     * Mezzo's speaking-topic taxonomy: categories, each with topics and how many speakers cover
+     * them.
+     */
+    listTopics(): Promise<{ categories: TalkmezzoTopicCategory[] }>;
+  }
+}
+
 declare namespace BowmarkProvider_tamarackidaho {
   // ── Tamarack Resort — the unit's own declarations, verbatim ──
 interface tamarackidahoSearchArgs {
@@ -128029,6 +128074,7 @@ interface BowmarkProviders {
   szukajwarchiwach_gov_pl: BowmarkProvider_szukajwarchiwach_gov_pl.Unit;
   tableau_public: BowmarkProvider_tableau_public.Unit;
   tagtrans_net: BowmarkProvider_tagtrans_net.Unit;
+  talkmezzo: BowmarkProvider_talkmezzo.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
   tapfiliate: BowmarkProvider_tapfiliate.Unit;
   target: BowmarkProvider_target.Unit;

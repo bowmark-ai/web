@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7372 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7376 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -6082,6 +6082,10 @@ One function per row, with the site it is called on.
 | `tableau_public.searchWorkbooks` | public.tableau.com | Searches Tableau Public's gallery of published vizzes (workbooks) by keyword — a… | 🟢 |
 | `tagtrans_net.createShipmentRateEmail` | tagtrans.net | Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request… | 🟢 |
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
+| `talkmezzo.getSpeaker` | talkmezzo.com | A speaker's Mezzo profile by slug: bio, job title, topics, links and the events they… | 🟢 |
+| `talkmezzo.listTopics` | talkmezzo.com | Mezzo's speaking-topic taxonomy: categories with topics and speaker counts, from GET… | 🟢 |
+| `talkmezzo.searchEvents` | talkmezzo.com | Search or list the conferences and events Mezzo tracks by keyword, from GET /api/events. | 🟢 |
+| `talkmezzo.searchSpeakers` | talkmezzo.com | Search Mezzo's keynote speaker directory by name or keyword, from GET /api/search. | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
 | `tapfiliate.listAffiliates` | tapfiliate.com | Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by… | 🟢 |
 | `target.addToCart` | target.com | Adds one product (by TCIN) to the CALLER's own Target cart. | 🟢 |
@@ -7198,7 +7202,7 @@ One function per row, with the site it is called on.
 | `yelp.askQuestion` | yelp.com | Posts a question, or answers one, in a business's 'Ask the Community' from the… | ⚪ |
 | `yelp.followUser` | yelp.com | Follows or unfollows a Yelp member from the signed-in caller's account. | ⚪ |
 | `yelp.getBookmarks` | yelp.com | Lists the businesses the signed-in caller has bookmarked on Yelp (their own My… | 🟢 |
-| `yelp.getBusiness` | yelp.com | Reads one business's own schema.org listing off its /biz/<alias> page: name, phone… | 🟢 |
+| `yelp.getBusiness` | yelp.com | Reads one business's own schema.org listing off its /biz/<alias> page: name, phone… | 🟡 |
 | `yelp.getCollection` | yelp.com | Reads a public Yelp collection (a member's named list of places) from its… | 🟢 |
 | `yelp.getCollections` | yelp.com | Lists the signed-in caller's own Yelp collections (their My Collections page): id… | 🟢 |
 | `yelp.getMenu` | yelp.com | Reads a restaurant's menu from its /menu/<alias> page's own ld+json Menu block: each… | 🟢 |
