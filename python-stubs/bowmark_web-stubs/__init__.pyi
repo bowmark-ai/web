@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6eee2e1f39633cfca4f309bb42951c92ef79d7d6290ad3ada986325bd6985222
-# 98 capabilities, 925 providers, 5500 typed functions, 20 refused.
+# Manifest version: f89b8a75bef33ab5b9d4cef58eea1020c8aadb9d1220b985cc622a999ebdb0a5
+# 98 capabilities, 926 providers, 5504 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21885,6 +21885,31 @@ class Prv_dailymail_BrowseTopicArgs_In(TypedDict):
     id: str
     limit: NotRequired[float]
 
+class Prv_dailymail_GetHoroscopeArgs_In(TypedDict):
+    sign: str
+
+class Prv_dailymail_DailymailHoroscope_Out(TypedDict):
+    sign: str
+    dateRange: str
+    text: str
+    title: str
+    articleId: str
+    url: str
+    publishedDate: str | None
+    warnings: list[str]
+
+class Prv_dailymail_ListGamesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_dailymail_DailymailGame_Out(TypedDict):
+    id: str
+    gameId: str
+    title: str
+    description: str | None
+    url: str
+    image: str | None
+    label: str | None
+
 class Prv_dailymotion_SearchVideosArgs_In(TypedDict):
     query: str
     sort: NotRequired[Literal["relevance"] | Literal["recent"] | Literal["visited"] | Literal["trending"] | Literal["old"]]
@@ -26631,6 +26656,43 @@ class Prv_emirates_emiratesFlightTimes_Out(TypedDict):
     scheduled: str | None
     estimated: str | None
     actual: str | None
+
+class Prv_epic_fhir_GetCapabilityStatementArgs_In(TypedDict):
+    baseUrl: NotRequired[str]
+
+class Prv_epic_fhir_epic_fhirCapabilityStatement_Out(TypedDict):
+    baseUrl: str
+    fhirVersion: str | None
+    software: Prv_epic_fhir_epic_fhirCapabilityStatement_Out_software_Out
+    description: str | None
+    authorizeUrl: str | None
+    tokenUrl: str | None
+    securityServices: list[str]
+    resources: list[Prv_epic_fhir_epic_fhirResourceSupport_Out]
+
+class Prv_epic_fhir_epic_fhirCapabilityStatement_Out_software_Out(TypedDict):
+    name: str | None
+    version: str | None
+    releaseDate: str | None
+
+class Prv_epic_fhir_epic_fhirResourceSupport_Out(TypedDict):
+    type: str
+    interactions: list[str]
+    searchParams: list[Prv_epic_fhir_epic_fhirResourceSupport_Out_searchParams_item_Out]
+
+class Prv_epic_fhir_epic_fhirResourceSupport_Out_searchParams_item_Out(TypedDict):
+    name: str
+    type: str | None
+    documentation: str | None
+
+class Prv_epic_fhir_ListOrganizationEndpointsArgs_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_epic_fhir_epic_fhirOrganizationEndpoint_Out(TypedDict):
+    id: str
+    name: str
+    organization: str | None
+    address: str
 
 class Prv_epicgames_listTags_args_In(TypedDict):
     group: NotRequired[str]
@@ -95769,6 +95831,18 @@ class Prv_dailymail(Protocol):
         id from listTopics ("sciencetech/apple"). Optional limit, 1–100, default 30.
         """
 
+    async def getHoroscope(self, args: Prv_dailymail_GetHoroscopeArgs_In, /) -> Prv_dailymail_DailymailHoroscope_Out:
+        """One star sign's horoscope from the newest Daily Mail astrology column that covers all
+        twelve: the sign's paragraph, its date range, the column's headline, article id, url and
+        publish date. Takes a sign name ("leo"). The column is usually weekly.
+        """
+
+    async def listGames(self, args: Prv_dailymail_ListGamesArgs_In | None = None, /) -> list[Prv_dailymail_DailymailGame_Out]:
+        """The puzzles on Daily Mail's US games hub (sudoku, kenken, crosswords, …): slug, numeric
+        game id, title, tagline, play url, icon and any badge ("NEW"). The players run
+        client-side, so this lists them rather than playing. Optional limit, 1–100, default 50.
+        """
+
 class Prv_dailymotion(Protocol):
     """Search Dailymotion videos by keyword and read one video's title, channel, duration,
     views and watch URL — off Dailymotion's own keyless public API.
@@ -98191,6 +98265,23 @@ class Prv_emirates(Protocol):
         """Live status of an Emirates flight ("EK1") on a date: each leg's airports, status code,
         scheduled/estimated/actual departure and arrival, terminals and tail number; [] when
         Emirates has no such flight that day
+        """
+
+class Prv_epic_fhir(Protocol):
+    """Epic's FHIR R4 API: read a server's CapabilityStatement (supported resources, search
+    params, SMART OAuth URLs) for the fhir.epic.com sandbox or any Epic health system, and
+    look up a health system's FHIR base URL.
+    """
+
+    async def getCapabilityStatement(self, args: Prv_epic_fhir_GetCapabilityStatementArgs_In | None = None, /) -> Prv_epic_fhir_epic_fhirCapabilityStatement_Out:
+        """Reads an Epic FHIR R4 server's /metadata CapabilityStatement — every supported resource
+        with its interactions and search parameters, plus the SMART OAuth authorize/token URLs.
+        Defaults to the fhir.epic.com sandbox.
+        """
+
+    async def listOrganizationEndpoints(self, args: Prv_epic_fhir_ListOrganizationEndpointsArgs_In | None = None, /) -> list[Prv_epic_fhir_epic_fhirOrganizationEndpoint_Out]:
+        """Lists the health systems that run Epic with their production FHIR R4 base URLs, from
+        Epic's published open.epic endpoint directory, optionally filtered by name.
         """
 
 class Prv_epicgames(Protocol):
@@ -128636,6 +128727,7 @@ class BowmarkProviders(Protocol):
     elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
     emirates: Prv_emirates
+    epic_fhir: Prv_epic_fhir
     epicgames: Prv_epicgames
     epromos: Prv_epromos
     eq3: Prv_eq3

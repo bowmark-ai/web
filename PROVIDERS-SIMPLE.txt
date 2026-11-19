@@ -268,7 +268,7 @@ curiocity.com — curiocity: listEvents
 currys.co.uk — currys: listClearance, search (+2 planned)
 cve.circl.lu — circl: getCve, search
 cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuild
-dailymail.com — dailymail: browseSection, browseTopic, getArticle, getAuthor, getVideo, listLatest, listSections, listTopics, listVideos, searchArticles (+14 planned)
+dailymail.com — dailymail: browseSection, browseTopic, getArticle, getAuthor, getHoroscope, getVideo, listGames, listLatest, listSections, listTopics, listVideos, searchArticles (+12 planned)
 dailymotion.com — dailymotion: 37 functions — ask get_library
 dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
 dat.com — dat: loadToTruckRatio, nationalSpotRates, rateTrend
@@ -382,7 +382,7 @@ fredericton.ca, dieppe.ca — municipal_recreation_fees_fetcher: getFeeSchedule
 freightliner.com — freightliner: nothing callable yet (+1 planned)
 fresha.com — fresha: getAvailability, getBookingQuote, getSearchSuggestions, getVenue, getVenuePhotos, getVenueReviews, searchVenues (+26 planned)
 frontiersin.org — frontiersin: searchArticles, searchJournals
-furniture.com — furniture: listCategories, listFilterOptions, searchProducts
+furniture.com — furniture: listCategories, listFilterOptions (+1 planned)
 g2.com — g2: getProduct, listReviews, search
 games.nytimes.com — nyt_games: getConnections, getCrosswordArchive, getCrosswordDaily, getCrosswordMidi, getCrosswordMini, getLetterBoxed, getPips, getSpellingBee, getSportsConnections, getStrands, getSudoku, getTiles, getWordle, listBonusPuzzles, listCrosswordPuzzles, saveWordleGame (+2 planned)
 gasbuddy.com — gasbuddy: findCheapestNearby

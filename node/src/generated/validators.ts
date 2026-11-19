@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6eee2e1f39633cfca4f309bb42951c92ef79d7d6290ad3ada986325bd6985222
-// 5500 checked, 20 unchecked.
+// Manifest version: f89b8a75bef33ab5b9d4cef58eea1020c8aadb9d1220b985cc622a999ebdb0a5
+// 5504 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6eee2e1f39633cfca4f309bb42951c92ef79d7d6290ad3ada986325bd6985222",
+  "version": "f89b8a75bef33ab5b9d4cef58eea1020c8aadb9d1220b985cc622a999ebdb0a5",
   "units": {
     "address_validation": {
       "defs": {
@@ -42818,6 +42818,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetHoroscopeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sign",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -42827,6 +42839,18 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListGamesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -43011,6 +43035,26 @@ export const VALIDATORS: ValidatorTable = {
               "name": "BrowseTopicArgs"
             },
             "optional": false
+          }
+        ],
+        "getHoroscope": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHoroscopeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listGames": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListGamesArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -53657,6 +53701,56 @@ export const VALIDATORS: ValidatorTable = {
               "name": "emiratesFlightStatusQuery"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.epic_fhir": {
+      "defs": {
+        "GetCapabilityStatementArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "baseUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListOrganizationEndpointsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getCapabilityStatement": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCapabilityStatementArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listOrganizationEndpoints": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListOrganizationEndpointsArgs"
+            },
+            "optional": true
           }
         ]
       }

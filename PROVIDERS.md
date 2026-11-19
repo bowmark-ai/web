@@ -959,7 +959,7 @@ One function per row, with the site it is called on.
 | `bungalow.listMarkets` | bungalow.com | Lists every market Bungalow currently operates in — city, region and country, plus the… | 🟢 |
 | `bungalow.searchListings` | bungalow.com | Searches Bungalow's live, priced room and whole-home rental inventory in one market —… | 🟢 |
 | `businessinsider_com.findTicker` | businessinsider.com | Resolve a company or asset name to its market symbol and markets.businessinsider.com… | 🟢 |
-| `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | 🟡 |
+| `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | 🟢 |
 | `businessinsider_com.getArticleComments` | businessinsider.com | Read the public comments/discussion thread under one article. | 🟢 |
 | `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | 🟢 |
 | `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟡 |
@@ -1680,10 +1680,10 @@ One function per row, with the site it is called on.
 | `dailymail.getAuthor` | dailymail.com | Reads one Daily Mail author or columnist's profile — name, photo and the stories the… | 🟢 |
 | `dailymail.getCommentReplies` | dailymail.com | Reads the replies under one reader comment on a Daily Mail article, given the comment… | ⚪ |
 | `dailymail.getCurrentUser` | dailymail.com | Reads the signed-in caller's Daily Mail account — display name, email, location and… | ⚪ |
-| `dailymail.getHoroscope` | dailymail.com | Reads this week's or today's horoscope for one star sign from Daily Mail's astrology… | ⚪ |
+| `dailymail.getHoroscope` | dailymail.com | Reads this week's or today's horoscope for one star sign from Daily Mail's astrology… | 🟢 |
 | `dailymail.getVideo` | dailymail.com | Reads one Daily Mail video — title, description, duration, date, thumbnail and the… | 🟢 |
 | `dailymail.listColumnists` | dailymail.com | Lists Daily Mail's columnists with name, profile url and their latest column. | ⚪ |
-| `dailymail.listGames` | dailymail.com | Lists the puzzles and games on Daily Mail's games hub (sudoku, kenken, kakuro… | ⚪ |
+| `dailymail.listGames` | dailymail.com | Lists the puzzles and games on Daily Mail's games hub (sudoku, kenken, kakuro… | 🟢 |
 | `dailymail.listLatest` | dailymail.com | The newest stories across Daily Mail, in the order its own latest list shows them… | 🟢 |
 | `dailymail.listMyComments` | dailymail.com | Lists the comments the signed-in caller has posted on Daily Mail, with article and… | ⚪ |
 | `dailymail.listNewsletters` | dailymail.com | Lists Daily Mail's email newsletters with name, description and list id. | ⚪ |
@@ -2811,7 +2811,7 @@ One function per row, with the site it is called on.
 | `frontiersin.searchJournals` | frontiersin.org | Search Frontiers' journals (Frontiers in Neuroscience, Psychology, Immunology, …) by… | 🟢 |
 | `furniture.listCategories` | furniture.com | Lists furniture.com's real category taxonomy (Sofas & Couches, Mattresses, Platform… | 🟢 |
 | `furniture.listFilterOptions` | furniture.com | Lists furniture.com's live filter facets and their real, currently offered values —… | 🟢 |
-| `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟡 |
+| `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🔴 |
 | `g2.getProduct` | g2.com | Reads one product's `/products/<slug>/reviews` page for its published aggregate rating… | 🟢 |
 | `g2.listReviews` | g2.com | The 25 most recent reviews of one G2 product, off G2's own per-product review feed —… | 🟢 |
 | `g2.search` | g2.com | Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a… | 🟡 |

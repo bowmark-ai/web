@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6eee2e1f39633cfca4f309bb42951c92ef79d7d6290ad3ada986325bd6985222
-// 98 capabilities, 925 providers, 5528 typed functions, 20 refused.
+// Manifest version: f89b8a75bef33ab5b9d4cef58eea1020c8aadb9d1220b985cc622a999ebdb0a5
+// 98 capabilities, 926 providers, 5532 typed functions, 20 refused.
 // 128,318 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -33782,6 +33782,35 @@ interface GetArticleArgs {
   id: string;
 }
 
+interface GetHoroscopeArgs {
+  sign: string;
+}
+
+interface DailymailHoroscope {
+  sign: string;
+  dateRange: string;
+  text: string;
+  title: string;
+  articleId: string;
+  url: string;
+  publishedDate: string | null;
+  warnings: string[];
+}
+
+interface ListGamesArgs {
+  limit?: number;
+}
+
+interface DailymailGame {
+  id: string;
+  gameId: string;
+  title: string;
+  description: string | null;
+  url: string;
+  image: string | null;
+  label: string | null;
+}
+
 interface ListVideosArgs {
   channel?: string;
   limit?: number;
@@ -33915,6 +33944,20 @@ interface DailymailArticleDetail {
      * from listTopics ("sciencetech/apple"). Optional limit, 1–100, default 30.
      */
     browseTopic(args: BrowseTopicArgs): Promise<DailymailArticle[]>;
+
+    /**
+     * One star sign's horoscope from the newest Daily Mail astrology column that covers all
+     * twelve: the sign's paragraph, its date range, the column's headline, article id, url and
+     * publish date. Takes a sign name ("leo"). The column is usually weekly.
+     */
+    getHoroscope(args: GetHoroscopeArgs): Promise<DailymailHoroscope>;
+
+    /**
+     * The puzzles on Daily Mail's US games hub (sudoku, kenken, crosswords, …): slug, numeric game
+     * id, title, tagline, play url, icon and any badge ("NEW"). The players run client-side, so
+     * this lists them rather than playing. Optional limit, 1–100, default 50.
+     */
+    listGames(args?: ListGamesArgs): Promise<DailymailGame[]>;
   }
 }
 
@@ -40391,6 +40434,60 @@ interface emiratesFlightStatusQuery { flight: string | number; date?: string }
      * Emirates has no such flight that day
      */
     flightStatus(query: emiratesFlightStatusQuery): Promise<emiratesFlightStatus[]>;
+  }
+}
+
+declare namespace BowmarkProvider_epic_fhir {
+  // ── Epic on FHIR — the unit's own declarations, verbatim ──
+interface GetCapabilityStatementArgs {
+  /** A FHIR R4 base URL. Defaults to Epic's public sandbox, https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4. */
+  baseUrl?: string;
+}
+interface ListOrganizationEndpointsArgs {
+  /** Case-insensitive part of a health system's name, e.g. "Mayo". Omit for all (~480). */
+  query?: string;
+}
+interface epic_fhirResourceSupport {
+  type: string;
+  interactions: string[];
+  searchParams: { name: string; type: string | null; documentation: string | null }[];
+}
+interface epic_fhirCapabilityStatement {
+  baseUrl: string;
+  fhirVersion: string | null;
+  software: { name: string | null; version: string | null; releaseDate: string | null };
+  description: string | null;
+  authorizeUrl: string | null;
+  tokenUrl: string | null;
+  securityServices: string[];
+  resources: epic_fhirResourceSupport[];
+}
+interface epic_fhirOrganizationEndpoint {
+  id: string;
+  name: string;
+  organization: string | null;
+  /** The organization's production FHIR R4 base URL. */
+  address: string;
+}
+
+  /**
+   * Epic's FHIR R4 API: read a server's CapabilityStatement (supported resources, search params,
+   * SMART OAuth URLs) for the fhir.epic.com sandbox or any Epic health system, and look up a
+   * health system's FHIR base URL.
+   */
+  interface Unit {
+    /**
+     * Reads an Epic FHIR R4 server's /metadata CapabilityStatement — every supported resource with
+     * its interactions and search parameters, plus the SMART OAuth authorize/token URLs. Defaults
+     * to the fhir.epic.com sandbox.
+     */
+    getCapabilityStatement(args?: GetCapabilityStatementArgs): Promise<epic_fhirCapabilityStatement>;
+
+    /**
+     * Lists the health systems that run Epic with their production FHIR R4 base URLs, from Epic's
+     * published open.epic endpoint directory, optionally filtered by name.
+     */
+    listOrganizationEndpoints(args?: ListOrganizationEndpointsArgs): Promise<epic_fhirOrganizationEndpoint[]>;
   }
 }
 
@@ -127418,6 +127515,7 @@ interface BowmarkProviders {
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
   emirates: BowmarkProvider_emirates.Unit;
+  epic_fhir: BowmarkProvider_epic_fhir.Unit;
   epicgames: BowmarkProvider_epicgames.Unit;
   epromos: BowmarkProvider_epromos.Unit;
   eq3: BowmarkProvider_eq3.Unit;
