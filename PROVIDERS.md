@@ -2204,7 +2204,7 @@ One function per row, with the site it is called on.
 | `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | 🟢 |
 | `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | 🟢 |
 | `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | 🟢 |
-| `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | 🟡 |
+| `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | 🟢 |
 | `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | 🟢 |
 | `epicgames.listOrders` | epicgames.com | The signed-in caller's Epic purchase history, newest first, returned raw; pass the… | 🟢 |
 | `epicgames.listTags` | epicgames.com | The store's browse tags — genres, features, platforms, events and player-poll tags —… | 🟢 |
@@ -5534,7 +5534,7 @@ One function per row, with the site it is called on.
 | `sevenrooms.listExperiences` | sevenrooms.com | Lists a venue's bookable experiences and events — tasting menus, holiday seatings… | ⚪ |
 | `sevenrooms.listMyMemberships` | sevenrooms.com | Lists the venue loyalty and membership programmes the signed-in guest belongs to. | ⚪ |
 | `sevenrooms.listMyReservations` | sevenrooms.com | Lists the signed-in guest's SevenRooms reservations across every venue, split into… | 🟢 |
-| `sevenrooms.listUpgrades` | sevenrooms.com | Lists a venue's bookable add-ons — champagne, a cake, a private-dining menu, a bottle… | 🟡 |
+| `sevenrooms.listUpgrades` | sevenrooms.com | Lists a venue's bookable add-ons — champagne, a cake, a private-dining menu, a bottle… | 🟢 |
 | `sevenrooms.modifyReservation` | sevenrooms.com | Moves an existing reservation to another open slot — a new date, time or party size —… | ⚪ |
 | `sevenrooms.submitRequest` | sevenrooms.com | When no slot fits, submits a booking request to the venue for a date, time window and… | ⚪ |
 | `sevenrooms.updateMyProfile` | sevenrooms.com | Edits the signed-in guest's SevenRooms profile: name and contact details, profile… | ⚪ |

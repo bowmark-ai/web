@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f89b8a75bef33ab5b9d4cef58eea1020c8aadb9d1220b985cc622a999ebdb0a5
-# 98 capabilities, 926 providers, 5504 typed functions, 20 refused.
+# Manifest version: 9493c812e1093a8667901b2d5c9a8df260dee73cc9302102c187ac640a38e352
+# 98 capabilities, 927 providers, 5505 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16946,6 +16946,20 @@ class Prv_cdc_CdcSearchResult_Out(TypedDict):
     description: str | None
     updated: str | None
     snippet: str | None
+
+class Prv_cdiscount_SearchArgs_In(TypedDict):
+    query: str
+
+class Prv_cdiscount_CdiscountSearchResult_Out(TypedDict):
+    productId: str
+    title: str
+    url: str
+    image: str | None
+    price: float | None
+    currency: Literal["EUR"]
+    rating: float | None
+    reviewCount: float
+    matchesQuery: bool
 
 class Prv_census_searchTables_args_In(TypedDict):
     query: str
@@ -86033,20 +86047,21 @@ class Cap_web_form_fields(Protocol):
     field naming (Oracle ADF Faces, JSF — fresh `jsessionid`/`jfwid`-bound ids per page
     load), `getFields` and `fillForm` make separate requests and can see DIFFERENT ids for
     the same field; if `getFields` finds a field `fillForm` then reports in `notFound`, that
-    mismatch is why — try `bowmark.read.page` or a direct API/export instead. On a form that
-    a click reveals, pass the same `open` text to `getFields` and to `fillForm`: each call
-    loads the page afresh, so a `fillForm` without it can miss the form `getFields` found.
-    The result's `openedWith` says which control was clicked; that same control can also be
-    the one that submits the form, so pass `submit: true` when you want to commit it.
-    `getFields` is read-only. `fillForm` writes answers into those same fields and can click
-    'Next'/'Continue' to advance a multi-step flow, or the control that finally commits it —
-    one call, one step; call it again for the next step. When a CAPTCHA appears, common
-    kinds are solved automatically (reCAPTCHA v2/v3, Cloudflare, Turnstile, hCaptcha,
-    DataDome, AWS WAF, image); unsupported kinds return `needs_input` and wait for a person
-    to solve at `watchUrl`. **This is for a form — a booking widget, a quote calculator, an
-    application — not for reading a static page.** A product listing, a search-results page,
-    an article: those already show what you need, so `bowmark.read.page` is the right call,
-    not this one.
+    mismatch is why — try `bowmark.read.page` or a direct API/export instead. On any form
+    reveal — a button, checkbox or other control — pass the same `open` text to `getFields`
+    and `fillForm`. Each `fillForm` call starts from a fresh page load, so on a multi-step
+    form resupply every earlier answer along with the new one. The result's `openedWith`
+    says which control was clicked; that same control can also be the one that submits the
+    form, so pass `submit: true` when you want to commit it. `getFields` is read-only.
+    `fillForm` writes answers into those same fields and can click 'Next'/'Continue' to
+    advance a multi-step flow, or the control that finally commits it — one call, one step;
+    call it again for the next step. When a CAPTCHA appears, common kinds are solved
+    automatically (reCAPTCHA v2/v3, Cloudflare, Turnstile, hCaptcha, DataDome, AWS WAF,
+    image); unsupported kinds return `needs_input` and wait for a person to solve at
+    `watchUrl`. **This is for a form — a booking widget, a quote calculator, an application
+    — not for reading a static page.** A product listing, a search-results page, an article:
+    those already show what you need, so `bowmark.read.page` is the right call, not this
+    one.
     """
 
     async def getFields(self, url: str, options: Cap_web_form_fields_FormOptions_In | None = None, /) -> Cap_web_form_fields_FormInspectionResult_Out:
@@ -92973,6 +92988,14 @@ class Prv_cdc(Protocol):
         match count plus ranked pages with title, url, description, updated date and a text
         snippet. results is [] when nothing matches.
         """
+
+class Prv_cdiscount(Protocol):
+    """Search Cdiscount (cdiscount.com), the French retailer, for products by name — price in
+    euros, rating, link
+    """
+
+    async def search(self, args: Prv_cdiscount_SearchArgs_In, /) -> list[Prv_cdiscount_CdiscountSearchResult_Out]:
+        """Search cdiscount.com products by name and get price, rating and url for each result"""
 
 class Prv_census(Protocol):
     """US Census Bureau data explorer (data.census.gov): search Census data tables, read a
@@ -107367,17 +107390,18 @@ class Prv_linkedin(Protocol):
         """Returns the open roles one named company is currently advertising — the hiring-signal
         read: what a company is building right now. Unlike `searchJobs`, this filters to that
         company; use `searchJobs` for a keyword search, whose matches can broaden beyond the
-        keywords. Returns 10 rows by default. Pass `limit` to request more, up to 1000.
-        `searchJobs` filtered to that one employer, not a distinct surface: it resolves the
-        company's numeric LinkedIn id off its public page (one `getCompany` call, no session)
-        and adds LinkedIn's own `f_C=<id>` employer filter to the same guest job-search surface
-        `searchJobs` uses, so every row, the paging, the empty-page retries and the 1000-row
-        wall are identical. Takes the same second-argument shape as `searchJobs` (`{keywords,
-        location, geoId, postedWithin, limit}`) for narrowing further — "this company's jobs in
-        Iceland" — and defaults `location` to "Worldwide" only when none of those three is
-        given, because `f_C` alone answers the surface's own spurious-empty body on every
-        attempt (measured 2026-10-20) rather than listing anything. Throws when the handle does
-        not resolve to a public company page, exactly as `getCompany` does.
+        keywords. Returns 10 rows by default. Pass `limit` to request more, up to 1000. Pass
+        `location` for a market, for example `{ location: "Sweden" }`; when location, geoId and
+        keywords are all absent, it searches "Worldwide". This is a current sample, not a stable
+        snapshot, so repeated pulls are not reliable for a diff. If a handle is wrong, call
+        `searchCompanies` first. `searchJobs` filtered to that one employer, not a distinct
+        surface: it resolves the company's numeric LinkedIn id off its public page (one
+        `getCompany` call, no session) and adds LinkedIn's own `f_C=<id>` employer filter to the
+        same guest job-search surface `searchJobs` uses, so every row, the paging, the
+        empty-page retries and the 1000-row wall are identical. Takes the same second-argument
+        shape as `searchJobs` (`{keywords, location, geoId, postedWithin, limit}`) for narrowing
+        further — "this company's jobs in Iceland". Throws when the handle does not resolve to a
+        public company page, with guidance to find the current handle.
         """
 
     async def getCompany(self, urlOrHandle: str, /) -> Prv_linkedin_LinkedinCompany_Out:
@@ -128613,6 +128637,7 @@ class BowmarkProviders(Protocol):
     cbs_sports: Prv_cbs_sports
     cbsnews: Prv_cbsnews
     cdc: Prv_cdc
+    cdiscount: Prv_cdiscount
     census: Prv_census
     census_api: Prv_census_api
     cerebralvalley: Prv_cerebralvalley
