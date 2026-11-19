@@ -817,7 +817,7 @@ sweathouz.com — sweathouz: book, cancel, findStudio, getAvailability, getPrici
 szukajwarchiwach.gov.pl — szukajwarchiwach_gov_pl: getFond, searchFonds
 t-mobile.com — tmobile: getUpgradeOffer
 tagtrans.net — tagtrans_net: createShipmentRateEmail, getShipmentRateForm
-talkmezzo.com — talkmezzo: getSpeaker, listTopics, searchEvents, searchSpeakers
+talkmezzo.com — talkmezzo: getSpeaker, listClaimedSpeakers, listTopics, revealContact, searchEvents, searchSpeakers
 tamarackidaho.com — tamarackidaho: searchLodging
 tapfiliate.com — tapfiliate: listAffiliates
 target.com — target: addToCart, addToList, checkStock, findStore, getCart, getProduct, getRegistry, listCategories, listCategoryProducts, listDeals, listOrders, listQuestions, listReviews, listWishlists, removeFromCart, reviewPhotos, search, writeReview (+2 planned)
@@ -911,7 +911,7 @@ washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getElecti
 waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)
 wearehirschfeld.com — wearehirschfeld: getContactForm, listPages
-weather.com — weather_channel: 28 functions — ask get_library (+2 planned)
+weather.com — weather_channel: 29 functions — ask get_library (+1 planned)
 webpt.com — webpt: getPage, listPages, searchPages
 webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)

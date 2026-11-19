@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 241e9c0b99f64887aea9a06e59d649dee65b8785e5844dc1d574318bdce1ec14
-# 98 capabilities, 929 providers, 5510 typed functions, 20 refused.
+# Manifest version: cd0c2c9cc5363693fe570caa3cd4a9f5fc62f671b1f05db62cab04cc916b11cb
+# 98 capabilities, 929 providers, 5512 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -70179,6 +70179,20 @@ class Prv_tagtrans_net_TagtransShipmentRateEmail_Out(TypedDict):
     subject: str
     body: str
 
+class Prv_talkmezzo_revealContact_args_In(TypedDict):
+    speakerId: str
+
+class Prv_talkmezzo_TalkmezzoContactReveal_Out(TypedDict):
+    speakerId: str
+    revealed: bool
+    requiresAuth: bool
+    hasContact: bool
+    contact: Mapping[str, Any] | None
+
+class Prv_talkmezzo_TalkmezzoClaimedSpeakers_Out(TypedDict):
+    speakers: list[Mapping[str, Any]]
+    total: float
+
 class Prv_talkmezzo_TalkmezzoSearchSpeakersArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -121298,6 +121312,15 @@ class Prv_talkmezzo(Protocol):
     """Mezzo (talkmezzo.com), the keynote-speaker index: search speakers, read a speaker's
     profile and speaking history, search conferences, list speaking topics.
     """
+
+    async def revealContact(self, args: Prv_talkmezzo_revealContact_args_In, opts: ConnectionOption | None = None, /) -> Prv_talkmezzo_TalkmezzoContactReveal_Out:
+        """Reveals a speaker's contact details for the signed-in caller (speakerId is the id from
+        searchSpeakers). Returns revealed / requiresAuth / hasContact flags plus contact data
+        when the account may see it.
+        """
+
+    async def listClaimedSpeakers(self, opts: ConnectionOption | None = None, /) -> Prv_talkmezzo_TalkmezzoClaimedSpeakers_Out:
+        """Lists the speaker profiles the signed-in caller's account has claimed on Mezzo."""
 
     async def searchSpeakers(self, args: Prv_talkmezzo_TalkmezzoSearchSpeakersArgs_In, /) -> Prv_talkmezzo_searchSpeakers_return_Out:
         """Search Mezzo's keynote speaker directory by name or keyword (e.g. 'innovation'), ranked

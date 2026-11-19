@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7377 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7379 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -6024,7 +6024,7 @@ One function per row, with the site it is called on.
 | `substack.post` | substack.com | Reads one Substack post by URL (or publication + slug): title, authors, date, likes… | 🟢 |
 | `substack.posts` | substack.com | Lists a Substack newsletter's posts, newest first, from the publication's own archive… | 🟢 |
 | `substack.search` | substack.com | Searches Substack for newsletters, writers and posts by keyword or name ('product… | 🟢 |
-| `suitsupply.getProduct` | suitsupply.com | Reads one product page's stock check: every size variant with in-stock flag, max… | 🟢 |
+| `suitsupply.getProduct` | suitsupply.com | Reads one product page's stock check: every size variant with in-stock flag, max… | 🟡 |
 | `suitsupply.listCategory` | suitsupply.com | Lists one men's category grid (suits, jackets, coats, knitwear, shirts, trousers… | 🟢 |
 | `suitsupply.search` | suitsupply.com | Keyword search of Suitsupply's US men's clothing store — suits, sweaters/knitwear… | 🟢 |
 | `summerfridaysquiz.getSkincareQuizQuestions` | summerfridays.com | Lists the live Skincare Quiz's questions (skin type, sensitivity, skin concerns, eye… | 🟢 |
@@ -6083,7 +6083,9 @@ One function per row, with the site it is called on.
 | `tagtrans_net.createShipmentRateEmail` | tagtrans.net | Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request… | 🟢 |
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
 | `talkmezzo.getSpeaker` | talkmezzo.com | A speaker's Mezzo profile by slug: bio, job title, topics, links and the events they… | 🟢 |
+| `talkmezzo.listClaimedSpeakers` | talkmezzo.com | Lists the speaker profiles the signed-in caller's account has claimed on Mezzo, with a… | 🟢 |
 | `talkmezzo.listTopics` | talkmezzo.com | Mezzo's speaking-topic taxonomy: categories with topics and speaker counts, from GET… | 🟢 |
+| `talkmezzo.revealContact` | talkmezzo.com | Reveals a speaker's contact details for the signed-in caller by speakerId: revealed… | 🟢 |
 | `talkmezzo.searchEvents` | talkmezzo.com | Search or list the conferences and events Mezzo tracks by keyword, from GET /api/events. | 🟢 |
 | `talkmezzo.searchSpeakers` | talkmezzo.com | Search Mezzo's keynote speaker directory by name or keyword, from GET /api/search. | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
@@ -6843,7 +6845,7 @@ One function per row, with the site it is called on.
 | `weather_channel.getPlayback` | weather.com | Plays a weather.com video: its own MP4 file and the HLS playlist, no ads, no expiry. | 🟢 |
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
 | `weather_channel.getPollenHealth` | weather.com | 5-day cold & flu or migraine risk for a place — weather.com's health forecast. | 🟢 |
-| `weather_channel.getRadarTiles` | weather.com | Radar map layers weather.com's own map draws — latest frame timestamps and a tile URL… | 🔴 |
+| `weather_channel.getRadarTiles` | weather.com | Radar map layers weather.com's own map draws — latest frame timestamps and a tile URL… | 🟢 |
 | `weather_channel.getRainTiming` | weather.com | When will it start (or stop) raining here — the site's one-sentence answer with the… | 🟢 |
 | `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | 🟢 |
 | `weather_channel.getTropicalForecastPath` | weather.com | Where each active hurricane/tropical storm is forecast to be over the coming days, and… | 🟢 |

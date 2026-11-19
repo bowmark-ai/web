@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 241e9c0b99f64887aea9a06e59d649dee65b8785e5844dc1d574318bdce1ec14
-// 5510 checked, 20 unchecked.
+// Manifest version: cd0c2c9cc5363693fe570caa3cd4a9f5fc62f671b1f05db62cab04cc916b11cb
+// 5512 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "241e9c0b99f64887aea9a06e59d649dee65b8785e5844dc1d574318bdce1ec14",
+  "version": "cd0c2c9cc5363693fe570caa3cd4a9f5fc62f671b1f05db62cab04cc916b11cb",
   "units": {
     "address_validation": {
       "defs": {
@@ -147529,6 +147529,58 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "revealContact": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "speakerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listClaimedSpeakers": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "searchSpeakers": [
           {
             "name": "args",

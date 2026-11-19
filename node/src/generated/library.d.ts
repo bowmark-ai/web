@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 241e9c0b99f64887aea9a06e59d649dee65b8785e5844dc1d574318bdce1ec14
-// 98 capabilities, 929 providers, 5538 typed functions, 20 refused.
+// Manifest version: cd0c2c9cc5363693fe570caa3cd4a9f5fc62f671b1f05db62cab04cc916b11cb
+// 98 capabilities, 929 providers, 5540 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -105661,6 +105661,8 @@ interface TagtransShipmentRateEmail { mailtoUrl: string; recipient: string; subj
 
 declare namespace BowmarkProvider_talkmezzo {
   // ── Mezzo — the unit's own declarations, verbatim ──
+interface TalkmezzoContactReveal { speakerId: string; revealed: boolean; requiresAuth: boolean; hasContact: boolean; contact: Record<string, unknown> | null }
+interface TalkmezzoClaimedSpeakers { speakers: Record<string, unknown>[]; total: number }
 interface TalkmezzoSpeakerHit { id: string; slug: string; name: string; headline: string | null; image: string | null; unclaimed: boolean; url: string }
 interface TalkmezzoSpeakerEvent { name: string; slug: string | null; url: string | null; startDate: string | null; location: string | null }
 interface TalkmezzoSpeaker { slug: string; name: string; jobTitle: string | null; description: string | null; summary: string | null; image: string | null; location: string | null; topics: string[]; links: string[]; events: TalkmezzoSpeakerEvent[]; url: string }
@@ -105675,6 +105677,16 @@ interface TalkmezzoSearchEventsArgs { query?: string; limit?: number; offset?: n
    * and speaking history, search conferences, list speaking topics.
    */
   interface Unit {
+    /**
+     * Reveals a speaker's contact details for the signed-in caller (speakerId is the id from
+     * searchSpeakers). Returns revealed / requiresAuth / hasContact flags plus contact data when
+     * the account may see it.
+     */
+    revealContact(args: { speakerId: string }, opts?: ConnectionOption): Promise<TalkmezzoContactReveal>;
+
+    /** Lists the speaker profiles the signed-in caller's account has claimed on Mezzo. */
+    listClaimedSpeakers(opts?: ConnectionOption): Promise<TalkmezzoClaimedSpeakers>;
+
     /**
      * Search Mezzo's keynote speaker directory by name or keyword (e.g. 'innovation'), ranked by
      * relevance. limit defaults to 10, max 50.
