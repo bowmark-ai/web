@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 14306cc90e7a4af32309817ac7f3b785eb08e991cc74d2a36eb35fba8b0a8a58
-# 98 capabilities, 930 providers, 5518 typed functions, 20 refused.
+# Manifest version: 9719a1731b41a86ee30e810307cb90d0cb6a2af254e0cba61795562c2df36aea
+# 98 capabilities, 931 providers, 5521 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -30424,6 +30424,44 @@ class Prv_fareharbor_FareharborBookingResult_Out(TypedDict):
     totalDueCents: float | None
     checkoutUrl: str
 
+class Prv_faros_FarosRestaurant_Out(TypedDict):
+    name: str
+    largePartyNote: str | None
+    emailForPartiesOf: float | None
+    locations: list[Prv_faros_FarosLocation_Out]
+    url: str
+
+class Prv_faros_FarosLocation_Out(TypedDict):
+    location: Literal["oxford_circus"] | Literal["holborn"]
+    name: str
+    address: list[str]
+    email: str | None
+    phone: str | None
+    hours: list[str]
+    openTableRestaurantId: float | None
+    bookingUrl: str
+
+class Prv_faros_FarosMenuRow_Out(TypedDict):
+    location: Literal["oxford_circus"] | Literal["holborn"]
+    name: str
+    pdfUrl: str
+    menuPageUrl: str
+    format: Literal["PDF"]
+
+class Prv_faros_FarosMenuInput_In(TypedDict):
+    location: Literal["oxford_circus"] | Literal["holborn"] | Literal["Oxford Circus"] | Literal["Holborn"]
+    pages: NotRequired[str]
+
+class Prv_faros_FarosMenu_Out(TypedDict):
+    location: Literal["oxford_circus"] | Literal["holborn"]
+    pdfUrl: str
+    pageCount: float
+    pages: list[Prv_faros_FarosMenu_Out_pages_item_Out]
+
+class Prv_faros_FarosMenu_Out_pages_item_Out(TypedDict):
+    page: float
+    lines: list[str]
+
 class Prv_faroutmagazine_LatestArgs_In(TypedDict):
     page: NotRequired[float]
     limit: NotRequired[float]
@@ -33416,6 +33454,7 @@ class Prv_github_GithubFileContents_Out(TypedDict):
     url: str
     downloadUrl: str | None
     entries: list[Prv_github_GithubDirectoryEntry_Out]
+    warnings: NotRequired[list[str]]
 
 class Prv_github_GithubDirectoryEntry_Out(TypedDict):
     name: str
@@ -33492,6 +33531,7 @@ class Prv_github_GithubReadme_Out(TypedDict):
     content: str
     url: str
     downloadUrl: str | None
+    warnings: NotRequired[list[str]]
 
 class Prv_github_GithubRepository_Out(TypedDict):
     name: str
@@ -33506,6 +33546,7 @@ class Prv_github_GithubRepository_Out(TypedDict):
     createdAt: str
     updatedAt: str
     url: str
+    warnings: list[str]
 
 class Prv_github_GithubProfileReadme_Out(TypedDict):
     login: str
@@ -33716,6 +33757,7 @@ class Prv_github_GithubIssueDetail_Out(TypedDict):
     locked: bool
     closedBy: str | None
     reactions: Prv_github_GithubIssueReactions_Out
+    warnings: NotRequired[list[str]]
 
 class Prv_github_GithubIssueReactions_Out(TypedDict):
     total: float
@@ -33746,6 +33788,7 @@ class Prv_github_GithubPullRequestDetail_Out(TypedDict):
     locked: bool
     closedBy: str | None
     reactions: Prv_github_GithubPullRequestReactions_Out
+    warnings: NotRequired[list[str]]
 
 class Prv_github_GithubPullRequestReactions_Out(TypedDict):
     total: float
@@ -100066,6 +100109,30 @@ class Prv_fareharbor(Protocol):
         refused in FareHarbor's own words with the checkout url. Returns the order uuid.
         """
 
+class Prv_faros(Protocol):
+    """Faros (farosrestaurant.co.uk), an Italian and Mediterranean restaurant in London (Oxford
+    Circus and Holborn): its two locations' address, phone, email, hours and OpenTable id,
+    and each location's menu read as text.
+    """
+
+    async def getRestaurant(self, /) -> Prv_faros_FarosRestaurant_Out:
+        """Reads Faros's booking page live: both restaurants (Oxford Circus, Holborn) with address,
+        email, phone, opening hours and the OpenTable restaurant id (pass it to
+        bowmark.providers.opentable.checkAvailability for free tables), plus the note that
+        parties of 7+ book by email.
+        """
+
+    async def listMenus(self, /) -> list[Prv_faros_FarosMenuRow_Out]:
+        """Lists the menus Faros publishes, one PDF per restaurant (Oxford Circus, Holborn), with
+        the PDF link and the menu page opened at that tab. getMenu reads one as text.
+        """
+
+    async def getMenu(self, input: Prv_faros_FarosMenuInput_In, /) -> Prv_faros_FarosMenu_Out:
+        """Reads one Faros restaurant's menu as text from its PDF: food, cocktails, wine, spirits
+        and desserts with prices in pounds and the (V)/(VG) marks, page by page in reading
+        order. pages limits the read, e.g. "1-3".
+        """
+
 class Prv_faroutmagazine(Protocol):
     """Far Out Magazine (faroutmagazine.co.uk), the UK music, film and culture magazine: latest
     stories, keyword search over recent stories, and full article text.
@@ -101864,8 +101931,9 @@ class Prv_github(Protocol):
         which moves on events other than commits (issues, stars, settings), so it is not the
         date of the last commit: for that, use `bowmark.git_commit_history.commitHistory`. Off
         GitHub's own documented unauthenticated REST repos endpoint. Takes an owner and repo
-        name, or a github.com URL. THROWS on an unknown owner/repo (404) or a rate limit
-        (403/429).
+        name, or a github.com URL. A moved repo is followed to its new home; under a strict
+        Bowmark Buddy run (egress "link") it is resolved by name and `warnings` says which repo
+        was picked. THROWS on an unknown owner/repo (404) or a rate limit (403/429).
         """
 
     async def getProfileReadme(self, handle: str, /) -> Prv_github_GithubProfileReadme_Out:
@@ -129113,6 +129181,7 @@ class BowmarkProviders(Protocol):
     famousfootwear: Prv_famousfootwear
     fandom: Prv_fandom
     fareharbor: Prv_fareharbor
+    faros: Prv_faros
     faroutmagazine: Prv_faroutmagazine
     fbsappliance: Prv_fbsappliance
     fedex: Prv_fedex

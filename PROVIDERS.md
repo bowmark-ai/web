@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7396 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7404 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -2513,6 +2513,12 @@ One function per row, with the site it is called on.
 | `fareharbor.listOperators` | fareharbor.com | List available tour operators that use the FareHarbor platform. | ⚪ |
 | `fareharbor.quoteBooking` | fareharbor.com | Prices a booking up to the payment step (ticket lines, booking fee, tax, total due)… | 🟢 |
 | `fareharbor.searchItems` | fareharbor.com | Lists every tour, activity or rental a FareHarbor operator sells, optionally filtered… | 🟢 |
+| `faros.cancelHold` | farosrestaurant.co.uk | Releases a table held with createHold at Oxford Circus or Holborn so it goes back to… | ⚪ |
+| `faros.createHold` | farosrestaurant.co.uk | Holds a table at Oxford Circus or Holborn for a party at a date and time, stopping at… | ⚪ |
+| `faros.getMenu` | farosrestaurant.co.uk | Reads one Faros restaurant's menu as text from its PDF: food, cocktails, wine, spirits… | 🟢 |
+| `faros.getRestaurant` | farosrestaurant.co.uk | Reads Faros's booking page live: both restaurants (Oxford Circus, Holborn) with… | 🟢 |
+| `faros.listMenus` | farosrestaurant.co.uk | Lists the menus Faros publishes, one PDF per restaurant (Oxford Circus, Holborn), with… | 🟢 |
+| `faros.searchAvailability` | farosrestaurant.co.uk | Lists the free table times for a party on a date around a time at Oxford Circus… | ⚪ |
 | `faroutmagazine.article` | faroutmagazine.co.uk | Reads one Far Out Magazine article: headline, description, author, sections, tags… | 🟢 |
 | `faroutmagazine.latest` | faroutmagazine.co.uk | Lists Far Out Magazine's newest stories from its own RSS feed, 10 a page, newest first. | 🟢 |
 | `faroutmagazine.search` | faroutmagazine.co.uk | Finds Far Out Magazine stories by keyword across the newest feed pages, matching… | 🟢 |
@@ -3383,7 +3389,7 @@ One function per row, with the site it is called on.
 | `ibuypower.searchGear` | ibuypower.com | Searches the Gear Store — peripherals, components and accessories sold loose rather… | ⚪ |
 | `idealista.contactAdvertiser` | idealista.com | Sends the listing's contact form to the advertiser. | ⚪ |
 | `idealista.getListing` | idealista.com | Reads one listing's full page — every photo, the full description, features, energy… | ⚪ |
-| `idealista.search` | idealista.com | Searches homes for rent or for sale in Spain from plain words or a location path… | 🟡 |
+| `idealista.search` | idealista.com | Searches homes for rent or for sale in Spain from plain words or a location path… | 🟢 |
 | `idealista.searchRooms` | idealista.com | Searches rooms to share (alquiler-habitacion) rather than whole homes. | ⚪ |
 | `identitygroup.getSign` | identitygroup.com | Reads one sign product's full page: every mount-option variant, each with its own real… | 🟢 |
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟢 |
@@ -6610,6 +6616,8 @@ One function per row, with the site it is called on.
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
 | `ulrichlifestyle.priceConfiguration` | ulrichlifestyle.com | Configures and prices one specific build (dimensions, wall height, siding, delivery… | 🟢 |
 | `unihomes_co_uk.getListing` | unihomes.co.uk | Reads one public UniHomes student-home listing by its URL or reference number —… | 🟢 |
+| `unipv_elearning.getCourseInfo` | elearning.unipv.it | Read one Kiro course's public summary page (course/info.php) by Moodle course id… | 🟢 |
+| `unipv_elearning.searchCourses` | elearning.unipv.it | Search the University of Pavia's Kiro (elearning.unipv.it) public course catalogue by… | 🟢 |
 | `uniqlo.getProduct` | uniqlo.com | Reads one Uniqlo product's every color × size with its price, live stock status and… | 🟢 |
 | `uniqlo.searchProducts` | uniqlo.com | Searches Uniqlo's live clothing catalog, the US store (uniqlo.com/us, USD) by default… | 🟢 |
 | `unsplash.search` | unsplash.com | Searches Unsplash's photo library by keyword and returns the first page of photos with… | 🟢 |
@@ -7336,7 +7344,7 @@ One function per row, with the site it is called on.
 | `zenoti.getMyProfile` | zenoti.com | Returns the signed-in caller's profile at that business: name, email, phone… | ⚪ |
 | `zenoti.getService` | zenoti.com | Returns one service's full detail -- description, price, duration, add-ons and which… | 🟢 |
 | `zenoti.listCenters` | zenoti.com | Lists a tenant's locations (Zenoti 'centers') with name, address, phone, time zone and… | 🟢 |
-| `zenoti.listClassSessions` | zenoti.com | Lists scheduled group classes (yoga, fitness, workshops) at a center for a date range… | 🟡 |
+| `zenoti.listClassSessions` | zenoti.com | Lists scheduled group classes (yoga, fitness, workshops) at a center for a date range… | 🟢 |
 | `zenoti.listGiftCards` | zenoti.com | Lists a center's gift-card designs and amounts, as the webstore's gift-card page… | ⚪ |
 | `zenoti.listMyAppointments` | zenoti.com | Lists the signed-in caller's own upcoming (default) or past appointments at one… | 🟢 |
 | `zenoti.listPackagesAndMemberships` | zenoti.com | Lists a center's day packages, series packages and memberships with price and what… | ⚪ |

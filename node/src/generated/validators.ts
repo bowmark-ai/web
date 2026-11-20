@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 14306cc90e7a4af32309817ac7f3b785eb08e991cc74d2a36eb35fba8b0a8a58
-// 5518 checked, 20 unchecked.
+// Manifest version: 9719a1731b41a86ee30e810307cb90d0cb6a2af254e0cba61795562c2df36aea
+// 5521 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "14306cc90e7a4af32309817ac7f3b785eb08e991cc74d2a36eb35fba8b0a8a58",
+  "version": "9719a1731b41a86ee30e810307cb90d0cb6a2af254e0cba61795562c2df36aea",
   "units": {
     "address_validation": {
       "defs": {
@@ -61529,6 +61529,70 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FareharborCreateBookingArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.faros": {
+      "defs": {
+        "FarosLocationKey": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "oxford_circus"
+            },
+            {
+              "k": "literal",
+              "v": "holborn"
+            }
+          ]
+        },
+        "FarosMenuInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "ref",
+                    "name": "FarosLocationKey"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Oxford Circus"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Holborn"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "pages",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getRestaurant": [],
+        "listMenus": [],
+        "getMenu": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "FarosMenuInput"
             },
             "optional": false
           }

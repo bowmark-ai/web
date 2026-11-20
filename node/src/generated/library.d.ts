@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 14306cc90e7a4af32309817ac7f3b785eb08e991cc74d2a36eb35fba8b0a8a58
-// 98 capabilities, 930 providers, 5546 typed functions, 20 refused.
+// Manifest version: 9719a1731b41a86ee30e810307cb90d0cb6a2af254e0cba61795562c2df36aea
+// 98 capabilities, 931 providers, 5549 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -45701,6 +45701,44 @@ interface FareharborBookingResult {
   }
 }
 
+declare namespace BowmarkProvider_faros {
+  // ── Faros — the unit's own declarations, verbatim ──
+type FarosLocationKey = "oxford_circus" | "holborn";
+interface FarosLocation { location: FarosLocationKey; name: string; address: string[]; email: string | null; phone: string | null; hours: string[]; openTableRestaurantId: number | null; bookingUrl: string; }
+interface FarosRestaurant { name: string; largePartyNote: string | null; emailForPartiesOf: number | null; locations: FarosLocation[]; url: string; }
+interface FarosMenuRow { location: FarosLocationKey; name: string; pdfUrl: string; menuPageUrl: string; format: "PDF"; }
+interface FarosMenuInput { location: FarosLocationKey | "Oxford Circus" | "Holborn"; pages?: string; }
+interface FarosMenu { location: FarosLocationKey; pdfUrl: string; pageCount: number; pages: { page: number; lines: string[] }[]; }
+
+  /**
+   * Faros (farosrestaurant.co.uk), an Italian and Mediterranean restaurant in London (Oxford
+   * Circus and Holborn): its two locations' address, phone, email, hours and OpenTable id, and
+   * each location's menu read as text.
+   */
+  interface Unit {
+    /**
+     * Reads Faros's booking page live: both restaurants (Oxford Circus, Holborn) with address,
+     * email, phone, opening hours and the OpenTable restaurant id (pass it to
+     * bowmark.providers.opentable.checkAvailability for free tables), plus the note that parties
+     * of 7+ book by email.
+     */
+    getRestaurant(): Promise<FarosRestaurant>;
+
+    /**
+     * Lists the menus Faros publishes, one PDF per restaurant (Oxford Circus, Holborn), with the
+     * PDF link and the menu page opened at that tab. getMenu reads one as text.
+     */
+    listMenus(): Promise<FarosMenuRow[]>;
+
+    /**
+     * Reads one Faros restaurant's menu as text from its PDF: food, cocktails, wine, spirits and
+     * desserts with prices in pounds and the (V)/(VG) marks, page by page in reading order. pages
+     * limits the read, e.g. "1-3".
+     */
+    getMenu(input: FarosMenuInput): Promise<FarosMenu>;
+  }
+}
+
 declare namespace BowmarkProvider_faroutmagazine {
   // ── Far Out Magazine — the unit's own declarations, verbatim ──
 interface FarOutStory {
@@ -50464,6 +50502,8 @@ interface GithubRepository {
   createdAt: string;
   updatedAt: string;
   url: string;
+  /** Empty unless the repo was resolved by name because it moved (strict Buddy only). */
+  warnings: string[];
 }
 interface GithubProfileReadme {
   login: string;
@@ -50553,6 +50593,8 @@ interface GithubFileContents {
   url: string;
   downloadUrl: string | null;
   entries: GithubDirectoryEntry[];
+  /** Present only when the repo moved and was resolved by name (strict Buddy). */
+  warnings?: string[];
 }
 interface GithubGetFileContentsOptions {
   ref?: string;
@@ -50626,6 +50668,8 @@ interface GithubReadme {
   content: string;
   url: string;
   downloadUrl: string | null;
+  /** Present only when the repo moved and was resolved by name (strict Buddy). */
+  warnings?: string[];
 }
 interface GithubListOrganizationRepositoriesOptions {
   type?: "all" | "public" | "sources" | "forks" | "member";
@@ -50739,6 +50783,8 @@ interface GithubIssueDetail extends GithubIssue {
   locked: boolean;
   closedBy: string | null;
   reactions: GithubIssueReactions;
+  /** Present only when the repo moved and was resolved by name (strict Buddy). */
+  warnings?: string[];
 }
 interface GithubListIssuesOptions {
   state?: "open" | "closed" | "all";
@@ -50794,6 +50840,8 @@ interface GithubPullRequestDetail extends GithubPullRequest {
   locked: boolean;
   closedBy: string | null;
   reactions: GithubPullRequestReactions;
+  /** Present only when the repo moved and was resolved by name (strict Buddy). */
+  warnings?: string[];
 }
 interface GithubTrendingRepository {
   handle: string;
@@ -51072,7 +51120,9 @@ interface GithubPullRequestCreated {
      * moves on events other than commits (issues, stars, settings), so it is not the date of the
      * last commit: for that, use `bowmark.git_commit_history.commitHistory`. Off GitHub's own
      * documented unauthenticated REST repos endpoint. Takes an owner and repo name, or a
-     * github.com URL. THROWS on an unknown owner/repo (404) or a rate limit (403/429).
+     * github.com URL. A moved repo is followed to its new home; under a strict Bowmark Buddy run
+     * (egress "link") it is resolved by name and `warnings` says which repo was picked. THROWS on
+     * an unknown owner/repo (404) or a rate limit (403/429).
      */
     getRepo(owner: string, repo: string): Promise<GithubRepository>;
 
@@ -127758,6 +127808,7 @@ interface BowmarkProviders {
   famousfootwear: BowmarkProvider_famousfootwear.Unit;
   fandom: BowmarkProvider_fandom.Unit;
   fareharbor: BowmarkProvider_fareharbor.Unit;
+  faros: BowmarkProvider_faros.Unit;
   faroutmagazine: BowmarkProvider_faroutmagazine.Unit;
   fbsappliance: BowmarkProvider_fbsappliance.Unit;
   fedex: BowmarkProvider_fedex.Unit;

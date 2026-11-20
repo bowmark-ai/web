@@ -316,6 +316,7 @@ easyclosets.com — thestowcompany: getSampleClosetEstimate
 ebay.com — ebay: getDeals, getItem, getMyListings, getSellerListings, getSellerProfile, getWatchlist, searchAutocomplete, searchByCategory, searchSold (+9 planned)
 edmunds.com — edmunds: getDiscussion, listCarModels, listForumTags, searchForumPosts, searchForums
 elase.com — elase: findLocation, listLocations, listServices (+1 planned)
+elearning.unipv.it — unipv_elearning: getCourseInfo, searchCourses
 elevenlabs.io — elevenlabs: cloneVoice, listVoices, synthesize
 embroker.com — embroker: getQuoteEntryPoint, listCoverageLines (+1 planned)
 emirates.com — emirates: flightStatus
@@ -350,6 +351,7 @@ facerealityskincare.com — facerealityskincare: searchAcneExperts
 famousfootwear.com — famousfootwear: getProduct, searchProducts (+1 planned)
 fandom.com — fandom: 33 functions — ask get_library
 fareharbor.com — fareharbor: createBooking, getAvailabilitySlot, getItem, listAvailability, quoteBooking, searchItems (+3 planned)
+farosrestaurant.co.uk — faros: getMenu, getRestaurant, listMenus (+3 planned)
 faroutmagazine.co.uk — faroutmagazine: article, latest, search
 fbsappliance.com — fbsappliance: nothing callable yet (+2 planned)
 fedex.com — fedex: getRate
