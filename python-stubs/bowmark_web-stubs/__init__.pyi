@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 24660292117156f077adcb13a660787843e5a615311a481450deee26647fe863
-# 99 capabilities, 932 providers, 5524 typed functions, 20 refused.
+# Manifest version: 9531ff0fafbc40f395ae95eaefe63b5c7689e029a525ddf5ef7eb8441fbfe871
+# 99 capabilities, 933 providers, 5527 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12349,6 +12349,55 @@ class Prv_bodensee_schiffsbetriebe_berths_Harbor_Out(TypedDict):
     name: str
     location: NotRequired[str]
 
+class Prv_bodyrok_GetScheduleArgs_In(TypedDict):
+    studio: str
+    date: NotRequired[str]
+
+class Prv_bodyrok_BodyrokSchedule_Out(TypedDict):
+    studio: Prv_bodyrok_BodyrokStudioDetails_Out
+    classes: list[Prv_bodyrok_BodyrokClass_Out]
+    bookingUrl: str
+
+class Prv_bodyrok_BodyrokStudioDetails_Out(TypedDict):
+    slug: str
+    name: str
+    region: str
+    status: Literal["open"] | Literal["coming_soon"]
+    url: str
+    distanceMiles: NotRequired[float | None]
+    address: str | None
+    email: str | None
+    scheduleWidgetId: str | None
+    mindbodySiteId: str | None
+
+class Prv_bodyrok_BodyrokClass_Out(TypedDict):
+    id: str
+    name: str
+    startDateTime: str
+    endDateTime: str | None
+    durationMinutes: float | None
+    instructor: str | None
+    capacity: float | None
+    spotsLeft: float | None
+    bookable: bool
+    waitlistable: bool
+    cancelled: bool
+
+class Prv_bodyrok_GetStudioArgs_In(TypedDict):
+    studio: str
+
+class Prv_bodyrok_ListStudiosArgs_In(TypedDict):
+    query: NotRequired[str]
+    includeComingSoon: NotRequired[bool]
+
+class Prv_bodyrok_BodyrokStudio_Out(TypedDict):
+    slug: str
+    name: str
+    region: str
+    status: Literal["open"] | Literal["coming_soon"]
+    url: str
+    distanceMiles: NotRequired[float | None]
+
 class Prv_boglewinery_BoglewineryExperience_Out(TypedDict):
     id: float
     slug: str
@@ -16665,6 +16714,7 @@ class Prv_caudalie_CaudalieProduct_Out(TypedDict):
     breadcrumb: list[str]
     images: list[str]
     url: str
+    warnings: NotRequired[list[str]]
 
 class Prv_caudalie_CaudalieSize_Out(TypedDict):
     size: str
@@ -43668,6 +43718,8 @@ class Prv_linkedin_LinkedinJobPosting_Out(TypedDict):
     postedRelative: str | None
     applicants: str | None
     salaryRange: str | None
+    salaryPeriod: str | None
+    salaryNote: str | None
     closed: bool
 
 class Prv_linkedin_LinkedinProfile_Out(TypedDict):
@@ -91359,6 +91411,27 @@ class Prv_bodensee_schiffsbetriebe_berths(Protocol):
     async def searchHarbors(self, query: str, /) -> list[Prv_bodensee_schiffsbetriebe_berths_Harbor_Out]:
         """Search the Lake Constance harbor towns BSB serves, by name."""
 
+class Prv_bodyrok(Protocol):
+    """BODYROK reformer Pilates studios: list the ~130 studios, read one studio's address, and
+    its class schedule for the next week.
+    """
+
+    async def getSchedule(self, args: Prv_bodyrok_GetScheduleArgs_In, /) -> Prv_bodyrok_BodyrokSchedule_Out:
+        """Lists one BODYROK studio's upcoming classes (next ~8 days, or one date): class name,
+        start/end, instructor, capacity, spots left, bookable/waitlistable.
+        """
+
+    async def getStudio(self, args: Prv_bodyrok_GetStudioArgs_In, /) -> Prv_bodyrok_BodyrokStudioDetails_Out:
+        """Reads one BODYROK studio's page: name, region, address, email and its Mindbody schedule
+        widget id.
+        """
+
+    async def listStudios(self, args: Prv_bodyrok_ListStudiosArgs_In | None = None, /) -> list[Prv_bodyrok_BodyrokStudio_Out]:
+        """Lists BODYROK studios (slug, name, state/region, open or coming soon, page URL),
+        optionally filtered by state or name, or by a city/ZIP/postcode (nearest first, with
+        distanceMiles). The entry point.
+        """
+
 class Prv_boglewinery(Protocol):
     """Bogle Family Vineyards' real Tock tasting-experience catalog and the computed open
     dates/times for one — the same booking calendar Tock's own widget reads before showing
@@ -93234,7 +93307,7 @@ class Prv_caudalie(Protocol):
     async def getProduct(self, args: Prv_caudalie_CaudalieProductArgs_In, /) -> Prv_caudalie_CaudalieProduct_Out:
         """One Caudalie US product as its page shows it: sku, name, description, collection, USD
         price, stock, sizes, rating, breadcrumb, images. Pass a sku from searchProducts (e.g.
-        "328") or a product link.
+        "328") or a product link; for one size, pass that size url from sizes as { url }.
         """
 
     async def getProductReviews(self, args: Prv_caudalie_CaudalieProductArgs_In, /) -> Prv_caudalie_CaudalieReviews_Out:
@@ -108065,7 +108138,7 @@ class Prv_linkedin(Protocol):
         — from a profile URL or slug. Richer than getProfile, which reads only the public
         preview and needs no sign-in. Skills and contact details are not returned: LinkedIn's
         API no longer serves contact info (HTTP 410). Full profiles draw on a per-account
-        reserve of 80 that refills about 3 an hour, and about 7 fit in one run. To learn where
+        reserve of 80 that refills about 3 an hour, and about 6 fit in one run. To learn where
         many connections work, read the headline listConnections returns (up to 100 people per
         call) and call this only for the rest. Signed in: acts as the caller's own LinkedIn
         account; with no saved sign-in the run pauses and hands back a link where they sign in.
@@ -129084,6 +129157,7 @@ class BowmarkProviders(Protocol):
     bobs: Prv_bobs
     bodacc: Prv_bodacc
     bodensee_schiffsbetriebe_berths: Prv_bodensee_schiffsbetriebe_berths
+    bodyrok: Prv_bodyrok
     boglewinery: Prv_boglewinery
     bollandbranch: Prv_bollandbranch
     bookedin: Prv_bookedin

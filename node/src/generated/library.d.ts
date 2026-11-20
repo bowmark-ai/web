@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 24660292117156f077adcb13a660787843e5a615311a481450deee26647fe863
-// 99 capabilities, 932 providers, 5552 typed functions, 20 refused.
+// Manifest version: 9531ff0fafbc40f395ae95eaefe63b5c7689e029a525ddf5ef7eb8441fbfe871
+// 99 capabilities, 933 providers, 5555 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19786,6 +19786,79 @@ interface SearchHarborsArgs {
   }
 }
 
+declare namespace BowmarkProvider_bodyrok {
+  // ── BODYROK — the unit's own declarations, verbatim ──
+interface BodyrokStudio {
+  slug: string;
+  name: string;
+  region: string;
+  status: "open" | "coming_soon";
+  url: string;
+  distanceMiles?: number | null;
+}
+interface BodyrokStudioDetails extends BodyrokStudio {
+  address: string | null;
+  email: string | null;
+  scheduleWidgetId: string | null;
+  mindbodySiteId: string | null;
+}
+interface BodyrokClass {
+  id: string;
+  name: string;
+  startDateTime: string;
+  endDateTime: string | null;
+  durationMinutes: number | null;
+  instructor: string | null;
+  capacity: number | null;
+  spotsLeft: number | null;
+  bookable: boolean;
+  waitlistable: boolean;
+  cancelled: boolean;
+}
+interface BodyrokSchedule {
+  studio: BodyrokStudioDetails;
+  classes: BodyrokClass[];
+  bookingUrl: string;
+}
+interface ListStudiosArgs {
+  /** studio name, state, or a city/ZIP/postcode (then sorted nearest-first) */
+  query?: string;
+  includeComingSoon?: boolean;
+}
+interface GetStudioArgs {
+  studio: string;
+}
+interface GetScheduleArgs {
+  studio: string;
+  date?: string;
+}
+
+  /**
+   * BODYROK reformer Pilates studios: list the ~130 studios, read one studio's address, and its
+   * class schedule for the next week.
+   */
+  interface Unit {
+    /**
+     * Lists one BODYROK studio's upcoming classes (next ~8 days, or one date): class name,
+     * start/end, instructor, capacity, spots left, bookable/waitlistable.
+     */
+    getSchedule(args: GetScheduleArgs): Promise<BodyrokSchedule>;
+
+    /**
+     * Reads one BODYROK studio's page: name, region, address, email and its Mindbody schedule
+     * widget id.
+     */
+    getStudio(args: GetStudioArgs): Promise<BodyrokStudioDetails>;
+
+    /**
+     * Lists BODYROK studios (slug, name, state/region, open or coming soon, page URL), optionally
+     * filtered by state or name, or by a city/ZIP/postcode (nearest first, with distanceMiles).
+     * The entry point.
+     */
+    listStudios(args?: ListStudiosArgs): Promise<BodyrokStudio[]>;
+  }
+}
+
 declare namespace BowmarkProvider_boglewinery {
   // ── Bogle Family Vineyards — the unit's own declarations, verbatim ──
 interface BoglewineryPrice {
@@ -25848,6 +25921,7 @@ interface CaudalieProduct {
   sku: string; name: string; description: string | null; collection: string | null; gtin13: string | null;
   price: number | null; currency: string; inStock: boolean | null; size: string | null; sizes: CaudalieSize[];
   rating: number | null; reviewCount: number | null; breadcrumb: string[]; images: string[]; url: string;
+  /** Present only when a size page failed; names the size. */ warnings?: string[];
 }
 interface CaudalieReview { title: string | null; text: string | null; rating: number | null; date: string | null; author: string | null; photos: string[]; }
 interface CaudalieReviews { sku: string; name: string; averageRating: number | null; reviewCount: number | null; reviews: CaudalieReview[]; url: string; }
@@ -25882,7 +25956,7 @@ interface CaudalieProductArgs { sku?: string; url?: string; }
     /**
      * One Caudalie US product as its page shows it: sku, name, description, collection, USD price,
      * stock, sizes, rating, breadcrumb, images. Pass a sku from searchProducts (e.g. "328") or a
-     * product link.
+     * product link; for one size, pass that size url from sizes as { url }.
      */
     getProduct(args: CaudalieProductArgs): Promise<CaudalieProduct>;
 
@@ -66464,6 +66538,8 @@ interface LinkedinJobPosting {
   postedRelative: string | null;  // the site's own phrase, e.g. "2 days ago"
   applicants: string | null;      // bucketed, e.g. "Over 200 applicants"
   salaryRange: string | null;     // only where the employer published one
+  salaryPeriod: string | null;    // "yr" | "hr" | … as printed in salaryRange
+  salaryNote: string | null;      // set when the printed period looks wrong (e.g. "/yr" on $20)
   closed: boolean;
 }
 
@@ -67132,7 +67208,7 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * from a profile URL or slug. Richer than getProfile, which reads only the public preview and
      * needs no sign-in. Skills and contact details are not returned: LinkedIn's API no longer
      * serves contact info (HTTP 410). Full profiles draw on a per-account reserve of 80 that
-     * refills about 3 an hour, and about 7 fit in one run. To learn where many connections work,
+     * refills about 3 an hour, and about 6 fit in one run. To learn where many connections work,
      * read the headline listConnections returns (up to 100 people per call) and call this only for
      * the rest. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the
      * run pauses and hands back a link where they sign in. Paced per LinkedIn account across runs
@@ -127700,6 +127776,7 @@ interface BowmarkProviders {
   bobs: BowmarkProvider_bobs.Unit;
   bodacc: BowmarkProvider_bodacc.Unit;
   bodensee_schiffsbetriebe_berths: BowmarkProvider_bodensee_schiffsbetriebe_berths.Unit;
+  bodyrok: BowmarkProvider_bodyrok.Unit;
   boglewinery: BowmarkProvider_boglewinery.Unit;
   bollandbranch: BowmarkProvider_bollandbranch.Unit;
   bookedin: BowmarkProvider_bookedin.Unit;

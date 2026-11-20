@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 24660292117156f077adcb13a660787843e5a615311a481450deee26647fe863
-// 5524 checked, 20 unchecked.
+// Manifest version: 9531ff0fafbc40f395ae95eaefe63b5c7689e029a525ddf5ef7eb8441fbfe871
+// 5527 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "24660292117156f077adcb13a660787843e5a615311a481450deee26647fe863",
+  "version": "9531ff0fafbc40f395ae95eaefe63b5c7689e029a525ddf5ef7eb8441fbfe871",
   "units": {
     "address_validation": {
       "defs": {
@@ -24754,6 +24754,92 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bodyrok": {
+      "defs": {
+        "GetScheduleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListStudiosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "includeComingSoon",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getSchedule": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetScheduleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStudioArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listStudios": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListStudiosArgs"
+            },
+            "optional": true
           }
         ]
       }
