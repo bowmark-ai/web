@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5665ccea01ac1b1cfe61cf5d4961e428dcb49594e2548981a9478def5c4e3286
-// 5529 checked, 20 unchecked.
+// Manifest version: 0723f538926051cdda07aa43e526cce8bd325a3c9d6250238ac6e25448ee2349
+// 5530 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5665ccea01ac1b1cfe61cf5d4961e428dcb49594e2548981a9478def5c4e3286",
+  "version": "0723f538926051cdda07aa43e526cce8bd325a3c9d6250238ac6e25448ee2349",
   "units": {
     "address_validation": {
       "defs": {
@@ -174127,6 +174127,27 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getDislikes": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "videos",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "embeddable": [
           {
             "name": "input",
             "schema": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5665ccea01ac1b1cfe61cf5d4961e428dcb49594e2548981a9478def5c4e3286
-# 99 capabilities, 934 providers, 5529 typed functions, 20 refused.
+# Manifest version: 0723f538926051cdda07aa43e526cce8bd325a3c9d6250238ac6e25448ee2349
+# 99 capabilities, 934 providers, 5530 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -32935,13 +32935,15 @@ class Prv_furniture_furnitureSearchResult_Out(TypedDict):
     products: list[Prv_furniture_furnitureProduct_Out]
     page: float
     hasMore: bool
+    total: float
+    warnings: NotRequired[list[str]]
 
 class Prv_furniture_furnitureProduct_Out(TypedDict):
     id: str
     fdcId: str
     title: str
     slug: str
-    brand: str
+    brand: str | None
     seller: str | None
     listPrice: float
     salePrice: float
@@ -82889,6 +82891,13 @@ class Prv_youtube_YoutubeDislikeItem_Out(TypedDict):
     source: Literal["returnyoutubedislike"]
     estimated: Literal[True]
 
+class Prv_youtube_embeddable_input_In(TypedDict):
+    videos: Sequence[str]
+
+class Prv_youtube_embeddable_return_item_Out(TypedDict):
+    video: str
+    embeddable: bool | None
+
 class Prv_youtube_getTranscript_input_u1_In(TypedDict):
     video: str
 
@@ -84376,9 +84385,11 @@ class Cap_browser_agent(Protocol):
         retry — optionally with a different `proxyCountry` on a fresh `start` — may simply
         succeed. `error` starting `site_unreachable: ` is the opposite case: the address the
         browser was loading does not exist in DNS, so the site is gone from that address and no
-        retry or `proxyCountry` will help. Pass the previous `cursor` for only new steps, and
-        `waitMs` (≤ 45000 — kept under the ~60s at which most chat clients kill a tool call) to
-        wait for a change instead of polling tightly.
+        retry or `proxyCountry` will help. `error` starting `site_certificate_invalid: ` is the
+        site's own TLS certificate being expired or invalid — the site's fault, not Bowmark's,
+        and no retry or `proxyCountry` will help. Pass the previous `cursor` for only new steps,
+        and `waitMs` (≤ 45000 — kept under the ~60s at which most chat clients kill a tool call)
+        to wait for a change instead of polling tightly.
         """
 
     async def send(self, id: str, message: str, options: Cap_browser_agent_SendBrowserAgentOptions_In | None = None, /) -> Cap_browser_agent_SendBrowserAgentResult_Out:
@@ -101748,8 +101759,8 @@ class Prv_furniture(Protocol):
         brand, style words the same way the site's search bar does) scoped to `zipCode`, a
         required 5-digit US ZIP. furniture.com filters its catalog by delivery ZIP server-side —
         an omitted or unserviceable ZIP returns a genuinely empty result, so a caller must
-        supply a real one. Each row carries the site's real list/sale price and its own
-        free-text stock/lead-time label ('Ready to ship', 'Ships within 4 weeks').
+        supply a real one. Each row carries the site's real list/sale price, seller and image;
+        the result carries the site's own `total` match count.
         """
 
     async def listCategories(self, /) -> list[Prv_furniture_furnitureCategory_Out]:
@@ -128262,6 +128273,16 @@ class Prv_youtube(Protocol):
         `videoId` goes straight in); duplicates are read once, and past 50 the rest are dropped
         with a warning. `ratio` is dislikes / (likes + dislikes), null when there are no votes.
         A video that fails comes back as a warning; if every video fails the call throws.
+        """
+
+    async def embeddable(self, input: Prv_youtube_embeddable_input_In, /) -> list[Prv_youtube_embeddable_return_item_Out]:
+        """Whether each of up to 50 YouTube videos can be played inside another page's embed, from
+        YouTube's own keyless oEmbed endpoint. `videos` takes bare 11-character ids; results
+        come back in the same order. `embeddable: true` means the owner allows it; `false` means
+        embedding is disabled by the owner or the video is private or gone, so link out to the
+        watch page instead of mounting a player; `null` means YouTube did not answer (a 5xx or a
+        timeout), so keep whatever you were going to do. Use it before showing an inline player
+        in a feed.
         """
 
     async def getTranscript(self, input: str | Prv_youtube_getTranscript_input_u1_In, /) -> Prv_youtube_YoutubeTranscript_Out:

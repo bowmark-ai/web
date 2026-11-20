@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5665ccea01ac1b1cfe61cf5d4961e428dcb49594e2548981a9478def5c4e3286
-// 99 capabilities, 934 providers, 5557 typed functions, 20 refused.
+// Manifest version: 0723f538926051cdda07aa43e526cce8bd325a3c9d6250238ac6e25448ee2349
+// 99 capabilities, 934 providers, 5558 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -453,7 +453,9 @@ interface BrowserAgentStatusResult {
                                             // all (a proxy/tunnel error, before any page loaded) — not the site answering
                                             // "nothing found"; a retry (optionally with a different proxyCountry) may succeed —
                                             // or "site_unreachable: " when the address the browser was loading does not
-                                            // exist in DNS at all, so no retry or proxyCountry will ever reach it
+                                            // exist in DNS at all, so no retry or proxyCountry will ever reach it —
+                                            // or "site_certificate_invalid: " when the site's OWN TLS certificate is
+                                            // expired or invalid, so no retry or proxyCountry will help
   steps: BrowserAgentStep[];
   cursor: string;
   task: string;
@@ -571,9 +573,11 @@ type CallOptions = {
      * so it is not the site answering and a retry — optionally with a different `proxyCountry` on
      * a fresh `start` — may simply succeed. `error` starting `site_unreachable: ` is the opposite
      * case: the address the browser was loading does not exist in DNS, so the site is gone from
-     * that address and no retry or `proxyCountry` will help. Pass the previous `cursor` for only
-     * new steps, and `waitMs` (≤ 45000 — kept under the ~60s at which most chat clients kill a
-     * tool call) to wait for a change instead of polling tightly.
+     * that address and no retry or `proxyCountry` will help. `error` starting
+     * `site_certificate_invalid: ` is the site's own TLS certificate being expired or invalid —
+     * the site's fault, not Bowmark's, and no retry or `proxyCountry` will help. Pass the previous
+     * `cursor` for only new steps, and `waitMs` (≤ 45000 — kept under the ~60s at which most chat
+     * clients kill a tool call) to wait for a change instead of polling tightly.
      */
     status(id: string, options?: BrowserAgentStatusOptions): Promise<BrowserAgentStatusResult>;
 
@@ -49696,7 +49700,7 @@ interface furnitureProduct {
   fdcId: string;
   title: string;
   slug: string;
-  brand: string;
+  brand: string | null;
   seller: string | null;
   listPrice: number;
   salePrice: number;
@@ -49710,6 +49714,8 @@ interface furnitureSearchResult {
   products: furnitureProduct[];
   page: number;
   hasMore: boolean;
+  total: number;
+  warnings?: string[];
 }
 interface furnitureCategory {
   id: string;
@@ -49731,8 +49737,8 @@ interface furnitureFilterAttribute {
      * style words the same way the site's search bar does) scoped to `zipCode`, a required 5-digit
      * US ZIP. furniture.com filters its catalog by delivery ZIP server-side — an omitted or
      * unserviceable ZIP returns a genuinely empty result, so a caller must supply a real one. Each
-     * row carries the site's real list/sale price and its own free-text stock/lead-time label
-     * ('Ready to ship', 'Ships within 4 weeks').
+     * row carries the site's real list/sale price, seller and image; the result carries the site's
+     * own `total` match count.
      */
     searchProducts(args: { query: string; zipCode: string; limit?: number; page?: number }): Promise<furnitureSearchResult>;
 
@@ -124840,6 +124846,16 @@ interface YoutubePlayback {
      * that fails comes back as a warning; if every video fails the call throws.
      */
     getDislikes(input: { videos: string[] }): Promise<YoutubeDislikes>;
+
+    /**
+     * Whether each of up to 50 YouTube videos can be played inside another page's embed, from
+     * YouTube's own keyless oEmbed endpoint. `videos` takes bare 11-character ids; results come
+     * back in the same order. `embeddable: true` means the owner allows it; `false` means
+     * embedding is disabled by the owner or the video is private or gone, so link out to the watch
+     * page instead of mounting a player; `null` means YouTube did not answer (a 5xx or a timeout),
+     * so keep whatever you were going to do. Use it before showing an inline player in a feed.
+     */
+    embeddable(input: { videos: string[] }): Promise<{ video: string; embeddable: boolean | null }[]>;
 
     /**
      * Returns a YouTube video's own caption transcript. `video` is a bare 11-character video id or
