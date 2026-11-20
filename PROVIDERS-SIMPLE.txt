@@ -148,7 +148,7 @@ booker.com — booker: findLocation, getAvailability, getAvailableDates, getBook
 booking.andstr.com — andstr: getListing, getQuote, search
 booking.com — booking_com: addToWishlist, autocompleteDestination, checkPrice, getAccountProfile, getBooking, getProperty, getReviewBreakdown, listAvailability, listBookings, listFilterOptions, listPropertyPhotos, listPropertyReviews, listWishlist, removeFromWishlist, search (+3 planned)
 booking.mangomint.com — mangomint: bookAppointment, checkAvailability, findBusiness, getBusinessInfo, getService, getStaff, joinWaitlist, listLocations, listMemberships, listPackages, listPastServices, listServiceCategories, listServices, listStaff, validateSlot (+7 planned)
-booksy.com — booksy: addFavorite, bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getBusiness, getBusinessContact, getBusinessNetwork, getBusinessPhotos, getBusinessReviews, getMyAppointment, getMyProfile, getSearchSuggestions, listCategories, listFavorites, listGiftCardOffers, listMyBookings, listMyGiftCards, removeFavorite, resolveLocation, searchBusinesses, updateMyProfile, writeReview (+5 planned)
+booksy.com — booksy: 23 functions — ask get_library (+5 planned)
 borsheims.com — borsheims: configureRing, getProduct, searchProducts
 bowmark.ai — bowmark: getOverview, listDocumentation
 boxlunch.com — boxlunch: search
@@ -465,7 +465,7 @@ illinoislottery.com — illinois_lottery: getCart, jackpots, quickPick, stores
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 imgur.com — imgur: addComment, createPost, deleteComment, favoritePost, getGalleryPosts, getImage, getMyFavorites, getMyPosts, getNotifications, getPost, getPostComments, getTag, getUser, getUserComments, getUserFavorites, getUserPosts, listTags, searchPosts, uploadImage, voteComment, votePost (+8 planned)
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
-independent.co.uk — independent: browseSection, getArticle, getAuthorArticles, getHomepageHeadlines, getMostPopular, getTopicArticles, listArticlesByDate, listAuthors, listLatestNews, listSections, listTopics (+23 planned)
+independent.co.uk — independent: browseSection, getArticle, getAuthorArticles, getHomepageHeadlines, getLiveBlog, getMostPopular, getTopicArticles, getVideo, listArticlesByDate, listAuthors, listLatestNews, listSections, listTopics, listVideos (+20 planned)
 inspirecommunities.com — inspirecommunities: searchHomes
 instacart.com — instacart: compareStores, findLocation, getCart, getDeliveryEstimate, getMyAccount, getProduct, getStore, getStoreHours, getWeeklyAd, listCarts, listDeals, listDepartmentProducts, listDepartments, listMyAddresses, listOrders, listStores, suggestSearches (+25 planned)
 instagram.com — instagram: blockUser, commentOnPost, followUser, getDirectMessages, getFeed, getHomeFeed, getNotifications, getPlayback, getPost, getPosts, getProfile, getSavedPosts, getStories, getThreadMessages, likePost, muteUser, savePost, searchAccounts, sendDirectMessage, unblockUser, unfollowUser, unlikePost, unmuteUser, unsavePost, updateProfile
@@ -497,7 +497,7 @@ kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct (+1 planned)
 keyserver.ubuntu.com — ubuntu_keyserver: searchKeys
-kick.com — kick: getCategory, getChannel, getChannelLeaderboard, getChannelUser, getChatMessages, getChatroomSettings, getClip, getLivestream, getVideo, listCategories, listChannelClips, listChannelEmotes, listChannelLinks, listChannelVideos, listFeaturedLivestreams, listLiveStreams, listTopClips, search (+13 planned)
+kick.com — kick: getCategory, getChannel, getChannelLeaderboard, getChannelUser, getChatMessages, getChatroomSettings, getClip, getLivestream, getPlayback, getVideo, listCategories, listChannelClips, listChannelEmotes, listChannelLinks, listChannelVideos, listFeaturedLivestreams, listLiveStreams, listTopClips, search (+13 planned)
 kickstarter.com — kickstarter: project, search
 kijiji.ca — kijiji: getListing, search (+2 planned)
 kingsdown.com — kingsdown: getBedMatchResult
@@ -733,6 +733,7 @@ rover.com — rover: searchBoarding
 royalcaribbean.com — royal_caribbean: searchCruises
 rtings.com — rtings: getReview
 ruggable.com — ruggable: getRug, searchRugs
+rules.nebraska.gov — rules_nebraska_gov: getChapterHistory, getDocket, listAgencies, listChapters, listDockets, listFilingDocuments, listTitles, searchRules
 rumble.com — rumble: editorPicks, video (+2 planned)
 rvshare.com — rvshare: searchListings
 ryanair.com — ryanair: fareCalendar, findAirport, searchFares (+1 planned)
@@ -745,7 +746,7 @@ samsung.com — samsung: checkWarrantyStatus, compareProducts, findStore, getOrd
 scentbird.com — scentbird: browseCatalogue
 scheels.com — scheels: getProduct, searchProducts
 scottfraser.co.uk — scottfraser_co_uk: getListing, listLettings
-scribd.com — scribd: addDocumentToList, askDocument, createList, deleteDocument, downloadDocument, getDocument, getDocumentText, getEmbedCode, getList, getRelatedDocuments, getTrendingDocuments, getUserProfile, listCategories, listMyLists, listSavedDocuments, markDocumentFinished, rateDocument, removeDocumentFromList, saveDocument, searchDocuments, unsaveDocument (+3 planned)
+scribd.com — scribd: addDocumentToList, askDocument, createList, deleteDocument, downloadDocument, getDocument, getDocumentText, getEmbedCode, getList, getRelatedDocuments, getTrendingDocuments, getUserProfile, listCategories, listMyLists, listSavedDocuments, markDocumentFinished, rateDocument, removeDocumentFromList, saveDocument, searchDocuments, unsaveDocument, uploadDocument (+2 planned)
 seakeeper.com — seakeeper: findNearestDealers, listAllDealers
 sears.com — sears: checkStock, getProduct, search (+1 planned)
 seatgeek.com — seatgeek: findPerformers, findVenues, followPerformer, getEvent, getOrder, getPerformer, getVenue, listFollowedPerformers, listMyOrders, listTaxonomies, listTrackedEvents, searchEvents, trackEvent, unfollowPerformer, untrackEvent (+3 planned)

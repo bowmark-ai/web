@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 119fda7f2f224485847d546ecfd29e1006f96a8aad5c3726aec0a46c786595e3
-# 99 capabilities, 935 providers, 5533 typed functions, 20 refused.
+# Manifest version: e9a8f4e9845350fba2892fb8bbd078e53797ff1cdc1734755b351f9756df1948
+# 99 capabilities, 936 providers, 5541 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17069,6 +17069,22 @@ class Prv_cbsnews_ListArticlesByAuthorArgs_In(TypedDict):
 class Prv_cbsnews_listArticlesByAuthor_return_Out(TypedDict):
     author: str
     articles: list[Prv_cbsnews_CbsNewsSectionStory_Out]
+
+class Prv_cbsnews_listShowEpisodes_args_In(TypedDict):
+    show: str
+    limit: NotRequired[float]
+
+class Prv_cbsnews_listShowEpisodes_return_Out(TypedDict):
+    show: str
+    episodes: list[Prv_cbsnews_CbsNewsStory_Out]
+
+class Prv_cbsnews_listPodcasts_return_Out(TypedDict):
+    podcasts: list[Prv_cbsnews_CbsNewsPodcast_Out]
+
+class Prv_cbsnews_CbsNewsPodcast_Out(TypedDict):
+    title: str
+    url: str
+    image: str | None
 
 class Prv_cbsnews_listShows_return_Out(TypedDict):
     shows: list[Prv_cbsnews_CbsNewsShow_Out]
@@ -39887,6 +39903,13 @@ class Prv_imgur_uploadImage_input_In(TypedDict):
     base64: NotRequired[str]
     title: NotRequired[str]
     description: NotRequired[str]
+
+class Prv_imgur_createPost_input_In(TypedDict):
+    id: str
+    title: str
+    tags: NotRequired[Sequence[str]]
+    mature: NotRequired[bool]
+    isAlbum: NotRequired[bool]
 
 class Prv_imgur_ImgurSearchArgs_In(TypedDict):
     query: str
@@ -63835,6 +63858,19 @@ class Prv_shein_sheinPoints_Out(TypedDict):
 class Prv_shein_sheinCoupon_Out(TypedDict):
     text: str
 
+class Prv_shein_sheinProfile_Out(TypedDict):
+    text: str
+    email: str | None
+
+class Prv_shein_SheinGetOrderArgs_In(TypedDict):
+    orderId: str
+
+class Prv_shein_sheinOrderDetail_Out(TypedDict):
+    orderId: str
+    status: str | None
+    text: str
+    orderUrl: str
+
 class Prv_shop_app_ShopAppListPageArgs_In(TypedDict):
     first: NotRequired[float]
     cursor: NotRequired[str]
@@ -63935,6 +63971,17 @@ class Prv_shop_app_ShopAppAddress_Out(TypedDict):
     phone: str | None
     formatted: list[str]
     preferred: bool
+
+class Prv_shop_app_ShopAppUpdatePrivacySettingsArgs_In(TypedDict):
+    analyticsEnabled: NotRequired[bool]
+    marketingEnabled: NotRequired[bool]
+
+class Prv_shop_app_ShopAppPrivacySettings_Out(TypedDict):
+    dataSharingOptOut: bool | None
+    shoppingActivitySync: bool | None
+    analyticsConsented: bool | None
+    marketingConsented: bool | None
+    warnings: list[str]
 
 class Prv_shop_app_ShopAppCreateProductListArgs_In(TypedDict):
     name: str
@@ -65467,6 +65514,33 @@ class Prv_solostove_SolostoveBundleComponent_Out(TypedDict):
     quantity: float
     orderable: bool
     availableToSell: float
+
+class Prv_sos_ms_gov_ListAgenciesArgs_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_sos_ms_gov_MsAgency_Out(TypedDict):
+    code: str
+    title: str
+    name: str
+
+class Prv_sos_ms_gov_SearchAdminCodeArgs_In(TypedDict):
+    agency: str
+    query: NotRequired[str]
+
+class Prv_sos_ms_gov_MsAdminCodeSearch_Out(TypedDict):
+    agency: Prv_sos_ms_gov_MsAgency_Out
+    total: float
+    parts: list[Prv_sos_ms_gov_MsAdminCodePart_Out]
+
+class Prv_sos_ms_gov_MsAdminCodePart_Out(TypedDict):
+    agency: str
+    partNumber: str
+    rule: str
+    summary: str | None
+    lastAmended: str | None
+    effectiveDate: str | None
+    systemNumber: str
+    pdfUrl: str | None
 
 class Prv_soulcycle_listRegions_return_Out(TypedDict):
     regions: list[Prv_soulcycle_SoulcycleRegion_Out]
@@ -93571,6 +93645,17 @@ class Prv_cbsnews(Protocol):
         page's order. The author's name comes back with them.
         """
 
+    async def listShowEpisodes(self, args: Prv_cbsnews_listShowEpisodes_args_In, /) -> Prv_cbsnews_listShowEpisodes_return_Out:
+        """Lists a CBS News programme's recent segments and episodes (60 Minutes, Face the Nation,
+        48 Hours …) from its own feed: title, url, summary, publication time and image. Take the
+        show slug from listShows.
+        """
+
+    async def listPodcasts(self, /) -> Prv_cbsnews_listPodcasts_return_Out:
+        """Lists the CBS News podcasts on /podcasts/ (Face the Nation, 48 Hours, The Takeout …),
+        each with its title, listening page and artwork.
+        """
+
     async def listShows(self, /) -> Prv_cbsnews_listShows_return_Out:
         """Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings, Evening
         News, Sunday Morning, CBS Reports) from the homepage navigation, each with its slug and
@@ -105881,6 +105966,12 @@ class Prv_imgur(Protocol):
         """Uploads one image to the signed-in account from a remote https URL or base64 data
         (exactly one of url or base64). Returns the new image's id and link. Example:
         uploadImage({ url: "https://example.com/cat.png", title: "cat" }).
+        """
+
+    async def createPost(self, input: Prv_imgur_createPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Publishes an upload this account already holds (an id from uploadImage) to the public
+        imgur gallery with a title and optional tags. Example: createPost({ id: "xfwvhd6",
+        title: "cat", tags: ["cats"] }).
         """
 
     async def searchPosts(self, query: str | Prv_imgur_ImgurSearchArgs_In, /) -> list[Prv_imgur_ImgurPost_Out]:
@@ -118928,6 +119019,16 @@ class Prv_shein(Protocol):
         signed in to shein.com; the relay handles it.
         """
 
+    async def getProfile(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinProfile_Out:
+        """The CALLER's Shein profile page as text, plus the email it shows. Needs the caller
+        signed in to shein.com; the relay handles it.
+        """
+
+    async def getOrder(self, args: Prv_shein_SheinGetOrderArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinOrderDetail_Out:
+        """One of the CALLER's Shein orders as its detail page shows it (status and text). Take
+        orderId from listOrders. Needs the caller signed in to shein.com; the relay handles it.
+        """
+
 class Prv_shop_app(Protocol):
     """Shop (Shopify's shopping app) — search products across every Shopify store, read a
     product with its variants, reviews and delivery estimate, and browse a store's
@@ -118961,6 +119062,12 @@ class Prv_shop_app(Protocol):
     async def addAddress(self, args: Prv_shop_app_ShopAppAddAddressArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppAddress_Out:
         """Adds a shipping address to the signed-in caller's Shop account (country is a two-letter
         code) and returns it as listAddresses shows it. Pauses for the caller to sign in to
+        Shop.
+        """
+
+    async def updatePrivacySettings(self, args: Prv_shop_app_ShopAppUpdatePrivacySettingsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppPrivacySettings_Out:
+        """Turns Shop's analytics and marketing tracking on or off for the signed-in caller's
+        account and returns the settings Shop now holds. Pauses for the caller to sign in to
         Shop.
         """
 
@@ -119687,6 +119794,22 @@ class Prv_solostove(Protocol):
         bundle id, use listBundles to find one, or the Dream Backyard Bundle's —
         "SS27+SS22+WINDCHILL30-CHARCOAL-17AH" — to check the flow rather than asking the caller
         for one first.
+        """
+
+class Prv_sos_ms_gov(Protocol):
+    """Mississippi Administrative Code (sos.ms.gov): list the state agencies and search each
+    one's code parts, with dates and PDF links.
+    """
+
+    async def listAgencies(self, args: Prv_sos_ms_gov_ListAgenciesArgs_In | None = None, /) -> list[Prv_sos_ms_gov_MsAgency_Out]:
+        """Lists the Mississippi state agencies whose rules are in the Administrative Code, with
+        each agency's code and title number.
+        """
+
+    async def searchAdminCode(self, args: Prv_sos_ms_gov_SearchAdminCodeArgs_In, /) -> Prv_sos_ms_gov_MsAdminCodeSearch_Out:
+        """Searches the Mississippi Administrative Code for one agency's parts (rule title, part
+        number, last amended and effective dates, PDF link), optionally filtered by words in the
+        rule title.
         """
 
 class Prv_soulcycle(Protocol):
@@ -129961,6 +130084,7 @@ class BowmarkProviders(Protocol):
     snapchat: Prv_snapchat
     solidcore: Prv_solidcore
     solostove: Prv_solostove
+    sos_ms_gov: Prv_sos_ms_gov
     soulcycle: Prv_soulcycle
     soundcloud: Prv_soundcloud
     sourceforge: Prv_sourceforge

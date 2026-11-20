@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7416 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7425 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3485,11 +3485,11 @@ One function per row, with the site it is called on.
 | `independent.getArticleComments` | independent.co.uk | Reads the reader comments on an article. | ⚪ |
 | `independent.getAuthorArticles` | independent.co.uk | Gets one writer's profile and their latest articles from /author/<slug>. | 🟢 |
 | `independent.getHomepageHeadlines` | independent.co.uk | Lists the top stories on The Independent's front page for one edition (UK, US or Asia). | 🟢 |
-| `independent.getLiveBlog` | independent.co.uk | Gets a live blog with its timestamped updates, newest first. | ⚪ |
+| `independent.getLiveBlog` | independent.co.uk | Gets a live blog with its timestamped updates, newest first. | 🟢 |
 | `independent.getMostPopular` | independent.co.uk | Lists the most-read Independent articles right now, overall or for one area (articles… | 🟢 |
 | `independent.getQuiz` | independent.co.uk | Gets one quiz's questions and answer options. | ⚪ |
 | `independent.getTopicArticles` | independent.co.uk | Lists the latest articles on one topic page (/topic/<slug>). | 🟢 |
-| `independent.getVideo` | independent.co.uk | Gets one Independent TV video: title, description, date, duration and stream where… | ⚪ |
+| `independent.getVideo` | independent.co.uk | Gets one Independent TV video: title, description, date, duration and stream where… | 🟢 |
 | `independent.getVoucherCodes` | independent.co.uk | Lists the current discount codes and offers for one shop, e.g. /vouchercodes/very. | ⚪ |
 | `independent.listArticlesByDate` | independent.co.uk | Lists every article The Independent published on one date, back to 1995. | 🟢 |
 | `independent.listAuthors` | independent.co.uk | Finds Independent writers by name; the door for getAuthorArticles. | 🟢 |
@@ -3501,7 +3501,7 @@ One function per row, with the site it is called on.
 | `independent.listQuizzes` | independent.co.uk | Lists the quizzes in Puzzles and Games. | ⚪ |
 | `independent.listSections` | independent.co.uk | Lists The Independent's sections and subsections (News, Sport, Voices, Culture… | 🟢 |
 | `independent.listTopics` | independent.co.uk | Lists or finds Independent topic pages (e.g. climate-change, brexit) by name or first… | 🟢 |
-| `independent.listVideos` | independent.co.uk | Lists Independent TV videos, overall or for one series or channel (culture, lifestyle… | ⚪ |
+| `independent.listVideos` | independent.co.uk | Lists Independent TV videos, overall or for one series or channel (culture, lifestyle… | 🟢 |
 | `independent.listVoucherStores` | independent.co.uk | Lists the shops The Independent's voucher-codes pages cover; the door for… | ⚪ |
 | `independent.postComment` | independent.co.uk | Posts a comment on an article as the signed-in caller (Viafoura). | ⚪ |
 | `independent.removeBookmark` | independent.co.uk | Removes an article from the signed-in caller's bookmarks. | ⚪ |
@@ -3736,6 +3736,7 @@ One function per row, with the site it is called on.
 | `kick.getClip` | kick.com | One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration… | 🟢 |
 | `kick.getCurrentUser` | kick.com | The signed-in caller's own Kick account: username, email-verified flag, profile… | ⚪ |
 | `kick.getLivestream` | kick.com | What a channel is streaming right now: title, category, viewer count, start time… | 🟡 |
+| `kick.getPlayback` | kick.com | The playback menu for a Kick live channel (a slug or kick.com/<channel>) or a past… | 🟢 |
 | `kick.getVideo` | kick.com | One VOD by uuid: title, channel, category, duration, views, created date and its HLS… | 🟢 |
 | `kick.listCategories` | kick.com | Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest… | 🟢 |
 | `kick.listChannelClips` | kick.com | A channel's clips, by most viewed or newest, within a time window (day, week, month… | 🟢 |
@@ -5370,6 +5371,14 @@ One function per row, with the site it is called on.
 | `rtings.getReview` | rtings.com | Reads one product's RTINGS review — the overall score out of 10, the verdict text… | 🟢 |
 | `ruggable.getRug` | ruggable.com | Reads one Ruggable rug by handle or url and returns its price range plus every size ×… | 🟢 |
 | `ruggable.searchRugs` | ruggable.com | Searches Ruggable's whole washable-rug catalog (rugs, runners, doormats, rug pads) by… | 🟢 |
+| `rules_nebraska_gov.getChapterHistory` | rules.nebraska.gov | Returns a chapter's history records: earlier names, numbers and statuses. | 🟢 |
+| `rules_nebraska_gov.getDocket` | rules.nebraska.gov | Returns one rulemaking docket's hearings, agency contact, summary of changes and… | 🟢 |
+| `rules_nebraska_gov.listAgencies` | rules.nebraska.gov | Lists every Nebraska state agency that publishes administrative rules. | 🟢 |
+| `rules_nebraska_gov.listChapters` | rules.nebraska.gov | Lists one title's chapters with their rule text, effective dates and PDF names. | 🟢 |
+| `rules_nebraska_gov.listDockets` | rules.nebraska.gov | Lists the open rulemaking dockets with hearing dates and filing milestones. | 🟢 |
+| `rules_nebraska_gov.listFilingDocuments` | rules.nebraska.gov | Lists the supporting documents attached to a docket's filing. | 🟢 |
+| `rules_nebraska_gov.listTitles` | rules.nebraska.gov | Lists one agency's rule titles. | 🟢 |
+| `rules_nebraska_gov.searchRules` | rules.nebraska.gov | Full-text search of Nebraska administrative rules; returns the total count and one hit… | 🟢 |
 | `rumble.channelVideos` | rumble.com | Lists the videos on a Rumble channel's /c/<channel>/videos page. | ⚪ |
 | `rumble.editorPicks` | rumble.com | Lists the videos on Rumble's editor-picks page with title, watch URL, channel… | 🟢 |
 | `rumble.search` | rumble.com | Searches Rumble for videos and channels matching a query, as /search/all?q=<query> does. | ⚪ |
@@ -5474,7 +5483,7 @@ One function per row, with the site it is called on.
 | `scribd.searchDocuments` | scribd.com | Searches Scribd's user-uploaded documents by free text ("python tutorial", "lease… | 🟢 |
 | `scribd.unsaveDocument` | scribd.com | Removes a document from the signed-in caller's saved library. | 🟢 |
 | `scribd.updateProfile` | scribd.com | Updates the signed-in caller's public profile — display name, about text and profile… | ⚪ |
-| `scribd.uploadDocument` | scribd.com | Uploads a document file to the signed-in caller's Scribd account, with title… | ⚪ |
+| `scribd.uploadDocument` | scribd.com | Uploads a document file to the signed-in caller's Scribd account with title… | 🟢 |
 | `seakeeper.findNearestDealers` | seakeeper.com | Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest N… | 🟢 |
 | `seakeeper.listAllDealers` | seakeeper.com | Every real Seakeeper dealer worldwide (name, address, contact, coordinates, tier)… | 🟢 |
 | `sears.checkStock` | sears.com | Answers whether a specific product is buyable right now — for delivery or for… | 🟢 |
@@ -6565,7 +6574,7 @@ One function per row, with the site it is called on.
 | `twitch.getClip` | twitch.tv | Reads one clip by its slug, a clips.twitch.tv link or a twitch.tv/<login>/clip/<slug>… | 🟢 |
 | `twitch.getCurrentUser` | twitch.tv | Reads which Twitch account the saved sign-in belongs to: its numeric id and login… | 🟢 |
 | `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | 🟢 |
-| `twitch.getPlayback` | twitch.tv | The playback menu for a Twitch live channel (a login or twitch.tv/<login>) or a past… | 🟢 |
+| `twitch.getPlayback` | twitch.tv | The playback menu for a Twitch live channel (a login or twitch.tv/<login>), a past… | 🟢 |
 | `twitch.getStream` | twitch.tv | Reads a channel's LIVE state right now: whether it is live, title, game, viewer count… | 🟢 |
 | `twitch.getSubscriptionStatus` | twitch.tv | Checks whether the signed-in user is subscribed to one named channel: id, Twitch's own… | 🟢 |
 | `twitch.getVideo` | twitch.tv | Reads one public Twitch video by id or twitch.tv/videos link: title, length in… | 🟢 |

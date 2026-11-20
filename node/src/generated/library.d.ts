@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 119fda7f2f224485847d546ecfd29e1006f96a8aad5c3726aec0a46c786595e3
-// 99 capabilities, 935 providers, 5561 typed functions, 20 refused.
+// Manifest version: e9a8f4e9845350fba2892fb8bbd078e53797ff1cdc1734755b351f9756df1948
+// 99 capabilities, 936 providers, 5569 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26356,6 +26356,12 @@ interface CbsNewsSection {
   name: string | null;
   url: string;
 }
+interface CbsNewsPodcast {
+  title: string;
+  /** The podtrac landing page the card links to. */
+  url: string;
+  image: string | null;
+}
 interface CbsNewsShow {
   /** The path segment, without slashes: "60-minutes", "face-the-nation". */
   slug: string;
@@ -26478,6 +26484,19 @@ interface ListArticlesByAuthorArgs {
      * page's order. The author's name comes back with them.
      */
     listArticlesByAuthor(args: ListArticlesByAuthorArgs): Promise<{ author: string; articles: CbsNewsSectionStory[] }>;
+
+    /**
+     * Lists a CBS News programme's recent segments and episodes (60 Minutes, Face the Nation, 48
+     * Hours …) from its own feed: title, url, summary, publication time and image. Take the show
+     * slug from listShows.
+     */
+    listShowEpisodes(args: { show: string; limit?: number }): Promise<{ show: string; episodes: CbsNewsStory[] }>;
+
+    /**
+     * Lists the CBS News podcasts on /podcasts/ (Face the Nation, 48 Hours, The Takeout …), each
+     * with its title, listening page and artwork.
+     */
+    listPodcasts(): Promise<{ podcasts: CbsNewsPodcast[] }>;
 
     /**
      * Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings, Evening
@@ -60994,6 +61013,13 @@ interface ImgurTagArgs {
      * "https://example.com/cat.png", title: "cat" }).
      */
     uploadImage(input: { url?: string; base64?: string; title?: string; description?: string }, opts?: ConnectionOption): Promise<ImgurImage>;
+
+    /**
+     * Publishes an upload this account already holds (an id from uploadImage) to the public imgur
+     * gallery with a title and optional tags. Example: createPost({ id: "xfwvhd6", title: "cat",
+     * tags: ["cats"] }).
+     */
+    createPost(input: { id: string; title: string; tags?: string[]; mature?: boolean; isAlbum?: boolean }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
 
     /**
      * Searches public imgur posts (about 60 a page), top-scored first by default. Example:
@@ -97003,6 +97029,9 @@ interface sheinProductDetail {
 interface SheinGetProductArgs {
   productId: string;
 }
+interface SheinGetOrderArgs {
+  orderId: string;
+}
 interface SheinListStoreProductsArgs {
   storeCode: string;
 }
@@ -97026,6 +97055,17 @@ interface sheinPoints {
 }
 interface sheinCoupon {
   text: string;
+}
+interface sheinProfile {
+  text: string;
+  email: string | null;
+}
+interface sheinOrderDetail {
+  orderId: string;
+  // the site's own labels — read the values off a result, never guess one from prose
+  status: string | null;
+  text: string;
+  orderUrl: string;
 }
 interface sheinSizeRow {
   size: string;
@@ -97107,6 +97147,18 @@ interface sheinSizeGuide {
      * signed in to shein.com; the relay handles it.
      */
     listMyCoupons(opts?: ConnectionOption): Promise<sheinCoupon[]>;
+
+    /**
+     * The CALLER's Shein profile page as text, plus the email it shows. Needs the caller signed in
+     * to shein.com; the relay handles it.
+     */
+    getProfile(opts?: ConnectionOption): Promise<sheinProfile>;
+
+    /**
+     * One of the CALLER's Shein orders as its detail page shows it (status and text). Take orderId
+     * from listOrders. Needs the caller signed in to shein.com; the relay handles it.
+     */
+    getOrder(args: SheinGetOrderArgs, opts?: ConnectionOption): Promise<sheinOrderDetail>;
   }
 }
 
@@ -97523,6 +97575,17 @@ interface ShopAppAddressList {
   addresses: ShopAppAddress[];
   warnings: string[];
 }
+interface ShopAppUpdatePrivacySettingsArgs {
+  analyticsEnabled?: boolean;
+  marketingEnabled?: boolean;
+}
+interface ShopAppPrivacySettings {
+  dataSharingOptOut: boolean | null;
+  shoppingActivitySync: boolean | null;
+  analyticsConsented: boolean | null;
+  marketingConsented: boolean | null;
+  warnings: string[];
+}
 interface ShopAppShopCash {
   amount: number | null;
   currency: string | null;
@@ -97640,6 +97703,12 @@ interface ShopAppListOrdersArgs {
      * code) and returns it as listAddresses shows it. Pauses for the caller to sign in to Shop.
      */
     addAddress(args: ShopAppAddAddressArgs, opts?: ConnectionOption): Promise<ShopAppAddress>;
+
+    /**
+     * Turns Shop's analytics and marketing tracking on or off for the signed-in caller's account
+     * and returns the settings Shop now holds. Pauses for the caller to sign in to Shop.
+     */
+    updatePrivacySettings(args: ShopAppUpdatePrivacySettingsArgs, opts?: ConnectionOption): Promise<ShopAppPrivacySettings>;
 
     /**
      * Creates a new named product list on the signed-in caller's Shop account (private unless
@@ -99495,6 +99564,67 @@ interface SolostoveBundleCheck {
      * flow rather than asking the caller for one first.
      */
     checkBundle(args: { bundleId: string }): Promise<SolostoveBundleCheck>;
+  }
+}
+
+declare namespace BowmarkProvider_sos_ms_gov {
+  // ── Mississippi Secretary of State — Administrative Code — the unit's own declarations, verbatim ──
+interface MsAgency {
+  /** The agency code, e.g. "54". */
+  code: string;
+  /** The Administrative Code title number, e.g. "1". */
+  title: string;
+  name: string;
+}
+
+interface ListAgenciesArgs {
+  /** Optional name filter, e.g. "health". */
+  query?: string;
+}
+
+interface SearchAdminCodeArgs {
+  /** An agency name ("Secretary of State"), code ("54") or "Title 1". */
+  agency: string;
+  /** Optional filter on the rule title, e.g. "notaries". */
+  query?: string;
+}
+
+interface MsAdminCodePart {
+  agency: string;
+  partNumber: string;
+  rule: string;
+  summary: string | null;
+  lastAmended: string | null;
+  effectiveDate: string | null;
+  systemNumber: string;
+  /** The part's full text as a PDF. */
+  pdfUrl: string | null;
+}
+
+interface MsAdminCodeSearch {
+  agency: MsAgency;
+  /** Parts the agency has, before the query filter. */
+  total: number;
+  parts: MsAdminCodePart[];
+}
+
+  /**
+   * Mississippi Administrative Code (sos.ms.gov): list the state agencies and search each one's
+   * code parts, with dates and PDF links.
+   */
+  interface Unit {
+    /**
+     * Lists the Mississippi state agencies whose rules are in the Administrative Code, with each
+     * agency's code and title number.
+     */
+    listAgencies(args?: ListAgenciesArgs): Promise<MsAgency[]>;
+
+    /**
+     * Searches the Mississippi Administrative Code for one agency's parts (rule title, part
+     * number, last amended and effective dates, PDF link), optionally filtered by words in the
+     * rule title.
+     */
+    searchAdminCode(args: SearchAdminCodeArgs): Promise<MsAdminCodeSearch>;
   }
 }
 
@@ -128577,6 +128707,7 @@ interface BowmarkProviders {
   snapchat: BowmarkProvider_snapchat.Unit;
   solidcore: BowmarkProvider_solidcore.Unit;
   solostove: BowmarkProvider_solostove.Unit;
+  sos_ms_gov: BowmarkProvider_sos_ms_gov.Unit;
   soulcycle: BowmarkProvider_soulcycle.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   sourceforge: BowmarkProvider_sourceforge.Unit;

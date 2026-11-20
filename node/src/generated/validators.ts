@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 119fda7f2f224485847d546ecfd29e1006f96a8aad5c3726aec0a46c786595e3
-// 5533 checked, 20 unchecked.
+// Manifest version: e9a8f4e9845350fba2892fb8bbd078e53797ff1cdc1734755b351f9756df1948
+// 5541 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "119fda7f2f224485847d546ecfd29e1006f96a8aad5c3726aec0a46c786595e3",
+  "version": "e9a8f4e9845350fba2892fb8bbd078e53797ff1cdc1734755b351f9756df1948",
   "units": {
     "address_validation": {
       "defs": {
@@ -32417,6 +32417,32 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listShowEpisodes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "show",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listPodcasts": [],
         "listShows": []
       }
     },
@@ -81643,6 +81669,71 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "description",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createPost": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "tags",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "mature",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "isAlbum",
+                  "schema": {
+                    "k": "boolean"
                   },
                   "optional": true
                 }
@@ -134747,6 +134838,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.shein": {
       "defs": {
+        "SheinGetOrderArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "orderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SheinGetProductArgs": {
           "k": "object",
           "props": [
@@ -134897,6 +135000,50 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listMyCoupons": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOrder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinGetOrderArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -135329,6 +135476,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ShopAppUpdatePrivacySettingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "analyticsEnabled",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "marketingEnabled",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -135434,6 +135600,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ShopAppAddAddressArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updatePrivacySettings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppUpdatePrivacySettingsArgs"
             },
             "optional": false
           },
@@ -138005,6 +138197,63 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.sos_ms_gov": {
+      "defs": {
+        "ListAgenciesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchAdminCodeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "agency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listAgencies": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListAgenciesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchAdminCode": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchAdminCodeArgs"
             },
             "optional": false
           }
