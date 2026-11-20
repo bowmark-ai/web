@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7425 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7426 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1080,7 +1080,7 @@ One function per row, with the site it is called on.
 | `canva.deleteDesign` | canva.com | Moves one of the caller's designs to the trash. | ⚪ |
 | `canva.exportDesign` | canva.com | Exports one of the caller's designs as PDF, PNG, JPG, GIF, MP4 or PPTX and saves the… | ⚪ |
 | `canva.generateDesign` | canva.com | Generates designs from a text prompt with Canva's Magic Design, as the caller, and… | ⚪ |
-| `canva.generatePaletteFromImage` | canva.com | Extracts a colour palette (hex colours) from an image url, as Canva's colour-palette… | ⚪ |
+| `canva.generatePaletteFromImage` | canva.com | Extracts the dominant colours (hex, RGB and share) from a PNG or JPEG image url, as… | 🟢 |
 | `canva.getApp` | canva.com | Reads one Canva app's marketplace page by id or url — name, developer, description… | 🟢 |
 | `canva.getBrandKit` | canva.com | Reads the caller's brand kit — logos, brand colours and brand fonts. | ⚪ |
 | `canva.getBrandTemplateDataset` | canva.com | Reads which fields (text, image) one Brand Template can autofill. | ⚪ |
@@ -5081,7 +5081,7 @@ One function per row, with the site it is called on.
 | `pypi.getProject` | pypi.org | Reads one PyPI project's current metadata off PyPI's documented JSON API: version… | 🟢 |
 | `quickbooks.calculateEmployeeCost` | quickbooks.intuit.com | Estimates the full yearly cost of one employee (salary plus payroll taxes, benefits… | 🟢 |
 | `quickbooks.calculatePaycheck` | quickbooks.intuit.com | Computes a US employee's take-home pay for one paycheck from gross pay, pay frequency… | 🟢 |
-| `quickbooks.calculateSalesTax` | quickbooks.intuit.com | Estimates the combined sales tax rate and amount for a purchase price at a US address… | ⚪ |
+| `quickbooks.calculateSalesTax` | quickbooks.intuit.com | Estimates the combined sales tax rate and amount for a purchase price at a US address… | 🟢 |
 | `quickbooks.contactAccountant` | quickbooks.intuit.com | Sends a ProAdvisor the directory's contact request (name, email, phone, what you need… | ⚪ |
 | `quickbooks.estimatePaymentFees` | quickbooks.intuit.com | Estimates what QuickBooks Payments would charge on a given monthly volume split across… | ⚪ |
 | `quickbooks.findAccountants` | quickbooks.intuit.com | Searches the QuickBooks ProAdvisor directory for certified accountants and bookkeepers… | 🟢 |
@@ -6669,6 +6669,7 @@ One function per row, with the site it is called on.
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟡 |
 | `usatoday.getCrossword` | usatoday.com | Reads today's USA TODAY Crossword, or one by id: title, date, constructor, grid size… | 🟢 |
+| `usatoday.getElectionResults` | usatoday.com | Reads live election results for one state from USA TODAY — given a state like AK —… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
 | `usatoday.getStandings` | usatoday.com | Reads the current league standings from USA Today Sports — given a league like NFL… | 🟢 |

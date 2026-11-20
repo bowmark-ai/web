@@ -180,7 +180,7 @@ camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
-canva.com — canva: 27 functions — ask get_library (+26 planned)
+canva.com — canva: 28 functions — ask get_library (+25 planned)
 capitaloneshopping.com — capitaloneshopping: getStoreRate, searchStores
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
 careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs
@@ -694,7 +694,7 @@ puregym.com — puregym: getGym, listCities, listCityGyms, listGyms
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
 pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyDocuments, listMyInvoices, listMyPlans, listPlans (+8 planned)
 pypi.org — pypi: getProject
-quickbooks.intuit.com — quickbooks: 27 functions — ask get_library (+7 planned)
+quickbooks.intuit.com — quickbooks: 28 functions — ask get_library (+6 planned)
 quince.com — quince: getProduct, searchProducts
 quintoandar.com.br — quintoandar: getListing, search
 quora.com — quora: getAnswer, getAnswers, getHomeFeed, getOwnProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+7 planned)
@@ -898,7 +898,7 @@ urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
 us.caudalie.com — caudalie: getProduct, getProductReviews, listCategories, listCategoryProducts, searchProducts (+8 planned)
 us.posthog.com — posthog: getInsight, listInsights, listProjects, runRetentionQuery
 usa.gov — usa_gov: getPage, listPages
-usatoday.com — usatoday: browseSection, getArticle, getCrossword, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+3 planned)
+usatoday.com — usatoday: browseSection, getArticle, getCrossword, getElectionResults, getPuzzle, getScores, getStandings, getVideo, listHomepageHeadlines, listNewsletters, listPuzzles, listSections, listVideos, searchNews (+3 planned)
 uscis.gov — uscis: caseStatus
 usps.com — usps: getRate, trackPackage (+12 planned)
 va.gov — va_gov: findFacilities
