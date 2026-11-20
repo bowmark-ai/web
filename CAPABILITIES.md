@@ -109,8 +109,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `phone_price.compare` | Prices one phone across T-Mobile and Visible in parallel and returns a price-sorted… | 2 | 🟡 |
 | `phone_trade_in.estimate` | Looks up the current buyback value of an iPhone — `bowmark.phone_trade_in.estimate({… | 2 | 🟢 |
 | `pricing.checkPersonalization` | Reads one product page's price once per persona (default: desktop + mobile, each a… | 0 | 🟢 |
-| `products.getAvailability` | Reads one product page and returns its price and stock status — from the page's own… | 5 | 🟡 |
-| `products.search` | Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and… | 5 | 🟡 |
+| `products.getAvailability` | Reads one product page and returns its price and stock status — from the page's own… | 5 | 🟢 |
+| `products.search` | Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and… | 5 | 🟢 |
 | `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟢 |
 | `prospect_screening.screenCompany` | Fetches the homepage, reads any schema.org employee-count signal and any… | 0 | 🟢 |
 | `read.contacts` | The email addresses, phone numbers and links ONE page publishes — a company's contact… | 0 | 🟢 |
@@ -119,7 +119,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `read.urls` | Lists the pages a site has, so you can pick which to `read.page` instead of guessing… | 0 | 🟢 |
 | `real_estate_listings.search` | Real estate listings for a place — homes for sale (default) or rent. | 3 | 🟢 |
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 2 | 🟡 |
-| `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one list… | 3 | 🟡 |
+| `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one list… | 3 | 🟢 |
 | `retirement_ira_comparison.compare` | Projects traditional and Roth IRA after-tax values under stated return and tax-rate… | 0 | 🟢 |
 | `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟢 |
 | `screenshot.take` | Opens the page in a hosted browser and returns an image of it. | 0 | 🟢 |

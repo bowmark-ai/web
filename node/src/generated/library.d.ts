@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5ac4fc54e2da62daa575992074a0f5afd161ca7e8684f25d174777ac0ce6ad35
-// 98 capabilities, 932 providers, 5551 typed functions, 20 refused.
+// Manifest version: 24660292117156f077adcb13a660787843e5a615311a481450deee26647fe863
+// 99 capabilities, 932 providers, 5552 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4584,6 +4584,49 @@ type ContactsResult = {
      * to one section. RUN-ONLY, same as `page`.
      */
     urls(url: string, options?: UrlsOptions): Promise<UrlsResult>;
+  }
+}
+
+declare namespace BowmarkCapability_real_estate_listings {
+  // ── Real Estate Listings — Homes for Sale or Rent — the unit's own declarations, verbatim ──
+interface RealEstateListing {
+  id: string;
+  provider: string;            // "zillow" | "trulia" | "rightmove"
+  address: string;
+  priceText: string | null;    // as the site prints it
+  price: number | null;        // in currency
+  currency: "USD" | "GBP";
+  beds: number | null;
+  baths: number | null;
+  size: string | null;         // "1,850 sqft"
+  propertyType: string | null;
+  status: string | null;
+  photoUrl: string | null;
+  url: string | null;
+}
+
+interface real_estate_listingsResult {
+  query: { location: string; listingType: "sale" | "rent"; country: "US" | "UK" };
+  listings: RealEstateListing[];
+  warnings: string[];          // a site that did not answer is named here
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000
+}
+
+  /**
+   * Real estate listings: homes and property for sale or rent in a US or UK city, from Zillow,
+   * Trulia and Rightmove in one list.
+   */
+  interface Unit {
+    /**
+     * Real estate listings for a place — homes for sale (default) or rent. A US location ("Austin,
+     * TX", a ZIP) searches Zillow and Trulia; a UK one ("Manchester", a postcode) searches
+     * Rightmove. Returns one list with address, price, beds, baths, size, type and the listing
+     * url.
+     */
+    search(args: { location: string, listingType?: "sale" | "rent", minPrice?: number, maxPrice?: number, minBeds?: number, minBaths?: number, country?: "US" | "UK" }, options?: CallOptions): Promise<real_estate_listingsResult>;
   }
 }
 
@@ -25796,14 +25839,14 @@ interface CastleryProduct {
 declare namespace BowmarkProvider_caudalie {
   // ── Caudalie — the unit's own declarations, verbatim ──
 interface CaudalieProductCard {
-  sku: string; name: string; collection: string | null; price: number | null; currency: "USD";
+  sku: string; name: string; collection: string | null; size: string | null; price: number | null; priceMax: number | null; currency: "USD";
   rating: number | null; reviewCount: number | null; url: string;
 }
 interface CaudalieCategory { name: string; path: string; url: string; }
-interface CaudalieSize { size: string; name: string; }
+interface CaudalieSize { size: string; name: string; sku: string | null; price: number | null; inStock: boolean | null; url: string | null; }
 interface CaudalieProduct {
   sku: string; name: string; description: string | null; collection: string | null; gtin13: string | null;
-  price: number | null; currency: string; inStock: boolean | null; sizes: CaudalieSize[];
+  price: number | null; currency: string; inStock: boolean | null; size: string | null; sizes: CaudalieSize[];
   rating: number | null; reviewCount: number | null; breadcrumb: string[]; images: string[]; url: string;
 }
 interface CaudalieReview { title: string | null; text: string | null; rating: number | null; date: string | null; author: string | null; photos: string[]; }
@@ -256857,6 +256900,7 @@ interface BowmarkLibrary {
   promocodes: BowmarkCapability_promocodes.Unit;
   prospect_screening: BowmarkCapability_prospect_screening.Unit;
   read: BowmarkCapability_read.Unit;
+  real_estate_listings: BowmarkCapability_real_estate_listings.Unit;
   restaurant_booking: BowmarkCapability_restaurant_booking.Unit;
   retail: BowmarkCapability_retail.Unit;
   retirement_ira_comparison: BowmarkCapability_retirement_ira_comparison.Unit;

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7404 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7410 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -187,7 +187,7 @@ One function per row, with the site it is called on.
 | `alibaba.getInvoice` | alibaba.com | Get details of a specific invoice. | ⚪ |
 | `alibaba.getOrder` | alibaba.com | Get details for a specific order including tracking, payment status and items. | 🟢 |
 | `alibaba.getProduct` | alibaba.com | Get detailed information for a single product by ID, including specs, images, pricing… | 🟢 |
-| `alibaba.getProductReviews` | alibaba.com | One page of a product's buyer reviews — star rating, text, date, masked reviewer… | 🟡 |
+| `alibaba.getProductReviews` | alibaba.com | One page of a product's buyer reviews — star rating, text, date, masked reviewer… | 🟢 |
 | `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | 🟢 |
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
@@ -605,7 +605,7 @@ One function per row, with the site it is called on.
 | `bestbuy.removeFromCart` | bestbuy.com | Removes one line from the cart. | ⚪ |
 | `bestbuy.removeSavedItem` | bestbuy.com | Removes a SKU from the signed-in shopper's Saved Items. | ⚪ |
 | `bestbuy.saveItem` | bestbuy.com | Saves a SKU to the signed-in shopper's Saved Items. | ⚪ |
-| `bestbuy.search` | bestbuy.com | Runs a Best Buy product search the way bestbuy.com's own search box does and returns… | 🟡 |
+| `bestbuy.search` | bestbuy.com | Runs a Best Buy product search the way bestbuy.com's own search box does and returns… | 🟢 |
 | `bestbuy.setPreferredStore` | bestbuy.com | Sets the signed-in shopper's preferred store (id from findStores). | ⚪ |
 | `bestbuy.trackOrder` | bestbuy.com | Looks up an order's status by order number and the email or phone it was placed with… | ⚪ |
 | `bestbuy.updateCartItem` | bestbuy.com | Changes a cart line's quantity or its pickup/shipping choice. | ⚪ |
@@ -772,6 +772,9 @@ One function per row, with the site it is called on.
 | `bodacc.search` | bodacc.fr | Searches ONLY BODACC insolvency notices — not business sales/transfers (vente) or… | 🟢 |
 | `bodensee_schiffsbetriebe_berths.getBerthStatus` | bsb.de | Would return live boat-berth (Liegeplatz) availability, waiting-list status and… | ⚪ |
 | `bodensee_schiffsbetriebe_berths.searchHarbors` | bsb.de | Searches the Lake Constance harbor towns BSB serves, by name. | 🟢 |
+| `bodyrok.getSchedule` | bodyrok.com | Lists one BODYROK studio's upcoming classes (next ~8 days, or one date): class name… | 🟢 |
+| `bodyrok.getStudio` | bodyrok.com | Reads one BODYROK studio's page: name, region, address, email and its Mindbody… | 🟢 |
+| `bodyrok.listStudios` | bodyrok.com | Lists BODYROK studios (slug, name, state/region, open or coming soon, page URL)… | 🟢 |
 | `boglewinery.checkAvailability` | boglewinery.com | Checks which upcoming dates and times Tock currently shows as open for one Bogle… | 🟢 |
 | `boglewinery.listExperiences` | boglewinery.com | Reads Bogle's real, live tasting/reservation experience catalog off Tock (the booking… | 🟢 |
 | `bollandbranch.getBedDesignerFlow` | bollandbranch.com | Reads the Virtual Bed Designer's own configurator definition — the ordered categories… | 🟢 |
@@ -1173,7 +1176,7 @@ One function per row, with the site it is called on.
 | `caudalie.getProduct` | us.caudalie.com | One Caudalie US product as its page shows it: sku, name, description, collection, USD… | 🟢 |
 | `caudalie.getProductReviews` | us.caudalie.com | Customer reviews of one Caudalie US product: average rating, review count and the… | 🟢 |
 | `caudalie.listCategories` | us.caudalie.com | Every product category on Caudalie's US store (e.g. All Products > Face > Cleansers)… | 🟢 |
-| `caudalie.listCategoryProducts` | us.caudalie.com | One Caudalie US category as its page lists it, in page order, with prices and star… | 🟢 |
+| `caudalie.listCategoryProducts` | us.caudalie.com | One Caudalie US category as its page lists it, in page order, with prices, the size… | 🟢 |
 | `caudalie.removeCartItem` | us.caudalie.com | Remove one line from the visitor's Caudalie bag. | ⚪ |
 | `caudalie.searchProducts` | us.caudalie.com | Search Caudalie's US skincare store (us.caudalie.com) by words, e.g. "beauty elixir"… | 🟢 |
 | `caudalie.startCheckout` | us.caudalie.com | Start the guest checkout for the bag with a contact email, stopping before payment. | ⚪ |
@@ -3063,8 +3066,8 @@ One function per row, with the site it is called on.
 | `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | 🟢 |
 | `goodreads.unfollowUser` | goodreads.com | Stops following another member as the signed-in caller — the pair of followUser. | 🟢 |
 | `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | 🟢 |
-| `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟡 |
-| `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟡 |
+| `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟢 |
+| `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟢 |
 | `google_ads_transparency.getAd` | adstransparency.google.com | Reads one ad's own page — every region and date range it ran in, its targeting… | ⚪ |
 | `google_ads_transparency.getAds` | adstransparency.google.com | Lists the ads a brand, website domain or advertiser is running on Google, most… | 🟢 |
 | `google_ads_transparency.searchAdvertisers` | adstransparency.google.com | Searches the Ads Transparency Center's advertiser index the way its search box does —… | 🟢 |
@@ -5340,7 +5343,7 @@ One function per row, with the site it is called on.
 | `rippling.listJobs` | rippling.com | Lists every open job on one company's Rippling job board — title, work location… | 🟢 |
 | `rishitea.getTeaFinderQuiz` | rishi-tea.com | Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —… | 🟢 |
 | `rishitea.matchTeaFinderQuiz` | rishi-tea.com | Submits a full set of answers to Okendo's quiz engine and returns the same… | 🟢 |
-| `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟡 |
+| `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟢 |
 | `ritani.priceConfiguration` | ritani.com | Prices one exact custom-ring build against Ritani's own live Ring Studio pricing… | 🟢 |
 | `rivian.estimateLeasePayment` | rivian.com | Prices a 36- or 24-month Rivian lease for a 2027-model-year R1T Premium — monthly… | 🟢 |
 | `roblox.getGame` | roblox.com | Get details of a specific game including description, creator, stats, and play… | 🟢 |
@@ -6616,7 +6619,10 @@ One function per row, with the site it is called on.
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
 | `ulrichlifestyle.priceConfiguration` | ulrichlifestyle.com | Configures and prices one specific build (dimensions, wall height, siding, delivery… | 🟢 |
 | `unihomes_co_uk.getListing` | unihomes.co.uk | Reads one public UniHomes student-home listing by its URL or reference number —… | 🟢 |
+| `unipv_elearning.getCourse` | elearning.unipv.it | One enrolled course's on-page text, section links, activities and materials, by Moodle… | ⚪ |
 | `unipv_elearning.getCourseInfo` | elearning.unipv.it | Read one Kiro course's public summary page (course/info.php) by Moodle course id… | 🟢 |
+| `unipv_elearning.getCourseMaterial` | elearning.unipv.it | Open one section, activity or file link of a Kiro course and read its text (PDF text… | ⚪ |
+| `unipv_elearning.listMyCourses` | elearning.unipv.it | The signed-in student's own enrolled Kiro courses (My courses), searchable by title or… | ⚪ |
 | `unipv_elearning.searchCourses` | elearning.unipv.it | Search the University of Pavia's Kiro (elearning.unipv.it) public course catalogue by… | 🟢 |
 | `uniqlo.getProduct` | uniqlo.com | Reads one Uniqlo product's every color × size with its price, live stock status and… | 🟢 |
 | `uniqlo.searchProducts` | uniqlo.com | Searches Uniqlo's live clothing catalog, the US store (uniqlo.com/us, USD) by default… | 🟢 |

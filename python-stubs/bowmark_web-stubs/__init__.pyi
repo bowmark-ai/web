@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5ac4fc54e2da62daa575992074a0f5afd161ca7e8684f25d174777ac0ce6ad35
-# 98 capabilities, 932 providers, 5523 typed functions, 20 refused.
+# Manifest version: 24660292117156f077adcb13a660787843e5a615311a481450deee26647fe863
+# 99 capabilities, 932 providers, 5524 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2802,6 +2802,43 @@ class Cap_read_DiscoveredUrl_Out(TypedDict):
     source: Literal["sitemap"] | Literal["link"] | Literal["both"]
     depth: float | None
     lastmod: str | None
+
+class Cap_real_estate_listings_search_args_In(TypedDict):
+    location: str
+    listingType: NotRequired[Literal["sale"] | Literal["rent"]]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minBeds: NotRequired[float]
+    minBaths: NotRequired[float]
+    country: NotRequired[Literal["US"] | Literal["UK"]]
+
+class Cap_real_estate_listings_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_real_estate_listings_real_estate_listingsResult_Out(TypedDict):
+    query: Cap_real_estate_listings_real_estate_listingsResult_Out_query_Out
+    listings: list[Cap_real_estate_listings_RealEstateListing_Out]
+    warnings: list[str]
+
+class Cap_real_estate_listings_real_estate_listingsResult_Out_query_Out(TypedDict):
+    location: str
+    listingType: Literal["sale"] | Literal["rent"]
+    country: Literal["US"] | Literal["UK"]
+
+class Cap_real_estate_listings_RealEstateListing_Out(TypedDict):
+    id: str
+    provider: str
+    address: str
+    priceText: str | None
+    price: float | None
+    currency: Literal["USD"] | Literal["GBP"]
+    beds: float | None
+    baths: float | None
+    size: str | None
+    propertyType: str | None
+    status: str | None
+    photoUrl: str | None
+    url: str | None
 
 class Cap_restaurant_booking_findAvailability_name_u1_In(TypedDict):
     name: str
@@ -16592,7 +16629,9 @@ class Prv_caudalie_CaudalieProductCard_Out(TypedDict):
     sku: str
     name: str
     collection: str | None
+    size: str | None
     price: float | None
+    priceMax: float | None
     currency: Literal["USD"]
     rating: float | None
     reviewCount: float | None
@@ -16619,6 +16658,7 @@ class Prv_caudalie_CaudalieProduct_Out(TypedDict):
     price: float | None
     currency: str
     inStock: bool | None
+    size: str | None
     sizes: list[Prv_caudalie_CaudalieSize_Out]
     rating: float | None
     reviewCount: float | None
@@ -16629,6 +16669,10 @@ class Prv_caudalie_CaudalieProduct_Out(TypedDict):
 class Prv_caudalie_CaudalieSize_Out(TypedDict):
     size: str
     name: str
+    sku: str | None
+    price: float | None
+    inStock: bool | None
+    url: str | None
 
 class Prv_caudalie_CaudalieReviews_Out(TypedDict):
     sku: str
@@ -85705,6 +85749,18 @@ class Cap_read(Protocol):
         `pathPrefix: "/blog/"` scopes the list to one section. RUN-ONLY, same as `page`.
         """
 
+class Cap_real_estate_listings(Protocol):
+    """Real estate listings: homes and property for sale or rent in a US or UK city, from
+    Zillow, Trulia and Rightmove in one list.
+    """
+
+    async def search(self, args: Cap_real_estate_listings_search_args_In, options: Cap_real_estate_listings_CallOptions_In | None = None, /) -> Cap_real_estate_listings_real_estate_listingsResult_Out:
+        """Real estate listings for a place — homes for sale (default) or rent. A US location
+        ("Austin, TX", a ZIP) searches Zillow and Trulia; a UK one ("Manchester", a postcode)
+        searches Rightmove. Returns one list with address, price, beds, baths, size, type and
+        the listing url.
+        """
+
 class Cap_restaurant_booking(Protocol):
     """Finds a restaurant by name on Resy and OpenTable and reads its real-time open
     reservation slots for a date and party size, plus a direct link to book one (per slot on
@@ -129910,6 +129966,7 @@ class Bowmark(Protocol):
     promocodes: Cap_promocodes
     prospect_screening: Cap_prospect_screening
     read: Cap_read
+    real_estate_listings: Cap_real_estate_listings
     restaurant_booking: Cap_restaurant_booking
     retail: Cap_retail
     retirement_ira_comparison: Cap_retirement_ira_comparison

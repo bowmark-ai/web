@@ -138,6 +138,7 @@ blueshieldca.com — blueshieldca_directory: findProviders
 bluesignal.com — bluesignal: getJob, searchJobs (+1 planned)
 bmwusa.com — bmwusa: buildVehicle, getModel, listModels, listOffers, searchCertifiedPreOwned (+7 planned)
 bodacc.fr — bodacc: search
+bodyrok.com — bodyrok: getSchedule, getStudio, listStudios
 boglewinery.com — boglewinery: checkAvailability, listExperiences
 bollandbranch.com — bollandbranch: getBedDesignerFlow, getCategoryOptions, getSwatchDetails (+1 planned)
 book.squareup.com — square_appointments: cancelBooking, cancelClassBooking, checkAvailability, findBusiness, getBooking, getBusiness, getService, listCategories, listClasses, listCreditPacks, listLocations, listMyBookings, listMyClassBookings, listServices, listStaff (+4 planned)
@@ -316,7 +317,7 @@ easyclosets.com — thestowcompany: getSampleClosetEstimate
 ebay.com — ebay: getDeals, getItem, getMyListings, getSellerListings, getSellerProfile, getWatchlist, searchAutocomplete, searchByCategory, searchSold (+9 planned)
 edmunds.com — edmunds: getDiscussion, listCarModels, listForumTags, searchForumPosts, searchForums
 elase.com — elase: findLocation, listLocations, listServices (+1 planned)
-elearning.unipv.it — unipv_elearning: getCourseInfo, searchCourses
+elearning.unipv.it — unipv_elearning: getCourseInfo, searchCourses (+3 planned)
 elevenlabs.io — elevenlabs: cloneVoice, listVoices, synthesize
 embroker.com — embroker: getQuoteEntryPoint, listCoverageLines (+1 planned)
 emirates.com — emirates: flightStatus

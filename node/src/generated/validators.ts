@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5ac4fc54e2da62daa575992074a0f5afd161ca7e8684f25d174777ac0ce6ad35
-// 5523 checked, 20 unchecked.
+// Manifest version: 24660292117156f077adcb13a660787843e5a615311a481450deee26647fe863
+// 5524 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5ac4fc54e2da62daa575992074a0f5afd161ca7e8684f25d174777ac0ce6ad35",
+  "version": "24660292117156f077adcb13a660787843e5a615311a481450deee26647fe863",
   "units": {
     "address_validation": {
       "defs": {
@@ -5514,6 +5514,112 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "UrlsOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "real_estate_listings": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "listingType",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "sale"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "rent"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minBeds",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minBaths",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "US"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "UK"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
             },
             "optional": true
           }
