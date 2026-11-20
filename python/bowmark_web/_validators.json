@@ -1,5 +1,5 @@
 {
-  "version": "9719a1731b41a86ee30e810307cb90d0cb6a2af254e0cba61795562c2df36aea",
+  "version": "5ac4fc54e2da62daa575992074a0f5afd161ca7e8684f25d174777ac0ce6ad35",
   "units": {
     "address_validation": {
       "defs": {
@@ -159476,6 +159476,71 @@
             "name": "listing",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.unipv_elearning": {
+      "defs": {
+        "GetCourseInfoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "courseId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchCoursesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchCourses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchCoursesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCourseInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCourseInfoArgs"
             },
             "optional": false
           }

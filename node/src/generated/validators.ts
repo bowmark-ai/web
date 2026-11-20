@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9719a1731b41a86ee30e810307cb90d0cb6a2af254e0cba61795562c2df36aea
-// 5521 checked, 20 unchecked.
+// Manifest version: 5ac4fc54e2da62daa575992074a0f5afd161ca7e8684f25d174777ac0ce6ad35
+// 5523 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9719a1731b41a86ee30e810307cb90d0cb6a2af254e0cba61795562c2df36aea",
+  "version": "5ac4fc54e2da62daa575992074a0f5afd161ca7e8684f25d174777ac0ce6ad35",
   "units": {
     "address_validation": {
       "defs": {
@@ -159488,6 +159488,71 @@ export const VALIDATORS: ValidatorTable = {
             "name": "listing",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.unipv_elearning": {
+      "defs": {
+        "GetCourseInfoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "courseId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchCoursesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchCourses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchCoursesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCourseInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCourseInfoArgs"
             },
             "optional": false
           }

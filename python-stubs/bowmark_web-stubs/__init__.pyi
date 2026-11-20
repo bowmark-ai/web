@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9719a1731b41a86ee30e810307cb90d0cb6a2af254e0cba61795562c2df36aea
-# 98 capabilities, 931 providers, 5521 typed functions, 20 refused.
+# Manifest version: 5ac4fc54e2da62daa575992074a0f5afd161ca7e8684f25d174777ac0ce6ad35
+# 98 capabilities, 932 providers, 5523 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -75925,6 +75925,37 @@ class Prv_unihomes_co_uk_UniHomesListing_Out(TypedDict):
     availableFrom: str | None
     features: list[str]
 
+class Prv_unipv_elearning_SearchCoursesArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_unipv_elearning_UnipvSearchResult_Out(TypedDict):
+    courses: list[Prv_unipv_elearning_UnipvCourse_Out]
+    page: float
+    total: NotRequired[float]
+    hasMore: bool
+
+class Prv_unipv_elearning_UnipvCourse_Out(TypedDict):
+    id: str
+    name: str
+    code: NotRequired[str]
+    url: str
+    infoUrl: str
+    summary: NotRequired[str]
+    teachers: list[Prv_unipv_elearning_UnipvCourse_Out_teachers_item_Out]
+    category: NotRequired[Prv_unipv_elearning_UnipvCourse_Out_category_Out]
+
+class Prv_unipv_elearning_UnipvCourse_Out_teachers_item_Out(TypedDict):
+    name: str
+    profileUrl: NotRequired[str]
+
+class Prv_unipv_elearning_UnipvCourse_Out_category_Out(TypedDict):
+    name: str
+    url: str
+
+class Prv_unipv_elearning_GetCourseInfoArgs_In(TypedDict):
+    courseId: str | float
+
 class Prv_uniqlo_UniqloSearchArgs_In(TypedDict):
     query: NotRequired[str]
     department: NotRequired[Literal["men"] | Literal["women"] | Literal["kids"] | Literal["baby"]]
@@ -124439,6 +124470,21 @@ class Prv_unihomes_co_uk(Protocol):
         availability date and key features.
         """
 
+class Prv_unipv_elearning(Protocol):
+    """Search the University of Pavia's Moodle (Kiro, elearning.unipv.it) course catalogue and
+    read a course's public summary — name, code, teachers, category.
+    """
+
+    async def searchCourses(self, args: Prv_unipv_elearning_SearchCoursesArgs_In, /) -> Prv_unipv_elearning_UnipvSearchResult_Out:
+        """Search Kiro's public course catalogue by title, teacher or course code; 20 courses a
+        page, with the site's total and whether another page exists.
+        """
+
+    async def getCourseInfo(self, args: Prv_unipv_elearning_GetCourseInfoArgs_In, /) -> Prv_unipv_elearning_UnipvCourse_Out:
+        """Read one course's public summary page by Moodle course id: name, code, description,
+        teachers. The course content itself needs a UniPV sign-in.
+        """
+
 class Prv_uniqlo(Protocol):
     """Uniqlo clothing store, US (uniqlo.com/us, USD) or Canada (uniqlo.com/ca, CAD) via
     market. Searches the live catalog by keyword and/or department (men's, women's, kids,
@@ -129707,6 +129753,7 @@ class BowmarkProviders(Protocol):
     ukstudenthouses: Prv_ukstudenthouses
     ulrichlifestyle: Prv_ulrichlifestyle
     unihomes_co_uk: Prv_unihomes_co_uk
+    unipv_elearning: Prv_unipv_elearning
     uniqlo: Prv_uniqlo
     unsplash: Prv_unsplash
     upkeepstl_com: Prv_upkeepstl_com

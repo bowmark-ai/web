@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9719a1731b41a86ee30e810307cb90d0cb6a2af254e0cba61795562c2df36aea
-// 98 capabilities, 931 providers, 5549 typed functions, 20 refused.
+// Manifest version: 5ac4fc54e2da62daa575992074a0f5afd161ca7e8684f25d174777ac0ce6ad35
+// 98 capabilities, 932 providers, 5551 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -114020,6 +114020,54 @@ interface UniHomesListing { id: string; title: string; url: string; status: "ava
   }
 }
 
+declare namespace BowmarkProvider_unipv_elearning {
+  // ── Kiro — University of Pavia e-learning — the unit's own declarations, verbatim ──
+interface UnipvCourse {
+  id: string; // Moodle course id (course/view.php?id=)
+  name: string;
+  code?: string; // leading numeric course code, e.g. "500119"
+  url: string; // course page — needs a UniPV sign-in to open
+  infoUrl: string; // public summary page
+  summary?: string;
+  teachers: { name: string; profileUrl?: string }[];
+  category?: { name: string; url: string };
+}
+
+interface UnipvSearchResult {
+  courses: UnipvCourse[]; // up to 20 per page
+  page: number; // 1-based
+  total?: number; // the site's own match count
+  hasMore: boolean;
+}
+
+interface SearchCoursesArgs {
+  query: string; // course title words, teacher name or course code
+  page?: number; // 1-based, default 1
+}
+
+interface GetCourseInfoArgs {
+  courseId: string | number; // Moodle course id, or a course URL
+}
+
+  /**
+   * Search the University of Pavia's Moodle (Kiro, elearning.unipv.it) course catalogue and read
+   * a course's public summary — name, code, teachers, category.
+   */
+  interface Unit {
+    /**
+     * Search Kiro's public course catalogue by title, teacher or course code; 20 courses a page,
+     * with the site's total and whether another page exists.
+     */
+    searchCourses(args: SearchCoursesArgs): Promise<UnipvSearchResult>;
+
+    /**
+     * Read one course's public summary page by Moodle course id: name, code, description,
+     * teachers. The course content itself needs a UniPV sign-in.
+     */
+    getCourseInfo(args: GetCourseInfoArgs): Promise<UnipvCourse>;
+  }
+}
+
 declare namespace BowmarkProvider_uniqlo {
   // ── Uniqlo — the unit's own declarations, verbatim ──
 interface UniqloSearchArgs {
@@ -128334,6 +128382,7 @@ interface BowmarkProviders {
   ukstudenthouses: BowmarkProvider_ukstudenthouses.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   unihomes_co_uk: BowmarkProvider_unihomes_co_uk.Unit;
+  unipv_elearning: BowmarkProvider_unipv_elearning.Unit;
   uniqlo: BowmarkProvider_uniqlo.Unit;
   unsplash: BowmarkProvider_unsplash.Unit;
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
