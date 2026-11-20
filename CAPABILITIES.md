@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 161 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 162 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -117,6 +117,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `read.page` | Loads one page and returns its content. **On a booking calendar or a… | 0 | 🟢 |
 | `read.pages` | The same read over many urls: requests to the SAME origin are serialized (one at a… | 0 | 🟢 |
 | `read.urls` | Lists the pages a site has, so you can pick which to `read.page` instead of guessing… | 0 | 🟢 |
+| `real_estate_listings.search` | Real estate listings for a place — homes for sale (default) or rent. | 3 | 🟢 |
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 2 | 🟡 |
 | `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one list… | 3 | 🟡 |
 | `retirement_ira_comparison.compare` | Projects traditional and Roth IRA after-tax values under stated return and tax-rate… | 0 | 🟢 |
