@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e095278624ae2b182393435d3513c9d16025b51204a1049f0fa78d7d3469e0e3
+// Manifest version: 814d7cd6b2d4b8babca1a1f6b39d49957a5d033e83618008e62378a5b1f54c79
 // 99 capabilities, 935 providers, 5559 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -114680,8 +114680,9 @@ interface UpsServiceAlerts {
      * inside one customs union. Returns one row per UPS service (UPS Standard, Express Saver,
      * Express, Express Plus…) with cost and the currency the calculator quoted in (the origin's,
      * e.g. EUR from Germany), the delivery date and whether it is guaranteed. Use this rather than
-     * `calculateShippingCost` when the origin is not in the US. Drives the calculator in a
-     * headless browser, so it takes about a minute.
+     * `calculateShippingCost` when the origin is not in the US. Weight and box size (length,
+     * width, height) have no default: they come from the caller, so ask for them before calling.
+     * Drives the calculator in a headless browser, so it takes about a minute.
      */
     calculateTimeAndCost(args: { fromCountry: string; fromPostalCode: string; fromCity?: string; toCountry: string; toPostalCode: string; toCity?: string; weight: number; length: number; width: number; height: number; units?: "metric" | "imperial"; customsValue?: number; shipDate?: string }): Promise<UpsSimpleRateQuote[]>;
 

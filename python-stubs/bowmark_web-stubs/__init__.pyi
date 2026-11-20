@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e095278624ae2b182393435d3513c9d16025b51204a1049f0fa78d7d3469e0e3
+# Manifest version: 814d7cd6b2d4b8babca1a1f6b39d49957a5d033e83618008e62378a5b1f54c79
 # 99 capabilities, 935 providers, 5531 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -124850,7 +124850,9 @@ class Prv_ups(Protocol):
         Express Saver, Express, Express Plus…) with cost and the currency the calculator quoted
         in (the origin's, e.g. EUR from Germany), the delivery date and whether it is
         guaranteed. Use this rather than `calculateShippingCost` when the origin is not in the
-        US. Drives the calculator in a headless browser, so it takes about a minute.
+        US. Weight and box size (length, width, height) have no default: they come from the
+        caller, so ask for them before calling. Drives the calculator in a headless browser, so
+        it takes about a minute.
         """
 
     async def findNearbyLocation(self, args: Prv_ups_findNearbyLocation_args_In, /) -> list[Prv_ups_UpsNearbyLocation_Out]:
