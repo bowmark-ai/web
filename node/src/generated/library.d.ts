@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0723f538926051cdda07aa43e526cce8bd325a3c9d6250238ac6e25448ee2349
-// 99 capabilities, 934 providers, 5558 typed functions, 20 refused.
+// Manifest version: 35dd7bd2dff1f2687a05146cb2fc5f861fe6a25f5d8e8604974a676a91fcef83
+// 99 capabilities, 935 providers, 5559 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4160,17 +4160,17 @@ interface ProductAvailability {
      * Reads one product page and returns its price and stock status — from the page's own
      * schema.org Product/Offer markup when it carries one (a plain Product, a ProductGroup with
      * its variants, or a Product wrapped in a BuyAction; no browser, no per-site adapter), and
-     * otherwise, for a handful of stores this library already has a provider for (today: Target,
-     * Amazon), by reading that store's own product-detail function instead of reporting "no data".
-     * That list is the whole fallback: any other page with no schema.org markup comes back `ok:
-     * false`, `source: "none"`, with no price or stock. For such a page, read the page itself with
-     * `bowmark.read.page(url, { format: "html" })` and take the price from its `<script
-     * type="application/ld+json">` blocks. `source` says which one answered. Where a page lists
-     * several sellers the price is the lowest, and `warnings` says so. Reports a failure or an
-     * unread page IN the result rather than throwing. If the caller hasn't named a specific
-     * product page yet, DO NOT ask them for a url first — immediately `run` the worked example
-     * below, which is a real, live product page, to demonstrate a genuine price+stock read, THEN
-     * ask which product url to check next.
+     * otherwise, for a handful of stores this library already has a provider for (today: Walmart,
+     * Target, Amazon, Best Buy, lululemon, Zepto), by reading that store's own product-detail
+     * function instead of reporting "no data". That list is the whole fallback: any other page
+     * with no schema.org markup comes back `ok: false`, `source: "none"`, with no price or stock.
+     * For such a page, read the page itself with `bowmark.read.page(url, { format: "html" })` and
+     * take the price from its `<script type="application/ld+json">` blocks. `source` says which
+     * one answered. Where a page lists several sellers the price is the lowest, and `warnings`
+     * says so. Reports a failure or an unread page IN the result rather than throwing. If the
+     * caller hasn't named a specific product page yet, DO NOT ask them for a url first —
+     * immediately `run` the worked example below, which is a real, live product page, to
+     * demonstrate a genuine price+stock read, THEN ask which product url to check next.
      */
     getAvailability(url: string): Promise<ProductAvailability>;
   }
@@ -4382,7 +4382,7 @@ type ReadResult = {
                              // could NOT clear it, so a block is a named fact rather
                              // than an empty page. Uncleared on the content served
                              // ⇒ ok:false, and warnings says the site refused the
-                             // read — retrying will not help. A 4xx/5xx page is
+                             // read — one re-read may pass. A 4xx/5xx page is
                              // ok:false too: it is the site's error page —
                              // except a 404/410 whose page is the item itself,
                              // marked sold out or discontinued (Etsy's sold-out
@@ -62025,9 +62025,10 @@ interface InstagramPlaybackFile {
      * the same post shape as getPost. A logged-out hashtag page leads to the keyword's
      * popular-search page, so both read it: the top 24 posts, each with shortcode, owner (id and
      * username), caption, hashtags, image, video and play count, plus related searches (the page
-     * serves no like or comment counts). A keyword Instagram has no page for throws. A location
-     * returns the place (name, category, coordinates, post count) and its top posts with captions,
-     * like and comment counts and timestamps.
+     * serves no like or comment counts). A keyword whose posts Instagram withholds from logged-out
+     * readers (many real tags, #skincare among them) throws saying so, not that the tag is
+     * missing. A location returns the place (name, category, coordinates, post count) and its top
+     * posts with captions, like and comment counts and timestamps.
      */
     getFeed(input: string | { url?: string; hashtag?: string; keyword?: string; locationId?: string }): Promise<InstagramFeed>;
 
@@ -66249,6 +66250,44 @@ type LcscProductArgs = string | { code: string };
      * attributes (resistance, tolerance, voltage, …).
      */
     product(args: LcscProductArgs): Promise<LcscProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_leboncoin {
+  // ── leboncoin — the unit's own declarations, verbatim ──
+interface LeboncoinListing {
+  id: string;
+  title: string;
+  priceEur: number | null;
+  category: string | null;
+  city: string | null;
+  zipcode: string | null;
+  region: string | null;
+  sellerType: string | null; // "private" | "pro"
+  sellerName: string | null;
+  publishedAt: string | null;
+  imageUrl: string | null;
+  url: string;
+}
+
+interface LeboncoinSearchResult {
+  query: string;
+  page: number;
+  total: number | null;
+  listings: LeboncoinListing[];
+}
+
+  /**
+   * Search leboncoin.fr, France's largest classifieds site: listings with price, city, category
+   * and URL.
+   */
+  interface Unit {
+    /**
+     * Searches leboncoin, France's largest classifieds site, by keyword and returns listings
+     * (petites annonces) with title, price in euros, city, postcode, category, seller type, photo
+     * and listing URL.
+     */
+    search(query: string, opts?: { page?: number }): Promise<LeboncoinSearchResult>;
   }
 }
 
@@ -80943,6 +80982,9 @@ interface open_librarySearchHit {
   subjects: string[];           // first 15
   languages: string[];          // MARC codes, e.g. "eng"
   ebookAccess: string | null;   // "public" | "borrowable" | "printdisabled" | "no_ebook"
+  archiveIds: string[];         // Internet Archive identifiers of its scanned editions (first 10) —
+                                // pass one to bowmark.providers.archive_org.checkLendingAvailability
+                                // to ask whether it can be borrowed right now
   coverUrl: string | null;
   url: string;                  // https://openlibrary.org/works/<id>
 }
@@ -128220,6 +128262,7 @@ interface BowmarkProviders {
   lasikplus: BowmarkProvider_lasikplus.Unit;
   launchpad: BowmarkProvider_launchpad.Unit;
   lcsc: BowmarkProvider_lcsc.Unit;
+  leboncoin: BowmarkProvider_leboncoin.Unit;
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   letterboxd: BowmarkProvider_letterboxd.Unit;
   lever: BowmarkProvider_lever.Unit;

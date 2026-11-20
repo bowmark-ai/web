@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0723f538926051cdda07aa43e526cce8bd325a3c9d6250238ac6e25448ee2349
-# 99 capabilities, 934 providers, 5530 typed functions, 20 refused.
+# Manifest version: 35dd7bd2dff1f2687a05146cb2fc5f861fe6a25f5d8e8604974a676a91fcef83
+# 99 capabilities, 935 providers, 5531 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -43423,6 +43423,29 @@ class Prv_lcsc_LcscProduct_Out_attributes_item_Out(TypedDict):
     name: str
     value: str
 
+class Prv_leboncoin_search_opts_In(TypedDict):
+    page: NotRequired[float]
+
+class Prv_leboncoin_LeboncoinSearchResult_Out(TypedDict):
+    query: str
+    page: float
+    total: float | None
+    listings: list[Prv_leboncoin_LeboncoinListing_Out]
+
+class Prv_leboncoin_LeboncoinListing_Out(TypedDict):
+    id: str
+    title: str
+    priceEur: float | None
+    category: str | None
+    city: str | None
+    zipcode: str | None
+    region: str | None
+    sellerType: str | None
+    sellerName: str | None
+    publishedAt: str | None
+    imageUrl: str | None
+    url: str
+
 class Prv_legacyhomesal_LegacyHomesalAvailability_Out(TypedDict):
     repSlug: str
     repName: str | None
@@ -52549,6 +52572,7 @@ class Prv_open_library_open_librarySearchHit_Out(TypedDict):
     subjects: list[str]
     languages: list[str]
     ebookAccess: str | None
+    archiveIds: list[str]
     coverUrl: str | None
     url: str
 
@@ -85705,16 +85729,17 @@ class Cap_products(Protocol):
         schema.org Product/Offer markup when it carries one (a plain Product, a ProductGroup
         with its variants, or a Product wrapped in a BuyAction; no browser, no per-site
         adapter), and otherwise, for a handful of stores this library already has a provider for
-        (today: Target, Amazon), by reading that store's own product-detail function instead of
-        reporting "no data". That list is the whole fallback: any other page with no schema.org
-        markup comes back `ok: false`, `source: "none"`, with no price or stock. For such a
-        page, read the page itself with `bowmark.read.page(url, { format: "html" })` and take
-        the price from its `<script type="application/ld+json">` blocks. `source` says which one
-        answered. Where a page lists several sellers the price is the lowest, and `warnings`
-        says so. Reports a failure or an unread page IN the result rather than throwing. If the
-        caller hasn't named a specific product page yet, DO NOT ask them for a url first —
-        immediately `run` the worked example below, which is a real, live product page, to
-        demonstrate a genuine price+stock read, THEN ask which product url to check next.
+        (today: Walmart, Target, Amazon, Best Buy, lululemon, Zepto), by reading that store's
+        own product-detail function instead of reporting "no data". That list is the whole
+        fallback: any other page with no schema.org markup comes back `ok: false`, `source:
+        "none"`, with no price or stock. For such a page, read the page itself with
+        `bowmark.read.page(url, { format: "html" })` and take the price from its `<script
+        type="application/ld+json">` blocks. `source` says which one answered. Where a page
+        lists several sellers the price is the lowest, and `warnings` says so. Reports a failure
+        or an unread page IN the result rather than throwing. If the caller hasn't named a
+        specific product page yet, DO NOT ask them for a url first — immediately `run` the
+        worked example below, which is a real, live product page, to demonstrate a genuine
+        price+stock read, THEN ask which product url to check next.
         """
 
 class Cap_promocodes(Protocol):
@@ -106098,9 +106123,11 @@ class Prv_instagram(Protocol):
         a login, in the same post shape as getPost. A logged-out hashtag page leads to the
         keyword's popular-search page, so both read it: the top 24 posts, each with shortcode,
         owner (id and username), caption, hashtags, image, video and play count, plus related
-        searches (the page serves no like or comment counts). A keyword Instagram has no page
-        for throws. A location returns the place (name, category, coordinates, post count) and
-        its top posts with captions, like and comment counts and timestamps.
+        searches (the page serves no like or comment counts). A keyword whose posts Instagram
+        withholds from logged-out readers (many real tags, #skincare among them) throws saying
+        so, not that the tag is missing. A location returns the place (name, category,
+        coordinates, post count) and its top posts with captions, like and comment counts and
+        timestamps.
         """
 
     async def searchAccounts(self, query: str, opts: ConnectionOption | None = None, /) -> list[Prv_instagram_InstagramAccountSearchResult_Out]:
@@ -107771,6 +107798,17 @@ class Prv_lcsc(Protocol):
     async def product(self, args: str | Prv_lcsc_LcscProductArgs_u1_In, /) -> Prv_lcsc_LcscProduct_Out:
         """Reads one LCSC part by its code ("C8734"): everything search returns plus the parametric
         attributes (resistance, tolerance, voltage, …).
+        """
+
+class Prv_leboncoin(Protocol):
+    """Search leboncoin.fr, France's largest classifieds site: listings with price, city,
+    category and URL.
+    """
+
+    async def search(self, query: str, opts: Prv_leboncoin_search_opts_In | None = None, /) -> Prv_leboncoin_LeboncoinSearchResult_Out:
+        """Searches leboncoin, France's largest classifieds site, by keyword and returns listings
+        (petites annonces) with title, price in euros, city, postcode, category, seller type,
+        photo and listing URL.
         """
 
 class Prv_legacyhomesal(Protocol):
@@ -129607,6 +129645,7 @@ class BowmarkProviders(Protocol):
     lasikplus: Prv_lasikplus
     launchpad: Prv_launchpad
     lcsc: Prv_lcsc
+    leboncoin: Prv_leboncoin
     legacyhomesal: Prv_legacyhomesal
     letterboxd: Prv_letterboxd
     lever: Prv_lever

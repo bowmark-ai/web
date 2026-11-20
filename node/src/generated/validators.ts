@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0723f538926051cdda07aa43e526cce8bd325a3c9d6250238ac6e25448ee2349
-// 5530 checked, 20 unchecked.
+// Manifest version: 35dd7bd2dff1f2687a05146cb2fc5f861fe6a25f5d8e8604974a676a91fcef83
+// 5531 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0723f538926051cdda07aa43e526cce8bd325a3c9d6250238ac6e25448ee2349",
+  "version": "35dd7bd2dff1f2687a05146cb2fc5f861fe6a25f5d8e8604974a676a91fcef83",
   "units": {
     "address_validation": {
       "defs": {
@@ -89045,6 +89045,36 @@ export const VALIDATORS: ValidatorTable = {
               "name": "LcscProductArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.leboncoin": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

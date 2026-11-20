@@ -515,6 +515,7 @@ latimes.com — latimes: nothing callable yet (+36 planned)
 lcsc.com — lcsc: product, search
 learn.chatgpt.com — openai: helpArticle, plans
 learning.oreilly.com — oreilly: getContentMetadata, getMetadataByUrls, search (+1 planned)
+leboncoin.fr — leboncoin: search
 legacyhomesal.com — legacyhomesal: getAvailability, listCommunities
 letterboxd.com — letterboxd: film, getOwnAccount, memberDiary, memberFilms
 lever.co — lever: listJobs (+1 planned)

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7413 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7414 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3830,6 +3830,7 @@ One function per row, with the site it is called on.
 | `launchpad.searchProjects` | code.launchpad.net | Searches public Launchpad projects by title, summary, or description. | 🟢 |
 | `lcsc.product` | lcsc.com | Reads one LCSC part by its C-code, including its parametric attributes, stock, price… | 🟢 |
 | `lcsc.search` | lcsc.com | Searches LCSC's electronic-components catalog by part number or description, returning… | 🟢 |
+| `leboncoin.search` | leboncoin.fr | Searches leboncoin, France's largest classifieds site, by keyword and returns listings… | 🟢 |
 | `legacyhomesal.getAvailability` | legacyhomesal.com | Reads a Legacy Homes AL community sales rep's real open tour-appointment slots… | 🟢 |
 | `legacyhomesal.listCommunities` | legacyhomesal.com | Lists every Legacy Homes AL community (name, area, sales status) paired with the rep… | 🟢 |
 | `letterboxd.film` | letterboxd.com | Reads one film's full record off its letterboxd page — title, year, directors, cast… | 🟢 |
@@ -5155,7 +5156,7 @@ One function per row, with the site it is called on.
 | `reddit.createSubreddit` | reddit.com | Creates a new community owned by the signed-in caller — name, description, and public… | 🟢 |
 | `reddit.deletePostOrComment` | reddit.com | Deletes the signed-in caller's own post or comment. | 🟢 |
 | `reddit.editPostOrComment` | reddit.com | Edits the text of the signed-in caller's own post or comment. | 🟢 |
-| `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | 🟡 |
+| `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | 🟢 |
 | `reddit.followUser` | reddit.com | Follows or unfollows a redditor as the signed-in caller, so their posts reach the… | 🟢 |
 | `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | 🟡 |
 | `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | 🟢 |
