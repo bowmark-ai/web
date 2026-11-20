@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9531ff0fafbc40f395ae95eaefe63b5c7689e029a525ddf5ef7eb8441fbfe871
-// 99 capabilities, 933 providers, 5555 typed functions, 20 refused.
+// Manifest version: 5665ccea01ac1b1cfe61cf5d4961e428dcb49594e2548981a9478def5c4e3286
+// 99 capabilities, 934 providers, 5557 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -58840,6 +58840,73 @@ interface HistorymakerCommunity {
      * data.
      */
     listCommunities(): Promise<HistorymakerCommunity[]>;
+  }
+}
+
+declare namespace BowmarkProvider_hkexpress {
+  // ── HK Express — the unit's own declarations, verbatim ──
+interface HkexpressFare {
+  departureDate: string;
+  price: number;
+  currency: string;
+  usdPrice: number | null;
+  seenAt: string | null;
+}
+
+interface HkexpressRoute {
+  origin: string;
+  originCity: string | null;
+  originCountry: string | null;
+  destination: string;
+  destinationCity: string | null;
+  destinationCountry: string | null;
+  lowestFare: HkexpressFare | null;
+  bookingUrl: string;
+}
+
+interface HkexpressListRoutesArgs {
+  origin?: string;
+  destination?: string;
+}
+
+interface HkexpressFareCalendarArgs {
+  origin: string;
+  destination: string;
+  from?: string;
+  to?: string;
+}
+
+interface HkexpressFareCalendar {
+  origin: string;
+  destination: string;
+  from: string;
+  to: string;
+  days: HkexpressFare[];
+  lowest: HkexpressFare | null;
+  bookingUrl: string;
+}
+
+  /**
+   * HK Express (UO), Hong Kong's budget airline — its route network out of Hong Kong and the
+   * lowest cached one-way fare per day on a route.
+   */
+  interface Unit {
+    /**
+     * The lowest one-way HK Express fare for each departure day on one route, from the fare cache
+     * HK Express's own site shows ("Lowest fares from …"). `origin`/`destination` take an IATA
+     * code ("HKG", "NRT") or a city name HK Express flies ("Tokyo"); `from`/`to` default to today
+     * and +60 days. Fares are cached (each has `seenAt`), in the currency of the market that saw
+     * them, with `usdPrice` for comparison; days with no cached fare are absent. Not a live seat
+     * search.
+     */
+    getFareCalendar(args: HkexpressFareCalendarArgs): Promise<HkexpressFareCalendar>;
+
+    /**
+     * HK Express's route network as its fare cache knows it — every origin→destination pair with
+     * city and country names and the cheapest cached one-way fare. Filter with `origin` and/or
+     * `destination` (IATA code or city name). Start here to find the codes for getFareCalendar.
+     */
+    listRoutes(args?: HkexpressListRoutesArgs): Promise<{ routes: HkexpressRoute[] }>;
   }
 }
 
@@ -128070,6 +128137,7 @@ interface BowmarkProviders {
   hilton: BowmarkProvider_hilton.Unit;
   hipcamp: BowmarkProvider_hipcamp.Unit;
   historymaker: BowmarkProvider_historymaker.Unit;
+  hkexpress: BowmarkProvider_hkexpress.Unit;
   hobbylobby: BowmarkProvider_hobbylobby.Unit;
   hobie: BowmarkProvider_hobie.Unit;
   hodjapasha: BowmarkProvider_hodjapasha.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9531ff0fafbc40f395ae95eaefe63b5c7689e029a525ddf5ef7eb8441fbfe871
-// 5527 checked, 20 unchecked.
+// Manifest version: 5665ccea01ac1b1cfe61cf5d4961e428dcb49594e2548981a9478def5c4e3286
+// 5529 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9531ff0fafbc40f395ae95eaefe63b5c7689e029a525ddf5ef7eb8441fbfe871",
+  "version": "5665ccea01ac1b1cfe61cf5d4961e428dcb49594e2548981a9478def5c4e3286",
   "units": {
     "address_validation": {
       "defs": {
@@ -78528,6 +78528,84 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCommunities": []
+      }
+    },
+    "providers.hkexpress": {
+      "defs": {
+        "HkexpressFareCalendarArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "origin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "HkexpressListRoutesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "origin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getFareCalendar": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HkexpressFareCalendarArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listRoutes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HkexpressListRoutesArgs"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.hobbylobby": {

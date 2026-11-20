@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9531ff0fafbc40f395ae95eaefe63b5c7689e029a525ddf5ef7eb8441fbfe871
-# 99 capabilities, 933 providers, 5527 typed functions, 20 refused.
+# Manifest version: 5665ccea01ac1b1cfe61cf5d4961e428dcb49594e2548981a9478def5c4e3286
+# 99 capabilities, 934 providers, 5529 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -38410,6 +38410,53 @@ class Prv_historymaker_HistorymakerCommunity_Out(TypedDict):
     bathsRange: str
     activeHomesCount: float
     url: str
+
+Prv_hkexpress_HkexpressFareCalendarArgs_In = TypedDict(
+    "Prv_hkexpress_HkexpressFareCalendarArgs_In",
+    {
+    "origin": str,
+    "destination": str,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    },
+)
+
+Prv_hkexpress_HkexpressFareCalendar_Out = TypedDict(
+    "Prv_hkexpress_HkexpressFareCalendar_Out",
+    {
+    "origin": str,
+    "destination": str,
+    "from": str,
+    "to": str,
+    "days": list[Prv_hkexpress_HkexpressFare_Out],
+    "lowest": Prv_hkexpress_HkexpressFare_Out | None,
+    "bookingUrl": str,
+    },
+)
+
+class Prv_hkexpress_HkexpressFare_Out(TypedDict):
+    departureDate: str
+    price: float
+    currency: str
+    usdPrice: float | None
+    seenAt: str | None
+
+class Prv_hkexpress_HkexpressListRoutesArgs_In(TypedDict):
+    origin: NotRequired[str]
+    destination: NotRequired[str]
+
+class Prv_hkexpress_listRoutes_return_Out(TypedDict):
+    routes: list[Prv_hkexpress_HkexpressRoute_Out]
+
+class Prv_hkexpress_HkexpressRoute_Out(TypedDict):
+    origin: str
+    originCity: str | None
+    originCountry: str | None
+    destination: str
+    destinationCity: str | None
+    destinationCountry: str | None
+    lowestFare: Prv_hkexpress_HkexpressFare_Out | None
+    bookingUrl: str
 
 class Prv_hobbylobby_HobbyLobbyProduct_Out(TypedDict):
     sku: str | None
@@ -105067,6 +105114,27 @@ class Prv_historymaker(Protocol):
         community-picker data.
         """
 
+class Prv_hkexpress(Protocol):
+    """HK Express (UO), Hong Kong's budget airline — its route network out of Hong Kong and the
+    lowest cached one-way fare per day on a route.
+    """
+
+    async def getFareCalendar(self, args: Prv_hkexpress_HkexpressFareCalendarArgs_In, /) -> Prv_hkexpress_HkexpressFareCalendar_Out:
+        """The lowest one-way HK Express fare for each departure day on one route, from the fare
+        cache HK Express's own site shows ("Lowest fares from …"). `origin`/`destination` take
+        an IATA code ("HKG", "NRT") or a city name HK Express flies ("Tokyo"); `from`/`to`
+        default to today and +60 days. Fares are cached (each has `seenAt`), in the currency of
+        the market that saw them, with `usdPrice` for comparison; days with no cached fare are
+        absent. Not a live seat search.
+        """
+
+    async def listRoutes(self, args: Prv_hkexpress_HkexpressListRoutesArgs_In | None = None, /) -> Prv_hkexpress_listRoutes_return_Out:
+        """HK Express's route network as its fare cache knows it — every origin→destination pair
+        with city and country names and the cheapest cached one-way fare. Filter with `origin`
+        and/or `destination` (IATA code or city name). Start here to find the codes for
+        getFareCalendar.
+        """
+
 class Prv_hobbylobby(Protocol):
     """The arts-and-crafts retailer. Search hobbylobby.com for craft supplies, yarn, fabric,
     frames, home decor, seasonal and party goods with live prices, sale prices, stock and
@@ -129451,6 +129519,7 @@ class BowmarkProviders(Protocol):
     hilton: Prv_hilton
     hipcamp: Prv_hipcamp
     historymaker: Prv_historymaker
+    hkexpress: Prv_hkexpress
     hobbylobby: Prv_hobbylobby
     hobie: Prv_hobie
     hodjapasha: Prv_hodjapasha

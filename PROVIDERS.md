@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7410 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7413 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3304,6 +3304,8 @@ One function per row, with the site it is called on.
 | `historymaker.getHome` | historymaker.com | Reads one quick-move-in home's full detail: address, current and original price… | 🟢 |
 | `historymaker.listCommunities` | historymaker.com | Lists HistoryMaker's active DFW communities with city, price range, beds/baths range… | 🟢 |
 | `historymaker.searchQuickMoveIns` | historymaker.com | Searches HistoryMaker's current Dallas/Fort Worth quick-move-in inventory by min/max… | 🟢 |
+| `hkexpress.getFareCalendar` | hkexpress.com | The lowest cached one-way HK Express fare for each departure day on one route and date… | 🟢 |
+| `hkexpress.listRoutes` | hkexpress.com | HK Express's route network as its fare cache knows it: every origin/destination pair… | 🟢 |
 | `hobbylobby.getProduct` | hobbylobby.com | Reads one Hobby Lobby product page — name, brand, price, rating, review count… | 🟢 |
 | `hobbylobby.searchProducts` | hobbylobby.com | Searches Hobby Lobby's arts, crafts, yarn, fabric, frames, home decor and party… | 🟢 |
 | `hobie.checkLocalAvailability` | hobie.com | Runs the site's own real-time 'Find it Locally' local-dealer-inventory lookup for one… | 🟢 |
@@ -7282,6 +7284,7 @@ One function per row, with the site it is called on.
 | `youtube.deleteComment` | youtube.com | Delete a top-level comment the signed-in account wrote — the undo for `postComment`… | 🟢 |
 | `youtube.deletePlaylist` | youtube.com | Permanently delete one of the signed-in account's own playlists. | 🟢 |
 | `youtube.deleteVideo` | youtube.com | Permanently delete one of the signed-in account's own videos. | 🟢 |
+| `youtube.embeddable` | youtube.com | Whether each of up to 50 YouTube videos can play in another page's embed (keyless… | 🟢 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
 | `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |
 | `youtube.getDislikes` | youtube.com | Dislike count, like count and dislike ratio for up to 50 videos at once, no sign-in. | 🟢 |

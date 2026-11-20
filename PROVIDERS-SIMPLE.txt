@@ -443,6 +443,7 @@ highlandhomes.org — highlandhomes: search
 hilton.com — hilton: nothing callable yet (+11 planned)
 hipcamp.com — hipcamp: search
 historymaker.com — historymaker: getHome, listCommunities, searchQuickMoveIns
+hkexpress.com — hkexpress: getFareCalendar, listRoutes
 hobbylobby.com — hobbylobby: getProduct, searchProducts
 hobie.com — hobie: checkLocalAvailability, listKayakModels, listModelColors, listModels
 hodjapasha.com — hodjapasha: getAvailability, getShow, listShows
@@ -878,7 +879,7 @@ tumblr.com — tumblr: 33 functions — ask get_library
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
-twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getCurrentUser, getFollowStatus, getPlayback, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, unfollowChannel (+1 planned)
+twitch.tv — twitch: 25 functions — ask get_library (+1 planned)
 ubereats.com — ubereats: addToCart, applyPromoCode, browseStores, checkDeliveryAvailability, clearCart, findAddress, findChainStore, getCart, getCheckoutTotal, getMenuItem, getMyAccount, getOrder, getStore, listActiveOrders, listMyAddresses, listOrders, removeFromCart, search, searchStoreProducts, updateCartItem (+8 planned)
 uhaul.com — uhaul: getRates
 uhc.com — uhc_directory: findProviders
@@ -966,7 +967,7 @@ yelp.com — yelp: getBookmarks, getBusiness, getCollection, getCollections, get
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
 yorkwallcoverings.com — yorkwallcoverings: nothing callable yet (+3 planned)
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)
-youtube.com — youtube: 46 functions — ask get_library (+2 planned)
+youtube.com — youtube: 47 functions — ask get_library (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
 zenoti.com — zenoti: bookAppointment, cancelAppointment, findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, rescheduleAppointment, searchServices (+4 planned)
 zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDetails, getMemberInfo, getMembershipStatus, getPrice, listClasses, listMyBookings, listPackages, listScheduleSlots, searchSchedule, updateMemberInfo (+2 planned)
