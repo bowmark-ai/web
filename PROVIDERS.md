@@ -1040,7 +1040,7 @@ One function per row, with the site it is called on.
 | `calendly.updateAvailabilitySchedule` | calendly.com | Changes the caller's weekly working hours on one of their availability schedules. | ⚪ |
 | `calendly.updateEventType` | calendly.com | Edits one of the caller's event types — name, duration, description, location, booking… | ⚪ |
 | `calendly.updateProfile` | calendly.com | Edits the caller's own Calendly profile — display name, welcome message, timezone and… | ⚪ |
-| `calendly.voteOnMeetingPoll` | calendly.com | Votes on a Calendly meeting poll — picks which of the proposed times the caller can… | ⚪ |
+| `calendly.voteOnMeetingPoll` | calendly.com | Votes on a Calendly meeting poll — picks which of the proposed times the caller can… | 🟢 |
 | `caliberhealth.getJob` | caliberhealth.com | Reads one job's own detail page — specialty, location, facility type, schedule… | 🟢 |
 | `caliberhealth.search` | caliberhealth.com | Runs Caliber Healthcare Solutions' own live job-board search (/healthcare-jobs) and… | 🟢 |
 | `califloors.getProduct` | califloors.com | Reads one product's own detail page — its real current price, live stock status… | 🟢 |
@@ -1205,11 +1205,11 @@ One function per row, with the site it is called on.
 | `cbsnews.listNewsletters` | cbsnews.com | Lists the newsletters on /newsletters (breaking news, exclusives, uplift …). | ⚪ |
 | `cbsnews.listNewsletterSubscriptions` | cbsnews.com | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
 | `cbsnews.listPodcastEpisodes` | cbsnews.com | Lists the episodes of one podcast. | ⚪ |
-| `cbsnews.listPodcasts` | cbsnews.com | Lists CBS News podcasts from /podcasts/. | ⚪ |
+| `cbsnews.listPodcasts` | cbsnews.com | Lists CBS News podcasts from /podcasts/. | 🟢 |
 | `cbsnews.listRssFeeds` | cbsnews.com | Lists every RSS feed CBS News publishes, from its /rss/ page, as slugs usable with… | 🟢 |
 | `cbsnews.listSectionArticles` | cbsnews.com | Lists the stories on a section front such as /politics/ or /moneywatch/. | 🟢 |
 | `cbsnews.listSections` | cbsnews.com | Lists the site's sections and topic hubs (politics, world, moneywatch, crime, space …). | 🟢 |
-| `cbsnews.listShowEpisodes` | cbsnews.com | Lists a programme's recent segments and full episodes. | ⚪ |
+| `cbsnews.listShowEpisodes` | cbsnews.com | Lists a programme's recent segments and full episodes. | 🟢 |
 | `cbsnews.listShows` | cbsnews.com | Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings… | 🟢 |
 | `cbsnews.listTagArticles` | cbsnews.com | Lists the stories filed under a tag (/tag/<slug>/). | 🟢 |
 | `cbsnews.listVideos` | cbsnews.com | Lists videos from /video/ or a video category. | 🟢 |
@@ -5575,11 +5575,11 @@ One function per row, with the site it is called on.
 | `shein.followStore` | shein.com | Follows or unfollows a marketplace store as the signed-in caller. | ⚪ |
 | `shein.getCart` | shein.com | Returns the signed-in caller's shopping bag: items, size and colour chosen, quantity… | ⚪ |
 | `shein.getCheckoutSummary` | shein.com | Opens checkout for the signed-in caller's bag and returns what it would cost —… | ⚪ |
-| `shein.getOrder` | shein.com | Returns one of the signed-in caller's orders: items, shipping address, totals and the… | ⚪ |
+| `shein.getOrder` | shein.com | Returns one of the signed-in caller's orders: items, shipping address, totals and the… | 🟢 |
 | `shein.getPoints` | shein.com | Returns the signed-in caller's SHEIN points balance and how much it is worth at… | 🟢 |
 | `shein.getProduct` | shein.com | Returns product details: title, description, sizes, colors, price, reviews and… | 🟢 |
 | `shein.getProductReviews` | shein.com | Returns customer reviews for a product: rating summary, fit feedback (runs small /… | ⚪ |
-| `shein.getProfile` | shein.com | Returns the signed-in caller's profile: nickname, email, birthday and the body… | ⚪ |
+| `shein.getProfile` | shein.com | Returns the signed-in caller's profile: nickname, email, birthday and the body… | 🟢 |
 | `shein.getSearchSuggestions` | shein.com | Returns the keyword suggestions Shein's search box offers while typing (the dropdown… | ⚪ |
 | `shein.getSimilarProducts` | shein.com | Returns the 'similar items' and 'customers also viewed' products shown under a product. | ⚪ |
 | `shein.getSizeGuide` | shein.com | Returns a product's size chart: the measurement columns (bust, waist, hip, length) and… | 🟢 |
@@ -5639,7 +5639,7 @@ One function per row, with the site it is called on.
 | `shop_app.startCheckout` | shop.app | Opens a checkout for the caller's cart at one store and returns the checkout url for… | 🟢 |
 | `shop_app.suggestSearches` | shop.app | Autocompletes a partial search ("running sh") into Shop's own query suggestions plus… | 🟡 |
 | `shop_app.trackPackage` | shop.app | Adds a package to the caller's Shop by its tracking number and carrier, so Shop tracks… | 🟢 |
-| `shop_app.updatePrivacySettings` | shop.app | Changes the caller's Shop privacy settings (personalised recommendations, data sharing). | ⚪ |
+| `shop_app.updatePrivacySettings` | shop.app | Turns Shop's analytics and marketing tracking on or off for the caller's account. | 🟢 |
 | `shop_app.writeReview` | shop.app | Leaves a star rating and review on a product the caller bought through Shop. | ⚪ |
 | `shopdisney.getProduct` | shopdisney.com | Reads one shopDisney / Disney Store product page by URL or id and returns its title… | 🟢 |
 | `shopdisney.search` | shopdisney.com | Searches shopDisney / Disney Store (shopdisney.com → disneystore.com) for merchandise… | 🟢 |

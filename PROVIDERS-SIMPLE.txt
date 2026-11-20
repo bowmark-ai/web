@@ -171,7 +171,7 @@ byltbasics.com — byltbasics: buildPackHandoff, getPackOptions, listBundlePacks
 cabelas.com — cabelas: findStores, listStores
 cabinsforyou.com — cabinsforyou: getCabinDetail, search
 cal.com — cal_com: findProfiles, getAvailability, getBookingForm, getEventTypes
-calendly.com — calendly: bookMeeting, cancelBooking, findProfiles, getAvailability, getBooking, getBookingForm, getEventTypes, getRoutingForm, listPackages, rescheduleBooking, submitRoutingForm (+27 planned)
+calendly.com — calendly: bookMeeting, cancelBooking, findProfiles, getAvailability, getBooking, getBookingForm, getEventTypes, getRoutingForm, listPackages, rescheduleBooking, submitRoutingForm, voteOnMeetingPoll (+26 planned)
 caliberhealth.com — caliberhealth: getJob, search
 califloors.com — califloors: getProduct, listCategories, searchProducts
 calottery.com — calottery: checkNumbers, draws, retailers, scratchers, search
@@ -201,7 +201,7 @@ cb2.com — cb2: searchProducts (+1 planned)
 cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
 cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
-cbsnews.com — cbsnews: getArticle, getAuthor, getLiveStream, getLiveUpdates, getVideo, listArticlesByAuthor, listLatestNews, listRssFeeds, listSectionArticles, listSections, listShows, listTagArticles, listVideos, search (+12 planned)
+cbsnews.com — cbsnews: getArticle, getAuthor, getLiveStream, getLiveUpdates, getVideo, listArticlesByAuthor, listLatestNews, listPodcasts, listRssFeeds, listSectionArticles, listSections, listShowEpisodes, listShows, listTagArticles, listVideos, search (+10 planned)
 cbssports.com — cbs_sports: scoreboard (+1 planned)
 cdc.gov — cdc: getPage, search
 census.gov — census: geographyLevels, locations, populationClock, profile, profileHighlights, relatedProfiles, searchTables, siteMenu, suggest, tableData, tableDownload, tableLinks, tableMetadata, vintages
@@ -763,8 +763,8 @@ services.gst.gov.in — gst_india: lookup
 sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
-shein.com — shein: getPoints, getProduct, getSizeGuide, getStore, listCategories, listFlashSale, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, search (+22 planned)
-shop.app — shop_app: 34 functions — ask get_library (+4 planned)
+shein.com — shein: getOrder, getPoints, getProduct, getProfile, getSizeGuide, getStore, listCategories, listFlashSale, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, search (+20 planned)
+shop.app — shop_app: 35 functions — ask get_library (+3 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopdisney.com — shopdisney: getProduct, search
