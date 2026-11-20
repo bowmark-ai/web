@@ -1949,7 +1949,7 @@ One function per row, with the site it is called on.
 | `discord.getGame` | discord.com | Reads one game's page on Discord (discord.com/game/<slug>-<id>) — name, description… | 🟢 |
 | `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | 🟢 |
 | `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | 🟢 |
-| `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | 🟡 |
+| `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | 🟢 |
 | `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | 🟢 |
 | `discord.joinServer` | discord.com | Joins a server from an invite code or link as the caller. | 🟢 |
 | `discord.leaveServer` | discord.com | Leaves a server the caller has joined. | 🟢 |
@@ -2374,7 +2374,7 @@ One function per row, with the site it is called on.
 | `expedia.bookTrip` | expedia.com | Books a hotel, flight, car or package on Expedia. | ⚪ |
 | `expedia.findBooking` | expedia.com | Looks up an existing Expedia booking by itinerary number and the booking email, the… | ⚪ |
 | `expedia.getActivityDetails` | expedia.com | Reads one Expedia things-to-do listing: description, duration, price options and rating. | ⚪ |
-| `expedia.getHotelDetails` | expedia.com | Loads one Expedia hotel's page (the url searchHotels returns) and returns its name… | 🟢 |
+| `expedia.getHotelDetails` | expedia.com | Loads one Expedia hotel's page (the url searchHotels returns) and returns its name… | 🟡 |
 | `expedia.getHotelReviews` | expedia.com | Returns the guest reviews Expedia shows for one hotel: rating, date, text and… | ⚪ |
 | `expedia.getProfile` | expedia.com | Reads the signed-in caller's Expedia profile: name, contact details, traveller… | ⚪ |
 | `expedia.getRewards` | expedia.com | Reads the signed-in caller's One Key tier and OneKeyCash balance. | ⚪ |
