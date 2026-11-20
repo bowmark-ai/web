@@ -463,7 +463,7 @@ ihg.com — ihg: search
 ikea.com — ikea: 28 functions — ask get_library
 illinoislottery.com — illinois_lottery: getCart, jackpots, quickPick, stores
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
-imgur.com — imgur: addComment, deleteComment, favoritePost, getGalleryPosts, getImage, getMyFavorites, getMyPosts, getNotifications, getPost, getPostComments, getTag, getUser, getUserComments, getUserFavorites, getUserPosts, listTags, searchPosts, uploadImage, voteComment, votePost (+9 planned)
+imgur.com — imgur: addComment, createPost, deleteComment, favoritePost, getGalleryPosts, getImage, getMyFavorites, getMyPosts, getNotifications, getPost, getPostComments, getTag, getUser, getUserComments, getUserFavorites, getUserPosts, listTags, searchPosts, uploadImage, voteComment, votePost (+8 planned)
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 independent.co.uk — independent: browseSection, getArticle, getAuthorArticles, getHomepageHeadlines, getMostPopular, getTopicArticles, listArticlesByDate, listAuthors, listLatestNews, listSections, listTopics (+23 planned)
 inspirecommunities.com — inspirecommunities: searchHomes
@@ -497,7 +497,7 @@ kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct (+1 planned)
 keyserver.ubuntu.com — ubuntu_keyserver: searchKeys
-kick.com — kick: getCategory, getChannel, getChannelLeaderboard, getChatMessages, getChatroomSettings, getClip, getLivestream, getVideo, listCategories, listChannelClips, listChannelEmotes, listChannelVideos, listFeaturedLivestreams, listLiveStreams, listTopClips, search (+15 planned)
+kick.com — kick: getCategory, getChannel, getChannelLeaderboard, getChannelUser, getChatMessages, getChatroomSettings, getClip, getLivestream, getVideo, listCategories, listChannelClips, listChannelEmotes, listChannelLinks, listChannelVideos, listFeaturedLivestreams, listLiveStreams, listTopClips, search (+13 planned)
 kickstarter.com — kickstarter: project, search
 kijiji.ca — kijiji: getListing, search (+2 planned)
 kingsdown.com — kingsdown: getBedMatchResult
@@ -784,6 +784,7 @@ smry.ai — smry_ai: listDocPages, readArticle
 snapchat.com — snapchat: 25 functions — ask get_library (+8 planned)
 solidcore.co — solidcore: bookClass, checkAvailability, getClass, getCoach, getPack, getPricing, getSchedule, getStudio, joinWaitlist, listClassCategories, listCoaches, listMuscleGroups, listStudios, searchClasses (+10 planned)
 solostove.com — solostove: checkBundle, listBundles
+sos.ms.gov — sos_ms_gov: listAgencies, searchAdminCode
 soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updatePreferences (+6 planned)
 soundcloud.com — soundcloud: getPlayback, getPlaylist, getTrack, search
 sourceforge.net — sourceforge: getLatestRelease, getProject, listFiles (+1 planned)

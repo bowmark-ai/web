@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 814d7cd6b2d4b8babca1a1f6b39d49957a5d033e83618008e62378a5b1f54c79
-// 5531 checked, 20 unchecked.
+// Manifest version: 119fda7f2f224485847d546ecfd29e1006f96a8aad5c3726aec0a46c786595e3
+// 5533 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "814d7cd6b2d4b8babca1a1f6b39d49957a5d033e83618008e62378a5b1f54c79",
+  "version": "119fda7f2f224485847d546ecfd29e1006f96a8aad5c3726aec0a46c786595e3",
   "units": {
     "address_validation": {
       "defs": {
@@ -87696,6 +87696,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "KickGetChannelUserArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "KickGetChatMessagesArgs": {
           "k": "object",
           "props": [
@@ -87832,6 +87851,18 @@ export const VALIDATORS: ValidatorTable = {
           ]
         },
         "KickListChannelEmotesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "KickListChannelLinksArgs": {
           "k": "object",
           "props": [
             {
@@ -88112,6 +88143,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KickGetChannelLeaderboardArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listChannelLinks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickListChannelLinksArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getChannelUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickGetChannelUserArgs"
             },
             "optional": false
           }

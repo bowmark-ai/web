@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7414 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7416 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3442,7 +3442,7 @@ One function per row, with the site it is called on.
 | `imdb.searchSuggestions` | imdb.com | Typeahead search for quick title and person completion as the user types. | 🟢 |
 | `imdb.searchTitles` | imdb.com | Advanced title search: filter by type, genre, release year, rating and vote count… | 🟢 |
 | `imgur.addComment` | imgur.com | Comments on a post, or replies to a comment. | 🟢 |
-| `imgur.createPost` | imgur.com | Creates a post from uploaded media, optionally sharing it to the public community with… | ⚪ |
+| `imgur.createPost` | imgur.com | Creates a post from uploaded media, optionally sharing it to the public community with… | 🟢 |
 | `imgur.deleteComment` | imgur.com | Deletes one of the signed-in account's own comments by its numeric id. | 🟢 |
 | `imgur.deletePost` | imgur.com | Deletes one of the signed-in account's posts. | ⚪ |
 | `imgur.editPost` | imgur.com | Edits a post's title, description or tags. | ⚪ |
@@ -3730,7 +3730,7 @@ One function per row, with the site it is called on.
 | `kick.getCategory` | kick.com | One category's record by slug: name, group, tags, description, live viewers, follower… | 🟢 |
 | `kick.getChannel` | kick.com | A channel's public record by slug: display name, bio, follower count, verified flag… | 🟢 |
 | `kick.getChannelLeaderboard` | kick.com | A channel's gifted-subscription leaderboard: who gifted most, this week, this month… | 🟢 |
-| `kick.getChannelUser` | kick.com | How one user appears inside one channel: profile picture, badges (subscriber… | ⚪ |
+| `kick.getChannelUser` | kick.com | How one user appears inside one channel: profile picture, badges (subscriber… | 🟢 |
 | `kick.getChatMessages` | kick.com | The most recent messages in a channel's chat, with sender, badges and time, plus the… | 🟢 |
 | `kick.getChatroomSettings` | kick.com | A channel's chat rules and modes: slow mode, followers-only (and how long)… | 🟢 |
 | `kick.getClip` | kick.com | One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration… | 🟢 |
@@ -3740,7 +3740,7 @@ One function per row, with the site it is called on.
 | `kick.listCategories` | kick.com | Lists Kick's categories (games and IRL subcategories) with live viewer counts, biggest… | 🟢 |
 | `kick.listChannelClips` | kick.com | A channel's clips, by most viewed or newest, within a time window (day, week, month… | 🟢 |
 | `kick.listChannelEmotes` | kick.com | A channel's own emotes by name, with whether each is subscribers-only. | 🟢 |
-| `kick.listChannelLinks` | kick.com | The link panels under a channel (socials, tip pages, sponsors) with their titles and… | ⚪ |
+| `kick.listChannelLinks` | kick.com | The link panels under a channel (socials, tip pages, sponsors) with their titles and… | 🟢 |
 | `kick.listChannelVideos` | kick.com | A channel's past broadcasts (VODs), newest first: title, category, duration, views… | 🟢 |
 | `kick.listFeaturedLivestreams` | kick.com | The streams Kick features on its homepage carousel right now, for one language. | 🟢 |
 | `kick.listFollowedChannels` | kick.com | The channels the signed-in caller follows, live ones first, with what each is streaming. | ⚪ |
@@ -5750,6 +5750,8 @@ One function per row, with the site it is called on.
 | `solidcore.searchClasses` | solidcore.co | Searches classes by muscle group, coach, time, or date. | 🟢 |
 | `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟢 |
 | `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟢 |
+| `sos_ms_gov.listAgencies` | sos.ms.gov | Lists the Mississippi state agencies whose rules are in the Administrative Code, with… | 🟢 |
+| `sos_ms_gov.searchAdminCode` | sos.ms.gov | Searches the Mississippi Administrative Code for one agency's parts (rule title, part… | 🟢 |
 | `soulcycle.bookBike` | soul-cycle.com | Books a bike in a class for the signed-in rider, spending one class credit. | 🟢 |
 | `soulcycle.bookmarkClass` | soul-cycle.com | Bookmarks or un-bookmarks a class for the signed-in rider — how a rider marks a class… | ⚪ |
 | `soulcycle.buySeries` | soul-cycle.com | Buys a class pack or Soul Renew membership for the signed-in rider. | ⚪ |

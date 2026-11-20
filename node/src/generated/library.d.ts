@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 814d7cd6b2d4b8babca1a1f6b39d49957a5d033e83618008e62378a5b1f54c79
-// 99 capabilities, 935 providers, 5559 typed functions, 20 refused.
+// Manifest version: 119fda7f2f224485847d546ecfd29e1006f96a8aad5c3726aec0a46c786595e3
+// 99 capabilities, 935 providers, 5561 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -490,72 +490,77 @@ type CallOptions = {
    * are then typed with no pause and echoed back by `status(id).task`, so only for throwaway or
    * demo accounts (but you can send new instructions to the same session with `send()` and the
    * login persists). A standing watch or a daily job on a SIGNED-IN site is NOT a fit — say so
-   * and point at what would be (a typed provider with stored secrets). **WHEN it fits** (a
-   * lookup came back with nothing, or a function failed on the site): it is billed per turn to
-   * your user's account — a typical 20-step task costs roughly $2–$6 all in (budget $0.10–$0.30
-   * per model turn; worked example on the docs site's Pricing page, under 'Hosted browser
-   * agents'). That is a short task. A checkout, any flow past 20 steps, or a run that retries or
-   * corrects a step costs more than that figure. If your user asked you to get the thing done,
-   * `start({ task })` and in the same reply tell them it is running, that it costs money, and
-   * give them the `watchUrl`. A login only they hold does not stop it — they sign in themselves
-   * on the live browser through that link, no saved credentials needed. **That sign-in is the
-   * real site, under their real account — never a copy inside Bowmark's own browser.** Anything
-   * it adds to a cart, saves to a wishlist or submits there is on their account on the real
-   * site, exactly as if they had clicked it themselves, so it is there when they check out or
-   * return to the site later in their own browser. Running in Bowmark's browser is about WHERE
-   * the clicking happens, not where the result lives. **Either way, never leave it
-   * unmentioned:** if you hold off for any reason, your reply must name this option — what it
-   * would do, that it is billed, and that they can sign in on the live page — rather than ending
-   * on a manual workaround alone. After `start` in one run, call `status(id)` from LATER runs —
-   * the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps working between
-   * them. **A normal task takes 1-3 minutes; give it up to 5 before your own code gives up** —
-   * any client deadline shorter than that cuts off runs that were about to finish. When `status`
-   * returns `needs_input`, relay `question` to your user and `send` their answer. When it
-   * returns `idle`, read `result` and `stop(id)`. Always `stop` a session when done — an idle
-   * browser keeps costing money. **A turn that runs too long is cancelled automatically:**
-   * Bowmark itself cuts off any turn stuck past a few minutes with no result and reports status
-   * `failed` (see `error` for what it was last doing) rather than leaving you polling forever —
-   * the session stays open, so `send` a narrower instruction or `stop` it. **One task = one
-   * independent goal. Do not bundle multiple date ranges, SKUs, or queries into one task — the
-   * agent may silently reuse a single search result across all of them with no warning. Start
-   * separate sessions for each.** Reading every row of ONE list under ONE filter (one date range
-   * on one orders page, paged) is one goal, not a bundle; a few pages is ordinary, and how many
-   * one session gets through is not measured, so test it on the target before relying on
-   * hundreds of rows. RUN-ONLY: a typed session cannot call it — start in one run and poll
-   * status from later runs, never in a loop.
+   * and point at what would be (a typed provider with stored secrets). **NOT FOR MOVING MONEY.**
+   * A trade or buy/sell order on a brokerage, a withdrawal, or a transfer between accounts is
+   * out of scope, even on a login the user holds. A direct call here is not code-blocked, so the
+   * refusal is the caller's to act on: tell the user it is out of scope and stop. **WHEN it
+   * fits** (a lookup came back with nothing, or a function failed on the site): it is billed per
+   * turn to your user's account — a typical 20-step task costs roughly $2–$6 all in (budget
+   * $0.10–$0.30 per model turn; worked example on the docs site's Pricing page, under 'Hosted
+   * browser agents'). That is a short task. A checkout, any flow past 20 steps, or a run that
+   * retries or corrects a step costs more than that figure. If your user asked you to get the
+   * thing done, `start({ task })` and in the same reply tell them it is running, that it costs
+   * money, and give them the `watchUrl`. A login only they hold does not stop it — they sign in
+   * themselves on the live browser through that link, no saved credentials needed. **That
+   * sign-in is the real site, under their real account — never a copy inside Bowmark's own
+   * browser.** Anything it adds to a cart, saves to a wishlist or submits there is on their
+   * account on the real site, exactly as if they had clicked it themselves, so it is there when
+   * they check out or return to the site later in their own browser. Running in Bowmark's
+   * browser is about WHERE the clicking happens, not where the result lives. **Either way, never
+   * leave it unmentioned:** if you hold off for any reason, your reply must name this option —
+   * what it would do, that it is billed, and that they can sign in on the live page — rather
+   * than ending on a manual workaround alone. After `start` in one run, call `status(id)` from
+   * LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps
+   * working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
+   * code gives up** — any client deadline shorter than that cuts off runs that were about to
+   * finish. When `status` returns `needs_input`, relay `question` to your user and `send` their
+   * answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop` a session when
+   * done — an idle browser keeps costing money. **A turn that runs too long is cancelled
+   * automatically:** Bowmark itself cuts off any turn stuck past a few minutes with no result
+   * and reports status `failed` (see `error` for what it was last doing) rather than leaving you
+   * polling forever — the session stays open, so `send` a narrower instruction or `stop` it.
+   * **One task = one independent goal. Do not bundle multiple date ranges, SKUs, or queries into
+   * one task — the agent may silently reuse a single search result across all of them with no
+   * warning. Start separate sessions for each.** Reading every row of ONE list under ONE filter
+   * (one date range on one orders page, paged) is one goal, not a bundle; a few pages is
+   * ordinary, and how many one session gets through is not measured, so test it on the target
+   * before relying on hundreds of rows. RUN-ONLY: a typed session cannot call it — start in one
+   * run and poll status from later runs, never in a loop.
    */
   interface Unit {
     /**
      * A one-shot live browser for ONE task on a site nothing in the library covers; returns `id`
-     * and `watchUrl`. When the task names the site (a URL or a host like example.com), Bowmark may
-     * first try a fast agent INSIDE `start` (usually 5-20 s, at most ~40 s): if it finishes,
-     * `start` returns `status: "idle"` and the answer is already in `status(id).result`; otherwise
-     * Browser Use runs the session and `start` returns `running`. Handle both. A fast-agent turn
-     * that ran no steps and was asked to search or look something up is never used as the answer:
-     * it falls through to Browser Use the same way. `backend` (default `"auto"`) decides this:
-     * pass `backend: "browser_use"` to skip the fast agent entirely, and read the `backend` field
-     * of the returned object to see which one ran. Not a watcher — it does not poll by itself; on
-     * a public page with no login or CAPTCHA a script can start and poll it unattended, while a
-     * login needs your user present every run. Billed per turn: if your user already asked you to
-     * get the thing done, start it and in the same reply tell them it is running, that it costs
-     * money, and give them `watchUrl` — a login only they hold is signed in there, on the live
-     * page, as their real account on the real site, so anything the agent then adds to a cart or
-     * saves is really on their account rather than lost inside Bowmark's own browser. Otherwise
-     * tell them what it costs and get a yes before you start it. Either way, never end on a manual
-     * workaround without mentioning this option and its cost. **Same question, same answer:** for
-     * a lookup your app repeats, put the exact search page's URL in `task`, not just the site — a
-     * site with two ways to search can otherwise be entered differently each run and give two
-     * different answers. **One session = one independent goal** — never bundle multiple date
-     * ranges, SKUs or queries into one session; the agent silently reuses results across them.
-     * Start a separate session for each distinct query. One list read in full under one filter,
-     * across its pages, is ONE goal. Then `status(id)` from later runs (each `run()` is capped at
-     * 90s; the agent is not — a task normally takes 1-3 minutes, so do not give up on it before
-     * 5); on `needs_input` relay `question` and `send` the answer; on `idle` read `result` and
-     * `stop(id)`. A login persists for the life of the session, so later `send()` calls into the
-     * same session do not need re-authentication. Always stop sessions when done — idle browsers
-     * keep costing money. Account limit: 3 open sessions, counting ones still starting — start 9
-     * at once and 3 run while 6 are refused with the limit error, so start at most 3 and `stop()`
-     * one before starting the next.
+     * and `watchUrl`. Never for moving money: a trade, an order, a withdrawal or a transfer
+     * between accounts is out of scope. When the task names the site (a URL or a host like
+     * example.com), Bowmark may first try a fast agent INSIDE `start` (usually 5-20 s, at most ~40
+     * s): if it finishes, `start` returns `status: "idle"` and the answer is already in
+     * `status(id).result`; otherwise Browser Use runs the session and `start` returns `running`.
+     * Handle both. A fast-agent turn that ran no steps and was asked to search or look something
+     * up is never used as the answer: it falls through to Browser Use the same way. `backend`
+     * (default `"auto"`) decides this: pass `backend: "browser_use"` to skip the fast agent
+     * entirely, and read the `backend` field of the returned object to see which one ran. Not a
+     * watcher — it does not poll by itself; on a public page with no login or CAPTCHA a script can
+     * start and poll it unattended, while a login needs your user present every run. Billed per
+     * turn: if your user already asked you to get the thing done, start it and in the same reply
+     * tell them it is running, that it costs money, and give them `watchUrl` — a login only they
+     * hold is signed in there, on the live page, as their real account on the real site, so
+     * anything the agent then adds to a cart or saves is really on their account rather than lost
+     * inside Bowmark's own browser. Otherwise tell them what it costs and get a yes before you
+     * start it. Either way, never end on a manual workaround without mentioning this option and
+     * its cost. **Same question, same answer:** for a lookup your app repeats, put the exact
+     * search page's URL in `task`, not just the site — a site with two ways to search can
+     * otherwise be entered differently each run and give two different answers. **One session =
+     * one independent goal** — never bundle multiple date ranges, SKUs or queries into one
+     * session; the agent silently reuses results across them. Start a separate session for each
+     * distinct query. One list read in full under one filter, across its pages, is ONE goal. Then
+     * `status(id)` from later runs (each `run()` is capped at 90s; the agent is not — a task
+     * normally takes 1-3 minutes, so do not give up on it before 5); on `needs_input` relay
+     * `question` and `send` the answer; on `idle` read `result` and `stop(id)`. A login persists
+     * for the life of the session, so later `send()` calls into the same session do not need
+     * re-authentication. Always stop sessions when done — idle browsers keep costing money.
+     * Account limit: 3 open sessions, counting ones still starting — start 9 at once and 3 run
+     * while 6 are refused with the limit error, so start at most 3 and `stop()` one before
+     * starting the next.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -17177,7 +17182,7 @@ interface bestbuyProduct {
   regularPrice: number | null;
   url: string | null;
   imageUrl: string | null;
-  onlineAvailability: boolean;
+  onlineAvailability: boolean | null;
   inStoreAvailability: boolean;
   manufacturer: string | null;
   modelNumber: string | null;
@@ -65482,6 +65487,44 @@ interface KickListChannelEmotesResult {
   channel: string;
   emotes: KickEmote[];
 }
+interface KickListChannelLinksArgs {
+  channel: string;
+}
+interface KickChannelLink {
+  linkId: number;
+  url: string;
+  title?: string;
+  description?: string;
+  imageUrl?: string;
+  order: number;
+}
+interface KickListChannelLinksResult {
+  channel: string;
+  links: KickChannelLink[];
+}
+interface KickGetChannelUserArgs {
+  channel: string;
+  username: string;
+}
+interface KickChannelUserBadge {
+  type: string;
+  text: string;
+}
+interface KickChannelUser {
+  channel: string;
+  userId: number;
+  username: string;
+  slug?: string;
+  profilePicUrl?: string;
+  isChannelOwner: boolean;
+  isModerator: boolean;
+  isStaff: boolean;
+  badges: KickChannelUserBadge[];
+  followingSince?: string;
+  createdAt?: string;
+  subscribedMonths: number;
+  banned: boolean;
+}
 interface KickGetChannelLeaderboardArgs {
   channel: string;
 }
@@ -65592,6 +65635,15 @@ interface KickGetChannelLeaderboardResult {
      * time.
      */
     getChannelLeaderboard(args: KickGetChannelLeaderboardArgs): Promise<KickGetChannelLeaderboardResult>;
+
+    /** The link panels under a channel (socials, tip pages, sponsors) with their titles and URLs. */
+    listChannelLinks(args: KickListChannelLinksArgs): Promise<KickListChannelLinksResult>;
+
+    /**
+     * How one user appears inside one channel: profile picture, badges, whether they follow it and
+     * since when, months subscribed, banned or not.
+     */
+    getChannelUser(args: KickGetChannelUserArgs): Promise<KickChannelUser>;
   }
 }
 

@@ -1,5 +1,5 @@
 {
-  "version": "814d7cd6b2d4b8babca1a1f6b39d49957a5d033e83618008e62378a5b1f54c79",
+  "version": "119fda7f2f224485847d546ecfd29e1006f96a8aad5c3726aec0a46c786595e3",
   "units": {
     "address_validation": {
       "defs": {
@@ -87684,6 +87684,25 @@
             }
           ]
         },
+        "KickGetChannelUserArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "KickGetChatMessagesArgs": {
           "k": "object",
           "props": [
@@ -87820,6 +87839,18 @@
           ]
         },
         "KickListChannelEmotesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "KickListChannelLinksArgs": {
           "k": "object",
           "props": [
             {
@@ -88100,6 +88131,26 @@
             "schema": {
               "k": "ref",
               "name": "KickGetChannelLeaderboardArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listChannelLinks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickListChannelLinksArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getChannelUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickGetChannelUserArgs"
             },
             "optional": false
           }
