@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7426 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7429 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -4845,8 +4845,8 @@ One function per row, with the site it is called on.
 | `pinterest.listBoardSections` | pinterest.com | The sections a board is divided into — a 258-pin board is usually 29 sections, and… | 🟢 |
 | `pinterest.listConversations` | pinterest.com | The caller's Pinterest inbox — every thread they are in, who is on it, whether it's… | 🟢 |
 | `pinterest.listNotifications` | pinterest.com | The caller's own notifications — who saved, commented on or followed them, newest… | 🟢 |
-| `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | ⚪ |
-| `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | ⚪ |
+| `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | 🔴 |
+| `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | 🔴 |
 | `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | ⚪ |
 | `pinterest.listTopicPins` | pinterest.com | The best pins in a topic — Pinterest's editorial feed for that interest, which is the… | 🟢 |
 | `pinterest.listTopics` | pinterest.com | Pinterest's own top-level idea topics — Food and Drink, Home Decor, Travel, Tattoos… | 🟢 |
@@ -5203,6 +5203,9 @@ One function per row, with the site it is called on.
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟢 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
+| `rentmanager.getIntegration` | rentmanager.com | Reads one Rent Manager Integrations Marketplace partner by slug or listing URL… | 🟢 |
+| `rentmanager.searchArticles` | rentmanager.com | Searches the Rent Manager property-management blog by free text, returning each… | 🟢 |
+| `rentmanager.searchIntegrations` | rentmanager.com | Searches Rent Manager's Integrations Marketplace of ~250 partner products (tenant… | 🟢 |
 | `rentrightstudents_co_uk.getListing` | rentrightstudents.co.uk | Reads one RentRight Students student rental property by its URL or numeric id —… | 🟢 |
 | `rentrightstudents_co_uk.listLatestListings` | rentrightstudents.co.uk | Lists the newest student rental listings on RentRight Students from the site's own… | 🟢 |
 | `renttherunway.browseCategory` | renttherunway.com | Browses one Rent the Runway catalog category ("dress", "CocktailDresses", "Gowns") the… | 🟢 |

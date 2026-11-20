@@ -712,6 +712,7 @@ redfin.com — redfin: search
 registry.modelcontextprotocol.io — mcp_registry: search
 rei.com — rei: getProduct, search (+4 planned)
 reliancepartners.com — reliancepartners: assembleApplication, getApplicationSchema
+rentmanager.com — rentmanager: getIntegration, searchArticles, searchIntegrations
 rentrightstudents.co.uk — rentrightstudents_co_uk: getListing, listLatestListings
 renttherunway.com — renttherunway: browseCategory, browseDesigner, search
 resend.com — resend: addContactToSegment, createContact, createSegment, createTopic, deleteContact, deleteDomain, deleteSegment, deleteTopic, listApiKeys, listContactProperties, listContacts, listDomains, listEmails, listLogs, listSegments, listTopics, removeContactFromSegment, searchBlog, searchChangelog, searchHandbook, systemStatus, updateContact, updateContactTopics, updateSegment, updateTopic (+9 planned)
