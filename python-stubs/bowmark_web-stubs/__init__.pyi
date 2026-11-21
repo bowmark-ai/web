@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eaaf6db586b2c66a98cb7a2b26b0c7157ed77006230c27a83debdf0c06ec48d4
-# 99 capabilities, 945 providers, 5644 typed functions, 20 refused.
+# Manifest version: 34351271d3270eb4344ea800a4c9abbe41cd6ad36cd42a0ec8204e5502b2effe
+# 99 capabilities, 945 providers, 5645 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -121015,6 +121015,13 @@ class Prv_shein(Protocol):
     async def removeFromCart(self, args: Prv_shein_removeFromCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinCartChange_Out:
         """Removes a product from the CALLER's own Shein bag by driving the bag page, then reads
         the bag. Needs the caller signed in to shein.com; the relay handles it.
+        """
+
+    async def getCheckoutSummary(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
+        """Opens checkout for the CALLER's own Shein bag and returns the confirm page as text
+        (items, shipping, tax, coupons, total), then stops: it never presses Place order or
+        touches payment. Needs the caller signed in to shein.com with a non-empty bag; the relay
+        handles it.
         """
 
     async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
