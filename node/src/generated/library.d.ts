@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: aa8ae4b0f1151126950c25c5c17db3e80b0ba345ba80777f5a98de43489669fb
-// 99 capabilities, 942 providers, 5639 typed functions, 20 refused.
+// Manifest version: eaaf6db586b2c66a98cb7a2b26b0c7157ed77006230c27a83debdf0c06ec48d4
+// 99 capabilities, 945 providers, 5672 typed functions, 20 refused.
 // 125,660 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9212,6 +9212,51 @@ interface AiEngineerSpeaker {
   }
 }
 
+declare namespace BowmarkProvider_ai_meta_com {
+  // ── Meta AI Blog — the unit's own declarations, verbatim ──
+interface MetaAiPostLink {
+  url: string;
+  title: string;
+  category: string | null;
+  date: string | null;
+}
+interface MetaAiPost {
+  url: string;
+  title: string | null;
+  category: string | null;
+  date: string | null;
+  body: string;
+}
+interface MetaAiPostPage {
+  results: MetaAiPostLink[];     // the newest posts on the blog's first page, newest first
+  total: number | null;          // the site prints no count, so this is null
+  page: number;                  // always 1: listPosts reads the first page only
+  pageCount: number | null;
+  returned: number;              // results.length
+  warnings: string[];            // says the rows are the first page and that more exist
+}
+
+  /**
+   * Lists Meta AI's latest blog posts and research announcements on ai.meta.com and reads any
+   * one post's title, date and body as plain text.
+   */
+  interface Unit {
+    /**
+     * Lists the newest posts on Meta AI's blog (ai.meta.com/blog), first page only: `results`
+     * holds title, url, category (e.g. Research, Open Source) and published date, newest first
+     * (about 10). The site prints no total, so `warnings` says more posts exist beyond this page.
+     */
+    listPosts(): Promise<MetaAiPostPage>;
+
+    /**
+     * Reads one Meta AI blog post by url or slug (e.g.
+     * "tribe-v2-brain-predictive-foundation-model") and returns its title, category, date and body
+     * as plain text. THROWS if the post does not exist (404).
+     */
+    getPost(urlOrSlug: string): Promise<MetaAiPost>;
+  }
+}
+
 declare namespace BowmarkProvider_aiper {
   // ── Aiper — the unit's own declarations, verbatim ──
 interface AiperPoolOption {
@@ -14541,6 +14586,7 @@ interface AtidaSearchHit {
   /** The crossed-out pre-discount price as the site formats it ("30,55 €"), null when none. */
   originalPriceText: string | null;
   inStock: boolean;
+  /** Whole-star Algolia summary; the product-page URL door returns its decimal rating instead. */
   rating: number | null;
   ratingCount: number | null;
   size: string | null;
@@ -14572,6 +14618,7 @@ interface AtidaProduct {
   originalPriceText: string | null;
   currency: string | null;
   inStock: boolean | null;
+  /** Whole-star for source "catalog"; decimal for source "page". */
   rating: number | null;
   reviewCount: number | null;
   size: string | null;
@@ -14584,21 +14631,22 @@ interface AtidaProduct {
   /**
    * Atida (atida.com, Atida Mifarma), the online pharmacy and parapharmacy (farmacia online).
    * Searches its Spanish catalogue with prices in EUR and stock, and reads one product page's
-   * price, availability, GTIN and rating.
+   * price, availability, GTIN and rating. Catalog ratings are Algolia whole-star summaries;
+   * product-page ratings retain their decimal precision.
    */
   interface Unit {
     /**
      * Searches atida.com's Spanish online pharmacy catalogue (Atida Mifarma) the way a shopper
      * types — a brand, a product, "isdin fotoprotector" — and returns each product with its EUR
-     * price, stock, rating and the id getProduct takes. The way in.
+     * price, stock, whole-star Algolia rating summary and the id getProduct takes. The way in.
      */
     search(args: AtidaSearchArgs | string): Promise<AtidaSearchResult>;
 
     /**
      * Reads one atida.com product: name, brand, EUR price and pre-discount price, in-stock state,
-     * rating and review count, size, images and description. Pass a search hit (or its id); a
-     * product URL also works and adds the GTIN/EAN barcode, but reads the page, which a captcha
-     * refuses on some exits.
+     * rating and review count, size, images and description. An id returns Algolia's whole-star
+     * rating summary; a product URL returns the page's decimal rating and adds the GTIN/EAN
+     * barcode, but a captcha refuses that page on some exits.
      */
     getProduct(ref: AtidaSearchHit | AtidaProductRef | string): Promise<AtidaProduct>;
   }
@@ -23959,6 +24007,43 @@ interface CalendlyFindProfilesResult {
   warnings: string[];
 }
 
+interface CalendlyMyAccount {
+  id: number;
+  uuid: string | null;
+  name: string;
+  email: string | null;
+  /** The caller's scheduling page, https://calendly.com/<slug>. */
+  bookingUrl: string | null;
+  slug: string | null;
+  timezone: string | null;
+  locale: string | null;
+  country: string | null;
+  createdAt: string | null;
+  eventsCount: number | null;
+  /** owner, admin or user. */
+  organizationRole: string | null;
+  welcomeMessage: string | null;
+}
+
+interface CalendlyMyEventType {
+  uuid: string | null;
+  name: string;
+  slug: string | null;
+  durationMinutes: number | null;
+  /** false = turned off; null = the row does not say. */
+  active: boolean | null;
+  /** true = hidden from the public page; null = the row does not say. */
+  secret: boolean | null;
+  url: string | null;
+  /** Whose page it sits on: the caller or a team they belong to. */
+  owner: string;
+}
+
+interface CalendlyMyEventTypesResult {
+  eventTypes: CalendlyMyEventType[];
+  owners: string[];
+}
+
   /**
    * Calendly's own public booking-widget data — find a person's Calendly page from their name,
    * read the event types it offers, the questions its booking form asks, and the real,
@@ -24082,6 +24167,19 @@ interface CalendlyFindProfilesResult {
      * it. Search engines do not index Calendly pages, so this is the way to find one.
      */
     findProfiles(name: string, company?: string): Promise<CalendlyFindProfilesResult>;
+
+    /**
+     * The signed-in caller's own Calendly account — name, email, scheduling-page url and slug,
+     * timezone, organization role and welcome message. Needs the caller signed in to Calendly.
+     */
+    getMyAccount(opts?: ConnectionOption): Promise<CalendlyMyAccount>;
+
+    /**
+     * Every event type the signed-in caller hosts (their own page plus any team pages they belong
+     * to), grouped by owner, read from the dashboard's own call rather than the public page. Needs
+     * the caller signed in to Calendly.
+     */
+    listMyEventTypes(opts?: ConnectionOption): Promise<CalendlyMyEventTypesResult>;
 
     /**
      * Makes a NEW Calendly account with the person's own email and password, in a session. Pauses
@@ -26512,6 +26610,48 @@ interface ListLocalNewsArgs {
   /** How many stories to return, 1 to 40. Defaults to all the front shows. */
   limit?: number;
 }
+interface GetLocalWeatherArgs {
+  /** A station slug from listLocalStations, such as "newyork" or "boston". */
+  station: string;
+}
+interface CbsNewsWeatherDay {
+  /** "Saturday". */
+  day: string;
+  /** Local date, YYYY-MM-DD. */
+  date: string | null;
+  /** Fahrenheit. */
+  high: number | null;
+  low: number | null;
+  /** The day's forecast sentence. */
+  summary: string | null;
+}
+interface CbsNewsLocalWeather {
+  station: string;
+  current: {
+    temperatureF: number | null;
+    feelsLikeF: number | null;
+    conditions: string | null; // "Clear"
+    humidityPct: number | null;
+    windMph: number | null;
+    windDirection: string | null;
+    uvIndex: number | null;
+    /** Local ISO time of the observation. */
+    observedAt: string | null;
+  };
+  /** Today and the next days, in order. */
+  forecast: CbsNewsWeatherDay[];
+}
+interface CbsNewsNewsletter {
+  /** The product id the sign-up form posts, e.g. 40186. */
+  id: number;
+  /** "m40186". */
+  code: string;
+  title: string;
+  description: string | null;
+  image: string | null;
+  /** Position on the page, from 1. */
+  order: number;
+}
 interface CbsNewsStation {
   /** The path after the site root: "boston", "newyork", "cbslocal/sacramento". */
   slug: string;
@@ -26673,6 +26813,20 @@ interface ListArticlesByAuthorArgs {
      * relative age and image, in the page's order. Take the station slug from listLocalStations.
      */
     listLocalNews(args: ListLocalNewsArgs): Promise<{ station: string; articles: CbsNewsSectionStory[] }>;
+
+    /**
+     * Gets the current conditions (temperature, feels-like, conditions, humidity, wind, UV) and
+     * the 5-day forecast for one CBS local station's city, from the weather widget on its front.
+     * Take the station slug from listLocalStations; a station with no widget is refused.
+     */
+    getLocalWeather(args: GetLocalWeatherArgs): Promise<CbsNewsLocalWeather>;
+
+    /**
+     * Lists the CBS News email newsletters on /newsletters (60 Minutes, Breaking News Alerts,
+     * Sunday Morning, The Uplift, 48 Hours, CBS News Exclusives): id, code, title, description and
+     * image, in the page's order.
+     */
+    listNewsletters(): Promise<{ newsletters: CbsNewsNewsletter[] }>;
 
     /**
      * Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings, Evening
@@ -31935,6 +32089,24 @@ interface cnbc_comSector extends cnbc_comRow {
     removeFromWatchlist(args: { symbol: string; watchlistId?: string }, opts?: ConnectionOption): Promise<{ watchlistId: string; removed: boolean }>;
 
     /**
+     * Follows a CNBC topic on the signed-in caller's account, by the follow id CNBC's Follow
+     * button uses.
+     */
+    followTopic(args: { followId: string; followType?: string; followName?: string }, opts?: ConnectionOption): Promise<{ followId: string; following: boolean }>;
+
+    /** Stops following a CNBC topic on the signed-in caller's account. */
+    unfollowTopic(args: { followId: string }, opts?: ConnectionOption): Promise<{ followId: string; following: boolean }>;
+
+    /**
+     * Subscribes the signed-in caller's CNBC account to a newsletter (id like
+     * newsletter_breakingnews).
+     */
+    subscribeToNewsletter(args: { newsletterId: string }, opts?: ConnectionOption): Promise<{ newsletterId: string; subscribed: boolean }>;
+
+    /** Unsubscribes the signed-in caller's CNBC account from a newsletter. */
+    unsubscribeFromNewsletter(args: { newsletterId: string }, opts?: ConnectionOption): Promise<{ newsletterId: string; subscribed: boolean }>;
+
+    /**
      * Returns the current stock quote for one symbol — price, change, percent change, open, high,
      * low, 52-week high/low, market cap, P/E ratio and dividend, read from quote.cnbc.com's
      * keyless JSON quote service.
@@ -35334,6 +35506,36 @@ interface QueryDatasetArgs {
      * matching rows and the column list.
      */
     queryDataset(args: QueryDatasetArgs): Promise<data_medicaidQueryResult>;
+  }
+}
+
+declare namespace BowmarkProvider_datareportal {
+  // ── DataReportal — the unit's own declarations, verbatim ──
+interface DatareportalFindArgs { query: string; limit?: number; }
+interface DatareportalReportArgs { url: string; }
+interface DatareportalReportRow { title: string; url: string; year: number | null; topic: string; lastModified: string | null; }
+interface DatareportalFindPage { results: DatareportalReportRow[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[]; }
+interface DatareportalReport { title: string; url: string; description: string | null; publishedAt: string | null; headlines: string[]; sections: string[]; }
+
+  /**
+   * Free country-by-country digital trends and market insights reports (China, India and more;
+   * internet, mobile and social media users, 2026 and earlier years) from DataReportal: find a
+   * report by country and year, then read its headline figures.
+   */
+  interface Unit {
+    /**
+     * Finds DataReportal digital trends and market insights reports by country (China, India,
+     * Brazil…) or platform and year (2026, 2025), newest first; the query's country and topic
+     * words must all match the report. Returns a page: up to `limit` reports in `results`, how
+     * many the sitemap holds for the query in `total`, and a warning when `limit` held rows back.
+     */
+    findReports(args: DatareportalFindArgs): Promise<DatareportalFindPage>;
+
+    /**
+     * Reads a DataReportal report page: title, description, publication date, the headline
+     * paragraphs and the section list.
+     */
+    getReport(args: DatareportalReportArgs): Promise<DatareportalReport>;
   }
 }
 
@@ -42969,6 +43171,21 @@ interface EtsyShop {
   onEtsySince: number | null;
   url: string;
 }
+interface EtsySoldItem {
+  listingId: number;
+  title: string;
+  image: string | null;
+  url: string;
+}
+interface EtsySoldPage {
+  results: EtsySoldItem[];
+  /** Etsy shows no sales count on the sold page, so this is always null */
+  total: number | null;
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+}
 interface EtsyUserProfile {
   username: string;
   displayName: string;
@@ -43117,6 +43334,14 @@ interface EtsyShippingEstimate {
      * keyless search door). Takes the same name or URL as `getShop`.
      */
     listShopListings(nameOrUrl: string | { shop: string; page?: number }): Promise<etsyListing[]>;
+
+    /**
+     * The sales an Etsy shop has made, newest first, one page at a time (`page` from 1, 24 per
+     * page) — listing id, title, image and listing URL. Each row is one sale, so a listing that
+     * sold five times appears five times; Etsy shows no price on a sold card (use `getListing` for
+     * the listing's price). Takes the same name or URL as `getShop`.
+     */
+    listShopSoldItems(nameOrUrl: string | { shop: string; page?: number }): Promise<EtsySoldPage>;
 
     /**
      * One page of the reviews an Etsy shop has received across all its listings, newest first —
@@ -61605,6 +61830,15 @@ interface ListVideosResult { feed: string; videos: IndependentStory[]; }
 interface IndependentQuizzesResult { total: number; quizzes: IndependentCard[]; }
 interface ListQuizzesArgs { limit?: number; }
 interface IndependentNewsletter { key: string; name: string; description: string | null; schedule: string | null; author: string | null; imageUrl: string | null; }
+interface IndependentCompetition { title: string; description: string | null; url: string; imageUrl: string | null; sponsored: boolean; }
+interface ListCompetitionsArgs { limit?: number; }
+interface ListCompetitionsResult { total: number; competitions: IndependentCompetition[]; warnings: string[]; }
+interface QuizQuestion { number: number; question: string; answers: { number: number; text: string }[]; correctAnswer: number | null; }
+interface IndependentQuiz { url: string; title: string | null; description: string | null; opensAt: string | null; closesAt: string | null; widgetHash: string; questions: QuizQuestion[]; }
+interface GetQuizArgs { url: string; }
+interface SearchArticleRow { url: string; articleId: string | null; titleFromUrl: string; date: string; lastmod: string | null; }
+interface SearchArticlesArgs { query: string; days?: number; limit?: number; }
+interface SearchArticlesResult { query: string; daysScanned: number; articlesScanned: number; total: number; articles: SearchArticleRow[]; warnings: string[]; }
 interface ListNewslettersArgs { query?: string; }
 interface ListNewslettersResult { total: number; newsletters: IndependentNewsletter[]; warnings: string[]; }
 interface VoucherStore { slug: string; name: string; url: string; }
@@ -61689,10 +61923,29 @@ interface GetAuthorArticlesResult { slug: string; author: string | null; total: 
     listQuizzes(args?: ListQuizzesArgs): Promise<IndependentQuizzesResult>;
 
     /**
+     * Finds recent Independent articles whose headline words (URL slug) contain every word of the
+     * query, scanning the last 1-14 days of sitemaps. The site has no public search, so body text
+     * is not searched.
+     */
+    searchArticles(args: SearchArticlesArgs): Promise<SearchArticlesResult>;
+
+    /**
+     * Gets one interactive quiz by URL: every question with its answer options and the number of
+     * the correct one. Takes a listQuizzes URL.
+     */
+    getQuiz(args: GetQuizArgs): Promise<IndependentQuiz>;
+
+    /**
      * Lists the Independent's newsletters with name, description, schedule and author, optionally
      * filtered by a word.
      */
     listNewsletters(args?: ListNewslettersArgs): Promise<ListNewslettersResult>;
+
+    /**
+     * Lists the Independent's open reader competitions and prize draws: title, blurb, URL, image
+     * and whether sponsored.
+     */
+    listCompetitions(args?: ListCompetitionsArgs): Promise<ListCompetitionsResult>;
 
     /**
      * Lists the shops with Independent voucher-code pages (slug, name, URL). Feeds
@@ -65972,12 +66225,46 @@ interface KickListFollowedChannelsResult {
   channels: KickFollowedChannel[];
   nextCursor?: string;
 }
+interface KickListSubscriptionsArgs {
+  cursor?: string;
+}
+interface KickSubscription {
+  slug: string;
+  username?: string;
+  tier?: string; // the site's own labels — read the values off a result, never guess one from prose
+  subscribedSince?: string;
+  expiresAt?: string;
+}
+interface KickListSubscriptionsResult {
+  subscriptions: KickSubscription[];
+  nextCursor?: string;
+}
 interface KickFollowArgs {
   channel: string;
 }
 interface KickFollowResult {
   channel: string;
   following: boolean;
+}
+interface KickSendChatMessageArgs {
+  channel: string;
+  content: string;
+  replyToMessageId?: string;
+}
+interface KickSendChatMessageResult {
+  channel: string;
+  chatroomId: number;
+  messageId?: string;
+  content: string;
+}
+interface KickDeleteChatMessageArgs {
+  channel: string;
+  messageId: string;
+}
+interface KickDeleteChatMessageResult {
+  channel: string;
+  messageId: string;
+  deleted: boolean;
 }
 
 interface KickPlayback {
@@ -66122,11 +66409,26 @@ interface KickPlayback {
     /** The channels the signed-in caller follows, with whether each is live now, paged by cursor. */
     listFollowedChannels(args?: KickListFollowedChannelsArgs, opts?: ConnectionOption): Promise<KickListFollowedChannelsResult>;
 
+    /**
+     * The channels the signed-in caller pays a subscription to, with tier, when it started and
+     * when it expires.
+     */
+    listSubscriptions(args?: KickListSubscriptionsArgs, opts?: ConnectionOption): Promise<KickListSubscriptionsResult>;
+
     /** Follows a channel (slug or kick.com link) as the signed-in caller. */
     followChannel(args: KickFollowArgs, opts?: ConnectionOption): Promise<KickFollowResult>;
 
     /** Unfollows a channel (slug or kick.com link) as the signed-in caller. */
     unfollowChannel(args: KickFollowArgs, opts?: ConnectionOption): Promise<KickFollowResult>;
+
+    /**
+     * Posts a message in a channel's chat as the signed-in caller, optionally as a reply to one
+     * message getChatMessages returned.
+     */
+    sendChatMessage(args: KickSendChatMessageArgs, opts?: ConnectionOption): Promise<KickSendChatMessageResult>;
+
+    /** Deletes one of the signed-in caller's own chat messages. */
+    deleteChatMessage(args: KickDeleteChatMessageArgs, opts?: ConnectionOption): Promise<KickDeleteChatMessageResult>;
   }
 }
 
@@ -74630,6 +74932,102 @@ interface MlbPostseasonBracket {
   series: MlbPostseasonSeries[];
   warnings: string[];
 }
+interface MlbGetTeamLeadersArgs {
+  /** A team id from listTeams(). */
+  teamId: number;
+  /** A stat id such as "homeRuns", "battingAverage", "earnedRunAverage"; comma-separate several. Default: eight headline stats. */
+  category?: string;
+  season?: number;
+  limit?: number;
+}
+interface MlbTeamLeader {
+  rank: number;
+  value: string;
+  playerId: number | null;
+  player: string;
+  slug: string | null;
+}
+interface MlbTeamLeaders {
+  teamId: number;
+  season: number | null;
+  categories: { category: string; leaders: MlbTeamLeader[] }[];
+  warnings: string[];
+}
+interface MlbGetPlayerGameLogArgs {
+  /** A player id from searchPlayers(). */
+  playerId: number;
+  group?: "hitting" | "pitching" | "fielding";
+  season?: number;
+}
+interface MlbGameLogRow {
+  date: string | null;
+  gamePk: number | null;
+  opponent: string | null;
+  opponentId: number | null;
+  home: boolean | null;
+  win: boolean | null;
+  summary: string | null;
+  stat: Record<string, string | number | null>;
+}
+interface MlbPlayerGameLog {
+  playerId: number;
+  season: number | null;
+  group: string;
+  games: MlbGameLogRow[];
+  warnings: string[];
+}
+interface MlbListPlayerStatsArgs {
+  group?: "hitting" | "pitching" | "fielding";
+  season?: number;
+  /** Any stat column, e.g. "homeRuns", "avg", "era", "strikeOuts". */
+  sortStat?: string;
+  order?: "asc" | "desc";
+  /** 1-100, default 25. */
+  limit?: number;
+  /** false includes players below the qualifying minimum. Default true. */
+  qualified?: boolean;
+}
+interface MlbPlayerStatRow {
+  rank: number | null;
+  playerId: number | null;
+  player: string;
+  team: string | null;
+  teamId: number | null;
+  position: string | null;
+  stat: Record<string, string | number | null>;
+}
+interface MlbPlayerStatsTable {
+  season: number | null;
+  group: string;
+  sortStat: string;
+  total: number;
+  players: MlbPlayerStatRow[];
+  warnings: string[];
+}
+interface MlbListTransactionsArgs {
+  /** YYYY-MM-DD. Default: the last 7 days. */
+  startDate?: string;
+  endDate?: string;
+  teamId?: number;
+  playerId?: number;
+  /** 1-500, default 50. */
+  limit?: number;
+}
+interface MlbTransaction {
+  id: number;
+  date: string | null;
+  type: string | null;
+  typeCode: string | null;
+  playerId: number | null;
+  player: string | null;
+  fromTeam: string | null;
+  toTeam: string | null;
+  description: string;
+}
+interface MlbTransactions {
+  transactions: MlbTransaction[];
+  warnings: string[];
+}
 interface MlbPlay {
   index: number;
   inning: number;
@@ -74788,6 +75186,32 @@ interface MlbPlay {
      * Series): the two teams, wins, the winner and each game with score. Defaults to last season.
      */
     getPostseasonBracket(args?: MlbGetPostseasonBracketArgs): Promise<MlbPostseasonBracket>;
+
+    /**
+     * A team's leaders by stat (home runs, average, RBI, steals, ERA, wins, saves, strikeouts by
+     * default) for a season. e.g. getTeamLeaders({ teamId: 147, category: 'homeRuns', season: 2025
+     * }).
+     */
+    getTeamLeaders(args: MlbGetTeamLeadersArgs): Promise<MlbTeamLeaders>;
+
+    /**
+     * A player's game-by-game stat lines for a season: date, opponent, home or away, win or loss
+     * and the full line. Takes a playerId from searchPlayers().
+     */
+    getPlayerGameLog(args: MlbGetPlayerGameLogArgs): Promise<MlbPlayerGameLog>;
+
+    /**
+     * The league-wide player stats table as mlb.com/stats shows it: qualified hitters or pitchers
+     * for a season, sorted by any column. e.g. listPlayerStats({ group: 'pitching', sortStat:
+     * 'strikeOuts', season: 2025 }).
+     */
+    listPlayerStats(args?: MlbListPlayerStatsArgs): Promise<MlbPlayerStatsTable>;
+
+    /**
+     * Player transactions (trades, signings, injured list moves, call-ups, assignments) for a date
+     * range, a team or a player; defaults to the last 7 days.
+     */
+    listTransactions(args?: MlbListTransactionsArgs): Promise<MlbTransactions>;
 
     /**
      * Lists where a game is on TV, radio and streaming: station, type, home or away feed, national
@@ -88949,6 +89373,56 @@ interface QuickbooksPlan {
   features: string[]; // "Run enhanced reports", "Automated bookkeeping"
 }
 
+/** One QuickBooks Desktop Enterprise edition and its feature list. */
+interface QuickbooksDesktopPlan {
+  edition: string;
+  key: string;
+  features: { name: string; description: string | null }[];
+  /** Always null: no Desktop Enterprise price is shown to a logged-out visitor. */
+  price: null;
+  warnings: string[];
+}
+
+/** One side of a payment-rate comparison: the rate as the page words it, parsed. */
+interface QuickbooksPaymentRate {
+  /** The rate as the page words it, e.g. "3.3% + 30¢". */
+  text: string;
+  percent: number | null;
+  fixedCents: number | null;
+  /** Who processes it when the page names one (BNPL: "Affirm", "Afterpay"). */
+  processor: string | null;
+}
+
+interface QuickbooksPaymentRateRow {
+  method: string;
+  quickbooks: QuickbooksPaymentRate | null;
+  square: QuickbooksPaymentRate | null;
+  note: string | null;
+}
+
+interface QuickbooksPaymentRates {
+  asOf: string | null;
+  rates: QuickbooksPaymentRateRow[];
+  source: string;
+  warnings: string[];
+}
+
+interface QuickbooksPaymentFeeLine {
+  method: string;
+  monthlyVolume: number;
+  transactions: number;
+  quickbooksFee: number | null;
+  squareFee: number | null;
+}
+
+interface QuickbooksPaymentFeeEstimate {
+  lines: QuickbooksPaymentFeeLine[];
+  quickbooksTotal: number;
+  squareTotal: number;
+  ratesAsOf: string | null;
+  warnings: string[];
+}
+
 /** One QuickBooks Time plan off /time-tracking/pricing/ (the page also sells Time inside two
  * Payroll "Workforce" bundles, returned here too with "bundle: true"). */
 interface QuickbooksTimeTrackingPlan {
@@ -89553,6 +90027,25 @@ interface QuickbooksAccountant {
      * headline features
      */
     getPlans(): Promise<QuickbooksPlan[]>;
+
+    /**
+     * QuickBooks Desktop Enterprise editions (Gold, Platinum, Diamond) with their feature lists;
+     * price is null because QuickBooks shows none logged out
+     */
+    getDesktopPlans(): Promise<QuickbooksDesktopPlan[]>;
+
+    /**
+     * QuickBooks Payments' published processing rates per method (cards and wallets, ACH,
+     * in-person, keyed-in, buy now pay later, instant deposits), beside Square's, as percent plus
+     * fixed cents
+     */
+    getPaymentRates(): Promise<QuickbooksPaymentRates>;
+
+    /**
+     * Estimates a month's card and ACH processing fees on QuickBooks Payments, and on Square for
+     * comparison, from monthly dollar volumes per method
+     */
+    estimatePaymentFees(args: { cards?: number; ach?: number; inPerson?: number; keyed?: number; averageTransaction?: number }): Promise<QuickbooksPaymentFeeEstimate>;
 
     /**
      * QuickBooks Time plans (and the Payroll bundles that include Time) with monthly base fee,
@@ -91501,6 +91994,55 @@ interface ReiProductDetails {
      * flag, not a quantity, and says nothing about in-store stock.
      */
     getProduct(args: ReiGetProductArgs): Promise<ReiProductDetails>;
+  }
+}
+
+declare namespace BowmarkProvider_reichelt_de {
+  // ── Reichelt Elektronik — the unit's own declarations, verbatim ──
+interface ReicheltProduct {
+  articleNumber: string;
+  title: string;
+  description: string | null;
+  price: number | null;
+  currency: string;
+  inStock: boolean | null;
+  availabilityText: string | null;
+  url: string;
+  properties: Record<string, string>;
+}
+interface ReicheltProductDetail extends ReicheltProduct {
+  manufacturer: string | null;
+  gtin: string | null;
+}
+interface ReicheltSearchArgs {
+  query: string;
+  limit?: number;
+}
+interface ReicheltSearchResult {
+  query: string;
+  total: number | null;
+  products: ReicheltProduct[];
+}
+interface ReicheltGetProductArgs {
+  url: string;
+}
+
+  /**
+   * Search reichelt.de's electronics catalogue (resistors, cables, connectors, boards) by
+   * keyword or part number and read one product's EUR price, stock and EAN.
+   */
+  interface Unit {
+    /**
+     * Search reichelt.de by keyword or part number; returns the total hit count and rows with
+     * article number, title, EUR price, stock and listing properties.
+     */
+    searchProducts(args: ReicheltSearchArgs): Promise<ReicheltSearchResult>;
+
+    /**
+     * Read one reichelt.de product page (url from searchProducts): price, stock line, manufacturer
+     * and EAN/GTIN.
+     */
+    getProduct(args: ReicheltGetProductArgs): Promise<ReicheltProductDetail>;
   }
 }
 
@@ -97974,6 +98516,19 @@ interface sheinPageText {
   text: string;
   pageUrl: string;
 }
+interface sheinAddToCart {
+  productId: string;
+  size: string | null;
+  added: boolean;
+  bagText: string;
+  warnings: string[];
+}
+interface sheinCartChange {
+  productId: string;
+  done: boolean;
+  bagText: string;
+  warnings: string[];
+}
 interface sheinOrderDetail {
   orderId: string;
   // the site's own labels — read the values off a result, never guess one from prose
@@ -98067,6 +98622,26 @@ interface sheinSizeGuide {
      * to shein.com; the relay handles it.
      */
     getProfile(opts?: ConnectionOption): Promise<sheinProfile>;
+
+    /**
+     * Adds one product (the id `search` returns) to the CALLER's own Shein bag by driving the
+     * product page: picks `size` when given, presses Add to bag, then reads the bag. Stops there,
+     * nothing is bought. Needs the caller signed in to shein.com; the relay handles it.
+     */
+    addToCart(args: { productId: string; size?: string; quantity?: number }, opts?: ConnectionOption): Promise<sheinAddToCart>;
+
+    /**
+     * Sets the quantity (1 to 10) of a product already in the CALLER's own Shein bag by driving
+     * the bag page, then reads the bag. Needs the caller signed in to shein.com; the relay handles
+     * it.
+     */
+    updateCartItem(args: { productId: string; quantity: number }, opts?: ConnectionOption): Promise<sheinCartChange>;
+
+    /**
+     * Removes a product from the CALLER's own Shein bag by driving the bag page, then reads the
+     * bag. Needs the caller signed in to shein.com; the relay handles it.
+     */
+    removeFromCart(args: { productId: string }, opts?: ConnectionOption): Promise<sheinCartChange>;
 
     /**
      * The CALLER's own Shein shopping bag as the cart page shows it, as text. Needs the caller
@@ -115725,6 +116300,17 @@ interface UpsSimpleRateQuote {
   guaranteed: boolean;
 }
 
+interface UpsTimeAndCostQuote {
+  serviceCode: string;
+  serviceName: string;
+  cost: number;
+  currency: string;
+  daysInTransit: number | null;  // null on an international lane: that page prints only the date
+  deliveredBy: string | null;  // the site's own words, e.g. "By End of Day Monday October 26, 2026"
+  guaranteed: boolean;
+  pricedFor: { weight: number; length: number; width: number; height: number; weightUnit: "kg" | "lb"; dimensionUnit: "cm" | "in"; note: string };  // the parcel this row was priced for: repeat it with the price, and ask the person if they never gave it
+}
+
 interface UpsNearbyLocation {
   locationId: string;
   name: string;  // the business at this address, e.g. "CVS STORE # 10415"
@@ -115832,19 +116418,21 @@ interface UpsServiceAlerts {
     calculateShippingCost(args: { fromZip: string; toZip: string; toCountry?: string; toCity?: string; packageSize?: "extraSmall" | "small" | "medium" | "large" | "extraLarge"; weightLbs?: number; lengthIn?: number; widthIn?: number; heightIn?: number; customsValue?: number; shipDate?: string }): Promise<UpsSimpleRateQuote[]>;
 
     /**
-     * Public retail rates and delivery dates from ups.com's own "Calculate Time and Cost" tool
-     * (ups.com/ctc) for a weighed parcel between ANY two countries — no key, no login, no account,
-     * international lanes included (e.g. DE 20095 -> FR 69002). Countries are ISO 2-letter codes;
-     * `units` defaults to "metric" (weight in kg, box in cm), "imperial" is lb and in.
-     * `customsValue` (in the origin currency) is needed on a lane that crosses customs and ignored
-     * inside one customs union. Returns one row per UPS service (UPS Standard, Express Saver,
-     * Express, Express Plus…) with cost and the currency the calculator quoted in (the origin's,
-     * e.g. EUR from Germany), the delivery date and whether it is guaranteed. Use this rather than
-     * `calculateShippingCost` when the origin is not in the US. Weight and box size (length,
-     * width, height) have no default: they come from the caller, so ask for them before calling.
-     * Drives the calculator in a headless browser, so it takes about a minute.
+     * ASK the person for the parcel's weight and box size (length, width, height) first — they
+     * have no default and the price depends on both; never make them up. Public retail rates and
+     * delivery dates from ups.com's own "Calculate Time and Cost" tool (ups.com/ctc) for a weighed
+     * parcel between ANY two countries — no key, no login, no account, international lanes
+     * included (e.g. DE 20095 -> FR 69002). Countries are ISO 2-letter codes; `units` defaults to
+     * "metric" (weight in kg, box in cm), "imperial" is lb and in. `customsValue` (in the origin
+     * currency) is needed on a lane that crosses customs and ignored inside one customs union.
+     * Returns one row per UPS service (UPS Standard, Express Saver, Express, Express Plus…) with
+     * cost and the currency the calculator quoted in (the origin's, e.g. EUR from Germany), the
+     * delivery date and whether it is guaranteed. Use this rather than `calculateShippingCost`
+     * when the origin is not in the US. Every row carries `pricedFor` (weight, box, units and a
+     * `note`): state it with the price. Drives the calculator in a headless browser, so it takes
+     * about a minute.
      */
-    calculateTimeAndCost(args: { fromCountry: string; fromPostalCode: string; fromCity?: string; toCountry: string; toPostalCode: string; toCity?: string; weight: number; length: number; width: number; height: number; units?: "metric" | "imperial"; customsValue?: number; shipDate?: string }): Promise<UpsSimpleRateQuote[]>;
+    calculateTimeAndCost(args: { fromCountry: string; fromPostalCode: string; fromCity?: string; toCountry: string; toPostalCode: string; toCity?: string; weight: number; length: number; width: number; height: number; units?: "metric" | "imperial"; customsValue?: number; shipDate?: string }): Promise<UpsTimeAndCostQuote[]>;
 
     /**
      * Finds UPS drop-off/pickup locations near a ZIP Code or street/city address — UPS Customer
@@ -125255,6 +125843,13 @@ interface YelpBookmarks {
   bookmarks: YelpBookmark[];   // page order; [] when nothing is saved
 }
 
+// saveBusiness / addToCollection: a private write into the caller's own collection
+interface YelpSaveResult {
+  alias: string;
+  collectionId: string;
+  saved: boolean;
+}
+
 // getCollections: the signed-in caller's own collections
 interface YelpOwnCollection {
   id: string;
@@ -125391,6 +125986,22 @@ interface YelpOwnCollections {
      * signed in to Yelp; runs through their own Chrome when Bowmark Buddy is attached. Read-only.
      */
     getMessages(opts?: ConnectionOption): Promise<YelpMessages>;
+
+    /**
+     * Bookmarks a business (a /biz/ url or alias) into the signed-in caller's own Yelp Bookmarks
+     * collection, or into collectionId when given. A private write, at most once per business and
+     * collection. Needs the caller signed in to Yelp; runs through their own Chrome when Bowmark
+     * Buddy is attached.
+     */
+    saveBusiness(args: { business: string; collectionId?: string }, opts?: ConnectionOption): Promise<YelpSaveResult>;
+
+    /**
+     * Adds a business (a /biz/ url or alias) to one of the signed-in caller's own Yelp
+     * collections, by the collectionId getCollections returns. A private write, at most once per
+     * business and collection. Needs the caller signed in to Yelp; runs through their own Chrome
+     * when Bowmark Buddy is attached.
+     */
+    addToCollection(args: { business: string; collectionId: string }, opts?: ConnectionOption): Promise<YelpSaveResult>;
 
     /**
      * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
@@ -129065,6 +129676,7 @@ interface BowmarkProviders {
   agoda: BowmarkProvider_agoda.Unit;
   ahrefs: BowmarkProvider_ahrefs.Unit;
   ai_engineer: BowmarkProvider_ai_engineer.Unit;
+  ai_meta_com: BowmarkProvider_ai_meta_com.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   airbnb: BowmarkProvider_airbnb.Unit;
   airchina: BowmarkProvider_airchina.Unit;
@@ -129300,6 +129912,7 @@ interface BowmarkProviders {
   dat: BowmarkProvider_dat.Unit;
   data_cms: BowmarkProvider_data_cms.Unit;
   data_medicaid: BowmarkProvider_data_medicaid.Unit;
+  datareportal: BowmarkProvider_datareportal.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   dblp: BowmarkProvider_dblp.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
@@ -129719,6 +130332,7 @@ interface BowmarkProviders {
   reddit: BowmarkProvider_reddit.Unit;
   redfin: BowmarkProvider_redfin.Unit;
   rei: BowmarkProvider_rei.Unit;
+  reichelt_de: BowmarkProvider_reichelt_de.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
   rentmanager: BowmarkProvider_rentmanager.Unit;
   rentrightstudents_co_uk: BowmarkProvider_rentrightstudents_co_uk.Unit;

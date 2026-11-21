@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7441 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7447 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -132,6 +132,8 @@ One function per row, with the site it is called on.
 | `ahrefs.getDomainRating` | ahrefs.com | Returns Ahrefs' 0–100 Domain Rating for one domain or URL. | 🟢 |
 | `ai_engineer.getSpeaker` | ai.engineer | Returns detailed information about one speaker from the AI Engineer conference… | 🟢 |
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟢 |
+| `ai_meta_com.getPost` | ai.meta.com | Reads one Meta AI blog post on ai.meta.com by url or slug and returns its title… | 🟢 |
+| `ai_meta_com.listPosts` | ai.meta.com | Lists the newest posts on Meta AI's blog (ai.meta.com/blog), first page only — title… | 🟢 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟡 |
 | `airbnb.autocompleteLocation` | airbnb.com | Suggests Airbnb destinations (cities, neighbourhoods, landmarks) for a typed place… | ⚪ |
@@ -825,7 +827,7 @@ One function per row, with the site it is called on.
 | `booker.getAvailableDates` | booker.com | Returns the local dates a service has at least one open appointment at a location over… | 🟢 |
 | `booker.getBookingPolicies` | booker.com | Returns a location's booking rules: its cancellation policy text and fee window, how… | 🟢 |
 | `booker.getGroupAvailability` | booker.com | Finds start times when several guests can each begin a service together (a couples'… | 🟢 |
-| `booker.getLocationHours` | booker.com | Returns a location's recurring weekly opening hours, one row per weekday. | 🟡 |
+| `booker.getLocationHours` | booker.com | Returns a location's recurring weekly opening hours, one row per weekday. | 🟢 |
 | `booker.getMultiServiceAvailability` | booker.com | Finds open times for several services booked as one visit, back to back (for example a… | 🟢 |
 | `booker.getMyProfile` | booker.com | Returns the signed-in customer's profile at a location: name, email, phone, address… | ⚪ |
 | `booker.getService` | booker.com | Returns one service's full detail: description, category, duration, price and whether… | 🟢 |
@@ -1020,14 +1022,14 @@ One function per row, with the site it is called on.
 | `calendly.getBookingForm` | calendly.com | Reads what a Calendly booking page will ask before anyone books — the owner's name… | 🟢 |
 | `calendly.getEventTypes` | calendly.com | Lists every event type a Calendly profile currently offers — the entry point. | 🟢 |
 | `calendly.getLandingPage` | calendly.com | Reads a Calendly team or organization page — the page that lists several people's or… | ⚪ |
-| `calendly.getMyAccount` | calendly.com | The signed-in caller's own Calendly account — name, email, scheduling-page url and… | ⚪ |
+| `calendly.getMyAccount` | calendly.com | The signed-in caller's own Calendly account — name, email, scheduling-page url and… | 🟢 |
 | `calendly.getRoutingForm` | calendly.com | Reads a Calendly routing form — the questions an organization asks before it decides… | 🟡 |
 | `calendly.getScheduledEvent` | calendly.com | One meeting booked with the caller in full — every invitee, their answers to the… | ⚪ |
 | `calendly.inviteOrganizationMember` | calendly.com | Invites someone by email to the caller's Calendly organization. | ⚪ |
 | `calendly.listAvailabilitySchedules` | calendly.com | The caller's working-hours schedules — the weekly hours they take meetings and any… | ⚪ |
 | `calendly.listConnectedCalendars` | calendly.com | The calendars connected to the caller's Calendly — which are checked for conflicts and… | ⚪ |
 | `calendly.listContacts` | calendly.com | The people in the caller's Calendly contacts — everyone who has booked with them, with… | ⚪ |
-| `calendly.listMyEventTypes` | calendly.com | Every event type the signed-in caller hosts, including secret and turned-off ones that… | ⚪ |
+| `calendly.listMyEventTypes` | calendly.com | Every event type the signed-in caller hosts, including secret and turned-off ones that… | 🟢 |
 | `calendly.listOrganizationMembers` | calendly.com | The people in the caller's Calendly organization, with their role and scheduling url. | ⚪ |
 | `calendly.listPackages` | calendly.com | Lists the prepaid session packages a Calendly profile sells (several meetings bought… | 🟢 |
 | `calendly.listRoutingForms` | calendly.com | The routing forms the caller's organization owns. | ⚪ |
@@ -1198,13 +1200,13 @@ One function per row, with the site it is called on.
 | `cbsnews.getAuthor` | cbsnews.com | Gets a correspondent's or writer's profile from /team/<slug>/. | 🟢 |
 | `cbsnews.getLiveStream` | cbsnews.com | Gets the CBS News 24/7 live stream and the current broadcast from /live/. | 🟢 |
 | `cbsnews.getLiveUpdates` | cbsnews.com | Gets a live-updates page (/live-updates/<slug>/) with its timestamped posts. | 🟡 |
-| `cbsnews.getLocalWeather` | cbsnews.com | Gets a local station's current conditions and forecast. | ⚪ |
+| `cbsnews.getLocalWeather` | cbsnews.com | Gets a local station's current conditions and forecast. | 🟢 |
 | `cbsnews.getVideo` | cbsnews.com | Gets one video page: title, description, duration, date and stream URL where exposed. | 🟢 |
 | `cbsnews.listArticlesByAuthor` | cbsnews.com | Lists the stories by one author. | 🟢 |
 | `cbsnews.listLatestNews` | cbsnews.com | Lists the latest stories from one CBS News RSS feed (main, or a section or show slug… | 🟢 |
 | `cbsnews.listLocalNews` | cbsnews.com | Lists the stories on a local station's front, e.g. /newyork/. | 🟢 |
 | `cbsnews.listLocalStations` | cbsnews.com | Lists the CBS local stations (New York, Los Angeles, Chicago, Boston, Texas …). | 🟢 |
-| `cbsnews.listNewsletters` | cbsnews.com | Lists the newsletters on /newsletters (breaking news, exclusives, uplift …). | ⚪ |
+| `cbsnews.listNewsletters` | cbsnews.com | Lists the newsletters on /newsletters (breaking news, exclusives, uplift …). | 🟢 |
 | `cbsnews.listNewsletterSubscriptions` | cbsnews.com | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
 | `cbsnews.listPodcastEpisodes` | cbsnews.com | Lists the episodes of one podcast from its feed. | 🟢 |
 | `cbsnews.listPodcasts` | cbsnews.com | Lists CBS News podcasts from /podcasts/. | 🟢 |
@@ -1528,7 +1530,7 @@ One function per row, with the site it is called on.
 | `clutch.search` | clutch.co | Searches Clutch's public ranked agency directory for software or web-development… | 🟢 |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | 🟢 |
-| `cnbc_com.followTopic` | cnbc.com | Follows a CNBC news topic to receive articles about it. | ⚪ |
+| `cnbc_com.followTopic` | cnbc.com | Follows a CNBC topic on the signed-in caller's account. | 🟢 |
 | `cnbc_com.getArticle` | cnbc.com | Returns a CNBC article by URL — headline, authors, dates, section, keywords, lead… | 🟢 |
 | `cnbc_com.getAuthor` | cnbc.com | Returns details about a CNBC journalist or contributor — name, bio, photo and link to… | 🟢 |
 | `cnbc_com.getInvestingClubContent` | cnbc.com | Returns Investing Club portfolio recommendations and analysis. | ⚪ |
@@ -1548,9 +1550,9 @@ One function per row, with the site it is called on.
 | `cnbc_com.listVideosByCategory` | cnbc.com | Lists CNBC videos by category (latest, trending, live, channels) — title, description… | 🟢 |
 | `cnbc_com.removeFromWatchlist` | cnbc.com | Removes a stock symbol from the user's watchlist. | 🟢 |
 | `cnbc_com.search` | cnbc.com | Searches CNBC's articles and videos for a keyword and returns them by relevance —… | 🟢 |
-| `cnbc_com.subscribeToNewsletter` | cnbc.com | Subscribes to a CNBC newsletter (Markets, Tech, Earnings, etc). | ⚪ |
-| `cnbc_com.unfollowTopic` | cnbc.com | Unfollows a CNBC news topic. | ⚪ |
-| `cnbc_com.unsubscribeFromNewsletter` | cnbc.com | Unsubscribes from a CNBC newsletter. | ⚪ |
+| `cnbc_com.subscribeToNewsletter` | cnbc.com | Subscribes the signed-in caller to a CNBC newsletter. | 🟢 |
+| `cnbc_com.unfollowTopic` | cnbc.com | Stops following a CNBC topic on the signed-in caller's account. | 🟢 |
+| `cnbc_com.unsubscribeFromNewsletter` | cnbc.com | Unsubscribes the signed-in caller from a CNBC newsletter. | 🟢 |
 | `cnn.followTopic` | www.cnn.com | Add a topic to the signed-in viewer's followed topics, so it appears in their… | 🟢 |
 | `cnn.getArticle` | www.cnn.com | Read the full text and metadata of one CNN article — headline, body text, author… | 🟢 |
 | `cnn.getMarketsData` | www.cnn.com | Financial and markets data from CNN Money — stock indices, currency rates, commodities… | 🟢 |
@@ -1766,6 +1768,8 @@ One function per row, with the site it is called on.
 | `data_medicaid.getDataset` | data.medicaid.gov | Read one data.medicaid.gov dataset's record by id: title, description, license… | 🟢 |
 | `data_medicaid.queryDataset` | data.medicaid.gov | Read rows from one data.medicaid.gov dataset's table, with exact-match or substring… | 🟢 |
 | `data_medicaid.searchDatasets` | data.medicaid.gov | Search data.medicaid.gov's dataset catalog by keyword; returns each dataset's id… | 🟢 |
+| `datareportal.findReports` | datareportal.com | Finds DataReportal digital trends and market insights reports by country (China… | 🟢 |
+| `datareportal.getReport` | datareportal.com | Reads a DataReportal report page: title, description, publication date, headline… | 🟢 |
 | `davidsonhomes.getCommunity` | davidsonhomes.com | Reads one community's own page: its ACTUAL available homes right now — real street… | 🟢 |
 | `davidsonhomes.getHome` | davidsonhomes.com | Reads one specific home's own listing page: address, price, sqft, bed/bath count… | 🟡 |
 | `davidsonhomes.getRegion` | davidsonhomes.com | Reads one region's own page: every community in it with a real live price/bed/sqft… | 🟢 |
@@ -2324,7 +2328,7 @@ One function per row, with the site it is called on.
 | `etsy.listPurchases` | etsy.com | The signed-in caller's Etsy orders, newest first — shop, items, total, order date and… | ⚪ |
 | `etsy.listShopListings` | etsy.com | The items on the first page of an Etsy shop, from the shop page's own `ItemList`… | 🟡 |
 | `etsy.listShopReviews` | etsy.com | One page of the reviews an Etsy shop has received across all its listings, newest… | 🟡 |
-| `etsy.listShopSoldItems` | etsy.com | The items a shop has already sold, newest first — what actually sells there, with… | ⚪ |
+| `etsy.listShopSoldItems` | etsy.com | The sales a shop has made, newest first, one page at a time — listing id, title, image… | 🟢 |
 | `etsy.listTrendingSearches` | etsy.com | What people are searching for on Etsy this week — the 'Top searches this week' list… | 🟡 |
 | `etsy.removeFromCart` | etsy.com | Removes an item from the caller's cart. | ⚪ |
 | `etsy.search` | etsy.com | Finds handmade and vintage items (e.g. handmade ceramic mugs) by searching Etsy's live… | 🟡 |
@@ -3492,14 +3496,14 @@ One function per row, with the site it is called on.
 | `independent.getHomepageHeadlines` | independent.co.uk | Lists the top stories on The Independent's front page for one edition (UK, US or Asia). | 🟢 |
 | `independent.getLiveBlog` | independent.co.uk | Gets a live blog with its timestamped updates, newest first. | 🟢 |
 | `independent.getMostPopular` | independent.co.uk | Lists the most-read Independent articles right now, overall or for one area (articles… | 🟢 |
-| `independent.getQuiz` | independent.co.uk | Gets one quiz's questions and answer options. | ⚪ |
+| `independent.getQuiz` | independent.co.uk | Gets one quiz's questions and answer options. | 🟢 |
 | `independent.getTopicArticles` | independent.co.uk | Lists the latest articles on one topic page (/topic/<slug>). | 🟢 |
 | `independent.getVideo` | independent.co.uk | Gets one Independent TV video: title, description, date, duration and stream where… | 🟢 |
 | `independent.getVoucherCodes` | independent.co.uk | Lists the current discount codes and offers for one shop, e.g. /vouchercodes/very. | 🟢 |
 | `independent.listArticlesByDate` | independent.co.uk | Lists every article The Independent published on one date, back to 1995. | 🟢 |
 | `independent.listAuthors` | independent.co.uk | Finds Independent writers by name; the door for getAuthorArticles. | 🟢 |
 | `independent.listBookmarks` | independent.co.uk | Lists the signed-in caller's bookmarked articles. | ⚪ |
-| `independent.listCompetitions` | independent.co.uk | Lists the open reader competitions and prize draws. | ⚪ |
+| `independent.listCompetitions` | independent.co.uk | Lists the open reader competitions and prize draws. | 🟢 |
 | `independent.listLatestNews` | independent.co.uk | Lists the newest stories from an Independent RSS feed: the whole site (/rss) or one… | 🟢 |
 | `independent.listNewsletters` | independent.co.uk | Lists The Independent's email newsletters with description, frequency, author and… | 🟢 |
 | `independent.listNewsletterSubscriptions` | independent.co.uk | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
@@ -3510,7 +3514,7 @@ One function per row, with the site it is called on.
 | `independent.listVoucherStores` | independent.co.uk | Lists the shops The Independent's voucher-codes pages cover; the door for… | 🟢 |
 | `independent.postComment` | independent.co.uk | Posts a comment on an article as the signed-in caller (Viafoura). | ⚪ |
 | `independent.removeBookmark` | independent.co.uk | Removes an article from the signed-in caller's bookmarks. | ⚪ |
-| `independent.searchArticles` | independent.co.uk | Searches Independent articles by keyword. | ⚪ |
+| `independent.searchArticles` | independent.co.uk | Searches Independent articles by keyword. | 🟢 |
 | `independent.subscribeToNewsletter` | independent.co.uk | Signs an email address up to one Independent newsletter. | ⚪ |
 | `independent.subscribeToPremium` | independent.co.uk | Starts an Independent Premium membership for the signed-in caller, stopping at the… | ⚪ |
 | `independent.unsubscribeFromNewsletter` | independent.co.uk | Unsubscribes the signed-in caller from one newsletter. | ⚪ |
@@ -3730,7 +3734,7 @@ One function per row, with the site it is called on.
 | `kenko.updateMyProfile` | gokenko.com | Update the signed-in member's profile information. | 🟢 |
 | `kick.blockUser` | kick.com | Blocks or unblocks a user for the signed-in caller, so their chat messages are hidden. | ⚪ |
 | `kick.createClip` | kick.com | Clips the last seconds of a channel's live stream as the signed-in caller, with a… | ⚪ |
-| `kick.deleteChatMessage` | kick.com | Deletes one of the signed-in caller's own chat messages. | ⚪ |
+| `kick.deleteChatMessage` | kick.com | Deletes one of the signed-in caller's own chat messages. | 🟢 |
 | `kick.followChannel` | kick.com | Follows a channel as the signed-in caller. | 🟢 |
 | `kick.getCategory` | kick.com | One category's record by slug: name, group, tags, description, live viewers, follower… | 🟢 |
 | `kick.getChannel` | kick.com | A channel's public record by slug: display name, bio, follower count, verified flag… | 🟢 |
@@ -3751,10 +3755,10 @@ One function per row, with the site it is called on.
 | `kick.listFeaturedLivestreams` | kick.com | The streams Kick features on its homepage carousel right now, for one language. | 🟢 |
 | `kick.listFollowedChannels` | kick.com | The channels the signed-in caller follows, live ones first, with what each is streaming. | 🟢 |
 | `kick.listLiveStreams` | kick.com | Browses who is live now, biggest first, optionally within one category (the slug… | 🟢 |
-| `kick.listSubscriptions` | kick.com | The channels the signed-in caller pays a subscription to, with tier and renewal date. | ⚪ |
+| `kick.listSubscriptions` | kick.com | The channels the signed-in caller pays a subscription to, with tier, when it started… | 🟢 |
 | `kick.listTopClips` | kick.com | The most-viewed or newest clips across all of Kick, or within one category, for a time… | 🟢 |
 | `kick.search` | kick.com | Searches Kick for channels and categories by a word — the door to every channel slug… | 🟢 |
-| `kick.sendChatMessage` | kick.com | Posts a message in a channel's chat as the signed-in caller, optionally as a reply to… | ⚪ |
+| `kick.sendChatMessage` | kick.com | Posts a message in a channel's chat as the signed-in caller, optionally as a reply to… | 🟢 |
 | `kick.subscribeToChannel` | kick.com | Subscribes the signed-in caller to a channel (paid), stopping at Kick's payment step. | ⚪ |
 | `kick.unfollowChannel` | kick.com | Unfollows a channel as the signed-in caller. | 🟢 |
 | `kick.updateProfile` | kick.com | Edits the signed-in caller's profile: bio and social links. | ⚪ |
@@ -4220,7 +4224,7 @@ One function per row, with the site it is called on.
 | `mlb.getPlayback` | mlb.com | Returns the playback menu for one MLB video: the site's embed plus every MP4/HLS… | 🟢 |
 | `mlb.getPlayByPlay` | mlb.com | Lists every plate appearance in a game, inning by inning, with the pitches, the result… | 🟢 |
 | `mlb.getPlayer` | mlb.com | Gets one player's profile: bio, position, bats and throws, team, draft and debut, with… | 🟢 |
-| `mlb.getPlayerGameLog` | mlb.com | Lists a player's game-by-game stat lines for a season. | ⚪ |
+| `mlb.getPlayerGameLog` | mlb.com | Lists a player's game-by-game stat lines for a season. | 🟢 |
 | `mlb.getPlayerStats` | mlb.com | Gets a player's stats for a season or career, by hitting, pitching or fielding… | 🟢 |
 | `mlb.getPostseasonBracket` | mlb.com | Gets a season's postseason series: matchups, series score and each game. | 🟢 |
 | `mlb.getProbablePitchers` | mlb.com | Lists the announced starting pitchers for upcoming games, with their season records. | ⚪ |
@@ -4232,7 +4236,7 @@ One function per row, with the site it is called on.
 | `mlb.getStatLeaders` | mlb.com | Lists the league leaders in a stat category for a season, MLB-wide or per league. | 🟢 |
 | `mlb.getSubscriptions` | mlb.com | Lists the signed-in caller's MLB.TV, MLB.TV Single Team and MLB Audio subscriptions… | ⚪ |
 | `mlb.getTeam` | mlb.com | Gets one team's details: name, location, league, division, ballpark, first year of… | 🟢 |
-| `mlb.getTeamLeaders` | mlb.com | Lists a team's leaders in a stat (home runs, average, ERA, strikeouts…) for a season. | ⚪ |
+| `mlb.getTeamLeaders` | mlb.com | Lists a team's leaders in a stat (home runs, average, ERA, strikeouts…) for a season. | 🟢 |
 | `mlb.getTeamStats` | mlb.com | Gets a team's season hitting, pitching or fielding totals. | 🟢 |
 | `mlb.getVenue` | mlb.com | Gets a ballpark's details: name, location, capacity, surface and field dimensions. | ⚪ |
 | `mlb.getVideo` | mlb.com | Gets one MLB video by its slug: title, description, date, duration, players and teams… | 🟢 |
@@ -4242,9 +4246,9 @@ One function per row, with the site it is called on.
 | `mlb.listGlossaryTerms` | mlb.com | Lists MLB.com's glossary of stats and rules, by category (standard stats, advanced… | ⚪ |
 | `mlb.listNews` | mlb.com | Lists the latest MLB.com news stories, league-wide or for one team: headline, link… | 🟢 |
 | `mlb.listNewsletterSubscriptions` | mlb.com | Lists the MLB and team newsletters the signed-in caller is subscribed to. | ⚪ |
-| `mlb.listPlayerStats` | mlb.com | Lists every qualified player's season stats, sortable by any column, as the /stats… | ⚪ |
+| `mlb.listPlayerStats` | mlb.com | Lists every qualified player's season stats, sortable by any column, as the /stats… | 🟢 |
 | `mlb.listTeams` | mlb.com | Lists the 30 MLB teams (or a minor league's teams) with ids, names, abbreviations… | 🟢 |
-| `mlb.listTransactions` | mlb.com | Lists player transactions (trades, signings, injured list moves, call-ups) for a date… | ⚪ |
+| `mlb.listTransactions` | mlb.com | Lists player transactions (trades, signings, injured list moves, call-ups) for a date… | 🟢 |
 | `mlb.removeFavorite` | mlb.com | Removes a team or player from the signed-in caller's favourites. | ⚪ |
 | `mlb.searchContent` | mlb.com | Searches MLB.com's news articles and videos by keyword, as the site search does. | 🟢 |
 | `mlb.searchPlayers` | mlb.com | Finds players by name, current or retired, and returns their ids, positions and teams. | 🟢 |
@@ -4982,7 +4986,7 @@ One function per row, with the site it is called on.
 | `provenwinners.searchContainerRecipes` | provenwinners.com | Runs Proven Winners' own Container Recipe Finder over its 1,074+ published… | 🟢 |
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
 | `proxy_cheap.listCoverage` | proxy-cheap.com | Lists the proxy locations (countries, by region) Proxy-Cheap features on its site. | 🟢 |
-| `proxy_cheap.listPlans` | proxy-cheap.com | Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting… | 🟡 |
+| `proxy_cheap.listPlans` | proxy-cheap.com | Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting… | 🟢 |
 | `prusa3d.addToCart` | prusa3d.com | Add a product variant to the cart. | ⚪ |
 | `prusa3d.applyPromoCode` | prusa3d.com | Apply a promo code to the cart. | ⚪ |
 | `prusa3d.checkEmail` | prusa3d.com | Check whether an email address can register a new Prusa Account, using the site's own… | 🟢 |
@@ -5090,16 +5094,16 @@ One function per row, with the site it is called on.
 | `quickbooks.calculatePaycheck` | quickbooks.intuit.com | Computes a US employee's take-home pay for one paycheck from gross pay, pay frequency… | 🟢 |
 | `quickbooks.calculateSalesTax` | quickbooks.intuit.com | Estimates the combined sales tax rate and amount for a purchase price at a US address… | 🟢 |
 | `quickbooks.contactAccountant` | quickbooks.intuit.com | Sends a ProAdvisor the directory's contact request (name, email, phone, what you need… | ⚪ |
-| `quickbooks.estimatePaymentFees` | quickbooks.intuit.com | Estimates what QuickBooks Payments would charge on a given monthly volume split across… | ⚪ |
+| `quickbooks.estimatePaymentFees` | quickbooks.intuit.com | Estimates what QuickBooks Payments (and Square, for comparison) would charge on… | 🟢 |
 | `quickbooks.findAccountants` | quickbooks.intuit.com | Searches the QuickBooks ProAdvisor directory for certified accountants and bookkeepers… | 🟢 |
 | `quickbooks.generateInvoice` | quickbooks.intuit.com | Builds an invoice PDF (seller, customer, line items, tax, discount) the way… | 🟢 |
 | `quickbooks.getAccountant` | quickbooks.intuit.com | Reads one ProAdvisor's public profile by the searchId findAccountants returns (or the… | 🟢 |
 | `quickbooks.getApp` | quickbooks.intuit.com | Reads one App Store listing by the id a searchApps result returns: full description… | 🟢 |
-| `quickbooks.getDesktopPlans` | quickbooks.intuit.com | Lists the QuickBooks Desktop Enterprise editions with their annual subscription prices… | ⚪ |
+| `quickbooks.getDesktopPlans` | quickbooks.intuit.com | Lists the QuickBooks Desktop Enterprise editions (Gold, Platinum, Diamond) with their… | 🟢 |
 | `quickbooks.getEvent` | quickbooks.intuit.com | Reads one Community event's title, start and end time (with the site's own UTC… | 🟢 |
 | `quickbooks.getExpertPlans` | quickbooks.intuit.com | Lists the QuickBooks Live expert bookkeeping and setup-help offers with their monthly… | ⚪ |
 | `quickbooks.getHelpArticle` | quickbooks.intuit.com | Reads one QuickBooks help article as text: title, the steps, which QuickBooks products… | 🟢 |
-| `quickbooks.getPaymentRates` | quickbooks.intuit.com | Returns QuickBooks Payments' published processing rates per method (card swiped, card… | ⚪ |
+| `quickbooks.getPaymentRates` | quickbooks.intuit.com | Returns QuickBooks Payments' published processing rates per method (cards and wallets… | 🟢 |
 | `quickbooks.getPayrollPlans` | quickbooks.intuit.com | Lists the QuickBooks Payroll plans (Core, Premium, Elite) with monthly base price… | 🟢 |
 | `quickbooks.getPlans` | quickbooks.intuit.com | Lists the QuickBooks Online plans (Solopreneur, Simple Start, Essentials, Plus… | 🟢 |
 | `quickbooks.getResourceArticle` | quickbooks.intuit.com | Reads one Resource Center article (/r/<topic>/<slug>/) as text with its title, author… | 🟢 |
@@ -5208,6 +5212,8 @@ One function per row, with the site it is called on.
 | `rei.getProductStock` | rei.com | Reads one product's per-size, per-colour IN-STORE stock at a chosen REI store. | ⚪ |
 | `rei.getSku` | rei.com | Reads one REI SKU: its size, colour, price, compare-at price and sale flag, plus every… | 🔴 |
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
+| `reichelt_de.getProduct` | reichelt.de | Reads one reichelt.de product page by the url searchProducts returns: title, EUR… | 🟢 |
+| `reichelt_de.searchProducts` | reichelt.de | Searches reichelt.de's German electronics catalogue (resistors, cables, connectors… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟢 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
 | `rentmanager.getIntegration` | rentmanager.com | Reads one Rent Manager Integrations Marketplace partner by slug or listing URL… | 🟢 |
@@ -5589,7 +5595,7 @@ One function per row, with the site it is called on.
 | `sevenrooms.updateReservationPreferences` | sevenrooms.com | Updates the guest-side details of a reservation from its manage token: dietary… | ⚪ |
 | `sevenrooms.validatePromoCode` | sevenrooms.com | Checks whether a promo code is valid at a venue for a date, time and party size before… | 🟢 |
 | `shein.addAddress` | shein.com | Adds a shipping address to the signed-in caller's address book. | ⚪ |
-| `shein.addToCart` | shein.com | Adds a product in a chosen size and colour to the signed-in caller's bag. | ⚪ |
+| `shein.addToCart` | shein.com | Adds a product in a chosen size and colour to the signed-in caller's bag. | 🟢 |
 | `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | ⚪ |
 | `shein.followStore` | shein.com | Follows or unfollows a marketplace store as the signed-in caller. | ⚪ |
 | `shein.getCart` | shein.com | Returns the signed-in caller's shopping bag: items, size and colour chosen, quantity… | 🟢 |
@@ -5614,12 +5620,12 @@ One function per row, with the site it is called on.
 | `shein.listStoreProducts` | shein.com | Lists the first page of products a marketplace store sells, from the store's own home… | 🟢 |
 | `shein.listWishlist` | shein.com | Lists the products the signed-in caller saved to their wishlist. | 🟢 |
 | `shein.placeOrder` | shein.com | Places an order for the signed-in caller's bag. | ⚪ |
-| `shein.removeFromCart` | shein.com | Removes an item from the signed-in caller's bag. | ⚪ |
+| `shein.removeFromCart` | shein.com | Removes an item from the signed-in caller's bag. | 🟢 |
 | `shein.removeFromWishlist` | shein.com | Removes a product from the signed-in caller's wishlist. | ⚪ |
 | `shein.requestReturn` | shein.com | Starts a return or refund for an item in one of the signed-in caller's orders. | ⚪ |
 | `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | 🟢 |
 | `shein.searchByImage` | shein.com | Finds products that look like a given image — Shein's camera/photo search. | ⚪ |
-| `shein.updateCartItem` | shein.com | Changes the quantity, size or colour of an item in the signed-in caller's bag. | ⚪ |
+| `shein.updateCartItem` | shein.com | Changes the quantity of an item in the signed-in caller's bag. | 🟢 |
 | `shein.updateProfile` | shein.com | Edits the signed-in caller's profile — nickname, birthday, or the body measurements… | ⚪ |
 | `shein.writeReview` | shein.com | Writes a review of a product the signed-in caller bought and received. | ⚪ |
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | 🟢 |
@@ -6793,7 +6799,7 @@ One function per row, with the site it is called on.
 | `walla.buyPricingOption` | hellowalla.com | Would buy a class pack, intro offer or membership at a studio for the signed-in client. | ⚪ |
 | `walla.cancelBooking` | hellowalla.com | Cancels one of the signed-in client's class bookings. | 🟢 |
 | `walla.enrollWorkshop` | hellowalla.com | Enrolls the signed-in client in a workshop or series from listWorkshops using a pass… | 🟢 |
-| `walla.findStudio` | hellowalla.com | Finds a Walla studio from its own website (the page that embeds the Walla schedule) or… | 🟡 |
+| `walla.findStudio` | hellowalla.com | Finds a Walla studio from its own website (the page that embeds the Walla schedule) or… | 🟢 |
 | `walla.getClass` | hellowalla.com | Returns one scheduled class by id: everything listClasses carries, plus its… | 🟢 |
 | `walla.getMyProfile` | hellowalla.com | Returns the signed-in client's own profile at a studio, passed through verbatim —… | 🟢 |
 | `walla.getPrivateSessionAvailability` | hellowalla.com | Returns the bookable dates, and the bookable start times on each, for one private… | 🟢 |
@@ -7262,7 +7268,7 @@ One function per row, with the site it is called on.
 | `yellowdoorlets_co_uk.searchProperties` | yellowdoorlets.co.uk | Lists Yellow Door Lets' Lancaster student houses, studios and rooms, filtered by text… | 🟢 |
 | `yellowpages.getBusiness` | yellowpages.com | Gets one business listing: name, phone, address, hours, website, categories, years in… | 🟢 |
 | `yellowpages.search` | yellowpages.com | Finds a local business near a city, such as a plumber, electrician or dentist near me… | 🟢 |
-| `yelp.addToCollection` | yelp.com | Creates a collection for the signed-in caller, or adds a business to one of theirs, or… | ⚪ |
+| `yelp.addToCollection` | yelp.com | Creates a collection for the signed-in caller, or adds a business to one of theirs, or… | 🟢 |
 | `yelp.askQuestion` | yelp.com | Posts a question, or answers one, in a business's 'Ask the Community' from the… | ⚪ |
 | `yelp.followUser` | yelp.com | Follows or unfollows a Yelp member from the signed-in caller's account. | ⚪ |
 | `yelp.getBookmarks` | yelp.com | Lists the businesses the signed-in caller has bookmarked on Yelp (their own My… | 🟢 |
@@ -7284,7 +7290,7 @@ One function per row, with the site it is called on.
 | `yelp.messageBusiness` | yelp.com | Sends a message to a business from the signed-in caller, or replies in an existing… | ⚪ |
 | `yelp.reactToReview` | yelp.com | Marks a review Helpful, Thanks, Love this or Oh no from the signed-in caller's account. | ⚪ |
 | `yelp.requestQuote` | yelp.com | Sends a home-services or local-business quote request (Request a Quote) from the… | ⚪ |
-| `yelp.saveBusiness` | yelp.com | Bookmarks a business for the signed-in caller, or removes the bookmark — a private… | ⚪ |
+| `yelp.saveBusiness` | yelp.com | Bookmarks a business for the signed-in caller, or removes the bookmark — a private… | 🟢 |
 | `yelp.search` | yelp.com | Finds the best restaurants, shops and local businesses (e.g. best taco restaurants in… | 🟢 |
 | `yelp.searchEvents` | yelp.com | Lists the events on a city's Yelp Events browse page (its first page, in the order the… | 🟢 |
 | `yelp.setProfilePhoto` | yelp.com | Changes the signed-in caller's own profile picture. | ⚪ |
@@ -7300,7 +7306,7 @@ One function per row, with the site it is called on.
 | `yogatreecollective.listTeachers` | yogatreecollective.com | Lists the collective's teacher directory from /teacher-profile?format=json: name… | 🟢 |
 | `yogatreecollective.searchSite` | yogatreecollective.com | Searches the site's own Squarespace index (/api/search/GeneralSearch) for teachers… | 🟢 |
 | `yogatreecollective.sendContactMessage` | yogatreecollective.com | Submits the /contact form (name, email, message) to the collective. | ⚪ |
-| `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page, with its Add to cart button, for a… | 🔴 |
+| `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page, with its Add to cart button, for a… | 🟢 |
 | `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product in full — full-size SKU, live price, stock, description, images… | 🔴 |
 | `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword… | 🔴 |
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
