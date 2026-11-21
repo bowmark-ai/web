@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8244fa7dfca4a4075b74ff391569a7ad94603b133cac9a2abc576324d2440c95
-# 99 capabilities, 945 providers, 5655 typed functions, 20 refused.
+# Manifest version: d47f3d8e1daf99b072c366b7946b657d8d792e2ed57b562768c18e49cb182ddc
+# 99 capabilities, 948 providers, 5664 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9917,6 +9917,41 @@ class Prv_bahn_DisruptionRow_Out(TypedDict):
     trainCategories: list[str]
     states: list[str]
     affectedRoutes: list[str]
+
+class Prv_balthazarlondon_BalthazarRestaurant_Out(TypedDict):
+    name: str
+    address: list[str]
+    phone: str | None
+    hours: list[Prv_balthazarlondon_BalthazarRestaurant_Out_hours_item_Out]
+    openTableRestaurantId: float | None
+    bookingUrl: str | None
+    largeGroupNote: str
+    url: str
+
+class Prv_balthazarlondon_BalthazarRestaurant_Out_hours_item_Out(TypedDict):
+    days: str
+    hours: str
+
+class Prv_balthazarlondon_BalthazarMenuRow_Out(TypedDict):
+    id: str
+    name: str
+    note: str | None
+    pdfUrl: str
+    format: Literal["PDF"]
+
+class Prv_balthazarlondon_BalthazarMenuInput_In(TypedDict):
+    menu: str
+
+class Prv_balthazarlondon_BalthazarMenu_Out(TypedDict):
+    id: str
+    name: str
+    pdfUrl: str
+    pageCount: float
+    pages: list[Prv_balthazarlondon_BalthazarMenu_Out_pages_item_Out]
+
+class Prv_balthazarlondon_BalthazarMenu_Out_pages_item_Out(TypedDict):
+    page: float
+    lines: list[str]
 
 class Prv_bamboohr_BamboohrBoard_Out(TypedDict):
     company: str
@@ -23571,6 +23606,23 @@ class Prv_deutschepost_DialogpostRate_Out(TypedDict):
     priceInCents: float
     currency: str
     description: NotRequired[str]
+
+class Prv_developer_x_com_developer_x_comDoc_Out(TypedDict):
+    url: str
+    title: str | None
+    description: str | None
+    body: str
+
+class Prv_developer_x_com_developer_x_comDocList_Out(TypedDict):
+    pages: list[Prv_developer_x_com_developer_x_comDocLink_Out]
+    warnings: list[str]
+
+class Prv_developer_x_com_developer_x_comDocLink_Out(TypedDict):
+    title: str
+    url: str
+    description: str | None
+    section: str | None
+    index: str
 
 class Prv_developersopenai_DevelopersOpenaiGetDocPageArgs_In(TypedDict):
     path: NotRequired[str]
@@ -58693,6 +58745,14 @@ class Prv_quickbooks_QuickbooksDesktopPlan_Out_features_item_Out(TypedDict):
     name: str
     description: str | None
 
+class Prv_quickbooks_QuickbooksExpertPlan_Out(TypedDict):
+    name: str
+    headline: str
+    description: str
+    url: str | None
+    price: None
+    warnings: list[str]
+
 class Prv_quickbooks_QuickbooksPaymentRates_Out(TypedDict):
     asOf: str | None
     rates: list[Prv_quickbooks_QuickbooksPaymentRateRow_Out]
@@ -65264,6 +65324,11 @@ class Prv_shein_sheinCartChange_Out(TypedDict):
 
 class Prv_shein_removeFromCart_args_In(TypedDict):
     productId: str
+
+class Prv_shein_sheinWishlistChange_Out(TypedDict):
+    productId: str
+    added: bool
+    warnings: list[str]
 
 class Prv_shein_sheinPageText_Out(TypedDict):
     text: str
@@ -73975,6 +74040,24 @@ class Prv_threads_ThreadsRelatedPosts_Out(TypedDict):
     username: str
     code: str
     posts: list[Prv_threads_ThreadsPost_Out]
+
+class Prv_three_m_SearchSdsArgs_In(TypedDict):
+    query: str
+    searchBy: NotRequired[Literal["product"] | Literal["upc"] | Literal["sdsNumber"] | Literal["all"]]
+    locale: NotRequired[str]
+
+class Prv_three_m_SearchSdsResult_Out(TypedDict):
+    query: str
+    total: float
+    documents: list[Prv_three_m_ThreeMSdsDocument_Out]
+    searchUrl: str
+
+class Prv_three_m_ThreeMSdsDocument_Out(TypedDict):
+    productName: str
+    documentNumber: str | None
+    documentType: str
+    url: str
+    fileSize: str | None
 
 class Prv_ticketmaster_SearchEventsArgs_In(TypedDict):
     keyword: NotRequired[str]
@@ -91606,6 +91689,30 @@ class Prv_bahn(Protocol):
         true.
         """
 
+class Prv_balthazarlondon(Protocol):
+    """Balthazar London (balthazarlondon.com), the French brasserie in Covent Garden: address,
+    phone, opening hours and its OpenTable restaurant id for booking, and every menu (à la
+    carte, brunch, set menu, desserts, drinks, wine) read as text.
+    """
+
+    async def getRestaurant(self, /) -> Prv_balthazarlondon_BalthazarRestaurant_Out:
+        """Reads Balthazar London's site live: Covent Garden address, phone, opening hours by day
+        and its OpenTable restaurant id (pass it to
+        bowmark.providers.opentable.checkAvailability for free tables).
+        """
+
+    async def listMenus(self, /) -> list[Prv_balthazarlondon_BalthazarMenuRow_Out]:
+        """Lists every menu Balthazar London publishes today (à la carte, set menu, weekend brunch,
+        desserts, drinks, wine list, kids, group…) with its note and PDF link. getMenu reads one
+        as text.
+        """
+
+    async def getMenu(self, input: Prv_balthazarlondon_BalthazarMenuInput_In, /) -> Prv_balthazarlondon_BalthazarMenu_Out:
+        """Reads one Balthazar London menu as text from its PDF, dishes with prices in pounds and
+        (V)/(VG) marks, page by page. menu is a name or id from listMenus, e.g. "A La Carte" or
+        "brunch".
+        """
+
 class Prv_bamboohr(Protocol):
     """Every open job on a company's BambooHR careers page — title, location, department,
     employment status, on-site/remote/hybrid and link — live off the careers page's own job
@@ -98936,6 +99043,32 @@ class Prv_deutschepost(Protocol):
         name and address — so these are the rates for an addressed direct-mail campaign within
         Germany. Mail with no recipient address is a different product (Postwurfsendung) and is
         not covered.
+        """
+
+class Prv_developer_x_com(Protocol):
+    """Reads X's developer platform documentation (developer.x.com, now docs.x.com) — the X API
+    v2, Enterprise, Ads API and SDK docs — as clean markdown from the site's own .md source,
+    plus its full page index and a title search.
+    """
+
+    async def getDocPage(self, url: str, /) -> Prv_developer_x_com_developer_x_comDoc_Out:
+        """Reads one page of X's developer docs by url or path (e.g. "/x-api/posts/create-post",
+        "https://docs.x.com/overview", or an old developer.x.com/en/docs/... url) and returns
+        its title, description and body as clean markdown. THROWS if the page does not exist
+        (404) or the url is not on docs.x.com / developer.x.com.
+        """
+
+    async def listDocPages(self, area: str | None = None, /) -> Prv_developer_x_com_developer_x_comDocList_Out:
+        """Lists every X developer docs page (~900: X API v2, Enterprise APIs, Ads API, XDKs) from
+        the site's own llms.txt indexes — title, .md url, description, section. `area` narrows
+        to one nested index, e.g. "x-api", "enterprise-api", "x-ads-api", "xdks". `warnings`
+        names any index that could not be read.
+        """
+
+    async def searchDocPages(self, query: str, limit: float | None = None, /) -> Prv_developer_x_com_developer_x_comDocList_Out:
+        """Finds X developer docs pages whose title, url or description match the words of `query`
+        (e.g. "create post", "rate limits", "oauth 2.0"), best match first (default 20). Pass a
+        result's url to getDocPage.
         """
 
 class Prv_developersopenai(Protocol):
@@ -118105,6 +118238,12 @@ class Prv_quickbooks(Protocol):
         lists; price is null because QuickBooks shows none logged out
         """
 
+    async def getExpertPlans(self, /) -> list[Prv_quickbooks_QuickbooksExpertPlan_Out]:
+        """QuickBooks Live expert services (Expert Assisted, Expert Full Service Bookkeeping) with
+        headline, description and page URL; price is null because QuickBooks shows none logged
+        out
+        """
+
     async def getPaymentRates(self, /) -> Prv_quickbooks_QuickbooksPaymentRates_Out:
         """QuickBooks Payments' published processing rates per method (cards and wallets, ACH,
         in-person, keyed-in, buy now pay later, instant deposits), beside Square's, as percent
@@ -121178,6 +121317,12 @@ class Prv_shein(Protocol):
     async def removeFromCart(self, args: Prv_shein_removeFromCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinCartChange_Out:
         """Removes a product from the CALLER's own Shein bag by driving the bag page, then reads
         the bag. Needs the caller signed in to shein.com; the relay handles it.
+        """
+
+    async def addToWishlist(self, args: Prv_shein_SheinGetProductArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinWishlistChange_Out:
+        """Saves a product (the id `search` returns) to the CALLER's own Shein wishlist by pressing
+        the heart on its product page. Presses it only when it is not already pressed. Needs the
+        caller signed in to shein.com; the relay handles it.
         """
 
     async def getCheckoutSummary(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
@@ -125237,6 +125382,18 @@ class Prv_threads(Protocol):
         logged out, by URL or username + code — each with author, text, media and counts.
         """
 
+class Prv_three_m(Protocol):
+    """3M safety data sheets (SDS) and regulatory documents — search by product name/number,
+    UPC or SDS number and get the PDF links.
+    """
+
+    async def searchSds(self, args: Prv_three_m_SearchSdsArgs_In, /) -> Prv_three_m_SearchSdsResult_Out:
+        """Searches 3M's Safety Data Sheet (SDS) and regulatory document library by product name or
+        number, UPC or SDS number, returning each matching document's product name, 3M document
+        number, type (Safety Data Sheet, Regulatory Data Sheet, Article Information Letter…) and
+        PDF url — the first page of results plus the total.
+        """
+
 class Prv_ticketmaster(Protocol):
     """Live event tickets: find concerts, sports, arts and theater by city, artist, venue and
     date, with venue, sale status and presale details. Search only, never buys.
@@ -127206,16 +127363,20 @@ class Prv_ups(Protocol):
         """
 
     async def calculateTimeAndCost(self, args: Prv_ups_calculateTimeAndCost_args_In, /) -> list[Prv_ups_UpsTimeAndCostQuote_Out]:
-        """ASK the person for the parcel's weight and box size (length, width, height) first — they
-        have no default and the price depends on both; never make them up. Public retail rates
-        and delivery dates from ups.com's own "Calculate Time and Cost" tool (ups.com/ctc) for a
-        weighed parcel between ANY two countries — no key, no login, no account, international
-        lanes included (e.g. DE 20095 -> FR 69002). Countries are ISO 2-letter codes; `units`
-        defaults to "metric" (weight in kg, box in cm), "imperial" is lb and in. `customsValue`
-        (in the origin currency) is needed on a lane that crosses customs and ignored inside one
-        customs union. Returns one row per UPS service (UPS Standard, Express Saver, Express,
-        Express Plus…) with cost and the currency the calculator quoted in (the origin's, e.g.
-        EUR from Germany), the delivery date and whether it is guaranteed. Use this rather than
+        """Do NOT call this, and do NOT pick a weight or box yourself, until the person has told
+        you the parcel's weight and box size (length, width, height): there is no default and
+        the price depends on both. Example: asked "what does UPS charge DE 20095 to FR 69002?"
+        with no parcel given, reply "What does the parcel weigh, and what are the box's length,
+        width and height?" and call only once they answer; a quote for a parcel you chose (1 kg,
+        10 lb, 12x8x4 in) is a wrong answer, not an estimate. Public retail rates and delivery
+        dates from ups.com's own "Calculate Time and Cost" tool (ups.com/ctc) for a weighed
+        parcel between ANY two countries — no key, no login, no account, international lanes
+        included (e.g. DE 20095 -> FR 69002). Countries are ISO 2-letter codes; `units` defaults
+        to "metric" (weight in kg, box in cm), "imperial" is lb and in. `customsValue` (in the
+        origin currency) is needed on a lane that crosses customs and ignored inside one customs
+        union. Returns one row per UPS service (UPS Standard, Express Saver, Express, Express
+        Plus…) with cost and the currency the calculator quoted in (the origin's, e.g. EUR from
+        Germany), the delivery date and whether it is guaranteed. Use this rather than
         `calculateShippingCost` when the origin is not in the US. Every row carries `pricedFor`
         (weight, box, units and a `note`): state it with the price. Drives the calculator in a
         headless browser, so it takes about a minute.
@@ -131688,6 +131849,7 @@ class BowmarkProviders(Protocol):
     azblue: Prv_azblue
     azure: Prv_azure
     bahn: Prv_bahn
+    balthazarlondon: Prv_balthazarlondon
     bamboohr: Prv_bamboohr
     banana_republic: Prv_banana_republic
     bankmycell: Prv_bankmycell
@@ -131873,6 +132035,7 @@ class BowmarkProviders(Protocol):
     deltadentalma: Prv_deltadentalma
     dentalplans: Prv_dentalplans
     deutschepost: Prv_deutschepost
+    developer_x_com: Prv_developer_x_com
     developersopenai: Prv_developersopenai
     deviantart: Prv_deviantart
     devto: Prv_devto
@@ -132416,6 +132579,7 @@ class BowmarkProviders(Protocol):
     thezebra: Prv_thezebra
     thibautdesign: Prv_thibautdesign
     threads: Prv_threads
+    three_m: Prv_three_m
     ticketmaster: Prv_ticketmaster
     ticketmaster_mx: Prv_ticketmaster_mx
     ticketmaster_nl: Prv_ticketmaster_nl

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8244fa7dfca4a4075b74ff391569a7ad94603b133cac9a2abc576324d2440c95
-// 5655 checked, 20 unchecked.
+// Manifest version: d47f3d8e1daf99b072c366b7946b657d8d792e2ed57b562768c18e49cb182ddc
+// 5664 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8244fa7dfca4a4075b74ff391569a7ad94603b133cac9a2abc576324d2440c95",
+  "version": "d47f3d8e1daf99b072c366b7946b657d8d792e2ed57b562768c18e49cb182ddc",
   "units": {
     "address_validation": {
       "defs": {
@@ -19365,6 +19365,36 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.balthazarlondon": {
+      "defs": {
+        "BalthazarMenuInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "menu",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getRestaurant": [],
+        "listMenus": [],
+        "getMenu": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "BalthazarMenuInput"
+            },
+            "optional": false
           }
         ]
       }
@@ -46895,6 +46925,45 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.developer_x_com": {
+      "defs": {},
+      "functions": {
+        "getDocPage": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listDocPages": [
+          {
+            "name": "area",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "searchDocPages": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
             },
             "optional": true
           }
@@ -124909,6 +124978,7 @@ export const VALIDATORS: ValidatorTable = {
         "getPayrollPlans": [],
         "getPlans": [],
         "getDesktopPlans": [],
+        "getExpertPlans": [],
         "getPaymentRates": [],
         "estimatePaymentFees": [
           {
@@ -138211,6 +138281,32 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToWishlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinGetProductArgs"
             },
             "optional": false
           },
@@ -155504,6 +155600,66 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ThreadsGetPostArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.three_m": {
+      "defs": {
+        "SearchSdsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "searchBy",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "product"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "upc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sdsNumber"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "locale",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchSds": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchSdsArgs"
             },
             "optional": false
           }

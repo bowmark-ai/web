@@ -13,6 +13,7 @@ GET https://api.bowmark.ai/v1/library?query=<site-or-function>
 1stdibs.com — firstdibs: getListing, search
 247sports.com — sports247: search, searchRecruits, teamRankings
 2ndswing.com — secondswing: getQuoteAttributes, getTradeInValue, searchClubs
+3m.com — three_m: searchSds
 a1storage.com — a1storage: getFacilityUnits, getMoveInCost, listFacilities
 aa.com — aa: getBaggageAllowance, getFlightStatus, retrieveBooking (+6 planned)
 abercrombie.com — abercrombie: checkStock, findStores, getProduct, search (+2 planned)
@@ -104,6 +105,7 @@ azazie.com — azazie: getBuildYourOwnConfig, search (+1 planned)
 azblue.com — azblue: getPage
 azure.microsoft.com — azure: getServicePricing, listServices (+6 planned)
 bahn.de — bahn: listDisruptions
+balthazarlondon.com — balthazarlondon: getMenu, getRestaurant, listMenus (+1 planned)
 bamboohr.com — bamboohr: listJobs
 bananarepublic.gap.com — banana_republic: getProduct, searchProducts
 bankmycell.com — bankmycell: getTradeInQuote, searchDevices
@@ -292,6 +294,7 @@ dentalplans.com — dentalplans: getPlan, search
 detailxperts.com — detailxperts: nothing callable yet (+4 planned)
 deutschepost.de — deutschepost: getDialogpostRates
 dev.to — devto: getProfile, searchArticles
+developer.x.com — developer_x_com: getDocPage, listDocPages, searchDocPages
 developers.openai.com — developersopenai: getDocPage
 deviantart.com — deviantart: 26 functions — ask get_library
 dhl.com — dhl: getQuote
@@ -699,7 +702,7 @@ puregym.com — puregym: getGym, listCities, listCityGyms, listGyms
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
 pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyDocuments, listMyInvoices, listMyPlans, listPlans (+8 planned)
 pypi.org — pypi: getProject
-quickbooks.intuit.com — quickbooks: 31 functions — ask get_library (+3 planned)
+quickbooks.intuit.com — quickbooks: 32 functions — ask get_library (+2 planned)
 quince.com — quince: getProduct, searchProducts
 quintoandar.com.br — quintoandar: getListing, search
 quora.com — quora: getAnswer, getAnswers, getHomeFeed, getOwnProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+7 planned)
@@ -771,7 +774,7 @@ services.gst.gov.in — gst_india: lookup
 sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
-shein.com — shein: addToCart, getCart, getCheckoutSummary, getOrder, getPoints, getProduct, getProfile, getSizeGuide, getStore, listAddresses, listCategories, listFlashSale, listFollowedStores, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, listWishlist, removeFromCart, search, updateCartItem (+12 planned)
+shein.com — shein: addToCart, addToWishlist, getCart, getCheckoutSummary, getOrder, getPoints, getProduct, getProfile, getSizeGuide, getStore, listAddresses, listCategories, listFlashSale, listFollowedStores, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, listWishlist, removeFromCart, search, updateCartItem (+11 planned)
 shop.app — shop_app: 36 functions — ask get_library (+2 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)

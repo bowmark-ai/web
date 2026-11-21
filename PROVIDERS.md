@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7450 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7458 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -493,6 +493,10 @@ One function per row, with the site it is called on.
 | `azure.listServices` | azure.microsoft.com | Returns the Azure service catalogue derived live from `prices.azure.com`'s own rows —… | 🟢 |
 | `azure.listVmSizes` | azure.microsoft.com | Returns Azure's virtual-machine SKUs with the specifications a sizing decision is… | ⚪ |
 | `bahn.listDisruptions` | bahn.de | Lists current long-distance (ICE/IC/EC) train disruptions that have started — cause… | 🟢 |
+| `balthazarlondon.getMenu` | balthazarlondon.com | Reads one Balthazar London menu as text from its PDF, dishes with prices in pounds and… | 🟢 |
+| `balthazarlondon.getRestaurant` | balthazarlondon.com | Reads Balthazar London's site live: Covent Garden address, phone, opening hours by day… | 🟢 |
+| `balthazarlondon.listMenus` | balthazarlondon.com | Lists every menu Balthazar London publishes today (à la carte, set menu, weekend… | 🟢 |
+| `balthazarlondon.searchAvailability` | balthazarlondon.com | Lists free table times at Balthazar London for a party on a date. | ⚪ |
 | `bamboohr.listJobs` | bamboohr.com | Lists every open job on one company's BambooHR careers page — title, city and state… | 🟢 |
 | `banana_republic.getProduct` | bananarepublic.gap.com | Reads one Banana Republic product's variant-level sizes, colors and fits with each… | 🟢 |
 | `banana_republic.searchProducts` | bananarepublic.gap.com | Searches Banana Republic's live apparel catalog (bananarepublic.gap.com clothing… | 🟢 |
@@ -1819,6 +1823,9 @@ One function per row, with the site it is called on.
 | `detailxperts.getQuote` | detailxperts.com | Prices a mobile detail for one vehicle type and dirt/pet-hair/interior-dirt condition… | ⚪ |
 | `detailxperts.listVehicleTypes` | detailxperts.com | Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …)… | ⚪ |
 | `deutschepost.getDialogpostRates` | deutschepost.de | Retrieves Deutsche Post Dialogpost pricing rates by weight category and format type. | 🟢 |
+| `developer_x_com.getDocPage` | developer.x.com | Reads one page of X's developer docs (docs.x.com, formerly developer.x.com) by url or… | 🟢 |
+| `developer_x_com.listDocPages` | developer.x.com | Lists every X developer docs page from the site's own root and nested llms.txt… | 🟢 |
+| `developer_x_com.searchDocPages` | developer.x.com | Finds X developer docs pages whose title, url or description match a free-text query… | 🟢 |
 | `developersopenai.getDocPage` | developers.openai.com | Reads one page of OpenAI's own developer documentation (e.g. the MCP connector / OAuth… | 🟢 |
 | `deviantart.browseTag` | deviantart.com | Lists the deviations filed under one tag ("landscape", "fanart", "oc"), as the site's… | 🟢 |
 | `deviantart.favouriteDeviation` | deviantart.com | Adds a deviation to the signed-in caller's Favourites, taking the deviation url or id. | 🟢 |
@@ -3091,7 +3098,7 @@ One function per row, with the site it is called on.
 | `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | 🟢 |
 | `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in caller has contributed, with… | 🟢 |
 | `google_maps.listPhotos` | google.com/maps | The photos Google Maps shows in a place's gallery panel — up to 20, each with a url… | 🟢 |
-| `google_maps.listRelatedPlaces` | google.com/maps | Other businesses Google Maps lists "At this place" — the site's own label for a shared… | 🟡 |
+| `google_maps.listRelatedPlaces` | google.com/maps | Other businesses Google Maps lists "At this place" — the site's own label for a shared… | 🟢 |
 | `google_maps.listReviews` | google.com/maps | The reviews Google Maps shows for a business, each with author, star rating, review… | 🟢 |
 | `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in caller saved — Favourites, Want to go, Starred and their own… | 🟢 |
 | `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a full /maps/place/… | 🟢 |
@@ -4581,7 +4588,7 @@ One function per row, with the site it is called on.
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟢 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟢 |
-| `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟡 |
+| `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets a day's Wordle puzzle — the solution, puzzle id and editor. | 🟢 |
 | `nytimes.getWriter` | nytimes.com | Gets a writer's own profile off their /by/<slug> page — the site's real name and short… | 🔴 |
@@ -5101,7 +5108,7 @@ One function per row, with the site it is called on.
 | `quickbooks.getApp` | quickbooks.intuit.com | Reads one App Store listing by the id a searchApps result returns: full description… | 🟢 |
 | `quickbooks.getDesktopPlans` | quickbooks.intuit.com | Lists the QuickBooks Desktop Enterprise editions (Gold, Platinum, Diamond) with their… | 🟢 |
 | `quickbooks.getEvent` | quickbooks.intuit.com | Reads one Community event's title, start and end time (with the site's own UTC… | 🟢 |
-| `quickbooks.getExpertPlans` | quickbooks.intuit.com | Lists the QuickBooks Live expert bookkeeping and setup-help offers with their monthly… | ⚪ |
+| `quickbooks.getExpertPlans` | quickbooks.intuit.com | Lists the QuickBooks Live expert services (Expert Assisted, Expert Full Service… | 🟢 |
 | `quickbooks.getHelpArticle` | quickbooks.intuit.com | Reads one QuickBooks help article as text: title, the steps, which QuickBooks products… | 🟢 |
 | `quickbooks.getPaymentRates` | quickbooks.intuit.com | Returns QuickBooks Payments' published processing rates per method (cards and wallets… | 🟢 |
 | `quickbooks.getPayrollPlans` | quickbooks.intuit.com | Lists the QuickBooks Payroll plans (Core, Premium, Elite) with monthly base price… | 🟢 |
@@ -5596,7 +5603,7 @@ One function per row, with the site it is called on.
 | `sevenrooms.validatePromoCode` | sevenrooms.com | Checks whether a promo code is valid at a venue for a date, time and party size before… | 🟢 |
 | `shein.addAddress` | shein.com | Adds a shipping address to the signed-in caller's address book. | ⚪ |
 | `shein.addToCart` | shein.com | Adds a product in a chosen size and colour to the signed-in caller's bag. | 🟢 |
-| `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | ⚪ |
+| `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | 🟢 |
 | `shein.followStore` | shein.com | Follows or unfollows a marketplace store as the signed-in caller. | ⚪ |
 | `shein.getCart` | shein.com | Returns the signed-in caller's shopping bag: items, size and colour chosen, quantity… | 🟢 |
 | `shein.getCheckoutSummary` | shein.com | Opens checkout for the signed-in caller's bag and returns what it would cost —… | 🟢 |
@@ -6038,7 +6045,7 @@ One function per row, with the site it is called on.
 | `stubhub.getCheckoutHandoff` | stubhub.com | Given a listing id from `getEventListings`, resolves StubHub's own checkout URL for… | 🟢 |
 | `stubhub.getEvent` | stubhub.com | Returns one event's details — name, venue with street address, local start time… | 🟢 |
 | `stubhub.getEventListings` | stubhub.com | Returns the resale ticket listings one event page shows first (about ten): section… | 🟢 |
-| `stubhub.listCategories` | stubhub.com | Returns the genre/category taxonomy StubHub organizes events under (concerts by genre… | 🟡 |
+| `stubhub.listCategories` | stubhub.com | Returns the genre/category taxonomy StubHub organizes events under (concerts by genre… | 🟢 |
 | `stubhub.listFavorites` | stubhub.com | The signed-in caller's followed performers, teams and venues — the StubHub app… | 🟢 |
 | `stubhub.listMyOrders` | stubhub.com | The signed-in caller's own order history — tickets bought and sold, each with its… | 🟢 |
 | `stubhub.search` | stubhub.com | Runs the site's own search for a performer, team, event or venue name and returns the… | 🟢 |
@@ -6302,6 +6309,7 @@ One function per row, with the site it is called on.
 | `threads.unsavePost` | threads.com | Removes a post from the CALLER's saved list. | ⚪ |
 | `threads.updateProfile` | threads.com | Sets the CALLER's own Threads bio. | 🟢 |
 | `threads.updateProfilePicture` | threads.com | Changes the CALLER's Threads profile picture. | ⚪ |
+| `three_m.searchSds` | 3m.com | Searches 3M's Safety Data Sheet (SDS) and regulatory document search by product name… | 🟢 |
 | `ticketmaster_mx.getEvent` | ticketmaster.com.mx | Retrieves complete details for a specific Ticketmaster México event: ticket… | 🟢 |
 | `ticketmaster_mx.search` | ticketmaster.com.mx | Finds upcoming events on Ticketmaster México matching a search term (e.g., artist… | 🟢 |
 | `ticketmaster_nl.event` | ticketmaster.nl | Returns the event title, venue, local date and time, and sale status for a… | 🟡 |

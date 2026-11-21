@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8244fa7dfca4a4075b74ff391569a7ad94603b133cac9a2abc576324d2440c95
-// 99 capabilities, 945 providers, 5683 typed functions, 20 refused.
+// Manifest version: d47f3d8e1daf99b072c366b7946b657d8d792e2ed57b562768c18e49cb182ddc
+// 99 capabilities, 948 providers, 5692 typed functions, 20 refused.
 // 125,660 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15700,6 +15700,42 @@ interface BahnDisruptionsResult {
      * results with offset: result.nextOffset while result.hasMore is true.
      */
     listDisruptions(options?: { trainCategory?: string; includePlanned?: boolean; offset?: number }): Promise<BahnDisruptionsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_balthazarlondon {
+  // ── Balthazar London — the unit's own declarations, verbatim ──
+interface BalthazarRestaurant { name: string; address: string[]; phone: string | null; hours: { days: string; hours: string }[]; openTableRestaurantId: number | null; bookingUrl: string | null; largeGroupNote: string; url: string; }
+interface BalthazarMenuRow { id: string; name: string; note: string | null; pdfUrl: string; format: "PDF"; }
+interface BalthazarMenuInput { menu: string; }
+interface BalthazarMenu { id: string; name: string; pdfUrl: string; pageCount: number; pages: { page: number; lines: string[] }[]; }
+
+  /**
+   * Balthazar London (balthazarlondon.com), the French brasserie in Covent Garden: address,
+   * phone, opening hours and its OpenTable restaurant id for booking, and every menu (à la
+   * carte, brunch, set menu, desserts, drinks, wine) read as text.
+   */
+  interface Unit {
+    /**
+     * Reads Balthazar London's site live: Covent Garden address, phone, opening hours by day and
+     * its OpenTable restaurant id (pass it to bowmark.providers.opentable.checkAvailability for
+     * free tables).
+     */
+    getRestaurant(): Promise<BalthazarRestaurant>;
+
+    /**
+     * Lists every menu Balthazar London publishes today (à la carte, set menu, weekend brunch,
+     * desserts, drinks, wine list, kids, group…) with its note and PDF link. getMenu reads one as
+     * text.
+     */
+    listMenus(): Promise<BalthazarMenuRow[]>;
+
+    /**
+     * Reads one Balthazar London menu as text from its PDF, dishes with prices in pounds and
+     * (V)/(VG) marks, page by page. menu is a name or id from listMenus, e.g. "A La Carte" or
+     * "brunch".
+     */
+    getMenu(input: BalthazarMenuInput): Promise<BalthazarMenu>;
   }
 }
 
@@ -36529,6 +36565,57 @@ interface DialogpostRate {
      * Mail with no recipient address is a different product (Postwurfsendung) and is not covered.
      */
     getDialogpostRates(options?: { format?: string }): Promise<DialogpostRate[]>;
+  }
+}
+
+declare namespace BowmarkProvider_developer_x_com {
+  // ── X Developer Platform — the unit's own declarations, verbatim ──
+interface developer_x_comDoc {
+  url: string;
+  title: string | null;
+  description: string | null;
+  body: string;
+}
+interface developer_x_comDocLink {
+  title: string;
+  url: string;
+  description: string | null;
+  section: string | null;
+  index: string;
+}
+interface developer_x_comDocList {
+  pages: developer_x_comDocLink[];
+  warnings: string[];
+}
+
+  /**
+   * Reads X's developer platform documentation (developer.x.com, now docs.x.com) — the X API v2,
+   * Enterprise, Ads API and SDK docs — as clean markdown from the site's own .md source, plus
+   * its full page index and a title search.
+   */
+  interface Unit {
+    /**
+     * Reads one page of X's developer docs by url or path (e.g. "/x-api/posts/create-post",
+     * "https://docs.x.com/overview", or an old developer.x.com/en/docs/... url) and returns its
+     * title, description and body as clean markdown. THROWS if the page does not exist (404) or
+     * the url is not on docs.x.com / developer.x.com.
+     */
+    getDocPage(url: string): Promise<developer_x_comDoc>;
+
+    /**
+     * Lists every X developer docs page (~900: X API v2, Enterprise APIs, Ads API, XDKs) from the
+     * site's own llms.txt indexes — title, .md url, description, section. `area` narrows to one
+     * nested index, e.g. "x-api", "enterprise-api", "x-ads-api", "xdks". `warnings` names any
+     * index that could not be read.
+     */
+    listDocPages(area?: string): Promise<developer_x_comDocList>;
+
+    /**
+     * Finds X developer docs pages whose title, url or description match the words of `query`
+     * (e.g. "create post", "rate limits", "oauth 2.0"), best match first (default 20). Pass a
+     * result's url to getDocPage.
+     */
+    searchDocPages(query: string, limit?: number): Promise<developer_x_comDocList>;
   }
 }
 
@@ -89538,6 +89625,18 @@ interface QuickbooksPlan {
   features: string[]; // "Run enhanced reports", "Automated bookkeeping"
 }
 
+/** One QuickBooks Live expert service sold on /experts/. */
+interface QuickbooksExpertPlan {
+  /** Badge on the card, e.g. Expert Assisted. */
+  name: string;
+  headline: string;
+  description: string;
+  url: string | null;
+  /** Always null: /experts/ shows no dollar amount to a logged-out visitor. */
+  price: null;
+  warnings: string[];
+}
+
 /** One QuickBooks Desktop Enterprise edition and its feature list. */
 interface QuickbooksDesktopPlan {
   edition: string;
@@ -90198,6 +90297,12 @@ interface QuickbooksAccountant {
      * price is null because QuickBooks shows none logged out
      */
     getDesktopPlans(): Promise<QuickbooksDesktopPlan[]>;
+
+    /**
+     * QuickBooks Live expert services (Expert Assisted, Expert Full Service Bookkeeping) with
+     * headline, description and page URL; price is null because QuickBooks shows none logged out
+     */
+    getExpertPlans(): Promise<QuickbooksExpertPlan[]>;
 
     /**
      * QuickBooks Payments' published processing rates per method (cards and wallets, ACH,
@@ -98694,6 +98799,11 @@ interface sheinCartChange {
   bagText: string;
   warnings: string[];
 }
+interface sheinWishlistChange {
+  productId: string;
+  added: boolean;
+  warnings: string[];
+}
 interface sheinOrderDetail {
   orderId: string;
   // the site's own labels — read the values off a result, never guess one from prose
@@ -98807,6 +98917,13 @@ interface sheinSizeGuide {
      * bag. Needs the caller signed in to shein.com; the relay handles it.
      */
     removeFromCart(args: { productId: string }, opts?: ConnectionOption): Promise<sheinCartChange>;
+
+    /**
+     * Saves a product (the id `search` returns) to the CALLER's own Shein wishlist by pressing the
+     * heart on its product page. Presses it only when it is not already pressed. Needs the caller
+     * signed in to shein.com; the relay handles it.
+     */
+    addToWishlist(args: SheinGetProductArgs, opts?: ConnectionOption): Promise<sheinWishlistChange>;
 
     /**
      * Opens checkout for the CALLER's own Shein bag and returns the confirm page as text (items,
@@ -110849,6 +110966,42 @@ interface ThreadsActivity {
   }
 }
 
+declare namespace BowmarkProvider_three_m {
+  // ── 3M — the unit's own declarations, verbatim ──
+interface SearchSdsArgs {
+  query: string; // product name or number, UPC, or SDS number, e.g. "8210"
+  searchBy?: "product" | "upc" | "sdsNumber" | "all"; // default "product"
+  locale?: string; // e.g. "en_US" (default)
+}
+interface ThreeMSdsDocument {
+  productName: string;
+  documentNumber: string | null; // e.g. "45-1395-8"
+  documentType: string; // "Safety Data Sheet", "Regulatory Data Sheet", …
+  url: string; // the PDF
+  fileSize: string | null; // e.g. "128KB"
+}
+interface SearchSdsResult {
+  query: string;
+  total: number; // the result count 3M reports; documents holds the first page
+  documents: ThreeMSdsDocument[];
+  searchUrl: string;
+}
+
+  /**
+   * 3M safety data sheets (SDS) and regulatory documents — search by product name/number, UPC or
+   * SDS number and get the PDF links.
+   */
+  interface Unit {
+    /**
+     * Searches 3M's Safety Data Sheet (SDS) and regulatory document library by product name or
+     * number, UPC or SDS number, returning each matching document's product name, 3M document
+     * number, type (Safety Data Sheet, Regulatory Data Sheet, Article Information Letter…) and PDF
+     * url — the first page of results plus the total.
+     */
+    searchSds(args: SearchSdsArgs): Promise<SearchSdsResult>;
+  }
+}
+
 declare namespace BowmarkProvider_ticketmaster {
   // ── Ticketmaster — the unit's own declarations, verbatim ──
 interface TicketmasterVenueRef {
@@ -116590,19 +116743,22 @@ interface UpsServiceAlerts {
     calculateShippingCost(args: { fromZip: string; toZip: string; toCountry?: string; toCity?: string; packageSize?: "extraSmall" | "small" | "medium" | "large" | "extraLarge"; weightLbs?: number; lengthIn?: number; widthIn?: number; heightIn?: number; customsValue?: number; shipDate?: string }): Promise<UpsSimpleRateQuote[]>;
 
     /**
-     * ASK the person for the parcel's weight and box size (length, width, height) first — they
-     * have no default and the price depends on both; never make them up. Public retail rates and
-     * delivery dates from ups.com's own "Calculate Time and Cost" tool (ups.com/ctc) for a weighed
-     * parcel between ANY two countries — no key, no login, no account, international lanes
-     * included (e.g. DE 20095 -> FR 69002). Countries are ISO 2-letter codes; `units` defaults to
-     * "metric" (weight in kg, box in cm), "imperial" is lb and in. `customsValue` (in the origin
-     * currency) is needed on a lane that crosses customs and ignored inside one customs union.
-     * Returns one row per UPS service (UPS Standard, Express Saver, Express, Express Plus…) with
-     * cost and the currency the calculator quoted in (the origin's, e.g. EUR from Germany), the
-     * delivery date and whether it is guaranteed. Use this rather than `calculateShippingCost`
-     * when the origin is not in the US. Every row carries `pricedFor` (weight, box, units and a
-     * `note`): state it with the price. Drives the calculator in a headless browser, so it takes
-     * about a minute.
+     * Do NOT call this, and do NOT pick a weight or box yourself, until the person has told you
+     * the parcel's weight and box size (length, width, height): there is no default and the price
+     * depends on both. Example: asked "what does UPS charge DE 20095 to FR 69002?" with no parcel
+     * given, reply "What does the parcel weigh, and what are the box's length, width and height?"
+     * and call only once they answer; a quote for a parcel you chose (1 kg, 10 lb, 12x8x4 in) is a
+     * wrong answer, not an estimate. Public retail rates and delivery dates from ups.com's own
+     * "Calculate Time and Cost" tool (ups.com/ctc) for a weighed parcel between ANY two countries
+     * — no key, no login, no account, international lanes included (e.g. DE 20095 -> FR 69002).
+     * Countries are ISO 2-letter codes; `units` defaults to "metric" (weight in kg, box in cm),
+     * "imperial" is lb and in. `customsValue` (in the origin currency) is needed on a lane that
+     * crosses customs and ignored inside one customs union. Returns one row per UPS service (UPS
+     * Standard, Express Saver, Express, Express Plus…) with cost and the currency the calculator
+     * quoted in (the origin's, e.g. EUR from Germany), the delivery date and whether it is
+     * guaranteed. Use this rather than `calculateShippingCost` when the origin is not in the US.
+     * Every row carries `pricedFor` (weight, box, units and a `note`): state it with the price.
+     * Drives the calculator in a headless browser, so it takes about a minute.
      */
     calculateTimeAndCost(args: { fromCountry: string; fromPostalCode: string; fromCity?: string; toCountry: string; toPostalCode: string; toCity?: string; weight: number; length: number; width: number; height: number; units?: "metric" | "imperial"; customsValue?: number; shipDate?: string }): Promise<UpsTimeAndCostQuote[]>;
 
@@ -129942,6 +130098,7 @@ interface BowmarkProviders {
   azblue: BowmarkProvider_azblue.Unit;
   azure: BowmarkProvider_azure.Unit;
   bahn: BowmarkProvider_bahn.Unit;
+  balthazarlondon: BowmarkProvider_balthazarlondon.Unit;
   bamboohr: BowmarkProvider_bamboohr.Unit;
   banana_republic: BowmarkProvider_banana_republic.Unit;
   bankmycell: BowmarkProvider_bankmycell.Unit;
@@ -130127,6 +130284,7 @@ interface BowmarkProviders {
   deltadentalma: BowmarkProvider_deltadentalma.Unit;
   dentalplans: BowmarkProvider_dentalplans.Unit;
   deutschepost: BowmarkProvider_deutschepost.Unit;
+  developer_x_com: BowmarkProvider_developer_x_com.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
   deviantart: BowmarkProvider_deviantart.Unit;
   devto: BowmarkProvider_devto.Unit;
@@ -130670,6 +130828,7 @@ interface BowmarkProviders {
   thezebra: BowmarkProvider_thezebra.Unit;
   thibautdesign: BowmarkProvider_thibautdesign.Unit;
   threads: BowmarkProvider_threads.Unit;
+  three_m: BowmarkProvider_three_m.Unit;
   ticketmaster: BowmarkProvider_ticketmaster.Unit;
   ticketmaster_mx: BowmarkProvider_ticketmaster_mx.Unit;
   ticketmaster_nl: BowmarkProvider_ticketmaster_nl.Unit;
