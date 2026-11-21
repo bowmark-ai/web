@@ -1197,7 +1197,7 @@ One function per row, with the site it is called on.
 | `cbsnews.getArticle` | cbsnews.com | Reads one CBS News article: headline, description, the full body text, authors with… | 🟢 |
 | `cbsnews.getAuthor` | cbsnews.com | Gets a correspondent's or writer's profile from /team/<slug>/. | 🟢 |
 | `cbsnews.getLiveStream` | cbsnews.com | Gets the CBS News 24/7 live stream and the current broadcast from /live/. | 🟢 |
-| `cbsnews.getLiveUpdates` | cbsnews.com | Gets a live-updates page (/live-updates/<slug>/) with its timestamped posts. | 🟢 |
+| `cbsnews.getLiveUpdates` | cbsnews.com | Gets a live-updates page (/live-updates/<slug>/) with its timestamped posts. | 🟡 |
 | `cbsnews.getLocalWeather` | cbsnews.com | Gets a local station's current conditions and forecast. | ⚪ |
 | `cbsnews.getVideo` | cbsnews.com | Gets one video page: title, description, duration, date and stream URL where exposed. | 🟢 |
 | `cbsnews.listArticlesByAuthor` | cbsnews.com | Lists the stories by one author. | 🟢 |
