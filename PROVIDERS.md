@@ -1130,7 +1130,7 @@ One function per row, with the site it is called on.
 | `canva.uploadAsset` | canva.com | Uploads an image or video from a url into the caller's Canva uploads and returns its… | ⚪ |
 | `capitalbrands.getBlenderRecommendation` | nutribullet.com | Runs the site's own quiz-scoring logic (its `get_result_quiz` admin-ajax handler) for… | 🟢 |
 | `capitalbrands.listQuizQuestions` | nutribullet.com | Reads NutriBullet's own "Which nutribullet is Best for Me?" product-recommendation… | 🟢 |
-| `capitaloneshopping.getStoreRate` | capitaloneshopping.com | Reads one store's Capital One Shopping reward rate, coupon codes with success rates… | 🟡 |
+| `capitaloneshopping.getStoreRate` | capitaloneshopping.com | Reads one store's Capital One Shopping reward rate, coupon codes with success rates… | 🟢 |
 | `capitaloneshopping.searchStores` | capitaloneshopping.com | Searches Capital One Shopping's stores by name and returns each match's domain and… | 🟢 |
 | `caraway.getCarawayProduct` | carawayhome.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `caraway.listCarawayProducts` | carawayhome.com | Reads the live Caraway catalogue as Caraway publishes it — every ceramic cookware… | 🟡 |
@@ -5599,7 +5599,7 @@ One function per row, with the site it is called on.
 | `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | ⚪ |
 | `shein.followStore` | shein.com | Follows or unfollows a marketplace store as the signed-in caller. | ⚪ |
 | `shein.getCart` | shein.com | Returns the signed-in caller's shopping bag: items, size and colour chosen, quantity… | 🟢 |
-| `shein.getCheckoutSummary` | shein.com | Opens checkout for the signed-in caller's bag and returns what it would cost —… | ⚪ |
+| `shein.getCheckoutSummary` | shein.com | Opens checkout for the signed-in caller's bag and returns what it would cost —… | 🟢 |
 | `shein.getOrder` | shein.com | Returns one of the signed-in caller's orders: items, shipping address, totals and the… | 🟢 |
 | `shein.getPoints` | shein.com | Returns the signed-in caller's SHEIN points balance and how much it is worth at… | 🟢 |
 | `shein.getProduct` | shein.com | Returns product details: title, description, sizes, colors, price, reviews and… | 🟢 |
@@ -5992,7 +5992,7 @@ One function per row, with the site it is called on.
 | `statefarm.getRentersQuote` | statefarm.com | Returns State Farm's own monthly renters insurance estimate for a US ZIP — a low and a… | 🟢 |
 | `statefarm.getUmbrellaQuote` | statefarm.com | Returns a personal umbrella liability quote — the excess liability layer above the… | ⚪ |
 | `statista.getStatistic` | statista.com | Reads a Statista statistic's public title, description, dates, publisher and unmasked… | 🟢 |
-| `statista.search` | statista.com | Searches Statista's public statistic results and returns their titles and… | 🟢 |
+| `statista.search` | statista.com | Searches Statista's public statistic results and returns their titles and… | 🟡 |
 | `steam.addFriend` | steampowered.com | Sends a friend request to another Steam user by steamid64, off the friends page's own… | 🟢 |
 | `steam.addToWishlist` | steampowered.com | Adds a game to the signed-in caller's wishlist, off the store's own addtowishlist door. | 🟢 |
 | `steam.editProfile` | steampowered.com | Updates the signed-in caller's own persona name and/or profile summary off the… | 🟢 |

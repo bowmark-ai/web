@@ -771,7 +771,7 @@ services.gst.gov.in — gst_india: lookup
 sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
-shein.com — shein: addToCart, getCart, getOrder, getPoints, getProduct, getProfile, getSizeGuide, getStore, listAddresses, listCategories, listFlashSale, listFollowedStores, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, listWishlist, removeFromCart, search, updateCartItem (+13 planned)
+shein.com — shein: addToCart, getCart, getCheckoutSummary, getOrder, getPoints, getProduct, getProfile, getSizeGuide, getStore, listAddresses, listCategories, listFlashSale, listFollowedStores, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, listWishlist, removeFromCart, search, updateCartItem (+12 planned)
 shop.app — shop_app: 36 functions — ask get_library (+2 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
