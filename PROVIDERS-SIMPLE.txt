@@ -202,7 +202,7 @@ cb2.com — cb2: searchProducts (+1 planned)
 cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
 cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cbp.gov — cbp: waitTimes
-cbsnews.com — cbsnews: getArticle, getAuthor, getLiveStream, getLiveUpdates, getVideo, listArticlesByAuthor, listLatestNews, listPodcasts, listRssFeeds, listSectionArticles, listSections, listShowEpisodes, listShows, listTagArticles, listVideos, search (+10 planned)
+cbsnews.com — cbsnews: getArticle, getAuthor, getLiveStream, getLiveUpdates, getVideo, listArticlesByAuthor, listLatestNews, listLocalNews, listLocalStations, listPodcastEpisodes, listPodcasts, listRssFeeds, listSectionArticles, listSections, listShowEpisodes, listShows, listTagArticles, listVideos, search (+7 planned)
 cbssports.com — cbs_sports: scoreboard (+1 planned)
 cdc.gov — cdc: getPage, search
 census.gov — census: geographyLevels, locations, populationClock, profile, profileHighlights, relatedProfiles, searchTables, siteMenu, suggest, tableData, tableDownload, tableLinks, tableMetadata, vintages
@@ -498,7 +498,7 @@ kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct (+1 planned)
 keyserver.ubuntu.com — ubuntu_keyserver: searchKeys
-kick.com — kick: getCategory, getChannel, getChannelLeaderboard, getChannelUser, getChatMessages, getChatroomSettings, getClip, getLivestream, getPlayback, getVideo, listCategories, listChannelClips, listChannelEmotes, listChannelLinks, listChannelVideos, listFeaturedLivestreams, listLiveStreams, listTopClips, search (+13 planned)
+kick.com — kick: followChannel, getCategory, getChannel, getChannelLeaderboard, getChannelUser, getChatMessages, getChatroomSettings, getClip, getCurrentUser, getLivestream, getPlayback, getVideo, listCategories, listChannelClips, listChannelEmotes, listChannelLinks, listChannelVideos, listFeaturedLivestreams, listFollowedChannels, listLiveStreams, listTopClips, search, unfollowChannel (+9 planned)
 kickstarter.com — kickstarter: project, search
 kijiji.ca — kijiji: getListing, search (+2 planned)
 kingsdown.com — kingsdown: getBedMatchResult

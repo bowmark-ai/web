@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f8d5b98c017b7d1e677e1e9c55787e222c0a7656aaf62312460f17ae21a9fa17
-# 99 capabilities, 940 providers, 5568 typed functions, 20 refused.
+# Manifest version: 72f3f8296c76f82c98ed4500bdb31f2f254a75ae54d3d9918a1613c5ad3e6de4
+# 99 capabilities, 940 providers, 5575 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -32321,6 +32321,7 @@ class Prv_foxnews_FoxnewsVideo_Out(TypedDict):
 
 class Prv_foxnews_listLiveBlogs_return_Out(TypedDict):
     liveBlogs: list[Prv_foxnews_FoxnewsLiveBlog_Out]
+    warnings: NotRequired[list[str]]
 
 class Prv_foxnews_FoxnewsLiveBlog_Out(TypedDict):
     headline: str
@@ -43289,6 +43290,37 @@ class Prv_kick_KickChannelUserBadge_Out(TypedDict):
     type: str
     text: str
 
+class Prv_kick_KickCurrentUser_Out(TypedDict):
+    userId: float
+    username: str
+    email: NotRequired[str]
+    emailVerified: bool
+    bio: NotRequired[str]
+    profilePicUrl: NotRequired[str]
+    channelSlug: NotRequired[str]
+
+class Prv_kick_KickListFollowedChannelsArgs_In(TypedDict):
+    cursor: NotRequired[str]
+
+class Prv_kick_KickListFollowedChannelsResult_Out(TypedDict):
+    channels: list[Prv_kick_KickFollowedChannel_Out]
+    nextCursor: NotRequired[str]
+
+class Prv_kick_KickFollowedChannel_Out(TypedDict):
+    slug: str
+    username: NotRequired[str]
+    isLive: bool
+    viewerCount: NotRequired[float]
+    category: NotRequired[str]
+    profilePicUrl: NotRequired[str]
+
+class Prv_kick_KickFollowArgs_In(TypedDict):
+    channel: str
+
+class Prv_kick_KickFollowResult_Out(TypedDict):
+    channel: str
+    following: bool
+
 class Prv_kickstarter_KickstarterSearchArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -48263,6 +48295,95 @@ class Prv_mlb_MlbVideo_Out(TypedDict):
     durationSeconds: float | None
     feeds: list[str]
     url: str
+
+class Prv_mlb_MlbVideoArgs_In(TypedDict):
+    slug: str
+
+class Prv_mlb_MlbVideoDetail_Out(TypedDict):
+    id: str
+    slug: str
+    title: str
+    description: str | None
+    date: str | None
+    durationSeconds: float | None
+    feeds: list[str]
+    thumbnailUrl: str | None
+    url: str
+
+class Prv_mlb_MlbPlayback_Out(TypedDict):
+    videoId: str
+    title: str | None
+    durationMs: float | None
+    live: bool
+    embed: Prv_mlb_MlbPlayback_Out_embed_u0_Out | None
+    files: Prv_mlb_MlbPlayback_Out_files_Out
+    hls: list[Prv_mlb_MlbPlayback_Out_hls_item_Out]
+    expiresAt: str | None
+    referrer: str
+    warnings: list[str]
+
+class Prv_mlb_MlbPlayback_Out_embed_u0_Out(TypedDict):
+    url: str
+    hasAds: bool | Literal["unknown"]
+    note: str
+
+class Prv_mlb_MlbPlayback_Out_files_Out(TypedDict):
+    muxed: list[Prv_mlb_MlbPlaybackFile_Out]
+    videoOnly: list[Prv_mlb_MlbPlaybackFile_Out]
+    audioOnly: list[Prv_mlb_MlbPlaybackFile_Out]
+
+class Prv_mlb_MlbPlaybackFile_Out(TypedDict):
+    itag: str
+    url: str
+    mimeType: str
+    codecs: str | None
+    width: float | None
+    height: float | None
+    fps: float | None
+    bitrate: float | None
+    bytes: float | None
+    qualityLabel: str | None
+    feed: str
+
+class Prv_mlb_MlbPlayback_Out_hls_item_Out(TypedDict):
+    feed: str
+    url: str
+
+class Prv_mlb_MlbGameArgs_In(TypedDict):
+    gamePk: float
+
+class Prv_mlb_MlbGameHighlights_Out(TypedDict):
+    gamePk: float
+    highlights: list[Prv_mlb_MlbHighlight_Out]
+    warnings: list[str]
+
+class Prv_mlb_MlbHighlight_Out(TypedDict):
+    slug: str
+    title: str
+    description: str | None
+    date: str | None
+    durationSeconds: float | None
+    isRecap: bool
+    thumbnailUrl: str | None
+    captionsUrl: str | None
+    url: str
+    mp4: list[Prv_mlb_MlbPlaybackFile_Out]
+    hls: list[str]
+
+class Prv_mlb_MlbGameBroadcasts_Out(TypedDict):
+    gamePk: float
+    broadcasts: list[Prv_mlb_MlbBroadcast_Out]
+    warnings: list[str]
+
+class Prv_mlb_MlbBroadcast_Out(TypedDict):
+    name: str
+    type: str
+    homeAway: str | None
+    isNational: bool
+    language: str | None
+    callSign: str | None
+    availability: str | None
+    availableForStreaming: bool
 
 class Prv_mobile_de_MobileDeSearchInput_In(TypedDict):
     url: NotRequired[str]
@@ -73366,10 +73487,6 @@ class Prv_tiktok_ListHashtagVideosArgs_In(TypedDict):
     name: str
 
 class Prv_tiktok_ListTrendingVideosArgs_In(TypedDict):
-    limit: NotRequired[float]
-
-class Prv_tiktok_ListLikedVideosArgs_In(TypedDict):
-    username: str
     limit: NotRequired[float]
 
 class Prv_tiktok_GetSoundArgs_In(TypedDict):
@@ -108184,6 +108301,22 @@ class Prv_kick(Protocol):
         and since when, months subscribed, banned or not.
         """
 
+    async def getCurrentUser(self, args: Mapping[str, Any] | None = None, opts: ConnectionOption | None = None, /) -> Prv_kick_KickCurrentUser_Out:
+        """The signed-in caller's own Kick account: username, email-verified flag, profile picture,
+        bio and their own channel slug.
+        """
+
+    async def listFollowedChannels(self, args: Prv_kick_KickListFollowedChannelsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_kick_KickListFollowedChannelsResult_Out:
+        """The channels the signed-in caller follows, with whether each is live now, paged by
+        cursor.
+        """
+
+    async def followChannel(self, args: Prv_kick_KickFollowArgs_In, opts: ConnectionOption | None = None, /) -> Prv_kick_KickFollowResult_Out:
+        """Follows a channel (slug or kick.com link) as the signed-in caller."""
+
+    async def unfollowChannel(self, args: Prv_kick_KickFollowArgs_In, opts: ConnectionOption | None = None, /) -> Prv_kick_KickFollowResult_Out:
+        """Unfollows a channel (slug or kick.com link) as the signed-in caller."""
+
 class Prv_kickstarter(Protocol):
     """Search Kickstarter projects and read a project's live funding goal, pledged amount,
     backers and deadline.
@@ -111333,6 +111466,28 @@ class Prv_mlb(Protocol):
         """Searches MLB Film Room video (highlights, every play) by free text: title, description,
         date, length and page URL, with the total match count. e.g. searchVideos("aaron judge
         home run").
+        """
+
+    async def getVideo(self, args: Prv_mlb_MlbVideoArgs_In | str, /) -> Prv_mlb_MlbVideoDetail_Out:
+        """Gets one MLB Film Room video by slug: title, description, date, length, feeds and
+        thumbnail. e.g. getVideo("a-j-minter-in-play-run-s-to-aaron-judge").
+        """
+
+    async def getPlayback(self, args: Prv_mlb_MlbVideoArgs_In | str, /) -> Prv_mlb_MlbPlayback_Out:
+        """Returns the playback menu for one MLB video: plain MP4 files first (files.muxed, with
+        resolution and bitrate; no Referer gate, play them in Bowmark's player), HLS playlists,
+        and the mlb.com page as the embed fallback.
+        """
+
+    async def getGameHighlights(self, args: Prv_mlb_MlbGameArgs_In, /) -> Prv_mlb_MlbGameHighlights_Out:
+        """Lists a game's video highlights and recap: title, description, length, thumbnail,
+        captions and the plain MP4 files (resolution, bitrate) plus HLS playlists. Takes a
+        gamePk from getSchedule().
+        """
+
+    async def getGameBroadcasts(self, args: Prv_mlb_MlbGameArgs_In, /) -> Prv_mlb_MlbGameBroadcasts_Out:
+        """Lists where a game is on TV, radio and streaming: station, type, home or away feed,
+        national or local, and whether it streams. Takes a gamePk from getSchedule().
         """
 
 class Prv_mobile_de(Protocol):
@@ -123875,14 +124030,6 @@ class Prv_tiktok(Protocol):
         /explore and read the list it fetches, scrolling for more. Default 6, up to 60 with
         limit. Returns { videos, warnings }; a warning says when the grid came back shorter than
         limit. No login.
-        """
-
-    async def listLikedVideos(self, args: Prv_tiktok_ListLikedVideosArgs_In, /) -> Prv_tiktok_tiktokVideoList_Out:
-        """The videos a creator has liked, from the public Liked tab on their profile: id, caption,
-        creator (author), post time (createTime), play count, cover and play address. Takes a
-        username. Uses the browser (branded Chrome) to open the tab and read the list the page
-        fetches; the newest 15 at most. Returns { videos, warnings }. Throws when the creator
-        keeps their likes private. No login.
         """
 
     async def getSound(self, args: Prv_tiktok_GetSoundArgs_In, /) -> Prv_tiktok_tiktokSound_Out:

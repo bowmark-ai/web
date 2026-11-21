@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f8d5b98c017b7d1e677e1e9c55787e222c0a7656aaf62312460f17ae21a9fa17
-// 5568 checked, 20 unchecked.
+// Manifest version: 72f3f8296c76f82c98ed4500bdb31f2f254a75ae54d3d9918a1613c5ad3e6de4
+// 5575 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f8d5b98c017b7d1e677e1e9c55787e222c0a7656aaf62312460f17ae21a9fa17",
+  "version": "72f3f8296c76f82c98ed4500bdb31f2f254a75ae54d3d9918a1613c5ad3e6de4",
   "units": {
     "address_validation": {
       "defs": {
@@ -88205,6 +88205,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "KickFollowArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "KickGetCategoryArgs": {
           "k": "object",
           "props": [
@@ -88416,6 +88428,18 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "KickListFollowedChannelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -88716,6 +88740,110 @@ export const VALIDATORS: ValidatorTable = {
               "name": "KickGetChannelUserArgs"
             },
             "optional": false
+          }
+        ],
+        "getCurrentUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": []
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowedChannels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickListFollowedChannelsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followChannel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickFollowArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowChannel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickFollowArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -100198,6 +100326,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbGameArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "gamePk",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "MlbGamePkArgs": {
           "k": "object",
           "props": [
@@ -100648,6 +100788,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "MlbVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -100821,6 +100973,62 @@ export const VALIDATORS: ValidatorTable = {
                   "k": "string"
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "MlbVideoArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getPlayback": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "MlbVideoArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getGameHighlights": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGameArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getGameBroadcasts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGameArgs"
             },
             "optional": false
           }
@@ -153559,25 +153767,6 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
-        "ListLikedVideosArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "username",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "limit",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        },
         "ListNotificationsArgs": {
           "k": "object",
           "props": [
@@ -154003,16 +154192,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListTrendingVideosArgs"
             },
             "optional": true
-          }
-        ],
-        "listLikedVideos": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "ListLikedVideosArgs"
-            },
-            "optional": false
           }
         ],
         "getSound": [

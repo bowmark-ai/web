@@ -1202,11 +1202,11 @@ One function per row, with the site it is called on.
 | `cbsnews.getVideo` | cbsnews.com | Gets one video page: title, description, duration, date and stream URL where exposed. | 🟢 |
 | `cbsnews.listArticlesByAuthor` | cbsnews.com | Lists the stories by one author. | 🟢 |
 | `cbsnews.listLatestNews` | cbsnews.com | Lists the latest stories from one CBS News RSS feed (main, or a section or show slug… | 🟢 |
-| `cbsnews.listLocalNews` | cbsnews.com | Lists the stories on a local station's front, e.g. /newyork/. | ⚪ |
-| `cbsnews.listLocalStations` | cbsnews.com | Lists the CBS local stations (New York, Los Angeles, Chicago, Boston, Texas …). | ⚪ |
+| `cbsnews.listLocalNews` | cbsnews.com | Lists the stories on a local station's front, e.g. /newyork/. | 🟢 |
+| `cbsnews.listLocalStations` | cbsnews.com | Lists the CBS local stations (New York, Los Angeles, Chicago, Boston, Texas …). | 🟢 |
 | `cbsnews.listNewsletters` | cbsnews.com | Lists the newsletters on /newsletters (breaking news, exclusives, uplift …). | ⚪ |
 | `cbsnews.listNewsletterSubscriptions` | cbsnews.com | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
-| `cbsnews.listPodcastEpisodes` | cbsnews.com | Lists the episodes of one podcast. | ⚪ |
+| `cbsnews.listPodcastEpisodes` | cbsnews.com | Lists the episodes of one podcast from its feed. | 🟢 |
 | `cbsnews.listPodcasts` | cbsnews.com | Lists CBS News podcasts from /podcasts/. | 🟢 |
 | `cbsnews.listRssFeeds` | cbsnews.com | Lists every RSS feed CBS News publishes, from its /rss/ page, as slugs usable with… | 🟢 |
 | `cbsnews.listSectionArticles` | cbsnews.com | Lists the stories on a section front such as /politics/ or /moneywatch/. | 🟢 |
@@ -3728,7 +3728,7 @@ One function per row, with the site it is called on.
 | `kick.blockUser` | kick.com | Blocks or unblocks a user for the signed-in caller, so their chat messages are hidden. | ⚪ |
 | `kick.createClip` | kick.com | Clips the last seconds of a channel's live stream as the signed-in caller, with a… | ⚪ |
 | `kick.deleteChatMessage` | kick.com | Deletes one of the signed-in caller's own chat messages. | ⚪ |
-| `kick.followChannel` | kick.com | Follows a channel as the signed-in caller. | ⚪ |
+| `kick.followChannel` | kick.com | Follows a channel as the signed-in caller. | 🟢 |
 | `kick.getCategory` | kick.com | One category's record by slug: name, group, tags, description, live viewers, follower… | 🟢 |
 | `kick.getChannel` | kick.com | A channel's public record by slug: display name, bio, follower count, verified flag… | 🟢 |
 | `kick.getChannelLeaderboard` | kick.com | A channel's gifted-subscription leaderboard: who gifted most, this week, this month… | 🟢 |
@@ -3736,7 +3736,7 @@ One function per row, with the site it is called on.
 | `kick.getChatMessages` | kick.com | The most recent messages in a channel's chat, with sender, badges and time, plus the… | 🟢 |
 | `kick.getChatroomSettings` | kick.com | A channel's chat rules and modes: slow mode, followers-only (and how long)… | 🟢 |
 | `kick.getClip` | kick.com | One clip by id (`clip_…`, or a kick.com clip link): title, channel, creator, duration… | 🟢 |
-| `kick.getCurrentUser` | kick.com | The signed-in caller's own Kick account: username, email-verified flag, profile… | ⚪ |
+| `kick.getCurrentUser` | kick.com | The signed-in caller's own Kick account: username, email-verified flag, profile… | 🟢 |
 | `kick.getLivestream` | kick.com | What a channel is streaming right now: title, category, viewer count, start time… | 🟡 |
 | `kick.getPlayback` | kick.com | The playback menu for a Kick live channel (a slug or kick.com/<channel>) or a past… | 🟢 |
 | `kick.getVideo` | kick.com | One VOD by uuid: title, channel, category, duration, views, created date and its HLS… | 🟢 |
@@ -3746,14 +3746,14 @@ One function per row, with the site it is called on.
 | `kick.listChannelLinks` | kick.com | The link panels under a channel (socials, tip pages, sponsors) with their titles and… | 🟢 |
 | `kick.listChannelVideos` | kick.com | A channel's past broadcasts (VODs), newest first: title, category, duration, views… | 🟢 |
 | `kick.listFeaturedLivestreams` | kick.com | The streams Kick features on its homepage carousel right now, for one language. | 🟢 |
-| `kick.listFollowedChannels` | kick.com | The channels the signed-in caller follows, live ones first, with what each is streaming. | ⚪ |
+| `kick.listFollowedChannels` | kick.com | The channels the signed-in caller follows, live ones first, with what each is streaming. | 🟢 |
 | `kick.listLiveStreams` | kick.com | Browses who is live now, biggest first, optionally within one category (the slug… | 🟢 |
 | `kick.listSubscriptions` | kick.com | The channels the signed-in caller pays a subscription to, with tier and renewal date. | ⚪ |
 | `kick.listTopClips` | kick.com | The most-viewed or newest clips across all of Kick, or within one category, for a time… | 🟢 |
 | `kick.search` | kick.com | Searches Kick for channels and categories by a word — the door to every channel slug… | 🟢 |
 | `kick.sendChatMessage` | kick.com | Posts a message in a channel's chat as the signed-in caller, optionally as a reply to… | ⚪ |
 | `kick.subscribeToChannel` | kick.com | Subscribes the signed-in caller to a channel (paid), stopping at Kick's payment step. | ⚪ |
-| `kick.unfollowChannel` | kick.com | Unfollows a channel as the signed-in caller. | ⚪ |
+| `kick.unfollowChannel` | kick.com | Unfollows a channel as the signed-in caller. | 🟢 |
 | `kick.updateProfile` | kick.com | Edits the signed-in caller's profile: bio and social links. | ⚪ |
 | `kick.updateProfilePicture` | kick.com | Replaces the signed-in caller's profile picture with an image they supply. | ⚪ |
 | `kick.updateStreamInfo` | kick.com | Sets the signed-in streamer's own stream title, category, language and mature flag. | ⚪ |
