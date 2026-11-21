@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e14081e6cc04f8791dc1ab32c60eb222a0ec08402f246921756bc4fd72342c83
-// 5603 checked, 20 unchecked.
+// Manifest version: aa8ae4b0f1151126950c25c5c17db3e80b0ba345ba80777f5a98de43489669fb
+// 5611 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e14081e6cc04f8791dc1ab32c60eb222a0ec08402f246921756bc4fd72342c83",
+  "version": "aa8ae4b0f1151126950c25c5c17db3e80b0ba345ba80777f5a98de43489669fb",
   "units": {
     "address_validation": {
       "defs": {
@@ -101252,6 +101252,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbGetPostseasonBracketArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbGetRosterArgs": {
           "k": "object",
           "props": [
@@ -101428,6 +101440,58 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbGetTeamArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "teamId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MlbGetTeamStatsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "teamId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "group",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "hitting"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pitching"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fielding"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "season",
               "schema": {
                 "k": "number"
               },
@@ -101786,6 +101850,46 @@ export const VALIDATORS: ValidatorTable = {
               "name": "MlbGameArgs"
             },
             "optional": false
+          }
+        ],
+        "getTeam": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetTeamArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTeamStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetTeamStatsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getWinProbability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGameArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPostseasonBracket": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetPostseasonBracketArgs"
+            },
+            "optional": true
           }
         ],
         "getGameBroadcasts": [
@@ -168847,6 +168951,38 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "sendMessageToNumber": [
+          {
+            "name": "phone",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "sendMedia": [
           {
             "name": "chatName",
@@ -175372,6 +175508,70 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.yardi": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listPressReleases": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

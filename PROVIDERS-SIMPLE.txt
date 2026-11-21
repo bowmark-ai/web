@@ -577,7 +577,7 @@ millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisiting
 mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
-mlb.com — mlb: getArticle, getBoxScore, getGame, getGameBroadcasts, getGameHighlights, getPlayback, getPlayByPlay, getPlayer, getPlayerStats, getRoster, getSchedule, getStandings, getStatLeaders, getVideo, listNews, listTeams, searchContent, searchPlayers, searchVideos (+31 planned)
+mlb.com — mlb: getArticle, getBoxScore, getGame, getGameBroadcasts, getGameHighlights, getPlayback, getPlayByPlay, getPlayer, getPlayerStats, getPostseasonBracket, getRoster, getSchedule, getStandings, getStatLeaders, getTeam, getTeamStats, getVideo, getWinProbability, listNews, listTeams, searchContent, searchPlayers, searchVideos (+27 planned)
 mobile.de — mobile_de: search
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
@@ -930,7 +930,7 @@ webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)
 westelm.com — westelm: searchProducts (+1 planned)
-whatsapp.com — whatsapp: 44 functions — ask get_library
+whatsapp.com — whatsapp: 45 functions — ask get_library
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
 wikipedia.org — wikipedia: 40 functions — ask get_library
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)
@@ -967,6 +967,7 @@ www.wixapis.com — wix_bookings: bookAppointment, cancelBooking, findSite, getO
 x.com — x: blockUser, bookmarkPost, createPost, deletePost, followUser, getConversation, getListPosts, getPlayback, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listLists, listNotifications, listTrending, muteUser, post, profile, quotePost, replyToPost, repost, search, sendDirectMessage, updateProfile, uploadProfilePicture, userTimeline
 xola.com — xola: findSeller, getAvailability, getExperience, getPriceQuote, listExperiences, listWaivers (+3 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
+yardi.com — yardi: getArticle, listPressReleases, search
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
 yellowdoorlets.co.uk — yellowdoorlets_co_uk: getProperty, searchProperties
 yellowpages.com — yellowpages: getBusiness, search

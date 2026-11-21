@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7437 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7441 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -4222,7 +4222,7 @@ One function per row, with the site it is called on.
 | `mlb.getPlayer` | mlb.com | Gets one player's profile: bio, position, bats and throws, team, draft and debut, with… | 🟢 |
 | `mlb.getPlayerGameLog` | mlb.com | Lists a player's game-by-game stat lines for a season. | ⚪ |
 | `mlb.getPlayerStats` | mlb.com | Gets a player's stats for a season or career, by hitting, pitching or fielding… | 🟢 |
-| `mlb.getPostseasonBracket` | mlb.com | Gets a season's postseason series: matchups, series score and each game. | ⚪ |
+| `mlb.getPostseasonBracket` | mlb.com | Gets a season's postseason series: matchups, series score and each game. | 🟢 |
 | `mlb.getProbablePitchers` | mlb.com | Lists the announced starting pitchers for upcoming games, with their season records. | ⚪ |
 | `mlb.getProspectRankings` | mlb.com | Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30. | ⚪ |
 | `mlb.getRoster` | mlb.com | Gets a team's roster (active, 40-man, full season or depth chart) with each player's… | 🟢 |
@@ -4231,12 +4231,12 @@ One function per row, with the site it is called on.
 | `mlb.getStartingLineups` | mlb.com | Gets the announced batting orders for a day's games. | ⚪ |
 | `mlb.getStatLeaders` | mlb.com | Lists the league leaders in a stat category for a season, MLB-wide or per league. | 🟢 |
 | `mlb.getSubscriptions` | mlb.com | Lists the signed-in caller's MLB.TV, MLB.TV Single Team and MLB Audio subscriptions… | ⚪ |
-| `mlb.getTeam` | mlb.com | Gets one team's details: name, location, league, division, ballpark, first year of… | ⚪ |
+| `mlb.getTeam` | mlb.com | Gets one team's details: name, location, league, division, ballpark, first year of… | 🟢 |
 | `mlb.getTeamLeaders` | mlb.com | Lists a team's leaders in a stat (home runs, average, ERA, strikeouts…) for a season. | ⚪ |
-| `mlb.getTeamStats` | mlb.com | Gets a team's season hitting, pitching or fielding totals. | ⚪ |
+| `mlb.getTeamStats` | mlb.com | Gets a team's season hitting, pitching or fielding totals. | 🟢 |
 | `mlb.getVenue` | mlb.com | Gets a ballpark's details: name, location, capacity, surface and field dimensions. | ⚪ |
 | `mlb.getVideo` | mlb.com | Gets one MLB video by its slug: title, description, date, duration, players and teams… | 🟢 |
-| `mlb.getWinProbability` | mlb.com | Gets a game's win-probability chart: the home and away win chance after every play. | ⚪ |
+| `mlb.getWinProbability` | mlb.com | Gets a game's win-probability chart: the home and away win chance after every play. | 🟢 |
 | `mlb.listFavorites` | mlb.com | Lists the signed-in caller's favourite teams and players. | ⚪ |
 | `mlb.listFreeAgents` | mlb.com | Lists the current free agents with their positions and former teams. | ⚪ |
 | `mlb.listGlossaryTerms` | mlb.com | Lists MLB.com's glossary of stats and rules, by category (standard stats, advanced… | ⚪ |
@@ -6994,6 +6994,7 @@ One function per row, with the site it is called on.
 | `whatsapp.searchMessages` | whatsapp.com | Searches the caller's WhatsApp messages the way WhatsApp Web's search box does: each… | 🟢 |
 | `whatsapp.sendMedia` | whatsapp.com | Sends a file as the caller to a chat opened by its exact displayed name: an image or… | 🟢 |
 | `whatsapp.sendMessage` | whatsapp.com | Sends a text message as the caller to a chat opened by its exact displayed name (from… | 🟢 |
+| `whatsapp.sendMessageToNumber` | whatsapp.com | Sends a text message as the caller to a phone number that is not saved in their… | 🟢 |
 | `whatsapp.sendPoll` | whatsapp.com | Creates a poll in a chat as the caller: a question, its options and whether several… | 🟢 |
 | `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | 🟢 |
 | `whatsapp.updateChat` | whatsapp.com | Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive… | 🟢 |
@@ -7248,6 +7249,9 @@ One function per row, with the site it is called on.
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟢 |
 | `yahoo_sports.searchPlayers` | sports.yahoo.com | Searches for a player by name across every league: NFL, NBA, MLB, NHL, college… | 🟢 |
 | `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |
+| `yardi.getArticle` | yardi.com | Reads one yardi.com page — a press release, news item, product or resource page — and… | 🟢 |
+| `yardi.listPressReleases` | yardi.com | Lists Yardi's press releases newest first (title, date, one-line summary, URL), one… | 🟢 |
+| `yardi.search` | yardi.com | Searches yardi.com's own site search and returns matching products, press releases… | 🟢 |
 | `yargitay.getDecision` | karararama.yargitay.gov.tr | Reads one decision's full text by the documentId search returned. | 🟢 |
 | `yargitay.search` | karararama.yargitay.gov.tr | Searches Turkish court decisions (Yargıtay by default; Danıştay, istinaf, yerel, KYB… | 🟢 |
 | `yargitay.searchLegislation` | karararama.yargitay.gov.tr | Searches Turkish legislation (mevzuat) by title or full text, optionally by type… | 🟢 |

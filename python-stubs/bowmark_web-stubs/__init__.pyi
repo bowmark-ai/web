@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e14081e6cc04f8791dc1ab32c60eb222a0ec08402f246921756bc4fd72342c83
-# 99 capabilities, 941 providers, 5603 typed functions, 20 refused.
+# Manifest version: aa8ae4b0f1151126950c25c5c17db3e80b0ba345ba80777f5a98de43489669fb
+# 99 capabilities, 942 providers, 5611 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -32330,6 +32330,7 @@ class Prv_foxnews_ListSectionArticlesArgs_In(TypedDict):
 
 class Prv_foxnews_listSectionArticles_return_Out(TypedDict):
     articles: list[Prv_foxnews_FoxnewsArticleRow_Out]
+    warnings: NotRequired[list[str]]
 
 class Prv_foxnews_FindAuthorArgs_In(TypedDict):
     name: str
@@ -48585,6 +48586,95 @@ class Prv_mlb_MlbHighlight_Out(TypedDict):
     url: str
     mp4: list[Prv_mlb_MlbPlaybackFile_Out]
     hls: list[str]
+
+class Prv_mlb_MlbGetTeamArgs_In(TypedDict):
+    teamId: float
+
+class Prv_mlb_MlbTeamDetail_Out(TypedDict):
+    id: float
+    name: str
+    abbreviation: str | None
+    teamName: str | None
+    city: str | None
+    league: str | None
+    division: str | None
+    venueId: float | None
+    venue: str | None
+    firstYear: float | None
+    active: bool
+    coaches: list[Prv_mlb_MlbTeamDetail_Out_coaches_item_Out]
+
+class Prv_mlb_MlbTeamDetail_Out_coaches_item_Out(TypedDict):
+    playerId: float
+    name: str
+    number: str | None
+    job: str | None
+
+class Prv_mlb_MlbGetTeamStatsArgs_In(TypedDict):
+    teamId: float
+    group: NotRequired[Literal["hitting"] | Literal["pitching"] | Literal["fielding"]]
+    season: NotRequired[float]
+
+class Prv_mlb_MlbTeamStats_Out(TypedDict):
+    teamId: float
+    season: float | None
+    group: str
+    stats: Mapping[str, str | float] | None
+    warnings: list[str]
+
+class Prv_mlb_MlbWinProbability_Out(TypedDict):
+    gamePk: float
+    finalHomeWinPct: float | None
+    biggestSwing: Prv_mlb_MlbWinProbabilityPoint_Out | None
+    points: list[Prv_mlb_MlbWinProbabilityPoint_Out]
+    warnings: list[str]
+
+class Prv_mlb_MlbWinProbabilityPoint_Out(TypedDict):
+    atBatIndex: float
+    inning: float
+    half: str
+    description: str | None
+    event: str | None
+    awayScore: float | None
+    homeScore: float | None
+    homeWinPct: float | None
+    awayWinPct: float | None
+    homeWinPctAdded: float | None
+
+class Prv_mlb_MlbGetPostseasonBracketArgs_In(TypedDict):
+    season: NotRequired[float]
+
+class Prv_mlb_MlbPostseasonBracket_Out(TypedDict):
+    season: float
+    series: list[Prv_mlb_MlbPostseasonSeries_Out]
+    warnings: list[str]
+
+class Prv_mlb_MlbPostseasonSeries_Out(TypedDict):
+    seriesId: str
+    round: str | None
+    gameType: str
+    gamesInSeries: float | None
+    teams: list[Prv_mlb_MlbPostseasonSeries_Out_teams_item_Out]
+    winner: str | None
+    games: list[Prv_mlb_MlbPostseasonGame_Out]
+
+class Prv_mlb_MlbPostseasonSeries_Out_teams_item_Out(TypedDict):
+    id: float
+    name: str
+    wins: float
+
+class Prv_mlb_MlbPostseasonGame_Out(TypedDict):
+    gamePk: float
+    gameNumber: float | None
+    date: str | None
+    status: str | None
+    awayTeam: str | None
+    awayTeamId: float | None
+    awayScore: float | None
+    homeTeam: str | None
+    homeTeamId: float | None
+    homeScore: float | None
+    winner: str | None
 
 class Prv_mlb_MlbGameBroadcasts_Out(TypedDict):
     gamePk: float
@@ -83193,6 +83283,53 @@ class Prv_yahoo_sports_YahooFantasyRosterSlot_Out(TypedDict):
     nflPosition: str | None
     nflTeam: str | None
 
+class Prv_yardi_search_opts_In(TypedDict):
+    page: NotRequired[float]
+
+class Prv_yardi_YardiSearchResult_Out(TypedDict):
+    query: str
+    page: float
+    results: list[Prv_yardi_YardiSearchHit_Out]
+    relatedResources: list[Prv_yardi_YardiSearchResult_Out_relatedResources_item_Out]
+    hasMore: bool
+
+class Prv_yardi_YardiSearchHit_Out(TypedDict):
+    title: str
+    url: str
+    description: str | None
+    kind: str
+
+class Prv_yardi_YardiSearchResult_Out_relatedResources_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_yardi_listPressReleases_opts_In(TypedDict):
+    page: NotRequired[float]
+    query: NotRequired[str]
+
+class Prv_yardi_YardiPressReleaseList_Out(TypedDict):
+    page: float
+    query: str | None
+    pressReleases: list[Prv_yardi_YardiPressRelease_Out]
+    hasMore: bool
+
+class Prv_yardi_YardiPressRelease_Out(TypedDict):
+    title: str
+    url: str
+    date: str | None
+    summary: str | None
+
+class Prv_yardi_YardiArticle_Out(TypedDict):
+    url: str
+    title: str
+    date: str | None
+    text: str
+    links: list[Prv_yardi_YardiArticle_Out_links_item_Out]
+
+class Prv_yardi_YardiArticle_Out_links_item_Out(TypedDict):
+    text: str
+    url: str
+
 class Prv_yargitay_SearchArgs_In(TypedDict):
     query: str
     court: NotRequired[str | Sequence[str]]
@@ -111862,6 +111999,27 @@ class Prv_mlb(Protocol):
         gamePk from getSchedule().
         """
 
+    async def getTeam(self, args: Prv_mlb_MlbGetTeamArgs_In, /) -> Prv_mlb_MlbTeamDetail_Out:
+        """One team's details: name, city, league, division, ballpark, first year of play and the
+        coaching staff. Takes a teamId from listTeams().
+        """
+
+    async def getTeamStats(self, args: Prv_mlb_MlbGetTeamStatsArgs_In, /) -> Prv_mlb_MlbTeamStats_Out:
+        """A team's season hitting, pitching or fielding totals (group defaults to hitting). e.g.
+        getTeamStats({ teamId: 147, group: 'pitching', season: 2025 }).
+        """
+
+    async def getWinProbability(self, args: Prv_mlb_MlbGameArgs_In, /) -> Prv_mlb_MlbWinProbability_Out:
+        """A game's win-probability chart: home and away win chance after every play, the final
+        figure and the single biggest swing. Takes a gamePk from getSchedule().
+        """
+
+    async def getPostseasonBracket(self, args: Prv_mlb_MlbGetPostseasonBracketArgs_In | None = None, /) -> Prv_mlb_MlbPostseasonBracket_Out:
+        """A season's postseason series by round (wild card, division, league championship, World
+        Series): the two teams, wins, the winner and each game with score. Defaults to last
+        season.
+        """
+
     async def getGameBroadcasts(self, args: Prv_mlb_MlbGameArgs_In, /) -> Prv_mlb_MlbGameBroadcasts_Out:
         """Lists where a game is on TV, radio and streaming: station, type, home or away feed,
         national or local, and whether it streams. Takes a gamePk from getSchedule().
@@ -127908,6 +128066,13 @@ class Prv_whatsapp(Protocol):
         never sends twice. Needs the caller signed in.
         """
 
+    async def sendMessageToNumber(self, phone: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMessage_Out:
+        """Sends a text message as the caller to a phone number that is not saved in their
+        contacts, in international format (e.g. "14155238886"), and returns the sent row's id
+        and time label. Throws if the number is not on WhatsApp. A retried run never sends
+        twice. Needs the caller signed in.
+        """
+
     async def sendMedia(self, chatName: str, file: Prv_whatsapp_sendMedia_file_In, caption: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMedia_Out:
         """Sends a file as the caller to a chat opened by its exact displayed name: an image or
         video with an optional caption, or a document. The file is passed as base64 with its
@@ -129340,6 +129505,26 @@ class Prv_yahoo_sports(Protocol):
         spot this week, each player's real NFL team and position — once the caller has signed in
         through the auth relay. NEEDS A SIGN-IN. Does not publish a player's full eligible
         position set, only their one real NFL position and the slot they are in now.
+        """
+
+class Prv_yardi(Protocol):
+    """Yardi (yardi.com), the property-management software company: search its site (products,
+    press releases, resources), list its press releases, and read any page.
+    """
+
+    async def search(self, query: str, opts: Prv_yardi_search_opts_In | None = None, /) -> Prv_yardi_YardiSearchResult_Out:
+        """Searches yardi.com's own site search and returns matching products, press releases, news
+        and resource pages with their URLs, plus related brochures and webinars.
+        """
+
+    async def listPressReleases(self, opts: Prv_yardi_listPressReleases_opts_In | None = None, /) -> Prv_yardi_YardiPressReleaseList_Out:
+        """Lists Yardi's press releases newest first (title, date, one-line summary, URL), one
+        archive page at a time, optionally filtered by a keyword.
+        """
+
+    async def getArticle(self, url: str, /) -> Prv_yardi_YardiArticle_Out:
+        """Reads one yardi.com page — a press release, news item, product or resource page — and
+        returns its title, date line and body text.
         """
 
 class Prv_yargitay(Protocol):
@@ -131457,6 +131642,7 @@ class BowmarkProviders(Protocol):
     yahoo_finance: Prv_yahoo_finance
     yahoo_mail: Prv_yahoo_mail
     yahoo_sports: Prv_yahoo_sports
+    yardi: Prv_yardi
     yargitay: Prv_yargitay
     ycombinator: Prv_ycombinator
     yellowdoorlets_co_uk: Prv_yellowdoorlets_co_uk

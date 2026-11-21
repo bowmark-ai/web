@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e14081e6cc04f8791dc1ab32c60eb222a0ec08402f246921756bc4fd72342c83
-// 99 capabilities, 941 providers, 5631 typed functions, 20 refused.
+// Manifest version: aa8ae4b0f1151126950c25c5c17db3e80b0ba345ba80777f5a98de43489669fb
+// 99 capabilities, 942 providers, 5639 typed functions, 20 refused.
 // 125,660 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -49120,7 +49120,7 @@ interface FoxnewsAccount {
      * Lists the latest stories in one Fox News section or topic ("politics",
      * "world/world-regions/israel", "health"), newest first with paging.
      */
-    listSectionArticles(args: ListSectionArticlesArgs): Promise<{ articles: FoxnewsArticleRow[] }>;
+    listSectionArticles(args: ListSectionArticlesArgs): Promise<{ articles: FoxnewsArticleRow[]; warnings?: string[] }>;
 
     /**
      * Finds a Fox News reporter, columnist, host or contributor by name and returns each match's
@@ -74550,6 +74550,86 @@ interface MlbGameBroadcasts {
   broadcasts: MlbBroadcast[];
   warnings: string[];
 }
+interface MlbGetTeamArgs {
+  /** A team id from listTeams(). */
+  teamId: number;
+}
+interface MlbTeamDetail {
+  id: number;
+  name: string;
+  abbreviation: string | null;
+  teamName: string | null;
+  city: string | null;
+  league: string | null;
+  division: string | null;
+  venueId: number | null;
+  venue: string | null;
+  firstYear: number | null;
+  active: boolean;
+  coaches: { playerId: number; name: string; number: string | null; job: string | null }[];
+}
+interface MlbGetTeamStatsArgs {
+  /** A team id from listTeams(). */
+  teamId: number;
+  group?: "hitting" | "pitching" | "fielding";
+  season?: number;
+}
+interface MlbTeamStats {
+  teamId: number;
+  season: number | null;
+  group: string;
+  stats: Record<string, string | number> | null;
+  warnings: string[];
+}
+interface MlbWinProbabilityPoint {
+  atBatIndex: number;
+  inning: number;
+  half: string;
+  description: string | null;
+  event: string | null;
+  awayScore: number | null;
+  homeScore: number | null;
+  homeWinPct: number | null;
+  awayWinPct: number | null;
+  homeWinPctAdded: number | null;
+}
+interface MlbWinProbability {
+  gamePk: number;
+  finalHomeWinPct: number | null;
+  biggestSwing: MlbWinProbabilityPoint | null;
+  points: MlbWinProbabilityPoint[];
+  warnings: string[];
+}
+interface MlbGetPostseasonBracketArgs {
+  season?: number;
+}
+interface MlbPostseasonGame {
+  gamePk: number;
+  gameNumber: number | null;
+  date: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  awayTeam: string | null;
+  awayTeamId: number | null;
+  awayScore: number | null;
+  homeTeam: string | null;
+  homeTeamId: number | null;
+  homeScore: number | null;
+  winner: string | null;
+}
+interface MlbPostseasonSeries {
+  seriesId: string;
+  round: string | null;
+  gameType: string;
+  gamesInSeries: number | null;
+  teams: { id: number; name: string; wins: number }[];
+  winner: string | null;
+  games: MlbPostseasonGame[];
+}
+interface MlbPostseasonBracket {
+  season: number;
+  series: MlbPostseasonSeries[];
+  warnings: string[];
+}
 interface MlbPlay {
   index: number;
   inning: number;
@@ -74684,6 +74764,30 @@ interface MlbPlay {
      * getSchedule().
      */
     getGameHighlights(args: MlbGameArgs): Promise<MlbGameHighlights>;
+
+    /**
+     * One team's details: name, city, league, division, ballpark, first year of play and the
+     * coaching staff. Takes a teamId from listTeams().
+     */
+    getTeam(args: MlbGetTeamArgs): Promise<MlbTeamDetail>;
+
+    /**
+     * A team's season hitting, pitching or fielding totals (group defaults to hitting). e.g.
+     * getTeamStats({ teamId: 147, group: 'pitching', season: 2025 }).
+     */
+    getTeamStats(args: MlbGetTeamStatsArgs): Promise<MlbTeamStats>;
+
+    /**
+     * A game's win-probability chart: home and away win chance after every play, the final figure
+     * and the single biggest swing. Takes a gamePk from getSchedule().
+     */
+    getWinProbability(args: MlbGameArgs): Promise<MlbWinProbability>;
+
+    /**
+     * A season's postseason series by round (wild card, division, league championship, World
+     * Series): the two teams, wins, the winner and each game with score. Defaults to last season.
+     */
+    getPostseasonBracket(args?: MlbGetPostseasonBracketArgs): Promise<MlbPostseasonBracket>;
 
     /**
      * Lists where a game is on TV, radio and streaming: station, type, home or away feed, national
@@ -120712,6 +120816,14 @@ interface WhatsappPrivacyChange {
     sendMessage(chatName: string, text: string, opts?: ConnectionOption): Promise<WhatsappSentMessage>;
 
     /**
+     * Sends a text message as the caller to a phone number that is not saved in their contacts, in
+     * international format (e.g. "14155238886"), and returns the sent row's id and time label.
+     * Throws if the number is not on WhatsApp. A retried run never sends twice. Needs the caller
+     * signed in.
+     */
+    sendMessageToNumber(phone: string, text: string, opts?: ConnectionOption): Promise<WhatsappSentMessage>;
+
+    /**
      * Sends a file as the caller to a chat opened by its exact displayed name: an image or video
      * with an optional caption, or a document. The file is passed as base64 with its name and MIME
      * type. Returns the sent row's id and time label; a retried run never sends twice. Needs the
@@ -124619,6 +124731,39 @@ interface YahooFantasyTeamDetail {
      * only their one real NFL position and the slot they are in now.
      */
     getFantasyTeam(args: GetFantasyTeamArgs, opts?: ConnectionOption): Promise<YahooFantasyTeamDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_yardi {
+  // ── Yardi — the unit's own declarations, verbatim ──
+interface YardiSearchHit { title: string; url: string; description: string | null; kind: string /* "press-release" | "news" | "product" | "resource" | "page" */ }
+interface YardiSearchResult { query: string; page: number; results: YardiSearchHit[]; relatedResources: Array<{ title: string; url: string }>; hasMore: boolean }
+interface YardiPressRelease { title: string; url: string; date: string | null /* ISO */; summary: string | null }
+interface YardiPressReleaseList { page: number; query: string | null; pressReleases: YardiPressRelease[]; hasMore: boolean }
+interface YardiArticle { url: string; title: string; date: string | null; text: string; links: Array<{ text: string; url: string }> }
+
+  /**
+   * Yardi (yardi.com), the property-management software company: search its site (products,
+   * press releases, resources), list its press releases, and read any page.
+   */
+  interface Unit {
+    /**
+     * Searches yardi.com's own site search and returns matching products, press releases, news and
+     * resource pages with their URLs, plus related brochures and webinars.
+     */
+    search(query: string, opts?: { page?: number }): Promise<YardiSearchResult>;
+
+    /**
+     * Lists Yardi's press releases newest first (title, date, one-line summary, URL), one archive
+     * page at a time, optionally filtered by a keyword.
+     */
+    listPressReleases(opts?: { page?: number; query?: string }): Promise<YardiPressReleaseList>;
+
+    /**
+     * Reads one yardi.com page — a press release, news item, product or resource page — and
+     * returns its title, date line and body text.
+     */
+    getArticle(url: string): Promise<YardiArticle>;
   }
 }
 
@@ -129816,6 +129961,7 @@ interface BowmarkProviders {
   yahoo_finance: BowmarkProvider_yahoo_finance.Unit;
   yahoo_mail: BowmarkProvider_yahoo_mail.Unit;
   yahoo_sports: BowmarkProvider_yahoo_sports.Unit;
+  yardi: BowmarkProvider_yardi.Unit;
   yargitay: BowmarkProvider_yargitay.Unit;
   ycombinator: BowmarkProvider_ycombinator.Unit;
   yellowdoorlets_co_uk: BowmarkProvider_yellowdoorlets_co_uk.Unit;
