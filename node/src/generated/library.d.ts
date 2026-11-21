@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 34351271d3270eb4344ea800a4c9abbe41cd6ad36cd42a0ec8204e5502b2effe
-// 99 capabilities, 945 providers, 5673 typed functions, 20 refused.
+// Manifest version: 8244fa7dfca4a4075b74ff391569a7ad94603b133cac9a2abc576324d2440c95
+// 99 capabilities, 945 providers, 5683 typed functions, 20 refused.
 // 125,660 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -53769,6 +53769,22 @@ interface GoodreadsMemberRow {
   bookCount?: number;
   friendCount?: number;
 }
+interface GoodreadsListSummary {
+  listId: string;
+  title: string;
+  url: string;
+  bookCount?: number;
+  voterCount?: number;
+  coverTitles: string[];
+}
+interface GoodreadsListPage {
+  results: GoodreadsListSummary[];
+  total: number | null;
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+}
 interface GoodreadsQuote {
   id: string;
   text: string;
@@ -53909,6 +53925,13 @@ interface GoodreadsShelfBook {
     getAuthor(idOrUrl: string): Promise<GoodreadsAuthor>;
 
     /**
+     * Searches Goodreads' curated lists (Listopia) by topic — page 1 of 20 per query, in
+     * `results`: list id, title, url, book count, voter count and the titles of the covers shown,
+     * with the site's own total beside them. Pass a row's url or listId to getList.
+     */
+    searchLists(query: string): Promise<GoodreadsListPage>;
+
+    /**
      * Runs the public quotes search and returns quote text with its attributed author, the book
      * it's from (when the card names one), like count and tags.
      */
@@ -53990,6 +54013,14 @@ interface GoodreadsShelfBook {
      * sign-up page.
      */
     getMemberFollowing(idOrUrl: string, opts?: ConnectionOption): Promise<GoodreadsMemberRow[]>;
+
+    /**
+     * Lists the readers who follow a member — name, profile url, book and friend counts per row.
+     * Needs the caller signed in to Goodreads (an authFunction): logged out the page is the
+     * sign-up page. Goodreads' bot wall answers plain HTTP with a challenge, so the page is read
+     * in a browser carrying the caller's session.
+     */
+    getMemberFollowers(idOrUrl: string, opts?: ConnectionOption): Promise<GoodreadsMemberRow[]>;
 
     /**
      * Reads the signed-in caller's friends feed — each row is who did what to which book
@@ -66257,6 +66288,16 @@ interface KickSendChatMessageResult {
   messageId?: string;
   content: string;
 }
+interface KickUpdateStreamInfoArgs {
+  channel: string;
+  title?: string;
+  categoryId?: number; // the id listCategories returns
+}
+interface KickUpdateStreamInfoResult {
+  channel: string;
+  title?: string;
+  categoryId?: number;
+}
 interface KickDeleteChatMessageArgs {
   channel: string;
   messageId: string;
@@ -66426,6 +66467,12 @@ interface KickPlayback {
      * message getChatMessages returned.
      */
     sendChatMessage(args: KickSendChatMessageArgs, opts?: ConnectionOption): Promise<KickSendChatMessageResult>;
+
+    /**
+     * Sets the title and/or category of the signed-in caller's own channel stream; takes effect
+     * offline too.
+     */
+    updateStreamInfo(args: KickUpdateStreamInfoArgs, opts?: ConnectionOption): Promise<KickUpdateStreamInfoResult>;
 
     /** Deletes one of the signed-in caller's own chat messages. */
     deleteChatMessage(args: KickDeleteChatMessageArgs, opts?: ConnectionOption): Promise<KickDeleteChatMessageResult>;
@@ -75028,6 +75075,100 @@ interface MlbTransactions {
   transactions: MlbTransaction[];
   warnings: string[];
 }
+interface MlbSlateArgs {
+  /** YYYY-MM-DD, default today. */
+  date?: string;
+  teamId?: number;
+}
+interface MlbProbablePitcher {
+  playerId: number | null;
+  name: string | null;
+}
+interface MlbProbableGame {
+  gamePk: number;
+  startTime: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  away: string | null;
+  home: string | null;
+  awayPitcher: MlbProbablePitcher | null;
+  homePitcher: MlbProbablePitcher | null;
+}
+interface MlbProbablePitchers {
+  date: string;
+  games: MlbProbableGame[];
+  warnings: string[];
+}
+interface MlbLineupSpot {
+  order: number;
+  playerId: number | null;
+  name: string | null;
+  position: string | null;
+}
+interface MlbLineupGame {
+  gamePk: number;
+  startTime: string | null;
+  away: string | null;
+  home: string | null;
+  awayLineup: MlbLineupSpot[];
+  homeLineup: MlbLineupSpot[];
+}
+interface MlbStartingLineups {
+  date: string;
+  games: MlbLineupGame[];
+  warnings: string[];
+}
+interface MlbGetDraftArgs {
+  /** Default: last year. */
+  year?: number;
+  round?: string | number;
+  teamId?: number;
+  /** 1-500, default 50. */
+  limit?: number;
+}
+interface MlbDraftPick {
+  round: string;
+  pickNumber: number | null;
+  playerId: number | null;
+  player: string | null;
+  position: string | null;
+  team: string | null;
+  teamId: number | null;
+  school: string | null;
+  hometown: string | null;
+  pickValue: string | null;
+  signingBonus: string | null;
+}
+interface MlbDraft {
+  year: number;
+  picks: MlbDraftPick[];
+  total: number;
+  warnings: string[];
+}
+interface MlbGetAwardsArgs {
+  /** An id from a first call without one, e.g. "ALMVP". */
+  awardId?: string;
+  season?: number;
+  /** Filters the award list by name. */
+  query?: string;
+}
+interface MlbAward {
+  id: string;
+  name: string;
+  description: string | null;
+}
+interface MlbAwardWinner {
+  season: string | null;
+  date: string | null;
+  playerId: number | null;
+  player: string | null;
+  teamId: number | null;
+}
+interface MlbAwards {
+  awardId: string | null;
+  awards: MlbAward[];
+  winners: MlbAwardWinner[];
+  warnings: string[];
+}
 interface MlbPlay {
   index: number;
   inning: number;
@@ -75212,6 +75353,30 @@ interface MlbPlay {
      * range, a team or a player; defaults to the last 7 days.
      */
     listTransactions(args?: MlbListTransactionsArgs): Promise<MlbTransactions>;
+
+    /**
+     * The announced starting pitchers for a day's games (default today), away and home. Empty
+     * off-season, with a warning. e.g. getProbablePitchers({ date: '2026-09-20' }).
+     */
+    getProbablePitchers(args?: MlbSlateArgs): Promise<MlbProbablePitchers>;
+
+    /**
+     * The posted batting orders for a day's games (default today), in order with positions; empty
+     * until a team posts its lineup.
+     */
+    getStartingLineups(args?: MlbSlateArgs): Promise<MlbStartingLineups>;
+
+    /**
+     * A year's MLB Draft picks: round, pick, team, player, position, school, slot value and bonus;
+     * filter by round or team. e.g. getDraft({ year: 2025, round: 1 }).
+     */
+    getDraft(args?: MlbGetDraftArgs): Promise<MlbDraft>;
+
+    /**
+     * Lists MLB award ids (getAwards({ query: 'MVP' })), or with an awardId the winners by season,
+     * e.g. getAwards({ awardId: 'ALMVP', season: 2025 }).
+     */
+    getAwards(args?: MlbGetAwardsArgs): Promise<MlbAwards>;
 
     /**
      * Lists where a game is on TV, radio and streaming: station, type, home or away feed, national
@@ -121178,6 +121343,16 @@ interface WhatsappMessageChange {
   action: "edited" | "deleted";
   text: string | null;
 }
+interface WhatsappPinChange {
+  chat: string;
+  messageId: string;
+  pinned: boolean;
+  duration: string | null;
+}
+interface WhatsappDisappearing {
+  chat: string;
+  duration: string;
+}
 interface WhatsappReaction {
   chat: string;
   messageId: string;
@@ -121432,6 +121607,26 @@ interface WhatsappPrivacyChange {
      * getChatMessages returns. Needs the caller signed in.
      */
     reactToMessage(chatName: string, messageId: string, emoji?: string, opts?: ConnectionOption): Promise<WhatsappReaction>;
+
+    /**
+     * Replies to one message as the caller, quoting it: types the reply text and sends it. The
+     * chat is opened by its exact displayed name and the message by the id getChatMessages
+     * returns. A retried run never sends twice. Needs the caller signed in.
+     */
+    replyToMessage(chatName: string, messageId: string, text: string, opts?: ConnectionOption): Promise<WhatsappSentMessage>;
+
+    /**
+     * Pins one message in a chat for 24 hours, 7 days or 30 days (default 7 days), or unpins it.
+     * The chat is opened by its exact displayed name and the message by the id getChatMessages
+     * returns. This pins a message, not a chat; updateChat pins chats. Needs the caller signed in.
+     */
+    pinMessage(chatName: string, messageId: string, duration?: "24 hours" | "7 days" | "30 days" | "unpin", opts?: ConnectionOption): Promise<WhatsappPinChange>;
+
+    /**
+     * Sets a chat's disappearing messages to off, 24 hours, 7 days or 90 days. The chat is opened
+     * by its exact displayed name. Needs the caller signed in.
+     */
+    setDisappearingMessages(chatName: string, duration: "off" | "24 hours" | "7 days" | "90 days", opts?: ConnectionOption): Promise<WhatsappDisappearing>;
 
     /**
      * Edits the text of a message the caller sent, inside the window WhatsApp allows edits. The

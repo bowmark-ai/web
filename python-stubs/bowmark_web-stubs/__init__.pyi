@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 34351271d3270eb4344ea800a4c9abbe41cd6ad36cd42a0ec8204e5502b2effe
-# 99 capabilities, 945 providers, 5645 typed functions, 20 refused.
+# Manifest version: 8244fa7dfca4a4075b74ff391569a7ad94603b133cac9a2abc576324d2440c95
+# 99 capabilities, 945 providers, 5655 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -35734,6 +35734,22 @@ class Prv_goodreads_GoodreadsAuthor_Out(TypedDict):
     followersCount: NotRequired[float]
     books: list[Prv_goodreads_GoodreadsAuthorBook_Out]
 
+class Prv_goodreads_GoodreadsListPage_Out(TypedDict):
+    results: list[Prv_goodreads_GoodreadsListSummary_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_goodreads_GoodreadsListSummary_Out(TypedDict):
+    listId: str
+    title: str
+    url: str
+    bookCount: NotRequired[float]
+    voterCount: NotRequired[float]
+    coverTitles: list[str]
+
 class Prv_goodreads_GoodreadsQuote_Out(TypedDict):
     id: str
     text: str
@@ -43784,6 +43800,16 @@ class Prv_kick_KickSendChatMessageResult_Out(TypedDict):
     messageId: NotRequired[str]
     content: str
 
+class Prv_kick_KickUpdateStreamInfoArgs_In(TypedDict):
+    channel: str
+    title: NotRequired[str]
+    categoryId: NotRequired[float]
+
+class Prv_kick_KickUpdateStreamInfoResult_Out(TypedDict):
+    channel: str
+    title: NotRequired[str]
+    categoryId: NotRequired[float]
+
 class Prv_kick_KickDeleteChatMessageArgs_In(TypedDict):
     channel: str
     messageId: str
@@ -49022,6 +49048,95 @@ class Prv_mlb_MlbTransaction_Out(TypedDict):
     fromTeam: str | None
     toTeam: str | None
     description: str
+
+class Prv_mlb_MlbSlateArgs_In(TypedDict):
+    date: NotRequired[str]
+    teamId: NotRequired[float]
+
+class Prv_mlb_MlbProbablePitchers_Out(TypedDict):
+    date: str
+    games: list[Prv_mlb_MlbProbableGame_Out]
+    warnings: list[str]
+
+class Prv_mlb_MlbProbableGame_Out(TypedDict):
+    gamePk: float
+    startTime: str | None
+    status: str | None
+    away: str | None
+    home: str | None
+    awayPitcher: Prv_mlb_MlbProbablePitcher_Out | None
+    homePitcher: Prv_mlb_MlbProbablePitcher_Out | None
+
+class Prv_mlb_MlbProbablePitcher_Out(TypedDict):
+    playerId: float | None
+    name: str | None
+
+class Prv_mlb_MlbStartingLineups_Out(TypedDict):
+    date: str
+    games: list[Prv_mlb_MlbLineupGame_Out]
+    warnings: list[str]
+
+class Prv_mlb_MlbLineupGame_Out(TypedDict):
+    gamePk: float
+    startTime: str | None
+    away: str | None
+    home: str | None
+    awayLineup: list[Prv_mlb_MlbLineupSpot_Out]
+    homeLineup: list[Prv_mlb_MlbLineupSpot_Out]
+
+class Prv_mlb_MlbLineupSpot_Out(TypedDict):
+    order: float
+    playerId: float | None
+    name: str | None
+    position: str | None
+
+class Prv_mlb_MlbGetDraftArgs_In(TypedDict):
+    year: NotRequired[float]
+    round: NotRequired[str | float]
+    teamId: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_mlb_MlbDraft_Out(TypedDict):
+    year: float
+    picks: list[Prv_mlb_MlbDraftPick_Out]
+    total: float
+    warnings: list[str]
+
+class Prv_mlb_MlbDraftPick_Out(TypedDict):
+    round: str
+    pickNumber: float | None
+    playerId: float | None
+    player: str | None
+    position: str | None
+    team: str | None
+    teamId: float | None
+    school: str | None
+    hometown: str | None
+    pickValue: str | None
+    signingBonus: str | None
+
+class Prv_mlb_MlbGetAwardsArgs_In(TypedDict):
+    awardId: NotRequired[str]
+    season: NotRequired[float]
+    query: NotRequired[str]
+
+class Prv_mlb_MlbAwards_Out(TypedDict):
+    awardId: str | None
+    awards: list[Prv_mlb_MlbAward_Out]
+    winners: list[Prv_mlb_MlbAwardWinner_Out]
+    warnings: list[str]
+
+class Prv_mlb_MlbAward_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+
+class Prv_mlb_MlbAwardWinner_Out(TypedDict):
+    season: str | None
+    date: str | None
+    playerId: float | None
+    player: str | None
+    teamId: float | None
 
 class Prv_mlb_MlbGameBroadcasts_Out(TypedDict):
     gamePk: float
@@ -81092,6 +81207,16 @@ class Prv_whatsapp_WhatsappReaction_Out(TypedDict):
     messageId: str
     emoji: str | None
 
+class Prv_whatsapp_WhatsappPinChange_Out(TypedDict):
+    chat: str
+    messageId: str
+    pinned: bool
+    duration: str | None
+
+class Prv_whatsapp_WhatsappDisappearing_Out(TypedDict):
+    chat: str
+    duration: str
+
 class Prv_whatsapp_WhatsappMessageChange_Out(TypedDict):
     chat: str
     messageId: str
@@ -104787,6 +104912,12 @@ class Prv_goodreads(Protocol):
         return in authorUrl.
         """
 
+    async def searchLists(self, query: str, /) -> Prv_goodreads_GoodreadsListPage_Out:
+        """Searches Goodreads' curated lists (Listopia) by topic — page 1 of 20 per query, in
+        `results`: list id, title, url, book count, voter count and the titles of the covers
+        shown, with the site's own total beside them. Pass a row's url or listId to getList.
+        """
+
     async def searchQuotes(self, query: str, /) -> list[Prv_goodreads_GoodreadsQuote_Out]:
         """Runs the public quotes search and returns quote text with its attributed author, the
         book it's from (when the card names one), like count and tags.
@@ -104856,6 +104987,13 @@ class Prv_goodreads(Protocol):
         """Lists the readers a member follows — name, profile url, book and friend counts per row.
         Needs the caller signed in to Goodreads (an authFunction): logged out the page is the
         sign-up page.
+        """
+
+    async def getMemberFollowers(self, idOrUrl: str, opts: ConnectionOption | None = None, /) -> list[Prv_goodreads_GoodreadsMemberRow_Out]:
+        """Lists the readers who follow a member — name, profile url, book and friend counts per
+        row. Needs the caller signed in to Goodreads (an authFunction): logged out the page is
+        the sign-up page. Goodreads' bot wall answers plain HTTP with a challenge, so the page
+        is read in a browser carrying the caller's session.
         """
 
     async def getNewsFeed(self, opts: ConnectionOption | None = None, /) -> list[Prv_goodreads_GoodreadsUpdate_Out]:
@@ -109433,6 +109571,11 @@ class Prv_kick(Protocol):
         one message getChatMessages returned.
         """
 
+    async def updateStreamInfo(self, args: Prv_kick_KickUpdateStreamInfoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_kick_KickUpdateStreamInfoResult_Out:
+        """Sets the title and/or category of the signed-in caller's own channel stream; takes
+        effect offline too.
+        """
+
     async def deleteChatMessage(self, args: Prv_kick_KickDeleteChatMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_kick_KickDeleteChatMessageResult_Out:
         """Deletes one of the signed-in caller's own chat messages."""
 
@@ -112645,6 +112788,26 @@ class Prv_mlb(Protocol):
     async def listTransactions(self, args: Prv_mlb_MlbListTransactionsArgs_In | None = None, /) -> Prv_mlb_MlbTransactions_Out:
         """Player transactions (trades, signings, injured list moves, call-ups, assignments) for a
         date range, a team or a player; defaults to the last 7 days.
+        """
+
+    async def getProbablePitchers(self, args: Prv_mlb_MlbSlateArgs_In | None = None, /) -> Prv_mlb_MlbProbablePitchers_Out:
+        """The announced starting pitchers for a day's games (default today), away and home. Empty
+        off-season, with a warning. e.g. getProbablePitchers({ date: '2026-09-20' }).
+        """
+
+    async def getStartingLineups(self, args: Prv_mlb_MlbSlateArgs_In | None = None, /) -> Prv_mlb_MlbStartingLineups_Out:
+        """The posted batting orders for a day's games (default today), in order with positions;
+        empty until a team posts its lineup.
+        """
+
+    async def getDraft(self, args: Prv_mlb_MlbGetDraftArgs_In | None = None, /) -> Prv_mlb_MlbDraft_Out:
+        """A year's MLB Draft picks: round, pick, team, player, position, school, slot value and
+        bonus; filter by round or team. e.g. getDraft({ year: 2025, round: 1 }).
+        """
+
+    async def getAwards(self, args: Prv_mlb_MlbGetAwardsArgs_In | None = None, /) -> Prv_mlb_MlbAwards_Out:
+        """Lists MLB award ids (getAwards({ query: 'MVP' })), or with an awardId the winners by
+        season, e.g. getAwards({ awardId: 'ALMVP', season: 2025 }).
         """
 
     async def getGameBroadcasts(self, args: Prv_mlb_MlbGameArgs_In, /) -> Prv_mlb_MlbGameBroadcasts_Out:
@@ -128767,6 +128930,24 @@ class Prv_whatsapp(Protocol):
         """Reacts to a message as the caller with an emoji, or removes the caller's reaction when
         emoji is omitted. The chat is opened by its exact displayed name and the message by the
         id getChatMessages returns. Needs the caller signed in.
+        """
+
+    async def replyToMessage(self, chatName: str, messageId: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMessage_Out:
+        """Replies to one message as the caller, quoting it: types the reply text and sends it. The
+        chat is opened by its exact displayed name and the message by the id getChatMessages
+        returns. A retried run never sends twice. Needs the caller signed in.
+        """
+
+    async def pinMessage(self, chatName: str, messageId: str, duration: Literal["24 hours"] | Literal["7 days"] | Literal["30 days"] | Literal["unpin"] | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappPinChange_Out:
+        """Pins one message in a chat for 24 hours, 7 days or 30 days (default 7 days), or unpins
+        it. The chat is opened by its exact displayed name and the message by the id
+        getChatMessages returns. This pins a message, not a chat; updateChat pins chats. Needs
+        the caller signed in.
+        """
+
+    async def setDisappearingMessages(self, chatName: str, duration: Literal["off"] | Literal["24 hours"] | Literal["7 days"] | Literal["90 days"], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappDisappearing_Out:
+        """Sets a chat's disappearing messages to off, 24 hours, 7 days or 90 days. The chat is
+        opened by its exact displayed name. Needs the caller signed in.
         """
 
     async def editMessage(self, chatName: str, messageId: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMessageChange_Out:

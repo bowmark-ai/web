@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 34351271d3270eb4344ea800a4c9abbe41cd6ad36cd42a0ec8204e5502b2effe
-// 5645 checked, 20 unchecked.
+// Manifest version: 8244fa7dfca4a4075b74ff391569a7ad94603b133cac9a2abc576324d2440c95
+// 5655 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "34351271d3270eb4344ea800a4c9abbe41cd6ad36cd42a0ec8204e5502b2effe",
+  "version": "8244fa7dfca4a4075b74ff391569a7ad94603b133cac9a2abc576324d2440c95",
   "units": {
     "address_validation": {
       "defs": {
@@ -73499,6 +73499,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "searchLists": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "searchQuotes": [
           {
             "name": "query",
@@ -73804,6 +73813,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMemberFollowing": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMemberFollowers": [
           {
             "name": "idOrUrl",
             "schema": {
@@ -89757,6 +89791,32 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "KickUpdateStreamInfoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -90094,6 +90154,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KickSendChatMessageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateStreamInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "KickUpdateStreamInfoArgs"
             },
             "optional": false
           },
@@ -101644,6 +101730,73 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbGetAwardsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "awardId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbGetDraftArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "round",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "teamId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbGetPlayByPlayArgs": {
           "k": "object",
           "props": [
@@ -102331,6 +102484,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbSlateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "teamId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbVideoArgs": {
           "k": "object",
           "props": [
@@ -102641,6 +102813,46 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "MlbListTransactionsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getProbablePitchers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbSlateArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getStartingLineups": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbSlateArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getDraft": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetDraftArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getAwards": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetAwardsArgs"
             },
             "optional": true
           }
@@ -170065,6 +170277,152 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "replyToMessage": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "pinMessage": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "duration",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "24 hours"
+                },
+                {
+                  "k": "literal",
+                  "v": "7 days"
+                },
+                {
+                  "k": "literal",
+                  "v": "30 days"
+                },
+                {
+                  "k": "literal",
+                  "v": "unpin"
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setDisappearingMessages": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "duration",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "off"
+                },
+                {
+                  "k": "literal",
+                  "v": "24 hours"
+                },
+                {
+                  "k": "literal",
+                  "v": "7 days"
+                },
+                {
+                  "k": "literal",
+                  "v": "90 days"
+                }
+              ]
+            },
+            "optional": false
           },
           {
             "name": "opts",
