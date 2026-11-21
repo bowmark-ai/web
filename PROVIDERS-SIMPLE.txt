@@ -411,7 +411,7 @@ gokenko.com — kenko: cancelBooking, cancelMembership, findStudio, getAppointme
 golf.com — golf_com: findCourses, getCourse
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
 gomry.com — gomry: getEvent, getSponsorOffer, listEventProducts, searchEvents
-goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookQuotes, getBookReviews, getList, getMemberFollowing, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, getSimilarBooks, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchQuotes, unfollowUser, writeReview (+2 planned)
+goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookQuotes, getBookReviews, getList, getMemberFollowing, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, getSimilarBooks, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchLists, searchQuotes, unfollowUser, writeReview (+1 planned)
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: addMissingPlace, geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaceEdit, suggestPlaces, writeReview
@@ -501,7 +501,7 @@ kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct (+1 planned)
 keyserver.ubuntu.com — ubuntu_keyserver: searchKeys
-kick.com — kick: 26 functions — ask get_library (+6 planned)
+kick.com — kick: 27 functions — ask get_library (+5 planned)
 kickstarter.com — kickstarter: project, search
 kijiji.ca — kijiji: getListing, search (+2 planned)
 kingsdown.com — kingsdown: getBedMatchResult
@@ -933,7 +933,7 @@ webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)
 westelm.com — westelm: searchProducts (+1 planned)
-whatsapp.com — whatsapp: 45 functions — ask get_library
+whatsapp.com — whatsapp: 48 functions — ask get_library
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
 wikipedia.org — wikipedia: 40 functions — ask get_library
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)

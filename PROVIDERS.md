@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7447 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7450 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3071,7 +3071,7 @@ One function per row, with the site it is called on.
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | 🟢 |
 | `goodreads.searchAuthors` | goodreads.com | Finds Goodreads authors by name; returns each match's id, url, books-on-shelf count… | 🟡 |
 | `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | 🟢 |
-| `goodreads.searchLists` | goodreads.com | Searches Goodreads' curated lists (Listopia) by topic and returns each list's title… | ⚪ |
+| `goodreads.searchLists` | goodreads.com | Searches Goodreads' curated lists (Listopia) by topic and returns each list's title… | 🟢 |
 | `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | 🟢 |
 | `goodreads.unfollowUser` | goodreads.com | Stops following another member as the signed-in caller — the pair of followUser. | 🟢 |
 | `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | 🟢 |
@@ -3763,7 +3763,7 @@ One function per row, with the site it is called on.
 | `kick.unfollowChannel` | kick.com | Unfollows a channel as the signed-in caller. | 🟢 |
 | `kick.updateProfile` | kick.com | Edits the signed-in caller's profile: bio and social links. | ⚪ |
 | `kick.updateProfilePicture` | kick.com | Replaces the signed-in caller's profile picture with an image they supply. | ⚪ |
-| `kick.updateStreamInfo` | kick.com | Sets the signed-in streamer's own stream title, category, language and mature flag. | ⚪ |
+| `kick.updateStreamInfo` | kick.com | Sets the title and/or category of the signed-in caller's own channel stream; takes… | 🟢 |
 | `kickstarter.project` | kickstarter.com | Reads a Kickstarter project's creator, funding goal, pledged USD amount, backer count… | 🟢 |
 | `kickstarter.search` | kickstarter.com | Searches live Kickstarter projects by keyword and returns their titles and project URLs. | 🟢 |
 | `kijiji.getListing` | kijiji.ca | Reads one Kijiji ad in full — whole description, every image, attributes such as… | 🟢 |
@@ -6990,11 +6990,13 @@ One function per row, with the site it is called on.
 | `whatsapp.listContacts` | whatsapp.com | Lists the caller's contacts off WhatsApp Web's own new-chat panel: each contact's… | 🟢 |
 | `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows as WhatsApp Web's Channels tab shows them: each… | 🟢 |
 | `whatsapp.listStatusUpdates` | whatsapp.com | Lists the contacts who have a Status up in the caller's WhatsApp Web Status tab: each… | 🟢 |
+| `whatsapp.pinMessage` | whatsapp.com | Pins one message in a chat for 24 hours, 7 days or 30 days (default 7 days), or unpins… | 🟢 |
 | `whatsapp.postStatus` | whatsapp.com | Posts a text Status update as the caller; their contacts see it for 24 hours. | 🟢 |
 | `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟢 |
 | `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | 🟢 |
 | `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message as the caller with an emoji, or removes the caller's reaction when… | 🟢 |
 | `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | 🟢 |
+| `whatsapp.replyToMessage` | whatsapp.com | Replies to one message as the caller, quoting it: types the reply text and sends it. | 🟢 |
 | `whatsapp.searchChannels` | whatsapp.com | Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does, by… | 🟢 |
 | `whatsapp.searchHelpCenter` | whatsapp.com | Searches WhatsApp's Help Center (faq.whatsapp.com) the way its search box does and… | 🟢 |
 | `whatsapp.searchMessages` | whatsapp.com | Searches the caller's WhatsApp messages the way WhatsApp Web's search box does: each… | 🟢 |
@@ -7002,6 +7004,7 @@ One function per row, with the site it is called on.
 | `whatsapp.sendMessage` | whatsapp.com | Sends a text message as the caller to a chat opened by its exact displayed name (from… | 🟢 |
 | `whatsapp.sendMessageToNumber` | whatsapp.com | Sends a text message as the caller to a phone number that is not saved in their… | 🟢 |
 | `whatsapp.sendPoll` | whatsapp.com | Creates a poll in a chat as the caller: a question, its options and whether several… | 🟢 |
+| `whatsapp.setDisappearingMessages` | whatsapp.com | Sets a chat's disappearing messages to off, 24 hours, 7 days or 90 days. | 🟢 |
 | `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | 🟢 |
 | `whatsapp.updateChat` | whatsapp.com | Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive… | 🟢 |
 | `whatsapp.updateGroup` | whatsapp.com | Changes a group the caller administers: its name, description, picture, and the… | 🟢 |
