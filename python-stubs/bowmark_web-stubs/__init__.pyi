@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e9a8f4e9845350fba2892fb8bbd078e53797ff1cdc1734755b351f9756df1948
-# 99 capabilities, 936 providers, 5541 typed functions, 20 refused.
+# Manifest version: 00f16a754909bbe963d69e357bab0f1bf5fcab6001cdd1e35da322755e317698
+# 99 capabilities, 938 providers, 5564 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15239,6 +15239,21 @@ class Prv_calendly_CalendlySubmitRoutingFormResult_Out_thankYou_u0_Out(TypedDict
     headline: str
     body: str | None
 
+class Prv_calendly_CalendlyVoteOnMeetingPollArgs_In(TypedDict):
+    url: str
+    startTimes: Sequence[str]
+    name: str
+    email: str
+    timezone: NotRequired[str]
+    inviteeUuid: NotRequired[str]
+    event: NotRequired[str]
+
+class Prv_calendly_CalendlyVoteOnMeetingPollResult_Out(TypedDict):
+    eventTypeUuid: str
+    method: Literal["POST"] | Literal["PATCH"]
+    selectedStartTimes: list[str]
+    inviteeUuid: str | None
+
 class Prv_calendly_CalendlyPackagesResult_Out(TypedDict):
     profileSlug: str
     packages: list[Prv_calendly_CalendlyPackage_Out]
@@ -15949,6 +15964,21 @@ class Prv_canva_CanvaColorCombinations_Out(TypedDict):
     splitComplementary: list[str]
     tetradic: list[str]
     monochromatic: list[str]
+
+class Prv_canva_generatePaletteFromImage_return_Out(TypedDict):
+    colors: list[Prv_canva_CanvaImageColor_Out]
+    imageUrl: str
+    warnings: list[str]
+
+class Prv_canva_CanvaImageColor_Out(TypedDict):
+    hex: str
+    rgb: Prv_canva_CanvaImageColor_Out_rgb_Out
+    share: float
+
+class Prv_canva_CanvaImageColor_Out_rgb_Out(TypedDict):
+    r: float
+    g: float
+    b: float
 
 class Prv_canva_CanvaDesignSizes_Out(TypedDict):
     slug: str | None
@@ -35417,6 +35447,13 @@ class Prv_goodreads_unfollowUser_return_Out(TypedDict):
     memberId: str
     following: Literal[False]
 
+class Prv_goodreads_GoodreadsMemberRow_Out(TypedDict):
+    userId: str
+    name: str
+    url: str
+    bookCount: NotRequired[float]
+    friendCount: NotRequired[float]
+
 class Prv_goodreads_GoodreadsUpdate_Out(TypedDict):
     actorName: str
     actorUrl: NotRequired[str]
@@ -40181,6 +40218,55 @@ class Prv_independent_ListArticlesByDateResult_Out_articles_item_Out(TypedDict):
     articleId: str | None
     lastmod: str | None
 
+class Prv_independent_GetLiveBlogArgs_In(TypedDict):
+    url: str
+    limit: NotRequired[float]
+
+class Prv_independent_IndependentLiveBlog_Out(TypedDict):
+    url: str
+    title: str
+    description: str | None
+    published: str | None
+    modified: str | None
+    coverageStart: str | None
+    coverageEnd: str | None
+    author: Prv_independent_IndependentLiveBlog_Out_author_u0_Out | None
+    totalUpdates: float
+    updates: list[Prv_independent_IndependentLiveBlogUpdate_Out]
+
+class Prv_independent_IndependentLiveBlog_Out_author_u0_Out(TypedDict):
+    name: str
+    url: str | None
+
+class Prv_independent_IndependentLiveBlogUpdate_Out(TypedDict):
+    headline: str | None
+    url: str | None
+    published: str | None
+    modified: str | None
+    author: str | None
+    text: str
+
+class Prv_independent_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_independent_IndependentVideo_Out(TypedDict):
+    url: str
+    articleId: str | None
+    title: str
+    description: str | None
+    uploaded: str | None
+    duration: str | None
+    videoUrl: str | None
+    imageUrl: str | None
+
+class Prv_independent_ListVideosArgs_In(TypedDict):
+    section: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_independent_ListVideosResult_Out(TypedDict):
+    feed: str
+    videos: list[Prv_independent_IndependentStory_Out]
+
 class Prv_independent_ListTopicsArgs_In(TypedDict):
     letter: NotRequired[str]
     query: NotRequired[str]
@@ -42933,6 +43019,36 @@ class Prv_kick_KickVideo_Out(TypedDict):
 class Prv_kick_KickVideo_Out_category_Out(TypedDict):
     name: str
     slug: str
+
+class Prv_kick_getPlayback_args_In(TypedDict):
+    video: str
+
+class Prv_kick_KickPlayback_Out(TypedDict):
+    kind: Literal["channel"] | Literal["vod"]
+    id: str
+    title: str | None
+    live: bool
+    durationMs: float | None
+    files: Prv_kick_KickPlayback_Out_files_Out
+    hls: Prv_kick_KickPlayback_Out_hls_u0_Out | None
+    embed: Prv_kick_KickPlayback_Out_embed_u0_Out | None
+    thumbnailUrl: str | None
+    expiresAt: None
+    warnings: list[str]
+
+class Prv_kick_KickPlayback_Out_files_Out(TypedDict):
+    muxed: list[Any]
+    videoOnly: list[Any]
+    audioOnly: list[Any]
+
+class Prv_kick_KickPlayback_Out_hls_u0_Out(TypedDict):
+    url: str
+    live: bool
+    hasAds: Literal[False]
+
+class Prv_kick_KickPlayback_Out_embed_u0_Out(TypedDict):
+    url: str
+    note: str
 
 class Prv_kick_KickGetVideoArgs_In(TypedDict):
     video: str
@@ -55099,6 +55215,32 @@ class Prv_pinterest_PinterestBoardDetail_Out_owner_Out(TypedDict):
     username: str
     full_name: NotRequired[str]
 
+class Prv_pinterest_listRelatedPins_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_listRelatedPins_return_Out(TypedDict):
+    pins: list[Prv_pinterest_PinterestPin_Out]
+    bookmark: str | None
+
+class Prv_pinterest_listPinComments_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_listPinComments_return_Out(TypedDict):
+    comments: list[Prv_pinterest_PinterestComment_Out]
+    bookmark: str | None
+
+class Prv_pinterest_PinterestComment_Out(TypedDict):
+    id: str
+    text: NotRequired[str]
+    created_at: NotRequired[str]
+    user: NotRequired[Prv_pinterest_PinterestComment_Out_user_Out]
+    reply_count: NotRequired[float]
+
+class Prv_pinterest_PinterestComment_Out_user_Out(TypedDict):
+    id: str
+    username: str
+    full_name: NotRequired[str]
+
 class Prv_pinterest_listBoardPins_options_In(TypedDict):
     bookmark: NotRequired[str]
 
@@ -57480,6 +57622,26 @@ class Prv_pypi_PypiProject_Out(TypedDict):
     projectUrls: Mapping[str, str]
     url: str
 
+class Prv_quickbooks_QuickbooksCalculateSalesTaxArgs_In(TypedDict):
+    city: str
+    state: str
+    postalCode: str
+    price: NotRequired[float]
+
+class Prv_quickbooks_QuickbooksSalesTaxResult_Out(TypedDict):
+    city: str
+    state: str
+    postalCode: str
+    totalRate: float
+    rates: list[Prv_quickbooks_QuickbooksSalesTaxRate_Out]
+    taxAmount: float | None
+
+class Prv_quickbooks_QuickbooksSalesTaxRate_Out(TypedDict):
+    name: str
+    level: str
+    rate: float
+    agency: str | None
+
 class Prv_quickbooks_QuickbooksCalculatePaycheckArgs_In(TypedDict):
     state: str
     grossPay: float
@@ -59555,6 +59717,43 @@ class Prv_reliancepartners_AssembledApplication_Out(TypedDict):
     formFields: Mapping[str, str]
     summary: str
 
+class Prv_rentmanager_SearchIntegrationsArgs_In(TypedDict):
+    query: NotRequired[str]
+    category: NotRequired[str]
+    industry: NotRequired[str]
+    type: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_rentmanager_SearchIntegrationsResult_Out(TypedDict):
+    integrations: list[Prv_rentmanager_RentManagerIntegration_Out]
+    total: float
+
+class Prv_rentmanager_RentManagerIntegration_Out(TypedDict):
+    slug: str
+    name: str
+    description: str | None
+    url: str
+    logoUrl: str | None
+    categories: list[str]
+    industries: list[str]
+    types: list[str]
+    updated: str
+
+class Prv_rentmanager_SearchArticlesArgs_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_rentmanager_SearchArticlesResult_Out(TypedDict):
+    articles: list[Prv_rentmanager_RentManagerArticle_Out]
+    total: float
+
+class Prv_rentmanager_RentManagerArticle_Out(TypedDict):
+    slug: str
+    title: str
+    url: str
+    published: str
+    excerpt: str
+
 class Prv_rentrightstudents_co_uk_RentRightListing_Out(TypedDict):
     id: str
     status: Literal["available"] | Literal["let_agreed"]
@@ -61354,6 +61553,94 @@ class Prv_ruggable_RuggableVariant_Out(TypedDict):
     currency: str | None
     available: bool
 
+class Prv_rules_nebraska_gov_searchRules_args_In(TypedDict):
+    query: str
+    top: NotRequired[float]
+    skip: NotRequired[float]
+
+class Prv_rules_nebraska_gov_NeSearchResult_Out(TypedDict):
+    count: float
+    results: list[Prv_rules_nebraska_gov_NeSearchHit_Out]
+
+class Prv_rules_nebraska_gov_NeSearchHit_Out(TypedDict):
+    score: float
+    chapterId: float
+    agencyId: float
+    agencyName: str
+    titleId: float
+    titleNumber: str
+    titleName: str
+    chapterNumber: str
+    chapterName: str
+    effectiveDate: str | None
+    pdfBlobName: str | None
+    excerpt: str
+
+class Prv_rules_nebraska_gov_NeAgency_Out(TypedDict):
+    id: float
+    agencyName: str
+
+class Prv_rules_nebraska_gov_NeTitle_Out(TypedDict):
+    id: float
+    titleName: str
+    titleNumber: float
+    agencyId: float
+
+class Prv_rules_nebraska_gov_NeChapter_Out(TypedDict):
+    id: float
+    titleId: float
+    chapterNumber: str
+    chapterName: str
+    appendixNumber: str | None
+    effectiveDate: str | None
+    effectiveEndDate: str | None
+    isEmergency: bool
+    pdfBlobName: str | None
+    text: str
+
+class Prv_rules_nebraska_gov_NeChapterHistoryEntry_Out(TypedDict):
+    id: float
+    chapterId: float
+    oldTitleId: float
+    recordStatusName: str
+    oldChapterName: str
+    oldChapterNumber: str
+    pdfBlobName: str | None
+    createdOn: str
+
+class Prv_rules_nebraska_gov_NeDocket_Out(TypedDict):
+    filingId: float
+    agencyName: str
+    titleNumber: float
+    chapterNumber: str
+    description: str
+    hearingNoticeReceivedDates: list[str]
+    scheduleHearingDates: list[str]
+    sosFiledDate: str | None
+    effectiveDate: str | None
+
+class Prv_rules_nebraska_gov_NeDocketDetail_Out(TypedDict):
+    hearingDetails: list[Prv_rules_nebraska_gov_NeDocketDetail_Out_hearingDetails_item_Out]
+    agencyName: str
+    agencyEmail: str
+    descriptionAndSummaryOfRuleChanges: str
+    drafts: list[Any]
+
+class Prv_rules_nebraska_gov_NeDocketDetail_Out_hearingDetails_item_Out(TypedDict):
+    hearingDateTime: str
+    hearingAddress1: str
+    hearingCity: str
+    hearingContactName: str
+    hearingContactEmail: str
+
+class Prv_rules_nebraska_gov_NeFilingDocument_Out(TypedDict):
+    id: float
+    filingId: float
+    documentTypeId: float
+    originalName: str
+    blobName: str
+    uploadedOn: str
+
 class Prv_rumble_RumbleListedVideo_Out(TypedDict):
     title: str
     url: str
@@ -62450,6 +62737,21 @@ class Prv_scribd_ScribdDownload_Out(TypedDict):
     contentType: str | None
     size: float
     base64: str
+
+class Prv_scribd_uploadDocument_file_In(TypedDict):
+    base64: str
+    filename: str
+
+class Prv_scribd_uploadDocument_options_In(TypedDict):
+    title: NotRequired[str]
+    description: NotRequired[str]
+    visibility: NotRequired[Literal["private"] | Literal["public"]]
+
+class Prv_scribd_ScribdUploadResult_Out(TypedDict):
+    id: float
+    url: str | None
+    title: str
+    visibility: Literal["private"] | Literal["public"]
 
 class Prv_scribd_ScribdDeleteResult_Out(TypedDict):
     id: float
@@ -72837,6 +73139,10 @@ class Prv_tiktok_tiktokCaptionTrack_Out(TypedDict):
 class Prv_tiktok_ListUserVideosArgs_In(TypedDict):
     username: str
 
+class Prv_tiktok_tiktokVideoList_Out(TypedDict):
+    videos: list[Prv_tiktok_tiktokVideoSummary_Out]
+    warnings: list[str]
+
 class Prv_tiktok_tiktokVideoSummary_Out(TypedDict):
     id: str
     caption: str
@@ -72869,6 +73175,10 @@ class Prv_tiktok_ListPlaylistVideosArgs_In(TypedDict):
 
 class Prv_tiktok_ListCommentsArgs_In(TypedDict):
     video: str
+
+class Prv_tiktok_tiktokCommentList_Out(TypedDict):
+    comments: list[Prv_tiktok_tiktokComment_Out]
+    warnings: list[str]
 
 class Prv_tiktok_tiktokComment_Out(TypedDict):
     id: str
@@ -72963,10 +73273,6 @@ class Prv_tiktok_ListHashtagVideosArgs_In(TypedDict):
 
 class Prv_tiktok_ListTrendingVideosArgs_In(TypedDict):
     limit: NotRequired[float]
-
-class Prv_tiktok_tiktokVideoList_Out(TypedDict):
-    videos: list[Prv_tiktok_tiktokVideoSummary_Out]
-    warnings: list[str]
 
 class Prv_tiktok_ListLikedVideosArgs_In(TypedDict):
     username: str
@@ -73064,6 +73370,7 @@ class Prv_tiktok_ListBookmarkedVideosArgs_In(TypedDict):
 class Prv_tiktok_listBookmarkedVideos_return_Out(TypedDict):
     videos: list[Prv_tiktok_tiktokVideoSummary_Out]
     hasMore: bool
+    warnings: list[str]
 
 class Prv_tiktok_ListConversationsArgs_In(TypedDict):
     count: NotRequired[float]
@@ -75388,7 +75695,7 @@ class Prv_twitch_getPlayback_args_In(TypedDict):
     video: str
 
 class Prv_twitch_TwitchPlayback_Out(TypedDict):
-    kind: Literal["channel"] | Literal["vod"]
+    kind: Literal["channel"] | Literal["vod"] | Literal["clip"]
     id: str
     title: str | None
     live: bool
@@ -75400,9 +75707,16 @@ class Prv_twitch_TwitchPlayback_Out(TypedDict):
     warnings: list[str]
 
 class Prv_twitch_TwitchPlayback_Out_files_Out(TypedDict):
-    muxed: list[Any]
+    muxed: list[Prv_twitch_TwitchClipFile_Out]
     videoOnly: list[Any]
     audioOnly: list[Any]
+
+class Prv_twitch_TwitchClipFile_Out(TypedDict):
+    url: str
+    mimeType: Literal["video/mp4"]
+    height: float | None
+    fps: float | None
+    qualityLabel: str
 
 class Prv_twitch_TwitchPlayback_Out_hls_u0_Out(TypedDict):
     url: str
@@ -75411,7 +75725,7 @@ class Prv_twitch_TwitchPlayback_Out_hls_u0_Out(TypedDict):
 
 class Prv_twitch_TwitchPlayback_Out_embed_Out(TypedDict):
     url: str
-    hasAds: Literal[True]
+    hasAds: bool
     note: str
 
 class Prv_twitch_ListLiveStreamsArgs_In(TypedDict):
@@ -76719,6 +77033,32 @@ class Prv_usatoday_usatodayCrossword_Out(TypedDict):
 class Prv_usatoday_usatodayCrosswordClue_Out(TypedDict):
     number: float
     clue: str
+
+class Prv_usatoday_GetElectionResultsArgs_In(TypedDict):
+    state: str
+    date: NotRequired[str]
+
+class Prv_usatoday_usatodayElectionResults_Out(TypedDict):
+    date: str
+    state: str
+    races: list[Prv_usatoday_usatodayElectionRace_Out]
+    warnings: NotRequired[list[str]]
+
+class Prv_usatoday_usatodayElectionRace_Out(TypedDict):
+    office: str
+    candidates: list[Prv_usatoday_usatodayElectionCandidate_Out]
+    called: bool
+    percentReporting: NotRequired[float]
+    updated: NotRequired[str]
+
+class Prv_usatoday_usatodayElectionCandidate_Out(TypedDict):
+    name: str
+    party: NotRequired[str]
+    partyName: NotRequired[str]
+    incumbent: NotRequired[bool]
+    votes: NotRequired[float]
+    votePct: NotRequired[float]
+    winner: NotRequired[bool]
 
 class Prv_usatoday_GetStandingsArgs_In(TypedDict):
     league: str
@@ -89644,8 +89984,9 @@ class Prv_att(Protocol):
         """Every tablet on AT&T's own tablets listing (att.com/buy/tablets/): iPads, Galaxy Tabs,
         TCL and AT&T amiGO tablets, each with name, brand, product page URL and listedPriceUsd,
         which is the MONTHLY installment AT&T shows on the tile (not the outright price). A
-        query narrows by words ("ipad pro", "galaxy tab"), shortest name first. An empty array
-        with a query means no tablet matched; the page itself listing none throws.
+        query narrows by words ("ipad pro", "galaxy tab"), shortest name first. A query that
+        matches no tablet throws, naming the query and the listing size, as does a page listing
+        none.
         """
 
     async def getDevicePricing(self, device: str, /) -> Prv_att_AttDevicePricing_Out:
@@ -92776,6 +93117,13 @@ class Prv_calendly(Protocol):
         returned url, and refuses a form that routes an external HubSpot or Marketo form.
         """
 
+    async def voteOnMeetingPoll(self, args: Prv_calendly_CalendlyVoteOnMeetingPollArgs_In, /) -> Prv_calendly_CalendlyVoteOnMeetingPollResult_Out:
+        """Votes on a Calendly meeting poll the way its invitee does: takes { url, startTimes,
+        name, email } and records which of the poll's options you can make. Pass inviteeUuid
+        from an earlier vote to change it. The vote and your email go to the poll's organizer,
+        so vote only on a poll you mean to answer.
+        """
+
     async def listPackages(self, profile: str, /) -> Prv_calendly_CalendlyPackagesResult_Out:
         """Lists the prepaid session packages a Calendly profile sells (several meetings bought
         together, or a one-off payment link): name, description, price in the currency's major
@@ -93108,6 +93456,12 @@ class Prv_canva(Protocol):
         """Returns the colour-wheel combinations for one hex colour — complementary, analogous,
         triadic, split-complementary, tetradic and monochromatic — each list starting with the
         colour itself.
+        """
+
+    async def generatePaletteFromImage(self, imageUrl: str, colorCount: float | None = None, /) -> Prv_canva_generatePaletteFromImage_return_Out:
+        """Extracts the dominant colours of a PNG or JPEG image url (2-10, default 5) as hex and
+        RGB with each colour's share of the image, biggest first — the same median-cut Canva's
+        colour-palette generator runs in the page.
         """
 
     async def listDesignSizes(self, topic: str | None = None, /) -> Prv_canva_CanvaDesignSizes_Out:
@@ -103223,6 +103577,12 @@ class Prv_goodreads(Protocol):
         authFunction, a write).
         """
 
+    async def getMemberFollowing(self, idOrUrl: str, opts: ConnectionOption | None = None, /) -> list[Prv_goodreads_GoodreadsMemberRow_Out]:
+        """Lists the readers a member follows — name, profile url, book and friend counts per row.
+        Needs the caller signed in to Goodreads (an authFunction): logged out the page is the
+        sign-up page.
+        """
+
     async def getNewsFeed(self, opts: ConnectionOption | None = None, /) -> list[Prv_goodreads_GoodreadsUpdate_Out]:
         """Reads the signed-in caller's friends feed — each row is who did what to which book
         (actorName, action like 'rated it' or 'is currently reading', bookTitle, bookId, author,
@@ -106082,6 +106442,21 @@ class Prv_independent(Protocol):
         with the day's total.
         """
 
+    async def getLiveBlog(self, args: Prv_independent_GetLiveBlogArgs_In, /) -> Prv_independent_IndependentLiveBlog_Out:
+        """Gets one Independent live blog by URL: headline, coverage window, author and the newest
+        updates with their text and times. Takes a live-blog URL any list function returns.
+        """
+
+    async def getVideo(self, args: Prv_independent_GetVideoArgs_In, /) -> Prv_independent_IndependentVideo_Out:
+        """Gets one Indy TV video by URL: title, description, upload time, duration and the direct
+        MP4 URL. Takes a listVideos URL.
+        """
+
+    async def listVideos(self, args: Prv_independent_ListVideosArgs_In | None = None, /) -> Prv_independent_ListVideosResult_Out:
+        """Lists the latest Indy TV videos: all, or one series such as news, culture or
+        editors-picks.
+        """
+
     async def listTopics(self, args: Prv_independent_ListTopicsArgs_In | None = None, /) -> Prv_independent_ListTopicsResult_Out:
         """Lists Independent topic pages starting with one letter or digit, optionally filtered by
         a name fragment.
@@ -107623,6 +107998,14 @@ class Prv_kick(Protocol):
     async def listChannelVideos(self, args: Prv_kick_KickListChannelVideosArgs_In, /) -> Prv_kick_KickListChannelVideosResult_Out:
         """A channel's past broadcasts (VODs), newest first: title, category, duration, views,
         thumbnail, HLS playback URL and the video id getVideo takes.
+        """
+
+    async def getPlayback(self, args: Prv_kick_getPlayback_args_In, /) -> Prv_kick_KickPlayback_Out:
+        """The playback menu for a Kick live channel (a slug or kick.com/<channel>) or a past
+        broadcast (kick.com/<channel>/videos/<uuid>): the HLS master playlist Kick's own player
+        reads (every rendition, MPEG-TS, no file), whether it is live, and Kick's embed, so a
+        page plays it in Bowmark's own player. An offline channel comes back with `hls: null`
+        and a warning, not an error. No sign-in.
         """
 
     async def getVideo(self, args: Prv_kick_KickGetVideoArgs_In, /) -> Prv_kick_KickVideo_Out:
@@ -114419,6 +114802,26 @@ class Prv_pinterest(Protocol):
         }`. THROWS `PinterestInputError` on an empty or non-string username or slug.
         """
 
+    async def listRelatedPins(self, pinId: str, options: Prv_pinterest_listRelatedPins_options_In | None = None, /) -> Prv_pinterest_listRelatedPins_return_Out:
+        """The "More like this" rail under a pin: the pins Pinterest recommends next, same row
+        shape as `searchPins`, with a `bookmark` for the next page. Takes a NUMERIC pin id (the
+        `id` `getPin` was given); the opaque `e1_…` ids that search and board feeds now return
+        are not accepted by Pinterest. Pinterest often answers an empty list at first while it
+        computes the feed, so this asks again up to six times, 1.5 s apart, and THROWS if every
+        answer was empty rather than report "no related pins". `GET
+        /resource/RelatedPinFeedResource/get/` with `{ pin, page_size: 12 }`. THROWS
+        `PinterestInputError` on an empty or non-string pin id.
+        """
+
+    async def listPinComments(self, aggregatedPinDataId: str, options: Prv_pinterest_listPinComments_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pinterest_listPinComments_return_Out:
+        """The comments under a pin, taking the `aggregated_pin_data.id` that `getPin` returns, not
+        the pin id. Needs the caller signed in to Pinterest: `GET
+        /resource/UnifiedCommentsResource/get/` with `{ aggregated_pin_data: { id } }` and their
+        replayed session (logged out it answers 401 Authorization failed). THROWS
+        `PinterestInputError` on an empty or non-string id, and when the saved session is
+        refused (the run asks for a fresh sign-in).
+        """
+
     async def listBoardPins(self, boardId: str, options: Prv_pinterest_listBoardPins_options_In | None = None, /) -> Prv_pinterest_listBoardPins_return_Out:
         """Every pin inside a board, in the board's own order, with a `bookmark` for the next page
         — the function a caller reaches for after `getBoard`/`listUserBoards` finds a board's
@@ -116053,6 +116456,11 @@ class Prv_quickbooks(Protocol):
     service status.
     """
 
+    async def calculateSalesTax(self, args: Prv_quickbooks_QuickbooksCalculateSalesTaxArgs_In, /) -> Prv_quickbooks_QuickbooksSalesTaxResult_Out:
+        """Estimates the combined sales tax rate for a US city and ZIP, split into state, city and
+        district rates
+        """
+
     async def calculatePaycheck(self, args: Prv_quickbooks_QuickbooksCalculatePaycheckArgs_In, /) -> Prv_quickbooks_QuickbooksPaycheckResult_Out:
         """Computes one paycheck's federal, FICA, state and local withholding for a gross pay,
         state and filing status
@@ -116887,6 +117295,32 @@ class Prv_reliancepartners(Protocol):
         requirements and enumerated catalogs, then maps it onto the site's own Gravity Forms
         field names — exact, ready to submit. Never submits it; the site's own flow ends in a
         human underwriting follow-up, not an instant quote.
+        """
+
+class Prv_rentmanager(Protocol):
+    """Rent Manager (rentmanager.com) property-management software — search its Integrations
+    Marketplace of ~250 partner products (screening, payments, maintenance, listings) by
+    category, property type and badge, read one partner's listing, and search the Rent
+    Manager blog.
+    """
+
+    async def searchIntegrations(self, args: Prv_rentmanager_SearchIntegrationsArgs_In | None = None, /) -> Prv_rentmanager_SearchIntegrationsResult_Out:
+        """Searches Rent Manager's Integrations Marketplace (~250 partner products). `query` is
+        free text; `category` (e.g. "maintenance", "income-verification", "websites"),
+        `industry` (e.g. "multifamily", "hoa", "canada") and `type` (e.g. "preferred",
+        "featured", "ils") take the marketplace's own slug or name — an unknown one THROWS
+        listing the valid slugs. `limit` default 20, max 100; `total` is the full match count.
+        """
+
+    async def getIntegration(self, slug: str, /) -> Prv_rentmanager_RentManagerIntegration_Out:
+        """Reads one marketplace partner by slug (e.g. "zillow", or its listing URL): description,
+        logo, categories, property types and badges. THROWS on an unknown slug, naming
+        searchIntegrations() as the way to find current ones.
+        """
+
+    async def searchArticles(self, args: Prv_rentmanager_SearchArticlesArgs_In | None = None, /) -> Prv_rentmanager_SearchArticlesResult_Out:
+        """Searches the Rent Manager blog (property-management articles) by free text, newest
+        first, returning title, URL, date and excerpt. `limit` default 10, max 100.
         """
 
 class Prv_rentrightstudents_co_uk(Protocol):
@@ -117765,6 +118199,49 @@ class Prv_ruggable(Protocol):
         with its price and availability, description, collections.
         """
 
+class Prv_rules_nebraska_gov(Protocol):
+    """Reads the Nebraska Administrative Code at rules.nebraska.gov — full-text search of state
+    regulations, agencies → titles → chapters with the rule text, chapter history, and the
+    rulemaking dockets with their hearings and filing documents.
+    """
+
+    async def searchRules(self, args: Prv_rules_nebraska_gov_searchRules_args_In, /) -> Prv_rules_nebraska_gov_NeSearchResult_Out:
+        """Full-text search of Nebraska administrative rules (e.g. { query: "food safety" }).
+        Returns the total count and one hit per chapter (agency, title, chapter, effective date,
+        excerpt). Page with top (1-50, default 10) and skip.
+        """
+
+    async def listAgencies(self, /) -> list[Prv_rules_nebraska_gov_NeAgency_Out]:
+        """Lists every Nebraska state agency that publishes rules, with the id listTitles takes."""
+
+    async def listTitles(self, agencyId: float, /) -> list[Prv_rules_nebraska_gov_NeTitle_Out]:
+        """Lists an agency's rule titles (e.g. Title 23, Bureau of Animal Industry) with the title
+        id listChapters takes.
+        """
+
+    async def listChapters(self, titleId: float, /) -> list[Prv_rules_nebraska_gov_NeChapter_Out]:
+        """Lists the chapters of one title (the title's `id`, not its number) with each chapter's
+        full rule text, effective date and PDF name.
+        """
+
+    async def getChapterHistory(self, chapterId: float, /) -> list[Prv_rules_nebraska_gov_NeChapterHistoryEntry_Out]:
+        """Returns a chapter's history records: earlier names, numbers, titles and statuses, with
+        historical PDF names.
+        """
+
+    async def listDockets(self, /) -> list[Prv_rules_nebraska_gov_NeDocket_Out]:
+        """Lists the open rulemaking dockets: proposed rule changes with agency, title/chapter,
+        description, hearing dates and filing milestones. filingId feeds getDocket.
+        """
+
+    async def getDocket(self, filingId: float, /) -> Prv_rules_nebraska_gov_NeDocketDetail_Out:
+        """Returns one docket's detail: hearings (time, place, contact), the agency's contact, the
+        summary of changes, fiscal-impact answers and the drafts.
+        """
+
+    async def listFilingDocuments(self, filingId: float, /) -> list[Prv_rules_nebraska_gov_NeFilingDocument_Out]:
+        """Lists the supporting documents attached to a docket's filing (name, type, upload time)."""
+
 class Prv_rumble(Protocol):
     """List Rumble's editor-picked videos, and look up a Rumble video by URL: title, channel,
     duration, thumbnail and embed player URL.
@@ -118320,6 +118797,13 @@ class Prv_scribd(Protocol):
         or the numeric id, and returns the file as base64 with its name, content type and size.
         Never buys a plan: a caller whose account has no download access gets Scribd's own
         refusal as an error. Needs the caller signed in to Scribd.
+        """
+
+    async def uploadDocument(self, file: Prv_scribd_uploadDocument_file_In, options: Prv_scribd_uploadDocument_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdUploadResult_Out:
+        """Uploads a document file (PDF, DOCX, TXT …, given as base64 plus its filename) to the
+        signed-in caller's Scribd account with a title, description and visibility (private
+        unless 'public' is asked for), waits for Scribd to convert it, and returns its new
+        document id and url. Needs the caller signed in to Scribd.
         """
 
     async def deleteDocument(self, document: str | float, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdDeleteResult_Out:
@@ -123159,13 +123643,14 @@ class Prv_tiktok(Protocol):
         `/@<handle>/video/<id>` URL or a bare numeric video id.
         """
 
-    async def listUserVideos(self, args: Prv_tiktok_ListUserVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+    async def listUserVideos(self, args: Prv_tiktok_ListUserVideosArgs_In, /) -> Prv_tiktok_tiktokVideoList_Out:
         """A creator's most recent videos — id, caption, play count, cover and play address — the
         15 newest posts, read off the unsigned `/api/creator/item_list/` after the profile page
         gives the secUid; falls back to the `/embed/@<handle>` page (10-12 posts) when that list
         does not answer, and says so in the run's notes. A private account returns [] with a
         note. Like/comment counts are not returned; each id resolves through getVideo for full
-        stats. Paging past the first 15 is unmeasured.
+        stats. Paging past the first 15 is unmeasured. Returns { videos, warnings }; a warning
+        says when the answer came back short or from a fallback.
         """
 
     async def listUserPlaylists(self, args: Prv_tiktok_ListUserPlaylistsArgs_In, /) -> list[Prv_tiktok_tiktokPlaylist_Out]:
@@ -123183,11 +123668,12 @@ class Prv_tiktok(Protocol):
         door, no browser, no login. 30 by default, up to 200 with limit.
         """
 
-    async def listComments(self, args: Prv_tiktok_ListCommentsArgs_In, /) -> list[Prv_tiktok_tiktokComment_Out]:
+    async def listComments(self, args: Prv_tiktok_ListCommentsArgs_In, /) -> Prv_tiktok_tiktokCommentList_Out:
         """The first 20 comments on a video — text, author (id, handle, nickname, secUid, avatar),
         like count, reply count, creation time, and whether the creator liked it. Reads the
         unsigned `/api/comment/list/` endpoint straight off the video id, no page fetch and no
-        request signature. Paging with cursor is unmeasured.
+        request signature. Paging with cursor is unmeasured. Returns { comments, warnings }; a
+        warning says when the answer came back short or from a fallback.
         """
 
     async def listCommentReplies(self, args: Prv_tiktok_ListCommentRepliesArgs_In, /) -> list[Prv_tiktok_tiktokCommentReply_Out]:
@@ -123238,11 +123724,12 @@ class Prv_tiktok(Protocol):
         response, as the hashtag page is served off the signed app API.
         """
 
-    async def listHashtagVideos(self, args: Prv_tiktok_ListHashtagVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+    async def listHashtagVideos(self, args: Prv_tiktok_ListHashtagVideosArgs_In, /) -> Prv_tiktok_tiktokVideoList_Out:
         """The videos under one hashtag — id and caption — the companion read to getHashtag. Uses
         the browser to load the hashtag page and intercept the API response, as the hashtag page
         is served off the signed app API. Returns videos in the order TikTok serves them (newest
-        or top, depending on the sort option).
+        or top, depending on the sort option). Returns { videos, warnings }; a warning says when
+        the answer came back short or from a fallback.
         """
 
     async def listTrendingVideos(self, args: Prv_tiktok_ListTrendingVideosArgs_In | None = None, /) -> Prv_tiktok_tiktokVideoList_Out:
@@ -123269,23 +123756,26 @@ class Prv_tiktok(Protocol):
         request with an empty body.
         """
 
-    async def listSoundVideos(self, args: Prv_tiktok_ListSoundVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+    async def listSoundVideos(self, args: Prv_tiktok_ListSoundVideosArgs_In, /) -> Prv_tiktok_tiktokVideoList_Out:
         """The videos made with one sound — id and caption — the companion read to getSound. Uses
         the browser to load the sound's page and intercept the API response, as that endpoint
         answers an unsigned request with an empty body. Returns videos in the order TikTok
-        serves them.
+        serves them. Returns { videos, warnings }; a warning says when the answer came back
+        short or from a fallback.
         """
 
-    async def listForYouFeed(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+    async def listForYouFeed(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokVideoList_Out:
         """The signed-in viewer's own For You feed, the same personalised ranking /foryou shows in
         a browser — id and caption for each video. The caller signs in through the auth relay;
-        Bowmark never signs up on this site. Takes no arguments.
+        Bowmark never signs up on this site. Takes no arguments. Returns { videos, warnings }; a
+        warning says when the answer came back short or from a fallback.
         """
 
-    async def listFollowingFeed(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+    async def listFollowingFeed(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokVideoList_Out:
         """The signed-in viewer's Following feed — videos only from accounts they follow, in upload
         order, mirroring /following. The caller signs in through the auth relay; Bowmark never
-        signs up on this site. Takes no arguments.
+        signs up on this site. Takes no arguments. Returns { videos, warnings }; a warning says
+        when the answer came back short or from a fallback.
         """
 
     async def getOwnProfile(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokOwnProfile_Out:
@@ -124454,11 +124944,13 @@ class Prv_twitch(Protocol):
         """
 
     async def getPlayback(self, args: Prv_twitch_getPlayback_args_In, /) -> Prv_twitch_TwitchPlayback_Out:
-        """The playback menu for a Twitch live channel (a login or twitch.tv/<login>) or a past
-        broadcast (twitch.tv/videos/<id>): the HLS master playlist Twitch's own player reads
-        (160p-1080p, MPEG-TS, no file), whether it is live, and Twitch's embed, so a page plays
-        it in its own player. An offline channel comes back with `hls: null` and a warning, not
-        an error. No sign-in.
+        """The playback menu for a Twitch live channel (a login or twitch.tv/<login>), a past
+        broadcast (twitch.tv/videos/<id>) or a clip (clips.twitch.tv/<slug>,
+        twitch.tv/<login>/clip/<slug>): a clip's own mp4 files (1080p-360p, each plays alone),
+        or for a channel or VOD the HLS master playlist Twitch's own player reads (160p-1080p,
+        MPEG-TS, no file); whether it is live, and Twitch's embed. Every video plays in
+        Bowmark's own player from these. An offline channel comes back with `hls: null` and a
+        warning, not an error. No sign-in.
         """
 
     async def listLiveStreams(self, args: Prv_twitch_ListLiveStreamsArgs_In | None = None, /) -> list[Prv_twitch_TwitchLiveStream_Out]:
@@ -125128,6 +125620,12 @@ class Prv_usatoday(Protocol):
     async def getCrossword(self, args: Prv_usatoday_GetCrosswordArgs_In, /) -> Prv_usatoday_usatodayCrossword_Out:
         """Reads today's USA TODAY Crossword (or one by id): title, date, constructor, grid size
         and every across and down clue with its number. The answer grid is not returned.
+        """
+
+    async def getElectionResults(self, args: Prv_usatoday_GetElectionResultsArgs_In, /) -> Prv_usatoday_usatodayElectionResults_Out:
+        """Reads live election results for one state from USA TODAY — given a state like AK —
+        returning every race on the ballot (Senate, House, governor) with each candidate's
+        party, votes, vote share and whether the race is called, leader first.
         """
 
     async def getStandings(self, args: Prv_usatoday_GetStandingsArgs_In, /) -> list[Prv_usatoday_usatodayStanding_Out]:
@@ -130014,6 +130512,7 @@ class BowmarkProviders(Protocol):
     redfin: Prv_redfin
     rei: Prv_rei
     reliancepartners: Prv_reliancepartners
+    rentmanager: Prv_rentmanager
     rentrightstudents_co_uk: Prv_rentrightstudents_co_uk
     renttherunway: Prv_renttherunway
     resend: Prv_resend
@@ -130036,6 +130535,7 @@ class BowmarkProviders(Protocol):
     royal_caribbean: Prv_royal_caribbean
     rtings: Prv_rtings
     ruggable: Prv_ruggable
+    rules_nebraska_gov: Prv_rules_nebraska_gov
     rumble: Prv_rumble
     rvshare: Prv_rvshare
     ryanair: Prv_ryanair

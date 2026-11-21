@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e9a8f4e9845350fba2892fb8bbd078e53797ff1cdc1734755b351f9756df1948
-// 99 capabilities, 936 providers, 5569 typed functions, 20 refused.
+// Manifest version: 00f16a754909bbe963d69e357bab0f1bf5fcab6001cdd1e35da322755e317698
+// 99 capabilities, 938 providers, 5592 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14786,8 +14786,8 @@ interface AttMonthlyBill {
      * Every tablet on AT&T's own tablets listing (att.com/buy/tablets/): iPads, Galaxy Tabs, TCL
      * and AT&T amiGO tablets, each with name, brand, product page URL and listedPriceUsd, which is
      * the MONTHLY installment AT&T shows on the tile (not the outright price). A query narrows by
-     * words ("ipad pro", "galaxy tab"), shortest name first. An empty array with a query means no
-     * tablet matched; the page itself listing none throws.
+     * words ("ipad pro", "galaxy tab"), shortest name first. A query that matches no tablet
+     * throws, naming the query and the listing size, as does a page listing none.
      */
     listTablets(query?: string): Promise<AttDevice[]>;
 
@@ -23815,6 +23815,23 @@ interface CalendlySubmitRoutingFormResult {
   thankYou: { headline: string; body: string | null } | null;
 }
 
+interface CalendlyVoteOnMeetingPollArgs {
+  url: string; // the poll's public link
+  startTimes: string[]; // the poll options to vote for (startTime values from getAvailability)
+  name: string;
+  email: string;
+  timezone?: string;
+  inviteeUuid?: string; // pass the uuid of an earlier vote to change it
+  event?: string;
+}
+
+interface CalendlyVoteOnMeetingPollResult {
+  eventTypeUuid: string;
+  method: "POST" | "PATCH";
+  selectedStartTimes: string[];
+  inviteeUuid: string | null;
+}
+
 interface CalendlyCancelBookingArgs {
   link: string;                       // the cancel / reschedule / confirmation link, or the bare invitee uuid
   reason?: string;                    // the reason the host sees
@@ -23949,6 +23966,14 @@ interface CalendlyFindProfilesResult {
      * returned url, and refuses a form that routes an external HubSpot or Marketo form.
      */
     submitRoutingForm(args: CalendlySubmitRoutingFormArgs): Promise<CalendlySubmitRoutingFormResult>;
+
+    /**
+     * Votes on a Calendly meeting poll the way its invitee does: takes { url, startTimes, name,
+     * email } and records which of the poll's options you can make. Pass inviteeUuid from an
+     * earlier vote to change it. The vote and your email go to the poll's organizer, so vote only
+     * on a poll you mean to answer.
+     */
+    voteOnMeetingPoll(args: CalendlyVoteOnMeetingPollArgs): Promise<CalendlyVoteOnMeetingPollResult>;
 
     /**
      * Lists the prepaid session packages a Calendly profile sells (several meetings bought
@@ -24770,6 +24795,12 @@ interface CanvaColorMeaning {
   url: string;
 }
 
+interface CanvaImageColor {
+  hex: string;
+  rgb: { r: number; g: number; b: number };
+  share: number;
+}
+
 interface CanvaColorCombinations {
   hex: string;
   complementary: string[];
@@ -24918,6 +24949,13 @@ interface CanvaColorCombinations {
      * colour itself.
      */
     getColorCombinations(hex: string): Promise<CanvaColorCombinations>;
+
+    /**
+     * Extracts the dominant colours of a PNG or JPEG image url (2-10, default 5) as hex and RGB
+     * with each colour's share of the image, biggest first — the same median-cut Canva's
+     * colour-palette generator runs in the page.
+     */
+    generatePaletteFromImage(imageUrl: string, colorCount?: number): Promise<{ colors: CanvaImageColor[]; imageUrl: string; warnings: string[] }>;
 
     /**
      * Reads Canva's design-size wiki — with no argument every topic slug; with one ("instagram",
@@ -53257,6 +53295,13 @@ interface GoodreadsBookQuote {
   likes?: number;
   tags: string[];
 }
+interface GoodreadsMemberRow {
+  userId: string;
+  name: string;
+  url: string;
+  bookCount?: number;
+  friendCount?: number;
+}
 interface GoodreadsQuote {
   id: string;
   text: string;
@@ -53471,6 +53516,13 @@ interface GoodreadsShelfBook {
      * a write).
      */
     unfollowUser(idOrUrl: string, opts?: ConnectionOption): Promise<{ memberId: string; following: false }>;
+
+    /**
+     * Lists the readers a member follows — name, profile url, book and friend counts per row.
+     * Needs the caller signed in to Goodreads (an authFunction): logged out the page is the
+     * sign-up page.
+     */
+    getMemberFollowing(idOrUrl: string, opts?: ConnectionOption): Promise<GoodreadsMemberRow[]>;
 
     /**
      * Reads the signed-in caller's friends feed — each row is who did what to which book
@@ -61271,6 +61323,13 @@ interface PopularRow { rank: number; articleId: string; title: string; url: stri
 interface GetMostPopularResult { area: string; articles: PopularRow[]; }
 interface ListArticlesByDateArgs { date: string; limit?: number; }
 interface ListArticlesByDateResult { date: string; total: number; articles: { url: string; articleId: string | null; lastmod: string | null }[]; }
+interface IndependentLiveBlogUpdate { headline: string | null; url: string | null; published: string | null; modified: string | null; author: string | null; text: string; }
+interface IndependentLiveBlog { url: string; title: string; description: string | null; published: string | null; modified: string | null; coverageStart: string | null; coverageEnd: string | null; author: { name: string; url: string | null } | null; totalUpdates: number; updates: IndependentLiveBlogUpdate[]; }
+interface GetLiveBlogArgs { url: string; limit?: number; }
+interface IndependentVideo { url: string; articleId: string | null; title: string; description: string | null; uploaded: string | null; duration: string | null; videoUrl: string | null; imageUrl: string | null; }
+interface GetVideoArgs { url: string; }
+interface ListVideosArgs { section?: string; limit?: number; }
+interface ListVideosResult { feed: string; videos: IndependentStory[]; }
 interface ListTopicsArgs { letter?: string; query?: string; limit?: number; }
 interface ListTopicsResult { letter: string; total: number; topics: { slug: string; url: string }[]; warnings: string[]; }
 interface IndependentCard { title: string; url: string; articleId: string | null; section: { label: string; path: string } | null; imageUrl: string | null; }
@@ -61324,6 +61383,21 @@ interface GetAuthorArticlesResult { slug: string; author: string | null; total: 
      * with the day's total.
      */
     listArticlesByDate(args: ListArticlesByDateArgs): Promise<ListArticlesByDateResult>;
+
+    /**
+     * Gets one Independent live blog by URL: headline, coverage window, author and the newest
+     * updates with their text and times. Takes a live-blog URL any list function returns.
+     */
+    getLiveBlog(args: GetLiveBlogArgs): Promise<IndependentLiveBlog>;
+
+    /**
+     * Gets one Indy TV video by URL: title, description, upload time, duration and the direct MP4
+     * URL. Takes a listVideos URL.
+     */
+    getVideo(args: GetVideoArgs): Promise<IndependentVideo>;
+
+    /** Lists the latest Indy TV videos: all, or one series such as news, culture or editors-picks. */
+    listVideos(args?: ListVideosArgs): Promise<ListVideosResult>;
 
     /**
      * Lists Independent topic pages starting with one letter or digit, optionally filtered by a
@@ -65567,6 +65641,26 @@ interface KickGetChannelLeaderboardResult {
   thisWeek: KickGiftLeader[];
 }
 
+interface KickPlayback {
+  /** "channel" for a live channel, "vod" for a past broadcast. */
+  kind: "channel" | "vod";
+  /** The channel slug, or the VOD uuid. */
+  id: string;
+  title: string | null;
+  live: boolean;
+  durationMs: number | null;
+  /** Kick serves no plain file: always empty, kept for the shared playback-menu shape. */
+  files: { muxed: never[]; videoOnly: never[]; audioOnly: never[] };
+  /** The HLS master playlist (every rendition, MPEG-TS segments). live: re-read the media
+   * playlist, it has no EXT-X-ENDLIST. Null when the channel is offline. */
+  hls: { url: string; live: boolean; hasAds: false } | null;
+  /** Kick's own player (live channels only). */
+  embed: { url: string; note: string } | null;
+  thumbnailUrl: string | null;
+  expiresAt: null;
+  warnings: string[];
+}
+
   /** Kick, the live-streaming site — channels, categories, VODs and clips. */
   interface Unit {
     /**
@@ -65604,6 +65698,15 @@ interface KickGetChannelLeaderboardResult {
      * thumbnail, HLS playback URL and the video id getVideo takes.
      */
     listChannelVideos(args: KickListChannelVideosArgs): Promise<KickListChannelVideosResult>;
+
+    /**
+     * The playback menu for a Kick live channel (a slug or kick.com/<channel>) or a past broadcast
+     * (kick.com/<channel>/videos/<uuid>): the HLS master playlist Kick's own player reads (every
+     * rendition, MPEG-TS, no file), whether it is live, and Kick's embed, so a page plays it in
+     * Bowmark's own player. An offline channel comes back with `hls: null` and a warning, not an
+     * error. No sign-in.
+     */
+    getPlayback(args: { video: string }): Promise<KickPlayback>;
 
     /**
      * One VOD by uuid or kick.com video link: title, channel, category, duration, views, created
@@ -84429,6 +84532,27 @@ interface PinterestNotification {
     getBoard(username: string, slug: string): Promise<PinterestBoardDetail>;
 
     /**
+     * The "More like this" rail under a pin: the pins Pinterest recommends next, same row shape as
+     * `searchPins`, with a `bookmark` for the next page. Takes a NUMERIC pin id (the `id` `getPin`
+     * was given); the opaque `e1_…` ids that search and board feeds now return are not accepted by
+     * Pinterest. Pinterest often answers an empty list at first while it computes the feed, so
+     * this asks again up to six times, 1.5 s apart, and THROWS if every answer was empty rather
+     * than report "no related pins". `GET /resource/RelatedPinFeedResource/get/` with `{ pin,
+     * page_size: 12 }`. THROWS `PinterestInputError` on an empty or non-string pin id.
+     */
+    listRelatedPins(pinId: string, options?: { bookmark?: string }): Promise<{ pins: PinterestPin[]; bookmark: string | null }>;
+
+    /**
+     * The comments under a pin, taking the `aggregated_pin_data.id` that `getPin` returns, not the
+     * pin id. Needs the caller signed in to Pinterest: `GET
+     * /resource/UnifiedCommentsResource/get/` with `{ aggregated_pin_data: { id } }` and their
+     * replayed session (logged out it answers 401 Authorization failed). THROWS
+     * `PinterestInputError` on an empty or non-string id, and when the saved session is refused
+     * (the run asks for a fresh sign-in).
+     */
+    listPinComments(aggregatedPinDataId: string, options?: { bookmark?: string }, opts?: ConnectionOption): Promise<{ comments: PinterestComment[]; bookmark: string | null }>;
+
+    /**
      * Every pin inside a board, in the board's own order, with a `bookmark` for the next page —
      * the function a caller reaches for after `getBoard`/`listUserBoards` finds a board's id. Same
      * row shape as `searchPins`. Takes the board `id` (`getBoard`'s `id` field, or a row from
@@ -88294,6 +88418,35 @@ interface QuickbooksPaycheckResult {
   netPay: number;
 }
 
+interface QuickbooksCalculateSalesTaxArgs {
+  city: string;
+  /** Two-letter USPS code, e.g. "TX". */
+  state: string;
+  /** 5-digit ZIP. */
+  postalCode: string;
+  /** Dollars; when given, the result carries `taxAmount`. */
+  price?: number;
+}
+
+interface QuickbooksSalesTaxRate {
+  name: string;
+  level: string;  // the site's own labels — read the values off a result, never guess one from prose
+  /** Percent, e.g. 6.25. */
+  rate: number;
+  agency: string | null;
+}
+
+interface QuickbooksSalesTaxResult {
+  city: string;
+  state: string;
+  postalCode: string;
+  /** Combined rate in percent. */
+  totalRate: number;
+  rates: QuickbooksSalesTaxRate[];
+  /** price * totalRate / 100, only when `price` was given. */
+  taxAmount: number | null;
+}
+
 /** One US state with its own /payroll/paycheck-calculator/<state>/ page. */
 interface QuickbooksPaycheckCalculatorState {
   code: string;
@@ -88758,6 +88911,12 @@ interface QuickbooksAccountant {
    * status.
    */
   interface Unit {
+    /**
+     * Estimates the combined sales tax rate for a US city and ZIP, split into state, city and
+     * district rates
+     */
+    calculateSalesTax(args: QuickbooksCalculateSalesTaxArgs): Promise<QuickbooksSalesTaxResult>;
+
     /**
      * Computes one paycheck's federal, FICA, state and local withholding for a gross pay, state
      * and filing status
@@ -90846,6 +91005,60 @@ interface AssembledApplication {
      * underwriting follow-up, not an instant quote.
      */
     assembleApplication(args: ReliancePartnersAssembleApplicationArgs): Promise<AssembledApplication>;
+  }
+}
+
+declare namespace BowmarkProvider_rentmanager {
+  // ── Rent Manager — the unit's own declarations, verbatim ──
+// Rent Manager's OWN shapes — not a capability contract.
+
+interface RentManagerIntegration {
+  slug: string;
+  name: string;
+  description: string | null;
+  url: string;                 // the marketplace listing page
+  logoUrl: string | null;
+  categories: string[];        // e.g. ["maintenance", "inspections"]
+  industries: string[];        // e.g. ["multifamily", "hoa", "canada"]
+  types: string[];             // badges, e.g. ["preferred", "featured", "ils"]
+  updated: string;
+}
+
+interface SearchIntegrationsArgs { query?: string; category?: string; industry?: string; type?: string; limit?: number }
+interface SearchIntegrationsResult { integrations: RentManagerIntegration[]; total: number }
+
+interface RentManagerArticle { slug: string; title: string; url: string; published: string; excerpt: string }
+interface SearchArticlesArgs { query?: string; limit?: number }
+interface SearchArticlesResult { articles: RentManagerArticle[]; total: number }
+
+  /**
+   * Rent Manager (rentmanager.com) property-management software — search its Integrations
+   * Marketplace of ~250 partner products (screening, payments, maintenance, listings) by
+   * category, property type and badge, read one partner's listing, and search the Rent Manager
+   * blog.
+   */
+  interface Unit {
+    /**
+     * Searches Rent Manager's Integrations Marketplace (~250 partner products). `query` is free
+     * text; `category` (e.g. "maintenance", "income-verification", "websites"), `industry` (e.g.
+     * "multifamily", "hoa", "canada") and `type` (e.g. "preferred", "featured", "ils") take the
+     * marketplace's own slug or name — an unknown one THROWS listing the valid slugs. `limit`
+     * default 20, max 100; `total` is the full match count.
+     */
+    searchIntegrations(args?: SearchIntegrationsArgs): Promise<SearchIntegrationsResult>;
+
+    /**
+     * Reads one marketplace partner by slug (e.g. "zillow", or its listing URL): description,
+     * logo, categories, property types and badges. THROWS on an unknown slug, naming
+     * searchIntegrations() as the way to find current ones.
+     */
+    getIntegration(slug: string): Promise<RentManagerIntegration>;
+
+    /**
+     * Searches the Rent Manager blog (property-management articles) by free text, newest first,
+     * returning title, URL, date and excerpt. `limit` default 10, max 100.
+     */
+    searchArticles(args?: SearchArticlesArgs): Promise<SearchArticlesResult>;
   }
 }
 
@@ -93383,6 +93596,69 @@ type GetRugArgs = string;
   }
 }
 
+declare namespace BowmarkProvider_rules_nebraska_gov {
+  // ── Nebraska Administrative Rules — the unit's own declarations, verbatim ──
+interface NeAgency { id: number; agencyName: string }
+interface NeTitle { id: number; titleName: string; titleNumber: number; agencyId: number }
+interface NeChapter { id: number; titleId: number; chapterNumber: string; chapterName: string; appendixNumber: string | null; effectiveDate: string | null; effectiveEndDate: string | null; isEmergency: boolean; pdfBlobName: string | null; text: string }
+interface NeSearchHit { score: number; chapterId: number; agencyId: number; agencyName: string; titleId: number; titleNumber: string; titleName: string; chapterNumber: string; chapterName: string; effectiveDate: string | null; pdfBlobName: string | null; excerpt: string }
+interface NeSearchResult { count: number; results: NeSearchHit[] }
+interface NeChapterHistoryEntry { id: number; chapterId: number; oldTitleId: number; recordStatusName: string; oldChapterName: string; oldChapterNumber: string; pdfBlobName: string | null; createdOn: string }
+interface NeDocket { filingId: number; agencyName: string; titleNumber: number; chapterNumber: string; description: string; hearingNoticeReceivedDates: string[]; scheduleHearingDates: string[]; sosFiledDate: string | null; effectiveDate: string | null }
+interface NeDocketDetail { hearingDetails: { hearingDateTime: string; hearingAddress1: string; hearingCity: string; hearingContactName: string; hearingContactEmail: string }[]; agencyName: string; agencyEmail: string; descriptionAndSummaryOfRuleChanges: string; drafts: unknown[]; /* …and the site's fiscal-impact fields */ }
+interface NeFilingDocument { id: number; filingId: number; documentTypeId: number; originalName: string; blobName: string; uploadedOn: string }
+
+  /**
+   * Reads the Nebraska Administrative Code at rules.nebraska.gov — full-text search of state
+   * regulations, agencies → titles → chapters with the rule text, chapter history, and the
+   * rulemaking dockets with their hearings and filing documents.
+   */
+  interface Unit {
+    /**
+     * Full-text search of Nebraska administrative rules (e.g. { query: "food safety" }). Returns
+     * the total count and one hit per chapter (agency, title, chapter, effective date, excerpt).
+     * Page with top (1-50, default 10) and skip.
+     */
+    searchRules(args: { query: string; top?: number; skip?: number }): Promise<NeSearchResult>;
+
+    /** Lists every Nebraska state agency that publishes rules, with the id listTitles takes. */
+    listAgencies(): Promise<NeAgency[]>;
+
+    /**
+     * Lists an agency's rule titles (e.g. Title 23, Bureau of Animal Industry) with the title id
+     * listChapters takes.
+     */
+    listTitles(agencyId: number): Promise<NeTitle[]>;
+
+    /**
+     * Lists the chapters of one title (the title's `id`, not its number) with each chapter's full
+     * rule text, effective date and PDF name.
+     */
+    listChapters(titleId: number): Promise<NeChapter[]>;
+
+    /**
+     * Returns a chapter's history records: earlier names, numbers, titles and statuses, with
+     * historical PDF names.
+     */
+    getChapterHistory(chapterId: number): Promise<NeChapterHistoryEntry[]>;
+
+    /**
+     * Lists the open rulemaking dockets: proposed rule changes with agency, title/chapter,
+     * description, hearing dates and filing milestones. filingId feeds getDocket.
+     */
+    listDockets(): Promise<NeDocket[]>;
+
+    /**
+     * Returns one docket's detail: hearings (time, place, contact), the agency's contact, the
+     * summary of changes, fiscal-impact answers and the drafts.
+     */
+    getDocket(filingId: number): Promise<NeDocketDetail>;
+
+    /** Lists the supporting documents attached to a docket's filing (name, type, upload time). */
+    listFilingDocuments(filingId: number): Promise<NeFilingDocument[]>;
+  }
+}
+
 declare namespace BowmarkProvider_rumble {
   // ── Rumble — the unit's own declarations, verbatim ──
 interface RumbleVideo { title: string; channel: string | null; channelUrl: string | null; durationSeconds: number | null; width: number | null; height: number | null; thumbnailUrl: string | null; embedUrl: string | null; embedId: string | null; url: string }
@@ -94694,6 +94970,13 @@ interface ListLettingsArgs { query?: string; limit?: number; }
 
 declare namespace BowmarkProvider_scribd {
   // ── Scribd — the unit's own declarations, verbatim ──
+interface ScribdUploadResult {
+  id: number;
+  url: string | null;
+  title: string;
+  visibility: "private" | "public";
+}
+
 interface ScribdDeleteResult {
   id: number;
   deleted: true;
@@ -95024,6 +95307,14 @@ interface ScribdCreatedList {
      * error. Needs the caller signed in to Scribd.
      */
     downloadDocument(document: string | number, format?: string, opts?: ConnectionOption): Promise<ScribdDownload>;
+
+    /**
+     * Uploads a document file (PDF, DOCX, TXT …, given as base64 plus its filename) to the
+     * signed-in caller's Scribd account with a title, description and visibility (private unless
+     * 'public' is asked for), waits for Scribd to convert it, and returns its new document id and
+     * url. Needs the caller signed in to Scribd.
+     */
+    uploadDocument(file: { base64: string; filename: string }, options?: { title?: string; description?: string; visibility?: 'private' | 'public' }, opts?: ConnectionOption): Promise<ScribdUploadResult>;
 
     /**
      * Deletes one of the signed-in caller's own uploaded Scribd documents, from its
@@ -109508,6 +109799,10 @@ interface ListPlaylistVideosArgs {
   playlist: string;
   limit?: number;
 }
+interface tiktokCommentList {
+  comments: tiktokComment[];
+  warnings: string[];
+}
 interface tiktokComment {
   id: string;
   text: string;
@@ -109773,9 +110068,10 @@ interface tiktokPlaybackFile {
      * the secUid; falls back to the `/embed/@<handle>` page (10-12 posts) when that list does not
      * answer, and says so in the run's notes. A private account returns [] with a note.
      * Like/comment counts are not returned; each id resolves through getVideo for full stats.
-     * Paging past the first 15 is unmeasured.
+     * Paging past the first 15 is unmeasured. Returns { videos, warnings }; a warning says when
+     * the answer came back short or from a fallback.
      */
-    listUserVideos(args: ListUserVideosArgs): Promise<tiktokVideoSummary[]>;
+    listUserVideos(args: ListUserVideosArgs): Promise<tiktokVideoList>;
 
     /**
      * The playlists a TikTok creator shows on their profile — id, name, video count, cover and
@@ -109797,9 +110093,10 @@ interface tiktokPlaybackFile {
      * The first 20 comments on a video — text, author (id, handle, nickname, secUid, avatar), like
      * count, reply count, creation time, and whether the creator liked it. Reads the unsigned
      * `/api/comment/list/` endpoint straight off the video id, no page fetch and no request
-     * signature. Paging with cursor is unmeasured.
+     * signature. Paging with cursor is unmeasured. Returns { comments, warnings }; a warning says
+     * when the answer came back short or from a fallback.
      */
-    listComments(args: ListCommentsArgs): Promise<tiktokComment[]>;
+    listComments(args: ListCommentsArgs): Promise<tiktokCommentList>;
 
     /**
      * The replies under one comment thread — text, author (id, handle, nickname), like count, and
@@ -109858,9 +110155,10 @@ interface tiktokPlaybackFile {
      * The videos under one hashtag — id and caption — the companion read to getHashtag. Uses the
      * browser to load the hashtag page and intercept the API response, as the hashtag page is
      * served off the signed app API. Returns videos in the order TikTok serves them (newest or
-     * top, depending on the sort option).
+     * top, depending on the sort option). Returns { videos, warnings }; a warning says when the
+     * answer came back short or from a fallback.
      */
-    listHashtagVideos(args: ListHashtagVideosArgs): Promise<tiktokVideoSummary[]>;
+    listHashtagVideos(args: ListHashtagVideosArgs): Promise<tiktokVideoList>;
 
     /**
      * What is trending on TikTok right now — the Explore page's own grid, in TikTok's order: id,
@@ -109891,23 +110189,26 @@ interface tiktokPlaybackFile {
     /**
      * The videos made with one sound — id and caption — the companion read to getSound. Uses the
      * browser to load the sound's page and intercept the API response, as that endpoint answers an
-     * unsigned request with an empty body. Returns videos in the order TikTok serves them.
+     * unsigned request with an empty body. Returns videos in the order TikTok serves them. Returns
+     * { videos, warnings }; a warning says when the answer came back short or from a fallback.
      */
-    listSoundVideos(args: ListSoundVideosArgs): Promise<tiktokVideoSummary[]>;
+    listSoundVideos(args: ListSoundVideosArgs): Promise<tiktokVideoList>;
 
     /**
      * The signed-in viewer's own For You feed, the same personalised ranking /foryou shows in a
      * browser — id and caption for each video. The caller signs in through the auth relay; Bowmark
-     * never signs up on this site. Takes no arguments.
+     * never signs up on this site. Takes no arguments. Returns { videos, warnings }; a warning
+     * says when the answer came back short or from a fallback.
      */
-    listForYouFeed(args: ListForYouFeedArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
+    listForYouFeed(args: ListForYouFeedArgs, opts?: ConnectionOption): Promise<tiktokVideoList>;
 
     /**
      * The signed-in viewer's Following feed — videos only from accounts they follow, in upload
      * order, mirroring /following. The caller signs in through the auth relay; Bowmark never signs
-     * up on this site. Takes no arguments.
+     * up on this site. Takes no arguments. Returns { videos, warnings }; a warning says when the
+     * answer came back short or from a fallback.
      */
-    listFollowingFeed(args: ListFollowingFeedArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
+    listFollowingFeed(args: ListFollowingFeedArgs, opts?: ConnectionOption): Promise<tiktokVideoList>;
 
     /**
      * The signed-in caller's own account facts — handle, bio, email/phone binding status, privacy
@@ -110014,7 +110315,7 @@ interface tiktokPlaybackFile {
      * response, because that door is signature-walled to any browserless request. The caller signs
      * in through the auth relay; Bowmark never signs up on this site.
      */
-    listBookmarkedVideos(args: ListBookmarkedVideosArgs, opts?: ConnectionOption): Promise<{ videos: tiktokVideoSummary[]; hasMore: boolean }>;
+    listBookmarkedVideos(args: ListBookmarkedVideosArgs, opts?: ConnectionOption): Promise<{ videos: tiktokVideoSummary[]; hasMore: boolean; warnings: string[] }>;
 
     /**
      * The signed-in caller's own DM inbox — threads, last message and unread state, newest first.
@@ -113283,22 +113584,31 @@ interface TwitchChannelInfo {
   /** When the channel was created. */
   createdAt: string;
 }
+interface TwitchClipFile {
+  url: string;
+  mimeType: "video/mp4";
+  height: number | null;
+  fps: number | null;
+  qualityLabel: string;
+}
+
 interface TwitchPlayback {
-  /** "channel" for a live channel, "vod" for a past broadcast. */
-  kind: "channel" | "vod";
-  /** The channel login, or the VOD id. */
+  /** "channel" for a live channel, "vod" for a past broadcast, "clip" for a clip. */
+  kind: "channel" | "vod" | "clip";
+  /** The channel login, the VOD id, or the clip slug. */
   id: string;
   title: string | null;
   live: boolean;
   durationMs: number | null;
-  /** Twitch serves no plain file: always empty, kept for the shared playback-menu shape. */
-  files: { muxed: never[]; videoOnly: never[]; audioOnly: never[] };
+  /** A clip's mp4 renditions (tallest first, each plays alone in a <video>); empty for a
+   * channel or a VOD, which Twitch serves as HLS only. */
+  files: { muxed: TwitchClipFile[]; videoOnly: never[]; audioOnly: never[] };
   /** The HLS master playlist (every rendition, MPEG-TS segments). live: re-read the media
    * playlist, it has no EXT-X-ENDLIST. hasAds: true for a live channel (Twitch stitches its
    * own ads in for a signed-out viewer), false for a VOD. Null when the channel is offline. */
   hls: { url: string; live: boolean; hasAds: boolean } | null;
   /** Twitch's own player; set parent=<the showing page's hostname>. */
-  embed: { url: string; hasAds: true; note: string };
+  embed: { url: string; hasAds: boolean; note: string };
   expiresAt: string | null;
   warnings: string[];
 }
@@ -113605,11 +113915,12 @@ interface TwitchFollowChannelResult {
     getStream(args: GetStreamArgs): Promise<TwitchStream>;
 
     /**
-     * The playback menu for a Twitch live channel (a login or twitch.tv/<login>) or a past
-     * broadcast (twitch.tv/videos/<id>): the HLS master playlist Twitch's own player reads
-     * (160p-1080p, MPEG-TS, no file), whether it is live, and Twitch's embed, so a page plays it
-     * in its own player. An offline channel comes back with `hls: null` and a warning, not an
-     * error. No sign-in.
+     * The playback menu for a Twitch live channel (a login or twitch.tv/<login>), a past broadcast
+     * (twitch.tv/videos/<id>) or a clip (clips.twitch.tv/<slug>, twitch.tv/<login>/clip/<slug>): a
+     * clip's own mp4 files (1080p-360p, each plays alone), or for a channel or VOD the HLS master
+     * playlist Twitch's own player reads (160p-1080p, MPEG-TS, no file); whether it is live, and
+     * Twitch's embed. Every video plays in Bowmark's own player from these. An offline channel
+     * comes back with `hls: null` and a warning, not an error. No sign-in.
      */
     getPlayback(args: { video: string }): Promise<TwitchPlayback>;
 
@@ -115069,6 +115380,46 @@ interface usatodayCrossword {
   url: string;
 }
 
+interface GetElectionResultsArgs {
+  /** Two-letter state code, e.g. "AK". */
+  state: string;
+  /** Election day, YYYY-MM-DD. Defaults to 2026-11-03. */
+  date?: string;
+}
+
+interface usatodayElectionCandidate {
+  name: string;
+  /** "D", "R", "I"… */
+  party?: string;
+  partyName?: string;
+  incumbent?: boolean;
+  /** Votes counted so far; absent until the first count is reported. */
+  votes?: number;
+  /** Share of the counted vote, 0-100. */
+  votePct?: number;
+  winner?: boolean;
+}
+
+interface usatodayElectionRace {
+  /** e.g. "U.S. Senate Alaska". */
+  office: string;
+  /** Sorted by votes, leader first. */
+  candidates: usatodayElectionCandidate[];
+  /** True once USA TODAY has called the race. */
+  called: boolean;
+  /** Estimated share of the expected vote that is counted. */
+  percentReporting?: number;
+  updated?: string;
+}
+
+interface usatodayElectionResults {
+  date: string;
+  state: string;
+  races: usatodayElectionRace[];
+  /** Names any part (counts, calls) that did not answer. */
+  warnings?: string[];
+}
+
 interface GetStandingsArgs {
   /** "NFL", "NBA", "MLB", "NHL", "NCAAF", "NCAAM", "NCAAW", "WNBA", "MLS" or "EPL". */
   league: string;
@@ -115192,6 +115543,13 @@ interface usatodayVideoDetail {
      * every across and down clue with its number. The answer grid is not returned.
      */
     getCrossword(args: GetCrosswordArgs): Promise<usatodayCrossword>;
+
+    /**
+     * Reads live election results for one state from USA TODAY — given a state like AK — returning
+     * every race on the ballot (Senate, House, governor) with each candidate's party, votes, vote
+     * share and whether the race is called, leader first.
+     */
+    getElectionResults(args: GetElectionResultsArgs): Promise<usatodayElectionResults>;
 
     /**
      * Reads the current league standings from USA Today Sports — given a league like NFL, NBA,
@@ -128637,6 +128995,7 @@ interface BowmarkProviders {
   redfin: BowmarkProvider_redfin.Unit;
   rei: BowmarkProvider_rei.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
+  rentmanager: BowmarkProvider_rentmanager.Unit;
   rentrightstudents_co_uk: BowmarkProvider_rentrightstudents_co_uk.Unit;
   renttherunway: BowmarkProvider_renttherunway.Unit;
   resend: BowmarkProvider_resend.Unit;
@@ -128659,6 +129018,7 @@ interface BowmarkProviders {
   royal_caribbean: BowmarkProvider_royal_caribbean.Unit;
   rtings: BowmarkProvider_rtings.Unit;
   ruggable: BowmarkProvider_ruggable.Unit;
+  rules_nebraska_gov: BowmarkProvider_rules_nebraska_gov.Unit;
   rumble: BowmarkProvider_rumble.Unit;
   rvshare: BowmarkProvider_rvshare.Unit;
   ryanair: BowmarkProvider_ryanair.Unit;

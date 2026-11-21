@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e9a8f4e9845350fba2892fb8bbd078e53797ff1cdc1734755b351f9756df1948
-// 5541 checked, 20 unchecked.
+// Manifest version: 00f16a754909bbe963d69e357bab0f1bf5fcab6001cdd1e35da322755e317698
+// 5564 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e9a8f4e9845350fba2892fb8bbd078e53797ff1cdc1734755b351f9756df1948",
+  "version": "00f16a754909bbe963d69e357bab0f1bf5fcab6001cdd1e35da322755e317698",
   "units": {
     "address_validation": {
       "defs": {
@@ -29660,6 +29660,63 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "CalendlyVoteOnMeetingPollArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startTimes",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "timezone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "inviteeUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "event",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -29760,6 +29817,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CalendlySubmitRoutingFormArgs"
+            },
+            "optional": false
+          }
+        ],
+        "voteOnMeetingPoll": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CalendlyVoteOnMeetingPollArgs"
             },
             "optional": false
           }
@@ -30661,6 +30728,22 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "generatePaletteFromImage": [
+          {
+            "name": "imageUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "colorCount",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ],
         "listDesignSizes": [
@@ -72773,6 +72856,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getMemberFollowing": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getNewsFeed": [
           {
             "name": "opts",
@@ -82040,6 +82148,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetLiveBlogArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetMostPopularArgs": {
           "k": "object",
           "props": [
@@ -82089,6 +82216,18 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            }
+          ]
+        },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -82181,6 +82320,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -82243,6 +82401,36 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListArticlesByDateArgs"
             },
             "optional": false
+          }
+        ],
+        "getLiveBlog": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetLiveBlogArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosArgs"
+            },
+            "optional": true
           }
         ],
         "listTopics": [
@@ -88134,6 +88322,24 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KickListChannelVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlayback": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
@@ -115035,6 +115241,72 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listRelatedPins": [
+          {
+            "name": "pinId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listPinComments": [
+          {
+            "name": "aggregatedPinDataId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listBoardPins": [
           {
             "name": "boardId",
@@ -121744,6 +122016,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "QuickbooksCalculateSalesTaxArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "postalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "QuickbooksEmployeeCostArgs": {
           "k": "object",
           "props": [
@@ -122187,6 +122492,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "calculateSalesTax": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "QuickbooksCalculateSalesTaxArgs"
+            },
+            "optional": false
+          }
+        ],
         "calculatePaycheck": [
           {
             "name": "args",
@@ -126240,6 +126555,100 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ReliancePartnersAssembleApplicationArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.rentmanager": {
+      "defs": {
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchIntegrationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "industry",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchIntegrations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchIntegrationsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getIntegration": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArticlesArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -130470,6 +130879,90 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.rules_nebraska_gov": {
+      "defs": {},
+      "functions": {
+        "searchRules": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "top",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "skip",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listAgencies": [],
+        "listTitles": [
+          {
+            "name": "agencyId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "listChapters": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "getChapterHistory": [
+          {
+            "name": "chapterId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "listDockets": [],
+        "getDocket": [
+          {
+            "name": "filingId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "listFilingDocuments": [
+          {
+            "name": "filingId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.rumble": {
       "defs": {
         "RumbleVideoArgs": {
@@ -132410,6 +132903,87 @@ export const VALIDATORS: ValidatorTable = {
             "name": "format",
             "schema": {
               "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "uploadDocument": [
+          {
+            "name": "file",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "base64",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "filename",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "visibility",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "private"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "public"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": true
           },
@@ -161382,6 +161956,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetElectionResultsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetPuzzleArgs": {
           "k": "object",
           "props": [
@@ -161506,6 +162099,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCrosswordArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getElectionResults": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetElectionResultsArgs"
             },
             "optional": false
           }
