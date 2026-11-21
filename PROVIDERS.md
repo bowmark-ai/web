@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7458 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7461 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3583,6 +3583,7 @@ One function per row, with the site it is called on.
 | `instagram.getSavedPosts` | instagram.com | Lists the signed-in user's saved posts with post metadata including media, captions… | 🟢 |
 | `instagram.getStories` | instagram.com | Lists stories from accounts the signed-in user follows, with expiration times. | 🟢 |
 | `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | 🟢 |
+| `instagram.homeFeedPage` | instagram.com | The signed-in user's own Instagram home feed one page at a time ({ items, nextCursor… | 🟢 |
 | `instagram.likePost` | instagram.com | Likes a post by its media id. | 🟢 |
 | `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in account's feed, without… | 🟢 |
 | `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | 🟢 |
@@ -6325,6 +6326,7 @@ One function per row, with the site it is called on.
 | `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | 🟢 |
 | `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | 🟢 |
 | `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller — takes the userId and secUid off… | 🟢 |
+| `tiktok.forYouPage` | tiktok.com | The signed-in viewer's own For You feed one batch at a time ({ items, nextCursor })… | 🟢 |
 | `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟢 |
 | `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | 🟢 |
 | `tiktok.getPlayback` | tiktok.com | The playback menu for one TikTok video (a `/@<handle>/video/<id>` URL or a bare… | 🟢 |
@@ -7339,6 +7341,7 @@ One function per row, with the site it is called on.
 | `youtube.getPlaylist` | youtube.com | A playlist's own facts: title, description, the channel that owns it, how many videos… | 🟢 |
 | `youtube.getTranscript` | youtube.com | Returns a YouTube video's own caption transcript — one row per caption line, each… | 🟢 |
 | `youtube.getVideo` | youtube.com | Everything the watch page says about one video without playing it: title, channel name… | 🟢 |
+| `youtube.homeFeedPage` | youtube.com | The signed-in account's own YouTube home feed one page at a time ({ items, nextCursor… | 🟢 |
 | `youtube.likeVideo` | youtube.com | Like or dislike a video as the signed-in account, or clear the rating. | 🟢 |
 | `youtube.listCaptionTracks` | youtube.com | Which languages a video's captions are available in, whether each was written by a… | 🟢 |
 | `youtube.listChannelLiveStreams` | youtube.com | A channel's Live tab — the streams it has run, upcoming and past, with their scheduled… | 🟢 |
