@@ -2769,7 +2769,7 @@ One function per row, with the site it is called on.
 | `foxnews.listAuthorArticles` | foxnews.com | Lists every story by one Fox News author, newest first with paging, past the handful… | 🟢 |
 | `foxnews.listElectionRaces` | foxnews.com | Lists the 2026 general-election races Fox News's Elections Center covers for one… | 🟢 |
 | `foxnews.listLatest` | foxnews.com | Lists the newest stories and clips published anywhere on Fox News, newest first, with… | 🟢 |
-| `foxnews.listLiveBlogs` | foxnews.com | Lists Fox News's live-coverage pages (rolling blogs for wars, elections, trials… | 🟢 |
+| `foxnews.listLiveBlogs` | foxnews.com | Lists Fox News's live-coverage pages (rolling blogs for wars, elections, trials… | 🟡 |
 | `foxnews.listNewsletters` | foxnews.com | Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics… | 🟢 |
 | `foxnews.listPodcastEpisodes` | foxnews.com | Lists one Fox News podcast's episodes, newest first — title, description, publication… | 🟢 |
 | `foxnews.listPodcasts` | foxnews.com | Lists the Fox News podcasts (Fox News Talk, Perino on Politics, The Brian Kilmeade… | 🟢 |
@@ -4210,11 +4210,11 @@ One function per row, with the site it is called on.
 | `mlb.getBoxScore` | mlb.com | Gets a game's box score: every batter's and pitcher's line for both teams, plus team… | 🟢 |
 | `mlb.getDraft` | mlb.com | Lists a year's MLB Draft picks: round, pick, team, player, position and school. | ⚪ |
 | `mlb.getGame` | mlb.com | Gets one game's summary: teams, status, inning, line score, winning and losing… | 🟢 |
-| `mlb.getGameBroadcasts` | mlb.com | Lists where a game is on TV, radio and streaming, home and away feeds. | ⚪ |
-| `mlb.getGameHighlights` | mlb.com | Lists a game's video highlights and recap with titles, durations and playable video… | ⚪ |
+| `mlb.getGameBroadcasts` | mlb.com | Lists where a game is on TV, radio and streaming, home and away feeds. | 🟢 |
+| `mlb.getGameHighlights` | mlb.com | Lists a game's video highlights and recap with titles, durations and playable video… | 🟢 |
 | `mlb.getGlossaryTerm` | mlb.com | Gets one glossary entry: the stat's or rule's definition, how it is calculated and an… | ⚪ |
 | `mlb.getInjuryReport` | mlb.com | Lists the players on the injured list, by team, with the injury and expected return. | ⚪ |
-| `mlb.getPlayback` | mlb.com | Returns the playback menu for one MLB video: the site's embed plus every MP4/HLS… | ⚪ |
+| `mlb.getPlayback` | mlb.com | Returns the playback menu for one MLB video: the site's embed plus every MP4/HLS… | 🟢 |
 | `mlb.getPlayByPlay` | mlb.com | Lists every plate appearance in a game, inning by inning, with the pitches, the result… | 🟢 |
 | `mlb.getPlayer` | mlb.com | Gets one player's profile: bio, position, bats and throws, team, draft and debut, with… | 🟢 |
 | `mlb.getPlayerGameLog` | mlb.com | Lists a player's game-by-game stat lines for a season. | ⚪ |
@@ -4232,7 +4232,7 @@ One function per row, with the site it is called on.
 | `mlb.getTeamLeaders` | mlb.com | Lists a team's leaders in a stat (home runs, average, ERA, strikeouts…) for a season. | ⚪ |
 | `mlb.getTeamStats` | mlb.com | Gets a team's season hitting, pitching or fielding totals. | ⚪ |
 | `mlb.getVenue` | mlb.com | Gets a ballpark's details: name, location, capacity, surface and field dimensions. | ⚪ |
-| `mlb.getVideo` | mlb.com | Gets one MLB video by its slug: title, description, date, duration, players and teams… | ⚪ |
+| `mlb.getVideo` | mlb.com | Gets one MLB video by its slug: title, description, date, duration, players and teams… | 🟢 |
 | `mlb.getWinProbability` | mlb.com | Gets a game's win-probability chart: the home and away win chance after every play. | ⚪ |
 | `mlb.listFavorites` | mlb.com | Lists the signed-in caller's favourite teams and players. | ⚪ |
 | `mlb.listFreeAgents` | mlb.com | Lists the current free agents with their positions and former teams. | ⚪ |

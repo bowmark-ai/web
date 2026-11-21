@@ -576,7 +576,7 @@ millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisiting
 mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
-mlb.com — mlb: getArticle, getBoxScore, getGame, getPlayByPlay, getPlayer, getPlayerStats, getRoster, getSchedule, getStandings, getStatLeaders, listNews, listTeams, searchContent, searchPlayers, searchVideos (+35 planned)
+mlb.com — mlb: getArticle, getBoxScore, getGame, getGameBroadcasts, getGameHighlights, getPlayback, getPlayByPlay, getPlayer, getPlayerStats, getRoster, getSchedule, getStandings, getStatLeaders, getVideo, listNews, listTeams, searchContent, searchPlayers, searchVideos (+31 planned)
 mobile.de — mobile_de: search
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
@@ -717,7 +717,7 @@ reliancepartners.com — reliancepartners: assembleApplication, getApplicationSc
 rentmanager.com — rentmanager: getIntegration, searchArticles, searchIntegrations
 rentrightstudents.co.uk — rentrightstudents_co_uk: getListing, listLatestListings
 renttherunway.com — renttherunway: browseCategory, browseDesigner, search
-resend.com — resend: addContactToSegment, createContact, createSegment, createTopic, deleteContact, deleteDomain, deleteSegment, deleteTopic, listApiKeys, listContactProperties, listContacts, listDomains, listEmails, listLogs, listSegments, listTopics, removeContactFromSegment, searchBlog, searchChangelog, searchHandbook, systemStatus, updateContact, updateContactTopics, updateSegment, updateTopic (+9 planned)
+resend.com — resend: 25 functions — ask get_library (+9 planned)
 resy.com — resy: cancelBooking, checkAvailability, confirmBooking, confirmSignIn, listBookings, search, startBooking, startSignIn
 revisionskincare.com — revisionskincare: getSkincareQuizQuestions, takeSkincareQuiz
 rezdy.com — rezdy: bookSession, checkVoucher, findOperator, getAvailability, getPickupLocations, getPriceQuote, getProduct, listCatalogs, listProducts (+3 planned)
