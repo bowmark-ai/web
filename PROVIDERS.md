@@ -3050,7 +3050,7 @@ One function per row, with the site it is called on.
 | `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer name, review text, and creation… | 🟢 |
 | `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | 🟢 |
 | `goodreads.getMemberFollowers` | goodreads.com | Lists the readers who follow a member, from the member's followers page. | ⚪ |
-| `goodreads.getMemberFollowing` | goodreads.com | Lists the readers a member follows. | ⚪ |
+| `goodreads.getMemberFollowing` | goodreads.com | Lists the readers a member follows. | 🟢 |
 | `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | 🟢 |
 | `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | 🟢 |
 | `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | 🟢 |
