@@ -3058,7 +3058,7 @@ One function per row, with the site it is called on.
 | `goodreads.getBookQuotes` | goodreads.com | Lists the quotes readers have attached to one book, with the quote text, its page and… | 🟢 |
 | `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer name, review text, and creation… | 🟢 |
 | `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | 🟢 |
-| `goodreads.getMemberFollowers` | goodreads.com | Lists the readers who follow a member, from the member's followers page. | ⚪ |
+| `goodreads.getMemberFollowers` | goodreads.com | Lists the readers who follow a member — name, profile url, book and friend counts per… | 🟢 |
 | `goodreads.getMemberFollowing` | goodreads.com | Lists the readers a member follows. | 🟢 |
 | `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | 🟢 |
 | `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | 🟢 |
@@ -4213,9 +4213,9 @@ One function per row, with the site it is called on.
 | `mlb.findTickets` | mlb.com | Lists upcoming games for a team with links to buy tickets on MLB's ticketing partner. | ⚪ |
 | `mlb.getAccount` | mlb.com | Reads the signed-in caller's MLB account profile: name, email, birthdate, favourite… | ⚪ |
 | `mlb.getArticle` | mlb.com | Gets one MLB.com article: headline, author, date, body text, images and tagged players… | 🟢 |
-| `mlb.getAwards` | mlb.com | Lists the winners of an MLB award (MVP, Cy Young, Rookie of the Year, Gold Glove, Hall… | ⚪ |
+| `mlb.getAwards` | mlb.com | Lists the winners of an MLB award (MVP, Cy Young, Rookie of the Year, Gold Glove, Hall… | 🟢 |
 | `mlb.getBoxScore` | mlb.com | Gets a game's box score: every batter's and pitcher's line for both teams, plus team… | 🟢 |
-| `mlb.getDraft` | mlb.com | Lists a year's MLB Draft picks: round, pick, team, player, position and school. | ⚪ |
+| `mlb.getDraft` | mlb.com | Lists a year's MLB Draft picks: round, pick, team, player, position and school. | 🟢 |
 | `mlb.getGame` | mlb.com | Gets one game's summary: teams, status, inning, line score, winning and losing… | 🟢 |
 | `mlb.getGameBroadcasts` | mlb.com | Lists where a game is on TV, radio and streaming, home and away feeds. | 🟢 |
 | `mlb.getGameHighlights` | mlb.com | Lists a game's video highlights and recap with titles, durations and playable video… | 🟢 |
@@ -4227,12 +4227,12 @@ One function per row, with the site it is called on.
 | `mlb.getPlayerGameLog` | mlb.com | Lists a player's game-by-game stat lines for a season. | 🟢 |
 | `mlb.getPlayerStats` | mlb.com | Gets a player's stats for a season or career, by hitting, pitching or fielding… | 🟢 |
 | `mlb.getPostseasonBracket` | mlb.com | Gets a season's postseason series: matchups, series score and each game. | 🟢 |
-| `mlb.getProbablePitchers` | mlb.com | Lists the announced starting pitchers for upcoming games, with their season records. | ⚪ |
+| `mlb.getProbablePitchers` | mlb.com | Lists the announced starting pitchers for upcoming games, with their season records. | 🟢 |
 | `mlb.getProspectRankings` | mlb.com | Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30. | ⚪ |
 | `mlb.getRoster` | mlb.com | Gets a team's roster (active, 40-man, full season or depth chart) with each player's… | 🟢 |
 | `mlb.getSchedule` | mlb.com | Lists MLB games for a date or date range, optionally one team's: matchup, start time… | 🟢 |
 | `mlb.getStandings` | mlb.com | Gets the standings by division, league or wild card for a season: wins, losses… | 🟢 |
-| `mlb.getStartingLineups` | mlb.com | Gets the announced batting orders for a day's games. | ⚪ |
+| `mlb.getStartingLineups` | mlb.com | Gets the announced batting orders for a day's games. | 🟢 |
 | `mlb.getStatLeaders` | mlb.com | Lists the league leaders in a stat category for a season, MLB-wide or per league. | 🟢 |
 | `mlb.getSubscriptions` | mlb.com | Lists the signed-in caller's MLB.TV, MLB.TV Single Team and MLB Audio subscriptions… | ⚪ |
 | `mlb.getTeam` | mlb.com | Gets one team's details: name, location, league, division, ballpark, first year of… | 🟢 |

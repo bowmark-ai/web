@@ -411,7 +411,7 @@ gokenko.com — kenko: cancelBooking, cancelMembership, findStudio, getAppointme
 golf.com — golf_com: findCourses, getCourse
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
 gomry.com — gomry: getEvent, getSponsorOffer, listEventProducts, searchEvents
-goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookQuotes, getBookReviews, getList, getMemberFollowing, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, getSimilarBooks, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchLists, searchQuotes, unfollowUser, writeReview (+1 planned)
+goodreads.com — goodreads: addToShelf, followUser, getAuthor, getAuthorBooks, getBook, getBookEditions, getBookQuotes, getBookReviews, getList, getMemberFollowers, getMemberFollowing, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, getSeries, getSimilarBooks, listGenreBooks, rateBook, removeFromShelf, searchAuthors, searchBooks, searchLists, searchQuotes, unfollowUser, writeReview
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: addMissingPlace, geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaceEdit, suggestPlaces, writeReview
@@ -579,7 +579,7 @@ millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisiting
 mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
-mlb.com — mlb: 27 functions — ask get_library (+23 planned)
+mlb.com — mlb: 31 functions — ask get_library (+19 planned)
 mobile.de — mobile_de: search
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
