@@ -582,7 +582,7 @@ millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisiting
 mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
-mlb.com — mlb: 31 functions — ask get_library (+19 planned)
+mlb.com — mlb: 34 functions — ask get_library (+16 planned)
 mobile.de — mobile_de: search
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
@@ -774,7 +774,7 @@ services.gst.gov.in — gst_india: lookup
 sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
-shein.com — shein: addToCart, addToWishlist, getCart, getCheckoutSummary, getOrder, getPoints, getProduct, getProfile, getSizeGuide, getStore, listAddresses, listCategories, listFlashSale, listFollowedStores, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, listWishlist, removeFromCart, search, updateCartItem (+11 planned)
+shein.com — shein: addToCart, addToWishlist, followStore, getCart, getCheckoutSummary, getOrder, getPoints, getProduct, getProfile, getSizeGuide, getStore, listAddresses, listCategories, listFlashSale, listFollowedStores, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, listWishlist, removeFromCart, removeFromWishlist, search, updateCartItem (+9 planned)
 shop.app — shop_app: 36 functions — ask get_library (+2 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
@@ -796,7 +796,7 @@ snapchat.com — snapchat: 25 functions — ask get_library (+8 planned)
 solidcore.co — solidcore: bookClass, checkAvailability, getClass, getCoach, getPack, getPricing, getSchedule, getStudio, joinWaitlist, listClassCategories, listCoaches, listMuscleGroups, listStudios, searchClasses (+10 planned)
 solostove.com — solostove: checkBundle, listBundles
 sos.ms.gov — sos_ms_gov: listAgencies, searchAdminCode
-soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updatePreferences (+6 planned)
+soul-cycle.com — soulcycle: 23 functions — ask get_library (+6 planned)
 soundcloud.com — soundcloud: getPlayback, getPlaylist, getTrack, search
 sourceforge.net — sourceforge: getLatestRelease, getProject, listFiles (+1 planned)
 spacest.com — spacest: nothing callable yet (+1 planned)

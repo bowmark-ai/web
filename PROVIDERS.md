@@ -716,7 +716,7 @@ One function per row, with the site it is called on.
 | `bluesky.getListFeed` | bsky.app | The posts from everyone on a curation list, as the list's own feed tab shows them. | 🟢 |
 | `bluesky.getMe` | bsky.app | Who the signed-in caller is: their DID, handle, email-confirmed flag and PDS host. | 🟢 |
 | `bluesky.getMyLikes` | bsky.app | The posts the caller has liked. | 🟢 |
-| `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟡 |
+| `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟢 |
 | `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | 🟢 |
 | `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | 🟢 |
 | `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | 🟢 |
@@ -3922,7 +3922,7 @@ One function per row, with the site it is called on.
 | `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟢 |
 | `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name through LinkedIn's own public people directory and… | 🟢 |
 | `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns 10 per page with author, text, how long… | 🟢 |
-| `linkedin.searchSchools` | linkedin.com | Searches LinkedIn schools and universities by name, 10 per page — each one's handle… | 🟢 |
+| `linkedin.searchSchools` | linkedin.com | Searches LinkedIn schools and universities by name, 10 per page — each one's numeric… | 🟢 |
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | 🟢 |
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | 🟢 |
 | `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | 🟢 |
@@ -4228,7 +4228,7 @@ One function per row, with the site it is called on.
 | `mlb.getGameBroadcasts` | mlb.com | Lists where a game is on TV, radio and streaming, home and away feeds. | 🟢 |
 | `mlb.getGameHighlights` | mlb.com | Lists a game's video highlights and recap with titles, durations and playable video… | 🟢 |
 | `mlb.getGlossaryTerm` | mlb.com | Gets one glossary entry: the stat's or rule's definition, how it is calculated and an… | ⚪ |
-| `mlb.getInjuryReport` | mlb.com | Lists the players on the injured list, by team, with the injury and expected return. | ⚪ |
+| `mlb.getInjuryReport` | mlb.com | Lists the players on the injured list, by team, with the injury and expected return. | 🟢 |
 | `mlb.getPlayback` | mlb.com | Returns the playback menu for one MLB video: the site's embed plus every MP4/HLS… | 🟢 |
 | `mlb.getPlayByPlay` | mlb.com | Lists every plate appearance in a game, inning by inning, with the pitches, the result… | 🟢 |
 | `mlb.getPlayer` | mlb.com | Gets one player's profile: bio, position, bats and throws, team, draft and debut, with… | 🟢 |
@@ -4246,11 +4246,11 @@ One function per row, with the site it is called on.
 | `mlb.getTeam` | mlb.com | Gets one team's details: name, location, league, division, ballpark, first year of… | 🟢 |
 | `mlb.getTeamLeaders` | mlb.com | Lists a team's leaders in a stat (home runs, average, ERA, strikeouts…) for a season. | 🟢 |
 | `mlb.getTeamStats` | mlb.com | Gets a team's season hitting, pitching or fielding totals. | 🟢 |
-| `mlb.getVenue` | mlb.com | Gets a ballpark's details: name, location, capacity, surface and field dimensions. | ⚪ |
+| `mlb.getVenue` | mlb.com | Gets a ballpark's details: name, location, capacity, surface and field dimensions. | 🟢 |
 | `mlb.getVideo` | mlb.com | Gets one MLB video by its slug: title, description, date, duration, players and teams… | 🟢 |
 | `mlb.getWinProbability` | mlb.com | Gets a game's win-probability chart: the home and away win chance after every play. | 🟢 |
 | `mlb.listFavorites` | mlb.com | Lists the signed-in caller's favourite teams and players. | ⚪ |
-| `mlb.listFreeAgents` | mlb.com | Lists the current free agents with their positions and former teams. | ⚪ |
+| `mlb.listFreeAgents` | mlb.com | Lists the current free agents with their positions and former teams. | 🟢 |
 | `mlb.listGlossaryTerms` | mlb.com | Lists MLB.com's glossary of stats and rules, by category (standard stats, advanced… | ⚪ |
 | `mlb.listNews` | mlb.com | Lists the latest MLB.com news stories, league-wide or for one team: headline, link… | 🟢 |
 | `mlb.listNewsletterSubscriptions` | mlb.com | Lists the MLB and team newsletters the signed-in caller is subscribed to. | ⚪ |
@@ -5605,7 +5605,7 @@ One function per row, with the site it is called on.
 | `shein.addAddress` | shein.com | Adds a shipping address to the signed-in caller's address book. | ⚪ |
 | `shein.addToCart` | shein.com | Adds a product in a chosen size and colour to the signed-in caller's bag. | 🟢 |
 | `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | 🟢 |
-| `shein.followStore` | shein.com | Follows or unfollows a marketplace store as the signed-in caller. | ⚪ |
+| `shein.followStore` | shein.com | Follows or unfollows a marketplace store as the signed-in caller. | 🟢 |
 | `shein.getCart` | shein.com | Returns the signed-in caller's shopping bag: items, size and colour chosen, quantity… | 🟢 |
 | `shein.getCheckoutSummary` | shein.com | Opens checkout for the signed-in caller's bag and returns what it would cost —… | 🟢 |
 | `shein.getOrder` | shein.com | Returns one of the signed-in caller's orders: items, shipping address, totals and the… | 🟢 |
@@ -5629,7 +5629,7 @@ One function per row, with the site it is called on.
 | `shein.listWishlist` | shein.com | Lists the products the signed-in caller saved to their wishlist. | 🟢 |
 | `shein.placeOrder` | shein.com | Places an order for the signed-in caller's bag. | ⚪ |
 | `shein.removeFromCart` | shein.com | Removes an item from the signed-in caller's bag. | 🟢 |
-| `shein.removeFromWishlist` | shein.com | Removes a product from the signed-in caller's wishlist. | ⚪ |
+| `shein.removeFromWishlist` | shein.com | Removes a product from the signed-in caller's wishlist. | 🟢 |
 | `shein.requestReturn` | shein.com | Starts a return or refund for an item in one of the signed-in caller's orders. | ⚪ |
 | `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | 🟢 |
 | `shein.searchByImage` | shein.com | Finds products that look like a given image — Shein's camera/photo search. | ⚪ |

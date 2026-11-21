@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d47f3d8e1daf99b072c366b7946b657d8d792e2ed57b562768c18e49cb182ddc
-# 99 capabilities, 948 providers, 5664 typed functions, 20 refused.
+# Manifest version: d43f899ea711683a320f61c4001e7edd7cd9bc64e784fab7bd679bd5ec4da7fa
+# 99 capabilities, 948 providers, 5672 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20875,6 +20875,7 @@ class Prv_cnbc_com_cnbc_comAuthor_Out(TypedDict):
 class Prv_cnbc_com_ListArticlesByAuthorArgs_In(TypedDict):
     author: str
     limit: NotRequired[float]
+    offset: NotRequired[float]
 
 class Prv_cnbc_com_listArticlesByAuthor_return_Out(TypedDict):
     total: float | None
@@ -41437,6 +41438,13 @@ class Prv_instagram_InstagramHomeFeedPost_Out(TypedDict):
     authorId: str
     authorProfilePicUrl: str | None
 
+class Prv_instagram_homeFeedPage_input_In(TypedDict):
+    cursor: NotRequired[str]
+
+class Prv_instagram_InstagramHomeFeedPage_Out(TypedDict):
+    items: list[Prv_instagram_InstagramHomeFeedPost_Out]
+    nextCursor: str | None
+
 class Prv_instagram_InstagramSavedPosts_Out(TypedDict):
     posts: list[Prv_instagram_InstagramSavedPost_Out]
     hasNextPage: bool
@@ -44804,6 +44812,7 @@ class Prv_linkedin_LinkedinMemberProfile_Out_education_item_Out(TypedDict):
 class Prv_linkedin_searchMembers_input_u1_In(TypedDict):
     keywords: str
     currentCompany: NotRequired[str | Sequence[str]]
+    school: NotRequired[str | Sequence[str]]
     title: NotRequired[str]
     location: NotRequired[str]
     network: NotRequired[str | Sequence[str]]
@@ -44817,6 +44826,7 @@ class Prv_linkedin_listCompanyEmployees_input_u1_In(TypedDict):
     company: str
     keywords: NotRequired[str]
     title: NotRequired[str]
+    school: NotRequired[str | Sequence[str]]
     start: NotRequired[float]
 
 class Prv_linkedin_searchPosts_input_u1_In(TypedDict):
@@ -49189,6 +49199,77 @@ class Prv_mlb_MlbAwardWinner_Out(TypedDict):
     playerId: float | None
     player: str | None
     teamId: float | None
+
+class Prv_mlb_MlbGetVenueArgs_In(TypedDict):
+    venueId: float
+
+class Prv_mlb_MlbVenueResult_Out(TypedDict):
+    venue: Prv_mlb_MlbVenue_Out
+
+class Prv_mlb_MlbVenue_Out(TypedDict):
+    id: float
+    name: str
+    address: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    country: str | None
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    elevationFeet: float | None
+    capacity: float | None
+    surface: str | None
+    roof: str | None
+    fieldFeet: Prv_mlb_MlbVenue_Out_fieldFeet_Out
+
+class Prv_mlb_MlbVenue_Out_fieldFeet_Out(TypedDict):
+    leftLine: float | None
+    leftCenter: float | None
+    center: float | None
+    rightCenter: float | None
+    rightLine: float | None
+
+class Prv_mlb_MlbListFreeAgentsArgs_In(TypedDict):
+    season: NotRequired[float]
+    unsignedOnly: NotRequired[bool]
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_mlb_MlbFreeAgents_Out(TypedDict):
+    season: float
+    freeAgents: list[Prv_mlb_MlbFreeAgent_Out]
+    total: float
+    warnings: list[str]
+
+class Prv_mlb_MlbFreeAgent_Out(TypedDict):
+    playerId: float | None
+    name: str | None
+    position: str | None
+    formerTeam: str | None
+    formerTeamId: float | None
+    newTeam: str | None
+    newTeamId: float | None
+    dateDeclared: str | None
+    dateSigned: str | None
+    notes: str | None
+
+class Prv_mlb_MlbGetInjuryReportArgs_In(TypedDict):
+    teamId: NotRequired[float]
+
+class Prv_mlb_MlbInjuryReport_Out(TypedDict):
+    players: list[Prv_mlb_MlbInjuredPlayer_Out]
+    teamsChecked: float
+    warnings: list[str]
+
+class Prv_mlb_MlbInjuredPlayer_Out(TypedDict):
+    playerId: float | None
+    name: str | None
+    position: str | None
+    teamId: float
+    team: str | None
+    status: str
+    statusCode: str
 
 class Prv_mlb_MlbGameBroadcasts_Out(TypedDict):
     gamePk: float
@@ -65330,6 +65411,16 @@ class Prv_shein_sheinWishlistChange_Out(TypedDict):
     added: bool
     warnings: list[str]
 
+class Prv_shein_sheinWishlistRemoval_Out(TypedDict):
+    productId: str
+    removed: bool
+    warnings: list[str]
+
+class Prv_shein_sheinStoreFollow_Out(TypedDict):
+    storeCode: str
+    following: bool
+    warnings: list[str]
+
 class Prv_shein_sheinPageText_Out(TypedDict):
     text: str
     pageUrl: str
@@ -74510,6 +74601,13 @@ class Prv_tiktok_tiktokSound_Out(TypedDict):
 
 class Prv_tiktok_ListSoundVideosArgs_In(TypedDict):
     soundId: str
+
+class Prv_tiktok_forYouPage_args_In(TypedDict):
+    cursor: NotRequired[str]
+
+class Prv_tiktok_tiktokForYouPage_Out(TypedDict):
+    items: list[Prv_tiktok_tiktokVideoSummary_Out]
+    nextCursor: str | None
 
 class Prv_tiktok_tiktokOwnProfile_Out(TypedDict):
     uniqueId: NotRequired[str]
@@ -85092,6 +85190,13 @@ class Prv_youtube_YoutubePlaylistVideo_Out(TypedDict):
 class Prv_youtube_listHomeFeed_input_In(TypedDict):
     limit: NotRequired[float]
 
+class Prv_youtube_homeFeedPage_input_In(TypedDict):
+    cursor: NotRequired[str]
+
+class Prv_youtube_YoutubeHomeFeedPage_Out(TypedDict):
+    items: list[Prv_youtube_YoutubeSearchVideo_Out]
+    nextCursor: str | None
+
 class Prv_youtube_listWatchLater_input_In(TypedDict):
     continuation: NotRequired[str]
     limit: NotRequired[float]
@@ -89333,8 +89438,10 @@ class Prv_ai_meta_com(Protocol):
 
     async def getPost(self, urlOrSlug: str, /) -> Prv_ai_meta_com_MetaAiPost_Out:
         """Reads one Meta AI blog post by url or slug (e.g.
-        "tribe-v2-brain-predictive-foundation-model") and returns its title, category, date and
-        body as plain text. THROWS if the post does not exist (404).
+        "tribe-v2-brain-predictive-foundation-model") and returns its title, category (the label
+        the post page itself prints, which can differ from the tag on its listing card; null
+        when the page shows only a FEATURED badge), date and body as plain text. THROWS if the
+        post does not exist (404).
         """
 
 class Prv_aiper(Protocol):
@@ -97478,8 +97585,9 @@ class Prv_cnbc_com(Protocol):
         """
 
     async def listArticlesByAuthor(self, args: Prv_cnbc_com_ListArticlesByAuthorArgs_In, /) -> Prv_cnbc_com_listArticlesByAuthor_return_Out:
-        """Lists a CNBC journalist's latest stories, newest first — title, link, description, date
-        and section — plus how many they have published in total.
+        """Lists a CNBC journalist's stories, newest first — title, link, description, date and
+        section — plus how many they have published in total. Pages back through the whole
+        archive with limit (up to 100) and offset.
         """
 
     async def getVideo(self, args: Prv_cnbc_com_GetVideoArgs_In, /) -> Prv_cnbc_com_cnbc_comVideo_Out:
@@ -108267,6 +108375,15 @@ class Prv_instagram(Protocol):
         through the relay.
         """
 
+    async def homeFeedPage(self, input: Prv_instagram_homeFeedPage_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramHomeFeedPage_Out:
+        """The signed-in user's own Instagram home feed one page at a time, for infinite scrolling,
+        as `{ items, nextCursor }`. Call with `{}` for page 1 (the posts `getHomeFeed` returns),
+        then pass the returned `nextCursor` back as `{ cursor }` for each next page, read by the
+        web client's own next-page query in the caller's signed-in browser (no scrolling).
+        `nextCursor` is null once Instagram has no more. A cursor it did not issue is refused.
+        Requires the caller to be signed in.
+        """
+
     async def getSavedPosts(self, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramSavedPosts_Out:
         """Lists the signed-in user's saved posts with post metadata including media, captions, and
         engagement counts. Returns posts with their collection names and a flag indicating if
@@ -110442,17 +110559,18 @@ class Prv_linkedin(Protocol):
 
     async def searchMembers(self, input: str | Prv_linkedin_searchMembers_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
         """LinkedIn's own people search, run as the caller: keywords plus optional filters —
-        current company (numeric ids from searchCompanies), job title, a location by name, and
-        connection degree ("1st", "2nd", "3rd"). Returns 10 ranked people per page with name,
-        headline, location, profile URL and the caller's degree of connection. Unlike
-        searchPeople, which needs no sign-in and relies on a web index, this is LinkedIn's
-        ranking and filters. Signed in: acts as the caller's own LinkedIn account; with no saved
-        sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
-        account across runs to keep the account inside LinkedIn's own limits — 6 requests a
-        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
-        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-        retry: wait that long. The account owner may opt into faster pacing with { pacing:
-        "fast" } as an extra last argument; ask them first.
+        current company (numeric ids from searchCompanies), school attended (a school URL,
+        handle or numeric id from searchSchools — the people a school page's Alumni tab lists),
+        job title, a location by name, and connection degree ("1st", "2nd", "3rd"). Returns 10
+        ranked people per page with name, headline, location, profile URL and the caller's
+        degree of connection. Unlike searchPeople, which needs no sign-in and relies on a web
+        index, this is LinkedIn's ranking and filters. Signed in: acts as the caller's own
+        LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
+        sign in. Paced per LinkedIn account across runs to keep the account inside LinkedIn's
+        own limits — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+        and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
     async def searchCompanies(self, input: str | Prv_linkedin_searchCompanies_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
@@ -110471,11 +110589,13 @@ class Prv_linkedin(Protocol):
     async def listCompanyEmployees(self, input: str | Prv_linkedin_listCompanyEmployees_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
         """Lists people who give a company as their current employer — from its LinkedIn URL,
         handle ("stripe") or numeric id — 10 per page with name, headline, location and profile
-        URL, optionally narrowed by keywords or job title. It is LinkedIn's people search with
-        the current-company filter applied. Signed in: acts as the caller's own LinkedIn
-        account; with no saved sign-in the run pauses and hands back a link where they sign in.
-        Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits
-        — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+        URL, optionally narrowed by keywords, job title or school attended (`school`: a school
+        URL, handle or numeric id — e.g. Kellogg alumni at Stripe is `{ company: "stripe",
+        school: "kellogg-school-of-management" }`). It is LinkedIn's people search with the
+        current-company filter applied. Signed in: acts as the caller's own LinkedIn account;
+        with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6
+        requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
         minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
         saying when to retry: wait that long. The account owner may opt into faster pacing with
         { pacing: "fast" } as an extra last argument; ask them first.
@@ -110671,7 +110791,8 @@ class Prv_linkedin(Protocol):
         """
 
     async def searchSchools(self, input: str | Prv_linkedin_searchSchools_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
-        """Searches LinkedIn schools and universities by name, 10 per page — each one's handle (for
+        """Searches LinkedIn schools and universities by name, 10 per page — each one's numeric id
+        (for the `school` filter on searchMembers and listCompanyEmployees), handle (for
         getSchool), name, location and URL. Signed in: acts as the caller's own LinkedIn
         account; with no saved sign-in the run pauses and hands back a link where they sign in.
         Paced per LinkedIn account across runs to keep the account inside LinkedIn's own limits
@@ -112941,6 +113062,21 @@ class Prv_mlb(Protocol):
     async def getAwards(self, args: Prv_mlb_MlbGetAwardsArgs_In | None = None, /) -> Prv_mlb_MlbAwards_Out:
         """Lists MLB award ids (getAwards({ query: 'MVP' })), or with an awardId the winners by
         season, e.g. getAwards({ awardId: 'ALMVP', season: 2025 }).
+        """
+
+    async def getVenue(self, args: Prv_mlb_MlbGetVenueArgs_In, /) -> Prv_mlb_MlbVenueResult_Out:
+        """A ballpark's details: address, coordinates, capacity, surface, roof and field
+        dimensions. Takes a venue id, e.g. getVenue({ venueId: 3313 }).
+        """
+
+    async def listFreeAgents(self, args: Prv_mlb_MlbListFreeAgentsArgs_In | None = None, /) -> Prv_mlb_MlbFreeAgents_Out:
+        """A season's free agents with position, former team, and new team once signed; filter
+        unsigned or by name. e.g. listFreeAgents({ season: 2025, unsignedOnly: true }).
+        """
+
+    async def getInjuryReport(self, args: Prv_mlb_MlbGetInjuryReportArgs_In | None = None, /) -> Prv_mlb_MlbInjuryReport_Out:
+        """Players on a 7/10/15/60-day injured list, all 30 teams or one; status only, MLB's feed
+        has no injury text or return date. Empty off-season.
         """
 
     async def getGameBroadcasts(self, args: Prv_mlb_MlbGameArgs_In, /) -> Prv_mlb_MlbGameBroadcasts_Out:
@@ -121325,6 +121461,18 @@ class Prv_shein(Protocol):
         caller signed in to shein.com; the relay handles it.
         """
 
+    async def removeFromWishlist(self, args: Prv_shein_SheinGetProductArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinWishlistRemoval_Out:
+        """Takes a product (the id `search` returns) off the CALLER's own Shein wishlist by
+        un-pressing the heart on its product page. Presses it only when it is pressed. Needs the
+        caller signed in to shein.com; the relay handles it.
+        """
+
+    async def followStore(self, args: Prv_shein_SheinListStoreProductsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinStoreFollow_Out:
+        """Follows a marketplace store (the `storeCode` `getStore` returns) as the CALLER by
+        pressing Follow on its store page. Presses it only when the store is not already
+        followed. Needs the caller signed in to shein.com; the relay handles it.
+        """
+
     async def getCheckoutSummary(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
         """Opens checkout for the CALLER's own Shein bag and returns the confirm page as text
         (items, shipping, tax, coupons, total), then stops: it never presses Place order or
@@ -125624,6 +125772,16 @@ class Prv_tiktok(Protocol):
         a browser — id and caption for each video. The caller signs in through the auth relay;
         Bowmark never signs up on this site. Takes no arguments. Returns { videos, warnings }; a
         warning says when the answer came back short or from a fallback.
+        """
+
+    async def forYouPage(self, args: Prv_tiktok_forYouPage_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokForYouPage_Out:
+        """The signed-in viewer's own For You feed one batch at a time, for infinite scrolling, as
+        `{ items, nextCursor }`. Call with `{}` for the first batch (the rows `listForYouFeed`
+        returns), then pass the returned `nextCursor` back as `{ cursor }` for each next one:
+        each is the /foryou page's own item_list answer, read in the caller's signed-in browser
+        with no scrolling. TikTok's For You is a stream of fresh recommendations, so dedupe by
+        id. `nextCursor` is null when TikTok says there is no more or after 30 batches. A cursor
+        it did not issue is refused.
         """
 
     async def listFollowingFeed(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokVideoList_Out:
@@ -131154,6 +131312,15 @@ class Prv_youtube(Protocol):
         youtube.com right now. NEEDS A SIGN-IN and exists nowhere else: it is not in the public
         Data API, and logged out the same request answers 200 with an EMPTY grid rather than an
         error. Call `bowmark.video_library.homeFeed` rather than this directly.
+        """
+
+    async def homeFeedPage(self, input: Prv_youtube_homeFeedPage_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeHomeFeedPage_Out:
+        """The signed-in account's own YouTube home feed one page at a time, for infinite
+        scrolling, as `{ items, nextCursor }`. Call with `{}` for page 1 (the same rows
+        `listHomeFeed` returns), then pass the returned `nextCursor` back as `{ cursor }` for
+        each next page, the continuation YouTube's own home grid loads as the viewer scrolls.
+        `nextCursor` is null once YouTube offers no more. A cursor it did not issue is refused.
+        NEEDS A SIGN-IN, like `listHomeFeed`.
         """
 
     async def listWatchLater(self, input: Prv_youtube_listWatchLater_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:

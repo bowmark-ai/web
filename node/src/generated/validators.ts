@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d47f3d8e1daf99b072c366b7946b657d8d792e2ed57b562768c18e49cb182ddc
-// 5664 checked, 20 unchecked.
+// Manifest version: d43f899ea711683a320f61c4001e7edd7cd9bc64e784fab7bd679bd5ec4da7fa
+// 5672 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d47f3d8e1daf99b072c366b7946b657d8d792e2ed57b562768c18e49cb182ddc",
+  "version": "d43f899ea711683a320f61c4001e7edd7cd9bc64e784fab7bd679bd5ec4da7fa",
   "units": {
     "address_validation": {
       "defs": {
@@ -40561,6 +40561,13 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
               "schema": {
                 "k": "number"
               },
@@ -84886,6 +84893,40 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "homeFeedPage": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getSavedPosts": [
           {
             "name": "opts",
@@ -92028,6 +92069,24 @@ export const VALIDATORS: ValidatorTable = {
                       "optional": true
                     },
                     {
+                      "name": "school",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "array",
+                            "of": {
+                              "k": "string"
+                            }
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
                       "name": "title",
                       "schema": {
                         "k": "string"
@@ -92168,6 +92227,24 @@ export const VALIDATORS: ValidatorTable = {
                       "name": "title",
                       "schema": {
                         "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "school",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "array",
+                            "of": {
+                              "k": "string"
+                            }
+                          }
+                        ]
                       },
                       "optional": true
                     },
@@ -101866,6 +101943,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbGetInjuryReportArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "teamId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbGetPlayByPlayArgs": {
           "k": "object",
           "props": [
@@ -102316,6 +102405,51 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbGetVenueArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "venueId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MlbListFreeAgentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "unsignedOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
               "schema": {
                 "k": "number"
               },
@@ -102922,6 +103056,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "MlbGetAwardsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getVenue": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetVenueArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listFreeAgents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbListFreeAgentsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getInjuryReport": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetInjuryReportArgs"
             },
             "optional": true
           }
@@ -138327,6 +138491,58 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "removeFromWishlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinGetProductArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followStore": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinListStoreProductsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getCheckoutSummary": [
           {
             "name": "opts",
@@ -156628,6 +156844,40 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListForYouFeedArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "forYouPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -178961,6 +179211,40 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "limit",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "homeFeedPage": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": true
                 }

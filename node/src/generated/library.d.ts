@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d47f3d8e1daf99b072c366b7946b657d8d792e2ed57b562768c18e49cb182ddc
-// 99 capabilities, 948 providers, 5692 typed functions, 20 refused.
+// Manifest version: d43f899ea711683a320f61c4001e7edd7cd9bc64e784fab7bd679bd5ec4da7fa
+// 99 capabilities, 948 providers, 5700 typed functions, 20 refused.
 // 125,660 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9250,8 +9250,10 @@ interface MetaAiPostPage {
 
     /**
      * Reads one Meta AI blog post by url or slug (e.g.
-     * "tribe-v2-brain-predictive-foundation-model") and returns its title, category, date and body
-     * as plain text. THROWS if the post does not exist (404).
+     * "tribe-v2-brain-predictive-foundation-model") and returns its title, category (the label the
+     * post page itself prints, which can differ from the tag on its listing card; null when the
+     * page shows only a FEATURED badge), date and body as plain text. THROWS if the post does not
+     * exist (404).
      */
     getPost(urlOrSlug: string): Promise<MetaAiPost>;
   }
@@ -32011,8 +32013,10 @@ interface GetAuthorArgs {
 interface ListArticlesByAuthorArgs {
   /** the author page URL or slug, e.g. "jeff-cox" */
   author: string;
-  /** at most 12, the page's first batch */
+  /** how many stories, at most 100 (default 12) */
   limit?: number;
+  /** stories to skip from the newest, for paging back through the archive */
+  offset?: number;
 }
 
 interface ListVideosByCategoryArgs {
@@ -32215,8 +32219,9 @@ interface cnbc_comSector extends cnbc_comRow {
     getAuthor(args: GetAuthorArgs): Promise<cnbc_comAuthor>;
 
     /**
-     * Lists a CNBC journalist's latest stories, newest first — title, link, description, date and
-     * section — plus how many they have published in total.
+     * Lists a CNBC journalist's stories, newest first — title, link, description, date and section
+     * — plus how many they have published in total. Pages back through the whole archive with
+     * limit (up to 100) and offset.
      */
     listArticlesByAuthor(args: ListArticlesByAuthorArgs): Promise<{ total: number | null; items: cnbc_comListItem[] }>;
 
@@ -62717,7 +62722,16 @@ interface InstagramUpdateProfileResult {
   biography: string;
   externalUrl: string | null;
 }
-interface InstagramHomeFeedPost extends InstagramPost {
+interface InstagramHomeFeedPost {
+  id: string;
+  shortcode: string;
+  permalink: string;
+  isVideo: boolean;
+  displayUrl: string;
+  caption: string | null;
+  likeCount: number;
+  commentCount: number;
+  takenAt: string;
   authorUsername: string;
   authorId: string;
   authorProfilePicUrl: string | null;
@@ -62725,6 +62739,12 @@ interface InstagramHomeFeedPost extends InstagramPost {
 interface InstagramHomeFeed {
   posts: InstagramHomeFeedPost[];
   hasNextPage: boolean;
+}
+
+interface InstagramHomeFeedPage {
+  items: InstagramHomeFeedPost[];
+  /** Pass back as { cursor } for the next page; null once there are no more. */
+  nextCursor: string | null;
 }
 interface InstagramSavedPost extends InstagramPost {
   authorUsername: string;
@@ -62833,6 +62853,16 @@ interface InstagramPlaybackFile {
      * relay.
      */
     getHomeFeed(opts?: ConnectionOption): Promise<InstagramHomeFeed>;
+
+    /**
+     * The signed-in user's own Instagram home feed one page at a time, for infinite scrolling, as
+     * `{ items, nextCursor }`. Call with `{}` for page 1 (the posts `getHomeFeed` returns), then
+     * pass the returned `nextCursor` back as `{ cursor }` for each next page, read by the web
+     * client's own next-page query in the caller's signed-in browser (no scrolling). `nextCursor`
+     * is null once Instagram has no more. A cursor it did not issue is refused. Requires the
+     * caller to be signed in.
+     */
+    homeFeedPage(input?: { cursor?: string }, opts?: ConnectionOption): Promise<InstagramHomeFeedPage>;
 
     /**
      * Lists the signed-in user's saved posts with post metadata including media, captions, and
@@ -67939,6 +67969,7 @@ interface LinkedinGroupDetail {
 }
 
 interface LinkedinSearchSchool {
+  id: string | null;     // numeric — searchMembers / listCompanyEmployees({ school })
   handle: string | null; // feeds getSchool
   url: string | null;
   name: string;
@@ -68307,18 +68338,20 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
 
     /**
      * LinkedIn's own people search, run as the caller: keywords plus optional filters — current
-     * company (numeric ids from searchCompanies), job title, a location by name, and connection
-     * degree ("1st", "2nd", "3rd"). Returns 10 ranked people per page with name, headline,
-     * location, profile URL and the caller's degree of connection. Unlike searchPeople, which
-     * needs no sign-in and relies on a web index, this is LinkedIn's ranking and filters. Signed
-     * in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
-     * hands back a link where they sign in. Paced per LinkedIn account across runs to keep the
-     * account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400 that
-     * refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
-     * pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
-     * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     * company (numeric ids from searchCompanies), school attended (a school URL, handle or numeric
+     * id from searchSchools — the people a school page's Alumni tab lists), job title, a location
+     * by name, and connection degree ("1st", "2nd", "3rd"). Returns 10 ranked people per page with
+     * name, headline, location, profile URL and the caller's degree of connection. Unlike
+     * searchPeople, which needs no sign-in and relies on a web index, this is LinkedIn's ranking
+     * and filters. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the
+     * run pauses and hands back a link where they sign in. Paced per LinkedIn account across runs
+     * to keep the account inside LinkedIn's own limits — 6 requests a minute, and a reserve of 400
+     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
+     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+     * first.
      */
-    searchMembers(input: string | { keywords: string; currentCompany?: string | string[]; title?: string; location?: string; network?: string | string[]; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember>>;
+    searchMembers(input: string | { keywords: string; currentCompany?: string | string[]; school?: string | string[]; title?: string; location?: string; network?: string | string[]; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember>>;
 
     /**
      * Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per page
@@ -68336,16 +68369,18 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
     /**
      * Lists people who give a company as their current employer — from its LinkedIn URL, handle
      * ("stripe") or numeric id — 10 per page with name, headline, location and profile URL,
-     * optionally narrowed by keywords or job title. It is LinkedIn's people search with the
-     * current-company filter applied. Signed in: acts as the caller's own LinkedIn account; with
-     * no saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
-     * account across runs to keep the account inside LinkedIn's own limits — 6 requests a minute,
-     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
-     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
-     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
-     * last argument; ask them first.
+     * optionally narrowed by keywords, job title or school attended (`school`: a school URL,
+     * handle or numeric id — e.g. Kellogg alumni at Stripe is `{ company: "stripe", school:
+     * "kellogg-school-of-management" }`). It is LinkedIn's people search with the current-company
+     * filter applied. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in
+     * the run pauses and hands back a link where they sign in. Paced per LinkedIn account across
+     * runs to keep the account inside LinkedIn's own limits — 6 requests a minute, and a reserve
+     * of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a
+     * call over the pace throws LinkedinRateLimited saying when to retry: wait that long. The
+     * account owner may opt into faster pacing with { pacing: "fast" } as an extra last argument;
+     * ask them first.
      */
-    listCompanyEmployees(input: string | { company: string; keywords?: string; title?: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember> & { companyId: string }>;
+    listCompanyEmployees(input: string | { company: string; keywords?: string; title?: string; school?: string | string[]; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember> & { companyId: string }>;
 
     /**
      * Searches LinkedIn posts by keyword and returns 10 per page with author, text, how long ago
@@ -68547,14 +68582,15 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
     listMyGroups(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ groups: LinkedinGroupDetail[]; start: number; nextStart: number | null }>;
 
     /**
-     * Searches LinkedIn schools and universities by name, 10 per page — each one's handle (for
-     * getSchool), name, location and URL. Signed in: acts as the caller's own LinkedIn account;
-     * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
-     * LinkedIn account across runs to keep the account inside LinkedIn's own limits — 6 requests a
-     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
-     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
-     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
-     * extra last argument; ask them first.
+     * Searches LinkedIn schools and universities by name, 10 per page — each one's numeric id (for
+     * the `school` filter on searchMembers and listCompanyEmployees), handle (for getSchool),
+     * name, location and URL. Signed in: acts as the caller's own LinkedIn account; with no saved
+     * sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn account
+     * across runs to keep the account inside LinkedIn's own limits — 6 requests a minute, and a
+     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
+     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
+     * argument; ask them first.
      */
     searchSchools(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchSchool>>;
 
@@ -75231,6 +75267,82 @@ interface MlbDraft {
   total: number;
   warnings: string[];
 }
+interface MlbGetVenueArgs {
+  /** A venueId from listTeams() or getTeam(), e.g. 3313. */
+  venueId: number;
+}
+interface MlbVenue {
+  id: number;
+  name: string;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
+  phone: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  elevationFeet: number | null;
+  capacity: number | null;
+  surface: string | null;
+  roof: string | null;
+  fieldFeet: {
+    leftLine: number | null;
+    leftCenter: number | null;
+    center: number | null;
+    rightCenter: number | null;
+    rightLine: number | null;
+  };
+}
+interface MlbVenueResult {
+  venue: MlbVenue;
+}
+interface MlbListFreeAgentsArgs {
+  /** Default: this year. */
+  season?: number;
+  /** Only players with no new team yet. */
+  unsignedOnly?: boolean;
+  /** Filters by player name. */
+  query?: string;
+  /** 1-1000, default 100. */
+  limit?: number;
+}
+interface MlbFreeAgent {
+  playerId: number | null;
+  name: string | null;
+  position: string | null;
+  formerTeam: string | null;
+  formerTeamId: number | null;
+  newTeam: string | null;
+  newTeamId: number | null;
+  dateDeclared: string | null;
+  dateSigned: string | null;
+  notes: string | null;
+}
+interface MlbFreeAgents {
+  season: number;
+  freeAgents: MlbFreeAgent[];
+  total: number;
+  warnings: string[];
+}
+interface MlbGetInjuryReportArgs {
+  /** A teamId from listTeams(); omit for all 30. */
+  teamId?: number;
+}
+interface MlbInjuredPlayer {
+  playerId: number | null;
+  name: string | null;
+  position: string | null;
+  teamId: number;
+  team: string | null;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  statusCode: string;
+}
+interface MlbInjuryReport {
+  players: MlbInjuredPlayer[];
+  teamsChecked: number;
+  warnings: string[];
+}
 interface MlbGetAwardsArgs {
   /** An id from a first call without one, e.g. "ALMVP". */
   awardId?: string;
@@ -75464,6 +75576,24 @@ interface MlbPlay {
      * e.g. getAwards({ awardId: 'ALMVP', season: 2025 }).
      */
     getAwards(args?: MlbGetAwardsArgs): Promise<MlbAwards>;
+
+    /**
+     * A ballpark's details: address, coordinates, capacity, surface, roof and field dimensions.
+     * Takes a venue id, e.g. getVenue({ venueId: 3313 }).
+     */
+    getVenue(args: MlbGetVenueArgs): Promise<MlbVenueResult>;
+
+    /**
+     * A season's free agents with position, former team, and new team once signed; filter unsigned
+     * or by name. e.g. listFreeAgents({ season: 2025, unsignedOnly: true }).
+     */
+    listFreeAgents(args?: MlbListFreeAgentsArgs): Promise<MlbFreeAgents>;
+
+    /**
+     * Players on a 7/10/15/60-day injured list, all 30 teams or one; status only, MLB's feed has
+     * no injury text or return date. Empty off-season.
+     */
+    getInjuryReport(args?: MlbGetInjuryReportArgs): Promise<MlbInjuryReport>;
 
     /**
      * Lists where a game is on TV, radio and streaming: station, type, home or away feed, national
@@ -98804,6 +98934,16 @@ interface sheinWishlistChange {
   added: boolean;
   warnings: string[];
 }
+interface sheinStoreFollow {
+  storeCode: string;
+  following: boolean;
+  warnings: string[];
+}
+interface sheinWishlistRemoval {
+  productId: string;
+  removed: boolean;
+  warnings: string[];
+}
 interface sheinOrderDetail {
   orderId: string;
   // the site's own labels — read the values off a result, never guess one from prose
@@ -98924,6 +99064,20 @@ interface sheinSizeGuide {
      * signed in to shein.com; the relay handles it.
      */
     addToWishlist(args: SheinGetProductArgs, opts?: ConnectionOption): Promise<sheinWishlistChange>;
+
+    /**
+     * Takes a product (the id `search` returns) off the CALLER's own Shein wishlist by un-pressing
+     * the heart on its product page. Presses it only when it is pressed. Needs the caller signed
+     * in to shein.com; the relay handles it.
+     */
+    removeFromWishlist(args: SheinGetProductArgs, opts?: ConnectionOption): Promise<sheinWishlistRemoval>;
+
+    /**
+     * Follows a marketplace store (the `storeCode` `getStore` returns) as the CALLER by pressing
+     * Follow on its store page. Presses it only when the store is not already followed. Needs the
+     * caller signed in to shein.com; the relay handles it.
+     */
+    followStore(args: SheinListStoreProductsArgs, opts?: ConnectionOption): Promise<sheinStoreFollow>;
 
     /**
      * Opens checkout for the CALLER's own Shein bag and returns the confirm page as text (items,
@@ -111345,6 +111499,10 @@ interface tiktokVideoList {
   videos: tiktokVideoSummary[];
   warnings: string[];
 }
+interface tiktokForYouPage {
+  items: tiktokVideoSummary[];
+  nextCursor: string | null; // pass back as { cursor } for the next batch; null once there are no more
+}
 interface tiktokVideoSummary {
   id: string;
   caption: string;
@@ -111768,6 +111926,17 @@ interface tiktokPlaybackFile {
      * says when the answer came back short or from a fallback.
      */
     listForYouFeed(args: ListForYouFeedArgs, opts?: ConnectionOption): Promise<tiktokVideoList>;
+
+    /**
+     * The signed-in viewer's own For You feed one batch at a time, for infinite scrolling, as `{
+     * items, nextCursor }`. Call with `{}` for the first batch (the rows `listForYouFeed`
+     * returns), then pass the returned `nextCursor` back as `{ cursor }` for each next one: each
+     * is the /foryou page's own item_list answer, read in the caller's signed-in browser with no
+     * scrolling. TikTok's For You is a stream of fresh recommendations, so dedupe by id.
+     * `nextCursor` is null when TikTok says there is no more or after 30 batches. A cursor it did
+     * not issue is refused.
+     */
+    forYouPage(args?: { cursor?: string }, opts?: ConnectionOption): Promise<tiktokForYouPage>;
 
     /**
      * The signed-in viewer's Following feed — videos only from accounts they follow, in upload
@@ -127020,6 +127189,12 @@ interface YoutubeDeletedVideo {
   status: "deleted" | "deleting"; // either way it is gone and cannot be undone
 }
 
+interface YoutubeHomeFeedPage {
+  items: YoutubeSearchVideo[];
+  /** Pass back as { cursor } for the next page; null once there are no more. */
+  nextCursor: string | null;
+}
+
 interface YoutubePlaylistVideoPage {
   videos: YoutubePlaylistVideo[];
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
@@ -127381,6 +127556,16 @@ interface YoutubePlayback {
      * Call `bowmark.video_library.homeFeed` rather than this directly.
      */
     listHomeFeed(input?: { limit?: number }, opts?: ConnectionOption): Promise<YoutubeSearchVideo[]>;
+
+    /**
+     * The signed-in account's own YouTube home feed one page at a time, for infinite scrolling, as
+     * `{ items, nextCursor }`. Call with `{}` for page 1 (the same rows `listHomeFeed` returns),
+     * then pass the returned `nextCursor` back as `{ cursor }` for each next page, the
+     * continuation YouTube's own home grid loads as the viewer scrolls. `nextCursor` is null once
+     * YouTube offers no more. A cursor it did not issue is refused. NEEDS A SIGN-IN, like
+     * `listHomeFeed`.
+     */
+    homeFeedPage(input?: { cursor?: string }, opts?: ConnectionOption): Promise<YoutubeHomeFeedPage>;
 
     /**
      * The signed-in account's Watch Later queue, newest first, paged like any playlist; `limit`
