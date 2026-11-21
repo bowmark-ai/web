@@ -4599,7 +4599,7 @@ One function per row, with the site it is called on.
 | `nytimes.postComment` | nytimes.com | Posts a comment as the signed-in reader under one article through the article's own… | 🟢 |
 | `nytimes.recommendComment` | nytimes.com | Presses Recommend on one reader comment under an article as the signed-in reader. | 🟢 |
 | `nytimes.saveArticle` | nytimes.com | Saves one article to the signed-in reader's Reading List. | 🟢 |
-| `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟡 |
+| `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟢 |
 | `nytimes.searchWriters` | nytimes.com | Searches NYT's own writers by name off its collections sitemap (the site publishes no… | 🟢 |
 | `nytimes.unfollowWriter` | nytimes.com | Unfollows one NYT writer for the signed-in reader by pressing the same follow control… | 🟢 |
 | `nytimes.unsaveArticle` | nytimes.com | Removes an article from the signed-in reader's Reading List, by driving the same save… | 🟢 |
