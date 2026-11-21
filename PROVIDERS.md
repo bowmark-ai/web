@@ -5589,7 +5589,7 @@ One function per row, with the site it is called on.
 | `shein.addToCart` | shein.com | Adds a product in a chosen size and colour to the signed-in caller's bag. | ⚪ |
 | `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | ⚪ |
 | `shein.followStore` | shein.com | Follows or unfollows a marketplace store as the signed-in caller. | ⚪ |
-| `shein.getCart` | shein.com | Returns the signed-in caller's shopping bag: items, size and colour chosen, quantity… | ⚪ |
+| `shein.getCart` | shein.com | Returns the signed-in caller's shopping bag: items, size and colour chosen, quantity… | 🟢 |
 | `shein.getCheckoutSummary` | shein.com | Opens checkout for the signed-in caller's bag and returns what it would cost —… | ⚪ |
 | `shein.getOrder` | shein.com | Returns one of the signed-in caller's orders: items, shipping address, totals and the… | 🟢 |
 | `shein.getPoints` | shein.com | Returns the signed-in caller's SHEIN points balance and how much it is worth at… | 🟢 |
@@ -5600,16 +5600,16 @@ One function per row, with the site it is called on.
 | `shein.getSimilarProducts` | shein.com | Returns the 'similar items' and 'customers also viewed' products shown under a product. | ⚪ |
 | `shein.getSizeGuide` | shein.com | Returns a product's size chart: the measurement columns (bust, waist, hip, length) and… | 🟢 |
 | `shein.getStore` | shein.com | Returns the marketplace store that sells a product: store code, name, logo… | 🟢 |
-| `shein.listAddresses` | shein.com | Lists the shipping addresses saved on the signed-in caller's account. | ⚪ |
+| `shein.listAddresses` | shein.com | Lists the shipping addresses saved on the signed-in caller's account. | 🟢 |
 | `shein.listCategories` | shein.com | Lists the top-level product categories on Shein. | 🟢 |
 | `shein.listFlashSale` | shein.com | Lists the products on Shein's Sale tab (its discounted grid; the site has no separate… | 🟢 |
-| `shein.listFollowedStores` | shein.com | Lists the marketplace stores the signed-in caller follows. | ⚪ |
+| `shein.listFollowedStores` | shein.com | Lists the marketplace stores the signed-in caller follows. | 🟢 |
 | `shein.listMyCoupons` | shein.com | Lists the coupons on the signed-in caller's account, with the discount, minimum spend… | 🟢 |
 | `shein.listNewArrivals` | shein.com | Lists Shein's New In products (the /recommend/New-In-sc-<id>.html selection). | 🟢 |
 | `shein.listOrders` | shein.com | Lists the signed-in caller's orders with status (processing, shipped, delivered), date… | 🟢 |
 | `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | 🟢 |
 | `shein.listStoreProducts` | shein.com | Lists the first page of products a marketplace store sells, from the store's own home… | 🟢 |
-| `shein.listWishlist` | shein.com | Lists the products the signed-in caller saved to their wishlist. | ⚪ |
+| `shein.listWishlist` | shein.com | Lists the products the signed-in caller saved to their wishlist. | 🟢 |
 | `shein.placeOrder` | shein.com | Places an order for the signed-in caller's bag. | ⚪ |
 | `shein.removeFromCart` | shein.com | Removes an item from the signed-in caller's bag. | ⚪ |
 | `shein.removeFromWishlist` | shein.com | Removes a product from the signed-in caller's wishlist. | ⚪ |
@@ -5627,7 +5627,7 @@ One function per row, with the site it is called on.
 | `shop_app.followStore` | shop.app | Follows a store on Shop for the caller, or unfollows it (follow: false), by its Shop… | 🟢 |
 | `shop_app.getAccount` | shop.app | Reads the caller's Shop account settings: whether they opted out of data sharing, and… | 🟢 |
 | `shop_app.getCart` | shop.app | Reads the caller's Shop cart: one cart per store with its lines and the store's… | 🟢 |
-| `shop_app.getDeliveryEstimate` | shop.app | Says when a product variant would arrive — the delivery promise Shop shows under the… | ⚪ |
+| `shop_app.getDeliveryEstimate` | shop.app | Says when a product variant would arrive at a postal code, with the shipping cost and… | 🟢 |
 | `shop_app.getDiscoveryFeed` | shop.app | Reads Shop's home discovery feed — the sections of trending stores and products… | 🟢 |
 | `shop_app.getOrder` | shop.app | Reads one of the caller's orders — items, totals, the shipping address, the receipt… | 🟢 |
 | `shop_app.getProduct` | shop.app | One product by its numeric id or a shop.app/products/<id>/<slug> url: title… | 🟢 |
