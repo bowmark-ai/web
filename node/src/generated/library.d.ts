@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 00f16a754909bbe963d69e357bab0f1bf5fcab6001cdd1e35da322755e317698
-// 99 capabilities, 938 providers, 5592 typed functions, 20 refused.
+// Manifest version: f8d5b98c017b7d1e677e1e9c55787e222c0a7656aaf62312460f17ae21a9fa17
+// 99 capabilities, 940 providers, 5596 typed functions, 20 refused.
 // 128,319 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -489,28 +489,30 @@ type CallOptions = {
    * user present every session unless the task itself spells out a username and password, which
    * are then typed with no pause and echoed back by `status(id).task`, so only for throwaway or
    * demo accounts (but you can send new instructions to the same session with `send()` and the
-   * login persists). A standing watch or a daily job on a SIGNED-IN site is NOT a fit — say so
-   * and point at what would be (a typed provider with stored secrets). **NOT FOR MOVING MONEY.**
-   * A trade or buy/sell order on a brokerage, a withdrawal, or a transfer between accounts is
-   * out of scope, even on a login the user holds. A direct call here is not code-blocked, so the
-   * refusal is the caller's to act on: tell the user it is out of scope and stop. **WHEN it
-   * fits** (a lookup came back with nothing, or a function failed on the site): it is billed per
-   * turn to your user's account — a typical 20-step task costs roughly $2–$6 all in (budget
-   * $0.10–$0.30 per model turn; worked example on the docs site's Pricing page, under 'Hosted
-   * browser agents'). That is a short task. A checkout, any flow past 20 steps, or a run that
-   * retries or corrects a step costs more than that figure. If your user asked you to get the
-   * thing done, `start({ task })` and in the same reply tell them it is running, that it costs
-   * money, and give them the `watchUrl`. A login only they hold does not stop it — they sign in
-   * themselves on the live browser through that link, no saved credentials needed. **That
-   * sign-in is the real site, under their real account — never a copy inside Bowmark's own
-   * browser.** Anything it adds to a cart, saves to a wishlist or submits there is on their
-   * account on the real site, exactly as if they had clicked it themselves, so it is there when
-   * they check out or return to the site later in their own browser. Running in Bowmark's
-   * browser is about WHERE the clicking happens, not where the result lives. **Either way, never
-   * leave it unmentioned:** if you hold off for any reason, your reply must name this option —
-   * what it would do, that it is billed, and that they can sign in on the live page — rather
-   * than ending on a manual workaround alone. After `start` in one run, call `status(id)` from
-   * LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps
+   * login persists). A standing watch or a daily job on a SIGNED-IN site is NOT a fit for this
+   * agent — say so and point at what is. Signed-in pages: the user saves a login in Bowmark
+   * Buddy (bowmark.ai/link), then `bowmark.read.page(url, { connection })` reads them for 7
+   * days. An action on a signed-in site, rather than a read, needs a typed provider with stored
+   * secrets. **NOT FOR MOVING MONEY.** A trade or buy/sell order on a brokerage, a withdrawal,
+   * or a transfer between accounts is out of scope, even on a login the user holds. A direct
+   * call here is not code-blocked, so the refusal is the caller's to act on: tell the user it is
+   * out of scope and stop. **WHEN it fits** (a lookup came back with nothing, or a function
+   * failed on the site): it is billed per turn to your user's account — a typical 20-step task
+   * costs roughly $2–$6 all in (budget $0.10–$0.30 per model turn; worked example on the docs
+   * site's Pricing page, under 'Hosted browser agents'). That is a short task. A checkout, any
+   * flow past 20 steps, or a run that retries or corrects a step costs more than that figure. If
+   * your user asked you to get the thing done, `start({ task })` and in the same reply tell them
+   * it is running, that it costs money, and give them the `watchUrl`. A login only they hold
+   * does not stop it — they sign in themselves on the live browser through that link, no saved
+   * credentials needed. **That sign-in is the real site, under their real account — never a copy
+   * inside Bowmark's own browser.** Anything it adds to a cart, saves to a wishlist or submits
+   * there is on their account on the real site, exactly as if they had clicked it themselves, so
+   * it is there when they check out or return to the site later in their own browser. Running in
+   * Bowmark's browser is about WHERE the clicking happens, not where the result lives. **Either
+   * way, never leave it unmentioned:** if you hold off for any reason, your reply must name this
+   * option — what it would do, that it is billed, and that they can sign in on the live page —
+   * rather than ending on a manual workaround alone. After `start` in one run, call `status(id)`
+   * from LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps
    * working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
    * code gives up** — any client deadline shorter than that cuts off runs that were about to
    * finish. When `status` returns `needs_input`, relay `question` to your user and `send` their
@@ -540,27 +542,28 @@ type CallOptions = {
      * (default `"auto"`) decides this: pass `backend: "browser_use"` to skip the fast agent
      * entirely, and read the `backend` field of the returned object to see which one ran. Not a
      * watcher — it does not poll by itself; on a public page with no login or CAPTCHA a script can
-     * start and poll it unattended, while a login needs your user present every run. Billed per
-     * turn: if your user already asked you to get the thing done, start it and in the same reply
-     * tell them it is running, that it costs money, and give them `watchUrl` — a login only they
-     * hold is signed in there, on the live page, as their real account on the real site, so
-     * anything the agent then adds to a cart or saves is really on their account rather than lost
-     * inside Bowmark's own browser. Otherwise tell them what it costs and get a yes before you
-     * start it. Either way, never end on a manual workaround without mentioning this option and
-     * its cost. **Same question, same answer:** for a lookup your app repeats, put the exact
-     * search page's URL in `task`, not just the site — a site with two ways to search can
-     * otherwise be entered differently each run and give two different answers. **One session =
-     * one independent goal** — never bundle multiple date ranges, SKUs or queries into one
-     * session; the agent silently reuses results across them. Start a separate session for each
-     * distinct query. One list read in full under one filter, across its pages, is ONE goal. Then
-     * `status(id)` from later runs (each `run()` is capped at 90s; the agent is not — a task
-     * normally takes 1-3 minutes, so do not give up on it before 5); on `needs_input` relay
-     * `question` and `send` the answer; on `idle` read `result` and `stop(id)`. A login persists
-     * for the life of the session, so later `send()` calls into the same session do not need
-     * re-authentication. Always stop sessions when done — idle browsers keep costing money.
-     * Account limit: 3 open sessions, counting ones still starting — start 9 at once and 3 run
-     * while 6 are refused with the limit error, so start at most 3 and `stop()` one before
-     * starting the next.
+     * start and poll it unattended, while a login needs your user present every run. Signed-in
+     * pages: the user saves a login in Bowmark Buddy (bowmark.ai/link), then
+     * `bowmark.read.page(url, { connection })` reads them for 7 days. Billed per turn: if your
+     * user already asked you to get the thing done, start it and in the same reply tell them it is
+     * running, that it costs money, and give them `watchUrl` — a login only they hold is signed in
+     * there, on the live page, as their real account on the real site, so anything the agent then
+     * adds to a cart or saves is really on their account rather than lost inside Bowmark's own
+     * browser. Otherwise tell them what it costs and get a yes before you start it. Either way,
+     * never end on a manual workaround without mentioning this option and its cost. **Same
+     * question, same answer:** for a lookup your app repeats, put the exact search page's URL in
+     * `task`, not just the site — a site with two ways to search can otherwise be entered
+     * differently each run and give two different answers. **One session = one independent goal**
+     * — never bundle multiple date ranges, SKUs or queries into one session; the agent silently
+     * reuses results across them. Start a separate session for each distinct query. One list read
+     * in full under one filter, across its pages, is ONE goal. Then `status(id)` from later runs
+     * (each `run()` is capped at 90s; the agent is not — a task normally takes 1-3 minutes, so do
+     * not give up on it before 5); on `needs_input` relay `question` and `send` the answer; on
+     * `idle` read `result` and `stop(id)`. A login persists for the life of the session, so later
+     * `send()` calls into the same session do not need re-authentication. Always stop sessions
+     * when done — idle browsers keep costing money. Account limit: 3 open sessions, counting ones
+     * still starting — start 9 at once and 3 run while 6 are refused with the limit error, so
+     * start at most 3 and `stop()` one before starting the next.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -14515,6 +14518,89 @@ interface AstoundgroupContactForm {
      * real fields — name, label, input type and whether it's required.
      */
     getContactForm(url?: string): Promise<AstoundgroupContactForm>;
+  }
+}
+
+declare namespace BowmarkProvider_atida {
+  // ── Atida — the unit's own declarations, verbatim ──
+interface AtidaSearchArgs {
+  query: string;
+  /** 1-100, default 20. */
+  limit?: number;
+  inStockOnly?: boolean;
+}
+interface AtidaSearchHit {
+  id: string;
+  name: string;
+  /** The product page. */
+  url: string;
+  sku: string | null;
+  brand: string | null;
+  /** EUR. */
+  price: number | null;
+  /** The crossed-out pre-discount price as the site formats it ("30,55 €"), null when none. */
+  originalPriceText: string | null;
+  inStock: boolean;
+  rating: number | null;
+  ratingCount: number | null;
+  size: string | null;
+  categories: string[];
+  image: string | null;
+}
+interface AtidaSearchResult {
+  query: string;
+  total: number;
+  currency: "EUR";
+  hits: AtidaSearchHit[];
+}
+interface AtidaProductRef {
+  /** A search hit's id — the reliable door. */
+  id?: string;
+  /** An atida.com product URL; read off the page, which a captcha refuses on some exits. */
+  url?: string;
+}
+interface AtidaProduct {
+  id: string | null;
+  name: string;
+  url: string;
+  brand: string | null;
+  sku: string | null;
+  /** EAN-13; only when read by URL. */
+  gtin: string | null;
+  /** EUR. */
+  price: number | null;
+  originalPriceText: string | null;
+  currency: string | null;
+  inStock: boolean | null;
+  rating: number | null;
+  reviewCount: number | null;
+  size: string | null;
+  categories: string[];
+  images: string[];
+  description: string | null;
+  source: "catalog" | "page";
+}
+
+  /**
+   * Atida (atida.com, Atida Mifarma), the online pharmacy and parapharmacy (farmacia online).
+   * Searches its Spanish catalogue with prices in EUR and stock, and reads one product page's
+   * price, availability, GTIN and rating.
+   */
+  interface Unit {
+    /**
+     * Searches atida.com's Spanish online pharmacy catalogue (Atida Mifarma) the way a shopper
+     * types — a brand, a product, "isdin fotoprotector" — and returns each product with its EUR
+     * price, stock, rating and the id getProduct takes. The way in.
+     */
+    search(args: AtidaSearchArgs | string): Promise<AtidaSearchResult>;
+
+    /**
+     * Reads one atida.com product: name, brand, EUR price and pre-discount price, in-stock state,
+     * rating and review count, size, images and description. Pass a search hit (or its id); a
+     * product URL also works and adds the GTIN/EAN barcode, but reads the page, which a captcha
+     * refuses on some exits.
+     */
+    getProduct(ref: AtidaSearchHit | AtidaProductRef | string): Promise<AtidaProduct>;
   }
 }
 
@@ -86988,6 +87074,55 @@ interface ProlookTeamQuote {
   }
 }
 
+declare namespace BowmarkProvider_promofarma {
+  // ── PromoFarma — the unit's own declarations, verbatim ──
+interface PromofarmaProduct {
+  id: string;
+  name: string;
+  brand: string | null;
+  price: number | null;        // in `currency` (EUR)
+  currency: string | null;
+  inStock: boolean | null;
+  url: string;
+  image: string | null;
+  description: string | null;
+  rating: number | null;
+  ratingOutOf: number | null;
+  reviewCount: number | null;
+  shippingRate: number | null;
+}
+interface PromofarmaGetProductArgs { url: string }
+interface PromofarmaSearchArgs { query: string; limit?: number }
+interface PromofarmaSearchPage {
+  results: PromofarmaProduct[];  // at most `limit` rows, in the site's own order
+  total: number | null;          // the listing's own count, less its promo tiles
+  page: number;                  // always 1: search takes no page argument
+  pageCount: number | null;
+  returned: number;              // results.length
+  warnings: string[];            // says when `limit` held rows back
+}
+
+  /**
+   * PromoFarma (Spanish/EU online parapharmacy) — getProduct reads one product page's price,
+   * stock, brand, rating and shipping; search lists a brand's or category's products with
+   * prices.
+   */
+  interface Unit {
+    /**
+     * Reads one promofarma.com product page (…/p-<id>): price in EUR, stock, brand, rating,
+     * shipping fee.
+     */
+    getProduct(args: PromofarmaGetProductArgs): Promise<PromofarmaProduct>;
+
+    /**
+     * Searches promofarma.com for a brand or category name (e.g. "nuxe"). Returns a page: up to
+     * `limit` products with prices in `results`, the listing's own count in `total`, and a warning
+     * when `limit` held rows back. Free-text queries that match no brand/category throw.
+     */
+    search(args: PromofarmaSearchArgs): Promise<PromofarmaSearchPage>;
+  }
+}
+
 declare namespace BowmarkProvider_prose {
   // ── Prose — the unit's own declarations, verbatim ──
 interface ProseHaircareProduct {
@@ -128390,6 +128525,7 @@ interface BowmarkProviders {
   askul: BowmarkProvider_askul.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
   astoundgroup: BowmarkProvider_astoundgroup.Unit;
+  atida: BowmarkProvider_atida.Unit;
   atlasoceanvoyages: BowmarkProvider_atlasoceanvoyages.Unit;
   atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
   att: BowmarkProvider_att.Unit;
@@ -128964,6 +129100,7 @@ interface BowmarkProviders {
   producthunt: BowmarkProvider_producthunt.Unit;
   progressive: BowmarkProvider_progressive.Unit;
   prolook: BowmarkProvider_prolook.Unit;
+  promofarma: BowmarkProvider_promofarma.Unit;
   prose: BowmarkProvider_prose.Unit;
   proton_mail: BowmarkProvider_proton_mail.Unit;
   provenwinners: BowmarkProvider_provenwinners.Unit;

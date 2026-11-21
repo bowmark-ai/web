@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7429 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7433 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -436,6 +436,8 @@ One function per row, with the site it is called on.
 | `asppoolco.listLocations` | asppoolco.com | Lists every ASP franchise location on the public directory, optionally narrowed to one… | 🟢 |
 | `astoundgroup.getContactForm` | astoundgroup.com | Reads Astound Group's "Get in Touch" contact form (astoundgroup.com/contact-us by… | 🟢 |
 | `astoundgroup.listPages` | astoundgroup.com | Lists every page Astound Group's own sitemap.xml publishes — url and last-modified… | 🟢 |
+| `atida.getProduct` | atida.com | Reads one atida.com product by its search-hit id from the catalog record (EUR price… | 🟢 |
+| `atida.search` | atida.com | Searches atida.com's Spanish online pharmacy catalogue (Atida Mifarma) by brand or… | 🟢 |
 | `atlasoceanvoyages.getVoyage` | atlasoceanvoyages.com | Reads one voyage's own detail page: the full port-by-port day itinerary with… | 🟢 |
 | `atlasoceanvoyages.searchVoyages` | atlasoceanvoyages.com | Runs the /search voyage finder — destination, ship, duration and departure-date… | 🟢 |
 | `atlasseniorliving.searchCommunities` | atlasseniorliving.com | Runs the site's own 'Find a Community' search at… | 🟢 |
@@ -864,7 +866,7 @@ One function per row, with the site it is called on.
 | `booksy.buyGiftCard` | booksy.com | Buys a business's gift card or voucher. | ⚪ |
 | `booksy.cancelAppointment` | booksy.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | 🟢 |
 | `booksy.getAvailability` | booksy.com | Returns the open appointment times for one service at one business over a date range… | 🟡 |
-| `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | 🟡 |
+| `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | 🟢 |
 | `booksy.getBusiness` | booksy.com | Returns one business from its id or its booksy.com page URL: name, description… | 🟢 |
 | `booksy.getBusinessContact` | booksy.com | Returns a business's contact email, which Booksy shows only to a signed-in customer. | 🟢 |
 | `booksy.getBusinessNetwork` | booksy.com | Names the Booksy network a business belongs to (a chain or curated group) and lists… | 🟢 |
@@ -4963,6 +4965,8 @@ One function per row, with the site it is called on.
 | `prolook.getStyleCustomizationOptions` | prolook.com | Reads one style's real customization surface — every trim (buttons, piping, etc.) and… | 🟢 |
 | `prolook.getTeamQuote` | prolook.com | Computes a real team order total for N jerseys of one style, from the site's own live… | 🟢 |
 | `prolook.listUniformStyles` | prolook.com | Lists one page of PROLOOK's real team-uniform styles for a sport (e.g. baseball) —… | 🟢 |
+| `promofarma.getProduct` | promofarma.com | Reads one promofarma.com product page and returns its price in EUR, stock state… | 🟢 |
+| `promofarma.search` | promofarma.com | Searches promofarma.com for a brand or category name (e.g. "nuxe"). Returns a page: up… | 🟢 |
 | `prose.getHaircareProductPrice` | prose.com | Looks up ONE Prose product type's real one-time and subscription USD price (e.g.… | 🟢 |
 | `prose.getHairPrescription` | prose.com | Runs Prose's real online hair consultation end to end — the exact 38 questions its own… | 🟢 |
 | `prose.listHaircareProducts` | prose.com | Lists every haircare formula/tool type Prose sells (shampoo, conditioner, hair mask… | 🟢 |
@@ -6322,7 +6326,7 @@ One function per row, with the site it is called on.
 | `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | 🟢 |
 | `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | 🟢 |
 | `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟢 |
-| `tiktok.listLikedVideos` | tiktok.com | The videos a creator has liked, from the public Liked tab on their profile (id… | 🟢 |
+| `tiktok.listLikedVideos` | tiktok.com | The videos a creator has liked, from the public Liked tab on their profile (id… | ⚪ |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | 🟢 |
 | `tiktok.listPlaylistVideos` | tiktok.com | The videos in one playlist, in the creator's order (id, caption, play count, cover… | 🟢 |
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟢 |

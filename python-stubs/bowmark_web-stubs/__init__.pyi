@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 00f16a754909bbe963d69e357bab0f1bf5fcab6001cdd1e35da322755e317698
-# 99 capabilities, 938 providers, 5564 typed functions, 20 refused.
+# Manifest version: f8d5b98c017b7d1e677e1e9c55787e222c0a7656aaf62312460f17ae21a9fa17
+# 99 capabilities, 940 providers, 5568 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9152,6 +9152,70 @@ class Prv_astoundgroup_AstoundgroupContactField_Out(TypedDict):
     label: str
     type: str
     required: bool
+
+class Prv_atida_AtidaSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    inStockOnly: NotRequired[bool]
+
+class Prv_atida_AtidaSearchResult_Out(TypedDict):
+    query: str
+    total: float
+    currency: Literal["EUR"]
+    hits: list[Prv_atida_AtidaSearchHit_Out]
+
+class Prv_atida_AtidaSearchHit_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    sku: str | None
+    brand: str | None
+    price: float | None
+    originalPriceText: str | None
+    inStock: bool
+    rating: float | None
+    ratingCount: float | None
+    size: str | None
+    categories: list[str]
+    image: str | None
+
+class Prv_atida_AtidaSearchHit_In(TypedDict):
+    id: str
+    name: str
+    url: str
+    sku: str | None
+    brand: str | None
+    price: float | None
+    originalPriceText: str | None
+    inStock: bool
+    rating: float | None
+    ratingCount: float | None
+    size: str | None
+    categories: Sequence[str]
+    image: str | None
+
+class Prv_atida_AtidaProductRef_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_atida_AtidaProduct_Out(TypedDict):
+    id: str | None
+    name: str
+    url: str
+    brand: str | None
+    sku: str | None
+    gtin: str | None
+    price: float | None
+    originalPriceText: str | None
+    currency: str | None
+    inStock: bool | None
+    rating: float | None
+    reviewCount: float | None
+    size: str | None
+    categories: list[str]
+    images: list[str]
+    description: str | None
+    source: Literal["catalog"] | Literal["page"]
 
 class Prv_atlasoceanvoyages_searchVoyages_args_In(TypedDict):
     destination: NotRequired[str]
@@ -56669,6 +56733,36 @@ class Prv_prolook_ProlookTeamQuote_Out(TypedDict):
     total: float
     brandCostPerUnit: float | None
 
+class Prv_promofarma_PromofarmaGetProductArgs_In(TypedDict):
+    url: str
+
+class Prv_promofarma_PromofarmaProduct_Out(TypedDict):
+    id: str
+    name: str
+    brand: str | None
+    price: float | None
+    currency: str | None
+    inStock: bool | None
+    url: str
+    image: str | None
+    description: str | None
+    rating: float | None
+    ratingOutOf: float | None
+    reviewCount: float | None
+    shippingRate: float | None
+
+class Prv_promofarma_PromofarmaSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_promofarma_PromofarmaSearchPage_Out(TypedDict):
+    results: list[Prv_promofarma_PromofarmaProduct_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
 class Prv_prose_ProseHaircareProduct_Out(TypedDict):
     type: str
     category: str
@@ -84775,44 +84869,47 @@ class Cap_browser_agent(Protocol):
     username and password, which are then typed with no pause and echoed back by
     `status(id).task`, so only for throwaway or demo accounts (but you can send new
     instructions to the same session with `send()` and the login persists). A standing watch
-    or a daily job on a SIGNED-IN site is NOT a fit — say so and point at what would be (a
-    typed provider with stored secrets). **NOT FOR MOVING MONEY.** A trade or buy/sell order
-    on a brokerage, a withdrawal, or a transfer between accounts is out of scope, even on a
-    login the user holds. A direct call here is not code-blocked, so the refusal is the
-    caller's to act on: tell the user it is out of scope and stop. **WHEN it fits** (a
-    lookup came back with nothing, or a function failed on the site): it is billed per turn
-    to your user's account — a typical 20-step task costs roughly $2–$6 all in (budget
-    $0.10–$0.30 per model turn; worked example on the docs site's Pricing page, under
-    'Hosted browser agents'). That is a short task. A checkout, any flow past 20 steps, or a
-    run that retries or corrects a step costs more than that figure. If your user asked you
-    to get the thing done, `start({ task })` and in the same reply tell them it is running,
-    that it costs money, and give them the `watchUrl`. A login only they hold does not stop
-    it — they sign in themselves on the live browser through that link, no saved credentials
-    needed. **That sign-in is the real site, under their real account — never a copy inside
-    Bowmark's own browser.** Anything it adds to a cart, saves to a wishlist or submits
-    there is on their account on the real site, exactly as if they had clicked it
-    themselves, so it is there when they check out or return to the site later in their own
-    browser. Running in Bowmark's browser is about WHERE the clicking happens, not where the
-    result lives. **Either way, never leave it unmentioned:** if you hold off for any
-    reason, your reply must name this option — what it would do, that it is billed, and that
-    they can sign in on the live page — rather than ending on a manual workaround alone.
-    After `start` in one run, call `status(id)` from LATER runs — the 90s wall-clock cap is
-    on each `run()`, NOT on the agent, which keeps working between them. **A normal task
-    takes 1-3 minutes; give it up to 5 before your own code gives up** — any client deadline
-    shorter than that cuts off runs that were about to finish. When `status` returns
-    `needs_input`, relay `question` to your user and `send` their answer. When it returns
-    `idle`, read `result` and `stop(id)`. Always `stop` a session when done — an idle
-    browser keeps costing money. **A turn that runs too long is cancelled automatically:**
-    Bowmark itself cuts off any turn stuck past a few minutes with no result and reports
-    status `failed` (see `error` for what it was last doing) rather than leaving you polling
-    forever — the session stays open, so `send` a narrower instruction or `stop` it. **One
-    task = one independent goal. Do not bundle multiple date ranges, SKUs, or queries into
-    one task — the agent may silently reuse a single search result across all of them with
-    no warning. Start separate sessions for each.** Reading every row of ONE list under ONE
-    filter (one date range on one orders page, paged) is one goal, not a bundle; a few pages
-    is ordinary, and how many one session gets through is not measured, so test it on the
-    target before relying on hundreds of rows. RUN-ONLY: a typed session cannot call it —
-    start in one run and poll status from later runs, never in a loop.
+    or a daily job on a SIGNED-IN site is NOT a fit for this agent — say so and point at
+    what is. Signed-in pages: the user saves a login in Bowmark Buddy (bowmark.ai/link),
+    then `bowmark.read.page(url, { connection })` reads them for 7 days. An action on a
+    signed-in site, rather than a read, needs a typed provider with stored secrets. **NOT
+    FOR MOVING MONEY.** A trade or buy/sell order on a brokerage, a withdrawal, or a
+    transfer between accounts is out of scope, even on a login the user holds. A direct call
+    here is not code-blocked, so the refusal is the caller's to act on: tell the user it is
+    out of scope and stop. **WHEN it fits** (a lookup came back with nothing, or a function
+    failed on the site): it is billed per turn to your user's account — a typical 20-step
+    task costs roughly $2–$6 all in (budget $0.10–$0.30 per model turn; worked example on
+    the docs site's Pricing page, under 'Hosted browser agents'). That is a short task. A
+    checkout, any flow past 20 steps, or a run that retries or corrects a step costs more
+    than that figure. If your user asked you to get the thing done, `start({ task })` and in
+    the same reply tell them it is running, that it costs money, and give them the
+    `watchUrl`. A login only they hold does not stop it — they sign in themselves on the
+    live browser through that link, no saved credentials needed. **That sign-in is the real
+    site, under their real account — never a copy inside Bowmark's own browser.** Anything
+    it adds to a cart, saves to a wishlist or submits there is on their account on the real
+    site, exactly as if they had clicked it themselves, so it is there when they check out
+    or return to the site later in their own browser. Running in Bowmark's browser is about
+    WHERE the clicking happens, not where the result lives. **Either way, never leave it
+    unmentioned:** if you hold off for any reason, your reply must name this option — what
+    it would do, that it is billed, and that they can sign in on the live page — rather than
+    ending on a manual workaround alone. After `start` in one run, call `status(id)` from
+    LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps
+    working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
+    code gives up** — any client deadline shorter than that cuts off runs that were about to
+    finish. When `status` returns `needs_input`, relay `question` to your user and `send`
+    their answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop` a
+    session when done — an idle browser keeps costing money. **A turn that runs too long is
+    cancelled automatically:** Bowmark itself cuts off any turn stuck past a few minutes
+    with no result and reports status `failed` (see `error` for what it was last doing)
+    rather than leaving you polling forever — the session stays open, so `send` a narrower
+    instruction or `stop` it. **One task = one independent goal. Do not bundle multiple date
+    ranges, SKUs, or queries into one task — the agent may silently reuse a single search
+    result across all of them with no warning. Start separate sessions for each.** Reading
+    every row of ONE list under ONE filter (one date range on one orders page, paged) is one
+    goal, not a bundle; a few pages is ordinary, and how many one session gets through is
+    not measured, so test it on the target before relying on hundreds of rows. RUN-ONLY: a
+    typed session cannot call it — start in one run and poll status from later runs, never
+    in a loop.
     """
 
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
@@ -84828,26 +84925,28 @@ class Cap_browser_agent(Protocol):
         the fast agent entirely, and read the `backend` field of the returned object to see
         which one ran. Not a watcher — it does not poll by itself; on a public page with no
         login or CAPTCHA a script can start and poll it unattended, while a login needs your
-        user present every run. Billed per turn: if your user already asked you to get the thing
-        done, start it and in the same reply tell them it is running, that it costs money, and
-        give them `watchUrl` — a login only they hold is signed in there, on the live page, as
-        their real account on the real site, so anything the agent then adds to a cart or saves
-        is really on their account rather than lost inside Bowmark's own browser. Otherwise tell
-        them what it costs and get a yes before you start it. Either way, never end on a manual
-        workaround without mentioning this option and its cost. **Same question, same answer:**
-        for a lookup your app repeats, put the exact search page's URL in `task`, not just the
-        site — a site with two ways to search can otherwise be entered differently each run and
-        give two different answers. **One session = one independent goal** — never bundle
-        multiple date ranges, SKUs or queries into one session; the agent silently reuses
-        results across them. Start a separate session for each distinct query. One list read in
-        full under one filter, across its pages, is ONE goal. Then `status(id)` from later runs
-        (each `run()` is capped at 90s; the agent is not — a task normally takes 1-3 minutes, so
-        do not give up on it before 5); on `needs_input` relay `question` and `send` the answer;
-        on `idle` read `result` and `stop(id)`. A login persists for the life of the session, so
-        later `send()` calls into the same session do not need re-authentication. Always stop
-        sessions when done — idle browsers keep costing money. Account limit: 3 open sessions,
-        counting ones still starting — start 9 at once and 3 run while 6 are refused with the
-        limit error, so start at most 3 and `stop()` one before starting the next.
+        user present every run. Signed-in pages: the user saves a login in Bowmark Buddy
+        (bowmark.ai/link), then `bowmark.read.page(url, { connection })` reads them for 7 days.
+        Billed per turn: if your user already asked you to get the thing done, start it and in
+        the same reply tell them it is running, that it costs money, and give them `watchUrl` —
+        a login only they hold is signed in there, on the live page, as their real account on
+        the real site, so anything the agent then adds to a cart or saves is really on their
+        account rather than lost inside Bowmark's own browser. Otherwise tell them what it costs
+        and get a yes before you start it. Either way, never end on a manual workaround without
+        mentioning this option and its cost. **Same question, same answer:** for a lookup your
+        app repeats, put the exact search page's URL in `task`, not just the site — a site with
+        two ways to search can otherwise be entered differently each run and give two different
+        answers. **One session = one independent goal** — never bundle multiple date ranges,
+        SKUs or queries into one session; the agent silently reuses results across them. Start a
+        separate session for each distinct query. One list read in full under one filter, across
+        its pages, is ONE goal. Then `status(id)` from later runs (each `run()` is capped at
+        90s; the agent is not — a task normally takes 1-3 minutes, so do not give up on it
+        before 5); on `needs_input` relay `question` and `send` the answer; on `idle` read
+        `result` and `stop(id)`. A login persists for the life of the session, so later `send()`
+        calls into the same session do not need re-authentication. Always stop sessions when
+        done — idle browsers keep costing money. Account limit: 3 open sessions, counting ones
+        still starting — start 9 at once and 3 run while 6 are refused with the limit error, so
+        start at most 3 and `stop()` one before starting the next.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -89925,6 +90024,25 @@ class Prv_astoundgroup(Protocol):
     async def getContactForm(self, url: str | None = None, /) -> Prv_astoundgroup_AstoundgroupContactForm_Out:
         """Reads Astound Group's contact form (astoundgroup.com/contact-us by default) and returns
         its real fields — name, label, input type and whether it's required.
+        """
+
+class Prv_atida(Protocol):
+    """Atida (atida.com, Atida Mifarma), the online pharmacy and parapharmacy (farmacia
+    online). Searches its Spanish catalogue with prices in EUR and stock, and reads one
+    product page's price, availability, GTIN and rating.
+    """
+
+    async def search(self, args: Prv_atida_AtidaSearchArgs_In | str, /) -> Prv_atida_AtidaSearchResult_Out:
+        """Searches atida.com's Spanish online pharmacy catalogue (Atida Mifarma) the way a shopper
+        types — a brand, a product, "isdin fotoprotector" — and returns each product with its
+        EUR price, stock, rating and the id getProduct takes. The way in.
+        """
+
+    async def getProduct(self, ref: Prv_atida_AtidaSearchHit_In | Prv_atida_AtidaProductRef_In | str, /) -> Prv_atida_AtidaProduct_Out:
+        """Reads one atida.com product: name, brand, EUR price and pre-discount price, in-stock
+        state, rating and review count, size, images and description. Pass a search hit (or its
+        id); a product URL also works and adds the GTIN/EAN barcode, but reads the page, which a
+        captcha refuses on some exits.
         """
 
 class Prv_atlasoceanvoyages(Protocol):
@@ -115956,6 +116074,24 @@ class Prv_prolook(Protocol):
         listUniformStyles() found this style with.
         """
 
+class Prv_promofarma(Protocol):
+    """PromoFarma (Spanish/EU online parapharmacy) — getProduct reads one product page's price,
+    stock, brand, rating and shipping; search lists a brand's or category's products with
+    prices.
+    """
+
+    async def getProduct(self, args: Prv_promofarma_PromofarmaGetProductArgs_In, /) -> Prv_promofarma_PromofarmaProduct_Out:
+        """Reads one promofarma.com product page (…/p-<id>): price in EUR, stock, brand, rating,
+        shipping fee.
+        """
+
+    async def search(self, args: Prv_promofarma_PromofarmaSearchArgs_In, /) -> Prv_promofarma_PromofarmaSearchPage_Out:
+        """Searches promofarma.com for a brand or category name (e.g. "nuxe"). Returns a page: up
+        to `limit` products with prices in `results`, the listing's own count in `total`, and a
+        warning when `limit` held rows back. Free-text queries that match no brand/category
+        throw.
+        """
+
 class Prv_prose(Protocol):
     """Personalized haircare and skincare formulas, sold direct via an online consultation."""
 
@@ -129907,6 +130043,7 @@ class BowmarkProviders(Protocol):
     askul: Prv_askul
     asppoolco: Prv_asppoolco
     astoundgroup: Prv_astoundgroup
+    atida: Prv_atida
     atlasoceanvoyages: Prv_atlasoceanvoyages
     atlasseniorliving: Prv_atlasseniorliving
     att: Prv_att
@@ -130481,6 +130618,7 @@ class BowmarkProviders(Protocol):
     producthunt: Prv_producthunt
     progressive: Prv_progressive
     prolook: Prv_prolook
+    promofarma: Prv_promofarma
     prose: Prv_prose
     proton_mail: Prv_proton_mail
     provenwinners: Prv_provenwinners

@@ -87,6 +87,7 @@ ashleyfurniture.com — ashleyfurniture: checkStock, findStore, getProduct, sear
 askul.co.jp — askul: getProduct
 asppoolco.com — asppoolco: findLocationByZip, listLocations
 astoundgroup.com — astoundgroup: getContactForm, listPages
+atida.com — atida: getProduct, search
 atlasoceanvoyages.com — atlasoceanvoyages: getVoyage, searchVoyages
 atlasseniorliving.com — atlasseniorliving: searchCommunities
 att.com — att: findDevices, findStores, getAccountBalance, getDevicePricing, getMonthlyBill, getTradeInQuote, getTradeInValue, getUsage, listDeals, listInternetPlans, listLines, listPlans, listPrepaidPlans, listTablets, listTvPlans, viewBillHistory, viewOrderHistory (+5 planned)
@@ -678,6 +679,7 @@ printful.com — printful: getOrder, searchOrders
 producthunt.com — producthunt: listLaunches
 progressive.com — progressive: findAgent, getBusinessQuote, getHomeownersQuote, getMotorcycleQuote, getPwcQuote, getRentersQuote, listHomeownersCompanies (+17 planned)
 prolook.com — prolook: getStyleCustomizationOptions, getTeamQuote, listUniformStyles
+promofarma.com — promofarma: getProduct, search
 prose.com — prose: getHaircareProductPrice, getHairPrescription, listHaircareProducts
 proton.me — proton_mail: nothing callable yet (+5 planned)
 provenwinners.com — provenwinners: getRecipeDetails, searchContainerRecipes
@@ -851,7 +853,7 @@ ticketmaster.com — ticketmaster: getVenue, listClassifications, search, search
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
 tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getHighTideFloodingHistory, getMeteorologicalObservations, getMonthlyMeanWaterLevel, getSeaLevelTrend, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
-tiktok.com — tiktok: 37 functions — ask get_library
+tiktok.com — tiktok: 36 functions — ask get_library (+1 planned)
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 timeanddate.com — timeanddate: search
 titlenine.com — titlenine: calculateBraSize
