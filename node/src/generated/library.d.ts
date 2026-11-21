@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 72f3f8296c76f82c98ed4500bdb31f2f254a75ae54d3d9918a1613c5ad3e6de4
-// 99 capabilities, 940 providers, 5603 typed functions, 20 refused.
+// Manifest version: e14081e6cc04f8791dc1ab32c60eb222a0ec08402f246921756bc4fd72342c83
+// 99 capabilities, 941 providers, 5631 typed functions, 20 refused.
 // 125,660 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26486,6 +26486,39 @@ interface CbsNewsPodcast {
   url: string;
   image: string | null;
 }
+interface ListPodcastEpisodesArgs {
+  /** A podcast's url from listPodcasts (https://link.podtrac.com/<slug>) or just its slug. */
+  podcast: string;
+  /** How many episodes to return, 1 to 30. Defaults to every episode in the feed. */
+  limit?: number;
+}
+interface CbsNewsPodcastEpisode {
+  id: string | null;
+  title: string;
+  /** Plain text: the feed's HTML description with tags removed. */
+  summary: string | null;
+  /** The feed's own pubDate, verbatim (RFC 822). */
+  published: string | null;
+  durationSeconds: number | null;
+  /** "full", "bonus" or "trailer". */
+  episodeType: string | null;
+  /** The episode's mp3 address; the feed carries no page link. */
+  audioUrl: string | null;
+  image: string | null;
+}
+interface ListLocalNewsArgs {
+  /** A station slug from listLocalStations, such as "boston" or "cbslocal/sacramento". */
+  station: string;
+  /** How many stories to return, 1 to 40. Defaults to all the front shows. */
+  limit?: number;
+}
+interface CbsNewsStation {
+  /** The path after the site root: "boston", "newyork", "cbslocal/sacramento". */
+  slug: string;
+  /** The link's own text ("Boston", "New York"). Null when the link has none. */
+  name: string | null;
+  url: string;
+}
 interface CbsNewsShow {
   /** The path segment, without slashes: "60-minutes", "face-the-nation". */
   slug: string;
@@ -26621,6 +26654,25 @@ interface ListArticlesByAuthorArgs {
      * with its title, listening page and artwork.
      */
     listPodcasts(): Promise<{ podcasts: CbsNewsPodcast[] }>;
+
+    /**
+     * Lists one CBS News podcast's episodes (newest first) from its feed: title, plain-text
+     * summary, publication time, duration, episode type and mp3 address. Take the podcast url from
+     * listPodcasts.
+     */
+    listPodcastEpisodes(args: ListPodcastEpisodesArgs): Promise<{ podcast: string | null; episodes: CbsNewsPodcastEpisode[] }>;
+
+    /**
+     * Lists the CBS News local station fronts (Boston, Chicago, New York, Los Angeles, Texas …)
+     * from the homepage header, each with its slug and address.
+     */
+    listLocalStations(): Promise<{ stations: CbsNewsStation[] }>;
+
+    /**
+     * Lists the stories on one CBS local station front (e.g. /boston/): title, url, summary,
+     * relative age and image, in the page's order. Take the station slug from listLocalStations.
+     */
+    listLocalNews(args: ListLocalNewsArgs): Promise<{ station: string; articles: CbsNewsSectionStory[] }>;
 
     /**
      * Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings, Evening
@@ -31848,12 +31900,40 @@ interface cnbc_comMarketData extends cnbc_comRow {
   bars: cnbc_comPriceBar[];
 }
 
+interface cnbc_comWatchlistItem {
+  id: string;
+  symbol?: string;
+  issueId?: string;
+  position?: number;
+}
+
+interface cnbc_comWatchlist {
+  id: string;
+  name?: string;
+  items: cnbc_comWatchlistItem[];
+}
+
 interface cnbc_comSector extends cnbc_comRow {
   sector: string;
 }
 
   /** Stock quotes, market data, news, videos and analysis from CNBC. */
   interface Unit {
+    /**
+     * The signed-in caller's CNBC watchlists with each saved symbol, from CNBC's own watchlist
+     * API.
+     */
+    getWatchlist(opts?: ConnectionOption): Promise<{ watchlists: cnbc_comWatchlist[] }>;
+
+    /**
+     * Adds a stock symbol to the signed-in caller's CNBC watchlist (the first one unless
+     * watchlistId is given).
+     */
+    addToWatchlist(args: { symbol: string; watchlistId?: string }, opts?: ConnectionOption): Promise<{ watchlistId: string; items: cnbc_comWatchlistItem[] }>;
+
+    /** Removes a stock symbol from the signed-in caller's CNBC watchlist. */
+    removeFromWatchlist(args: { symbol: string; watchlistId?: string }, opts?: ConnectionOption): Promise<{ watchlistId: string; removed: boolean }>;
+
     /**
      * Returns the current stock quote for one symbol — price, change, percent change, open, high,
      * low, 52-week high/low, market cap, P/E ratio and dividend, read from quote.cnbc.com's
@@ -45969,6 +46049,82 @@ interface FareharborBookingResult {
      * FareHarbor's own words with the checkout url. Returns the order uuid.
      */
     createBooking(args: FareharborCreateBookingArgs): Promise<FareharborBookingResult>;
+  }
+}
+
+declare namespace BowmarkProvider_farmaciasdirect {
+  // ── Farmaciasdirect — the unit's own declarations, verbatim ──
+interface FarmaciasdirectProduct {
+  handle: string;
+  name: string;
+  url: string;
+  brand: string | null;
+  category: string | null;
+  price: number | null;
+  compareAtPrice: number | null;
+  discountPercent: number | null;
+  currency: string;
+  inStock: boolean;
+  image: string | null;
+}
+interface FarmaciasdirectVariant {
+  title: string;
+  sku: string | null;
+  barcode: string | null;
+  price: number | null;
+  compareAtPrice: number | null;
+  inStock: boolean;
+}
+interface FarmaciasdirectProductDetail extends FarmaciasdirectProduct {
+  description: string | null;
+  images: string[];
+  variants: FarmaciasdirectVariant[];
+}
+interface FarmaciasdirectSearchArgs {
+  query: string;
+  limit?: number;
+}
+interface FarmaciasdirectSearchResult {
+  query: string;
+  total: number;
+  results: FarmaciasdirectProduct[];
+  warnings: string[];
+}
+interface FarmaciasdirectPromotionArgs {
+  collection?: string;
+  limit?: number;
+}
+interface FarmaciasdirectPromotions {
+  collection: string;
+  title: string;
+  results: FarmaciasdirectProduct[];
+  warnings: string[];
+}
+
+  /**
+   * farmaciasdirect.es, a Spanish online pharmacy: search its catalogue, read a product's EUR
+   * price, discount and stock, and list its current promotions (promociones).
+   */
+  interface Unit {
+    /**
+     * Reads one farmaciasdirect.es product by URL or handle: EUR price, pre-discount price and %
+     * off, stock, brand, category, description, images, and each variant's SKU and EAN barcode.
+     */
+    getProduct(ref: FarmaciasdirectProduct | string): Promise<FarmaciasdirectProductDetail>;
+
+    /**
+     * Lists the products on farmaciasdirect.es's promotions (promociones) — each with its offer
+     * price, crossed-out price and % off. Pass { collection: "oportunidades" } or any
+     * /collections/<handle> for another offer list.
+     */
+    listPromotions(args?: FarmaciasdirectPromotionArgs): Promise<FarmaciasdirectPromotions>;
+
+    /**
+     * Searches farmaciasdirect.es the way a shopper types — a brand or product, "eucerin solar" —
+     * and returns products with EUR price, discount, stock and the url getProduct takes. The way
+     * in.
+     */
+    search(args: FarmaciasdirectSearchArgs | string): Promise<FarmaciasdirectSearchResult>;
   }
 }
 
@@ -61146,6 +61302,36 @@ interface ImgurTagArgs {
     voteComment(input: { id: string; vote?: "up" | "down" | "veto" }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
 
     /**
+     * Deletes one of the signed-in account's own uploads by id (pass isAlbum for an album).
+     * Refuses anyone else's.
+     */
+    deletePost(input: { id: string; isAlbum?: boolean }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /** Changes the title and/or description of one of the signed-in account's own uploads. */
+    editPost(input: { id: string; title?: string; description?: string; isAlbum?: boolean }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /**
+     * Removes a post from the signed-in account's favorites. Leaves it un-favorited whether or not
+     * it was favorited before.
+     */
+    unfavoritePost(post: string, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /** Follows a tag as the signed-in account. Example: followTag({ tag: "cats" }). */
+    followTag(input: { tag: string }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /** Unfollows a tag as the signed-in account. */
+    unfollowTag(input: { tag: string }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /** Follows an imgur user as the signed-in account. Example: followUser({ username: "J3lek" }). */
+    followUser(input: { username: string }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /** Unfollows an imgur user as the signed-in account. */
+    unfollowUser(input: { username: string }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /** Changes the signed-in account's bio (500 characters max). */
+    updateProfile(input: { bio: string }, opts?: ConnectionOption): Promise<ImgurWriteResult>;
+
+    /**
      * Uploads one image to the signed-in account from a remote https URL or base64 data (exactly
      * one of url or base64). Returns the new image's id and link. Example: uploadImage({ url:
      * "https://example.com/cat.png", title: "cat" }).
@@ -61416,6 +61602,17 @@ interface IndependentVideo { url: string; articleId: string | null; title: strin
 interface GetVideoArgs { url: string; }
 interface ListVideosArgs { section?: string; limit?: number; }
 interface ListVideosResult { feed: string; videos: IndependentStory[]; }
+interface IndependentQuizzesResult { total: number; quizzes: IndependentCard[]; }
+interface ListQuizzesArgs { limit?: number; }
+interface IndependentNewsletter { key: string; name: string; description: string | null; schedule: string | null; author: string | null; imageUrl: string | null; }
+interface ListNewslettersArgs { query?: string; }
+interface ListNewslettersResult { total: number; newsletters: IndependentNewsletter[]; warnings: string[]; }
+interface VoucherStore { slug: string; name: string; url: string; }
+interface ListVoucherStoresArgs { query?: string; }
+interface ListVoucherStoresResult { total: number; stores: VoucherStore[]; warnings: string[]; }
+interface VoucherOffer { id: string; kind: "code" | "offer"; title: string; discount: string | null; usedToday: number | null; clickoutUrl: string | null; }
+interface GetVoucherCodesArgs { store: string; limit?: number; }
+interface GetVoucherCodesResult { slug: string; shop: string | null; heading: string | null; lastTested: string | null; total: number; offers: VoucherOffer[]; warnings: string[]; }
 interface ListTopicsArgs { letter?: string; query?: string; limit?: number; }
 interface ListTopicsResult { letter: string; total: number; topics: { slug: string; url: string }[]; warnings: string[]; }
 interface IndependentCard { title: string; url: string; articleId: string | null; section: { label: string; path: string } | null; imageUrl: string | null; }
@@ -61484,6 +61681,30 @@ interface GetAuthorArticlesResult { slug: string; author: string | null; total: 
 
     /** Lists the latest Indy TV videos: all, or one series such as news, culture or editors-picks. */
     listVideos(args?: ListVideosArgs): Promise<ListVideosResult>;
+
+    /**
+     * Lists the Independent's current quizzes: title, URL, section and image. Quiz URLs open with
+     * getArticle.
+     */
+    listQuizzes(args?: ListQuizzesArgs): Promise<IndependentQuizzesResult>;
+
+    /**
+     * Lists the Independent's newsletters with name, description, schedule and author, optionally
+     * filtered by a word.
+     */
+    listNewsletters(args?: ListNewslettersArgs): Promise<ListNewslettersResult>;
+
+    /**
+     * Lists the shops with Independent voucher-code pages (slug, name, URL). Feeds
+     * getVoucherCodes.
+     */
+    listVoucherStores(args?: ListVoucherStoresArgs): Promise<ListVoucherStoresResult>;
+
+    /**
+     * Gets one shop's current Independent voucher offers: title, discount, code or offer, uses
+     * today and the clickout URL. Takes a listVoucherStores slug.
+     */
+    getVoucherCodes(args: GetVoucherCodesArgs): Promise<GetVoucherCodesResult>;
 
     /**
      * Lists Independent topic pages starting with one letter or digit, optionally filtered by a
@@ -84789,6 +85010,15 @@ interface PinterestNotification {
     listPinComments(aggregatedPinDataId: string, options?: { bookmark?: string }, opts?: ConnectionOption): Promise<{ comments: PinterestComment[]; bookmark: string | null }>;
 
     /**
+     * The other products Pinterest shows beside a shoppable pin. Needs the caller signed in to
+     * Pinterest: `GET /resource/RelatedModulesResource/get/` with `{ pin_id, page_size: 12,
+     * is_pdp: true }` and their replayed session (logged out it answers 412 Login required). Takes
+     * a numeric pin id. THROWS `PinterestInputError` on an empty or non-string pin id, and when
+     * the saved session is refused.
+     */
+    listRelatedProducts(pinId: string, options?: { bookmark?: string }, opts?: ConnectionOption): Promise<{ products: PinterestPin[]; bookmark: string | null }>;
+
+    /**
      * Every pin inside a board, in the board's own order, with a `bookmark` for the next page —
      * the function a caller reaches for after `getBoard`/`listUserBoards` finds a board's id. Same
      * row shape as `searchPins`. Takes the board `id` (`getBoard`'s `id` field, or a row from
@@ -97636,6 +97866,10 @@ interface sheinProfile {
   text: string;
   email: string | null;
 }
+interface sheinPageText {
+  text: string;
+  pageUrl: string;
+}
 interface sheinOrderDetail {
   orderId: string;
   // the site's own labels — read the values off a result, never guess one from prose
@@ -97729,6 +97963,30 @@ interface sheinSizeGuide {
      * to shein.com; the relay handles it.
      */
     getProfile(opts?: ConnectionOption): Promise<sheinProfile>;
+
+    /**
+     * The CALLER's own Shein shopping bag as the cart page shows it, as text. Needs the caller
+     * signed in to shein.com; the relay handles it.
+     */
+    getCart(opts?: ConnectionOption): Promise<sheinPageText>;
+
+    /**
+     * The products on the CALLER's own Shein wishlist page, as text. Needs the caller signed in to
+     * shein.com; the relay handles it.
+     */
+    listWishlist(opts?: ConnectionOption): Promise<sheinPageText>;
+
+    /**
+     * The CALLER's followed-stores tab on Shein's wishlist page, as text. Needs the caller signed
+     * in to shein.com; the relay handles it.
+     */
+    listFollowedStores(opts?: ConnectionOption): Promise<sheinPageText>;
+
+    /**
+     * The shipping addresses saved on the CALLER's own Shein account, as the address page shows
+     * them, as text. Needs the caller signed in to shein.com; the relay handles it.
+     */
+    listAddresses(opts?: ConnectionOption): Promise<sheinPageText>;
 
     /**
      * One of the CALLER's Shein orders as its detail page shows it (status and text). Take orderId
@@ -98151,6 +98409,28 @@ interface ShopAppAddressList {
   addresses: ShopAppAddress[];
   warnings: string[];
 }
+interface ShopAppGetDeliveryEstimateArgs {
+  product: string;
+  variantId?: string;
+  country?: string;
+  postalCode?: string;
+  zoneCode?: string;
+  city?: string;
+}
+interface ShopAppDeliveryEstimate {
+  productId: string;
+  variantId: string;
+  available: boolean;
+  deliveryAt: string | null;
+  shipsToDestination: boolean | null;
+  requiresShipping: boolean | null;
+  shippingCost: { amount: number | null; currency: string | null } | null;
+  freeDeliveryThreshold: { amount: number | null; currency: string | null } | null;
+  freeReturns: boolean | null;
+  returnable: boolean | null;
+  destination: { city: string | null; country: string | null; postalCode: string | null; timezone: string | null } | null;
+  warnings: string[];
+}
 interface ShopAppUpdatePrivacySettingsArgs {
   analyticsEnabled?: boolean;
   marketingEnabled?: boolean;
@@ -98279,6 +98559,13 @@ interface ShopAppListOrdersArgs {
      * code) and returns it as listAddresses shows it. Pauses for the caller to sign in to Shop.
      */
     addAddress(args: ShopAppAddAddressArgs, opts?: ConnectionOption): Promise<ShopAppAddress>;
+
+    /**
+     * Says when a product variant would arrive at a postal code, with the shipping cost and return
+     * terms: the delivery promise Shop shows under the buy button. Pass postalCode, city and
+     * zoneCode (state) together: with less Shop names no date and `available` is false.
+     */
+    getDeliveryEstimate(args: ShopAppGetDeliveryEstimateArgs): Promise<ShopAppDeliveryEstimate>;
 
     /**
      * Turns Shop's analytics and marketing tracking on or off for the signed-in caller's account
@@ -118319,6 +118606,14 @@ interface WashingtonpostArticle {
   imageUrl?: string;
 }
 
+interface WashingtonpostWriterArchive {
+  items: WashingtonpostArticle[];
+  total?: number;
+  offset: number;
+  limit: number;
+  warnings: string[];
+}
+
 interface WashingtonpostArticleDetail {
   headline: string;
   byline?: string;
@@ -118547,6 +118842,12 @@ interface WashingtonpostLiveBlog {
 
     /** Lists the signed-in reader's own saved articles off their Washington Post account. */
     listSavedArticles(opts?: ConnectionOption): Promise<WashingtonpostSavedArticle[]>;
+
+    /**
+     * Pages a writer's whole archive, newest first, and reports the archive's own total — offset
+     * and limit (up to 200) pick the window, and a warning says when a window came back short.
+     */
+    listWriterArchive(writer: string, opts?: { limit?: number; offset?: number }): Promise<WashingtonpostWriterArchive>;
 
     /** Saves an article to the CALLER's own Washington Post saved-stories list — never a persona's. */
     saveArticle(url: string, opts?: ConnectionOption): Promise<WashingtonpostSavedArticleResult>;
@@ -128921,6 +129222,7 @@ interface BowmarkProviders {
   famousfootwear: BowmarkProvider_famousfootwear.Unit;
   fandom: BowmarkProvider_fandom.Unit;
   fareharbor: BowmarkProvider_fareharbor.Unit;
+  farmaciasdirect: BowmarkProvider_farmaciasdirect.Unit;
   faros: BowmarkProvider_faros.Unit;
   faroutmagazine: BowmarkProvider_faroutmagazine.Unit;
   fbsappliance: BowmarkProvider_fbsappliance.Unit;

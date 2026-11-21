@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 72f3f8296c76f82c98ed4500bdb31f2f254a75ae54d3d9918a1613c5ad3e6de4
-# 99 capabilities, 940 providers, 5575 typed functions, 20 refused.
+# Manifest version: e14081e6cc04f8791dc1ab32c60eb222a0ec08402f246921756bc4fd72342c83
+# 99 capabilities, 941 providers, 5603 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17180,6 +17180,40 @@ class Prv_cbsnews_CbsNewsPodcast_Out(TypedDict):
     url: str
     image: str | None
 
+class Prv_cbsnews_ListPodcastEpisodesArgs_In(TypedDict):
+    podcast: str
+    limit: NotRequired[float]
+
+class Prv_cbsnews_listPodcastEpisodes_return_Out(TypedDict):
+    podcast: str | None
+    episodes: list[Prv_cbsnews_CbsNewsPodcastEpisode_Out]
+
+class Prv_cbsnews_CbsNewsPodcastEpisode_Out(TypedDict):
+    id: str | None
+    title: str
+    summary: str | None
+    published: str | None
+    durationSeconds: float | None
+    episodeType: str | None
+    audioUrl: str | None
+    image: str | None
+
+class Prv_cbsnews_listLocalStations_return_Out(TypedDict):
+    stations: list[Prv_cbsnews_CbsNewsStation_Out]
+
+class Prv_cbsnews_CbsNewsStation_Out(TypedDict):
+    slug: str
+    name: str | None
+    url: str
+
+class Prv_cbsnews_ListLocalNewsArgs_In(TypedDict):
+    station: str
+    limit: NotRequired[float]
+
+class Prv_cbsnews_listLocalNews_return_Out(TypedDict):
+    station: str
+    articles: list[Prv_cbsnews_CbsNewsSectionStory_Out]
+
 class Prv_cbsnews_listShows_return_Out(TypedDict):
     shows: list[Prv_cbsnews_CbsNewsShow_Out]
 
@@ -20517,6 +20551,36 @@ class Prv_clutch_clutchCompany_Out(TypedDict):
     location: str | None
     services: list[str]
     sponsored: NotRequired[bool]
+
+class Prv_cnbc_com_getWatchlist_return_Out(TypedDict):
+    watchlists: list[Prv_cnbc_com_cnbc_comWatchlist_Out]
+
+class Prv_cnbc_com_cnbc_comWatchlist_Out(TypedDict):
+    id: str
+    name: NotRequired[str]
+    items: list[Prv_cnbc_com_cnbc_comWatchlistItem_Out]
+
+class Prv_cnbc_com_cnbc_comWatchlistItem_Out(TypedDict):
+    id: str
+    symbol: NotRequired[str]
+    issueId: NotRequired[str]
+    position: NotRequired[float]
+
+class Prv_cnbc_com_addToWatchlist_args_In(TypedDict):
+    symbol: str
+    watchlistId: NotRequired[str]
+
+class Prv_cnbc_com_addToWatchlist_return_Out(TypedDict):
+    watchlistId: str
+    items: list[Prv_cnbc_com_cnbc_comWatchlistItem_Out]
+
+class Prv_cnbc_com_removeFromWatchlist_args_In(TypedDict):
+    symbol: str
+    watchlistId: NotRequired[str]
+
+class Prv_cnbc_com_removeFromWatchlist_return_Out(TypedDict):
+    watchlistId: str
+    removed: bool
 
 class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
     symbol: str
@@ -30628,6 +30692,76 @@ class Prv_fareharbor_FareharborBookingResult_Out(TypedDict):
     totalDueCents: float | None
     checkoutUrl: str
 
+class Prv_farmaciasdirect_FarmaciasdirectProduct_In(TypedDict):
+    handle: str
+    name: str
+    url: str
+    brand: str | None
+    category: str | None
+    price: float | None
+    compareAtPrice: float | None
+    discountPercent: float | None
+    currency: str
+    inStock: bool
+    image: str | None
+
+class Prv_farmaciasdirect_FarmaciasdirectProductDetail_Out(TypedDict):
+    handle: str
+    name: str
+    url: str
+    brand: str | None
+    category: str | None
+    price: float | None
+    compareAtPrice: float | None
+    discountPercent: float | None
+    currency: str
+    inStock: bool
+    image: str | None
+    description: str | None
+    images: list[str]
+    variants: list[Prv_farmaciasdirect_FarmaciasdirectVariant_Out]
+
+class Prv_farmaciasdirect_FarmaciasdirectVariant_Out(TypedDict):
+    title: str
+    sku: str | None
+    barcode: str | None
+    price: float | None
+    compareAtPrice: float | None
+    inStock: bool
+
+class Prv_farmaciasdirect_FarmaciasdirectPromotionArgs_In(TypedDict):
+    collection: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_farmaciasdirect_FarmaciasdirectPromotions_Out(TypedDict):
+    collection: str
+    title: str
+    results: list[Prv_farmaciasdirect_FarmaciasdirectProduct_Out]
+    warnings: list[str]
+
+class Prv_farmaciasdirect_FarmaciasdirectProduct_Out(TypedDict):
+    handle: str
+    name: str
+    url: str
+    brand: str | None
+    category: str | None
+    price: float | None
+    compareAtPrice: float | None
+    discountPercent: float | None
+    currency: str
+    inStock: bool
+    image: str | None
+
+class Prv_farmaciasdirect_FarmaciasdirectSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_farmaciasdirect_FarmaciasdirectSearchResult_Out(TypedDict):
+    query: str
+    total: float
+    results: list[Prv_farmaciasdirect_FarmaciasdirectProduct_Out]
+    warnings: list[str]
+
 class Prv_faros_FarosRestaurant_Out(TypedDict):
     name: str
     largePartyNote: str | None
@@ -40000,6 +40134,31 @@ class Prv_imgur_voteComment_input_In(TypedDict):
     id: str
     vote: NotRequired[Literal["up"] | Literal["down"] | Literal["veto"]]
 
+class Prv_imgur_deletePost_input_In(TypedDict):
+    id: str
+    isAlbum: NotRequired[bool]
+
+class Prv_imgur_editPost_input_In(TypedDict):
+    id: str
+    title: NotRequired[str]
+    description: NotRequired[str]
+    isAlbum: NotRequired[bool]
+
+class Prv_imgur_followTag_input_In(TypedDict):
+    tag: str
+
+class Prv_imgur_unfollowTag_input_In(TypedDict):
+    tag: str
+
+class Prv_imgur_followUser_input_In(TypedDict):
+    username: str
+
+class Prv_imgur_unfollowUser_input_In(TypedDict):
+    username: str
+
+class Prv_imgur_updateProfile_input_In(TypedDict):
+    bio: str
+
 class Prv_imgur_uploadImage_input_In(TypedDict):
     url: NotRequired[str]
     base64: NotRequired[str]
@@ -40332,6 +40491,74 @@ class Prv_independent_ListVideosResult_Out(TypedDict):
     feed: str
     videos: list[Prv_independent_IndependentStory_Out]
 
+class Prv_independent_ListQuizzesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_independent_IndependentQuizzesResult_Out(TypedDict):
+    total: float
+    quizzes: list[Prv_independent_IndependentCard_Out]
+
+class Prv_independent_IndependentCard_Out(TypedDict):
+    title: str
+    url: str
+    articleId: str | None
+    section: Prv_independent_IndependentCard_Out_section_u0_Out | None
+    imageUrl: str | None
+
+class Prv_independent_IndependentCard_Out_section_u0_Out(TypedDict):
+    label: str
+    path: str
+
+class Prv_independent_ListNewslettersArgs_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_independent_ListNewslettersResult_Out(TypedDict):
+    total: float
+    newsletters: list[Prv_independent_IndependentNewsletter_Out]
+    warnings: list[str]
+
+class Prv_independent_IndependentNewsletter_Out(TypedDict):
+    key: str
+    name: str
+    description: str | None
+    schedule: str | None
+    author: str | None
+    imageUrl: str | None
+
+class Prv_independent_ListVoucherStoresArgs_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_independent_ListVoucherStoresResult_Out(TypedDict):
+    total: float
+    stores: list[Prv_independent_VoucherStore_Out]
+    warnings: list[str]
+
+class Prv_independent_VoucherStore_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+
+class Prv_independent_GetVoucherCodesArgs_In(TypedDict):
+    store: str
+    limit: NotRequired[float]
+
+class Prv_independent_GetVoucherCodesResult_Out(TypedDict):
+    slug: str
+    shop: str | None
+    heading: str | None
+    lastTested: str | None
+    total: float
+    offers: list[Prv_independent_VoucherOffer_Out]
+    warnings: list[str]
+
+class Prv_independent_VoucherOffer_Out(TypedDict):
+    id: str
+    kind: Literal["code"] | Literal["offer"]
+    title: str
+    discount: str | None
+    usedToday: float | None
+    clickoutUrl: str | None
+
 class Prv_independent_ListTopicsArgs_In(TypedDict):
     letter: NotRequired[str]
     query: NotRequired[str]
@@ -40357,17 +40584,6 @@ class Prv_independent_GetTopicArticlesResult_Out(TypedDict):
     total: float
     articles: list[Prv_independent_IndependentCard_Out]
     warnings: list[str]
-
-class Prv_independent_IndependentCard_Out(TypedDict):
-    title: str
-    url: str
-    articleId: str | None
-    section: Prv_independent_IndependentCard_Out_section_u0_Out | None
-    imageUrl: str | None
-
-class Prv_independent_IndependentCard_Out_section_u0_Out(TypedDict):
-    label: str
-    path: str
 
 class Prv_independent_ListAuthorsArgs_In(TypedDict):
     letter: NotRequired[str]
@@ -55426,6 +55642,13 @@ class Prv_pinterest_PinterestComment_Out_user_Out(TypedDict):
     username: str
     full_name: NotRequired[str]
 
+class Prv_pinterest_listRelatedProducts_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_listRelatedProducts_return_Out(TypedDict):
+    products: list[Prv_pinterest_PinterestPin_Out]
+    bookmark: str | None
+
 class Prv_pinterest_listBoardPins_options_In(TypedDict):
     bookmark: NotRequired[str]
 
@@ -64379,6 +64602,10 @@ class Prv_shein_sheinProfile_Out(TypedDict):
     text: str
     email: str | None
 
+class Prv_shein_sheinPageText_Out(TypedDict):
+    text: str
+    pageUrl: str
+
 class Prv_shein_SheinGetOrderArgs_In(TypedDict):
     orderId: str
 
@@ -64488,6 +64715,42 @@ class Prv_shop_app_ShopAppAddress_Out(TypedDict):
     phone: str | None
     formatted: list[str]
     preferred: bool
+
+class Prv_shop_app_ShopAppGetDeliveryEstimateArgs_In(TypedDict):
+    product: str
+    variantId: NotRequired[str]
+    country: NotRequired[str]
+    postalCode: NotRequired[str]
+    zoneCode: NotRequired[str]
+    city: NotRequired[str]
+
+class Prv_shop_app_ShopAppDeliveryEstimate_Out(TypedDict):
+    productId: str
+    variantId: str
+    available: bool
+    deliveryAt: str | None
+    shipsToDestination: bool | None
+    requiresShipping: bool | None
+    shippingCost: Prv_shop_app_ShopAppDeliveryEstimate_Out_shippingCost_u0_Out | None
+    freeDeliveryThreshold: Prv_shop_app_ShopAppDeliveryEstimate_Out_freeDeliveryThreshold_u0_Out | None
+    freeReturns: bool | None
+    returnable: bool | None
+    destination: Prv_shop_app_ShopAppDeliveryEstimate_Out_destination_u0_Out | None
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppDeliveryEstimate_Out_shippingCost_u0_Out(TypedDict):
+    amount: float | None
+    currency: str | None
+
+class Prv_shop_app_ShopAppDeliveryEstimate_Out_freeDeliveryThreshold_u0_Out(TypedDict):
+    amount: float | None
+    currency: str | None
+
+class Prv_shop_app_ShopAppDeliveryEstimate_Out_destination_u0_Out(TypedDict):
+    city: str | None
+    country: str | None
+    postalCode: str | None
+    timezone: str | None
 
 class Prv_shop_app_ShopAppUpdatePrivacySettingsArgs_In(TypedDict):
     analyticsEnabled: NotRequired[bool]
@@ -79172,6 +79435,17 @@ class Prv_washingtonpost_WashingtonpostSavedArticle_Out(TypedDict):
     url: str
     savedAt: NotRequired[str]
     archived: NotRequired[bool]
+
+class Prv_washingtonpost_listWriterArchive_opts_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_washingtonpost_WashingtonpostWriterArchive_Out(TypedDict):
+    items: list[Prv_washingtonpost_WashingtonpostArticle_Out]
+    total: NotRequired[float]
+    offset: float
+    limit: float
+    warnings: list[str]
 
 class Prv_washingtonpost_WashingtonpostSavedArticleResult_Out(TypedDict):
     url: str
@@ -94245,6 +94519,23 @@ class Prv_cbsnews(Protocol):
         each with its title, listening page and artwork.
         """
 
+    async def listPodcastEpisodes(self, args: Prv_cbsnews_ListPodcastEpisodesArgs_In, /) -> Prv_cbsnews_listPodcastEpisodes_return_Out:
+        """Lists one CBS News podcast's episodes (newest first) from its feed: title, plain-text
+        summary, publication time, duration, episode type and mp3 address. Take the podcast url
+        from listPodcasts.
+        """
+
+    async def listLocalStations(self, /) -> Prv_cbsnews_listLocalStations_return_Out:
+        """Lists the CBS News local station fronts (Boston, Chicago, New York, Los Angeles, Texas
+        …) from the homepage header, each with its slug and address.
+        """
+
+    async def listLocalNews(self, args: Prv_cbsnews_ListLocalNewsArgs_In, /) -> Prv_cbsnews_listLocalNews_return_Out:
+        """Lists the stories on one CBS local station front (e.g. /boston/): title, url, summary,
+        relative age and image, in the page's order. Take the station slug from
+        listLocalStations.
+        """
+
     async def listShows(self, /) -> Prv_cbsnews_listShows_return_Out:
         """Lists CBS News programmes (60 Minutes, 48 Hours, Face the Nation, CBS Mornings, Evening
         News, Sunday Morning, CBS Reports) from the homepage navigation, each with its slug and
@@ -96189,6 +96480,19 @@ class Prv_clutch(Protocol):
 
 class Prv_cnbc_com(Protocol):
     """Stock quotes, market data, news, videos and analysis from CNBC."""
+
+    async def getWatchlist(self, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_getWatchlist_return_Out:
+        """The signed-in caller's CNBC watchlists with each saved symbol, from CNBC's own watchlist
+        API.
+        """
+
+    async def addToWatchlist(self, args: Prv_cnbc_com_addToWatchlist_args_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_addToWatchlist_return_Out:
+        """Adds a stock symbol to the signed-in caller's CNBC watchlist (the first one unless
+        watchlistId is given).
+        """
+
+    async def removeFromWatchlist(self, args: Prv_cnbc_com_removeFromWatchlist_args_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_removeFromWatchlist_return_Out:
+        """Removes a stock symbol from the signed-in caller's CNBC watchlist."""
 
     async def getQuote(self, args: Prv_cnbc_com_GetQuoteArgs_In, /) -> Prv_cnbc_com_cnbc_comRow_Out:
         """Returns the current stock quote for one symbol — price, change, percent change, open,
@@ -101068,6 +101372,29 @@ class Prv_fareharbor(Protocol):
         """Places a FareHarbor booking for a slot and ticket mix under a contact (name, email,
         phone), through the checkout's own order call. Never pays: a slot that needs a card is
         refused in FareHarbor's own words with the checkout url. Returns the order uuid.
+        """
+
+class Prv_farmaciasdirect(Protocol):
+    """farmaciasdirect.es, a Spanish online pharmacy: search its catalogue, read a product's
+    EUR price, discount and stock, and list its current promotions (promociones).
+    """
+
+    async def getProduct(self, ref: Prv_farmaciasdirect_FarmaciasdirectProduct_In | str, /) -> Prv_farmaciasdirect_FarmaciasdirectProductDetail_Out:
+        """Reads one farmaciasdirect.es product by URL or handle: EUR price, pre-discount price and
+        % off, stock, brand, category, description, images, and each variant's SKU and EAN
+        barcode.
+        """
+
+    async def listPromotions(self, args: Prv_farmaciasdirect_FarmaciasdirectPromotionArgs_In | None = None, /) -> Prv_farmaciasdirect_FarmaciasdirectPromotions_Out:
+        """Lists the products on farmaciasdirect.es's promotions (promociones) — each with its
+        offer price, crossed-out price and % off. Pass { collection: "oportunidades" } or any
+        /collections/<handle> for another offer list.
+        """
+
+    async def search(self, args: Prv_farmaciasdirect_FarmaciasdirectSearchArgs_In | str, /) -> Prv_farmaciasdirect_FarmaciasdirectSearchResult_Out:
+        """Searches farmaciasdirect.es the way a shopper types — a brand or product, "eucerin
+        solar" — and returns products with EUR price, discount, stock and the url getProduct
+        takes. The way in.
         """
 
 class Prv_faros(Protocol):
@@ -106557,6 +106884,36 @@ class Prv_imgur(Protocol):
         the vote, never toggles. Example: voteComment({ id: "123456789", vote: "up" }).
         """
 
+    async def deletePost(self, input: Prv_imgur_deletePost_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Deletes one of the signed-in account's own uploads by id (pass isAlbum for an album).
+        Refuses anyone else's.
+        """
+
+    async def editPost(self, input: Prv_imgur_editPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Changes the title and/or description of one of the signed-in account's own uploads."""
+
+    async def unfavoritePost(self, post: str, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Removes a post from the signed-in account's favorites. Leaves it un-favorited whether or
+        not it was favorited before.
+        """
+
+    async def followTag(self, input: Prv_imgur_followTag_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Follows a tag as the signed-in account. Example: followTag({ tag: "cats" })."""
+
+    async def unfollowTag(self, input: Prv_imgur_unfollowTag_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Unfollows a tag as the signed-in account."""
+
+    async def followUser(self, input: Prv_imgur_followUser_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Follows an imgur user as the signed-in account. Example: followUser({ username: "J3lek"
+        }).
+        """
+
+    async def unfollowUser(self, input: Prv_imgur_unfollowUser_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Unfollows an imgur user as the signed-in account."""
+
+    async def updateProfile(self, input: Prv_imgur_updateProfile_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurWriteResult_Out:
+        """Changes the signed-in account's bio (500 characters max)."""
+
     async def uploadImage(self, input: Prv_imgur_uploadImage_input_In, opts: ConnectionOption | None = None, /) -> Prv_imgur_ImgurImage_Out:
         """Uploads one image to the signed-in account from a remote https URL or base64 data
         (exactly one of url or base64). Returns the new image's id and link. Example:
@@ -106690,6 +107047,26 @@ class Prv_independent(Protocol):
     async def listVideos(self, args: Prv_independent_ListVideosArgs_In | None = None, /) -> Prv_independent_ListVideosResult_Out:
         """Lists the latest Indy TV videos: all, or one series such as news, culture or
         editors-picks.
+        """
+
+    async def listQuizzes(self, args: Prv_independent_ListQuizzesArgs_In | None = None, /) -> Prv_independent_IndependentQuizzesResult_Out:
+        """Lists the Independent's current quizzes: title, URL, section and image. Quiz URLs open
+        with getArticle.
+        """
+
+    async def listNewsletters(self, args: Prv_independent_ListNewslettersArgs_In | None = None, /) -> Prv_independent_ListNewslettersResult_Out:
+        """Lists the Independent's newsletters with name, description, schedule and author,
+        optionally filtered by a word.
+        """
+
+    async def listVoucherStores(self, args: Prv_independent_ListVoucherStoresArgs_In | None = None, /) -> Prv_independent_ListVoucherStoresResult_Out:
+        """Lists the shops with Independent voucher-code pages (slug, name, URL). Feeds
+        getVoucherCodes.
+        """
+
+    async def getVoucherCodes(self, args: Prv_independent_GetVoucherCodesArgs_In, /) -> Prv_independent_GetVoucherCodesResult_Out:
+        """Gets one shop's current Independent voucher offers: title, discount, code or offer, uses
+        today and the clickout URL. Takes a listVoucherStores slug.
         """
 
     async def listTopics(self, args: Prv_independent_ListTopicsArgs_In | None = None, /) -> Prv_independent_ListTopicsResult_Out:
@@ -115095,6 +115472,14 @@ class Prv_pinterest(Protocol):
         refused (the run asks for a fresh sign-in).
         """
 
+    async def listRelatedProducts(self, pinId: str, options: Prv_pinterest_listRelatedProducts_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pinterest_listRelatedProducts_return_Out:
+        """The other products Pinterest shows beside a shoppable pin. Needs the caller signed in to
+        Pinterest: `GET /resource/RelatedModulesResource/get/` with `{ pin_id, page_size: 12,
+        is_pdp: true }` and their replayed session (logged out it answers 412 Login required).
+        Takes a numeric pin id. THROWS `PinterestInputError` on an empty or non-string pin id,
+        and when the saved session is refused.
+        """
+
     async def listBoardPins(self, boardId: str, options: Prv_pinterest_listBoardPins_options_In | None = None, /) -> Prv_pinterest_listBoardPins_return_Out:
         """Every pin inside a board, in the board's own order, with a `bookmark` for the next page
         — the function a caller reaches for after `getBoard`/`listUserBoards` finds a board's
@@ -119799,6 +120184,26 @@ class Prv_shein(Protocol):
         signed in to shein.com; the relay handles it.
         """
 
+    async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
+        """The CALLER's own Shein shopping bag as the cart page shows it, as text. Needs the caller
+        signed in to shein.com; the relay handles it.
+        """
+
+    async def listWishlist(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
+        """The products on the CALLER's own Shein wishlist page, as text. Needs the caller signed
+        in to shein.com; the relay handles it.
+        """
+
+    async def listFollowedStores(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
+        """The CALLER's followed-stores tab on Shein's wishlist page, as text. Needs the caller
+        signed in to shein.com; the relay handles it.
+        """
+
+    async def listAddresses(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
+        """The shipping addresses saved on the CALLER's own Shein account, as the address page
+        shows them, as text. Needs the caller signed in to shein.com; the relay handles it.
+        """
+
     async def getOrder(self, args: Prv_shein_SheinGetOrderArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinOrderDetail_Out:
         """One of the CALLER's Shein orders as its detail page shows it (status and text). Take
         orderId from listOrders. Needs the caller signed in to shein.com; the relay handles it.
@@ -119838,6 +120243,13 @@ class Prv_shop_app(Protocol):
         """Adds a shipping address to the signed-in caller's Shop account (country is a two-letter
         code) and returns it as listAddresses shows it. Pauses for the caller to sign in to
         Shop.
+        """
+
+    async def getDeliveryEstimate(self, args: Prv_shop_app_ShopAppGetDeliveryEstimateArgs_In, /) -> Prv_shop_app_ShopAppDeliveryEstimate_Out:
+        """Says when a product variant would arrive at a postal code, with the shipping cost and
+        return terms: the delivery promise Shop shows under the buy button. Pass postalCode,
+        city and zoneCode (state) together: with less Shop names no date and `available` is
+        false.
         """
 
     async def updatePrivacySettings(self, args: Prv_shop_app_ShopAppUpdatePrivacySettingsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppPrivacySettings_Out:
@@ -126888,6 +127300,12 @@ class Prv_washingtonpost(Protocol):
     async def listSavedArticles(self, opts: ConnectionOption | None = None, /) -> list[Prv_washingtonpost_WashingtonpostSavedArticle_Out]:
         """Lists the signed-in reader's own saved articles off their Washington Post account."""
 
+    async def listWriterArchive(self, writer: str, opts: Prv_washingtonpost_listWriterArchive_opts_In | None = None, /) -> Prv_washingtonpost_WashingtonpostWriterArchive_Out:
+        """Pages a writer's whole archive, newest first, and reports the archive's own total —
+        offset and limit (up to 200) pick the window, and a warning says when a window came back
+        short.
+        """
+
     async def saveArticle(self, url: str, opts: ConnectionOption | None = None, /) -> Prv_washingtonpost_WashingtonpostSavedArticleResult_Out:
         """Saves an article to the CALLER's own Washington Post saved-stories list — never a
         persona's.
@@ -130445,6 +130863,7 @@ class BowmarkProviders(Protocol):
     famousfootwear: Prv_famousfootwear
     fandom: Prv_fandom
     fareharbor: Prv_fareharbor
+    farmaciasdirect: Prv_farmaciasdirect
     faros: Prv_faros
     faroutmagazine: Prv_faroutmagazine
     fbsappliance: Prv_fbsappliance

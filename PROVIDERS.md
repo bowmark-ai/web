@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7433 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7437 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -711,7 +711,7 @@ One function per row, with the site it is called on.
 | `bluesky.getMe` | bsky.app | Who the signed-in caller is: their DID, handle, email-confirmed flag and PDS host. | 🟢 |
 | `bluesky.getMyLikes` | bsky.app | The posts the caller has liked. | 🟢 |
 | `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟡 |
-| `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | 🟡 |
+| `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | 🟢 |
 | `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | 🟢 |
 | `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | 🟢 |
 | `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | 🟢 |
@@ -1527,7 +1527,7 @@ One function per row, with the site it is called on.
 | `clutch.getCompany` | clutch.co | Reads a public Clutch agency profile by profile URL or slug, including visible company… | 🟢 |
 | `clutch.search` | clutch.co | Searches Clutch's public ranked agency directory for software or web-development… | 🟢 |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
-| `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | ⚪ |
+| `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | 🟢 |
 | `cnbc_com.followTopic` | cnbc.com | Follows a CNBC news topic to receive articles about it. | ⚪ |
 | `cnbc_com.getArticle` | cnbc.com | Returns a CNBC article by URL — headline, authors, dates, section, keywords, lead… | 🟢 |
 | `cnbc_com.getAuthor` | cnbc.com | Returns details about a CNBC journalist or contributor — name, bio, photo and link to… | 🟢 |
@@ -1536,7 +1536,7 @@ One function per row, with the site it is called on.
 | `cnbc_com.getPremiumContent` | cnbc.com | Returns CNBC Pro premium articles and analysis. | ⚪ |
 | `cnbc_com.getQuote` | cnbc.com | Returns the current stock quote for one symbol — price, change, percent change, open… | 🟢 |
 | `cnbc_com.getVideo` | cnbc.com | Returns details of a CNBC video — title, description, duration, transcript (if… | 🟢 |
-| `cnbc_com.getWatchlist` | cnbc.com | Returns the user's saved watchlist of stocks — symbols, current price, change and… | ⚪ |
+| `cnbc_com.getWatchlist` | cnbc.com | Returns the user's saved watchlist of stocks — symbols, current price, change and… | 🟢 |
 | `cnbc_com.listArticlesByAuthor` | cnbc.com | Lists all articles published by a specific CNBC journalist or contributor, with… | 🟢 |
 | `cnbc_com.listCategories` | cnbc.com | Lists CNBC's news categories and sections — Markets, Investing, Earnings, Economy… | 🟢 |
 | `cnbc_com.listCommodities` | cnbc.com | Lists commodity prices — crude oil, natural gas, gold, silver, copper, wheat and other… | 🟢 |
@@ -1546,7 +1546,7 @@ One function per row, with the site it is called on.
 | `cnbc_com.listQuotes` | cnbc.com | Returns stock quotes for multiple symbols in one call — the same fields as getQuote… | 🟢 |
 | `cnbc_com.listSectors` | cnbc.com | Returns today's performance of the eleven S&P 500 sectors, each through its SPDR… | 🟢 |
 | `cnbc_com.listVideosByCategory` | cnbc.com | Lists CNBC videos by category (latest, trending, live, channels) — title, description… | 🟢 |
-| `cnbc_com.removeFromWatchlist` | cnbc.com | Removes a stock symbol from the user's watchlist. | ⚪ |
+| `cnbc_com.removeFromWatchlist` | cnbc.com | Removes a stock symbol from the user's watchlist. | 🟢 |
 | `cnbc_com.search` | cnbc.com | Searches CNBC's articles and videos for a keyword and returns them by relevance —… | 🟢 |
 | `cnbc_com.subscribeToNewsletter` | cnbc.com | Subscribes to a CNBC newsletter (Markets, Tech, Earnings, etc). | ⚪ |
 | `cnbc_com.unfollowTopic` | cnbc.com | Unfollows a CNBC news topic. | ⚪ |
@@ -2518,6 +2518,9 @@ One function per row, with the site it is called on.
 | `fareharbor.listOperators` | fareharbor.com | List available tour operators that use the FareHarbor platform. | ⚪ |
 | `fareharbor.quoteBooking` | fareharbor.com | Prices a booking up to the payment step (ticket lines, booking fee, tax, total due)… | 🟢 |
 | `fareharbor.searchItems` | fareharbor.com | Lists every tour, activity or rental a FareHarbor operator sells, optionally filtered… | 🟢 |
+| `farmaciasdirect.getProduct` | farmaciasdirect.es | Reads one farmaciasdirect.es product by URL or handle: EUR price, pre-discount price… | 🟢 |
+| `farmaciasdirect.listPromotions` | farmaciasdirect.es | Lists the products on farmaciasdirect.es's promotions page (promociones, ofertas)… | 🟢 |
+| `farmaciasdirect.search` | farmaciasdirect.es | Searches the farmaciasdirect.es online pharmacy catalogue by brand or product and… | 🟢 |
 | `faros.cancelHold` | farosrestaurant.co.uk | Releases a table held with createHold at Oxford Circus or Holborn so it goes back to… | ⚪ |
 | `faros.createHold` | farosrestaurant.co.uk | Holds a table at Oxford Circus or Holborn for a party at a date and time, stopping at… | ⚪ |
 | `faros.getMenu` | farosrestaurant.co.uk | Reads one Faros restaurant's menu as text from its PDF: food, cocktails, wine, spirits… | 🟢 |
@@ -3446,11 +3449,11 @@ One function per row, with the site it is called on.
 | `imgur.addComment` | imgur.com | Comments on a post, or replies to a comment. | 🟢 |
 | `imgur.createPost` | imgur.com | Creates a post from uploaded media, optionally sharing it to the public community with… | 🟢 |
 | `imgur.deleteComment` | imgur.com | Deletes one of the signed-in account's own comments by its numeric id. | 🟢 |
-| `imgur.deletePost` | imgur.com | Deletes one of the signed-in account's posts. | ⚪ |
-| `imgur.editPost` | imgur.com | Edits a post's title, description or tags. | ⚪ |
+| `imgur.deletePost` | imgur.com | Deletes one of the signed-in account's posts. | 🟢 |
+| `imgur.editPost` | imgur.com | Edits a post's title, description or tags. | 🟢 |
 | `imgur.favoritePost` | imgur.com | Favorites a post. | 🟢 |
-| `imgur.followTag` | imgur.com | Follows a tag. | ⚪ |
-| `imgur.followUser` | imgur.com | Follows a user. | ⚪ |
+| `imgur.followTag` | imgur.com | Follows a tag. | 🟢 |
+| `imgur.followUser` | imgur.com | Follows a user. | 🟢 |
 | `imgur.getGalleryPosts` | imgur.com | Lists the gallery feed (most viral, user submitted, or top) with sort and paging… | 🟢 |
 | `imgur.getImage` | imgur.com | Resolves a direct image/video id or i.imgur.com link to its media URL, size and type. | 🟢 |
 | `imgur.getMyFavorites` | imgur.com | Lists the signed-in account's favorites, including private ones. | 🟢 |
@@ -3465,10 +3468,10 @@ One function per row, with the site it is called on.
 | `imgur.getUserPosts` | imgur.com | Lists a user's public submitted posts. | 🟢 |
 | `imgur.listTags` | imgur.com | Lists trending and featured tags, the door to a tag's posts. | 🟢 |
 | `imgur.searchPosts` | imgur.com | Searches imgur's gallery for posts matching a query, logged out. | 🟢 |
-| `imgur.unfavoritePost` | imgur.com | Removes a post from favorites. | ⚪ |
-| `imgur.unfollowTag` | imgur.com | Unfollows a tag. | ⚪ |
-| `imgur.unfollowUser` | imgur.com | Unfollows a user. | ⚪ |
-| `imgur.updateProfile` | imgur.com | Changes the signed-in account's bio or avatar. | ⚪ |
+| `imgur.unfavoritePost` | imgur.com | Removes a post from favorites. | 🟢 |
+| `imgur.unfollowTag` | imgur.com | Unfollows a tag. | 🟢 |
+| `imgur.unfollowUser` | imgur.com | Unfollows a user. | 🟢 |
+| `imgur.updateProfile` | imgur.com | Changes the signed-in account's bio or avatar. | 🟢 |
 | `imgur.uploadImage` | imgur.com | Uploads one image to the signed-in account from a remote https URL or base64 data. | 🟢 |
 | `imgur.voteComment` | imgur.com | Up-, down- or vetoes the signed-in account's vote on a comment. | 🟢 |
 | `imgur.votePost` | imgur.com | Upvotes, downvotes or clears a vote on a post. | 🟢 |
@@ -3492,19 +3495,19 @@ One function per row, with the site it is called on.
 | `independent.getQuiz` | independent.co.uk | Gets one quiz's questions and answer options. | ⚪ |
 | `independent.getTopicArticles` | independent.co.uk | Lists the latest articles on one topic page (/topic/<slug>). | 🟢 |
 | `independent.getVideo` | independent.co.uk | Gets one Independent TV video: title, description, date, duration and stream where… | 🟢 |
-| `independent.getVoucherCodes` | independent.co.uk | Lists the current discount codes and offers for one shop, e.g. /vouchercodes/very. | ⚪ |
+| `independent.getVoucherCodes` | independent.co.uk | Lists the current discount codes and offers for one shop, e.g. /vouchercodes/very. | 🟢 |
 | `independent.listArticlesByDate` | independent.co.uk | Lists every article The Independent published on one date, back to 1995. | 🟢 |
 | `independent.listAuthors` | independent.co.uk | Finds Independent writers by name; the door for getAuthorArticles. | 🟢 |
 | `independent.listBookmarks` | independent.co.uk | Lists the signed-in caller's bookmarked articles. | ⚪ |
 | `independent.listCompetitions` | independent.co.uk | Lists the open reader competitions and prize draws. | ⚪ |
 | `independent.listLatestNews` | independent.co.uk | Lists the newest stories from an Independent RSS feed: the whole site (/rss) or one… | 🟢 |
-| `independent.listNewsletters` | independent.co.uk | Lists The Independent's email newsletters with description, frequency, author and… | ⚪ |
+| `independent.listNewsletters` | independent.co.uk | Lists The Independent's email newsletters with description, frequency, author and… | 🟢 |
 | `independent.listNewsletterSubscriptions` | independent.co.uk | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
-| `independent.listQuizzes` | independent.co.uk | Lists the quizzes in Puzzles and Games. | ⚪ |
+| `independent.listQuizzes` | independent.co.uk | Lists the quizzes in Puzzles and Games. | 🟢 |
 | `independent.listSections` | independent.co.uk | Lists The Independent's sections and subsections (News, Sport, Voices, Culture… | 🟢 |
 | `independent.listTopics` | independent.co.uk | Lists or finds Independent topic pages (e.g. climate-change, brexit) by name or first… | 🟢 |
 | `independent.listVideos` | independent.co.uk | Lists Independent TV videos, overall or for one series or channel (culture, lifestyle… | 🟢 |
-| `independent.listVoucherStores` | independent.co.uk | Lists the shops The Independent's voucher-codes pages cover; the door for… | ⚪ |
+| `independent.listVoucherStores` | independent.co.uk | Lists the shops The Independent's voucher-codes pages cover; the door for… | 🟢 |
 | `independent.postComment` | independent.co.uk | Posts a comment on an article as the signed-in caller (Viafoura). | ⚪ |
 | `independent.removeBookmark` | independent.co.uk | Removes an article from the signed-in caller's bookmarks. | ⚪ |
 | `independent.searchArticles` | independent.co.uk | Searches Independent articles by keyword. | ⚪ |
@@ -4569,7 +4572,7 @@ One function per row, with the site it is called on.
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
 | `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
 | `nytimes.getConnections` | nytimes.com | Gets a day's Connections puzzle — the four categories and their cards. | 🟢 |
-| `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟡 |
+| `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🔴 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟢 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
@@ -4849,7 +4852,7 @@ One function per row, with the site it is called on.
 | `pinterest.listNotifications` | pinterest.com | The caller's own notifications — who saved, commented on or followed them, newest… | 🟢 |
 | `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | 🔴 |
 | `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | 🔴 |
-| `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | ⚪ |
+| `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | 🔴 |
 | `pinterest.listTopicPins` | pinterest.com | The best pins in a topic — Pinterest's editorial feed for that interest, which is the… | 🟢 |
 | `pinterest.listTopics` | pinterest.com | Pinterest's own top-level idea topics — Food and Drink, Home Decor, Travel, Tattoos… | 🟢 |
 | `pinterest.listUserBoards` | pinterest.com | Every board a person has made public, with id, name, url, pin count and section count… | 🟢 |
@@ -6866,6 +6869,7 @@ One function per row, with the site it is called on.
 | `washingtonpost.listTopics` | washingtonpost.com | Lists the site's own topic/beat pages off its published section-sitemap — narrower… | 🟢 |
 | `washingtonpost.listTrending` | washingtonpost.com | Lists the site's own most-read articles right now. | 🟢 |
 | `washingtonpost.listVideos` | washingtonpost.com | Lists the site's own newest videos off its video sitemap — title, description, date… | 🟢 |
+| `washingtonpost.listWriterArchive` | washingtonpost.com | Pages a writer's whole archive, newest first, and reports the archive's own total —… | 🟢 |
 | `washingtonpost.saveArticle` | washingtonpost.com | Saves an article to the CALLER's own Washington Post saved-stories list — never a… | 🟢 |
 | `washingtonpost.searchArticles` | washingtonpost.com | Searches the site's own article index for a keyword and returns matching articles with… | ⚪ |
 | `washingtonpost.searchWriters` | washingtonpost.com | Searches Washington Post writers by name off the site's own author sitemap (the site… | 🟢 |
@@ -6879,7 +6883,7 @@ One function per row, with the site it is called on.
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
 | `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
-| `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟡 |
+| `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟢 |
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟢 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | 🟢 |
 | `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |

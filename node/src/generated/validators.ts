@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 72f3f8296c76f82c98ed4500bdb31f2f254a75ae54d3d9918a1613c5ad3e6de4
-// 5575 checked, 20 unchecked.
+// Manifest version: e14081e6cc04f8791dc1ab32c60eb222a0ec08402f246921756bc4fd72342c83
+// 5603 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "72f3f8296c76f82c98ed4500bdb31f2f254a75ae54d3d9918a1613c5ad3e6de4",
+  "version": "e14081e6cc04f8791dc1ab32c60eb222a0ec08402f246921756bc4fd72342c83",
   "units": {
     "address_validation": {
       "defs": {
@@ -32592,6 +32592,44 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListLocalNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "station",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListPodcastEpisodesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "podcast",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSectionArticlesArgs": {
           "k": "object",
           "props": [
@@ -32780,6 +32818,27 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listPodcasts": [],
+        "listPodcastEpisodes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPodcastEpisodesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLocalStations": [],
+        "listLocalNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLocalNewsArgs"
+            },
+            "optional": false
+          }
+        ],
         "listShows": []
       }
     },
@@ -40486,6 +40545,106 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getWatchlist": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToWatchlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "symbol",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "watchlistId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromWatchlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "symbol",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "watchlistId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getQuote": [
           {
             "name": "args",
@@ -62090,6 +62249,226 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.farmaciasdirect": {
+      "defs": {
+        "FarmaciasdirectProduct": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "brand",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "compareAtPrice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "discountPercent",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "inStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "image",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "FarmaciasdirectPromotionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "collection",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "FarmaciasdirectSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProduct": [
+          {
+            "name": "ref",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "FarmaciasdirectProduct"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listPromotions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FarmaciasdirectPromotionArgs"
+            },
+            "optional": true
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "FarmaciasdirectSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.faros": {
       "defs": {
         "FarosLocationKey": {
@@ -82000,6 +82379,297 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "deletePost": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "isAlbum",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "editPost": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "isAlbum",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfavoritePost": [
+          {
+            "name": "post",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followTag": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tag",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowTag": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tag",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followUser": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowUser": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bio",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "uploadImage": [
           {
             "name": "input",
@@ -82485,6 +83155,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetVoucherCodesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListArticlesByDateArgs": {
           "k": "object",
           "props": [
@@ -82549,6 +83238,30 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListNewslettersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListQuizzesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListTopicsArgs": {
           "k": "object",
           "props": [
@@ -82589,6 +83302,18 @@ export const VALIDATORS: ValidatorTable = {
               "name": "limit",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListVoucherStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -82685,6 +83410,46 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListVideosArgs"
             },
             "optional": true
+          }
+        ],
+        "listQuizzes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListQuizzesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listNewsletters": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListNewslettersArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listVoucherStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVoucherStoresArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getVoucherCodes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVoucherCodesArgs"
+            },
+            "optional": false
           }
         ],
         "listTopics": [
@@ -115769,6 +116534,47 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listRelatedProducts": [
+          {
+            "name": "pinId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listBoardPins": [
           {
             "name": "boardId",
@@ -136128,6 +136934,78 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWishlist": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowedStores": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listAddresses": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getOrder": [
           {
             "name": "args",
@@ -136361,6 +137239,53 @@ export const VALIDATORS: ValidatorTable = {
               "name": "follow",
               "schema": {
                 "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ShopAppGetDeliveryEstimateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "variantId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "postalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "zoneCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -136711,6 +137636,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "getDeliveryEstimate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppGetDeliveryEstimateArgs"
+            },
+            "optional": false
           }
         ],
         "updatePrivacySettings": [
@@ -166156,6 +167091,38 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWriterArchive": [
+          {
+            "name": "writer",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },
