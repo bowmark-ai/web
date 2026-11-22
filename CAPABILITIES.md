@@ -164,7 +164,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `vision.frames` | Samples frames from a video or image and returns them as saved files with links… | 0 | 🟢 |
 | `vision.identifyEffect` | Takes a moment of a video and says what visual effect, transition or technique is… | 0 | 🟢 |
 | `vision.readText` | Reads the legible text in an image or in frames of a video, verbatim and in reading… | 0 | 🟢 |
-| `vpn_dedicated_ip.compare` | Compare VPN dedicated/static IP providers (Windscribe, Surfshark, PureVPN): where each… | 3 | 🟢 |
+| `vpn_dedicated_ip.compare` | Compare VPN dedicated/static IP providers (Windscribe, Surfshark, PureVPN): where each… | 3 | 🟡 |
 | `weather.forecast` | Geocodes a place name and returns its daily forecast (default 5 days, max 16 —… | 0 | 🟢 |
 | `web_form_fields.fillForm` | Opens the page (and the booking/quote widget behind a button, exactly as `getFields`… | 0 | 🟢 |
 | `web_form_fields.getFields` | Reads a page and returns its forms plus a total field count, each field with its… | 0 | 🟢 |
