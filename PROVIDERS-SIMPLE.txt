@@ -303,7 +303,7 @@ dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dignitymemorial.com — dignitymemorial: getObituary, searchObituaries
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listExtras, listRoomTypes, sendEnquiry (+1 planned)
-discogs.com — discogs: getArtist, getLabel, getMaster, getRelease, getReleaseRating, getUserProfile, listArtistReleases, listCollectionFolders, listCollectionItems, listLabelReleases, listMasterVersions, listSellerInventory, listUserContributions, searchDatabase (+47 planned)
+discogs.com — discogs: getArtist, getLabel, getList, getMaster, getRelease, getReleaseRating, getUserProfile, listArtistReleases, listCollectionFolders, listCollectionItems, listLabelReleases, listMasterVersions, listSellerInventory, listUserContributions, listUserLists, listUserSubmissions, listWantlist, searchDatabase (+43 planned)
 discord.com — discord: 50 functions — ask get_library
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice

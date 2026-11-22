@@ -1902,7 +1902,7 @@ One function per row, with the site it is called on.
 | `discogs.getCollectionValue` | discogs.com | Read the minimum, median and maximum value of the signed-in caller's Discogs collection. | ⚪ |
 | `discogs.getForumThread` | discogs.com | Read one Discogs forum thread: its title and posts with author and date. | ⚪ |
 | `discogs.getLabel` | discogs.com | Read one Discogs record label by id: name, profile text, contact info, links, parent… | 🟢 |
-| `discogs.getList` | discogs.com | Read one Discogs user list by id: its title, description and the releases, masters… | ⚪ |
+| `discogs.getList` | discogs.com | Read one Discogs user list by id: its title, description and the releases, masters… | 🟢 |
 | `discogs.getListing` | discogs.com | Read one Discogs marketplace listing by id: the release, condition, price, shipping… | ⚪ |
 | `discogs.getMaster` | discogs.com | Read one Discogs master release (an album across all its editions) by id: title, year… | 🟢 |
 | `discogs.getMyIdentity` | discogs.com | Read the signed-in caller's own Discogs identity: username, id and profile link — the… | ⚪ |
@@ -1929,9 +1929,9 @@ One function per row, with the site it is called on.
 | `discogs.listReleaseReviews` | discogs.com | Read the community reviews on a Discogs release or master: reviewer, date, rating and… | ⚪ |
 | `discogs.listSellerInventory` | discogs.com | List what a Discogs seller has for sale, paged and sortable: each listing's id… | 🟢 |
 | `discogs.listUserContributions` | discogs.com | List the database entries a Discogs user has contributed to, paged. | 🟢 |
-| `discogs.listUserLists` | discogs.com | List the public lists a Discogs user has made. | ⚪ |
-| `discogs.listUserSubmissions` | discogs.com | List a Discogs user's database submissions (new releases, artists, labels and edits)… | ⚪ |
-| `discogs.listWantlist` | discogs.com | List a Discogs user's wantlist, paged: each wanted release with its notes and rating. | ⚪ |
+| `discogs.listUserLists` | discogs.com | List the public lists a Discogs user has made. | 🟢 |
+| `discogs.listUserSubmissions` | discogs.com | List a Discogs user's database submissions (new releases, artists, labels and edits)… | 🟢 |
+| `discogs.listWantlist` | discogs.com | List a Discogs user's wantlist, paged: each wanted release with its notes and rating. | 🟢 |
 | `discogs.makeOffer` | discogs.com | Make an offer on a Discogs marketplace listing that accepts offers. | ⚪ |
 | `discogs.rateRelease` | discogs.com | Rate a Discogs release from 1 to 5 stars as the signed-in caller. | ⚪ |
 | `discogs.removeFromCart` | discogs.com | Remove an item from the signed-in caller's Discogs cart. | ⚪ |

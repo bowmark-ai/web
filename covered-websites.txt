@@ -66637,7 +66637,7 @@ discmania-dealers.myshopify.com	Discmania Dealer Store (USA)	10
 discmania.net	discmania.net	14
 disco-discount-planner.myshopify.com	Disco Discount Planner	10
 disco-tehran.myshopify.com	disco tehran	10
-discogs.com	Discogs	14
+discogs.com	Discogs	18
 discolypso-store.myshopify.com	Discolypso	10
 discompare.com	Price Comparison and Price Tracker	6
 discontinueddecals.com.au	Discontinued Decals	6

@@ -1,5 +1,5 @@
 {
-  "version": "1dfb3d15f921f52740de0b76f1cdc5a15acf3a2ee8d64f84c313f4d78844a1b7",
+  "version": "7dc6daa29c24ce0fa96a2a1089ce750d40697baf19c09215d67072abdedd57cf",
   "units": {
     "address_validation": {
       "defs": {
@@ -11636,6 +11636,81 @@
             "optional": false
           }
         ],
+        "autocompleteLocation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getExperience": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getExperienceReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "searchExperiences": [
           {
             "name": "args",
@@ -15331,6 +15406,273 @@
             "schema": {
               "k": "ref",
               "name": "StoreArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.apnews": {
+      "defs": {
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetPhotoGalleryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetTodayInHistoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "month",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "day",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListLatestNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListSectionArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListSectionsArgs": {
+          "k": "object",
+          "props": []
+        },
+        "ListTopicArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "topic",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "oldest"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listLatestNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLatestNewsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSections": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSectionsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listSectionArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSectionArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listTopicArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTopicArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPhotoGallery": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPhotoGalleryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTodayInHistory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTodayInHistoryArgs"
             },
             "optional": false
           }
@@ -19827,6 +20169,116 @@
         ]
       }
     },
+    "providers.bankofamerica": {
+      "defs": {
+        "BankofamericaCdRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "BankofamericaDepositAccountsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "BankofamericaMortgageRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "purpose",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "purchase"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "refinance"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "purchasePrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "downPayment",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "ficoScore",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getCdRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BankofamericaCdRatesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listDepositAccounts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BankofamericaDepositAccountsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMortgageRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BankofamericaMortgageRatesArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.barletta": {
       "defs": {},
       "functions": {
@@ -21125,6 +21577,138 @@
     "providers.bestbuy": {
       "defs": {},
       "functions": {
+        "findStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "zip",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "number"
+                          }
+                        ]
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProductQuestions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "sku",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "number"
+                          }
+                        ]
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "id",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listDeals": [],
+        "getStore": [
+          {
+            "name": "storeId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "search": [
           {
             "name": "args",
@@ -21297,6 +21881,235 @@
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.biblegateway": {
+      "defs": {
+        "ComparePassageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "reference",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "versions",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetDevotionalArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetPassageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "reference",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "version",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetReadingPlanDayArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetVerseOfTheDayArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "version",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetVersionInfoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "version",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListVersionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchBibleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "version",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getVersionInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVersionInfoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getReadingPlanDay": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetReadingPlanDayArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listDevotionals": [],
+        "getDevotional": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDevotionalArgs"
+            },
+            "optional": false
+          }
+        ],
+        "comparePassage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ComparePassageArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVerseOfTheDay": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVerseOfTheDayArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listReadingPlans": [],
+        "searchBible": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchBibleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPassage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPassageArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVersions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVersionsArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -35373,6 +36186,218 @@
         ]
       }
     },
+    "providers.chess_com": {
+      "defs": {
+        "chess_comClubArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "club",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "chess_comGamesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "month",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "months",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "chess_comLeaderboardsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "chess_comTitledArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "GM"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "WGM"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "IM"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "WIM"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "FM"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "WFM"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "NM"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "CM"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "WCM"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "WNM"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "chess_comUsernameArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getRandomPuzzle": [],
+        "listStreamers": [],
+        "listTitledPlayers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comTitledArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getClub": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comClubArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDailyPuzzle": [],
+        "getLeaderboards": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comLeaderboardsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getPlayer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comUsernameArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlayerStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comUsernameArgs"
+            },
+            "optional": false
+          }
+        ],
+        "isPlayerOnline": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comUsernameArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPlayerClubs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comUsernameArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPlayerGames": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comGamesArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.chick_fil_a": {
       "defs": {
         "ChickFilALocationArgs": {
@@ -43220,6 +44245,42 @@
             "optional": false
           }
         ],
+        "getAccountHome": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getListingImages": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getListingMap": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listAreas": [],
         "listCategories": [
           {
@@ -43264,6 +44325,113 @@
               ]
             },
             "optional": true
+          }
+        ],
+        "searchNearby": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "area",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "category",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sort",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "date"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "priceasc"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "pricedsc"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "rel"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "postal",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "distanceMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "details",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "boolean"
+                      },
+                      {
+                        "k": "number"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ],
         "searchJobs": [
@@ -48949,6 +50117,97 @@
             }
           ]
         },
+        "DiscogsCollectionItemsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "folderId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "label"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "artist"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "title"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "catno"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "format"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rating"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "added"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "year"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sortOrder",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "DiscogsLabelArgs": {
           "k": "object",
           "props": [
@@ -49061,6 +50320,40 @@
             }
           ]
         },
+        "DiscogsMasterVersionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "masterId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "DiscogsReleaseArgs": {
           "k": "object",
           "props": [
@@ -49078,6 +50371,33 @@
                 ]
               },
               "optional": false
+            }
+          ]
+        },
+        "DiscogsReleaseRatingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "releaseId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -49115,6 +50435,139 @@
                 ]
               },
               "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "DiscogsSellerInventoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "status",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "listed"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "price"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "item"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "artist"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "label"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "catno"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "audio"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "status"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "location"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sortOrder",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "DiscogsUserArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "DiscogsUserPagedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             },
             {
               "name": "page",
@@ -49208,6 +50661,92 @@
             "schema": {
               "k": "ref",
               "name": "DiscogsMasterArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listMasterVersions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsMasterVersionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getReleaseRating": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsReleaseRatingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getUserProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "DiscogsUserArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listSellerInventory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsSellerInventoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCollectionFolders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "DiscogsUserArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listCollectionItems": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsCollectionItemsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listUserContributions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsUserPagedArgs"
             },
             "optional": false
           }
@@ -50955,6 +52494,162 @@
             "schema": {
               "k": "ref",
               "name": "DisneyGetTicketPriceArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.disney_plus": {
+      "defs": {
+        "DisneyPlusEpisodesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "DisneyPlusSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "category",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getPlans": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "region",
+                  "schema": {
+                    "k": "literal",
+                    "v": "US"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getEpisodes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DisneyPlusEpisodesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTop10": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "region",
+                  "schema": {
+                    "k": "literal",
+                    "v": "US"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTitle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchTitles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DisneyPlusSearchArgs"
             },
             "optional": false
           }
@@ -59000,6 +60695,73 @@
             }
           ]
         },
+        "ExpediaGetHotelReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "propertyId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ExpediaSearchCarsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "pickUpDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "dropOffDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ExpediaSearchFlightsArgs": {
           "k": "object",
           "props": [
@@ -59133,6 +60895,71 @@
               "optional": true
             }
           ]
+        },
+        "ExpediaSearchVacationRentalsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "propertyType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "apartment"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "house"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "villa"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "condo"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -59194,6 +61021,60 @@
                 {
                   "k": "ref",
                   "name": "ExpediaGetHotelDetailsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getHotelReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ExpediaGetHotelReviewsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchCars": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ExpediaSearchCarsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchVacationRentals": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ExpediaSearchVacationRentalsArgs"
                 }
               ]
             },
@@ -63989,6 +65870,37 @@
     },
     "providers.fiverr": {
       "defs": {
+        "AutocompleteSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "path",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetGigArgs": {
           "k": "object",
           "props": [
@@ -64032,6 +65944,30 @@
             }
           ]
         },
+        "GetSellerReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListSellerGigsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchGigsArgs": {
           "k": "object",
           "props": [
@@ -64053,6 +65989,26 @@
         }
       },
       "functions": {
+        "autocompleteSearch": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AutocompleteSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCategoryArgs"
+            },
+            "optional": false
+          }
+        ],
         "getGig": [
           {
             "name": "args",
@@ -64073,6 +66029,27 @@
             "optional": false
           }
         ],
+        "getSellerReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSellerReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSellerGigs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSellerGigsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [],
         "getSeller": [
           {
             "name": "args",
@@ -84114,6 +86091,32 @@
     },
     "providers.instacart": {
       "defs": {
+        "InstacartBuyItAgainArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "shopId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "postalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "InstacartCompareStoresArgs": {
           "k": "object",
           "props": [
@@ -84220,6 +86223,44 @@
                 ]
               },
               "optional": true
+            }
+          ]
+        },
+        "InstacartGetListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "shopId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zoneId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "InstacartGetOrderArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "orderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -84334,6 +86375,25 @@
           "props": [
             {
               "name": "shopId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "InstacartListCouponsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "retailerId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zoneId",
               "schema": {
                 "k": "string"
               },
@@ -84789,6 +86849,110 @@
             },
             "optional": true
           }
+        ],
+        "listBuyItAgain": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartBuyItAgainArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOrder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartGetOrderArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartGetListArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listCoupons": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartListCouponsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -84809,6 +86973,31 @@
             "name": "username",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "commentsPage": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "post",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -85253,6 +87442,22 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "replyTo",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -90212,14 +92417,6 @@
           }
         ],
         "getCurrentUser": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "object",
-              "props": []
-            },
-            "optional": true
-          },
           {
             "name": "opts",
             "schema": {
@@ -98785,6 +100982,132 @@
               "props": [
                 {
                   "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getCondition": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getConditionTreatment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listConditions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "letter",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listSymptoms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "letter",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getSymptom": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listDrugs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "letter",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getDrug": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
                   "schema": {
                     "k": "string"
                   },
@@ -116773,6 +119096,125 @@
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.people": {
+      "defs": {
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetCelebrityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListSectionArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchCelebritiesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listLatestNews": [],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSectionArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSectionArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listScoopFeed": [],
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSections": [],
+        "getCelebrity": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCelebrityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchCelebrities": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchCelebritiesArgs"
             },
             "optional": false
           }
@@ -136300,6 +138742,27 @@
               "name": "taxonomies_id",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "performers_id",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "venue_id",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             },
@@ -156824,6 +159287,13 @@
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "replyTo",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -157061,6 +159531,41 @@
             "schema": {
               "k": "ref",
               "name": "ListCommentRepliesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "commentsPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "video",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -165661,6 +168166,82 @@
     },
     "providers.usps": {
       "defs": {
+        "FindPostOfficesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetPriceListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "market",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "domestic"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "international"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TrackPackageArgs": {
           "k": "object",
           "props": [
@@ -165675,6 +168256,52 @@
         }
       },
       "functions": {
+        "findEddmRoutes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "findPostOffices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindPostOfficesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPostOfficeDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "locationId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getRate": [
           {
             "name": "args",
@@ -165728,6 +168355,70 @@
             "optional": false
           }
         ],
+        "getInternationalRate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "fromZip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "weightOz",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "length",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "width",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "height",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getPriceList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPriceListArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getServiceAlerts": [],
         "trackPackage": [
           {
             "name": "args",
@@ -179054,6 +181745,41 @@
             "optional": false
           }
         ],
+        "commentsPage": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "video",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listRelatedVideos": [
           {
             "name": "input",
@@ -181730,6 +184456,50 @@
             }
           ]
         },
+        "GetAgentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "agent",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "object",
+                    "props": [
+                      {
+                        "name": "url",
+                        "schema": {
+                          "k": "union",
+                          "of": [
+                            {
+                              "k": "string"
+                            },
+                            {
+                              "k": "null"
+                            }
+                          ]
+                        },
+                        "optional": true
+                      },
+                      {
+                        "name": "name",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetHomeArgs": {
           "k": "object",
           "props": [
@@ -181753,6 +184523,53 @@
                           "k": "string"
                         },
                         "optional": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MarketOverviewArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "region",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "object",
+                    "props": [
+                      {
+                        "name": "regionId",
+                        "schema": {
+                          "k": "union",
+                          "of": [
+                            {
+                              "k": "number"
+                            },
+                            {
+                              "k": "null"
+                            }
+                          ]
+                        },
+                        "optional": false
+                      },
+                      {
+                        "name": "display",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": true
                       }
                     ]
                   }
@@ -181830,6 +184647,42 @@
               "name": "creditScore",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchAgentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "object",
+                    "props": [
+                      {
+                        "name": "display",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -181977,6 +184830,36 @@
             "schema": {
               "k": "ref",
               "name": "GetHomeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMarketOverview": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MarketOverviewArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchAgents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchAgentsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAgent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAgentArgs"
             },
             "optional": false
           }
