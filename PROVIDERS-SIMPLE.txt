@@ -181,7 +181,7 @@ califloors.com — califloors: getProduct, listCategories, searchProducts
 calottery.com — calottery: checkNumbers, draws, retailers, scratchers, search
 camelcamelcamel.com — camelcamelcamel: getPriceHistory, search
 camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
-campspot.com — campspot: findCampgrounds, getCampground
+campspot.com — campspot: findCampgrounds, findCampgroundsByName, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
 canva.com — canva: 28 functions — ask get_library (+25 planned)
@@ -659,7 +659,7 @@ pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, getServiceStatus, searchHelp, searchShoppingOffers (+2 planned)
 peek.com — peek: getAvailability, getExperience, getMyProfile, getPriceQuote, listDestinations, listReviews, listSimilarExperiences, listTags, searchExperiences, searchRegions, updateProfile (+8 planned)
 peerspace.com — peerspace: searchVenues
-people.com — people: getArticle, getCelebrity, listLatestNews, listScoopFeed, listSectionArticles, listSections, searchArticles, searchCelebrities (+6 planned)
+people.com — people: getArticle, getCelebrity, getGallery, listLatestNews, listScoopFeed, listSectionArticles, listSections, searchArticles, searchCelebrities (+5 planned)
 perennialsandsutherland.com — perennialsandsutherland: getRugVariant, getTearsheetUrl, searchRugs
 personio.de — personio: listJobs
 pexels.com — pexels: search

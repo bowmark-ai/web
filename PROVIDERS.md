@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7467 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7468 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -1062,6 +1062,7 @@ One function per row, with the site it is called on.
 | `camelcamelcamel.getPriceHistory` | camelcamelcamel.com | Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the… | 🟡 |
 | `camelcamelcamel.search` | camelcamelcamel.com | Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title… | 🟢 |
 | `campspot.findCampgrounds` | campspot.com | Given a free-text region (a US state, a Canadian province, or one of Campspot's own… | 🟢 |
+| `campspot.findCampgroundsByName` | campspot.com | Given a campground NAME (e.g. "Camp Fimfo"), returns the Campspot parks whose name… | 🟢 |
 | `campspot.getCampground` | campspot.com | Given a campspot.com/park/<slug> url (from findCampgrounds), returns that campground's… | 🟢 |
 | `canadacomputers.checkStoreStock` | canadacomputers.com | Which Canada Computers store has an item on the shelf, per branch. | ⚪ |
 | `canadacomputers.getProduct` | canadacomputers.com | Reads one product page in full — spec sheet, manufacturer part number and the price… | ⚪ |
@@ -4798,7 +4799,7 @@ One function per row, with the site it is called on.
 | `people.getAccount` | people.com | Reads the signed-in caller's People account (/account/settings): email, name and… | ⚪ |
 | `people.getArticle` | people.com | Reads one People story by URL: headline, byline, dates, section, lead image and the… | 🟢 |
 | `people.getCelebrity` | people.com | Reads one celebrity topic page (/<name>-<id> person hub or /person/ page): name, bio… | 🟢 |
-| `people.getGallery` | people.com | Reads one photo gallery by URL: title, and each slide's image, caption and credit. | ⚪ |
+| `people.getGallery` | people.com | Reads one photo gallery by URL: title, and each slide's image, caption and credit. | 🟢 |
 | `people.getVideo` | people.com | Reads one People video page: title, description, duration, thumbnail and stream URL… | ⚪ |
 | `people.listLatestNews` | people.com | Lists the stories on the people.com homepage right now: headline, URL, image and… | 🟢 |
 | `people.listScoopFeed` | people.com | Reads 'The Scoop', People's rolling feed of short celebrity updates… | 🟢 |

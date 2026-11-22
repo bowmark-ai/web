@@ -3,8 +3,282 @@
 Every release of `@bowmark/web` (npm) and `bowmark-web` / `bowmark-web-stubs` (PyPI).
 The three always ship at one version. They are one client in two languages, plus its stubs.
 
-Entries are generated from the published capability and provider tables, so this file
-describes the callable surface and nothing else.
+Entries are generated from the published capability and provider tables and the list of
+covered websites, so this file describes the callable surface and nothing else.
+
+## 1.30.0 (2026-11-22)
+
+**Capabilities**
+
+- New capability **real_estate_listings** (1 function): `real_estate_listings.search`
+
+**Providers**
+
+- New provider **accommodationforstudents.com** (3 functions): `accommodationforstudents.getListing`, `accommodationforstudents.listCities`, `accommodationforstudents.searchListings`
+- New provider **acehardware.com** (4 functions): `acehardware.findStores`, `acehardware.getProduct`, `acehardware.getStoreInventory`, `acehardware.searchProducts`
+- New provider **ai.meta.com** (2 functions): `ai_meta_com.getPost`, `ai_meta_com.listPosts`
+- New provider **apnews.com** (11 functions): `apnews.getArticle`, `apnews.getPhotoGallery`, `apnews.getTodayInHistory`, `apnews.getVideo`, `apnews.listFactChecks`, `apnews.listLatestNews`, `apnews.listSectionArticles`, `apnews.listSections`, and 3 more
+- New provider **atida.com** (2 functions): `atida.getProduct`, `atida.search`
+- New provider **balthazarlondon.com** (3 functions): `balthazarlondon.getMenu`, `balthazarlondon.getRestaurant`, `balthazarlondon.listMenus`
+- New provider **bankofamerica.com** (4 functions): `bankofamerica.getCdRates`, `bankofamerica.getMortgageRates`, `bankofamerica.listCreditCards`, `bankofamerica.listDepositAccounts`
+- New provider **biblegateway.com** (10 functions): `biblegateway.comparePassage`, `biblegateway.getDevotional`, `biblegateway.getPassage`, `biblegateway.getReadingPlanDay`, `biblegateway.getVerseOfTheDay`, `biblegateway.getVersionInfo`, `biblegateway.listDevotionals`, `biblegateway.listReadingPlans`, and 2 more
+- New provider **bodyrok.com** (3 functions): `bodyrok.getSchedule`, `bodyrok.getStudio`, `bodyrok.listStudios`
+- New provider **cabelas.com** (2 functions): `cabelas.findStores`, `cabelas.listStores`
+- New provider **us.caudalie.com** (5 functions): `caudalie.getProduct`, `caudalie.getProductReviews`, `caudalie.listCategories`, `caudalie.listCategoryProducts`, `caudalie.searchProducts`
+- New provider **cdc.gov** (2 functions): `cdc.getPage`, `cdc.search`
+- New provider **www.cdiscount.com** (1 function): `cdiscount.search`
+- New provider **chess.com** (17 functions): `chess_com.getClub`, `chess_com.getCountry`, `chess_com.getDailyPuzzle`, `chess_com.getLeaderboards`, `chess_com.getPlayer`, `chess_com.getPlayerStats`, `chess_com.getRandomPuzzle`, `chess_com.getTournament`, and 9 more
+- New provider **datareportal.com** (2 functions): `datareportal.findReports`, `datareportal.getReport`
+- New provider **developer.x.com** (3 functions): `developer_x_com.getDocPage`, `developer_x_com.listDocPages`, `developer_x_com.searchDocPages`
+- New provider **dignitymemorial.com** (2 functions): `dignitymemorial.getObituary`, `dignitymemorial.searchObituaries`
+- New provider **www.disneyplus.com** (8 functions): `disney_plus.getArticle`, `disney_plus.getEpisodes`, `disney_plus.getNewThisMonth`, `disney_plus.getPlans`, `disney_plus.getTitle`, `disney_plus.getTop10`, `disney_plus.listArticles`, `disney_plus.searchTitles`
+- New provider **fhir.epic.com** (2 functions): `epic_fhir.getCapabilityStatement`, `epic_fhir.listOrganizationEndpoints`
+- New provider **famousfootwear.com** (2 functions): `famousfootwear.getProduct`, `famousfootwear.searchProducts`
+- New provider **farmaciasdirect.es** (3 functions): `farmaciasdirect.getProduct`, `farmaciasdirect.listPromotions`, `farmaciasdirect.search`
+- New provider **farosrestaurant.co.uk** (3 functions): `faros.getMenu`, `faros.getRestaurant`, `faros.listMenus`
+- New provider **finders.co.uk** (2 functions): `finders.getListing`, `finders.searchListings`
+- New provider **fiverr.com** (9 functions): `fiverr.autocompleteSearch`, `fiverr.getCategory`, `fiverr.getGig`, `fiverr.getGigReviews`, `fiverr.getSeller`, `fiverr.getSellerReviews`, `fiverr.listCategories`, `fiverr.listSellerGigs`, and 1 more
+- New provider **www.gapfactory.com** (2 functions): `gap_factory.getProduct`, `gap_factory.searchProducts`
+- New provider **harringtonsdurham.com** (2 functions): `harringtonsdurham.getListing`, `harringtonsdurham.listListings`
+- New provider **hkexpress.com** (2 functions): `hkexpress.getFareCalendar`, `hkexpress.listRoutes`
+- New provider **hobbylobby.com** (2 functions): `hobbylobby.getProduct`, `hobbylobby.searchProducts`
+- New provider **leboncoin.fr** (1 function): `leboncoin.search`
+- New provider **lichess.org** (4 functions): `lichess.exportGame`, `lichess.getUser`, `lichess.searchPlayers`, `lichess.topPlayers`
+- New provider **loc8me.co.uk** (2 functions): `loc8me.getListing`, `loc8me.searchListings`
+- New provider **mensjournal.com** (1 function): `mensjournal.latestArticles`
+- New provider **nicholashumphreys.com** (2 functions): `nicholashumphreys.getListing`, `nicholashumphreys.searchLettings`
+- New provider **nops.co.uk** (2 functions): `nops.getListing`, `nops.searchListings`
+- New provider **openarch.co.uk** (2 functions): `openarch.getListing`, `openarch.listListings`
+- New provider **ophanimus.com** (2 functions): `ophanimus_com.getPage`, `ophanimus_com.listPages`
+- New provider **learning.oreilly.com** (3 functions): `oreilly.getContentMetadata`, `oreilly.getMetadataByUrls`, `oreilly.search`
+- New provider **partsgeek.com** (6 functions): `partsgeek.addToCart`, `partsgeek.getCheckout`, `partsgeek.getMakeCatalog`, `partsgeek.searchParts`, `partsgeek.updateCheckoutShipping`, `partsgeek.viewCart`
+- New provider **people.com** (9 functions): `people.getArticle`, `people.getCelebrity`, `people.getGallery`, `people.listLatestNews`, `people.listScoopFeed`, `people.listSectionArticles`, `people.listSections`, `people.searchArticles`, and 1 more
+- New provider **primestudentlets.co.uk** (2 functions): `primestudentlets.getListing`, `primestudentlets.listListings`
+- New provider **promofarma.com** (2 functions): `promofarma.getProduct`, `promofarma.search`
+- New provider **puregym.com** (4 functions): `puregym.getGym`, `puregym.listCities`, `puregym.listCityGyms`, `puregym.listGyms`
+- New provider **reichelt.de** (2 functions): `reichelt_de.getProduct`, `reichelt_de.searchProducts`
+- New provider **rentmanager.com** (3 functions): `rentmanager.getIntegration`, `rentmanager.searchArticles`, `rentmanager.searchIntegrations`
+- New provider **rentrightstudents.co.uk** (2 functions): `rentrightstudents_co_uk.getListing`, `rentrightstudents_co_uk.listLatestListings`
+- New provider **royalcaribbean.com** (1 function): `royal_caribbean.searchCruises`
+- New provider **rules.nebraska.gov** (8 functions): `rules_nebraska_gov.getChapterHistory`, `rules_nebraska_gov.getDocket`, `rules_nebraska_gov.listAgencies`, `rules_nebraska_gov.listChapters`, `rules_nebraska_gov.listDockets`, `rules_nebraska_gov.listFilingDocuments`, `rules_nebraska_gov.listTitles`, `rules_nebraska_gov.searchRules`
+- New provider **scheels.com** (2 functions): `scheels.getProduct`, `scheels.searchProducts`
+- New provider **scottfraser.co.uk** (2 functions): `scottfraser_co_uk.getListing`, `scottfraser_co_uk.listLettings`
+- New provider **simplisafe.com** (1 function): `simplisafe.search`
+- New provider **sos.ms.gov** (2 functions): `sos_ms_gov.listAgencies`, `sos_ms_gov.searchAdminCode`
+- New provider **studentaccommodationbath.com** (2 functions): `studentaccommodationbath.getListing`, `studentaccommodationbath.listListings`
+- New provider **studenthomes.net** (2 functions): `studenthomes_net.getListing`, `studenthomes_net.searchListings`
+- New provider **sturents.com** (2 functions): `sturents.getListing`, `sturents.listListings`
+- New provider **talkmezzo.com** (6 functions): `talkmezzo.getSpeaker`, `talkmezzo.listClaimedSpeakers`, `talkmezzo.listTopics`, `talkmezzo.revealContact`, `talkmezzo.searchEvents`, `talkmezzo.searchSpeakers`
+- New provider **3m.com** (1 function): `three_m.searchSds`
+- New provider **toyota.com** (2 functions): `toyota.getModel`, `toyota.listModels`
+- New provider **truckstop.com** (1 function): `truckstop.searchLoads`
+- New provider **trulia.com** (2 functions): `trulia.getHome`, `trulia.searchHomes`
+- New provider **ukstudenthouses.com** (3 functions): `ukstudenthouses.getListing`, `ukstudenthouses.listCities`, `ukstudenthouses.searchListings`
+- New provider **unihomes.co.uk** (1 function): `unihomes_co_uk.getListing`
+- New provider **elearning.unipv.it** (2 functions): `unipv_elearning.getCourseInfo`, `unipv_elearning.searchCourses`
+- New provider **upwork.com** (2 functions): `upwork.getJob`, `upwork.searchJobs`
+- New provider **usa.gov** (2 functions): `usa_gov.getPage`, `usa_gov.listPages`
+- New provider **vrbo.com** (1 function): `vrbo.search`
+- New provider **yardi.com** (3 functions): `yardi.getArticle`, `yardi.listPressReleases`, `yardi.search`
+- New provider **yellowdoorlets.co.uk** (2 functions): `yellowdoorlets_co_uk.getProperty`, `yellowdoorlets_co_uk.searchProperties`
+- New provider **yellowpages.com** (2 functions): `yellowpages.getBusiness`, `yellowpages.search`
+- New provider **zestlovesproperty.com** (2 functions): `zestlovesproperty.getListing`, `zestlovesproperty.searchLettings`
+- Added `airbnb.autocompleteLocation`
+- Added `airbnb.getExperience`
+- Added `airbnb.getExperienceReviews`
+- Added `airbnb.getListingCalendar`
+- Added `bestbuy.findStores`
+- Added `bestbuy.getProductQuestions`
+- Added `bestbuy.getStore`
+- Added `bestbuy.listCategories`
+- Added `bestbuy.listDeals`
+- Added `calendly.getMyAccount`
+- Added `calendly.listMyEventTypes`
+- Added `calendly.voteOnMeetingPoll`
+- Added `campspot.findCampgroundsByName`
+- Added `canva.generatePaletteFromImage`
+- Added `cbsnews.getLocalWeather`
+- Added `cbsnews.listLocalNews`
+- Added `cbsnews.listLocalStations`
+- Added `cbsnews.listNewsletters`
+- Added `cbsnews.listPodcastEpisodes`
+- Added `cbsnews.listPodcasts`
+- Added `cbsnews.listShowEpisodes`
+- Added `cnbc_com.addToWatchlist`
+- Added `cnbc_com.followTopic`
+- Added `cnbc_com.getWatchlist`
+- Added `cnbc_com.removeFromWatchlist`
+- Added `cnbc_com.subscribeToNewsletter`
+- Added `cnbc_com.unfollowTopic`
+- Added `cnbc_com.unsubscribeFromNewsletter`
+- Added `craigslist.getAccountHome`
+- Added `craigslist.getListingImages`
+- Added `craigslist.getListingMap`
+- Added `craigslist.searchNearby`
+- Added `dailymail.getHoroscope`
+- Added `dailymail.listGames`
+- Added `discogs.getList`
+- Added `discogs.getReleaseRating`
+- Added `discogs.getUserProfile`
+- Added `discogs.listCollectionFolders`
+- Added `discogs.listCollectionItems`
+- Added `discogs.listMasterVersions`
+- Added `discogs.listSellerInventory`
+- Added `discogs.listUserContributions`
+- Added `discogs.listUserLists`
+- Added `discogs.listUserSubmissions`
+- Added `discogs.listWantlist`
+- Added `doordash.searchStoreProducts`
+- Added `etsy.listShopSoldItems`
+- Added `expedia.getHotelReviews`
+- Added `expedia.searchCars`
+- Added `expedia.searchPackages`
+- Added `expedia.searchVacationRentals`
+- Added `goodreads.getBookQuotes`
+- Added `goodreads.getMemberFollowers`
+- Added `goodreads.getMemberFollowing`
+- Added `goodreads.searchLists`
+- Added `imgur.createPost`
+- Added `imgur.deletePost`
+- Added `imgur.editPost`
+- Added `imgur.followTag`
+- Added `imgur.followUser`
+- Added `imgur.unfavoritePost`
+- Added `imgur.unfollowTag`
+- Added `imgur.unfollowUser`
+- Added `imgur.updateProfile`
+- Added `independent.getLiveBlog`
+- Added `independent.getQuiz`
+- Added `independent.getVideo`
+- Added `independent.getVoucherCodes`
+- Added `independent.listCompetitions`
+- Added `independent.listNewsletters`
+- Added `independent.listQuizzes`
+- Added `independent.listVideos`
+- Added `independent.listVoucherStores`
+- Added `independent.searchArticles`
+- Added `instacart.getList`
+- Added `instacart.getOrder`
+- Added `instacart.listBuyItAgain`
+- Added `instacart.listCoupons`
+- Added `instacart.listFavorites`
+- Added `instacart.listMyLists`
+- Added `instagram.commentsPage`
+- Added `instagram.getPlayback`
+- Added `instagram.homeFeedPage`
+- Added `kick.deleteChatMessage`
+- Added `kick.followChannel`
+- Added `kick.getChannelUser`
+- Added `kick.getCurrentUser`
+- Added `kick.getPlayback`
+- Added `kick.listChannelLinks`
+- Added `kick.listFollowedChannels`
+- Added `kick.listSubscriptions`
+- Added `kick.sendChatMessage`
+- Added `kick.unfollowChannel`
+- Added `kick.updateStreamInfo`
+- Added `mayoclinic.getCondition`
+- Added `mayoclinic.getConditionTreatment`
+- Added `mayoclinic.getDrug`
+- Added `mayoclinic.getSymptom`
+- Added `mayoclinic.listConditions`
+- Added `mayoclinic.listDrugs`
+- Added `mayoclinic.listSymptoms`
+- Added `mlb.getArticle`
+- Added `mlb.getAwards`
+- Added `mlb.getDraft`
+- Added `mlb.getGameBroadcasts`
+- Added `mlb.getGameHighlights`
+- Added `mlb.getGlossaryTerm`
+- Added `mlb.getInjuryReport`
+- Added `mlb.getPlayback`
+- Added `mlb.getPlayerGameLog`
+- Added `mlb.getPostseasonBracket`
+- Added `mlb.getProbablePitchers`
+- Added `mlb.getProspectRankings`
+- Added `mlb.getStartingLineups`
+- Added `mlb.getTeam`
+- Added `mlb.getTeamLeaders`
+- Added `mlb.getTeamStats`
+- Added `mlb.getVenue`
+- Added `mlb.getVideo`
+- Added `mlb.getWinProbability`
+- Added `mlb.listFreeAgents`
+- Added `mlb.listGlossaryTerms`
+- Added `mlb.listNews`
+- Added `mlb.listPlayerStats`
+- Added `mlb.listTransactions`
+- Added `mlb.searchContent`
+- Added `mlb.searchVideos`
+- Added `pinterest.listPinComments`
+- Added `pinterest.listRelatedPins`
+- Added `pinterest.listRelatedProducts`
+- Added `quickbooks.calculateSalesTax`
+- Added `quickbooks.estimatePaymentFees`
+- Added `quickbooks.getDesktopPlans`
+- Added `quickbooks.getExpertPlans`
+- Added `quickbooks.getPaymentRates`
+- Added `quickbooks.listPaycheckFilingStatuses`
+- Added `quora.getAnswer`
+- Added `reddit.getPlayback`
+- Added `ring.addToCart`
+- Added `ring.getCart`
+- Added `ring.removeFromCart`
+- Added `scribd.uploadDocument`
+- Added `shein.addAddress`
+- Added `shein.addToCart`
+- Added `shein.addToWishlist`
+- Added `shein.followStore`
+- Added `shein.getCart`
+- Added `shein.getCheckoutSummary`
+- Added `shein.getOrder`
+- Added `shein.getProfile`
+- Added `shein.listAddresses`
+- Added `shein.listFollowedStores`
+- Added `shein.listWishlist`
+- Added `shein.removeFromCart`
+- Added `shein.removeFromWishlist`
+- Added `shein.updateCartItem`
+- Added `shein.updateProfile`
+- Added `shop_app.getDeliveryEstimate`
+- Added `shop_app.updatePrivacySettings`
+- Added `soundcloud.getPlayback`
+- Added `tiktok.commentsPage`
+- Added `tiktok.forYouPage`
+- Added `tiktok.getPlayback`
+- Added `twitch.getPlayback`
+- Added `usatoday.getElectionResults`
+- Added `usps.findEddmRoutes`
+- Added `usps.findPostOffices`
+- Added `usps.getInternationalRate`
+- Added `usps.getPostOfficeDetails`
+- Added `usps.getPriceList`
+- Added `usps.getServiceAlerts`
+- Added `washingtonpost.listWriterArchive`
+- Added `whatsapp.pinMessage`
+- Added `whatsapp.replyToMessage`
+- Added `whatsapp.sendMessageToNumber`
+- Added `whatsapp.setDisappearingMessages`
+- Added `x.getPlayback`
+- Added `yelp.addToCollection`
+- Added `yelp.saveBusiness`
+- Added `youtube.commentsPage`
+- Added `youtube.embeddable`
+- Added `youtube.homeFeedPage`
+- Added `zillow.getAgent`
+- Added `zillow.getBuilding`
+- Added `zillow.getHome`
+- Added `zillow.getMarketOverview`
+- Added `zillow.getZestimate`
+- Added `zillow.searchAgents`
+- Removed **detailxperts**
+- Removed `tiktok.listLikedVideos`
+
+**Websites**
+
+- 137,993 websites and 1,302,132 functions so far. Each one, with its functions: [changelog/1.30.0.md](changelog/1.30.0.md)
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md) · [covered-websites.txt](covered-websites.txt)
 
 ## 1.29.2 (2026-11-17)
 
