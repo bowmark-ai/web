@@ -1572,8 +1572,8 @@ One function per row, with the site it is called on.
 | `cnn.searchArticles` | www.cnn.com | Search CNN — takes what a person would say ("breaking news", "inflation", "2024… | 🟢 |
 | `cnn.subscribeToNewsletter` | www.cnn.com | Subscribe the signed-in viewer's account to a CNN newsletter by id. | 🟢 |
 | `cnn.unfollowTopic` | www.cnn.com | Remove a topic from the signed-in viewer's followed topics. | 🟢 |
-| `coast.getFleetCardPricing` | coastpay.com | Reads Coast's own pricing page and returns its real, current per-active-user monthly… | 🟢 |
-| `coast.getFuelRebate` | coastpay.com | Reads Coast's own pricing page and returns its published per-gallon rebate range at… | 🟢 |
+| `coast.getFleetCardPricing` | coastpay.com | Reads Coast's own pricing page and returns its real, current per-active-user monthly… | 🟡 |
+| `coast.getFuelRebate` | coastpay.com | Reads Coast's own pricing page and returns its published per-gallon rebate range at… | 🟡 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
 | `coingecko.getPrice` | coingecko.com | Current price of a cryptocurrency, given by symbol or name, in a fiat or crypto quote… | 🟢 |

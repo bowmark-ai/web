@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 135,553 sites, generated 2026-11-22.
+# Every website Bowmark covers: 135,554 sites, generated 2026-11-22.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -76727,6 +76727,7 @@ goalqpc.com	GOAL/QPC	6
 goalzero.com	goalzero.com	14
 goamericaoutfitters.myshopify.com	Gulf of America Outfitters	10
 goandgrowfarmsolutions.com	Go&Grow Farm Solutions	6
+goantiques.com	goantiques.com	4
 goasiabali.com	Go Asia Bali	6
 goasklee.myshopify.com	Go Ask Lee	10
 goat-badges.myshopify.com	Goat badges	8
