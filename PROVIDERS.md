@@ -1653,8 +1653,8 @@ One function per row, with the site it is called on.
 | `craigslist.editPosting` | craigslist.org | Edit one of the caller's own postings (title, body, price, images). | ⚪ |
 | `craigslist.getAccountHome` | craigslist.org | Read the caller's account home: their active, draft and expired postings. | ⚪ |
 | `craigslist.getListing` | craigslist.org | Reads one Craigslist listing from the URL a search returns: full description, posted… | 🟢 |
-| `craigslist.getListingImages` | craigslist.org | Return the full-size image URLs of a public listing. | ⚪ |
-| `craigslist.getListingMap` | craigslist.org | Return a listing's map location (latitude, longitude, accuracy) and cross streets when… | ⚪ |
+| `craigslist.getListingImages` | craigslist.org | Return the full-size image URLs of a public listing. | 🟢 |
+| `craigslist.getListingMap` | craigslist.org | Return a listing's map location (latitude, longitude, accuracy) and cross streets when… | 🟢 |
 | `craigslist.listAreas` | craigslist.org | Lists Craigslist's areas (cities and regions worldwide) with the code the search… | 🟢 |
 | `craigslist.listCategories` | craigslist.org | Lists Craigslist's category tree (housing, for sale, jobs, services, gigs, community)… | 🟢 |
 | `craigslist.listFavorites` | craigslist.org | List the listings the caller has favourited. | ⚪ |
@@ -2157,7 +2157,7 @@ One function per row, with the site it is called on.
 | `duckduckgo.listDuckAiModels` | duckduckgo.com | List the AI models Duck.ai currently offers, each with the id chatWithDuckAi takes… | 🟢 |
 | `duckduckgo.listRegions` | duckduckgo.com | List the search regions DuckDuckGo offers ("us-en", "uk-en", "de-de"…) with their… | 🟢 |
 | `duckduckgo.resolveBang` | duckduckgo.com | Turn a !bang query ("!w duck", "!a usb-c cable") into the destination URL DuckDuckGo… | 🟢 |
-| `duckduckgo.searchImages` | duckduckgo.com | Searches DuckDuckGo's Images vertical and returns each result's title, page URL… | 🟡 |
+| `duckduckgo.searchImages` | duckduckgo.com | Searches DuckDuckGo's Images vertical and returns each result's title, page URL… | 🟢 |
 | `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | 🟢 |
 | `duckduckgo.searchPlaces` | duckduckgo.com | Find places on DuckDuckGo Maps by what and where ("coffee in Seattle") — name… | 🟢 |
 | `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | 🟢 |
@@ -4236,7 +4236,7 @@ One function per row, with the site it is called on.
 | `mlb.getPlayerStats` | mlb.com | Gets a player's stats for a season or career, by hitting, pitching or fielding… | 🟢 |
 | `mlb.getPostseasonBracket` | mlb.com | Gets a season's postseason series: matchups, series score and each game. | 🟢 |
 | `mlb.getProbablePitchers` | mlb.com | Lists the announced starting pitchers for upcoming games, with their season records. | 🟢 |
-| `mlb.getProspectRankings` | mlb.com | Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30. | ⚪ |
+| `mlb.getProspectRankings` | mlb.com | Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30, with… | 🟢 |
 | `mlb.getRoster` | mlb.com | Gets a team's roster (active, 40-man, full season or depth chart) with each player's… | 🟢 |
 | `mlb.getSchedule` | mlb.com | Lists MLB games for a date or date range, optionally one team's: matchup, start time… | 🟢 |
 | `mlb.getStandings` | mlb.com | Gets the standings by division, league or wild card for a season: wins, losses… | 🟢 |

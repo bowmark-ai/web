@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e915586b1dfd6521eb5b521f26362b63a6476f19ea63c88b57c39e071b208fae
-// 5683 checked, 20 unchecked.
+// Manifest version: 1dfb3d15f921f52740de0b76f1cdc5a15acf3a2ee8d64f84c313f4d78844a1b7
+// 5685 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e915586b1dfd6521eb5b521f26362b63a6476f19ea63c88b57c39e071b208fae",
+  "version": "1dfb3d15f921f52740de0b76f1cdc5a15acf3a2ee8d64f84c313f4d78844a1b7",
   "units": {
     "address_validation": {
       "defs": {
@@ -102251,6 +102251,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbGetProspectRankingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MlbGetRosterArgs": {
           "k": "object",
           "props": [
@@ -103182,6 +103201,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "MlbGetAwardsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getProspectRankings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetProspectRankingsArgs"
             },
             "optional": true
           }
@@ -138315,6 +138344,67 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.shein": {
       "defs": {
+        "SheinAddAddressArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "address1",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "address2",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SheinGetOrderArgs": {
           "k": "object",
           "props": [
@@ -138810,6 +138900,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SheinProfileUpdateArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addAddress": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinAddAddressArgs"
             },
             "optional": false
           },
@@ -164946,28 +165062,28 @@ export const VALIDATORS: ValidatorTable = {
                   "schema": {
                     "k": "number"
                   },
-                  "optional": false
+                  "optional": true
                 },
                 {
                   "name": "length",
                   "schema": {
                     "k": "number"
                   },
-                  "optional": false
+                  "optional": true
                 },
                 {
                   "name": "width",
                   "schema": {
                     "k": "number"
                   },
-                  "optional": false
+                  "optional": true
                 },
                 {
                   "name": "height",
                   "schema": {
                     "k": "number"
                   },
-                  "optional": false
+                  "optional": true
                 },
                 {
                   "name": "units",

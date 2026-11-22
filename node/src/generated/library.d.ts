@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e915586b1dfd6521eb5b521f26362b63a6476f19ea63c88b57c39e071b208fae
-// 99 capabilities, 949 providers, 5711 typed functions, 20 refused.
+// Manifest version: 1dfb3d15f921f52740de0b76f1cdc5a15acf3a2ee8d64f84c313f4d78844a1b7
+// 99 capabilities, 949 providers, 5713 typed functions, 20 refused.
 // 125,660 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9252,8 +9252,8 @@ interface MetaAiPostPage {
      * Reads one Meta AI blog post by url or slug (e.g.
      * "tribe-v2-brain-predictive-foundation-model") and returns its title, category (the label the
      * post page itself prints, which can differ from the tag on its listing card; null when the
-     * page shows only a FEATURED badge), date and body as plain text. THROWS if the post does not
-     * exist (404).
+     * page prints no category, e.g. only a FEATURED badge or an empty slot; the listing card can
+     * still carry one), date and body as plain text. THROWS if the post does not exist (404).
      */
     getPost(urlOrSlug: string): Promise<MetaAiPost>;
   }
@@ -75443,6 +75443,25 @@ interface MlbAwards {
   winners: MlbAwardWinner[];
   warnings: string[];
 }
+interface MlbGetProspectRankingsArgs {
+  team?: string; // A team's slug on mlb.com, e.g. "yankees". Omit for the overall Top 100.
+  limit?: number; // 1 to 100.
+}
+interface MlbProspect {
+  rank: number;
+  playerId: number;
+  name: string | null;
+  position: string | null;
+  eta: string | null;
+  scoutingGrades: string | null;
+  url: string | null;
+}
+interface MlbProspectRankings {
+  list: string;
+  season: number | null;
+  prospects: MlbProspect[];
+  warnings: string[];
+}
 interface MlbPlay {
   index: number;
   inning: number;
@@ -75651,6 +75670,13 @@ interface MlbPlay {
      * e.g. getAwards({ awardId: 'ALMVP', season: 2025 }).
      */
     getAwards(args?: MlbGetAwardsArgs): Promise<MlbAwards>;
+
+    /**
+     * Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30, with rank,
+     * name, position, ETA and scouting grades. e.g. getProspectRankings({ team: 'yankees', limit:
+     * 10 }).
+     */
+    getProspectRankings(args?: MlbGetProspectRankingsArgs): Promise<MlbProspectRankings>;
 
     /**
      * MLB.com's glossary of stats, rules and Statcast terms with category and slug; filter by
@@ -99081,6 +99107,20 @@ interface sheinProfileUpdate {
   updated: string[];
   warnings: string[];
 }
+interface SheinAddAddressArgs {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  state: string;
+  zip: string;
+}
+interface sheinAddressAdd {
+  filled: string[];
+  warnings: string[];
+}
 interface sheinWishlistRemoval {
   productId: string;
   removed: boolean;
@@ -99251,6 +99291,12 @@ interface sheinSizeGuide {
      * save. Needs the caller signed in to shein.com; the relay handles it.
      */
     updateProfile(args: SheinProfileUpdateArgs, opts?: ConnectionOption): Promise<sheinProfileUpdate>;
+
+    /**
+     * Adds a shipping address to the CALLER's own Shein address book and presses save. Needs the
+     * caller signed in to shein.com; the relay handles it.
+     */
+    addAddress(args: SheinAddAddressArgs, opts?: ConnectionOption): Promise<sheinAddressAdd>;
 
     /**
      * The shipping addresses saved on the CALLER's own Shein account, as the address page shows
@@ -117077,7 +117123,7 @@ interface UpsServiceAlerts {
      * Every row carries `pricedFor` (weight, box, units and a `note`): state it with the price.
      * Drives the calculator in a headless browser, so it takes about a minute.
      */
-    calculateTimeAndCost(args: { fromCountry: string; fromPostalCode: string; fromCity?: string; toCountry: string; toPostalCode: string; toCity?: string; weight: number; length: number; width: number; height: number; units?: "metric" | "imperial"; customsValue?: number; shipDate?: string }): Promise<UpsTimeAndCostQuote[]>;
+    calculateTimeAndCost(args: { fromCountry: string; fromPostalCode: string; fromCity?: string; toCountry: string; toPostalCode: string; toCity?: string; weight?: number; length?: number; width?: number; height?: number; units?: "metric" | "imperial"; customsValue?: number; shipDate?: string }): Promise<UpsTimeAndCostQuote[]>;
 
     /**
      * Finds UPS drop-off/pickup locations near a ZIP Code or street/city address — UPS Customer

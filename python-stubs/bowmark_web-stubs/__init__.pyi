@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e915586b1dfd6521eb5b521f26362b63a6476f19ea63c88b57c39e071b208fae
-# 99 capabilities, 949 providers, 5683 typed functions, 20 refused.
+# Manifest version: 1dfb3d15f921f52740de0b76f1cdc5a15acf3a2ee8d64f84c313f4d78844a1b7
+# 99 capabilities, 949 providers, 5685 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -49237,6 +49237,25 @@ class Prv_mlb_MlbAwardWinner_Out(TypedDict):
     player: str | None
     teamId: float | None
 
+class Prv_mlb_MlbGetProspectRankingsArgs_In(TypedDict):
+    team: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_mlb_MlbProspectRankings_Out(TypedDict):
+    list: str
+    season: float | None
+    prospects: list[Prv_mlb_MlbProspect_Out]
+    warnings: list[str]
+
+class Prv_mlb_MlbProspect_Out(TypedDict):
+    rank: float
+    playerId: float
+    name: str | None
+    position: str | None
+    eta: str | None
+    scoutingGrades: str | None
+    url: str | None
+
 class Prv_mlb_MlbListGlossaryTermsArgs_In(TypedDict):
     category: NotRequired[str]
     query: NotRequired[str]
@@ -65513,6 +65532,20 @@ class Prv_shein_sheinProfileUpdate_Out(TypedDict):
     updated: list[str]
     warnings: list[str]
 
+class Prv_shein_SheinAddAddressArgs_In(TypedDict):
+    firstName: str
+    lastName: str
+    phone: str
+    address1: str
+    address2: NotRequired[str]
+    city: str
+    state: str
+    zip: str
+
+class Prv_shein_sheinAddressAdd_Out(TypedDict):
+    filled: list[str]
+    warnings: list[str]
+
 class Prv_shein_SheinGetOrderArgs_In(TypedDict):
     orderId: str
 
@@ -78239,10 +78272,10 @@ class Prv_ups_calculateTimeAndCost_args_In(TypedDict):
     toCountry: str
     toPostalCode: str
     toCity: NotRequired[str]
-    weight: float
-    length: float
-    width: float
-    height: float
+    weight: NotRequired[float]
+    length: NotRequired[float]
+    width: NotRequired[float]
+    height: NotRequired[float]
     units: NotRequired[Literal["metric"] | Literal["imperial"]]
     customsValue: NotRequired[float]
     shipDate: NotRequired[str]
@@ -89584,8 +89617,9 @@ class Prv_ai_meta_com(Protocol):
         """Reads one Meta AI blog post by url or slug (e.g.
         "tribe-v2-brain-predictive-foundation-model") and returns its title, category (the label
         the post page itself prints, which can differ from the tag on its listing card; null
-        when the page shows only a FEATURED badge), date and body as plain text. THROWS if the
-        post does not exist (404).
+        when the page prints no category, e.g. only a FEATURED badge or an empty slot; the
+        listing card can still carry one), date and body as plain text. THROWS if the post does
+        not exist (404).
         """
 
 class Prv_aiper(Protocol):
@@ -113225,6 +113259,12 @@ class Prv_mlb(Protocol):
         season, e.g. getAwards({ awardId: 'ALMVP', season: 2025 }).
         """
 
+    async def getProspectRankings(self, args: Prv_mlb_MlbGetProspectRankingsArgs_In | None = None, /) -> Prv_mlb_MlbProspectRankings_Out:
+        """Gets MLB Pipeline's prospect rankings: the overall Top 100 or one team's Top 30, with
+        rank, name, position, ETA and scouting grades. e.g. getProspectRankings({ team:
+        'yankees', limit: 10 }).
+        """
+
     async def listGlossaryTerms(self, args: Prv_mlb_MlbListGlossaryTermsArgs_In | None = None, /) -> Prv_mlb_MlbGlossaryTerms_Out:
         """MLB.com's glossary of stats, rules and Statcast terms with category and slug; filter by
         category or title. The door for getGlossaryTerm, e.g. listGlossaryTerms({ category:
@@ -121693,6 +121733,11 @@ class Prv_shein(Protocol):
     async def updateProfile(self, args: Prv_shein_SheinProfileUpdateArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinProfileUpdate_Out:
         """Sets the nickname and/or birthday (YYYY-MM-DD) on the CALLER's own Shein profile and
         presses save. Needs the caller signed in to shein.com; the relay handles it.
+        """
+
+    async def addAddress(self, args: Prv_shein_SheinAddAddressArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinAddressAdd_Out:
+        """Adds a shipping address to the CALLER's own Shein address book and presses save. Needs
+        the caller signed in to shein.com; the relay handles it.
         """
 
     async def listAddresses(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
