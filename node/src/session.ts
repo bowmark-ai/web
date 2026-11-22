@@ -21,6 +21,7 @@ import {
   type ConnectionLogout,
   type ConnectionSummary,
   callInSession,
+  callSiteTool,
   closeSession,
   deleteConnection,
   listConnections,
@@ -255,7 +256,10 @@ function otherChannelSuffix(first: string | undefined): string {
 }
 
 /** One dispatch: validate the path, refuse a non-wire argument, then send it. */
-function dispatchThrough(send: Send): Dispatch {
+function dispatchThrough(
+  send: Send,
+  sites: (path: readonly string[], args: readonly unknown[]) => Promise<unknown>,
+): Dispatch {
   // `async`, so EVERY refusal is a rejected promise rather than a synchronous
   // throw. A generated signature says the call returns a `Promise`, and a function
   // that sometimes throws before returning one breaks `.catch()` — the caller's
@@ -287,6 +291,17 @@ function dispatchThrough(send: Send): Dispatch {
     // into `SecretRef` placeholders happens AFTER, and only for the one call it
     // applies to, so a caller's mistake is still reported against what they wrote.
     assertWireSafeArgs(label, args);
+    // `bowmark.sites["<host>"].<tool>(args)` — a site's own tool. Typed by the generated
+    // surface (`BowmarkSites`), served through `run()` because no session resolves it.
+    if (path[0] === "sites") {
+      if (path.length !== 3) {
+        throw new BowmarkError(
+          `${label} is not a site-tool call. Write bowmark.sites["<host>"].<tool>(args).`,
+          { code: "bad_path", path: label },
+        );
+      }
+      return sites(path, args);
+    }
     assertArgShape(label, path, args);
     if (isLoginCall(path)) {
       const providerId = path[1] as string;
@@ -334,8 +349,10 @@ export async function session<T>(
   const client = resolveClient(opts);
   const opened = await openSession(client);
   const proxy = libraryProxy(
-    dispatchThrough((path, args, extraHeaders) =>
-      callInSession(client, opened.sessionId, path, args, extraHeaders),
+    dispatchThrough(
+      (path, args, extraHeaders) =>
+        callInSession(client, opened.sessionId, path, args, extraHeaders),
+      (path, args) => callSiteTool(client, path, args),
     ),
     connectionsApi(client),
   );
@@ -367,8 +384,10 @@ export async function openManagedSession(opts: ClientOptions = {}): Promise<{
   const opened = await openSession(client);
   return {
     bowmark: libraryProxy(
-      dispatchThrough((path, args, extraHeaders) =>
-        callInSession(client, opened.sessionId, path, args, extraHeaders),
+      dispatchThrough(
+        (path, args, extraHeaders) =>
+          callInSession(client, opened.sessionId, path, args, extraHeaders),
+        (path, args) => callSiteTool(client, path, args),
       ),
       connectionsApi(client),
     ),
@@ -387,22 +406,27 @@ export async function openManagedSession(opts: ClientOptions = {}): Promise<{
  * multi-step. */
 export function client(opts: ClientOptions = {}): BowmarkLibrary {
   return libraryProxy(
-    dispatchThrough(async (path, args, extraHeaders) => {
-      // Resolved per CALL, not once at construction. The exported `bowmark` is
-      // built at module load, and a consumer whose `fetch` or `BOWMARK_API_KEY`
-      // arrives after the import would otherwise be frozen against the environment
-      // as it stood at the top of their file.
-      const resolved = resolveClient(opts);
-      const opened = await openSession(resolved);
-      try {
-        return await callInSession(resolved, opened.sessionId, path, args, extraHeaders);
-      } finally {
-        await closeSession(resolved, opened.sessionId).catch((err: unknown) => {
-          resolved.onLog?.(`[bowmark] could not close session ${opened.sessionId}: ${String(err)}`);
-          return null;
-        });
-      }
-    }),
+    dispatchThrough(
+      async (path, args, extraHeaders) => {
+        // Resolved per CALL, not once at construction. The exported `bowmark` is
+        // built at module load, and a consumer whose `fetch` or `BOWMARK_API_KEY`
+        // arrives after the import would otherwise be frozen against the environment
+        // as it stood at the top of their file.
+        const resolved = resolveClient(opts);
+        const opened = await openSession(resolved);
+        try {
+          return await callInSession(resolved, opened.sessionId, path, args, extraHeaders);
+        } finally {
+          await closeSession(resolved, opened.sessionId).catch((err: unknown) => {
+            resolved.onLog?.(
+              `[bowmark] could not close session ${opened.sessionId}: ${String(err)}`,
+            );
+            return null;
+          });
+        }
+      },
+      (path, args) => callSiteTool(resolveClient(opts), path, args),
+    ),
     // Resolved per call too, for the identical reason.
     {
       list: (filter) => listConnections(resolveClient(opts), filter),

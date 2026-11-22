@@ -644,6 +644,58 @@ export async function updateConnection(
 /** The string surface. Returns the ENVELOPE rather than throwing, because a script
  * is composite: a `needs_user` or an `error` is a fact about the run that a caller
  * reads alongside `logs` and `result`, not an exception in their control flow. */
+/** `bowmark.sites["<host>"].<tool>(args)` as the one-line `run()` script that serves it.
+ *
+ * A site's own tool is not a unit, so `/v1/session/:id/call` cannot resolve it (it answers
+ * `unknown_path`), while a `run()` script reaches it through the sandbox's site dispatch.
+ * The arguments travel as a JSON string literal parsed inside the script, so nothing the
+ * caller passed is ever spliced into code. Exported for tests. */
+export function siteToolScript(host: string, tool: string, args: readonly unknown[]): string {
+  return (
+    `return await bowmark.sites[${JSON.stringify(host)}][${JSON.stringify(tool)}]` +
+    `(...JSON.parse(${JSON.stringify(JSON.stringify(args))}))`
+  );
+}
+
+/** One site-tool call through `run()`. Its own one-shot run even inside `session()`: a
+ * site tool keeps its state on the site, not in our session's cookie jar. Errors map the
+ * way a session call's do (`callInSession`): the envelope's `code`, else `http_<status>`,
+ * with the HTTP status, so a 429 or 402 reads the same whichever surface answered. */
+export async function callSiteTool(
+  client: ResolvedClient,
+  path: readonly string[],
+  args: readonly unknown[],
+): Promise<unknown> {
+  const label = `bowmark.sites[${JSON.stringify(path[1])}].${path[2]}`;
+  // Trailing omitted arguments are dropped, so `tool()` and `tool(undefined)` send `[]`
+  // rather than `[null]`: JSON has no undefined, and the site must see an omission.
+  const sent = [...args];
+  while (sent.length > 0 && sent[sent.length - 1] === undefined) sent.pop();
+  const { status, payload } = await postJson<RunEnvelope & { code?: string }>(client, "/v1/run", {
+    script: siteToolScript(path[1] as string, path[2] as string, sent),
+  });
+  if (client.onLog) for (const line of payload?.logs ?? []) client.onLog(line);
+  if (payload?.status === "needs_user") {
+    throw new BowmarkNeedsUserError(payload.error ?? `${label} paused for a login.`, {
+      code: payload.code ?? "needs_user",
+      httpStatus: status,
+      logs: payload.logs,
+      path: label,
+      handoff: payload.meta?.handoff,
+      needs: payload.needs,
+    });
+  }
+  if (status !== 200 || !payload || payload.ok !== true) {
+    throw new BowmarkError(payload?.error ?? `${label} failed (HTTP ${status})`, {
+      code: payload?.code ?? `http_${status}`,
+      httpStatus: status,
+      logs: payload?.logs,
+      path: label,
+    });
+  }
+  return payload.result;
+}
+
 export async function postRun<T>(
   client: ResolvedClient,
   script: string,

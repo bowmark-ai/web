@@ -132,6 +132,14 @@ const res = await run(`return bowmark.read.page(${JSON.stringify(url)})`, { apiK
 const page = res.result; // { status, text, … }
 ```
 
+### A site's own tools — `bowmark.sites["<host>"].<tool>(args)`
+
+Typed like any other function (`interface BowmarkSites` in `generated/library.d.ts`, from the committed tool snapshot in this package). The client sends each one as a one-line `run()` script, because no session resolves a site's own tool; so inside `session()` it is still its own call, and its state lives on the site.
+
+```ts
+const docs = await bowmark.sites["langfuse.com"].searchLangfuseDocs({ query: "what is a trace" });
+```
+
 ### Signing in — `login()`, `{ connection }`, and `bm.connections.*`
 
 ```ts
