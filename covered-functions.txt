@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 138,070 sites, generated 2026-11-22.
+# Every website Bowmark covers and the functions it has: 138,146 sites, generated 2026-11-22.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 008c0929 contact_email#daea6ffc contact_whatsapp#daea6ffc navigate_to_section#822d32b1 open_app_store_android#daea6ffc open_app_store_ios#daea6ffc submit_contact_form#95c992ae switch_language#45a2ccba
@@ -185,6 +185,7 @@
 = 1345f86b get_company#b33f3062 search_companies#0292d9d4
 = 134ddf07 addToCart getCart getCollection getProduct getProducts getSetEvidence listCollections listProducts resolveProductUrl search search_shop_policies_and_faqs#42db55b0
 = 136b5301 getStoreRate searchStores
+= 136ee3b1 comparePassage getDevotional getPassage getReadingPlanDay getTopicalVerses getVerseOfTheDay getVersionInfo listDevotionals listReadingPlans listVersions searchBible
 = 137180a7 find_sermons_citing#09408bf9
 = 13720b9c compare_products#17057292 find_similar#7684ed17 get_brand_products#d8244693 get_deals#5a68345f get_new_arrivals#675fbb9b get_price_comparison#98a8db31 get_price_history#2ca750fe get_sale_products#675fbb9b get_trending_products#675fbb9b search_brands#462c80df search_products#4bc71b66
 = 13724695 bulk_create_trackers#af382291 create_tracker#020ef4c5 download_webhook_history#813bcb87 get_couriers#99a82ecf get_tracker#813bcb87 get_tracking_results#813bcb87 list_trackers#ff59abe4 resend_webhooks#813bcb87 search_tracking#88a424da search_tracking_by_number#c7f9ba9a track#895f0255 update_tracker#c69367f8
@@ -723,7 +724,6 @@
 = 490817d8 get_schematic#2c3d59b8 search_schematics#e946b685
 = 490b1fa4 get_technology_glossary#99a82ecf
 = 4915fb28 ux4g_get_component#f3577d75 ux4g_get_install#a332cf16 ux4g_get_token#5f9a3c7a ux4g_list_versions#99a82ecf ux4g_overview#99a82ecf ux4g_search#1874d013
-= 492c7c35 getHotelDetails getHotelReviews searchCars searchFlights searchHotels searchPackages searchVacationRentals suggestDestinations
 = 4943a19b bulk_update_library_items#cba0f938 create_monitor#7b6a6929 create_news_query#8a2c5b84 discover_feed_inputs#9a4ae103 follow_feeds#d8cce2f0 get_article#18bd6f52 get_feed_changes#30dd5222 get_library_asset#457ec95c get_library_changes#16b3f6ec get_library_object#c4cb2ee3 get_saved_article#c08e91d0 listDocPages list_library#3487b6db list_library_objects#a4214b8a manage_collections#aee6c67f manage_feed_consumers#8aab1a03 manage_feed_filter#bdf0f539 mutate_feeds#08e24f44 open_web_pages#ca9d86b6 query_feeds#c2e21598 readArticle remove_library_item#3439faff save_article#741c362c save_content#1eadb3e3 search_article#2c61de56 search_feeds#d3ec8ec4 search_saved_item#267a98de search_web#3d6b9eff set_feed_feedback#972a0c34 update_library_item#49313ecb
 = 496edecc get_categories#a6449078 get_changes#047bd4c7 get_checklist#1544adc0 get_topic#2eb0d55a list_topics#175a77a5 search#fadd5236
 = 49a26528 getListing getModelResearch getVehicleValue search
@@ -951,6 +951,7 @@
 = 60c4683b find_products_by_codes#3b0f636d get_brand#240ec18c get_faq#a968be96 get_product#f7f950f5 list_brand_products#4a1aafcb list_brands#2ef4d040 render_products_widget#3b0f636d search_products#3e3e284e
 = 60f2acc1 kapruka_check_delivery#6149f31d kapruka_create_order#2604c872 kapruka_get_product#e71b70b9 kapruka_gift_countries#94ae6f11 kapruka_gift_country_products#639b63bd kapruka_list_categories#9c2f2238 kapruka_list_delivery_cities#7e4c9388 kapruka_render_options_card#649e9da4 kapruka_search_products#bfb7691e kapruka_track_order#593c8306
 = 614f49a7 add_favorite#b5fb1486 add_supplement#cc0c6ad0 analyze_and_log_meal#8ff9c040 attach_meal_photo#9f48b98c clear_budget#71040be3 confirm_change#5508d7c1 delete_exercise#406fc573 delete_meal#a82b10cd delete_meal_set#e63e879b delete_my_food#4dbc7243 get_day_notes#ca56e802 get_exercise_history#361e7882 get_exercises#ca56e802 get_favorites#99a82ecf get_food_details#b2d2665c get_heart_rate_summary#6fd20047 get_meal_sets#99a82ecf get_meal_shelf#ce98d8f0 get_meals#ba7255fd get_nutrition_summary#4d4bc71b get_profile_and_goals#99a82ecf get_review_notes#fec0fa18 get_sleep#6fd20047 get_supplements#99a82ecf get_usual_meals#b01a03b1 get_weights#6d58f058 get_workouts#ca56e802 list_shops#99a82ecf log_day_note#eddef18a log_exercise#427f70fd log_meals#423603f5 log_weight#131569d6 log_workout#faed09c3 match_nutrition_label#c56f9671 rate_meal#5cbb56b9 remove_favorite#ef832e6f rename_my_food#50570651 repeat_meals#6ffefdfd save_meal_set#fbb30943 save_review_note#cd532b49 search_foods#f67d541d search_my_foods#c0561584 search_workout_exercises#541c8222 send_feedback#5f9e4e70 set_day_budget#e701fb2c set_goal#6532fbca set_slot_budget#6a1fb923 set_supplement_taken#60a65b3d show_meal_plan#62c48eaa suggest_meal_set#f10cb9f1 undo_change#29159c9c update_meal#dd7a29fb update_supplement#2c4d4d97 update_workout#61830cad
+= 615e42bb getArticle getPhotoGallery getTodayInHistory getVideo listFactChecks listLatestNews listNewsletters listSectionArticles listSections listTopicArticles listVideos searchArticles
 = 6162d0cc fetch#56ba2d57 greet#3083c576 search#798b8e45
 = 617710cf create_checkout_link#42cc2cd2 get_menu#228e8ba0 get_order_status#3a82ffd2 get_premium_signup_link#daea6ffc quote_order#26430ffa search_caterers#dbd7d91d search_restaurants#45e14fb6
 = 61a03260 product search
@@ -1150,6 +1151,7 @@
 = 75b1b379 getBuildYourOwnConfig search
 = 75fbe290 appointment_cancel#c404c4dd appointment_confirm#c404c4dd appointment_create#69e122c2 appointment_detail#ba426756 appointment_list#cb0b0603 appointment_update#a48c3826 get_customer_group#248c65ce get_key_storage#edf6820a list_customer_groups#99a82ecf report_activity#bc5a4e0b report_appointments#2f541802 report_at_risk_customers#8c6aed5f report_at_risk_customers_list#bee34379 report_checkins#d93c44e5 report_customers#b33c09f1 report_daily_summary#ca52debc report_orders#708685fd report_staff_performance#bc5a4e0b report_top_services#941c4aa6 send_promotion#0cef3d48 send_sms#2fc1a662 service_list#99a82ecf settings_category_create#d9f3ecf4 settings_category_delete#4e394b6f settings_category_detail#c5b4d76e settings_category_list#27023f65 settings_category_sort#2529fb32 settings_category_update#bab12bf6 settings_service_create#a82a481a settings_service_delete#1bc42b2d settings_service_detail#840c3a8e settings_service_list#9bb0e71c settings_service_set_addons#627b2c55 settings_service_sort#cac06e4f settings_service_update#2282839e settings_staff_create#59646713 settings_staff_delete#a3f93cde settings_staff_detail#b42e501a settings_staff_list#cb77c6a1 settings_staff_set_services#c76d7ca3 settings_staff_set_work_hours#2bbc506e settings_staff_sort#8316d30a settings_staff_update#5d88c39c staff_detail#bb7dda74 staff_list#99a82ecf update_key_storage#71ce4776
 = 760062d6 search_instabase#803cda31
+= 760c7480 getHotelDetails getHotelReviews searchActivities searchCars searchFlights searchHotels searchPackages searchVacationRentals suggestDestinations
 = 76260546 account_balance#d9873742 batch_geocode#46550b30 batch_reverse_geocode#569b0b92 distance#42794e05 geocode#8f339a8b reverse_geocode#753d1e39 route#d7788f86
 = 76347826 assessment.start#e45fcf7d assessment.submit_answers#4b945dbc catalog.get_product_detail#8c25edef catalog.route_discovery#e5fda8a3 catalog.search_products#3a4c51c7 ui.render_assessment#214562f4 ui.render_product_detail#8c25edef ui.render_product_results#60324d8b
 = 7648b3f5 query_docs_filesystem_email_love#1c279d62 search_email_love#58af85d0 submit_feedback#7fd329e5
@@ -1401,7 +1403,6 @@
 = 8fd3b55e vvg_site_search_form#1e45f449
 = 900d2fe0 search_vehicles_cruz#e69841db
 = 9020e68a clone_voice_tts#d8aa4b9e colorize_photo#63ec303d convert_text_style#72d0e020 convert_to_markdown#551ae273 count_text#7419afa1 decode_blind_watermark#469b7c25 detect_language#7d44b6fb embed_blind_watermark#17f87e5f extract_tables#5af480f8 generate_subtitles#24e2526e ocr_image#5af480f8 pdf_to_markdown_then_translate#3bbfc8cb separate_stems#b17e8ae8 text_to_sound_effect#b8ae5383 text_to_speech#4356b1dc transcribe_audio#34a83dcb translate_document#4ab9bec6 translate_image#feff4d46 translate_subtitle#561001ac translate_text#78c9f5d9 upscale_image#3f34b316
-= 9039b92a getArticle getPhotoGallery getTodayInHistory getVideo listFactChecks listLatestNews listSectionArticles listSections listTopicArticles listVideos searchArticles
 = 90457b45 getAvailableSlots getStoreAppointmentTypes listStores
 = 9051f72b add_to_cart#1ddeb8a6 create_guest_cart#08fce1e8 get_cart#08fce1e8 get_product#4164768d list_payment_methods#08fce1e8 list_shipping_methods#08fce1e8 place_order#08fce1e8 remove_from_cart#b80410ab search_products#586e0167 set_billing_address#81fc6272 set_guest_email#f973368f set_shipping_address#81fc6272 set_shipping_method#34f41e94 set_shop_context#08fce1e8
 = 9090fd90 add_to_cart#b2761fa8 get_cart#d5b3137a get_deal#e577354f get_local_listing#e577354f get_local_listing_categories#66d89d16 get_local_listing_filters#8feb2b6d get_menu_item#2e87d419 get_my_order#fc69ef00 get_my_profile#daea6ffc get_restaurant#734c1f6b list_menu_items#239eaa1e list_my_addresses#3c1ef227 list_my_coupons#add19a40 list_my_orders#9f2ca640 publish_ui_events#db2487bc remove_cart_item#631cd5c3 search_deals#8c287634 search_local_listings#2df9cb47 search_restaurants#3fbd2193 select_market_context#21d0abcb show_cart#d5b3137a show_menu_item#2e87d419 show_menu_items#239eaa1e show_my_addresses#3c1ef227 show_my_coupons#add19a40 show_my_order#fc69ef00 show_my_orders#9f2ca640 show_my_profile#daea6ffc show_restaurant#734c1f6b show_restaurants#3fbd2193 update_cart_item_quantity#f85d7eb4
@@ -1720,7 +1721,6 @@
 = b17270f3 ask_chatgpt#efbf9f8d ask_gemini#ca4ca0f4 extract_page_data#ce0d9e6c fast_search#2f52602b get_amazon_pricing#92027539 get_amazon_product_details#fa064c4d get_amazon_search_results#5c012c57 get_file#f4255205 get_google_search_results#e7ed5704 get_page_html#7a6c53a5 get_page_text#188a9630 get_scrapingbee_usage#daea6ffc get_screenshot#0ab87d47 get_walmart_product_details#94994507 get_walmart_search_results#45ce2340 get_youtube_search_results#cabd9c67 get_youtube_video_metadata#a311af79 get_youtube_video_subtitles#efddb3fc
 = b1a63e34 getAvailability getShow listShows
 = b1b66729 analyze_molecule#e3ba6791 deep_molecule_intelligence#e3ba6791 find_similar_molecules#6719925f predict_qsar#be436424 search_compounds#d28ea455
-= b1ca00cf addComment addMissingPlace bookReservation cancelBooking checkAvailability checkSpelling createDocument createFolder createPresentation createSpreadsheet deleteHistory detectLanguage findBookablePlaces findSpreadsheets followTopic geocodeAddress getAccount getAds getAlternativeTranslations getApp getBooking getBookingOptions getDefinitions getDirections getDocumentText getFile getForYou getFullCoverage getMerchant getOverview getPlace getPopularTimes getPresentationText getPriceGraph getProduct getSettings getSheetCsv getSynonyms getThread getTopicHeadlines joinWaitlist leaveWaitlist listAccounts listCampaigns listComments listEditions listFiles listFollowedTopics listHistory listLanguages listLocalHeadlines listMyBookings listMyContributions listMyPacks listPartners listPhotos listProducts listProperties listPublisherHeadlines listRelatedPlaces listReviews listSavedArticles listSavedPhrases listSavedPlaces listSheets listStories listTopicHeadlines listTopics listTrafficSources lookupMx lookupWord modifyBooking moveFile parseSearchUrl probeMailboxes readSheet renameFile resolveArticleUrl resolvePlaceUrl restoreFile reverseGeocode romanize saveArticle savePhrase savePlace search searchAdvertisers searchNearby searchNews searchPlaces searchProducts searchThreads setStarred speak suggestPlaceEdit suggestPlaces topStories translate translateDocument translateImage translateWebPage trashFile trending unsavePhrase updateSettings writeReview
 = b1dab39b check_orthography#57925059 check_pairing#b26c30db check_text#6d204517 explain_rule#b2e5a00c find_expression#87155f25 get_forms#aa9e906b lookup_word#6751d0c0 normalize_text#9baf766d suggest_replacements#1403097b
 = b1dde8e8 get_product#5c4a790a search_products#e4c62a84
 = b1ef02c9 get_company_advert_quality_summary#024a4cd0 get_company_credit_summary#16ea63c6 get_company_hiring_history#ff43875c get_company_performance_summary#c95e71ca get_company_public_snapshot#024a4cd0 get_job_analysis_context#b956e0af get_job_by_url#358a1785 get_job_performance_comparison#34c66221 get_job_performance_history#60391f3e get_job_performance_signals#c7e39f95 get_labour_market_snapshot#7f194699 ping#daea6ffc resolve_company#aceffed3 search_company_credits#c099f279 search_company_jobs#4193606f search_jobs#fd33538e search_jobs_below_application_median#00220b17 search_lapsed_companies#bbeeb328
@@ -1928,7 +1928,6 @@
 = c832a5f6 addToCart addToFavorites bookPlanningAppointment findStores getCart getDeliveryOptions getFamilyMembership getProduct getProductAvailability getProductDocuments getProductRatings getProfile getPurchase listCategories listCategoryProducts listFamilyOffers listFavorites listInspiration listNewProducts listOffers listPurchases lookupOrder removeFromCart removeFromFavorites searchProducts suggestSearchTerms updateCartItem updateProfile
 = c8334e4c check_availability#7a4693c8 get_wellness_business#3b41bd51 list_wellness_categories#429cfebc request_booking#cf0ed5bf search_wellness_businesses#e040464b
 = c83c7a99 get_catalog_items#3aa7e716 get_page#f0f25e7d list_catalog_filters#87585276 search_catalog#cf4905cc search_content#b3a2863e
-= c83f50bd comparePassage getDevotional getPassage getReadingPlanDay getVerseOfTheDay getVersionInfo listDevotionals listReadingPlans listVersions searchBible
 = c8a71cfe findAgent getRentersQuote listDiscounts listPartnerCompanies
 = c8c499fd form_8da294c#3662fa16
 = c9062aa2 estimate_sales_tax#c41286f2 estimate_sell#f0cf331f find_bullion#e1f15d6f find_gift#3be99ca7 get_buyback_price#b9b02850 get_deals#f8f52e56 get_market_news#24a8b68a get_mint_info#666465b4 get_policies#dafe75dc get_premiums#c3c7656a get_price_history#8f53ec31 get_product#466db10c get_spot_prices#7e50c2de get_store_info#c1f72b67 list_best_sellers#f8f52e56 list_new_arrivals#f8f52e56 plan_budget#fc4ef9b5 prepare_checkout_link#a165bf3d ratio_swap#fcd8ed62 search_products#d1951d14
@@ -2232,6 +2231,7 @@
 = ec9bef56 estimatePlanCost getPlanBuilder
 = ecb668bc bigger_pack#eafb5f78 category_price#ffa8d4a1 unit_price#928fe3d3
 = ed140d6f create_gantt_chart#49ddc854 delete_gantt_chart#9a869797
+= ed3fe00a addComment addMissingPlace bookReservation cancelBooking checkAvailability checkSpelling createDocument createFolder createPresentation createSpreadsheet deleteHistory detectLanguage findBookablePlaces findSpreadsheets followTopic geocodeAddress getAccount getAds getAlternativeTranslations getApp getBooking getBookingOptions getDefinitions getDirections getDocumentText getFile getForYou getFullCoverage getMerchant getOverview getPlace getPopularTimes getPresentationText getPriceGraph getProduct getSettings getSheetCsv getSynonyms getThread getTopicHeadlines joinWaitlist leaveWaitlist listAccounts listCampaigns listComments listEditions listFiles listFollowedTopics listHistory listLanguages listLocalHeadlines listMyBookings listMyContributions listMyPacks listPartners listPhotos listProducts listProperties listPublisherHeadlines listRelatedPlaces listReviews listSavedArticles listSavedPhrases listSavedPlaces listSheets listStories listTopicHeadlines listTopics listTrafficSources lookupWord modifyBooking moveFile parseSearchUrl readSheet renameFile resolveArticleUrl resolvePlaceUrl restoreFile reverseGeocode romanize saveArticle savePhrase savePlace search searchAdvertisers searchNearby searchNews searchPlaces searchProducts searchThreads setStarred speak suggestPlaceEdit suggestPlaces topStories translate translateDocument translateImage translateWebPage trashFile trending unsavePhrase updateSettings writeReview
 = ed6874d2 getWork search
 = ed9bd6f2 getDocs
 = edc248a1 check_disqualifications#28ebd9b9 fetch#355145f7 find_connection_path#12dab8b8 find_shared_connections#cf50b6e1 get_address#31fd9ed4 get_companies#e751f8bf get_company#aea4b205 get_company_financials#5ed6884c get_corporate_group#675fde05 get_dataset_status#daea6ffc get_network#1a8be17c get_ownership#0b7161cf get_person#3f464758 list_company_officers#46df2cc2 list_company_owners#1d5e7567 list_person_appointments#e2e18873 list_subsidiaries#940e838d run_company_checks#e9b4f53e search#b72006b2 search_addresses#ceaad565 search_companies#201f1fc1 search_people#268b0722 search_sic_codes#73a33327 send_feedback#477fd170
@@ -47621,6 +47621,7 @@ acharyanet.com	a9af6443
 achatz-dessous.myshopify.com	a9af6443
 achbal.myshopify.com	61e64875
 achc.myshopify.com	a9af6443
+achemtek.com	da39a3ee
 acheve-dimprimer.myshopify.com	a9af6443
 achosahw.com	f51399e1
 achoti-english.myshopify.com	a9af6443
@@ -48749,6 +48750,7 @@ aislestudio.myshopify.com	a9af6443
 aisling-leydon-makeup-academy.myshopify.com	a9af6443
 aislinglalordental-skin.myshopify.com	a9af6443
 aitch-gbp.myshopify.com	a9af6443
+aitmpl.com	da39a3ee
 aitnaturals.com	bb34c1bd
 aiworldcongress.myshopify.com	a9af6443
 aiynzahev-sounds.myshopify.com	a9af6443
@@ -48884,6 +48886,7 @@ alafeefkitchens.com	bb34c1bd
 alafone.com	bb34c1bd
 alagooffice.myshopify.com	a9af6443
 alagua.myshopify.com	a9af6443
+alaindupetit.com	da39a3ee
 alakazam.co.uk	37007769
 alameda-county-emergency-medical-services-agency.myshopify.com	a9af6443
 alamobrass.com	bb34c1bd
@@ -48946,6 +48949,7 @@ alberta-food-tours.myshopify.com	a9af6443
 alberta-native-friendship-centres-association.myshopify.com	a9af6443
 alberta-premium-apparel.myshopify.com	a9af6443
 alberta-whiteails.myshopify.com	a9af6443
+albertaferretti.com	da39a3ee
 albertareformer.myshopify.com	a9af6443
 alberto-leon-clothing.myshopify.com	a9af6443
 albertolerza.myshopify.com	a9af6443
@@ -49574,6 +49578,7 @@ alna.com.au	bb34c1bd
 alnahar-jewerly.myshopify.com	a9af6443
 alnaharroyal.com	bb34c1bd
 alnamaherbals.com	bb34c1bd
+alnasser.net	da39a3ee
 alnicol.myshopify.com	a9af6443
 alnwickgardenshop.com	bb34c1bd
 aloe-distributor.com	bb34c1bd
@@ -49721,6 +49726,7 @@ alternativesentiments.co.uk	bb34c1bd
 alternativetentacles.com	4479a458
 alterpacks.myshopify.com	a9af6443
 alterrealloja.myshopify.com	a9af6443
+alteserien.de	da39a3ee
 altex-paint-shop.myshopify.com	a9af6443
 altfragrances.com	37007769
 altfragrances.myshopify.com	a9af6443
@@ -51118,7 +51124,7 @@ apmusicfoundationstore.myshopify.com	a9af6443
 apnafoodmarket.com	bb34c1bd
 apnakolkatafashion.com	bb34c1bd
 apnaphoto.in	05a9bb9e
-apnews.com	9039b92a
+apnews.com	615e42bb
 apocalypsevinyl.com	4479a458
 apocalyptic-witchcraft.myshopify.com	a9af6443
 apoellastore.myshopify.com	a9af6443
@@ -52277,6 +52283,7 @@ asitisnutrition.com	4479a458
 ask-me-to-dance.myshopify.com	a9af6443
 askaboutflyfishing.com	bb34c1bd
 askandembla.net	4479a458
+askavet.com	da39a3ee
 askdrbrown.myshopify.com	a9af6443
 askdrmama.myshopify.com	a9af6443
 askdrolz.com	bb34c1bd
@@ -53137,6 +53144,7 @@ auzzie.com	bb34c1bd
 av-athanasios-vellios.myshopify.com	a9af6443
 av-cables.dk	4479a458
 av-music-store.myshopify.com	a9af6443
+av86.com	da39a3ee
 ava-cowans-online-store.myshopify.com	a9af6443
 ava-cr7-uk.myshopify.com	a9af6443
 ava-gardner-museum.myshopify.com	a9af6443
@@ -53666,6 +53674,7 @@ ba5ec3.myshopify.com	a9af6443
 ba8bcf-3.myshopify.com	a9af6443
 ba94de-5.myshopify.com	a9af6443
 ba95a0-3.myshopify.com	a9af6443
+baaboo.com	da39a3ee
 baana.in	bb34c1bd
 baanksy.myshopify.com	a9af6443
 baareeki.com	4479a458
@@ -53874,6 +53883,7 @@ badinka.com	4479a458
 badkranenwinkel.nl	a9af6443
 badlandmusicgroup.myshopify.com	a9af6443
 badlands-off-road-park.myshopify.com	a9af6443
+badlandsgear.com	da39a3ee
 badlandsmunitionsco.com	bb34c1bd
 badmintonbollar.myshopify.com	a9af6443
 badoujack.myshopify.com	a9af6443
@@ -53954,6 +53964,7 @@ bakeandbrew.com.au	bb34c1bd
 bakeaton.co.za	bb34c1bd
 baked-arium.myshopify.com	a9af6443
 baked-by-yael-efelle.myshopify.com	61e64875
+bakedbags.com	da39a3ee
 bakedbymelissa.com	37007769
 bakedbyyael.myshopify.com	a9af6443
 bakeddx.myshopify.com	61e64875
@@ -55206,6 +55217,7 @@ bees-wrap.myshopify.com	a9af6443
 beesequipment.com	bb34c1bd
 beesfloristbali.com	bb34c1bd
 beesforest.com	bb34c1bd
+beeslighting.com	da39a3ee
 beesustainable.com.au	bb34c1bd
 beeswax.com.au	bb34c1bd
 beet-tan.myshopify.com	a9af6443
@@ -55325,7 +55337,6 @@ bella-vita-apothecary.myshopify.com	a9af6443
 bella-woof.ca	bb34c1bd
 bellaandme.ie	bb34c1bd
 bellaballou.myshopify.com	a9af6443
-bellabarnett.com	e029e283
 bellabeautyclinic.myshopify.com	a9af6443
 bellabooks.com	bb34c1bd
 bellabridesmaids.com	4479a458
@@ -56018,7 +56029,7 @@ bible-replay-curriculum.myshopify.com	a9af6443
 biblecraftsandactivities.com	bb34c1bd
 bibledavids.myshopify.com	a9af6443
 bibledepotsunbury.com	bb34c1bd
-biblegateway.com	c83f50bd
+biblegateway.com	136ee3b1
 biblehouse.org.ph	bb34c1bd
 biblesfortoday.com	bb34c1bd
 biblestore.com.ng	bb34c1bd
@@ -56608,6 +56619,7 @@ bkcwholesale.myshopify.com	a9af6443
 bkhonnun.is	bb34c1bd
 bkind-products.myshopify.com	a9af6443
 bkkamulets.com	bb34c1bd
+bklynsoap.com	da39a3ee
 bksaraf.com	bb34c1bd
 bkshoesupply.myshopify.com	a9af6443
 bkzbrands.com	05a9bb9e
@@ -57594,6 +57606,7 @@ bohoandmala.myshopify.com	a9af6443
 bohobungalowboutique.myshopify.com	a9af6443
 bohochic-kabukithemes.myshopify.com	a9af6443
 bohoeventsandstyling.myshopify.com	a9af6443
+boholifestylestore.com	da39a3ee
 bohomegirls.myshopify.com	a9af6443
 bohomoon.com	4479a458
 bohonu.myshopify.com	a9af6443
@@ -57660,6 +57673,7 @@ bombaysafety.in	bb34c1bd
 bombayshavingcompany.com	b1550f0a
 bombayshirts-india-prod.myshopify.com	a9af6443
 bombazine.myshopify.com	a9af6443
+bombonds.com	da39a3ee
 bomboogie.com	4479a458
 bombshell-extension-co.myshopify.com	a9af6443
 bombshellsportswear.com	4479a458
@@ -59384,6 +59398,7 @@ bureauofdigital.myshopify.com	a9af6443
 burespro.com	bb34c1bd
 burg.biz	4479a458
 burga.com	8b50d914
+burga.com.mx	da39a3ee
 burga.cz	4479a458
 burga.de	4479a458
 burga.es	4479a458
@@ -60313,6 +60328,7 @@ cameraelectronic.com.au	37007769
 cameragear.shop	bb34c1bd
 cameragraphics.myshopify.com	a9af6443
 camerakit.ie	bb34c1bd
+cameramarket.us	da39a3ee
 cameraobscuraelburg.nl	bb34c1bd
 camerareadycosmetics76.com	a9af6443
 camerarigz.myshopify.com	a9af6443
@@ -62447,6 +62463,7 @@ chesserdrifting.myshopify.com	a9af6443
 chesspieces1.myshopify.com	61e64875
 chesterfield-whisky-firm.myshopify.com	a9af6443
 chesterfield.gr	bb34c1bd
+chesterfieldbags.com	da39a3ee
 chesterfieldvalleynursery.myshopify.com	a9af6443
 chestnutbrae.com.au	bb34c1bd
 chestnutcharlie.myshopify.com	a9af6443
@@ -63746,6 +63763,7 @@ cncfactory.myshopify.com	a9af6443
 cncmarketi.com	bb34c1bd
 cncmech.de	a9af6443
 cncpd.com	bb34c1bd
+cncpts.com	da39a3ee
 cncrotary.com	bb34c1bd
 cncrouterservices.myshopify.com	a9af6443
 cnctoolspares.com	bb34c1bd
@@ -65399,6 +65417,7 @@ craftgreenery.com	bb34c1bd
 crafthouse.pk	bb34c1bd
 craftibazaar.com	bb34c1bd
 craftidly.myshopify.com	a9af6443
+craftifyx.com	da39a3ee
 craftinfocusonline.com	bb34c1bd
 crafting-chicks-shoppe.myshopify.com	a9af6443
 crafting-jeannie.myshopify.com	a9af6443
@@ -65928,6 +65947,7 @@ cryptomaan.myshopify.com	a9af6443
 cryptominerbros.com	bb34c1bd
 cryptopolitan.com	4086c1b8
 cryptorefills.com	30969b63
+cryptostruct.com	da39a3ee
 cryptowisser.com	4e99947a
 cryptozoic.com	4479a458
 crystabellescandles.myshopify.com	a9af6443
@@ -66524,6 +66544,7 @@ cuttinupnew.myshopify.com	a9af6443
 cuttsgallery.myshopify.com	a9af6443
 cutwgold.myshopify.com	a9af6443
 cuun-ec.myshopify.com	a9af6443
+cuurt.com	da39a3ee
 cuyana.com	37007769
 cuz876-2022.myshopify.com	a9af6443
 cv-deal-club.myshopify.com	a9af6443
@@ -66615,6 +66636,7 @@ cydeways.myshopify.com	a9af6443
 cyfocus.myshopify.com	a9af6443
 cykel-co.id	bb34c1bd
 cykelhjelm.dk	a9af6443
+cykloteket.se	da39a3ee
 cylan.myshopify.com	a9af6443
 cymatics.fm	4479a458
 cymbiotika.com	4479a458
@@ -66642,6 +66664,7 @@ cyseymourartstudio.com	bb34c1bd
 cystic-fibrosis-ireland.myshopify.com	a9af6443
 cyt-marketplace.myshopify.com	a9af6443
 cytechdigitals.com	bb34c1bd
+cytekbio.com	da39a3ee
 cytonerd.com	a9af6443
 cyzographic.myshopify.com	a9af6443
 cyzy55-6g.myshopify.com	a9af6443
@@ -69039,6 +69062,7 @@ dirty-franks-hot-dog-palace.myshopify.com	a9af6443
 dirty-janes-antiques.myshopify.com	a9af6443
 dirty-man-soap-co.myshopify.com	a9af6443
 dirty-weekender.myshopify.com	a9af6443
+dirtydieselcustom.ca	da39a3ee
 dirtysouthbats.com	bb34c1bd
 dirtyteacupdesigns.com	bb34c1bd
 dirzaf-dj.myshopify.com	a9af6443
@@ -70161,6 +70185,7 @@ drink-goldilocks.myshopify.com	a9af6443
 drink-juice-co.myshopify.com	a9af6443
 drink-manacom.myshopify.com	a9af6443
 drink-me-tea-room.myshopify.com	a9af6443
+drink-trip.com	da39a3ee
 drink2shrink-zone.myshopify.com	a9af6443
 drinkag1.com	a9af6443
 drinkarizona.com	37007769
@@ -70168,6 +70193,7 @@ drinkcandycorn.myshopify.com	a9af6443
 drinkcirkul.com	4479a458
 drinkcrazywater.myshopify.com	a9af6443
 drinkforwardslash.myshopify.com	a9af6443
+drinkh2tab.com	da39a3ee
 drinkhint.com	4479a458
 drinkhrwonline.myshopify.com	a9af6443
 drinking-divas.myshopify.com	a9af6443
@@ -70524,7 +70550,6 @@ dumbarnie-pro-shop.myshopify.com	a9af6443
 dumbbells.com	a9af6443
 dumbleby-forest.myshopify.com	a9af6443
 dumbmoneysol.myshopify.com	a9af6443
-dumbwaystodie.com	76a5b9e1
 dummy-store-usa.myshopify.com	61e64875
 dumpsters.com	42df9eed
 dumpsti-products.myshopify.com	a9af6443
@@ -72234,6 +72259,7 @@ ella-deck-couture.myshopify.com	a9af6443
 ella-langley.myshopify.com	a9af6443
 ella-mai-official.myshopify.com	a9af6443
 ellajanenz.myshopify.com	a9af6443
+ellamila.com	da39a3ee
 ellaola.com	37007769
 ellaroseinteriors.com.ng	bb34c1bd
 ellaturnblomphotography.myshopify.com	a9af6443
@@ -72610,6 +72636,7 @@ emtoptools.lk	bb34c1bd
 emtree-bath-and-body.myshopify.com	a9af6443
 emtrinetwork.com	bb34c1bd
 emu-essence.myshopify.com	a9af6443
+emudding.ro	da39a3ee
 emuoil.com	bb34c1bd
 emvo.com	bb34c1bd
 emwt.co.za	bb34c1bd
@@ -73987,7 +74014,7 @@ expansiveexpressions.myshopify.com	a9af6443
 expataudio.myshopify.com	a9af6443
 expatria.myshopify.com	a9af6443
 expatrie.myshopify.com	a9af6443
-expedia.com	492c7c35
+expedia.com	760c7480
 expedition-souvenirs.myshopify.com	a9af6443
 expedition33.com	76a5b9e1
 experience-independence-merchandise.myshopify.com	a9af6443
@@ -74172,6 +74199,7 @@ ezylens.myshopify.com	a9af6443
 f-b-a.com	bb34c1bd
 f-d-leatherworks.myshopify.com	a9af6443
 f-i-t-blessed-spa-and-herbs.myshopify.com	a9af6443
+f-minami.com	da39a3ee
 f-solutions.fi	6a530ace
 f-tokyo.jp	bb34c1bd
 f.ye	a9af6443
@@ -74759,6 +74787,7 @@ farma2go.com	4479a458
 farmacia-di-contea.myshopify.com	a9af6443
 farmaciasdirect.es	ac5e2f52
 farmaciasdirect.it	4479a458
+farmacievigorito.it	da39a3ee
 farmaciilenapofarm.ro	357f4ac8
 farmacorp.com	8b50d914
 farmacy-for-life-canada.myshopify.com	a9af6443
@@ -76115,6 +76144,7 @@ flashfictiononline.com	bb34c1bd
 flashforge.com	8b50d914
 flashiiboshop.myshopify.com	a9af6443
 flashionstatement.com	bb34c1bd
+flashnet.xyz	da39a3ee
 flashonefilms.myshopify.com	a9af6443
 flashq.myshopify.com	a9af6443
 flashquark.com	bb34c1bd
@@ -76625,6 +76655,7 @@ foligain.com	4479a458
 foljeton.myshopify.com	a9af6443
 folk-stone.com	bb34c1bd
 folk.life	a9af6443
+folkclothing.com	da39a3ee
 folkharp.com	bb34c1bd
 folklife-media.myshopify.com	a9af6443
 folkloore2.myshopify.com	a9af6443
@@ -77121,6 +77152,7 @@ fraas.com	4479a458
 fraccontrols.myshopify.com	a9af6443
 fracta-co-jp.myshopify.com	a9af6443
 fractanks.com	a9af6443
+fractel.net	da39a3ee
 fraeternity.myshopify.com	a9af6443
 fragab.de	267d93b0
 fragbox.ca	bb34c1bd
@@ -77130,6 +77162,7 @@ fragmentojewelry.com	bb34c1bd
 fragmentphotobooks.com	bb34c1bd
 fragolabrand.com	4479a458
 fragrance-max.myshopify.com	a9af6443
+fragrance-nevaeh.com	da39a3ee
 fragrance-of-elegance.myshopify.com	a9af6443
 fragranceandlingerie.com	bb34c1bd
 fragrancefractions.co.uk	bb34c1bd
@@ -78378,6 +78411,7 @@ ganesh-imports-inc.myshopify.com	a9af6443
 gangababa.com	bb34c1bd
 gangahome.com.ar	794b8973
 gangio-2.myshopify.com	a9af6443
+gangnamlegging.com	da39a3ee
 gangnamshirtrooms.com	685e74a3
 gangofour.myshopify.com	a9af6443
 gangshowstore.com	bb34c1bd
@@ -79076,6 +79110,7 @@ getsethire.co.uk	bb34c1bd
 getsitecontrol-popups.myshopify.com	61e64875
 getspeks.com	4479a458
 getspin360.myshopify.com	61e64875
+getsprints.com	da39a3ee
 getsquire.com	d791b454
 getsquirrel.co	f0e318eb
 getstepwise.myshopify.com	a9af6443
@@ -80461,7 +80496,7 @@ googeniuscartoons.myshopify.com	a9af6443
 googlabusa.com	bb34c1bd
 google-reviews-fsl.myshopify.com	61e64875
 google-translate-magecurious.myshopify.com	61e64875
-google.com	b1ca00cf
+google.com	ed3fe00a
 googlereviewshowcase.myshopify.com	61e64875
 googlesource.com	39c7db78
 googlyfood.com	bb34c1bd
@@ -80556,6 +80591,7 @@ gossip-eu.myshopify.com	a9af6443
 gossip-uk.myshopify.com	a9af6443
 gossme.com	bb34c1bd
 gostoreit.com	218dc5c0
+gosun.co	da39a3ee
 gosunglasses.co.uk	a9af6443
 got-bag.com	37007769
 got-tracts.myshopify.com	a9af6443
@@ -80712,6 +80748,7 @@ gracecod.myshopify.com	a9af6443
 graced-for-this.myshopify.com	a9af6443
 gracedigital.com	4479a458
 gracee1.myshopify.com	61e64875
+graceease.com	da39a3ee
 graceembroidery.com	bb34c1bd
 gracefellowshipstore.myshopify.com	a9af6443
 graceful-designs-est-2020.myshopify.com	a9af6443
@@ -80784,6 +80821,7 @@ grammaslittlehelper.myshopify.com	a9af6443
 grammys-attic-design.myshopify.com	a9af6443
 grampa-dubs-signature-seasonings.myshopify.com	a9af6443
 grampsasia.com	bb34c1bd
+grams28.com	da39a3ee
 grancaffelaquila.myshopify.com	a9af6443
 grand-1.myshopify.com	a9af6443
 grand-active.myshopify.com	a9af6443
@@ -91114,6 +91152,7 @@ kindredtoxinfree-2.myshopify.com	a9af6443
 kindrestore.co	bb34c1bd
 kindsupplydirect.com	bb34c1bd
 kindwax.myshopify.com	a9af6443
+kineon.io	da39a3ee
 kinesiologybooks.com	bb34c1bd
 kinetic-general.myshopify.com	61e64875
 kineticstrength.myshopify.com	a9af6443
@@ -91563,6 +91602,7 @@ knollsteuer.myshopify.com	a9af6443
 knomerch.myshopify.com	a9af6443
 knot-so-crafty.myshopify.com	a9af6443
 knotandpurl.com	bb34c1bd
+knotapi.com	da39a3ee
 knotfest-uk.myshopify.com	a9af6443
 knotgenie.myshopify.com	a9af6443
 knotjustwool.myshopify.com	a9af6443
@@ -92663,6 +92703,7 @@ lalaschimichurri.myshopify.com	a9af6443
 lalashop.ch	bb34c1bd
 lalela.myshopify.com	a9af6443
 laligadelbarrio.myshopify.com	a9af6443
+lalignenyc.com	da39a3ee
 lalique.com	37007769
 lalo-alcaraz-art-shop.myshopify.com	a9af6443
 lalodges.co.uk	bb34c1bd
@@ -93316,6 +93357,7 @@ leadershipcollaboratory.myshopify.com	a9af6443
 leadershipunderthestars.myshopify.com	a9af6443
 leadertec.com	bb34c1bd
 leadertreks.org	bb34c1bd
+leadfuze.com	da39a3ee
 leading-adult-learners.myshopify.com	a9af6443
 leading-and-loving-it.myshopify.com	a9af6443
 leadingedgesharpening.ca	bb34c1bd
@@ -94804,6 +94846,7 @@ littlemaniamedia.myshopify.com	a9af6443
 littlemistymusic.com	bb34c1bd
 littlemollyscheesecake.co.uk	bb34c1bd
 littlemuffet.com	4479a458
+littleoneshop.com	da39a3ee
 littlepatchofheaven.com.au	bb34c1bd
 littlepeoplerocx.myshopify.com	a9af6443
 littlepiecesofmeboutique.myshopify.com	a9af6443
@@ -96737,6 +96780,7 @@ magjewellery.gr	bb34c1bd
 maglfell.com	4479a458
 maglite.com	4479a458
 magnaflow.com	4479a458
+magnatiles.com	da39a3ee
 magnatune.com	65244000
 magnehealth.com	bb34c1bd
 magnelife.myshopify.com	a9af6443
@@ -97222,6 +97266,7 @@ mango.com	94be332e
 mangofan-ashburn.myshopify.com	a9af6443
 mangomint.com	33aebc70
 manhattanbookreview.com	bb34c1bd
+manhattandress.com	da39a3ee
 manhattanportage.com	4479a458
 mania-de-ti-online.myshopify.com	a9af6443
 manic-lawd.myshopify.com	a9af6443
@@ -97596,6 +97641,7 @@ marketopia.com	bb34c1bd
 marketplace24.ca	bb34c1bd
 marketplacebyapd.myshopify.com	a9af6443
 marketshop-4.myshopify.com	a9af6443
+marketsquarejewelers.com	da39a3ee
 marketstash.myshopify.com	61e64875
 marketstreetnorth.myshopify.com	a9af6443
 markettamerch.myshopify.com	a9af6443
@@ -99088,6 +99134,7 @@ mesa-balancing-store.myshopify.com	a9af6443
 mesa-business-machines.myshopify.com	a9af6443
 mesa-tacos-tequila.myshopify.com	a9af6443
 mesastila100.com	bb34c1bd
+mesbobettes.ca	da39a3ee
 meshit.at	bb34c1bd
 meshki.co.uk	4479a458
 meshki.com.au	4479a458
@@ -101178,6 +101225,7 @@ motherdenim.com	4479a458
 motherflytribe.myshopify.com	a9af6443
 motherfunk.myshopify.com	a9af6443
 motherhood.com	4479a458
+motherhouse.co.jp	da39a3ee
 motherk.eu	bb34c1bd
 motherlandgroceries.com	bb34c1bd
 motherleedsband.myshopify.com	a9af6443
@@ -101919,6 +101967,7 @@ musicfordreams.myshopify.com	a9af6443
 musichorizon.com	4479a458
 musicianscart.com	bb34c1bd
 musiciselementary.com	bb34c1bd
+musicland.gr	da39a3ee
 musiclily.com	4479a458
 musicmarket.com.pe	4479a458
 musicmart.co.za	bb34c1bd
@@ -103758,6 +103807,7 @@ newair.com	4479a458
 newaowle.myshopify.com	61e64875
 newarecorp.myshopify.com	a9af6443
 newavon-arms.co.uk	bb34c1bd
+newbalance.ch	da39a3ee
 newbalance.com.co	4479a458
 newbeecart.myshopify.com	61e64875
 newbeginningsboutique.myshopify.com	a9af6443
@@ -106853,6 +106903,7 @@ ornatehome.com	8b50d914
 ornatejewels.com	4479a458
 ornimerch.myshopify.com	a9af6443
 ornithopolis.myshopify.com	a9af6443
+orntli.com	da39a3ee
 oro-webshop.myshopify.com	a9af6443
 oroa.com	4479a458
 oroblu.com	8b50d914
@@ -107894,6 +107945,7 @@ parfumexquis.myshopify.com	a9af6443
 parfumgroup.de	37007769
 parfumoase.ch	a9af6443
 parfumplaats.com	a9af6443
+parfumproben-online.de	da39a3ee
 parfums-de-marly.com	b1550f0a
 parfumscastle.myshopify.com	a9af6443
 parfumslamanufacture.fr	bb34c1bd
@@ -108857,6 +108909,7 @@ performance-led-lighting-ltd.myshopify.com	a9af6443
 performance-mobility-home-healthcare-solutions.myshopify.com	a9af6443
 performance-sail-tools.myshopify.com	a9af6443
 performance-store.gr	bb34c1bd
+performancelab.com	da39a3ee
 performancetempel.com	bb34c1bd
 performaxx.com.au	bb34c1bd
 perfuma.lk	bb34c1bd
@@ -109469,6 +109522,7 @@ pickwickandplum.com	bb34c1bd
 picky-neb-inc.myshopify.com	a9af6443
 picky-piglet.myshopify.com	a9af6443
 picmondoo.com	4479a458
+picmondoo.de	da39a3ee
 pico-bioscience.myshopify.com	a9af6443
 picoarmor.com	bb34c1bd
 picobello.co.uk	bb34c1bd
@@ -109487,6 +109541,7 @@ picture-speak.com	bb34c1bd
 picture-this-cor.myshopify.com	a9af6443
 picturebute.com	bb34c1bd
 picturehire.com	bb34c1bd
+pictureline.com	da39a3ee
 pictureperfecthome.co.uk	bb34c1bd
 picturepolish.com.au	05a9bb9e
 picturesongold.com	4479a458
@@ -112228,6 +112283,7 @@ pursue-the-wild.myshopify.com	a9af6443
 pursueownpassion.myshopify.com	a9af6443
 pursuit-adventure.myshopify.com	a9af6443
 pursuit-hp.myshopify.com	a9af6443
+pursuit-of-happiness.org	da39a3ee
 pursuit-outdoor.myshopify.com	a9af6443
 pursuit-outerwear.myshopify.com	a9af6443
 purtypearls.myshopify.com	a9af6443
@@ -112266,6 +112322,7 @@ puttbox.myshopify.com	a9af6443
 putthelighthere.com	bb34c1bd
 putupresultz.myshopify.com	a9af6443
 puzzelbaron.nl	a9af6443
+puzzledly.com	da39a3ee
 puzzlefactory.ae	bb34c1bd
 puzzlegenius.org	bb34c1bd
 puzzles-mobile.com	11eac8ff
@@ -114422,6 +114479,7 @@ respicare-sleeptherapy.com	bb34c1bd
 respin-by-halle-berry.myshopify.com	a9af6443
 respond-against-violence.myshopify.com	a9af6443
 responsivelearning.com	bb34c1bd
+respshop.com	da39a3ee
 respshopcom.myshopify.com	a9af6443
 ressalina.com	4479a458
 rest.com	4479a458
@@ -114547,6 +114605,7 @@ reveldanceconvention.myshopify.com	a9af6443
 revell.com	b1550f0a
 revell.de	4479a458
 revelstoke-railway-museum.myshopify.com	a9af6443
+revendo.ch	da39a3ee
 revengeofficialclothing.com	bb34c1bd
 revengexstore1.myshopify.com	a9af6443
 reverewareparts.com	bb34c1bd
@@ -116057,6 +116116,7 @@ rt-mallon.myshopify.com	61e64875
 rt-racing-apparel.myshopify.com	a9af6443
 rt-sgame.myshopify.com	a9af6443
 rt-unero-parallax.myshopify.com	a9af6443
+rta.com	da39a3ee
 rtautomation.com	bb34c1bd
 rtc-trading-company.myshopify.com	a9af6443
 rtcdhaka.com	bb34c1bd
@@ -116672,6 +116732,7 @@ safeinsight.myshopify.com	a9af6443
 safeleaf.ca	bb34c1bd
 safemedilabs.com	bb34c1bd
 safemeshop.com	bb34c1bd
+safemo.com	da39a3ee
 safenshine.com	bb34c1bd
 safepharmainusa.com	bb34c1bd
 safequip.co.za	bb34c1bd
@@ -116745,6 +116806,7 @@ sage-farm-antiques.myshopify.com	a9af6443
 sage-official.myshopify.com	a9af6443
 sage-to-sawtooth-bushcraft.myshopify.com	a9af6443
 sage.co.za	bb34c1bd
+sageandclare.com	da39a3ee
 sageandplow.com	bb34c1bd
 sagegoddess.com	bb34c1bd
 sagehort.com.au	bb34c1bd
@@ -117157,6 +117219,7 @@ sandler-crafts.myshopify.com	a9af6443
 sandlerjewelry.com	bb34c1bd
 sandman.com.au	bb34c1bd
 sandmannspecialties.myshopify.com	a9af6443
+sandmarc.com	da39a3ee
 sandpcraftypartyfavors.myshopify.com	a9af6443
 sandpeople.myshopify.com	a9af6443
 sandra-binney.myshopify.com	a9af6443
@@ -119338,6 +119401,7 @@ shoepalace.com	4479a458
 shoes-direct-3.myshopify.com	a9af6443
 shoes-mephisto.com	bb34c1bd
 shoes-n-feet.myshopify.com	a9af6443
+shoes.fr	da39a3ee
 shoesforuse.myshopify.com	a9af6443
 shoeshoelennik.myshopify.com	a9af6443
 shoeshubonline.lk	bb34c1bd
@@ -124028,6 +124092,7 @@ stmarysindoorshootingcentre.com.au	bb34c1bd
 stmarysnurseryandgardencentre.ca	bb34c1bd
 stmichaelsbrewingcompany.myshopify.com	a9af6443
 stmichaelsfoundation.myshopify.com	a9af6443
+stmtuned.com	da39a3ee
 stoaparis.com	4479a458
 stock-horse-of-texas.myshopify.com	a9af6443
 stock-in-trade.myshopify.com	a9af6443
@@ -125299,6 +125364,7 @@ surtex-instruments.com	bb34c1bd
 surugadai-dentaloffice.myshopify.com	a9af6443
 surugayaonlinestore.myshopify.com	a9af6443
 surveydrones.ie	bb34c1bd
+surveyjs.io	da39a3ee
 surveymonkey.com	a14c0e5a
 survial-sheath.myshopify.com	a9af6443
 survirtual.net	bb34c1bd
@@ -128560,7 +128626,6 @@ thebabypenguin.com	4479a458
 thebabystore.com.my	bb34c1bd
 thebackpocketau.myshopify.com	a9af6443
 thebackyardposyco.myshopify.com	a9af6443
-thebaerry.com	4479a458
 thebagbroker.co.uk	bb34c1bd
 thebaghstore.com	bb34c1bd
 thebakingtools.com	a9af6443
@@ -129022,6 +129087,7 @@ thefilterproject.myshopify.com	a9af6443
 thefindllc.myshopify.com	a9af6443
 thefinishedproject.myshopify.com	a9af6443
 thefinstitutestore.myshopify.com	a9af6443
+thefirecenter.com	da39a3ee
 thefiredepot.net	bb34c1bd
 thefirefarm.com	bb34c1bd
 thefireplaceaz.com	bb34c1bd
@@ -130055,6 +130121,7 @@ thetackstop.com	bb34c1bd
 thetailcompany.com	bb34c1bd
 thetanlab.co.za	bb34c1bd
 thetarotship.myshopify.com	a9af6443
+thetartanweavingmill.co.uk	da39a3ee
 thetastytravelers.myshopify.com	a9af6443
 theteacherbag.com	bb34c1bd
 theteachhub.co.uk	bb34c1bd
@@ -131704,6 +131771,7 @@ toyvilleshop.co.uk	bb34c1bd
 toyworld.co.nz	4479a458
 toyworld.com.au	4479a458
 toyzone.pk	4479a458
+tozandoshop.com	da39a3ee
 tozostore.com	4479a458
 tozy.lk	bb34c1bd
 tp-ppe.myshopify.com	a9af6443
@@ -132135,7 +132203,6 @@ triasnet.myshopify.com	a9af6443
 triassica.myshopify.com	a9af6443
 triastellanoctis.myshopify.com	a9af6443
 triat.ro	a9af6443
-triathletestore.com	4479a458
 tribal-sport.myshopify.com	a9af6443
 tribalornaments.com	4479a458
 tribaltextiles.myshopify.com	a9af6443
@@ -134634,6 +134701,7 @@ veebees.co.uk	bb34c1bd
 veedaa.in	bb34c1bd
 veedubfamily.org	bb34c1bd
 veefind.com	bb34c1bd
+veeralai.com	da39a3ee
 veeremedies.com	bb34c1bd
 vees-tees-and-boutique.myshopify.com	a9af6443
 veg.com	76a5b9e1
@@ -135105,6 +135173,7 @@ victory-point-cafe.myshopify.com	a9af6443
 victory-road-farm.myshopify.com	a9af6443
 victoryathleticsinc.com	bb34c1bd
 victorybaptistpress.com	bb34c1bd
+victorybuyin.com	da39a3ee
 victorychristiancentre.ca	bb34c1bd
 victorycigars.ca	bb34c1bd
 victorydesigns.com	bb34c1bd
@@ -135311,6 +135380,7 @@ vinext-order-tracking.myshopify.com	61e64875
 vinext-upsell-bundle-funnel.myshopify.com	61e64875
 vineyardgate.myshopify.com	a9af6443
 vineyardsoundmusic.com	bb34c1bd
+vingino.com	da39a3ee
 vinho-e-azeite-cl.myshopify.com	a9af6443
 vinhos-lima-mayer.myshopify.com	a9af6443
 viniferavin.myshopify.com	a9af6443
@@ -135528,6 +135598,7 @@ visit-salt-lake.myshopify.com	a9af6443
 visit-yllas.myshopify.com	a9af6443
 visitcatalinaisland.myshopify.com	a9af6443
 visiteysturland.fo	bb34c1bd
+visitlongbeach.com	da39a3ee
 visitor-counter.myshopify.com	a9af6443
 visitorbay-inc.myshopify.com	a9af6443
 visitpasadena.myshopify.com	a9af6443
@@ -135671,6 +135742,7 @@ vivagem.pl	a9af6443
 vivagifts.in	bb34c1bd
 vivahcards.com	bb34c1bd
 vivahtech.co.ke	bb34c1bd
+vivaia.jp	da39a3ee
 vivalamedspashop.myshopify.com	a9af6443
 vivalatina.mx	a9af6443
 vivalr.com	bb34c1bd
@@ -136154,6 +136226,7 @@ waiwai-collective.myshopify.com	a9af6443
 waizu-ecsite.myshopify.com	a9af6443
 wajeehartshop.com	bb34c1bd
 wajo.ai	67fa58f7
+wajos.de	da39a3ee
 wajtttt.myshopify.com	a9af6443
 wak-dol-online.myshopify.com	a9af6443
 waka-ama-nz-shop.myshopify.com	a9af6443
@@ -136318,6 +136391,7 @@ wanzhi-steel.com	bb34c1bd
 waowig-llc.myshopify.com	a9af6443
 wappi.pro	a8cb1b66
 waragod.bg	4479a458
+waragod.com.ua	da39a3ee
 waragod.de	4479a458
 waragod.hr	4479a458
 waragod.pl	4479a458
@@ -139235,6 +139309,7 @@ yamazaki-meat.myshopify.com	a9af6443
 yamazing-linen.myshopify.com	a9af6443
 yamilcraft.com	bb34c1bd
 yamitsuki.myshopify.com	a9af6443
+yamm.com	da39a3ee
 yana-movchan.myshopify.com	a9af6443
 yanagiya.myshopify.com	a9af6443
 yanapazer.myshopify.com	a9af6443
@@ -140323,6 +140398,7 @@ zonepro-barrier-systems.myshopify.com	a9af6443
 zonesun-technology-limited.myshopify.com	a9af6443
 zonex-webibazaar.myshopify.com	61e64875
 zoninusa.myshopify.com	a9af6443
+zonlihome.com	da39a3ee
 zoo24.de	4479a458
 zoocoffeestore.myshopify.com	a9af6443
 zoodirect.com	bb34c1bd

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7468 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7466 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -320,7 +320,7 @@ One function per row, with the site it is called on.
 | `apnews.getVideo` | apnews.com | Reads one /video/<slug> page: title, description, duration, upload date and the… | 🟢 |
 | `apnews.listFactChecks` | apnews.com | Lists AP Fact Check stories (/ap-fact-check). | 🟢 |
 | `apnews.listLatestNews` | apnews.com | Lists the latest headlines on the apnews.com homepage: title, url, section and… | 🟢 |
-| `apnews.listNewsletters` | apnews.com | Lists AP's newsletters with their descriptions and send cadence (/newsletters, the one… | ⚪ |
+| `apnews.listNewsletters` | apnews.com | Lists AP's newsletters with their descriptions and send cadence (/newsletters, the one… | 🟢 |
 | `apnews.listNewsletterSubscriptions` | apnews.com | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
 | `apnews.listPodcasts` | apnews.com | Lists AP's podcasts and their latest episodes (/podcasts). | ⚪ |
 | `apnews.listPressReleases` | apnews.com | Lists press releases distributed on apnews.com (/press-releases). | ⚪ |
@@ -633,7 +633,7 @@ One function per row, with the site it is called on.
 | `biblegateway.getPassageAudio` | biblegateway.com | Returns the audio Bible link and narrator options for a chapter in a translation. | ⚪ |
 | `biblegateway.getPlusStatus` | biblegateway.com | Reads whether the signed-in caller has Bible Gateway Plus and which premium study… | ⚪ |
 | `biblegateway.getReadingPlanDay` | biblegateway.com | Reads one day of a reading plan: the passages assigned for that date. | 🟢 |
-| `biblegateway.getTopicalVerses` | biblegateway.com | Lists Bible verses on a topic (e.g. love, anxiety, forgiveness) from the topical index. | ⚪ |
+| `biblegateway.getTopicalVerses` | biblegateway.com | Lists Bible verses on a topic (e.g. love, anxiety, forgiveness) from the topical index. | 🟢 |
 | `biblegateway.getVerseOfTheDay` | biblegateway.com | Reads today's verse of the day in a named translation: reference, text, permalink and… | 🟢 |
 | `biblegateway.getVerseTopics` | biblegateway.com | Reads the topical page for one verse (/verse/en/John 3:16): related verses and the… | ⚪ |
 | `biblegateway.getVersionInfo` | biblegateway.com | Reads one translation's information page: full name, abbreviation, language, copyright… | 🟢 |
@@ -2397,7 +2397,7 @@ One function per row, with the site it is called on.
 | `expedia.listSavedLists` | expedia.com | Lists the signed-in caller's saved lists (hearted properties and activities) and their… | ⚪ |
 | `expedia.listTrips` | expedia.com | Lists the signed-in caller's Expedia trips, upcoming and past, with itinerary numbers. | ⚪ |
 | `expedia.saveToList` | expedia.com | Saves (hearts) a hotel or activity to one of the signed-in caller's private saved… | ⚪ |
-| `expedia.searchActivities` | expedia.com | Searches Expedia's things-to-do (tours, tickets, activities) for a destination and… | ⚪ |
+| `expedia.searchActivities` | expedia.com | Searches Expedia's things-to-do (tours, tickets, activities) for a destination and… | 🟢 |
 | `expedia.searchCars` | expedia.com | Runs Expedia's car-rental search for a pickup location and dates and returns priced… | 🟢 |
 | `expedia.searchCruises` | expedia.com | Runs Expedia Cruises search for a destination and month and returns sailings with… | ⚪ |
 | `expedia.searchFlights` | expedia.com | Runs Expedia's own flight search for an origin, destination and dates and returns the… | 🟢 |
@@ -5727,8 +5727,6 @@ One function per row, with the site it is called on.
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
 | `smry_ai.listDocPages` | smry.ai | Lists smry's public documentation pages from its first-party index, providing a… | 🟢 |
 | `smry_ai.readArticle` | smry.ai | Reads a public article through smry's clean reader and returns its source metadata… | 🟢 |
-| `smtp_probe.lookupMx` | gmail-smtp-in.l.google.com | Looks up a domain's mail hosts in DNS (MX records by preference, else the domain's own… | 🟢 |
-| `smtp_probe.probeMailboxes` | gmail-smtp-in.l.google.com | Holds one SMTP conversation with a domain's mail server on port 25 (EHLO, MAIL… | 🟢 |
 | `snapchat.addFriend` | snapchat.com | Sends a friend add from the signed-in caller's account to one Snapchat user by their… | 🟢 |
 | `snapchat.blockUser` | snapchat.com | Blocks one Snapchat account from contacting the signed-in caller, by user id (a uuid)… | 🟢 |
 | `snapchat.getChatMessages` | snapchat.com | Reads the messages in one of the signed-in caller's conversations — sender, time… | ⚪ |
@@ -7327,7 +7325,7 @@ One function per row, with the site it is called on.
 | `yogatreecollective.sendContactMessage` | yogatreecollective.com | Submits the /contact form (name, email, message) to the collective. | ⚪ |
 | `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page, with its Add to cart button, for a… | 🟢 |
 | `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product in full — full-size SKU, live price, stock, description, images… | 🟢 |
-| `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword… | 🔴 |
+| `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword… | 🟢 |
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |

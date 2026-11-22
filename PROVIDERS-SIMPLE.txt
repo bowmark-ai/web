@@ -71,7 +71,7 @@ api.census.gov — census_api: validateAddress (+1 planned)
 api.weather.gov — nws: 26 functions — ask get_library (+3 planned)
 apidirectory.com — apidirectory_com: listCategories, search (+1 planned)
 apify.com — apify: store
-apnews.com — apnews: getArticle, getPhotoGallery, getTodayInHistory, getVideo, listFactChecks, listLatestNews, listSectionArticles, listSections, listTopicArticles, listVideos, searchArticles (+9 planned)
+apnews.com — apnews: getArticle, getPhotoGallery, getTodayInHistory, getVideo, listFactChecks, listLatestNews, listNewsletters, listSectionArticles, listSections, listTopicArticles, listVideos, searchArticles (+8 planned)
 app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchDeals (+2 planned)
 appfolio.com — appfolio: listings
 apple.com — apple: 32 functions — ask get_library
@@ -125,7 +125,7 @@ benningtonmarine.com — bennington: search
 bestbuy.com — bestbuy: findStores, getProduct, getProductQuestions, getStore, listCategories, listDeals, search (+23 planned)
 bestmcp.dev — bestmcp_dev: search
 bhphotovideo.com — bhphoto: checkStock, getProduct, search
-biblegateway.com — biblegateway: comparePassage, getDevotional, getPassage, getReadingPlanDay, getVerseOfTheDay, getVersionInfo, listDevotionals, listReadingPlans, listVersions, searchBible (+15 planned)
+biblegateway.com — biblegateway: comparePassage, getDevotional, getPassage, getReadingPlanDay, getTopicalVerses, getVerseOfTheDay, getVersionInfo, listDevotionals, listReadingPlans, listVersions, searchBible (+14 planned)
 bigairusa.com — bigairusa: listLocations, listPasses
 bigjoeforklifts.com — bigjoeforklifts: listForkliftModels, prepareQuoteRequest (+2 planned)
 bigrentz.com — bigrentz: getEquipment, listCategories, search (+1 planned)
@@ -348,7 +348,7 @@ evreward.com — evreward: getStoreRewards (+1 planned)
 exchangerate-api.com — currency_exchange: getRate
 executivehomecare.com — executivehomecare: findLocalOffice
 exhalespa.com — exhalespa: getLocation, listLocations (+2 planned)
-expedia.com — expedia: getHotelDetails, getHotelReviews, searchCars, searchFlights, searchHotels, searchPackages, searchVacationRentals, suggestDestinations (+13 planned)
+expedia.com — expedia: getHotelDetails, getHotelReviews, searchActivities, searchCars, searchFlights, searchHotels, searchPackages, searchVacationRentals, suggestDestinations (+12 planned)
 expireddomains.com — expireddomains: nothing callable yet (+28 planned)
 exploretock.com — tock: findBusiness, getBusiness, getExperience, listExperiences, searchBusinesses (+28 planned)
 extraspace.com — extraspace: checkAvailability, getFacility, search (+1 planned)
@@ -408,7 +408,6 @@ glassdoor.com — glassdoor: getEmployerReviews
 glassesusa.com — glassesusa: getProduct, search
 glofox.com — glofox: 25 functions — ask get_library (+5 planned)
 glossgenius.com — glossgenius: cancelMyMembership, findBusiness, getAvailability, getBookingRequirements, getBusiness, getGiftCardOptions, getMyProfile, joinWaitlist, listLocations, listMemberships, listMyMemberships, listMyOrders, listPackages, listReviews, listServices, listTeam, updateMyProfile (+14 planned)
-gmail-smtp-in.l.google.com — smtp_probe: lookupMx, probeMailboxes
 gobrightwing.com — gobrightwing: getJobDetails, searchJobs (+2 planned)
 gokenko.com — kenko: cancelBooking, cancelMembership, findStudio, getAppointmentAvailability, getClass, getClassSpots, getMyProfile, listAppointmentTypes, listClasses, listGiftCards, listInstructors, listMyBookings, listMyMemberships, listMyPurchases, listPricing, listProducts, listScheduleFilters, pauseMembership, updateMyProfile (+8 planned)
 golf.com — golf_com: findCourses, getCourse
@@ -980,7 +979,7 @@ yellowdoorlets.co.uk — yellowdoorlets_co_uk: getProperty, searchProperties
 yellowpages.com — yellowpages: getBusiness, search
 yelp.com — yelp: addToCollection, getBookmarks, getBusiness, getCollection, getCollections, getMenu, getMessages, getOwnProfile, getPhotos, getReviews, getUser, getWaitlist, listCategories, saveBusiness, search, searchEvents, suggest (+13 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
-yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct (+1 planned)
+yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct, search
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)
 youtube.com — youtube: 49 functions — ask get_library (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
