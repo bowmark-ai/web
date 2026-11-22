@@ -96,6 +96,12 @@ export interface UnitValidators {
    * bare destructuring pattern. It is not the same as an absent key, and the
    * difference is what makes failing closed on an absent one safe. */
   functions: Record<string, ParamSchema[] | null>;
+  /** By function name: a short fingerprint of the function's typed surface (its
+   * params, return and the unit's `types` block), computed by
+   * `packages/catalog/src/function-digest.ts`. Sent with each call as
+   * `x-bowmark-fn-digest` so the api can say this package's types for it are stale.
+   * Optional: a table generated before 2026-11-22 has none, and then no header goes. */
+  digests?: Record<string, string>;
 }
 
 export interface ValidatorTable {
@@ -368,4 +374,14 @@ function describeSchema(schema: Schema, defs: Record<string, Schema>, depth = 0)
     default:
       return schema.k;
   }
+}
+
+/** The digest this table holds for a call path, or `undefined` when it holds none (a
+ * family member, a site tool, an unknown unit or function, an older table). */
+export function lookupDigest(table: ValidatorTable, path: readonly string[]): string | undefined {
+  const split = splitPath(path);
+  if (!split) return undefined;
+  const unit = table.units[split.namespace];
+  if (!unit?.digests || !Object.hasOwn(unit.digests, split.fn)) return undefined;
+  return unit.digests[split.fn];
 }

@@ -28,12 +28,15 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import sys
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
 from typing import Any, Callable, Mapping, Sequence
+
+from ._validate import lookup_digest, validators
 
 DEFAULT_BASE_URL = "https://api.bowmark.ai"
 DEFAULT_TIMEOUT_SECONDS = 120.0
@@ -179,13 +182,18 @@ def _send_once(request: urllib.request.Request, timeout: float | None) -> tuple[
 
 
 def _post_json_blocking(
-    client: ResolvedClient, path: str, body: Any, retry_transport: bool = False
+    client: ResolvedClient,
+    path: str,
+    body: Any,
+    retry_transport: bool = False,
+    extra_headers: Mapping[str, str] | None = None,
 ) -> tuple[int, Any]:
     url = f"{client.base_url}{path}"
     # The caller's headers go on FIRST so `authorization` and `content-type` win — a
     # header that silently replaced the API key would make an unauthenticated call
     # look like a permissions problem on our side.
     headers = dict(client.headers)
+    headers.update(extra_headers or {})
     headers.setdefault("user-agent", f"{USER_AGENT}/{_version()}")
     headers["content-type"] = "application/json"
     headers["accept"] = "application/json"
@@ -236,9 +244,47 @@ def _post_json_blocking(
 
 
 async def post_json(
-    client: ResolvedClient, path: str, body: Any, retry_transport: bool = False
+    client: ResolvedClient,
+    path: str,
+    body: Any,
+    retry_transport: bool = False,
+    extra_headers: Mapping[str, str] | None = None,
 ) -> tuple[int, Any]:
-    return await asyncio.to_thread(_post_json_blocking, client, path, body, retry_transport)
+    return await asyncio.to_thread(
+        _post_json_blocking, client, path, body, retry_transport, extra_headers
+    )
+
+
+#: The request header carrying this package's digest of the function being called.
+DIGEST_HEADER = "x-bowmark-fn-digest"
+
+_drift_reported: set[tuple[str, str]] = set()
+
+
+def report_drift(label: str, drift: Any) -> None:
+    """Print the api's drift notice ONCE per function and kind for the process.
+
+    ``changed`` means the function's provider changed since this package was generated
+    (the call ran; the types may be stale); ``removed`` means the live library no longer
+    has it. stderr rather than ``on_log``, which is off by default, because this is the
+    one thing a caller with stale types needs to see.
+    """
+    if not isinstance(drift, dict) or not isinstance(drift.get("message"), str):
+        return
+    key = (label, str(drift.get("kind")))
+    if key in _drift_reported:
+        return
+    _drift_reported.add(key)
+    # Never allowed to fail the call it rides on (a closed or broken stderr).
+    try:
+        print(f"[bowmark] {drift['message']}", file=sys.stderr)
+    except Exception:  # noqa: BLE001 — the notice is advice; the call's outcome is the result
+        pass
+
+
+def reset_drift_reports() -> None:
+    """Test seam: forget what was printed."""
+    _drift_reported.clear()
 
 
 def _drain_logs(client: ResolvedClient, payload: Any) -> None:
@@ -274,13 +320,18 @@ async def call_in_session(
     ``code``.
     """
     label = ".".join(("bowmark", *path))
+    # This package's fingerprint of the function, so the api can say when the live one
+    # differs. None for a function the table does not hold (a family member, a site tool).
+    digest = lookup_digest(validators(), path)
     status, payload = await post_json(
         client,
         f"/v1/session/{urllib.parse.quote(session_id, safe='')}/call",
         {"path": list(path), "args": list(args)},
+        extra_headers={DIGEST_HEADER: digest} if digest else None,
     )
     _drain_logs(client, payload)
     envelope = payload if isinstance(payload, dict) else {}
+    report_drift(label, envelope.get("drift"))
 
     if envelope.get("status") == "needs_user":
         raise BowmarkNeedsUserError(

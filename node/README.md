@@ -204,6 +204,20 @@ finished by then and the session's TTL closes it.
 `needs_user` is a **status, not an error**, and it is a separate class for that reason:
 an agent that reads a failure retries, and retrying a login halt buys the same halt.
 
+### When your installed version is behind
+
+Each typed call sends this package's fingerprint of the function (`x-bowmark-fn-digest`), and
+Bowmark compares it with the live one. You see at most one line per function per process:
+
+```
+[bowmark] bowmark.providers.soundcloud.search: something changed in this function's provider since your version. The call ran; update (npm i @bowmark/web@latest, …) to get the new types.
+[bowmark] bowmark.providers.soundcloud.oldFn is no longer available: … Update your version …
+```
+
+The first is `console.warn` and the call returns as usual. The second is `console.error`, and the
+call fails. A function this package does not declare at all is refused before any request is sent,
+as `unknown_function` (above), and a newer version may have it.
+
 ### Configuration
 
 Pass `{ apiKey, baseUrl, fetch, headers, signal, onLog }` explicitly — every entry point

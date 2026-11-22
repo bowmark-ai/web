@@ -161,6 +161,7 @@ class ZeroDependencies(unittest.TestCase):
             "os",
             "pathlib",
             "re",
+            "sys",
             "time",
             "types",
             "typing",

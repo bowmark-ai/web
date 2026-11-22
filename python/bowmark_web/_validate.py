@@ -97,6 +97,22 @@ def lookup_params(table: Mapping[str, Any], path: Sequence[str]) -> Lookup:
     return Lookup("checked", params, unit.get("defs", {}))
 
 
+
+def lookup_digest(table: Mapping[str, Any], path: Sequence[str]) -> str | None:
+    """The digest this table holds for a call path, sent as ``x-bowmark-fn-digest``.
+
+    ``None`` when it holds none: a family member, a site tool, an unknown unit or
+    function, or a table generated before digests existed (2026-11-22).
+    """
+    if len(path) < 2:
+        return None
+    unit = table.get("units", {}).get(".".join(path[:-1]))
+    if not isinstance(unit, dict):
+        return None
+    digest = (unit.get("digests") or {}).get(path[-1])
+    return digest if isinstance(digest, str) else None
+
+
 def args_problem(
     params: Sequence[Mapping[str, Any]],
     args: Sequence[Any],

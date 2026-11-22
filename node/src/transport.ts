@@ -63,6 +63,39 @@ export interface CallEnvelope<T = unknown> {
   /** What the call said about an answer that is WHOLE (how it was reached, an argument
    * Bowmark adjusted, a caveat for one use of the content). Never a failure. */
   notes?: string[];
+  /** Present when the function this package was generated with differs from the live
+   * one: `changed` (the call ran; the types may be stale) or `removed` (the live
+   * library no longer has it). Printed once per function per process. */
+  drift?: { level: "warn" | "error"; kind: "changed" | "removed"; message: string };
+}
+
+/** The request header carrying this package's digest of the function being called. */
+export const DIGEST_HEADER = "x-bowmark-fn-digest";
+
+const driftReported = new Set<string>();
+
+/** Print a drift notice ONCE per function and kind for the life of the process: a loop
+ * calling one stale function 10,000 times must not print 10,000 lines. `console`, not
+ * `onLog`, because `onLog` is off by default and this is the one thing a caller with
+ * stale types needs to see. Exported for the tests. */
+export function reportDrift(label: string, drift: CallEnvelope["drift"]): void {
+  if (!drift || typeof drift.message !== "string") return;
+  const key = `${label}\u0000${drift.kind}`;
+  if (driftReported.has(key)) return;
+  driftReported.add(key);
+  // Never allowed to fail the call it rides on: a test setup that makes console.warn
+  // throw must still get the result back.
+  try {
+    if (drift.level === "error") console.error(`[bowmark] ${drift.message}`);
+    else console.warn(`[bowmark] ${drift.message}`);
+  } catch {
+    // The notice is advice; the call's own outcome is what the caller gets.
+  }
+}
+
+/** Test seam: forget what was printed. */
+export function resetDriftReports(): void {
+  driftReported.clear();
 }
 
 /** The wire shape `POST /v1/run` returns. Mirrors `RunEnvelope` in
@@ -442,6 +475,7 @@ export async function callInSession(
   );
 
   if (client.onLog) for (const line of payload?.logs ?? []) client.onLog(line);
+  reportDrift(label, payload?.drift);
 
   if (payload?.status === "needs_user") {
     throw new BowmarkNeedsUserError(

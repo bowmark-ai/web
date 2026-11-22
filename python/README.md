@@ -134,6 +134,11 @@ except BowmarkError as err:
 `code` is the field to branch on. `str(err)` is written for an agent to read, which is
 the wrong shape for an `except` block — both are present and neither replaces the other.
 
+When your installed version is behind the live library, a typed call prints ONE line per function
+to stderr: `[bowmark] … something changed in this function's provider since your version …` (the
+call still runs), or `[bowmark] … is no longer available … Update your version …` (the call fails).
+The package sends its fingerprint of each function as `x-bowmark-fn-digest` so Bowmark can tell.
+
 ## Two guards run before the request, not after
 
 A bad argument is refused in your process, so it never costs a round trip and is never

@@ -8,7 +8,7 @@ One function per row, with the site it is called on.
 
 | Function | Site | What it does | Status |
 |---|---|---|---|
-| `a16z_speedrun.getApplicationForm` | speedrun.a16z.com | Returns every question on the a16z speedrun accelerator's application form… | 🟢 |
+| `a16z_speedrun.getApplicationForm` | speedrun.a16z.com | Returns every question on the a16z speedrun accelerator's application form… | 🟡 |
 | `a1storage.getFacilityUnits` | a1storage.com | Reads one facility's live unit inventory by size group (from `listFacilities`'s… | 🟢 |
 | `a1storage.getMoveInCost` | a1storage.com | Computes the itemized pre-rental move-in cost for one selected unit (from… | 🟢 |
 | `a1storage.listFacilities` | a1storage.com | Lists every A-1 Self Storage facility (51 today) with its address, phone, email… | 🟢 |
@@ -315,10 +315,10 @@ One function per row, with the site it is called on.
 | `apnews.getArticle` | apnews.com | Reads one AP article by URL: headline, byline, dates, section, keywords, lead image… | 🟢 |
 | `apnews.getAuthor` | apnews.com | Reads an AP journalist's author page: name, role, bio and their recent stories —… | ⚪ |
 | `apnews.getLiveUpdates` | apnews.com | Reads one live blog (/live/<slug>): its title and every timestamped update, newest… | ⚪ |
-| `apnews.getPhotoGallery` | apnews.com | Reads one /photo-gallery/<slug>: every photo with caption and credit. | ⚪ |
-| `apnews.getTodayInHistory` | apnews.com | Reads AP's 'Today in History' entry for a date (/today-in-history/<month-day>). | ⚪ |
-| `apnews.getVideo` | apnews.com | Reads one /video/<slug> page: title, description, duration, upload date and the… | ⚪ |
-| `apnews.listFactChecks` | apnews.com | Lists AP Fact Check stories (/ap-fact-check). | ⚪ |
+| `apnews.getPhotoGallery` | apnews.com | Reads one /photo-gallery/<slug>: every photo with caption and credit. | 🟢 |
+| `apnews.getTodayInHistory` | apnews.com | Reads AP's 'Today in History' entry for a date (/today-in-history/<month-day>). | 🟢 |
+| `apnews.getVideo` | apnews.com | Reads one /video/<slug> page: title, description, duration, upload date and the… | 🟢 |
+| `apnews.listFactChecks` | apnews.com | Lists AP Fact Check stories (/ap-fact-check). | 🟢 |
 | `apnews.listLatestNews` | apnews.com | Lists the latest headlines on the apnews.com homepage: title, url, section and… | 🟢 |
 | `apnews.listNewsletters` | apnews.com | Lists AP's newsletters with their descriptions and send cadence (/newsletters, the one… | ⚪ |
 | `apnews.listNewsletterSubscriptions` | apnews.com | Lists the newsletters the signed-in caller is subscribed to. | ⚪ |
@@ -327,7 +327,7 @@ One function per row, with the site it is called on.
 | `apnews.listSectionArticles` | apnews.com | Lists the stories on one section page (e.g. /politics, /sports) or subsection. | 🟢 |
 | `apnews.listSections` | apnews.com | Lists the site's top-level sections (U.S. News, World, Politics, Sports, Business… | 🟢 |
 | `apnews.listTopicArticles` | apnews.com | Lists the stories on one /hub/<topic> page (e.g. hub/iran, hub/weather), the site's… | 🟢 |
-| `apnews.listVideos` | apnews.com | Lists the videos on /video: title, url, duration and thumbnail. | ⚪ |
+| `apnews.listVideos` | apnews.com | Lists the videos on /video: title, url, duration and thumbnail. | 🟢 |
 | `apnews.searchArticles` | apnews.com | Searches AP News for a query (/search?q=) and returns matching articles, videos and… | 🟢 |
 | `apnews.subscribeToNewsletter` | apnews.com | Subscribes an email address to an AP newsletter. | ⚪ |
 | `apnews.unsubscribeFromNewsletter` | apnews.com | Unsubscribes the signed-in caller from one newsletter. | ⚪ |
@@ -509,11 +509,11 @@ One function per row, with the site it is called on.
 | `bankofamerica.getCreditCard` | bankofamerica.com | Gets one credit card's published terms: APRs, annual fee, balance-transfer and… | ⚪ |
 | `bankofamerica.getHomeEquityRates` | bankofamerica.com | Gets the published HELOC rate and APR for a state and ZIP code. | ⚪ |
 | `bankofamerica.getLocation` | bankofamerica.com | Gets one financial center or ATM: address, phone, lobby and drive-up hours, services… | ⚪ |
-| `bankofamerica.getMortgageRates` | bankofamerica.com | Gets today's published purchase or refinance mortgage rates and APRs by product… | ⚪ |
+| `bankofamerica.getMortgageRates` | bankofamerica.com | Gets today's published purchase or refinance mortgage rates and APRs by product… | 🟢 |
 | `bankofamerica.getRoutingNumber` | bankofamerica.com | Gets Bank of America's ABA routing number for the state where an account was opened… | ⚪ |
 | `bankofamerica.listAppointmentTopics` | bankofamerica.com | Lists the topics a visitor can book a financial-center or phone appointment about. | ⚪ |
-| `bankofamerica.listCreditCards` | bankofamerica.com | Lists Bank of America's consumer credit cards with each card's name, intro and ongoing… | ⚪ |
-| `bankofamerica.listDepositAccounts` | bankofamerica.com | Lists checking and savings accounts with each one's monthly fee, how to waive it… | ⚪ |
+| `bankofamerica.listCreditCards` | bankofamerica.com | Lists Bank of America's consumer credit cards with each card's name, intro and ongoing… | 🟢 |
+| `bankofamerica.listDepositAccounts` | bankofamerica.com | Lists checking and savings accounts with each one's monthly fee, how to waive it… | 🟢 |
 | `bankofamerica.search` | bankofamerica.com | Searches Bank of America's public site for products, rates, help answers and pages… | ⚪ |
 | `bankofamerica.searchHelp` | bankofamerica.com | Searches Bank of America's public help and FAQ answers and returns each question… | ⚪ |
 | `barletta.getConfigurator` | barlettapontoonboats.com | Reads one model's whole builder: every option group (Railskin Color, Furniture… | 🟢 |
@@ -605,8 +605,8 @@ One function per row, with the site it is called on.
 | `bestbuy.getStoreAvailability` | bestbuy.com | Whether a specific SKU is in stock at a SPECIFIC physical store (vs.… | ⚪ |
 | `bestbuy.getTradeInQuote` | bestbuy.com | Gives Best Buy's trade-in value for a device the caller describes (category, brand… | ⚪ |
 | `bestbuy.listAddresses` | bestbuy.com | Lists the signed-in shopper's saved shipping addresses. | ⚪ |
-| `bestbuy.listCategories` | bestbuy.com | Lists Best Buy's department tree — each category's name and id — so a caller can… | ⚪ |
-| `bestbuy.listDeals` | bestbuy.com | Lists the current deals — Top Deals, Deal of the Day and sale events — with sale and… | ⚪ |
+| `bestbuy.listCategories` | bestbuy.com | Reads one Best Buy category page: its id, name, parent chain and the sub-categories it… | 🟢 |
+| `bestbuy.listDeals` | bestbuy.com | Lists the sale-event categories on Best Buy's Top Deals page (Apple, TVs, computers… | 🟢 |
 | `bestbuy.listOpenBoxOffers` | bestbuy.com | Lists the open-box offers for one SKU — condition (excellent, good, fair), price and… | ⚪ |
 | `bestbuy.listOrders` | bestbuy.com | Lists the signed-in shopper's orders: number, date, total and status. | ⚪ |
 | `bestbuy.listSavedItems` | bestbuy.com | Lists the signed-in shopper's Saved Items and saved lists. | ⚪ |
@@ -626,24 +626,24 @@ One function per row, with the site it is called on.
 | `biblegateway.addBookmark` | biblegateway.com | Bookmarks a passage in the signed-in caller's library. | ⚪ |
 | `biblegateway.addHighlight` | biblegateway.com | Highlights a verse in the signed-in caller's library. | ⚪ |
 | `biblegateway.addNote` | biblegateway.com | Adds a note to a verse in the signed-in caller's library. | ⚪ |
-| `biblegateway.comparePassage` | biblegateway.com | Reads the same passage side by side in several translations (e.g. NIV, KJV, ESV), one… | ⚪ |
+| `biblegateway.comparePassage` | biblegateway.com | Reads the same passage side by side in several translations (e.g. NIV, KJV, ESV), one… | 🟢 |
 | `biblegateway.getCommentary` | biblegateway.com | Reads a free commentary's notes on a passage. | ⚪ |
-| `biblegateway.getDevotional` | biblegateway.com | Reads today's (or a dated) entry of a named devotional. | ⚪ |
+| `biblegateway.getDevotional` | biblegateway.com | Reads today's (or a dated) entry of a named devotional. | 🟢 |
 | `biblegateway.getPassage` | biblegateway.com | Reads a Bible passage (a verse, range or whole chapter, e.g. "John 3:16" or "Genesis… | 🟢 |
 | `biblegateway.getPassageAudio` | biblegateway.com | Returns the audio Bible link and narrator options for a chapter in a translation. | ⚪ |
 | `biblegateway.getPlusStatus` | biblegateway.com | Reads whether the signed-in caller has Bible Gateway Plus and which premium study… | ⚪ |
-| `biblegateway.getReadingPlanDay` | biblegateway.com | Reads one day of a reading plan: the passages assigned for that date. | ⚪ |
+| `biblegateway.getReadingPlanDay` | biblegateway.com | Reads one day of a reading plan: the passages assigned for that date. | 🟢 |
 | `biblegateway.getTopicalVerses` | biblegateway.com | Lists Bible verses on a topic (e.g. love, anxiety, forgiveness) from the topical index. | ⚪ |
-| `biblegateway.getVerseOfTheDay` | biblegateway.com | Reads today's verse of the day in a named translation: reference, text, permalink and… | ⚪ |
+| `biblegateway.getVerseOfTheDay` | biblegateway.com | Reads today's verse of the day in a named translation: reference, text, permalink and… | 🟢 |
 | `biblegateway.getVerseTopics` | biblegateway.com | Reads the topical page for one verse (/verse/en/John 3:16): related verses and the… | ⚪ |
-| `biblegateway.getVersionInfo` | biblegateway.com | Reads one translation's information page: full name, abbreviation, language, copyright… | ⚪ |
+| `biblegateway.getVersionInfo` | biblegateway.com | Reads one translation's information page: full name, abbreviation, language, copyright… | 🟢 |
 | `biblegateway.listCommentaries` | biblegateway.com | Lists the free commentaries in the resources library. | ⚪ |
-| `biblegateway.listDevotionals` | biblegateway.com | Lists the daily devotionals offered. | ⚪ |
+| `biblegateway.listDevotionals` | biblegateway.com | Lists the daily devotionals offered. | 🟢 |
 | `biblegateway.listNewsletters` | biblegateway.com | Lists the email newsletters (verse of the day, devotionals, reading plans) a reader… | ⚪ |
 | `biblegateway.listNotes` | biblegateway.com | Lists the signed-in caller's notes, highlights and bookmarks (My Library). | ⚪ |
-| `biblegateway.listReadingPlans` | biblegateway.com | Lists the available Bible reading plans with length and description. | ⚪ |
+| `biblegateway.listReadingPlans` | biblegateway.com | Lists the available Bible reading plans with length and description. | 🟢 |
 | `biblegateway.listVersions` | biblegateway.com | Lists the Bible translations Bible Gateway offers, grouped by language, with each… | 🟢 |
-| `biblegateway.searchBible` | biblegateway.com | Searches the Bible text for words or a phrase in one translation, returning matching… | ⚪ |
+| `biblegateway.searchBible` | biblegateway.com | Searches the Bible text for words or a phrase in one translation, returning matching… | 🟢 |
 | `biblegateway.searchDictionary` | biblegateway.com | Looks up a term in the free Bible dictionaries and encyclopedias. | ⚪ |
 | `biblegateway.setPreferences` | biblegateway.com | Sets the signed-in caller's default translation and display preferences. | ⚪ |
 | `biblegateway.startReadingPlan` | biblegateway.com | Subscribes the signed-in caller to a reading plan and reads their progress. | ⚪ |
@@ -1315,31 +1315,31 @@ One function per row, with the site it is called on.
 | `chess_com.createDailyChallenge` | chess.com | Sends a daily-game challenge to a named player from the signed-in account. | ⚪ |
 | `chess_com.explainOpening` | chess.com | Names the opening of a move sequence and its ECO code, using the Chess.com opening… | ⚪ |
 | `chess_com.getArticle` | chess.com | Reads one Chess.com news story or article: title, author, date, body. | ⚪ |
-| `chess_com.getClub` | chess.com | Reads a club: name, description, admins, member count, rating, visibility, join link. | ⚪ |
-| `chess_com.getCountry` | chess.com | Reads a country profile and the players registered to it. | ⚪ |
+| `chess_com.getClub` | chess.com | Reads a club: name, description, admins, member count, rating, visibility, join link. | 🟢 |
+| `chess_com.getCountry` | chess.com | Reads a country profile and the players registered to it. | 🟢 |
 | `chess_com.getDailyPuzzle` | chess.com | Reads today's daily puzzle: title, FEN, PGN solution, image and URL. | 🟢 |
 | `chess_com.getGame` | chess.com | Reads one finished game by its chess.com URL: moves (PGN), players, ratings, result… | ⚪ |
 | `chess_com.getLeaderboards` | chess.com | Reads the top-50 leaderboards for each game type, puzzles and Puzzle Rush. | 🟢 |
 | `chess_com.getMyProfile` | chess.com | Reads the signed-in account's own profile, ratings, membership tier and settings. | ⚪ |
 | `chess_com.getPlayer` | chess.com | Reads a Chess.com player profile: name, title, country, avatar, join date, last… | 🟢 |
 | `chess_com.getPlayerStats` | chess.com | Reads a player's current and best ratings and win/loss/draw record for bullet, blitz… | 🟢 |
-| `chess_com.getRandomPuzzle` | chess.com | Reads a random daily puzzle from the archive. | ⚪ |
+| `chess_com.getRandomPuzzle` | chess.com | Reads a random daily puzzle from the archive. | 🟢 |
 | `chess_com.getTeamMatch` | chess.com | Reads a team match: the two teams, boards, players and scores. | ⚪ |
-| `chess_com.getTournament` | chess.com | Reads a tournament: settings, players, status and its rounds. | ⚪ |
-| `chess_com.isPlayerOnline` | chess.com | Says whether a player is online now (from last_online on the profile). | ⚪ |
+| `chess_com.getTournament` | chess.com | Reads a tournament: settings, players, status and its rounds. | 🟢 |
+| `chess_com.isPlayerOnline` | chess.com | Says whether a player is online now (from last_online on the profile). | 🟢 |
 | `chess_com.joinClub` | chess.com | Joins (or requests to join) a club from the signed-in account. | ⚪ |
-| `chess_com.listClubMatches` | chess.com | Lists a club's team matches: finished, in progress and registered. | ⚪ |
-| `chess_com.listClubMembers` | chess.com | Lists a club's members by activity (weekly, monthly, all-time). | ⚪ |
-| `chess_com.listCountryClubs` | chess.com | Lists the clubs registered to a country. | ⚪ |
+| `chess_com.listClubMatches` | chess.com | Lists a club's team matches: finished, in progress and registered. | 🟢 |
+| `chess_com.listClubMembers` | chess.com | Lists a club's members by activity (weekly, monthly, all-time). | 🟢 |
+| `chess_com.listCountryClubs` | chess.com | Lists the clubs registered to a country. | 🟢 |
 | `chess_com.listMyFriends` | chess.com | Lists the signed-in account's friends and who is online. | ⚪ |
 | `chess_com.listMyMessages` | chess.com | Lists the signed-in account's message threads. | ⚪ |
-| `chess_com.listPlayerClubs` | chess.com | Lists the clubs a player belongs to. | ⚪ |
+| `chess_com.listPlayerClubs` | chess.com | Lists the clubs a player belongs to. | 🟢 |
 | `chess_com.listPlayerCurrentGames` | chess.com | Lists a player's ongoing daily (correspondence) games and whose move it is. | ⚪ |
-| `chess_com.listPlayerGames` | chess.com | Lists a player's finished games for a month (or the latest months), with players… | ⚪ |
+| `chess_com.listPlayerGames` | chess.com | Lists a player's finished games for a month (or the latest months), with players… | 🟢 |
 | `chess_com.listPlayerMatches` | chess.com | Lists the team matches a player has played in or is registered for. | ⚪ |
-| `chess_com.listPlayerTournaments` | chess.com | Lists the tournaments a player has entered, finished or been invited to. | ⚪ |
-| `chess_com.listStreamers` | chess.com | Lists Chess.com streamers and whether each is live. | ⚪ |
-| `chess_com.listTitledPlayers` | chess.com | Lists every username holding a title (GM, IM, FM, WGM, …). | ⚪ |
+| `chess_com.listPlayerTournaments` | chess.com | Lists the tournaments a player has entered, finished or been invited to. | 🟢 |
+| `chess_com.listStreamers` | chess.com | Lists Chess.com streamers and whether each is live. | 🟢 |
+| `chess_com.listTitledPlayers` | chess.com | Lists every username holding a title (GM, IM, FM, WGM, …). | 🟢 |
 | `chess_com.makeDailyMove` | chess.com | Plays a move in one of the signed-in account's daily games. | ⚪ |
 | `chess_com.postForumReply` | chess.com | Posts a reply in a Chess.com forum thread from the signed-in account. | ⚪ |
 | `chess_com.searchClubs` | chess.com | Finds clubs by name, so a caller holding words can reach getClub. | ⚪ |
@@ -1651,7 +1651,7 @@ One function per row, with the site it is called on.
 | `craigslist.createPosting` | craigslist.org | Post a new classified ad (free categories) and return the posting's edit link… | ⚪ |
 | `craigslist.deletePosting` | craigslist.org | Delete one of the caller's own postings. | ⚪ |
 | `craigslist.editPosting` | craigslist.org | Edit one of the caller's own postings (title, body, price, images). | ⚪ |
-| `craigslist.getAccountHome` | craigslist.org | Read the caller's account home: their active, draft and expired postings. | ⚪ |
+| `craigslist.getAccountHome` | craigslist.org | Reads the signed-in caller's Craigslist account home: their postings with the manage… | 🟢 |
 | `craigslist.getListing` | craigslist.org | Reads one Craigslist listing from the URL a search returns: full description, posted… | 🟢 |
 | `craigslist.getListingImages` | craigslist.org | Return the full-size image URLs of a public listing. | 🟢 |
 | `craigslist.getListingMap` | craigslist.org | Return a listing's map location (latitude, longitude, accuracy) and cross streets when… | 🟢 |
@@ -1910,25 +1910,25 @@ One function per row, with the site it is called on.
 | `discogs.getPriceSuggestions` | discogs.com | Read Discogs' suggested selling price for a release at each condition grade, for the… | ⚪ |
 | `discogs.getRelease` | discogs.com | Read one Discogs release (a specific edition of an album, EP or single) by id… | 🟢 |
 | `discogs.getReleaseMarketStats` | discogs.com | Read what a Discogs release sells for: copies for sale now and the lowest price, plus… | ⚪ |
-| `discogs.getReleaseRating` | discogs.com | Read a Discogs release's community rating (average and count), and optionally one… | ⚪ |
+| `discogs.getReleaseRating` | discogs.com | Read a Discogs release's community rating (average and count), and optionally one… | 🟢 |
 | `discogs.getSalesHistory` | discogs.com | Read a Discogs release's past marketplace sales: date, condition and price of each… | ⚪ |
 | `discogs.getSellerFeedback` | discogs.com | Read a Discogs seller's feedback: rating summary and recent buyer comments. | ⚪ |
 | `discogs.getSellingFee` | discogs.com | Work out the Discogs marketplace fee the signed-in seller would pay on a given sale… | ⚪ |
-| `discogs.getUserProfile` | discogs.com | Read a Discogs user's public profile by username: name, location, profile text, join… | ⚪ |
+| `discogs.getUserProfile` | discogs.com | Read a Discogs user's public profile by username: name, location, profile text, join… | 🟢 |
 | `discogs.listArtistReleases` | discogs.com | List an artist's discography and credits on Discogs, paged and sortable by year, title… | 🟢 |
 | `discogs.listCart` | discogs.com | Read the signed-in caller's Discogs marketplace cart, grouped by seller, with item… | ⚪ |
 | `discogs.listCollectionFields` | discogs.com | List the custom note fields on a Discogs collection (media condition, sleeve… | ⚪ |
-| `discogs.listCollectionFolders` | discogs.com | List a Discogs user's collection folders with item counts; a public collection reads… | ⚪ |
-| `discogs.listCollectionItems` | discogs.com | List the releases in a Discogs user's collection folder, paged and sortable, with each… | ⚪ |
+| `discogs.listCollectionFolders` | discogs.com | List a Discogs user's collection folders with item counts; a public collection reads… | 🟢 |
+| `discogs.listCollectionItems` | discogs.com | List the releases in a Discogs user's collection folder, paged and sortable, with each… | 🟢 |
 | `discogs.listLabelReleases` | discogs.com | List a record label's catalogue on Discogs, paged: one row per release with title… | 🟢 |
-| `discogs.listMasterVersions` | discogs.com | List every edition (release) of a Discogs master — one album's pressings, reissues and… | ⚪ |
+| `discogs.listMasterVersions` | discogs.com | List every edition (release) of a Discogs master — one album's pressings, reissues and… | 🟢 |
 | `discogs.listOrderMessages` | discogs.com | Read the message thread on one Discogs marketplace order. | ⚪ |
 | `discogs.listOrders` | discogs.com | List the signed-in seller's Discogs marketplace orders, filterable by status: order… | ⚪ |
 | `discogs.listPurchases` | discogs.com | List the signed-in caller's Discogs purchases (orders placed as a buyer), with seller… | ⚪ |
 | `discogs.listReleaseListings` | discogs.com | List the copies of one Discogs release for sale in the marketplace, paged and… | ⚪ |
 | `discogs.listReleaseReviews` | discogs.com | Read the community reviews on a Discogs release or master: reviewer, date, rating and… | ⚪ |
-| `discogs.listSellerInventory` | discogs.com | List what a Discogs seller has for sale, paged and sortable: each listing's id… | ⚪ |
-| `discogs.listUserContributions` | discogs.com | List the database entries a Discogs user has contributed to, paged. | ⚪ |
+| `discogs.listSellerInventory` | discogs.com | List what a Discogs seller has for sale, paged and sortable: each listing's id… | 🟢 |
+| `discogs.listUserContributions` | discogs.com | List the database entries a Discogs user has contributed to, paged. | 🟢 |
 | `discogs.listUserLists` | discogs.com | List the public lists a Discogs user has made. | ⚪ |
 | `discogs.listUserSubmissions` | discogs.com | List a Discogs user's database submissions (new releases, artists, labels and edits)… | ⚪ |
 | `discogs.listWantlist` | discogs.com | List a Discogs user's wantlist, paged: each wanted release with its notes and rating. | ⚪ |
@@ -2024,11 +2024,11 @@ One function per row, with the site it is called on.
 | `disney_plus.getContinueWatching` | www.disneyplus.com | Reads the signed-in caller's Continue Watching row: what they are part-way through and… | ⚪ |
 | `disney_plus.getEpisodes` | www.disneyplus.com | Lists every season and episode of a Disney+ series by its id or URL, optionally one… | 🟢 |
 | `disney_plus.getHomeFeed` | www.disneyplus.com | Reads the signed-in caller's personalised Disney+ home page rows (recommended for you… | ⚪ |
-| `disney_plus.getNewThisMonth` | www.disneyplus.com | Lists what is new on Disney+ this month, with each title's date, from Disney+'s own… | ⚪ |
+| `disney_plus.getNewThisMonth` | www.disneyplus.com | Lists what is new on Disney+ this month, with each title's date, from Disney+'s own… | 🟢 |
 | `disney_plus.getPlans` | www.disneyplus.com | Lists Disney+'s current US plans, bundles and prices (Disney+ with ads and Premium… | 🟢 |
 | `disney_plus.getSimilarTitles` | www.disneyplus.com | Lists titles Disney+ suggests alongside a given series or movie, by its id or URL. | ⚪ |
 | `disney_plus.getTitle` | www.disneyplus.com | Reads one Disney+ series or movie by its id or URL (a /browse/entity-<uuid> link, or… | 🟢 |
-| `disney_plus.getTop10` | www.disneyplus.com | Reads the Disney+ Top 10 row in the US today: rank, title and id of each. | ⚪ |
+| `disney_plus.getTop10` | www.disneyplus.com | Reads the Disney+ Top 10 row in the US today: rank, title and id of each. | 🟢 |
 | `disney_plus.getWatchlist` | www.disneyplus.com | Reads the signed-in caller's own Disney+ watchlist for the active profile. | ⚪ |
 | `disney_plus.listArticles` | www.disneyplus.com | Lists Disney+'s editorial articles (what's new, guides, watch orders) with title and… | 🟢 |
 | `disney_plus.listCatalog` | www.disneyplus.com | Walks the full Disney+ US catalog page by page from the site's own sitemaps, returning… | ⚪ |
@@ -2397,12 +2397,12 @@ One function per row, with the site it is called on.
 | `expedia.listTrips` | expedia.com | Lists the signed-in caller's Expedia trips, upcoming and past, with itinerary numbers. | ⚪ |
 | `expedia.saveToList` | expedia.com | Saves (hearts) a hotel or activity to one of the signed-in caller's private saved… | ⚪ |
 | `expedia.searchActivities` | expedia.com | Searches Expedia's things-to-do (tours, tickets, activities) for a destination and… | ⚪ |
-| `expedia.searchCars` | expedia.com | Runs Expedia's car-rental search for a pickup location and dates and returns priced… | ⚪ |
+| `expedia.searchCars` | expedia.com | Runs Expedia's car-rental search for a pickup location and dates and returns priced… | 🟢 |
 | `expedia.searchCruises` | expedia.com | Runs Expedia Cruises search for a destination and month and returns sailings with… | ⚪ |
 | `expedia.searchFlights` | expedia.com | Runs Expedia's own flight search for an origin, destination and dates and returns the… | 🟢 |
 | `expedia.searchHotels` | expedia.com | Runs Expedia's own hotel search for a destination, dates and adults and returns the… | 🟢 |
 | `expedia.searchPackages` | expedia.com | Runs Expedia's flight+hotel package search and returns the packages its first results… | 🟢 |
-| `expedia.searchVacationRentals` | expedia.com | Runs Expedia's vacation-rental (homes, cabins, condos) search for a destination and… | ⚪ |
+| `expedia.searchVacationRentals` | expedia.com | Runs Expedia's search with its property-type filter set to rentals (apartment, house… | 🟢 |
 | `expedia.suggestDestinations` | expedia.com | Returns Expedia's destination autocomplete suggestions (cities, airports… | 🟢 |
 | `expedia.updateProfile` | expedia.com | Edits the signed-in caller's Expedia profile fields (name, phone, preferences). | ⚪ |
 | `expireddomains.addDomainNote` | expireddomains.com | Writes a private note on a domain in the signed-in ExpiredDomains.com account. | ⚪ |
@@ -3539,7 +3539,7 @@ One function per row, with the site it is called on.
 | `instacart.findRecipesForProduct` | instacart.com | Lists recipes that use a given product at a store — the finder getRecipe's id comes… | ⚪ |
 | `instacart.getCart` | instacart.com | Returns one cart's contents: each item with quantity, price, any sale, and the cart's… | 🟢 |
 | `instacart.getDeliveryEstimate` | instacart.com | Says how soon a store can deliver to, or have pickup ready at, a location. | 🟢 |
-| `instacart.getList` | instacart.com | Returns one shopping list's products, priced at a chosen store. | ⚪ |
+| `instacart.getList` | instacart.com | Returns one shopping list's products, priced at a chosen store. | 🟢 |
 | `instacart.getMyAccount` | instacart.com | Returns the signed-in customer's own account: id, name, email and phone. | 🟢 |
 | `instacart.getOrder` | instacart.com | Returns one order: its items (with any replacements or refunds), delivery address and… | 🟢 |
 | `instacart.getProduct` | instacart.com | Returns one product's detail: name, brand, size, category, description, ingredients… | 🟢 |
@@ -3551,7 +3551,7 @@ One function per row, with the site it is called on.
 | `instacart.linkLoyaltyCard` | instacart.com | Links the signed-in customer's store loyalty card (a Safeway or Kroger card number) to… | ⚪ |
 | `instacart.listBuyItAgain` | instacart.com | Lists the products the signed-in customer has bought before at a store, most frequent… | 🟢 |
 | `instacart.listCarts` | instacart.com | Lists the signed-in customer's open carts, one per store, with item count and subtotal. | 🟢 |
-| `instacart.listCoupons` | instacart.com | Lists the coupons the signed-in customer can clip or has clipped at a store, with what… | ⚪ |
+| `instacart.listCoupons` | instacart.com | Lists the coupons the signed-in customer can clip or has clipped at a store, with what… | 🟢 |
 | `instacart.listDeals` | instacart.com | Lists what is on sale at a store right now — the store's Sales collection — with each… | 🟢 |
 | `instacart.listDeliveryWindows` | instacart.com | Lists the delivery or pickup time slots the signed-in customer can choose for a cart… | ⚪ |
 | `instacart.listDepartmentProducts` | instacart.com | Lists the products in one store department or aisle by its slug, each with price and… | 🟢 |
@@ -4078,22 +4078,22 @@ One function per row, with the site it is called on.
 | `mayoclinic.getConditionTreatment` | mayoclinic.org | Gets a condition's Diagnosis and treatment page: how it is diagnosed, treatments… | 🟢 |
 | `mayoclinic.getDepartment` | mayoclinic.org | Gets a Mayo Clinic department or center's overview page: what it treats, its locations… | ⚪ |
 | `mayoclinic.getDoctor` | mayoclinic.org | Gets a Mayo Clinic doctor's profile: departments, location, languages, biographical… | ⚪ |
-| `mayoclinic.getDrug` | mayoclinic.org | Gets a drug monograph: US and Canadian brand names, description, before using, proper… | ⚪ |
+| `mayoclinic.getDrug` | mayoclinic.org | Gets a drug monograph: US and Canadian brand names, description, before using, proper… | 🟢 |
 | `mayoclinic.getFirstAid` | mayoclinic.org | Gets a first-aid page's step-by-step instructions and when to call for emergency help. | ⚪ |
 | `mayoclinic.getSupplement` | mayoclinic.org | Gets a supplement page: overview, what the research says, Mayo Clinic's take, safety… | ⚪ |
-| `mayoclinic.getSymptom` | mayoclinic.org | Gets a symptom page: its definition, the conditions that commonly cause it, and when… | ⚪ |
+| `mayoclinic.getSymptom` | mayoclinic.org | Gets a symptom page: its definition, the conditions that commonly cause it, and when… | 🟢 |
 | `mayoclinic.getSymptomCheckerFactors` | mayoclinic.org | Gets the related factors (kind, onset, triggers, accompanying symptoms) Mayo Clinic's… | ⚪ |
 | `mayoclinic.getTest` | mayoclinic.org | Gets a test or procedure page: why it is done, risks, how you prepare, what you can… | ⚪ |
 | `mayoclinic.listConditions` | mayoclinic.org | Lists the diseases and conditions in Mayo Clinic's A-Z index for a letter, with each… | 🟢 |
 | `mayoclinic.listDepartments` | mayoclinic.org | Lists Mayo Clinic's medical departments and centers A-Z, optionally narrowed to a… | ⚪ |
-| `mayoclinic.listDrugs` | mayoclinic.org | Lists the drugs in Mayo Clinic's A-Z drug list for a letter, with each drug's name… | ⚪ |
+| `mayoclinic.listDrugs` | mayoclinic.org | Lists the drugs in Mayo Clinic's A-Z drug list for a letter, with each drug's name… | 🟢 |
 | `mayoclinic.listFirstAid` | mayoclinic.org | Lists Mayo Clinic's first-aid topics A-Z, with each topic's name and page URL. | ⚪ |
 | `mayoclinic.listLifestyleArticles` | mayoclinic.org | Lists the articles under one healthy-lifestyle topic, by section (basics, in-depth… | ⚪ |
 | `mayoclinic.listLifestyleTopics` | mayoclinic.org | Lists Mayo Clinic's healthy-lifestyle topics (nutrition, fitness, pregnancy, stress… | ⚪ |
 | `mayoclinic.listLocations` | mayoclinic.org | Lists Mayo Clinic's campuses (Arizona, Florida, Minnesota, London) and Health System… | ⚪ |
 | `mayoclinic.listSupplements` | mayoclinic.org | Lists the herbs and supplements Mayo Clinic covers, with each one's name and page URL. | ⚪ |
 | `mayoclinic.listSymptomCheckerSymptoms` | mayoclinic.org | Lists the adult and child symptoms Mayo Clinic's Symptom Checker accepts, with the id… | ⚪ |
-| `mayoclinic.listSymptoms` | mayoclinic.org | Lists the symptoms in Mayo Clinic's symptoms library, with each symptom's name and… | ⚪ |
+| `mayoclinic.listSymptoms` | mayoclinic.org | Lists the symptoms in Mayo Clinic's symptoms library, with each symptom's name and… | 🟢 |
 | `mayoclinic.listTests` | mayoclinic.org | Lists the tests and procedures in Mayo Clinic's A-Z index for a letter, with each… | ⚪ |
 | `mayoclinic.requestAppointment` | mayoclinic.org | Starts a Mayo Clinic appointment request for a patient: where they live, whether they… | ⚪ |
 | `mayoclinic.search` | mayoclinic.org | Searches Mayo Clinic's diseases and conditions library for a health topic and returns… | 🟢 |
@@ -4286,10 +4286,10 @@ One function per row, with the site it is called on.
 | `momence.getMyWaitlist` | momence.com | List sessions the signed-in user is waitlisted for. | ⚪ |
 | `momence.getSessionDetails` | momence.com | Get detailed information about one session — description, welcome message, capacity… | 🟢 |
 | `momence.getSessionPlans` | momence.com | List the membership plans or passes that can be used to book a session, if any. | 🟢 |
-| `momence.getSessions` | momence.com | List a studio's upcoming scheduled sessions — the site's own default window (roughly… | 🟢 |
-| `momence.getSessionsByDate` | momence.com | List a studio's sessions on one calendar day. | 🟢 |
-| `momence.getSessionsByLocation` | momence.com | List a studio's upcoming sessions at one location. | 🟢 |
-| `momence.getSessionsByTeacher` | momence.com | List a studio's upcoming sessions taught by one teacher. | 🟢 |
+| `momence.getSessions` | momence.com | List a studio's upcoming scheduled sessions — the site's own default window (roughly… | 🟡 |
+| `momence.getSessionsByDate` | momence.com | List a studio's sessions on one calendar day. | 🟡 |
+| `momence.getSessionsByLocation` | momence.com | List a studio's upcoming sessions at one location. | 🟡 |
+| `momence.getSessionsByTeacher` | momence.com | List a studio's upcoming sessions taught by one teacher. | 🟡 |
 | `momence.getSessionTiers` | momence.com | List the ticket-price tiers a session offers, if any. | 🟢 |
 | `momence.getStudio` | momence.com | Get a Momence studio's profile — currency, time zone, industry, locations, teachers… | 🟢 |
 | `momence.getTeachers` | momence.com | List all teachers at a studio. | 🟢 |
@@ -4604,7 +4604,7 @@ One function per row, with the site it is called on.
 | `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟢 |
 | `nytimes.listTopics` | nytimes.com | Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently… | 🟢 |
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
-| `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟡 |
+| `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟢 |
 | `nytimes.postComment` | nytimes.com | Posts a comment as the signed-in reader under one article through the article's own… | 🟢 |
 | `nytimes.recommendComment` | nytimes.com | Presses Recommend on one reader comment under an article as the signed-in reader. | 🟢 |
 | `nytimes.saveArticle` | nytimes.com | Saves one article to the signed-in reader's Reading List. | 🟢 |
@@ -4801,12 +4801,12 @@ One function per row, with the site it is called on.
 | `people.getGallery` | people.com | Reads one photo gallery by URL: title, and each slide's image, caption and credit. | ⚪ |
 | `people.getVideo` | people.com | Reads one People video page: title, description, duration, thumbnail and stream URL… | ⚪ |
 | `people.listLatestNews` | people.com | Lists the stories on the people.com homepage right now: headline, URL, image and… | 🟢 |
-| `people.listScoopFeed` | people.com | Reads 'The Scoop', People's rolling feed of short celebrity updates… | ⚪ |
+| `people.listScoopFeed` | people.com | Reads 'The Scoop', People's rolling feed of short celebrity updates… | 🟢 |
 | `people.listSectionArticles` | people.com | Lists the stories on one section page such as /celebrity/ or /royals/, from its… | 🟢 |
 | `people.listSections` | people.com | Lists People's sections and subsections from the header nav (celebrity, royals, crime… | 🟢 |
 | `people.listVideos` | people.com | Lists People's videos from /video: title, URL, thumbnail and duration. | ⚪ |
 | `people.searchArticles` | people.com | Searches people.com (/search?q=) and returns matching stories with headline, URL and… | 🟢 |
-| `people.searchCelebrities` | people.com | Finds a celebrity's topic page by name: the finder for getCelebrity. | ⚪ |
+| `people.searchCelebrities` | people.com | Finds a celebrity's People topic page by name (e.g. 'taylor swift' → taylor-swift).… | 🟢 |
 | `people.subscribeToNewsletter` | people.com | Signs an email address up for a People newsletter. | ⚪ |
 | `people.updateAccountProfile` | people.com | Changes the signed-in caller's People account profile fields (name, display name) on… | ⚪ |
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟢 |
@@ -4960,7 +4960,7 @@ One function per row, with the site it is called on.
 | `progressive.getAtvQuote` | progressive.com | Returns an ATV or UTV insurance quote for the machine and its ZIP — off-road coverage… | ⚪ |
 | `progressive.getAutoQuote` | progressive.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP —… | ⚪ |
 | `progressive.getBoatQuote` | progressive.com | Returns a watercraft insurance quote for a boat's type, length, motor and mooring ZIP… | ⚪ |
-| `progressive.getBusinessQuote` | progressive.com | Returns a small-business insurance quote — business owners policy, general liability… | 🟡 |
+| `progressive.getBusinessQuote` | progressive.com | Returns a small-business insurance quote — business owners policy, general liability… | 🟢 |
 | `progressive.getClassicCarQuote` | progressive.com | Returns a classic or collector car insurance quote for an agreed-value vehicle and its… | ⚪ |
 | `progressive.getCommercialAutoQuote` | progressive.com | Returns a commercial auto insurance quote for a business's vehicles, radius of… | ⚪ |
 | `progressive.getCondoQuote` | progressive.com | Returns a condominium unitowners insurance quote for a ZIP and unit — the coverage… | ⚪ |
@@ -5182,11 +5182,11 @@ One function per row, with the site it is called on.
 | `reddit.editPostOrComment` | reddit.com | Edits the text of the signed-in caller's own post or comment. | 🟢 |
 | `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | 🟢 |
 | `reddit.followUser` | reddit.com | Follows or unfollows a redditor as the signed-in caller, so their posts reach the… | 🟢 |
-| `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | 🟡 |
+| `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | 🟢 |
 | `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | 🟢 |
 | `reddit.getMyAccount` | reddit.com | Returns the signed-in caller's own account — username, karma, account age, whether… | 🟢 |
 | `reddit.getPlayback` | reddit.com | The playback menu for a Reddit-hosted video (a post URL, a t3_ id, or a v.redd.it… | 🟢 |
-| `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟡 |
+| `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟢 |
 | `reddit.getSubreddit` | reddit.com | Returns the facts about one community rather than its content — the subreddit's title… | 🟢 |
 | `reddit.getSubredditPosts` | reddit.com | Returns a community's own front page — the submissions in one subreddit under a chosen… | 🟢 |
 | `reddit.getSubredditRules` | reddit.com | Returns one community's posting rules — each rule's short name, full description and… | 🟢 |
@@ -5842,7 +5842,7 @@ One function per row, with the site it is called on.
 | `spectrum.getUsageSummary` | spectrum.com | The signed-in caller's Spectrum Mobile usage for the current bill cycle (data… | 🟢 |
 | `spectrum.listInternetPlans` | spectrum.com | Every residential internet-only plan Spectrum advertises on… | 🟢 |
 | `spectrum.listMobileDeals` | spectrum.com | Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals… | 🟢 |
-| `spectrum.listMobilePlans` | spectrum.com | The three Spectrum Mobile "Unlimited" plans on spectrum.com/mobile/plans (Unlimited… | 🟡 |
+| `spectrum.listMobilePlans` | spectrum.com | The three Spectrum Mobile "Unlimited" plans on spectrum.com/mobile/plans (Unlimited… | 🟢 |
 | `spectrum.listServiceAppointments` | spectrum.com | The signed-in caller's Spectrum technician visits with time window, status, reason… | 🟢 |
 | `spectrum.listTvAddOns` | spectrum.com | Every premium channel Spectrum TV sells as an add-on, read off… | 🟢 |
 | `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, the page's… | 🟢 |
@@ -6521,7 +6521,7 @@ One function per row, with the site it is called on.
 | `tripadvisor.getQuestions` | tripadvisor.com | Reads a listing's travellers' Q&A questions, newest first — each question's id, text… | 🟢 |
 | `tripadvisor.getRestaurant` | tripadvisor.com | Reads one restaurant in full: name, address, phone, cuisines, price range, opening… | 🟡 |
 | `tripadvisor.getRestaurantAvailability` | tripadvisor.com | Reads a restaurant's open reservation times for a date and party size, from the… | ⚪ |
-| `tripadvisor.getReview` | tripadvisor.com | Reads one review on its own page — rating, title, full text, date of visit, date… | 🟢 |
+| `tripadvisor.getReview` | tripadvisor.com | Reads one review on its own page — rating, title, full text, date of visit, date… | 🟡 |
 | `tripadvisor.getReviews` | tripadvisor.com | Reads one page of a hotel's, restaurant's or attraction's reviews in the site's own… | 🟡 |
 | `tripadvisor.getTour` | tripadvisor.com | Reads one bookable tour or experience (/AttractionProductReview-g<geo>-d<id>-…)… | ⚪ |
 | `tripadvisor.getTrips` | tripadvisor.com | Lists the signed-in caller's Trips — the saved-places lists Tripadvisor keeps per… | ⚪ |
@@ -6675,7 +6675,7 @@ One function per row, with the site it is called on.
 | `upkeepstl_com.estimatePlanCost` | upkeepstl.com | Computes the total contract price and per-year price for one plan selection (home… | 🟢 |
 | `upkeepstl_com.getPlanBuilder` | upkeepstl.com | Reads UPKEEP's public 'Build Your Plan' quote-form schema: the home-warranty plan… | 🟢 |
 | `ups.calculateShippingCost` | ups.com | Retail shipping quote from ups.com's public calculator: UPS® Simple Rate (box-size… | 🟢 |
-| `ups.calculateTimeAndCost` | ups.com | Public retail rates and delivery dates from ups.com's "Calculate Time and Cost"… | 🟢 |
+| `ups.calculateTimeAndCost` | ups.com | Public retail rates and delivery dates from ups.com's "Calculate Time and Cost"… | 🟡 |
 | `ups.estimateDeliveryDate` | ups.com | Estimates delivery date and timeframe for shipment between two locations with a… | 🟢 |
 | `ups.findNearbyLocation` | ups.com | Finds UPS drop-off/pickup locations near a ZIP Code or street/city address — UPS… | 🟢 |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
@@ -6698,7 +6698,7 @@ One function per row, with the site it is called on.
 | `usa_gov.getPage` | usa.gov | Reads one USA.gov page (e.g. /passport, /renew-adult-passport) and returns its title… | 🟢 |
 | `usa_gov.listPages` | usa.gov | Lists English USA.gov pages from the site's own sitemap, optionally filtered by words… | 🟢 |
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
-| `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟡 |
+| `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
 | `usatoday.getCrossword` | usatoday.com | Reads today's USA TODAY Crossword, or one by id: title, date, constructor, grid size… | 🟢 |
 | `usatoday.getElectionResults` | usatoday.com | Reads live election results for one state from USA TODAY — given a state like AK —… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
@@ -6717,11 +6717,11 @@ One function per row, with the site it is called on.
 | `uscis.caseStatus` | uscis.gov | The current status of one USCIS case by its 13-character receipt number: the form… | 🟢 |
 | `usps.addToStoreCart` | usps.com | Adds one product to the anonymous USPS store cart on store.usps.com and returns the… | ⚪ |
 | `usps.findCitiesByZip` | usps.com | The city names USPS lists for one ZIP code, from the 'city by ZIP' tool on the ZIP… | ⚪ |
-| `usps.findEddmRoutes` | usps.com | Every Door Direct Mail route search on eddm.usps.com: the carrier routes near an… | ⚪ |
-| `usps.findPostOffices` | usps.com | Post offices, retail counters, collection boxes and other USPS locations near an… | ⚪ |
+| `usps.findEddmRoutes` | usps.com | Every Door Direct Mail carrier route in one 5-digit ZIP from eddm.usps.com's route… | 🟢 |
+| `usps.findPostOffices` | usps.com | Post offices, retail counters, collection boxes and other USPS locations near an… | 🟢 |
 | `usps.findZipsByCityState` | usps.com | The ZIP codes USPS lists for one city and state, from the 'ZIP by city' tool on the… | ⚪ |
 | `usps.getInternationalRate` | usps.com | The price to send one package from the US to a named country by weight: every USPS… | 🟢 |
-| `usps.getPostOfficeDetails` | usps.com | One location's full record from the Post Office locator (hours by day, services… | ⚪ |
+| `usps.getPostOfficeDetails` | usps.com | One location's full record from the Post Office locator (hours by day, services… | 🟢 |
 | `usps.getPriceList` | usps.com | USPS's published price list (Notice 123) from pe.usps.com: the domestic rate tables by… | 🟢 |
 | `usps.getRate` | usps.com | Prices a domestic package across USPS's own Mail Services (Priority Mail Express… | 🟢 |
 | `usps.getServiceAlerts` | usps.com | USPS's current service alerts (delays, closures, weather or holiday notices) from… | 🟢 |
@@ -7325,7 +7325,7 @@ One function per row, with the site it is called on.
 | `yogatreecollective.searchSite` | yogatreecollective.com | Searches the site's own Squarespace index (/api/search/GeneralSearch) for teachers… | 🟢 |
 | `yogatreecollective.sendContactMessage` | yogatreecollective.com | Submits the /contact form (name, email, message) to the collective. | ⚪ |
 | `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page, with its Add to cart button, for a… | 🟢 |
-| `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product in full — full-size SKU, live price, stock, description, images… | 🔴 |
+| `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product in full — full-size SKU, live price, stock, description, images… | 🟢 |
 | `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword… | 🔴 |
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
@@ -7426,8 +7426,8 @@ One function per row, with the site it is called on.
 | `zillow.contactAgent` | zillow.com | Sends a question or tour request about a listing to its agent or landlord from the… | ⚪ |
 | `zillow.deleteSavedSearch` | zillow.com | Deletes one of the signed-in caller's saved searches. | ⚪ |
 | `zillow.getAccount` | zillow.com | Reads the signed-in caller's Zillow profile: name, email, phone and account settings. | ⚪ |
-| `zillow.getAgent` | zillow.com | Gets one agent's profile: brokerage, contact details shown publicly, specialties… | ⚪ |
-| `zillow.getBuilding` | zillow.com | Gets an apartment or condo building page: units and floor plans available, rent… | ⚪ |
+| `zillow.getAgent` | zillow.com | Gets one agent's profile: brokerage, contact details shown publicly, specialties… | 🟢 |
+| `zillow.getBuilding` | zillow.com | Gets an apartment or condo building page: units and floor plans available, rent… | 🟢 |
 | `zillow.getHome` | zillow.com | Get one home's Zillow detail page by zpid, listing URL or street address: price… | 🟢 |
 | `zillow.getMarketOverview` | zillow.com | Gets a region's housing market: typical home value (ZHVI) and its one-year change… | 🟢 |
 | `zillow.getMortgageRates` | zillow.com | Gets today's average mortgage rates and APRs by loan program (30-year fixed, 15-year… | 🟢 |
@@ -7439,7 +7439,7 @@ One function per row, with the site it is called on.
 | `zillow.listSavedSearches` | zillow.com | Lists the signed-in caller's saved searches with their alert frequency. | ⚪ |
 | `zillow.saveHome` | zillow.com | Saves (hearts) a home to the signed-in caller's saved homes. | ⚪ |
 | `zillow.saveSearch` | zillow.com | Saves a search for the signed-in caller, with its filters and email alert frequency. | ⚪ |
-| `zillow.searchAgents` | zillow.com | Finds real estate agents serving a location, with name, brokerage, rating, review… | ⚪ |
+| `zillow.searchAgents` | zillow.com | Finds real estate agents serving a location, with name, brokerage, rating, review… | 🟢 |
 | `zillow.searchHomes` | zillow.com | Find homes, houses, apartments, condos and townhouses for sale, for rent or recently… | 🟢 |
 | `zillow.searchLocations` | zillow.com | Turns a place name, ZIP, neighborhood or address into Zillow regions and addresses… | 🟢 |
 | `zillow.unsaveHome` | zillow.com | Removes a home from the signed-in caller's saved homes. | ⚪ |

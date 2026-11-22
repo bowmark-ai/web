@@ -37,11 +37,18 @@ class FakeApi:
     def __init__(self, responses: list[tuple[int, Any]]) -> None:
         self.responses = list(responses)
         self.requests: list[tuple[str, Any]] = []
+        self.headers: list[dict[str, str]] = []
 
     async def __call__(
-        self, client: Any, path: str, body: Any, retry_transport: bool = False
+        self,
+        client: Any,
+        path: str,
+        body: Any,
+        retry_transport: bool = False,
+        extra_headers: Any = None,
     ) -> tuple[int, Any]:
         self.requests.append((path, body))
+        self.headers.append(dict(extra_headers or {}))
         if not self.responses:
             raise AssertionError(f"no scripted response left for {path}")
         return self.responses.pop(0)
@@ -521,3 +528,82 @@ class TransportResets(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Drift(unittest.TestCase):
+    """A typed call sends this package's digest of the function; the api's ``drift``
+    notice is printed once per function per process (note 0014, 2026-11-21)."""
+
+    PATH = ["music", "search"]
+
+    def setUp(self) -> None:
+        _transport.reset_drift_reports()
+        table = _transport.validators()
+        self.unit = table["units"]["music"]
+        self.saved = self.unit.get("digests")
+        self.unit["digests"] = {"search": "0123456789abcdef"}
+
+    def tearDown(self) -> None:
+        if self.saved is None:
+            self.unit.pop("digests", None)
+        else:
+            self.unit["digests"] = self.saved
+        _transport.reset_drift_reports()
+
+    def _call_twice(self, reply: tuple[int, Any]) -> tuple[FakeApi, str]:
+        import contextlib
+        import io
+
+        err = io.StringIO()
+        with TransportPatch(FakeApi([OPENED, reply, reply, CLOSED])) as fake:
+            with contextlib.redirect_stderr(err):
+
+                async def body() -> None:
+                    async with bowmark_web.session(api_key="bmk_test") as bm:
+                        for _ in range(2):
+                            try:
+                                await bm.music.search("aphex twin")
+                            except BowmarkError:
+                                pass
+
+                asyncio.run(body())
+        return fake, err.getvalue()
+
+    def test_the_call_carries_the_digest_header(self) -> None:
+        fake, _ = self._call_twice(ok([]))
+        call_headers = [h for (p, _), h in zip(fake.requests, fake.headers) if p.endswith("/call")]
+        self.assertEqual(call_headers, [{"x-bowmark-fn-digest": "0123456789abcdef"}] * 2)
+
+    def test_no_digest_no_header(self) -> None:
+        self.unit["digests"] = {}
+        fake, _ = self._call_twice(ok([]))
+        self.assertTrue(all(h == {} for h in fake.headers))
+
+    def test_changed_prints_once_and_the_call_returns(self) -> None:
+        reply = (200, {"ok": True, "status": "ok", "result": [], "drift": {
+            "level": "warn", "kind": "changed", "message": "bowmark.music.search: something changed"}})
+        _, err = self._call_twice(reply)
+        self.assertEqual(err.count("something changed"), 1)
+
+    def test_removed_prints_once_and_the_call_still_raises(self) -> None:
+        reply = (200, {"ok": False, "status": "error", "error": "no such function",
+                       "code": "unknown_function", "drift": {
+                           "level": "error", "kind": "removed", "message": "no longer available"}})
+        _, err = self._call_twice(reply)
+        self.assertEqual(err.count("no longer available"), 1)
+
+    def test_a_malformed_drift_prints_nothing(self) -> None:
+        reply = (200, {"ok": True, "status": "ok", "result": [], "drift": "stale"})
+        _, err = self._call_twice(reply)
+        self.assertEqual(err, "")
+
+    def test_a_broken_stderr_never_fails_the_call(self) -> None:
+        import io
+
+        closed = io.StringIO()
+        closed.close()
+        saved, sys.stderr = sys.stderr, closed
+        try:
+            _transport.report_drift("bowmark.music.search", {"kind": "changed", "message": "m"})
+        finally:
+            sys.stderr = saved

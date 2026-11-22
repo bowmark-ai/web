@@ -13,6 +13,7 @@
 // else's toolchain. Playwright was asked to fix that class of bug and formally
 // declined. See `docs/decisions/2026-08-03-the-session-surface-and-why-run-string-stays.md`.
 
+import { VALIDATORS } from "./generated/validators.js";
 import { assertArgShape, assertWireSafeArgs } from "./guard.js";
 import {
   BowmarkError,
@@ -23,6 +24,7 @@ import {
   callInSession,
   callSiteTool,
   closeSession,
+  DIGEST_HEADER,
   deleteConnection,
   listConnections,
   logoutConnection,
@@ -31,6 +33,7 @@ import {
   resolveClient,
   updateConnection,
 } from "./transport.js";
+import { lookupDigest } from "./validate.js";
 
 /** What a proxy node does when it is finally called. */
 type Dispatch = (path: string[], args: unknown[]) => Promise<unknown>;
@@ -257,7 +260,7 @@ function otherChannelSuffix(first: string | undefined): string {
 
 /** One dispatch: validate the path, refuse a non-wire argument, then send it. */
 function dispatchThrough(
-  send: Send,
+  rawSend: Send,
   sites: (path: readonly string[], args: readonly unknown[]) => Promise<unknown>,
 ): Dispatch {
   // `async`, so EVERY refusal is a rejected promise rather than a synchronous
@@ -303,6 +306,12 @@ function dispatchThrough(
       return sites(path, args);
     }
     assertArgShape(label, path, args);
+    // This package's fingerprint of the function, so the api can say when the live one
+    // differs (`drift` on the envelope). None for a function the table does not hold.
+    const digest = lookupDigest(VALIDATORS, path);
+    const send: Send = digest
+      ? (p, a, h) => rawSend(p, a, { ...h, [DIGEST_HEADER]: digest })
+      : rawSend;
     if (isLoginCall(path)) {
       const providerId = path[1] as string;
       const { args: wireArgs, headers } = liftLoginCredentials(providerId, args);
