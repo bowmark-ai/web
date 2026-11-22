@@ -5605,7 +5605,7 @@ One function per row, with the site it is called on.
 | `sevenrooms.updateMyProfile` | sevenrooms.com | Edits the signed-in guest's SevenRooms profile: name and contact details, profile… | ⚪ |
 | `sevenrooms.updateReservationPreferences` | sevenrooms.com | Updates the guest-side details of a reservation from its manage token: dietary… | ⚪ |
 | `sevenrooms.validatePromoCode` | sevenrooms.com | Checks whether a promo code is valid at a venue for a date, time and party size before… | 🟢 |
-| `shein.addAddress` | shein.com | Adds a shipping address to the signed-in caller's address book. | ⚪ |
+| `shein.addAddress` | shein.com | Adds a shipping address to the signed-in caller's address book. | 🟢 |
 | `shein.addToCart` | shein.com | Adds a product in a chosen size and colour to the signed-in caller's bag. | 🟢 |
 | `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | 🟢 |
 | `shein.followStore` | shein.com | Follows or unfollows a marketplace store as the signed-in caller. | 🟢 |
