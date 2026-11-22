@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c9477c358837c6a691804a8b3b64c0c75c1735c3085b83a53112cbb6b159c39f
-// 5675 checked, 20 unchecked.
+// Manifest version: e915586b1dfd6521eb5b521f26362b63a6476f19ea63c88b57c39e071b208fae
+// 5683 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c9477c358837c6a691804a8b3b64c0c75c1735c3085b83a53112cbb6b159c39f",
+  "version": "e915586b1dfd6521eb5b521f26362b63a6476f19ea63c88b57c39e071b208fae",
   "units": {
     "address_validation": {
       "defs": {
@@ -51522,6 +51522,45 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "searchStoreProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "store",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -101999,6 +102038,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MlbGetGlossaryTermArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "MlbGetInjuryReportArgs": {
           "k": "object",
           "props": [
@@ -102508,6 +102559,25 @@ export const VALIDATORS: ValidatorTable = {
               "name": "limit",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MlbListGlossaryTermsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -103114,6 +103184,26 @@ export const VALIDATORS: ValidatorTable = {
               "name": "MlbGetAwardsArgs"
             },
             "optional": true
+          }
+        ],
+        "listGlossaryTerms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbListGlossaryTermsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getGlossaryTerm": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MlbGetGlossaryTermArgs"
+            },
+            "optional": false
           }
         ],
         "getVenue": [
@@ -113754,6 +113844,21 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.ophanimus_com": {
+      "defs": {},
+      "functions": {
+        "listPages": [],
+        "getPage": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -138258,6 +138363,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SheinProfileUpdateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "nickname",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "birthday",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SheinSearchArgs": {
           "k": "object",
           "props": [
@@ -138663,6 +138787,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listFollowedStores": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinProfileUpdateArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -181476,6 +181626,38 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetHomeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "home",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "object",
+                    "props": [
+                      {
+                        "name": "zpid",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "MortgagePaymentArgs": {
           "k": "object",
           "props": [
@@ -181671,6 +181853,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchHomesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHome": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHomeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getZestimate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHomeArgs"
             },
             "optional": false
           }

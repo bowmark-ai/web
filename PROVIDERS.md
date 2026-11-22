@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7462 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7464 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -2077,7 +2077,7 @@ One function per row, with the site it is called on.
 | `doordash.saveStore` | doordash.com | Saves a store to, or removes it from, the signed-in customer's saved stores. | ⚪ |
 | `doordash.search` | doordash.com | Runs DoorDash's own store search for a cuisine, dish or store and returns the real… | 🟡 |
 | `doordash.searchDishes` | doordash.com | Searches for a DISH rather than a restaurant ("pizza", "pad thai") near a location and… | 🟢 |
-| `doordash.searchStoreProducts` | doordash.com | Searches for products inside one grocery, convenience or retail store ("milk" at a… | ⚪ |
+| `doordash.searchStoreProducts` | doordash.com | Searches inside one grocery, convenience or retail store on DoorDash by store id or… | 🟢 |
 | `doordash.setDefaultAddress` | doordash.com | Makes one saved address the signed-in customer's default delivery address. | ⚪ |
 | `doordash.updateAddress` | doordash.com | Edits one of the signed-in customer's saved addresses — apartment, building, entry… | ⚪ |
 | `doordash.updateCartItem` | doordash.com | Changes the quantity or options of an item already in the cart. | ⚪ |
@@ -4227,7 +4227,7 @@ One function per row, with the site it is called on.
 | `mlb.getGame` | mlb.com | Gets one game's summary: teams, status, inning, line score, winning and losing… | 🟢 |
 | `mlb.getGameBroadcasts` | mlb.com | Lists where a game is on TV, radio and streaming, home and away feeds. | 🟢 |
 | `mlb.getGameHighlights` | mlb.com | Lists a game's video highlights and recap with titles, durations and playable video… | 🟢 |
-| `mlb.getGlossaryTerm` | mlb.com | Gets one glossary entry: the stat's or rule's definition, how it is calculated and an… | ⚪ |
+| `mlb.getGlossaryTerm` | mlb.com | Gets one glossary entry: the stat's or rule's definition, how it is calculated and an… | 🟢 |
 | `mlb.getInjuryReport` | mlb.com | Lists the players on the injured list, by team, with the injury and expected return. | 🟢 |
 | `mlb.getPlayback` | mlb.com | Returns the playback menu for one MLB video: the site's embed plus every MP4/HLS… | 🟢 |
 | `mlb.getPlayByPlay` | mlb.com | Lists every plate appearance in a game, inning by inning, with the pitches, the result… | 🟢 |
@@ -4251,7 +4251,7 @@ One function per row, with the site it is called on.
 | `mlb.getWinProbability` | mlb.com | Gets a game's win-probability chart: the home and away win chance after every play. | 🟢 |
 | `mlb.listFavorites` | mlb.com | Lists the signed-in caller's favourite teams and players. | ⚪ |
 | `mlb.listFreeAgents` | mlb.com | Lists the current free agents with their positions and former teams. | 🟢 |
-| `mlb.listGlossaryTerms` | mlb.com | Lists MLB.com's glossary of stats and rules, by category (standard stats, advanced… | ⚪ |
+| `mlb.listGlossaryTerms` | mlb.com | Lists MLB.com's glossary of stats and rules, by category (standard stats, advanced… | 🟢 |
 | `mlb.listNews` | mlb.com | Lists the latest MLB.com news stories, league-wide or for one team: headline, link… | 🟢 |
 | `mlb.listNewsletterSubscriptions` | mlb.com | Lists the MLB and team newsletters the signed-in caller is subscribed to. | ⚪ |
 | `mlb.listPlayerStats` | mlb.com | Lists every qualified player's season stats, sortable by any column, as the /stats… | 🟢 |
@@ -4312,7 +4312,7 @@ One function per row, with the site it is called on.
 | `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟢 |
 | `msn.getHourlyForecast` | msn.com | Reads the hour-by-hour forecast for a named city off MSN Weather's hourly page… | 🟢 |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
-| `msn.getPlayback` | msn.com | Returns every measured way to play one MSN video: all of MSN's direct progressive MP4… | 🟢 |
+| `msn.getPlayback` | msn.com | Returns every measured way to play one MSN video: all of MSN's direct progressive MP4… | 🟡 |
 | `msn.getScores` | msn.com | Returns one league's games on one date the way MSN Sports' scores page does for a… | 🟢 |
 | `msn.getSectionFeed` | msn.com | Returns a top-stories feed scoped to one of six sections — sports, entertainment… | 🟢 |
 | `msn.getStandings` | msn.com | Returns one league's current standings table the way MSN Sports' standings page does… | 🟢 |
@@ -4535,7 +4535,7 @@ One function per row, with the site it is called on.
 | `nyt_cooking.deleteRecipeBoxFolder` | cooking.nytimes.com | Deletes one of the signed-in reader's Recipe Box folders. | 🟢 |
 | `nyt_cooking.deleteRecipeNote` | cooking.nytimes.com | Deletes one of the signed-in reader's own private cook notes. | 🟢 |
 | `nyt_cooking.getAccountProfile` | cooking.nytimes.com | Reads the signed-in reader's own account profile (display name, email). Needs the… | 🟢 |
-| `nyt_cooking.getArticle` | cooking.nytimes.com | Reads one cooking article or guide's title, summary, authors, full body text and any… | 🟢 |
+| `nyt_cooking.getArticle` | cooking.nytimes.com | Reads one cooking article or guide's title, summary, authors, full body text and any… | 🟡 |
 | `nyt_cooking.getAuthorRecipes` | cooking.nytimes.com | Lists an author's published recipes off their byline page — the finder for a recipe… | 🟢 |
 | `nyt_cooking.getCollection` | cooking.nytimes.com | Reads one curated editorial collection and the recipe cards inside it, off a… | 🟢 |
 | `nyt_cooking.getCookedRecipes` | cooking.nytimes.com | Lists the recipes the signed-in reader has marked cooked. | 🟢 |
@@ -4691,6 +4691,8 @@ One function per row, with the site it is called on.
 | `opentable.listMyReservations` | opentable.com | Lists the signed-in diner's own reservations from the dining dashboard, upcoming and… | 🟢 |
 | `opentable.search` | opentable.com | Finds restaurants on OpenTable for a name, cuisine or dish: a restaurant's name… | 🟢 |
 | `opentable.startBooking` | opentable.com | Starts a guest reservation for one open time: clicks the time on the restaurant's… | 🟢 |
+| `ophanimus_com.getPage` | ophanimus.com | Reads one ophanimus.com page by url or path and returns its title, meta description… | 🟢 |
+| `ophanimus_com.listPages` | ophanimus.com | Lists every page ophanimus.com publishes, with last-modified date, from its own… | 🟢 |
 | `oreilly.getContentMetadata` | learning.oreilly.com | Reads O'Reilly's metadata for one or more content URNs (books, videos) via GET… | 🟢 |
 | `oreilly.getMetadataByUrls` | learning.oreilly.com | Batch-resolves O'Reilly content api paths (e.g. /api/v1/book/<isbn>/) via POST… | 🟢 |
 | `oreilly.listPaymentCountries` | learning.oreilly.com | Lists the countries O'Reilly's checkout accepts, with ISO codes, VAT rate and EU… | ⚪ |
@@ -5728,12 +5730,12 @@ One function per row, with the site it is called on.
 | `snapchat.addFriend` | snapchat.com | Sends a friend add from the signed-in caller's account to one Snapchat user by their… | 🟢 |
 | `snapchat.blockUser` | snapchat.com | Blocks one Snapchat account from contacting the signed-in caller, by user id (a uuid)… | 🟢 |
 | `snapchat.getChatMessages` | snapchat.com | Reads the messages in one of the signed-in caller's conversations — sender, time… | ⚪ |
-| `snapchat.getEpisode` | snapchat.com | Reads one show episode's own page (www.snapchat.com/p/<publisherId>/<storyId>) —… | 🟢 |
+| `snapchat.getEpisode` | snapchat.com | Reads one show episode's own page (www.snapchat.com/p/<publisherId>/<storyId>) —… | 🟡 |
 | `snapchat.getLens` | snapchat.com | Reads one Lens's own page (www.snapchat.com/lens/<scannableUuid>) — its name, creator… | 🟢 |
 | `snapchat.getLocalGuide` | snapchat.com | Reads a city's local guide… | 🟢 |
 | `snapchat.getMyProfile` | snapchat.com | Reads the signed-in caller's own Snapchat account — user id, username, display name… | 🟢 |
 | `snapchat.getProfile` | snapchat.com | Reads one Snapchat account's public page by username — www.snapchat.com/@<username> —… | 🟡 |
-| `snapchat.getShow` | snapchat.com | Reads one Discover show or publisher page (www.snapchat.com/p/<publisherId>) — name… | 🟢 |
+| `snapchat.getShow` | snapchat.com | Reads one Discover show or publisher page (www.snapchat.com/p/<publisherId>) — name… | 🟡 |
 | `snapchat.getSnapMap` | snapchat.com | Reads the signed-in caller's Snap Map — friends who share their location and the… | ⚪ |
 | `snapchat.getSpotlightVideo` | snapchat.com | Reads one Spotlight video by its share url or snap id — creator (username, display… | 🟡 |
 | `snapchat.listChats` | snapchat.com | Lists the signed-in caller's conversations in Snapchat for Web — who, the last… | ⚪ |
@@ -7423,11 +7425,11 @@ One function per row, with the site it is called on.
 | `zillow.getAccount` | zillow.com | Reads the signed-in caller's Zillow profile: name, email, phone and account settings. | ⚪ |
 | `zillow.getAgent` | zillow.com | Gets one agent's profile: brokerage, contact details shown publicly, specialties… | ⚪ |
 | `zillow.getBuilding` | zillow.com | Gets an apartment or condo building page: units and floor plans available, rent… | ⚪ |
-| `zillow.getHome` | zillow.com | Gets one home by zpid, URL or address: price or rent, status, beds/baths/sqft, lot… | ⚪ |
+| `zillow.getHome` | zillow.com | Get one home's Zillow detail page by zpid, listing URL or street address: price… | 🟢 |
 | `zillow.getMarketOverview` | zillow.com | Gets a region's housing market: typical home value (ZHVI) and its one-year change… | ⚪ |
 | `zillow.getMortgageRates` | zillow.com | Gets today's average mortgage rates and APRs by loan program (30-year fixed, 15-year… | 🟢 |
 | `zillow.getNewConstructionCommunity` | zillow.com | Gets a new-construction community: builder, plans with base prices, available homes… | ⚪ |
-| `zillow.getZestimate` | zillow.com | Gets Zillow's estimated value (Zestimate) and Rent Zestimate for an address, with the… | ⚪ |
+| `zillow.getZestimate` | zillow.com | What is this house worth: Zillow's Zestimate (estimated value) and Rent Zestimate for… | 🟢 |
 | `zillow.hideHome` | zillow.com | Hides a home from the signed-in caller's search results. | ⚪ |
 | `zillow.listConversations` | zillow.com | Lists the signed-in caller's Zillow inbox: conversations with landlords and agents and… | ⚪ |
 | `zillow.listSavedHomes` | zillow.com | Lists the homes the signed-in caller has saved (hearted). | ⚪ |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c9477c358837c6a691804a8b3b64c0c75c1735c3085b83a53112cbb6b159c39f
-// 99 capabilities, 948 providers, 5703 typed functions, 20 refused.
+// Manifest version: e915586b1dfd6521eb5b521f26362b63a6476f19ea63c88b57c39e071b208fae
+// 99 capabilities, 949 providers, 5711 typed functions, 20 refused.
 // 125,660 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32223,7 +32223,7 @@ interface cnbc_comSector extends cnbc_comRow {
      * — plus how many they have published in total. Pages back through the whole archive with
      * limit (up to 100) and offset.
      */
-    listArticlesByAuthor(args: ListArticlesByAuthorArgs): Promise<{ total: number | null; items: cnbc_comListItem[] }>;
+    listArticlesByAuthor(args: ListArticlesByAuthorArgs): Promise<{ total: number | null; items: cnbc_comListItem[]; warnings?: string[] }>;
 
     /**
      * Returns one CNBC video — title, description, duration in seconds, show, publish time, HLS
@@ -39492,6 +39492,13 @@ interface DoordashRetailStore {
   products: { itemId: string; menuId: string | null; name: string; price: number | null; image: string | null }[];
 }
 
+interface DoordashRetailSearch {
+  storeId: string; query: string;
+  totalCount: number | null;  // DoorDash's count of matches in the store, all pages
+  products: { itemId: string; menuId: string | null; name: string; price: number | null; image: string | null }[];
+  nextCursor: string | null;  // pass back as `cursor` for the next page; null on the last
+}
+
   /**
    * DoorDash's own store search — returns real, currently-listed stores for a free-text query
    * with the delivery fee, rating and ETA DoorDash itself advertises on the results card.
@@ -39577,6 +39584,14 @@ interface DoordashRetailStore {
      * itself lists — each with item id, name, price in dollars and image. Read-only.
      */
     getRetailStore(args: { store: string }): Promise<DoordashRetailStore>;
+
+    /**
+     * Searches inside one grocery, convenience or retail store on DoorDash ("spark plug" at store
+     * 42542981, "milk" at a 7-Eleven) by store id or store URL and returns matching products, each
+     * with item id, name, price in dollars and image, plus the store's own match count and a
+     * `nextCursor` for the next page (up to 30 per page). Read-only.
+     */
+    searchStoreProducts(args: { store: string; query: string; limit?: number; cursor?: string }): Promise<DoordashRetailSearch>;
   }
 }
 
@@ -57076,13 +57091,15 @@ declare namespace BowmarkProvider_greatlakesdentaltech {
 interface GldtProductSummary {
   sku: string;
   name: string;
-  price: number;
+  brand: string | null;
   category: string | null;
+  inStock: boolean;
   url: string;
 }
 interface GldtSearchResult {
   products: GldtProductSummary[];
   total: number;
+  warnings: string[];
 }
 interface GldtProduct {
   sku: string;
@@ -57100,8 +57117,8 @@ interface GldtProduct {
   interface Unit {
     /**
      * Searches Great Lakes Dental Tech's own storefront catalog for what a buyer would type
-     * ("intraoral scanner", "sleep appliance") and returns matching products with the URL
-     * getProduct takes.
+     * ("intraoral scanner", "sleep appliance") and returns matching products with their SKU,
+     * brand, stock status and product page URL. Rows carry no price: the product page has it.
      */
     search(query: string, limit?: number): Promise<GldtSearchResult>;
 
@@ -75296,6 +75313,35 @@ interface MlbDraft {
   total: number;
   warnings: string[];
 }
+interface MlbListGlossaryTermsArgs {
+  /** One of the categories the result lists, e.g. "statcast". */
+  category?: string;
+  /** Filters by title. */
+  query?: string;
+}
+interface MlbGlossaryTermRef {
+  /** Pass to getGlossaryTerm, e.g. "standard-stats/assist". */
+  slug: string;
+  category: string;
+  title: string;
+  url: string;
+}
+interface MlbGlossaryTerms {
+  terms: MlbGlossaryTermRef[];
+  categories: string[];
+}
+interface MlbGetGlossaryTermArgs {
+  /** A slug from listGlossaryTerms(), e.g. "standard-stats/assist". */
+  slug: string;
+}
+interface MlbGlossaryTerm {
+  slug: string;
+  category: string;
+  title: string;
+  url: string;
+  definition: string;
+  sections: { heading: string; text: string }[];
+}
 interface MlbGetVenueArgs {
   /** A venueId from listTeams() or getTeam(), e.g. 3313. */
   venueId: number;
@@ -75605,6 +75651,19 @@ interface MlbPlay {
      * e.g. getAwards({ awardId: 'ALMVP', season: 2025 }).
      */
     getAwards(args?: MlbGetAwardsArgs): Promise<MlbAwards>;
+
+    /**
+     * MLB.com's glossary of stats, rules and Statcast terms with category and slug; filter by
+     * category or title. The door for getGlossaryTerm, e.g. listGlossaryTerms({ category:
+     * "statcast" }).
+     */
+    listGlossaryTerms(args?: MlbListGlossaryTermsArgs): Promise<MlbGlossaryTerms>;
+
+    /**
+     * One glossary entry: the definition plus any further sections (formula, example, in a call).
+     * e.g. getGlossaryTerm({ slug: "standard-stats/assist" }).
+     */
+    getGlossaryTerm(args: MlbGetGlossaryTermArgs): Promise<MlbGlossaryTerm>;
 
     /**
      * A ballpark's details: address, coordinates, capacity, surface, roof and field dimensions.
@@ -83060,6 +83119,40 @@ interface OpenTableBookingStatus {
      * browser launched.
      */
     listMyReservations(opts?: ConnectionOption): Promise<OpenTableMyReservations>;
+  }
+}
+
+declare namespace BowmarkProvider_ophanimus_com {
+  // ── Ophanimus — the unit's own declarations, verbatim ──
+interface ophanimus_comPageLink {
+  url: string;
+  lastModified: string | null;
+}
+interface ophanimus_comPage {
+  url: string;
+  title: string | null;
+  description: string | null;
+  text: string;
+}
+
+  /**
+   * Reads ophanimus.com, the public site of Ophanimus (central coordination for forward-deployed
+   * teams and coding agents): lists its published pages and returns a page's title, description
+   * and text. The app at app.ophanimus.com needs an account and is not covered.
+   */
+  interface Unit {
+    /**
+     * Lists every page ophanimus.com publishes (home, resources essays, lore), with its
+     * last-modified date, from the site's own /sitemap.xml.
+     */
+    listPages(): Promise<ophanimus_comPageLink[]>;
+
+    /**
+     * Reads one ophanimus.com page by url or path (e.g. "/" for what the product is, "/lore/") and
+     * returns its title, meta description and visible text. THROWS if the page does not exist
+     * (404) or names another host.
+     */
+    getPage(url: string): Promise<ophanimus_comPage>;
   }
 }
 
@@ -98980,6 +99073,14 @@ interface sheinStoreFollow {
   following: boolean;
   warnings: string[];
 }
+interface SheinProfileUpdateArgs {
+  nickname?: string;
+  birthday?: string;
+}
+interface sheinProfileUpdate {
+  updated: string[];
+  warnings: string[];
+}
 interface sheinWishlistRemoval {
   productId: string;
   removed: boolean;
@@ -99144,6 +99245,12 @@ interface sheinSizeGuide {
      * in to shein.com; the relay handles it.
      */
     listFollowedStores(opts?: ConnectionOption): Promise<sheinPageText>;
+
+    /**
+     * Sets the nickname and/or birthday (YYYY-MM-DD) on the CALLER's own Shein profile and presses
+     * save. Needs the caller signed in to shein.com; the relay handles it.
+     */
+    updateProfile(args: SheinProfileUpdateArgs, opts?: ConnectionOption): Promise<sheinProfileUpdate>;
 
     /**
      * The shipping addresses saved on the CALLER's own Shein account, as the address page shows
@@ -128487,6 +128594,65 @@ interface ZillowHomeSearch {
   notes: string[];
 }
 
+interface GetHomeArgs {
+  /** A zpid (number or digits), a zillow.com/homedetails URL, or a street address ("11008 Sierra Ridge Ct Austin TX"). */
+  home: string | number | { zpid: string };
+}
+
+interface ZillowHomeDetail {
+  zpid: string;
+  address: string;
+  city: string | null;
+  state: string | null;
+  zipCode: string | null;
+  /** FOR_SALE · FOR_RENT · SOLD · PENDING and so on. */
+  status: string | null;
+  /** The status text shown on the listing, e.g. "Active Under Contract". */
+  statusText: string | null;
+  homeType: string | null;
+  price: number | null;
+  priceChange: number | null;
+  beds: number | null;
+  baths: number | null;
+  livingArea: number | null;
+  /** Lot size in square feet. */
+  lotSize: number | null;
+  yearBuilt: number | null;
+  description: string | null;
+  zestimate: number | null;
+  rentZestimate: number | null;
+  monthlyHoaFee: number | null;
+  pricePerSquareFoot: number | null;
+  parkingCapacity: number | null;
+  neighborhood: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  brokerageName: string | null;
+  mlsId: string | null;
+  mlsName: string | null;
+  listingContactPhone: string | null;
+  lastSoldPrice: number | null;
+  photoCount: number | null;
+  /** The largest photo URLs the page shows, up to 10. */
+  photos: string[];
+  priceHistory: { date: string; price: number | null; event: string | null }[];
+  url: string;
+}
+
+interface ZillowZestimate {
+  zpid: string;
+  address: string;
+  /** Zillow's estimated market value in dollars, or null when Zillow gives none. */
+  zestimate: number | null;
+  /** Zillow's estimated monthly rent in dollars, or null. */
+  rentZestimate: number | null;
+  /** The listing price, for comparison, or null when the home is not listed. */
+  listPrice: number | null;
+  lastSoldPrice: number | null;
+  status: string | null;
+  url: string;
+}
+
 interface MortgageRatesArgs {
   /** Two-letter state code, e.g. "TX". Optional. */
   state?: string;
@@ -128580,6 +128746,21 @@ interface Affordability {
      * page).
      */
     searchHomes(args: SearchHomesArgs): Promise<ZillowHomeSearch>;
+
+    /**
+     * Get one home's Zillow detail page by zpid, listing URL or street address: price, status,
+     * beds, baths, square feet, lot, year built, description, Zestimate and Rent Zestimate, HOA,
+     * listing agent's brokerage and MLS, photos and price history. Example: { home: '64625418' }
+     * or { home: '11008 Sierra Ridge Ct Austin TX' }.
+     */
+    getHome(args: GetHomeArgs): Promise<ZillowHomeDetail>;
+
+    /**
+     * What is this house worth: Zillow's Zestimate (estimated value) and Rent Zestimate for a home
+     * by street address, zpid or listing URL, beside the list price and last sold price. Example:
+     * { home: '11008 Sierra Ridge Ct Austin TX' }.
+     */
+    getZestimate(args: GetHomeArgs): Promise<ZillowZestimate>;
 
     /**
      * Today's average mortgage rates and APRs by program (30-year fixed, 15-year fixed, 5/1 ARM,
@@ -130841,6 +131022,7 @@ interface BowmarkProviders {
   openarch: BowmarkProvider_openarch.Unit;
   openrent: BowmarkProvider_openrent.Unit;
   opentable: BowmarkProvider_opentable.Unit;
+  ophanimus_com: BowmarkProvider_ophanimus_com.Unit;
   oreilly: BowmarkProvider_oreilly.Unit;
   originenergy_com_au: BowmarkProvider_originenergy_com_au.Unit;
   osu: BowmarkProvider_osu.Unit;

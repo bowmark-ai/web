@@ -311,7 +311,7 @@ dmv.virginia.gov — dmv_virginia_gov: searchLocations
 docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 planned)
 dominos.com — dominos: categories, category, product, searchStores, store
 donsappliances.com — donsappliances: getProduct, search
-doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getRetailStore, getStore, getStoreReviews, listCuisines, listOrders, search, searchDishes (+23 planned)
+doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getRetailStore, getStore, getStoreReviews, listCuisines, listOrders, search, searchDishes, searchStoreProducts (+22 planned)
 drafthouse.com — drafthouse: findTheaters, getShowtimes (+1 planned)
 drive.google.com — drive_google: addComment, createDocument, createFolder, createPresentation, createSpreadsheet, getAccount, getDocumentText, getFile, getPresentationText, getSheetCsv, listComments, listFiles, moveFile, renameFile, restoreFile, setStarred, trashFile
 drivers.uber.com — uber: getDriverEarnings
@@ -582,7 +582,7 @@ millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisiting
 mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: nothing callable yet (+3 planned)
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
-mlb.com — mlb: 34 functions — ask get_library (+16 planned)
+mlb.com — mlb: 36 functions — ask get_library (+14 planned)
 mobile.de — mobile_de: search
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
@@ -638,6 +638,7 @@ openarch.co.uk — openarch: getListing, listListings
 openlibrary.org — open_library: getWork, search
 openrent.co.uk — openrent: getListing, searchListings
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, listMyReservations, search, startBooking
+ophanimus.com — ophanimus_com: getPage, listPages
 originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote
 osu.edu — osu: searchClasses
 othership.us — othership: getClassSchedule, getLocations
@@ -987,6 +988,6 @@ zenoti.com — zenoti: bookAppointment, cancelAppointment, findTenant, getAvaila
 zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDetails, getMemberInfo, getMembershipStatus, getPrice, listClasses, listMyBookings, listPackages, listScheduleSlots, searchSchedule, updateMemberInfo (+2 planned)
 zepto.com — zepto: product, search
 zestlovesproperty.com — zestlovesproperty: getListing, searchLettings
-zillow.com — zillow: calculateAffordability, calculateMortgagePayment, getMortgageRates, searchHomes, searchLocations (+19 planned)
+zillow.com — zillow: calculateAffordability, calculateMortgagePayment, getHome, getMortgageRates, getZestimate, searchHomes, searchLocations (+17 planned)
 zoom.us — zoom: 29 functions — ask get_library
 zoopla.co.uk — zoopla: nothing callable yet (+2 planned)

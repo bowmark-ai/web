@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c9477c358837c6a691804a8b3b64c0c75c1735c3085b83a53112cbb6b159c39f
-# 99 capabilities, 948 providers, 5675 typed functions, 20 refused.
+# Manifest version: e915586b1dfd6521eb5b521f26362b63a6476f19ea63c88b57c39e071b208fae
+# 99 capabilities, 949 providers, 5683 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20880,6 +20880,7 @@ class Prv_cnbc_com_ListArticlesByAuthorArgs_In(TypedDict):
 class Prv_cnbc_com_listArticlesByAuthor_return_Out(TypedDict):
     total: float | None
     items: list[Prv_cnbc_com_cnbc_comListItem_Out]
+    warnings: NotRequired[list[str]]
 
 class Prv_cnbc_com_cnbc_comListItem_Out(TypedDict):
     id: float | None
@@ -25977,6 +25978,26 @@ class Prv_doordash_DoordashRetailStore_Out_categories_item_Out(TypedDict):
     imageUrl: str | None
 
 class Prv_doordash_DoordashRetailStore_Out_products_item_Out(TypedDict):
+    itemId: str
+    menuId: str | None
+    name: str
+    price: float | None
+    image: str | None
+
+class Prv_doordash_searchStoreProducts_args_In(TypedDict):
+    store: str
+    query: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_doordash_DoordashRetailSearch_Out(TypedDict):
+    storeId: str
+    query: str
+    totalCount: float | None
+    products: list[Prv_doordash_DoordashRetailSearch_Out_products_item_Out]
+    nextCursor: str | None
+
+class Prv_doordash_DoordashRetailSearch_Out_products_item_Out(TypedDict):
     itemId: str
     menuId: str | None
     name: str
@@ -37744,12 +37765,14 @@ class Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardPrice_Out_customAmount_Out
 class Prv_greatlakesdentaltech_GldtSearchResult_Out(TypedDict):
     products: list[Prv_greatlakesdentaltech_GldtProductSummary_Out]
     total: float
+    warnings: list[str]
 
 class Prv_greatlakesdentaltech_GldtProductSummary_Out(TypedDict):
     sku: str
     name: str
-    price: float
+    brand: str | None
     category: str | None
+    inStock: bool
     url: str
 
 class Prv_greatlakesdentaltech_GldtProduct_Out(TypedDict):
@@ -49214,6 +49237,35 @@ class Prv_mlb_MlbAwardWinner_Out(TypedDict):
     player: str | None
     teamId: float | None
 
+class Prv_mlb_MlbListGlossaryTermsArgs_In(TypedDict):
+    category: NotRequired[str]
+    query: NotRequired[str]
+
+class Prv_mlb_MlbGlossaryTerms_Out(TypedDict):
+    terms: list[Prv_mlb_MlbGlossaryTermRef_Out]
+    categories: list[str]
+
+class Prv_mlb_MlbGlossaryTermRef_Out(TypedDict):
+    slug: str
+    category: str
+    title: str
+    url: str
+
+class Prv_mlb_MlbGetGlossaryTermArgs_In(TypedDict):
+    slug: str
+
+class Prv_mlb_MlbGlossaryTerm_Out(TypedDict):
+    slug: str
+    category: str
+    title: str
+    url: str
+    definition: str
+    sections: list[Prv_mlb_MlbGlossaryTerm_Out_sections_item_Out]
+
+class Prv_mlb_MlbGlossaryTerm_Out_sections_item_Out(TypedDict):
+    heading: str
+    text: str
+
 class Prv_mlb_MlbGetVenueArgs_In(TypedDict):
     venueId: float
 
@@ -54182,6 +54234,16 @@ class Prv_opentable_OpenTableMyReservation_Out(TypedDict):
     cancelled: bool
     upcoming: bool
     reservationUrl: str | None
+
+class Prv_ophanimus_com_ophanimus_comPageLink_Out(TypedDict):
+    url: str
+    lastModified: str | None
+
+class Prv_ophanimus_com_ophanimus_comPage_Out(TypedDict):
+    url: str
+    title: str | None
+    description: str | None
+    text: str
 
 class Prv_oreilly_getContentMetadata_args_In(TypedDict):
     ourns: Sequence[str]
@@ -65442,6 +65504,14 @@ class Prv_shein_sheinStoreFollow_Out(TypedDict):
 class Prv_shein_sheinPageText_Out(TypedDict):
     text: str
     pageUrl: str
+
+class Prv_shein_SheinProfileUpdateArgs_In(TypedDict):
+    nickname: NotRequired[str]
+    birthday: NotRequired[str]
+
+class Prv_shein_sheinProfileUpdate_Out(TypedDict):
+    updated: list[str]
+    warnings: list[str]
 
 class Prv_shein_SheinGetOrderArgs_In(TypedDict):
     orderId: str
@@ -85841,6 +85911,62 @@ class Prv_zillow_ZillowHome_Out_units_item_Out(TypedDict):
     beds: float | None
     price: str | None
 
+class Prv_zillow_GetHomeArgs_In(TypedDict):
+    home: str | float | Prv_zillow_GetHomeArgs_In_home_u2_In
+
+class Prv_zillow_GetHomeArgs_In_home_u2_In(TypedDict):
+    zpid: str
+
+class Prv_zillow_ZillowHomeDetail_Out(TypedDict):
+    zpid: str
+    address: str
+    city: str | None
+    state: str | None
+    zipCode: str | None
+    status: str | None
+    statusText: str | None
+    homeType: str | None
+    price: float | None
+    priceChange: float | None
+    beds: float | None
+    baths: float | None
+    livingArea: float | None
+    lotSize: float | None
+    yearBuilt: float | None
+    description: str | None
+    zestimate: float | None
+    rentZestimate: float | None
+    monthlyHoaFee: float | None
+    pricePerSquareFoot: float | None
+    parkingCapacity: float | None
+    neighborhood: str | None
+    latitude: float | None
+    longitude: float | None
+    brokerageName: str | None
+    mlsId: str | None
+    mlsName: str | None
+    listingContactPhone: str | None
+    lastSoldPrice: float | None
+    photoCount: float | None
+    photos: list[str]
+    priceHistory: list[Prv_zillow_ZillowHomeDetail_Out_priceHistory_item_Out]
+    url: str
+
+class Prv_zillow_ZillowHomeDetail_Out_priceHistory_item_Out(TypedDict):
+    date: str
+    price: float | None
+    event: str | None
+
+class Prv_zillow_ZillowZestimate_Out(TypedDict):
+    zpid: str
+    address: str
+    zestimate: float | None
+    rentZestimate: float | None
+    listPrice: float | None
+    lastSoldPrice: float | None
+    status: str | None
+    url: str
+
 class Prv_zillow_MortgageRatesArgs_In(TypedDict):
     state: NotRequired[str]
     creditScore: NotRequired[str]
@@ -100240,6 +100366,13 @@ class Prv_doordash(Protocol):
         page itself lists — each with item id, name, price in dollars and image. Read-only.
         """
 
+    async def searchStoreProducts(self, args: Prv_doordash_searchStoreProducts_args_In, /) -> Prv_doordash_DoordashRetailSearch_Out:
+        """Searches inside one grocery, convenience or retail store on DoorDash ("spark plug" at
+        store 42542981, "milk" at a 7-Eleven) by store id or store URL and returns matching
+        products, each with item id, name, price in dollars and image, plus the store's own
+        match count and a `nextCursor` for the next page (up to 30 per page). Read-only.
+        """
+
 class Prv_drafthouse(Protocol):
     """Alamo Drafthouse Cinema movie showtimes — find a theater by name or city, then every
     session for a film and date, with format, screen and sale status.
@@ -106591,8 +106724,8 @@ class Prv_greatlakesdentaltech(Protocol):
 
     async def search(self, query: str, limit: float | None = None, /) -> Prv_greatlakesdentaltech_GldtSearchResult_Out:
         """Searches Great Lakes Dental Tech's own storefront catalog for what a buyer would type
-        ("intraoral scanner", "sleep appliance") and returns matching products with the URL
-        getProduct takes.
+        ("intraoral scanner", "sleep appliance") and returns matching products with their SKU,
+        brand, stock status and product page URL. Rows carry no price: the product page has it.
         """
 
     async def getProduct(self, url: str, /) -> Prv_greatlakesdentaltech_GldtProduct_Out:
@@ -113092,6 +113225,17 @@ class Prv_mlb(Protocol):
         season, e.g. getAwards({ awardId: 'ALMVP', season: 2025 }).
         """
 
+    async def listGlossaryTerms(self, args: Prv_mlb_MlbListGlossaryTermsArgs_In | None = None, /) -> Prv_mlb_MlbGlossaryTerms_Out:
+        """MLB.com's glossary of stats, rules and Statcast terms with category and slug; filter by
+        category or title. The door for getGlossaryTerm, e.g. listGlossaryTerms({ category:
+        "statcast" }).
+        """
+
+    async def getGlossaryTerm(self, args: Prv_mlb_MlbGetGlossaryTermArgs_In, /) -> Prv_mlb_MlbGlossaryTerm_Out:
+        """One glossary entry: the definition plus any further sections (formula, example, in a
+        call). e.g. getGlossaryTerm({ slug: "standard-stats/assist" }).
+        """
+
     async def getVenue(self, args: Prv_mlb_MlbGetVenueArgs_In, /) -> Prv_mlb_MlbVenueResult_Out:
         """A ballpark's details: address, coordinates, capacity, surface, roof and field
         dimensions. Takes a venue id, e.g. getVenue({ venueId: 3313 }).
@@ -115703,6 +115847,24 @@ class Prv_opentable(Protocol):
         reservation's page link when OpenTable gives one. Needs the caller signed in to
         OpenTable (through Bowmark Buddy, or a saved sign-in); empty when they have none. One
         page read, no browser launched.
+        """
+
+class Prv_ophanimus_com(Protocol):
+    """Reads ophanimus.com, the public site of Ophanimus (central coordination for
+    forward-deployed teams and coding agents): lists its published pages and returns a
+    page's title, description and text. The app at app.ophanimus.com needs an account and is
+    not covered.
+    """
+
+    async def listPages(self, /) -> list[Prv_ophanimus_com_ophanimus_comPageLink_Out]:
+        """Lists every page ophanimus.com publishes (home, resources essays, lore), with its
+        last-modified date, from the site's own /sitemap.xml.
+        """
+
+    async def getPage(self, url: str, /) -> Prv_ophanimus_com_ophanimus_comPage_Out:
+        """Reads one ophanimus.com page by url or path (e.g. "/" for what the product is, "/lore/")
+        and returns its title, meta description and visible text. THROWS if the page does not
+        exist (404) or names another host.
         """
 
 class Prv_oreilly(Protocol):
@@ -121526,6 +121688,11 @@ class Prv_shein(Protocol):
     async def listFollowedStores(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
         """The CALLER's followed-stores tab on Shein's wishlist page, as text. Needs the caller
         signed in to shein.com; the relay handles it.
+        """
+
+    async def updateProfile(self, args: Prv_shein_SheinProfileUpdateArgs_In, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinProfileUpdate_Out:
+        """Sets the nickname and/or birthday (YYYY-MM-DD) on the CALLER's own Shein profile and
+        presses save. Needs the caller signed in to shein.com; the relay handles it.
         """
 
     async def listAddresses(self, opts: ConnectionOption | None = None, /) -> Prv_shein_sheinPageText_Out:
@@ -131788,6 +131955,19 @@ class Prv_zillow(Protocol):
         to the page's rows (41 per page).
         """
 
+    async def getHome(self, args: Prv_zillow_GetHomeArgs_In, /) -> Prv_zillow_ZillowHomeDetail_Out:
+        """Get one home's Zillow detail page by zpid, listing URL or street address: price, status,
+        beds, baths, square feet, lot, year built, description, Zestimate and Rent Zestimate,
+        HOA, listing agent's brokerage and MLS, photos and price history. Example: { home:
+        '64625418' } or { home: '11008 Sierra Ridge Ct Austin TX' }.
+        """
+
+    async def getZestimate(self, args: Prv_zillow_GetHomeArgs_In, /) -> Prv_zillow_ZillowZestimate_Out:
+        """What is this house worth: Zillow's Zestimate (estimated value) and Rent Zestimate for a
+        home by street address, zpid or listing URL, beside the list price and last sold price.
+        Example: { home: '11008 Sierra Ridge Ct Austin TX' }.
+        """
+
     async def getMortgageRates(self, args: Prv_zillow_MortgageRatesArgs_In | None = None, /) -> Prv_zillow_MortgageRates_Out:
         """Today's average mortgage rates and APRs by program (30-year fixed, 15-year fixed, 5/1
         ARM, FHA, VA), optionally for a state and credit-score band.
@@ -132566,6 +132746,7 @@ class BowmarkProviders(Protocol):
     openarch: Prv_openarch
     openrent: Prv_openrent
     opentable: Prv_opentable
+    ophanimus_com: Prv_ophanimus_com
     oreilly: Prv_oreilly
     originenergy_com_au: Prv_originenergy_com_au
     osu: Prv_osu
