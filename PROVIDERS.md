@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 7461 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 7462 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row, with the site it is called on.
@@ -3556,9 +3556,9 @@ One function per row, with the site it is called on.
 | `instacart.listDeliveryWindows` | instacart.com | Lists the delivery or pickup time slots the signed-in customer can choose for a cart… | ⚪ |
 | `instacart.listDepartmentProducts` | instacart.com | Lists the products in one store department or aisle by its slug, each with price and… | 🟢 |
 | `instacart.listDepartments` | instacart.com | Lists a store's top-level departments and aisles (Produce, Dairy & Eggs, Sales…) with… | 🟢 |
-| `instacart.listFavorites` | instacart.com | Lists the products the signed-in customer has saved as favorites. | ⚪ |
+| `instacart.listFavorites` | instacart.com | Lists the products the signed-in customer has saved as favorites. | 🟢 |
 | `instacart.listMyAddresses` | instacart.com | Lists the signed-in customer's saved delivery addresses with their ids, which cart… | 🟢 |
-| `instacart.listMyLists` | instacart.com | Lists the signed-in customer's shopping lists with name and item count. | ⚪ |
+| `instacart.listMyLists` | instacart.com | Lists the signed-in customer's shopping lists with name and item count. | 🟢 |
 | `instacart.listOrders` | instacart.com | The signed-in customer's own Instacart orders, newest first — order id, when, the… | 🟢 |
 | `instacart.listStores` | instacart.com | Lists the stores Instacart serves at a location — Safeway, Costco, Kroger, local… | 🟢 |
 | `instacart.messageShopper` | instacart.com | Sends a chat message to the shopper on one of the signed-in customer's live orders… | ⚪ |
@@ -5127,6 +5127,7 @@ One function per row, with the site it is called on.
 | `quickbooks.listFeaturedAccountants` | quickbooks.intuit.com | Lists the ProAdvisors QuickBooks features on a state's /find-an-accountant/<state>/… | 🟢 |
 | `quickbooks.listIncidents` | quickbooks.intuit.com | Lists QuickBooks' recent service incidents with their status updates, affected… | 🟢 |
 | `quickbooks.listPaycheckCalculatorStates` | quickbooks.intuit.com | Lists the US states with their own paycheck calculator page… | 🟢 |
+| `quickbooks.listPaycheckFilingStatuses` | quickbooks.intuit.com | Lists the state filing-status codes the paycheck calculator accepts for a state… | 🟢 |
 | `quickbooks.listResourceArticles` | quickbooks.intuit.com | Lists articles in the QuickBooks Resource Center (/r/) for a topic (accounting, taxes… | 🟢 |
 | `quickbooks.listTemplates` | quickbooks.intuit.com | Lists QuickBooks' free downloadable invoice and timesheet templates (Word, Excel and… | 🟢 |
 | `quickbooks.searchApps` | quickbooks.intuit.com | Searches the QuickBooks App Store for apps that connect to QuickBooks, by keyword and… | 🟢 |
@@ -5634,7 +5635,7 @@ One function per row, with the site it is called on.
 | `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | 🟢 |
 | `shein.searchByImage` | shein.com | Finds products that look like a given image — Shein's camera/photo search. | ⚪ |
 | `shein.updateCartItem` | shein.com | Changes the quantity of an item in the signed-in caller's bag. | 🟢 |
-| `shein.updateProfile` | shein.com | Edits the signed-in caller's profile — nickname, birthday, or the body measurements… | ⚪ |
+| `shein.updateProfile` | shein.com | Edits the signed-in caller's profile nickname and birthday. | 🟢 |
 | `shein.writeReview` | shein.com | Writes a review of a product the signed-in caller bought and received. | ⚪ |
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | 🟢 |
 | `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart at its store (quantity 1 by default… | 🟢 |

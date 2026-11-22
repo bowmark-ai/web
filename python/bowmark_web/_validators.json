@@ -1,5 +1,5 @@
 {
-  "version": "d43f899ea711683a320f61c4001e7edd7cd9bc64e784fab7bd679bd5ec4da7fa",
+  "version": "c9477c358837c6a691804a8b3b64c0c75c1735c3085b83a53112cbb6b159c39f",
   "units": {
     "address_validation": {
       "defs": {
@@ -84408,6 +84408,18 @@
             }
           ]
         },
+        "InstacartListMyListsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "InstacartListStoresArgs": {
           "k": "object",
           "props": [
@@ -84678,6 +84690,50 @@
           }
         ],
         "getMyAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyLists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartListMyListsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFavorites": [
           {
             "name": "opts",
             "schema": {
@@ -125191,6 +125247,15 @@
           }
         ],
         "listPaycheckCalculatorStates": [],
+        "listPaycheckFilingStatuses": [
+          {
+            "name": "state",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listFeaturedAccountants": [
           {
             "name": "state",

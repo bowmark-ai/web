@@ -474,7 +474,7 @@ imgur.com — imgur: addComment, createPost, deleteComment, deletePost, editPost
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 independent.co.uk — independent: browseSection, getArticle, getAuthorArticles, getHomepageHeadlines, getLiveBlog, getMostPopular, getQuiz, getTopicArticles, getVideo, getVoucherCodes, listArticlesByDate, listAuthors, listCompetitions, listLatestNews, listNewsletters, listQuizzes, listSections, listTopics, listVideos, listVoucherStores, searchArticles (+13 planned)
 inspirecommunities.com — inspirecommunities: searchHomes
-instacart.com — instacart: compareStores, findLocation, getCart, getDeliveryEstimate, getMyAccount, getProduct, getStore, getStoreHours, getWeeklyAd, listCarts, listDeals, listDepartmentProducts, listDepartments, listMyAddresses, listOrders, listStores, suggestSearches (+25 planned)
+instacart.com — instacart: compareStores, findLocation, getCart, getDeliveryEstimate, getMyAccount, getProduct, getStore, getStoreHours, getWeeklyAd, listCarts, listDeals, listDepartmentProducts, listDepartments, listFavorites, listMyAddresses, listMyLists, listOrders, listStores, suggestSearches (+23 planned)
 instagram.com — instagram: blockUser, commentOnPost, followUser, getDirectMessages, getFeed, getHomeFeed, getNotifications, getPlayback, getPost, getPosts, getProfile, getSavedPosts, getStories, getThreadMessages, homeFeedPage, likePost, muteUser, savePost, searchAccounts, sendDirectMessage, unblockUser, unfollowUser, unlikePost, unmuteUser, unsavePost, updateProfile
 insurify.com — insurify: getAutoQuotes, getCarrierReview, getCarrierUserReviews, getCityRates, getHomeQuotes, getRentersQuotes, getStateRates, getVehicleRates, listInsightsReports, rankCarriers (+19 planned)
 intactinsurance.com — intactinsurance: getSolution, listSolutions (+1 planned)
@@ -702,7 +702,7 @@ puregym.com — puregym: getGym, listCities, listCityGyms, listGyms
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
 pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyDocuments, listMyInvoices, listMyPlans, listPlans (+8 planned)
 pypi.org — pypi: getProject
-quickbooks.intuit.com — quickbooks: 32 functions — ask get_library (+2 planned)
+quickbooks.intuit.com — quickbooks: 33 functions — ask get_library (+2 planned)
 quince.com — quince: getProduct, searchProducts
 quintoandar.com.br — quintoandar: getListing, search
 quora.com — quora: getAnswer, getAnswers, getHomeFeed, getOwnProfile, getProfileAnswers, getSpace, getSpacePosts, getTopic, getTopicFeed, searchQuestions (+7 planned)
@@ -774,7 +774,7 @@ services.gst.gov.in — gst_india: lookup
 sessionize.com — sessionize: getSpeaker, searchSpeakers
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
-shein.com — shein: addToCart, addToWishlist, followStore, getCart, getCheckoutSummary, getOrder, getPoints, getProduct, getProfile, getSizeGuide, getStore, listAddresses, listCategories, listFlashSale, listFollowedStores, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, listWishlist, removeFromCart, removeFromWishlist, search, updateCartItem (+9 planned)
+shein.com — shein: addToCart, addToWishlist, followStore, getCart, getCheckoutSummary, getOrder, getPoints, getProduct, getProfile, getSizeGuide, getStore, listAddresses, listCategories, listFlashSale, listFollowedStores, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, listWishlist, removeFromCart, removeFromWishlist, search, updateCartItem, updateProfile (+8 planned)
 shop.app — shop_app: 36 functions — ask get_library (+2 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)

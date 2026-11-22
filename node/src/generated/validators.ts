@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d43f899ea711683a320f61c4001e7edd7cd9bc64e784fab7bd679bd5ec4da7fa
-// 5672 checked, 20 unchecked.
+// Manifest version: c9477c358837c6a691804a8b3b64c0c75c1735c3085b83a53112cbb6b159c39f
+// 5675 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d43f899ea711683a320f61c4001e7edd7cd9bc64e784fab7bd679bd5ec4da7fa",
+  "version": "c9477c358837c6a691804a8b3b64c0c75c1735c3085b83a53112cbb6b159c39f",
   "units": {
     "address_validation": {
       "defs": {
@@ -84420,6 +84420,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "InstacartListMyListsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "InstacartListStoresArgs": {
           "k": "object",
           "props": [
@@ -84690,6 +84702,50 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMyAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyLists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartListMyListsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFavorites": [
           {
             "name": "opts",
             "schema": {
@@ -125203,6 +125259,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listPaycheckCalculatorStates": [],
+        "listPaycheckFilingStatuses": [
+          {
+            "name": "state",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listFeaturedAccountants": [
           {
             "name": "state",

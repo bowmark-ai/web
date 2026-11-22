@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d43f899ea711683a320f61c4001e7edd7cd9bc64e784fab7bd679bd5ec4da7fa
-// 99 capabilities, 948 providers, 5700 typed functions, 20 refused.
+// Manifest version: c9477c358837c6a691804a8b3b64c0c75c1735c3085b83a53112cbb6b159c39f
+// 99 capabilities, 948 providers, 5703 typed functions, 20 refused.
 // 125,660 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -62350,6 +62350,23 @@ interface InstacartAddress {
   instructions: string | null; // the courier note saved on the address
 }
 
+interface InstacartListSummary {
+  id: string;
+  name: string | null;
+  itemCount: number | null;
+}
+
+interface InstacartListMyListsArgs {
+  limit?: number;              // 1-50, default 20
+}
+
+interface InstacartFavorite {
+  productId: string | null;
+  itemId: string | null;
+  name: string | null;
+  brand: string | null;
+}
+
 interface InstacartAccount {
   id: string;
   firstName: string | null;
@@ -62496,6 +62513,18 @@ interface SignedInOrderPage {
      * sign-in.
      */
     getMyAccount(opts?: ConnectionOption): Promise<InstacartAccount>;
+
+    /**
+     * The signed-in customer's shopping lists with name and item count. A guest pauses the run for
+     * sign-in.
+     */
+    listMyLists(args?: InstacartListMyListsArgs, opts?: ConnectionOption): Promise<InstacartListSummary[]>;
+
+    /**
+     * The products the signed-in customer has saved as favorites. A guest pauses the run for
+     * sign-in.
+     */
+    listFavorites(opts?: ConnectionOption): Promise<InstacartFavorite[]>;
   }
 }
 
@@ -89941,6 +89970,12 @@ interface QuickbooksPaycheckCalculatorState {
   url: string;
 }
 
+/** One state filing-status code the paycheck calculator accepts. */
+interface QuickbooksPaycheckFilingStatus {
+  code: string;
+  label: string;
+}
+
 /** One ProAdvisor a state's /find-an-accountant/<state>/ page features. */
 interface QuickbooksFeaturedAccountant {
   name: string;
@@ -90461,6 +90496,12 @@ interface QuickbooksAccountant {
 
     /** The US states with their own paycheck-calculator page, by two-letter code */
     listPaycheckCalculatorStates(): Promise<QuickbooksPaycheckCalculatorState[]>;
+
+    /**
+     * The state filing-status codes the paycheck calculator accepts for a state, for
+     * calculatePaycheck's stateFilingStatus
+     */
+    listPaycheckFilingStatuses(state: string): Promise<QuickbooksPaycheckFilingStatus[]>;
 
     /** The ProAdvisors QuickBooks features on a state's find-an-accountant page */
     listFeaturedAccountants(state: string): Promise<QuickbooksFeaturedAccountant[]>;

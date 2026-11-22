@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d43f899ea711683a320f61c4001e7edd7cd9bc64e784fab7bd679bd5ec4da7fa
-# 99 capabilities, 948 providers, 5672 typed functions, 20 refused.
+# Manifest version: c9477c358837c6a691804a8b3b64c0c75c1735c3085b83a53112cbb6b159c39f
+# 99 capabilities, 948 providers, 5675 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -41189,6 +41189,20 @@ class Prv_instacart_InstacartAccount_Out(TypedDict):
     email: str | None
     phone: str | None
 
+class Prv_instacart_InstacartListMyListsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_instacart_InstacartListSummary_Out(TypedDict):
+    id: str
+    name: str | None
+    itemCount: float | None
+
+class Prv_instacart_InstacartFavorite_Out(TypedDict):
+    productId: str | None
+    itemId: str | None
+    name: str | None
+    brand: str | None
+
 class Prv_instagram_InstagramProfileDetail_Out(TypedDict):
     id: str
     username: str
@@ -58926,6 +58940,10 @@ class Prv_quickbooks_QuickbooksPaycheckCalculatorState_Out(TypedDict):
     code: str
     name: str
     url: str
+
+class Prv_quickbooks_QuickbooksPaycheckFilingStatus_Out(TypedDict):
+    code: str
+    label: str
 
 class Prv_quickbooks_QuickbooksFeaturedAccountant_Out(TypedDict):
     name: str
@@ -108304,6 +108322,16 @@ class Prv_instacart(Protocol):
         for sign-in.
         """
 
+    async def listMyLists(self, args: Prv_instacart_InstacartListMyListsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_instacart_InstacartListSummary_Out]:
+        """The signed-in customer's shopping lists with name and item count. A guest pauses the run
+        for sign-in.
+        """
+
+    async def listFavorites(self, opts: ConnectionOption | None = None, /) -> list[Prv_instacart_InstacartFavorite_Out]:
+        """The products the signed-in customer has saved as favorites. A guest pauses the run for
+        sign-in.
+        """
+
 class Prv_instagram(Protocol):
     """Reads public Instagram (instagram.com) without a login: a profile with its bio, links,
     follower and following counts and twelve latest posts; one post or reel by URL with its
@@ -118404,6 +118432,11 @@ class Prv_quickbooks(Protocol):
 
     async def listPaycheckCalculatorStates(self, /) -> list[Prv_quickbooks_QuickbooksPaycheckCalculatorState_Out]:
         """The US states with their own paycheck-calculator page, by two-letter code"""
+
+    async def listPaycheckFilingStatuses(self, state: str, /) -> list[Prv_quickbooks_QuickbooksPaycheckFilingStatus_Out]:
+        """The state filing-status codes the paycheck calculator accepts for a state, for
+        calculatePaycheck's stateFilingStatus
+        """
 
     async def listFeaturedAccountants(self, state: str, /) -> list[Prv_quickbooks_QuickbooksFeaturedAccountant_Out]:
         """The ProAdvisors QuickBooks features on a state's find-an-accountant page"""
