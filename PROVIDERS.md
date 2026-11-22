@@ -506,7 +506,7 @@ One function per row, with the site it is called on.
 | `bankofamerica.findLocations` | bankofamerica.com | Finds Bank of America financial centers and ATMs near an address or ZIP code, with… | ⚪ |
 | `bankofamerica.getAutoLoanRates` | bankofamerica.com | Gets published auto loan APRs for new, used and refinance loans by term and state. | ⚪ |
 | `bankofamerica.getCdRates` | bankofamerica.com | Gets the published CD terms and APYs (featured and standard) for a ZIP code. | 🟢 |
-| `bankofamerica.getCreditCard` | bankofamerica.com | Gets one credit card's published terms: APRs, annual fee, balance-transfer and… | ⚪ |
+| `bankofamerica.getCreditCard` | bankofamerica.com | Gets one credit card's published terms: APRs, annual fee, balance-transfer and… | 🟢 |
 | `bankofamerica.getHomeEquityRates` | bankofamerica.com | Gets the published HELOC rate and APR for a state and ZIP code. | ⚪ |
 | `bankofamerica.getLocation` | bankofamerica.com | Gets one financial center or ATM: address, phone, lobby and drive-up hours, services… | ⚪ |
 | `bankofamerica.getMortgageRates` | bankofamerica.com | Gets today's published purchase or refinance mortgage rates and APRs by product… | 🟢 |
@@ -7461,7 +7461,7 @@ One function per row, with the site it is called on.
 | `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | 🟢 |
 | `zoom.getSystemStatus` | zoom.us | Returns Zoom's current system status. | 🟢 |
 | `zoom.getWebinar` | zoom.us | Returns details of one webinar. | 🟢 |
-| `zoom.getWebinarRegistration` | zoom.us | Reads a Zoom webinar sign-up link: topic, agenda and start time. | 🟢 |
+| `zoom.getWebinarRegistration` | zoom.us | Reads a Zoom webinar sign-up link: topic, agenda and start time. | 🟡 |
 | `zoom.joinMeeting` | zoom.us | Checks whether a Zoom meeting link is valid and joinable, reading the site's own join… | 🟢 |
 | `zoom.listMeetings` | zoom.us | The signed-in caller's upcoming meetings. | 🟢 |
 | `zoom.listRecordings` | zoom.us | The signed-in caller's recorded meetings and webinars. | 🟢 |

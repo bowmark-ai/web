@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7dc6daa29c24ce0fa96a2a1089ce750d40697baf19c09215d67072abdedd57cf
-# 99 capabilities, 955 providers, 5784 typed functions, 20 refused.
+# Manifest version: 7aa2cab2e4847379be97e598bf1ea783b74d4259d4e748f394f0522df62b7080
+# 99 capabilities, 955 providers, 5801 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7755,6 +7755,12 @@ class Prv_apnews_ApTopicStories_Out(TypedDict):
     topic: str
     stories: list[Prv_apnews_ApStory_Out]
 
+class Prv_apnews_ListFactChecksArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_apnews_listFactChecks_return_Out(TypedDict):
+    stories: list[Prv_apnews_ApStory_Out]
+
 class Prv_apnews_ListVideosArgs_In(TypedDict):
     limit: NotRequired[float]
 
@@ -10363,6 +10369,30 @@ class Prv_bankofamerica_BankofamericaCdRate_Out_tiers_item_Out(TypedDict):
     range: str
     apy: float
     apr: float
+
+class Prv_bankofamerica_BankofamericaCreditCardArgs_In(TypedDict):
+    campaignId: str
+
+class Prv_bankofamerica_BankofamericaCreditCardDetail_Out(TypedDict):
+    campaignId: str
+    name: str
+    overview: str | None
+    introApr: str | None
+    standardApr: str | None
+    annualFee: str | None
+    url: str | None
+    balanceTransferFee: str | None
+    rewardsEarn: str | None
+    rewardsRedeem: str | None
+
+class Prv_bankofamerica_BankofamericaCreditCard_Out(TypedDict):
+    campaignId: str
+    name: str
+    overview: str | None
+    introApr: str | None
+    standardApr: str | None
+    annualFee: str | None
+    url: str | None
 
 class Prv_bankofamerica_BankofamericaDepositAccountsArgs_In(TypedDict):
     state: str
@@ -16220,6 +16250,16 @@ class Prv_campspot_CampspotCampground_Out_events_item_Out(TypedDict):
     endDate: str | None
     description: str | None
 
+class Prv_campspot_CampspotNameSearch_Out(TypedDict):
+    campgrounds: list[Prv_campspot_CampspotNameMatch_Out]
+    warnings: list[str]
+
+class Prv_campspot_CampspotNameMatch_Out(TypedDict):
+    name: str
+    slug: str
+    location: str | None
+    url: str
+
 class Prv_canadacomputers_CanadaComputersSearchArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -18865,6 +18905,103 @@ class Prv_chesmar_ChesmarQuickMoveInHome_Out(TypedDict):
     garage: str | None
     url: str
 
+class Prv_chess_com_chess_comCountryClubsArgs_In(TypedDict):
+    country: str
+    limit: NotRequired[float]
+
+class Prv_chess_com_chess_comCountryClubs_Out(TypedDict):
+    clubs: list[str]
+    total: float
+
+class Prv_chess_com_chess_comTournamentArgs_In(TypedDict):
+    tournament: str
+    limit: NotRequired[float]
+
+class Prv_chess_com_chess_comTournament_Out(TypedDict):
+    name: str | None
+    url: str | None
+    creator: str | None
+    status: str | None
+    startTime: str | None
+    finishTime: str | None
+    type: str | None
+    rules: str | None
+    isRated: bool | None
+    timeClass: str | None
+    timeControl: str | None
+    totalRounds: float | None
+    registeredPlayers: float | None
+    winnerPlaces: float | None
+    players: list[Prv_chess_com_chess_comTournamentPlayer_Out]
+    totalPlayers: float
+
+class Prv_chess_com_chess_comTournamentPlayer_Out(TypedDict):
+    username: str
+    status: str | None
+
+class Prv_chess_com_chess_comCountryArgs_In(TypedDict):
+    country: str
+
+class Prv_chess_com_chess_comCountry_Out(TypedDict):
+    code: str
+    name: str
+    url: str | None
+
+class Prv_chess_com_chess_comClubMembersArgs_In(TypedDict):
+    club: str
+    limit: NotRequired[float]
+
+class Prv_chess_com_chess_comClubMembers_Out(TypedDict):
+    weekly: list[Prv_chess_com_chess_comClubMember_Out]
+    monthly: list[Prv_chess_com_chess_comClubMember_Out]
+    allTime: list[Prv_chess_com_chess_comClubMember_Out]
+    totals: Prv_chess_com_chess_comClubMembers_Out_totals_Out
+
+class Prv_chess_com_chess_comClubMember_Out(TypedDict):
+    username: str
+    joined: str | None
+
+class Prv_chess_com_chess_comClubMembers_Out_totals_Out(TypedDict):
+    weekly: float
+    monthly: float
+    allTime: float
+
+class Prv_chess_com_chess_comClubArgs_In(TypedDict):
+    club: str
+
+class Prv_chess_com_chess_comClubMatches_Out(TypedDict):
+    finished: list[Prv_chess_com_chess_comClubMatch_Out]
+    inProgress: list[Prv_chess_com_chess_comClubMatch_Out]
+    registered: list[Prv_chess_com_chess_comClubMatch_Out]
+
+class Prv_chess_com_chess_comClubMatch_Out(TypedDict):
+    name: str | None
+    matchUrl: str | None
+    opponentClub: str | None
+    startTime: str | None
+    timeClass: str | None
+    result: str | None
+
+class Prv_chess_com_chess_comUsernameArgs_In(TypedDict):
+    username: str
+
+class Prv_chess_com_chess_comPlayerTournaments_Out(TypedDict):
+    finished: list[Prv_chess_com_chess_comPlayerTournament_Out]
+    inProgress: list[Prv_chess_com_chess_comPlayerTournament_Out]
+    registered: list[Prv_chess_com_chess_comPlayerTournament_Out]
+
+class Prv_chess_com_chess_comPlayerTournament_Out(TypedDict):
+    url: str | None
+    tournamentId: str | None
+    status: str | None
+    wins: float | None
+    losses: float | None
+    draws: float | None
+    placement: float | None
+    totalPlayers: float | None
+    timeClass: str | None
+    type: str | None
+
 class Prv_chess_com_chess_comPuzzle_Out(TypedDict):
     title: str
     url: str | None
@@ -18883,9 +19020,6 @@ class Prv_chess_com_chess_comStreamer_Out(TypedDict):
 
 class Prv_chess_com_chess_comTitledArgs_In(TypedDict):
     title: Literal["GM"] | Literal["WGM"] | Literal["IM"] | Literal["WIM"] | Literal["FM"] | Literal["WFM"] | Literal["NM"] | Literal["CM"] | Literal["WCM"] | Literal["WNM"]
-
-class Prv_chess_com_chess_comClubArgs_In(TypedDict):
-    club: str
 
 class Prv_chess_com_chess_comClubDetail_Out(TypedDict):
     urlId: str
@@ -18917,9 +19051,6 @@ class Prv_chess_com_chess_comLeaderRow_Out(TypedDict):
     title: str | None
     country: str | None
     url: str | None
-
-class Prv_chess_com_chess_comUsernameArgs_In(TypedDict):
-    username: str
 
 class Prv_chess_com_chess_comPlayer_Out(TypedDict):
     username: str
@@ -25713,6 +25844,71 @@ class Prv_discogs_DiscogsContribution_Out(TypedDict):
     dateChanged: str | None
     url: str | None
 
+class Prv_discogs_listWantlist_return_Out(TypedDict):
+    page: Prv_discogs_DiscogsPage_Out
+    wants: list[Prv_discogs_DiscogsWant_Out]
+
+class Prv_discogs_DiscogsWant_Out(TypedDict):
+    releaseId: float | None
+    masterId: float | None
+    title: str | None
+    artist: str | None
+    label: str | None
+    catno: str | None
+    year: float | None
+    formats: list[str]
+    rating: float | None
+    dateAdded: str | None
+    url: str | None
+
+class Prv_discogs_listUserLists_return_Out(TypedDict):
+    page: Prv_discogs_DiscogsPage_Out
+    lists: list[Prv_discogs_DiscogsUserList_Out]
+
+class Prv_discogs_DiscogsUserList_Out(TypedDict):
+    id: float | None
+    name: str | None
+    description: str | None
+    public: bool | None
+    dateAdded: str | None
+    dateChanged: str | None
+    url: str | None
+
+class Prv_discogs_DiscogsListArgs_In(TypedDict):
+    listId: float
+
+class Prv_discogs_DiscogsList_Out(TypedDict):
+    id: float | None
+    name: str | None
+    description: str | None
+    public: bool | None
+    dateAdded: str | None
+    dateChanged: str | None
+    url: str | None
+    user: str | None
+    items: list[Prv_discogs_DiscogsListItem_Out]
+
+class Prv_discogs_DiscogsListItem_Out(TypedDict):
+    type: str | None
+    id: float | None
+    title: str | None
+    comment: str | None
+    url: str | None
+    inWantlist: float | None
+    inCollection: float | None
+
+class Prv_discogs_listUserSubmissions_return_Out(TypedDict):
+    page: Prv_discogs_DiscogsPage_Out
+    releases: list[Prv_discogs_DiscogsContribution_Out]
+    artists: list[Prv_discogs_DiscogsSubmittedName_Out]
+    labels: list[Prv_discogs_DiscogsSubmittedName_Out]
+
+class Prv_discogs_DiscogsSubmittedName_Out(TypedDict):
+    id: float | None
+    name: str | None
+    dataQuality: str | None
+    url: str | None
+
 class Prv_discord_discordDocLink_Out(TypedDict):
     title: str
     url: str
@@ -26506,6 +26702,25 @@ class Prv_disney_plus_DisneyPlusEpisode_Out(TypedDict):
     episode: float | None
     title: str
     synopsis: str | None
+
+class Prv_disney_plus_getNewThisMonth_args_In(TypedDict):
+    region: NotRequired[Literal["US"]]
+
+class Prv_disney_plus_DisneyPlusNewThisMonth_Out(TypedDict):
+    month: str | None
+    articleSlug: str
+    updated: str | None
+    total: float
+    releases: list[Prv_disney_plus_DisneyPlusNewRelease_Out]
+    warnings: list[str]
+
+class Prv_disney_plus_DisneyPlusNewRelease_Out(TypedDict):
+    section: str | None
+    title: str
+    platform: str | None
+    release: str | None
+    episodes: str | None
+    summary: str | None
 
 class Prv_disney_plus_getTop10_args_In(TypedDict):
     region: NotRequired[Literal["US"]]
@@ -29724,6 +29939,7 @@ class Prv_etsy_EtsyCategoryPage_Out(TypedDict):
     url: str
     page: float
     listings: list[Prv_etsy_etsyListing_Out]
+    warnings: NotRequired[list[str]]
     subcategories: list[Prv_etsy_EtsyCategoryPage_Out_subcategories_item_Out]
 
 class Prv_etsy_EtsyCategoryPage_Out_subcategories_item_Out(TypedDict):
@@ -56967,6 +57183,25 @@ class Prv_people_PeopleCelebrityMatch_Out(TypedDict):
     name: str
     slug: str
     url: str
+
+class Prv_people_GetGalleryArgs_In(TypedDict):
+    url: str
+
+class Prv_people_PeopleGallery_Out(TypedDict):
+    url: str
+    title: str
+    description: str | None
+    publishedDate: str | None
+    slideCount: float
+    slides: list[Prv_people_PeopleGallerySlide_Out]
+
+class Prv_people_PeopleGallerySlide_Out(TypedDict):
+    position: float
+    title: str | None
+    imageUrl: str | None
+    alt: str | None
+    caption: str | None
+    credit: str | None
 
 class Prv_perennialsandsutherland_RugSearchResult_Out(TypedDict):
     sku: str
@@ -86516,6 +86751,7 @@ class Prv_youtube_YoutubePlayback_Out(TypedDict):
     expiresAt: str | None
     referrer: Literal["any"] | Literal["none"] | str
     warnings: list[str]
+    storyboard: Prv_youtube_YoutubePlayback_Out_storyboard_u0_Out | None
 
 class Prv_youtube_YoutubePlayback_Out_embed_u0_Out(TypedDict):
     url: str
@@ -86538,6 +86774,15 @@ class Prv_youtube_YoutubePlaybackFile_Out(TypedDict):
     bytes: float | None
     qualityLabel: str | None
     itag: float
+
+class Prv_youtube_YoutubePlayback_Out_storyboard_u0_Out(TypedDict):
+    width: float
+    height: float
+    cols: float
+    rows: float
+    count: float
+    intervalMs: float
+    sheets: list[str]
 
 class Prv_youtube_listHashtagVideos_input_In(TypedDict):
     hashtag: str
@@ -87540,6 +87785,69 @@ class Prv_zillow_ZillowAgentReview_Out(TypedDict):
     comment: str | None
     reviewer: str | None
     workDescription: str | None
+
+class Prv_zillow_GetBuildingArgs_In(TypedDict):
+    building: str | Prv_zillow_GetBuildingArgs_In_building_u1_In
+
+class Prv_zillow_GetBuildingArgs_In_building_u1_In(TypedDict):
+    url: NotRequired[str | None]
+
+class Prv_zillow_ZillowBuilding_Out(TypedDict):
+    name: str
+    buildingId: str | None
+    address: str | None
+    city: str | None
+    state: str | None
+    zipcode: str | None
+    neighborhood: str | None
+    latitude: float | None
+    longitude: float | None
+    buildingType: str | None
+    phone: str | None
+    description: str | None
+    availableUnitCount: float | None
+    specialOffers: list[str]
+    floorPlans: list[Prv_zillow_ZillowFloorPlan_Out]
+    amenities: list[Prv_zillow_ZillowBuilding_Out_amenities_item_Out]
+    unitAmenities: list[str]
+    pets: list[Prv_zillow_ZillowPetPolicy_Out]
+    officeHours: list[str]
+    walkScore: float | None
+    transitScore: float | None
+    bikeScore: float | None
+    photoCount: float | None
+    photos: list[str]
+    url: str
+
+class Prv_zillow_ZillowFloorPlan_Out(TypedDict):
+    name: str | None
+    beds: float | None
+    baths: float | None
+    sqft: float | None
+    minPrice: float | None
+    maxPrice: float | None
+    units: list[Prv_zillow_ZillowFloorPlanUnit_Out]
+
+class Prv_zillow_ZillowFloorPlanUnit_Out(TypedDict):
+    unit: str | None
+    zpid: str | None
+    price: float | None
+    baseRent: float | None
+    beds: float | None
+    baths: float | None
+    sqft: float | None
+    availableFrom: str | None
+
+class Prv_zillow_ZillowBuilding_Out_amenities_item_Out(TypedDict):
+    group: str
+    items: list[str]
+
+class Prv_zillow_ZillowPetPolicy_Out(TypedDict):
+    petType: str | None
+    allowed: bool
+    monthlyFee: float | None
+    oneTimeFee: float | None
+    description: str | None
 
 class Prv_zillow_MortgageRatesArgs_In(TypedDict):
     state: NotRequired[str]
@@ -92297,6 +92605,11 @@ class Prv_apnews(Protocol):
         max 200.
         """
 
+    async def listFactChecks(self, args: Prv_apnews_ListFactChecksArgs_In | None = None, /) -> Prv_apnews_listFactChecks_return_Out:
+        """Lists the AP Fact Check stories on apnews.com/ap-fact-check right now (title, article
+        url, last-updated time), in page order. `limit` defaults to 30, max 200.
+        """
+
     async def listVideos(self, args: Prv_apnews_ListVideosArgs_In | None = None, /) -> Prv_apnews_listVideos_return_Out:
         """Lists the videos on apnews.com/video right now (title, video page url, mm:ss duration),
         in page order. `limit` defaults to 30, max 200.
@@ -93688,6 +94001,17 @@ class Prv_bankofamerica(Protocol):
     async def getCdRates(self, args: Prv_bankofamerica_BankofamericaCdRatesArgs_In, /) -> list[Prv_bankofamerica_BankofamericaCdRate_Out]:
         """Gets Bank of America's published CD rates for a US state: featured, flexible and
         fixed-term CDs with term, APY, APR, minimum opening balance and deposit tiers.
+        """
+
+    async def getCreditCard(self, args: Prv_bankofamerica_BankofamericaCreditCardArgs_In, /) -> Prv_bankofamerica_BankofamericaCreditCardDetail_Out:
+        """Gets one Bank of America credit card by campaignId (from listCreditCards): APRs, annual
+        fee, balance-transfer fee, how rewards are earned and redeemed, and its product page
+        URL.
+        """
+
+    async def listCreditCards(self, /) -> list[Prv_bankofamerica_BankofamericaCreditCard_Out]:
+        """Lists Bank of America's consumer credit cards with each card's name, rewards headline,
+        intro APR, standard APR range, annual fee and product page URL.
         """
 
     async def listDepositAccounts(self, args: Prv_bankofamerica_BankofamericaDepositAccountsArgs_In, /) -> list[Prv_bankofamerica_BankofamericaDepositAccount_Out]:
@@ -96691,6 +97015,14 @@ class Prv_campspot(Protocol):
         `bowmark.sites["campspot.com"].check_availability`.
         """
 
+    async def findCampgroundsByName(self, name: str, /) -> Prv_campspot_CampspotNameSearch_Out:
+        """Given a campground NAME (e.g. "Camp Fimfo"), returns the Campspot parks whose name
+        matches it, read from Campspot's own search, each with its `slug` for
+        `bowmark.sites["campspot.com"].check_availability` / `get_campground`. A name Campspot
+        does not carry returns `campgrounds: []` with a `warnings` entry saying so, never parks
+        near wherever the name geocoded. To search by area use findCampgrounds.
+        """
+
 class Prv_canadacomputers(Protocol):
     """Canada Computers (canadacomputers.com) — Canadian PC parts and electronics retailer.
     search() returns matching products with CAD price, sale price, and whether each is
@@ -98086,6 +98418,34 @@ class Prv_chess_com(Protocol):
     PGN, clubs, tournaments, team matches, leaderboards and the daily puzzle, mostly from
     its keyless public API.
     """
+
+    async def listCountryClubs(self, args: Prv_chess_com_chess_comCountryClubsArgs_In, /) -> Prv_chess_com_chess_comCountryClubs_Out:
+        """Lists the clubs registered to a country by two-letter ISO code, as club slugs, trimmed
+        to limit (default 200) with the full count in total.
+        """
+
+    async def getTournament(self, args: Prv_chess_com_chess_comTournamentArgs_In, /) -> Prv_chess_com_chess_comTournament_Out:
+        """Reads a Chess.com tournament by slug or URL: name, creator, status, dates, format,
+        rounds, field size and its players with their status.
+        """
+
+    async def getCountry(self, args: Prv_chess_com_chess_comCountryArgs_In, /) -> Prv_chess_com_chess_comCountry_Out:
+        """Reads a country profile by two-letter ISO code: code, name and its Chess.com id URL."""
+
+    async def listClubMembers(self, args: Prv_chess_com_chess_comClubMembersArgs_In, /) -> Prv_chess_com_chess_comClubMembers_Out:
+        """Lists a club's members by activity (weekly, monthly, all-time) with join dates, each
+        list trimmed to limit (default 200) and the full counts in totals.
+        """
+
+    async def listClubMatches(self, args: Prv_chess_com_chess_comClubArgs_In, /) -> Prv_chess_com_chess_comClubMatches_Out:
+        """Lists a club's team matches: finished, in progress and registered, with opponent club
+        slug, start time, time class and result.
+        """
+
+    async def listPlayerTournaments(self, args: Prv_chess_com_chess_comUsernameArgs_In, /) -> Prv_chess_com_chess_comPlayerTournaments_Out:
+        """Lists the tournaments a Chess.com player has entered: finished, in progress and
+        registered, with record, placement and field size.
+        """
 
     async def getRandomPuzzle(self, /) -> Prv_chess_com_chess_comPuzzle_Out:
         """Reads a random Chess.com puzzle from the archive: title, FEN, PGN solution, image and
@@ -101679,6 +102039,26 @@ class Prv_discogs(Protocol):
         label, year, country and review status.
         """
 
+    async def listWantlist(self, args: Prv_discogs_DiscogsUserPagedArgs_In, /) -> Prv_discogs_listWantlist_return_Out:
+        """List a Discogs user's wantlist, paged: each wanted release with its artist, label,
+        formats, the user's rating (null when unrated) and date added.
+        """
+
+    async def listUserLists(self, args: Prv_discogs_DiscogsUserPagedArgs_In, /) -> Prv_discogs_listUserLists_return_Out:
+        """List the public lists a Discogs user has made, paged: each list's id, name, description
+        and dates. Pass an id to getList.
+        """
+
+    async def getList(self, args: Prv_discogs_DiscogsListArgs_In, /) -> Prv_discogs_DiscogsList_Out:
+        """Read one Discogs user list by id: its title, description, owner and the releases,
+        masters, artists or labels on it with each item's comment and community counts.
+        """
+
+    async def listUserSubmissions(self, args: Prv_discogs_DiscogsUserPagedArgs_In, /) -> Prv_discogs_listUserSubmissions_return_Out:
+        """List the database submissions a Discogs user has made, paged per kind: releases (with
+        status), artists and labels.
+        """
+
 class Prv_discord(Protocol):
     """Discord, chat for communities. Built so far: the public server directory (browse,
     search, categories, one server's page), invite lookup, and Discord's developer
@@ -102136,6 +102516,13 @@ class Prv_disney_plus(Protocol):
         it to one. `seasonCount` is what Disney+ lists; `seasonsRead` is what the page's own
         data carried, and a season it left out is named in `warnings` rather than dropped
         silently.
+        """
+
+    async def getNewThisMonth(self, args: Prv_disney_plus_getNewThisMonth_args_In | None = None, /) -> Prv_disney_plus_DisneyPlusNewThisMonth_Out:
+        """Lists what is new on Disney+ this month from its own monthly new-releases article, no
+        sign-in: each title's section (for example 'New Movies'), platform (Disney+, Hulu or
+        ESPN), release-date line, episode schedule and a one-line summary. `month` names the
+        article's month; it follows whichever month Disney+ has published.
         """
 
     async def getTop10(self, args: Prv_disney_plus_getTop10_args_In | None = None, /) -> Prv_disney_plus_DisneyPlusTop10_Out:
@@ -118641,6 +119028,11 @@ class Prv_people(Protocol):
         Empty when the name has no topic page under its own slug; pass the slug to getCelebrity.
         """
 
+    async def getGallery(self, args: Prv_people_GetGalleryArgs_In, /) -> Prv_people_PeopleGallery_Out:
+        """Reads one People photo gallery (a numbered 'of 30' story) by URL: title and each slide's
+        heading, image, caption and credit.
+        """
+
 class Prv_perennialsandsutherland(Protocol):
     """Reads Perennials & Sutherland's public rug catalog (perennialsandsutherland.com) —
     search for a design, read one variant's real trade price, its sibling colorway/size
@@ -134164,6 +134556,13 @@ class Prv_zillow(Protocol):
         """One agent's Zillow profile from a searchAgents row, screen name or profile URL:
         brokerage, publicly shown phone and email, bio, specialties, languages, service areas,
         licenses, active listings, past sales and recent reviews. Example: { agent: 'SKGroup' }.
+        """
+
+    async def getBuilding(self, args: Prv_zillow_GetBuildingArgs_In, /) -> Prv_zillow_ZillowBuilding_Out:
+        """One apartment building's Zillow page from a searchHomes rental row or a
+        zillow.com/apartments URL: address, phone, floor plans with unit prices and
+        availability, amenities, pet policy, special offers, office hours and walk score.
+        Example: { building: 'https://www.zillow.com/apartments/austin-tx/lirica/CpXXHf/' }.
         """
 
     async def getMortgageRates(self, args: Prv_zillow_MortgageRatesArgs_In | None = None, /) -> Prv_zillow_MortgageRates_Out:

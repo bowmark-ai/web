@@ -109,7 +109,7 @@ balthazarlondon.com — balthazarlondon: getMenu, getRestaurant, listMenus (+1 p
 bamboohr.com — bamboohr: listJobs
 bananarepublic.gap.com — banana_republic: getProduct, searchProducts
 bankmycell.com — bankmycell: getTradeInQuote, searchDevices
-bankofamerica.com — bankofamerica: getCdRates, getMortgageRates, listCreditCards, listDepositAccounts (+10 planned)
+bankofamerica.com — bankofamerica: getCdRates, getCreditCard, getMortgageRates, listCreditCards, listDepositAccounts (+9 planned)
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
 bbc.com — bbc: 31 functions — ask get_library

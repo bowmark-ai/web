@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7dc6daa29c24ce0fa96a2a1089ce750d40697baf19c09215d67072abdedd57cf
-// 5784 checked, 20 unchecked.
+// Manifest version: 7aa2cab2e4847379be97e598bf1ea783b74d4259d4e748f394f0522df62b7080
+// 5801 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7dc6daa29c24ce0fa96a2a1089ce750d40697baf19c09215d67072abdedd57cf",
+  "version": "7aa2cab2e4847379be97e598bf1ea783b74d4259d4e748f394f0522df62b7080",
   "units": {
     "address_validation": {
       "defs": {
@@ -59,6 +59,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "validate": "51a18cdadea3d6ac"
       }
     },
     "bank_transactions": {
@@ -263,6 +266,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "parse": "e84437d3df2fd9ec",
+        "summarize": "441efb34ec06604d"
       }
     },
     "booking_links": {
@@ -421,6 +428,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "find": "9781b716abf0b72d",
+        "scanPage": "05a7713c96d43ee8",
+        "read": "bb3b5c032c7b4481"
       }
     },
     "brand": {
@@ -476,6 +488,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "get": "30f164039e7f809b"
       }
     },
     "browser_agent": {
@@ -675,6 +690,14 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "start": "c59a9f69ac119a5b",
+        "status": "b672d3f3a60a04a8",
+        "send": "7436b989324acffb",
+        "stop": "3c9709a2193d2143",
+        "list": "28e26c74be48eb69",
+        "watchLink": "fc724dd32bf9a854"
       }
     },
     "bundles": {
@@ -701,6 +724,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkAvailability": "17abd0e6af336b12"
       }
     },
     "business_electricity_quote": {
@@ -745,6 +771,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getQuote": "41065da67ed067ad"
       }
     },
     "cable_railing_quote": {
@@ -773,6 +802,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getDesignOptions": "0b976f6aa5e13e27"
       }
     },
     "candy_prices": {
@@ -796,6 +828,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "66bcd933ebd29583"
       }
     },
     "cars": {
@@ -893,6 +928,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "e424f1a218cb3be6"
       }
     },
     "concert_setlist": {
@@ -907,6 +945,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "998439dbe19b68bf"
       }
     },
     "condition_monitoring": {
@@ -1045,6 +1086,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "check": "9fd029b5a5db2f84"
       }
     },
     "corporate_facts": {
@@ -1099,6 +1143,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookup": "4501c54f5698c8c2",
+        "findCompany": "9e35bcd89b209b40"
       }
     },
     "costume_size_check": {
@@ -1129,6 +1177,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkSize": "325344783d030a7d"
       }
     },
     "coworking": {
@@ -1188,6 +1239,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findDayPasses": "7e71d8c20c164349"
       }
     },
     "crypto_exchange": {
@@ -1230,6 +1284,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getRate": "6262914893ac5073"
       }
     },
     "currency_exchange": {
@@ -1272,6 +1329,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getRate": "050c3712f38ab3ae"
       }
     },
     "custom_packaging_quote": {
@@ -1357,6 +1417,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "quoteCustomBox": "56be7ad95e747bc4"
       }
     },
     "custom_sofa_configurator": {
@@ -1399,6 +1462,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSofas": "ebcc4a90956d0d6a",
+        "getConfigurator": "955a6344b01a69cb",
+        "priceConfiguration": "dd4880023c8aa89b"
       }
     },
     "cve_lookup": {
@@ -1443,6 +1511,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookup": "b4f3976cba629066",
+        "search": "ac8577c65b5ad872"
       }
     },
     "db": {
@@ -1762,6 +1834,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "set": "81c0267781725c8d",
+        "get": "7d2a69c53165d990",
+        "list": "eb1c7c9fd6f1e5b9",
+        "patch": "5bd8e97b6eb8e978",
+        "delete": "3772d40f49bfc089",
+        "batch": "324b93f4ff3adc42",
+        "info": "b43b659096c6a45d"
       }
     },
     "delegate": {
@@ -1949,6 +2030,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "start": "7bb16cc021ca4646",
+        "status": "0111a8cb2a1c3184",
+        "send": "33af8fcf9328348b",
+        "stop": "4a142f9ee516a8e1",
+        "list": "1adb2ee5e45f5790"
       }
     },
     "delivery": {
@@ -2008,6 +2096,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "compareDeliveryFees": "0c439b9670492fe9"
       }
     },
     "developer_api_key_signup": {
@@ -2077,6 +2168,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "signUp": "c4966fc7c0f219c2"
       }
     },
     "domain": {
@@ -2091,6 +2185,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkAvailability": "13bd626b6d2d574a"
       }
     },
     "email": {
@@ -2133,6 +2230,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findDomain": "309c7e3dd4e9c250"
       }
     },
     "entertainment_merch": {
@@ -2156,6 +2256,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "12eaee3e5215416d"
       }
     },
     "essen_roadworks": {
@@ -2217,6 +2320,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "list": "ca635e2a3e94f69e"
       }
     },
     "event_space_quote": {
@@ -2315,6 +2421,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getQuotes": "49bb1ce679a7e344"
       }
     },
     "event_tickets": {
@@ -2392,6 +2501,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "a4604b47f6b39420"
       }
     },
     "flights": {
@@ -2862,6 +2974,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "bafefdd9c0b7dafa",
+        "getBookingOptions": "42deccbfe70c516e",
+        "getFlightStatus": "8ec8226468069062"
       }
     },
     "fuel_card_fees": {
@@ -2890,6 +3007,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "estimateMonthly": "940f5f7c3149f2a3"
       }
     },
     "furnished_apartment_rental": {
@@ -2913,6 +3033,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "bf879e998bc1ef1e"
       }
     },
     "game_soundtrack_composer_credits": {
@@ -2936,6 +3059,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "b2afb648fe07824f",
+        "getCredits": "536af2eccc910bf4"
       }
     },
     "gas_prices": {
@@ -2991,6 +3118,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "54534a993e87e747"
       }
     },
     "git_commit_history": {
@@ -3054,6 +3184,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "commitHistory": "916c4d3883978ec0"
       }
     },
     "git_release_notes": {
@@ -3096,6 +3229,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "releaseNotes": "f654b802ccde3b72"
       }
     },
     "goal_diff": {
@@ -3131,6 +3267,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "69626124a03c34df"
       }
     },
     "google": {
@@ -3166,6 +3305,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchShopping": "e10e40a09c2b4277"
       }
     },
     "gstin_verification": {
@@ -3180,6 +3322,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookup": "16016eedd5ca1dfd"
       }
     },
     "hotels": {
@@ -3263,6 +3408,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "c7a287fccb3685ba"
       }
     },
     "hvac": {
@@ -3298,6 +3446,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getCostEstimate": "d87c2222781e2a84"
       }
     },
     "industrial_supply": {
@@ -3312,6 +3463,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "1b5fd8eb5e1f211b"
       }
     },
     "insurance": {
@@ -3598,6 +3752,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchCarriers": "26070172af44e2c9",
+        "findAgent": "9f499619f23e4b34",
+        "getLicensing": "8cf36b3f4cf275c2",
+        "listReferralCarriers": "b19e64dd802c1010",
+        "getHomeQuotes": "78e485b066fb0d96"
       }
     },
     "ip_asn_lookup": {
@@ -3612,6 +3773,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookup": "11a79c3e41bf18dc"
       }
     },
     "istanbul_schedules": {
@@ -3647,6 +3811,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "attractionHours": "1ad49419bccda551"
       }
     },
     "job_search": {
@@ -3753,6 +3920,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "45764a58aecf7f34",
+        "atCompany": "17d00147df8f1365"
       }
     },
     "kenya_fuel_prices": {
@@ -3767,6 +3938,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "671a1910ece7b03f"
       }
     },
     "lawyer_directory": {
@@ -3832,6 +4006,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "189d0c3c88bb198d",
+        "getLawyer": "035e275fb4a1c8b8"
       }
     },
     "leads": {
@@ -3995,6 +4173,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "enrich": "ea2b8843c0cc069a"
       }
     },
     "llm": {
@@ -4110,6 +4291,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "complete": "5b625ab158ce5671",
+        "judge": "d07bd03a6f720914"
       }
     },
     "local_classifieds_search": {
@@ -4187,6 +4372,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "682c72457c83617e"
       }
     },
     "db_gui": {
@@ -4229,6 +4417,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "browse": "6f360f07a8aed7e5"
       }
     },
     "local_html_preview": {
@@ -4264,6 +4455,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "render": "7a5630f93a56e2ad"
       }
     },
     "mac_trade_in": {
@@ -4315,6 +4509,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "estimate": "a95e201593d3c53f"
       }
     },
     "mandi_prices_india": {
@@ -4373,6 +4570,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findMandis": "187476e8a28e4f6d",
+        "prices": "2b00fca7b033348d"
       }
     },
     "mcp_registry": {
@@ -4415,6 +4616,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "eaf70f9cfb193507"
       }
     },
     "movie_showtimes": {
@@ -4485,6 +4689,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "b3fba8d7bfdbb163"
       }
     },
     "municipal_recreation_fees": {
@@ -4499,6 +4706,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFeeSchedule": "b04110a0913ab279"
       }
     },
     "music": {
@@ -4630,6 +4840,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "446ab77d3ec9c2ae",
+        "getTrack": "6f752004e91d8aab"
       }
     },
     "pallet_freight_quote": {
@@ -4738,6 +4952,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "quote": "24f7eccd9a00931d"
       }
     },
     "pcparts": {
@@ -4862,6 +5079,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "c115790d06d364dc",
+        "getProduct": "73287c5fdfa8d3aa"
       }
     },
     "pet_boarding": {
@@ -4920,6 +5141,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "7076d832525021f3"
       }
     },
     "phone_price": {
@@ -4964,6 +5188,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "compare": "fa1f406907cd3974"
       }
     },
     "phone_trade_in": {
@@ -5030,6 +5257,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "estimate": "38cd9ea6a565d18c"
       }
     },
     "pricing": {
@@ -5085,6 +5315,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "checkPersonalization": "96d48696fbf90e66"
       }
     },
     "products": {
@@ -5190,6 +5423,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "06303601781fe741",
+        "getAvailability": "674b110bab76de56"
       }
     },
     "promocodes": {
@@ -5225,6 +5462,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "4852f9355e072959"
       }
     },
     "prospect_screening": {
@@ -5239,6 +5479,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "screenCompany": "cfc4499b4a685528"
       }
     },
     "read": {
@@ -5518,6 +5761,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "page": "5282e81be583066e",
+        "pages": "274e5a46cfaaa82a",
+        "contacts": "6284cc1ba4ca0a0f",
+        "urls": "ae2f790473771fd5"
       }
     },
     "real_estate_listings": {
@@ -5624,6 +5873,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "176709fed99929f6"
       }
     },
     "restaurant_booking": {
@@ -5704,6 +5956,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findAvailability": "63846e2875875bd5"
       }
     },
     "retail": {
@@ -5727,6 +5982,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "fb84cc70005b8405"
       }
     },
     "retirement_ira_comparison": {
@@ -5790,6 +6048,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "compare": "34c67d46c2c347f8"
       }
     },
     "school_shopping_basket": {
@@ -5816,6 +6077,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "priceList": "d1882b7d584c667d"
       }
     },
     "screenshot": {
@@ -5951,12 +6215,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "take": "35a6404bf5d4a1cf"
       }
     },
     "script_execution": {
       "defs": {},
       "functions": {
         "guide": []
+      },
+      "digests": {
+        "guide": "15cfe563c33ec9eb"
       }
     },
     "search": {
@@ -6071,6 +6341,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "web": "10afae81c8b842d4",
+        "news": "904b17ffa9f40b81"
       }
     },
     "sheds": {
@@ -6174,6 +6448,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "quote": "409db0ecbd9f5c56",
+        "listStyles": "4103c36e890507f0",
+        "findDealers": "ff0b0626ee475c8c"
       }
     },
     "shipping": {
@@ -6257,6 +6536,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "estimate": "aeda527ec5636008"
       }
     },
     "spreadsheet": {
@@ -6362,6 +6644,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "parse": "66d1543cba33c613",
+        "stringify": "5c2a4eff218bb27b"
       }
     },
     "stock_photos": {
@@ -6397,6 +6683,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "45f28d3177ac861d"
       }
     },
     "stream_channel": {
@@ -6448,6 +6737,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "get": "d9ffa8c507a49186",
+        "set": "9762f00c4c8a13e9"
       }
     },
     "stream_highlights": {
@@ -6536,6 +6829,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "create": "c8d8ccaeaa2d7e5c"
       }
     },
     "tapfiliate": {
@@ -6626,6 +6922,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listAffiliates": "5ac3bc96dd831a75"
       }
     },
     "tariff": {
@@ -6640,6 +6939,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookup": "ff486e25302ba30e"
       }
     },
     "text_to_speech": {
@@ -6714,6 +7016,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "synthesize": "5dbf83e6cc78b95b",
+        "cloneVoice": "3372747dd1243524"
       }
     },
     "theme_park_tickets": {
@@ -6766,6 +7072,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "0a3d9ede739dd7d5"
       }
     },
     "uk_postcode_geocoding": {
@@ -6780,6 +7089,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "geocode": "1f6d7e59283ce32a"
       }
     },
     "used_car_search": {
@@ -6921,6 +7233,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "d59962ed72c992aa"
       }
     },
     "vacation_rental": {
@@ -7039,6 +7354,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "6902a15bec69c978",
+        "quote": "e1bd962a6a836678"
       }
     },
     "video_editing": {
@@ -7202,6 +7521,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "editFootage": "7d34a2bfbefb0384"
       }
     },
     "video_library": {
@@ -7679,6 +8001,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "homeFeed": "8c7c04ba595a5907",
+        "watchLater": "4c44443188ca1eb1",
+        "liked": "4c44443188ca1eb1",
+        "history": "4c44443188ca1eb1",
+        "createPlaylist": "bf6841288e73b340",
+        "createChannel": "105138a8608633c7",
+        "addToPlaylist": "46c954dd25938564",
+        "removeFromPlaylist": "293cfc2dc8108bcd",
+        "deletePlaylist": "fc3f36c1ee1badaa",
+        "myVideos": "b06169fc6e37dd2b",
+        "uploadVideo": "9f78f816c21d59d4",
+        "updateVideo": "4d31e972dea22720",
+        "setThumbnail": "4a8701a4e1698dcd",
+        "deleteVideo": "9c3a3c57e0959e97"
       }
     },
     "vision": {
@@ -8112,6 +8450,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "ask": "06c1d01853381d92",
+        "identifyEffect": "12a237738fceadc7",
+        "frames": "02e78475ae2edc5b",
+        "readText": "175d2c68445d4a1a"
       }
     },
     "vpn_dedicated_ip": {
@@ -8147,6 +8491,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "compare": "320ea8a3f21ce2db"
       }
     },
     "weather": {
@@ -8168,6 +8515,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "forecast": "80b7d0b9604a9ce5"
       }
     },
     "web_form_fields": {
@@ -8349,6 +8699,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getFields": "c6ccd7b787b81acc",
+        "fillForm": "79567e217a347335"
       }
     },
     "wireless": {
@@ -8382,6 +8736,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "compareAllInPrice": "f4103ed1e517d147"
       }
     },
     "yoga_outfit_shopping": {
@@ -8419,12 +8776,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "fa3bdaceba3b2d0f"
       }
     },
     "providers.a16z_speedrun": {
       "defs": {},
       "functions": {
         "getApplicationForm": []
+      },
+      "digests": {
+        "getApplicationForm": "e45555653d08fd62"
       }
     },
     "providers.a1storage": {
@@ -8485,6 +8848,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listFacilities": "e67d11bd269cac4a",
+        "getFacilityUnits": "50a33e7571e43bd8",
+        "getMoveInCost": "d2731be1a2b1da9c"
       }
     },
     "providers.aa": {
@@ -8550,6 +8918,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFlightStatus": "a36a3b68b39ba90b",
+        "getBaggageAllowance": "241a8a49a92d0c1f",
+        "retrieveBooking": "c742812326f67b11"
       }
     },
     "providers.aauto": {
@@ -8589,6 +8962,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "b7e4a93d4b4f2ab2",
+        "getProduct": "2c52e2026699ba0f"
       }
     },
     "providers.abercrombie": {
@@ -8851,6 +9228,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "1b020580f551c585",
+        "findStores": "d8f42a087836fc44",
+        "checkStock": "f901fc607c180577",
+        "search": "d86367174f51f491"
       }
     },
     "providers.abqplumb": {
@@ -8887,6 +9270,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listServices": "ce8a533adf10bc04",
+        "getAvailability": "1a0495fb43daeee5"
       }
     },
     "providers.abt": {
@@ -8924,6 +9311,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "c0c19ff302c8de9f",
+        "getProduct": "01ee2a0c8e39b9dd"
       }
     },
     "providers.accommodationforstudents": {
@@ -8948,6 +9339,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getListing": "e8fce114fc15bf52",
+        "listCities": "49a089b5aca422bf",
+        "searchListings": "61976a15d3f294ff"
       }
     },
     "providers.accuweather": {
@@ -9446,6 +9842,29 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getMonthlyForecast": "1d7d2ad9616199f5",
+        "getWinterForecast": "9b5d1a3046bdec8e",
+        "listActiveStorms": "eb7ab51fed12ac4f",
+        "getStorm": "c9f93ed6c6ba61fd",
+        "getRadarMap": "a9a6ea5f63a2c85e",
+        "browseLocations": "c108d2550b0d6e12",
+        "listNews": "c5361657f4060038",
+        "getArticle": "152c672736c07884",
+        "getHealthForecast": "e819d16a1e7a3885",
+        "getActivityForecast": "1793bc0b1f6a0038",
+        "listLifestyleIndices": "8caaa2b40ab6cc8e",
+        "getAllergyForecast": "8799ce2e7c44b839",
+        "searchLocations": "0876162df90116fd",
+        "getLocation": "9ca610db1f4dfe6c",
+        "getCurrentConditions": "80e0944c653da63c",
+        "getDailyForecast": "a045770cc34e7c4b",
+        "getHourlyForecast": "eea963a7645a95ae",
+        "getMinuteCast": "c88c11602903428c",
+        "listAlerts": "77183f02388a7b4d",
+        "getAirQuality": "cacbc04569864c23",
+        "getDayDetails": "0825aede9d5bc3f6"
       }
     },
     "providers.acehardware": {
@@ -9589,6 +10008,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "932336abd6c45eda",
+        "getProduct": "d9358d6e715977c6",
+        "findStores": "639c3e6a087fe323",
+        "getStoreInventory": "6d40c72b44a33b87"
       }
     },
     "providers.acerentacar": {
@@ -9663,6 +10088,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchAvailability": "d128d86ac59062a5",
+        "searchLocations": "095668891e131b4e"
       }
     },
     "providers.achosahw": {
@@ -9713,6 +10142,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listStates": "48c49690d4d7e96b",
+        "getQuote": "09d5a84825b1dba6"
       }
     },
     "providers.acqualinaresort": {
@@ -9748,6 +10181,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchAvailability": "c7deaf754b2fb17d"
       }
     },
     "providers.acuityscheduling": {
@@ -10078,6 +10514,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findScheduler": "f8e8ec5234bedaef",
+        "listAppointmentTypes": "50810e9cf116b58d",
+        "getAppointmentTypeDetails": "e170159756bd6f03",
+        "listLocations": "6de5705dae7ba4df",
+        "listPacks": "255118fabe7a7747",
+        "getBookingForm": "6057f145b2be465b",
+        "getSchedulerInfo": "33a6cad6fbc02773",
+        "getPrice": "06a55ccbe5dd362b",
+        "listScheduleSlots": "0a439f48796b6723",
+        "searchSchedule": "2ff323270607f269",
+        "listMyBookings": "178a1bf35bc0aa25",
+        "cancelAppointment": "78f8a1884ab1940f",
+        "rescheduleAppointment": "6bb0e71c0220f85c"
       }
     },
     "providers.adobe": {
@@ -10420,6 +10871,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getCreativeCloudPlans": "cbfba544ca11ad44",
+        "findHelpArticle": "25535e20a8057317",
+        "searchFonts": "53282b1bf1f5de04",
+        "getFont": "70ad02667c0e2622",
+        "searchTemplates": "06a0fb1da1b87bab",
+        "getTemplate": "3c0b00a92a530c80",
+        "searchStockAssets": "f4ff9b9286224028",
+        "getAgreementStatus": "9e549e90fb0762b7",
+        "licenseStockAsset": "61d4c3c8ec987788",
+        "getStockAsset": "a69acb18db170808",
+        "compressPdf": "82232e91068c5b69",
+        "convertPdfToWord": "4f28d9fafc9c685a",
+        "mergePdfs": "a3eaa6d1c3ff7aab",
+        "saveAssetToCreativeCloud": "35d4d37d25cb63d9",
+        "sendForSignature": "e25b7bfd1ffbdc1a"
       }
     },
     "providers.adoptapet": {
@@ -10472,6 +10940,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPets": "6ecb8e7aacd08a65"
       }
     },
     "providers.adorama": {
@@ -10508,6 +10979,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCategories": []
+      },
+      "digests": {
+        "search": "4c2884c443dec30d",
+        "listCategories": "88c33af508bc8369"
       }
     },
     "providers.ads_google": {
@@ -10611,6 +11086,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listAccounts": "4494d9789f33151d",
+        "listCampaigns": "efcff456aa065467"
       }
     },
     "providers.adsmanager_facebook": {
@@ -10786,6 +11265,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listAdAccounts": "e8d53a013c891a79",
+        "getAccountInsights": "8a146cf52a587fe9",
+        "listCampaigns": "85ed5a7da1773be1",
+        "listAds": "13af51634e10e096"
       }
     },
     "providers.aetna_directory": {
@@ -10838,6 +11323,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProviders": "1bfd5bee1c0d5806"
       }
     },
     "providers.agakhanhospitals": {
@@ -10870,6 +11358,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listSpecialties": []
+      },
+      "digests": {
+        "getHospitalInfo": "9aacb6d4446fc99b",
+        "listSpecialties": "9af40bcd3f30e4fe"
       }
     },
     "providers.agenticskills": {
@@ -10971,6 +11463,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "858b3d5d37305849",
+        "get": "d25443be7f08f4fe"
       }
     },
     "providers.agentskill": {
@@ -11099,6 +11595,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getSkill": "4042a8d45ee05efe",
+        "listSkills": "59ed124baef5ca10"
       }
     },
     "providers.agentstatus": {
@@ -11156,6 +11656,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchServers": "03690befe309ea58",
+        "getServer": "1facc9e5f34f4fb9"
       }
     },
     "providers.agentweb": {
@@ -11206,6 +11710,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "library": "504f4a9fafae274b",
+        "discover": "dfecc95652f799e0"
       }
     },
     "providers.agoda": {
@@ -11313,6 +11821,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findDestinations": "fd07215f12f0f969",
+        "searchHotels": "9d1e52bea64e01f7"
       }
     },
     "providers.ahrefs": {
@@ -11327,6 +11839,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getDomainRating": "01a629a5903c41c4"
       }
     },
     "providers.ai_engineer": {
@@ -11351,6 +11866,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSpeakers": "14647574d46359a4",
+        "getSpeaker": "3647beb68cef84b7"
       }
     },
     "providers.ai_meta_com": {
@@ -11366,6 +11885,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPosts": "c475e35f667ec955",
+        "getPost": "a7676c1441020f69"
       }
     },
     "providers.aiper": {
@@ -11416,6 +11939,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPoolChooserQuestions": "6d29d7ed43448382",
+        "recommendPoolCleaner": "6c7a3583b22aef8a"
       }
     },
     "providers.airbnb": {
@@ -12008,6 +12535,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getHostProfile": "f1b986b57391cf15",
+        "getListingDetails": "0b4f423fd127c6df",
+        "getListingReviews": "30307c1e82a448a1",
+        "getPriceQuote": "e6324e39b2b20102",
+        "bookListing": "5f34820ba0ab0dba",
+        "autocompleteLocation": "9def1bec53171d68",
+        "getExperience": "90867f67f9e5170e",
+        "getExperienceReviews": "ebd6aece27a88ed6",
+        "searchExperiences": "7d7b82e77720a6a1",
+        "search": "7f68c2aef277fa98",
+        "getListing": "1e9aded9c70961ce",
+        "getListingCalendar": "047d4aef86c4b755",
+        "listTrips": "2fd69552053c9b1a"
       }
     },
     "providers.airchina": {
@@ -12036,6 +12578,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getDealFares": "28894503dff3c943"
       }
     },
     "providers.airtable": {
@@ -12222,6 +12767,14 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listBases": "399a5c1c9fd165e1",
+        "listTables": "c9df5060dc8e1a18",
+        "listRecords": "d18f1582e696d840",
+        "getRecord": "ce5a3b119de91408",
+        "createRecord": "1675786707684d76",
+        "updateRecord": "e98763e00fd3f62f"
       }
     },
     "providers.ajmadison": {
@@ -12267,6 +12820,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "c5578e37fc5e6d01"
       }
     },
     "providers.akc_org": {
@@ -12337,6 +12893,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchBreeds": "a0b447ab348df3cf",
+        "breed": "165a81d7ac39bb5b"
       }
     },
     "providers.alaskaair": {
@@ -12403,6 +12963,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFeatures": "1925fb8f349bf397",
+        "getTravelAdvisories": "d401739425eff2c9",
+        "listAirports": "afa7efe184d0a90a",
+        "searchCities": "e4b5fb5b90f17cb6"
       }
     },
     "providers.alibaba": {
@@ -12723,6 +13289,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "9bbcf5698965f806",
+        "getProduct": "c67abdd3782e9fac",
+        "listCategories": "b229cf2447135d85",
+        "getSuggestions": "35713d453b0df759",
+        "listSuppliers": "98d26b6d2dbc769e",
+        "getSupplier": "69e4412ea135ccf6",
+        "getProductReviews": "4faa65231718fbd7",
+        "listSupplierProducts": "f7e1554b67a33139",
+        "getProfile": "84415e3d56a52236",
+        "listMessages": "84415e3d56a52236",
+        "listOrders": "84415e3d56a52236",
+        "getOrder": "7878d9f1d228d468",
+        "listSavedItems": "84415e3d56a52236",
+        "signup": "9f83eb70e215cfb2",
+        "confirmSignup": "e3bdc99d0c38f031"
       }
     },
     "providers.aliexpress": {
@@ -12963,6 +13546,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "5d91b5a5b38d3be5",
+        "getProduct": "c756cd774e863b21",
+        "getStore": "530a62fe3371ae96",
+        "listCart": "dc1e32a35e0b30a9",
+        "addToCart": "5d7716cd93275886",
+        "listOrders": "d5a5e8fb0fc143a7",
+        "listCategories": "24a5988d7bd0a287",
+        "listWishlist": "bb77c84f8453d22c"
       }
     },
     "providers.allied": {
@@ -13099,6 +13692,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "estimatePackingSupplies": "c6a09665e1dc5db8"
       }
     },
     "providers.alphavantage": {
@@ -13136,6 +13732,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "signUp": "4cae2a6a08e81baa"
       }
     },
     "providers.amazon": {
@@ -13862,6 +14461,28 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "2298c6c22eea6bb1",
+        "searchWholeFoods": "617df4ebf5dcf7b1",
+        "listCategoryProducts": "9cdb84180fb42e5b",
+        "suggestKeywords": "a26caa1fa8566dbe",
+        "listBestSellerCategories": "04005d851deba24c",
+        "getProduct": "fab67fdf848285ce",
+        "listVariations": "fce37a5bff549113",
+        "listReviews": "5df95ac133fce103",
+        "getReviewSummary": "ef0de72a0183cce9",
+        "listRelatedProducts": "70c91f46d6f64be1",
+        "listBestSellers": "0d0fedaadc17bc37",
+        "listNewReleases": "0d0fedaadc17bc37",
+        "listMostWishedFor": "e320658016fb5ad5",
+        "listDeals": "ecc7cf036d3e8fc9",
+        "getSeller": "c175e5e42cb4a104",
+        "getDeliveryEstimate": "5e8681206e583326",
+        "listSellerOffers": "eec9e1266333887c",
+        "getCart": "f3e8945816639c32",
+        "addToCart": "fff9a03f3028e3ba",
+        "listOrders": "5991a3277cfead86"
       }
     },
     "providers.amazon_br": {
@@ -13931,6 +14552,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "0e3b2ed2050d7aaf",
+        "getProduct": "0363c18419e245fd"
       }
     },
     "providers.americandreamvacations": {
@@ -13971,6 +14596,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "ff62aec95969305b",
+        "searchInventory": "5695b30309e7f0dd"
       }
     },
     "providers.americanstandard": {
@@ -13985,6 +14614,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getSystemCostEstimate": "88cbce8c2a521567"
       }
     },
     "providers.americanvisionwindows": {
@@ -14025,6 +14657,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkAvailability": "19772d4f5031285c"
       }
     },
     "providers.americashealthrankings": {
@@ -14070,6 +14705,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listReports": "6743699daeb34fca",
+        "searchMeasures": "ff42a2410c563c85",
+        "getMeasureData": "462b53e94810c34d"
       }
     },
     "providers.amramp": {
@@ -14093,6 +14733,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findNearestLocation": "b945fc5bddfc2464"
       }
     },
     "providers.analytics_google": {
@@ -14181,6 +14824,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listProperties": "fb435af20ef75431",
+        "getOverview": "13fad3a4eca1d8de",
+        "listTrafficSources": "965943f4859eaf73"
       }
     },
     "providers.ancientnutrition": {
@@ -14204,6 +14852,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getGutTypeQuizQuestions": "cfbfdb5ec7229775",
+        "computeGutType": "3fe6a83010cf03b5"
       }
     },
     "providers.andersenwindows": {
@@ -14241,6 +14893,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findDealers": "83b9717c57b66345"
       }
     },
     "providers.andstr": {
@@ -14378,6 +15033,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "81aa91970af9cade",
+        "getListing": "f1e4185a027d2c6f",
+        "getQuote": "c513183a46ce4281"
       }
     },
     "providers.anthem_directory": {
@@ -14444,6 +15104,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProviders": "c4b098f9305ffa12"
       }
     },
     "providers.anthropic_com": {
@@ -14459,6 +15122,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocs": []
+      },
+      "digests": {
+        "getDoc": "8fbd417a69b5d575",
+        "listDocs": "761e8dd53b02141d"
       }
     },
     "providers.antunes": {
@@ -14480,6 +15147,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findServiceAgencies": "e081d16f7d651769"
       }
     },
     "providers.aol": {
@@ -14806,6 +15476,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFrontPage": "fd6f911b9b323e95",
+        "listSections": "03922fd47d3ae986",
+        "listSectionArticles": "c782776bf12adfc0",
+        "getArticle": "9159d21300791f03",
+        "getArticleComments": "376e19e9c86716fb",
+        "searchWeatherLocations": "cdcd86b1ff7210d7",
+        "getWeather": "da3fdb8904fa75de",
+        "getLocalNews": "e572ce038f8950d8",
+        "getDailyHoroscope": "34d38a54003ad893",
+        "searchRecipes": "6cc5d53f0c4915f5",
+        "getRecipe": "f86813cef9ead060",
+        "getMarketSummary": "bfcbcc7a7b5ce2cf",
+        "listGames": "e4d0551f19e671de",
+        "listNewsletters": "76315780dd0a23e6",
+        "listFavorites": "b8cd9e9c5fc566e2",
+        "addFavorite": "472197a24e68e682",
+        "removeFavorite": "0ce815b835cbe010",
+        "subscribeNewsletter": "3d9be917bf53b18c"
       }
     },
     "providers.aol_mail": {
@@ -15332,6 +16022,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listContacts": "5e0be2e34bcb3246",
+        "listFolders": "85ad73ec3b04be6f",
+        "listMessages": "20662afeea92e703",
+        "searchMessages": "ad6115ef4da584b7",
+        "getMessage": "289917107153687a",
+        "markAsRead": "a134571562add4e3",
+        "getAttachment": "12aa6ea1999b94c9",
+        "flagMessage": "c65a050fccc6a6ca",
+        "moveMessage": "478302d588e4b093",
+        "deleteMessage": "78fccbe8f0b2ad75",
+        "sendMessage": "b593aed639185f60",
+        "getAccountProfile": "a1fbb07a8cf4565d",
+        "updateAccountProfile": "d82c9744e1480b5e",
+        "createFolder": "99ddb11659ee79a7"
       }
     },
     "providers.aosom": {
@@ -15355,6 +16061,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "e3776de0be547334",
+        "getProduct": "d9ca6b2a18d3f215"
       }
     },
     "providers.apidirectory_com": {
@@ -15387,6 +16097,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCategories": []
+      },
+      "digests": {
+        "search": "87eba3a8687ac2aa",
+        "listCategories": "ff3ed6647cbee281"
       }
     },
     "providers.apify": {
@@ -15422,6 +16136,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "store": "b105412577506df9"
       }
     },
     "providers.apnews": {
@@ -15478,6 +16195,18 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListFactChecksArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -15649,6 +16378,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listFactChecks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFactChecksArgs"
+            },
+            "optional": true
+          }
+        ],
         "listVideos": [
           {
             "name": "args",
@@ -15689,6 +16428,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLatestNews": "b1966c5faf5f39be",
+        "getArticle": "27c76bc239c7d2d7",
+        "searchArticles": "74fca85ffe5f1d90",
+        "listSections": "fd7c4a59a44ae364",
+        "listSectionArticles": "8e0156174fe8e6be",
+        "listTopicArticles": "3a458b0c6ba491eb",
+        "listFactChecks": "f73804b22b29c829",
+        "listVideos": "8903263c94478264",
+        "getVideo": "293a197489b72657",
+        "getPhotoGallery": "63a7c3f7a6b52338",
+        "getTodayInHistory": "b1409c3337ea703a"
       }
     },
     "providers.app_store": {
@@ -16460,6 +17212,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchApps": "9578d159339434b7",
+        "getApp": "623a104b9724f04c",
+        "getApps": "8e2e2b13badae8a3",
+        "getAppDetails": "4c2cd9bc6edba460",
+        "listSimilarApps": "5860f4629a03dd30",
+        "listDeveloperApps": "f96297bd8a691d4e",
+        "listCategories": "8ff2ff3e4be7bbfc",
+        "listCollections": "b40150373a23e49b",
+        "listTopCharts": "83942d688a4ae3a2",
+        "getStory": "26058bde80fa03c8",
+        "listReviews": "b608a120d9616359",
+        "listTodayStories": "a7557af5aa69ffb5",
+        "listVersionHistory": "872cbe79a8b59bb6",
+        "listAppEvents": "23976605b6b5da6b",
+        "listArcadeGames": "93d0c81033699d5b",
+        "listPurchasedApps": "623b3c3ccb08abb5",
+        "listSubscriptions": "7b91434ca27415d3"
       }
     },
     "providers.appfolio": {
@@ -16516,6 +17287,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listings": "8be63624ad1112bf"
       }
     },
     "providers.apple": {
@@ -17097,6 +17871,40 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "726d36e4d8cab39d",
+        "suggestSearches": "d9c8c8855453e4b6",
+        "getProduct": "582c1314c7639626",
+        "getProductByPartNumber": "c0fc5351d601375b",
+        "getConfigurationOptions": "869edf570594ea8b",
+        "getPurchaseOptions": "0c722895da9ef44a",
+        "compareModels": "e4ea045e452df531",
+        "listFamilyModels": "fa67300e61c52193",
+        "listRefurbished": "f2fd5f7aa53c9d40",
+        "listAccessories": "e4170f9c64dbe839",
+        "getTradeInEstimate": "4f7f039ca4e41138",
+        "listTradeInValues": "03b88e153591881a",
+        "searchSupport": "d76782fa4de4abea",
+        "getSupportArticle": "d7e1f38f1a4443e0",
+        "resolveLocation": "063d11cb5cc74895",
+        "findStoresNear": "94f167dcaabec09c",
+        "getPickupAvailability": "aa0cb04715fc10b5",
+        "getDeliveryEstimate": "98549fbe162ae309",
+        "listStores": "cff36fdc3f9bcdf6",
+        "getStore": "df62d790e21ae42e",
+        "listTodaySessions": "c94f285f948458cb",
+        "listNewsroomPosts": "fbe8cab0e9ce5260",
+        "getNewsroomPost": "6450fc972a4b28cf",
+        "getSystemStatus": "dcb17b27e417b0ba",
+        "getRepairPricing": "d13b1a4cf38ce0ff",
+        "getOrderStatus": "429879b4e096f035",
+        "listOrders": "ee8c37a07c00c5a9",
+        "checkCoverage": "89b07567183ede58",
+        "bookGeniusBarAppointment": "bdb72af4b2e02bc4",
+        "addToBag": "ac9d7469c086194f",
+        "getBag": "8c511df8f4385880",
+        "removeFromBag": "376c6c68ac1a2ab8"
       }
     },
     "providers.aquaphoenixsci": {
@@ -17120,6 +17928,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "browseCategory": "007a94213f5bd3e8",
+        "getProduct": "3a40afeaa717daea"
       }
     },
     "providers.arajet": {
@@ -17169,6 +17981,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "7de5842f68d8b0f8"
       }
     },
     "providers.archipelago": {
@@ -17184,6 +17999,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getClientRelease": "02e8d829b8ff2fa9",
+        "getGameOptions": "2f03b2f98d38a583"
       }
     },
     "providers.archive_org": {
@@ -17398,6 +18217,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSnapshots": "16b0f6804de0b1bd",
+        "getSnapshot": "e9f2f8ec09b65915",
+        "checkAvailability": "ae793e1d827061be",
+        "searchItems": "fd8b78d6113eac68",
+        "searchScholar": "8e40dec7b201933c",
+        "getItem": "50fcab1b3bb9dc3d",
+        "downloadFile": "29fe2837ad678951",
+        "checkLendingAvailability": "c66d6d575eaf9657"
       }
     },
     "providers.arketa": {
@@ -18084,6 +18913,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findStudio": "97df85d08fab8260",
+        "listLocations": "fee303496d4ac6f2",
+        "listScheduleFilters": "f0ed41d6899b3861",
+        "listClasses": "bd1150a7ab16eb1b",
+        "getClass": "94659679c740e1d4",
+        "listPricing": "8f4f4b281f1276a3",
+        "listInstructors": "405e5990c0c7d698",
+        "listPrivateSessions": "71e9c12d912fe0c1",
+        "getPrivateSession": "e16b93875adfbdab",
+        "getPrivateSessionAvailability": "e002f0b2853ff55e",
+        "listReviews": "e2a054eabb4a6f69",
+        "listProducts": "0a004942ecbcdc0a",
+        "listOnDemandVideos": "095b36cc8da09512",
+        "getMyProfile": "2a23928d34b45c39",
+        "listMyBookings": "5c63917cccfd8cdb",
+        "listMyPasses": "754941f896d84987",
+        "updateMyProfile": "69cd0a9fe5d06058",
+        "joinWaitlist": "056e783dc05489e0",
+        "bookClass": "928be436eb2d4b5c",
+        "bookPrivateSession": "a7d4ad06138cdb8f",
+        "cancelBooking": "9d9ba398599b5fc6",
+        "signup": "7829c8e7a3f96e16",
+        "confirmSignup": "afe2b6db22da66f5"
       }
     },
     "providers.article_com": {
@@ -18145,6 +18999,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "94c01fa6f4a38da3",
+        "getProduct": "db33beaad5ac561f"
       }
     },
     "providers.artificialanalysis_ai": {
@@ -18159,6 +19017,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getEvaluation": "b08f853b3356c52d"
       }
     },
     "providers.artpix3d": {
@@ -18175,6 +19036,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPhotoCrystalShapes": "223d82fec64d15b8",
+        "listShapes": "223d82fec64d15b8",
+        "getSizePricing": "5e2e561b4c0ca329"
       }
     },
     "providers.arxiv": {
@@ -18247,6 +19113,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "6c1845257363fb38",
+        "getPaper": "62d7eec4d10ab5d2"
       }
     },
     "providers.ashby": {
@@ -18261,6 +19131,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "c4db4491d04cce1d"
       }
     },
     "providers.ashleyfurniture": {
@@ -18376,6 +19249,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "7c78d9f816b59814",
+        "checkStock": "2f58fb85d66200ee",
+        "getProduct": "d4c999d7622f0d19",
+        "findStore": "43845332e940939c"
       }
     },
     "providers.askul": {
@@ -18390,6 +19269,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "4ee5eeec8a1c2c2a"
       }
     },
     "providers.asppoolco": {
@@ -18413,6 +19295,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findLocationByZip": "44013ca130794700",
+        "listLocations": "6d34a849ed367daa"
       }
     },
     "providers.astoundgroup": {
@@ -18428,6 +19314,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listPages": "d8ce4b0f3fcb30c4",
+        "getContactForm": "68b17624facb9bad"
       }
     },
     "providers.atida": {
@@ -18682,6 +19572,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "38e234fe5ee5621e",
+        "getProduct": "de289e35e65e8b14"
       }
     },
     "providers.atlasoceanvoyages": {
@@ -18763,6 +19657,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchVoyages": "25d8e26689c47fb0",
+        "getVoyage": "954a4928e28a8a3d"
       }
     },
     "providers.atlasseniorliving": {
@@ -18833,6 +19731,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCommunities": "b6e794e4a2165343"
       }
     },
     "providers.att": {
@@ -19102,6 +20003,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findDevices": "8d3908c0a2fad5c5",
+        "listTablets": "8d3908c0a2fad5c5",
+        "getDevicePricing": "f7546a09334523c9",
+        "listPlans": "6f903e317ba95c2c",
+        "listPrepaidPlans": "88ee421c80e1123b",
+        "listTvPlans": "649fc0aa717cd74c",
+        "listInternetPlans": "ea8fc67f040ef32b",
+        "findStores": "10c2cb247d678986",
+        "listDeals": "27c90c848643e0b8",
+        "getTradeInValue": "2d045d3f7af32474",
+        "getTradeInQuote": "3c5b86b75321c787",
+        "getAccountBalance": "edfc7960070dc1a0",
+        "getUsage": "8e2490d55da9a6e7",
+        "listLines": "9ed3b321281e1f15",
+        "viewBillHistory": "e4c9517d15f250a0",
+        "viewOrderHistory": "416cad4c93df05c8",
+        "getMonthlyBill": "e4b457f397a36da3"
       }
     },
     "providers.audibel": {
@@ -19116,6 +20036,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findClinics": "5b07a59712dc8b58"
       }
     },
     "providers.autocamp": {
@@ -19159,6 +20082,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listProperties": []
+      },
+      "digests": {
+        "searchAvailability": "97218a829ccbdc74",
+        "listProperties": "7d22f6b50699d3d5"
       }
     },
     "providers.avalonmalibu_com": {
@@ -19173,6 +20100,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getInsuranceForm": "069d834072f2d32c"
       }
     },
     "providers.avantstay": {
@@ -19231,6 +20161,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProperties": "0101d95525ff9943",
+        "getPricing": "a7e95a9a24553812"
       }
     },
     "providers.avenuehealthcare": {
@@ -19266,6 +20200,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "5122b23beb28c06c"
       }
     },
     "providers.avis": {
@@ -19344,6 +20281,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchLocations": "f06d45d956c23808",
+        "getLocation": "5da1c23d2610b658"
       }
     },
     "providers.avocatparis_org": {
@@ -19409,6 +20350,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchLawyers": "fe9eb98bf1a26397",
+        "getLawyer": "dc7dec499506a5c3"
       }
     },
     "providers.ayreshotels": {
@@ -19458,6 +20403,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkRates": "1d8bb426b3015897"
       }
     },
     "providers.azazie": {
@@ -19489,6 +20437,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "e84994fb7f4d668a",
+        "getBuildYourOwnConfig": "a8bd045d153cb9db"
       }
     },
     "providers.azblue": {
@@ -19517,6 +20469,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getPage": "ce47b70e988e0741"
       }
     },
     "providers.azure": {
@@ -19672,6 +20627,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getServicePricing": "dd7ba7d4bd00d7b0",
+        "listServices": "322c706ce8482958"
       }
     },
     "providers.bahn": {
@@ -19709,6 +20668,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listDisruptions": "979ae48923e2ba15"
       }
     },
     "providers.balthazarlondon": {
@@ -19739,6 +20701,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getRestaurant": "484a6a634899c16e",
+        "listMenus": "f69a18185b900934",
+        "getMenu": "93608a7e70a37653"
       }
     },
     "providers.bamboohr": {
@@ -19753,6 +20720,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "2e034740fafdcf17"
       }
     },
     "providers.banana_republic": {
@@ -20119,6 +21089,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "54387c9a29dc3f28",
+        "getProduct": "f7adadf4c5c939f8"
       }
     },
     "providers.bankmycell": {
@@ -20179,6 +21153,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchDevices": "506b7c328de1df44",
+        "getTradeInQuote": "cfd817620a291b16"
       }
     },
     "providers.bankofamerica": {
@@ -20188,6 +21166,18 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "BankofamericaCreditCardArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "campaignId",
               "schema": {
                 "k": "string"
               },
@@ -20269,6 +21259,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getCreditCard": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BankofamericaCreditCardArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCreditCards": [],
         "listDepositAccounts": [
           {
             "name": "args",
@@ -20289,6 +21290,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getCdRates": "c57e2b952ca2b49d",
+        "getCreditCard": "045fd680860d8cca",
+        "listCreditCards": "1b22217c13ad2132",
+        "listDepositAccounts": "5263ca9fff829d75",
+        "getMortgageRates": "4a8b85df7e16eca5"
       }
     },
     "providers.barletta": {
@@ -20331,6 +21339,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchModels": "69767d7ad216a7eb",
+        "getConfigurator": "51ec8c3c300fe5ba",
+        "priceConfiguration": "239c8036cee9e246"
       }
     },
     "providers.barnesfoundation": {
@@ -20405,6 +21418,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getAdmissionCalendar": "e2608e64ca5411c2",
+        "priceAdmission": "ae3625ce8cd6ed06"
       }
     },
     "providers.baublebar": {
@@ -20549,6 +21566,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "59c01cc483f2571f",
+        "listBaublebarCollections": "86e13908b16f4a7f",
+        "listBaublebarProducts": "309a765557fb3bf6",
+        "getBaublebarProduct": "7985c8a767ec71da",
+        "getBaublebarCheckoutLink": "e435e8eca93e5af8"
       }
     },
     "providers.bbc": {
@@ -21047,6 +22071,39 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listSections": "d731b8f1ee550cad",
+        "listSports": "b9eeccf9320c0944",
+        "listCompetitions": "79b813b15b41fddb",
+        "getFixtures": "07ab5b966ac68795",
+        "getStandings": "7bfdbabc4f3b82ae",
+        "getMatch": "4812107492667074",
+        "getTeam": "4c8f6403927b1a59",
+        "listHeadlines": "ac60b7968ded9323",
+        "listMostRead": "87354a7a05af5ff9",
+        "listVideos": "bbfc71a20bb27f3b",
+        "getVideo": "4b5da4883c244681",
+        "listPodcasts": "4a0ca2338f46d027",
+        "getPodcast": "4b59f838acb45263",
+        "getPodcastEpisode": "7bd222410dac8a3f",
+        "listNewsletters": "2ecc179abe879406",
+        "listTopicStories": "1ef16e06c4380c5c",
+        "searchArticles": "b76a511a55efc17e",
+        "getArticle": "36cd65f2cba3ae89",
+        "getLivePage": "63e4aa5abb90413c",
+        "searchWeatherLocations": "380bf3e4a187111a",
+        "getForecast": "19e111bec1a2304a",
+        "getCurrentWeather": "3a2a8f347aa1fa52",
+        "getWeatherWarnings": "f7f5b1439daf07f6",
+        "listSavedArticles": "ba81a4927de0e9d6",
+        "saveArticle": "e7ee55aa7dae6a5f",
+        "removeSavedArticle": "e7ee55aa7dae6a5f",
+        "listFollowedPodcasts": "d0e9f872a8dd200f",
+        "followPodcast": "e65cbc28df49c8d6",
+        "unfollowPodcast": "e65cbc28df49c8d6",
+        "subscribeNewsletter": "be5c64f5c03ac741",
+        "unsubscribeNewsletter": "be5c64f5c03ac741"
       }
     },
     "providers.bcbsri": {
@@ -21148,6 +22205,14 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listDentalPlans": "45eca76ee7f02d85",
+        "getDentalPlan": "33f542182765c97f",
+        "getPlanDocuments": "41ffe770dbca1b6d",
+        "getDentalShopPage": "2f785b02c454ceba",
+        "getApplicationPage": "70e78fd69d556f9c",
+        "getQuotePage": "2f785b02c454ceba"
       }
     },
     "providers.bcparkscamping": {
@@ -21194,6 +22259,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCampgrounds": "0c95fdc10347fb77",
+        "checkAvailability": "e1f7ff4e7077cc45"
       }
     },
     "providers.beaconfunding": {
@@ -21227,6 +22296,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getApplicationFields": "965add2a7e7315fe"
       }
     },
     "providers.beatthebomb": {
@@ -21304,6 +22376,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listMissions": "7b7b5026975cf57e",
+        "checkAvailability": "2e67492a97f5dc4d",
+        "priceMission": "a87d015bae48204f"
       }
     },
     "providers.bedbathandbeyond": {
@@ -21339,6 +22416,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "fd8a9f8b8d69dd6f"
       }
     },
     "providers.befrugal": {
@@ -21396,6 +22476,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchStores": "05f7e44d4e295785",
+        "getStoreRate": "b7f1508bf155f30e"
       }
     },
     "providers.bellwethercoffee": {
@@ -21489,6 +22573,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getCalculatorDefaults": "c74e116184149640",
+        "computeRoiEstimate": "8cf0db734ede47d5"
       }
     },
     "providers.beltservice": {
@@ -21547,6 +22635,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "browseCatalog": "c2ebc10c5d121c26",
+        "getBelt": "de29ce0293ecde98"
       }
     },
     "providers.benelliusa": {
@@ -21561,6 +22653,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findDealers": "005715b85fbf6f3f"
       }
     },
     "providers.bennington": {
@@ -21584,6 +22679,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "70db006b17dc93f5"
       }
     },
     "providers.bestbuy": {
@@ -21789,6 +22887,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findStores": "73525990e884cf4c",
+        "getProductQuestions": "e66a7b50f9f739f4",
+        "listCategories": "3d55fb6b795ffed1",
+        "listDeals": "a800f1c1673b66b0",
+        "getStore": "2c37fb63e4397973",
+        "search": "8ac96cc66fe75cdb",
+        "getProduct": "3bf01ef0b2859678",
+        "signup": "551f9527f5602e55",
+        "confirmSignup": "e2cf217aa7f7b4e0"
       }
     },
     "providers.bestbuy_ca": {
@@ -21849,6 +22958,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "03eabaee7dbc5161",
+        "getProduct": "232a2f473ff057d6"
       }
     },
     "providers.bestmcp_dev": {
@@ -21863,6 +22976,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "187f28622b210ebc"
       }
     },
     "providers.bhphoto": {
@@ -21895,6 +23011,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "e0a6e19443d27293",
+        "getProduct": "bd76921bb985ccad",
+        "checkStock": "b9d42b8cc144cdbb"
       }
     },
     "providers.biblegateway": {
@@ -22124,6 +23245,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getVersionInfo": "27ee8da09267a969",
+        "getReadingPlanDay": "8426d641656b89b5",
+        "listDevotionals": "5ddce8a30d83ca37",
+        "getDevotional": "349be7b360a3520e",
+        "comparePassage": "d8d9970b54eb3876",
+        "getVerseOfTheDay": "226814e3ddc5fcf6",
+        "listReadingPlans": "3cf4ecec7e7f85fb",
+        "searchBible": "6b79623521b5a547",
+        "getPassage": "97d4566f6a8697c3",
+        "listVersions": "6a38bc626df8227f"
       }
     },
     "providers.bigairusa": {
@@ -22139,6 +23272,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "c08bf8e8fc378b92",
+        "listPasses": "122b7b4d2c6df490"
       }
     },
     "providers.bigjoeforklifts": {
@@ -22166,6 +23303,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getRuntimeEstimatorInputs": "4de9748d558e924b",
+        "listForkliftModels": "3dc8ed3ff8a7a751",
+        "prepareQuoteRequest": "2da40c77df833bc3"
       }
     },
     "providers.bigrentz": {
@@ -22207,6 +23349,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "2441544e2aeb04ff",
+        "getEquipment": "b5df60d9e1583bac",
+        "listCategories": "4bfc19b4503ed95f"
       }
     },
     "providers.bing": {
@@ -22496,6 +23643,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchWeb": "ea48d04e1e199dc9",
+        "searchWebBrowser": "ea48d04e1e199dc9",
+        "searchNews": "dc8ca6d8e1a533f2",
+        "searchImages": "c946892511363e60",
+        "searchVideos": "80a522fc89542173",
+        "searchShopping": "173fa3e5b66c3abd",
+        "define": "dfb9e476ff3f8ac4",
+        "translateText": "19e2edbc386f1346",
+        "findPlace": "e93f2d44a297ac5e",
+        "searchPlaces": "920bbadcaa3052cd",
+        "listSaves": "957ec610d473186b",
+        "saveResult": "7c81a5e0c7ec36a7",
+        "suggestQueries": "c513100f397b28ea"
       }
     },
     "providers.bionicpo": {
@@ -22511,6 +23673,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listInquiryServices": "a8f0a55cde92798e",
+        "getInquiryServiceDetails": "518c02469bab5d71"
       }
     },
     "providers.bishops": {
@@ -22565,6 +23731,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "2ef71e8168f5311d",
+        "findLocation": "cdaf46c7a08b33a2",
+        "listServices": "26689c3872115c01",
+        "checkAvailability": "175e9b0f6bb11efe"
       }
     },
     "providers.blackstoneproducts": {
@@ -22586,6 +23758,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findNearbyDealers": "54ac8f3b2e47bfa4"
       }
     },
     "providers.blenderseyewear": {
@@ -22639,6 +23814,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listRxFrameStyles": "eec35bb3b44dc0c8",
+        "getRxConfigurator": "150a111d55a20725",
+        "priceRxConfiguration": "c8144ab9d4fe27f8"
       }
     },
     "providers.bls": {
@@ -22671,6 +23851,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findSeries": "fd4489c28f9fe596",
+        "getLatest": "9bfafbf05b2c9e23",
+        "getSeries": "1c9c884c0e10dc4b"
       }
     },
     "providers.bluehaven": {
@@ -22695,6 +23880,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPoolDesigns": "5e633c398875bfd9",
+        "checkPoolSiteFeasibility": "3f072aa6d2d12b22"
       }
     },
     "providers.blueribbonhomewarranty_com": {
@@ -22718,6 +23907,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "cf8037a08e4e89a9",
+        "getPage": "d1a21780a50f3850"
       }
     },
     "providers.blueshieldca_directory": {
@@ -22770,6 +23963,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProviders": "4d5debee0e3f60a6"
       }
     },
     "providers.bluesignal": {
@@ -22848,6 +24044,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "febcc37fe3361bdf",
+        "getJob": "185e016b4cf4de54"
       }
     },
     "providers.bluesky": {
@@ -25620,6 +26820,78 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "resolveHandle": "b1c33dc7bb2288e5",
+        "searchUsers": "9936822f23cfcbce",
+        "getProfile": "3cca9dd89544f7ef",
+        "getUserPosts": "c5b580b4c841f757",
+        "getPost": "414acad97e8ce573",
+        "getThread": "6e9e88e23fd41aed",
+        "getTrendingTopics": "bdbad750c5f83fc6",
+        "getTrends": "15d65379a1a8dd4c",
+        "searchPosts": "e3d9856bb9395d38",
+        "searchFeeds": "fe850d3e354bbd80",
+        "getFeed": "87cad0bb02ec8e39",
+        "suggestUsers": "cd4bfe035dda71d9",
+        "getPostLikes": "f1dec527f6039485",
+        "getPostReposts": "08970a021dc52a9b",
+        "getPostQuotes": "0b1f501d5b296d48",
+        "getFollowers": "e75be98c495fe8e2",
+        "getFollows": "9f8b3c8a3248f5e5",
+        "getRelationships": "0d3a8e14331c1996",
+        "getSuggestedFollows": "25c3a26d51018a9f",
+        "getSuggestedFeeds": "fff165d4ff0f05b8",
+        "getFeedInfo": "ad964df5ed6f712e",
+        "getSuggestedUsers": "37b7217e3eeb20ae",
+        "getUserFeeds": "d8b047c8797cac53",
+        "getUserLists": "dbfd97abe0557bb1",
+        "getList": "f0e721be86d0f35b",
+        "getListFeed": "828499e0c43e3dfe",
+        "getUserStarterPacks": "e9f7605c79a76401",
+        "getStarterPack": "6afe5064b6aace80",
+        "searchStarterPacks": "ce683b72916ceb7a",
+        "getLabelers": "5838ae9ae9f7dd95",
+        "getMe": "0537f47d632f6b8a",
+        "getTimeline": "36f9644d035ceaaf",
+        "getMyLikes": "36f9644d035ceaaf",
+        "listMutedUsers": "7de6a6457d47416b",
+        "listBlockedUsers": "7de6a6457d47416b",
+        "listBookmarks": "6acb8d91d56d3be4",
+        "listNotifications": "fb6dfc9e45771f23",
+        "listConversations": "d65e66bf50067777",
+        "getConversation": "00fce29ecde077f4",
+        "createPost": "0257a4b7b634a66c",
+        "deletePost": "526287ff61bf2d29",
+        "likePost": "93cc0fd5dcd8ab6e",
+        "repost": "93cc0fd5dcd8ab6e",
+        "bookmarkPost": "93cc0fd5dcd8ab6e",
+        "markNotificationsRead": "8d372ff55fd25bc8",
+        "updateProfile": "e0f7942b34db22f5",
+        "sendMessage": "a74032c6f8fd8d0c",
+        "setAvatar": "e743aad47a64af5c",
+        "createList": "6629fbdffc001189",
+        "addToList": "549751fc7f1bf656",
+        "createPostWithImages": "686d25c94236ff01",
+        "pinPost": "93cc0fd5dcd8ab6e",
+        "deleteList": "e5666c28f674a756",
+        "muteWord": "a29b50a377afb75e",
+        "muteThread": "09e9239ddfddeafd",
+        "muteConversation": "372e4f8efbf75749",
+        "leaveConversation": "fee6be5de653d34e",
+        "muteModerationList": "0aee601cee90f946",
+        "blockModerationList": "87ca336046c795a2",
+        "createPostWithVideo": "0d65909583582c07",
+        "listModerationLists": "5e66d7e43cd8d43e",
+        "setReplyRestriction": "9000b9e1427582db",
+        "listMutedWords": "b1ca4c573d4f2aaf",
+        "saveFeed": "1f6337df35694ad6",
+        "followUser": "b916e2422294039f",
+        "muteUser": "b916e2422294039f",
+        "blockUser": "b916e2422294039f",
+        "replyToPost": "caf40b83efa193fc",
+        "quotePost": "4d69fd8b2987981a",
+        "getKnownFollowers": "9ada22cfaeb9b7cc"
       }
     },
     "providers.bmwusa": {
@@ -25730,6 +27002,13 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listModels": []
+      },
+      "digests": {
+        "buildVehicle": "42a9e7649dae4717",
+        "searchCertifiedPreOwned": "8c647875037cbf94",
+        "getModel": "c9721d21b4f7a8a1",
+        "listOffers": "f922be979d61e7bc",
+        "listModels": "9d759048f48a840f"
       }
     },
     "providers.bobs": {
@@ -25801,6 +27080,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "97d43b624e82b379"
       }
     },
     "providers.bodacc": {
@@ -25854,6 +27136,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "255827bcb7014ddc"
       }
     },
     "providers.bodensee_schiffsbetriebe_berths": {
@@ -25868,6 +27153,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchHarbors": "6919220dab988f56"
       }
     },
     "providers.bodyrok": {
@@ -25954,6 +27242,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getSchedule": "57df5f669b3d57ae",
+        "getStudio": "31ca73ae54cc4fb4",
+        "listStudios": "d30634f21bd2e0d8"
       }
     },
     "providers.boglewinery": {
@@ -25976,6 +27269,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listExperiences": "ba823ae723c7e0c2",
+        "checkAvailability": "2578423708cdbb9f"
       }
     },
     "providers.bollandbranch": {
@@ -26003,6 +27300,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getBedDesignerFlow": "bd5d1aa863d75009",
+        "getCategoryOptions": "894ee7fd5a6cde83",
+        "getSwatchDetails": "be4f560d9b94c25a"
       }
     },
     "providers.bookedin": {
@@ -26525,6 +27827,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "cancelClassBooking": "d0412d0be81fe78f",
+        "cancelAppointment": "d0412d0be81fe78f",
+        "confirmAppointment": "d0412d0be81fe78f",
+        "bookAppointment": "a4dbce4b0ca6b9d3",
+        "listRegions": "e93084c82b04f202",
+        "searchMerchants": "5c35a81b3a121e37",
+        "getMerchant": "1f706af331472f08",
+        "listServices": "46841b91229571f7",
+        "listStaff": "b35b0d10fe209adc",
+        "getAvailableDates": "3b3b5d10e5de0d5b",
+        "getAvailability": "246266bd4dabd388",
+        "getClassDates": "9743e509895078f8",
+        "listClassSessions": "d2e68c9f85e87d91",
+        "requestAppointment": "5690e71e6a3a490c",
+        "getClassSession": "3133a1a302fcb956"
       }
     },
     "providers.bookeo": {
@@ -26768,6 +28087,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listMyBookings": "c68cb55a6b7a20b7",
+        "findOperator": "7be7e9773eccdffd",
+        "listProducts": "8e4a54811c6087fb",
+        "getAvailability": "52836ec64bc87c15",
+        "getProduct": "5ecac23033f3d897",
+        "getPriceQuote": "a19079c1be167ea2",
+        "listGroupOperators": "7129f4d71832b459"
       }
     },
     "providers.booker": {
@@ -27120,6 +28448,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findLocation": "cdaaa22f64557f3c",
+        "searchLocations": "391a536cba35eb4f",
+        "listBrandLocations": "31e2f923f500e23b",
+        "getServiceMenu": "0de66a5352b9edd6",
+        "getService": "ac703efb933a934f",
+        "listStaff": "58b060c94b48117e",
+        "getAvailableDates": "f0516c9972080c1b",
+        "getAvailability": "794880cc507f25a9",
+        "getBookingPolicies": "cc336aaab3daffbd",
+        "getLocationHours": "2a4c20488b961b92",
+        "listGiftCertificates": "5a0f644f5c711434",
+        "getSpecial": "3131c84854687f03",
+        "listSeries": "43a795c0efac51d8",
+        "listMemberships": "29ca987a1134a0a7",
+        "listPackages": "a354d3580312c598",
+        "getMultiServiceAvailability": "bb846853217d2d0f",
+        "getGroupAvailability": "ba08077c040cfbb9"
       }
     },
     "providers.booking_com": {
@@ -27557,6 +28904,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "autocompleteDestination": "6ba4a6a765bf4cab",
+        "search": "d63042d1022650ff",
+        "getProperty": "6cf5359559c49767",
+        "listAvailability": "375c584a0940944c",
+        "checkPrice": "2a7b3648ec1549c4",
+        "listPropertyReviews": "3286919c134093c9",
+        "listFilterOptions": "90853e2fd1701fe7",
+        "listPropertyPhotos": "2fec80c97e0072f8",
+        "getReviewBreakdown": "798810beead5ea2f",
+        "listBookings": "427049ec26ffc19f",
+        "getBooking": "d7e2f8249c44a317",
+        "listWishlist": "5e1cd0a3dc9034fc",
+        "addToWishlist": "b832338a85717020",
+        "removeFromWishlist": "b832338a85717020",
+        "getAccountProfile": "1d1470bf918cf04b"
       }
     },
     "providers.booksy": {
@@ -28723,6 +30087,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "resolveLocation": "a3dafca2ffe261b3",
+        "searchBusinesses": "92e324f473159d9f",
+        "getBusiness": "e71ed74a4dc8f8e9",
+        "getAvailability": "7f7bd2f8f0cb1c13",
+        "getBookingQuote": "2e89f3dc9e05b8aa",
+        "getSearchSuggestions": "28493e5886605fd8",
+        "listCategories": "196711784c12af45",
+        "getBusinessReviews": "3b7432af6bc55d95",
+        "getBusinessPhotos": "9edd02c35e446c60",
+        "listGiftCardOffers": "e5a811d07fddd7e4",
+        "getBusinessNetwork": "f528fe1fedddd0bf",
+        "bookAppointment": "026f04bf9b93c54c",
+        "listMyBookings": "6d73d3a476eecd2b",
+        "getMyAppointment": "5e27179645562139",
+        "cancelAppointment": "bd8c6284962dcb1d",
+        "getBusinessContact": "1cfbe5a7fbc9b5b4",
+        "listFavorites": "2918162bcd2b98d3",
+        "addFavorite": "0438cd6b67423396",
+        "removeFavorite": "0438cd6b67423396",
+        "writeReview": "815fb61a5d4755dd",
+        "getMyProfile": "5f6da4f97c8842f8",
+        "updateMyProfile": "4249c298f1c2f927",
+        "listMyGiftCards": "29ff73d1e46715dc"
       }
     },
     "providers.borsheims": {
@@ -28776,6 +30165,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "3df98c93690e46d6",
+        "getProduct": "80a067a5917adb12",
+        "configureRing": "fbc51e71853a45ef"
       }
     },
     "providers.boulevard": {
@@ -29006,6 +30400,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findBusiness": "f4dfdfa12aef3d84",
+        "getBusiness": "d51b093de144364a",
+        "listLocations": "1b2c20eff888ee61",
+        "getLocation": "8685523e46ffc7e4",
+        "listServices": "cfbf393a7719cb68",
+        "getServiceDetails": "a35d20a09134b9bb",
+        "getAvailableDates": "b06b40abf8591248",
+        "getAvailableTimes": "f6363710f3171cd4",
+        "listStaffForTime": "e09b24f7b460bc2f",
+        "listBookingQuestions": "17b5ab9e86378534",
+        "listPackagesAndMemberships": "0ab10f3a474c62ec"
       }
     },
     "providers.bowmark": {
@@ -29013,6 +30420,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getOverview": [],
         "listDocumentation": []
+      },
+      "digests": {
+        "getOverview": "be6c2159ec258f06",
+        "listDocumentation": "f7c0edf4855bd9e3"
       }
     },
     "providers.boxlunch": {
@@ -29036,6 +30447,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "0a68d9cc86b4b3d4"
       }
     },
     "providers.boydsleep": {
@@ -29135,6 +30549,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "calibrateSupportNumber": "e6c4ec5f725785fc",
+        "calibrateSixZoneSupportNumber": "750e3ac867a504b3"
       }
     },
     "providers.breezyhq": {
@@ -29149,6 +30567,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "2b528c2caff2ba29"
       }
     },
     "providers.bricklink": {
@@ -29333,6 +30754,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "categories": "a5e36865c7d4b6c3",
+        "images": "bae4db3f5ad4646f",
+        "item": "36e77b0b99801cd1",
+        "offers": "d258625b108514bf",
+        "search": "5137c4b7ca8d199e"
       }
     },
     "providers.brius": {
@@ -29347,6 +30775,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProviders": "5a42879397e84acd"
       }
     },
     "providers.brixton": {
@@ -29411,6 +30842,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listBrixtonProducts": "5821d912eb2dc3d7",
+        "getBrixtonProduct": "c9f02330162b7463",
+        "getBrixtonCheckoutLink": "32d545f2051b1405"
       }
     },
     "providers.builder_strucsure_com": {
@@ -29418,6 +30854,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listRegistrationStates": [],
         "getNewConstructionRegistrationFields": []
+      },
+      "digests": {
+        "listRegistrationStates": "1d4ec3fddd0e8b35",
+        "getNewConstructionRegistrationFields": "341ae05e6785d415"
       }
     },
     "providers.buildingengines": {
@@ -29462,6 +30902,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getAccessRequestStatus": "d669731e88d4c951"
       }
     },
     "providers.bulletproof": {
@@ -29483,6 +30926,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findStores": "fa1ef0155501222c"
       }
     },
     "providers.bungalow": {
@@ -29573,6 +31019,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listMarkets": "27c823746207fb76",
+        "searchListings": "199e2a2150d330ef",
+        "getListing": "895bff51c5cc6902"
       }
     },
     "providers.businessinsider_com": {
@@ -30010,6 +31461,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchArticles": "818d2150a7984c26",
+        "listSections": "4fa4956428c09e64",
+        "listArticlesBySection": "d518b08e02da5d96",
+        "getAuthorArticles": "297766ebe949b7e5",
+        "listOpinionPieces": "e0e593447c166f79",
+        "listGuides": "3aa7c28cd9df97ab",
+        "listVideos": "eb3a06bdc0928522",
+        "getVideo": "9af5ac9a0ef2dc1a",
+        "getMarketQuote": "ca1f037569ba1454",
+        "findTicker": "93947e821c5524b4",
+        "getArticle": "bf14bc7be4d3bc7c",
+        "getGuide": "dc13071f446872cf",
+        "listMarketIndices": "fff25bae3d922269",
+        "listCryptoCurrencies": "efc4069024d5d0b4",
+        "listTrendingArticles": "468e720947a33fd6",
+        "getArticleComments": "c59962f0612e8fa3",
+        "postComment": "ad9aa4d08134b8c7"
       }
     },
     "providers.bykoket": {
@@ -30042,6 +31512,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "6f87c1ec98b88126",
+        "getProduct": "111147b729125564",
+        "addToCart": "c36df41df2db5600"
       }
     },
     "providers.byltbasics": {
@@ -30109,6 +31584,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listBundlePacks": "24675dc30f33ff9a",
+        "getPackOptions": "88bf70c3d6b6910c",
+        "buildPackHandoff": "5dfcb73c73c7d4cb"
       }
     },
     "providers.ca_gov": {
@@ -30300,6 +31780,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listDepartments": "60a1ab6e50f483bb",
+        "listServices": "46f5871e76629cab",
+        "getDepartment": "48e6dc5322b5eefb",
+        "getService": "eeaadd08cbcfb25f",
+        "searchServices": "034421aeb86c3538",
+        "getDepartmentContact": "043097f9a9c8f580",
+        "listNews": "517de9b8b52010d1",
+        "searchNews": "f64becdaa81af791",
+        "listPublicData": "a2e25992cd446ff2",
+        "searchPublicData": "eeed7da9e93bc827",
+        "queryPublicData": "f7fd15774d135572"
       }
     },
     "providers.cabelas": {
@@ -30413,6 +31906,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listStores": "6e6ae8d8cf6f8eaf",
+        "findStores": "055555c649370f16"
       }
     },
     "providers.cabinsforyou": {
@@ -30471,6 +31968,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "a23e0a06b8ef61c4",
+        "getCabinDetail": "f0e63bf4796e167f"
       }
     },
     "providers.cal_com": {
@@ -30560,6 +32061,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getEventTypes": "f2c0f084db36cc52",
+        "getAvailability": "cbcb1d7e90d6e052",
+        "getBookingForm": "aaaf7692a849b4f6",
+        "findProfiles": "dbf4973db093c79a"
       }
     },
     "providers.calendly": {
@@ -31022,6 +32529,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getEventTypes": "0236fbc0dc6a5165",
+        "getAvailability": "17398759599aa13d",
+        "getBookingForm": "ed3e6e70e2c7d780",
+        "getBooking": "6a5b6221bcffa382",
+        "bookMeeting": "9365cb6c5726036b",
+        "rescheduleBooking": "dde562d6b238d84c",
+        "cancelBooking": "208444b5de3593db",
+        "getRoutingForm": "b4c73682d035c109",
+        "submitRoutingForm": "c8534fb0886a6fc6",
+        "voteOnMeetingPoll": "59e125e0e65caf4e",
+        "listPackages": "b84649d435746f29",
+        "findProfiles": "0807da4919f94916",
+        "getMyAccount": "ffc8e4f1a5d473b5",
+        "listMyEventTypes": "36dd40ab4eba2e76",
+        "signup": "7c791784346d8a64",
+        "confirmSignup": "669f98f5f1af71ba"
       }
     },
     "providers.caliberhealth": {
@@ -31080,6 +32605,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "02f3784d79c84355",
+        "getJob": "7a3192a2a29339c2"
       }
     },
     "providers.califloors": {
@@ -31111,6 +32640,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCategories": "55c3c28f4c8b7aac",
+        "searchProducts": "c1eef49265f38723",
+        "getProduct": "bee69043d5a10ba2"
       }
     },
     "providers.calottery": {
@@ -31393,6 +32927,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "draws": "56f3ab35b1c7928a",
+        "checkNumbers": "cc72d57aed33a630",
+        "scratchers": "b11919cb46af9c63",
+        "search": "6e6103c9a2b335f1",
+        "retailers": "a23c90b7f7649b8b"
       }
     },
     "providers.camelcamelcamel": {
@@ -31416,6 +32957,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "99a891197b14ea69",
+        "getPriceHistory": "f95716fa61066e53"
       }
     },
     "providers.campspot": {
@@ -31438,7 +32983,21 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "findCampgroundsByName": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
+      },
+      "digests": {
+        "findCampgrounds": "841371e481ef042a",
+        "getCampground": "0f60f21225f0819a",
+        "findCampgroundsByName": "beb91cd88c7ef5fe"
       }
     },
     "providers.canadacomputers": {
@@ -31482,6 +33041,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "5a88c38ad686b434"
       }
     },
     "providers.cancer": {
@@ -31540,6 +33102,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findCancerCenters": "8beb07d5e6f36e36",
+        "getCancerInfoSummary": "5e6472e71c4804d7"
       }
     },
     "providers.canva": {
@@ -31948,6 +33514,38 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchTemplates": "62dc6f3ef5f490be",
+        "getTemplate": "8d2a8e7553498d5b",
+        "searchPhotos": "c0d5e1d307b4df1d",
+        "getPhoto": "de4a3d79a5fc8aba",
+        "listTemplateCategories": "21687ba78a4117ef",
+        "getMyProfile": "ff537579a8526c59",
+        "searchMyDesigns": "076acdd4a6b5ed31",
+        "getDesign": "138c7bc407090e92",
+        "listFolders": "42cc5655b70148d7",
+        "listUploads": "a89ed6a120a0a072",
+        "getDesignContent": "3939087dd4a87e07",
+        "listDesignPages": "35d790e5e095d381",
+        "listFolderItems": "d9df6d6601640686",
+        "getCreator": "6029337c5e87730c",
+        "searchGraphics": "8322b7981148dd01",
+        "getGraphic": "175e0dde27d9523f",
+        "getPricing": "db27511c5dbd12b9",
+        "browseTemplates": "e5c845fcdf9bb8d2",
+        "getSharedDesign": "c8512ce37125f41e",
+        "listColorPalettes": "d150b0ecc7dfcfbe",
+        "getColorPalette": "d979e756b0f6704a",
+        "getColorMeaning": "89c1b96cb6381c39",
+        "getColorCombinations": "8c94430c31c8ed67",
+        "generatePaletteFromImage": "476529807906a211",
+        "listDesignSizes": "fef1505c9df0fea8",
+        "searchApps": "179e2b093a5988df",
+        "getApp": "420906e116886546",
+        "listPrintProducts": "7cb4afd206df670f",
+        "signup": "694ab64c48a0a44c",
+        "confirmSignup": "fe0fde650be92fd4"
       }
     },
     "providers.capitalbrands": {
@@ -31975,6 +33573,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listQuizQuestions": "32008691f43243eb",
+        "getBlenderRecommendation": "e26ec89776c6a953"
       }
     },
     "providers.capitaloneshopping": {
@@ -32032,6 +33634,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchStores": "5ba8ebf66c5d437e",
+        "getStoreRate": "2fdcbcd1a09928d1"
       }
     },
     "providers.caraway": {
@@ -32082,6 +33688,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCarawayProducts": "5e7706a67fdcc974",
+        "getCarawayProduct": "9502d573f985793a",
+        "runCarawayQuiz": "1d370e4a8d82e9ec"
       }
     },
     "providers.carepatrol": {
@@ -32105,6 +33716,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findLocalAdvisor": "2220d8d174e2c95b"
       }
     },
     "providers.carlsgolfland": {
@@ -32166,6 +33780,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "50175c5052359347",
+        "getProduct": "317e169258df15cd",
+        "priceConfiguration": "08910ccc2ad1e05e",
+        "addToCart": "71ae652d40e6b30c"
       }
     },
     "providers.carmelrealtycompany": {
@@ -32211,6 +33831,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchListings": "d0a664baa9deef7b",
+        "getListing": "697b101dc6ca6b76"
       }
     },
     "providers.carolefabrics": {
@@ -32256,6 +33880,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "dbb3353f6ae781e1"
       }
     },
     "providers.carpetlandusa": {
@@ -32287,6 +33914,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCategories": "ab48e05972a49b00",
+        "searchProducts": "28ef689d7edbba3c",
+        "getProduct": "a0317a893a3c9611"
       }
     },
     "providers.cars": {
@@ -32558,6 +34190,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "3a2d09ee9b567c1e",
+        "getListing": "9dd0e2e2cb878b96",
+        "getModelResearch": "56a9f61c336e2e2f",
+        "getVehicleValue": "7edfc38228aede36"
       }
     },
     "providers.cartebtp": {
@@ -32572,6 +34210,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "verifyCard": "fac43566e830bed9"
       }
     },
     "providers.carusohomes": {
@@ -32743,6 +34384,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCommunities": "625f5dc021106243",
+        "searchFloorPlans": "bb34fb263c6728a6",
+        "getTourAppointmentSchema": "7dc4e62c9a516942",
+        "assembleTourRequest": "5285884baa8f3a9f"
       }
     },
     "providers.casadragones": {
@@ -32782,6 +34429,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listProducts": "3953c1b937b40c9c",
+        "getProduct": "959ac9fef38ea6c0",
+        "findNearbyRetailers": "5430017bd37638f9"
       }
     },
     "providers.cascadiaseniorliving_com": {
@@ -32797,6 +34449,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSitePages": "6c45ebd9b808a302",
+        "getSitePage": "7a5e6755a3407ae0"
       }
     },
     "providers.cashbackmonitor": {
@@ -32854,6 +34510,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchStores": "a8daf1ff408f16a7",
+        "getStoreRates": "9cfc23bb4e951430"
       }
     },
     "providers.castlery": {
@@ -32891,6 +34551,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "0f89323a5e53f559",
+        "getProduct": "df8f111597af562c"
       }
     },
     "providers.caudalie": {
@@ -32988,6 +34652,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "8124ca793ea3f107",
+        "listCategories": "774b8ce4ed22f186",
+        "listCategoryProducts": "ac371d7007d6a6eb",
+        "getProduct": "54927061c1bf90f7",
+        "getProductReviews": "687e1cedcf913956"
       }
     },
     "providers.cb2": {
@@ -33063,6 +34734,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "cd610861b0eca29d"
       }
     },
     "providers.cbhhomes": {
@@ -33289,6 +34963,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchListings": "e87384adf6471535",
+        "getInquiryFormSchema": "bdc03850f4aa6295",
+        "assembleInquiry": "1e1f27b00c077f61"
       }
     },
     "providers.cbp": {
@@ -33342,6 +35021,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "waitTimes": "6f35e79e350c670b"
       }
     },
     "providers.cbs_sports": {
@@ -33370,6 +35052,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "scoreboard": "c61cc7db55c86252"
       }
     },
     "providers.cbsnews": {
@@ -33757,6 +35442,29 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listNewsletters": [],
         "listShows": []
+      },
+      "digests": {
+        "getLiveUpdates": "4235e3e64126347a",
+        "listVideos": "6a70e2f7a0d82c01",
+        "getVideo": "354e26a953aee932",
+        "getLiveStream": "b28b18a2acc1b155",
+        "search": "437be61a869a1b8e",
+        "getArticle": "7b778e39e078ffcf",
+        "listLatestNews": "6b4411b1b0b5e736",
+        "listSectionArticles": "bd75c2be5b31b0f3",
+        "listSections": "89839a58a5c1e7b4",
+        "listRssFeeds": "90fe77feec167530",
+        "listTagArticles": "37eddea59f492643",
+        "getAuthor": "21f5d08f30d1af3d",
+        "listArticlesByAuthor": "fb5b50c88bba304b",
+        "listShowEpisodes": "1b644168f0663664",
+        "listPodcasts": "3d288f21ef8c1509",
+        "listPodcastEpisodes": "e84fd9fb2047a52b",
+        "listLocalStations": "dcae604705f6a0ec",
+        "listLocalNews": "274ac22a50b2be43",
+        "getLocalWeather": "049e9e6691b42a27",
+        "listNewsletters": "f84865f52a8fd59b",
+        "listShows": "5205e0c2bf91735f"
       }
     },
     "providers.cdc": {
@@ -33801,6 +35509,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getPage": "1c024a7ec9b57796",
+        "search": "5bb7b6ff66c53f8c"
       }
     },
     "providers.cdiscount": {
@@ -33836,6 +35548,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "887657b630f24d28"
       }
     },
     "providers.census": {
@@ -34066,6 +35781,22 @@ export const VALIDATORS: ValidatorTable = {
         "vintages": [],
         "populationClock": [],
         "siteMenu": []
+      },
+      "digests": {
+        "searchTables": "8249421fc06011fd",
+        "suggest": "c73758e2585d9b3b",
+        "tableData": "ea7c55b330c5736f",
+        "tableMetadata": "86c1a87974064c01",
+        "tableLinks": "2e93b59e75af1b31",
+        "tableDownload": "e36adef24528156f",
+        "profile": "c11056a6e54c7007",
+        "profileHighlights": "d1e297b636aef048",
+        "relatedProfiles": "1c6e0311385fd3c9",
+        "locations": "6a5d372d4a253480",
+        "geographyLevels": "4c81f9a6806b369b",
+        "vintages": "970894ab07fd83a5",
+        "populationClock": "146a1c67485e6d9b",
+        "siteMenu": "720665cba52388af"
       }
     },
     "providers.census_api": {
@@ -34094,6 +35825,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "validateAddress": "6eb6471b05047170"
       }
     },
     "providers.cerebralvalley": {
@@ -34130,6 +35864,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listEvents": []
+      },
+      "digests": {
+        "getEvent": "520e1ef66737a7b5",
+        "listEvents": "203e7674abff59e5"
       }
     },
     "providers.cftc": {
@@ -34160,6 +35898,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchRules": "063353e4c647a9c7"
       }
     },
     "providers.champxpress": {
@@ -34175,6 +35916,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "eeec3951ea1fd59e",
+        "getPlanQuote": "1b0900d89374f8eb"
       }
     },
     "providers.chantecaille": {
@@ -34235,6 +35980,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFoundationQuizTaxonomy": "d0918b4e4bc170a9",
+        "matchFoundation": "cc98f77bce3f5033"
       }
     },
     "providers.chappellet": {
@@ -34267,6 +36016,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listWines": "c1008945c7dff1ed",
+        "getWine": "ea4f73662009cb08",
+        "checkShippingEligibility": "2b3a321e74d81a98"
       }
     },
     "providers.charterhomes": {
@@ -34303,6 +36057,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getScheduleVisitOptions": []
+      },
+      "digests": {
+        "searchHomes": "62df19c3ab4e7434",
+        "getScheduleVisitOptions": "866a3103d75ff14d"
       }
     },
     "providers.chase": {
@@ -34334,6 +36092,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "7be6d424e630f26a"
       }
     },
     "providers.chatgpt": {
@@ -35303,6 +37064,41 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "shareConversation": "8d097041ce936679",
+        "createProject": "3b1cd74ba90c5543",
+        "generateImage": "673ac85fee524bb4",
+        "uploadFile": "56214c8f32264e12",
+        "createGPT": "e3f7931d71b65ccd",
+        "updateCustomInstructions": "825464c461b430bc",
+        "moveConversationToProject": "1aa4c634564a1b49",
+        "sendMessage": "c3732670379e8d39",
+        "pinGPT": "7554bc07a1fc19d1",
+        "requestDataExport": "65c476172e9c47ad",
+        "rateResponse": "fcd152f288e2813c",
+        "renameConversation": "5a2b55c134b5f073",
+        "archiveConversation": "dd1d54a67d8b44e6",
+        "deleteConversation": "a5b72b6e44391032",
+        "deleteMemory": "c802ecb00dce4052",
+        "deleteSharedLink": "56abedf08ee3615a",
+        "getSharedConversation": "e147153fc11fd712",
+        "getAccount": "038f65851dea4568",
+        "searchGPTs": "447215b9f924144b",
+        "getGPT": "00038149983784da",
+        "browseGPTStore": "52418210f1dddf31",
+        "listConversations": "1c7060b3337bf402",
+        "searchConversations": "97eec09d7c6a2b44",
+        "getConversation": "62ef7cf6b7a79092",
+        "listProjects": "76b8283134dff67b",
+        "getProject": "195a67e42f69dafc",
+        "listSharedLinks": "6fc626e6253b3145",
+        "getMemories": "4bee88d6e6b81c5a",
+        "getCustomInstructions": "d6bc7f24ab6c5d37",
+        "listModels": "8fb272589741789a",
+        "listScheduledTasks": "d940c1650314a20d",
+        "listLibraryImages": "086ee573613cd83f",
+        "listMyGPTs": "0e7a9635a9217084"
       }
     },
     "providers.cheapflights": {
@@ -35655,6 +37451,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "057983b6c2ca2c23",
+        "getBookingOptions": "34ae1a29d254ff13",
+        "searchHotels": "44532dca686ab2e2",
+        "searchCars": "6161718e10d7e8f7"
       }
     },
     "providers.checkfront": {
@@ -36119,6 +37921,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findOperator": "3a0004dc5653a55c",
+        "getOperator": "bde37b51724317ea",
+        "listItems": "73d31fecedb5921e",
+        "getItem": "763d553114768b82",
+        "getAvailability": "ed0d27b1de6afb88",
+        "getBookingForm": "1fd666322dbc84a2",
+        "listCategories": "3bdd6b245f32b336",
+        "listGiftCertificates": "9a0c8dd6f315d326",
+        "getAvailabilityCalendar": "ab0b4bb1f7c9feb4",
+        "addToCart": "d16807c7d64946a8",
+        "getCart": "7260fb2eeb127e91",
+        "updateCart": "9bb7b81ed5de3a42",
+        "bookItems": "dd63f99bc03203e2",
+        "getMyBookings": "bb428a15e5df0f93"
       }
     },
     "providers.chesmar": {
@@ -36196,6 +38014,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchQuickMoveInHomes": "76ef381a184cd775"
       }
     },
     "providers.chess_com": {
@@ -36209,6 +38030,56 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "chess_comClubMembersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "club",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "chess_comCountryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "chess_comCountryClubsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -36311,6 +38182,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "chess_comTournamentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "tournament",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "chess_comUsernameArgs": {
           "k": "object",
           "props": [
@@ -36325,6 +38215,66 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "listCountryClubs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comCountryClubsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTournament": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comTournamentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCountry": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comCountryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listClubMembers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comClubMembersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listClubMatches": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comClubArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPlayerTournaments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comUsernameArgs"
+            },
+            "optional": false
+          }
+        ],
         "getRandomPuzzle": [],
         "listStreamers": [],
         "listTitledPlayers": [
@@ -36408,6 +38358,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCountryClubs": "eae56c18e4ecc082",
+        "getTournament": "9b49bdcc35bf90e5",
+        "getCountry": "ca678cb765eb9ed6",
+        "listClubMembers": "d62c9a41b7ac15cd",
+        "listClubMatches": "ae69555d32c68c74",
+        "listPlayerTournaments": "bb671873d8ce55b3",
+        "getRandomPuzzle": "5770e99c964ff16f",
+        "listStreamers": "97990350d20fabda",
+        "listTitledPlayers": "0c14454b959cf3bf",
+        "getClub": "5c935f78a593ea07",
+        "getDailyPuzzle": "5770e99c964ff16f",
+        "getLeaderboards": "13c864fd38dbee53",
+        "getPlayer": "0e3c201c371bd4eb",
+        "getPlayerStats": "376c091daeb311e1",
+        "isPlayerOnline": "c0bd098e09ccaee2",
+        "listPlayerClubs": "704ec3dc7936db22",
+        "listPlayerGames": "4c2d227bdec26625"
       }
     },
     "providers.chick_fil_a": {
@@ -36486,6 +38455,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "location": "030263033978de6e",
+        "searchLocations": "d64323dedef6ff89"
       }
     },
     "providers.chipotle": {
@@ -36509,6 +38482,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getBowlBuilder": "34ce7b35ae4fa827"
       }
     },
     "providers.chownow": {
@@ -36872,6 +38848,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findRestaurant": "c7ad6aa2741a22ea",
+        "searchRestaurants": "c2d99e7154468d44",
+        "listRestaurants": "138b03adf992d627",
+        "getRestaurant": "8f7d9f7212b656bf",
+        "getPickupTimes": "c6cc735a77470760",
+        "getRestaurantHours": "b226ac7bb0191ffd",
+        "getMenu": "507695696c4e3203",
+        "listMenuCategories": "c68fdf1705f3db5b",
+        "listMenuItems": "373169f96057e6c2",
+        "getMenuItem": "8d22676a0f8ccd78",
+        "listOrders": "1a09fe2985323f09",
+        "getOrderDetails": "a69c2beea91b3bee",
+        "listSavedPaymentMethods": "9933902fb438d481",
+        "getRewardsBalance": "d5d442c84c214692",
+        "validateOrder": "d7d1401ed48116c1"
       }
     },
     "providers.chriscraft": {
@@ -36959,6 +38952,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchModels": "4947aa2fe363d78b",
+        "getConfigurator": "65df7fa10da8ea36",
+        "priceConfiguration": "b165308af6fc05ee"
       }
     },
     "providers.christianbrothersauto": {
@@ -37040,6 +39038,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getShopDetails": "abca5dee7b8697aa",
+        "checkAppointmentAvailability": "73ab8b34c3daa6da"
       }
     },
     "providers.christydawn": {
@@ -37054,6 +39056,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "cea741bf843d5054"
       }
     },
     "providers.chromium_googlesource_com": {
@@ -37132,6 +39137,11 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listRepos": []
+      },
+      "digests": {
+        "getFile": "a6b42f9785db38ac",
+        "listDirectory": "18579d7317e03af9",
+        "listRepos": "07c8200f9cd722c5"
       }
     },
     "providers.cigna_directory": {
@@ -37177,6 +39187,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProviders": "781e561b3b94cd4a"
       }
     },
     "providers.circl": {
@@ -37221,6 +39234,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getCve": "2e9e7612680defa4",
+        "search": "cce226ef350c6bb4"
       }
     },
     "providers.classichome": {
@@ -37260,6 +39277,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "5d6d577bea14c3b2",
+        "getProduct": "7b043dea091c9ad6",
+        "addToCart": "d2ee8802e812af8e"
       }
     },
     "providers.classicrockfab": {
@@ -37299,6 +39321,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listAppointmentTypes": "9aeea654e7bb723d",
+        "checkAvailability": "637cea4250d15064"
       }
     },
     "providers.classpass": {
@@ -37855,6 +39881,35 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "2cd29e6416f48701",
+        "getStudio": "ae8ff732bac06691",
+        "getSchedule": "03b4324bc95a20e8",
+        "findStudio": "7561212c67a49adf",
+        "checkAvailability": "667f1a0406816db1",
+        "findLocation": "278174a914397acf",
+        "listStudioClasses": "9e7784379a1d2a82",
+        "getClass": "476cbc0384a6dac8",
+        "getStudioReviews": "ce218cecaf539d2c",
+        "getClassReviews": "96eb0b3ca4c9bce1",
+        "listStudioBranches": "794aaec55912fa22",
+        "listSimilarStudios": "1790125f6900827c",
+        "listCategories": "e5f38cefa10b33a0",
+        "listMarkets": "8cbf37ab37aeb78b",
+        "getMyProfile": "c053906613132246",
+        "getCreditBalance": "c053906613132246",
+        "listMyReservations": "c053906613132246",
+        "getBookingQuote": "c704806371567822",
+        "getReservation": "53119ef3495a0528",
+        "getMySubscription": "c053906613132246",
+        "getBillingHistory": "c053906613132246",
+        "listFavorites": "c053906613132246",
+        "listOnDemandVideos": "c053906613132246",
+        "getVideo": "562ea76dd60dc562",
+        "addFavorite": "d59ec85f23f8c19d",
+        "removeFavorite": "33bf684c434ad02f",
+        "checkIn": "53119ef3495a0528"
       }
     },
     "providers.claude": {
@@ -39409,6 +41464,44 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getSharedConversation": "e8eaf2047d6d6995",
+        "getPublishedArtifact": "b01359383ba984c3",
+        "getAccount": "2fbc34402e95b848",
+        "listConversations": "8eb51f1bf0aa68e9",
+        "searchConversations": "76872635a5092b6d",
+        "getConversation": "e3ad51e364d64e8b",
+        "getUsage": "bf0134b61f8ee1bc",
+        "listProjects": "b3f5e478ae97e349",
+        "getProject": "54cde784d094e497",
+        "listArtifacts": "b485cff82a082f34",
+        "listSharedLinks": "e9e94a2f7ca2e670",
+        "getMemory": "8ab9c1c09adf613e",
+        "getPreferences": "8715234c1409df8c",
+        "listModels": "053f89cd5c8f2d3f",
+        "listConnectors": "c1ba3e694abd0de3",
+        "listSkills": "def8a454ab97c3ba",
+        "sendMessage": "1d5616af66b19593",
+        "continueSharedConversation": "4f1b06deecc7a34e",
+        "rateResponse": "4ada92429789243f",
+        "renameConversation": "e74710cb43ae73b4",
+        "starConversation": "e1233b2adfdb9cf0",
+        "moveConversationToProject": "cf7949da5a34ea5a",
+        "shareConversation": "bc476d34340030f6",
+        "deleteSharedLink": "618220b9d0435289",
+        "createProject": "c44caa35427c71b5",
+        "updateProjectInstructions": "a4a06b7d1f495377",
+        "addProjectDocument": "f7a3804b933c5ca0",
+        "deleteProjectDocument": "5d06af75af9c9c79",
+        "updatePreferences": "6d74b3ae0994f956",
+        "updateProfile": "3f2e7bb024bc5671",
+        "updateMemory": "ef51b9fbcc298dc4",
+        "uploadFile": "c50b7121c6532063",
+        "publishArtifact": "f377c55f4411d971",
+        "deleteConversation": "39a1fb05cfc30e49",
+        "signup": "a8dbcdb15e613084",
+        "confirmSignup": "1fa868f16ea7d314"
       }
     },
     "providers.claude_com": {
@@ -39424,6 +41517,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      },
+      "digests": {
+        "getDoc": "8fae8e19ccfd575a",
+        "listDocPages": "c43466825b817973"
       }
     },
     "providers.claude_support": {
@@ -39439,6 +41536,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listArticles": []
+      },
+      "digests": {
+        "getArticle": "f4fd3cd8bf4f0685",
+        "listArticles": "95432dc24a12aed5"
       }
     },
     "providers.claudemarketplaces_com": {
@@ -39462,6 +41563,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getListing": "83f22616edba42d3",
+        "searchListings": "4546699b692061f2"
       }
     },
     "providers.clboyd": {
@@ -39546,6 +41651,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchUsedEquipment": "0cf1c4b9983f1c8c"
       }
     },
     "providers.cleanairlawncare": {
@@ -39596,6 +41704,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkServiceArea": "67670169ea6dd43b",
+        "getAvailableSlots": "c8dc8ba7e03d1da9"
       }
     },
     "providers.cloudbeds": {
@@ -40148,6 +42260,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProperty": "f1db44db798f1092",
+        "searchRooms": "3ae40f49f7714ddc",
+        "getAvailabilityCalendar": "8bded4832a576015",
+        "getRoomType": "3836b0d2c15757db",
+        "listAddons": "543e80c3a83e0414",
+        "getBookingQuote": "f8fe279a7d338eae",
+        "getPolicies": "35b7067ac097a30a",
+        "getOrganization": "e5b50bdcdc1d5060",
+        "searchOrganizationAvailability": "dd3777c8b0a2a3fc",
+        "bookRoom": "4236723351156685",
+        "getReservation": "a911a7997c45284e"
       }
     },
     "providers.cloudflare": {
@@ -40164,6 +42289,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "comparePlans": "e29b8c0663a3875c",
+        "compareTeamsPlans": "e29b8c0663a3875c",
+        "searchDomainAvailability": "af80cfd77a8876ea"
       }
     },
     "providers.clubchampion": {
@@ -40225,6 +42355,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listStudios": "e1216bb4fff4f1ee",
+        "getFittings": "8ca734fc2dd6bab1",
+        "listFitters": "86b2d6f197c7d976",
+        "checkAvailability": "ba5725d7e02fbdd6"
       }
     },
     "providers.clubpilates": {
@@ -40781,6 +42917,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findStudios": "733dcc6b5ca55f40",
+        "getStudio": "e2fd35e99e9d1a58",
+        "listClasses": "c5f41e2c582502c0",
+        "getClass": "ac93b238c6dc6cd6",
+        "listPricing": "5a6bef99e0db23d0",
+        "listClassTypes": "1d7608ca98c5d90a",
+        "listClassCategories": "e31b8e63d03e88ed",
+        "listInstructors": "99f2ad993b220b13",
+        "getMyProfile": "42efb3e5f80fdb22",
+        "getMyMembership": "4e675d319bb1c51c",
+        "listMyBookings": "2c7dcccaf2696baf",
+        "bookClass": "3f756204021a01b3",
+        "joinWaitlist": "5ff1a3ed779a7951",
+        "cancelBooking": "07d6b378611b6d9c",
+        "getClassPoints": "ae6f8f4da602d1ed",
+        "updateProfile": "e07829e1583809e0",
+        "favoriteInstructor": "40d0c9fb23a7b6e7"
       }
     },
     "providers.clubready": {
@@ -41452,6 +43607,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listBrands": "cb1a20f74dff1fc1",
+        "findStudios": "c8003afb13e7dacf",
+        "getStudio": "c62d3e285f23e3c9",
+        "listClasses": "8231b66e2133b54c",
+        "getClass": "d28fe6291cf4cc14",
+        "listPricing": "94b15366f66bf87d",
+        "listServiceTypes": "d66c7fb05a7763c6",
+        "listServiceAvailability": "49d099e515216b83",
+        "listClassTypes": "52904c8b6117f4d5",
+        "listClassCategories": "b727e331b0d430eb",
+        "listInstructors": "e1dc19d3e4387ed5",
+        "getMyProfile": "f015f328ad7cf240",
+        "getMyMembership": "f015f328ad7cf240",
+        "listMyBookings": "f015f328ad7cf240",
+        "getWorkoutStats": "f015f328ad7cf240",
+        "bookClass": "fcf7a532d3350d33",
+        "joinWaitlist": "fcf7a532d3350d33",
+        "cancelBooking": "bf0f895bcb743159",
+        "bookService": "fc71c0425e80b7a4",
+        "getClassPoints": "f015f328ad7cf240",
+        "listInvoices": "f015f328ad7cf240",
+        "updateProfile": "f9984c38a6390902",
+        "favoriteInstructor": "aeeb956bc64a95e3"
       }
     },
     "providers.clutch": {
@@ -41503,6 +43683,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getCompany": "b834575cd2f4318d",
+        "search": "cf690d4676b8a602"
       }
     },
     "providers.cnbc_com": {
@@ -42054,6 +44238,32 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getWatchlist": "2b03fe6c8cbe19da",
+        "addToWatchlist": "599d879ee7b4dd76",
+        "removeFromWatchlist": "e03ccd293ee462ab",
+        "followTopic": "0a545673daab727e",
+        "unfollowTopic": "c75c75cd96faefca",
+        "subscribeToNewsletter": "3c171f6e4fcba8fe",
+        "unsubscribeFromNewsletter": "3c171f6e4fcba8fe",
+        "getQuote": "ace131535b9b9a90",
+        "listQuotes": "f38a2084f8918f31",
+        "listMarkets": "5ef42ab135f4193b",
+        "listNews": "5c07aa81385aedff",
+        "search": "0b4e3eccd6e41f03",
+        "getArticle": "1875f162de959685",
+        "getMarketData": "1d216583f06e0b5c",
+        "listSectors": "eab8a8975c461443",
+        "listCommodities": "5ef42ab135f4193b",
+        "listCurrencies": "5ef42ab135f4193b",
+        "listCategories": "b884a1c3e3048c24",
+        "getAuthor": "5938afff1d5c8e82",
+        "listArticlesByAuthor": "51af20b2f23ace01",
+        "getVideo": "aa230820fa709252",
+        "listVideosByCategory": "e9fabfbaf9fd7172",
+        "signup": "85ffbc2ec445782f",
+        "confirmSignup": "c7068eecccd47f67"
       }
     },
     "providers.cnn": {
@@ -42250,6 +44460,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchArticles": "6535b46c5f2ab44a",
+        "listHeadlines": "8c677708e6ee44c5",
+        "listCategories": "9f7c9c52146939e3",
+        "listSectionHeadlines": "b7a2c63cab323f2e",
+        "getArticle": "84365ee7c3447e0c",
+        "listVideos": "8178e4f2112dc5f6",
+        "getVideo": "1be770ff9f391710",
+        "listTrendingTopics": "c777db5be302e431",
+        "getMarketsData": "996a8e691dc76795",
+        "listNewsletters": "ddfd52b31b2a9e62",
+        "followTopic": "09e87c8691ebcdb3",
+        "unfollowTopic": "c43923d3e95edd95",
+        "listMyNews": "920b8d77ef65f2a9",
+        "subscribeToNewsletter": "93455b880eef2ab7"
       }
     },
     "providers.coast": {
@@ -42257,6 +44483,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getFleetCardPricing": [],
         "getFuelRebate": []
+      },
+      "digests": {
+        "getFleetCardPricing": "e931d71495819c24",
+        "getFuelRebate": "2a836fb6f8bba68b"
       }
     },
     "providers.code_claude_com": {
@@ -42272,6 +44502,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      },
+      "digests": {
+        "getDoc": "742b5a426debaada",
+        "listDocPages": "69d5938f0e690f49"
       }
     },
     "providers.coingecko": {
@@ -42302,6 +44536,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getPrice": "b381e47dbcea8c74",
+        "searchCoins": "434b49dcb0b8e148"
       }
     },
     "providers.compass_living": {
@@ -42316,6 +44554,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listCommunities": "c5045d7c8f6e4666"
       }
     },
     "providers.completehomewarranty_com": {
@@ -42331,6 +44572,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPlans": "b091385a4c4d1324",
+        "getPlan": "6ca0f858c11caa52"
       }
     },
     "providers.concur": {
@@ -42416,6 +44661,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listReports": "2b8d306ec0dd04d4",
+        "getReport": "ac2ca8b8d9f02333"
       }
     },
     "providers.consultnet": {
@@ -42458,6 +44707,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "291ae875270b9670"
       }
     },
     "providers.context_dev": {
@@ -42544,6 +44796,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "e8c5e42522cb0966",
+        "crawl": "7476f856af1ffb61",
+        "retrieveBrand": "0757dd2da18a9deb"
       }
     },
     "providers.coops": {
@@ -43186,6 +45443,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listStations": "f77ed9e7a8324b2d",
+        "getStationMetadata": "6e37d26f4b400fd5",
+        "getTidePredictions": "29f52df7dab5c899",
+        "getWaterLevel": "e5bd9ece43ac2943",
+        "getHighLowTides": "d3d1d632f079f7b0",
+        "getCurrents": "205d9f14c9b71f1f",
+        "getCurrentPredictions": "f0dd0cb3827914a5",
+        "getStationDatums": "a4b4550c32f80b15",
+        "getStationHarmonicConstituents": "c0ea8f9892a79a50",
+        "getMeteorologicalObservations": "b360b61f5abbe3fb",
+        "getSeaLevelTrend": "f6388b008dd14bde",
+        "getHighTideFloodingHistory": "160c52ca1ad26b65",
+        "getMonthlyMeanWaterLevel": "145217734193ae94"
       }
     },
     "providers.corepoweryoga": {
@@ -43707,6 +45979,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listStudios": "de6a3095effe3f52",
+        "getStudio": "d580475ab00b4d86",
+        "getSchedule": "e93cc562176c0d3e",
+        "listSchedules": "fc2e0d5ad509773c",
+        "listClasses": "eed50730fbc0e37d",
+        "getClass": "6a0e16f7b85d67bc",
+        "listMembershipPrices": "d228ca2f9fb6c104",
+        "listClassPackPrices": "40f703eb6a0c93df",
+        "listTeachers": "2055c5d2bf0c1f05",
+        "getTeacher": "94a0f0374d3d6a1d",
+        "listWorkshops": "90c79f8bba14c1d3",
+        "getWorkshop": "a1a8124497e52fc6",
+        "listOnDemandVideos": "8ebf8d05eb840952",
+        "getOnDemandVideo": "b2ebd54b2ffc426a",
+        "listChallenges": "2152890125e93d43",
+        "getChallenge": "b9de9c2e0d9d6f27",
+        "getProfile": "791758b8e608cb26",
+        "listMyBookings": "41d8a850932c87b4",
+        "listMyVisits": "2aa956e1a21a9fe6",
+        "listMyMemberships": "c45b6002431a886c",
+        "listMyClassPacks": "95922392d0e96470",
+        "getMembership": "fe817895072126a3",
+        "getClassPack": "f8cfc81c930a1b56"
       }
     },
     "providers.cosign": {
@@ -43774,6 +46071,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "22912b08568d03d9",
+        "job": "1b5bbe1ed42301e1"
       }
     },
     "providers.costco": {
@@ -43813,6 +46114,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "bd449556c5b5adbe",
+        "listGiftCards": "8667b22083403c66"
       }
     },
     "providers.countycourt_vic_gov_au": {
@@ -43846,6 +46151,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "dailyList": "5e344dec9b14128c"
       }
     },
     "providers.couponfollow": {
@@ -43860,6 +46168,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getCodes": "7d3d68c03110f1bb"
       }
     },
     "providers.craigslist": {
@@ -44500,6 +46811,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getListing": "89bce121f564ce99",
+        "getAccountHome": "5f4cef9256124600",
+        "getListingImages": "931bc6fe270528ec",
+        "getListingMap": "7798f555937b2921",
+        "listAreas": "824c1232fcc83fb3",
+        "listCategories": "fbdcd8d7c97c5925",
+        "searchForSale": "d99ddcb487199ae3",
+        "searchHousing": "475cf31ba8aa3966",
+        "searchNearby": "6b7dedc17984375d",
+        "searchJobs": "6db29540e622c5bd",
+        "searchListings": "d99ddcb487199ae3",
+        "signup": "d30cbf356a381642",
+        "confirmSignup": "decd77df4695d698"
       }
     },
     "providers.crateandbarrel": {
@@ -44575,6 +46901,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "bd0d9caaba7108fb"
       }
     },
     "providers.crecipr": {
@@ -44598,6 +46927,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCredenciados": "ebd60acaa2e04097",
+        "verifyBroker": "7f369c74b1570218"
       }
     },
     "providers.credibly_com": {
@@ -44605,6 +46938,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getApplicationForm": [],
         "getEligibilityRequirements": []
+      },
+      "digests": {
+        "getApplicationForm": "2e4307a24f6d73b2",
+        "getEligibilityRequirements": "a626e3ae4eaff027"
       }
     },
     "providers.cruiselakegeneva": {
@@ -44658,6 +46995,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listTours": "0b2c2a25add77f2a",
+        "getTour": "61e4cd1e8e428537"
       }
     },
     "providers.crunchbase": {
@@ -44764,6 +47105,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "recentFundingRounds": "35dd4ebed37ac072",
+        "searchNews": "44ac7c8164c4a041",
+        "getOrganization": "4cc9c286739ce444",
+        "getFundingRounds": "1198090f86f3f298",
+        "searchOrganizations": "a20a8e84fb31f389"
       }
     },
     "providers.crutchfield": {
@@ -44792,6 +47140,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "63099ede28627649"
       }
     },
     "providers.culturefly": {
@@ -44830,6 +47181,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCultureFlyBoxes": "ac6dcbb1e6acfe47",
+        "getCultureFlyBoxOptions": "aed99d565871986b",
+        "buildCultureFlyCheckoutLink": "b922f6024d0fe9da"
       }
     },
     "providers.curiocity": {
@@ -44858,6 +47214,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listEvents": "92e6feefb8a1372e"
       }
     },
     "providers.currency_exchange": {
@@ -44879,6 +47238,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getRate": "ac650cc3f9410990"
       }
     },
     "providers.currys": {
@@ -44942,6 +47304,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listClearance": "a49bc41e4e542f16",
+        "search": "919caaa8f5c41308"
       }
     },
     "providers.cyberpowerpc": {
@@ -44976,6 +47342,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listConfigurators": "5581b11ec63dba06",
+        "getConfigurator": "a9fc394ccd1e4395",
+        "priceBuild": "fed1e6f13262b127"
       }
     },
     "providers.dahlconsulting": {
@@ -45027,6 +47398,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "d94d119cefbc112a",
+        "getJob": "d9477c965aa278d6"
       }
     },
     "providers.dailymail": {
@@ -45332,6 +47707,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listSections": "dff11b0a2228d77a",
+        "browseSection": "497b3cfacad3dcfc",
+        "listLatest": "a522cc2828dbb233",
+        "getArticle": "6792436fc1ce61b3",
+        "searchArticles": "0f5ee3b8f78b68e7",
+        "listVideos": "a81d7c5d9fbd6c29",
+        "getVideo": "65469642a16146fc",
+        "getAuthor": "a75d4a73cb85d034",
+        "listTopics": "d5bdd26734f4d991",
+        "browseTopic": "18ead2e95090c117",
+        "getHoroscope": "c1521eab94be5aae",
+        "listGames": "5b98d57754db2de9"
       }
     },
     "providers.dailymotion": {
@@ -46715,6 +49104,47 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchVideos": "9e4653a309799f26",
+        "getVideo": "54eb751bf25f8f2f",
+        "searchChannels": "2190177848541c26",
+        "getChannel": "c6f41d22e0b31972",
+        "listChannelVideos": "755cf33295746bc3",
+        "listChannelPlaylists": "19575fa8a64cd4c7",
+        "getPlaylist": "d590120ac78d8cba",
+        "listPlaylistVideos": "d2dccb9ef95d9b98",
+        "searchPlaylists": "6d7d9ba0661df3aa",
+        "listTrendingVideos": "81641e2eeabcf5c1",
+        "listCategories": "6c2fb8557f39ed65",
+        "listCategoryVideos": "181f3469d7ee79f0",
+        "listLiveStreams": "2fc2f6f14152aa26",
+        "listHashtagVideos": "3d8e5f6ff571856b",
+        "listRelatedVideos": "919121a6dff19c27",
+        "listCaptionTracks": "eb2693179ac2e359",
+        "getTranscript": "3a4958d825e3358a",
+        "getPlayback": "4481bf91f3e5c5f5",
+        "listStreamFormats": "e84fb495b9b7c299",
+        "getMyProfile": "520a28ff41e540a2",
+        "likeVideo": "11ff87536dd841e7",
+        "followChannel": "7bb4d456ceea50a3",
+        "listMyLikedVideos": "87e69401b813f149",
+        "listMyVideos": "67f4e21a4342b9a6",
+        "listFollowedChannels": "5745d35bd8bd4003",
+        "addToWatchLater": "49eb157cc26a9528",
+        "listWatchLater": "f7d7c080d19f6f94",
+        "listWatchHistory": "67787f7dd57745ed",
+        "listFollowingFeed": "9fdb4324d5ce393d",
+        "addToPlaylist": "1bf81b03feafe211",
+        "uploadVideo": "07e2754e13925a61",
+        "updateVideo": "085325b8107e9953",
+        "updateProfile": "fb76553dfb2811c3",
+        "deleteVideo": "429c9090c45a3c1c",
+        "deletePlaylist": "4d3fb4f7dee01580",
+        "createPlaylist": "178d1043f0aa85bf",
+        "listMyPlaylists": "da95be67e2039dfa",
+        "signup": "ce993cba872f7e89",
+        "confirmSignup": "06c19fd91db4214a"
       }
     },
     "providers.dangotecement": {
@@ -46783,6 +49213,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findDistributors": "9ceef03c36482e7f",
+        "searchNews": "dc20ed9c44a97c1b"
       }
     },
     "providers.dansons": {
@@ -46798,6 +49232,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listRegisterableProducts": "0de1d08317b4c508",
+        "identifyProduct": "3ea0b07fca631b2a"
       }
     },
     "providers.dat": {
@@ -46855,6 +49293,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "loadToTruckRatio": "8ad0bbef8384256d",
+        "nationalSpotRates": "36fe5d3f0a70d8d4",
+        "rateTrend": "0ec4d937fd9a4678"
       }
     },
     "providers.data_cms": {
@@ -46951,6 +49394,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchDatasets": "e5bbfe414b2085b6",
+        "getRows": "9c13813fba803b19"
       }
     },
     "providers.data_medicaid": {
@@ -47144,6 +49591,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchDatasets": "5fbabd20973ca9ee",
+        "getDataset": "fb602d9ec6231428",
+        "queryDataset": "1999169f2ab0c491"
       }
     },
     "providers.datareportal": {
@@ -47201,6 +49653,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findReports": "0969731d7c6136ef",
+        "getReport": "8324e3d042694386"
       }
     },
     "providers.davidsonhomes": {
@@ -47234,6 +49690,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listRegions": "edcaa0a1af2bc728",
+        "getRegion": "52512469e6171026",
+        "getCommunity": "92743a6d31c30efa",
+        "getHome": "4906c02b69221f16"
       }
     },
     "providers.dblp": {
@@ -47286,6 +49748,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchPublications": "0548e6255618c3df",
+        "searchAuthors": "8a0ee8872561518a"
       }
     },
     "providers.deangroup": {
@@ -47379,6 +49845,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listProperties": "f570b18538f0c8c5",
+        "searchAvailability": "efc47a20eb94fecd",
+        "getRateCalendar": "03bb5c3293c92f94"
       }
     },
     "providers.decked": {
@@ -47456,6 +49927,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchFits": "49dcd496eac11188",
+        "getVehicleClass": "90408f4db9a58c3f",
+        "resolveFitment": "34ee73193764a64a",
+        "priceCabSideOption": "e017384a8fff0fc0"
       }
     },
     "providers.decksdirect": {
@@ -47517,6 +49994,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "ae960b51d174d62e",
+        "getProduct": "04162b89fc8c5a3c",
+        "priceConfiguration": "bd1e379b75ac821e",
+        "addToCart": "eae4cdaa6a8f7ba0"
       }
     },
     "providers.deepmind": {
@@ -47574,6 +50057,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listPublications": "a395c0e79baa6466",
+        "listBlogPosts": "f7273b78b3ca35da"
       }
     },
     "providers.defillama": {
@@ -47597,6 +50084,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "protocolRaises": "27690b9fda2a7aee"
       }
     },
     "providers.delaware_corps": {
@@ -47639,6 +50129,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchEntity": "1d71b885d785f7bb"
       }
     },
     "providers.dell": {
@@ -47977,6 +50470,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "12d485386f3078de",
+        "listProductCategories": "a542603b1b4c2c10",
+        "getProduct": "2b9c7b2645b4182d",
+        "listDealProducts": "de3ecebd3c021d35",
+        "searchSupport": "77c2f121662b341f",
+        "getForumThread": "dea652c1e7baa30e",
+        "getSupportArticle": "478ada95c0c9b8ce",
+        "listSupportCategories": "106120df11277b39",
+        "searchForumThreads": "847958a9ec3217d7",
+        "listMyOrders": "eb830ff28e10be6e",
+        "getOrderDetails": "a5187760dd96e349",
+        "listMySavedCarts": "c33e3ed884e0a7d8",
+        "getSavedCartDetails": "2e506d0a915a6239",
+        "listMyRegisteredProducts": "a410b90e9c28ff04",
+        "getRegisteredProductDetails": "b2ea606474bc3fdc",
+        "getProductDrivers": "7029cc1e109a51bb"
       }
     },
     "providers.deltadentalma": {
@@ -48058,6 +50569,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "lastUpdated": []
+      },
+      "digests": {
+        "search": "29518a4e59c4ce48",
+        "lastUpdated": "9e3a1007f2f996fe"
       }
     },
     "providers.dentalplans": {
@@ -48081,6 +50596,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "90e0cbf07f0297a4",
+        "getPlan": "94607775ca7288fd"
       }
     },
     "providers.deutschepost": {
@@ -48104,6 +50623,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getDialogpostRates": "5d710474ba057dd5"
       }
     },
     "providers.developer_x_com": {
@@ -48143,6 +50665,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getDocPage": "5f85af4ddd51b3fe",
+        "listDocPages": "9702d268134d4ebe",
+        "searchDocPages": "cfd021e2281943f6"
       }
     },
     "providers.developersopenai": {
@@ -48171,6 +50698,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getDocPage": "21f4edb6c451794b"
       }
     },
     "providers.deviantart": {
@@ -49063,6 +51593,34 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchDeviations": "bc9c03cf03a0e190",
+        "getDeviation": "640d4ee1708f834c",
+        "getUserProfile": "83d15f03e79cd054",
+        "getUserWatchers": "2cefb6d19b8f0bb2",
+        "getUserGallery": "b21850a72fd0f5a5",
+        "listGalleryFolders": "f111fcde86f3bb39",
+        "getUserFavourites": "b21850a72fd0f5a5",
+        "getUserPosts": "f125400e40a43370",
+        "getDailyDeviations": "bd49b7f7e5eb924f",
+        "getRelatedDeviations": "e571beaf3819c8a4",
+        "searchShop": "1e5accbc8919d52a",
+        "suggestTags": "ba87845eac705dbd",
+        "browseTag": "7028c176e931cebf",
+        "getComments": "3998523b615913b3",
+        "favouriteDeviation": "44da5eb748c426e1",
+        "unfavouriteDeviation": "44da5eb748c426e1",
+        "postComment": "48bbefc4705c906f",
+        "watchUser": "daa1ea0104dd7739",
+        "unwatchUser": "daa1ea0104dd7739",
+        "getWatchFeed": "fb81c2ad20fcede6",
+        "getNotifications": "1dc482f74c7d0c43",
+        "listNotes": "0e617da8f218fd0e",
+        "sendNote": "17761fa045f0de5e",
+        "submitDeviation": "e151d16cfec235ee",
+        "updateDeviation": "efb41c5380581912",
+        "updateProfile": "4b0b959c2b8e639c"
       }
     },
     "providers.devto": {
@@ -49121,6 +51679,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchArticles": "109778552a628b64",
+        "getProfile": "da7e59461ae32e22"
       }
     },
     "providers.dhl": {
@@ -49257,6 +51819,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getQuote": "3c3bbd4fc7dc66ec"
       }
     },
     "providers.dice": {
@@ -49280,12 +51845,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "7a0bdebadc25cd02",
+        "getJob": "c877e5d3a6304342"
       }
     },
     "providers.dickssportinggoods": {
       "defs": {},
       "functions": {
         "findStores": null
+      },
+      "digests": {
+        "findStores": "38d69466adb4e3c6"
       }
     },
     "providers.dignitymemorial": {
@@ -49337,6 +51909,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchObituaries": "43ab5e3c49b3eac5",
+        "getObituary": "66bc6c3f6fc4f119"
       }
     },
     "providers.dillards": {
@@ -49523,6 +52099,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "eb4dff5184565dca",
+        "checkStock": "caa9c82c24cc6cd2",
+        "getProduct": "64428a1f04ad799a",
+        "searchRegistry": "fc2e8987d92d5699",
+        "findStores": "6c008585ae9ceb16"
       }
     },
     "providers.direct_book": {
@@ -50033,6 +52616,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProperty": "bac21974359b3028",
+        "getProperty": "d7444f113cd0d283",
+        "getPolicies": "b42e9394b5b3c243",
+        "listRoomTypes": "c6eea46dd32f7297",
+        "checkAvailability": "33ba9cacd49cb246",
+        "getRoomRates": "066e703a8cccadc6",
+        "checkPromoCode": "16b48bda2b76bd39",
+        "listExtras": "86bb165968063f7a",
+        "getReservation": "8a974bd7e62b65b3",
+        "initiateBooking": "859f9191c5aa16eb",
+        "cancelReservation": "a6a237afe5fc17ec",
+        "sendEnquiry": "20913d0d8eeb13b9"
       }
     },
     "providers.discogs": {
@@ -50309,6 +52906,18 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": true
+            }
+          ]
+        },
+        "DiscogsListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
             }
           ]
         },
@@ -50762,7 +53371,67 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listWantlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsUserPagedArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listUserLists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsUserPagedArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsListArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listUserSubmissions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsUserPagedArgs"
+            },
+            "optional": false
+          }
         ]
+      },
+      "digests": {
+        "searchDatabase": "870cd24baabf0f69",
+        "getArtist": "182c69bcdd70b8a7",
+        "listArtistReleases": "cc956ec80384620e",
+        "getLabel": "3b13bcef8304b289",
+        "listLabelReleases": "8b3bf2d7cbc1691c",
+        "getRelease": "c4f75d4c53c127ad",
+        "getMaster": "46320d1a30dfb91b",
+        "listMasterVersions": "66c6e701e65d0a41",
+        "getReleaseRating": "7a7d281386bed7eb",
+        "getUserProfile": "1f15a2680324376b",
+        "listSellerInventory": "7955dbb8a0ef27e5",
+        "listCollectionFolders": "2f1d5d5fd88fadea",
+        "listCollectionItems": "ebf42f36e3bfe4c2",
+        "listUserContributions": "a0b163253cbbab36",
+        "listWantlist": "ca59cf6aac0a6825",
+        "listUserLists": "0909a1233c201259",
+        "getList": "8df928b5883a4072",
+        "listUserSubmissions": "7b5f81e494cba5fe"
       }
     },
     "providers.discord": {
@@ -52239,6 +54908,58 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listDocPages": "794422fc90f394ef",
+        "getDocPage": "fddfeaafece3f537",
+        "searchServers": "5e8475fa007be9dc",
+        "listServerCategories": "4a41a515bdcfb663",
+        "listServers": "b42b7bbb4ba60659",
+        "getServer": "a9ffb5bddbbfd9a4",
+        "getInvite": "de496b3fb74478b2",
+        "listServerAnnouncements": "d3598b9c7e187bf4",
+        "getAnnouncement": "61a48be18ca4c972",
+        "listTrendingGames": "9ab72b8e3be61082",
+        "getGame": "9efaeecb8fa5bafd",
+        "listBlogPosts": "9ca061a43d0cd82e",
+        "searchApps": "c1f5721d1f14fee1",
+        "getApp": "948bccc036d0ea70",
+        "listAppCategories": "76b45462e6bdbc20",
+        "listFeaturedApps": "77e8ca397843a316",
+        "listSimilarApps": "e8ea4a47c6a8d59e",
+        "getMyProfile": "927bece30313f871",
+        "listMyServers": "c7f37cbc3965e987",
+        "listMessages": "f77881645943d597",
+        "listChannels": "bfe07c2254839890",
+        "listDirectMessages": "a33b5705065bfe7b",
+        "listFriends": "33dd10faf7716fa0",
+        "listFriendRequests": "9b3234c6a9892b24",
+        "getUserProfile": "8edf807585fa9a77",
+        "listMentions": "d7aa0f8f27330579",
+        "listPinnedMessages": "60d1c79eb21e870e",
+        "listThreads": "58deec55759ffc49",
+        "searchServerMembers": "a9860ad2c1511450",
+        "listServerEvents": "6e27a0fa6fe380b4",
+        "sendMessage": "a259ff67bf92b2a1",
+        "sendDirectMessage": "1dcec1f09918bfdb",
+        "addReaction": "8e66a50b2087235a",
+        "removeReaction": "8e66a50b2087235a",
+        "editMessage": "64a09bc6ef5fc232",
+        "deleteMessage": "b342835c49b9d22b",
+        "joinServer": "4cdfb88e74429ea3",
+        "leaveServer": "e8b19d8ebdc2ed4b",
+        "createServer": "a23fc8e16c05b333",
+        "createInvite": "e6fa5454a0896af5",
+        "sendFriendRequest": "aa07a369dba2ae1e",
+        "acceptFriendRequest": "772689bc4827ede9",
+        "removeFriend": "772689bc4827ede9",
+        "blockUser": "772689bc4827ede9",
+        "updateProfile": "c09496b963b73539",
+        "setAvatar": "261bc4b2d6ec422c",
+        "setStatus": "5552cde1dfef3ac0",
+        "createThread": "0f2920b30a1fa5a6",
+        "listQuests": "c7f990fc04dcd0c3",
+        "searchMessages": "0efadf0ca04a5d04"
       }
     },
     "providers.discounttire": {
@@ -52451,6 +55172,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "aad52d9ce82e67e2",
+        "checkStock": "da02a3d0d44c9378",
+        "searchTiresBySize": "6bb064bd069429ca"
       }
     },
     "providers.disney": {
@@ -52510,6 +55236,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getTicketPrice": "d999294a831accc8"
       }
     },
     "providers.disney_plus": {
@@ -52619,6 +55348,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getNewThisMonth": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "region",
+                  "schema": {
+                    "k": "literal",
+                    "v": "US"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getTop10": [
           {
             "name": "args",
@@ -52666,6 +55414,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getArticle": "b365e59c1d387f96",
+        "listArticles": "51b2ba5b9be76a38",
+        "getPlans": "cc36ad468339d470",
+        "getEpisodes": "010aa6d38d860567",
+        "getNewThisMonth": "c9a6dcb923b3926b",
+        "getTop10": "9b8041c42d26e756",
+        "getTitle": "97d4d5d0cf62d7a2",
+        "searchTitles": "23d5125a177ad496"
       }
     },
     "providers.dmv_virginia_gov": {
@@ -52719,6 +55477,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchLocations": "9541a4b32052aa5b"
       }
     },
     "providers.dominos": {
@@ -52868,6 +55629,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "categories": "ea6bc388ca517880",
+        "category": "e4a5b10205d93047",
+        "product": "fad3ff06b91052df",
+        "searchStores": "4aa660f41746c2be",
+        "store": "6c7ffa17599caa24"
       }
     },
     "providers.donsappliances": {
@@ -52912,6 +55680,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "cfbc52f01571dad6",
+        "getProduct": "103d602fa61b9982"
       }
     },
     "providers.doordash": {
@@ -53257,6 +56029,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findAddress": "f741833802789eea",
+        "search": "e84135f6fe7980df",
+        "getStore": "5004cd64c9ba28ae",
+        "getStoreReviews": "75234551e2df8151",
+        "getMenu": "ef5d0dd87e5b9e45",
+        "getMenuItem": "1fd3ea96ec8b27ec",
+        "browseStores": "f4a5ac371e846047",
+        "listCuisines": "cdd92dc792f0a316",
+        "searchDishes": "f5769f6ddf24b4c0",
+        "listOrders": "e374a5f3d7877cb8",
+        "getRetailStore": "2cfcab9efa96b694",
+        "searchStoreProducts": "c9e49d9d1e463db9"
       }
     },
     "providers.drafthouse": {
@@ -53328,6 +56114,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findTheaters": "ead0b4a160472192",
+        "getShowtimes": "6233f0977fb7b9fb"
       }
     },
     "providers.drive_google": {
@@ -53943,6 +56733,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getAccount": "e3a59d78fdad1001",
+        "listFiles": "f3d70ec2c00fc191",
+        "getFile": "33eceb846bb9412d",
+        "listComments": "f9c22399def7f3a0",
+        "createFolder": "9e0fff2eed6d21c3",
+        "createDocument": "9e0fff2eed6d21c3",
+        "createSpreadsheet": "9e0fff2eed6d21c3",
+        "createPresentation": "9e0fff2eed6d21c3",
+        "renameFile": "109e17b1d481dec0",
+        "moveFile": "c12a2cf7943eccf7",
+        "trashFile": "33eceb846bb9412d",
+        "restoreFile": "33eceb846bb9412d",
+        "setStarred": "516ce453e74312fb",
+        "addComment": "64ae65bf500da23a",
+        "getDocumentText": "70b0923f163d6b94",
+        "getSheetCsv": "70b0923f163d6b94",
+        "getPresentationText": "70b0923f163d6b94"
       }
     },
     "providers.dropbox": {
@@ -55150,6 +57959,42 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "shareWithPeople": "f31c7c591cb69af5",
+        "removeSharingMember": "4d092b9b5975f193",
+        "saveSharedLinkToDropbox": "d4bc1f588e5b5169",
+        "uploadFile": "a8bd4cd5b9697148",
+        "createFileRequest": "cdeaed4ae84f0357",
+        "closeFileRequest": "1b70648fd9951fc0",
+        "createSharedLink": "c93824fbbda61284",
+        "revokeSharedLink": "cafb4a3392957b98",
+        "restoreFile": "ff2ac0d5e2ffd1a5",
+        "restoreFileVersion": "96646d81a9a4f21d",
+        "deleteFile": "2780852ef5d84d36",
+        "copyFile": "f002b356de9c0f11",
+        "moveFile": "f002b356de9c0f11",
+        "createFolder": "c30f1666ebfd21f6",
+        "changeProfilePhoto": "1492d140669fdc3e",
+        "listSharingMembers": "0e6c51b3ecf9618c",
+        "listFileRequests": "f232fb3565ff2f51",
+        "listSharedLinks": "6514d8b1f1ccb49a",
+        "listFileVersions": "5e222925cedc9684",
+        "listRecentFiles": "7558655505145330",
+        "listDeletedFiles": "13a1dd428528a19e",
+        "listSharedWithMe": "35e9f3cc97320f78",
+        "searchFiles": "f55e34d33c39ba69",
+        "listFolder": "6d8934c5f3e5394d",
+        "getFileMetadata": "1f0ffc1cb6126f30",
+        "getMyAccount": "e3c75ba985c6a57d",
+        "getPlans": "9e41a64694964676",
+        "getSharedLink": "a527af2541ecb468",
+        "downloadFile": "9b5f51869f43cd8b",
+        "downloadSharedFile": "4207b621bc923358",
+        "readSharedFile": "17b66496fe6dd5ee",
+        "listSharedFolder": "e1c504adc5879f8d",
+        "signup": "8ff6e65baa2b6c74",
+        "confirmSignup": "00ae054654a14605"
       }
     },
     "providers.duckduckgo": {
@@ -55742,6 +58587,29 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "chatWithDuckAi": "9f7c0819afa98556",
+        "getEmailProtectionAccount": "f9d9baad5c15303f",
+        "createPrivateDuckAddress": "c42b672b32e598a7",
+        "setPrivateDuckAddressActive": "e06423b0a9662b47",
+        "changeForwardingAddress": "aba6bbd04f73481b",
+        "searchNews": "b38ac13664ed267b",
+        "searchWeb": "c12568007c8dc8ba",
+        "searchVideos": "c1b912b78e9288b7",
+        "searchPlaces": "ade4da0cb75bdcd4",
+        "searchImages": "8deb3bff8fdfcf45",
+        "getInstantAnswer": "507d2a032c768c43",
+        "suggestQueries": "150901be563e45b9",
+        "defineWord": "bb7cf60ad62cd6ac",
+        "convertCurrency": "6847786617c8a384",
+        "getWeather": "9dac153468f2420c",
+        "getLocalTime": "b2a09bdf35292d30",
+        "listBangs": "8d10638dd1c41a9b",
+        "resolveBang": "c98d3658c07d8fc2",
+        "listRegions": "38abb35631db0d74",
+        "listDuckAiModels": "a6e42a762ab58e19",
+        "translateText": "158dbf29f44f3665"
       }
     },
     "providers.dumpsters": {
@@ -55831,6 +58699,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getQuote": "38611d8b3e65b5aa"
       }
     },
     "providers.ebay": {
@@ -56180,6 +59051,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "85969ba56392c3fb",
+        "getItem": "32f65dd6114be3d2",
+        "searchByCategory": "c21eb27201028e08",
+        "getSellerListings": "45f47d82e2386cce",
+        "getSellerProfile": "cb400481a0ddde9d",
+        "searchAutocomplete": "3f215fdfb9e21482",
+        "getDeals": "4e8856c7288c0003",
+        "searchSold": "a898c8283db30b22",
+        "getWatchlist": "569300cc04be7790",
+        "getMyListings": "1ec962984334f455"
       }
     },
     "providers.edmunds": {
@@ -56338,6 +59221,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getDiscussion": "2cd66cda1660eb0f",
+        "listCarModels": "2302d3e82cfcd088",
+        "listForumTags": "67969a51fecf4f13",
+        "searchForumPosts": "43d6b0c9b296f1b1",
+        "searchForums": "7eb77d80a6fef636"
       }
     },
     "providers.elase": {
@@ -56392,6 +59282,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "7a583b7d79f5538d",
+        "findLocation": "3616c72e2e7c8ebe",
+        "listServices": "be7ba234579b65fd",
+        "checkAvailability": "5f3f7f9f4b74fbab"
       }
     },
     "providers.elevenlabs": {
@@ -56482,6 +59378,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "synthesize": "5e3e2ed74f62acf8",
+        "cloneVoice": "e424245361c1feb8",
+        "listVoices": "3d2899893f05807e"
       }
     },
     "providers.embroker": {
@@ -56506,6 +59407,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCoverageLines": "1059ea4c1eefd5e7",
+        "getQuoteEntryPoint": "b3d62d9aac3f899c"
       }
     },
     "providers.emirates": {
@@ -56549,6 +59454,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "flightStatus": "ee4e0acdaae58925"
       }
     },
     "providers.epic_fhir": {
@@ -56599,6 +59507,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getCapabilityStatement": "662ea4752315fb63",
+        "listOrganizationEndpoints": "b1ecd2ad624183b0"
       }
     },
     "providers.epicgames": {
@@ -57472,6 +60384,40 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listTags": "87eeff7c445ede07",
+        "getGameRatings": "2c75d85eddbf7f1c",
+        "getAchievements": "dd067c9f4b58b4bc",
+        "listFreeGames": "d33f47fbdac0aa90",
+        "searchGames": "0231a5084f689751",
+        "getGame": "76a5cd71f99616ce",
+        "getPrice": "050a7feb6bc965e5",
+        "listGameOffers": "1cac684ad8aadf8d",
+        "browseGames": "5aee5b8aedecf29b",
+        "listDeals": "e391542b08b47f63",
+        "listCollection": "7c3296ca9bcdd987",
+        "listNews": "04f51e69cb88d528",
+        "getNewsArticle": "cbba49dbb28ef68d",
+        "getStorefront": "4ccefb9f6df23a2f",
+        "getServiceStatus": "bc04b6b02ed57dfa",
+        "listOrders": "f01d17ba9c356f6f",
+        "getAccount": "4928dd3310800c1d",
+        "getLibrary": "b1335a9905c6813f",
+        "getWishlist": "611fd8c2bbb7ca01",
+        "addToWishlist": "5fb1c20edb78c182",
+        "removeFromWishlist": "5fb1c20edb78c182",
+        "getCart": "21566f8f51ad1059",
+        "addToCart": "cd4b51bd4aeb97da",
+        "removeFromCart": "99a9d689c1db82fa",
+        "listFriends": "fa109d74910cc82f",
+        "getRewardsBalance": "cf937a9850ad46b4",
+        "sendFriendRequest": "81f7a20cc5e94a41",
+        "removeFriend": "d1e8d55b151f765e",
+        "updateDisplayName": "218210521a4a1aaa",
+        "redeemCode": "1faac650f7ed6a86",
+        "claimFreeGame": "37016108eb73f4fa",
+        "getAchievementProgress": "67e03446acf43950"
       }
     },
     "providers.epromos": {
@@ -57520,6 +60466,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProductConfiguration": "05cd423bbd0e0aab",
+        "quoteBulkPrice": "c9ac77741f19b56a",
+        "listCategoryProducts": "d1c23e45a7cd57ef"
       }
     },
     "providers.eq3": {
@@ -57535,6 +60486,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSofas": "2e34b3fc3c402fd7",
+        "getSofaConfiguration": "9fafa4fd481f7de3"
       }
     },
     "providers.equinox_hotels": {
@@ -57578,6 +60533,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listRooms": "aece2d929f6bb0e2",
+        "searchRates": "4460a029f3fa3151"
       }
     },
     "providers.erieinsurance": {
@@ -57627,6 +60586,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findAgent": "745c56ea3484c5e2"
       }
     },
     "providers.espn": {
@@ -59101,6 +62063,43 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLeagues": "dac707067e35cae2",
+        "scoreboard": "625ce7e459561af0",
+        "getGame": "ec32a6f0131736ba",
+        "standings": "e218ce9cf51a4f2e",
+        "injuries": "360857a0890a026c",
+        "listTeams": "ef244bd403f2bfe4",
+        "teamSchedule": "86108689c666d6c7",
+        "teamRoster": "30ab80c84c0fec16",
+        "search": "4365d235a61f3a80",
+        "getPlayer": "b5cc73a1dc9b5a96",
+        "news": "eff0a562725fae37",
+        "getTeam": "3f9ae2155abbbacb",
+        "teamStats": "321ff62714eb5827",
+        "statLeaders": "e5fcf42e917b737f",
+        "fantasyPlayers": "6597110c1a2c36cf",
+        "playerStats": "161c0e2d12d2f106",
+        "playerGameLog": "ed26273e89caf6f0",
+        "getArticle": "8b780a0b67be667b",
+        "getFantasyLeague": "813d8b7420c6bcd6",
+        "listVideos": "178e27adbe3e9262",
+        "getFantasyTeam": "860b991754cc84c5",
+        "setFantasyLineup": "c52765ab78c52ebe",
+        "addDropFantasyPlayer": "6ec8db43c7fb5e15",
+        "proposeFantasyTrade": "6a41e4b36054a44e",
+        "createFantasyLeague": "176088d922bfb457",
+        "submitPicks": "1ef9336fbc0c7f9c",
+        "addFavorite": "1a5a51b0dc16bf4d",
+        "removeFavorite": "ae239e342c3a3c39",
+        "listFavorites": "09b0716d39dbf7c9",
+        "listMyFantasyTeams": "8310e80ba6334318",
+        "teamDepthChart": "c4173c4a238ab7b1",
+        "transactions": "70b086e8729ff556",
+        "odds": "6e46955225bd5149",
+        "draftPicks": "0ca583c91c49f62a",
+        "rankings": "7b5d1ceefe7f6fd9"
       }
     },
     "providers.estes_express": {
@@ -59158,6 +62157,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "estimateFreightQuote": "53f8eece07fd2827"
       }
     },
     "providers.etsy": {
@@ -59530,6 +62532,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "7ad61cc767d6deb7",
+        "getListing": "1e7daffdc0c3f020",
+        "listListingReviews": "11754ffb0f9dd64b",
+        "getShop": "25a4039aceb4bfda",
+        "listShopListings": "c94ba8f6871e23fc",
+        "listShopSoldItems": "345dcff0fafa98dd",
+        "listShopReviews": "4f4fbc204860c1c2",
+        "searchShops": "8e970b70f7fcc47b",
+        "getUserProfile": "9d1165bd73f328ec",
+        "listEditorsPicks": "88f202f42e597767",
+        "findRegistry": "d1517141b03d3f90",
+        "getRegistry": "e37def3e94bf4829",
+        "listCategories": "61beca9ba0cbea61",
+        "browseCategory": "eedfb55124a0688f",
+        "suggestSearches": "ce1f805c234de6ac",
+        "listTrendingSearches": "4da4658342588a37",
+        "estimateShipping": "b5337820b5565444"
       }
     },
     "providers.evag": {
@@ -59588,6 +62609,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listDisruptions": "47683ed17c566773",
+        "listDepartures": "290c2a8570716809",
+        "searchStop": "7f408befc87395fe"
       }
     },
     "providers.eventbrite": {
@@ -60420,6 +63446,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchEvents": "708199ca9e8cd14c",
+        "getEvent": "d417a73d333afb29",
+        "getVenue": "546d85750e58dfb9",
+        "getOrganizer": "00b5fbe31966cf66",
+        "getSavedEvents": "9ae3819744caf9fb",
+        "saveEvent": "448ae54e9e30ea7c",
+        "unsaveEvent": "3365b6147bf48a13",
+        "followOrganizer": "29a738939412532a",
+        "unfollowOrganizer": "ea43c1d2700b9d6c",
+        "listMyOrganizedEvents": "c49867ae6fb9ce74",
+        "getEventAttendees": "1ea2a547d816154c",
+        "getFollowedOrganizers": "96dbcf401d193668",
+        "getOrderHistory": "a663d69795608f5c",
+        "getOwnProfile": "b10446f71010d5a3",
+        "registerForEvent": "703b9cc8666c7853",
+        "cancelRegistration": "a76024c9a919a6d1",
+        "createEvent": "8d788a8f75739bba",
+        "contactOrganizer": "66f7ffa0bdbb1aee",
+        "joinWaitlist": "e9ca0fccfc425236",
+        "listTicketClasses": "1f9001ed06fddf6f",
+        "login": "7279272d228eef51",
+        "signup": "edbe9de77979cdc1",
+        "confirmSignup": "39857526d39cc3a3"
       }
     },
     "providers.eventim": {
@@ -60479,6 +63530,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "8f9527303819dc78"
       }
     },
     "providers.eventsource": {
@@ -60525,6 +63579,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getShowroom": "efcaecfd655899ca",
+        "getShowroomVenue": "88bb5d40f5bf31c9",
+        "getShowroomInquiryContact": "6fb73477e6ef0d4f"
       }
     },
     "providers.evolutionofsmooth": {
@@ -60561,6 +63620,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "startShadeQuiz": "a5114269ac74006c",
+        "answerShadeQuizQuestion": "7bae26fefd6b9be8"
       }
     },
     "providers.evolvemedspa": {
@@ -60606,6 +63669,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "502bd2268e61e7f8",
+        "listServices": "60133174e0a85491",
+        "checkAvailability": "5fa789ab9061ab5a"
       }
     },
     "providers.evreward": {
@@ -60634,6 +63702,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getStoreRewards": "5c32eb3a925f9deb"
       }
     },
     "providers.executivehomecare": {
@@ -60662,6 +63733,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findLocalOffice": "290a46accc02d144"
       }
     },
     "providers.exhalespa": {
@@ -60691,6 +63765,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "d41bae013a344c37",
+        "getLocation": "84e8e7edb96ce6c9"
       }
     },
     "providers.expedia": {
@@ -61129,6 +64207,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchPackages": "9030680a81187b62",
+        "searchFlights": "5116869c9883b27f",
+        "suggestDestinations": "2071f6e58ed3d079",
+        "getHotelDetails": "f9efc031eff52a0c",
+        "getHotelReviews": "3b94f77d7db4a417",
+        "searchCars": "992d60fd3e6b0c14",
+        "searchVacationRentals": "024e6c16b30bad9b",
+        "searchHotels": "b942eaca82c01bb6",
+        "signup": "725e1ff235ddcf10",
+        "confirmSignup": "4576e42242ff1529"
       }
     },
     "providers.expireddomains": {
@@ -61152,6 +64242,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "signup": "ef6ad5efd62b24c7",
+        "confirmSignup": "a599d8b7caeacb2d"
       }
     },
     "providers.extraspace": {
@@ -61256,6 +64350,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "af9555328cf40d63",
+        "getFacility": "bcf6d90a5a7b08ea",
+        "checkAvailability": "2abadd232a1c5a95"
       }
     },
     "providers.facebook": {
@@ -62889,6 +65988,51 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchPeople": "2cf6ab8373193d96",
+        "listFriends": "5367b34ee6406187",
+        "getPersonProfile": "55c64d0f60aafd34",
+        "listConversations": "3a49865a92b2c16d",
+        "getConversation": "8208d46ba4df2644",
+        "sendMessage": "6ddbb86c20787f17",
+        "getPageInfo": "0e41f7bbf39aae85",
+        "getBusinessDetails": "cc3f6ae17222a639",
+        "getPagePosts": "33c15c22e0a8e20a",
+        "getGroupInfo": "34328c2808a1799d",
+        "getGroupPosts": "ca231eff7d3bd3f6",
+        "postToTimeline": "7757368ec40f3de7",
+        "commentOnPost": "a550be1dbe70832c",
+        "reactToPost": "4817f106b060d933",
+        "listPhotos": "3922c5cd25971de6",
+        "listPageReels": "c12c30fdd83e5f3f",
+        "searchAdLibrary": "e186cdaf70173244",
+        "listPageAds": "569413e9448d814b",
+        "getPageReviews": "451603ccec578b4f",
+        "getPhotoAlbum": "d5b74775b6fb2e02",
+        "likePhoto": "07fd185bcb44661e",
+        "savePost": "5f3954ce028ba005",
+        "replyToComment": "01b19eba7f8c71ea",
+        "sharePost": "7798c94bec5f0e28",
+        "followPage": "b070d39264468a49",
+        "joinGroup": "0400a01870846f4d",
+        "getVideo": "b14700691aee7cd6",
+        "searchPages": "1b5916f701ce0868",
+        "searchGroups": "46f25b8ccf97226a",
+        "getEventDetails": "c9fe5e4f40afeb0f",
+        "postToPage": "83c8fe17494eee1d",
+        "postToGroup": "ddbfbd11a131c845",
+        "listEvents": "1885eb54ebefacf2",
+        "getMarketplaceListings": "32223cd82cbfb5bc",
+        "browseMarketplace": "5aecc921f2be9421",
+        "listPageEvents": "5c618d227542b168",
+        "getPost": "5034d22ef8e42a77",
+        "getPostComments": "d6402d64ceb410c3",
+        "getMarketplaceListingDetails": "dfb2645541618cb8",
+        "listNotifications": "81e48f6459191218",
+        "getPrivacySettings": "9e09bde4c6c24c86",
+        "updatePrivacySettings": "ef99d7f59d1fc922",
+        "updateProfile": "35d537fc24b128ee"
       }
     },
     "providers.faceforwardaesthetics": {
@@ -62934,6 +66078,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "72ccdcb0cd45b70c",
+        "listServices": "3f23df4ae9237597",
+        "checkAvailability": "beb2e4c9fe708bab"
       }
     },
     "providers.facerealityskincare": {
@@ -62948,6 +66097,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchAcneExperts": "c3513824a61af8ea"
       }
     },
     "providers.famousfootwear": {
@@ -63063,6 +66215,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "aeb172ead004f704",
+        "getProduct": "c0f4b8af0867c37e"
       }
     },
     "providers.fandom": {
@@ -64260,6 +67416,41 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getWikiInfo": "a01d15fe1314ca02",
+        "search": "3876fb6e8469e643",
+        "suggestTitles": "6220532bb90df9be",
+        "getArticle": "258cf0e8a57f6055",
+        "getSummary": "7cb0af0a8d20fc6a",
+        "getSections": "c234b6de7a39d773",
+        "getSection": "fcecb1662d2e3d2c",
+        "getWikitext": "560f24fca306ee54",
+        "getInfobox": "3ae9a7aac51e806f",
+        "listLinks": "ebea3d27bfed652d",
+        "listBacklinks": "c41bcd38069af1e8",
+        "listExternalLinks": "e66f9fe1139dd638",
+        "listCategories": "b9011a8c50dd2134",
+        "listCategoryMembers": "d817b6daaf1d4a70",
+        "listImages": "8a2014e5879f432f",
+        "getImage": "d0dfc557312aac36",
+        "listRevisions": "cf94e376bcb40cc6",
+        "getRevision": "a12fc9f2196ae299",
+        "listRecentChanges": "4953f6efb4516592",
+        "findWiki": "8b3f6147bc0fde0d",
+        "getUser": "2031c7f46288a966",
+        "listUserContributions": "19416928b5b50846",
+        "listDiscussionPosts": "38695597454f2757",
+        "getDiscussionPost": "e51e60f152ed92a1",
+        "getDiscussionThread": "a8c688455e0244e4",
+        "getCurrentUser": "b9677d15942813c7",
+        "listWatchlist": "88f7eed66538cdec",
+        "watchPage": "dc0328ce8fb35574",
+        "unwatchPage": "dc0328ce8fb35574",
+        "editPage": "a05aeafa0529a0ec",
+        "createPage": "65587ce2af7135e3",
+        "postDiscussionPost": "a020a3838723f5e4",
+        "undoRevision": "1eb1dd58d01385d4"
       }
     },
     "providers.fareharbor": {
@@ -64557,6 +67748,14 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchItems": "e8ceae0380ec8790",
+        "getItem": "e1525b86d64be791",
+        "listAvailability": "02fbae1920b2c0a8",
+        "getAvailabilitySlot": "426347e0fdff592e",
+        "quoteBooking": "ef6086a09eec2d40",
+        "createBooking": "5346b189e0888f74"
       }
     },
     "providers.farmaciasdirect": {
@@ -64777,6 +67976,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "52fd5744e8337ce9",
+        "listPromotions": "1f73e1a900324fc7",
+        "search": "c3598ec08541f139"
       }
     },
     "providers.faros": {
@@ -64841,6 +68045,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getRestaurant": "c5acab1c0983ed2c",
+        "listMenus": "aa09031fe9ca1ea9",
+        "getMenu": "e487828522a8579a"
       }
     },
     "providers.faroutmagazine": {
@@ -64934,6 +68143,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "latest": "881a9d0f175073ca",
+        "search": "4f26e305ccf59778",
+        "article": "193919df2a0ddcea"
       }
     },
     "providers.fbsappliance": {
@@ -64969,6 +68183,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchAppliances": "dc30bffa4e5709ea"
       }
     },
     "providers.fedex": {
@@ -65013,6 +68230,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getRate": "29804a6d0fa15a72"
       }
     },
     "providers.ferguson": {
@@ -65084,6 +68304,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProducts": "9d23bbfcca889673",
+        "findBranches": "1880f9e37b0a619d"
       }
     },
     "providers.fieldstonehomes": {
@@ -65219,6 +68443,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchQuickMoveIns": "5a6cd5cc4d7a5161",
+        "getAppointmentFormSchema": "ddc2166b85a731b2",
+        "prepareAppointment": "ea320c45ac543ae5"
       }
     },
     "providers.finders": {
@@ -65256,6 +68485,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getListing": "b4990356ae701be9",
+        "searchListings": "578da27d360537c2"
       }
     },
     "providers.findmcp_app": {
@@ -65287,6 +68520,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "a9671a6be80bc8c7"
       }
     },
     "providers.firstamericahomes": {
@@ -65345,6 +68581,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCommunities": "fcedd50ed98c3bd5",
+        "getCommunity": "7507804b1d0327ed"
       }
     },
     "providers.firstdibs": {
@@ -65368,6 +68608,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "f805647b948ad1cc",
+        "getListing": "995ed4a32de9ee4d"
       }
     },
     "providers.fitdegree": {
@@ -65784,6 +69028,30 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findStudio": "7e736e2a54cdbbe9",
+        "getStudio": "f799d58c8078d183",
+        "listClasses": "deffb80557d61748",
+        "getClass": "1f71e67b9f423e7d",
+        "listInstructors": "6a9e3513b1251feb",
+        "getInstructor": "1d73560e48795ce9",
+        "listLocations": "9e787eef4705aa78",
+        "listScheduleDates": "8bf426eb1a78f34d",
+        "listMemberships": "05ee402c5e7916e0",
+        "getCancellationPolicy": "8d7220b0bd6f6545",
+        "listEvents": "4ce2100623a9fb69",
+        "listIntroOffers": "8371a74066ff7bcd",
+        "listSeries": "601ad12b7d9920b0",
+        "listAnnouncements": "c5b3569c3f7ce30b",
+        "listPrivateSessionTypes": "f002be4cb4031202",
+        "getMyProfile": "97480d2846ce2464",
+        "listMyBookings": "1c710b92d06751f5",
+        "listMyPasses": "c857f06e334d9898",
+        "listWaiversToSign": "d407d07d3234f602",
+        "getMembershipPricing": "eaa4591544043e1b",
+        "signup": "f4286ad4aaf1cb0b",
+        "confirmSignup": "eb7d6921aa6f89f9"
       }
     },
     "providers.fitness1440": {
@@ -65841,6 +69109,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "080febdbf5affd05",
+        "getDayPassRequestInfo": "5ec6dccc4d916c7b"
       }
     },
     "providers.fivebelow": {
@@ -65878,6 +69150,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "49021bfdfb50cf8d"
       }
     },
     "providers.fiverr": {
@@ -66082,6 +69357,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "autocompleteSearch": "921b2b98d156398e",
+        "getCategory": "1291b5641fa8c225",
+        "getGig": "dc83d00c98973b4e",
+        "getGigReviews": "aae35b08e45207d1",
+        "getSellerReviews": "cc63d62e4909efbe",
+        "listSellerGigs": "08840c5ccca7a881",
+        "listCategories": "9404b6aee20cd66e",
+        "getSeller": "d9cebd163b9d91d0",
+        "searchGigs": "d2ce4a46e1073364"
       }
     },
     "providers.fivestarbathsolutions": {
@@ -66111,6 +69397,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "d59c5d4d15f9324b",
+        "getAvailableSlots": "16898dfe02cc8b2d"
       }
     },
     "providers.flightradar24": {
@@ -66118,6 +69408,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getAirline": null,
         "getAirportArrivals": null
+      },
+      "digests": {
+        "getAirline": "f485cf407cb42c57",
+        "getAirportArrivals": "9bb4a6dcb7a71f1c"
       }
     },
     "providers.floathelm": {
@@ -66261,6 +69555,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findStudio": "976c475410f88485",
+        "listLocations": "6edd10f80979b59a",
+        "listRooms": "682d94d3222986e8",
+        "getRoom": "aba6f9fb32e87273",
+        "listAvailableSlots": "35bee680e54a5aad",
+        "listStoreItems": "e72518e8acc51b52",
+        "listGiftCards": "e08c8a955da67a53",
+        "createAccount": "6099fc9633cf7b12"
       }
     },
     "providers.fluencecorp": {
@@ -66458,6 +69762,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "calculateEnergyConsumption": "b7fe5ae3e365a494"
       }
     },
     "providers.fomo": {
@@ -68181,6 +71488,62 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getCurrentUser": "604cb6de26d3b596",
+        "getLeaderboard": "ab15e89d6870ea60",
+        "getFollowingLeaderboard": "c9f62d742c5bff61",
+        "getUserLeaderboardStanding": "e5380acc329a0cfc",
+        "getUser": "be83698958f57cd2",
+        "getUserByHandle": "38c89c698958e4a5",
+        "searchUsers": "9fc3622fcbe0d313",
+        "getBalances": "ceac4262854e8ab8",
+        "getMajorTokens": "b0188ba9a60d5ee5",
+        "getTrendingTokens": "b0188ba9a60d5ee5",
+        "getGraduatedTokens": "b0188ba9a60d5ee5",
+        "getMostHeldTokens": "b0188ba9a60d5ee5",
+        "getVerifiedTokens": "b0188ba9a60d5ee5",
+        "getTokenAllowlist": "4f6d299adcac00d0",
+        "getTokenAllowlistDetailed": "cfe79e689dcf215a",
+        "searchTokens": "157f844b963a6775",
+        "getToken": "248e1260fad0e7c7",
+        "filterTokens": "6eac0c58571dd162",
+        "getTokenWarnings": "b7d1b43c19288f41",
+        "getCandles": "980acf74e1c40d2b",
+        "getTopHolders": "e9a9b1252f1d5025",
+        "getFriendHolders": "e9a9b1252f1d5025",
+        "getDevHolders": "f7a3e38564124ff7",
+        "getFollowingIds": "d16f581b583bf01e",
+        "getFollowers": "059ec480bdef80ef",
+        "getFollowing": "059ec480bdef80ef",
+        "getMutuals": "059ec480bdef80ef",
+        "getRecommendedUsers": "fcabd63f09ad178f",
+        "getUserSpotlight": "f188028c9a0a91b9",
+        "getFeed": "76cc47715bdeb849",
+        "getTradingActivityFeed": "fa52a430047cd12d",
+        "getTokenFeed": "608838dc943ce54c",
+        "getTokenThesis": "cb0173961b4f8e63",
+        "getTrades": "677b0ac4cb71720c",
+        "getTrade": "996c0925566f49aa",
+        "getTradeComments": "f582ccec2f62a0cd",
+        "getUserSwaps": "fd8f95cc75f9c3d2",
+        "getUserTransfers": "17b7be161230620a",
+        "getUserWithdrawals": "7804b3bf6c318bc8",
+        "getPortfolioHistory": "f85abb79f2b57343",
+        "getPortfolioSnapshot": "5342ab81f0656539",
+        "searchClans": "fad02b6cafb6a2dd",
+        "getClan": "8aba6ad4d528b666",
+        "getClanHoldings": "fce97fa30c8d0006",
+        "getClanFeed": "ab2f03b5fb729ece",
+        "getClanThesis": "928243ff3946aa8f",
+        "getClanHoldingsBreakdown": "b2cf479fbedf9740",
+        "getWatchlist": "817cfd629713e2db",
+        "addToWatchlist": "1f036e0fff2c4e03",
+        "removeFromWatchlist": "1f036e0fff2c4e03",
+        "getAlertPreferences": "272ded74b2e7961f",
+        "setAlertPreferences": "f161edae98655d74",
+        "getReferrals": "228aac35a15f0501",
+        "getReferrerDetails": "f188028c9a0a91b9"
       }
     },
     "providers.forbes": {
@@ -68325,6 +71688,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listNews": "6a2951619223b7df",
+        "listTopics": "6852b68717871688",
+        "listArticlesByTopic": "760e2b7dc06f9f14",
+        "listLists": "106cb8e7a54bcadf",
+        "listVideos": "1771107b01e24550",
+        "getVideo": "7dafcc822e844db3",
+        "listContributors": "b1293721abdad20e",
+        "getArticle": "5b0552cdaf153b32",
+        "getContributor": "10c96c5d4992c8f6",
+        "listBillionaires": "9059494f4212ed43",
+        "getPerson": "02862614bcb53de2",
+        "getList": "ca0b981828af8310"
       }
     },
     "providers.ford": {
@@ -68382,6 +71759,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findDealers": "6dc8d0bd67e27aea",
+        "listNameplates": "5c853bc62cd55032",
+        "getOffers": "8e87a3f1261ee6e0",
+        "getVehicle": "7cbf4fc2e9e555a8",
+        "getRecalls": "2a21d923b401de67"
       }
     },
     "providers.formax": {
@@ -68420,6 +71804,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "b84fb569b6e78253",
+        "getCartLink": "46ab4a5330090587"
       }
     },
     "providers.forms_hubspot_com": {
@@ -68443,6 +71831,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findForms": "0382d70b34c3624a",
+        "getFormDefinition": "83a668224269ac4c"
       }
     },
     "providers.fortressbp": {
@@ -68475,6 +71867,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listProductTypes": "d06978ba357722c0",
+        "recommendProduct": "874704b31cef18bd"
       }
     },
     "providers.fourseasonsyachts": {
@@ -68530,6 +71926,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchVoyages": "13755892f64fbb78",
+        "getVoyage": "ad7055c99c1bd46b",
+        "getVoyageSailing": "6107eb5d4b5017a3"
       }
     },
     "providers.foxnews": {
@@ -69215,6 +72616,35 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchArticles": "dcd401317384a50a",
+        "getArticle": "b91cf4d22c671514",
+        "listLatest": "ffc5c4086cc4ce46",
+        "listSections": "db7ab09b952ec7a0",
+        "listSectionArticles": "60bafddefd254abf",
+        "findAuthor": "2963ad204de6af42",
+        "getAuthor": "36fe0fd66fcad5f9",
+        "listAuthorArticles": "2180c3205b5c2ed3",
+        "getTopStories": "46410b55fca7de6e",
+        "listShows": "1a300ce990cdf741",
+        "getShow": "85e2d9f822e07aee",
+        "listVideoPlaylists": "ef64b33ec8e74eb8",
+        "listVideos": "c82a8ff04f934b93",
+        "searchVideos": "ef2a87ae952ff14f",
+        "getVideo": "5593c4a7724f9016",
+        "listLiveBlogs": "b759dc411bb8deb2",
+        "getLiveBlog": "90892ec53bce41ff",
+        "getComments": "14c95323d107d733",
+        "listPodcasts": "c413c694be28797c",
+        "listPodcastEpisodes": "26bc50c4499b2711",
+        "getAccount": "827f1b0d70eec595",
+        "postComment": "12cd1cb2d54a8fa6",
+        "deleteComment": "15ebd521556a8096",
+        "updateProfile": "dc0ee42f92ffbddf",
+        "listNewsletters": "27fc1a359df62ed9",
+        "listElectionRaces": "6aebd31484554318",
+        "getElectionResults": "de7ca659604834ec"
       }
     },
     "providers.framebridge": {
@@ -69290,6 +72720,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listFrameStyles": "cd0de5a9ddd8f977",
+        "getConfigurator": "b2b6ab1e10719d4d",
+        "priceConfiguration": "febf4298a615608a"
       }
     },
     "providers.franklinbbq_com": {
@@ -69319,6 +72754,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listPickupSlots": "a2f16ec09ce0b68e",
+        "getPreorderMenu": "842f13054f9cf900"
       }
     },
     "providers.fred": {
@@ -69486,6 +72925,14 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listReleases": "fcdf688b35495bcf",
+        "listSources": "1087fb03a6833224",
+        "getSeriesInfo": "ce4731f7b272143e",
+        "getSeriesObservations": "ff3f4bfeaa3e260c",
+        "browseCategory": "7315c8d6610cabe4",
+        "searchSeries": "6ae51352b9fe2f99"
       }
     },
     "providers.fresha": {
@@ -69785,6 +73232,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchVenues": "ddfb32b0c4884a79",
+        "getSearchSuggestions": "9e099b8cc095048a",
+        "getVenue": "18b1cc286a424f7d",
+        "getAvailability": "898a1a74ee9bbfe0",
+        "getBookingQuote": "fbe6729d03fc5ab0",
+        "getVenueReviews": "fa166f7930a4cf8c",
+        "getVenuePhotos": "20f4fbfc344573ab",
+        "signup": "798323c4e6813d65",
+        "confirmSignup": "18ab85f324d169b4"
       }
     },
     "providers.frontiersin": {
@@ -69893,6 +73351,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchArticles": "d00406ccdaea051a",
+        "searchJournals": "e802938c4b1a32f9"
       }
     },
     "providers.furniture": {
@@ -69939,6 +73401,11 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listCategories": [],
         "listFilterOptions": []
+      },
+      "digests": {
+        "searchProducts": "9a9afa9707bd7967",
+        "listCategories": "1ae7ce2226957ad7",
+        "listFilterOptions": "a898cb3426962e79"
       }
     },
     "providers.g2": {
@@ -70046,6 +73513,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "a1747b94cb06aaca",
+        "getProduct": "ca686e2047f0df3e",
+        "listReviews": "f51b1bfec31b878a"
       }
     },
     "providers.gap": {
@@ -70412,6 +73884,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "976eb8775561dedf",
+        "getProduct": "b29e319f6f6131c4"
       }
     },
     "providers.gap_factory": {
@@ -70778,6 +74254,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "3f702ad7e6c0a5b7",
+        "getProduct": "29275dfae2687f81"
       }
     },
     "providers.gasbuddy": {
@@ -70838,6 +74318,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findCheapestNearby": "dceaa4509d7ab393"
       }
     },
     "providers.gazelle": {
@@ -70891,6 +74374,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findDevices": "c38ff2f420bb7a15",
+        "getTradeInQuote": "79747aee46cbbb87"
       }
     },
     "providers.geico": {
@@ -71181,6 +74668,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getRentersQuote": "f1f549d5329c0e07",
+        "listDiscounts": "b290268592792176",
+        "listPartnerCompanies": "fd5e8e81ffccc554",
+        "findAgent": "f201cc6a9bc262a1"
       }
     },
     "providers.github": {
@@ -73380,6 +76873,54 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listWorkflowRuns": "ed84e36da7003078",
+        "compareCommits": "0af38967e9b4fc2a",
+        "listSecurityAdvisories": "2c82ff1f05494eec",
+        "listCommits": "5ea97702fb0716ea",
+        "listReleases": "60ef5ff0cce957d6",
+        "listContributors": "9adc35435ff9d9a2",
+        "getFileContents": "d016dbbea104f25a",
+        "listIssueComments": "2291ee211af18dcb",
+        "listPullRequestFiles": "ef45bf7bd134d996",
+        "searchIssues": "267863a05d19568f",
+        "getReadme": "4ca5f4981ba8ee77",
+        "getRepo": "4d07966afdd828e1",
+        "getProfileReadme": "5d17d3480709b58c",
+        "searchRepositories": "30bdf136f3371335",
+        "getUserRepositories": "2c5ca55dcb576fcc",
+        "listOrganizationRepositories": "0469473c6b5666fb",
+        "getUser": "1c9ef7294540e421",
+        "searchUsers": "3e96c3774a01b7ba",
+        "listOrganizationMembers": "845cb0f7cdaab417",
+        "getSocialAccounts": "43913aa445b72080",
+        "getOrganization": "7463b1dbe4af1d34",
+        "listIssues": "c286aa2bed70b810",
+        "listPullRequests": "8bb3544b4a4a5749",
+        "getIssue": "147ee9bcc08608ce",
+        "getPullRequest": "abefd3d8469c0d10",
+        "listTrendingRepositories": "ac693baade62a9d8",
+        "listTopics": "28da95485786b564",
+        "listMarketplaceActions": "a8e8cf8cf022f402",
+        "getSponsorPage": "3b7b87e74e6da0c6",
+        "searchCode": "b5e11f1829c32993",
+        "listNotifications": "99f97160aa7a7415",
+        "listStarredRepositories": "a9163c5f932ddf90",
+        "updateIssue": "ffc9e5e98f37c681",
+        "createIssue": "3af3bcd5237484e2",
+        "createPullRequest": "c9847b051ff41891",
+        "createComment": "0b10b0a46283f1c0",
+        "updateComment": "060394a58f68b4b7",
+        "deleteComment": "74b483e998c9ddde",
+        "updatePullRequest": "f5c1a69287fabe99",
+        "watchRepository": "e53d4d12bcd6ccfa",
+        "unwatchRepository": "e53d4d12bcd6ccfa",
+        "starRepository": "97f174d3cf77eb86",
+        "unstarRepository": "97f174d3cf77eb86",
+        "mergePullRequest": "2246b28f8892a1c7",
+        "createReview": "b2d95002a8b955d5",
+        "createReviewComment": "b20d6c5a13212d77"
       }
     },
     "providers.gitlab": {
@@ -73470,6 +77011,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProjects": "5851922c6b8ecbab",
+        "getProject": "47c1d274c34483f1",
+        "searchIssues": "384adcf960a0c352",
+        "searchMergeRequests": "384adcf960a0c352"
       }
     },
     "providers.glama": {
@@ -73501,6 +77048,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "287a43e79e45e8a9"
       }
     },
     "providers.glassdoor": {
@@ -73557,6 +77107,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getEmployerReviews": "a5d7c22c231b672d"
       }
     },
     "providers.glassesusa": {
@@ -73580,6 +77133,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "f4ff4750dc187d4d",
+        "getProduct": "4b2b22164eaa4d81"
       }
     },
     "providers.glofox": {
@@ -74510,6 +78067,35 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findStudio": "22db735ed66c6273",
+        "getStudio": "f189f5392ebacb45",
+        "listClasses": "3388f43af21c4134",
+        "getClass": "bbf3aec0672de9d3",
+        "listTrainers": "85773dfb78e91026",
+        "listMemberships": "3f0075024224829f",
+        "listClassTypes": "533acb56e106d615",
+        "listAppointmentTypes": "5e82e3b84c611de1",
+        "listFacilities": "e2c7960ffbe93283",
+        "listTrainerSlots": "e8204626b373f0c7",
+        "listFacilitySlots": "7c3c5ce7f0c3982f",
+        "listCourses": "32139e2f99dcc157",
+        "getPrice": "27acdc0df42739bb",
+        "getMyProfile": "5ad4deba597fe0d5",
+        "listMyBookings": "1648d4274ee8f9cc",
+        "listMyCredits": "ca136d72ce8b4c83",
+        "listMyMemberships": "4b9b9d74a5559324",
+        "listMyTransactions": "9d391f95b8cbd4a4",
+        "bookClass": "e224a7124572a374",
+        "joinWaitlist": "e224a7124572a374",
+        "cancelBooking": "68100c4a0b1bb622",
+        "bookTrainerSlot": "1f10023fb048d599",
+        "bookFacilitySlot": "1f10023fb048d599",
+        "bookCourse": "67938b88a08ae233",
+        "updateMyProfile": "8f54ad6566b6a460",
+        "signup": "02d9e047b6990760",
+        "confirmSignup": "712afed16da6ef2b"
       }
     },
     "providers.glossgenius": {
@@ -75146,6 +78732,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "updateMyProfile": "cba187e2ccaaaeef",
+        "cancelMyMembership": "b98da80bea0a0de8",
+        "listMyMemberships": "1d7876de3c731831",
+        "listMyOrders": "b36d28577dbe7ff1",
+        "getMyProfile": "eae4827310491414",
+        "findBusiness": "1be102d2b5a98a76",
+        "getBusiness": "303d7bd6cff541da",
+        "listServices": "1d1e0f0f7a0e9b2c",
+        "listTeam": "c4cec980ae3d1dac",
+        "listLocations": "2f8740212c5294fc",
+        "getAvailability": "8b93d2a67c7a0e07",
+        "listReviews": "835546054d9340cf",
+        "listPackages": "2ad5d8d2051b5716",
+        "listMemberships": "42b308ab85d93780",
+        "getGiftCardOptions": "5b870bf061f9376f",
+        "getBookingRequirements": "ada27af029283e37",
+        "joinWaitlist": "6085b7a379dbefa3"
       }
     },
     "providers.gmail": {
@@ -75235,6 +78840,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchThreads": "e179801adb3a1a90",
+        "getThread": "27a20c9729adf52d"
       }
     },
     "providers.gobrightwing": {
@@ -75299,6 +78908,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "3b5c2038224b2d74",
+        "getJobDetails": "3acf5c1975827e5b"
       }
     },
     "providers.golf_com": {
@@ -75322,6 +78935,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findCourses": "4cb0a33950b945dc",
+        "getCourse": "5fc73a689673f57c"
       }
     },
     "providers.goloadup": {
@@ -75377,6 +78994,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getPricingCatalog": "bf2e8d7ea2588e20",
+        "getQuote": "763e1a8193595763",
+        "checkServiceAvailability": "624cbad52e428feb"
       }
     },
     "providers.gomry": {
@@ -75466,6 +79088,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchEvents": "399170aaa0d340ae",
+        "getEvent": "5d37dd3fe04e03a6",
+        "listEventProducts": "757ecde7791a29c9",
+        "getSponsorOffer": "808b703faab8622a"
       }
     },
     "providers.goodreads": {
@@ -75990,6 +79618,36 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchBooks": "79d007352e1912de",
+        "getBook": "63c607277d287cf8",
+        "getBookReviews": "a7d5a99ca1bb6dae",
+        "getSimilarBooks": "d8c0fdeeeb9d5420",
+        "listGenreBooks": "85ebb22109e89dff",
+        "getList": "f5e63be8ac87ba33",
+        "searchAuthors": "e0443bbe829e49d2",
+        "getSeries": "b4e4387da92cae58",
+        "getAuthorBooks": "00d19d2eabadde2d",
+        "getBookEditions": "71906eb68fbef24b",
+        "getAuthor": "49dafd05adf851bc",
+        "searchLists": "52adc44afbedbc92",
+        "searchQuotes": "1a68e13a761179bc",
+        "getBookQuotes": "f2ea00969134aeb1",
+        "getMemberProfile": "cedf8e611cc7deed",
+        "getMemberShelf": "56802f8712e921f1",
+        "rateBook": "67320b0afff07d88",
+        "addToShelf": "00ed3b4e94160eff",
+        "removeFromShelf": "b985b421ea4b202a",
+        "getOwnProfile": "ee190c59e3dbc231",
+        "writeReview": "b141461de91f79cd",
+        "followUser": "da3bbdc1992affbc",
+        "unfollowUser": "bd82efedeb962254",
+        "getMemberFollowing": "49a0472f0ebb2498",
+        "getMemberFollowers": "49a0472f0ebb2498",
+        "getNewsFeed": "8a0968df4be3f7ea",
+        "signup": "425ea87f8d9065c9",
+        "confirmSignup": "52778c1435826a63"
       }
     },
     "providers.goodway": {
@@ -76014,6 +79672,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "98a794e426153e30",
+        "getProduct": "555d39599a02804c"
       }
     },
     "providers.google_ads_transparency": {
@@ -76118,6 +79780,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchAdvertisers": "045785c573571d5f",
+        "getAds": "54e639ae5efbccca"
       }
     },
     "providers.google_flights": {
@@ -76450,6 +80116,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "parseSearchUrl": "8566bae07fa8d6c8",
+        "search": "624feb4349a6a130",
+        "getBookingOptions": "c3af6c0651c418e7",
+        "getPriceGraph": "c760a60c999bda71"
       }
     },
     "providers.google_maps": {
@@ -77120,6 +80792,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "suggestPlaces": "9c5c30002a4609b0",
+        "searchPlaces": "bf1c90fb33900ca7",
+        "searchNearby": "fbbf1a318e3f6b20",
+        "geocodeAddress": "068e630518905eae",
+        "reverseGeocode": "dab3bfb593efd437",
+        "getPlace": "5f814deca407a564",
+        "listReviews": "23bf62ea733ad13f",
+        "listRelatedPlaces": "97e53f2de45ae030",
+        "getDirections": "0c28a438d05a0edf",
+        "resolvePlaceUrl": "cd83c557964c991d",
+        "listPhotos": "ace9f95ad5e52e18",
+        "getPopularTimes": "d1e3fe23a3d138b2",
+        "listSavedPlaces": "e1dcf31f2a1d5752",
+        "listMyContributions": "d5a385621c6875b2",
+        "savePlace": "489085b07fc96439",
+        "writeReview": "b8fc2f1ff927cbd5",
+        "suggestPlaceEdit": "29ecd5b666ff020a",
+        "addMissingPlace": "74634656d2afa3e5"
       }
     },
     "providers.google_news": {
@@ -77429,6 +81121,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchNews": "0f33344441618196",
+        "topStories": "2245efd5d1ffcf43",
+        "listTopicHeadlines": "fd61765609b4631b",
+        "listPublisherHeadlines": "46db2478b7cca4a6",
+        "listLocalHeadlines": "055cf43dfa9964f0",
+        "resolveArticleUrl": "12a80a24036cec1e",
+        "listTopics": "48ad8c52c81fb708",
+        "getTopicHeadlines": "5c0d3c48ddaa1dff",
+        "listStories": "74f72e310baf5e0f",
+        "getFullCoverage": "d6d67b6e7c22655c",
+        "listEditions": "8869cd10a301321f",
+        "getForYou": "585c250d2ca986a5",
+        "listFollowedTopics": "74fa2639b7d1fe7e",
+        "listSavedArticles": "ca0bdbb94fda2deb",
+        "saveArticle": "3dd1299f589a4488",
+        "followTopic": "fed4051f250285d1"
       }
     },
     "providers.google_play": {
@@ -77546,6 +81256,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getApp": "910ac4b5505f1015",
+        "listReviews": "95ecaecd2d8273e3"
       }
     },
     "providers.google_sheets": {
@@ -77606,6 +81320,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findSpreadsheets": "540b31afc3f57032",
+        "listSheets": "d4ec5e175f353e1d",
+        "readSheet": "1a50c976336ddfb6"
       }
     },
     "providers.google_store": {
@@ -77685,6 +81404,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listProducts": "81b99d2bf3a0db6e",
+        "searchProducts": "47de135bf0651b13",
+        "getProduct": "0a8d5e8bde8874ae"
       }
     },
     "providers.google_translate": {
@@ -78329,6 +82053,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "translate": "38c47eafba3ad7b3",
+        "detectLanguage": "4b8ebf41c58fa36b",
+        "listLanguages": "b2b1e744f3f3d7c5",
+        "lookupWord": "9d67cd3668226c93",
+        "getDefinitions": "ae8ad6f0502baeff",
+        "getSynonyms": "1e9e5c3b01620472",
+        "getAlternativeTranslations": "dd8f655136ce0367",
+        "checkSpelling": "777aa46cae05fb7d",
+        "romanize": "fa95c86e99b96c69",
+        "speak": "a2c9be28d6cd513c",
+        "translateWebPage": "48f8f5f723383bab",
+        "translateDocument": "117fa9ae7491da31",
+        "translateImage": "5a7efec0c7730de6",
+        "listSavedPhrases": "0915c9594bc577f0",
+        "savePhrase": "b40a18386ccfcc06",
+        "unsavePhrase": "b40a18386ccfcc06",
+        "listHistory": "0915c9594bc577f0",
+        "deleteHistory": "59beb693df34efd5"
       }
     },
     "providers.google_trends": {
@@ -78357,6 +82101,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "trending": "0d5f16567e9e0401"
       }
     },
     "providers.goplus": {
@@ -78387,6 +82134,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "tokenSecurity": "e31238160b4fd8d5"
       }
     },
     "providers.goremutual": {
@@ -78401,6 +82151,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getProductOverview": "8a0333b4691d8e27"
       }
     },
     "providers.gostoreit": {
@@ -78438,6 +82191,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findFacilities": "a0fd79587c1ac084",
+        "getFacilityUnits": "50f75d7ffaa14086"
       }
     },
     "providers.gotchacovered": {
@@ -78510,6 +82267,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getDesignStyleQuizQuestions": "286930d4be4722cc",
+        "takeDesignStyleQuiz": "dc407e37a5e59e3f"
       }
     },
     "providers.goteamup_classes": {
@@ -78994,6 +82755,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findStudio": "a61ed72f16dddbb4",
+        "getStudio": "f21ffdf841deed6c",
+        "listSchedule": "090b1ab993d69234",
+        "getClass": "60f1b70ab0b01b9b",
+        "listClassTypes": "1353f8a6de3fbad2",
+        "listMemberships": "1b6ac78dd0455e0a",
+        "getMembership": "8d52039e4b27e480",
+        "listVenues": "d82399542952b279",
+        "listInstructors": "17fa567ada484cff",
+        "listMyBookings": "6307a12d817258c4",
+        "getMyProfile": "bcb0a4845539698a",
+        "checkBookingEligibility": "6230d37e4e8aaae5",
+        "bookClass": "1fac2f405867ea7f",
+        "cancelClass": "d424fc456c62f0af",
+        "joinWaitlist": "229f532abb4a93eb",
+        "signup": "95a0703ddfbcf5ff",
+        "confirmSignup": "9f74fbe96dd8233f"
       }
     },
     "providers.grainger": {
@@ -79130,6 +82910,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "35eebd7d86d686d7",
+        "findBranch": "060fe85e4e486bfe",
+        "getProduct": "e4b8c14e085ac0b0",
+        "checkStock": "53dcdc26f9ab2c84"
       }
     },
     "providers.grammarly": {
@@ -79642,6 +83428,27 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkGrammar": "ea664afaa34b5b1f",
+        "countWords": "9f47e0ad67e824e5",
+        "detectAI": "428a52c67e6be84d",
+        "detectPlagiarism": "8a53620e4fec8074",
+        "humanize": "09f1c2b200460e88",
+        "detectTone": "4d0c06210e611aae",
+        "paraphrase": "6fb64a258744028e",
+        "createDocument": "b5d72d5cd6b37510",
+        "deleteDocument": "4dcd557e7f7948b2",
+        "addToDictionary": "a58f8f8acdbba362",
+        "removeFromDictionary": "7d3a355bd210917d",
+        "getAccount": "9658dec14e75260e",
+        "getDocument": "196b130d3cfd9cce",
+        "listDocuments": "1217ae8debc641d6",
+        "listGoals": "e0a8095c419a5644",
+        "setGoals": "c5a4d591516aa76e",
+        "listPlans": "eb7a1e3c1df66c80",
+        "signup": "a15f1c6ab31acdaa",
+        "confirmSignup": "9ea2aa4543dbfcca"
       }
     },
     "providers.grandwelcome": {
@@ -79714,6 +83521,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listGrandwelcomeDestinations": "151eb295494c78f7",
+        "searchRentals": "f1469b28d5a80205",
+        "getRentalDetail": "2da640001a56d7d8",
+        "getRentalQuote": "85f6c8bc643bc4e1"
       }
     },
     "providers.gravatar": {
@@ -79728,6 +83541,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProfile": "1ebe95f6e4b21bd7"
       }
     },
     "providers.greatlakesbrewing": {
@@ -79764,6 +83580,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getEGiftCardOptions": "41649790f74ab5de",
+        "priceEGiftCard": "6409d5c318b82f38"
       }
     },
     "providers.greatlakesdentaltech": {
@@ -79794,6 +83614,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "e674517b0ac8dd3f",
+        "getProduct": "148db519721efec7"
       }
     },
     "providers.greenhouse": {
@@ -79808,6 +83632,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "99371645d51bcbb7"
       }
     },
     "providers.grubhub": {
@@ -80369,6 +84196,27 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "687a3833218e33b1",
+        "getRestaurant": "bf2b62a112589a38",
+        "getMenu": "2f2075043ecee330",
+        "getMenuItem": "5ea85e457fb9a3f7",
+        "getDeliveryEstimate": "7f3216213c43d11f",
+        "getRestaurantReviews": "7ba99f8570196454",
+        "listCuisines": "e0bc6ee0663e3b4d",
+        "getPromoOffers": "24925ee23dc38f65",
+        "getCart": "761769972a5631d5",
+        "addToCart": "ca26b98bbc111a83",
+        "removeFromCart": "4c31c369e46a5697",
+        "updateCartItem": "b37ec3823c027246",
+        "applyPromoCode": "0d79c9fb3c4275b7",
+        "getSavedAddresses": "30c4e07d14219cc5",
+        "getFavoriteRestaurants": "a321753cb1ee83a6",
+        "getPaymentMethods": "65b2d04b9a3f45e7",
+        "getOrderHistory": "62b806879ebe995f",
+        "getOrderStatus": "7c78ddf96c220250",
+        "saveRestaurant": "e5260684b84c3d2f"
       }
     },
     "providers.gst_india": {
@@ -80383,6 +84231,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookup": "b10d289c0165cd3e"
       }
     },
     "providers.hackernews": {
@@ -80594,6 +84445,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "topStories": "ed7970c6bdd42f03",
+        "getItem": "7b8bb1cb554c53c6",
+        "search": "fa15b9a8406b5fb7",
+        "searchComments": "b65da65a7a36e928",
+        "getThread": "13a2b4b4caace24a"
       }
     },
     "providers.hamptonwaterwine": {
@@ -80615,6 +84473,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findNearbyRetailers": "dbadd41dd30d09da"
       }
     },
     "providers.handypro": {
@@ -80645,6 +84506,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "checkServiceArea": "1ebb6e631386e4f0",
+        "searchServiceCategories": "d05dd5974e345ff1"
       }
     },
     "providers.hansons": {
@@ -80680,6 +84545,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkAvailability": "eba11486666e2175"
       }
     },
     "providers.harmar": {
@@ -80799,6 +84667,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchVehicleModels": "34e9b8ec9184aa23",
+        "searchChairModels": "6d6163291f2ece95",
+        "getCompatibleLifts": "af417d2de3becebd",
+        "findCompatibleLifts": "3a278748a4a229f9"
       }
     },
     "providers.harringtonsdurham": {
@@ -80870,6 +84744,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getListing": "30b8eb1c02f1c6ce",
+        "listListings": "07b4a912282f8972"
       }
     },
     "providers.hauslabs": {
@@ -81010,6 +84888,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listHauslabsProducts": "e6044481828b88e5",
+        "getHauslabsProduct": "5198c4310160cad3",
+        "runFoundationShadeFinder": "b28eb6eda1aca977"
       }
     },
     "providers.havenenergy": {
@@ -81048,6 +84931,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getPropertyDetails": "acebb8295fb569fa",
+        "getPricingPrograms": "c0eb383a8565e4e5",
+        "listPricingPrograms": "f6e0aed63225dc16"
       }
     },
     "providers.haydenhomes": {
@@ -81132,6 +85020,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchQuickMoveIns": "6f191bbcd69a7e2e"
       }
     },
     "providers.hccts": {
@@ -81160,6 +85051,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkApplicationAvailability": "11904e1e0b3ad51d"
       }
     },
     "providers.healthcare_gov": {
@@ -81217,6 +85111,17 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "estimateEligibility": null,
         "findLocalHelp": null
+      },
+      "digests": {
+        "searchPlans": "2383402fd25b6585",
+        "getPlan": "747a0a9466b706f7",
+        "checkDrugCoverage": "c5e776d7786e23da",
+        "checkProviderCoverage": "b54c821d40f2ec0c",
+        "searchDentalPlans": "ab8aee80c4c2f79b",
+        "estimateOutOfPocketCosts": "18f8d427741bec57",
+        "checkEnrollmentEligibility": "35c469b0f3d3c378",
+        "estimateEligibility": "101a23a922b2a517",
+        "findLocalHelp": "ddc38c3e4a07bbab"
       }
     },
     "providers.heatherwood": {
@@ -81232,6 +85137,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listFloorplans": "826b04baa750f728",
+        "getFloorplan": "affeab2733048d17"
       }
     },
     "providers.hellofresh": {
@@ -81296,6 +85205,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getWeeklyMenu": "906f8268d84e0fbb",
+        "checkDeliveryAvailability": "cf6f732060263c5d",
+        "getRecipe": "5c62302c83e26c23",
+        "searchRecipes": "dc3d3c8d6e9112ba"
       }
     },
     "providers.hellotend": {
@@ -81327,6 +85242,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listMarkets": "b33e525f0ed56469",
+        "listStudios": "3087d7c12f76d64f",
+        "listServices": "d5e885513e899ee9"
       }
     },
     "providers.higgsfield": {
@@ -81487,6 +85407,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listModels": "a9716c9462ac7e72",
+        "estimateCost": "24289b11c17b5d67",
+        "generateImage": "8dc46eb5b9040dd6",
+        "generateVideo": "8dc46eb5b9040dd6",
+        "getRequestStatus": "f66a78cec305ed03"
       }
     },
     "providers.highlandhomes": {
@@ -81606,6 +85533,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "0190007ae896ea36"
       }
     },
     "providers.hilton": {
@@ -81655,6 +85585,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "a7efdcd1523dca73"
       }
     },
     "providers.hipcamp": {
@@ -81669,6 +85602,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "d34cd8741eeeec90"
       }
     },
     "providers.historymaker": {
@@ -81735,6 +85671,11 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCommunities": []
+      },
+      "digests": {
+        "searchQuickMoveIns": "98d6b755ce646938",
+        "getHome": "f97a43f646656f19",
+        "listCommunities": "d35cedfbf27610ff"
       }
     },
     "providers.hkexpress": {
@@ -81813,6 +85754,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getFareCalendar": "57d4d1e32f6736fb",
+        "listRoutes": "e02046ca8484bd7c"
       }
     },
     "providers.hobbylobby": {
@@ -81850,6 +85795,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "8e0b9153cb3f5597",
+        "searchProducts": "c99016df936ba19b"
       }
     },
     "providers.hobie": {
@@ -81897,6 +85846,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listModels": "11e87679810cc824",
+        "listKayakModels": "3e864dcbe61e0c53",
+        "listModelColors": "b4b1b3dc42486d97",
+        "checkLocalAvailability": "8c71d56de3a74aa5"
       }
     },
     "providers.hodjapasha": {
@@ -81951,6 +85906,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listShows": "fa405a9221dab481",
+        "getShow": "79d20601f095849e",
+        "getAvailability": "6e07043a16410351"
       }
     },
     "providers.holidaybuilders": {
@@ -82037,6 +85997,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchAvailableHomes": "c3cd02d27c37349f",
+        "getHomeDetail": "5049b39c7af1f07f"
       }
     },
     "providers.hottopic": {
@@ -82060,6 +86024,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "29792c86fa9a2a36"
       }
     },
     "providers.hubspot": {
@@ -82153,6 +86120,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchDeals": "87278a200c6c6600",
+        "getDeal": "f7905fb6c835f388",
+        "addNoteToDeal": "e4bda60aa6dd0a07"
       }
     },
     "providers.huggingface": {
@@ -82277,6 +86249,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listTrendingModels": "fa33def565599cd3",
+        "searchModels": "02d93c7914ea86c6",
+        "getModel": "2e69f13f7ee6c0dd"
       }
     },
     "providers.humana_directory": {
@@ -82322,6 +86299,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProviders": "08c72e78f0b6dede"
       }
     },
     "providers.hunter": {
@@ -82352,6 +86332,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findDomain": "832312e979c50d2e",
+        "countEmails": "8fcadf73561d0fd4"
       }
     },
     "providers.iberia": {
@@ -82412,6 +86396,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchLocations": "f0740dbb8efba7f2"
       }
     },
     "providers.ibuypower": {
@@ -82475,6 +86462,14 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSystems": "161cb87ed190844a",
+        "listPrebuilts": "b137f84b1cf41705",
+        "listLaptops": "6f3f708d407818b7",
+        "getSystem": "1d8be377cad1d0ef",
+        "getBenchmark": "ad0f1e4f7298e424",
+        "recommendGamingPc": "2375fbddcc7152a0"
       }
     },
     "providers.idealista": {
@@ -82548,6 +86543,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "071a977f36a52486"
       }
     },
     "providers.identitygroup": {
@@ -82587,6 +86585,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchSigns": "2b0fa77766fe4247",
+        "getSign": "5ba9b579481fa510",
+        "priceMountOption": "c3feea914c84b5d8"
       }
     },
     "providers.ihg": {
@@ -82645,6 +86648,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "c7189d97a996d52a"
       }
     },
     "providers.ikea": {
@@ -83694,6 +87700,36 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "fadcf1d2fbe3815f",
+        "suggestSearchTerms": "ebc11bcdfc806b16",
+        "getProduct": "abeecb66749646a0",
+        "getProductRatings": "4e348702fed22a8a",
+        "getProductDocuments": "e3157c4d52d03043",
+        "findStores": "c8627a0ecea4fc4e",
+        "getProductAvailability": "dc3aff38655faa75",
+        "getDeliveryOptions": "07dc5f09e2499dc0",
+        "lookupOrder": "917876d145f898ac",
+        "getProfile": "1f7ea8a65ba635e4",
+        "getFamilyMembership": "6675b883dc8059ca",
+        "listFamilyOffers": "a635a34d0413dacc",
+        "bookPlanningAppointment": "f84a23adf1d3abb3",
+        "updateProfile": "b59344e3f9e5eb16",
+        "listPurchases": "40e120104ff4e557",
+        "getPurchase": "9d95201239620750",
+        "listCategories": "c28aeb15f9cfb619",
+        "listCategoryProducts": "1a83d5175fc7ffd5",
+        "listOffers": "7c0bbe8bd6e510f1",
+        "listNewProducts": "2dd92630ce15c756",
+        "listInspiration": "8cc119e3288e35fb",
+        "addToCart": "d299ac43c168f536",
+        "getCart": "0811d6116417c5db",
+        "updateCartItem": "162c4f193f93e936",
+        "removeFromCart": "eb46cf7c57fab678",
+        "addToFavorites": "96d3410cdffb2661",
+        "listFavorites": "1a910e8bd2a1f18a",
+        "removeFromFavorites": "7075bf845ffa41fb"
       }
     },
     "providers.illinois_lottery": {
@@ -83799,6 +87835,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "jackpots": "d3a43ae854bf023d",
+        "quickPick": "b0536dc98d239934",
+        "stores": "d5249a6edf3b375c",
+        "getCart": "2848e0e42779dae4"
       }
     },
     "providers.imdb": {
@@ -84147,6 +88189,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "5d87961fd5e05d74",
+        "searchTitles": "9f2dbf466fe803ec",
+        "searchSuggestions": "be5319e03a7ef2df",
+        "getTitle": "03e993e5ccd200db",
+        "getPerson": "b3b90b2147f53555",
+        "getTitleReviews": "0dab487d79a63e03",
+        "listWatchlist": "bd9d275a9b6b4143",
+        "listRatings": "dcbcdf3b158a28e3",
+        "listCustomLists": "5ab39e9369714abd"
       }
     },
     "providers.imgur": {
@@ -85266,6 +89319,39 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getGalleryPosts": "dafb54595f26fced",
+        "getPost": "60f299fce4102726",
+        "getPostComments": "946a23d9c21d667d",
+        "getTag": "b11bb8f5dc69a541",
+        "getUser": "8f8e4bef4df6f93e",
+        "getImage": "0948438cdaa5d7b7",
+        "listTags": "54a426ea2e5cf094",
+        "getUserPosts": "ee5afc7a4dd3cd32",
+        "getUserFavorites": "ee5afc7a4dd3cd32",
+        "getUserComments": "6080ced7bbc23700",
+        "getMyPosts": "9fa4254f31d5998a",
+        "getMyFavorites": "9fa4254f31d5998a",
+        "getNotifications": "ed141fc4ef0ab98b",
+        "votePost": "cdbadfdd02f9d530",
+        "favoritePost": "df6e220778ee3619",
+        "addComment": "06df7f9072e18488",
+        "deleteComment": "80821832fee5a4d8",
+        "voteComment": "8a2ec73a7f82ad7a",
+        "deletePost": "7afbcfce71afe1c6",
+        "editPost": "691f2be88be0e1b0",
+        "unfavoritePost": "df6e220778ee3619",
+        "followTag": "1ac6595fb82129db",
+        "unfollowTag": "1ac6595fb82129db",
+        "followUser": "757ac7b794be9448",
+        "unfollowUser": "757ac7b794be9448",
+        "updateProfile": "c1ae0ac980359fee",
+        "uploadImage": "26ef93983af3794d",
+        "createPost": "e2ace945ae4bce1b",
+        "searchPosts": "7f9dc7937a748b97",
+        "signup": "7c039876cf9ee6fe",
+        "confirmSignup": "779cc0551b7c533a"
       }
     },
     "providers.indeed": {
@@ -85425,6 +89511,14 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "d7febef0041177f7",
+        "getJobDetails": "d867169e42a40fb9",
+        "searchCompanies": "bf67bc77f10e4b1e",
+        "getCompanyDetails": "444184097691a1c4",
+        "searchSalaries": "67f2fec170660e19",
+        "getSalaryDetails": "32cd6e543f0d6117"
       }
     },
     "providers.independent": {
@@ -86012,6 +90106,29 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSections": "5fbdf6f539718434",
+        "browseSection": "50e602eca1e1c2e3",
+        "getHomepageHeadlines": "f1ab76a79ee428bf",
+        "listLatestNews": "fd838cd91f6105c2",
+        "getArticle": "dfce5b01c091f768",
+        "getMostPopular": "1205ef897aceac31",
+        "listArticlesByDate": "106df830fe11f8e5",
+        "getLiveBlog": "3f852ee687584ebe",
+        "getVideo": "44305f9ea5904c00",
+        "listVideos": "622ac06eea8fd1a8",
+        "listQuizzes": "0006867439098783",
+        "searchArticles": "7e07c8ae3db6bfcb",
+        "getQuiz": "814ebf731ded58c4",
+        "listNewsletters": "da6f95dd4eb1c006",
+        "listCompetitions": "9a95cf9e536fc84a",
+        "listVoucherStores": "7f7bbb515fd15b80",
+        "getVoucherCodes": "7cc95a5ae47aefb9",
+        "listTopics": "465274bb759e8e53",
+        "getTopicArticles": "a9670cab6abe2570",
+        "listAuthors": "a1f4f5cbd2f46c4a",
+        "getAuthorArticles": "c42bb38a29531d8f"
       }
     },
     "providers.inspirecommunities": {
@@ -86099,6 +90216,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchHomes": "d43327d2f31d70fa"
       }
     },
     "providers.instacart": {
@@ -86966,6 +91086,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findLocation": "b8193b63666b9fc8",
+        "listStores": "1234be0f40e545d5",
+        "getStore": "8352e741b37bb2b2",
+        "compareStores": "0c6808d8cc8f2616",
+        "getProduct": "b281921af7e863c6",
+        "listDeals": "11b2afd8e01f473c",
+        "listDepartments": "61b081e2ab285fe3",
+        "listDepartmentProducts": "8ce5afe455d10a34",
+        "getDeliveryEstimate": "a697fcca04c8fd96",
+        "suggestSearches": "644fcb84e62a2d26",
+        "getWeeklyAd": "115b7bed760eacac",
+        "getStoreHours": "ec051d84f1bed286",
+        "listOrders": "8c9d62ab2cdad183",
+        "listMyAddresses": "2b9a24a571369226",
+        "listCarts": "2f0fb283f0b4b31a",
+        "getCart": "7166504ddad318ab",
+        "getMyAccount": "24cbc33db46a879b",
+        "listMyLists": "cd74385b2920cbda",
+        "listFavorites": "4fbddcdb2f6aa632",
+        "listBuyItAgain": "f1028cb7b4121b4f",
+        "getOrder": "f716df04aaae9504",
+        "getList": "9520f278a8e89acd",
+        "listCoupons": "1c2008edf2504c8a"
       }
     },
     "providers.instagram": {
@@ -87694,6 +91839,35 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getProfile": "0796adb7af1ce7e3",
+        "getPosts": "efc17a9977f9c1cb",
+        "commentsPage": "74a795ec9e8d685d",
+        "getPlayback": "9a9b4511497df6b6",
+        "getPost": "3bb48e1c4063799d",
+        "getFeed": "938627ff1736c952",
+        "searchAccounts": "edca22d534d6a1ba",
+        "getHomeFeed": "d9870c32d3d28a4c",
+        "homeFeedPage": "b50471ac17939b5f",
+        "getSavedPosts": "368c7958d5e6c6ba",
+        "getDirectMessages": "26a88c52b31bf8a3",
+        "getThreadMessages": "ef74c03951f8b153",
+        "getStories": "93c023eee13f0fdf",
+        "getNotifications": "b606a0b99f129865",
+        "sendDirectMessage": "230e46099094078f",
+        "followUser": "d6bb92e9bad316fe",
+        "unfollowUser": "7008096437f20fda",
+        "likePost": "bca3ffb549737653",
+        "unlikePost": "86d06f9171f6b6c8",
+        "commentOnPost": "090cb26f97399473",
+        "savePost": "757276b368d5d7d4",
+        "unsavePost": "afe0689af3e1f78d",
+        "blockUser": "2ba7ce68e51375fa",
+        "unblockUser": "a15e3677907db36e",
+        "muteUser": "7e2e67816f8435a7",
+        "unmuteUser": "95dc9ba627c71a0f",
+        "updateProfile": "f105f0c25548b3a4"
       }
     },
     "providers.insurify": {
@@ -88701,6 +92875,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getAutoQuotes": "601c04ae067e13d9",
+        "getCityRates": "64692eaf400a5523",
+        "getStateRates": "ff882a45ff787d16",
+        "getVehicleRates": "df4f1951ee78897c",
+        "getHomeQuotes": "94493f1372a5172f",
+        "getRentersQuotes": "5b60853479983108",
+        "listInsightsReports": "54d8ea040c61263d",
+        "getCarrierReview": "2dbbca1b699492c4",
+        "getCarrierUserReviews": "81f64901fd7c2cb3",
+        "rankCarriers": "224e004522746e79"
       }
     },
     "providers.intactinsurance": {
@@ -88716,6 +92902,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listSolutions": "667fe417039fa283",
+        "getSolution": "2d1ddc4997524ac3"
       }
     },
     "providers.interiordefine": {
@@ -88777,6 +92967,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "bef84e4b7e863ba5",
+        "getConfigurator": "b49c837e07c7b0b5",
+        "priceConfiguration": "47275497e81c73cd",
+        "addToCart": "79442c8b5f223a95"
       }
     },
     "providers.intro_co": {
@@ -88841,6 +93037,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "1a2905246daa312d",
+        "expert": "d9931003c3479d78"
       }
     },
     "providers.ipinfo": {
@@ -88855,6 +93055,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookup": "b9a01f2d4816354e"
       }
     },
     "providers.iproyal": {
@@ -88892,6 +93095,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getPlans": "ef250c9852a653de"
       }
     },
     "providers.irs": {
@@ -88911,6 +93117,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFormInfo": "9d935aaf55100316"
       }
     },
     "providers.islllc": {
@@ -88981,6 +93190,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCommunities": "043483fe98f34a9b"
       }
     },
     "providers.istanbulkart": {
@@ -88988,6 +93200,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getCardFees": [],
         "getTouristPassFares": []
+      },
+      "digests": {
+        "getCardFees": "1548ff5f031ec035",
+        "getTouristPassFares": "762ef9cb2a15e3ee"
       }
     },
     "providers.itunes": {
@@ -89030,6 +93246,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchPodcastEpisodes": "3fd908a921824291"
       }
     },
     "providers.ivoryhomes": {
@@ -89100,6 +93319,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchFloorPlans": "1a6ed19e46694847"
       }
     },
     "providers.iyc": {
@@ -89179,6 +93401,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCharterYachts": "482aa0d4f0b18ad3",
+        "checkCharterAvailability": "d9424611237e22c3"
       }
     },
     "providers.jasmine_dilucci": {
@@ -89202,6 +93428,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getApplicationFormSchema": "4f3373c522321478"
       }
     },
     "providers.jcrew": {
@@ -89754,6 +93983,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCategories": "f2da3916336da651",
+        "searchProducts": "42b9256011917d18",
+        "browseCategory": "6786d105e8dcf75f",
+        "getProduct": "67cbb2e62d19426f",
+        "getProducts": "a27e6d78f2100d7b",
+        "checkVariantStock": "3b313b536fe922cc",
+        "suggestSearchTerms": "9423d849036460f9",
+        "getCategory": "c798a33d0cca14ca",
+        "listSearchRefinements": "a224a69bda0cf54b",
+        "listSortOptions": "72201331f57e7103",
+        "findStores": "6d98202653399532",
+        "listProductReviews": "6b32e45622e0997a"
       }
     },
     "providers.jennikayne": {
@@ -89818,6 +94061,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getGiftCardOptions": "05b5380154194d4b",
+        "buildGiftCardLink": "4a1935a789da179f"
       }
     },
     "providers.joybird": {
@@ -89852,6 +94099,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listConfigurators": "0da681e830a96c63",
+        "getConfigurator": "a6034b2789737bf5",
+        "priceConfigurator": "b49d8b6c3ba6c29a"
       }
     },
     "providers.joycefactorydirect": {
@@ -89859,6 +94111,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getWindowCalculatorOptions": [],
         "getBathCalculatorOptions": []
+      },
+      "digests": {
+        "getWindowCalculatorOptions": "19329b5d75feee0f",
+        "getBathCalculatorOptions": "19329b5d75feee0f"
       }
     },
     "providers.junkluggers": {
@@ -89937,6 +94193,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findFranchise": "7b634f881baf873f",
+        "getServiceTypes": "63e86c5c3dd5a32d",
+        "getAvailability": "c01020c8eedac9bd"
       }
     },
     "providers.justinwine": {
@@ -89951,6 +94212,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listClubTiers": "30d328eafcf71732"
       }
     },
     "providers.kaggle_com": {
@@ -90164,6 +94428,28 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchAll": "4a05080d47ed97ba",
+        "getSearchAutocomplete": "4a05080d47ed97ba",
+        "searchDatasets": "4a05080d47ed97ba",
+        "searchKernels": "4a05080d47ed97ba",
+        "searchSuggestions": "4a05080d47ed97ba",
+        "listCompetitions": "4a05080d47ed97ba",
+        "listModels": "4a05080d47ed97ba",
+        "getTrendingSearches": "4a05080d47ed97ba",
+        "listPopularTags": "4a05080d47ed97ba",
+        "getCompetition": "4a05080d47ed97ba",
+        "getCompetitionLeaderboard": "4a05080d47ed97ba",
+        "getModel": "4a05080d47ed97ba",
+        "getBenchmarkLeaderboard": "4a05080d47ed97ba",
+        "getBenchmark": "4a05080d47ed97ba",
+        "getDatasetBasics": "4a05080d47ed97ba",
+        "getKernel": "4a05080d47ed97ba",
+        "getBenchmarkLeaderboard2": "4a05080d47ed97ba",
+        "getForumTopic": "4a05080d47ed97ba",
+        "getForumMessages": "4a05080d47ed97ba",
+        "getKernelListDetails": "4a05080d47ed97ba"
       }
     },
     "providers.kaiser_directory": {
@@ -90209,6 +94495,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProviders": "390775d907376ca4"
       }
     },
     "providers.kaiser_permanente": {
@@ -90450,6 +94739,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchFacilitiesByZip": "31d27a5a5f2295b9",
+        "searchQna": "0f3b192541da4403",
+        "listSearchSuggestions": "524e8ea99a654cb5",
+        "getServiceArea": "ff15809a934c6793"
       }
     },
     "providers.kaleidescape": {
@@ -90536,6 +94831,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findDealersNear": "cd911392f38e4b4d"
       }
     },
     "providers.kalshi": {
@@ -90601,6 +94899,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getMarkets": "08de86e7bf43cdf5",
+        "getMarket": "9ae00b4353f034a6"
       }
     },
     "providers.katzsdelicatessen": {
@@ -90624,6 +94926,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "7683f59f2e2933db",
+        "getProduct": "fcca55450ca45fd7"
       }
     },
     "providers.kayak": {
@@ -90976,6 +95282,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "ffbc509ef19ce4ec",
+        "getBookingOptions": "818d2a288d68139a",
+        "searchHotels": "b286910f04dccdfe",
+        "searchCars": "cf0aa1e8cbe6c80c"
       }
     },
     "providers.kbb": {
@@ -91004,6 +95316,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getTrimPricing": "1ce933938c6636f0"
       }
     },
     "providers.keepa": {
@@ -91058,6 +95373,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "21e87655acfe5f36"
       }
     },
     "providers.kenko": {
@@ -91780,6 +96098,27 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findStudio": "162951fe66129a10",
+        "listClasses": "615a6dec9a6febde",
+        "listInstructors": "6ba983a4047dbacc",
+        "listScheduleFilters": "ee5e28d4586e33f6",
+        "getClassSpots": "4755515395fcb824",
+        "getClass": "6aa0f62321219a11",
+        "listPricing": "c8625c09e8849d2f",
+        "listGiftCards": "07cbbaf95b27a196",
+        "listAppointmentTypes": "cb52743608020d93",
+        "getAppointmentAvailability": "edb88f0d0050ed3e",
+        "listProducts": "bbeb8ca1f11f09b9",
+        "getMyProfile": "937850211ad76a08",
+        "updateMyProfile": "4bcf046a8623c80d",
+        "cancelBooking": "5322627d464fa8cc",
+        "cancelMembership": "78676ba66558ef9d",
+        "pauseMembership": "4860df440caf3de3",
+        "listMyBookings": "428956608b37592e",
+        "listMyMemberships": "bcbd48ff9e1395f4",
+        "listMyPurchases": "bcbd48ff9e1395f4"
       }
     },
     "providers.kick": {
@@ -92628,6 +96967,35 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "f7b354f2f8bbcda3",
+        "getChannel": "0372d7832abf4528",
+        "getLivestream": "9b48302adbed07ad",
+        "listCategories": "84e258390bc645c1",
+        "listLiveStreams": "5e1ef1493540c046",
+        "listChannelVideos": "1f1240faafbde8a3",
+        "getPlayback": "34c6adee747c0cb2",
+        "getVideo": "8d2c8d8011f5ed25",
+        "getCategory": "52c8129f93d49064",
+        "listFeaturedLivestreams": "03a66746e8d90afe",
+        "listChannelClips": "dc5953b4bd6b32f9",
+        "getClip": "1a55048999d6b04c",
+        "listTopClips": "5bcd399fbafd1ad1",
+        "getChatMessages": "6231f506fea8f08d",
+        "getChatroomSettings": "6dc6ea3d04f274b3",
+        "listChannelEmotes": "2613f0a2bb14efb7",
+        "getChannelLeaderboard": "9167704836f1472f",
+        "listChannelLinks": "61564eae2fca3694",
+        "getChannelUser": "e00bedf5d30ed019",
+        "getCurrentUser": "6a7fcc101a0de708",
+        "listFollowedChannels": "d59bdc23f4a377cf",
+        "listSubscriptions": "9382fa32cc18a68f",
+        "followChannel": "09461e4373a808ec",
+        "unfollowChannel": "09461e4373a808ec",
+        "sendChatMessage": "d031434a3aedc66f",
+        "updateStreamInfo": "9de29e6c98f163fd",
+        "deleteChatMessage": "d30c74e5298f6f24"
       }
     },
     "providers.kickstarter": {
@@ -92685,6 +97053,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "128f3a34bae7c3b3",
+        "project": "c88a98b06a66a1ae"
       }
     },
     "providers.kijiji": {
@@ -92736,6 +97108,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "648e1aba30d04f5b",
+        "getListing": "5939f5626f9f2e87"
       }
     },
     "providers.kingsdown": {
@@ -93011,6 +97387,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getBedMatchResult": "13744e091d171774"
       }
     },
     "providers.kitchentuneup": {
@@ -93052,6 +97431,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCabinetStyles": "960763bd60b785da",
+        "visualizeKitchen": "ddb9727cb128e3b2"
       }
     },
     "providers.kompan": {
@@ -93138,6 +97521,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProduct": "43d8622c6b7e22a4",
+        "getSparePartsDocuments": "e2082b0e3e488e23",
+        "searchPlaygroundSpareParts": "4c5c5ada597e4fad"
       }
     },
     "providers.kuiu": {
@@ -93227,6 +97615,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listKuiuProducts": "327cb15df6d86da7",
+        "getKuiuProduct": "dea2a402328df0b9",
+        "findKuiuSize": "641c1b9bd60dab18",
+        "getKuiuCheckoutLink": "29466c79b6833080"
       }
     },
     "providers.kwworldwide": {
@@ -93241,6 +97635,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findContactForm": "012a44bf26f85fc2"
       }
     },
     "providers.labcorp": {
@@ -93264,6 +97661,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "ac3cff2d7626dd5d",
+        "getTest": "cfc351a7654fb317"
       }
     },
     "providers.landmarkhw_com": {
@@ -93293,6 +97694,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listOrderStates": "250b9477c66fe16b",
+        "getOrderFormOptions": "d1b8ef228b0330da"
       }
     },
     "providers.landsend": {
@@ -93381,6 +97786,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getActivePromo": []
+      },
+      "digests": {
+        "searchProducts": "6f1900ab11c7a519",
+        "getActivePromo": "2da69811e5702618"
       }
     },
     "providers.lasikplus": {
@@ -93420,6 +97829,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findCenters": "6c060dc6bfa3d495",
+        "getAvailability": "22eccb5fed1cc08c"
       }
     },
     "providers.launchpad": {
@@ -93486,6 +97899,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProject": "25759acf2bafb15e",
+        "listLatestProjects": "b5668e7ef6049fa9",
+        "searchProjects": "f43a54d81c067076"
       }
     },
     "providers.lcsc": {
@@ -93559,6 +97977,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "0e3e30287c15d230",
+        "product": "dc37d792585c811b"
       }
     },
     "providers.leboncoin": {
@@ -93589,6 +98011,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "068d1cfb4e353380"
       }
     },
     "providers.legacyhomesal": {
@@ -93604,6 +98029,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCommunities": []
+      },
+      "digests": {
+        "getAvailability": "f3ac34c697f56f59",
+        "listCommunities": "3b816fc43f200702"
       }
     },
     "providers.letterboxd": {
@@ -93791,6 +98220,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "film": "28d80fb65dc7c6a2",
+        "memberFilms": "e1f29b76083baea7",
+        "memberDiary": "809fa91cf10c3ecd",
+        "getOwnAccount": "f9f9c5ea0946968e",
+        "login": "81862a6644d4a7af",
+        "signup": "f025e0189fd02f8f",
+        "confirmSignup": "2d759b5266cfa94a"
       }
     },
     "providers.lever": {
@@ -93805,6 +98243,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "8bfc41588754ee07"
       }
     },
     "providers.lichess": {
@@ -93960,6 +98401,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchPlayers": "a85161290237a3ee",
+        "getUser": "843487d2850b06f3",
+        "topPlayers": "e9e89c34c10489f4",
+        "exportGame": "da6f68cd59505a6e"
       }
     },
     "providers.lime": {
@@ -93989,6 +98436,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCities": "25a2607f7a2147a0",
+        "cityPricing": "506da7c0cc443537"
       }
     },
     "providers.linkedin": {
@@ -96495,6 +100946,75 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "83739515370cd73c",
+        "listCompanyJobs": "2fa4044d62710e7e",
+        "getCompany": "f049194f11127930",
+        "listCompanyPosts": "7fead4f13d4b0d42",
+        "listMemberPosts": "3f11a5eb893f676b",
+        "getJob": "cbcb06512eacc14a",
+        "getProfile": "c52c630a8b2bb494",
+        "searchPeople": "59a8962806ab5cbe",
+        "getPost": "a1def5acf6da00ef",
+        "listPostComments": "1e05fdcc718b8839",
+        "getArticle": "78cd6cca9e2b6975",
+        "getSchool": "bf297cfc3ea3f2da",
+        "searchServiceProviders": "378176cf59c50ba9",
+        "searchLearningCourses": "9222185b47ec7d82",
+        "getLearningCourse": "1d9371f9e132b06e",
+        "getMyProfile": "6eb6ed5a3656bc3e",
+        "listConnections": "f7d58396a5dad873",
+        "getProfileDetails": "7e64035df1359c84",
+        "searchMembers": "74ddb262b231e8d8",
+        "searchCompanies": "eec7406e0ec03eae",
+        "listCompanyEmployees": "26592df80b47b913",
+        "searchPosts": "e26cdfc4483cf24e",
+        "getHomeFeed": "d8c63c12abdf97ca",
+        "listConversations": "9679f012a4923266",
+        "getConversation": "8cfa982df5b67fc7",
+        "listInvitations": "e405348745fd69b7",
+        "listSentInvitations": "e405348745fd69b7",
+        "getProfileViews": "811c7f9b52aede7f",
+        "listNotifications": "8c37d1e109deb56e",
+        "listSuggestedConnections": "97de1ca65c8239f8",
+        "listFollowing": "ba9840baf1b0bb4e",
+        "listSavedJobs": "9fab2156fe763a42",
+        "listAppliedJobs": "9fab2156fe763a42",
+        "listSavedPosts": "fc34c93b83963c00",
+        "searchGroups": "ded1cbfc0b9d7cbc",
+        "getGroup": "cb3345c06e7797d6",
+        "listMyGroups": "f5f3086bec0f2cc1",
+        "searchSchools": "b998c248f083b618",
+        "searchEvents": "57339537d8f12a7a",
+        "getEvent": "84086f7514e826b2",
+        "createPost": "b58b03fa01c4472e",
+        "deletePost": "d38e8a2ab2c75cf2",
+        "commentOnPost": "e9a4f8e4b0106041",
+        "deleteComment": "bdf5d0f90110acb7",
+        "reactToPost": "76f2b8fed1e03883",
+        "repostPost": "8c4b3801eda3308d",
+        "savePost": "0fc8ef5fd845d5bc",
+        "saveJob": "45c51355d175a94c",
+        "followCompany": "ee5924dafc5cdf15",
+        "followMember": "2b1f71a003af1ac9",
+        "sendConnectionRequest": "e08319e5ae9decbc",
+        "withdrawInvitation": "e8f1e79f36befa87",
+        "acceptInvitation": "b2f03b56a71af3dc",
+        "ignoreInvitation": "a44738d048d42f6b",
+        "removeConnection": "5fbca7d9997e36d3",
+        "sendMessage": "28b2d03512e3f8c9",
+        "joinGroup": "4ff0f211fb1728e5",
+        "leaveGroup": "67d67de18ac405d4",
+        "updateProfile": "554cd49a1595a2c7",
+        "setProfilePhoto": "fb1220c2c6b25eaa",
+        "applyToJob": "e9811165a5ef8441",
+        "attendEvent": "79f79719175ba011",
+        "createGroupPost": "477b2443eb3e8aca",
+        "subscribeToNewsletter": "26eccce0971fbe75",
+        "addProfileSkill": "b9340048c4e75238",
+        "replyToComment": "6565187fd5e67b8b",
+        "login": "779917a6ba93499c"
       }
     },
     "providers.liquiddeath": {
@@ -96636,6 +101156,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "d51f94b142016f37",
+        "listProducts": "ca534684356bad27",
+        "getProduct": "4aa707ab9ff7c974",
+        "addToCart": "4cfa5650130931da",
+        "getCart": "30aa20159528192b"
       }
     },
     "providers.liquidspace": {
@@ -96684,6 +101211,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "63d84fcbdefe890c",
+        "getListingDetails": "45de378bdf7e68b6"
       }
     },
     "providers.littlewordsproject": {
@@ -96792,6 +101323,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listLittleWordsProjectCollections": "7bf7487ee2342bbb",
+        "listLittleWordsProjectProducts": "209a8a9588d99fc3",
+        "getLittleWordsProjectProduct": "f7189987542c99e0",
+        "getLittleWordsProjectCheckoutLink": "9eddb1afe0c4de8b"
       }
     },
     "providers.lmstudio": {
@@ -96807,6 +101344,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      },
+      "digests": {
+        "getDoc": "b2c760342b4b06ec",
+        "listDocPages": "fa0be96f609fbf21"
       }
     },
     "providers.lobehub_com": {
@@ -96838,6 +101379,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "d61c36c5c69d7c4e"
       }
     },
     "providers.loc8me": {
@@ -96861,6 +101405,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getListing": "a48a233a5c0e656f",
+        "searchListings": "da8f6906a7a9cab7"
       }
     },
     "providers.lonelyplanet": {
@@ -96875,6 +101423,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "c735061113b5fe1f"
       }
     },
     "providers.louvershop": {
@@ -96903,6 +101454,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findLocalDealer": "b3cdfe3ad2722d7f"
       }
     },
     "providers.lovelybride": {
@@ -96941,6 +101495,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listStores": "6f873983732909a5",
+        "getStoreAppointmentTypes": "2241409181979a88",
+        "getAvailableSlots": "6bae2df062dc715f"
       }
     },
     "providers.lowes": {
@@ -96976,6 +101535,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "f006b91cf374661b"
       }
     },
     "providers.lufthansa": {
@@ -97027,6 +101589,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getFlightStatus": "20c2c893de61d303",
+        "getBaggageAllowance": "c778369154055d78"
       }
     },
     "providers.luggageforward": {
@@ -97079,6 +101645,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listLuggageTypes": []
+      },
+      "digests": {
+        "getQuoteOptions": "4af218a51b573d90",
+        "listLuggageTypes": "70a1a0ffa74750d6"
       }
     },
     "providers.lululemon": {
@@ -97545,6 +102115,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "72d9dabb9ebe7c5d",
+        "getProduct": "6c0f50ad09d69ed9",
+        "getProducts": "1ff131316049cf83",
+        "getProductAttributes": "d2b387e4d02b3833",
+        "getSimilarProducts": "e01c5aff7730ce5f",
+        "getReviews": "00d52ba777a8bdb9",
+        "getSizeGuide": "b8d24d86bba7fa85"
       }
     },
     "providers.luma": {
@@ -97742,6 +102321,13 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listPlaces": [],
         "listCategories": []
+      },
+      "digests": {
+        "getEvent": "ffb403c5fb87c205",
+        "discoverEvents": "1e3a0e193ccef792",
+        "listCalendarEvents": "2993e3d8d95e7f76",
+        "listPlaces": "34c92863d8b51f08",
+        "listCategories": "aee5382bd83f09d0"
       }
     },
     "providers.lyreco": {
@@ -97765,6 +102351,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "03f207835ea3c8f7",
+        "getProduct": "9e54e24e02bdb320"
       }
     },
     "providers.maersk": {
@@ -97779,6 +102369,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "track": "e8bdfbdd5cc650c6"
       }
     },
     "providers.magicmadhouse": {
@@ -97793,6 +102386,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "9b0fa1a938df4445"
       }
     },
     "providers.maidenhome": {
@@ -97839,12 +102435,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchConfigurations": "dac928bb86ed4811",
+        "getProduct": "a1977f6e9ca08ebc",
+        "resolveVariant": "452a455fc8e7defb"
       }
     },
     "providers.mailchimp": {
       "defs": {},
       "functions": {
         "getPlanPricing": null
+      },
+      "digests": {
+        "getPlanPricing": "d0f83d3c2b9e6376"
       }
     },
     "providers.mango": {
@@ -98306,6 +102910,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCategories": "54666406c8f3a355",
+        "searchProducts": "e20e3c18ffc3e55c",
+        "getProduct": "c2ffdbda1317df17"
       }
     },
     "providers.mangomint": {
@@ -98912,6 +103521,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findBusiness": "4b7a7a268affd09e",
+        "getBusinessInfo": "47856c07e9074aa7",
+        "listServices": "ed937538628be391",
+        "getService": "13823c7f5f3cf818",
+        "listStaff": "18b362fa9c614edf",
+        "checkAvailability": "5ee2c3a9ee2437f3",
+        "listServiceCategories": "40843f4f11938726",
+        "getStaff": "812d78b7830c017d",
+        "listLocations": "684e76ede0736741",
+        "listPackages": "6452ff2e4b528d20",
+        "listMemberships": "7a700af78f64a823",
+        "validateSlot": "9fc04531c5cbf673",
+        "bookAppointment": "0d9cd006f6da1605",
+        "joinWaitlist": "a35ff9184166150f",
+        "listPastServices": "26783b39986e2ec2"
       }
     },
     "providers.marianatek": {
@@ -100666,6 +105292,44 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findStudio": "0bb4b4ecad3040b9",
+        "listRegions": "5243b9061afedafa",
+        "listLocations": "b0cefdb2b8681b8d",
+        "getLocation": "d85f2f96d38595a1",
+        "listScheduleFilters": "4b0b42abbf81af27",
+        "listPricing": "9917db8eec55498d",
+        "listAppointmentCategories": "8b8c9f2f30049965",
+        "listAppointmentServices": "1ce8dddf93810524",
+        "listAppointmentSlots": "2ca3d627bbb4e430",
+        "listClasses": "f4d2b6b57ac61d83",
+        "getClass": "736ff5a4a6c6206c",
+        "listClassSpots": "fa1d856e3a60952c",
+        "getMyAccount": "e3c07d2eee5c66b9",
+        "listMyReservations": "8c7ad515b280f8ac",
+        "getMyReservation": "5243237320ab9bc3",
+        "listMyCredits": "03744a8b12d48f83",
+        "listMyMemberships": "fa3203c90c69b8b7",
+        "listClassPaymentOptions": "a167aeed5f8afa14",
+        "bookClass": "a0d3ba676df548b4",
+        "joinWaitlist": "80297c39235c9fa5",
+        "changeSpot": "f75e0b0dd084dbf6",
+        "cancelReservation": "d07cc39497e8c684",
+        "listMyOrders": "775858bf05c71ddf",
+        "listMyAppointments": "ba686c0981301885",
+        "bookAppointment": "c37dab9f016197ed",
+        "listMyWaivers": "efb0ad0dba6881c6",
+        "listAppointmentPaymentOptions": "c885d72fe1fe86e7",
+        "updateMyAccount": "09aa654123d52b4e",
+        "setProfileImage": "8628134440d1c024",
+        "updateCommunicationPreferences": "a54b926d285a62f9",
+        "cancelMembership": "08b6580b3e5c8578",
+        "checkIn": "0ab22a1ca29f8586",
+        "redeemGiftCard": "c0b1ee3e66fdbb3c",
+        "getMyStats": "762d9c2b8b4f0d3e",
+        "signup": "bed2937e99f60d56",
+        "confirmSignup": "a793856193df30b7"
       }
     },
     "providers.marketplace_visualstudio": {
@@ -100689,6 +105353,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getExtensionStats": "0c3e8abe633121bb",
+        "searchExtensions": "c21ff35ac7e48bdc"
       }
     },
     "providers.marks": {
@@ -100894,6 +105562,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "abf13dbb1b4023f3",
+        "getProduct": "99ec29df8f1ed725",
+        "findStores": "afa7a1feb3f3149a"
       }
     },
     "providers.marriott": {
@@ -100924,6 +105597,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findHotels": "761ff2f5cee6082d"
       }
     },
     "providers.maurices": {
@@ -100981,6 +105657,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "cbe36ef0eda9ed94",
+        "searchProducts": "08043bcf02a06891"
       }
     },
     "providers.mayoclinic": {
@@ -101130,6 +105810,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "786f4ea4fe036a7e",
+        "getCondition": "ac03a780fdfd8a98",
+        "getConditionTreatment": "ac03a780fdfd8a98",
+        "listConditions": "a577d0e99800f339",
+        "listSymptoms": "0b4a7b488c50cd51",
+        "getSymptom": "ac03a780fdfd8a98",
+        "listDrugs": "0b4a7b488c50cd51",
+        "getDrug": "f33c9a149a8c8f39"
       }
     },
     "providers.mcdonalds": {
@@ -101138,6 +105828,11 @@ export const VALIDATORS: ValidatorTable = {
         "getMenu": null,
         "getMenuItem": null,
         "findStores": null
+      },
+      "digests": {
+        "getMenu": "a334c85b5d6eac79",
+        "getMenuItem": "42bf586ed3d107a1",
+        "findStores": "2712c4e0aa3aa392"
       }
     },
     "providers.mcp_directory": {
@@ -101183,6 +105878,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "97a12d8983773d93"
       }
     },
     "providers.mcp_registry": {
@@ -101228,6 +105926,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "3c8c15156edd0dd6"
       }
     },
     "providers.mcp_so": {
@@ -101273,6 +105974,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "c0b1bedbbd0442df"
       }
     },
     "providers.mcpcollection_com": {
@@ -101339,6 +106043,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "list": "4b9d7b9ea1b7eb63",
+        "search": "d17029225bef095d",
+        "server": "7689bffc284d8522"
       }
     },
     "providers.mcpmarket": {
@@ -101417,6 +106126,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "052f11b683d4be36",
+        "server": "a0efafaf38cc4202"
       }
     },
     "providers.mcpserverhub_com": {
@@ -101448,6 +106161,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "bbabaa4fbb8f55d8"
       }
     },
     "providers.mcpservers_org": {
@@ -101489,6 +106205,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "21f993ee617e068d",
+        "server": "7e76224600be47e0"
       }
     },
     "providers.mcptrove_com": {
@@ -101520,6 +106240,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "4d7467b7b34ce630"
       }
     },
     "providers.medicalguardian": {
@@ -101623,6 +106346,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getRiskAssessmentQuestions": "3c481e7d373ba627",
+        "assessFallRisk": "192fe897b79943fa"
       }
     },
     "providers.medicare": {
@@ -101927,6 +106654,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchDrugPlans": "95beeec3171337b6",
+        "getCosts": "50ab99913498835c",
+        "findNursingHomes": "0af269e40826fcae",
+        "findDoctors": "02f435c6916c2b76",
+        "searchMedigapPlans": "0d68e0d80942e896",
+        "findHospitals": "54bcf7d42dc06da4",
+        "getPlan": "455a86d089bce4e1"
       }
     },
     "providers.medium": {
@@ -101959,6 +106695,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "tagPosts": "331f41103ce49703",
+        "authorPosts": "73749fd8381219bf",
+        "publicationPosts": "45b7db22f3e08329"
       }
     },
     "providers.meetup": {
@@ -102016,6 +106757,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchEvents": "80c9cc1d79d51a63",
+        "getGroup": "6f0a2250e5639287"
       }
     },
     "providers.menards": {
@@ -102051,6 +106796,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "55274c9c28e684ae"
       }
     },
     "providers.mensjournal": {
@@ -102093,6 +106841,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "latestArticles": "0b7959ae81e55e66"
       }
     },
     "providers.mercari": {
@@ -102131,6 +106882,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "53065af2871ddd7c"
       }
     },
     "providers.mergify": {
@@ -102179,6 +106933,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "queueStatus": "a3711c833cd94da3",
+        "validateConfig": "f845ad82c2a908e7"
       }
     },
     "providers.merriam_webster": {
@@ -102217,6 +106975,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "define": "f12244e0dc17216a",
+        "thesaurus": "6398aec77e5c036d"
       }
     },
     "providers.microcenter": {
@@ -102258,6 +107020,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "2d2761173d05cf9a",
+        "getProduct": "0a9169e1bd8e84e0",
+        "checkStock": "36007c8a2ce0dbc0",
+        "checkStoreStock": "b6696132db364216"
       }
     },
     "providers.microsoft_365": {
@@ -102699,6 +107467,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listDocuments": "3a0f8d28d0eb0921",
+        "getDocument": "3612c6202e1f8fdf",
+        "createDocument": "2f739fe0110685cf",
+        "listDocumentVersions": "1318c067c5cd7499",
+        "restoreDocumentVersion": "0fc9bafed3dd21ea",
+        "shareDocument": "7a87b5667b9738a0",
+        "deleteDocument": "120ecc7e257e897a",
+        "searchDocuments": "72f2dd871d0002a0",
+        "listRecentDocuments": "5a6cdda6ecf20077",
+        "getDocumentContent": "5c3e1d33139b344f"
       }
     },
     "providers.microsoft_onedrive": {
@@ -102984,6 +107764,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listFiles": "93d13d06659bc0ae",
+        "getFile": "2c0d46330fb447c1",
+        "uploadFile": "ed2807d94c9bfe31",
+        "deleteFile": "7b872aa140ed6a6f",
+        "listFolders": "93d13d06659bc0ae",
+        "createFolder": "7cff92e989bb800d",
+        "shareFile": "03b8655ff74b77fe"
       }
     },
     "providers.microsoft_outlook": {
@@ -103791,6 +108580,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listMailFolders": "7a02630199d8ba4a",
+        "readMailFolder": "4098583956db08da",
+        "getMail": "19bd58c6e5073387",
+        "searchMail": "bb6ead4689730683",
+        "replyToMail": "0f46306a57ee413e",
+        "moveMail": "8f96288529333493",
+        "forwardMail": "05dc8868f4d89841",
+        "deleteMail": "6d8c6f517a55fd2c",
+        "sendMail": "9f41ba0eb40bd43b",
+        "getCalendarEvents": "4655aec10835192b",
+        "createCalendarEvent": "631fbbfdae9cd075",
+        "updateCalendarEvent": "e25ab1cd95da0db8",
+        "deleteCalendarEvent": "43427a808e4019a6",
+        "respondToEventInvite": "ffe5dbcbd46bf6c9",
+        "listContacts": "e997392a8d572023",
+        "getContact": "7a555e6b87c8b91c",
+        "createContact": "970685f309be423d"
       }
     },
     "providers.millisaraylar": {
@@ -103815,6 +108623,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getPalaces": "447e824543986423",
+        "getVisitingHours": "385bd8f7e1da707b",
+        "getTicketPrices": "7455f8921edef480"
       }
     },
     "providers.mindbodyonline": {
@@ -104154,6 +108967,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSchedules": "748eeda20a824a6b",
+        "getSchedule": "a7ecf73d0b1f07d0",
+        "bookSession": "65b71335bd838977",
+        "waitlistSession": "2870bc6ef741dfd0",
+        "cancelSession": "aeec10c8fdc7de52",
+        "myBookings": "8d3f0cd6f99e564d",
+        "signup": "81bb7eae5f2262c6",
+        "confirmSignup": "4be0af1239a75e29"
       }
     },
     "providers.minimax": {
@@ -104168,6 +108991,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getDocs": "67fc01fa148d65fa"
       }
     },
     "providers.mixbook": {
@@ -104254,6 +109080,13 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getActivePromotion": []
+      },
+      "digests": {
+        "searchPhotoBookThemes": "74c5a81b777b45b3",
+        "getProductPrice": "e42930f4019b27b9",
+        "getPhotoBookPriceTable": "d3a910e87fdfafff",
+        "priceCustomBook": "34e32bfa50d25607",
+        "getActivePromotion": "146cb8244838182d"
       }
     },
     "providers.mlb": {
@@ -105598,6 +110431,45 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listTeams": "b2e38613e5ec479a",
+        "searchPlayers": "da5a430017d61d8b",
+        "getSchedule": "c6b2749609ed1d40",
+        "getStandings": "06acfdbb434d5b7b",
+        "getGame": "f60a9178ced5c0df",
+        "getBoxScore": "fe73a3f1facf7746",
+        "getPlayByPlay": "1439b2cbf389c9b9",
+        "getPlayer": "aaa7211960883c0e",
+        "getPlayerStats": "fb5d24712f8ee332",
+        "getStatLeaders": "f2cee35e1d129564",
+        "getRoster": "b958257efee2a7d9",
+        "listNews": "06cef69679e7b538",
+        "getArticle": "76f70c5e210467c5",
+        "searchContent": "16a59a56c6b3a37d",
+        "searchVideos": "ac8110b8997fe664",
+        "getVideo": "e2f63cb7de51821c",
+        "getPlayback": "3f1e92f33c13beb5",
+        "getGameHighlights": "d8d432ff834a19a0",
+        "getTeam": "2617deeead30bd87",
+        "getTeamStats": "1cafa242e0ccdaae",
+        "getWinProbability": "1485dcb13b6dce5f",
+        "getPostseasonBracket": "b3f985f58d4e84ed",
+        "getTeamLeaders": "231f114cdb6effd4",
+        "getPlayerGameLog": "0fe51fbe06a8e1f1",
+        "listPlayerStats": "ea8eaf34a979b1d1",
+        "listTransactions": "1481435e95bee8f4",
+        "getProbablePitchers": "347b80becbb82c76",
+        "getStartingLineups": "d52121abd3eb1d01",
+        "getDraft": "98f6b62fa96d9c02",
+        "getAwards": "b5c4c7bce896c172",
+        "getProspectRankings": "3e2bff87c34597c0",
+        "listGlossaryTerms": "2faa99a2809b6349",
+        "getGlossaryTerm": "13b8338dae3abf10",
+        "getVenue": "75bfe33dfe5fd4ff",
+        "listFreeAgents": "3a94e570d092883a",
+        "getInjuryReport": "6ce973f49488772e",
+        "getGameBroadcasts": "9abcc4805a5332c6"
       }
     },
     "providers.mobile_de": {
@@ -105675,6 +110547,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "67591fc557498f1d"
       }
     },
     "providers.modernize_com": {
@@ -105690,6 +110565,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listProjectTypes": "6e56ef8386934504",
+        "getQuoteFlow": "3911829d595b2255"
       }
     },
     "providers.modularclosets": {
@@ -105732,6 +110611,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchClosetKits": "57275cc9a54bb877",
+        "getKitConfigurator": "e70d08c49351dd77",
+        "priceKitConfiguration": "8d3077f73566eb05"
       }
     },
     "providers.momence": {
@@ -106256,6 +111140,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findStudio": "84f538992c407683",
+        "getStudio": "42e71c23df99d478",
+        "getLocations": "32f33fd15c1354e2",
+        "getTeachers": "d8effb8bb4989765",
+        "getSessions": "076c42971745cf03",
+        "getSessionsByDate": "f0fa391acb94bc06",
+        "getSessionsByLocation": "ca44676b9b2bef05",
+        "getSessionsByTeacher": "81d137cf1aa07c85",
+        "getSessionDetails": "1150e66f488ad90a",
+        "getSessionTiers": "ee3f9ecb6f2203e9",
+        "getSessionPlans": "ee3f9ecb6f2203e9",
+        "getCheckoutFields": "45e5c0a54e76fb93",
+        "getUserInfo": "a265477f05150f28",
+        "getBookingOptions": "2418e0f7e3b4570b",
+        "bookSession": "755e0267d53fd9e7",
+        "joinWaitlist": "a470b9326e4f5179",
+        "signup": "432fce55f4aa0b3b",
+        "confirmSignup": "539504afc4d6131a"
       }
     },
     "providers.momondo": {
@@ -106554,6 +111458,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "699077eeaa0349dc",
+        "getBookingOptions": "739fd6643620eaa0",
+        "searchCars": "5ac9413b62642df2"
       }
     },
     "providers.mossyoak": {
@@ -106643,6 +111552,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listMossyoakProducts": "b0e858e87c1ad7ae",
+        "getMossyoakProduct": "532794de85bc2b50",
+        "getMossyoakCheckoutLink": "6b8df4c1edd59e62",
+        "searchProducts": "35b4cbb56a9297ee"
       }
     },
     "providers.msc": {
@@ -106678,6 +111593,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "trackShipment": "19b4faba36d1354c"
       }
     },
     "providers.msc_fema": {
@@ -106720,6 +111638,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFloodZone": "71d1d712ce0174f1"
       }
     },
     "providers.msccruzeiros": {
@@ -106870,6 +111791,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCruises": "66bc4b7c598b44b2",
+        "quoteCabins": "786b642be259011b"
       }
     },
     "providers.msn": {
@@ -107351,6 +112276,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getTopStories": "3e5c0bb4d1a88279",
+        "searchNews": "2aa43c00d30cdaf3",
+        "getSectionFeed": "a1d9c7ced425dbf7",
+        "getArticle": "0249c6c37347b9e0",
+        "getStandings": "bf7a4506e166e22b",
+        "getStockQuote": "051ea4b0e7fd1201",
+        "convertCurrency": "3340e1427c9f3b40",
+        "getMarketSummary": "907afa2b4f0c22c2",
+        "getWeatherForecast": "d665343ef01e5eac",
+        "getHourlyForecast": "df348789a3405efd",
+        "listSavedArticles": "83f878818559a69d",
+        "saveArticle": "d4277f266f49d9d5",
+        "getVideoFeed": "16e8acf7f7ab933a",
+        "getPlayback": "b32f23bc30c2c68d",
+        "searchVideos": "74cc80ec3deb4eed",
+        "getScores": "9d67c840e899a5be"
       }
     },
     "providers.municipal_recreation_fees_fetcher": {
@@ -107365,6 +112308,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFeeSchedule": "848e3cfdbe44b508"
       }
     },
     "providers.muze_gov_tr": {
@@ -107379,6 +112325,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getVisitingHours": "264b1d95e2fff287"
       }
     },
     "providers.my_auroramedicalspa_com": {
@@ -107455,6 +112404,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "f708e77ff54e260c",
+        "getServiceCategories": "0f6659c040f06a63",
+        "getServices": "fb8d72429daac257",
+        "getProviders": "592624d8f761836b"
       }
     },
     "providers.my_best_studio": {
@@ -107829,6 +112784,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findStudio": "b653b6ec082fa7ab",
+        "listClasses": "70e72e4987e1943d",
+        "getClass": "c57a6bbc42dbb91b",
+        "bookClass": "cd12aa92c7a10d3f",
+        "cancelBooking": "896392ea2edda4ac",
+        "listMyBookings": "f328923a7a09b142",
+        "joinWaitlist": "8daf388f17fbbe3b",
+        "listInstructors": "69fdfab494a7b2d7",
+        "listMemberships": "7eac6ee213d92989"
       }
     },
     "providers.myollie": {
@@ -107902,6 +112868,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getMealPlan": "deed7eba15c68aad"
       }
     },
     "providers.naic": {
@@ -108017,12 +112986,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCompanies": "291e0a8e379d74f5",
+        "getComplaintIndex": "0d3d9e7ede02e6b6",
+        "listStateDepartments": "59ae27f668c215ba",
+        "getCompanyProfile": "72762152031a8965",
+        "getLicensing": "d2382b6b655462cc"
       }
     },
     "providers.namecheap": {
       "defs": {},
       "functions": {
         "getWhois": null
+      },
+      "digests": {
+        "getWhois": "60ec194c62a91fe7"
       }
     },
     "providers.nationalbusinessfurniture": {
@@ -108084,6 +113063,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "4f9c2df232e6b82a",
+        "getProduct": "e26378159106a88c",
+        "priceConfiguration": "763f5aa30e40f29e",
+        "addToCart": "273ee3d164d64f21"
       }
     },
     "providers.nerdwallet": {
@@ -108108,6 +113093,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "compareCreditCards": "4b253b1d6a3630f3"
       }
     },
     "providers.netflix": {
@@ -108432,6 +113420,30 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listTudumArticles": [],
         "listGenres": []
+      },
+      "digests": {
+        "rateTitle": "1a47708f36883ff6",
+        "addToMyList": "48f25f5b2c8dcb7e",
+        "removeFromMyList": "48f25f5b2c8dcb7e",
+        "getTudumArticle": "50d17ecc0db4852d",
+        "searchTudum": "403f3ebfa841a9f0",
+        "getViewingHistory": "8f4a3e4458fe532d",
+        "getContinueWatching": "eb0c4859ca67bd41",
+        "getMyList": "eb0c4859ca67bd41",
+        "search": "9dc28226e611a022",
+        "findTitles": "efb390e83e57305b",
+        "getAccount": "b078ada4ff7dcf12",
+        "getEpisodes": "1cf4a96fca150145",
+        "getNewOnNetflix": "91e774f35c71414b",
+        "getProfiles": "4af576380db32ac7",
+        "getSimilarTitles": "482f22c29f077cf9",
+        "getTitle": "715122928dc4a800",
+        "getTop10": "fcb691f0c72b8d66",
+        "getTop10ByCountry": "bad62933f537c8eb",
+        "getMostPopular": "e5f18b11976fc807",
+        "browseGenre": "6039bce6b7686f8c",
+        "listTudumArticles": "e274904b3d0be6d4",
+        "listGenres": "4514dddd8d1ae1c0"
       }
     },
     "providers.newageproducts": {
@@ -108455,6 +113467,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getNewageproductsProduct": "e42b18e9e46b989d",
+        "searchNewageproductsCatalog": "4a51dbeabe15ff22"
       }
     },
     "providers.newegg": {
@@ -108487,6 +113503,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "2343ceb0c1c6cbbf",
+        "getProduct": "4930a0fe88dd2df9",
+        "checkStock": "33092f53ce9cf387"
       }
     },
     "providers.nfa_futures_org": {
@@ -108519,6 +113540,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchFirms": "56e9f266511ba109",
+        "searchIndividuals": "56e9f266511ba109",
+        "lookupByNfaId": "b424a499adaca85b"
       }
     },
     "providers.nhc": {
@@ -109047,6 +114073,29 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCurrentStorms": "261c5b0e3bc5de54",
+        "getStormInfo": "72bb079a282bdfdc",
+        "getStormAdvisory": "f2fa0d89f7fd6946",
+        "getStormForecast": "616ec6b07ca24e6a",
+        "getWatchesWarnings": "1395ce108bac6894",
+        "getTropicalOutlook": "1ad720bd4b735049",
+        "listSeasonStorms": "5721ff4f387fdda6",
+        "searchStorms": "b79df59fe50193eb",
+        "listStormAdvisories": "8e40c7ab45b6e2ed",
+        "getForecastDiscussion": "49a485db446938b6",
+        "getWindSpeedProbabilities": "f8f820b029d5422b",
+        "getTropicalWeatherDiscussion": "3ad9def1b559b75a",
+        "getStormNames": "f4282b608d224d42",
+        "getForecastCone": "504183f1881692dd",
+        "getStormGraphics": "ed6aec5b71bac76f",
+        "listMarineZones": "d57bb5e13d58570a",
+        "getMarineForecast": "84ee623df58078c5",
+        "getBestTrack": "38d416fe2014e566",
+        "getTropicalCycloneReport": "87a92924df860550",
+        "getSatelliteImagery": "98ff8fe0e90945a0",
+        "getReconObservations": "31000a02c8102224"
       }
     },
     "providers.nicholashumphreys": {
@@ -109157,6 +114206,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchLettings": "daf4ea6792ce34dd",
+        "getListing": "43fa2e8124a4efa5"
       }
     },
     "providers.nike": {
@@ -109849,6 +114902,30 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "upcomingLaunches": "789ed58958fbe9ba",
+        "findStores": "96379ad81bb19acd",
+        "checkStoreAvailability": "aa317f66fc8dda12",
+        "getLaunch": "0a82eae98b34609c",
+        "getProduct": "448734f71b41cc69",
+        "getProductReviews": "7eba2da17d93c18d",
+        "getSizeChart": "0e9ae783e032d8a5",
+        "getMemberProfile": "9ee4c846cb1d3d5c",
+        "listFavorites": "9ee4c846cb1d3d5c",
+        "addFavorite": "762aad9c3486299f",
+        "removeFavorite": "85b31cabef76c5f8",
+        "addToCart": "f1094ac60236d9ee",
+        "updateMemberProfile": "8c6063b8287c16b6",
+        "removeFromCart": "9dc7a6730c845f96",
+        "getCart": "9ee4c846cb1d3d5c",
+        "listOrders": "e9347730b1eebbc4",
+        "getOrder": "835f1c8df0a58530",
+        "lookupGuestOrder": "a54163da659ddbfe",
+        "checkSizeAvailability": "99be59a587c0391b",
+        "listCategories": "3e9cb539650f9e8a",
+        "listCategoryProducts": "a920fba27683ed4a",
+        "searchProducts": "446fe2c554905b73"
       }
     },
     "providers.nintendo": {
@@ -109969,6 +115046,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getProduct": "e7c41fffbb4fc146",
+        "listCategories": "36d154f0c7ef0311",
+        "searchProducts": "f4de723919ab56e4",
+        "browseCategory": "2c6f8484d0109fc4",
+        "listDeals": "3330cebc13e129b5",
+        "searchSupport": "873d126930b6f7f9",
+        "getSupportArticle": "9876c2337ccf332c",
+        "listNews": "878c0898f61f4b0f",
+        "getMyNintendoRewardsBalance": "9aa65a09debb20e4"
       }
     },
     "providers.nops": {
@@ -110015,6 +115103,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getListing": "d700acdc6169412e",
+        "searchListings": "b333fece0695b9c6"
       }
     },
     "providers.notion": {
@@ -110452,6 +115544,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "systemStatus": "e78e3462afdbb6fb",
+        "search": "22edcce8c0a523d2",
+        "getPage": "7c174e336558c9c4",
+        "getPageContent": "1eca6a06ee3bd96e",
+        "createPage": "2d423c34fc73dec0",
+        "updatePage": "71058fc15ed4983e",
+        "appendBlocks": "d25c202b71c93e26",
+        "getDatabase": "9180e45372115e93",
+        "queryDatabase": "5c2a637033ff49c7",
+        "listUsers": "1635524ba70b6d4b",
+        "getMe": "21ece1a3bb5e9847",
+        "listComments": "aa7ae576078e3bbd",
+        "createComment": "9c152a40cbd3cc0f"
       }
     },
     "providers.npi_registry": {
@@ -110555,6 +115662,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookup": "81630bec0a697c76",
+        "search": "d617caa0e0bdf9f7"
       }
     },
     "providers.npmjs": {
@@ -110608,6 +115719,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getPackageInfo": "7cd60d426224e8de",
+        "getDownloads": "01cf2effea480961",
+        "search": "5a356aa842cba807"
       }
     },
     "providers.npr": {
@@ -110971,6 +116087,27 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getStory": "e7a478dc08c783c8",
+        "listHeadlines": "0114ab03f211bbc8",
+        "listSections": "1c46e7df97ca4abd",
+        "listSectionStories": "3f2f00fb55947347",
+        "searchStories": "da366251b1ae6eae",
+        "listPodcasts": "7359fc0e6dfc72c2",
+        "listPodcastEpisodes": "99ae58d72fc0ef9d",
+        "getProgramRundown": "12a075d2f6f369b9",
+        "findStations": "5f466e3a09f54bef",
+        "getLiveStream": "dc74c0c9abb5a4c4",
+        "getStation": "1f2c1c3c2070ac2f",
+        "getTranscript": "dfafcc81e40d85c5",
+        "listPodcastCategories": "f7b0550eb0afe6a0",
+        "listCategoryPodcasts": "2db7b41d68f617e9",
+        "getPodcast": "f0000752d4a6d3a4",
+        "listSeries": "3fbc6b7efa7c3bef",
+        "listSeriesStories": "e6ff4e9dfd6efedf",
+        "listNewsletters": "9488e7215f91d243",
+        "getAuthorStories": "edcbd5a11312c3a9"
       }
     },
     "providers.nurturelife": {
@@ -111000,6 +116137,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getMealPlans": "d7f019bdfa49fb70",
+        "getMealBundle": "7f96c1c76d87b670"
       }
     },
     "providers.nutrafol": {
@@ -111031,6 +116172,12 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getQuizQuestions": [],
         "getQuizOverview": []
+      },
+      "digests": {
+        "assessHairWellness": "22fec657204fc302",
+        "computeHairWellness": "b5f4ee327a84d41b",
+        "getQuizQuestions": "e4fec9248f8ea92a",
+        "getQuizOverview": "9b251fbf86d093ad"
       }
     },
     "providers.nvisioncenters": {
@@ -111181,6 +116328,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "calculateLasikSavings": "0f40e30b5ae3f76f",
+        "checkLasikCandidacy": "36cdfe195c626063",
+        "estimateLasikSavings": "ac4ebb997910490b"
       }
     },
     "providers.nws": {
@@ -111980,6 +117132,34 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchLocation": "866d7900ae74b3d7",
+        "getPoint": "f27485fc24120047",
+        "getForecast": "1a3338d654388366",
+        "getHourlyForecast": "e2590b7a6c539547",
+        "getActiveAlerts": "131c7afd55a41516",
+        "getCurrentConditions": "98f686ef43bd5dcc",
+        "getForecastDiscussion": "8c6ef851a7a41f7f",
+        "getAlert": "6e51aa19fdae5a64",
+        "findStations": "c53038a14e6c9868",
+        "getObservationHistory": "04c353adeef5a9c9",
+        "getGridpointData": "249ed3a729f8da14",
+        "findZones": "33e6acc34611a94c",
+        "getZoneForecast": "62268e02256866d0",
+        "listAlertTypes": "ddeb4c2bf5bf73ff",
+        "searchAlerts": "d39afe5790a93513",
+        "getAlertCounts": "7ae5a7f56b3de9f3",
+        "getOffice": "d03598c95bdc4afb",
+        "getMarineForecast": "bd2c0d32ff3c9855",
+        "getTextProduct": "cb7638d9ab9ead1f",
+        "getWeatherStories": "cbbf01b4e8837f22",
+        "getOfficeHeadlines": "ec43ced44d1c24b3",
+        "listTextProducts": "0d42c33e5db7eba6",
+        "listSigmets": "be6f090b94e54938",
+        "getWeatherRadio": "88b593ecb2c423ec",
+        "lookupGlossary": "4a4b6ea8fa183086",
+        "findRadarStations": "98c8ca07cd5f88c3"
       }
     },
     "providers.nyt_cooking": {
@@ -113276,6 +118456,45 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchRecipes": "2d0e7d4b29a63bd3",
+        "getRecipe": "f53c791f27d988f0",
+        "getAuthorRecipes": "468a7bdbad482a96",
+        "getCollection": "e894790a6137ed71",
+        "listFeaturedCollections": "a15be84628611d5b",
+        "getTopic": "182618f3438af9d4",
+        "listTopics": "b3d254794c26f12f",
+        "getArticle": "fe24dc2ccb12f5b8",
+        "getSeasonalGuide": "9a5f72b7460ebef3",
+        "getRecipeNotes": "ecd92c76c7ee86ae",
+        "getRelatedRecipes": "8558dccfa60e9563",
+        "getTrendingArticles": "c5c4b31b0f96084d",
+        "saveRecipe": "0df81eda0ab30e93",
+        "unsaveRecipe": "729ce4f6802b685c",
+        "rateRecipe": "c7a96b61fe881fd9",
+        "getMyRating": "322cc88787a4ccf7",
+        "markRecipeCooked": "f93172f6863af420",
+        "getCookedRecipes": "ecdc261f2ed40a76",
+        "getGroceryList": "57f77fa1917087e4",
+        "addToGroceryList": "6b04a8ec69f968e9",
+        "removeFromGroceryList": "d1cfd9e8d42ecfc1",
+        "clearGroceryList": "2393d8edb1ed6f1a",
+        "listRecipeBoxFolders": "483f8b1bf13cf984",
+        "createRecipeBoxFolder": "b13bd7b4f34030cc",
+        "renameRecipeBoxFolder": "27a9f50097f3fc7c",
+        "deleteRecipeBoxFolder": "54671a2e5ed63898",
+        "addRecipeToFolder": "2a9617ab7bf9f2e9",
+        "removeRecipeFromFolder": "04950d94ba5bbea5",
+        "createRecipeNote": "2c63d4f3771dd1b1",
+        "getMyNotes": "48fb95fa277bbd32",
+        "updateRecipeNote": "8734c12830fbc3ac",
+        "getSavedRecipes": "1521464a7a456afe",
+        "searchMyRecipeBox": "048b86416effe03c",
+        "getAccountProfile": "f4295c293d4b326d",
+        "deleteRecipeNote": "1aafbdd066570ee3",
+        "signup": "067693bdbd7eb726",
+        "confirmSignup": "9c083c505b1d2fba"
       }
     },
     "providers.nyt_games": {
@@ -113621,6 +118840,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getWordle": "65007e0697b36cbf",
+        "getConnections": "d2f92a7ad654b9da",
+        "getSpellingBee": "22416e34016e3372",
+        "getLetterBoxed": "e51da671f7767074",
+        "getStrands": "8a8dded8fa4f57ba",
+        "getCrosswordDaily": "eefa752e458cfbe9",
+        "getCrosswordMini": "5ac8d7a3af091872",
+        "getCrosswordMidi": "3740357e052572bf",
+        "getPips": "ee3c0af8c2033e2b",
+        "getSudoku": "eb79f5368ac11130",
+        "getTiles": "9f09e98bb9dc0f7e",
+        "listCrosswordPuzzles": "0973afaeb75f7f06",
+        "getCrosswordArchive": "1644afb0a42c9a1a",
+        "listBonusPuzzles": "e3d4b52dfc7124b2",
+        "getSportsConnections": "ad35d301c20c3baf",
+        "saveWordleGame": "b1753ba57cec5471"
       }
     },
     "providers.nytimes": {
@@ -114195,6 +119432,41 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSections": "d1c0731613ecdf93",
+        "listArticles": "837cfb870fb12d0f",
+        "getSection": "4a114fd4777c5bd3",
+        "getArticle": "96b205af6716cb25",
+        "searchArticles": "7dea6d2adc75b2df",
+        "getArticleComments": "711eabcd7479466d",
+        "listTrending": "247d57370834726f",
+        "getTrending": "f4d456f91e206656",
+        "searchWriters": "76163e7f49b5c8c3",
+        "getWriter": "d5a19fbe34f52e16",
+        "listWriterArticles": "2544d1dd524c9d32",
+        "listTopics": "51a9891f0418efe3",
+        "getTopicArticles": "87818ba16daf0eb9",
+        "getLiveBlog": "c4c9a065f70a7294",
+        "listNewsletters": "a9b374ccf50c67b8",
+        "getNewsletter": "e26902a865050765",
+        "listPodcasts": "4ba87c38b6f7a014",
+        "getPodcast": "d499e1f8f8d2c6ea",
+        "listEpisodes": "d269fdd1153e6e6b",
+        "getWordle": "05727a7a0ce22d06",
+        "getConnections": "5099e9c23b5bfe2d",
+        "getSpellingBee": "4ab233dac88e1261",
+        "listRSSFeeds": "ed939bc366be5847",
+        "listSavedArticles": "8d537a2c44a3424b",
+        "saveArticle": "f8dfc9a614c38f4c",
+        "unsaveArticle": "fcd60f76ff25f769",
+        "followWriter": "954abc9984cd52ec",
+        "unfollowWriter": "954abc9984cd52ec",
+        "listMyComments": "dc7afe6abc36719b",
+        "postComment": "6fefa8d9f6601d33",
+        "recommendComment": "ba785b2ed80022ec",
+        "signup": "4376257c8a2dfb51",
+        "confirmSignup": "a9f732a3f16325b3"
       }
     },
     "providers.oanda": {
@@ -114230,6 +119502,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "convertCurrency": "7b0c056fe1684d5d"
       }
     },
     "providers.ocado": {
@@ -114273,6 +119548,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "0c1a7bfe8958a8af"
       }
     },
     "providers.old_navy": {
@@ -114639,6 +119917,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "bae15bbe24a91964",
+        "getProduct": "574b6d8a9bc4d791"
       }
     },
     "providers.oliverwinery": {
@@ -114671,6 +119953,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listWines": "51cafa9153015f3f",
+        "getWine": "ab1a89bf7c1457a6",
+        "checkShippingAvailability": "4c2f463f2684f686"
       }
     },
     "providers.olo": {
@@ -115454,6 +120741,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findBrand": "aebfea39360ceb5b",
+        "listRegions": "dd8caf17c8cc4d91",
+        "searchLocations": "6e41746e0c116445",
+        "getLocation": "fcf8f22a9e6d4736",
+        "getMenu": "1f96e1780eeab435",
+        "getProductOptions": "cedf7cd1e5c2a86e",
+        "listOrderDays": "e39d231f4e92e19e",
+        "listTimeSlots": "6de31278acfbc58d",
+        "checkOrderAvailability": "b4bcae5e89ad7514",
+        "startOrder": "2615edd708a68557",
+        "addToBasket": "0f8935232aee66f4",
+        "getBasket": "cd31d480c380d224",
+        "updateBasketItem": "e5cd075397536671",
+        "removeBasketItem": "7c092c0fec5fcf37",
+        "applyCoupon": "2ce1450cac8a32c8",
+        "setHandoff": "cf43787cc99a867b",
+        "startCheckout": "981f3f45ad643062",
+        "getOrderStatus": "9348adfa99d912ee"
       }
     },
     "providers.onlyfans": {
@@ -115490,6 +120797,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProfile": "cd4f0d67a2ca1b25"
       }
     },
     "providers.onthemarket": {
@@ -115563,6 +120873,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "428628005bc440f0"
       }
     },
     "providers.open_library": {
@@ -115614,6 +120927,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "5f063208fb0fbd67",
+        "getWork": "f3e57d606e969796"
       }
     },
     "providers.openai": {
@@ -115643,6 +120960,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "plans": "5f2de6132c410065",
+        "helpArticle": "d73e94bf9385ba8e"
       }
     },
     "providers.openai_com": {
@@ -115714,6 +121035,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPosts": "f08c4a7329687d4e",
+        "readPost": "3d7554d4557275e7"
       }
     },
     "providers.openarch": {
@@ -115781,6 +121106,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getListing": "12e61c870726a605",
+        "listListings": "64f48e3ce93f4bf1"
       }
     },
     "providers.openrent": {
@@ -115921,6 +121250,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getListing": "c90e4cf08f8e01ec",
+        "searchListings": "420b0844d0d38f0a"
       }
     },
     "providers.opentable": {
@@ -116198,6 +121531,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "c2e9ca0cd0bc63c6",
+        "checkAvailability": "7327daf12a811b83",
+        "startBooking": "bc179fe32ff17709",
+        "confirmBooking": "6c585605f0557fc7",
+        "cancelBooking": "722d3a6b17fe838d",
+        "getBooking": "4d0d5511d0d107dc",
+        "listMyReservations": "9a937f756782ecbe"
       }
     },
     "providers.ophanimus_com": {
@@ -116213,6 +121555,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPages": "ce4b18e95666af00",
+        "getPage": "373e7a669af9ca72"
       }
     },
     "providers.oreilly": {
@@ -116304,6 +121650,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getContentMetadata": "37d3a6c9426fc3e4",
+        "getMetadataByUrls": "ec5ecd30dcef0827",
+        "search": "8d84d4923475294e"
       }
     },
     "providers.originenergy_com_au": {
@@ -116332,6 +121683,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getBusinessElectricityQuote": "e326dd171cd7943e"
       }
     },
     "providers.osu": {
@@ -116396,6 +121750,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchClasses": "0a2d7f4320c9def9"
       }
     },
     "providers.othership": {
@@ -116425,6 +121782,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getLocations": "4e325a1cfe4439bf",
+        "getClassSchedule": "de3a7d82d3cca9e4"
       }
     },
     "providers.otto": {
@@ -116469,6 +121830,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "c4a18b665453d92f",
+        "search": "b838b2be987317eb"
       }
     },
     "providers.outdoorresearch": {
@@ -116491,6 +121856,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getWarrantyPolicy": "85620def5bb8a9fc",
+        "checkClaimEligibility": "974a64cb225ec615"
       }
     },
     "providers.overstock": {
@@ -116526,6 +121895,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "0f89a6f34932c125"
       }
     },
     "providers.pacificabeauty": {
@@ -116552,6 +121924,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getHairRecommendation": "fe5351a94459276f"
       }
     },
     "providers.pacificcompanies": {
@@ -116710,6 +122085,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "5758c9732a80b2f1",
+        "getJobCategories": "a2ad5b70581074bd",
+        "getJob": "d65ec0a300b1f868",
+        "getApplicationSchema": "5dfa6017ac0bcd5d",
+        "assembleApplication": "40b86805295a6f98"
       }
     },
     "providers.pacificlifestylehomes": {
@@ -116780,6 +122162,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchAvailableHomes": "3b5f2960927d186d"
       }
     },
     "providers.packlane": {
@@ -116943,6 +122328,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getQuote": "163d03b809c2adc4"
       }
     },
     "providers.pallet2ship": {
@@ -117018,6 +122406,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getQuote": "7fed959bfd1b084b"
       }
     },
     "providers.partiful": {
@@ -117068,6 +122459,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getEvent": "834908cf5d4880e2",
+        "discoverEvents": "75a05f0f62fca01d"
       }
     },
     "providers.partsgeek": {
@@ -117236,6 +122631,14 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "viewCart": []
+      },
+      "digests": {
+        "getMakeCatalog": "0e746f0deb719040",
+        "addToCart": "8b01d53b01c5d4e5",
+        "getCheckout": "517b7d00303212d9",
+        "searchParts": "2b6256a1f6e0e5d8",
+        "updateCheckoutShipping": "4eb07a9e5fa112d6",
+        "viewCart": "a031c3fce2b8a6b6"
       }
     },
     "providers.patreon": {
@@ -117874,6 +123277,29 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCreators": "cfa88d3c2c8e70d4",
+        "getCreator": "62680c327ad19887",
+        "listCreatorTiers": "e61c226149c9f115",
+        "listCreatorPosts": "bd47cc6cf92c6a14",
+        "searchCreatorPosts": "75dd60f9e59d5748",
+        "listCreatorCollections": "2c92c9038d54b140",
+        "getPost": "fa08882c14bc9eda",
+        "listPostComments": "1e08330924734dfa",
+        "listMemberOnlyPosts": "fb8a5b295c96b001",
+        "listPledges": "3d85e527c684c821",
+        "getCurrentUserFeed": "14eb52ccde69c217",
+        "likePost": "aaf667d86b53da30",
+        "commentOnPost": "31dcd6a08a7ca28b",
+        "followCreator": "def6144cab8db354",
+        "listCreatorShop": "7339cdba405e8e08",
+        "unlikePost": "39b95a5008aec513",
+        "deleteComment": "a09202e23a5373ff",
+        "unfollowCreator": "3ab9ef61675fa2fe",
+        "listConversations": "c04dadac5abc7b50",
+        "signup": "0c6d53ec2724691a",
+        "confirmSignup": "365e571a1a648261"
       }
     },
     "providers.pausestudio": {
@@ -118340,6 +123766,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listLocations": "17136ae77b1a81dc",
+        "getLocationInfo": "c9f88a585e193d06",
+        "listServices": "38dd53a6137f1c26",
+        "getServiceDetails": "a0d36f8b783e740e",
+        "listAvailableSlots": "4679c8a9d5d7b29a",
+        "bookAppointment": "2b96268be1c132fc",
+        "cancelBooking": "2af6e12cce207ee1",
+        "listMyBookings": "720ba78fa21a25b2",
+        "joinWaitlist": "88e08d5e7cced645",
+        "modifyBooking": "cc18a325a9f08780",
+        "listWaitlistedSlots": "a416d9ec825aaac0",
+        "listMyMemberships": "e41ae9cb16b322d0"
       }
     },
     "providers.pawsup": {
@@ -118384,6 +123824,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkAvailability": "962cf738fa68cb0d"
       }
     },
     "providers.paypal": {
@@ -118705,6 +124148,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "estimateFee": "a21bf511801f725f",
+        "getFees": "d51541cf2ee7c616",
+        "getCurrencyConversionQuote": "430a09ee6170731f",
+        "getPolicyDocument": "b8d7fd520d2578c6",
+        "estimatePayLaterPlan": "8267182e20ca2bae",
+        "searchHelp": "2c2dd99843b3a6c0",
+        "getHelpArticle": "884c584b96acdc53",
+        "searchShoppingOffers": "b6278c6d333e6726",
+        "getPayPalMeProfile": "74a7c754802aeeca",
+        "getServiceStatus": "25c836146703cac5"
       }
     },
     "providers.peek": {
@@ -119046,6 +124501,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchRegions": "da393b367eab8db9",
+        "searchExperiences": "82b74b97158fbdda",
+        "getExperience": "00d5172c0ecefea7",
+        "getAvailability": "b1055c88923a1d93",
+        "listTags": "df60e70e4242c4ac",
+        "listDestinations": "28504c1c8e8dfa1d",
+        "getPriceQuote": "07adb3498eb31d1e",
+        "listSimilarExperiences": "f5db91367c9f141f",
+        "listReviews": "4e69b677ae83662d",
+        "getMyProfile": "3875a3a6a5e0dc61",
+        "updateProfile": "898fec24edc1e57f"
       }
     },
     "providers.peerspace": {
@@ -119112,6 +124580,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchVenues": "952f6c7da7fa1433"
       }
     },
     "providers.people": {
@@ -119133,6 +124604,18 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetGalleryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
               "schema": {
                 "k": "string"
               },
@@ -119230,7 +124713,28 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getGallery": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGalleryArgs"
+            },
+            "optional": false
+          }
         ]
+      },
+      "digests": {
+        "listLatestNews": "5fd8ca6717f25216",
+        "getArticle": "1e054483da248299",
+        "listSectionArticles": "f8b1c9edf8d64d47",
+        "listScoopFeed": "5fd8ca6717f25216",
+        "searchArticles": "c7c724d3916f5e21",
+        "listSections": "dd96b6cc9649d200",
+        "getCelebrity": "670ada5f0c1c55b5",
+        "searchCelebrities": "8f65c693e9c67c36",
+        "getGallery": "eb5706e404f9bfda"
       }
     },
     "providers.perennialsandsutherland": {
@@ -119279,6 +124783,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchRugs": "ad6d421d775338f6",
+        "getRugVariant": "919ac0b5cfcbca30",
+        "getTearsheetUrl": "cd4f885b17ca395b"
       }
     },
     "providers.personio": {
@@ -119293,6 +124802,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "c686be4af5fdca6d"
       }
     },
     "providers.pexels": {
@@ -119307,6 +124819,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "c45cc8ab9e9d1e73"
       }
     },
     "providers.pike13": {
@@ -120146,6 +125661,34 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findBusiness": "f0a4648b40bc4947",
+        "getBusiness": "e987e9e0b00530e5",
+        "listLocations": "5e5c029e4d55509a",
+        "listServices": "e78a4bc2504ddf14",
+        "getSchedule": "4f8fef0f9a81cf88",
+        "getClass": "a3c45a35784f7906",
+        "getAppointmentAvailability": "bc5e1707f8a251eb",
+        "listPlans": "5c1597ebdd37febe",
+        "getService": "97744742c1a3f4ba",
+        "listStaff": "daed3b3e29526c48",
+        "getScheduleSummary": "459e36b3d7a3dc57",
+        "listClassSeries": "865719b6dc6288be",
+        "getAppointmentAvailabilitySummary": "b6472e7e59d804e8",
+        "getPlan": "3e2ad178c3b9fe50",
+        "getWaitlistEligibility": "ea77f44ff788d941",
+        "checkEnrollmentEligibility": "0f5bfded0d584d01",
+        "getMyProfile": "52ca0e4922ad4f88",
+        "listMyBusinesses": "19166da30f2e4694",
+        "listMyVisits": "4123e264e7a4e594",
+        "listMyWaitlistEntries": "1a6511d67fc8e0f6",
+        "listMyPlans": "e77645e00800b60a",
+        "listMyWaivers": "1e6ec413c09f9157",
+        "bookClass": "d9543f01161234f9",
+        "cancelVisit": "a0532ab15147a2dc",
+        "joinWaitlist": "aea93dbaa41c2e72",
+        "leaveWaitlist": "4c81d72ef82c18b2"
       }
     },
     "providers.pilotprotocol": {
@@ -120161,6 +125704,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listApps": "5fa4513661ede4cd",
+        "getApp": "5ce949fc76611c5b"
       }
     },
     "providers.pinterest": {
@@ -121555,6 +127102,56 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchPins": "7dfdeb5a9b748d2b",
+        "searchBoards": "3591031099c1bc3f",
+        "searchUsers": "a37785e661aea34a",
+        "searchVideos": "7dfdeb5a9b748d2b",
+        "getPin": "b3b1393bfcb24664",
+        "getProduct": "a882fd2bc1a5234f",
+        "listVisualObjects": "029e0bbfe2745067",
+        "suggestSearches": "c7ecfbb18c4a4c66",
+        "getUser": "c332b248f50c88fb",
+        "listUserBoards": "d756673d47af4832",
+        "listUserSavedPins": "1c21cea26045f9d6",
+        "listUserCreatedPins": "1c21cea26045f9d6",
+        "getBoard": "d003aac77b5892a2",
+        "listRelatedPins": "19ea31e8e2c9d8b8",
+        "listPinComments": "d128c3b0b185073f",
+        "listRelatedProducts": "0d81e6ff20c66d1c",
+        "listBoardPins": "b51ecda80f3b637e",
+        "listBoardSections": "46c2a49661b87b51",
+        "listBoardSectionPins": "b54fe1ec3e7c5ba8",
+        "listTopics": "42b3e994710137a0",
+        "getTopic": "66656a45fa6be36d",
+        "listTopicPins": "f03c2aa45685d12a",
+        "getCurrentUser": "e99588fdb1712e00",
+        "getHomeFeed": "72dc4fa15b81522c",
+        "searchMyPins": "2eefc9ffc4ad8e06",
+        "listUserFollowing": "db1b702699b25908",
+        "listConversations": "08c479617e7c34f3",
+        "createBoard": "f5dedb67490aacfc",
+        "hidePin": "d40f5b5885fccc34",
+        "updateBoard": "7edc0051ae843374",
+        "deleteBoard": "b303bf856ab79120",
+        "savePin": "9445d612b02af47a",
+        "deletePin": "bfcea28dcf9891b1",
+        "createPin": "738e742ae68dd72b",
+        "updateProfile": "da383a585276c2c2",
+        "reactToPin": "5da70abd05510900",
+        "commentOnPin": "8b3a437ef6b9dddf",
+        "sendPin": "512e1c6b706d35b9",
+        "followTopic": "d6a05d534f7d3729",
+        "unfollowTopic": "d6a05d534f7d3729",
+        "followUser": "f760caf3cedf1750",
+        "unfollowUser": "f760caf3cedf1750",
+        "followBoard": "481e944b89ee73b1",
+        "unfollowBoard": "481e944b89ee73b1",
+        "listNotifications": "7c65efbbc43ea292",
+        "listUserFollowers": "fe40a8413389a70b",
+        "signup": "21cf1e0f20692824",
+        "confirmSignup": "99f72b66962c9465"
       }
     },
     "providers.pirateship": {
@@ -121625,6 +127222,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getRates": "ef22e493d2ff947d"
       }
     },
     "providers.pizzahut": {
@@ -121979,6 +127579,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getMenu": "2938bd4efa63a530",
+        "findStores": "7f20a808868442a0",
+        "priceOrder": "df7bd1f96574552b",
+        "getMenuItem": "fed82bdffc8a516b",
+        "getDeals": "a49e3a8091ea670d"
       }
     },
     "providers.planning_inspectorate_ni": {
@@ -121993,6 +127600,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "719b180a1e54b46d"
       }
     },
     "providers.platform_claude_com": {
@@ -122008,6 +127618,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      },
+      "digests": {
+        "getDocPage": "cb6d31f691d851c4",
+        "listDocPages": "0ca725f7981ea52c"
       }
     },
     "providers.polymarket": {
@@ -122038,6 +127652,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "6204b9844135032d",
+        "getMarket": "ef4d2c25673764a7"
       }
     },
     "providers.polytex": {
@@ -122061,6 +127679,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "49b477a6c8c157ce",
+        "getProduct": "0c6a1471c19e5d00"
       }
     },
     "providers.poshmark": {
@@ -122068,6 +127690,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getBulkUploadTemplateGuide": [],
         "getZipFileGuide": []
+      },
+      "digests": {
+        "getBulkUploadTemplateGuide": "d7faf4ce068fe3fd",
+        "getZipFileGuide": "d7faf4ce068fe3fd"
       }
     },
     "providers.positivegrid": {
@@ -122110,6 +127736,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findRetailers": "0b1d9ac13cc396da"
       }
     },
     "providers.postcodes_io": {
@@ -122124,6 +127753,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookup": "4b922aa9340963b0"
       }
     },
     "providers.posthog": {
@@ -122221,6 +127853,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getInsight": "97401dd80ed85047",
+        "listInsights": "df5eff6d163b5e2e",
+        "listProjects": "e9c8674315d50562",
+        "runRetentionQuery": "a8dcaab3f1e32a6b"
       }
     },
     "providers.potterybarn": {
@@ -122284,6 +127922,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "76bf3bce1dc6f22e"
       }
     },
     "providers.premierbuildings": {
@@ -122337,12 +127978,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listBuildingStyles": "b8d5d9e3f208438b",
+        "priceBuilding": "971274fa3fcc7bd9",
+        "findDealers": "5667c196c75c9f55"
       }
     },
     "providers.premierinn": {
       "defs": {},
       "functions": {
         "getSearchRules": []
+      },
+      "digests": {
+        "getSearchRules": "2caddcf717d2368e"
       }
     },
     "providers.preppednplated": {
@@ -122423,6 +128072,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getCurrentMenu": "df060b1d506f3771",
+        "searchMenuItems": "94db9c0e14aa0a0a",
+        "listPickupLocations": "05c40af0c464e660",
+        "checkDelivery": "fedc0976dff9f76a"
       }
     },
     "providers.prime_video": {
@@ -122695,6 +128350,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchTitles": "695b680d1c4142f2",
+        "suggestTitles": "afd3e81dce7f7640",
+        "getTitle": "ac8bfbac85096cd5",
+        "getWatchOptions": "ca951b268b86d1d3",
+        "listSeasons": "0ebc639a2dbd2fcd",
+        "listEpisodes": "3e2d7140a033721f",
+        "getPerson": "68505fc3bd3745d0",
+        "listCategories": "fad7009f57a4ed4a",
+        "listCategoryTitles": "f816d0b3d429bcae",
+        "listNewReleases": "6bfb364229096fb7",
+        "listFreeToWatch": "6bfb364229096fb7",
+        "listTop10": "8b2a9b8b5f9dc4d8",
+        "listDeals": "6bfb364229096fb7",
+        "listChannels": "6610b0f625c9020a",
+        "getChannel": "80eb4777a649a4e4",
+        "listLiveChannels": "6366e1eb09c8a9c2",
+        "getLiveSchedule": "c4531aefb262c693",
+        "listLiveSports": "7443635b9f865ed1",
+        "listRelatedTitles": "1c54889fd4d243ab",
+        "getWatchlist": "30f97ba7caccee0f",
+        "listPurchases": "30f97ba7caccee0f",
+        "listContinueWatching": "30f97ba7caccee0f",
+        "toggleWatchlist": "1ffdaf67d300cb9a"
       }
     },
     "providers.primestudentlets": {
@@ -122745,6 +128425,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getListing": "1cb0e4de1df37cb6",
+        "listListings": "60f580997a64a8fd"
       }
     },
     "providers.printful": {
@@ -122776,6 +128460,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getOrder": "37c7f61f572f9ca7",
+        "searchOrders": "5069419e40258a37"
       }
     },
     "providers.producthunt": {
@@ -122811,6 +128499,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listLaunches": "231ff63956b9dd28"
       }
     },
     "providers.progressive": {
@@ -124458,6 +130149,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findAgent": "060ccfef7f935191",
+        "getBusinessQuote": "6e34ea6369af8f6d",
+        "getHomeownersQuote": "76aa5669ac428d2b",
+        "getRentersQuote": "7ab52c1e00adea0b",
+        "getMotorcycleQuote": "a3504de8665167df",
+        "getPwcQuote": "60f71431c1bb0e78",
+        "listHomeownersCompanies": "d5836f1d08dfe42f"
       }
     },
     "providers.prolook": {
@@ -124518,6 +130218,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listUniformStyles": "4565c29f42dddf93",
+        "getStyleCustomizationOptions": "d512d71f3d9a5876",
+        "getTeamQuote": "2c73ce27ce965db6"
       }
     },
     "providers.promofarma": {
@@ -124575,6 +130280,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "e6f08d6076982426",
+        "search": "220d1b9b53216fda"
       }
     },
     "providers.prose": {
@@ -125321,6 +131030,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listHaircareProducts": "2802f91c781aaed1",
+        "getHaircareProductPrice": "73a7d3a529829d81",
+        "getHairPrescription": "0fb22fc92c3c0337"
       }
     },
     "providers.proton_mail": {
@@ -125344,6 +131058,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "signup": "7c67a0d04fd3e967",
+        "confirmSignup": "e8ff02ae76e6e34b"
       }
     },
     "providers.provenwinners": {
@@ -125604,6 +131322,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchContainerRecipes": "6a0ba56c41cba9c0",
+        "getRecipeDetails": "de065a070609ae1d"
       }
     },
     "providers.proxmox": {
@@ -125636,6 +131358,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getIsoDownloads": "87fb70615a8d43c7"
       }
     },
     "providers.proxy_cheap": {
@@ -125643,6 +131368,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listPlans": [],
         "listCoverage": []
+      },
+      "digests": {
+        "listPlans": "a26fae8f506dda1e",
+        "listCoverage": "aa4b1eeb0097e2f9"
       }
     },
     "providers.prusa3d": {
@@ -125902,6 +131631,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "84a7cc30bc442198",
+        "getProduct": "3791b4f1af9b9802",
+        "listCategory": "128a7d861f82d475",
+        "getReviews": "9791bce76b507214",
+        "listNewProducts": "fee6c3c45e0c241d",
+        "listCountries": "928607bec9d556e1",
+        "listBlogPosts": "27cd65686bf86059",
+        "checkEmail": "7cfc0522ac986047"
       }
     },
     "providers.publix": {
@@ -126010,6 +131749,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "navigation": "abdcb0a2699453a1",
+        "searchStores": "4ad44e010cc3e84a",
+        "store": "39803ae1549ef99a",
+        "suggestions": "a14e901efafd3712"
       }
     },
     "providers.pullandbear": {
@@ -126169,6 +131914,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listCategories": "470b23a960f5aec3",
+        "searchProducts": "6f44e7b004959623",
+        "getProduct": "485ac8c739130c86"
       }
     },
     "providers.puls_com": {
@@ -126208,6 +131958,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listApplianceCategories": "339c477d9c0f6b54",
+        "getRepairQuote": "da92331c480cf203"
       }
     },
     "providers.pulsemcp_com": {
@@ -126239,6 +131993,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "00e6ee5f95be8f8a"
       }
     },
     "providers.punchpass": {
@@ -126625,6 +132382,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getStudio": "3e815d161119ee34",
+        "listScheduleFilters": "9d7d8b2fc23f7605",
+        "getSchedule": "bfa10bcaa7e14b05",
+        "getClass": "3d27b5d2974a21da",
+        "listPasses": "dac57e39fe7ec078",
+        "listSeries": "f3f163d3f9f0fd58",
+        "getSeries": "f0b8a1883135400a",
+        "listInstructors": "74684fc99a509f93",
+        "listAppointmentSlots": "18b21d51f74a534a",
+        "getPass": "60e84859edb46ef6",
+        "getCalendarFeed": "88080df62ad3cb82",
+        "getMyProfile": "5ec0cf9d02d32435",
+        "listMyReservations": "803ac90104b1d70c",
+        "getMyClassHistory": "803ac90104b1d70c",
+        "listMyPasses": "9f3c4dfd97ba6420",
+        "listMyChildren": "9f3c4dfd97ba6420",
+        "signup": "a5f596d9d5505978",
+        "confirmSignup": "db96007cd0fd278e"
       }
     },
     "providers.puregym": {
@@ -126705,6 +132482,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listGyms": "bd16f73c9d05eafe",
+        "getGym": "2445a801c0703c73",
+        "listCities": "1b5e808dd89a9f55",
+        "listCityGyms": "7d56210973a6781b"
       }
     },
     "providers.purevpn": {
@@ -126728,6 +132511,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getDedicatedIp": "f9dbd0f744aa2108"
       }
     },
     "providers.pushpress": {
@@ -127110,6 +132896,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getGym": "959b2279cdd9bbd7",
+        "listClasses": "d06fd6e5b648f557",
+        "getClass": "7acd3c185a487e35",
+        "listPlans": "ece58d4c9b55a1f9",
+        "getPlan": "d7ddc95b0824480b",
+        "listLocations": "0f4122f55fed9c16",
+        "listCoaches": "9aad43460f04ca7f",
+        "listAppointmentTypes": "c358bc29241c555a",
+        "getMyProfile": "95052e349ce459f2",
+        "listMyPlans": "5eb55754a51d998a",
+        "listMyBookings": "93f3e904e741ded4",
+        "bookClass": "9e67aa4f5bf9cc16",
+        "joinWaitlist": "5f44b66341a95a38",
+        "cancelBooking": "93613e84f03b6bdb",
+        "listMyDocuments": "1918f00174116ba7",
+        "listMyInvoices": "7022415d29feb8d3"
       }
     },
     "providers.pypi": {
@@ -127124,6 +132928,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProject": "8e07ef1cedc26e83"
       }
     },
     "providers.quickbooks": {
@@ -128066,6 +133873,42 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "calculateSalesTax": "57f6b640cafc90f6",
+        "calculatePaycheck": "4612e96543dab297",
+        "getPayrollPlans": "32ea1ad5b6f8cbd4",
+        "getPlans": "8b780743a0e1d65e",
+        "getDesktopPlans": "bbd1bc20cb06df99",
+        "getExpertPlans": "cb3c0e069cd98973",
+        "getPaymentRates": "d60995425cbeed62",
+        "estimatePaymentFees": "67340772b59190de",
+        "getTimeTrackingPlans": "dcf943771b644259",
+        "getServiceStatus": "408319057f8279f7",
+        "listIncidents": "e40844e63c991a31",
+        "listPaycheckCalculatorStates": "e33fb8b517886d19",
+        "listPaycheckFilingStatuses": "9343c9c3e2214784",
+        "listFeaturedAccountants": "76818ef3af737602",
+        "listCommunityBoards": "33dec522b120f4d0",
+        "listBoardThreads": "f945369283d4e455",
+        "getThread": "03d7df5f75e86421",
+        "listEvents": "41422ba66cfbec01",
+        "listResourceArticles": "42743ad1a1342d41",
+        "getResourceArticle": "79c2aaa925363bde",
+        "getEvent": "58ff4269bf36e1ab",
+        "getStatePayrollTaxes": "b164be4899a99ed8",
+        "listTemplates": "467d3e55d0debc8e",
+        "searchCommunity": "60d130bbb9601864",
+        "searchHelpArticles": "added31f0ecdd69e",
+        "getHelpArticle": "54e1c7e0bbf98077",
+        "searchApps": "9bb9191f9b3d4dc1",
+        "getApp": "81c2a637007c5c86",
+        "listAppCategories": "d235c93bce39f716",
+        "listAppReviews": "be350ebe3ffcb108",
+        "findAccountants": "67d0319d92d4de5b",
+        "getAccountant": "f8297dc2d07a1afb",
+        "calculateEmployeeCost": "e5e493a57203d3e4",
+        "generateInvoice": "0af9f711f622867d"
       }
     },
     "providers.quince": {
@@ -128206,6 +134049,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "bafcaeac48e51603",
+        "getProduct": "32c8833564a38432"
       }
     },
     "providers.quintoandar": {
@@ -128260,6 +134107,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getListing": "806db042d5693b09",
+        "search": "9a700a7729a23989"
       }
     },
     "providers.quora": {
@@ -128571,6 +134422,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getQuestion": "3cf7c5c82fcf7efe",
+        "getAnswer": "144b90964fe2c564",
+        "getAnswers": "f8908f43c650133a",
+        "getProfile": "6b4e35f58f12e5dc",
+        "getProfileAnswers": "a57813cf5ace0d85",
+        "getSpace": "9947ac134ffc8fa5",
+        "getSpacePosts": "eafd474cf2e54229",
+        "getTopic": "93843030eab1b23c",
+        "searchQuestions": "7f98ec92a680a9d1",
+        "getHomeFeed": "5ffa94cb7428515c",
+        "getTopicFeed": "5c357992e778e5bd",
+        "getOwnProfile": "c25d2b1d2bf80742",
+        "signup": "68160c9702db6544",
+        "confirmSignup": "da4d5d5b0619eeaf"
       }
     },
     "providers.quotes_toscrape": {
@@ -128628,6 +134495,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listQuotes": "b48dc2e51ac19cff",
+        "author": "a0bc7f599fc504e6"
       }
     },
     "providers.qvc": {
@@ -128692,6 +134563,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "f6c9430dff46ed0a",
+        "searchProducts": "2ef80ff0a2e1fa6a"
       }
     },
     "providers.raadvanstate_nl": {
@@ -128722,6 +134597,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchRulings": "d3f610b2de4469ed",
+        "getRuling": "eacc7b53dc05c19e"
       }
     },
     "providers.raisingcanes": {
@@ -128773,6 +134652,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "locations": "cfe8f6e39e1ccbe4",
+        "location": "b1471f28ddccd93b"
       }
     },
     "providers.rakuten": {
@@ -128817,6 +134700,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "97d3e57130fef67e",
+        "getStore": "31dfb1f13f44de44"
       }
     },
     "providers.recreation_gov": {
@@ -128895,6 +134782,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCampgrounds": "561162f9d5707819",
+        "campgroundAvailability": "e54a214ef98d2ca0"
       }
     },
     "providers.recruitee": {
@@ -128909,6 +134800,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "ca309bd4b3d50633"
       }
     },
     "providers.redbull": {
@@ -128972,6 +134866,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listEvents": "5642e857d9affb57"
       }
     },
     "providers.reddit": {
@@ -131233,6 +137130,52 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "41c00f60b675f5fc",
+        "getPost": "db0048e647d9224f",
+        "getSubredditPosts": "8bd03d43c1abd80f",
+        "getSubreddit": "3f3cab1dc0dd00c1",
+        "searchSubreddits": "e74fc605c1e991cb",
+        "getUser": "eff1dd3e74d659c5",
+        "searchUsers": "2b18dc90aef1552e",
+        "getUserPosts": "f15828c076696aae",
+        "getUserComments": "0db5c4018f364176",
+        "findPostsByUrl": "05f738ffbd5b5b51",
+        "listWikiPages": "fd028b6c315612e9",
+        "getWikiPage": "6dc9442c6a8c1a5a",
+        "getSubredditRules": "5d6b896bf2e3281d",
+        "browseSubreddits": "6985c889fe69d281",
+        "getCommentReplies": "b66f975ee8b504a3",
+        "searchComments": "f6ca7b0be966398a",
+        "getMyAccount": "9bd07e3b98011131",
+        "getHomeFeed": "2f0ce9166e35567a",
+        "listMySubscriptions": "d4e00821749f2d0b",
+        "listSaved": "4991f93f4ef7f3b3",
+        "listInbox": "179627972c8360ee",
+        "listPostFlairs": "22a5cc5c046ef3d7",
+        "joinSubreddit": "45ac71eea2921063",
+        "leaveSubreddit": "45ac71eea2921063",
+        "savePostOrComment": "6c881d6881568162",
+        "unsavePostOrComment": "6c881d6881568162",
+        "hidePost": "b6d4c631c61d29ed",
+        "vote": "8fcafcf99a9f001a",
+        "followUser": "e7647502df204551",
+        "blockUser": "08ef454c9432853e",
+        "createSubreddit": "bbdff061b34d601a",
+        "submitPost": "07b636575d50698f",
+        "postComment": "58384cce039068ab",
+        "replyToComment": "0e0d98709bc042b2",
+        "editPostOrComment": "b9590db8d74ed3d8",
+        "deletePostOrComment": "8df7f44b1f4e8cb9",
+        "reportPostOrComment": "e3c7d0bba17efa09",
+        "sendDirectMessage": "43d6502278a795f0",
+        "updateProfile": "6535e07d4089058d",
+        "setProfilePicture": "5e6f836700b3d8bf",
+        "getPlayback": "b19b5d985ac12050",
+        "login": "ebdd742ec3ac899f",
+        "signup": "42ba64b5ccd449d0",
+        "confirmSignup": "b3afaf12c6b745ba"
       }
     },
     "providers.redfin": {
@@ -131313,6 +137256,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "526cf3f3a098e892"
       }
     },
     "providers.rei": {
@@ -131463,6 +137409,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "dc39e8b333c0b384",
+        "getSku": "88661a5150735357",
+        "getProduct": "7e326f5d90416547"
       }
     },
     "providers.reichelt_de": {
@@ -131520,6 +137471,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "8b906332ec9c9ead",
+        "getProduct": "9416555fb1908b6b"
       }
     },
     "providers.reliancepartners": {
@@ -131931,6 +137886,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getApplicationSchema": "6c1b5cb59ab9fe56",
+        "assembleApplication": "f8997dea047b054a"
       }
     },
     "providers.rentmanager": {
@@ -132025,6 +137984,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchIntegrations": "6f531b3aa36e168e",
+        "getIntegration": "5687b2572e5478ac",
+        "searchArticles": "189d8fe6ed8f900d"
       }
     },
     "providers.rentrightstudents_co_uk": {
@@ -132057,6 +138021,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getListing": "487232d8bb219bfe",
+        "listLatestListings": "2ddf7f2559fb461a"
       }
     },
     "providers.renttherunway": {
@@ -132178,6 +138146,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "52711d7fa710abac",
+        "browseCategory": "73ebe6ae162c4794",
+        "browseDesigner": "fc7400865de66cd4"
       }
     },
     "providers.resend": {
@@ -132743,6 +138716,33 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchBlog": "abd5e238a35dde0c",
+        "searchChangelog": "abd5e238a35dde0c",
+        "searchHandbook": "abd5e238a35dde0c",
+        "systemStatus": "d492bda6e174460b",
+        "listApiKeys": "fecf9d082bc0552f",
+        "listSegments": "a1e9a6f4bf7bd7c1",
+        "createSegment": "60034e17e8f9fd60",
+        "updateSegment": "ad5a97b9486f22da",
+        "deleteSegment": "718e65234dcf3cc4",
+        "listContacts": "c91a218296a7f684",
+        "createContact": "33571d14ef74d9a7",
+        "updateContact": "b505ec382accd2b8",
+        "deleteContact": "57d0d9e9aa0742bf",
+        "addContactToSegment": "095c1790a40acb29",
+        "removeContactFromSegment": "095c1790a40acb29",
+        "updateContactTopics": "96f22ec37b67fcdc",
+        "listTopics": "fecf9d082bc0552f",
+        "createTopic": "ccf44aeb37757534",
+        "updateTopic": "f67b23086151af42",
+        "deleteTopic": "6ea9fb972a14bedf",
+        "listContactProperties": "fecf9d082bc0552f",
+        "listDomains": "fecf9d082bc0552f",
+        "deleteDomain": "10555a8c892e806f",
+        "listEmails": "2c068700cac517c4",
+        "listLogs": "2c068700cac517c4"
       }
     },
     "providers.reserve_with_google": {
@@ -133157,6 +139157,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findBookablePlaces": "eddceacb9dab259b",
+        "getBookingOptions": "e0424f946a4fb773",
+        "getMerchant": "67ab5f24c2a2737e",
+        "checkAvailability": "07a53fce4f7e8b31",
+        "listPartners": "c536186806637c06",
+        "listMyBookings": "e641c964c9177b06",
+        "listMyPacks": "e641c964c9177b06",
+        "getSettings": "eb857ad041bc71f0",
+        "updateSettings": "3dd10356b78d14e2",
+        "bookReservation": "31f4d593279f2dcb",
+        "cancelBooking": "a18809324ebb2e9e",
+        "leaveWaitlist": "10e2f20a4f08f2fd",
+        "modifyBooking": "72e00798868df66f",
+        "joinWaitlist": "6d548337888e0acf",
+        "getBooking": "196d0620fb74264d"
       }
     },
     "providers.resy": {
@@ -133379,6 +139396,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listBookings": []
+      },
+      "digests": {
+        "search": "f56c8a8251690a19",
+        "checkAvailability": "51cd2fe9515fa03b",
+        "startBooking": "3d2a78188cea193d",
+        "confirmBooking": "63680a093ce83881",
+        "cancelBooking": "21e4d1963920488a",
+        "startSignIn": "eb9f63b9478049e2",
+        "confirmSignIn": "316baa4ae6aa4bc0",
+        "listBookings": "9ffca301c3a5b208"
       }
     },
     "providers.reuters": {
@@ -134472,6 +140499,47 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSections": "772b2b1060f92914",
+        "listHeadlines": "8899cd03eb73bb5c",
+        "listLatestNews": "a63e236fd0580757",
+        "listArticlesByDate": "5081578f159c77ab",
+        "findAuthor": "59f77569e21c7275",
+        "listVideos": "a2dd0fdad094a66a",
+        "listPictureGalleries": "db2be8a76defd169",
+        "listGraphics": "4d10c5b90619fe66",
+        "listPressReleases": "61e6532db01945ec",
+        "listPodcasts": "f8f43694cd28785d",
+        "getArticle": "60ccf5d6762ac224",
+        "searchArticles": "b96aa0ed9aa70336",
+        "searchCompanies": "86cae486b306895e",
+        "getQuote": "6b7764e65022381a",
+        "listCompanyNews": "d51726e38a38aad3",
+        "getMarketOverview": "d2c9d476f0cb3a97",
+        "getCompanyProfile": "7cf427c10a5ad694",
+        "getCompanyFinancials": "825f878ceb362202",
+        "getCompanyKeyMetrics": "0e95d6609dbd7f23",
+        "getCompanyEvents": "1e9fbbe09b8e4b52",
+        "getLiveCoverage": "415e258ea6043eaf",
+        "getAuthor": "8cf8fc442d990fdc",
+        "getPictureGallery": "26feec1db88c07a5",
+        "getPressRelease": "bf6c0ac6852fade7",
+        "listPodcastEpisodes": "7a1dece95607a609",
+        "listNewsletters": "a8e5aeda30f8bf61",
+        "getVideo": "235a052ae7cc6111",
+        "listSavedArticles": "49103bfa08268c68",
+        "listFollowedTopics": "6b505bb3ef31a7ef",
+        "saveArticle": "2578b93ae1cf6718",
+        "removeSavedArticle": "2578b93ae1cf6718",
+        "followTopic": "1c612866ec452c7b",
+        "unfollowTopic": "1c612866ec452c7b",
+        "subscribeNewsletter": "30fcc7c29f115a5c",
+        "unsubscribeNewsletter": "30fcc7c29f115a5c",
+        "listNewsletterSubscriptions": "d11377b6587b4fea",
+        "getMyNewsFeed": "452bfd18f2261edd",
+        "signup": "2687a87399a709f5",
+        "confirmSignup": "4530f362ef881290"
       }
     },
     "providers.revisionskincare": {
@@ -134552,6 +140620,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getSkincareQuizQuestions": "fadf20fc1c68cd96",
+        "takeSkincareQuiz": "e329e627ca8ff2b3"
       }
     },
     "providers.rezdy": {
@@ -135004,6 +141076,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findOperator": "13d34907c0243bb9",
+        "listProducts": "517792b3cbe84d3d",
+        "getProduct": "e2081062fa82912a",
+        "listCatalogs": "dc5aef9c41ccd882",
+        "getAvailability": "ef480f4299e15625",
+        "getPriceQuote": "9940d15e60738389",
+        "getPickupLocations": "2fcf5d090c87f4e5",
+        "bookSession": "062c3c2303931b96",
+        "checkVoucher": "df85371c74843162"
       }
     },
     "providers.rightmove": {
@@ -135079,6 +141162,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "f0ad225f22169d50"
       }
     },
     "providers.ring": {
@@ -135358,6 +141444,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "434729f0954d5ab9",
+        "getProduct": "4ac3f630ffced6f8",
+        "listCollections": "ea89548015a9448f",
+        "listCollection": "e183a6ee9acac89b",
+        "getPlans": "697de311ed32a8bd",
+        "compareProducts": "971281a4402531d5",
+        "addToCart": "aac6c69cfd118c95",
+        "getCart": "d856d8d7cabf08c2",
+        "removeFromCart": "28b3167c7ac2c39b",
+        "getProductReviews": "8df948ea79c63f0c",
+        "findRetailer": "cf85b03cc53adb33",
+        "searchSupport": "9f900fe3990bbc25",
+        "getSupportArticle": "cf782d0db4327fa8",
+        "signup": "c215a7cc81d641d9",
+        "confirmSignup": "24b92071de90908f"
       }
     },
     "providers.rippling": {
@@ -135372,6 +141475,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "f1a08f903d1b2275"
       }
     },
     "providers.rishitea": {
@@ -135527,6 +141633,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getTeaFinderQuiz": "2d9b09aa3e547381",
+        "matchTeaFinderQuiz": "261f4ffbe01e1a0f"
       }
     },
     "providers.ritani": {
@@ -135591,6 +141701,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getConfigurator": "cc2a694d240ab620",
+        "priceConfiguration": "fdb4c3f7900348c1"
       }
     },
     "providers.rivian": {
@@ -135702,6 +141816,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "estimateLeasePayment": "aaaef2ec58565ef8"
       }
     },
     "providers.roblox": {
@@ -135762,6 +141879,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchGames": "e7741ecd1085532e",
+        "getGame": "39719333789a89cb",
+        "listPopularGames": "512b3b9623f26872",
+        "getRecommendations": "63a2602e6bc137e6",
+        "getUsersLibrary": "134f356735ab56cc"
       }
     },
     "providers.roofmaxx": {
@@ -135924,6 +142048,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getCalculatorSettings": "a033b2150836fab1",
+        "estimateRoofReplacementCost": "1e598ce7a74061dc"
       }
     },
     "providers.roomandboard": {
@@ -135967,6 +142095,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCategories": []
+      },
+      "digests": {
+        "searchProducts": "f61874925b31e719",
+        "listCategories": "bdef09239e2dd1b0"
       }
     },
     "providers.rottentomatoes": {
@@ -136032,6 +142164,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "329c4ddfe26bb270",
+        "getTitle": "abe62f3a44ead329"
       }
     },
     "providers.rover": {
@@ -136069,6 +142205,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchBoarding": "4ba5a30230b5c96c"
       }
     },
     "providers.royal_caribbean": {
@@ -136146,6 +142285,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCruises": "7a2df5fd288014da"
       }
     },
     "providers.rtings": {
@@ -136203,6 +142345,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getReview": "f2d87fabb6e55b86"
       }
     },
     "providers.ruggable": {
@@ -136251,6 +142396,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchRugs": "05ba4e2e7c9cf763",
+        "getRug": "056b1992a9cf4cfd"
       }
     },
     "providers.rules_nebraska_gov": {
@@ -136335,6 +142484,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchRules": "bf0210810edbb441",
+        "listAgencies": "5fca39ec9453fe90",
+        "listTitles": "261df75c50a3b2e3",
+        "listChapters": "ea79d3b5bb9d7621",
+        "getChapterHistory": "4e592bf26299028a",
+        "listDockets": "27ba1c83462131cf",
+        "getDocket": "23624fb65ed8f4fe",
+        "listFilingDocuments": "f705964f29b72a75"
       }
     },
     "providers.rumble": {
@@ -136364,6 +142523,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "editorPicks": "faa776ebc6c853a1",
+        "video": "9674de9e515d6679"
       }
     },
     "providers.rvshare": {
@@ -136392,6 +142555,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchListings": "01404f9cece6dc9e"
       }
     },
     "providers.ryanair": {
@@ -136500,6 +142666,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findAirport": "80fbbdd9ca72967a",
+        "searchFares": "a24b18388a286032",
+        "fareCalendar": "def1915b84511b52"
       }
     },
     "providers.saatva": {
@@ -136571,6 +142742,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listMattresses": "bd96b041aa959888",
+        "recommendMattress": "175ec9c25aac7427"
       }
     },
     "providers.safetywing": {
@@ -136672,6 +142847,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getQuote": "00cb4b47d197604a"
       }
     },
     "providers.safeway": {
@@ -137189,6 +143367,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findStores": "1fbaf9b28cff7194",
+        "getStore": "9d6d729ba995cfde",
+        "listAisles": "73fa186058e978ed",
+        "listAisleProducts": "9ce0b486c80a4822",
+        "getSearchSuggestions": "5b83c8a5bfa43210",
+        "getWeeklyAd": "dbc226ea0bc18512",
+        "listDeals": "d33a5c42dfa17e79",
+        "searchRecipes": "3e44c8fcb450887a",
+        "getRecipe": "26be1e4e3d26bb94",
+        "getMyAccount": "252934c1e4e798fe",
+        "getCart": "5be1fbc957568e09",
+        "addToCart": "58b70a92bba39c84",
+        "updateCartItem": "69e6c8d0d05ccf41",
+        "removeFromCart": "a87301f9111a2752"
       }
     },
     "providers.saltandstone": {
@@ -137213,6 +143407,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listScentFamilies": "23c06e0d44e465d1",
+        "matchScent": "1e0b33c09f46ccf8",
+        "getScentProducts": "dc5bf70f903b1383"
       }
     },
     "providers.samsclub": {
@@ -137315,6 +143514,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMembershipPlans": []
+      },
+      "digests": {
+        "search": "fe85f33caad921a4",
+        "getInstantSavings": "953d64e7b5ee7fed",
+        "browseCategory": "7bc192b16daf24f4",
+        "getFuelPrices": "05c28851cf4f3733",
+        "getProduct": "74e4f2aace8a5ff1",
+        "checkStock": "2f77aeed9e11e969",
+        "findClubs": "c78ad09a80989a08",
+        "getMembershipPlans": "bde25e9c3fe6585a"
       }
     },
     "providers.samsung": {
@@ -137651,6 +143860,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "6eef3cda12880012",
+        "listCategories": "598c748c964910e7",
+        "listCategoryProducts": "408d4f8f248fd662",
+        "getProduct": "b8c95105dc4011f2",
+        "compareProducts": "9308828caa65f708",
+        "listDeals": "c64a92774dec605e",
+        "listCarrierOffers": "50197d78f7a4d8ed",
+        "findStore": "6a4491021bdc0371",
+        "getTradeInQuote": "a35f75c4a2bed44f",
+        "listOrders": "1f629e3b05766100",
+        "getOrderStatus": "a624dd5daa93e256",
+        "listMyProducts": "e9b8cfebe7c4b215",
+        "getRewardsBalance": "19be2664f6851c91",
+        "checkWarrantyStatus": "f570e3e4a4330602",
+        "listSupportArticles": "2d1e3a9203d27590"
       }
     },
     "providers.scentbird": {
@@ -137689,6 +143915,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "browseCatalogue": "0d5b194dabab9d66"
       }
     },
     "providers.scheels": {
@@ -137746,6 +143975,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProduct": "a6037801f48312cd",
+        "searchProducts": "9f11a97a793e9f2c"
       }
     },
     "providers.scottfraser_co_uk": {
@@ -137790,6 +144023,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getListing": "f9d1ff55b6bfb363",
+        "listLettings": "c64a8371ef455384"
       }
     },
     "providers.scribd": {
@@ -138475,6 +144712,30 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchDocuments": "18726c5d1832585a",
+        "getDocument": "2a1e3221c2028c6b",
+        "getDocumentText": "8cc71b06e23abbca",
+        "getUserProfile": "69025751f500272c",
+        "getRelatedDocuments": "6d8dd7b0d649ae59",
+        "getList": "f091b9d4702c2df9",
+        "getEmbedCode": "704db9fefa14e6c6",
+        "listSavedDocuments": "2d1365be42656fe4",
+        "saveDocument": "67b94f6688f400b9",
+        "unsaveDocument": "67b94f6688f400b9",
+        "listMyLists": "89101aa9ad5b19c3",
+        "addDocumentToList": "e686460d0a8d5c10",
+        "removeDocumentFromList": "e686460d0a8d5c10",
+        "createList": "0b349ebcfd3190db",
+        "markDocumentFinished": "00ce177ceb92af3f",
+        "askDocument": "eb58f694a2efc8fe",
+        "downloadDocument": "1efa7b93cb77033a",
+        "uploadDocument": "d471049aad0e031e",
+        "deleteDocument": "3979daedff51a18d",
+        "rateDocument": "9d56b9ce7da6bace",
+        "listCategories": "f321452b975728e7",
+        "getTrendingDocuments": "9472b561a394c509"
       }
     },
     "providers.seakeeper": {
@@ -138497,6 +144758,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listAllDealers": "c3dd62c0f7c1aa42",
+        "findNearestDealers": "9a01d6fcb982703b"
       }
     },
     "providers.sears": {
@@ -138596,6 +144861,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "9b97c2b3d471ba23",
+        "getProduct": "c02bfd247d0b30e3",
+        "checkStock": "5b3506134298b53f"
       }
     },
     "providers.seatgeek": {
@@ -139058,6 +145328,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchEvents": "d60a0d24ae54a35c",
+        "findPerformers": "1004bb6d66363adb",
+        "findVenues": "dceedfda095987ce",
+        "getEvent": "799e42daebf2dfd5",
+        "getPerformer": "a667ede929f4a850",
+        "getVenue": "492fde4eadc5a356",
+        "listTaxonomies": "f16289dc38f2ac0c",
+        "listTrackedEvents": "68e7e5097a739e4b",
+        "trackEvent": "52d9c98bafe77258",
+        "untrackEvent": "242fe4888e1da9a3",
+        "listFollowedPerformers": "bcb619938700380b",
+        "followPerformer": "3b77c07ddf62f432",
+        "unfollowPerformer": "3b77c07ddf62f432",
+        "listMyOrders": "bfd51e149ae65d9d",
+        "getOrder": "71ed394908ad1c4d"
       }
     },
     "providers.seblabs": {
@@ -139095,6 +145382,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "demo": "01e1ead186ad7b03"
       }
     },
     "providers.sec_edgar": {
@@ -139201,6 +145491,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findCompany": "c7085d6b48b65d53",
+        "companyFacts": "34d28b8ecd7d39e9",
+        "listFilings": "acc05316f192f024"
       }
     },
     "providers.secondswing": {
@@ -139303,6 +145598,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchClubs": "47e7754c72bcfc9a",
+        "getQuoteAttributes": "1fe49f6e18e54f2f",
+        "getTradeInValue": "3c97d58cdacf00ec"
       }
     },
     "providers.sede_valencia_es": {
@@ -139341,6 +145641,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getParkingTariff": "e3e2b5e87667fd3b"
       }
     },
     "providers.seegarsfence": {
@@ -139369,6 +145672,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "checkServiceArea": "b05f287c1283a25b"
       }
     },
     "providers.selectblinds": {
@@ -139425,6 +145731,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listBlindStyles": "3b94585743c56d5f",
+        "getConfigurator": "dc545d2a3706b2dd",
+        "priceConfiguration": "896e600fe98337ae"
       }
     },
     "providers.sellcell": {
@@ -139471,6 +145782,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getTradeInOffers": "3ec26a9c6bf5e569"
       }
     },
     "providers.semihandmade": {
@@ -139520,6 +145834,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchParts": "e263fd2c0695b1bc",
+        "getPartOptions": "5917542cbbd05dc5",
+        "priceConfiguration": "40f4be264f5e4941"
       }
     },
     "providers.sentry": {
@@ -139543,6 +145862,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "signup": "cb577072b165dea7",
+        "confirmSignup": "194e82ce22fb6b1c"
       }
     },
     "providers.seoulfood": {
@@ -139579,6 +145902,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getExhibitorPricing": "01103fd2691ed255",
+        "getBoothQuote": "c3e2a90c595ff775"
       }
     },
     "providers.serper": {
@@ -139662,6 +145989,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "9c2595755565b161",
+        "searchGoogle": "9c2595755565b161",
+        "searchShopping": "30f972f9fd850926"
       }
     },
     "providers.sessionize": {
@@ -139685,6 +146017,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchSpeakers": "cff83decd2f10a45",
+        "getSpeaker": "dce4fa4dc1d0b239"
       }
     },
     "providers.setmore": {
@@ -140404,6 +146740,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findBusiness": "76db09836e28830b",
+        "getBusiness": "105fe109aa7674b2",
+        "listServices": "aa648aa08d74e660",
+        "listStaff": "4b8144a990460308",
+        "getAvailability": "9b65925e869b67fe",
+        "bookAppointment": "0ef3d1bfc87bee5c",
+        "bookClass": "7204459600b7c13b",
+        "listClasses": "1af25576240e181a",
+        "getClassSession": "67fbf12e949f349a",
+        "getBooking": "cfd0f88dfee1d9e4",
+        "cancelAppointment": "b3f952041ded3905",
+        "rescheduleAppointment": "3b9d67e398113e52",
+        "getMyBookings": "255aa0093fae4d0a",
+        "updateMyDetails": "a0c64587d3bc6905",
+        "getBookingForm": "8582cff583ca8cf7",
+        "getReviews": "fc40e3c8da36494d",
+        "listGalleryImages": "ea1b562e2362edbb",
+        "checkPromoCode": "8815447fd3e920a8"
       }
     },
     "providers.sevenrooms": {
@@ -140803,6 +147159,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getVenue": "45f82d53f4a64b8a",
+        "getAvailableDates": "b5de005520b2af17",
+        "getAvailability": "cc13ccd9374647e0",
+        "getBookingTerms": "6d5784a467c6e3a5",
+        "listUpgrades": "e22ae0021cbae2d8",
+        "listMyReservations": "18a73788384f9fa2",
+        "validatePromoCode": "364f10d2a7a1e4fa",
+        "bookReservation": "77c7819a238841a9",
+        "getReservation": "bdb2da16bee8b8d5",
+        "cancelReservation": "ac442a9e7bc8f770"
       }
     },
     "providers.shein": {
@@ -141453,6 +147821,35 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listCategories": "552c3c7cffcf30c9",
+        "search": "5af6566ffd544496",
+        "listProductsByCategory": "d8429e871ab79fb3",
+        "getProduct": "8c74c5fe7df5a3f0",
+        "getSizeGuide": "7a10526178ea683e",
+        "getStore": "6c7d6acb7cf1af19",
+        "listStoreProducts": "913d9d9212784c18",
+        "listNewArrivals": "e28f10ab826969f0",
+        "listFlashSale": "e28f10ab826969f0",
+        "listOrders": "1063994970c9987c",
+        "getPoints": "090aa186db9c5f3d",
+        "listMyCoupons": "5aa715ffa271a738",
+        "getProfile": "f8f929c3f8292bc2",
+        "addToCart": "a2cc16da66bbd8ca",
+        "updateCartItem": "0a2a2ac8e9eeaf5e",
+        "removeFromCart": "4642973c4343a787",
+        "addToWishlist": "cd547cf82e19063f",
+        "removeFromWishlist": "f65356205648b2cf",
+        "followStore": "de8035ac1b7cb75d",
+        "getCheckoutSummary": "195d27ab82d17695",
+        "getCart": "195d27ab82d17695",
+        "listWishlist": "195d27ab82d17695",
+        "listFollowedStores": "195d27ab82d17695",
+        "updateProfile": "18411c42a5cb60d9",
+        "addAddress": "27d7d7b5c8d7570f",
+        "listAddresses": "195d27ab82d17695",
+        "getOrder": "34bc103361d61298"
       }
     },
     "providers.shop_app": {
@@ -142678,6 +149075,44 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSavedProducts": "e8a28a46a1b8108e",
+        "listProductLists": "f6466755d2ff84b0",
+        "getCart": "0d1d820336020b47",
+        "listFollowedStores": "99fed6b88533bb73",
+        "addAddress": "f9fd08143c31824b",
+        "getDeliveryEstimate": "ea250a6bd209ef7b",
+        "updatePrivacySettings": "5f819cfff7ee03de",
+        "createProductList": "a7f69e9b870677d4",
+        "saveProduct": "1b2eaae14f8f9c22",
+        "addToProductList": "2a9dd2ee7ecccec4",
+        "addToCart": "f090e8a7a3229dc7",
+        "listAddresses": "2c0276412c15933c",
+        "getShopCash": "8f27d28f79c48ba0",
+        "getAccount": "4196c4a2e74cf70c",
+        "startCheckout": "489403b9f4253f28",
+        "followStore": "be2eaf298208f228",
+        "markOrderDelivered": "5a0b2a9fe2ea1b7d",
+        "trackPackage": "f52e7d10deb1ce76",
+        "getOrder": "9a6051db989f0e91",
+        "listOrders": "95968c52de728adc",
+        "getProduct": "a4447516f62738af",
+        "getStore": "ca910b653f8b0a20",
+        "listStoreProducts": "ffe67c747429d8a8",
+        "suggestSearches": "e2c8802b303f7e6c",
+        "searchStore": "0075aaf2e3f534ac",
+        "getStoreReviews": "58420c1ab3cdb49d",
+        "getStoreCollection": "f4a97f331e73f9c2",
+        "getVariant": "57172200876ab4e0",
+        "listCategories": "2f76a9edc814dd24",
+        "getProductReviews": "b9024e66a80a071e",
+        "browseCategory": "15ba315a655e4c45",
+        "getDiscoveryFeed": "10deed41dc3a75d0",
+        "searchProducts": "295cb64f29657137",
+        "listOffers": "7727ba35291cce1d",
+        "getStorePolicies": "94829b9581a97b8c",
+        "getStoreContacts": "79fe243bdb76278b"
       }
     },
     "providers.shopdisney": {
@@ -142758,6 +149193,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "8002bfe63c3ed645",
+        "getProduct": "e5c96334913d7d18"
       }
     },
     "providers.simplisafe": {
@@ -142789,6 +149228,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "26f43e6ecd416cd1"
       }
     },
     "providers.sitmeanssit": {
@@ -142810,6 +149252,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findNearestLocations": "8a27efa9b0ec3257"
       }
     },
     "providers.sixflags": {
@@ -142824,6 +149269,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getTickets": "78c1f524afa9e3c5"
       }
     },
     "providers.skills_rest": {
@@ -142852,6 +149300,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listSkills": "7b41ec8e5ff0bb3c"
       }
     },
     "providers.sleeper": {
@@ -142859,6 +149310,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getNFLState": [],
         "listTrendingPlayers": []
+      },
+      "digests": {
+        "getNFLState": "b08e890d61e64b4e",
+        "listTrendingPlayers": "7daa64eae3864b6f"
       }
     },
     "providers.slice": {
@@ -143369,6 +149824,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "resolveAddress": "23e2b4a115df3e6a",
+        "searchPizzerias": "8d09aef005c1d90a",
+        "listPizzeriasInCity": "45971513174324bd",
+        "getPizzeria": "f49c7ed7513343ea",
+        "getMenu": "f534e8b5fe0fa2f4",
+        "getMenuItemOptions": "e7efd225fc702ce1",
+        "getHours": "448700a5c31e4e75",
+        "checkDelivery": "9c5e6704e32fa9c7",
+        "priceCart": "fed230013da22b80",
+        "validatePromoCode": "59a1d71c2c417531",
+        "getReviews": "d37d020a811d8eba",
+        "getRecommendedAddOns": "644bef4e6ed04974",
+        "getDeliveryEstimate": "93b196995e0d6aca",
+        "getLoyaltyProgram": "dbab39283c8c94f8"
       }
     },
     "providers.slickdeals": {
@@ -143384,6 +149855,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFrontpageDeals": "dd1963bad3b558e7",
+        "searchDeals": "449121d637136e47"
       }
     },
     "providers.smartrecruiters": {
@@ -143426,6 +149901,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listJobs": "c5bad50779da92e8"
       }
     },
     "providers.smartwool": {
@@ -143475,6 +149953,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getSockRecommendation": "4bfb01ea9a7e9021"
       }
     },
     "providers.smithery": {
@@ -143604,6 +150085,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "52ab9fc2250dce7d"
       }
     },
     "providers.smry_ai": {
@@ -143633,6 +150117,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listDocPages": "9f07ae0159d6af09",
+        "readArticle": "677d3f9b1354bc6a"
       }
     },
     "providers.smtp_probe": {
@@ -143686,6 +150174,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookupMx": "af2988642c7fbf5b",
+        "probeMailboxes": "caa4e6a17d96b4dc"
       }
     },
     "providers.snapchat": {
@@ -144145,6 +150637,33 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchSnapchat": "12356e1123cb21d4",
+        "getProfile": "cb6bb3ac0f7f951c",
+        "listProfileStory": "a16423d510128306",
+        "listSpotlightFeed": "9328dc7e22deb657",
+        "listTopicSpotlights": "2114a45d14ffafcc",
+        "getSpotlightVideo": "17028bdc8c9a5edf",
+        "listDiscoverStories": "7b28367e5d67c181",
+        "listLenses": "9d31234fee6b91d1",
+        "getLens": "1f4af7b3528269cd",
+        "listProfileSpotlights": "61ce91c28eb2be2d",
+        "listProfileLenses": "9e8a5fa031d242c0",
+        "listSpotlightComments": "d10cb8442360d56d",
+        "listProfileHighlights": "f2e51318350ac94b",
+        "getShow": "7268792e6d4736ac",
+        "getEpisode": "9f76b023cb93468b",
+        "listLocalCities": "f74de495b8546e55",
+        "getLocalGuide": "651cf279599ac916",
+        "getMyProfile": "5c053301acbe27c9",
+        "listFriendStories": "edd665cbb97f22a1",
+        "listFriends": "5a47bd74399de743",
+        "addFriend": "86a333dd288596f9",
+        "removeFriend": "33d72aed29bcafd5",
+        "blockUser": "33d72aed29bcafd5",
+        "unblockUser": "33d72aed29bcafd5",
+        "updateDisplayName": "fd10c5ef832ea612"
       }
     },
     "providers.solidcore": {
@@ -144618,6 +151137,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listStudios": "d8884e7a66ddf963",
+        "getStudio": "c9ff8ffc53362057",
+        "getSchedule": "3779336a7f491930",
+        "getClass": "da346f7edea601aa",
+        "listCoaches": "cb9a2ae1ca77e0bf",
+        "getCoach": "f70e04e60339ae7e",
+        "listMuscleGroups": "afa5ba13b6050f7c",
+        "getPricing": "67c7c40a59f5390d",
+        "getPack": "c3d6141a82d90197",
+        "listClassCategories": "cecca8f48c2bffe6",
+        "searchClasses": "5ebace78d823151a",
+        "checkAvailability": "88884a89e56702ef",
+        "bookClass": "696611fe7f013819",
+        "joinWaitlist": "696611fe7f013819"
       }
     },
     "providers.solostove": {
@@ -144650,6 +151185,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listBundles": "020b7aa1f982636f",
+        "checkBundle": "a1b90a94cf4814e3"
       }
     },
     "providers.sos_ms_gov": {
@@ -144707,6 +151246,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listAgencies": "c9b9c116eaa21bdb",
+        "searchAdminCode": "d442e683291092ea"
       }
     },
     "providers.soulcycle": {
@@ -145403,6 +151946,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listRegions": "62548d23601bbdc9",
+        "listStudios": "3a11e07967d87683",
+        "findStudio": "9f7783e7d84e7ba5",
+        "getStudioSchedule": "3d581dbf30c2da69",
+        "getClassAvailability": "2114e8dd0ae37863",
+        "listSeries": "ba2fca1c8ce3ce43",
+        "listInstructors": "96f0e9cf3bf4aef5",
+        "getInstructor": "0438c60b122a7676",
+        "getStudio": "eeeb18383a44ef89",
+        "listShopProducts": "a4306bed46f42df8",
+        "listMyBookings": "710c0dbf055f45db",
+        "listClassHistory": "7cc3000cb30bb00b",
+        "listMyBookmarks": "7cc3000cb30bb00b",
+        "getMyCredits": "35ceacb0784db183",
+        "getBikeMap": "d20a69189ac1db77",
+        "bookBike": "68a5642ecee7bd48",
+        "joinWaitlist": "a6444f7e44b3cac8",
+        "cancelBooking": "df4cdba0b387fc09",
+        "setFavoriteStudio": "4cf01a8b85412b29",
+        "setFavoriteInstructor": "07b9908e77026fd3",
+        "setSeriesTransfer": "4cdeb2d2f7137cb3",
+        "redeemReferralCredits": "44493b29f0ab2303",
+        "updatePreferences": "e806e7d905a59032"
       }
     },
     "providers.soundcloud": {
@@ -145704,6 +152272,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "ac75ed5a30871acb",
+        "getTrack": "54a65602d0d926c3",
+        "getPlayback": "8be60c16a93e2349",
+        "getPlaylist": "8eb0b9db55735745"
       }
     },
     "providers.sourceforge": {
@@ -145771,6 +152345,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProject": "b8051f54b32d9678",
+        "getLatestRelease": "ebf7546c932f1a8c",
+        "listFiles": "d8b402176d16899c"
       }
     },
     "providers.spareroom": {
@@ -145859,6 +152438,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getListing": "d7a4d2bba656b596",
+        "searchRooms": "c73b42fd63dd4a21"
       }
     },
     "providers.spectrum": {
@@ -146264,6 +152847,28 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listInternetPlans": "5b3ac5644d4b2471",
+        "listTvAddOns": "a2f984700b2d00fc",
+        "getInternetPlanDetails": "9e9fcb249e484b0f",
+        "listTvPlans": "405b3a5cb887b682",
+        "listMobilePlans": "1091110af945061c",
+        "getByTheGigPlan": "a9069e81b71d8313",
+        "listMobileDeals": "de20d7d2c541dd52",
+        "checkMobileCoverage": "58e596879d132c96",
+        "getBillingHistory": "770409d4d6a27cdd",
+        "getAccountBalance": "232c74b1c3a20dcf",
+        "getUsageSummary": "7fd21c856e298039",
+        "getChannelLineup": "38031163db68b499",
+        "scheduleServiceAppointment": "5d4327367338e871",
+        "updateWifiNetwork": "24e73554347979c6",
+        "getOutageStatus": "2550edf6bdd1ab67",
+        "restartEquipment": "dcc73554a6572a91",
+        "listServiceAppointments": "fac2b35c68454ed4",
+        "rescheduleServiceAppointment": "4a560dd927cdc979",
+        "cancelServiceAppointment": "e23872b8dfcc0f9e",
+        "getEquipmentStatus": "937d62df9f82e8e5"
       }
     },
     "providers.speedrun": {
@@ -146336,6 +152941,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findGame": "2011e5c285bef895",
+        "categories": "5f199c0a8077ef00",
+        "platforms": "fffc2fe24606d0c8"
       }
     },
     "providers.spirithalloween": {
@@ -146384,6 +152994,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "f9d1370d72e3a971",
+        "getProduct": "f857334ab48beef5"
       }
     },
     "providers.sports247": {
@@ -146528,6 +153142,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "teamRankings": "e99ad655a7916ebe",
+        "searchRecruits": "dce195e731904938",
+        "search": "b0f278193969567e"
       }
     },
     "providers.spotapps": {
@@ -147198,6 +153817,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findRestaurant": "3e7efdf19c5114c2",
+        "getReservationSettings": "c654b706cbdea3d3",
+        "checkAvailability": "33766a64678de494",
+        "getMenu": "6bbaebefd4756d86",
+        "getOnlineOrderMenu": "c234ed7ea349a808",
+        "getPrivatePartyOptions": "91a4c685f3ede8f3",
+        "getCateringOptions": "1c3410f8ef4b1a6b",
+        "bookReservation": "1d47eeabfe322474",
+        "listJobs": "cefb17c509ee3ea6",
+        "requestPrivateParty": "7664e17850e3c6e7",
+        "requestCatering": "32e103afe0814b11",
+        "applyForJob": "6ee75a0b4bf791a2",
+        "joinMailingList": "a45098374737ff0b",
+        "startOnlineOrder": "c9a8d5f1e5178f47"
       }
     },
     "providers.spotify": {
@@ -148150,6 +154785,43 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "9ff5e514a65dd250",
+        "getTrack": "9baae36719320770",
+        "getAlbum": "643fb8d40ba32bfb",
+        "getArtist": "26ebe9ae070766b6",
+        "getPlaylist": "b4b11827cf4aa060",
+        "getPodcast": "eb20b9550d5754e3",
+        "getEpisode": "4368a0d1bab7a0f9",
+        "listArtistTracks": "726de0ffedf2a919",
+        "listAlbumTracks": "6112fd994c955536",
+        "listArtistAlbums": "dfac61f7e4873389",
+        "listPlaylistTracks": "6ccc4ec7172d5ce9",
+        "listNewReleases": "8273e8794c775611",
+        "getOEmbed": "28495159fc3cc04a",
+        "getChart": "3b1e1ac86f3bf453",
+        "browseCategory": "29b095c901a138b3",
+        "getFeaturedPlaylists": "81be9a0a869f0b56",
+        "getRecommendations": "bfaeb2ff9fcf5559",
+        "getRecommendationsByArtist": "8bab95885084c378",
+        "getRelatedArtists": "9fb543947e77350f",
+        "getAvailableMarkets": "43f943d38c7b42e9",
+        "searchPlaylists": "9406f460e633f978",
+        "getGenreSeeds": "aa5cdf74e6c01103",
+        "getPlaylistCoverImage": "efebbe6ba461a875",
+        "getUserProfile": "5d5fca2bccd721df",
+        "getTopTracks": "43421dbdc90d58fe",
+        "getTopArtists": "4b21c740a010b513",
+        "getLibraryTracks": "7d30312726069aaf",
+        "getLibraryAlbums": "957309e2b65b13df",
+        "getLibraryArtists": "76bfeac6c1c13a2f",
+        "getLibraryPlaylists": "a6721a28c4aa6e8f",
+        "searchMyLibrary": "61f4f91c59483ebc",
+        "getRecentlyPlayed": "b4237db33427dc8a",
+        "getDevices": "cc74fc5edb4d6fc0",
+        "getLyrics": "e0652ed8944b2267",
+        "getCurrentPlayback": "32e467dbad105d70"
       }
     },
     "providers.square_appointments": {
@@ -148596,6 +155268,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findBusiness": "b98d43f7adab31cc",
+        "getBusiness": "d9cc453568adab17",
+        "listServices": "246f7a80b54fea5f",
+        "listStaff": "facbf604f549da27",
+        "checkAvailability": "c013725d1d35385e",
+        "listLocations": "e0a40e18431193b6",
+        "listCategories": "40d29122bf2c097e",
+        "getService": "2b49fe5ce33b5135",
+        "cancelBooking": "870614ff3b0890e8",
+        "cancelClassBooking": "d6bdbe8356f1cd3e",
+        "listClasses": "f3a120e0016f252f",
+        "listMyBookings": "57359520116859ba",
+        "getBooking": "57bb142feeb6f286",
+        "listMyClassBookings": "54c1de18a09c866c",
+        "listCreditPacks": "4ab8362a8b6c0f31"
       }
     },
     "providers.square_online": {
@@ -148946,6 +155635,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getSite": "891076a99b392a0a",
+        "listLocations": "a5de45bc08cb42f8",
+        "listCategories": "ff13de49b686a230",
+        "listMenuItems": "affb616baf2e5c36",
+        "getMenuItem": "9f7f101c6eddf8f1",
+        "getPickupTimes": "b8413de2549c5803",
+        "getDeliveryTimes": "b8413de2549c5803",
+        "getItemAvailability": "99f54deda96ae978",
+        "getLoyaltyProgram": "44608f69be6ee4fa",
+        "listSubscriptionPlans": "bb52e7ce910902cb",
+        "getMyAccount": "f90d624e842ad2ec",
+        "listMyOrders": "a016aa8ac566e27a",
+        "listMySubscriptions": "a437973b467635da"
       }
     },
     "providers.squire": {
@@ -149260,6 +155964,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchShops": "cdba2d430833da52",
+        "findShopsNear": "0046acc6ef80d37c",
+        "getShop": "36035b77a1cca108",
+        "listServices": "ff6cfb771729c10c",
+        "listBarbers": "21aa281dadb6db66",
+        "getAvailability": "d29d9c947233490b",
+        "getReviews": "c56ed147350c3897",
+        "getBrand": "a249b5de7233c255",
+        "getBarber": "7323a654135f4a5e",
+        "getWalkInStatus": "51e2afc862c9fbe5",
+        "getBookingQuote": "6fab23462f93a244",
+        "lookupReservation": "b8cc445b309ac129"
       }
     },
     "providers.stackoverflow": {
@@ -149352,6 +156070,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchQuestions": "41b836bd8d2a0ad6",
+        "getQuestion": "c8bc4a24e36a9619"
       }
     },
     "providers.starlighthomes": {
@@ -149376,6 +156098,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listMetros": "18e0fdb4e604bab3",
+        "getMetro": "86473a6754ba51fd",
+        "getNeighborhood": "008df112693977c0"
       }
     },
     "providers.start_gg": {
@@ -149509,6 +156236,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchTournaments": "2b0844269896feed",
+        "findVideogames": "f81570efe44c1be7"
       }
     },
     "providers.statefarm": {
@@ -149948,6 +156679,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findAgent": "69f0c4ab12f5e4d2",
+        "getLifeQuote": "917adbd0defe5614",
+        "getRentersQuote": "239aa39fa88ced3d",
+        "getBusinessQuote": "42739572f3c5d69d"
       }
     },
     "providers.statista": {
@@ -150005,6 +156742,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "44b2b33337c63cd2",
+        "getStatistic": "12cd59b1d3e0e834"
       }
     },
     "providers.steam": {
@@ -151247,6 +157988,40 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchGames": "cc76cb757529b700",
+        "getGameDetails": "eff641b0175c0064",
+        "listFeaturedGames": "72a04ae7dffdd1f3",
+        "listGamesByCategory": "0a41055e29f2548b",
+        "getGameReviews": "80606de7835af9aa",
+        "getGameScreenshots": "151a6129382c53c5",
+        "getGameVideos": "457080a654e2be8f",
+        "getGameStats": "e6d299682b224b48",
+        "listNews": "7d465c0d1508d65d",
+        "getNewsItem": "4d9165bbae8f4133",
+        "searchNews": "b40ec78ad83e67c6",
+        "listGameTags": "29b86e08b17c032b",
+        "getAchievements": "ddddc09ee00c927f",
+        "addToWishlist": "198da6a8bbca1403",
+        "removeFromWishlist": "1892598f0266aede",
+        "getWishlist": "297df52057162f88",
+        "getLibrary": "ee21a34bd86d96db",
+        "getProfile": "ddabf717fe7768a8",
+        "editProfile": "3327e4f77949c4e9",
+        "viewFriends": "8a59c4c6938a560d",
+        "addFriend": "c1057caa3f828961",
+        "removeFriend": "01b5102330739e70",
+        "postComment": "0359086227c7be03",
+        "getPlayTime": "dbfdb4e77c2032a9",
+        "viewMarketHistory": "16a8321af1d2829e",
+        "viewInventory": "5cd3c66946fbe331",
+        "getMarketPrice": "68ffde1de5112c4b",
+        "searchMarket": "4edd31cd13483a0b",
+        "getCommunityHub": "0fe6eb76bf69324f",
+        "listStoreSpecials": "5bec5e94228ed4bc",
+        "getGameDlc": "d3781e7392baa3e2",
+        "getSteamDeckCompatibility": "26ac9dc071242eef"
       }
     },
     "providers.stepstone": {
@@ -151318,6 +158093,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "job": "42b6e3dbef299a01",
+        "search": "190dc71d93bb7f23"
       }
     },
     "providers.stickergiant": {
@@ -151399,6 +158178,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listStickerProducts": "2701d98820926881",
+        "priceCustomSticker": "ed0088aaa579abc5"
       }
     },
     "providers.stripe": {
@@ -151451,6 +158234,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchDocs": "9f3c7244470b1865",
+        "getDoc": "bf49e5c945ba728b"
       }
     },
     "providers.stubhub": {
@@ -151940,6 +158727,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "f83b25d380a4a2e3",
+        "getEventListings": "c3c5a52c43f4669a",
+        "getEvent": "7a1e90411b7b20f6",
+        "listCategories": "10ec3ffdbe2c40d6",
+        "findPerformers": "6d9b34d55c10c4f6",
+        "findVenues": "4c73895c236316f8",
+        "findEventsToSell": "d3ff311b0e3367cd",
+        "getCheckoutHandoff": "e6b96acf11c6e126",
+        "createListing": "3a1300c4313d1524",
+        "listMyOrders": "cf04537f706f524f",
+        "listFavorites": "1b419fd35aca80fd"
       }
     },
     "providers.studentaccommodationbath": {
@@ -152005,6 +158805,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getListing": "754dff06b18d9f31",
+        "listListings": "e549a412adb74fd5"
       }
     },
     "providers.studenthomes_net": {
@@ -152114,6 +158918,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getListing": "d164272aeff54be6",
+        "searchListings": "b6a928a1f5d1de5e"
       }
     },
     "providers.sturents": {
@@ -152171,6 +158979,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getListing": "b178e9949ddfc90c",
+        "listListings": "04f577eb892b0591"
       }
     },
     "providers.styleseat": {
@@ -153127,6 +159939,35 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "resolveLocation": "c94a610621b5acbc",
+        "searchProfessionals": "2274011827b70bfc",
+        "getProfessional": "b641c6246c32ab6a",
+        "getAvailability": "0aa5a748c1f8e70c",
+        "getBookingQuote": "0192f370f208f22f",
+        "listServiceCategories": "0e59b276bc951ed3",
+        "getReviews": "51563c26a2f21df1",
+        "getGallery": "6272eebb2582529b",
+        "getSalon": "563cbeebd6bd9445",
+        "getOffers": "956dc58990742c16",
+        "getAppointmentByLink": "0c9108756ce93987",
+        "cancelAppointmentByLink": "8e41dadf40548c02",
+        "listClassTimes": "28b7f666b7f11b53",
+        "getMyProfile": "5cbd97feccb8f849",
+        "listMyAppointments": "d622578ea463eec3",
+        "getMyAppointment": "ad571c87d55638ad",
+        "bookAppointment": "2c5553efec1b3702",
+        "cancelAppointment": "bb94a76c4110cabb",
+        "rescheduleAppointment": "0b7de541a0325e33",
+        "joinWaitlist": "ab1863e3fecf7013",
+        "listFavorites": "66724fbe343192c7",
+        "addFavorite": "dfdc95f94d28e161",
+        "removeFavorite": "dfdc95f94d28e161",
+        "updateMyProfile": "d2a1ab19cbe5464f",
+        "listMyDiscounts": "b04ee2078d37573f",
+        "sendMessageToProfessional": "2875d6bac67a66cd",
+        "leaveReview": "1b2b41268c4d3ef8"
       }
     },
     "providers.substack": {
@@ -153227,6 +160068,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "3f51e15630bb8f81",
+        "posts": "7a1d425b11665846",
+        "post": "1fa1c4a3c0018324"
       }
     },
     "providers.suitsupply": {
@@ -153295,6 +160141,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "9e72889a695f4460",
+        "listCategory": "87c800ba3d9f784a",
+        "getProduct": "4be85697097a227b"
       }
     },
     "providers.summerfridaysquiz": {
@@ -153345,6 +160196,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getSkincareQuizQuestions": "d7ec53d31f449382",
+        "getSkincareRoutine": "e1692b6261e69837"
       }
     },
     "providers.sunhomesaunas": {
@@ -153398,6 +160253,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getSaunaFinderQuestions": "88a78ad5e3e14479",
+        "getPersonalizedSaunaMatches": "52826be4653e9f11",
+        "addSaunaToCart": "673099c2d5b28955"
       }
     },
     "providers.sunlighten": {
@@ -153449,6 +160309,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "matchSauna": "246a62b93c3d1ddf",
+        "getModelPricing": "422610cfd5c320c7"
       }
     },
     "providers.surfshark": {
@@ -153472,6 +160336,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getDedicatedIp": "e3fb428d96ba43fa"
       }
     },
     "providers.surveymonkey": {
@@ -154076,6 +160943,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "createCollector": "769bf8f706f4b702",
+        "createSurvey": "cbdc97c57549f2c9",
+        "deleteCollector": "e1c64af98b17ff2c",
+        "deleteSurvey": "27b5beec61f48ea1",
+        "editSurvey": "44fc380ef50096cc",
+        "getAccountInfo": "97feed06d60ae139",
+        "getCollectorStatus": "2a77793b0aa8618d",
+        "getSurvey": "ce08772ffb509e07",
+        "getSurveyResults": "7de228dc0f4d5814",
+        "listCollectors": "4cbae4692e2febc8",
+        "listSurveys": "cb6590cb5285ca79",
+        "listTemplates": "7c647b8a08baa7fb",
+        "shareSurvey": "7aa32905446ba841"
       }
     },
     "providers.sweathouz": {
@@ -154444,6 +161326,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listStudios": "f27577dc1c280967",
+        "getAvailability": "985c70894c8c25e2",
+        "getPricing": "249ce2b6b7dd1492",
+        "listMemberships": "3d48fa92fa8f7449",
+        "getStudioHours": "b2a3e06161b3e65d",
+        "findStudio": "e46ad28cfaf15612",
+        "getPromoCode": "cff5151b0a06353b",
+        "myBookings": "d265acc5941be7fa",
+        "listCredits": "d265acc5941be7fa",
+        "listPacks": "d265acc5941be7fa",
+        "book": "0c8a8c8f1d58e7f9",
+        "cancel": "1ae2733c78aa2c0c"
       }
     },
     "providers.szukajwarchiwach_gov_pl": {
@@ -154467,6 +161363,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getFond": "2acba52f0edc5a54",
+        "searchFonds": "36b8dbcf1d6d8f69"
       }
     },
     "providers.tableau_public": {
@@ -154580,6 +161480,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProfile": "084b411ce701166a",
+        "getWorkbook": "8213e4a73f2be98d",
+        "searchAuthors": "9f167b24744948b9",
+        "searchDatasources": "348481f72b49883a",
+        "searchWorkbooks": "4139277343292875"
       }
     },
     "providers.tagtrans_net": {
@@ -154672,6 +161579,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getShipmentRateForm": "9f2eb6bac69bf700",
+        "createShipmentRateEmail": "7b75f3813c800aba"
       }
     },
     "providers.talkmezzo": {
@@ -154818,6 +161729,14 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listTopics": []
+      },
+      "digests": {
+        "revealContact": "a605c6cdd52effbe",
+        "listClaimedSpeakers": "5959388602b4f6f6",
+        "searchSpeakers": "304790ddb2ae1a73",
+        "getSpeaker": "a03228e8b5db765b",
+        "searchEvents": "e4ef36a1d779ab0a",
+        "listTopics": "4989492c30a781af"
       }
     },
     "providers.tamarackidaho": {
@@ -154867,6 +161786,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchLodging": "0cc83a37401264c5"
       }
     },
     "providers.tapfiliate": {
@@ -154937,6 +161859,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listAffiliates": "a9201b5b5fd26237"
       }
     },
     "providers.target": {
@@ -155487,6 +162412,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "461f3c7d6debd7ca",
+        "getProduct": "ddcabce58db6e29d",
+        "checkStock": "a5f94b88b0c8f8a9",
+        "findStore": "bb838020d6640ef3",
+        "listCategories": "54a034e47b83b3c1",
+        "listCategoryProducts": "ab6c693a9c26743a",
+        "listDeals": "c9d57ea0d37d17dd",
+        "reviewPhotos": "90c4e4a247394a60",
+        "listReviews": "6cd7d40b568be9c1",
+        "listQuestions": "f7093f1118a652c2",
+        "listOrders": "108464148b06ae60",
+        "listWishlists": "1c76e3021db54d0c",
+        "getRegistry": "1c5281245bad917d",
+        "getCart": "25fac272d18e68be",
+        "addToCart": "33a959b1a783aed7",
+        "removeFromCart": "1c61ef04ea0cd7d3",
+        "addToList": "8f70d7b30b0252f2",
+        "writeReview": "aaf7fb61d6c7084a"
       }
     },
     "providers.tatcha": {
@@ -155539,6 +162484,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getRitualQuizOptions": "3400e26abc6cf837",
+        "getPersonalizedRitual": "4ed37155c02cdce6"
       }
     },
     "providers.tdlr": {
@@ -155588,6 +162537,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "licenseLookup": "7542f21b379f1ca0"
       }
     },
     "providers.teamtailor": {
@@ -155602,6 +162554,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "6e7ab54b4f95cb43"
       }
     },
     "providers.teladoc": {
@@ -155609,6 +162564,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getPricing": [],
         "getInsurancePricing": []
+      },
+      "digests": {
+        "getPricing": "f75844268eee51d7",
+        "getInsurancePricing": "d77fb8737960de28"
       }
     },
     "providers.temu": {
@@ -156100,6 +163059,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listCategories": "f14a998c1c095bd1",
+        "viewCart": "129033e374d471a0",
+        "checkout": "fb9a717d6b9f6be9",
+        "listOrders": "3231e1b3cf36e2da",
+        "trackOrder": "3d338ab177f28c76",
+        "addToWishlist": "fa17cdb1b1be9e65",
+        "listWishlist": "656fd9f96e495525",
+        "removeFromWishlist": "588c825a5e82aca3",
+        "addToCart": "dd09f1f238e20fc1",
+        "updateCart": "cbcbb6161439836a",
+        "removeFromCart": "a07a262438edc70d",
+        "writeReview": "cd5aee80ca56a67c"
       }
     },
     "providers.tenders_go_ke": {
@@ -156168,6 +163141,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listTenders": "b0ac92944398f45b",
+        "getTender": "0e8d753292b924df"
       }
     },
     "providers.teneohg": {
@@ -156249,6 +163226,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchMemberHotels": "3e545f8cd0b1907b",
+        "getMemberHotel": "6574b38c48c933a6"
       }
     },
     "providers.texas_lottery": {
@@ -156349,6 +163330,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "draws": "dfa852e6e81f915c",
+        "scratchers": "c884061321dab4ca"
       }
     },
     "providers.thataicollection_com": {
@@ -156570,6 +163555,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "browseCategory": "33dca7b4b03b2af6",
+        "compareTools": "7d04e8d6dea09499",
+        "getAlternatives": "fb38f89dc5a81c3f",
+        "getTool": "7c2c33b9e2bc7c31",
+        "getTopPicks": "0804d5e52c57ec94",
+        "listCategories": "c677386372e0b0c3",
+        "searchTools": "950442d9be64f9d1"
       }
     },
     "providers.thefork": {
@@ -156605,6 +163599,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "f590e1dc5302088a"
       }
     },
     "providers.theguardian_com": {
@@ -157069,6 +164066,32 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSections": "7fc70b2ac5f5e14a",
+        "listArticlesBySection": "1989d3dc5d211146",
+        "getArticle": "ce3eecf281c85047",
+        "listTopics": "7a05c2702f91a9ea",
+        "getTopicArticles": "1989d3dc5d211146",
+        "listBreakingNews": "620b58ab85fe510c",
+        "listContributors": "19804969fc4138e8",
+        "getContributorArticles": "27756e82460cf518",
+        "listOpinionPieces": "1623603b095f3336",
+        "listReviews": "7c4dbfb0d520a0db",
+        "getReview": "aaec55bf5dce20e3",
+        "listLiveBlogs": "e6bcf727a4d0f1c7",
+        "getLiveBlog": "6aa0c9bb8c6c5d6c",
+        "listPhotos": "7af787ac3af3ad2e",
+        "getPhotoGallery": "459fc198e9d81e57",
+        "listVideos": "e2bc92aa6b5a9931",
+        "getVideo": "eafbb4d8a163991d",
+        "listNewsletters": "39701733f9dd5cb2",
+        "getMostRead": "3ba53230da727fd6",
+        "getFootballTable": "f4cfe8ff860629de",
+        "listFootballMatches": "7ea5505e6e9b6548",
+        "getCrossword": "ef0c26bf0a08e3d2",
+        "listPodcastEpisodes": "e8bb570b2f63c8ac",
+        "getArticleComments": "f02e65cb191bdf26"
       }
     },
     "providers.therabody": {
@@ -157136,6 +164159,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listTheragunProducts": "3cdabe4249b36921",
+        "getTheragunProduct": "6569539ce35bce9c",
+        "recommendTheragun": "3a71a63ea39f306e"
       }
     },
     "providers.therowhouse": {
@@ -157151,6 +164179,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLocations": "f611656b7880a1d7",
+        "getSchedule": "dd2a293ff0126ab5"
       }
     },
     "providers.thestowcompany": {
@@ -157175,6 +164207,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getSampleClosetEstimate": "13b976b76e605e3d"
       }
     },
     "providers.thestreet": {
@@ -157204,6 +164239,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "sections": []
+      },
+      "digests": {
+        "commentCount": "2999b2d483d09e67",
+        "sections": "c850bc45f33fd42f"
       }
     },
     "providers.theweathernetwork_com": {
@@ -157239,6 +164278,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getCurrentConditions": "bde0aea2806f3d22"
       }
     },
     "providers.thezebra": {
@@ -157709,6 +164751,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getStateRates": "c37da46a4b65e5a5",
+        "getStateRequirements": "048307b7ef4ec457",
+        "getCityRates": "59e5a9341c61f1db",
+        "getRatesByDriverProfile": "b595806fc7f84d78",
+        "getVehicleRates": "48c3eb9da745ab42",
+        "getCarrierRates": "fa7c303662893548",
+        "getRentersQuotes": "6c7aa7166a70c1e9",
+        "getAutoQuotes": "9ae3fab993ed13fc"
       }
     },
     "providers.thibautdesign": {
@@ -157772,6 +164824,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "calculateRollsNeeded": "b98dcd95e2e10591"
       }
     },
     "providers.threads": {
@@ -158614,6 +165669,39 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getMe": "61cfd5c878fd46ec",
+        "getHomeFeed": "002979059bf8e28a",
+        "createPost": "ecf210a2d224b456",
+        "replyToPost": "95437d0333655c1c",
+        "quotePost": "95437d0333655c1c",
+        "likePost": "428446804642e26f",
+        "unlikePost": "428446804642e26f",
+        "repostPost": "428446804642e26f",
+        "unrepostPost": "428446804642e26f",
+        "deletePost": "428446804642e26f",
+        "followUser": "caee2ae229ce6b8f",
+        "unfollowUser": "caee2ae229ce6b8f",
+        "blockUser": "caee2ae229ce6b8f",
+        "unblockUser": "caee2ae229ce6b8f",
+        "muteUser": "caee2ae229ce6b8f",
+        "unmuteUser": "caee2ae229ce6b8f",
+        "updateProfile": "5b6e4b7b81d19978",
+        "getSavedPosts": "1ac5eccd975baf06",
+        "listCustomFeeds": "50ef43fc56030712",
+        "getCustomFeed": "4ad1d882cd4b7419",
+        "getActivity": "d0a2a4d077bd033d",
+        "searchAccounts": "e50569e56f54b4d2",
+        "getProfile": "4ebc8d990fbe1bf2",
+        "getProfilePosts": "36a82e2486a65c52",
+        "getProfileReplies": "36a82e2486a65c52",
+        "getProfileMedia": "36a82e2486a65c52",
+        "getProfileReposts": "36a82e2486a65c52",
+        "searchPosts": "cd93a7444fb850cb",
+        "searchTopics": "82e940d7db7008b8",
+        "getPost": "6bc818d6154444f8",
+        "getRelatedPosts": "77d9cc389e88dea3"
       }
     },
     "providers.three_m": {
@@ -158674,6 +165762,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchSds": "ad45a961427e2d3b"
       }
     },
     "providers.ticketmaster": {
@@ -158799,6 +165890,13 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listClassifications": []
+      },
+      "digests": {
+        "search": "7017ae2447cf2987",
+        "searchAttractions": "a92d161bfde12547",
+        "searchVenues": "6ed246a8f7548f42",
+        "getVenue": "f4a6a5de6fa0f613",
+        "listClassifications": "58d30d58a535319e"
       }
     },
     "providers.ticketmaster_mx": {
@@ -158822,6 +165920,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "c9f0295132aabbe8",
+        "getEvent": "6e1c911cd7912b28"
       }
     },
     "providers.ticketmaster_nl": {
@@ -158863,6 +165965,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "a676e8f418bf8add",
+        "event": "ecaa3081cb7be895"
       }
     },
     "providers.tiktok": {
@@ -160166,6 +167272,48 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getProfile": "c2173deae35d5b12",
+        "getPlayback": "11c567344d1afe62",
+        "getVideo": "19c8d763fcb4b0ad",
+        "getTranscript": "e300fe8f80a3cc13",
+        "listCaptionTracks": "dbdcfad3c3b58573",
+        "listUserVideos": "4058f8ce668d28ed",
+        "listUserPlaylists": "aca9dee0e401b639",
+        "listPlaylistVideos": "4e8a5438b2bf9790",
+        "listComments": "0fd3f65125fbca21",
+        "listCommentReplies": "e3fc938530cdf947",
+        "commentsPage": "455a4650ae1059f2",
+        "searchVideos": "c37c6d1a667fe372",
+        "searchUsers": "c989d53e77c1dfb2",
+        "listFollowers": "228f37c0aaf9a641",
+        "listFollowing": "a0685793d608a56c",
+        "getHashtag": "b86f0c5688ce6e2f",
+        "listHashtagVideos": "3fc54072e074240e",
+        "listTrendingVideos": "2f447d5829dbdbfd",
+        "getSound": "da4302db5e91d832",
+        "listSoundVideos": "91240ab17a5f47c4",
+        "listForYouFeed": "fcb93b31b41dc16e",
+        "forYouPage": "ee9ca8674daacd98",
+        "listFollowingFeed": "5727478af50d53e1",
+        "getOwnProfile": "b146b99a85f51caf",
+        "editProfile": "bd90f9e09844ca2c",
+        "likeVideo": "ee81aa6ce1babe2c",
+        "unlikeVideo": "8ce530a41d2ef6d3",
+        "postComment": "a7db9354514db9e4",
+        "deleteComment": "ba56d2539cbc952a",
+        "followUser": "f5e2a905c1a3785c",
+        "unfollowUser": "03edc7345c427f89",
+        "bookmarkVideo": "3fe3704a53abccae",
+        "deleteVideo": "ff4212cd4dca5705",
+        "sendDirectMessage": "8715ddd00aaf59ad",
+        "listBookmarkedVideos": "1b70957e2f7f0e42",
+        "listConversations": "9a426564a077114a",
+        "uploadVideo": "bea8a8fa3c09021f",
+        "listNotifications": "0ab79320f1c279bf",
+        "signup": "8d30b8c9176d1b85",
+        "confirmSignup": "ed203e6ea69f0ab5"
       }
     },
     "providers.tilsonhomes": {
@@ -160197,6 +167345,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPlans": "2c938f25501b3c6c",
+        "getElevationDetails": "324e933a7223c2e1"
       }
     },
     "providers.timeanddate": {
@@ -160232,6 +167384,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "56a83619a0437f74"
       }
     },
     "providers.titlenine": {
@@ -160274,6 +167429,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "calculateBraSize": "fc723dd0b4cb1eac"
       }
     },
     "providers.tmobile": {
@@ -160304,6 +167462,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getUpgradeOffer": "d4371551a80815a7"
       }
     },
     "providers.tmz": {
@@ -160335,6 +167496,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "newsSidebar": "3140b310050d693c",
+        "search": "71d0c37efe96daac"
       }
     },
     "providers.toast": {
@@ -160616,6 +167781,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getRestaurant": "8d92873e6868e209",
+        "searchRestaurants": "1dc188e01e4584b3",
+        "listCities": "7d99227c19fbfe51",
+        "listCityRestaurants": "4d159882ad48d749",
+        "getOrderingOptions": "49c3ebffe8d76dac",
+        "getMenu": "3780b595c4310704",
+        "getMenuItem": "7fc23370288534e7",
+        "searchMenu": "cf17f158d5edb22c",
+        "getPopularItems": "1be0a4d32bdea2f9",
+        "getReservationAvailability": "3c5172eef76b55df"
       }
     },
     "providers.tock": {
@@ -160673,6 +167850,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findBusiness": "142bb7097f857f5e",
+        "getBusiness": "178ac6af10c703d4",
+        "listExperiences": "3c5c19f100fd7eea",
+        "getExperience": "2753223ce84fdce1",
+        "searchBusinesses": "1b24728ef8ca9d78"
       }
     },
     "providers.tomsguide": {
@@ -160737,6 +167921,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listLatest": "a2ad5e8d6a706794",
+        "search": "42b6379a72da00a3"
       }
     },
     "providers.topcashback": {
@@ -160794,6 +167982,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchStores": "87052ad53ca3eb0a",
+        "getStoreRate": "af083232119b0c95"
       }
     },
     "providers.topviewtix": {
@@ -160823,6 +168015,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPackages": "192ff1be51631e76",
+        "getPackageDetails": "1040453b755122d9"
       }
     },
     "providers.totalplastics": {
@@ -160838,6 +168034,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getQuoteFormFields": "2e0fb9e47183d04b",
+        "getQuoteFormFieldOptions": "71fe1aef68ec8f71"
       }
     },
     "providers.toyota": {
@@ -160909,6 +168109,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getModel": "088d118e497adb07",
+        "listModels": "e3971a0edb0bcd0a"
       }
     },
     "providers.tradingview": {
@@ -161354,6 +168558,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchSymbols": "8680b3bcf50d001a",
+        "getQuote": "cc4c2e7c93555be3",
+        "getCompanyInfo": "14ad89245a0c668d",
+        "getNews": "78521a0d1fbaa60e",
+        "getTechnicalAnalysis": "a11f6b01339b9bc3",
+        "getFinancials": "33c53c7c6874243d",
+        "getChartData": "5ab5f0b15c12b798",
+        "getEarnings": "db28cf25c0b8997a",
+        "getDividends": "5f2445c86f589ca9",
+        "getMarketOverview": "2293ab9c21b1c6bc",
+        "getScreenerResults": "fb194dda0ee18863",
+        "getOptionChain": "bf43e1f92ac26df1",
+        "getEconomicCalendar": "18e2dd1d2fc2ea1d",
+        "listIdeas": "a3b516eabd90010f"
       }
     },
     "providers.travelinsured": {
@@ -161377,6 +168597,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchDestinations": "63a7df0a8db78540",
+        "getZipInfo": "f45dec1d3eec04a2"
       }
     },
     "providers.travelodge": {
@@ -161455,6 +168679,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchHotels": "83906f04fc7cbed9",
+        "getHotel": "48de8df0ebe13634"
       }
     },
     "providers.trawickinternational": {
@@ -161608,6 +168836,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getQuote": "2e9c2fd72237068b",
+        "getPlanPremium": "0888278a452bc78f"
       }
     },
     "providers.trektravel": {
@@ -161701,6 +168933,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchTours": "a3dfb55e8e1a3acd",
+        "getDeparturePricing": "ae17c229811ac0fb"
       }
     },
     "providers.trip": {
@@ -161743,6 +168979,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchFlights": "ec726b92a4d70a3e"
       }
     },
     "providers.tripadvisor": {
@@ -162226,6 +169465,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "a0320393095b48b6",
+        "searchHotels": "28dbc14661582161",
+        "getHotel": "9b5ecc0d712ae323",
+        "getHotelPrices": "4cdcaba92822acbf",
+        "getRestaurant": "25727f60ea0965e9",
+        "searchRestaurants": "f9cd8ce4dcaeb4aa",
+        "getAttraction": "1b2d2471c1feddbd",
+        "searchAttractions": "918cc3f8cf74cfec",
+        "getReviews": "778581d2bd99a4e7",
+        "getDestination": "65c4dfa2b765bb82",
+        "getReview": "e2135246d02268cc",
+        "getQuestions": "790ce71f6aa98d98",
+        "getPhotos": "5d2ed50a98d296b9",
+        "getNearby": "97cc8feb762eb736"
       }
     },
     "providers.trojanstorage": {
@@ -162270,6 +169525,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listFacilities": "ec1531ece21538be",
+        "getFacilityUnits": "9e1ece582cf460ef"
       }
     },
     "providers.trophysignaturehomes": {
@@ -162365,6 +169624,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchHomes": "a84287200fed0e75",
+        "getHome": "5caf2472ed429805",
+        "compareHomes": "5561fc335c589bfd"
       }
     },
     "providers.truckstop": {
@@ -162441,6 +169705,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchLoads": "75ae341afd9f7a24"
       }
     },
     "providers.trueup": {
@@ -162505,6 +169772,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "7674b707bd33beda"
       }
     },
     "providers.trulia": {
@@ -162573,6 +169843,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchHomes": "f7959c82e830ca7a",
+        "getHome": "7505fdacdfdf8058"
       }
     },
     "providers.trustpilot": {
@@ -162609,6 +169883,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getCompany": "b69207a7f2e846a3"
       }
     },
     "providers.tryalma_com": {
@@ -162624,6 +169901,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listPages": []
+      },
+      "digests": {
+        "search": "93c59eaa85ad0547",
+        "listPages": "e8ec2cf47c453a8c"
       }
     },
     "providers.tubitv": {
@@ -162688,6 +169969,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "427fb0f3f50bcbff",
+        "title": "2fb8f032d989ad63"
       }
     },
     "providers.tumblr": {
@@ -164042,6 +171327,41 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findBlog": "0e2c14f272a65fe9",
+        "getBlogInfo": "7f586c9abe24087c",
+        "getBlogPosts": "8346f4dfd8493fd1",
+        "getPost": "af92e516f9dbcd3d",
+        "searchBlogPosts": "8ef6771f17bdadee",
+        "searchPosts": "587e4c15956dc3b3",
+        "getTagTimeline": "ce2043a4cd2b769d",
+        "getTrendingPosts": "9c60d408d72b1005",
+        "findTag": "201b5c36a7dbb477",
+        "getPostNotes": "01cf121869c18036",
+        "getTrendingTags": "ba21048f32ddc332",
+        "likePost": "f7278306ecf45b94",
+        "unlikePost": "f7278306ecf45b94",
+        "followBlog": "3dcf0e9583f13c3e",
+        "unfollowBlog": "3dcf0e9583f13c3e",
+        "reblogPost": "75777f524faae07e",
+        "unreblogPost": "c16592c3ed57114a",
+        "deletePost": "c16592c3ed57114a",
+        "listBlogFollowers": "1fd06d242b082353",
+        "createPost": "92d8578626d08561",
+        "editPost": "3f69e1adac4204e1",
+        "sendMessage": "84f00bf98edd2652",
+        "getDashboard": "7b42a392195f32ff",
+        "listFollowing": "d943c42e26feff87",
+        "listLikes": "9f8b6155fbcff33b",
+        "listMyBlogs": "d75d22d4f86a82b3",
+        "listNotifications": "4d6611c6b3b929c2",
+        "listAsks": "0a2043e37fd454e0",
+        "listDrafts": "8cee89e276955602",
+        "listFollowedTags": "36d45745f410082e",
+        "updateBlogInfo": "deb70d41fe12a134",
+        "followTag": "989e53fd93f0fe8f",
+        "unfollowTag": "989e53fd93f0fe8f"
       }
     },
     "providers.turbotax": {
@@ -164387,6 +171707,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listEditions": "4b62be4ee677a4a3",
+        "listTaxTools": "c389d7b5f5624540",
+        "searchArticles": "3afc4a97dffa7fa1",
+        "getArticle": "84c4216e448079f9",
+        "estimateRefund": "a690b88ef145f91e",
+        "estimateWithholding": "073f42fe6d7cd68c",
+        "estimateSelfEmploymentTax": "3fcf521819547ddd",
+        "compareEditions": "c3c637ac18fbd14a",
+        "findLocalExperts": "b7baefe30757a212",
+        "getLocalExpert": "9aa26ef31fcefb10",
+        "getLocalOffice": "a2c4ad097b4e749b"
       }
     },
     "providers.tweethunter": {
@@ -164394,6 +171727,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listFeatures": [],
         "listFeatureCategories": []
+      },
+      "digests": {
+        "listFeatures": "61d46ea3f95872b6",
+        "listFeatureCategories": "07175c1048c18e57"
       }
     },
     "providers.twiddy": {
@@ -164465,6 +171802,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchRentals": "413eb91f4d01ab53",
+        "getRentalDetail": "f4dca3cd273869f8",
+        "getRentalQuote": "a66be6c947bc9d4d"
       }
     },
     "providers.twitch": {
@@ -165266,6 +172608,33 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getVideo": "aee6c6a00e91a17b",
+        "getChannelInfo": "e9518e3a50d8a0a8",
+        "getStream": "dfd16a38855b9336",
+        "getPlayback": "4f5dec15502ab476",
+        "listLiveStreams": "543d3eee05c58f64",
+        "searchChannels": "8ac923c91fe09e37",
+        "searchVideos": "36f99a81369e11b0",
+        "listCategories": "67e1c8e198e677f9",
+        "listChannelVods": "e1a300fe4e11f283",
+        "listChannelClips": "137f5c2804b29306",
+        "getClip": "53a9d553ba4bad6e",
+        "getChannelSchedule": "4c8a5e0572727470",
+        "createHighlight": "9ce9414a3d9d7607",
+        "getChannel": "aad358afe84ebb0d",
+        "setChannel": "4bb49898b4744a31",
+        "getCurrentUser": "01d209c026b3bcf9",
+        "listFollowedChannels": "ef9d7a7ddaadf9ed",
+        "getFollowStatus": "be1a6c192fc6edd9",
+        "sendChatMessage": "d95e4396f4103974",
+        "listWatchLater": "6d15553806241767",
+        "listWatchHistory": "c031ae3dda9b3517",
+        "listSubscriptions": "859ece9cd97e4724",
+        "getSubscriptionStatus": "ba5350737e1fd6ff",
+        "followChannel": "accd6c8d9d49aad7",
+        "unfollowChannel": "94bdc50e03ec934d"
       }
     },
     "providers.tx_comptroller": {
@@ -165315,6 +172684,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "franchiseTaxStatus": "2cdd57f06cd3635a"
       }
     },
     "providers.uber": {
@@ -165345,6 +172717,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getDriverEarnings": "b4076f6a0da9e31f"
       }
     },
     "providers.ubereats": {
@@ -166392,6 +173767,28 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "b0fcf9970689669b",
+        "findAddress": "86e3c4fd574b26e2",
+        "getStore": "4a0c16b8c7c26fbe",
+        "browseStores": "8b07c2a60a1ff0e7",
+        "checkDeliveryAvailability": "0f94f2cdbeed7519",
+        "findChainStore": "324ad123af2d9630",
+        "getMenuItem": "4ca716f495817561",
+        "searchStoreProducts": "92a240656e17484e",
+        "listOrders": "e45aa6a688883bfa",
+        "getOrder": "6e41a1037e2b1c33",
+        "listActiveOrders": "90660658ace25fd7",
+        "getCart": "b55314c3f42b72a8",
+        "getCheckoutTotal": "fc2cf033376b0bae",
+        "applyPromoCode": "8bf3bf072498ba5c",
+        "getMyAccount": "3d97ef1762803c1a",
+        "listMyAddresses": "b8eb9e4d84cb0a06",
+        "addToCart": "27d1caa569a19f91",
+        "updateCartItem": "ec7b4427f398c711",
+        "removeFromCart": "4542e1c12ea90134",
+        "clearCart": "ca05c93831d78065"
       }
     },
     "providers.ubuntu_keyserver": {
@@ -166406,6 +173803,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchKeys": "9229139ab5272052"
       }
     },
     "providers.uhaul": {
@@ -166469,6 +173869,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getRates": "cc0d86d7539473d5"
       }
     },
     "providers.uhc_directory": {
@@ -166514,6 +173917,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findProviders": "f6db81c03a739a67"
       }
     },
     "providers.uhc_smallbusiness": {
@@ -166535,6 +173941,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getGroupHealthQuote": "c37fec908f101b04"
       }
     },
     "providers.ukstudenthouses": {
@@ -166566,6 +173975,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listCities": "ad8cbd072831c7e5",
+        "searchListings": "b74fa325ef900f84",
+        "getListing": "9a9dbbe0a611c69a"
       }
     },
     "providers.ulrichlifestyle": {
@@ -166634,6 +174048,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listModels": "87df96da36c1ce61",
+        "getConfigurator": "8c6d477b23816ddb",
+        "priceConfiguration": "2432b3fcf79a720b"
       }
     },
     "providers.unihomes_co_uk": {
@@ -166648,6 +174067,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getListing": "e159a7c239cd5145"
       }
     },
     "providers.unipv_elearning": {
@@ -166713,6 +174135,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchCourses": "45e73aa8abc64258",
+        "getCourseInfo": "ce0665c899bf15ea"
       }
     },
     "providers.uniqlo": {
@@ -167118,6 +174544,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "26ad9d6a9efef72f",
+        "getProduct": "d12421e33b5c6b91"
       }
     },
     "providers.unsplash": {
@@ -167132,6 +174562,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "56fd44ce961a2dba"
       }
     },
     "providers.upkeepstl_com": {
@@ -167194,6 +174627,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getPlanBuilder": "77680e8674bf6181",
+        "estimatePlanCost": "160916c188e73e21"
       }
     },
     "providers.ups": {
@@ -167783,6 +175220,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getRate": "9d694d010c192347",
+        "trackShipment": "44194b2d83798e15",
+        "estimateDeliveryDate": "bd3866c10ad95e20",
+        "validateAddress": "4c858789c1364dda",
+        "calculateShippingCost": "22b5d6e771c0b5e0",
+        "calculateTimeAndCost": "e0c1562c24235ba9",
+        "findNearbyLocation": "1cc97de11e3355fb",
+        "schedulePickup": "faa555ac8f00dd01",
+        "getServiceAlerts": "a0abecfeec51378b"
       }
     },
     "providers.upwork": {
@@ -167847,6 +175295,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "8b4ef3a43d12b36f",
+        "getJob": "1b2e879e02b94770"
       }
     },
     "providers.usa_gov": {
@@ -167884,6 +175336,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getPage": "3638eb3aa0ea9254",
+        "listPages": "246b763ade74ef9d"
       }
     },
     "providers.usatoday": {
@@ -168146,6 +175602,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listSections": "3501565f542c3184",
+        "browseSection": "ea4bc6f8ec532953",
+        "searchNews": "46540165aa72bb18",
+        "listHomepageHeadlines": "403968c6df06dfbd",
+        "getArticle": "fd166c62cb15c7d1",
+        "getScores": "c5a8d96bb9e550b2",
+        "getCrossword": "bb77a42ac48a6243",
+        "getElectionResults": "fcc7e4a54d6bc7b0",
+        "getStandings": "c798534fec08087c",
+        "listNewsletters": "432f4e22e3083e7c",
+        "listPuzzles": "252ee035d8848998",
+        "getPuzzle": "dc43248204419f0d",
+        "listVideos": "1c8e3af16ff6af37",
+        "getVideo": "a832d88b7339e226",
+        "signup": "2adf3a74749c51b1",
+        "confirmSignup": "12dc0f390f4e49da"
       }
     },
     "providers.uscis": {
@@ -168174,6 +175648,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "caseStatus": "e64f8c0ec4f119b8"
       }
     },
     "providers.usps": {
@@ -168441,6 +175918,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findEddmRoutes": "28e4c695b39daf9b",
+        "findPostOffices": "b2c207ef2355f1d8",
+        "getPostOfficeDetails": "5f2f6c4ca7a9c9c0",
+        "getRate": "8c11aa81304fe22e",
+        "getInternationalRate": "cf7e42fd0633845d",
+        "getPriceList": "d0eb29421a3ba547",
+        "getServiceAlerts": "ae9e88bb8d9f26a1",
+        "trackPackage": "c024e01028312e09"
       }
     },
     "providers.va_gov": {
@@ -168530,6 +176017,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findFacilities": "74b6b6b021e603be"
       }
     },
     "providers.vagaro": {
@@ -168888,6 +176378,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findBusiness": "ea223bab4b75b4a8",
+        "getBusiness": "e5e79bd6ce159761",
+        "listServices": "0d97412c394d5152",
+        "getService": "f9214ba217854ad5",
+        "listStaff": "04c5c2cf4d61457f",
+        "getAvailableDates": "f9e3d0cdd762a9ae",
+        "getOpenTimes": "9f997fd9ec372b97",
+        "searchBusinesses": "8418b70e57bdc989",
+        "listAddOns": "e111ab392a27ffb7",
+        "getStaffMember": "1b96d786e48c5c3d",
+        "listReviews": "cdc4c5d58e47b742",
+        "listPromotions": "4200faede3811b81",
+        "getCancellationPolicy": "badfa7448c66fa6f",
+        "listPhotos": "48e6a13c3b537ab2",
+        "listClasses": "772ebfa84ef24b44",
+        "getClass": "10882f0681142066"
       }
     },
     "providers.vbt": {
@@ -168903,6 +176411,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listTours": "2a957ef036be3c9d",
+        "getTourDepartures": "3edbae3b8a26b4e8"
       }
     },
     "providers.vercel": {
@@ -168918,6 +176430,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      },
+      "digests": {
+        "getDoc": "67b02eeaf41bb9ce",
+        "listDocPages": "dd722d2057824a2c"
       }
     },
     "providers.verizon": {
@@ -168967,6 +176483,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchPhones": "14bee1683b7a2432"
       }
     },
     "providers.vervecoffee": {
@@ -169122,6 +176641,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listRoastersChoiceSubscriptions": "985334c1e63ff3b3",
+        "matchCoffeeSubscription": "d4b22078b470bda0"
       }
     },
     "providers.vessi": {
@@ -169163,6 +176686,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listProducts": "3e5dc6fa891184f3",
+        "searchProducts": "9e9732c2f0d46682",
+        "getProduct": "d753bd9de7cb9ac6",
+        "getFitGuide": "8577a3b0c4525a46"
       }
     },
     "providers.vestiaire_collective": {
@@ -169241,6 +176770,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "c35b0a0feef92f5e"
       }
     },
     "providers.viewrail": {
@@ -169248,6 +176780,10 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listMaterials": [],
         "listMountingStyles": []
+      },
+      "digests": {
+        "listMaterials": "3ef3d7dcc60fba08",
+        "listMountingStyles": "1efee24774295029"
       }
     },
     "providers.villagerealtyobx": {
@@ -169341,6 +176877,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchRentals": "337e8b6ce196ac94",
+        "getQuote": "a693ebe4571a6225"
       }
     },
     "providers.visible": {
@@ -169452,6 +176992,13 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getPlans": []
+      },
+      "digests": {
+        "listDeals": "a547c205d927493d",
+        "getPhone": "2c53e11d0b8cbbc3",
+        "searchPhones": "b94f15327a4e3d5e",
+        "checkCoverage": "dee7c2e47db7a685",
+        "getPlans": "d0f4d2d3c7adb073"
       }
     },
     "providers.vistaprint": {
@@ -169526,6 +177073,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getShippingBoxPrice": "053221bf670e743b"
       }
     },
     "providers.voluspa": {
@@ -169540,6 +177090,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getFragranceQuizIntro": "84dc973c850febbe"
       }
     },
     "providers.vrbo": {
@@ -169596,6 +177149,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "acc7d75066050d8f"
       }
     },
     "providers.vscode": {
@@ -169611,6 +177167,10 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      },
+      "digests": {
+        "getDoc": "a2f493ae0ba2cdc3",
+        "listDocPages": "1b690f1e4b49b530"
       }
     },
     "providers.vts_marketplace": {
@@ -169656,6 +177216,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listMarkets": "3acf857b267802b4",
+        "searchListings": "9da6e183376647e8",
+        "getListing": "c224f42f39608c60"
       }
     },
     "providers.walkerhughes": {
@@ -169698,6 +177263,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listQuoteProducts": "0e575ef62ac6c712",
+        "listOffices": "4498b7af26efbe5b",
+        "findNearestOffice": "01aaf72aab5d339e"
       }
     },
     "providers.walla": {
@@ -170742,6 +178312,30 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findStudio": "9ed455306163160f",
+        "listLocations": "0be6399a8c57ec76",
+        "listClasses": "9e1af1686c871e6c",
+        "getClass": "7b43d95eff7fd17d",
+        "listInstructors": "dfa7d035fa8aada0",
+        "listPricing": "e8fd4f15d5719b20",
+        "listClassCategories": "1f26786612242c82",
+        "listPrivateSessions": "aece0413ac41ae3d",
+        "getPrivateSessionAvailability": "8fdc27eda1f82300",
+        "listWorkshops": "3a29e220ed493a35",
+        "listOnDemandVideos": "5601db1de789058d",
+        "getMyProfile": "015fd9055e057b19",
+        "listMyBookings": "73a8a3654f84b4fa",
+        "listMyPasses": "d69398b85c1b031f",
+        "listMyPurchases": "84c45bb3241ffbeb",
+        "bookClass": "cc6c1e0cb47d5722",
+        "joinWaitlist": "95ffe3685c216c6f",
+        "bookPrivateSession": "ffc1c7b41e68d35f",
+        "enrollWorkshop": "2d936c4e5c835cac",
+        "cancelBooking": "c43bb7e74b6dc799",
+        "updateMyProfile": "0dd2c4db6186f8dc",
+        "requestMembershipCancellation": "9fad5f6540c24b45"
       }
     },
     "providers.walmart": {
@@ -171586,6 +179180,40 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "395187b98a01e8ec",
+        "getWeeklyAd": "61a49cbce78d4c03",
+        "findStores": "998b97a6282fb2b6",
+        "listDepartments": "5deb3c2c6f1e0587",
+        "browseCategory": "385c049a0de3e73d",
+        "findBrand": "6448b30f588ec06e",
+        "browseBrand": "b25d45038b81227f",
+        "listDeals": "24211a3a4206174a",
+        "suggestSearches": "44c2d075bdb97e9f",
+        "listReviews": "93261149335947b1",
+        "listSellerOffers": "5098ec4567fd4a75",
+        "getProduct": "9de443ea12597e52",
+        "getSeller": "0426d45115323f99",
+        "getStore": "7911a8203ca97f2b",
+        "getAccountProfile": "14fa3dea07d9eb2e",
+        "listOrders": "14fa3dea07d9eb2e",
+        "getOrder": "9c70ab94e94adaab",
+        "listPurchasedItems": "14fa3dea07d9eb2e",
+        "listLists": "14fa3dea07d9eb2e",
+        "getList": "2c338fec0c0eb8a8",
+        "createList": "64cd94a83e047f88",
+        "addToList": "5ebd4512a4ab595d",
+        "removeFromList": "5ebd4512a4ab595d",
+        "getCart": "14fa3dea07d9eb2e",
+        "addToCart": "91c56b462538c229",
+        "updateCartItem": "f514a0a5a1efaf86",
+        "removeFromCart": "69dbb8a0f4149086",
+        "setPreferredStore": "c8071b8f7776cd01",
+        "getPickupDeliverySlots": "c8c4296e3f9e11b6",
+        "updateProfile": "66c31d6712f93b10",
+        "listAddresses": "14fa3dea07d9eb2e",
+        "addAddress": "8bf0980195141a9d"
       }
     },
     "providers.walmart_ca": {
@@ -171614,6 +179242,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "3401992ba00a8cc7"
       }
     },
     "providers.washingtonpost": {
@@ -171922,6 +179553,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listSections": "581faf196bb6eeed",
+        "listArticles": "2463d27cf6d7c476",
+        "getArticle": "bc1bc7de5b90e4b0",
+        "getArticleFullText": "bdcc5807745a83fc",
+        "getWriter": "5142582ee98254d3",
+        "listArticlesByWriter": "152b239043f0205d",
+        "searchWriters": "f4c8c77b9aed0b02",
+        "listTopics": "5af5ab06a8947a57",
+        "getTopicArticles": "5d0f7082b60486ec",
+        "listTrending": "29b2c1ca6fbb0a6c",
+        "getElectionResults": "5a1ffb20988e9d7b",
+        "listVideos": "c7c5c28d5a8f2be9",
+        "listPodcasts": "118a7d27e6031b47",
+        "getPodcast": "5e9e70da3320c9e8",
+        "listEpisodes": "24aaaa0778f22dee",
+        "getLiveBlog": "8decdd419bc4f152",
+        "listHomepage": "29b2c1ca6fbb0a6c",
+        "listNewsletters": "557b744f8f37e2af",
+        "getNewsletter": "4f082d1fc99c8c97",
+        "listSavedArticles": "2308bd48809d7e39",
+        "listWriterArchive": "ccf908df0c03f844",
+        "saveArticle": "241795e352a71b9e",
+        "unsaveArticle": "241795e352a71b9e"
       }
     },
     "providers.waterfurnace": {
@@ -172128,6 +179784,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "lookupHomeDetails": "ce83c7b8efe53960",
+        "estimateGeothermalSavings": "3b12191080c42e20"
       }
     },
     "providers.wayfair": {
@@ -172163,6 +179823,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "6574d3ee3a365342"
       }
     },
     "providers.wearehirschfeld": {
@@ -172178,6 +179841,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listPages": "77cbce12cddca0d1",
+        "getContactForm": "09a130c65fe58cc0"
       }
     },
     "providers.weather_channel": {
@@ -172606,6 +180273,37 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchLocations": "1b1e1fe369b0c201",
+        "searchNews": "30d47c84b4312658",
+        "getCMSContent": "fe84d260be2329f9",
+        "getLiveBlog": "7314bd8d2ed8c77e",
+        "getLocation": "201e52854a4d1522",
+        "getCurrentConditions": "c5f1da74dde7af4f",
+        "getDailyForecast": "b5d000341ca27d89",
+        "getHourlyForecast": "2ea83c3acbfe56b9",
+        "listAlerts": "ff9ab0a4da751d94",
+        "getAlertDetails": "e1daccbca33b1e3c",
+        "getObservations": "61bc9b523fcb9b22",
+        "getFifteenMinuteForecast": "b7e40075949f4d3a",
+        "getAirQuality": "3148749f3dcf5432",
+        "getHourlyAirQuality": "601139cb54a94a4a",
+        "getAlmanac": "a5a0b66e29b304f2",
+        "getHistoricalHourly": "181f8bf86e22f4eb",
+        "getHistoricalDaily": "4ff1239a225fb7b3",
+        "getHistoricalDailySummary": "4ff1239a225fb7b3",
+        "getPollenForecast": "7b1fcb15e803aa60",
+        "getCurrentTropicalPosition": "c05a33aab339ad34",
+        "getTropicalCone": "42913ed902a0cfcc",
+        "getRadarTiles": "c281ff77bb6dc6ef",
+        "getMinutelyPrecipitation": "258ce77c2c445070",
+        "getPlayback": "3cd816e705e5cba2",
+        "getWeatherInsights": "8c410186d7790e38",
+        "getPollenHealth": "bc103458e6e5f5f4",
+        "getRainTiming": "f5096a6e55cf94a7",
+        "getTropicalForecastPath": "333d530ac3b6ca10",
+        "getTropicalTrack": "57e3e3e4b6809037"
       }
     },
     "providers.webpt": {
@@ -172707,6 +180405,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listPages": "76667e52310ef1d8",
+        "searchPages": "8ddc8d725c3d3726",
+        "getPage": "b9b82f3b66117114"
       }
     },
     "providers.webshare": {
@@ -172740,6 +180443,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getPlans": "81460fddefa6ad75"
       }
     },
     "providers.wellfound": {
@@ -172871,6 +180577,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchJobs": "dc5ecf59e711d78b",
+        "searchCompanies": "d982ec0ec6150522",
+        "getJob": "876757e61fe4ff02"
       }
     },
     "providers.wellnessliving": {
@@ -173106,6 +180817,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listKnownBusinesses": "f83d99172ab41c03",
+        "listLocations": "6d9760b41ee212d4",
+        "getLocationDetails": "0a6edb2f452626b1",
+        "listScheduleClasses": "83a2d3f76cbfbc98",
+        "searchClasses": "e8b77e9ecdd0f099",
+        "getLocationInfo": "69bce33e0baafd92",
+        "getLocationSchedule": "86857a4101324fc0",
+        "getInstructors": "416e44e2c86861a9",
+        "getClassTypes": "dcb939e5d580defc",
+        "getClassDetails": "8ec2d331128126f3",
+        "getClassCapacity": "43c66a0c987450dd"
       }
     },
     "providers.westelm": {
@@ -173169,6 +180893,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "76bf3bce1dc6f22e"
       }
     },
     "providers.whatsapp": {
@@ -174617,6 +182344,56 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getMyProfile": "b7c3cbd275f10c4c",
+        "listChats": "25c0cf5ea3ab99d8",
+        "findContact": "d5daa8e22e992dd9",
+        "searchMessages": "a6e12943bd056462",
+        "listContacts": "dd2485b098369835",
+        "checkNumber": "ff9f8ce5c00bb736",
+        "getChatMessages": "b2869bf4ddf3a583",
+        "downloadMedia": "0b56c7e6cc36737f",
+        "previewGroupInvite": "4309954abe584563",
+        "createClickToChatLink": "c28f06b4d6f6b6b6",
+        "previewBusinessCatalog": "8c7dd6f0b3ead97a",
+        "getChannel": "c96aea7820394ba6",
+        "listBlogPosts": "e02add1020295a3f",
+        "getBlogPost": "3132d7fcda4a881a",
+        "searchHelpCenter": "2d439a20ec27d983",
+        "getHelpArticle": "0c13e527babc866d",
+        "getGroupInfo": "bb1708837a65bec9",
+        "searchChannels": "0176665d30a6fc74",
+        "listFollowedChannels": "8afcbfd84fd4be7a",
+        "getCommunity": "a052395b889059d3",
+        "getChannelUpdates": "32a10628754f31f9",
+        "sendMessage": "acad2642df748d3d",
+        "sendMessageToNumber": "013f8b66957d4c10",
+        "sendMedia": "eb419463d4350486",
+        "reactToMessage": "11a17167278d565e",
+        "replyToMessage": "491af523c473bc06",
+        "pinMessage": "4e06431c624ec4f6",
+        "setDisappearingMessages": "c7fc62dae4d5f27a",
+        "editMessage": "4b4b89cc875c1cb4",
+        "sendPoll": "ba67fdb43eec231c",
+        "forwardMessage": "b14bd2658ce65f6f",
+        "updateChat": "5ca8ec089cd40d52",
+        "createGroup": "93da1c0cfdc66407",
+        "updateGroup": "c2bd238ccffacfd4",
+        "addGroupParticipants": "6d1627113ad7028b",
+        "removeGroupParticipants": "6d1627113ad7028b",
+        "joinGroupByInvite": "52a954036a25c44d",
+        "leaveGroup": "7c7124578690c92a",
+        "followChannel": "999754b818e1bdc5",
+        "unfollowChannel": "999754b818e1bdc5",
+        "postStatus": "659c9b7ad1459372",
+        "updateProfile": "171fd5debf107c39",
+        "blockContact": "d4f740216978c424",
+        "updatePrivacySettings": "46164bd3eaddae62",
+        "deleteMessage": "b43aeec63755fbe0",
+        "listCatalogProducts": "299080760c7a7853",
+        "listStatusUpdates": "23c04fc5b51b5ef6",
+        "getGroupInviteLink": "0394fa68ce6f1aab"
       }
     },
     "providers.wholefoodsmarket": {
@@ -174631,6 +182408,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "78cffa9da69b5952"
       }
     },
     "providers.wikipedia": {
@@ -175984,6 +183764,48 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "000f67cc27a8ab10",
+        "suggestTitles": "c3dbd1306154ff59",
+        "getArticle": "410c15c523e07237",
+        "getSummary": "8c40e5d630b92133",
+        "getSections": "03cc3d0a62e8d988",
+        "getSection": "29aca846afc63e10",
+        "getArticleHtml": "e571998a0ab35a4d",
+        "getWikitext": "86159e035362cee1",
+        "getInfobox": "18b8b26b21fbed40",
+        "listLinks": "c394d378f69e1075",
+        "listBacklinks": "8acb198ea8365e00",
+        "listExternalLinks": "e80a7a410b20ddef",
+        "listCategories": "e6d9bdbdcd7bc42c",
+        "listCategoryMembers": "fc401bce1af1c4d9",
+        "listRelated": "f52cea338ce995b9",
+        "listLanguages": "7584abdd35dd2f84",
+        "listImages": "00730697fb476ea1",
+        "getImage": "2946f7b28c2598eb",
+        "listRevisions": "b7df2af8e4974c19",
+        "getRevision": "38fb68be3a353be4",
+        "compareRevisions": "d971b96cf235f00d",
+        "listRecentChanges": "b79e233cfa057fef",
+        "getUser": "12054ec9e3b7c9ee",
+        "listUserContributions": "bf8c8bad48c27542",
+        "searchNearby": "a2378308d9593e86",
+        "getPageviews": "272d9aff546e922b",
+        "listMostViewed": "231d744f74729999",
+        "getFeaturedContent": "82461d74e0be4f6b",
+        "getOnThisDay": "06e021de63d23d6d",
+        "getRandomArticle": "81540be5da190c54",
+        "getCurrentUser": "b90d78f0a75bff53",
+        "listWatchlist": "4e53bcab8e4ab344",
+        "watchPage": "84aa4504dccbff42",
+        "unwatchPage": "91a8954d183139a4",
+        "listNotifications": "6516efc48e345ce4",
+        "editPage": "72f648af87ca21e8",
+        "createPage": "4ae123f94d188820",
+        "undoRevision": "d8b28028f268c47c",
+        "postTalkMessage": "8f8614b697a42a4d",
+        "thankUser": "8eb79165ada639c6"
       }
     },
     "providers.wikipedia_standings": {
@@ -175998,6 +183820,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "fe66b26208d12170"
       }
     },
     "providers.williams_sonoma": {
@@ -176061,6 +183886,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "76bf3bce1dc6f22e"
       }
     },
     "providers.windscribe": {
@@ -176084,6 +183912,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getDedicatedIp": "b0beef2f11c7dc19"
       }
     },
     "providers.wineaccess": {
@@ -176107,6 +183938,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProducts": "a8dbda0b8280708e",
+        "getProduct": "2825cf5c78a13ee2"
       }
     },
     "providers.winestyles": {
@@ -176129,6 +183964,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listStores": "ae15a9a9c2f432f8",
+        "searchStoreInventory": "b3adefa359c44ed8"
       }
     },
     "providers.wix_bookings": {
@@ -176479,6 +184318,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findSite": "94e8ab4996afa04c",
+        "listServices": "e653c0d679b0ce4a",
+        "searchServices": "a4609f0a4a53116d",
+        "getService": "17adc058a75f10e7",
+        "listCategories": "a82cc14abe9a69a9",
+        "listStaff": "3a5ea6036a3304fb",
+        "getOpenTimes": "0efbbe83020b20ec",
+        "listLocations": "c35ca57e9fca70a6",
+        "bookAppointment": "0cedce14cd8c53e5",
+        "cancelBooking": "aa172ad012bd4383"
       }
     },
     "providers.wodify": {
@@ -176837,6 +184688,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findGym": "4d87a1d004de7f31",
+        "listGymSchedule": "d43537b138124232",
+        "getClassDetails": "68fbe626c65f9b20",
+        "listMemberships": "0b850e6e0cd78fee",
+        "listPrograms": "69fe55366d127883",
+        "listPrices": "0b850e6e0cd78fee",
+        "getGymInfo": "dc36592a98733967",
+        "checkFreeTrial": "6000d84c5f59ffc5",
+        "readTerms": "241d87ebc9651423",
+        "listInstructors": "ff0ae46695878869",
+        "getMyBookings": "7d61f9592431e3b9",
+        "getMyMembership": "d99616588d175ece"
       }
     },
     "providers.workable": {
@@ -176851,6 +184716,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listJobs": "58a8a0cd6b29dd99"
       }
     },
     "providers.workday": {
@@ -176893,6 +184761,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "listJobs": "fa33034f4b61b5a4"
       }
     },
     "providers.wps": {
@@ -176916,6 +184787,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "signup": "b1572edf480eb7c7",
+        "confirmSignup": "ec95778cd5e5a21d"
       }
     },
     "providers.wsj": {
@@ -177369,6 +185244,33 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listTrending": []
+      },
+      "digests": {
+        "listSections": "243d058e867d41cd",
+        "listArticles": "b85631759e56c3c0",
+        "getArticle": "c9b163ca9ff925ad",
+        "getArticleFullText": "a55a6e6d9f9c9a6c",
+        "listSavedArticles": "4628182682e925a4",
+        "getWatchlist": "91e2ed4f22ccc806",
+        "addToWatchlist": "4d6df9bd5ffee75b",
+        "removeFromWatchlist": "4d6df9bd5ffee75b",
+        "saveArticle": "d64eea460d2db223",
+        "unsaveArticle": "d64eea460d2db223",
+        "searchArticles": "2a6f26e037f8e492",
+        "listMarketIndices": "39f26c22e9a414b6",
+        "listCommodities": "f11114063c3a8723",
+        "listTreasuryYields": "c75a2b781bb01615",
+        "listCurrencies": "f11114063c3a8723",
+        "getQuote": "85dd16e0bdbf47d0",
+        "listQuotes": "d3298967402ab9fe",
+        "listPodcasts": "0d8952d6648c6de8",
+        "getPodcast": "3dac0fcae519e915",
+        "listEpisodes": "ada19e317ea13c9d",
+        "getAuthor": "75b905126a0da20e",
+        "listArticlesByAuthor": "e0ea693e999dc114",
+        "listNewsletters": "587ee698e955a1f5",
+        "getNewsletter": "3254f1f18736a9dd",
+        "listTrending": "3ad375773b912459"
       }
     },
     "providers.wunderflats": {
@@ -177392,6 +185294,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "e9506396aa9f800e"
       }
     },
     "providers.x": {
@@ -178599,6 +186504,37 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "userTimeline": "2a5034177b1ea3f7",
+        "profile": "acb08db8518feb89",
+        "post": "a504407af0499485",
+        "getPlayback": "e213777042aa07c3",
+        "getPostReplies": "11a187f022c8814b",
+        "search": "92101db43dd7c56c",
+        "listHomeFeed": "6d21d44964343b13",
+        "listBookmarks": "6d21d44964343b13",
+        "getListPosts": "1d484e2ad8f0b47f",
+        "listLists": "00b263aa2beaf9cf",
+        "listNotifications": "4af5ecb3e89ce579",
+        "sendDirectMessage": "4733884ef4baaccd",
+        "listFollowers": "afcf32f1b1166d99",
+        "listFollowing": "afcf32f1b1166d99",
+        "listConversations": "d26805af59d36425",
+        "getConversation": "5070d919bec484b9",
+        "createPost": "93429cc35d3209f7",
+        "replyToPost": "81c1a735d9af31ea",
+        "likePost": "b65272ea0a834446",
+        "repost": "8c12c4f8a26a1ddf",
+        "bookmarkPost": "e8bcee1d96b4b85b",
+        "followUser": "f6ae014e54bb24a8",
+        "blockUser": "1d75a5573ec85813",
+        "muteUser": "32a19204129b1298",
+        "listTrending": "b0c9d8857749dbc9",
+        "quotePost": "74cc6e89223a6edb",
+        "deletePost": "91c39f14d43735b2",
+        "updateProfile": "dfd9ad51ba9f8704",
+        "uploadProfilePicture": "f6b693fb73e40a15"
       }
     },
     "providers.xola": {
@@ -178777,6 +186713,14 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "findSeller": "2287559822e1480b",
+        "listExperiences": "cc5768be13840cec",
+        "getExperience": "dda1866a7facb018",
+        "getAvailability": "455f6d8f9cf9b4ba",
+        "getPriceQuote": "f671f69c39055f01",
+        "listWaivers": "91cd921062f56eb9"
       }
     },
     "providers.xpresswellnessurgentcare": {
@@ -178792,6 +186736,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listFacilities": "87f76e9352b25672",
+        "checkWaitTime": "b6c149bc358d8f18"
       }
     },
     "providers.yahoo_finance": {
@@ -178956,6 +186904,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "searchSymbols": "422c22f725689962",
+        "getQuote": "1ba03173a0ff2efb",
+        "getTrendingTickers": "e16e2f63be6bce46",
+        "getMarketSummary": "2d6da8d041d6d5a4",
+        "getHistoricalPrices": "7f53f0513b8938be",
+        "getAnalystEstimates": "753c1d2164d99467",
+        "getNews": "d34f0d022320ccb0",
+        "getHolders": "9fafdb4ff9a38518",
+        "getFinancials": "2002a40ae7f5c2d9",
+        "listCryptoPrices": "30c8ecde390f4877",
+        "getOptionsChain": "4e6ff16935bcafcc",
+        "getCompanyProfile": "631227573c320693",
+        "getKeyStatistics": "ec35ac0037d0cc62",
+        "getEarningsDates": "528e32ce947878e7",
+        "listWatchlists": "84b4bf762915a341",
+        "addToWatchlist": "8fb2ccc75ef39a43"
       }
     },
     "providers.yahoo_mail": {
@@ -179352,6 +187318,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "listFolders": "1d05ff01f8397ab0",
+        "listMessages": "e41e616e5022fe4c",
+        "searchMessages": "3b6df1e200deb634",
+        "getMessage": "a622ff26daa2e94e",
+        "sendMessage": "d1bc4db9d4e7cbff",
+        "markAsRead": "b7200f0eabc78386",
+        "getAttachment": "85162078e1ab64fe",
+        "flagMessage": "58dd3e9d815814bb",
+        "moveMessage": "828d655d2ee5e7a3",
+        "deleteMessage": "e295320123392084"
       }
     },
     "providers.yahoo_sports": {
@@ -180295,6 +188273,28 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "getScoreboard": "4c4eb31eb0bfcbf9",
+        "getGame": "b9f5edb586855e05",
+        "getStandings": "d7f4183bd7beaa30",
+        "listTeams": "45706d189386ab71",
+        "getInjuries": "88a69eb76f42abdc",
+        "getStatLeaders": "763d7896dd5c51b1",
+        "getOdds": "bf269a7c08cd164c",
+        "getSchedule": "562936cff8328120",
+        "getTeamRoster": "f114aa5dad5a1ffd",
+        "getRankings": "eaccfe9f64d1a04d",
+        "getTeamNews": "a569c341003483b2",
+        "getTeamStats": "68b42f2700d1ec72",
+        "getPlayerNews": "e2bfcc04beda0928",
+        "findPlayers": "d4a9633716326e1b",
+        "searchPlayers": "88214c4cf8ca9503",
+        "getPlayer": "93ba2eeb0ce7488a",
+        "getRssFeed": "ce9e024327e5735a",
+        "getNews": "7fb5b5c7ae6b4760",
+        "getFantasyLeague": "1c1539d3b8c24a48",
+        "getFantasyTeam": "6c279ad2dc7934e5"
       }
     },
     "providers.yardi": {
@@ -180359,6 +188359,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "55836c262d0b1d84",
+        "listPressReleases": "34459cf9beab7e35",
+        "getArticle": "144ebdb8348a411b"
       }
     },
     "providers.yargitay": {
@@ -180533,6 +188538,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "936f37dc8c0230d0",
+        "getDecision": "caa3eef88c31095b",
+        "searchLegislation": "643124b61bde7760"
       }
     },
     "providers.ycombinator": {
@@ -180565,6 +188575,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getArticle": "0e10047418f9f56b",
+        "getBlogPost": "2905cbd9b4bf9f3a",
+        "search": "b408e0765675bbd2"
       }
     },
     "providers.yellowdoorlets_co_uk": {
@@ -180676,6 +188691,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchProperties": "8988b5fc91ad8cb2",
+        "getProperty": "bab93067f4b5fc3d"
       }
     },
     "providers.yellowpages": {
@@ -180733,6 +188752,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getBusiness": "2e5f8c30228bdf0e",
+        "search": "b95dc1ffef7241dd"
       }
     },
     "providers.yelp": {
@@ -181241,6 +189264,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "search": "d929c9f7302bea64",
+        "getBusiness": "67d44476d14b0577",
+        "suggest": "b18fb6426689dd0c",
+        "getReviews": "2b22703fdc7d07ac",
+        "getMenu": "699dab56d9e3e489",
+        "getPhotos": "ac35fc62f7fbb0f3",
+        "getQuestions": "7a7b7ac6274f29ff",
+        "getUser": "d887d612db133c72",
+        "getCollection": "a5c7a1fd0cf45f40",
+        "getWaitlist": "a606f2fec8588e5a",
+        "searchEvents": "da6cee6dff3d7298",
+        "listCategories": "b6a6cab768cab056",
+        "getOwnProfile": "422bcc879b3807c6",
+        "getCollections": "5730195379ebab25",
+        "getMessages": "434c8d30ee21491b",
+        "saveBusiness": "74a20dc82fdadf20",
+        "addToCollection": "9684f674becf499f",
+        "getBookmarks": "f6c87ce1ea1a27ac"
       }
     },
     "providers.yogatreecollective": {
@@ -181285,6 +189328,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getSchedule": "142452d6335d61e2",
+        "listTeachers": "9b863e9d744a2fcb",
+        "getTeacher": "95f863dad8937c61",
+        "listEvents": "7934449b1a46aca1",
+        "getEvent": "fb352b8a5474481e",
+        "searchSite": "552061b74e80c239",
+        "getSignUpTarget": "b785685a6ef0eaba"
       }
     },
     "providers.yorkwallcoverings": {
@@ -181317,6 +189369,11 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "ff7a9e79956d0ad8",
+        "getProduct": "18da12913bb59c08",
+        "addToCart": "80a7d02e6ee6f5c6"
       }
     },
     "providers.yourarborhome": {
@@ -181396,6 +189453,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchHomes": "fdd24fbe434f2d0e",
+        "getHome": "93bb96b6d85f00d9"
       }
     },
     "providers.youtube": {
@@ -183344,6 +191405,58 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "eb6334b2ba0ae685",
+        "suggestSearches": "4011eeca2fc0bc23",
+        "getDislikes": "4f229b2cc608ef97",
+        "embeddable": "3aa2f87eeea917e8",
+        "getTranscript": "fd49cdac2921b397",
+        "findChannel": "bd418536c49861e5",
+        "getVideo": "e34a505dc9a70bbe",
+        "listComments": "edf9a94f16c48b04",
+        "listCommentReplies": "1d5cfc792b8aea52",
+        "commentsPage": "03f18018949ca098",
+        "listRelatedVideos": "a6d32c8294c39b55",
+        "listChapters": "864cd98548b3d43e",
+        "getLiveChat": "3efdc78bcd616074",
+        "listCaptionTracks": "6a0663ac39326fd8",
+        "listStreamFormats": "8bd4ee21650f63cf",
+        "getPlayableStream": "c1d3f1036397a838",
+        "getPlayback": "6dbcda168a7de992",
+        "listHashtagVideos": "b7564af5efca02b9",
+        "getChannel": "aafff20b170cc7df",
+        "listChannelVideos": "28041dc161c97dfd",
+        "listChannelShorts": "57f179f8d08c7377",
+        "listChannelLiveStreams": "b8f5286811d3edbd",
+        "listChannelPlaylists": "4b00c635486fc228",
+        "listChannelPosts": "5f3a58fb0358a400",
+        "searchWithinChannel": "113f89d1ef046ba3",
+        "getPlaylist": "44f714f4a3b99aa1",
+        "listPlaylistVideos": "bc835e37492624d4",
+        "listHomeFeed": "86c3fde0e198071c",
+        "homeFeedPage": "1ed601cb077e8b63",
+        "listWatchLater": "3a73fc26d97dd191",
+        "listLikedVideos": "3a73fc26d97dd191",
+        "listWatchHistory": "3a73fc26d97dd191",
+        "createPlaylist": "33457ec9640735ab",
+        "createChannel": "448ccbc651fa6627",
+        "addToPlaylist": "2165204f78b0b77a",
+        "removeFromPlaylist": "2165204f78b0b77a",
+        "updatePlaylist": "4cf6c926133f3f0f",
+        "deletePlaylist": "f62c566a37e7d9d8",
+        "listSubscriptions": "1f272b214ff42bcb",
+        "subscribeToChannel": "4b32edc75279c4b3",
+        "likeVideo": "8a25ecc535603811",
+        "postComment": "872ae4373c4e9eb4",
+        "replyToComment": "3ef4eb88864a741e",
+        "deleteComment": "cf433d8c401cbd69",
+        "listMyVideos": "d948034176249133",
+        "uploadVideo": "d28aca49e2bec074",
+        "updateVideo": "d41757c277613a79",
+        "setThumbnail": "c714aadeb768c2b2",
+        "deleteVideo": "54ec4096bb7d2130",
+        "login": "26dbf816ffd2df26"
       }
     },
     "providers.zen_planner": {
@@ -183767,6 +191880,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findStudio": "60bc0209af88527e",
+        "listScheduleSlots": "6c553973e37407b2",
+        "listClasses": "470b27e08d9fb976",
+        "searchSchedule": "db20bb8d328fe19b",
+        "getClassDetails": "0a68573aa84e0882",
+        "listPackages": "6daae01244ce124c",
+        "getPrice": "c6ba9d90b21a2165",
+        "listMyBookings": "27b2a6c905d7afc0",
+        "bookClass": "220e97cf992f15c4",
+        "cancelBooking": "12a9a0aa874ea7c6",
+        "getMemberInfo": "8ab2df33b7e2db7b",
+        "updateMemberInfo": "e9bfa682757ac598",
+        "getMembershipStatus": "8ab2df33b7e2db7b"
       }
     },
     "providers.zennioptical": {
@@ -183857,6 +191985,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchFrames": "60efe52eec8a3121",
+        "getFrame": "1f5eec026a317775",
+        "checkStock": "92db574d75f53d60",
+        "priceLensConfig": "33bce05f9ade39b4"
       }
     },
     "providers.zenoti": {
@@ -184232,6 +192366,20 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      },
+      "digests": {
+        "findTenant": "0c2bc698bff2c6b0",
+        "listCenters": "558e200ac6985272",
+        "searchServices": "e91591923322abe9",
+        "listServiceCategories": "604bdd1a4d448901",
+        "getService": "211ce1305e7d4b11",
+        "listProviders": "ce4af8cb72e00215",
+        "listClassSessions": "bdd48995e66e4f06",
+        "getAvailableTimes": "9b16a94977315d16",
+        "listMyAppointments": "2c04583571f863a6",
+        "bookAppointment": "11e5696f96672499",
+        "cancelAppointment": "797ff5714d994e58",
+        "rescheduleAppointment": "1dd7d220db33764b"
       }
     },
     "providers.zepto": {
@@ -184290,6 +192438,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "64ba53060e47f713",
+        "product": "17363eba2b8c8791"
       }
     },
     "providers.zestlovesproperty": {
@@ -184403,6 +192555,10 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchLettings": "66fc0659af811dea",
+        "getListing": "359a359c9fb1f09c"
       }
     },
     "providers.zillow": {
@@ -184501,6 +192657,43 @@ export const VALIDATORS: ValidatorTable = {
                         "name": "name",
                         "schema": {
                           "k": "string"
+                        },
+                        "optional": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetBuildingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "building",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "object",
+                    "props": [
+                      {
+                        "name": "url",
+                        "schema": {
+                          "k": "union",
+                          "of": [
+                            {
+                              "k": "string"
+                            },
+                            {
+                              "k": "null"
+                            }
+                          ]
                         },
                         "optional": true
                       }
@@ -184876,6 +193069,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getBuilding": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetBuildingArgs"
+            },
+            "optional": false
+          }
+        ],
         "getMortgageRates": [
           {
             "name": "args",
@@ -184906,6 +193109,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "searchLocations": "3dd899cdd1b3c241",
+        "searchHomes": "4349fc6272cbb0f8",
+        "getHome": "c7e01023e17804ac",
+        "getZestimate": "b7fb63cfa61e44bc",
+        "getMarketOverview": "68a1f6087b10b693",
+        "searchAgents": "22521104e6749014",
+        "getAgent": "c31859a4d62540ad",
+        "getBuilding": "003a0bb2f1ce9b81",
+        "getMortgageRates": "9bb2c6247c2a75ed",
+        "calculateMortgagePayment": "58bf8cf75e5444bd",
+        "calculateAffordability": "026089982ccf450e"
       }
     },
     "providers.zoom": {
@@ -185578,6 +193794,39 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "getPricing": "12be6c861a9ddaf4",
+        "getDownloadLinks": "b87046fe83f92819",
+        "getSystemStatus": "b057815db0bd42ed",
+        "joinMeeting": "ba4f1b9e03cc4211",
+        "searchMarketplaceApps": "48e23297ca405664",
+        "getMeetingInfo": "1ec3fc4f07e6e4f6",
+        "getMarketplaceApp": "23da649231db29d8",
+        "searchHelpArticles": "d8a4f7f4905fe350",
+        "getHelpArticle": "c3e57af1d11ced94",
+        "getWebinarRegistration": "28bb761d06d0c611",
+        "listMeetings": "333672cba1f13d17",
+        "scheduleMeeting": "629bb49e682240ef",
+        "getMeeting": "2278cd770de196d6",
+        "updateMeeting": "2992a92336bb8e08",
+        "deleteMeeting": "d0112aa42c165960",
+        "getMeetingParticipants": "7ee49fed32127e94",
+        "listWebinars": "43f396522eb23ad9",
+        "getWebinar": "3f1ca2e440fed58e",
+        "listRecordings": "a2f75650b171132c",
+        "getRecording": "00908b28f0b8a6d5",
+        "downloadRecording": "84c742c97dd8cd73",
+        "listRecordingTranscripts": "ec1149d6349cceaf",
+        "getRecordingTranscript": "ec1149d6349cceaf",
+        "getContacts": "d35480f2ae4130bc",
+        "searchContacts": "9e92bf8616a3a07a",
+        "getContactInfo": "f85012b54cb62267",
+        "getProfile": "3e4c7eda435cf54e",
+        "updateProfile": "7eae7ea7385fd52a",
+        "updateProfilePicture": "dc8dbe718c5bd837",
+        "signup": "8c5bdf7b347e1550",
+        "confirmSignup": "332860b259af67a2"
       }
     },
     "providers.zoopla": {
@@ -185622,6 +193871,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      },
+      "digests": {
+        "search": "f857cfb0ed0dff28"
       }
     }
   }
