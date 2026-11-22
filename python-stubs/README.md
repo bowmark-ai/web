@@ -36,10 +36,9 @@ produces the TypeScript declarations in
 rule, two languages, so the two clients cannot come to disagree about what the library
 offers. A gate in the source repo asserts the parity on every change.
 
-Everything the library can do is in
-[CAPABILITIES.md](https://raw.githubusercontent.com/bowmark-ai/web/main/CAPABILITIES.md) and
-[PROVIDERS.md](https://raw.githubusercontent.com/bowmark-ai/web/main/PROVIDERS.md), regenerated
-daily.
+Everything the library can do is typed in these stubs, and listed by website in
+[covered-functions.txt](https://raw.githubusercontent.com/bowmark-ai/web/main/covered-functions.txt),
+regenerated daily. `GET https://api.bowmark.ai/v1/library?query=<task>` searches it by task.
 
 ## What it deliberately does NOT type
 

@@ -41,8 +41,9 @@ async with session(api_key="bmk_…") as bm:  # or set BOWMARK_API_KEY and omit 
 
 ## What you can call
 
-- [PROVIDERS.md](https://github.com/bowmark-ai/web/blob/main/PROVIDERS.md): every site Bowmark covers, with each function's status.
-- [CAPABILITIES.md](https://github.com/bowmark-ai/web/blob/main/CAPABILITIES.md): the same functions grouped by what they do.
+- The typed library, [node/src/generated/library.d.ts](https://raw.githubusercontent.com/bowmark-ai/web/main/node/src/generated/library.d.ts): every function with its arguments and what it does. Your editor completes it once the package is installed.
+- [covered-functions.txt](https://raw.githubusercontent.com/bowmark-ai/web/main/covered-functions.txt): every covered website and the names of its functions. [CHANGELOG.md](https://github.com/bowmark-ai/web/blob/main/CHANGELOG.md) names what each release added.
+- [`GET https://api.bowmark.ai/v1/library?query=<what you want to do>`](https://bowmark.ai/docs/scripting): the same library, searched by task.
 - [recipes/](https://github.com/bowmark-ai/web/tree/main/recipes): short scripts that combine them.
 
 ## Using an AI agent instead?

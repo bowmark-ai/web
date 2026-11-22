@@ -52,9 +52,10 @@ This is everything you need to write code that calls Bowmark:
 - **[Error handling](#what-it-throws)** — What exceptions to expect and how to handle them
 - **[Configuration](#configuration)** — How to pass your API key and other options
 
-Stop here if you just need to call the library. What exists to call is listed in
-[`CAPABILITIES.md`](https://raw.githubusercontent.com/bowmark-ai/web/main/CAPABILITIES.md) and
-[`PROVIDERS.md`](https://raw.githubusercontent.com/bowmark-ai/web/main/PROVIDERS.md) — absolute
+Stop here if you just need to call the library. What exists to call is typed in
+[`library.d.ts`](https://raw.githubusercontent.com/bowmark-ai/web/main/node/src/generated/library.d.ts)
+(your editor completes it) and listed by website in
+[`covered-functions.txt`](https://raw.githubusercontent.com/bowmark-ai/web/main/covered-functions.txt) — absolute
 URLs, because this README is read on npm where a relative link resolves to nothing.
 
 ---
