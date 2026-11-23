@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 138,197 sites, generated 2026-11-22.
+# Every website Bowmark covers: 138,201 sites, generated 2026-11-22.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -48043,6 +48043,7 @@ aneelascollection.com	aneelascollection.com	14
 anejo-mexican-bistro-tequila-bar.myshopify.com	Anejo Mexican Bistro	10
 anek-designs.myshopify.com	Anek Designs	10
 anekatusma.com	Aneka Tusma	6
+anekke.de	anekke.de	14
 anekopress.com	Aneko Press	6
 anesiaseeds.org	Anesia Seeds Wholesale	4
 anesidorawg.myshopify.com	Anesidora Winter Guard	10
@@ -59000,6 +59001,7 @@ catricecosmetics.com	catricecosmetics.com	14
 catrunswa.com.au	Cat Runs WA	6
 cats-tonometer.myshopify.com	CATS Tonometer	10
 catsaver.myshopify.com	Tree House Humane Society	10
+catsg.org	catsg.org	10
 catshy-crafts-2.myshopify.com	Catshy Crafts	10
 catskillnativenursery.info	Catskill Native Nursery Catalog	6
 catskillrv.myshopify.com	Catskill RV Resort	10
@@ -74313,6 +74315,7 @@ fonsvinum.com	Fons Vinum	6
 fonsvitae.com	Fons Vitae Publishing	6
 fontaine-cards.myshopify.com	Fontaine Cards	10
 fontainesdc.com	fontainesdc.com	14
+fontbros.com	fontbros.com	7
 fontesdeparis.fr	Fontes de Paris	6
 fonteyn.nl	fonteyn.nl	16
 fontkong.com	Font Kong	6
@@ -79831,6 +79834,7 @@ hands-up-education.myshopify.com	Hands Up Education UK	10
 handsofmine.com.au	Hands of Mine	6
 handsomeshirtmusicstore.myshopify.com	Handsome Shirt Merch Store	10
 handson.pt	Hands on	6
+handsontable.com	handsontable.com	1
 handstee.com	Handstee	6
 handt.co.uk	handt.co.uk	14
 handvape.eu	HandVape.eu :: Made by hand in Estonia	6
@@ -81510,6 +81514,7 @@ hiphoplebt.myshopify.com	Hip Hop Lebt	10
 hiphopmovementbrand.myshopify.com	Hip Hop Movement	10
 hiphopnroll.myshopify.com	HIPHOPNROLL® CLOTHING CO	10
 hipkidchapp.myshopify.com	hip-kid	10
+hipomarket.shop	hipomarket.shop	14
 hipoverfifty.com	Hip Over Fifty Travel	6
 hippie-mike-industries-inc.myshopify.com	Hippie Mike Industries Inc.	10
 hippiefolk.myshopify.com	hippiefolk	10
@@ -82485,7 +82490,6 @@ house-of-sherrida.myshopify.com	House of Sherrida	10
 house-of-threads-embroidery.myshopify.com	House of Threads Embroidery	10
 house-of-velour-store.myshopify.com	House Of Velour	10
 house-proud-ws.myshopify.com	Houseproud Furnishings	10
-house.com.au	house.com.au	14
 house2home.co.in	House2home-h2h Gifts Hampers Baskets Handicrafts Manufacturer	6
 houseandstock.myshopify.com	Big City Self Storage	10
 houseappliancespro.co.uk	House Appliances Pro	6
@@ -101283,7 +101287,6 @@ neriah-store-uk.myshopify.com	NERIAH	10
 nerigestory.com	nerigestory.com	16
 neroespresso.com.au	Nero Espresso	6
 nerofabric.com	nerofabric.com	14
-nerogiardini.it	nerogiardini.it	14
 neroli-spa.myshopify.com	Neroli Spa	10
 nerone-art.myshopify.com	Nerone art	10
 nerq.ai	nerq.ai	4
@@ -105353,6 +105356,7 @@ panama-city-coffee-co.myshopify.com	Panama City Coffee Co	10
 panamacascoviejo.com	Panama Casco Viejo	6
 panamajack.de	panamajack.de	14
 panamajack.es	panamajack.es	14
+panamaquaticsevents.com	panamaquaticsevents.com	47
 panarmonia.myshopify.com	PanArmonia Store	10
 pancake-world.com	Pancake World	6
 pancare-foundation.myshopify.com	Pancare Foundation	10
@@ -132621,7 +132625,7 @@ vertilux.com.au	Vertilux	6
 vertisamodular.com	Vertisa Modular	6
 vertislabs.com	VERTIS ®	6
 vertu-kg.myshopify.com	Vertu Kg	10
-vertu.com	vertu.com	1
+vertu.com	vertu.com	16
 vertx.com	vertx.com	14
 verve-fashion-inc.myshopify.com	Verve Fashion Inc.	10
 vervecoffee.com	Verve Coffee Roasters	16
@@ -134423,7 +134427,7 @@ we-wanna-rock.myshopify.com	WeWannaRock	10
 we2you.co.uk	WE2YOU	6
 we3qf8-nq.myshopify.com	Needful Prints	10
 we9dda-ux.myshopify.com	360 Kiddies	10
-weadultshop.com	weadultshop.com	14
+weadultshop.com	weadultshop.com	1
 wealth-nation-swag.myshopify.com	Wealth Nation Swag	10
 wealth-university.myshopify.com	Wealth University	10
 wealthdynamics.myshopify.com	ウェルスダイナミクス	10

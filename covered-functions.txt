@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 138,197 sites, generated 2026-11-22.
+# Every website Bowmark covers and the functions it has: 138,201 sites, generated 2026-11-22.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 008c0929 contact_email#daea6ffc contact_whatsapp#daea6ffc navigate_to_section#822d32b1 open_app_store_android#daea6ffc open_app_store_ios#daea6ffc submit_contact_form#95c992ae switch_language#45a2ccba
@@ -50437,6 +50437,7 @@ aneelascollection.com	4479a458
 anejo-mexican-bistro-tequila-bar.myshopify.com	a9af6443
 anek-designs.myshopify.com	a9af6443
 anekatusma.com	bb34c1bd
+anekke.de	da39a3ee
 anekopress.com	bb34c1bd
 anesiaseeds.org	05a9bb9e
 anesidorawg.myshopify.com	a9af6443
@@ -61394,6 +61395,7 @@ catricecosmetics.com	4479a458
 catrunswa.com.au	bb34c1bd
 cats-tonometer.myshopify.com	a9af6443
 catsaver.myshopify.com	a9af6443
+catsg.org	da39a3ee
 catshy-crafts-2.myshopify.com	a9af6443
 catskillnativenursery.info	bb34c1bd
 catskillrv.myshopify.com	a9af6443
@@ -76707,6 +76709,7 @@ fonsvinum.com	bb34c1bd
 fonsvitae.com	bb34c1bd
 fontaine-cards.myshopify.com	a9af6443
 fontainesdc.com	4479a458
+fontbros.com	da39a3ee
 fontesdeparis.fr	bb34c1bd
 fonteyn.nl	37007769
 fontkong.com	bb34c1bd
@@ -82225,6 +82228,7 @@ hands-up-education.myshopify.com	a9af6443
 handsofmine.com.au	bb34c1bd
 handsomeshirtmusicstore.myshopify.com	a9af6443
 handson.pt	bb34c1bd
+handsontable.com	da39a3ee
 handstee.com	bb34c1bd
 handt.co.uk	4479a458
 handvape.eu	bb34c1bd
@@ -83904,6 +83908,7 @@ hiphoplebt.myshopify.com	a9af6443
 hiphopmovementbrand.myshopify.com	a9af6443
 hiphopnroll.myshopify.com	a9af6443
 hipkidchapp.myshopify.com	a9af6443
+hipomarket.shop	da39a3ee
 hipoverfifty.com	bb34c1bd
 hippie-mike-industries-inc.myshopify.com	a9af6443
 hippiefolk.myshopify.com	a9af6443
@@ -84879,7 +84884,6 @@ house-of-sherrida.myshopify.com	a9af6443
 house-of-threads-embroidery.myshopify.com	a9af6443
 house-of-velour-store.myshopify.com	a9af6443
 house-proud-ws.myshopify.com	a9af6443
-house.com.au	4479a458
 house2home.co.in	bb34c1bd
 houseandstock.myshopify.com	a9af6443
 houseappliancespro.co.uk	bb34c1bd
@@ -103677,7 +103681,6 @@ neriah-store-uk.myshopify.com	a9af6443
 nerigestory.com	37007769
 neroespresso.com.au	bb34c1bd
 nerofabric.com	4479a458
-nerogiardini.it	4479a458
 neroli-spa.myshopify.com	a9af6443
 nerone-art.myshopify.com	a9af6443
 nerq.ai	b9f87035
@@ -107747,6 +107750,7 @@ panama-city-coffee-co.myshopify.com	a9af6443
 panamacascoviejo.com	bb34c1bd
 panamajack.de	4479a458
 panamajack.es	4479a458
+panamaquaticsevents.com	da39a3ee
 panarmonia.myshopify.com	a9af6443
 pancake-world.com	bb34c1bd
 pancare-foundation.myshopify.com	a9af6443
