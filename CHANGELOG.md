@@ -7,6 +7,216 @@ Entries are generated from the list of covered websites and their functions, so 
 file describes the callable surface and nothing else. Each release names every website
 it added, changed or removed.
 
+## 1.32.0 (2026-11-23)
+
+**Websites**
+
+- +181 websites, +2,490 functions, -9 websites, -161 functions. 138,578 websites and 1,308,133 functions in all.
+
+Added:
+
+- 179 websites, functions not listed yet:
+  - 25southboutiques.com
+  - 43moto.com
+  - abcdaconstrucao.com.br
+  - acasis.com
+  - allvolleyball.com
+  - aloyayri.sa
+  - alteclansing.com
+  - amberjack.shop
+  - amorevintagejapan.com
+  - amote.app
+  - angrila.com
+  - applystead.com
+  - artarium.com
+  - audiodeluxe.com
+  - avatier.com
+  - avexpress.net
+  - aviationtag.com
+  - bangbang.com.hk
+  - belcasi.it
+  - bergmensch.de
+  - bigfrenchies.com
+  - bitchnewyork.com
+  - bloomthis.co
+  - bombereyewear.com
+  - bonprix.si
+  - bottlehead.com
+  - breaseworld.com
+  - brew-watches.com
+  - bsgmag.ro
+  - bubbleroom.no
+  - byoma.com
+  - canvasbusinessmodel.com
+  - cheesegarden.jp
+  - chemtronica.com
+  - cherryaffairs.com
+  - chunks.shop
+  - cinchjeans.com
+  - clocksandcolours.com
+  - cogstoysandgames.ie
+  - collinesdeprovence.com
+  - culturekings.co.nz
+  - dailydigest.com
+  - dangerousthings.com
+  - decathlon.re
+  - decocuir.com
+  - dellonline.co.za
+  - deqalli.nl
+  - distritomax.com
+  - ebebek.co.uk
+  - eclipsestores.com
+  - econolentes.com.pe
+  - em-power.it
+  - enchantedfinejewelry.com
+  - etalon-vert.com
+  - ezarctools.com
+  - fairrc.com
+  - feelworld.ltd
+  - fillingpieces.com
+  - fjwestcott.com
+  - flutecenter.com
+  - fruugo.jp
+  - furnified.es
+  - gastrro.pl
+  - geekcore.co.uk
+  - ghbass-eu.com
+  - gofanco.com
+  - groupelivre.com
+  - guess.in
+  - haverhill.com
+  - hawa.co
+  - heattrak.com
+  - homekode.com
+  - hosannarevival.com
+  - hotusous.com
+  - humsienk.com
+  - i-clip.com
+  - i-watch.co
+  - icancycling.com
+  - inkaarthouse.com
+  - ironway.com
+  - jjjjound.com
+  - jpbookstore.com
+  - kalabrand.com
+  - kanesfurniture.com
+  - kateminimalist.com
+  - katinusa.com
+  - kelyoz.com
+  - kolayoto.com
+  - kpopmerch.com
+  - kultfrau.de
+  - la-canadienne.com
+  - lamborghinistore.com
+  - lammeuld.dk
+  - leatheritaliano.com
+  - leilanisattic.com
+  - lepapierpeint.fr
+  - levelxblack.com
+  - levtexhome.com
+  - lyres.com
+  - magicprices.fr
+  - mandauefoam.ph
+  - maxizoo.dk
+  - mazenonline.com
+  - megamarsch.de
+  - meltcosmetics.com
+  - misantoremedio.com
+  - muziker.lt
+  - mylittlecoupon.fr
+  - nautikalazer.com.br
+  - neyer.de
+  - nolan-helmets.com
+  - onceuponatee.net
+  - onomao.com
+  - otorider.com
+  - ourlum.com
+  - padel-point.de
+  - pallex.com
+  - palmpals.com
+  - paparoachmerch.com
+  - parfumswinkel.nl
+  - particula-tech.com
+  - pawfy.com
+  - pedromiralles.com
+  - peppermayo.eu
+  - philocoffea.com
+  - planetx.co.uk
+  - playfulpromises.com
+  - postera.art
+  - prodirectsport.fr
+  - rboutique.com
+  - retro-stage.de
+  - rockrevival.com
+  - rollersnakes.co.uk
+  - roushperformance.com
+  - runnorthwest.co.uk
+  - savotta.fi
+  - secretsdeloly.com
+  - shipleydonuts.com
+  - shopmachete.com
+  - shopnpr.org
+  - signsonline.com
+  - silberthal.de
+  - simplygoodcoffee.com
+  - sinner.eu
+  - skeinsisters.com.au
+  - slickedit.com
+  - sneakersjoint.com
+  - sofary.com
+  - solebliss.com
+  - spazcycle.com
+  - stagshop.com
+  - starforged.com
+  - startupworldcup.io
+  - streetelement.com.au
+  - sundaybazar.com.pk
+  - superstrokeusa.com
+  - sydneyevan.com
+  - taztycandy.com
+  - tcgcollectornz.com
+  - theralogix.com
+  - theuzzle.com
+  - thirstymeeples.co.uk
+  - tools4trade.co.uk
+  - toupsandco.com
+  - touredge.com
+  - translate.mom
+  - truniagen.com
+  - twostepperformance.com
+  - unicum.gg
+  - ushomeplus.com
+  - valusis.com
+  - velo-orange.com
+  - virtual-college.co.uk
+  - woodbrass.nl
+  - yellowrabbit.mx
+  - yourkaya.pl
+  - yves-salomon.com
+  - zeroinfy.in
+  - zooyork.cl
+- alleskralle.com: `fetch_job`, `search_jobs`
+- 1015.com: `getEvent`, `listEvents`
+
+Changed:
+
+- dailymail.com: added `getArticleComments`
+
+Removed:
+
+- 5 websites, each with `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - afew-store.com
+  - librosinespanol.com
+  - onlineorganics.ca
+  - poppyshop.org.uk
+  - rudyproject.com
+- eliteelevensporting.com: `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`
+- invisiblenetwork.ai: `ask_library`, `ask_sport`, `get_archive_film`, `get_artwork`, `get_audiobook`, `get_book`, `get_channel`, `get_course`, `get_energy_model`, `get_free_music`, `get_intelligence_forecast`, `get_intelligence_record`, `get_moments`, `get_podcast`, `get_print`, `get_radio_drama`, `get_title`, `list_channels`, `list_intelligence_questions`, `list_titles`, `search`, `search_archives`, `search_art`, `search_books`, `search_comedy`, `search_free_music`, `search_karaoke`, `search_lectures`, `search_podcasts`, `search_print`, `search_radio`, `search_radio_drama`, `search_transcripts`, `search_world_tv`
+- layero.ru: `cancel_deploy`, `check_copy`, `check_domain`, `check_performance`, `check_rules`, `connect_analytics`, `connect_domain`, `data_api_auth`, `data_api_buckets`, `data_api_grant`, `data_api_keys`, `data_api_methods`, `data_api_origins`, `data_api_probe`, `data_api_status`, `deploy_logs`, `diagnose_deploy`, `download_source`, `env_vars`, `import_repo`, `list_deploys`, `list_domains`, `list_environments`, `list_sources`, `my_projects`, `project_create`, `project_settings`, `publish_landing`, `publish_site`, `read_site`, `refactor_site`, `report_docs_issue`, `retry_deploy`, `rollback`, `search_docs`, `site_analytics`, `site_issues`, `site_screenshot`, `site_status`, `whoami`
+- generalmotor.ro: `search_products`
+
+Every website and its functions: [covered-functions.txt](covered-functions.txt) · [covered-websites.txt](covered-websites.txt)
+
 ## 1.31.0 (2026-11-23)
 
 **Websites**
