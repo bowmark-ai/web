@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 24ecb923ba2a4eb013f6577700ef8cbef0c0737a7c9fbd12a9af6c0edc36948f
-// 5835 checked, 20 unchecked.
+// Manifest version: c1bd37553f9daff73f5e0969a77bf79c9b3574f25789560e28645fa6e10144b6
+// 5841 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "24ecb923ba2a4eb013f6577700ef8cbef0c0737a7c9fbd12a9af6c0edc36948f",
+  "version": "c1bd37553f9daff73f5e0969a77bf79c9b3574f25789560e28645fa6e10144b6",
   "units": {
     "address_validation": {
       "defs": {
@@ -21251,6 +21251,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BankofamericaHomeEquityRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "BankofamericaLocationArgs": {
           "k": "object",
           "props": [
@@ -21394,16 +21413,27 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getHomeEquityRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BankofamericaHomeEquityRatesArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "getCdRates": "cbe476e9b310ad6f",
-        "getCreditCard": "d6aa3cb7c911068c",
-        "listCreditCards": "29b75b33ed0fc281",
-        "listDepositAccounts": "6de442cc10d96fca",
-        "findLocations": "e45b693c08e63312",
-        "getLocation": "0112b0d2b19c902d",
-        "getMortgageRates": "090d8811224ee9ff"
+        "getCdRates": "3a6dc63c13efb25b",
+        "getCreditCard": "c3ca7dc1a2ef980b",
+        "listCreditCards": "a2b245bc19e9c0c7",
+        "listDepositAccounts": "cb0267dcd93a693c",
+        "findLocations": "744ac6bd7d951bc0",
+        "getLocation": "f1f1dffa25a4a038",
+        "getMortgageRates": "921038ad6c215545",
+        "getHomeEquityRates": "2a5dd11fd554e3ef"
       }
     },
     "providers.barletta": {
@@ -47843,6 +47873,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListPodcastsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListTopicsArgs": {
           "k": "object",
           "props": [
@@ -48053,23 +48095,34 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listPodcasts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPodcastsArgs"
+            },
+            "optional": true
+          }
         ]
       },
       "digests": {
-        "listSections": "34bdb298fa4815f3",
-        "browseSection": "6ee9e2468de44ca9",
-        "listLatest": "5dc997ad6c90033e",
-        "getArticle": "4ebcdce2de37da2b",
-        "getArticleComments": "2139cab8da89b3af",
-        "getCommentReplies": "bde87b9b7234cba6",
-        "searchArticles": "2f1e06b8f439086f",
-        "listVideos": "222ec997f136d154",
-        "getVideo": "347716fef18f8c5e",
-        "getAuthor": "160175d41cab231f",
-        "listTopics": "f454a0d491499513",
-        "browseTopic": "590083ec4fa15a8f",
-        "getHoroscope": "f9c4b81ff18c74c5",
-        "listGames": "d49736a5328efac8"
+        "listSections": "61cd19e909165ad4",
+        "browseSection": "f027286ac004bce2",
+        "listLatest": "a0cf7fed0c57c9af",
+        "getArticle": "dc51c430f491045d",
+        "getArticleComments": "c83b2ffa079ab7f3",
+        "getCommentReplies": "901b55e857e0a4a4",
+        "searchArticles": "66a41ca17a5e2f57",
+        "listVideos": "341911beb009fa73",
+        "getVideo": "b5ffb24a91075358",
+        "getAuthor": "2ec8e7e2008acf07",
+        "listTopics": "116b8595bea4b317",
+        "browseTopic": "1012581b1b05ceae",
+        "getHoroscope": "d5ff41e24f31193d",
+        "listGames": "2dbef1486222ab6d",
+        "listPodcasts": "9f4720e69fb52952"
       }
     },
     "providers.dailymotion": {
@@ -53810,26 +53863,26 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchDatabase": "dbc553c362dc918f",
-        "getArtist": "1ad1d86a3fc2653b",
-        "listArtistReleases": "608b43310da0e3db",
-        "getLabel": "86da88fb9f05a166",
-        "listLabelReleases": "7722e85c39017585",
-        "getRelease": "10aae4a6e9b2fe87",
-        "getMaster": "7b5f85b0c519577d",
-        "listMasterVersions": "b02f89a90bb6bcc7",
-        "getReleaseRating": "ed4034a32756e410",
-        "getReleaseMarketStats": "4512ef52f61f5a86",
-        "listReleaseListings": "ce62a2bb3951e845",
-        "getUserProfile": "e8ff52bdce291e82",
-        "listSellerInventory": "427251b05696bc40",
-        "listCollectionFolders": "12d12703fd279398",
-        "listCollectionItems": "b740aad55e38a730",
-        "listUserContributions": "5aff8a0a32f241b3",
-        "listWantlist": "c67c58e8d3b3d537",
-        "listUserLists": "69c3c9c91916eb56",
-        "getList": "dae8f4cf23e4d826",
-        "listUserSubmissions": "023d558a619bb9ee"
+        "searchDatabase": "ff31ebb1a53dd533",
+        "getArtist": "536b0a6ce91ee2d8",
+        "listArtistReleases": "9a10cb30481e7f9f",
+        "getLabel": "68bb1bf4734cf248",
+        "listLabelReleases": "cabc9d3e61d6e76f",
+        "getRelease": "1f2751c372b341b4",
+        "getMaster": "82d5059d9e0335f7",
+        "listMasterVersions": "1079736deda15392",
+        "getReleaseRating": "b8901c2ffcb200d4",
+        "getReleaseMarketStats": "e4f69f0317c2a27d",
+        "listReleaseListings": "a3a8519966b56b9d",
+        "getUserProfile": "63b11ddffd412329",
+        "listSellerInventory": "5cf8280e0d4b6403",
+        "listCollectionFolders": "92fb96b969060a4f",
+        "listCollectionItems": "5693f8eacd9dc64c",
+        "listUserContributions": "f09c995f2e892570",
+        "listWantlist": "7d3c8abf359ead5e",
+        "listUserLists": "20d17e21600456db",
+        "getList": "966da7616952f992",
+        "listUserSubmissions": "c2d113df10109ebb"
       }
     },
     "providers.discord": {
@@ -91777,33 +91830,33 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findLocation": "7ca6211191e61e59",
-        "listStores": "750d82773f35d79a",
-        "getStore": "6ac1cf832ad3cd25",
-        "compareStores": "3ecb6907b7c1fae4",
-        "getProduct": "445493e9ae88da22",
-        "listDeals": "79e8870ba9f01c0a",
-        "listDepartments": "7465286de34ea6e9",
-        "listDepartmentProducts": "8ce232c6433966de",
-        "getDeliveryEstimate": "36bbe7200f756ee3",
-        "suggestSearches": "0a546b0e1e76f2fe",
-        "getWeeklyAd": "75a0664dcd9f4bfa",
-        "getStoreHours": "e4d798db6889ac58",
-        "listOrders": "67f3da2709fff6c0",
-        "listMyAddresses": "3a14aa804173a29f",
-        "listCarts": "017cd9b26969462f",
-        "getCart": "dae7880d81876c07",
-        "getMyAccount": "eaa1d1f95012f842",
-        "listMyLists": "8b82ec770d2ce145",
-        "listFavorites": "f815be0f4a5980ce",
-        "listBuyItAgain": "89dbb2323d2ed0d7",
-        "getOrder": "23c27083b4ba2425",
-        "getList": "fe5e809258d7c2d1",
-        "clipCoupon": "3105db716eb47293",
-        "addToCart": "bcb674a33eb1a81e",
-        "removeFromCart": "bcb674a33eb1a81e",
-        "favoriteProduct": "99f7e49587ed2933",
-        "listCoupons": "1d6c337bec0198a4"
+        "findLocation": "40f4272681c956b1",
+        "listStores": "41288ce591dd41da",
+        "getStore": "1a3854c8f1e9aa53",
+        "compareStores": "68da2bd13fac192c",
+        "getProduct": "8c347b9178de3d84",
+        "listDeals": "55fb75dd200cc3a3",
+        "listDepartments": "cf8cbd910a493491",
+        "listDepartmentProducts": "211b0f9a214569c2",
+        "getDeliveryEstimate": "5062fa2dcd2d12fe",
+        "suggestSearches": "eb3bf6b177f045f3",
+        "getWeeklyAd": "5d5a6f141089dc96",
+        "getStoreHours": "a81d526cb561bdd9",
+        "listOrders": "eefabbfb9e8d3cb3",
+        "listMyAddresses": "9898d514458039f3",
+        "listCarts": "91346dc3c9ff50e2",
+        "getCart": "61119c884925a8c7",
+        "getMyAccount": "c79e71b55614926e",
+        "listMyLists": "1ce83c0fe07a2a22",
+        "listFavorites": "0f1cd38427bc0360",
+        "listBuyItAgain": "dd9cd965016301f1",
+        "getOrder": "d2254b10017baaf8",
+        "getList": "35146ba3817ee261",
+        "clipCoupon": "fe6447b668adfc52",
+        "addToCart": "31cefc3a3ec14da9",
+        "removeFromCart": "31cefc3a3ec14da9",
+        "favoriteProduct": "3536a4f4c2f978b2",
+        "listCoupons": "9683307ac5150b20"
       }
     },
     "providers.instagram": {
@@ -182562,6 +182615,112 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "votePoll": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "question",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendContact": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "contactName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postToChannel": [
+          {
+            "name": "channelName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "sendLocation": [
           {
             "name": "chatName",
@@ -183288,56 +183447,59 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getMyProfile": "8fa066dd74de9aac",
-        "listChats": "51539a98f3e357cd",
-        "findContact": "c2f8201ec40e5843",
-        "searchMessages": "b4d796e03a35e538",
-        "listContacts": "f4f78ad12af63b8a",
-        "checkNumber": "799b3ba09ccd2a4b",
-        "getChatMessages": "d3febfe11c96d02c",
-        "downloadMedia": "8fb7839c1eb8c4a9",
-        "previewGroupInvite": "77ac17e9b9b612f8",
-        "createClickToChatLink": "912d80b1441f2165",
-        "previewBusinessCatalog": "a60c79115285ccb1",
-        "getChannel": "a0f4a59568c40f40",
-        "listBlogPosts": "40c49376c8571443",
-        "getBlogPost": "00c07bbfec71cc1c",
-        "searchHelpCenter": "41ce8e54f90ca8f6",
-        "getHelpArticle": "e9b0b59b2ae1b495",
-        "getGroupInfo": "e8d6b319da8686d1",
-        "searchChannels": "bfeac23bec059252",
-        "listFollowedChannels": "531259f28146f236",
-        "getCommunity": "96e46aad6464aad5",
-        "getChannelUpdates": "60dd35a227438c20",
-        "sendMessage": "750968f231f3e8ca",
-        "sendMessageToNumber": "62039db44035c567",
-        "sendMedia": "bea5ff7e6e72d22a",
-        "reactToMessage": "7d51f212a67fbdbe",
-        "replyToMessage": "ebc92d383bc58e90",
-        "pinMessage": "4349b1581a3a702c",
-        "setDisappearingMessages": "e6790b9ae8dc1478",
-        "editMessage": "979c45e598c463e3",
-        "sendPoll": "59933bdcacbc3412",
-        "sendLocation": "71e2b94a19c8b878",
-        "createChannel": "762e948e6f215995",
-        "forwardMessage": "7afa8111524af9db",
-        "updateChat": "1af2ec90dd56d3a2",
-        "createGroup": "a128d7540d749d5c",
-        "updateGroup": "ef420e3f06e88205",
-        "addGroupParticipants": "3d9fd9a868c7a6fa",
-        "removeGroupParticipants": "3d9fd9a868c7a6fa",
-        "joinGroupByInvite": "e29f1ee50cbafc08",
-        "leaveGroup": "3c514fac76e4810e",
-        "followChannel": "5d3283410a9f42fd",
-        "unfollowChannel": "5d3283410a9f42fd",
-        "postStatus": "785d10e656485c7e",
-        "updateProfile": "ecda4736d86e25c7",
-        "blockContact": "2e7cf24d974ac61b",
-        "updatePrivacySettings": "6e3a2681f2a7b55b",
-        "deleteMessage": "d9f098158399106d",
-        "listCatalogProducts": "78a0622d57bace0c",
-        "listStatusUpdates": "a85dbfbc911b4282",
-        "getGroupInviteLink": "82f1a1f741ec3be4"
+        "getMyProfile": "5e9a8186572a22d8",
+        "listChats": "9329249d84f06a62",
+        "findContact": "55b90badd63e413b",
+        "searchMessages": "6a8bd9823cb61d63",
+        "listContacts": "1789a8bb0d3e0bbf",
+        "checkNumber": "358a25529b7c2710",
+        "getChatMessages": "6cdca11bf3f76e16",
+        "downloadMedia": "20437e2825eaf7e1",
+        "previewGroupInvite": "210d69199618d61f",
+        "createClickToChatLink": "f1047217a2a63f51",
+        "previewBusinessCatalog": "14d6804f56ff2414",
+        "getChannel": "03fb17cf78885654",
+        "listBlogPosts": "9cd51f8197030758",
+        "getBlogPost": "bbf189cd67651bca",
+        "searchHelpCenter": "607313d470d9182c",
+        "getHelpArticle": "c5d63357eb6cd97f",
+        "getGroupInfo": "14d7cca8fd8ed6f9",
+        "searchChannels": "f3c0429c18fde463",
+        "listFollowedChannels": "2e2c6a339cc7ef1a",
+        "getCommunity": "f15c75e8fa21e8ab",
+        "getChannelUpdates": "1a2f95a9920db7eb",
+        "sendMessage": "c1b3280fdb9cde91",
+        "sendMessageToNumber": "29d65eddb455d68a",
+        "sendMedia": "cf9c3a881be8a195",
+        "reactToMessage": "294a28dfb790d852",
+        "replyToMessage": "b27b9ae75769946a",
+        "pinMessage": "708320c718b32b03",
+        "setDisappearingMessages": "83b9655744a2b0f0",
+        "editMessage": "d295fc43696e0bb8",
+        "sendPoll": "16de52f8cc4f49de",
+        "votePoll": "3af7b16ef6697f1b",
+        "sendContact": "693021eabed8338c",
+        "postToChannel": "e5cc14d625fed203",
+        "sendLocation": "e27d53c3c5bac72e",
+        "createChannel": "512ecbaa7fc35dda",
+        "forwardMessage": "0d39fa72239a2427",
+        "updateChat": "17a4744a0f253bfe",
+        "createGroup": "c2bafddb5a7a988e",
+        "updateGroup": "c5ad1456bb1165d5",
+        "addGroupParticipants": "a469b1a075708636",
+        "removeGroupParticipants": "a469b1a075708636",
+        "joinGroupByInvite": "bf29f8c44f95c7c4",
+        "leaveGroup": "4f17a70a2abcf9d4",
+        "followChannel": "a0dfb7d62c2a1622",
+        "unfollowChannel": "a0dfb7d62c2a1622",
+        "postStatus": "fc593d73c5e0f1eb",
+        "updateProfile": "910eaa7b7fce8214",
+        "blockContact": "0a563fa4ab487ece",
+        "updatePrivacySettings": "be30ad3caad5314c",
+        "deleteMessage": "59e9e39e6d33e633",
+        "listCatalogProducts": "3a0cc6f2898cc687",
+        "listStatusUpdates": "1f7e890687d15b0c",
+        "getGroupInviteLink": "198451b8200c3e0c"
       }
     },
     "providers.wholefoodsmarket": {
@@ -187447,6 +187609,84 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "login": [
+          {
+            "name": "creds",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "password",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "totpCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "totpSeed",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "keepAlive",
+                  "optional": true,
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "everyHours",
+                            "schema": {
+                              "k": "number"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      },
+                      {
+                        "k": "literal",
+                        "v": false
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "expiresAt",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
@@ -187478,7 +187718,8 @@ export const VALIDATORS: ValidatorTable = {
         "quotePost": "74cc6e89223a6edb",
         "deletePost": "91c39f14d43735b2",
         "updateProfile": "dfd9ad51ba9f8704",
-        "uploadProfilePicture": "f6b693fb73e40a15"
+        "uploadProfilePicture": "f6b693fb73e40a15",
+        "login": "8ae3ddaadd401cf8"
       }
     },
     "providers.xola": {

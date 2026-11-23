@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 24ecb923ba2a4eb013f6577700ef8cbef0c0737a7c9fbd12a9af6c0edc36948f
-# 99 capabilities, 957 providers, 5835 typed functions, 20 refused.
+# Manifest version: c1bd37553f9daff73f5e0969a77bf79c9b3574f25789560e28645fa6e10144b6
+# 99 capabilities, 957 providers, 5841 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10497,6 +10497,24 @@ class Prv_bankofamerica_BankofamericaMortgageRate_Out(TypedDict):
     monthlyPayment: float | None
     closingCosts: float | None
     asOf: str | None
+
+class Prv_bankofamerica_BankofamericaHomeEquityRatesArgs_In(TypedDict):
+    state: str
+    zip: str
+
+class Prv_bankofamerica_BankofamericaHomeEquityRates_Out(TypedDict):
+    state: str
+    zip: str
+    rate: float | None
+    apr: float | None
+    lineAmount: float | None
+    monthlyPayment: float | None
+    drawPeriodMonths: float | None
+    termMonths: float | None
+    discountPercent: float | None
+    introRate: float | None
+    introDescription: str | None
+    indexRate: float | None
 
 class Prv_barletta_BarlettaModelSummary_Out(TypedDict):
     modelId: str
@@ -23367,6 +23385,15 @@ class Prv_dailymail_DailymailGame_Out(TypedDict):
     url: str
     image: str | None
     label: str | None
+
+class Prv_dailymail_ListPodcastsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_dailymail_DailymailPodcast_Out(TypedDict):
+    title: str
+    description: str | None
+    url: str
+    image: str | None
 
 class Prv_dailymotion_SearchVideosArgs_In(TypedDict):
     query: str
@@ -83589,6 +83616,23 @@ class Prv_whatsapp_WhatsappSentPoll_Out(TypedDict):
     id: str | None
     time: str | None
 
+class Prv_whatsapp_WhatsappPollVote_Out(TypedDict):
+    chat: str
+    question: str
+    selected: list[str]
+
+class Prv_whatsapp_WhatsappContactSent_Out(TypedDict):
+    chat: str
+    contact: str
+    id: str | None
+    time: str | None
+
+class Prv_whatsapp_WhatsappChannelPost_Out(TypedDict):
+    channel: str
+    text: str
+    id: str | None
+    time: str | None
+
 class Prv_whatsapp_WhatsappLocationSent_Out(TypedDict):
     chat: str
     place: str
@@ -85410,6 +85454,12 @@ class Prv_x_UploadProfilePictureArgs_In(TypedDict):
 
 class Prv_x_XUploadProfilePictureResult_Out(TypedDict):
     updated: Literal[True]
+
+class Prv_x_login_return_Out(TypedDict):
+    connection: str
+    account: str
+    expiresAt: str
+    warnings: NotRequired[list[str]]
 
 class Prv_xola_XolaFindSellerArgs_In(TypedDict):
     site: str
@@ -94544,6 +94594,12 @@ class Prv_bankofamerica(Protocol):
         closing costs.
         """
 
+    async def getHomeEquityRates(self, args: Prv_bankofamerica_BankofamericaHomeEquityRatesArgs_In, /) -> Prv_bankofamerica_BankofamericaHomeEquityRates_Out:
+        """Gets Bank of America's published HELOC (home equity line of credit) rate and APR for a
+        state and ZIP: sample payment, draw period, relationship discount and any introductory
+        rate.
+        """
+
 class Prv_barletta(Protocol):
     """Barletta's pontoon-boat 'Build Your Boat' configurator — list every current floorplan,
     read one model's full option builder (railskin color, furniture, flooring, engine,
@@ -101380,6 +101436,12 @@ class Prv_dailymail(Protocol):
         """The puzzles on Daily Mail's US games hub (sudoku, kenken, crosswords, …): slug, numeric
         game id, title, tagline, play url, icon and any badge ("NEW"). The players run
         client-side, so this lists them rather than playing. Optional limit, 1–100, default 50.
+        """
+
+    async def listPodcasts(self, args: Prv_dailymail_ListPodcastsArgs_In | None = None, /) -> list[Prv_dailymail_DailymailPodcast_Out]:
+        """The podcasts on Daily Mail's podcast hub, in the hub's order: title, blurb, follow url
+        (podfollow.com or The Crime Desk) and cover image. The hub lists shows, not episodes.
+        Optional limit, 1–100, default 50.
         """
 
 class Prv_dailymotion(Protocol):
@@ -132804,6 +132866,25 @@ class Prv_whatsapp(Protocol):
         never sends twice. Needs the caller signed in.
         """
 
+    async def votePoll(self, chatName: str, question: str, options: Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappPollVote_Out:
+        """Votes in a poll already in a chat as the caller: the chat is opened by its exact
+        displayed name, the poll found by its question, and each named option ticked. Returns
+        the options that read back as selected; a retried run never votes twice. Needs the
+        caller signed in.
+        """
+
+    async def sendContact(self, chatName: str, contactName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappContactSent_Out:
+        """Sends a saved contact's card to a chat as the caller, the contact picked by its exact
+        displayed name (from listContacts or findContact). Returns the sent row's id and time
+        label; a retried run never sends twice. Needs the caller signed in.
+        """
+
+    async def postToChannel(self, channelName: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelPost_Out:
+        """Posts a text update to a Channel the caller runs, picked by its exact displayed name. A
+        public write: the Channel's followers receive it. Returns the update's id and time
+        label. Needs the caller signed in.
+        """
+
     async def sendLocation(self, chatName: str, place: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappLocationSent_Out:
         """Sends a place as a location message to a chat as the caller: the chat is opened by its
         exact displayed name and the place is picked from the location picker's search. Returns
@@ -133787,6 +133868,20 @@ class Prv_x(Protocol):
     async def uploadProfilePicture(self, args: Prv_x_UploadProfilePictureArgs_In, opts: ConnectionOption | None = None, /) -> Prv_x_XUploadProfilePictureResult_Out:
         """Changes the signed-in caller's own profile picture from an https image URL or base64
         bytes.
+        """
+
+    async def login(self, creds: LoginInput, /) -> Prv_x_login_return_Out:
+        """Signs in with the given credentials and saves a NEW connection — every call creates one,
+        never replacing an existing login, unless `connection` names an existing id to sign back
+        in to (its cookies replaced, its id and settings kept, a logged-out one revived). The
+        returned `connection` is usable on the very next call in the same script or session.
+        `warnings` names the account's other connections to this site. `username`, `password`,
+        `totpCode` and `totpSeed` are plain values here; a caller on the run/session script
+        surface instead passes each as a `bowmark.secret()` reference. Pass the returned
+        `connection` id as `{ connection }` on a later signed-in call to act as this account.
+        Optionally set `keepAlive: { everyHours }` (or `false` to turn it off) and/or
+        `expiresAt` (an ISO date/datetime, a hard ceiling); both default to a 12-hour keep-alive
+        and can be changed later with `bm.connections.update(id, …)`.
         """
 
 class Prv_xola(Protocol):
