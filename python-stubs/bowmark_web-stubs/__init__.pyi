@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 85373196b1322143b215e5b3ebfcab1665a6b78c2f40d34606b9ad0cba95e84f
-# 99 capabilities, 957 providers, 5869 typed functions, 20 refused.
+# Manifest version: d9f3ed0d0a5717278c205b3ea4b61995da5b4f1a232ff34a78fe674ee3268b70
+# 99 capabilities, 959 providers, 5903 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2609,7 +2609,7 @@ class Cap_pricing_PersonaRead_Out_price_u0_Out(TypedDict):
 class Cap_products_search_args_In(TypedDict):
     query: str
     site: NotRequired[Literal["walmart"] | Literal["target"] | Literal["bestbuy"] | Literal["amazon"]]
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"] | Literal["co.za"]]
     limit: NotRequired[float]
 
 class Cap_products_ProductSearchResult_Out(TypedDict):
@@ -6592,7 +6592,7 @@ class Prv_alphavantage_AlphavantageSignUpResult_Out(TypedDict):
     message: str
 
 class Prv_amazon_SearchProductsArgs_u0_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"] | Literal["co.za"]]
     keywords: str
     department: NotRequired[str]
     sort: NotRequired[str]
@@ -6602,7 +6602,7 @@ class Prv_amazon_SearchProductsArgs_u0_In(TypedDict):
     page: NotRequired[float]
 
 class Prv_amazon_SearchProductsArgs_u1_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"] | Literal["co.za"]]
     query: str
     department: NotRequired[str]
     sort: NotRequired[str]
@@ -6634,7 +6634,7 @@ class Prv_amazon_SearchWholeFoodsArgs_In(TypedDict):
     page: NotRequired[float]
 
 class Prv_amazon_ListCategoryProductsArgs_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"] | Literal["co.za"]]
     department: str
     sort: NotRequired[str]
     page: NotRequired[float]
@@ -6645,7 +6645,7 @@ class Prv_amazon_AmazonCategoryListing_Out(TypedDict):
     products: list[Prv_amazon_AmazonProduct_Out]
 
 class Prv_amazon_AmazonMarketOptions_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"] | Literal["co.za"]]
 
 class Prv_amazon_AmazonKeywordSuggestion_Out(TypedDict):
     value: str
@@ -6728,7 +6728,7 @@ class Prv_amazon_AmazonRelatedProduct_Out(TypedDict):
     ratingCount: float | None
 
 class Prv_amazon_ListBestSellersArgs_In(TypedDict):
-    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"]]
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["fr"] | Literal["com.mx"] | Literal["co.za"]]
     department: str
     page: NotRequired[float]
 
@@ -11824,6 +11824,46 @@ class Prv_biblegateway_BibleVersion_Out(TypedDict):
     code: str
     name: str
     language: str
+
+class Prv_biblegateway_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_biblegateway_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_biblegateway_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_biblegateway_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_biblegateway_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_biblegateway_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_biblegateway_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_biblegateway_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_bigairusa_BigAirLocation_Out(TypedDict):
     slug: str
@@ -19274,6 +19314,15 @@ class Prv_chess_com_chess_comArticle_Out(TypedDict):
     body: str
     paragraphs: float
 
+class Prv_chess_com_chess_comOpeningArgs_In(TypedDict):
+    opening: str
+
+class Prv_chess_com_chess_comOpening_Out(TypedDict):
+    url: str
+    name: str
+    moves: str | None
+    description: str
+
 class Prv_chess_com_chess_comMatchArgs_In(TypedDict):
     match: str | float
 
@@ -19394,6 +19443,21 @@ class Prv_chess_com_chess_comClub_Out(TypedDict):
     icon: str | None
     lastActivity: str | None
     joined: str | None
+
+class Prv_chess_com_chess_comCurrentGame_Out(TypedDict):
+    url: str
+    white: str | None
+    black: str | None
+    turn: str | None
+    moveBy: str | None
+    lastActivity: str | None
+    startTime: str | None
+    timeClass: str | None
+    timeControl: str | None
+    rated: bool
+    rules: str | None
+    fen: str | None
+    pgn: str | None
 
 class Prv_chess_com_chess_comGamesArgs_In(TypedDict):
     username: str
@@ -22843,6 +22907,24 @@ class Prv_craigslist_CraigslistAccountPosting_Out(TypedDict):
     title: str
     url: str
 
+class Prv_craigslist_CraigslistFavorites_Out(TypedDict):
+    signedIn: Literal[True]
+    favorites: list[Prv_craigslist_CraigslistFavorites_Out_favorites_item_Out]
+    warnings: list[str]
+
+class Prv_craigslist_CraigslistFavorites_Out_favorites_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_craigslist_CraigslistSavedSearches_Out(TypedDict):
+    signedIn: Literal[True]
+    searches: list[Prv_craigslist_CraigslistSavedSearches_Out_searches_item_Out]
+    warnings: list[str]
+
+class Prv_craigslist_CraigslistSavedSearches_Out_searches_item_Out(TypedDict):
+    name: str
+    url: str
+
 class Prv_craigslist_CraigslistImages_Out(TypedDict):
     id: str
     url: str
@@ -26115,6 +26197,66 @@ class Prv_discogs_DiscogsReleaseListing_Out(TypedDict):
     price: float | None
     currency: str | None
     shipping: str | None
+    url: str | None
+
+class Prv_discogs_DiscogsMarketplaceSearchArgs_In(TypedDict):
+    query: str
+    format: NotRequired[str]
+
+class Prv_discogs_searchMarketplace_return_Out(TypedDict):
+    totalCount: float | None
+    items: list[Prv_discogs_DiscogsMarketplaceItem_Out]
+
+class Prv_discogs_DiscogsMarketplaceItem_Out(TypedDict):
+    id: float | None
+    releaseId: float | None
+    title: str | None
+    artists: list[str]
+    format: str | None
+    country: str | None
+    year: str | None
+    condition: str | None
+    sleeveCondition: str | None
+    comments: str | None
+    seller: str | None
+    sellerRatingPercent: float | None
+    sellerRatingCount: float | None
+    shipsFrom: str | None
+    price: float | None
+    currency: str | None
+    shippingPrice: float | None
+    listedAt: str | None
+    url: str | None
+
+class Prv_discogs_listReleaseReviews_return_Out(TypedDict):
+    releaseId: float
+    reviews: list[Prv_discogs_DiscogsReleaseReview_Out]
+
+class Prv_discogs_DiscogsReleaseReview_Out(TypedDict):
+    id: float | None
+    reviewer: str | None
+    date: str | None
+    text: str | None
+    helpfulCount: float | None
+    replyCount: float | None
+
+class Prv_discogs_DiscogsForumSearchArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_discogs_searchForum_return_Out(TypedDict):
+    totalCount: float | None
+    page: float
+    hits: list[Prv_discogs_DiscogsForumHit_Out]
+
+class Prv_discogs_DiscogsForumHit_Out(TypedDict):
+    threadId: float | None
+    messageId: float | None
+    title: str | None
+    startedBy: str | None
+    startedAt: str | None
+    topic: str | None
+    snippet: str | None
     url: str | None
 
 class Prv_discogs_DiscogsUserArgs_In(TypedDict):
@@ -33578,6 +33720,26 @@ class Prv_fiverr_FiverrSellerGigs_Out(TypedDict):
     url: str
     gigs: list[Prv_fiverr_FiverrGigSummary_Out]
 
+class Prv_fiverr_ListSellerPortfolioArgs_In(TypedDict):
+    username: str
+
+class Prv_fiverr_FiverrSellerPortfolio_Out(TypedDict):
+    username: str
+    url: str
+    total: float
+    projects: list[Prv_fiverr_FiverrPortfolioProject_Out]
+
+class Prv_fiverr_FiverrPortfolioProject_Out(TypedDict):
+    id: str
+    title: str | None
+    description: str | None
+    priceUsd: float | None
+    duration: str | None
+    startedAt: str | None
+    industries: list[str]
+    imageUrls: list[str]
+    mediaUrls: list[str]
+
 class Prv_fiverr_listCategories_return_Out(TypedDict):
     categories: list[Prv_fiverr_FiverrCategoryLink_Out]
 
@@ -35709,6 +35871,78 @@ class Prv_geico_GeicoAgentDetails_Out(TypedDict):
 class Prv_geico_GeicoAgentSearch_Out_searchedFrom_Out(TypedDict):
     latitude: float
     longitude: float
+
+class Prv_genius_GeniusLyrics_Out(TypedDict):
+    url: str
+    title: str
+    sections: list[Prv_genius_GeniusLyricSection_Out]
+    text: str
+
+class Prv_genius_GeniusLyricSection_Out(TypedDict):
+    header: str | None
+    lines: list[str]
+
+class Prv_genius_GeniusSong_Out(TypedDict):
+    id: float
+    title: str
+    artist: str
+    fullTitle: str
+    url: str
+    releaseDate: str | None
+    album: str | None
+    description: str | None
+    pageviews: float | None
+    annotationCount: float
+    featuredArtists: list[str]
+    producers: list[str]
+    writers: list[str]
+    imageUrl: str | None
+
+class Prv_genius_GeniusAlbumSearch_Out(TypedDict):
+    query: str
+    albums: list[Prv_genius_GeniusAlbumHit_Out]
+
+class Prv_genius_GeniusAlbumHit_Out(TypedDict):
+    id: float
+    name: str
+    artist: str
+    fullTitle: str
+    url: str
+    releaseDate: str | None
+    coverUrl: str | None
+
+class Prv_genius_GeniusArtistSearch_Out(TypedDict):
+    query: str
+    artists: list[Prv_genius_GeniusArtistHit_Out]
+
+class Prv_genius_GeniusArtistHit_Out(TypedDict):
+    id: float
+    name: str
+    url: str
+    imageUrl: str | None
+    isVerified: bool
+
+class Prv_genius_GeniusLyricSearch_Out(TypedDict):
+    query: str
+    matches: list[Prv_genius_GeniusLyricMatch_Out]
+
+class Prv_genius_GeniusLyricMatch_Out(TypedDict):
+    song: Prv_genius_GeniusSongHit_Out
+    snippet: str
+
+class Prv_genius_GeniusSongHit_Out(TypedDict):
+    id: float
+    title: str
+    artist: str
+    fullTitle: str
+    url: str
+    releaseDate: str | None
+    pageviews: float | None
+    imageUrl: str | None
+
+class Prv_genius_GeniusSongSearch_Out(TypedDict):
+    query: str
+    songs: list[Prv_genius_GeniusSongHit_Out]
 
 class Prv_github_GithubListWorkflowRunsOptions_In(TypedDict):
     branch: NotRequired[str]
@@ -43134,6 +43368,50 @@ class Prv_instacart_InstacartDeleteAddressResult_Out(TypedDict):
     addressId: str
     deleted: Literal[True]
 
+class Prv_instacart_InstacartAddAddressArgs_In(TypedDict):
+    streetAddress: str
+    postalCode: str
+
+class Prv_instacart_InstacartAddressWriteResult_Out(TypedDict):
+    addressId: str | None
+    streetAddress: str
+    postalCode: str
+
+class Prv_instacart_InstacartUpdateAddressArgs_In(TypedDict):
+    addressId: str
+    streetAddress: str
+    postalCode: str
+
+class Prv_instacart_InstacartCreateListArgs_In(TypedDict):
+    title: str
+    shopId: str
+    productIds: NotRequired[Sequence[str]]
+
+class Prv_instacart_InstacartCreateListResult_Out(TypedDict):
+    listId: str | None
+    title: str
+
+class Prv_instacart_InstacartAddToListArgs_In(TypedDict):
+    listId: str
+    shopId: str
+    products: Sequence[Prv_instacart_InstacartListProductUpdate_In]
+
+class Prv_instacart_InstacartListProductUpdate_In(TypedDict):
+    productId: str
+    quantity: float
+
+class Prv_instacart_InstacartAddToListResult_Out(TypedDict):
+    listId: str
+    updated: float
+
+class Prv_instacart_InstacartLinkLoyaltyCardArgs_In(TypedDict):
+    cardNumber: str
+    retailerId: str
+
+class Prv_instacart_InstacartLinkLoyaltyCardResult_Out(TypedDict):
+    retailerId: str
+    linked: Literal[True]
+
 class Prv_instacart_InstacartFavoriteProductArgs_In(TypedDict):
     productId: str
     favorite: NotRequired[bool]
@@ -49399,6 +49677,15 @@ class Prv_mayoclinic_listFirstAid_args_In(TypedDict):
     page: NotRequired[float]
 
 class Prv_mayoclinic_getFirstAid_args_In(TypedDict):
+    url: str
+
+class Prv_mayoclinic_listLifestyleTopics_args_In(TypedDict):
+    page: NotRequired[float]
+
+class Prv_mayoclinic_listLifestyleArticles_args_In(TypedDict):
+    url: str
+
+class Prv_mayoclinic_getArticle_args_In(TypedDict):
     url: str
 
 class Prv_mayoclinic_searchSite_args_In(TypedDict):
@@ -66435,7 +66722,7 @@ class Prv_seatgeek_seatgeekEvent_Out(TypedDict):
 class Prv_seatgeek_seatgeekEvent_Out_performers_item_Out(TypedDict):
     id: float
     name: str
-    image: NotRequired[str]
+    image: NotRequired[str | None]
 
 class Prv_seatgeek_seatgeekEvent_Out_venue_Out(TypedDict):
     id: float
@@ -66458,7 +66745,7 @@ class Prv_seatgeek_seatgeekPerformer_Out(TypedDict):
     name: str
     type: str
     slug: NotRequired[str]
-    image: NotRequired[str]
+    image: NotRequired[str | None]
     url: NotRequired[str]
     num_upcoming_events: NotRequired[float]
     genres: NotRequired[list[Prv_seatgeek_seatgeekPerformer_Out_genres_item_Out]]
@@ -66507,7 +66794,7 @@ class Prv_seatgeek_seatgeekTrackedEvent_Out(TypedDict):
 class Prv_seatgeek_seatgeekTrackedEvent_Out_performers_item_Out(TypedDict):
     id: float
     name: str
-    image: NotRequired[str]
+    image: NotRequired[str | None]
 
 class Prv_seatgeek_seatgeekTrackedEvent_Out_venue_Out(TypedDict):
     id: float
@@ -68455,6 +68742,196 @@ class Prv_skills_rest_SkillsRestSkill_Out(TypedDict):
     name: str
     description: str
     url: str
+
+Prv_skiplagged_searchFlights_args_In = TypedDict(
+    "Prv_skiplagged_searchFlights_args_In",
+    {
+    "from": str,
+    "to": str,
+    "depart": str,
+    "return": NotRequired[str],
+    "sort": NotRequired[Literal["price"] | Literal["duration"] | Literal["value"]],
+    "limit": NotRequired[float],
+    "offset": NotRequired[float],
+    "adults": NotRequired[float],
+    "children": NotRequired[float],
+    "fareClass": NotRequired[Literal["basic-economy"] | Literal["economy"] | Literal["premium"] | Literal["business"] | Literal["first"]],
+    "maxStops": NotRequired[Literal["none"] | Literal["one"] | Literal["many"]],
+    "hiddenCity": NotRequired[bool],
+    "currency": NotRequired[str],
+    },
+)
+
+class Prv_skiplagged_SkiplaggedFlightSearch_Out(TypedDict):
+    searchUrl: str
+    flights: list[Prv_skiplagged_SkiplaggedFlight_Out]
+    totalAvailable: float
+    hasMore: bool
+    currency: str
+    priceApproximate: bool
+    warnings: list[str]
+
+Prv_skiplagged_SkiplaggedFlight_Out = TypedDict(
+    "Prv_skiplagged_SkiplaggedFlight_Out",
+    {
+    "airlines": str,
+    "from": str,
+    "to": str,
+    "departAt": str,
+    "arriveAt": str,
+    "duration": str,
+    "stops": float,
+    "hiddenCity": bool,
+    "attributes": list[str],
+    "id": str,
+    "price": float,
+    "currency": str,
+    "priceUsd": float,
+    "bookingUrl": str,
+    "returnFlight": Prv_skiplagged_SkiplaggedLeg_Out | None,
+    },
+)
+
+Prv_skiplagged_SkiplaggedLeg_Out = TypedDict(
+    "Prv_skiplagged_SkiplaggedLeg_Out",
+    {
+    "airlines": str,
+    "from": str,
+    "to": str,
+    "departAt": str,
+    "arriveAt": str,
+    "duration": str,
+    "stops": float,
+    "hiddenCity": bool,
+    "attributes": list[str],
+    },
+)
+
+Prv_skiplagged_findCheapDestinations_args_In = TypedDict(
+    "Prv_skiplagged_findCheapDestinations_args_In",
+    {
+    "from": str,
+    "depart": str,
+    "return": NotRequired[str],
+    "fareClass": NotRequired[Literal["basic-economy"] | Literal["economy"] | Literal["premium"] | Literal["business"] | Literal["first"]],
+    "adults": NotRequired[float],
+    "currency": NotRequired[str],
+    "limit": NotRequired[float],
+    },
+)
+
+class Prv_skiplagged_SkiplaggedDestinationSearch_Out(TypedDict):
+    searchUrl: str
+    destinations: list[Prv_skiplagged_SkiplaggedDestinationDeal_Out]
+    totalAvailable: float
+    currency: str
+    warnings: list[str]
+
+class Prv_skiplagged_SkiplaggedDestinationDeal_Out(TypedDict):
+    city: str
+    region: str
+    airport: str
+    price: float
+    currency: str
+    hiddenCity: bool
+    searchUrl: str
+
+Prv_skiplagged_getFareCalendar_args_In = TypedDict(
+    "Prv_skiplagged_getFareCalendar_args_In",
+    {
+    "from": str,
+    "to": str,
+    "depart": str,
+    "return": NotRequired[str],
+    "sort": NotRequired[Literal["date"] | Literal["price"]],
+    "adults": NotRequired[float],
+    "currency": NotRequired[str],
+    },
+)
+
+class Prv_skiplagged_SkiplaggedFareCalendar_Out(TypedDict):
+    origin: str
+    destination: str
+    searchUrl: str
+    currency: str
+    days: list[Prv_skiplagged_SkiplaggedFarePoint_Out]
+    cheapest: Prv_skiplagged_SkiplaggedFarePoint_Out | None
+    warnings: list[str]
+
+class Prv_skiplagged_SkiplaggedFarePoint_Out(TypedDict):
+    date: str
+    price: float
+
+class Prv_skiplagged_searchHotels_args_In(TypedDict):
+    city: str
+    checkIn: str
+    checkOut: str
+    sort: NotRequired[Literal["price"] | Literal["ranking"] | Literal["value"] | Literal["discount"]]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+    rooms: NotRequired[float]
+    adults: NotRequired[float]
+    children: NotRequired[float]
+    currency: NotRequired[str]
+
+class Prv_skiplagged_SkiplaggedHotelSearch_Out(TypedDict):
+    searchUrl: str
+    hotels: list[Prv_skiplagged_SkiplaggedHotel_Out]
+    totalAvailable: float
+    hasMore: bool
+    currency: str
+    warnings: list[str]
+
+class Prv_skiplagged_SkiplaggedHotel_Out(TypedDict):
+    id: float
+    name: str
+    stars: float | None
+    chain: str | None
+    address: str | None
+    pricePerNight: float | None
+    currency: str
+    amenities: list[str]
+    imageUrl: str | None
+    bookingUrl: str
+
+class Prv_skiplagged_searchCars_args_In(TypedDict):
+    pickup: str
+    pickupDate: str
+    dropoffDate: str
+    dropoff: NotRequired[str]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_skiplagged_SkiplaggedCarSearch_Out(TypedDict):
+    searchUrl: str
+    cars: list[Prv_skiplagged_SkiplaggedCar_Out]
+    totalAvailable: float
+    hasMore: bool
+    warnings: list[str]
+
+class Prv_skiplagged_SkiplaggedCar_Out(TypedDict):
+    id: str
+    company: str
+    vehicleClass: str
+    exampleVehicle: str | None
+    passengers: float | None
+    bags: float | None
+    transmission: str | None
+    unlimitedMileage: bool
+    freeCancellation: bool
+    prepaid: bool
+    pricePerDay: float | None
+    totalPrice: float | None
+    currency: str
+    pickupLocation: str | None
+    pickupAddress: str | None
+    dropoffLocation: str | None
+    dropoffAddress: str | None
+    bookingUrl: str
+
+class Prv_skiplagged_SkiplaggedAirport_Out(TypedDict):
+    query: str
+    code: str
 
 class Prv_sleeper_SleeperNFLState_Out(TypedDict):
     week: float
@@ -80966,6 +81443,22 @@ class Prv_usps_uspsServiceAlert_Out(TypedDict):
     text: str
     active: bool
 
+class Prv_usps_searchFaq_args_In(TypedDict):
+    term: str
+    page: NotRequired[float]
+
+class Prv_usps_uspsFaqResults_Out(TypedDict):
+    term: str
+    page: float
+    articles: list[Prv_usps_uspsFaqArticle_Out]
+
+class Prv_usps_uspsFaqArticle_Out(TypedDict):
+    articleNumber: str
+    title: str
+    summary: str | None
+    recordId: str
+    lastPublished: str | None
+
 class Prv_usps_TrackPackageArgs_In(TypedDict):
     trackingNumber: str
 
@@ -83921,6 +84414,20 @@ class Prv_whatsapp_WhatsappStarredMessage_Out(TypedDict):
 class Prv_whatsapp_WhatsappChatDeleted_Out(TypedDict):
     chat: str
     deleted: bool
+
+class Prv_whatsapp_WhatsappChatLock_Out(TypedDict):
+    chat: str
+    locked: bool
+
+class Prv_whatsapp_WhatsappCommunityCreated_Out(TypedDict):
+    name: str
+    description: str | None
+    created: bool
+
+class Prv_whatsapp_WhatsappContactSaved_Out(TypedDict):
+    name: str
+    phone: str
+    saved: bool
 
 class Prv_whatsapp_WhatsappLocationSent_Out(TypedDict):
     chat: str
@@ -95583,6 +96090,18 @@ class Prv_biblegateway(Protocol):
         by language, code or name. The codes feed every version argument.
         """
 
+    async def signup(self, args: Any, /) -> Prv_biblegateway_signup_return_u0_Out | Prv_biblegateway_signup_return_u1_Out | Prv_biblegateway_signup_return_u2_Out | Prv_biblegateway_signup_return_u3_Out:
+        """Makes a NEW Bible Gateway account with the person's own email and password, in a
+        session. Pauses with `needs_code` / `needs_phone` whenever the site wants something only
+        the person has; continue with `confirmSignup` in the same session. Ends `signed_up` with
+        the login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_biblegateway_confirmSignup_return_u0_Out | Prv_biblegateway_confirmSignup_return_u1_Out | Prv_biblegateway_confirmSignup_return_u2_Out | Prv_biblegateway_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_bigairusa(Protocol):
     """Big Air Trampoline Park's own location directory and per-location CenterEdge ticket/pass
     catalog — real prices, no login, no browser — plus the checkout and waiver handoff URLs
@@ -99392,6 +99911,11 @@ class Prv_chess_com(Protocol):
         author, published and modified dates, image and the body as plain text.
         """
 
+    async def explainOpening(self, args: Prv_chess_com_chess_comOpeningArgs_In, /) -> Prv_chess_com_chess_comOpening_Out:
+        """Explains a Chess.com chess opening by name or slug (e.g. "Sicilian Defense"): its
+        defining moves and the description text.
+        """
+
     async def getTeamMatch(self, args: Prv_chess_com_chess_comMatchArgs_In, /) -> Prv_chess_com_chess_comTeamMatch_Out:
         """Reads a team match by id or URL: both teams with their scores and results, and each
         player with the board they sat on and their colour results.
@@ -99440,6 +99964,12 @@ class Prv_chess_com(Protocol):
 
     async def listPlayerClubs(self, args: Prv_chess_com_chess_comUsernameArgs_In, /) -> list[Prv_chess_com_chess_comClub_Out]:
         """Lists the clubs a Chess.com player belongs to, with each club's URL slug for getClub."""
+
+    async def listPlayerCurrentGames(self, args: Prv_chess_com_chess_comUsernameArgs_In, /) -> list[Prv_chess_com_chess_comCurrentGame_Out]:
+        """Lists a player's ongoing daily (correspondence) games: opponent, whose turn it is, the
+        move-by deadline, time control, current position (FEN) and PGN so far. Live games are
+        not listed.
+        """
 
     async def listPlayerGames(self, args: Prv_chess_com_chess_comGamesArgs_In, /) -> list[Prv_chess_com_chess_comGame_Out]:
         """Lists a player's finished games for the latest month (up to three), or for one given
@@ -101398,6 +101928,16 @@ class Prv_craigslist(Protocol):
         link of each. Needs the caller signed in; a dead sign-in throws.
         """
 
+    async def listFavorites(self, opts: ConnectionOption | None = None, /) -> Prv_craigslist_CraigslistFavorites_Out:
+        """Lists the listings the signed-in caller has favourited on Craigslist, each with its
+        title and URL. Needs the caller signed in; a dead sign-in throws.
+        """
+
+    async def listSavedSearches(self, opts: ConnectionOption | None = None, /) -> Prv_craigslist_CraigslistSavedSearches_Out:
+        """Lists the signed-in caller's saved Craigslist searches, each with its name and the
+        search URL it re-runs. Needs the caller signed in; a dead sign-in throws.
+        """
+
     async def getListingImages(self, url: str, /) -> Prv_craigslist_CraigslistImages_Out:
         """Returns every photo of one Craigslist listing (a URL a search returned) as a thumbnail
         and a full-size 1200x900 URL.
@@ -103004,6 +103544,24 @@ class Prv_discogs(Protocol):
         at a time): each listing's id, media and sleeve condition, seller comments, seller and
         rating, price and currency, shipping and ships-from. Slow: it loads the marketplace page
         in a browser.
+        """
+
+    async def searchMarketplace(self, args: str | Prv_discogs_DiscogsMarketplaceSearchArgs_In, /) -> Prv_discogs_searchMarketplace_return_Out:
+        """Search the Discogs marketplace for items for sale by artist, title, label or format,
+        with price, condition, seller and listing id (the newest 25 matches). Slow: it loads the
+        marketplace search page in a browser.
+        """
+
+    async def listReleaseReviews(self, args: Prv_discogs_DiscogsReleaseArgs_In, /) -> Prv_discogs_listReleaseReviews_return_Out:
+        """Read the community reviews on a Discogs release: reviewer, date, text, helpful votes and
+        reply count. Reviews carry no star rating (use getReleaseRating for that). Slow: it
+        loads the release page in a browser.
+        """
+
+    async def searchForum(self, args: str | Prv_discogs_DiscogsForumSearchArgs_In, /) -> Prv_discogs_searchForum_return_Out:
+        """Search the Discogs forum for threads and posts matching a query: thread title, who
+        started it, section, a snippet of the matching post and a link (10 per page). Slow: it
+        loads the forum search page in a browser.
         """
 
     async def getSellerFeedback(self, args: str | Prv_discogs_DiscogsUserArgs_In, /) -> Prv_discogs_DiscogsSellerFeedback_Out:
@@ -106376,6 +106934,11 @@ class Prv_fiverr(Protocol):
         USD, delivery days, rating and review count.
         """
 
+    async def listSellerPortfolio(self, args: Prv_fiverr_ListSellerPortfolioArgs_In, /) -> Prv_fiverr_FiverrSellerPortfolio_Out:
+        """A Fiverr seller's portfolio projects by username: title, preview images and total; the
+        first project also carries description, price, duration, industries and media urls.
+        """
+
     async def listCategories(self, /) -> Prv_fiverr_listCategories_return_Out:
         """Fiverr's whole category tree from its Services Directory: every category, subcategory
         and nested subcategory with name, path and url; the finder for getCategory.
@@ -107744,6 +108307,37 @@ class Prv_geico(Protocol):
         us", which are opposite facts and only the second is about us. An empty `warnings` is
         the healthy case. `soa`/`sob` are GEICO's own office codes, kept because they are what
         attributes a quote on `sales.geico.com` to this specific office.
+        """
+
+class Prv_genius(Protocol):
+    """Genius (genius.com) song lyrics: search songs, artists and albums, find a song from a
+    line of its lyrics, read a song's details and its full lyrics.
+    """
+
+    async def getLyrics(self, song: str | float, /) -> Prv_genius_GeniusLyrics_Out:
+        """Reads a song's full lyrics from its Genius page, section by section ([Verse 1], [Chorus]
+        …), by song id or page url.
+        """
+
+    async def getSong(self, song: str | float, /) -> Prv_genius_GeniusSong_Out:
+        """Reads one Genius song by id or page url: artist, album, release date, Genius's
+        description, page views, annotation count, featured artists, producers and writers.
+        """
+
+    async def searchAlbums(self, query: str, /) -> Prv_genius_GeniusAlbumSearch_Out:
+        """Searches Genius albums by name: album, artist, release date, cover and page url."""
+
+    async def searchArtists(self, query: str, /) -> Prv_genius_GeniusArtistSearch_Out:
+        """Searches Genius artists by name: id, page url, image and whether Genius verified them."""
+
+    async def searchLyrics(self, lyric: str, /) -> Prv_genius_GeniusLyricSearch_Out:
+        """Finds songs on Genius from a line of their lyrics, each with the matching lyric snippet
+        (what song goes 'is this the real life').
+        """
+
+    async def searchSongs(self, query: str, /) -> Prv_genius_GeniusSongSearch_Out:
+        """Searches Genius songs by title and/or artist: id, title, artist, release date, page
+        views and lyrics page url (each id is a getSong / getLyrics argument).
         """
 
 class Prv_github(Protocol):
@@ -111945,6 +112539,32 @@ class Prv_instacart(Protocol):
         customer's account. A write. A guest pauses the run for sign-in.
         """
 
+    async def addAddress(self, args: Prv_instacart_InstacartAddAddressArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartAddressWriteResult_Out:
+        """Saves a new delivery address (street and ZIP) to the signed-in customer's account. A
+        write. A guest pauses the run for sign-in.
+        """
+
+    async def updateAddress(self, args: Prv_instacart_InstacartUpdateAddressArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartAddressWriteResult_Out:
+        """Changes the street and ZIP of one saved address, by the addressId listMyAddresses
+        returns. A write. A guest pauses the run for sign-in.
+        """
+
+    async def createList(self, args: Prv_instacart_InstacartCreateListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartCreateListResult_Out:
+        """Creates a shopping list at one store, optionally with products already on it. A write. A
+        guest pauses the run for sign-in.
+        """
+
+    async def addToList(self, args: Prv_instacart_InstacartAddToListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartAddToListResult_Out:
+        """Sets the quantity of products on one of the signed-in customer's lists, by the listId
+        listMyLists returns; quantity 0 removes one. A write. A guest pauses the run for
+        sign-in.
+        """
+
+    async def linkLoyaltyCard(self, args: Prv_instacart_InstacartLinkLoyaltyCardArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartLinkLoyaltyCardResult_Out:
+        """Links a store loyalty card number to the signed-in customer's account, by the retailerId
+        getStore returns, so loyalty prices apply. A write. A guest pauses the run for sign-in.
+        """
+
     async def favoriteProduct(self, args: Prv_instacart_InstacartFavoriteProductArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartFavoriteProductResult_Out:
         """Saves a product, by the productId getProduct returns, to the signed-in customer's
         favorites, or removes it with favorite: false. A write. A guest pauses the run for
@@ -116039,6 +116659,21 @@ class Prv_mayoclinic(Protocol):
     async def getFirstAid(self, args: Prv_mayoclinic_getFirstAid_args_In, /) -> Prv_mayoclinic_MayoClinicConditionPage_Out:
         """Gets a first-aid page (overview, when to get emergency help, treatment, what to avoid,
         when to call your doctor) as titled text sections; url comes from listFirstAid.
+        """
+
+    async def listLifestyleTopics(self, args: Prv_mayoclinic_listLifestyleTopics_args_In, /) -> Prv_mayoclinic_MayoClinicIndexPage_Out:
+        """Lists Mayo Clinic's healthy-lifestyle topic hubs (nutrition, fitness, stress, pregnancy,
+        ...), with name and page URL, in one page (page 1).
+        """
+
+    async def listLifestyleArticles(self, args: Prv_mayoclinic_listLifestyleArticles_args_In, /) -> Prv_mayoclinic_MayoClinicIndexPage_Out:
+        """Lists the articles linked from one healthy-lifestyle topic page, with title and URL; url
+        comes from listLifestyleTopics.
+        """
+
+    async def getArticle(self, args: Prv_mayoclinic_getArticle_args_In, /) -> Prv_mayoclinic_MayoClinicConditionPage_Out:
+        """Gets a healthy-lifestyle article (in-depth, basics) as titled text sections; url comes
+        from listLifestyleArticles.
         """
 
     async def searchSite(self, args: Prv_mayoclinic_searchSite_args_In, /) -> Prv_mayoclinic_MayoClinicSitePage_Out:
@@ -125831,6 +126466,49 @@ class Prv_skills_rest(Protocol):
         detail-page URL.
         """
 
+class Prv_skiplagged(Protocol):
+    """Skiplagged — cheap flight search including hidden-city (Skiplagging) fares, plus
+    flexible-destination deals, a cheapest-day fare calendar, hotels and rental cars.
+    Read-only, through Skiplagged's own MCP; each row links to skiplagged.com where the
+    person books.
+    """
+
+    async def searchFlights(self, args: Prv_skiplagged_searchFlights_args_In, /) -> Prv_skiplagged_SkiplaggedFlightSearch_Out:
+        """Searches Skiplagged for flights between two places (IATA airport or metro codes like
+        NYC, or city names) on a date, one-way or round trip, cheapest first by default. Results
+        include regular fares and Skiplagging (hidden-city) fares, flagged `hiddenCity`; pass
+        `hiddenCity: false` to leave those out. Each row has price, airlines, times, stops and a
+        skiplagged.com `bookingUrl`. Dates are YYYY-MM-DD.
+        """
+
+    async def findCheapDestinations(self, args: Prv_skiplagged_findCheapDestinations_args_In, /) -> Prv_skiplagged_SkiplaggedDestinationSearch_Out:
+        """Where can I fly cheaply from here? Lists destinations from one departure city on a date
+        with the lowest fare to each, cheapest first (Skiplagged's 'anywhere' search). `limit`
+        defaults to 30.
+        """
+
+    async def getFareCalendar(self, args: Prv_skiplagged_getFareCalendar_args_In, /) -> Prv_skiplagged_SkiplaggedFareCalendar_Out:
+        """The cheapest fare per departure day for a route, over the weeks around `depart` — for
+        picking the cheapest day to fly. With `return`, the trip length is held fixed. Returns
+        every day plus the single `cheapest`.
+        """
+
+    async def searchHotels(self, args: Prv_skiplagged_searchHotels_args_In, /) -> Prv_skiplagged_SkiplaggedHotelSearch_Out:
+        """Searches Skiplagged stays in a city for check-in/check-out dates (YYYY-MM-DD): name,
+        stars, chain, address, nightly price, amenities and a skiplagged.com `bookingUrl`.
+        """
+
+    async def searchCars(self, args: Prv_skiplagged_searchCars_args_In, /) -> Prv_skiplagged_SkiplaggedCarSearch_Out:
+        """Searches Skiplagged rental cars at a pickup city or airport code between two dates
+        (YYYY-MM-DD); `dropoff` defaults to the pickup. Rows carry company, car class, seats,
+        bags, per-day and total price, cancellation terms and a `bookingUrl`.
+        """
+
+    async def resolveAirport(self, query: str, /) -> Prv_skiplagged_SkiplaggedAirport_Out:
+        """Turns a city name into the IATA code Skiplagged searches by, e.g. "Chicago" → "CHI" (all
+        its airports). A three-letter code passes through.
+        """
+
 class Prv_sleeper(Protocol):
     """Sleeper fantasy football's live NFL season state and most-added players."""
 
@@ -131792,6 +132470,12 @@ class Prv_usps(Protocol):
         about.usps.com, each with its title, text and whether it is active. Needs no key.
         """
 
+    async def searchFaq(self, args: Prv_usps_searchFaq_args_In, /) -> Prv_usps_uspsFaqResults_Out:
+        """Searches USPS's help articles on faq.usps.com by `term` (optional `page`, 15 per page)
+        and returns each match's title, summary, article number and last-published date. Needs
+        no key.
+        """
+
     async def trackPackage(self, args: Prv_usps_TrackPackageArgs_In, /) -> Prv_usps_uspsTracking_Out:
         """USPS Tracking for one tracking number: `tracked` with its steps newest first and whether
         it was delivered, `not_found` when USPS says tracking is not available (an invalid
@@ -133407,6 +134091,23 @@ class Prv_whatsapp(Protocol):
         """Deletes a chat from the caller's own chat list, picked by its exact displayed name.
         Changes only the caller's list; the other person keeps their copy. Needs the caller
         signed in.
+        """
+
+    async def lockChat(self, chatName: str, locked: bool, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChatLock_Out:
+        """Turns a chat's chat lock on or off from its info drawer, which hides the chat behind the
+        device passcode. Changes only the caller's own chat list. Needs the caller signed in.
+        """
+
+    async def createCommunity(self, name: str, description: str | None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappCommunityCreated_Out:
+        """Creates a WhatsApp Community as the caller from a name and an optional description, from
+        the Communities tab. A public write: the community is visible to whoever finds it. Needs
+        the caller signed in.
+        """
+
+    async def saveContact(self, name: str, phone: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappContactSaved_Out:
+        """Saves a phone number as a contact of the caller under a name, from the contacts panel's
+        new-contact form. Changes only the caller's own address book; sendMessageToNumber texts
+        an unsaved number and saves nothing. Needs the caller signed in.
         """
 
     async def sendLocation(self, chatName: str, place: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappLocationSent_Out:
@@ -136519,6 +137220,7 @@ class BowmarkProviders(Protocol):
     gasbuddy: Prv_gasbuddy
     gazelle: Prv_gazelle
     geico: Prv_geico
+    genius: Prv_genius
     github: Prv_github
     gitlab: Prv_gitlab
     glama: Prv_glama
@@ -136898,6 +137600,7 @@ class BowmarkProviders(Protocol):
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
     skills_rest: Prv_skills_rest
+    skiplagged: Prv_skiplagged
     sleeper: Prv_sleeper
     slice: Prv_slice
     slickdeals: Prv_slickdeals
