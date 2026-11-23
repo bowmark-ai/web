@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d9f3ed0d0a5717278c205b3ea4b61995da5b4f1a232ff34a78fe674ee3268b70
-# 99 capabilities, 959 providers, 5903 typed functions, 20 refused.
+# Manifest version: 7fe183d36b86d11e1aa2718dc534d16e68cdf243f150ed7eef6cd345af640d9f
+# 99 capabilities, 959 providers, 5915 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11622,6 +11622,35 @@ class Prv_biblegateway_PlusStatus_Out(TypedDict):
     subscribePromptShown: bool
     hasPlus: bool
     url: str
+
+class Prv_biblegateway_LibraryArgs_In(TypedDict):
+    reference: str
+    version: NotRequired[str]
+
+class Prv_biblegateway_LibraryItem_Out(TypedDict):
+    id: str | None
+    type: str | None
+    reference: str | None
+    version: str | None
+    content: str | None
+    color: str | None
+    emoji: str | None
+
+class Prv_biblegateway_AddNoteArgs_In(TypedDict):
+    reference: str
+    content: str
+    version: NotRequired[str]
+
+class Prv_biblegateway_LibraryWrite_Out(TypedDict):
+    id: str
+    type: str
+    reference: str
+    version: str
+
+class Prv_biblegateway_AddHighlightArgs_In(TypedDict):
+    reference: str
+    color: NotRequired[str]
+    version: NotRequired[str]
 
 class Prv_biblegateway_Newsletter_Out(TypedDict):
     id: str
@@ -40922,6 +40951,46 @@ class Prv_hilton_hiltonRoomOffer_Out(TypedDict):
     nightlyRate: str
     totalRate: str
 
+class Prv_hilton_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_hilton_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_hilton_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_hilton_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_hilton_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_hilton_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_hilton_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_hilton_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_hipcamp_HipcampSearchResult_Out(TypedDict):
     listings: list[Prv_hipcamp_HipcampListing_Out]
     area: Prv_hipcamp_HipcampSearchResult_Out_area_Out
@@ -42882,6 +42951,17 @@ class Prv_independent_IndependentNewsletter_Out(TypedDict):
     author: str | None
     imageUrl: str | None
 
+class Prv_independent_SubscribeToNewsletterArgs_In(TypedDict):
+    email: str
+    newsletter: str
+
+class Prv_independent_SubscribeToNewsletterResult_Out(TypedDict):
+    newsletter: str
+    email: str
+    status: float
+    subscribed: bool
+    message: str | None
+
 class Prv_independent_ListCompetitionsArgs_In(TypedDict):
     limit: NotRequired[float]
 
@@ -43411,6 +43491,14 @@ class Prv_instacart_InstacartLinkLoyaltyCardArgs_In(TypedDict):
 class Prv_instacart_InstacartLinkLoyaltyCardResult_Out(TypedDict):
     retailerId: str
     linked: Literal[True]
+
+class Prv_instacart_InstacartUpdateMyAccountArgs_In(TypedDict):
+    firstName: str
+    lastName: str
+
+class Prv_instacart_InstacartUpdateMyAccountResult_Out(TypedDict):
+    firstName: str
+    lastName: str
 
 class Prv_instacart_InstacartFavoriteProductArgs_In(TypedDict):
     productId: str
@@ -49658,6 +49746,46 @@ class Prv_mayoclinic_listTests_args_In(TypedDict):
 
 class Prv_mayoclinic_getTest_args_In(TypedDict):
     url: str
+
+class Prv_mayoclinic_findDoctors_args_In(TypedDict):
+    query: NotRequired[str]
+    lastInitial: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_mayoclinic_MayoClinicDoctorSearchPage_Out(TypedDict):
+    results: list[Prv_mayoclinic_MayoClinicDoctorRow_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_mayoclinic_MayoClinicDoctorRow_Out(TypedDict):
+    name: str
+    url: str
+    specialties: list[str]
+    locations: list[str]
+    areasOfFocus: str | None
+
+class Prv_mayoclinic_getDoctor_args_In(TypedDict):
+    url: str
+
+class Prv_mayoclinic_MayoClinicDoctorPage_Out(TypedDict):
+    name: str
+    url: str
+    specialties: list[str]
+    departments: list[Prv_mayoclinic_MayoClinicIndexRow_Out]
+    locations: list[str]
+    languages: list[str]
+    summary: str | None
+    conditionsTreated: list[Prv_mayoclinic_MayoClinicIndexRow_Out]
+    interests: list[str]
+    education: list[Prv_mayoclinic_MayoClinicDoctorPage_Out_education_item_Out]
+
+class Prv_mayoclinic_MayoClinicDoctorPage_Out_education_item_Out(TypedDict):
+    year: str | None
+    detail: str
+    institution: str | None
 
 class Prv_mayoclinic_listSupplements_args_In(TypedDict):
     page: NotRequired[float]
@@ -84429,6 +84557,16 @@ class Prv_whatsapp_WhatsappContactSaved_Out(TypedDict):
     phone: str
     saved: bool
 
+class Prv_whatsapp_WhatsappContactDeleted_Out(TypedDict):
+    name: str
+    deleted: bool
+
+class Prv_whatsapp_WhatsappCall_Out(TypedDict):
+    name: str
+    direction: str
+    missed: bool
+    time: str | None
+
 class Prv_whatsapp_WhatsappLocationSent_Out(TypedDict):
     chat: str
     place: str
@@ -96004,6 +96142,20 @@ class Prv_biblegateway(Protocol):
         """Reads whether the signed-in caller has Bible Gateway Plus (inferred from the /plus/ page
         no longer offering a subscribe button); needs a saved sign-in.
         """
+
+    async def listNotes(self, args: Prv_biblegateway_LibraryArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_biblegateway_LibraryItem_Out]:
+        """Lists the signed-in caller's notes, highlights and bookmarks on one passage (My
+        Library); needs a saved sign-in.
+        """
+
+    async def addNote(self, args: Prv_biblegateway_AddNoteArgs_In, opts: ConnectionOption | None = None, /) -> Prv_biblegateway_LibraryWrite_Out:
+        """Saves a private note on a passage in the signed-in caller's own library."""
+
+    async def addHighlight(self, args: Prv_biblegateway_AddHighlightArgs_In, opts: ConnectionOption | None = None, /) -> Prv_biblegateway_LibraryWrite_Out:
+        """Highlights a passage in the signed-in caller's own library, in a chosen color."""
+
+    async def addBookmark(self, args: Prv_biblegateway_LibraryArgs_In, opts: ConnectionOption | None = None, /) -> Prv_biblegateway_LibraryWrite_Out:
+        """Bookmarks (favorites) a passage in the signed-in caller's own library."""
 
     async def listNewsletters(self, /) -> list[Prv_biblegateway_Newsletter_Out]:
         """Lists the email newsletters and devotionals Bible Gateway offers (id, title,
@@ -111432,6 +111584,18 @@ class Prv_hilton(Protocol):
         app and says it is not supported yet. See manifest.json's `reach.why`.
         """
 
+    async def signup(self, args: Any, /) -> Prv_hilton_signup_return_u0_Out | Prv_hilton_signup_return_u1_Out | Prv_hilton_signup_return_u2_Out | Prv_hilton_signup_return_u3_Out:
+        """Makes a NEW Hilton account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_hilton_confirmSignup_return_u0_Out | Prv_hilton_confirmSignup_return_u1_Out | Prv_hilton_confirmSignup_return_u2_Out | Prv_hilton_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_hipcamp(Protocol):
     """Hipcamp listing directory — find campgrounds by destination (a national park, a region,
     or a city) and read their location, ratings, and pricing from Hipcamp's own listing
@@ -112338,6 +112502,12 @@ class Prv_independent(Protocol):
         optionally filtered by a word.
         """
 
+    async def subscribeToNewsletter(self, args: Prv_independent_SubscribeToNewsletterArgs_In, /) -> Prv_independent_SubscribeToNewsletterResult_Out:
+        """Signs an email address up to one Independent newsletter (a listNewsletters key) by
+        driving the site's own form in a browser, because the form needs a reCAPTCHA token.
+        Sends a confirmation to that address.
+        """
+
     async def listCompetitions(self, args: Prv_independent_ListCompetitionsArgs_In | None = None, /) -> Prv_independent_ListCompetitionsResult_Out:
         """Lists the Independent's open reader competitions and prize draws: title, blurb, URL,
         image and whether sponsored.
@@ -112563,6 +112733,11 @@ class Prv_instacart(Protocol):
     async def linkLoyaltyCard(self, args: Prv_instacart_InstacartLinkLoyaltyCardArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartLinkLoyaltyCardResult_Out:
         """Links a store loyalty card number to the signed-in customer's account, by the retailerId
         getStore returns, so loyalty prices apply. A write. A guest pauses the run for sign-in.
+        """
+
+    async def updateMyAccount(self, args: Prv_instacart_InstacartUpdateMyAccountArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartUpdateMyAccountResult_Out:
+        """Changes the first and last name on the signed-in customer's account. A write. A guest
+        pauses the run for sign-in.
         """
 
     async def favoriteProduct(self, args: Prv_instacart_InstacartFavoriteProductArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartFavoriteProductResult_Out:
@@ -116639,6 +116814,18 @@ class Prv_mayoclinic(Protocol):
     async def getTest(self, args: Prv_mayoclinic_getTest_args_In, /) -> Prv_mayoclinic_MayoClinicConditionPage_Out:
         """Gets a test or procedure page (overview, why it's done, risks, how you prepare, what you
         can expect, results) as titled text sections; url comes from listTests.
+        """
+
+    async def findDoctors(self, args: Prv_mayoclinic_findDoctors_args_In, /) -> Prv_mayoclinic_MayoClinicDoctorSearchPage_Out:
+        """Finds Mayo Clinic doctors by name, specialty or condition keyword, or by last-name
+        initial, with name, specialty, location, areas of focus and profile URL, ten per page;
+        page starts at 1.
+        """
+
+    async def getDoctor(self, args: Prv_mayoclinic_getDoctor_args_In, /) -> Prv_mayoclinic_MayoClinicDoctorPage_Out:
+        """Gets a Mayo Clinic doctor's profile: specialties, departments, location, languages,
+        biographical summary, conditions treated, interests and education; url comes from
+        findDoctors.
         """
 
     async def listSupplements(self, args: Prv_mayoclinic_listSupplements_args_In, /) -> Prv_mayoclinic_MayoClinicIndexPage_Out:
@@ -126478,30 +126665,32 @@ class Prv_skiplagged(Protocol):
         NYC, or city names) on a date, one-way or round trip, cheapest first by default. Results
         include regular fares and Skiplagging (hidden-city) fares, flagged `hiddenCity`; pass
         `hiddenCity: false` to leave those out. Each row has price, airlines, times, stops and a
-        skiplagged.com `bookingUrl`. Dates are YYYY-MM-DD.
+        skiplagged.com `bookingUrl`. Dates are YYYY-MM-DD and must be today or later; a past
+        date is refused.
         """
 
     async def findCheapDestinations(self, args: Prv_skiplagged_findCheapDestinations_args_In, /) -> Prv_skiplagged_SkiplaggedDestinationSearch_Out:
         """Where can I fly cheaply from here? Lists destinations from one departure city on a date
-        with the lowest fare to each, cheapest first (Skiplagged's 'anywhere' search). `limit`
-        defaults to 30.
+        with the lowest fare to each, cheapest first (Skiplagged's 'anywhere' search). `depart`
+        is YYYY-MM-DD and must be today or later. `limit` defaults to 30.
         """
 
     async def getFareCalendar(self, args: Prv_skiplagged_getFareCalendar_args_In, /) -> Prv_skiplagged_SkiplaggedFareCalendar_Out:
         """The cheapest fare per departure day for a route, over the weeks around `depart` — for
         picking the cheapest day to fly. With `return`, the trip length is held fixed. Returns
-        every day plus the single `cheapest`.
+        every day plus the single `cheapest`. `depart` is YYYY-MM-DD and must be today or later.
         """
 
     async def searchHotels(self, args: Prv_skiplagged_searchHotels_args_In, /) -> Prv_skiplagged_SkiplaggedHotelSearch_Out:
-        """Searches Skiplagged stays in a city for check-in/check-out dates (YYYY-MM-DD): name,
-        stars, chain, address, nightly price, amenities and a skiplagged.com `bookingUrl`.
+        """Searches Skiplagged stays in a city for check-in/check-out dates (YYYY-MM-DD, today or
+        later): name, stars, chain, address, nightly price, amenities and a skiplagged.com
+        `bookingUrl`.
         """
 
     async def searchCars(self, args: Prv_skiplagged_searchCars_args_In, /) -> Prv_skiplagged_SkiplaggedCarSearch_Out:
         """Searches Skiplagged rental cars at a pickup city or airport code between two dates
-        (YYYY-MM-DD); `dropoff` defaults to the pickup. Rows carry company, car class, seats,
-        bags, per-day and total price, cancellation terms and a `bookingUrl`.
+        (YYYY-MM-DD, today or later); `dropoff` defaults to the pickup. Rows carry company, car
+        class, seats, bags, per-day and total price, cancellation terms and a `bookingUrl`.
         """
 
     async def resolveAirport(self, query: str, /) -> Prv_skiplagged_SkiplaggedAirport_Out:
@@ -134108,6 +134297,18 @@ class Prv_whatsapp(Protocol):
         """Saves a phone number as a contact of the caller under a name, from the contacts panel's
         new-contact form. Changes only the caller's own address book; sendMessageToNumber texts
         an unsaved number and saves nothing. Needs the caller signed in.
+        """
+
+    async def deleteContact(self, name: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappContactDeleted_Out:
+        """Deletes one saved contact of the caller, picked by its exact displayed name (from
+        listContacts), from the new-chat panel. Changes only the caller's own address book.
+        Needs the caller signed in.
+        """
+
+    async def listCalls(self, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappCall_Out]:
+        """Lists the caller's recent calls from the Calls tab: the other party's displayed name,
+        direction, whether it was missed and the time label. Never places a call. Needs the
+        caller signed in.
         """
 
     async def sendLocation(self, chatName: str, place: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappLocationSent_Out:
