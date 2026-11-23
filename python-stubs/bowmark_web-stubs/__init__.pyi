@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c1bd37553f9daff73f5e0969a77bf79c9b3574f25789560e28645fa6e10144b6
-# 99 capabilities, 957 providers, 5841 typed functions, 20 refused.
+# Manifest version: ae8c36ca9c2ebaa59bb5e44a44596c913cc4c88429962ec65d1e9b580e231e61
+# 99 capabilities, 957 providers, 5853 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11598,6 +11598,46 @@ class Prv_bhphoto_StoreStock_Out(TypedDict):
     currency: str
     checkedAt: str
 
+class Prv_biblegateway_Newsletter_Out(TypedDict):
+    id: str
+    title: str
+    description: str
+    category: str
+
+class Prv_biblegateway_GetVerseAcrossVersionsArgs_In(TypedDict):
+    reference: str
+
+class Prv_biblegateway_VerseAcrossVersions_Out(TypedDict):
+    reference: str
+    versions: list[Prv_biblegateway_VerseInVersion_Out]
+    url: str
+
+class Prv_biblegateway_VerseInVersion_Out(TypedDict):
+    version: str
+    text: str
+
+class Prv_biblegateway_SearchDictionaryArgs_In(TypedDict):
+    term: str
+    dictionary: NotRequired[Literal["eastons-bible-dictionary"] | Literal["hitchcocks-bible-names-dictionary"] | Literal["smiths-bible-names-dictionary"]]
+
+class Prv_biblegateway_DictionaryEntry_Out(TypedDict):
+    dictionary: str
+    term: str
+    text: str
+    url: str
+
+class Prv_biblegateway_GetPassageAudioArgs_In(TypedDict):
+    reference: str
+    recording: NotRequired[str]
+
+class Prv_biblegateway_PassageAudio_Out(TypedDict):
+    book: str
+    chapter: float
+    recording: str
+    audioUrl: str
+    recordings: list[str]
+    url: str
+
 class Prv_biblegateway_Commentary_Out(TypedDict):
     id: str
     title: str
@@ -19135,6 +19175,26 @@ class Prv_chess_com_chess_comPlayerMatch_Out(TypedDict):
     playedAsBlack: str | None
     boardUrl: str | None
 
+class Prv_chess_com_chess_comSearchPlayersArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_chess_com_chess_comPlayerSearch_Out(TypedDict):
+    query: str
+    page: float
+    totalPages: float
+    players: list[Prv_chess_com_chess_comPlayerHit_Out]
+
+class Prv_chess_com_chess_comPlayerHit_Out(TypedDict):
+    username: str
+    uuid: str | None
+    url: str
+    avatarUrl: str | None
+    title: str | None
+    name: str | None
+    country: str | None
+    joined: str | None
+
 class Prv_chess_com_chess_comMatchArgs_In(TypedDict):
     match: str | float
 
@@ -26023,6 +26083,9 @@ class Prv_discogs_DiscogsListing_Out(TypedDict):
     catno: str | None
     seller: str | None
     url: str | None
+
+class Prv_discogs_DiscogsListingArgs_In(TypedDict):
+    listingId: float | str
 
 class Prv_discogs_listCollectionFolders_return_Out(TypedDict):
     folders: list[Prv_discogs_DiscogsCollectionFolder_Out]
@@ -42883,6 +42946,20 @@ class Prv_instacart_InstacartCartUpdateResult_Out(TypedDict):
     itemId: str
     quantity: float
     cartId: str | None
+
+class Prv_instacart_InstacartReorderArgs_In(TypedDict):
+    orderId: str
+
+class Prv_instacart_InstacartReorderResult_Out(TypedDict):
+    orderId: str
+    cartId: str | None
+
+class Prv_instacart_InstacartDeleteAddressArgs_In(TypedDict):
+    addressId: str
+
+class Prv_instacart_InstacartDeleteAddressResult_Out(TypedDict):
+    addressId: str
+    deleted: Literal[True]
 
 class Prv_instacart_InstacartFavoriteProductArgs_In(TypedDict):
     productId: str
@@ -83633,6 +83710,25 @@ class Prv_whatsapp_WhatsappChannelPost_Out(TypedDict):
     id: str | None
     time: str | None
 
+class Prv_whatsapp_WhatsappBroadcastList_Out(TypedDict):
+    name: str
+    recipients: list[str]
+
+class Prv_whatsapp_WhatsappStarChange_Out(TypedDict):
+    chat: str
+    messageId: str
+    starred: bool
+
+class Prv_whatsapp_WhatsappStarredMessage_Out(TypedDict):
+    chat: str | None
+    sender: str | None
+    time: str | None
+    text: str | None
+
+class Prv_whatsapp_WhatsappChatDeleted_Out(TypedDict):
+    chat: str
+    deleted: bool
+
 class Prv_whatsapp_WhatsappLocationSent_Out(TypedDict):
     chat: str
     place: str
@@ -95190,6 +95286,26 @@ class Prv_biblegateway(Protocol):
     of the day, reading plans and devotionals.
     """
 
+    async def listNewsletters(self, /) -> list[Prv_biblegateway_Newsletter_Out]:
+        """Lists the email newsletters and devotionals Bible Gateway offers (id, title,
+        description, category).
+        """
+
+    async def getVerseAcrossVersions(self, args: Prv_biblegateway_GetVerseAcrossVersionsArgs_In, /) -> Prv_biblegateway_VerseAcrossVersions_Out:
+        """Reads one verse (e.g. John 3:16) in every English translation Bible Gateway has, in a
+        single request.
+        """
+
+    async def searchDictionary(self, args: Prv_biblegateway_SearchDictionaryArgs_In, /) -> Prv_biblegateway_DictionaryEntry_Out:
+        """Looks a name or term up in Easton's, Hitchcock's or Smith's Bible dictionary and returns
+        the entry text.
+        """
+
+    async def getPassageAudio(self, args: Prv_biblegateway_GetPassageAudioArgs_In, /) -> Prv_biblegateway_PassageAudio_Out:
+        """Finds the narrated audio (mp3) for a Bible chapter in a chosen recording, and lists the
+        other recordings on offer.
+        """
+
     async def listCommentaries(self, /) -> list[Prv_biblegateway_Commentary_Out]:
         """Lists the free commentaries in Bible Gateway's resources library (id, title,
         description). The ids feed getCommentary.
@@ -99042,6 +99158,11 @@ class Prv_chess_com(Protocol):
         URL.
         """
 
+    async def searchPlayers(self, args: Prv_chess_com_chess_comSearchPlayersArgs_In, /) -> Prv_chess_com_chess_comPlayerSearch_Out:
+        """Finds Chess.com players by a partial username or name, best match first, 25 per page,
+        with title, name, country, joined date and avatar. Pass a hit's username to getPlayer.
+        """
+
     async def getTeamMatch(self, args: Prv_chess_com_chess_comMatchArgs_In, /) -> Prv_chess_com_chess_comTeamMatch_Out:
         """Reads a team match by id or URL: both teams with their scores and results, and each
         player with the board they sat on and their colour results.
@@ -102657,6 +102778,12 @@ class Prv_discogs(Protocol):
     async def listSellerInventory(self, args: Prv_discogs_DiscogsSellerInventoryArgs_In, /) -> Prv_discogs_listSellerInventory_return_Out:
         """List what a Discogs seller has for sale, paged and sortable: each listing's id, release,
         condition, price and status.
+        """
+
+    async def getListing(self, args: Prv_discogs_DiscogsListingArgs_In, /) -> Prv_discogs_DiscogsListing_Out:
+        """Read one Discogs marketplace listing by id: the release, condition, sleeve condition,
+        seller comments, price and currency, ships-from, seller and listing status. Ids come
+        from listReleaseListings or listSellerInventory.
         """
 
     async def listCollectionFolders(self, args: str | Prv_discogs_DiscogsUserArgs_In, /) -> Prv_discogs_listCollectionFolders_return_Out:
@@ -111540,6 +111667,17 @@ class Prv_instacart(Protocol):
     async def removeFromCart(self, args: Prv_instacart_InstacartCartUpdateArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartCartUpdateResult_Out:
         """Removes one item, by itemId, from the signed-in customer's cart (quantity 0). A write. A
         guest pauses the run for sign-in.
+        """
+
+    async def reorder(self, args: Prv_instacart_InstacartReorderArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartReorderResult_Out:
+        """Puts every item of a past order, by the orderId listOrders returns, back into the
+        signed-in customer's cart so they can review it. A write. Never places the order. A
+        guest pauses the run for sign-in.
+        """
+
+    async def deleteAddress(self, args: Prv_instacart_InstacartDeleteAddressArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartDeleteAddressResult_Out:
+        """Deletes one saved address, by the addressId listMyAddresses returns, from the signed-in
+        customer's account. A write. A guest pauses the run for sign-in.
         """
 
     async def favoriteProduct(self, args: Prv_instacart_InstacartFavoriteProductArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartFavoriteProductResult_Out:
@@ -132883,6 +133021,29 @@ class Prv_whatsapp(Protocol):
         """Posts a text update to a Channel the caller runs, picked by its exact displayed name. A
         public write: the Channel's followers receive it. Returns the update's id and time
         label. Needs the caller signed in.
+        """
+
+    async def createBroadcastList(self, name: str, contacts: Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappBroadcastList_Out:
+        """Creates a broadcast list as the caller: a name and the exact displayed names of saved
+        contacts to include (from listContacts). Returns the list's name and recipients; a
+        retried run never creates two. Needs the caller signed in.
+        """
+
+    async def starMessage(self, chatName: str, messageId: str, starred: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappStarChange_Out:
+        """Stars (default) or unstars one message as the caller, the chat opened by its exact
+        displayed name and the message picked by the id getChatMessages returns. Only the caller
+        sees stars. Needs the caller signed in.
+        """
+
+    async def listStarredMessages(self, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappStarredMessage_Out]:
+        """Lists the caller's starred messages across all chats from the Starred messages screen:
+        chat, sender, time and text. Needs the caller signed in.
+        """
+
+    async def deleteChat(self, chatName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChatDeleted_Out:
+        """Deletes a chat from the caller's own chat list, picked by its exact displayed name.
+        Changes only the caller's list; the other person keeps their copy. Needs the caller
+        signed in.
         """
 
     async def sendLocation(self, chatName: str, place: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappLocationSent_Out:

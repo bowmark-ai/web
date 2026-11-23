@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 139,045 sites, generated 2026-11-23.
+# Every website Bowmark covers: 139,053 sites, generated 2026-11-23.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -54196,6 +54196,7 @@ birmakine.com	birmakine.com	25
 birmanvet.com	Birman Veterinary Equipments	6
 birminghambridaloutlet.co.uk	Birmingham Bridal Outlet	6
 birminghamoptical.co.uk	Birmingham Optical	6
+birminghamreptiles.co.uk	birminghamreptiles.co.uk	10
 birnamcdshop.com	Birnam Shop	6
 birns.com	BIRNS Underwater Connectors, Subsea Penetrators, Nuclear Lighting	6
 biro-spare-parts.myshopify.com	Birò E-Shop	10
@@ -69393,6 +69394,7 @@ edgebyks.com	edgebyks.com	14
 edgeclinicalsolutions.org	Norma Clinical Resources	6
 edgedmilitaria.com	Edged Militaria	6
 edgeinspired.com	Edge Inspired	6
+edgelabs.game	edgelabs.game	10
 edgemontliquor.com	Edgemont Fine Wines, Spirits & Ales	6
 edgeofficeofficial.myshopify.com	Edge Office Online Store	10
 edgepi-shop.myshopify.com	EdgePI Shop	10
@@ -69776,7 +69778,7 @@ elave.myshopify.com	Elave Skincare	10
 elbanochania.gr	El Bano	6
 elbelldesigns.myshopify.com	El Bell Designs	10
 elbenwald.com	elbenwald.com	16
-elbenwald.de	elbenwald.de	1
+elbenwald.de	elbenwald.de	16
 elbenwald.es	elbenwald.es	16
 elbenwald.nl	elbenwald.nl	16
 elbeu.myshopify.com	alise	10
@@ -84246,7 +84248,7 @@ incandescence-med-and-aesthetics.myshopify.com	Incandescence Medical & Aesthetic
 incandescent-workshop-store.myshopify.com	Incandescent Workshop Store	10
 incandescentwaxmelts.com	Scentsy	6
 incanto.it	incanto.it	1
-incarnage.com	incarnage.com	1
+incarnage.com	incarnage.com	16
 incav-medical-and-laboratory-equipment.myshopify.com	Incav Inc	10
 incelriot.myshopify.com	Incel Riot Studios	10
 incense.top	Incense.top	6
@@ -85358,6 +85360,7 @@ ishrav.in	Largest Online Marine Aquarium, Fish and Pet Store	6
 ishtaralchemy.myshopify.com	Ishtar Alchemy	10
 isi-be.eu	ISI ❍ Process	6
 isidore-editions.myshopify.com	Isidore Editions	10
+isifederal.com	isifederal.com	10
 isiler.com	ISILER	6
 isilk-online.myshopify.com	ISILK Online Shop	10
 isimkayit.com	isimkayit.com	15
@@ -97100,6 +97103,7 @@ menthobes.co.uk	Men Thobes UK	6
 mentionsiq.myshopify.com	mentionsIQ	8
 menu-extra.myshopify.com	Menu Extra	10
 meow-thats-hot.myshopify.com	Meow! That's Hot.	10
+meow.com	meow.com	38
 meowant.com	meowant.com	1
 meowbaby.de	MeowBaby.de	10
 meowfursuits.com	meowfursuits.com	14
@@ -99180,6 +99184,7 @@ mooyius.com	mooyius.com	14
 mopac.org	Missouri Pacific Historical Society	6
 mopars5150.myshopify.com	Mopars5150	10
 mophie.com	mophie.com	14
+moqayese.com	moqayese.com	1
 mor.fit	im.mor.fit	8
 moraghickman.myshopify.com	Morag Hickman - Pop-up Fabric Store	10
 morahotell.se	Mora Hotell & Spa	6
@@ -108436,6 +108441,7 @@ plugable.com	plugable.com	14
 plugandteach.net	Plug & Teach	4
 plugcart.net	PlugCart	6
 pluggers.nl	Pluggers Software	6
+pluggy.ai	pluggy.ai	37
 plugin-alliance.com	plugin-alliance.com	14
 plugin.myshopify.com	Plug In ICA	10
 pluginfy.net	WordPress Themes and Plugins	6
@@ -116664,7 +116670,7 @@ seijifujishiro-lavie-shop.myshopify.com	藤城清治とラビの玉手箱	10
 seijoishii.com	seijoishii.com	14
 seikenlabo.myshopify.com	SEIKEN EMB Laboratory	10
 seikostore-default.myshopify.com	seikostore-default	10
-seikousa.com	seikousa.com	1
+seikousa.com	seikousa.com	14
 seikowatches.co.in	seikowatches.co.in	14
 seilnorge.no	SeilNorge	6
 seinde-signature.myshopify.com	Seinde Signature	10
@@ -129005,6 +129011,7 @@ tibausports.myshopify.com	Tibau Sports	10
 tibet-store.com	Tibet-store.com	6
 tibetanlanguage.org	Tibetan Language Institute	6
 tibi.com	tibi.com	16
+tibiaroute.com	tibiaroute.com	21
 tibo-inspaces.myshopify.com	tibo-inspaces	10
 tiburtinoextravirginoliveoil.myshopify.com	tiburtinoextravirginoliveoil	10
 ticati.com	ticati.com	10
@@ -130113,6 +130120,7 @@ tourocom-middletown.myshopify.com	TouroCOM Middletown	10
 toursbylocals.com	toursbylocals.com	6
 tourskeywest.com	Tours Key West	6
 toursofseattle.com	Customized Tours Seattle's Fun Tour Guide	6
+tourspecgolf.com	tourspecgolf.com	1
 tout-chapinou.myshopify.com	Tout Chapinou	10
 toutelanutrition.com	toutelanutrition.com	14
 tova-gold-art.myshopify.com	Tova Gold Art	10
@@ -138100,7 +138108,7 @@ yogitchfashion.myshopify.com	YOGITCH	10
 yohoandco.myshopify.com	Yoho & co.	10
 yokkao.com	yokkao.com	1
 yokohama-essen.myshopify.com	有限会社エッセン 公式通販サイト	10
-yokumoku.co.jp	yokumoku.co.jp	1
+yokumoku.co.jp	yokumoku.co.jp	14
 yolanda.hk	yolanda.hk	14
 yolandabrown.myshopify.com	yolandabrown	10
 yolandamallen.myshopify.com	Digital Fusion D'zines	10

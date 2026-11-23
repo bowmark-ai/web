@@ -1,5 +1,5 @@
 {
-  "version": "c1bd37553f9daff73f5e0969a77bf79c9b3574f25789560e28645fa6e10144b6",
+  "version": "ae8c36ca9c2ebaa59bb5e44a44596c913cc4c88429962ec65d1e9b580e231e61",
   "units": {
     "address_validation": {
       "defs": {
@@ -23238,6 +23238,25 @@
             }
           ]
         },
+        "GetPassageAudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "reference",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "recording",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetReadingPlanDayArgs": {
           "k": "object",
           "props": [
@@ -23290,6 +23309,18 @@
                 "k": "number"
               },
               "optional": true
+            }
+          ]
+        },
+        "GetVerseAcrossVersionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "reference",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -23354,9 +23385,73 @@
               "optional": true
             }
           ]
+        },
+        "SearchDictionaryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "term",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "dictionary",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "eastons-bible-dictionary"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "hitchcocks-bible-names-dictionary"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "smiths-bible-names-dictionary"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
+        "listNewsletters": [],
+        "getVerseAcrossVersions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVerseAcrossVersionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchDictionary": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchDictionaryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPassageAudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPassageAudioArgs"
+            },
+            "optional": false
+          }
+        ],
         "listCommentaries": [],
         "getCommentary": [
           {
@@ -23462,19 +23557,23 @@
         ]
       },
       "digests": {
-        "listCommentaries": "66f851c3edde9658",
-        "getCommentary": "5c3214c081bd8627",
-        "getTopicalVerses": "a5ca963ba246edfb",
-        "getVersionInfo": "1a8c60f403f78e00",
-        "getReadingPlanDay": "8b1e197b3f47127b",
-        "listDevotionals": "db94917e56716100",
-        "getDevotional": "ba9238284e9ea447",
-        "comparePassage": "b492e91b000e2640",
-        "getVerseOfTheDay": "e66817173011db91",
-        "listReadingPlans": "aa4160deb76ba461",
-        "searchBible": "29e7047bb49b8f50",
-        "getPassage": "94bc2045298331c2",
-        "listVersions": "a242a4efd7ba22a9"
+        "listNewsletters": "f3456813795a8bb6",
+        "getVerseAcrossVersions": "9a40510416eed499",
+        "searchDictionary": "ebf7e2d2872f9c97",
+        "getPassageAudio": "e2b1898e73fedddc",
+        "listCommentaries": "5bd3e64d0b749568",
+        "getCommentary": "ddc4bcfc6cf487a2",
+        "getTopicalVerses": "849bea668c10d680",
+        "getVersionInfo": "ad3f6776c62a39ed",
+        "getReadingPlanDay": "ed04fc1bed9cf2af",
+        "listDevotionals": "7b3cbe5427698ce9",
+        "getDevotional": "f5e6f05c34ea81a1",
+        "comparePassage": "459f7beee5be1c98",
+        "getVerseOfTheDay": "895f08a2e6ced2d3",
+        "listReadingPlans": "c875301954a46027",
+        "searchBible": "08741f06e27c406a",
+        "getPassage": "9288dbfb14bf6d39",
+        "listVersions": "79382ea51f928b4f"
       }
     },
     "providers.bigairusa": {
@@ -38385,6 +38484,25 @@
             }
           ]
         },
+        "chess_comSearchPlayersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "chess_comTitledArgs": {
           "k": "object",
           "props": [
@@ -38542,6 +38660,16 @@
             "optional": false
           }
         ],
+        "searchPlayers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comSearchPlayersArgs"
+            },
+            "optional": false
+          }
+        ],
         "getTeamMatch": [
           {
             "name": "args",
@@ -38647,26 +38775,27 @@
         ]
       },
       "digests": {
-        "listCountryClubs": "131723b2348a3858",
-        "getTournament": "3039aa99e3d7e5e4",
-        "getCountry": "9e71fa8f5160b120",
-        "listClubMembers": "87bf23e5a4b2d8de",
-        "listClubMatches": "038909d729fe28ca",
-        "listPlayerTournaments": "86be1b25c49333d8",
-        "listPlayerMatches": "62d50e93ab1fce9d",
-        "getTeamMatch": "b4067ea42b823ffd",
-        "getRandomPuzzle": "9105991ef1f17254",
-        "listStreamers": "ab2bf9072f19fc98",
-        "listTitledPlayers": "b33bb8ff7bd701c4",
-        "getClub": "ef62817566b0d5ac",
-        "getDailyPuzzle": "9105991ef1f17254",
-        "getLeaderboards": "69aed68d205a9774",
-        "getPlayer": "6238c1a18910851d",
-        "getPlayerStats": "bc3f9dc5d805cd74",
-        "isPlayerOnline": "9a88a98c64bee3f4",
-        "listPlayerClubs": "63da2da04648a4b5",
-        "listPlayerGames": "d34fd64c04a3ce7d",
-        "getGame": "d755ad8079241a45"
+        "listCountryClubs": "5b130b4413406890",
+        "getTournament": "e4c01ce242d9cdbe",
+        "getCountry": "bb706c38b4c7ca1b",
+        "listClubMembers": "b89e90aefd5d88db",
+        "listClubMatches": "0d09c6d466da1669",
+        "listPlayerTournaments": "7adf2040bd9a5f87",
+        "listPlayerMatches": "e668e76877738603",
+        "searchPlayers": "4dbfd3ab72191197",
+        "getTeamMatch": "807233759f2b71aa",
+        "getRandomPuzzle": "5eeedae34a2b7966",
+        "listStreamers": "0f9da960da269c39",
+        "listTitledPlayers": "356aeb9f9f4718ee",
+        "getClub": "e359c1ebc8c35a81",
+        "getDailyPuzzle": "5eeedae34a2b7966",
+        "getLeaderboards": "23942aff6b468bb5",
+        "getPlayer": "12edc2f0d3a7edb1",
+        "getPlayerStats": "abe43e401a4200bc",
+        "isPlayerOnline": "2468ea0aa81af9cb",
+        "listPlayerClubs": "fd5d8c37ce29cde8",
+        "listPlayerGames": "6bf5df2274506b7e",
+        "getGame": "d9ee4af038d7240e"
       }
     },
     "providers.chick_fil_a": {
@@ -53311,6 +53440,26 @@
             }
           ]
         },
+        "DiscogsListingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listingId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "DiscogsMasterArgs": {
           "k": "object",
           "props": [
@@ -53771,6 +53920,16 @@
             "optional": false
           }
         ],
+        "getListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscogsListingArgs"
+            },
+            "optional": false
+          }
+        ],
         "listCollectionFolders": [
           {
             "name": "args",
@@ -53851,26 +54010,27 @@
         ]
       },
       "digests": {
-        "searchDatabase": "ff31ebb1a53dd533",
-        "getArtist": "536b0a6ce91ee2d8",
-        "listArtistReleases": "9a10cb30481e7f9f",
-        "getLabel": "68bb1bf4734cf248",
-        "listLabelReleases": "cabc9d3e61d6e76f",
-        "getRelease": "1f2751c372b341b4",
-        "getMaster": "82d5059d9e0335f7",
-        "listMasterVersions": "1079736deda15392",
-        "getReleaseRating": "b8901c2ffcb200d4",
-        "getReleaseMarketStats": "e4f69f0317c2a27d",
-        "listReleaseListings": "a3a8519966b56b9d",
-        "getUserProfile": "63b11ddffd412329",
-        "listSellerInventory": "5cf8280e0d4b6403",
-        "listCollectionFolders": "92fb96b969060a4f",
-        "listCollectionItems": "5693f8eacd9dc64c",
-        "listUserContributions": "f09c995f2e892570",
-        "listWantlist": "7d3c8abf359ead5e",
-        "listUserLists": "20d17e21600456db",
-        "getList": "966da7616952f992",
-        "listUserSubmissions": "c2d113df10109ebb"
+        "searchDatabase": "5695c3641e460bf8",
+        "getArtist": "e8e8f7d24c5e60c2",
+        "listArtistReleases": "f95aa9a63d2d371d",
+        "getLabel": "e44b32b40dc240d0",
+        "listLabelReleases": "187da66d8738af7b",
+        "getRelease": "b672f17e6ae1a115",
+        "getMaster": "debc6d7140a46b8a",
+        "listMasterVersions": "0b8232cbd428cc12",
+        "getReleaseRating": "6234fb33e4fa4203",
+        "getReleaseMarketStats": "93a7c0a1d8f6b108",
+        "listReleaseListings": "d9587b3b7d30d398",
+        "getUserProfile": "272ee49b46fcfd44",
+        "listSellerInventory": "b25573b70ffaf9e6",
+        "getListing": "f43d47862152ba5e",
+        "listCollectionFolders": "14957f1da6f44347",
+        "listCollectionItems": "75232a6d2108da9b",
+        "listUserContributions": "2d9160725094b265",
+        "listWantlist": "ba2d92c55f05dd45",
+        "listUserLists": "d987ff7b221bb4da",
+        "getList": "fda63c9db65905d5",
+        "listUserSubmissions": "a129f87eca7a1b3c"
       }
     },
     "providers.discord": {
@@ -90903,6 +91063,18 @@
             }
           ]
         },
+        "InstacartDeleteAddressArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "addressId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "InstacartFavoriteProductArgs": {
           "k": "object",
           "props": [
@@ -91298,6 +91470,18 @@
               "name": "longitude",
               "schema": {
                 "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "InstacartReorderArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "orderId",
+              "schema": {
+                "k": "string"
               },
               "optional": false
             }
@@ -91764,6 +91948,58 @@
             "optional": true
           }
         ],
+        "reorder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartReorderArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteAddress": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartDeleteAddressArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "favoriteProduct": [
           {
             "name": "args",
@@ -91818,33 +92054,35 @@
         ]
       },
       "digests": {
-        "findLocation": "40f4272681c956b1",
-        "listStores": "41288ce591dd41da",
-        "getStore": "1a3854c8f1e9aa53",
-        "compareStores": "68da2bd13fac192c",
-        "getProduct": "8c347b9178de3d84",
-        "listDeals": "55fb75dd200cc3a3",
-        "listDepartments": "cf8cbd910a493491",
-        "listDepartmentProducts": "211b0f9a214569c2",
-        "getDeliveryEstimate": "5062fa2dcd2d12fe",
-        "suggestSearches": "eb3bf6b177f045f3",
-        "getWeeklyAd": "5d5a6f141089dc96",
-        "getStoreHours": "a81d526cb561bdd9",
-        "listOrders": "eefabbfb9e8d3cb3",
-        "listMyAddresses": "9898d514458039f3",
-        "listCarts": "91346dc3c9ff50e2",
-        "getCart": "61119c884925a8c7",
-        "getMyAccount": "c79e71b55614926e",
-        "listMyLists": "1ce83c0fe07a2a22",
-        "listFavorites": "0f1cd38427bc0360",
-        "listBuyItAgain": "dd9cd965016301f1",
-        "getOrder": "d2254b10017baaf8",
-        "getList": "35146ba3817ee261",
-        "clipCoupon": "fe6447b668adfc52",
-        "addToCart": "31cefc3a3ec14da9",
-        "removeFromCart": "31cefc3a3ec14da9",
-        "favoriteProduct": "3536a4f4c2f978b2",
-        "listCoupons": "9683307ac5150b20"
+        "findLocation": "f76f8c38d4e430e0",
+        "listStores": "8af3632fdba4cc01",
+        "getStore": "c4056ae574577b01",
+        "compareStores": "57c7448ac6a595ed",
+        "getProduct": "4cf90b528b91bf8c",
+        "listDeals": "e14190c45b14e5de",
+        "listDepartments": "ed5000c322f801f9",
+        "listDepartmentProducts": "92bc37394f8f0f7c",
+        "getDeliveryEstimate": "f7f1d5bb469cda89",
+        "suggestSearches": "049511ca10fd4e50",
+        "getWeeklyAd": "b6be73631ad020c2",
+        "getStoreHours": "7d6d8e32c250a621",
+        "listOrders": "3a70c3a94a7a15e9",
+        "listMyAddresses": "734d219cf4e92407",
+        "listCarts": "99a2bf9f7926cc60",
+        "getCart": "f8af55c343543677",
+        "getMyAccount": "19a8a13e8df7d6c5",
+        "listMyLists": "94f044cb5401698f",
+        "listFavorites": "adf54585ebce28e8",
+        "listBuyItAgain": "2407b777bfc5c098",
+        "getOrder": "b81e724edfaaaa78",
+        "getList": "a43bf65b02516a1c",
+        "clipCoupon": "a25e81df41a2039f",
+        "addToCart": "6a141701695c9080",
+        "removeFromCart": "6a141701695c9080",
+        "reorder": "47498187dcd14b3e",
+        "deleteAddress": "e330daf8462010d7",
+        "favoriteProduct": "781df0d15009b3cc",
+        "listCoupons": "c050d56a2f3c41e7"
       }
     },
     "providers.instagram": {
@@ -182709,6 +182947,123 @@
             "optional": true
           }
         ],
+        "createBroadcastList": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "contacts",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "starMessage": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "starred",
+            "schema": {
+              "k": "boolean"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listStarredMessages": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteChat": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "sendLocation": [
           {
             "name": "chatName",
@@ -183435,59 +183790,63 @@
         ]
       },
       "digests": {
-        "getMyProfile": "5e9a8186572a22d8",
-        "listChats": "9329249d84f06a62",
-        "findContact": "55b90badd63e413b",
-        "searchMessages": "6a8bd9823cb61d63",
-        "listContacts": "1789a8bb0d3e0bbf",
-        "checkNumber": "358a25529b7c2710",
-        "getChatMessages": "6cdca11bf3f76e16",
-        "downloadMedia": "20437e2825eaf7e1",
-        "previewGroupInvite": "210d69199618d61f",
-        "createClickToChatLink": "f1047217a2a63f51",
-        "previewBusinessCatalog": "14d6804f56ff2414",
-        "getChannel": "03fb17cf78885654",
-        "listBlogPosts": "9cd51f8197030758",
-        "getBlogPost": "bbf189cd67651bca",
-        "searchHelpCenter": "607313d470d9182c",
-        "getHelpArticle": "c5d63357eb6cd97f",
-        "getGroupInfo": "14d7cca8fd8ed6f9",
-        "searchChannels": "f3c0429c18fde463",
-        "listFollowedChannels": "2e2c6a339cc7ef1a",
-        "getCommunity": "f15c75e8fa21e8ab",
-        "getChannelUpdates": "1a2f95a9920db7eb",
-        "sendMessage": "c1b3280fdb9cde91",
-        "sendMessageToNumber": "29d65eddb455d68a",
-        "sendMedia": "cf9c3a881be8a195",
-        "reactToMessage": "294a28dfb790d852",
-        "replyToMessage": "b27b9ae75769946a",
-        "pinMessage": "708320c718b32b03",
-        "setDisappearingMessages": "83b9655744a2b0f0",
-        "editMessage": "d295fc43696e0bb8",
-        "sendPoll": "16de52f8cc4f49de",
-        "votePoll": "3af7b16ef6697f1b",
-        "sendContact": "693021eabed8338c",
-        "postToChannel": "e5cc14d625fed203",
-        "sendLocation": "e27d53c3c5bac72e",
-        "createChannel": "512ecbaa7fc35dda",
-        "forwardMessage": "0d39fa72239a2427",
-        "updateChat": "17a4744a0f253bfe",
-        "createGroup": "c2bafddb5a7a988e",
-        "updateGroup": "c5ad1456bb1165d5",
-        "addGroupParticipants": "a469b1a075708636",
-        "removeGroupParticipants": "a469b1a075708636",
-        "joinGroupByInvite": "bf29f8c44f95c7c4",
-        "leaveGroup": "4f17a70a2abcf9d4",
-        "followChannel": "a0dfb7d62c2a1622",
-        "unfollowChannel": "a0dfb7d62c2a1622",
-        "postStatus": "fc593d73c5e0f1eb",
-        "updateProfile": "910eaa7b7fce8214",
-        "blockContact": "0a563fa4ab487ece",
-        "updatePrivacySettings": "be30ad3caad5314c",
-        "deleteMessage": "59e9e39e6d33e633",
-        "listCatalogProducts": "3a0cc6f2898cc687",
-        "listStatusUpdates": "1f7e890687d15b0c",
-        "getGroupInviteLink": "198451b8200c3e0c"
+        "getMyProfile": "19d68afed844896a",
+        "listChats": "23016baedba7c413",
+        "findContact": "03628e79c924a372",
+        "searchMessages": "42c9b558e3d9d890",
+        "listContacts": "4ce5aba33f689b44",
+        "checkNumber": "42a839b53f0a8d2a",
+        "getChatMessages": "4029340c59babf63",
+        "downloadMedia": "b6e05f9f78cc4b2d",
+        "previewGroupInvite": "46dc1a4de0db39d7",
+        "createClickToChatLink": "0d686404b17005dc",
+        "previewBusinessCatalog": "a455e9fd6b4d7cf9",
+        "getChannel": "ae68de72fc67f0a8",
+        "listBlogPosts": "7a0a8d876742cff5",
+        "getBlogPost": "723a2741c113c43f",
+        "searchHelpCenter": "039817b52b3f13f2",
+        "getHelpArticle": "06cba36dfdf77ed7",
+        "getGroupInfo": "e399a5e8e5dc9639",
+        "searchChannels": "6915a33bc22cfa3d",
+        "listFollowedChannels": "37fa306fbe1b95aa",
+        "getCommunity": "ae273d25703d93e0",
+        "getChannelUpdates": "f7036f6d9ff28677",
+        "sendMessage": "a7c8bdae25852160",
+        "sendMessageToNumber": "5eec235267560666",
+        "sendMedia": "516f056a91bc6698",
+        "reactToMessage": "4e02b035cadb302e",
+        "replyToMessage": "134a52e7cf3fae49",
+        "pinMessage": "b0c3eec6a232ad97",
+        "setDisappearingMessages": "aa7619abdf09e470",
+        "editMessage": "4538d95167781808",
+        "sendPoll": "d42a610fab7c0272",
+        "votePoll": "38bf4533f63625de",
+        "sendContact": "accff0b8a0d0e64e",
+        "postToChannel": "d7b91beb028eef7c",
+        "createBroadcastList": "8f98f2ec6fd2b0a3",
+        "starMessage": "33666a5bf6e217f4",
+        "listStarredMessages": "847411128c9a9730",
+        "deleteChat": "a59276563a269310",
+        "sendLocation": "e470129a9a34fec1",
+        "createChannel": "b8cb9dc6bcee66c9",
+        "forwardMessage": "bb2bd009ec63d9d3",
+        "updateChat": "c3cde46a7b36c2b8",
+        "createGroup": "e61a82bfa0b4b9ab",
+        "updateGroup": "17521acae9ac7a8b",
+        "addGroupParticipants": "dc3b3c0db4c4b634",
+        "removeGroupParticipants": "dc3b3c0db4c4b634",
+        "joinGroupByInvite": "bf445f0d2979dc64",
+        "leaveGroup": "c69f14ec8ed6c28c",
+        "followChannel": "5b6e2b5d1bdee255",
+        "unfollowChannel": "5b6e2b5d1bdee255",
+        "postStatus": "f2f4bb3a8b12a75e",
+        "updateProfile": "6e41fb454d86c801",
+        "blockContact": "cbd1a314c7dd840a",
+        "updatePrivacySettings": "86224a017498099e",
+        "deleteMessage": "dfc956f71cb9117c",
+        "listCatalogProducts": "493e0b7cbb10d867",
+        "listStatusUpdates": "ac482aa7c932c906",
+        "getGroupInviteLink": "08efa4c27a815da4"
       }
     },
     "providers.wholefoodsmarket": {
