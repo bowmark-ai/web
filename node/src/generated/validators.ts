@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4c8414b1f66cc57971e8ea9b232b2e1770543cc60a4a35943a2293508325e837
-// 5826 checked, 20 unchecked.
+// Manifest version: 24ecb923ba2a4eb013f6577700ef8cbef0c0737a7c9fbd12a9af6c0edc36948f
+// 5835 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4c8414b1f66cc57971e8ea9b232b2e1770543cc60a4a35943a2293508325e837",
+  "version": "24ecb923ba2a4eb013f6577700ef8cbef0c0737a7c9fbd12a9af6c0edc36948f",
   "units": {
     "address_validation": {
       "defs": {
@@ -16407,6 +16407,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listPodcasts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFactChecksArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listPressReleases": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFactChecksArgs"
+            },
+            "optional": true
+          }
+        ],
         "listNewsletters": [],
         "listVideos": [
           {
@@ -16467,6 +16487,8 @@ export const VALIDATORS: ValidatorTable = {
         "listSectionArticles": "f275628210a88afb",
         "listTopicArticles": "e21d71892b0ec37c",
         "listFactChecks": "d8a364cadc5bf33f",
+        "listPodcasts": "d8a364cadc5bf33f",
+        "listPressReleases": "d8a364cadc5bf33f",
         "listNewsletters": "a8d777e93a9f1f7a",
         "listVideos": "a85b0d59c863c38f",
         "getVideo": "94d08d2724f38239",
@@ -47706,6 +47728,42 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetArticleCommentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "order",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "oldest"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetAuthorArgs": {
           "k": "object",
           "props": [
@@ -47715,6 +47773,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "GetCommentRepliesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -47877,6 +47954,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getArticleComments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleCommentsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCommentReplies": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCommentRepliesArgs"
+            },
+            "optional": false
+          }
+        ],
         "searchArticles": [
           {
             "name": "args",
@@ -47959,18 +48056,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listSections": "dff11b0a2228d77a",
-        "browseSection": "497b3cfacad3dcfc",
-        "listLatest": "a522cc2828dbb233",
-        "getArticle": "6792436fc1ce61b3",
-        "searchArticles": "0f5ee3b8f78b68e7",
-        "listVideos": "a81d7c5d9fbd6c29",
-        "getVideo": "65469642a16146fc",
-        "getAuthor": "a75d4a73cb85d034",
-        "listTopics": "d5bdd26734f4d991",
-        "browseTopic": "18ead2e95090c117",
-        "getHoroscope": "c1521eab94be5aae",
-        "listGames": "5b98d57754db2de9"
+        "listSections": "34bdb298fa4815f3",
+        "browseSection": "6ee9e2468de44ca9",
+        "listLatest": "5dc997ad6c90033e",
+        "getArticle": "4ebcdce2de37da2b",
+        "getArticleComments": "2139cab8da89b3af",
+        "getCommentReplies": "bde87b9b7234cba6",
+        "searchArticles": "2f1e06b8f439086f",
+        "listVideos": "222ec997f136d154",
+        "getVideo": "347716fef18f8c5e",
+        "getAuthor": "160175d41cab231f",
+        "listTopics": "f454a0d491499513",
+        "browseTopic": "590083ec4fa15a8f",
+        "getHoroscope": "f9c4b81ff18c74c5",
+        "listGames": "d49736a5328efac8"
       }
     },
     "providers.dailymotion": {
@@ -70149,6 +70248,46 @@ export const VALIDATORS: ValidatorTable = {
         "calculateEnergyConsumption": "b7fe5ae3e365a494"
       }
     },
+    "providers.folsom_1015": {
+      "defs": {
+        "GetEventArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetEventArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listEvents": []
+      },
+      "digests": {
+        "getEvent": "2a8579865901c03f",
+        "listEvents": "50c6309325cf87a8"
+      }
+    },
     "providers.fomo": {
       "defs": {
         "FomoCandleResolution": {
@@ -90631,6 +90770,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "InstacartCartUpdateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cartId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "InstacartClipCouponArgs": {
           "k": "object",
           "props": [
@@ -90692,6 +90857,25 @@ export const VALIDATORS: ValidatorTable = {
               "name": "itemsPerStore",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "InstacartFavoriteProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "favorite",
+              "schema": {
+                "k": "boolean"
               },
               "optional": true
             }
@@ -91487,6 +91671,84 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "addToCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartCartUpdateArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartCartUpdateArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "favoriteProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartFavoriteProductArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listCoupons": [
           {
             "name": "args",
@@ -91515,30 +91777,33 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findLocation": "6d860202f23383ce",
-        "listStores": "4d0a78317a70ae22",
-        "getStore": "557fe1503ac0947b",
-        "compareStores": "6c0ff146e7a804ae",
-        "getProduct": "d4127734bf7a0ded",
-        "listDeals": "51608d04ffb1ff69",
-        "listDepartments": "a3f7e562e545c668",
-        "listDepartmentProducts": "e0b15d66e44ea80f",
-        "getDeliveryEstimate": "2a0a2b0a6bc7f924",
-        "suggestSearches": "807ffa98f022fa00",
-        "getWeeklyAd": "8b7560415e60e0c5",
-        "getStoreHours": "7af665c1aee57dc2",
-        "listOrders": "18eecc3d3622c83a",
-        "listMyAddresses": "0feb049e983bdcfa",
-        "listCarts": "62fd128297b7940f",
-        "getCart": "9fe0ca895e8a6b1d",
-        "getMyAccount": "08bf3c04771882f9",
-        "listMyLists": "595c88d0e356d8ff",
-        "listFavorites": "f9624a6e2a040fef",
-        "listBuyItAgain": "9091859568a34bcd",
-        "getOrder": "c451add5729035d8",
-        "getList": "841fcd1f2070fb45",
-        "clipCoupon": "a038149cc8491f67",
-        "listCoupons": "febbee518b5e38ac"
+        "findLocation": "7ca6211191e61e59",
+        "listStores": "750d82773f35d79a",
+        "getStore": "6ac1cf832ad3cd25",
+        "compareStores": "3ecb6907b7c1fae4",
+        "getProduct": "445493e9ae88da22",
+        "listDeals": "79e8870ba9f01c0a",
+        "listDepartments": "7465286de34ea6e9",
+        "listDepartmentProducts": "8ce232c6433966de",
+        "getDeliveryEstimate": "36bbe7200f756ee3",
+        "suggestSearches": "0a546b0e1e76f2fe",
+        "getWeeklyAd": "75a0664dcd9f4bfa",
+        "getStoreHours": "e4d798db6889ac58",
+        "listOrders": "67f3da2709fff6c0",
+        "listMyAddresses": "3a14aa804173a29f",
+        "listCarts": "017cd9b26969462f",
+        "getCart": "dae7880d81876c07",
+        "getMyAccount": "eaa1d1f95012f842",
+        "listMyLists": "8b82ec770d2ce145",
+        "listFavorites": "f815be0f4a5980ce",
+        "listBuyItAgain": "89dbb2323d2ed0d7",
+        "getOrder": "23c27083b4ba2425",
+        "getList": "fe5e809258d7c2d1",
+        "clipCoupon": "3105db716eb47293",
+        "addToCart": "bcb674a33eb1a81e",
+        "removeFromCart": "bcb674a33eb1a81e",
+        "favoriteProduct": "99f7e49587ed2933",
+        "listCoupons": "1d6c337bec0198a4"
       }
     },
     "providers.instagram": {
@@ -166327,6 +166592,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         }
@@ -166344,7 +166616,7 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchSds": "ad45a961427e2d3b"
+        "searchSds": "6dc468592664e4aa"
       }
     },
     "providers.ticketmaster": {
