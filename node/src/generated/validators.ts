@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ae8c36ca9c2ebaa59bb5e44a44596c913cc4c88429962ec65d1e9b580e231e61
-// 5853 checked, 20 unchecked.
+// Manifest version: 85373196b1322143b215e5b3ebfcab1665a6b78c2f40d34606b9ad0cba95e84f
+// 5869 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ae8c36ca9c2ebaa59bb5e44a44596c913cc4c88429962ec65d1e9b580e231e61",
+  "version": "85373196b1322143b215e5b3ebfcab1665a6b78c2f40d34606b9ad0cba95e84f",
   "units": {
     "address_validation": {
       "defs": {
@@ -10287,6 +10287,118 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "AcuityWaitlistRequest": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "smsOptIn",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "timePreferences",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "startDate",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "null"
+                          }
+                        ]
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "endDate",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "null"
+                          }
+                        ]
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "startTime",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "null"
+                          }
+                        ]
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "endTime",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "null"
+                          }
+                        ]
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -10520,22 +10632,72 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "requestWaitlistSpot": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "appointmentTypeId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "AcuityWaitlistRequest"
+            },
+            "optional": false
+          }
+        ],
+        "getWaitlistStatus": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "waitlistEntryId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "findScheduler": "f8e8ec5234bedaef",
-        "listAppointmentTypes": "50810e9cf116b58d",
-        "getAppointmentTypeDetails": "e170159756bd6f03",
-        "listLocations": "6de5705dae7ba4df",
-        "listPacks": "255118fabe7a7747",
-        "getBookingForm": "6057f145b2be465b",
-        "getSchedulerInfo": "33a6cad6fbc02773",
-        "getPrice": "06a55ccbe5dd362b",
-        "listScheduleSlots": "0a439f48796b6723",
-        "searchSchedule": "2ff323270607f269",
-        "listMyBookings": "178a1bf35bc0aa25",
-        "cancelAppointment": "78f8a1884ab1940f",
-        "rescheduleAppointment": "6bb0e71c0220f85c"
+        "findScheduler": "9b536fc6dfeb2c00",
+        "listAppointmentTypes": "733dcdac176a4ab1",
+        "getAppointmentTypeDetails": "652e560e8c5e5bde",
+        "listLocations": "d9ca1d00951f3775",
+        "listPacks": "f783301325bec5f4",
+        "getBookingForm": "db9f4281ad070452",
+        "getSchedulerInfo": "702c7f179161db54",
+        "getPrice": "c9780563793600a1",
+        "listScheduleSlots": "ff52883cd577019d",
+        "searchSchedule": "7902743ea8ec32b6",
+        "listMyBookings": "2c88506ed149b5c7",
+        "cancelAppointment": "29ac4fd9625563a5",
+        "rescheduleAppointment": "9ca18503141cfcad",
+        "requestWaitlistSpot": "ce84e564d8271aa3",
+        "getWaitlistStatus": "e59c8cd7d5f2b12b"
       }
     },
     "providers.adobe": {
@@ -23433,6 +23595,24 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getPlusStatus": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listNewsletters": [],
         "getVerseAcrossVersions": [
           {
@@ -23569,23 +23749,24 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listNewsletters": "f3456813795a8bb6",
-        "getVerseAcrossVersions": "9a40510416eed499",
-        "searchDictionary": "ebf7e2d2872f9c97",
-        "getPassageAudio": "e2b1898e73fedddc",
-        "listCommentaries": "5bd3e64d0b749568",
-        "getCommentary": "ddc4bcfc6cf487a2",
-        "getTopicalVerses": "849bea668c10d680",
-        "getVersionInfo": "ad3f6776c62a39ed",
-        "getReadingPlanDay": "ed04fc1bed9cf2af",
-        "listDevotionals": "7b3cbe5427698ce9",
-        "getDevotional": "f5e6f05c34ea81a1",
-        "comparePassage": "459f7beee5be1c98",
-        "getVerseOfTheDay": "895f08a2e6ced2d3",
-        "listReadingPlans": "c875301954a46027",
-        "searchBible": "08741f06e27c406a",
-        "getPassage": "9288dbfb14bf6d39",
-        "listVersions": "79382ea51f928b4f"
+        "getPlusStatus": "456389826c9673bf",
+        "listNewsletters": "fdb0c5efb993e479",
+        "getVerseAcrossVersions": "eb4c3645e33c463a",
+        "searchDictionary": "df92f1c9e5d4318d",
+        "getPassageAudio": "71fa41337b4071a3",
+        "listCommentaries": "c343a85eeeb7b9b8",
+        "getCommentary": "3ff2392e0805e7e8",
+        "getTopicalVerses": "1b52991af3065474",
+        "getVersionInfo": "a67ee25e5d28e28d",
+        "getReadingPlanDay": "51fa276e961ededd",
+        "listDevotionals": "56ec90e716a34d6a",
+        "getDevotional": "1968664b4df205cd",
+        "comparePassage": "db2ebcba008e3631",
+        "getVerseOfTheDay": "46d7ca373696f2c7",
+        "listReadingPlans": "ff597fd5f0e1c434",
+        "searchBible": "fddbb852304ee983",
+        "getPassage": "ff390fce0bd425e7",
+        "listVersions": "f0fb8eaa57113a64"
       }
     },
     "providers.bigairusa": {
@@ -38350,6 +38531,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.chess_com": {
       "defs": {
+        "chess_comArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "chess_comClubArgs": {
           "k": "object",
           "props": [
@@ -38493,6 +38686,51 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": false
+            }
+          ]
+        },
+        "chess_comSearchClubsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "pageToken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "chess_comSearchNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -38682,6 +38920,36 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "searchClubs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comSearchClubsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comSearchNewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "chess_comArticleArgs"
+            },
+            "optional": false
+          }
+        ],
         "getTeamMatch": [
           {
             "name": "args",
@@ -38787,27 +39055,30 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listCountryClubs": "5b130b4413406890",
-        "getTournament": "e4c01ce242d9cdbe",
-        "getCountry": "bb706c38b4c7ca1b",
-        "listClubMembers": "b89e90aefd5d88db",
-        "listClubMatches": "0d09c6d466da1669",
-        "listPlayerTournaments": "7adf2040bd9a5f87",
-        "listPlayerMatches": "e668e76877738603",
-        "searchPlayers": "4dbfd3ab72191197",
-        "getTeamMatch": "807233759f2b71aa",
-        "getRandomPuzzle": "5eeedae34a2b7966",
-        "listStreamers": "0f9da960da269c39",
-        "listTitledPlayers": "356aeb9f9f4718ee",
-        "getClub": "e359c1ebc8c35a81",
-        "getDailyPuzzle": "5eeedae34a2b7966",
-        "getLeaderboards": "23942aff6b468bb5",
-        "getPlayer": "12edc2f0d3a7edb1",
-        "getPlayerStats": "abe43e401a4200bc",
-        "isPlayerOnline": "2468ea0aa81af9cb",
-        "listPlayerClubs": "fd5d8c37ce29cde8",
-        "listPlayerGames": "6bf5df2274506b7e",
-        "getGame": "d9ee4af038d7240e"
+        "listCountryClubs": "a31b3b790423e4ab",
+        "getTournament": "942dc39295bece43",
+        "getCountry": "c5a804de62c45cd5",
+        "listClubMembers": "b2294f53b554f7c4",
+        "listClubMatches": "87244006b243ef50",
+        "listPlayerTournaments": "99a74f4986086ef2",
+        "listPlayerMatches": "c7ee942fa42290db",
+        "searchPlayers": "c651fa77728347ee",
+        "searchClubs": "de41b1fddd47eafa",
+        "searchNews": "a9b0406f51379564",
+        "getArticle": "0e7d0c3f830d33a4",
+        "getTeamMatch": "2bf0c897fc9e3e78",
+        "getRandomPuzzle": "971f1e01867b62d7",
+        "listStreamers": "6c3cd52140abe706",
+        "listTitledPlayers": "04309f77a7704058",
+        "getClub": "584e3c5de034fd45",
+        "getDailyPuzzle": "971f1e01867b62d7",
+        "getLeaderboards": "603ddfefda6e8ee2",
+        "getPlayer": "8af69863539073d6",
+        "getPlayerStats": "c7e6835251b1fee7",
+        "isPlayerOnline": "1de15cd57cf2d5b7",
+        "listPlayerClubs": "b0dc47b55f8cadde",
+        "listPlayerGames": "2b6b553f114d18be",
+        "getGame": "a0fee0e545da5d8b"
       }
     },
     "providers.chick_fil_a": {
@@ -47978,6 +48249,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListColumnistsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListGamesArgs": {
           "k": "object",
           "props": [
@@ -48225,6 +48515,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listColumnists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListColumnistsArgs"
+            },
+            "optional": true
+          }
+        ],
         "listPodcasts": [
           {
             "name": "args",
@@ -48237,21 +48537,22 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listSections": "61cd19e909165ad4",
-        "browseSection": "f027286ac004bce2",
-        "listLatest": "a0cf7fed0c57c9af",
-        "getArticle": "dc51c430f491045d",
-        "getArticleComments": "c83b2ffa079ab7f3",
-        "getCommentReplies": "901b55e857e0a4a4",
-        "searchArticles": "66a41ca17a5e2f57",
-        "listVideos": "341911beb009fa73",
-        "getVideo": "b5ffb24a91075358",
-        "getAuthor": "2ec8e7e2008acf07",
-        "listTopics": "116b8595bea4b317",
-        "browseTopic": "1012581b1b05ceae",
-        "getHoroscope": "d5ff41e24f31193d",
-        "listGames": "2dbef1486222ab6d",
-        "listPodcasts": "9f4720e69fb52952"
+        "listSections": "6ae27aabb2bbe646",
+        "browseSection": "d9bbe6d331eba4d9",
+        "listLatest": "563657bec0b14f83",
+        "getArticle": "2ff55556695b88ee",
+        "getArticleComments": "55abf12d8a9c3ffc",
+        "getCommentReplies": "0b8d06cb0de14c92",
+        "searchArticles": "c80995f1c073b0b1",
+        "listVideos": "52cfe1936d4a1554",
+        "getVideo": "c33094958a4a58b3",
+        "getAuthor": "96f3b31bf53c25ab",
+        "listTopics": "7c6d6f8fc5edc272",
+        "browseTopic": "44ada2b613e6581c",
+        "getHoroscope": "2e4021b77cc42cb6",
+        "listGames": "29144ac836a78255",
+        "listColumnists": "93e3d35a496dbf06",
+        "listPodcasts": "4599cff71c8f1008"
       }
     },
     "providers.dailymotion": {
@@ -53904,6 +54205,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getSellerFeedback": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "DiscogsUserArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getUserProfile": [
           {
             "name": "args",
@@ -54022,27 +54341,28 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchDatabase": "5695c3641e460bf8",
-        "getArtist": "e8e8f7d24c5e60c2",
-        "listArtistReleases": "f95aa9a63d2d371d",
-        "getLabel": "e44b32b40dc240d0",
-        "listLabelReleases": "187da66d8738af7b",
-        "getRelease": "b672f17e6ae1a115",
-        "getMaster": "debc6d7140a46b8a",
-        "listMasterVersions": "0b8232cbd428cc12",
-        "getReleaseRating": "6234fb33e4fa4203",
-        "getReleaseMarketStats": "93a7c0a1d8f6b108",
-        "listReleaseListings": "d9587b3b7d30d398",
-        "getUserProfile": "272ee49b46fcfd44",
-        "listSellerInventory": "b25573b70ffaf9e6",
-        "getListing": "f43d47862152ba5e",
-        "listCollectionFolders": "14957f1da6f44347",
-        "listCollectionItems": "75232a6d2108da9b",
-        "listUserContributions": "2d9160725094b265",
-        "listWantlist": "ba2d92c55f05dd45",
-        "listUserLists": "d987ff7b221bb4da",
-        "getList": "fda63c9db65905d5",
-        "listUserSubmissions": "a129f87eca7a1b3c"
+        "searchDatabase": "63e705602e2ef4df",
+        "getArtist": "ffce1f127ecd3abf",
+        "listArtistReleases": "2c16be87475fffc9",
+        "getLabel": "130fa1842857e515",
+        "listLabelReleases": "1173d63460972853",
+        "getRelease": "c5e4a4a0d3efa4b4",
+        "getMaster": "6a8aec40166faf3c",
+        "listMasterVersions": "0675476f8ba8935d",
+        "getReleaseRating": "5db03d615017bb81",
+        "getReleaseMarketStats": "99b1acb2cf918898",
+        "listReleaseListings": "8ea6ae7e1f2d4c5b",
+        "getSellerFeedback": "f715ad75b859299c",
+        "getUserProfile": "44506c87f7aa3ba0",
+        "listSellerInventory": "5e8c07f349e2b2aa",
+        "getListing": "c680de531a5c5156",
+        "listCollectionFolders": "9a5106d37c610a31",
+        "listCollectionItems": "a168aba2955c48c2",
+        "listUserContributions": "1c344880fad0f057",
+        "listWantlist": "71c0cf2e79960605",
+        "listUserLists": "b763694f51082993",
+        "getList": "b4408e04a0246354",
+        "listUserSubmissions": "e8408c3823206e69"
       }
     },
     "providers.discord": {
@@ -70050,6 +70370,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
@@ -70061,7 +70399,9 @@ export const VALIDATORS: ValidatorTable = {
         "listSellerGigs": "08840c5ccca7a881",
         "listCategories": "9404b6aee20cd66e",
         "getSeller": "d9cebd163b9d91d0",
-        "searchGigs": "d2ce4a46e1073364"
+        "searchGigs": "d2ce4a46e1073364",
+        "signup": "7009ad0eab318655",
+        "confirmSignup": "28b119aad975c74a"
       }
     },
     "providers.fivestarbathsolutions": {
@@ -83471,6 +83811,54 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "leaveWaitlist": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "classId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -83491,23 +83879,24 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findStudio": "a61ed72f16dddbb4",
-        "getStudio": "f21ffdf841deed6c",
-        "listSchedule": "090b1ab993d69234",
-        "getClass": "60f1b70ab0b01b9b",
-        "listClassTypes": "1353f8a6de3fbad2",
-        "listMemberships": "1b6ac78dd0455e0a",
-        "getMembership": "8d52039e4b27e480",
-        "listVenues": "d82399542952b279",
-        "listInstructors": "17fa567ada484cff",
-        "listMyBookings": "6307a12d817258c4",
-        "getMyProfile": "bcb0a4845539698a",
-        "checkBookingEligibility": "6230d37e4e8aaae5",
-        "bookClass": "1fac2f405867ea7f",
-        "cancelClass": "d424fc456c62f0af",
-        "joinWaitlist": "229f532abb4a93eb",
-        "signup": "95a0703ddfbcf5ff",
-        "confirmSignup": "9f74fbe96dd8233f"
+        "findStudio": "0af8b8e602dcc0c2",
+        "getStudio": "8fecc204d2b9d8cd",
+        "listSchedule": "7f0d8adf5353bfce",
+        "getClass": "687b634962902a13",
+        "listClassTypes": "b939aa5c43622414",
+        "listMemberships": "40d274c394be00c4",
+        "getMembership": "80f9865bc95703b2",
+        "listVenues": "12c06a5c348705f8",
+        "listInstructors": "e47129ad8d531a1e",
+        "listMyBookings": "ea19e588b0a0fe7f",
+        "getMyProfile": "28010bf847dd110e",
+        "checkBookingEligibility": "ab0fd6e65c74668a",
+        "bookClass": "0fe29a22594eb524",
+        "cancelClass": "db05c78246a90b9c",
+        "joinWaitlist": "49decdffd0244126",
+        "leaveWaitlist": "d2b7a867b5aaebbb",
+        "signup": "aa9cbee65850a27f",
+        "confirmSignup": "3f547e3d9b179a5a"
       }
     },
     "providers.grainger": {
@@ -91253,6 +91642,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "InstacartGetProductReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "InstacartGetStoreArgs": {
           "k": "object",
           "props": [
@@ -91635,6 +92036,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "InstacartGetStoreHoursArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProductReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartGetProductReviewsArgs"
             },
             "optional": false
           }
@@ -92066,35 +92477,36 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findLocation": "f76f8c38d4e430e0",
-        "listStores": "8af3632fdba4cc01",
-        "getStore": "c4056ae574577b01",
-        "compareStores": "57c7448ac6a595ed",
-        "getProduct": "4cf90b528b91bf8c",
-        "listDeals": "e14190c45b14e5de",
-        "listDepartments": "ed5000c322f801f9",
-        "listDepartmentProducts": "92bc37394f8f0f7c",
-        "getDeliveryEstimate": "f7f1d5bb469cda89",
-        "suggestSearches": "049511ca10fd4e50",
-        "getWeeklyAd": "b6be73631ad020c2",
-        "getStoreHours": "7d6d8e32c250a621",
-        "listOrders": "3a70c3a94a7a15e9",
-        "listMyAddresses": "734d219cf4e92407",
-        "listCarts": "99a2bf9f7926cc60",
-        "getCart": "f8af55c343543677",
-        "getMyAccount": "19a8a13e8df7d6c5",
-        "listMyLists": "94f044cb5401698f",
-        "listFavorites": "adf54585ebce28e8",
-        "listBuyItAgain": "2407b777bfc5c098",
-        "getOrder": "b81e724edfaaaa78",
-        "getList": "a43bf65b02516a1c",
-        "clipCoupon": "a25e81df41a2039f",
-        "addToCart": "6a141701695c9080",
-        "removeFromCart": "6a141701695c9080",
-        "reorder": "47498187dcd14b3e",
-        "deleteAddress": "e330daf8462010d7",
-        "favoriteProduct": "781df0d15009b3cc",
-        "listCoupons": "c050d56a2f3c41e7"
+        "findLocation": "b8067931053ea4af",
+        "listStores": "89406c2515e60784",
+        "getStore": "2c0e62745938153d",
+        "compareStores": "72c691b9a66e5803",
+        "getProduct": "7f6b1132edcef6c5",
+        "listDeals": "1c9fd4b734085ba7",
+        "listDepartments": "5fc52bf586640ebc",
+        "listDepartmentProducts": "0c947e3191aa7c0f",
+        "getDeliveryEstimate": "7e8ca987437d44e9",
+        "suggestSearches": "96233d7493d63570",
+        "getWeeklyAd": "7a9792998550bbc4",
+        "getStoreHours": "03df990135462198",
+        "getProductReviews": "6ef0d175ca323556",
+        "listOrders": "dff2de3fc1ba7a46",
+        "listMyAddresses": "3600241b6ea1c0df",
+        "listCarts": "a4454140aacb9feb",
+        "getCart": "b0811956eae05628",
+        "getMyAccount": "356cda3e72bf4703",
+        "listMyLists": "33b6646533ecae28",
+        "listFavorites": "6e8d84ec6afc5ce7",
+        "listBuyItAgain": "3e8c5594eab01be4",
+        "getOrder": "6d9b8cf0fdbfdd43",
+        "getList": "5942bf513dc91693",
+        "clipCoupon": "70ac58f8f4b2c9d0",
+        "addToCart": "81340efe315f830d",
+        "removeFromCart": "81340efe315f830d",
+        "reorder": "3db6d5c972a5d5e6",
+        "deleteAddress": "f843cc2549905366",
+        "favoriteProduct": "4968d587148b2446",
+        "listCoupons": "2ddf91db00337e92"
       }
     },
     "providers.instagram": {
@@ -102033,7 +102445,7 @@ export const VALIDATORS: ValidatorTable = {
         "getProfileDetails": "7e64035df1359c84",
         "searchMembers": "74ddb262b231e8d8",
         "searchCompanies": "eec7406e0ec03eae",
-        "listCompanyEmployees": "26592df80b47b913",
+        "listCompanyEmployees": "5fd3d97dc657cf04",
         "searchPosts": "e26cdfc4483cf24e",
         "getHomeFeed": "d8c63c12abdf97ca",
         "listConversations": "9679f012a4923266",
@@ -106911,6 +107323,78 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listSupplements": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getSupplement": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listFirstAid": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getFirstAid": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "searchSite": [
           {
             "name": "args",
@@ -106938,17 +107422,21 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "95840822d6bf3a02",
-        "getCondition": "ced40376fa1d24e8",
-        "getConditionTreatment": "ced40376fa1d24e8",
-        "listConditions": "88ba7cb3219c81f0",
-        "listSymptoms": "19747578ee45c7ae",
-        "getSymptom": "ced40376fa1d24e8",
-        "listDrugs": "19747578ee45c7ae",
-        "getDrug": "8ba443d1c2f4a0f0",
-        "listTests": "88ba7cb3219c81f0",
-        "getTest": "ced40376fa1d24e8",
-        "searchSite": "d2b34c076cf7b998"
+        "search": "ccedd8104fedc4fb",
+        "getCondition": "d35afebcce0d99e1",
+        "getConditionTreatment": "d35afebcce0d99e1",
+        "listConditions": "0ed3d2bb5288c077",
+        "listSymptoms": "e03a4e8964f7721e",
+        "getSymptom": "d35afebcce0d99e1",
+        "listDrugs": "e03a4e8964f7721e",
+        "getDrug": "50c1407d3a77d6fa",
+        "listTests": "0ed3d2bb5288c077",
+        "getTest": "d35afebcce0d99e1",
+        "listSupplements": "b1b5d4429bdebccf",
+        "getSupplement": "d35afebcce0d99e1",
+        "listFirstAid": "b1b5d4429bdebccf",
+        "getFirstAid": "d35afebcce0d99e1",
+        "searchSite": "9ca607a7d501b05c"
       }
     },
     "providers.mcdonalds": {
