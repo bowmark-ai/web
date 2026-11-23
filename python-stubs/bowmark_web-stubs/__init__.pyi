@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7fe183d36b86d11e1aa2718dc534d16e68cdf243f150ed7eef6cd345af640d9f
-# 99 capabilities, 959 providers, 5915 typed functions, 20 refused.
+# Manifest version: e3ed0e7ebd83ef83e0f91d3ef8b6b1d88c30ea6515a1cde743de9689580f8379
+# 99 capabilities, 962 providers, 5943 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17859,6 +17859,28 @@ class Prv_cbs_sports_CbsSportsTeam_Out(TypedDict):
     wins: float | None
     losses: float | None
 
+class Prv_cbsnews_getAccount_return_Out(TypedDict):
+    url: str
+    fields: list[Prv_cbsnews_CbsNewsFormField_Out]
+
+class Prv_cbsnews_CbsNewsFormField_Out(TypedDict):
+    name: str
+    value: str
+    type: str
+
+class Prv_cbsnews_listNewsletterSubscriptions_return_Out(TypedDict):
+    subscriptions: list[Prv_cbsnews_listNewsletterSubscriptions_return_Out_subscriptions_item_Out]
+
+class Prv_cbsnews_listNewsletterSubscriptions_return_Out_subscriptions_item_Out(TypedDict):
+    name: str
+    value: str
+
+class Prv_cbsnews_updateProfile_return_Out(TypedDict):
+    ok: bool
+
+class Prv_cbsnews_unsubscribeFromNewsletter_return_Out(TypedDict):
+    ok: bool
+
 class Prv_cbsnews_GetLiveUpdatesArgs_In(TypedDict):
     url: str
     limit: NotRequired[float]
@@ -22907,6 +22929,33 @@ class Prv_couponfollow_CouponFollowOffer_Out(TypedDict):
     createdAt: str | None
     url: str
 
+class Prv_coursera_SearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_coursera_CourseraSearchPage_Out(TypedDict):
+    results: list[Prv_coursera_CourseraResult_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_coursera_CourseraResult_Out(TypedDict):
+    name: str
+    url: str
+    productType: str | None
+    partners: list[str]
+    rating: float | None
+    ratingCount: float | None
+    difficulty: str | None
+    duration: str | None
+    skills: list[str]
+    isFree: bool
+    isPartOfCourseraPlus: bool
+    image: str | None
+
 class Prv_craigslist_CraigslistListing_Out(TypedDict):
     id: str
     title: str
@@ -26286,6 +26335,28 @@ class Prv_discogs_DiscogsForumHit_Out(TypedDict):
     startedAt: str | None
     topic: str | None
     snippet: str | None
+    url: str | None
+
+class Prv_discogs_DiscogsForumThreadArgs_In(TypedDict):
+    threadId: float
+    page: NotRequired[float]
+
+class Prv_discogs_getForumThread_return_Out(TypedDict):
+    threadId: float
+    page: float
+    title: str | None
+    topic: str | None
+    startedBy: str | None
+    startedAt: str | None
+    replyCount: float | None
+    totalPosts: float
+    posts: list[Prv_discogs_DiscogsForumPost_Out]
+
+class Prv_discogs_DiscogsForumPost_Out(TypedDict):
+    id: float | None
+    author: str | None
+    postedAt: str | None
+    text: str | None
     url: str | None
 
 class Prv_discogs_DiscogsUserArgs_In(TypedDict):
@@ -30387,6 +30458,20 @@ class Prv_etsy_EtsyShop_Out(TypedDict):
 class Prv_etsy_listShopListings_nameOrUrl_u1_In(TypedDict):
     shop: str
     page: NotRequired[float]
+
+class Prv_etsy_EtsyCart_Out(TypedDict):
+    items: list[Prv_etsy_EtsyCartItem_Out]
+    empty: bool
+    checkout: Prv_etsy_EtsyCart_Out_checkout_Out
+
+class Prv_etsy_EtsyCartItem_Out(TypedDict):
+    listingId: float
+    title: str | None
+    url: str
+
+class Prv_etsy_EtsyCart_Out_checkout_Out(TypedDict):
+    url: str
+    note: str
 
 class Prv_etsy_listShopSoldItems_nameOrUrl_u1_In(TypedDict):
     shop: str
@@ -42854,6 +42939,29 @@ class Prv_independent_IndependentLiveBlogUpdate_Out(TypedDict):
     author: str | None
     text: str
 
+class Prv_independent_GetArticleCommentsArgs_In(TypedDict):
+    url: str
+    limit: NotRequired[float]
+    sort: NotRequired[Literal["newest"] | Literal["oldest"] | Literal["most_liked"]]
+
+class Prv_independent_GetArticleCommentsResult_Out(TypedDict):
+    articleId: str
+    total: float | None
+    comments: list[Prv_independent_IndependentComment_Out]
+    moreAvailable: bool
+    warnings: list[str]
+
+class Prv_independent_IndependentComment_Out(TypedDict):
+    id: str
+    parentId: str | None
+    authorId: str
+    text: str
+    postedAt: str | None
+    likes: float
+    dislikes: float
+    replies: float
+    pinned: bool
+
 class Prv_independent_GetVideoArgs_In(TypedDict):
     url: str
 
@@ -42961,6 +43069,9 @@ class Prv_independent_SubscribeToNewsletterResult_Out(TypedDict):
     status: float
     subscribed: bool
     message: str | None
+
+class Prv_independent_ListNewsletterSubscriptionsResult_Out(TypedDict):
+    raw: Any
 
 class Prv_independent_ListCompetitionsArgs_In(TypedDict):
     limit: NotRequired[float]
@@ -46566,6 +46677,50 @@ class Prv_lasikplus_LasikPlusCenterInfo_Out(TypedDict):
 class Prv_lasikplus_LasikPlusDaySlots_Out(TypedDict):
     date: str
     times: list[str]
+
+class Prv_latimes_BrowseSectionArgs_In(TypedDict):
+    section: NotRequired[str]
+    cursor: NotRequired[str]
+
+class Prv_latimes_StoryPage_Out(TypedDict):
+    stories: list[Prv_latimes_Story_Out]
+    nextCursor: str | None
+    url: str
+
+class Prv_latimes_Story_Out(TypedDict):
+    title: str
+    url: str
+    summary: str | None
+    section: str | None
+    byline: str | None
+    publishedAt: str | None
+    kind: str | None
+
+class Prv_latimes_SearchArticlesArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_latimes_SearchResults_Out(TypedDict):
+    query: str
+    page: float
+    stories: list[Prv_latimes_Story_Out]
+    nextPage: float | None
+
+class Prv_latimes_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_latimes_Article_Out(TypedDict):
+    url: str
+    headline: str
+    description: str | None
+    section: str | None
+    authors: list[str]
+    publishedAt: str | None
+    modifiedAt: str | None
+    image: str | None
+    body: str
+    paragraphs: list[str]
+    meteredByBrowser: bool
 
 class Prv_launchpad_LaunchpadProject_Out(TypedDict):
     name: str
@@ -81587,6 +81742,22 @@ class Prv_usps_uspsFaqArticle_Out(TypedDict):
     recordId: str
     lastPublished: str | None
 
+class Prv_usps_listStoreProducts_args_In(TypedDict):
+    term: str
+    limit: NotRequired[float]
+
+class Prv_usps_uspsStoreResults_Out(TypedDict):
+    term: str
+    products: list[Prv_usps_uspsStoreProduct_Out]
+
+class Prv_usps_uspsStoreProduct_Out(TypedDict):
+    name: str
+    url: str
+    productId: str | None
+    imageUrl: str | None
+    unitNote: str | None
+    price: float | None
+
 class Prv_usps_TrackPackageArgs_In(TypedDict):
     trackingNumber: str
 
@@ -83496,6 +83667,145 @@ class Prv_wayfair_WayfairProduct_Out(TypedDict):
     url: str
     sponsored: bool
 
+class Prv_wealthbox_WealthboxMe_Out(TypedDict):
+    id: str
+    name: str | None
+    email: str | None
+    account: Prv_wealthbox_WealthboxMe_Out_account_u0_Out | None
+    accounts: list[Prv_wealthbox_WealthboxMe_Out_accounts_item_Out]
+
+class Prv_wealthbox_WealthboxMe_Out_account_u0_Out(TypedDict):
+    id: str
+    name: str | None
+
+class Prv_wealthbox_WealthboxMe_Out_accounts_item_Out(TypedDict):
+    id: str
+    name: str | None
+
+class Prv_wealthbox_ListContactsArgs_In(TypedDict):
+    name: NotRequired[str]
+    email: NotRequired[str]
+    kind: NotRequired[Literal["person"] | Literal["household"] | Literal["organization"] | Literal["trust"]]
+    tag: NotRequired[str]
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+
+class Prv_wealthbox_ListContactsResult_Out(TypedDict):
+    contacts: list[Prv_wealthbox_WealthboxContact_Out]
+    total: float | None
+    page: float
+    hasMore: bool
+
+class Prv_wealthbox_WealthboxContact_Out(TypedDict):
+    id: str
+    kind: str | None
+    name: str | None
+    firstName: str | None
+    lastName: str | None
+    jobTitle: str | None
+    companyName: str | None
+    emails: list[str]
+    phones: list[str]
+    tags: list[str]
+    status: str | None
+    contactType: str | None
+    backgroundInfo: str | None
+    createdAt: str | None
+    updatedAt: str | None
+
+class Prv_wealthbox_GetContactArgs_In(TypedDict):
+    contactId: str
+
+class Prv_wealthbox_ListTasksArgs_In(TypedDict):
+    contactId: NotRequired[str]
+    completed: NotRequired[bool]
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+
+class Prv_wealthbox_ListTasksResult_Out(TypedDict):
+    tasks: list[Prv_wealthbox_WealthboxTask_Out]
+    total: float | None
+    page: float
+    hasMore: bool
+
+class Prv_wealthbox_WealthboxTask_Out(TypedDict):
+    id: str
+    name: str | None
+    dueDate: str | None
+    complete: bool
+    priority: str | None
+    category: str | None
+    description: str | None
+    assignedTo: str | None
+    linkedTo: list[Prv_wealthbox_WealthboxLinked_Out]
+
+class Prv_wealthbox_WealthboxLinked_Out(TypedDict):
+    id: str
+    type: str | None
+    name: str | None
+
+class Prv_wealthbox_ContactFilterArgs_In(TypedDict):
+    contactId: NotRequired[str]
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+
+class Prv_wealthbox_ListEventsResult_Out(TypedDict):
+    events: list[Prv_wealthbox_WealthboxEvent_Out]
+    total: float | None
+    page: float
+    hasMore: bool
+
+class Prv_wealthbox_WealthboxEvent_Out(TypedDict):
+    id: str
+    title: str | None
+    startsAt: str | None
+    endsAt: str | None
+    location: str | None
+    status: str | None
+    description: str | None
+    linkedTo: list[Prv_wealthbox_WealthboxLinked_Out]
+
+class Prv_wealthbox_ListNotesResult_Out(TypedDict):
+    notes: list[Prv_wealthbox_WealthboxNote_Out]
+    total: float | None
+    page: float
+    hasMore: bool
+
+class Prv_wealthbox_WealthboxNote_Out(TypedDict):
+    id: str
+    content: str | None
+    author: str | None
+    createdAt: str | None
+    linkedTo: list[Prv_wealthbox_WealthboxLinked_Out]
+    tags: list[str]
+
+class Prv_wealthbox_ListTagsResult_Out(TypedDict):
+    tags: list[Prv_wealthbox_ListTagsResult_Out_tags_item_Out]
+
+class Prv_wealthbox_ListTagsResult_Out_tags_item_Out(TypedDict):
+    id: str
+    name: str | None
+
+class Prv_wealthbox_ListWorkflowsArgs_In(TypedDict):
+    contactId: NotRequired[str]
+    status: NotRequired[Literal["active"] | Literal["completed"] | Literal["scheduled"]]
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+
+class Prv_wealthbox_ListWorkflowsResult_Out(TypedDict):
+    workflows: list[Prv_wealthbox_WealthboxWorkflow_Out]
+    total: float | None
+    page: float
+    hasMore: bool
+
+class Prv_wealthbox_WealthboxWorkflow_Out(TypedDict):
+    id: str
+    label: str | None
+    status: str | None
+    template: str | None
+    linkedTo: list[Prv_wealthbox_WealthboxLinked_Out]
+    startedAt: str | None
+
 class Prv_wearehirschfeld_WearehirschfeldSitemapPage_Out(TypedDict):
     url: str
     lastmod: str | None
@@ -84560,6 +84870,45 @@ class Prv_whatsapp_WhatsappContactSaved_Out(TypedDict):
 class Prv_whatsapp_WhatsappContactDeleted_Out(TypedDict):
     name: str
     deleted: bool
+
+class Prv_whatsapp_WhatsappGroupAdminChange_Out(TypedDict):
+    group: str
+    member: str
+    admin: bool
+
+class Prv_whatsapp_WhatsappMessageInfo_Out(TypedDict):
+    chat: str
+    messageId: str
+    readBy: list[Prv_whatsapp_WhatsappMessageReceipt_Out]
+    deliveredTo: list[Prv_whatsapp_WhatsappMessageReceipt_Out]
+
+class Prv_whatsapp_WhatsappMessageReceipt_Out(TypedDict):
+    name: str
+    time: str | None
+
+class Prv_whatsapp_WhatsappVoiceSent_Out(TypedDict):
+    chat: str
+    seconds: float
+    sent: bool
+
+class Prv_whatsapp_WhatsappCallStarted_Out(TypedDict):
+    chat: str
+    kind: Literal["voice"] | Literal["video"]
+    started: bool
+
+class Prv_whatsapp_WhatsappChatCleared_Out(TypedDict):
+    chat: str
+    cleared: bool
+
+class Prv_whatsapp_WhatsappCommunityLeft_Out(TypedDict):
+    community: str
+    left: bool
+
+class Prv_whatsapp_WhatsappChannelReaction_Out(TypedDict):
+    channel: str
+    updateId: str
+    emoji: str
+    reacted: bool
 
 class Prv_whatsapp_WhatsappCall_Out(TypedDict):
     name: str
@@ -99262,6 +99611,27 @@ class Prv_cbsnews(Protocol):
     podcasts and newsletters.
     """
 
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_cbsnews_getAccount_return_Out:
+        """Reads the signed-in caller's CBS News account settings page: the form fields it holds
+        with their values. NEEDS THE CALLER SIGNED IN to cbsnews.com; the run pauses for that
+        sign-in.
+        """
+
+    async def listNewsletterSubscriptions(self, opts: ConnectionOption | None = None, /) -> Prv_cbsnews_listNewsletterSubscriptions_return_Out:
+        """Lists the newsletter checkboxes on the signed-in caller's CBS News settings page. NEEDS
+        THE CALLER SIGNED IN to cbsnews.com; the run pauses for that sign-in.
+        """
+
+    async def updateProfile(self, opts: ConnectionOption | None = None, /) -> Prv_cbsnews_updateProfile_return_Out:
+        """Edits the signed-in caller's CBS News profile. NEEDS THE CALLER SIGNED IN; refuses with
+        a named error until the settings server action is captured.
+        """
+
+    async def unsubscribeFromNewsletter(self, opts: ConnectionOption | None = None, /) -> Prv_cbsnews_unsubscribeFromNewsletter_return_Out:
+        """Unsubscribes the signed-in caller from a CBS News newsletter. NEEDS THE CALLER SIGNED
+        IN; refuses with a named error until the settings server action is captured.
+        """
+
     async def getLiveUpdates(self, args: Prv_cbsnews_GetLiveUpdatesArgs_In, /) -> Prv_cbsnews_CbsNewsLiveUpdates_Out:
         """Reads one CBS News live-updates page (/live-updates/<slug>/): headline, description,
         authors, coverage window and its timestamped posts, newest first.
@@ -102064,6 +102434,21 @@ class Prv_couponfollow(Protocol):
         couponfollow itself marks the card as carrying one.
         """
 
+class Prv_coursera(Protocol):
+    """Coursera (coursera.org) — search its catalog of online courses, specializations,
+    professional certificates and degrees by topic or skill; call search() with no query for
+    the popular picks.
+    """
+
+    async def search(self, args: Prv_coursera_SearchArgs_In | None = None, /) -> Prv_coursera_CourseraSearchPage_Out:
+        """Searches Coursera's course catalog — courses, specializations, professional
+        certificates, guided projects and degrees — for a topic or skill. Returns a page: up to
+        `limit` rows in `results` (name, url, partner universities/companies, rating,
+        difficulty, duration bucket, skills), Coursera's own count of courses for the query in
+        `total`, and a warning when the rows came back short of it. Query is optional: with none
+        it returns Coursera's popular picks. 12 results per page; page is 1-based.
+        """
+
 class Prv_craigslist(Protocol):
     """Searches Craigslist apartments, housing for rent, for-sale items, jobs and gigs in any
     area, and reads a listing's full details (posted time, description, location, photos).
@@ -103714,6 +104099,12 @@ class Prv_discogs(Protocol):
         """Search the Discogs forum for threads and posts matching a query: thread title, who
         started it, section, a snippet of the matching post and a link (10 per page). Slow: it
         loads the forum search page in a browser.
+        """
+
+    async def getForumThread(self, args: float | Prv_discogs_DiscogsForumThreadArgs_In, /) -> Prv_discogs_getForumThread_return_Out:
+        """Read one Discogs forum thread by id (ids come from searchForum): title, section, who
+        started it, and the posts with author, date and text (10 per page). Slow: it loads the
+        thread page in a browser.
         """
 
     async def getSellerFeedback(self, args: str | Prv_discogs_DiscogsUserArgs_In, /) -> Prv_discogs_DiscogsSellerFeedback_Out:
@@ -105654,6 +106045,12 @@ class Prv_etsy(Protocol):
         """The items on one page of an Etsy shop (`page` from 1, default 1, about 35 per page) —
         listing id, title, price, currency and URL (quantity and tags are `null`/empty, as on
         the keyless search door). Takes the same name or URL as `getShop`.
+        """
+
+    async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_etsy_EtsyCart_Out:
+        """The signed-in caller's own Etsy cart — the listings in it and the cart page URL to
+        finish checkout on (Bowmark never checks out or pays). Needs the caller's Etsy sign-in;
+        a signed-out session is refused, never read as an empty cart.
         """
 
     async def listShopSoldItems(self, nameOrUrl: str | Prv_etsy_listShopSoldItems_nameOrUrl_u1_In, /) -> Prv_etsy_EtsySoldPage_Out:
@@ -112471,6 +112868,11 @@ class Prv_independent(Protocol):
         updates with their text and times. Takes a live-blog URL any list function returns.
         """
 
+    async def getArticleComments(self, args: Prv_independent_GetArticleCommentsArgs_In, /) -> Prv_independent_GetArticleCommentsResult_Out:
+        """Reads the reader comments on an article by URL: text, time, likes, replies and the
+        commenter's id (names are not published). Sort newest, oldest or most_liked; up to 50.
+        """
+
     async def getVideo(self, args: Prv_independent_GetVideoArgs_In, /) -> Prv_independent_IndependentVideo_Out:
         """Gets one Indy TV video by URL: title, description, upload time, duration and the direct
         MP4 URL. Takes a listVideos URL.
@@ -112506,6 +112908,11 @@ class Prv_independent(Protocol):
         """Signs an email address up to one Independent newsletter (a listNewsletters key) by
         driving the site's own form in a browser, because the form needs a reCAPTCHA token.
         Sends a confirmation to that address.
+        """
+
+    async def listNewsletterSubscriptions(self, opts: ConnectionOption | None = None, /) -> Prv_independent_ListNewsletterSubscriptionsResult_Out:
+        """Lists the newsletters the signed-in caller is subscribed to, as the site's
+        subscription-status endpoint returns them.
         """
 
     async def listCompetitions(self, args: Prv_independent_ListCompetitionsArgs_In | None = None, /) -> Prv_independent_ListCompetitionsResult_Out:
@@ -114520,6 +114927,27 @@ class Prv_lasikplus(Protocol):
     async def getAvailability(self, centerCode: str, /) -> Prv_lasikplus_LasikPlusAvailability_Out:
         """Given a centerCode from findCenters, returns the live, computed in-center and virtual
         consultation slot calendar.
+        """
+
+class Prv_latimes(Protocol):
+    """Los Angeles Times news: headlines, sections, search, full articles, writers, recipes,
+    restaurant guides, crosswords, newsletters (browseSection, searchArticles and getArticle
+    are built; the rest is queued).
+    """
+
+    async def browseSection(self, args: Prv_latimes_BrowseSectionArgs_In | None = None, /) -> Prv_latimes_StoryPage_Out:
+        """Lists a section front's stories newest-first (section path such as "california" or
+        "business"; omit for the homepage), paged by nextCursor.
+        """
+
+    async def searchArticles(self, args: Prv_latimes_SearchArticlesArgs_In, /) -> Prv_latimes_SearchResults_Out:
+        """Searches the LA Times archive: 10 stories a page, with title, url, summary, section and
+        date.
+        """
+
+    async def getArticle(self, args: Prv_latimes_GetArticleArgs_In, /) -> Prv_latimes_Article_Out:
+        """Reads one article in full from its url: headline, authors, dates, section, image and the
+        whole body (present in the page although the browser meters it).
         """
 
 class Prv_launchpad(Protocol):
@@ -132665,6 +133093,13 @@ class Prv_usps(Protocol):
         no key.
         """
 
+    async def listStoreProducts(self, args: Prv_usps_listStoreProducts_args_In, /) -> Prv_usps_uspsStoreResults_Out:
+        """Searches the Postal Store (store.usps.com) by `term` (optional `limit`, default 60) and
+        returns each product's name, URL, product id, image, unit note (e.g. "Forever 82¢") and
+        price. Needs no key; reads through a real browser page load because the store refuses a
+        plain client.
+        """
+
     async def trackPackage(self, args: Prv_usps_TrackPackageArgs_In, /) -> Prv_usps_uspsTracking_Out:
         """USPS Tracking for one tracking number: `tracked` with its steps newest first and whether
         it was delivered, `not_found` when USPS says tracking is not available (an invalid
@@ -133633,6 +134068,37 @@ class Prv_wayfair(Protocol):
         link. A real browser load, so expect 15-40 s.
         """
 
+class Prv_wealthbox(Protocol):
+    """Read contacts, tasks, events, notes, tags and workflows in your own Wealthbox CRM
+    (app.crmworkspace.com), with your Wealthbox API access token.
+    """
+
+    async def getMe(self, /) -> Prv_wealthbox_WealthboxMe_Out:
+        """Who your Wealthbox token signs in as: user id, name, email and workspace."""
+
+    async def listContacts(self, args: Prv_wealthbox_ListContactsArgs_In, /) -> Prv_wealthbox_ListContactsResult_Out:
+        """Lists or searches contacts in your own Wealthbox CRM by name, email, kind or tag —
+        paged, with Wealthbox's total. The door to getContact and every per-contact list.
+        """
+
+    async def getContact(self, args: Prv_wealthbox_GetContactArgs_In, /) -> Prv_wealthbox_WealthboxContact_Out:
+        """Reads one Wealthbox contact by id (or contact link): details, emails, phones, tags."""
+
+    async def listTasks(self, args: Prv_wealthbox_ListTasksArgs_In, /) -> Prv_wealthbox_ListTasksResult_Out:
+        """Lists Wealthbox tasks — open by default, optionally for one contact."""
+
+    async def listEvents(self, args: Prv_wealthbox_ContactFilterArgs_In, /) -> Prv_wealthbox_ListEventsResult_Out:
+        """Lists Wealthbox calendar events, optionally for one contact."""
+
+    async def listNotes(self, args: Prv_wealthbox_ContactFilterArgs_In, /) -> Prv_wealthbox_ListNotesResult_Out:
+        """Lists Wealthbox notes with their text, optionally for one contact."""
+
+    async def listTags(self, /) -> Prv_wealthbox_ListTagsResult_Out:
+        """Lists every contact tag in your Wealthbox workspace."""
+
+    async def listWorkflows(self, args: Prv_wealthbox_ListWorkflowsArgs_In, /) -> Prv_wealthbox_ListWorkflowsResult_Out:
+        """Lists Wealthbox workflows — active by default, optionally for one contact."""
+
 class Prv_wearehirschfeld(Protocol):
     """Hirschfeld's own page index (page-sitemap.xml) and its Connect contact form's real
     fields — name, label, type and required — parsed from the site's server-rendered markup
@@ -134303,6 +134769,45 @@ class Prv_whatsapp(Protocol):
         """Deletes one saved contact of the caller, picked by its exact displayed name (from
         listContacts), from the new-chat panel. Changes only the caller's own address book.
         Needs the caller signed in.
+        """
+
+    async def setGroupAdmin(self, groupName: str, member: str, admin: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupAdminChange_Out:
+        """Makes a group member an admin, or dismisses them as admin (admin false), picked by
+        displayed name from getGroupInfo, in a group the caller administers. Needs the caller
+        signed in.
+        """
+
+    async def getMessageInfo(self, chatName: str, messageId: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMessageInfo_Out:
+        """Reads who has read and who has received one of the caller's own messages, with the
+        times, from the Message info panel; the message picked by the id getChatMessages
+        returns. Needs the caller signed in.
+        """
+
+    async def sendVoiceMessage(self, chatName: str, seconds: float, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappVoiceSent_Out:
+        """Records a voice message of a given length of seconds with the microphone control and
+        sends it to a chat picked by its exact displayed name. Refuses plainly when the browser
+        has no microphone. Needs the caller signed in.
+        """
+
+    async def startCall(self, chatName: str, video: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappCallStarted_Out:
+        """Starts a voice call, or a video call with video true, with a chat picked by its exact
+        displayed name, from the chat header. It rings the other person. Needs the caller signed
+        in.
+        """
+
+    async def clearChat(self, chatName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChatCleared_Out:
+        """Clears the caller's messages in one chat picked by its exact displayed name and keeps
+        the chat in the list. Needs the caller signed in.
+        """
+
+    async def leaveCommunity(self, communityName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappCommunityLeft_Out:
+        """Leaves a Community the caller belongs to, picked by its exact displayed name in the
+        Communities tab. Needs the caller signed in.
+        """
+
+    async def reactToChannelUpdate(self, channelName: str, updateId: str, emoji: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelReaction_Out:
+        """Reacts with an emoji to one update of a Channel the caller follows, the update picked by
+        the id getChannelUpdates returns. Needs the caller signed in.
         """
 
     async def listCalls(self, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappCall_Out]:
@@ -137291,6 +137796,7 @@ class BowmarkProviders(Protocol):
     costco: Prv_costco
     countycourt_vic_gov_au: Prv_countycourt_vic_gov_au
     couponfollow: Prv_couponfollow
+    coursera: Prv_coursera
     craigslist: Prv_craigslist
     crateandbarrel: Prv_crateandbarrel
     crecipr: Prv_crecipr
@@ -137543,6 +138049,7 @@ class BowmarkProviders(Protocol):
     landmarkhw_com: Prv_landmarkhw_com
     landsend: Prv_landsend
     lasikplus: Prv_lasikplus
+    latimes: Prv_latimes
     launchpad: Prv_launchpad
     lcsc: Prv_lcsc
     leboncoin: Prv_leboncoin
@@ -137955,6 +138462,7 @@ class BowmarkProviders(Protocol):
     washingtonpost: Prv_washingtonpost
     waterfurnace: Prv_waterfurnace
     wayfair: Prv_wayfair
+    wealthbox: Prv_wealthbox
     wearehirschfeld: Prv_wearehirschfeld
     weather_channel: Prv_weather_channel
     webpt: Prv_webpt

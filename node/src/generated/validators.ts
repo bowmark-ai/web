@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7fe183d36b86d11e1aa2718dc534d16e68cdf243f150ed7eef6cd345af640d9f
-// 5915 checked, 20 unchecked.
+// Manifest version: e3ed0e7ebd83ef83e0f91d3ef8b6b1d88c30ea6515a1cde743de9689580f8379
+// 5943 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7fe183d36b86d11e1aa2718dc534d16e68cdf243f150ed7eef6cd345af640d9f",
+  "version": "e3ed0e7ebd83ef83e0f91d3ef8b6b1d88c30ea6515a1cde743de9689580f8379",
   "units": {
     "address_validation": {
       "defs": {
@@ -35997,6 +35997,78 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listNewsletterSubscriptions": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unsubscribeFromNewsletter": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getLiveUpdates": [
           {
             "name": "args",
@@ -36161,27 +36233,31 @@ export const VALIDATORS: ValidatorTable = {
         "listShows": []
       },
       "digests": {
-        "getLiveUpdates": "4235e3e64126347a",
-        "listVideos": "6a70e2f7a0d82c01",
-        "getVideo": "354e26a953aee932",
-        "getLiveStream": "b28b18a2acc1b155",
-        "search": "437be61a869a1b8e",
-        "getArticle": "7b778e39e078ffcf",
-        "listLatestNews": "6b4411b1b0b5e736",
-        "listSectionArticles": "bd75c2be5b31b0f3",
-        "listSections": "89839a58a5c1e7b4",
-        "listRssFeeds": "90fe77feec167530",
-        "listTagArticles": "37eddea59f492643",
-        "getAuthor": "21f5d08f30d1af3d",
-        "listArticlesByAuthor": "fb5b50c88bba304b",
-        "listShowEpisodes": "1b644168f0663664",
-        "listPodcasts": "3d288f21ef8c1509",
-        "listPodcastEpisodes": "e84fd9fb2047a52b",
-        "listLocalStations": "dcae604705f6a0ec",
-        "listLocalNews": "274ac22a50b2be43",
-        "getLocalWeather": "049e9e6691b42a27",
-        "listNewsletters": "f84865f52a8fd59b",
-        "listShows": "5205e0c2bf91735f"
+        "getAccount": "4d0c919c0835fb25",
+        "listNewsletterSubscriptions": "fc097bd660d76735",
+        "updateProfile": "f1dd205b21ac83a0",
+        "unsubscribeFromNewsletter": "f1dd205b21ac83a0",
+        "getLiveUpdates": "821f74c2117ae237",
+        "listVideos": "bbaaa7150fd6ffca",
+        "getVideo": "da490f16cc248d0a",
+        "getLiveStream": "406fc800f1c14df8",
+        "search": "0c8e7b679222317d",
+        "getArticle": "b94f36803cd6fade",
+        "listLatestNews": "af11614d162c6a03",
+        "listSectionArticles": "c0bd2a16f3fb77c9",
+        "listSections": "d7633f872d78e56f",
+        "listRssFeeds": "ab76eaabcbe18685",
+        "listTagArticles": "dc0eb0ce88375bf4",
+        "getAuthor": "cf906ecc2cfd058c",
+        "listArticlesByAuthor": "d892910e76d8cf9c",
+        "listShowEpisodes": "2606d71f3b63bf82",
+        "listPodcasts": "17b40eee253dffb7",
+        "listPodcastEpisodes": "ae3d0654d9bc93b7",
+        "listLocalStations": "034e42862d87e47c",
+        "listLocalNews": "f7092f17c5b671b4",
+        "getLocalWeather": "aae79a967154353f",
+        "listNewsletters": "8d11f9bf47b7624c",
+        "listShows": "06834791eb0fdaaf"
       }
     },
     "providers.cdc": {
@@ -47116,6 +47192,51 @@ export const VALIDATORS: ValidatorTable = {
         "getCodes": "7d3d68c03110f1bb"
       }
     },
+    "providers.coursera": {
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
+            },
+            "optional": true
+          }
+        ]
+      },
+      "digests": {
+        "search": "b35223ef6003842a"
+      }
+    },
     "providers.craigslist": {
       "defs": {
         "CraigslistHousingArgs": {
@@ -53947,6 +54068,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "DiscogsForumThreadArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "threadId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "DiscogsLabelArgs": {
           "k": "object",
           "props": [
@@ -54568,6 +54708,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getForumThread": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "ref",
+                  "name": "DiscogsForumThreadArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getSellerFeedback": [
           {
             "name": "args",
@@ -54704,31 +54862,32 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchDatabase": "16a314b6aa90336a",
-        "getArtist": "264fef7c2138810c",
-        "listArtistReleases": "6e484dea3a363303",
-        "getLabel": "cea3c851c80b6753",
-        "listLabelReleases": "c77d3733bcf266e5",
-        "getRelease": "24d4af2af3dc7353",
-        "getMaster": "f90c3bc9b259a729",
-        "listMasterVersions": "3cbd208d00ad0ded",
-        "getReleaseRating": "d791bf4e0577f4b5",
-        "getReleaseMarketStats": "834450303a084dd0",
-        "listReleaseListings": "084558a4bcd4de63",
-        "searchMarketplace": "fac38e998e145afd",
-        "listReleaseReviews": "5cfa35919b5d78fb",
-        "searchForum": "19c316fd503f446b",
-        "getSellerFeedback": "6a554863b782a28e",
-        "getUserProfile": "0a90e9ce8b6f75f6",
-        "listSellerInventory": "d71fd561fc483e47",
-        "getListing": "89ac7132e0570ed4",
-        "listCollectionFolders": "fc13e5f612fe6af1",
-        "listCollectionItems": "99b892d105c85719",
-        "listUserContributions": "befbbb7ff168409f",
-        "listWantlist": "315870d7803bc3b9",
-        "listUserLists": "716cfb2d00172f3c",
-        "getList": "9169c98b0b74c182",
-        "listUserSubmissions": "d2ad0a8c5388ed6b"
+        "searchDatabase": "a640478c68f57235",
+        "getArtist": "3c9c2e97e728cb97",
+        "listArtistReleases": "b08b7ae7a9828cc0",
+        "getLabel": "863e21ec170dd7a4",
+        "listLabelReleases": "a7f9cab4d0b61be9",
+        "getRelease": "b46672349db54b93",
+        "getMaster": "e863a831f33ad1e7",
+        "listMasterVersions": "918c02b8befa542e",
+        "getReleaseRating": "07ed2e934dd9603c",
+        "getReleaseMarketStats": "d465056a41bc5b54",
+        "listReleaseListings": "4fb2551a89dae3ed",
+        "searchMarketplace": "563073b5b2f2d1d5",
+        "listReleaseReviews": "73bc1c89cfb94afb",
+        "searchForum": "04fa52e73bea813f",
+        "getForumThread": "1fb6e13dfff148f0",
+        "getSellerFeedback": "68b1f467b2549a9b",
+        "getUserProfile": "b0c0da875856297d",
+        "listSellerInventory": "a8322d9f9faf7b62",
+        "getListing": "132909c720ba18c4",
+        "listCollectionFolders": "ce3ecc3700c11687",
+        "listCollectionItems": "f99ec5424f009008",
+        "listUserContributions": "b026c12f6a2caaf7",
+        "listWantlist": "92183e79fe7e84dd",
+        "listUserLists": "a90b9c992e81edb7",
+        "getList": "cf942aaf6b64603b",
+        "listUserSubmissions": "a75bcfb93ca89090"
       }
     },
     "providers.discord": {
@@ -63571,6 +63730,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listShopSoldItems": [
           {
             "name": "nameOrUrl",
@@ -63831,23 +64008,24 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "7ad61cc767d6deb7",
-        "getListing": "1e7daffdc0c3f020",
-        "listListingReviews": "11754ffb0f9dd64b",
-        "getShop": "25a4039aceb4bfda",
-        "listShopListings": "c94ba8f6871e23fc",
-        "listShopSoldItems": "345dcff0fafa98dd",
-        "listShopReviews": "4f4fbc204860c1c2",
-        "searchShops": "8e970b70f7fcc47b",
-        "getUserProfile": "9d1165bd73f328ec",
-        "listEditorsPicks": "88f202f42e597767",
-        "findRegistry": "d1517141b03d3f90",
-        "getRegistry": "e37def3e94bf4829",
-        "listCategories": "61beca9ba0cbea61",
-        "browseCategory": "eedfb55124a0688f",
-        "suggestSearches": "ce1f805c234de6ac",
-        "listTrendingSearches": "4da4658342588a37",
-        "estimateShipping": "b5337820b5565444"
+        "search": "9fe05c7ca4a3c859",
+        "getListing": "199a41b0a98535e9",
+        "listListingReviews": "a0edff13999fcf44",
+        "getShop": "d9ddf811ce93dba5",
+        "listShopListings": "0a21bec73c3555f4",
+        "getCart": "2680cf97bb3604b8",
+        "listShopSoldItems": "a3e9cacdae68826c",
+        "listShopReviews": "fb3aa1306fd51255",
+        "searchShops": "530da087922322f1",
+        "getUserProfile": "623d2a5e1e65672e",
+        "listEditorsPicks": "52f4abd692bb6752",
+        "findRegistry": "519beb73e707c665",
+        "getRegistry": "c3b8fc1540b6d11f",
+        "listCategories": "32068f2faf52be24",
+        "browseCategory": "2e2a6b1e6caecd36",
+        "suggestSearches": "8a2c9faa13bca3c7",
+        "listTrendingSearches": "a561eb2118382d7c",
+        "estimateShipping": "e98e03be04eea7bd"
       }
     },
     "providers.evag": {
@@ -91169,6 +91347,46 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetArticleCommentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "oldest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "most_liked"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetAuthorArticlesArgs": {
           "k": "object",
           "props": [
@@ -91610,6 +91828,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getArticleComments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleCommentsArgs"
+            },
+            "optional": false
+          }
+        ],
         "getVideo": [
           {
             "name": "args",
@@ -91678,6 +91906,24 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SubscribeToNewsletterArgs"
             },
             "optional": false
+          }
+        ],
+        "listNewsletterSubscriptions": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "listCompetitions": [
@@ -91752,28 +91998,30 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listSections": "eb229675257f6941",
-        "browseSection": "ca4caa1729dff770",
-        "getHomepageHeadlines": "df8428377d59434e",
-        "listLatestNews": "35a79e3b9d8d91e7",
-        "getArticle": "760b90850232998d",
-        "getMostPopular": "50ef603278dbd065",
-        "listArticlesByDate": "25195dcf37693f59",
-        "getLiveBlog": "eb0b6930b232619a",
-        "getVideo": "1fae5749145932b8",
-        "listVideos": "ffab1c7e4d8bfdd5",
-        "listQuizzes": "92837f020f954d20",
-        "searchArticles": "20e34fe559faed0e",
-        "getQuiz": "9c72cc01edf1ffcb",
-        "listNewsletters": "e016dcc218d8af39",
-        "subscribeToNewsletter": "e4b52a5f40d39af3",
-        "listCompetitions": "ad91c0872fb66ac2",
-        "listVoucherStores": "b0dcfc103cfca77e",
-        "getVoucherCodes": "edfafcb2a850b99f",
-        "listTopics": "6f7245f0d96230d1",
-        "getTopicArticles": "fdb061dce2ce10f9",
-        "listAuthors": "468a8b7aa0960ff9",
-        "getAuthorArticles": "d9054c01ec4fd01c"
+        "listSections": "eb75ff217a8e2226",
+        "browseSection": "f380034fdba0e81d",
+        "getHomepageHeadlines": "9291b62c9bd666bb",
+        "listLatestNews": "6bba04df4ddb2d57",
+        "getArticle": "38b58c44f5027447",
+        "getMostPopular": "03b217ea8723b8ca",
+        "listArticlesByDate": "7f8640b31e43fb11",
+        "getLiveBlog": "881a83aaf5802cc1",
+        "getArticleComments": "0ab931d6e500081b",
+        "getVideo": "da88235b8788c4c7",
+        "listVideos": "bb6e4caf92082dc3",
+        "listQuizzes": "6576704e7b7dc13d",
+        "searchArticles": "819e2ea7a1817f4d",
+        "getQuiz": "6c307eb901bf370e",
+        "listNewsletters": "af154ae8e94f639d",
+        "subscribeToNewsletter": "a166b8431782387b",
+        "listNewsletterSubscriptions": "462a11a1f087b8be",
+        "listCompetitions": "358e0dd637de8227",
+        "listVoucherStores": "b41c4cab5cc96636",
+        "getVoucherCodes": "95465fdaba3c919c",
+        "listTopics": "fb64b1e0a90ade19",
+        "getTopicArticles": "92ce04cc05897da6",
+        "listAuthors": "6eccb3af0ffdeebd",
+        "getAuthorArticles": "e140541e8886cca4"
       }
     },
     "providers.inspirecommunities": {
@@ -100155,6 +100403,97 @@ export const VALIDATORS: ValidatorTable = {
       "digests": {
         "findCenters": "6c060dc6bfa3d495",
         "getAvailability": "22eccb5fed1cc08c"
+      }
+    },
+    "providers.latimes": {
+      "defs": {
+        "BrowseSectionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "browseSection": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowseSectionArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "browseSection": "cae2a141b470e535",
+        "searchArticles": "069d331520193a92",
+        "getArticle": "bda391d858e55817"
       }
     },
     "providers.launchpad": {
@@ -178996,6 +179335,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listStoreProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "term",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "trackPackage": [
           {
             "name": "args",
@@ -179008,15 +179372,16 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findEddmRoutes": "03c8f8bf44bfcb7d",
-        "findPostOffices": "3226560a6bd1eb14",
-        "getPostOfficeDetails": "fb74e17e1b481aac",
-        "getRate": "c8b4fa83c96c9739",
-        "getInternationalRate": "bf247a7f763683ea",
-        "getPriceList": "47a9e429d5093901",
-        "getServiceAlerts": "1a25ae3d56cd71ed",
-        "searchFaq": "22f11e8952a0014a",
-        "trackPackage": "d61634e39338e3ab"
+        "findEddmRoutes": "b21bb1f0e11406a3",
+        "findPostOffices": "11a97b11c6e25872",
+        "getPostOfficeDetails": "7fd03411cee24c0b",
+        "getRate": "4ecc07e424582837",
+        "getInternationalRate": "891aa2c8cd06f3d0",
+        "getPriceList": "f27e0bfdc12735c6",
+        "getServiceAlerts": "acb3618cf7b5b99c",
+        "searchFaq": "b62818827a06f68c",
+        "listStoreProducts": "c98069758c8529be",
+        "trackPackage": "b30299e7abd0c574"
       }
     },
     "providers.va_gov": {
@@ -182943,6 +183308,267 @@ export const VALIDATORS: ValidatorTable = {
         "search": "6574d3ee3a365342"
       }
     },
+    "providers.wealthbox": {
+      "defs": {
+        "ContactFilterArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "contactId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetContactArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "contactId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListContactsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "kind",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "person"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "household"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "organization"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "trust"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "tag",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListTasksArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "contactId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "completed",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListWorkflowsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "contactId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "status",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "active"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "completed"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "scheduled"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getMe": [],
+        "listContacts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListContactsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getContact": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetContactArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listTasks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTasksArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ContactFilterArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listNotes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ContactFilterArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listTags": [],
+        "listWorkflows": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListWorkflowsArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "getMe": "99fbd7a83589e29e",
+        "listContacts": "437b514a7431fc04",
+        "getContact": "00cdcb1799886a1a",
+        "listTasks": "fdba7dd8b8df6b03",
+        "listEvents": "cb2e4c733856dd65",
+        "listNotes": "8a52c43196aad76a",
+        "listTags": "0e63d14192345ca8",
+        "listWorkflows": "bdaa1c771af384d9"
+      }
+    },
     "providers.wearehirschfeld": {
       "defs": {},
       "functions": {
@@ -185151,6 +185777,230 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "setGroupAdmin": [
+          {
+            "name": "groupName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "member",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "admin",
+            "schema": {
+              "k": "boolean"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMessageInfo": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendVoiceMessage": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "seconds",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "startCall": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "video",
+            "schema": {
+              "k": "boolean"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "clearChat": [
+          {
+            "name": "chatName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "leaveCommunity": [
+          {
+            "name": "communityName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "reactToChannelUpdate": [
+          {
+            "name": "channelName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "updateId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "emoji",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listCalls": [
           {
             "name": "opts",
@@ -185895,68 +186745,75 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getMyProfile": "32288fbf36609ce4",
-        "listChats": "37937ee68802e8a1",
-        "findContact": "6f1480c3ee1d785f",
-        "searchMessages": "a6c55f722b525b42",
-        "listContacts": "1295ebd23eea8020",
-        "checkNumber": "16a971d032136c8c",
-        "getChatMessages": "381534e16caaaa95",
-        "downloadMedia": "1bf727bb9af2ba2c",
-        "previewGroupInvite": "0e5dc6326507ad7b",
-        "createClickToChatLink": "18e7d11736722856",
-        "previewBusinessCatalog": "5e01b2924f8515ed",
-        "getChannel": "d664004ac2e94885",
-        "listBlogPosts": "58584e9dacac8a20",
-        "getBlogPost": "3d8aa0f0acaed817",
-        "searchHelpCenter": "6760a45e4f1de2f7",
-        "getHelpArticle": "cef823353f807216",
-        "getGroupInfo": "5aab649f964d944f",
-        "searchChannels": "99a2066422592103",
-        "listFollowedChannels": "849fd4f35296dcc8",
-        "getCommunity": "542b0280829f3f09",
-        "getChannelUpdates": "0450eaf7412fe635",
-        "sendMessage": "823b1f2e0aced83d",
-        "sendMessageToNumber": "afe5ebea28630536",
-        "sendMedia": "6f013f274fa8df72",
-        "reactToMessage": "20ae24806dbfad85",
-        "replyToMessage": "a196d273cf23158d",
-        "pinMessage": "2578b9f28d8dc2c9",
-        "setDisappearingMessages": "c9b7d5f225a2afb7",
-        "editMessage": "18b6b17d1ccb6546",
-        "sendPoll": "976c22041db83587",
-        "votePoll": "5eab10251faff7a5",
-        "sendContact": "773bf58cd8ece3c5",
-        "postToChannel": "daf85d71b948a78a",
-        "createBroadcastList": "75c39692e96cb240",
-        "starMessage": "a8040fd359344852",
-        "listStarredMessages": "a9e077dba4f74242",
-        "deleteChat": "3b2838272bdbd517",
-        "lockChat": "c10e8010942e5bbf",
-        "createCommunity": "19819617b59a23f7",
-        "saveContact": "13bb4395b52691e1",
-        "deleteContact": "e1a56785a23cc4a8",
-        "listCalls": "e287c1c2042db5c0",
-        "sendLocation": "45894cc6d269667c",
-        "createChannel": "b241fe1476f8212d",
-        "forwardMessage": "651e199f84dd3735",
-        "updateChat": "5bd97c6464aa1296",
-        "createGroup": "76257ebb690ce50c",
-        "updateGroup": "ecde3093a37e1cef",
-        "addGroupParticipants": "8c3e13894af88938",
-        "removeGroupParticipants": "8c3e13894af88938",
-        "joinGroupByInvite": "e3911c27943d4f1e",
-        "leaveGroup": "8cb1dc060792f028",
-        "followChannel": "ff7604b098430e00",
-        "unfollowChannel": "ff7604b098430e00",
-        "postStatus": "935ec62a864eeb3d",
-        "updateProfile": "69f66944bc3defae",
-        "blockContact": "25aa2d5cb4878dcf",
-        "updatePrivacySettings": "03d00d66f061b02e",
-        "deleteMessage": "dd666400398f365b",
-        "listCatalogProducts": "9ec2f6e6e4408093",
-        "listStatusUpdates": "af5fb1fed4fae6e6",
-        "getGroupInviteLink": "429b165d0c2e9c1e"
+        "getMyProfile": "4e85010aaad155f9",
+        "listChats": "7140a626a86df3d6",
+        "findContact": "2a5bf697db14bd96",
+        "searchMessages": "941bbfe03b828010",
+        "listContacts": "bf9990e92fc00bf9",
+        "checkNumber": "35ef832cecd7b9bf",
+        "getChatMessages": "2ba51b05bd671848",
+        "downloadMedia": "abdcd2c035aa1f5e",
+        "previewGroupInvite": "382c1443171bf11c",
+        "createClickToChatLink": "f46442f6ae79bc47",
+        "previewBusinessCatalog": "7fb4eba566efd2d9",
+        "getChannel": "f975d13c8ea06e7b",
+        "listBlogPosts": "93800df5f6d06ec3",
+        "getBlogPost": "9f8485c32d752653",
+        "searchHelpCenter": "803f813448ff88f8",
+        "getHelpArticle": "3fdab177d37740d7",
+        "getGroupInfo": "74b9ccbfc2d901a0",
+        "searchChannels": "dfabe60ec6964f33",
+        "listFollowedChannels": "b7fdc14b7d095630",
+        "getCommunity": "e4b62fb168c8fbcb",
+        "getChannelUpdates": "20f08ce01e9d6846",
+        "sendMessage": "b32ffaf8dddc225a",
+        "sendMessageToNumber": "8666eb7342b2d877",
+        "sendMedia": "e453966d3f4a954b",
+        "reactToMessage": "9b15a5f9a4cbfb24",
+        "replyToMessage": "4f44b8f9b85ca84c",
+        "pinMessage": "663aa75b3ee86a6f",
+        "setDisappearingMessages": "a4f407732e74a2e4",
+        "editMessage": "03634d5e4ffd330c",
+        "sendPoll": "dfd0da5555daa362",
+        "votePoll": "3db2ee02e91e88f0",
+        "sendContact": "993be7af707768d0",
+        "postToChannel": "d4d879ed4391c119",
+        "createBroadcastList": "0ff19f2a08ef81cb",
+        "starMessage": "8a857972a6b27b75",
+        "listStarredMessages": "54b72c4331162f51",
+        "deleteChat": "bcff18206e22758f",
+        "lockChat": "52416911d06062ab",
+        "createCommunity": "fbfca9be23f3990e",
+        "saveContact": "c9f01e6e8d626b45",
+        "deleteContact": "89229bd89d320fdf",
+        "setGroupAdmin": "9a7dcc0f2d1c24af",
+        "getMessageInfo": "47eab6defd21b725",
+        "sendVoiceMessage": "80d8baced930a8e2",
+        "startCall": "b63620087ae0f683",
+        "clearChat": "976f303936314183",
+        "leaveCommunity": "4774ce87d2014e38",
+        "reactToChannelUpdate": "e4f7f8316daee757",
+        "listCalls": "443e749d43b05014",
+        "sendLocation": "eea007ed5a275c26",
+        "createChannel": "4176bd9ff3ea2e08",
+        "forwardMessage": "0b2c61b58ca41bad",
+        "updateChat": "119727a8b58e9d7f",
+        "createGroup": "48ebd7f6d9eade32",
+        "updateGroup": "ccd3d996fed2befd",
+        "addGroupParticipants": "b67dd0c19a28d792",
+        "removeGroupParticipants": "b67dd0c19a28d792",
+        "joinGroupByInvite": "30436e2e935b05fc",
+        "leaveGroup": "50127764ff79e1b6",
+        "followChannel": "f1edbccc0f3d0c97",
+        "unfollowChannel": "f1edbccc0f3d0c97",
+        "postStatus": "8276709ae8eb023f",
+        "updateProfile": "389a09eab649abec",
+        "blockContact": "f2ce0837b1a5bf77",
+        "updatePrivacySettings": "3b8caa9730fceeb5",
+        "deleteMessage": "1472b5403af21e99",
+        "listCatalogProducts": "104668d24cc94320",
+        "listStatusUpdates": "47bf28ca3a1290dc",
+        "getGroupInviteLink": "5a9aa9c61dfe6f8a"
       }
     },
     "providers.wholefoodsmarket": {
