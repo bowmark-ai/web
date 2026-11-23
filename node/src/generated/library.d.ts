@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7aa2cab2e4847379be97e598bf1ea783b74d4259d4e748f394f0522df62b7080
-// 99 capabilities, 955 providers, 5829 typed functions, 20 refused.
+// Manifest version: 4c8414b1f66cc57971e8ea9b232b2e1770543cc60a4a35943a2293508325e837
+// 99 capabilities, 956 providers, 5854 typed functions, 20 refused.
 // 125,575 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 13,159 sites under bowmark.sites, 169,226 functions, sharing 2,058 interface(s).
 //
@@ -1726,14 +1726,16 @@ interface CallOptions {
    */
   interface Unit {
     /**
-     * Runs a free-text search — `bowmark.delivery.compareDeliveryFees("pad thai austin tx")` —
-     * across the delivery apps this library covers (DoorDash today) and returns every matching
-     * store tagged with which app quoted it, that app's own advertised delivery fee, rating and
-     * listing URL. This is the fee shown on the app's OWN results card before a cart is built, not
-     * a full checkout total (delivery + service fee + tax + tip after a real cart and address) —
-     * see the capability blurb for what that needs.
+     * Runs a free-text search — `bowmark.delivery.compareDeliveryFees("pad thai austin tx")` or `{
+     * query: "pad thai", address: "Austin, TX" }` — across the delivery apps this library covers
+     * (DoorDash today) and returns every matching store tagged with which app quoted it, that
+     * app's own advertised delivery fee, rating and listing URL. A pool run needs a place in the
+     * query or `address`; an unscoped query is refused rather than answered for Bowmark's exit.
+     * This is the fee shown on the app's OWN results card before a cart is built, not a full
+     * checkout total (delivery + service fee + tax + tip after a real cart and address) — see the
+     * capability blurb for what that needs.
      */
-    compareDeliveryFees(query: string | {query: string, limit?: number}, options?: CallOptions): Promise<CompareDeliveryFeesResult>;
+    compareDeliveryFees(query: string | {query: string, address?: string, limit?: number}, options?: CallOptions): Promise<CompareDeliveryFeesResult>;
   }
 }
 
@@ -3434,7 +3436,7 @@ interface EnrichOptions {
   web?: boolean; // open-web search for booking pages, events and articles, default false: each query is a metered Serper credit (up to 4 per person)
   webBackend?: "serper" | "duckduckgo"; // default "serper" (Google; falls back to DuckDuckGo when Serper cannot answer); "duckduckgo" never calls Serper
   allowPatternEmail?: boolean; // default false: a work email built from the company's commit-proven format, method "pattern"
-  probeEmail?: boolean; // default true: ask the domain's mail server about each pattern address (SMTP RCPT TO, never a message); false leaves it "unverified"
+  probeEmail?: boolean; // accepted for old scripts, no effect: pattern addresses are never probed and stay "unverified"
   publishedEmail?: boolean; // default true: ONE Serper search ("<full name>" "@<domain>", one metered credit, counted in webQueries) for an address the person published: their own X post, a press release's media contact. Needs `domain`
   timeoutMs?: number; // per-leg budget, default 20000
   deadlineMs?: number; // the whole call's budget, default 50000 (max 110000): legs not started or cut off by it go into pending with a warning, never a throw
@@ -3449,14 +3451,14 @@ interface LeadEmail {
   address: string;
   kind: "work" | "personal" | "role"; // role (press@) only when it is the company's sole published address; never verified
   method: "page" | "commit" | "profile" | "pattern";
-  verified: boolean; // exactly status === "verified"; true only when two independent sources tie it to them, or a probe proved a pattern address
-  status: "verified" | "catch-all" | "registered" | "unverified" | "unknown"; // show this column: verified = sourced, or the mail server accepted it and refused a random address; catch-all = the server accepts any address; registered = a pattern address whose Gravatar profile names them (a Gravatar never makes it verified); unverified = not probed, or one source only; unknown = the server would not say. An address the server says does not exist, or whose Gravatar names somebody else, is dropped.
+  verified: boolean; // exactly status === "verified"; true only when two independent sources tie it to them
+  status: "verified" | "catch-all" | "registered" | "unverified" | "unknown"; // show this column: verified = sourced; registered = a pattern address whose Gravatar profile names them (a Gravatar never makes it verified); unverified = a pattern address, or one source only. An address whose Gravatar names somebody else is dropped.
   citation: Citation; // for "pattern": the commit that proves the company's FORMAT
   evidence?: string[]; // on an unverified non-pattern address: why it is shown at all
-  probe: { host: string | null; reply: string } | null; // the mail server's answer, for a probed pattern address
+  probe: null; // always null: mail servers are never probed
   formatProof?: Citation[]; // on a "pattern" address: every cited address proving the format (other people's commits, npm maintainers, PyPI authors, keyserver keys), one per person
   gravatar?: { url: string; displayName: string | null }; // on a "pattern" address with a public Gravatar profile
-  format?: string; // on a "pattern" address: the format it was built with; only first.last / firstlast / first_last can be verified by a probe
+  format?: string; // on a "pattern" address: the format it was built with
 }
 
 interface LeadLink {
@@ -4615,6 +4617,7 @@ interface ReadOptions {
   egress?: string; // optional egress route: "default" | "static-residential"
     // (and "us-datacenter" if deployed). default uses the rotating
     // proxy vendor, "static-residential" a dedicated static exit.
+    // Exits are US; for another country use browser_agent proxyCountry.
     // Set this when you need a specific exit IP for a domain that
     // refuses our default route every time. "direct" is accepted and read as
     // "static-residential": a read never leaves from our own
@@ -7593,15 +7596,18 @@ interface abercrombieStockQuery {
      * Searches or browses Abercrombie's live catalog the way the site's own search bar and
      * category navigation do. Pass EITHER `query` (free text, e.g. "wide leg jeans") OR `category`
      * (a category/collection — the site's own URL for it, or the bare slug at the end of one, e.g.
-     * "womens-bottoms-classic-jeans-jeans") — never both. Returns each result's name, url and
-     * current `price`, plus `listPrice`/`onSale` when the card itself shows a markdown, in the
-     * site's own default order (best-match for a text search, curated for a category) — never
-     * re-sorted. **`thumbnail` is `null` on most rows past the first screen**: the grid lazy-loads
-     * images client-side and the server-rendered page carries only a placeholder there, which this
-     * function reports honestly rather than guessing a URL. `maxItems` (default 24, ceiling 90)
-     * caps the rows; this reads the FIRST page only, same as `findStores` does not walk every
-     * radius. A `category` slug the site does not recognize THROWS the same way a bad product id
-     * does on `getProduct` — it is not a valid "zero results".
+     * "womens-bottoms-classic-jeans-jeans") — never both. Slugs that work for men include
+     * "mens-tees", "mens-graphic-tees", "mens-polos" and "mens-underwear-and-socks"; guesses like
+     * "mens-tshirts" or "mens-socks" do not exist — copy the slug from the end of the category
+     * page URL on abercrombie.com. Returns each result's name, url and current `price`, plus
+     * `listPrice`/`onSale` when the card itself shows a markdown, in the site's own default order
+     * (best-match for a text search, curated for a category) — never re-sorted. **`thumbnail` is
+     * `null` on most rows past the first screen**: the grid lazy-loads images client-side and the
+     * server-rendered page carries only a placeholder there, which this function reports honestly
+     * rather than guessing a URL. `maxItems` (default 24, ceiling 90) caps the rows; this reads
+     * the FIRST page only, same as `findStores` does not walk every radius. A `category` slug the
+     * site does not recognize THROWS the same way a bad product id does on `getProduct` — it is
+     * not a valid "zero results".
      */
     search(query: abercrombieSearchQuery): Promise<abercrombieSearchResult[]>;
   }
@@ -12874,6 +12880,12 @@ interface ListFactChecksArgs {
   limit?: number;
 }
 
+interface ApNewsletter {
+  title: string;
+  description: string | null;
+  frequency: string | null;
+}
+
 interface ListVideosArgs {
   limit?: number;
 }
@@ -12897,6 +12909,26 @@ interface ApVideo {
   thumbnail: string | null;
   mp4Url: string | null;
   streamUrl: string | null;
+}
+
+interface GetAuthorArgs {
+  url: string;
+}
+
+interface ApAuthor {
+  url: string;
+  name: string;
+  bio: string | null;
+  stories: ApAuthorStory[];
+}
+
+interface ApAuthorStory {
+  title: string;
+  url: string;
+  type: "article" | "video" | "photo-gallery" | "live" | "other";
+  description: string | null;
+  byline: string | null;
+  published: string | null;
 }
 
 interface GetPhotoGalleryArgs {
@@ -12985,6 +13017,12 @@ interface ApHistoryEvent {
     listFactChecks(args?: ListFactChecksArgs): Promise<{ stories: ApStory[] }>;
 
     /**
+     * Lists the email newsletters AP offers on apnews.com/newsletters (title, description, send
+     * frequency), in page order.
+     */
+    listNewsletters(): Promise<{ newsletters: ApNewsletter[] }>;
+
+    /**
      * Lists the videos on apnews.com/video right now (title, video page url, mm:ss duration), in
      * page order. `limit` defaults to 30, max 200.
      */
@@ -12995,6 +13033,13 @@ interface ApHistoryEvent {
      * seconds, upload time, thumbnail and the direct mp4 and HLS stream urls.
      */
     getVideo(args: GetVideoArgs): Promise<ApVideo>;
+
+    /**
+     * Reads an AP journalist's author page by its apnews.com/author/<slug> url (the byline link on
+     * getArticle's `authors`): name, bio when AP lists one, and their recent stories (title, url,
+     * type, byline, published).
+     */
+    getAuthor(args: GetAuthorArgs): Promise<ApAuthor>;
 
     /**
      * Reads one AP photo gallery by its apnews.com/photo-gallery/... url: headline, photographer,
@@ -17180,6 +17225,41 @@ interface BankofamericaCreditCardDetail {
   rewardsRedeem: string | null; // How rewards are redeemed.
 }
 
+interface BankofamericaLocationsArgs {
+  state: string;
+  city: string; // City name as the directory spells it, e.g. "Alameda" or "San Francisco".
+}
+
+interface BankofamericaLocationRow {
+  id: string; // Bank of America's own facility id (the number in the page URL).
+  name: string;
+  kind: string; // "Branch" | "ATM" as the directory labels it.
+  type: string; // e.g. "Financial Center & ATM".
+  address: string;
+  latitude: number | null;
+  longitude: number | null;
+  url: string; // Pass to getLocation.
+}
+
+interface BankofamericaLocationArgs {
+  url: string; // A locators.bankofamerica.com location page URL from findLocations.
+}
+
+interface BankofamericaLocation {
+  name: string;
+  url: string;
+  address: string;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  phone: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  driveThrough: boolean;
+  hours: string[]; // Lobby hours as the page states them, e.g. "Mo 09:00 - 17:00".
+  services: string[]; // the site's own labels — read the values off a result, never guess one from prose
+}
+
   /**
    * Bank of America's public, logged-out site: published mortgage, CD and loan rates, credit
    * card terms, branches and ATMs, routing numbers and help answers.
@@ -17209,6 +17289,18 @@ interface BankofamericaCreditCardDetail {
      * shown.
      */
     listDepositAccounts(args: BankofamericaDepositAccountsArgs): Promise<BankofamericaDepositAccount[]>;
+
+    /**
+     * Lists Bank of America financial centers and ATMs in a US city (state + city): name, type,
+     * address, coordinates and a page URL for getLocation.
+     */
+    findLocations(args: BankofamericaLocationsArgs): Promise<BankofamericaLocationRow[]>;
+
+    /**
+     * Gets one Bank of America financial center or ATM by its page URL (from findLocations):
+     * address, phone, coordinates, hours, drive-through and services.
+     */
+    getLocation(args: BankofamericaLocationArgs): Promise<BankofamericaLocation>;
 
     /**
      * Gets Bank of America's published purchase or refinance mortgage rates for a ZIP code:
@@ -19075,6 +19167,26 @@ interface BibleSearchResults {
   url: string;
 }
 
+interface GetTopicalVersesArgs {
+  topic: string;
+  source?: "Nave" | "Torrey";
+  limit?: number;
+}
+
+interface TopicalEntry {
+  topic: string;
+  note: string;
+  references: string[];
+  seeTopic: string | null;
+}
+
+interface TopicalVerses {
+  topic: string;
+  source: string;
+  entries: TopicalEntry[];
+  url: string;
+}
+
 interface GetVerseOfTheDayArgs {
   version?: string;
 }
@@ -19125,6 +19237,36 @@ interface ReadingPlanDay {
   url: string;
 }
 
+interface Commentary {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+}
+
+interface GetCommentaryArgs {
+  commentary: string;
+  book: string;
+  chapter: number;
+  verse?: number;
+}
+
+interface CommentarySection {
+  range: string;
+  label: string;
+  url: string;
+}
+
+interface CommentaryNotes {
+  commentary: string;
+  book: string;
+  range: string;
+  heading: string;
+  text: string;
+  sections: CommentarySection[];
+  url: string;
+}
+
 interface Devotional {
   id: string;
   title: string;
@@ -19153,6 +19295,24 @@ interface DevotionalEntry {
    * the day, reading plans and devotionals.
    */
   interface Unit {
+    /**
+     * Lists the free commentaries in Bible Gateway's resources library (id, title, description).
+     * The ids feed getCommentary.
+     */
+    listCommentaries(): Promise<Commentary[]>;
+
+    /**
+     * Reads a free commentary's notes on a book, chapter and optional verse as plain paragraphs,
+     * plus the chapter's other sections.
+     */
+    getCommentary(args: GetCommentaryArgs): Promise<CommentaryNotes>;
+
+    /**
+     * Looks a topic up in Nave's or Torrey's topical index: the entries that mention it, each with
+     * a note and the verse references to read (getPassage fetches them).
+     */
+    getTopicalVerses(args: GetTopicalVersesArgs): Promise<TopicalVerses>;
+
     /**
      * Reads a translation's own page: its publisher, a description of how it was made, its
      * copyright and quoting terms, and its book count.
@@ -30441,6 +30601,11 @@ interface chess_comGamesArgs {
   months?: number; // 1-3, counted back from the latest archive (default 1)
 }
 
+interface chess_comGameArgs {
+  url: string; // the game's chess.com URL, live or daily
+  username?: string; // one of its players; needed for a daily game
+}
+
 interface chess_comClub {
   urlId: string; // the slug in the club's URL, for getClub
   name: string | null;
@@ -30590,6 +30755,55 @@ interface chess_comTournament {
   totalPlayers: number; // full player count before limit trimmed the list
 }
 
+interface chess_comPlayerMatches {
+  finished: chess_comPlayerMatch[];
+  inProgress: chess_comPlayerMatch[];
+  registered: chess_comPlayerMatch[];
+}
+
+interface chess_comPlayerMatch {
+  name: string | null;
+  matchUrl: string | null;
+  clubSlug: string | null;
+  playedAsWhite: string | null;
+  playedAsBlack: string | null;
+  boardUrl: string | null;
+}
+
+interface chess_comMatchArgs {
+  match: string | number; // the match id, its API or club URL, or "live/<id>" for a live match
+}
+
+interface chess_comTeamMatch {
+  matchId: number | null;
+  name: string | null;
+  url: string | null;
+  status: string | null; // "finished", "in_progress", "registered"
+  startTime: string | null;
+  endTime: string | null;
+  timeClass: string | null;
+  timeControl: string | null;
+  boards: number | null;
+  team1: chess_comTeam;
+  team2: chess_comTeam;
+}
+
+interface chess_comTeam {
+  name: string | null;
+  url: string | null;
+  score: number | null;
+  result: string | null;
+  players: chess_comTeamPlayer[];
+}
+
+interface chess_comTeamPlayer {
+  username: string;
+  board: number | null;
+  playedAsWhite: string | null;
+  playedAsBlack: string | null;
+  status: string | null; // the player's account status: "basic", "premium", "closed", "staff"
+}
+
   /**
    * Chess.com, the largest online chess site: player profiles, ratings, game archives with PGN,
    * clubs, tournaments, team matches, leaderboards and the daily puzzle, mostly from its keyless
@@ -30628,6 +30842,18 @@ interface chess_comTournament {
      * with record, placement and field size.
      */
     listPlayerTournaments(args: chess_comUsernameArgs): Promise<chess_comPlayerTournaments>;
+
+    /**
+     * Lists the team matches a Chess.com player has played in or is registered for: finished, in
+     * progress and registered, with the club, the player's colour results and the match URL.
+     */
+    listPlayerMatches(args: chess_comUsernameArgs): Promise<chess_comPlayerMatches>;
+
+    /**
+     * Reads a team match by id or URL: both teams with their scores and results, and each player
+     * with the board they sat on and their colour results.
+     */
+    getTeamMatch(args: chess_comMatchArgs): Promise<chess_comTeamMatch>;
 
     /** Reads a random Chess.com puzzle from the archive: title, FEN, PGN solution, image and URL. */
     getRandomPuzzle(): Promise<chess_comPuzzle>;
@@ -30682,6 +30908,12 @@ interface chess_comTournament {
      * and month, with players, ratings, result, time control, final position and PGN.
      */
     listPlayerGames(args: chess_comGamesArgs): Promise<chess_comGame[]>;
+
+    /**
+     * Reads one finished game by its chess.com URL: moves (PGN), players, ratings, result, opening
+     * and time control. A daily game also needs one player's username.
+     */
+    getGame(args: chess_comGameArgs): Promise<chess_comGame>;
   }
 }
 
@@ -40715,6 +40947,36 @@ interface DiscogsReleaseRating {
   userRating: number | null;
 }
 
+interface DiscogsMarketStats {
+  releaseId: number;
+  numForSale: number | null;
+  lowestPrice: { value: number | null; currency: string | null } | null;
+  blockedFromSale: boolean | null;
+}
+
+interface DiscogsReleaseListing {
+  id: number | null;
+  title: string | null;
+  label: string | null;
+  catno: string | null;
+  condition: string | null; // the site's own labels — read the values off a result, never guess one from prose
+  sleeveCondition: string | null;
+  comments: string | null;
+  seller: string | null;
+  sellerRatingPercent: number | null;
+  sellerRatingCount: number | null;
+  shipsFrom: string | null;
+  price: number | null;
+  currency: string | null;
+  shipping: string | null;
+  url: string | null;
+}
+
+interface DiscogsReleaseListingsArgs {
+  releaseId: number | string; // a Discogs release id, or a discogs.com/release/<id>-<name> URL
+  page?: number;
+}
+
 interface DiscogsUser {
   id: number | null;
   username: string | null;
@@ -41000,6 +41262,21 @@ interface DiscogsLabelReleasesArgs extends DiscogsLabelArgs {
      * user's own rating of it.
      */
     getReleaseRating(args: DiscogsReleaseRatingArgs): Promise<DiscogsReleaseRating>;
+
+    /**
+     * Read what a Discogs release sells for right now: the number of copies for sale and the
+     * lowest asking price (value and currency), and whether the release is blocked from sale.
+     * Last-sold, median and highest prices are not included.
+     */
+    getReleaseMarketStats(args: DiscogsReleaseArgs): Promise<DiscogsMarketStats>;
+
+    /**
+     * List the copies of one Discogs release for sale in the marketplace (one page, about 25 at a
+     * time): each listing's id, media and sleeve condition, seller comments, seller and rating,
+     * price and currency, shipping and ships-from. Slow: it loads the marketplace page in a
+     * browser.
+     */
+    listReleaseListings(args: DiscogsReleaseListingsArgs): Promise<{ releaseId: number; page: number; listings: DiscogsReleaseListing[] }>;
 
     /**
      * Read a Discogs user's public profile by username: name, location, profile text, join date,
@@ -42611,10 +42888,10 @@ interface DoordashRetailSearch {
     /**
      * Runs DoorDash's own store search for a cuisine, dish or store and returns real,
      * currently-listed stores with DoorDash's own advertised delivery fee, rating and ETA. Pass
-     * `address` ("San Francisco, CA" or a street address) for stores delivering THERE: A query
-     * ending in a city and US state ("pad thai austin tx") is read the same way. A bare city with
-     * no state is refused rather than guessed. Without either, DoorDash answers for Bowmark's own
-     * exit. Read-only.
+     * `address` ("San Francisco, CA", a ZIP or a street address) for stores delivering THERE: a
+     * query ending in a city/state ("pad thai austin tx") or ZIP ("tacos 78704") is read the same
+     * way. An unscoped pool search is refused rather than answered for Bowmark's own exit; the
+     * caller's Buddy browser may answer from its own location. Read-only.
      */
     search(args: DoordashSearchArgs): Promise<DoordashSearchResult[]>;
 
@@ -47717,6 +47994,64 @@ interface ExpediaRentalSearch {
   url: string;
 }
 
+interface ExpediaSearchActivitiesArgs {
+  destination: string; // City or region, "Las Vegas"
+  startDate?: string; // YYYY-MM-DD. Defaults to 14 days from today.
+  endDate?: string; // YYYY-MM-DD, after startDate. Defaults to 3 days after startDate.
+  limit?: number; // 1-100, default 25
+}
+
+interface ExpediaActivity {
+  activityId: string;
+  name: string; // "The High Roller Observation Wheel Tickets"
+  supplier: string | null;
+  duration: string | null; // "30m", "1h 30m"
+  price: string | null; // the lead price as Expedia shows it, "$22"
+  wasPrice: string | null; // the price before a discount, when Expedia shows one
+  priceNote: string | null; // "Price is $22 per adult"
+  priceSubtext: string[]; // "includes taxes & fees", "per adult"
+  image: string | null;
+}
+
+interface ExpediaActivitySearch {
+  destination: string;
+  startDate: string;
+  endDate: string;
+  resolvedRegion: string | null; // the region Expedia resolved the destination to, "Las Vegas (and vicinity)"
+  activities: ExpediaActivity[];
+  warnings: string[];
+}
+
+interface ExpediaGetActivityDetailsArgs {
+  activityId: string; // the id searchActivities returns, "224167" (an /things-to-do/...a224167.activity-details url also works)
+}
+
+interface ExpediaActivityOffer {
+  name: string; // "Daytime Ride Ticket (S3)"
+  duration: string | null;
+  priceLine: string | null; // "$31.21 x 2 Adults"
+  total: string | null; // "$62.42" for the 2 adults Expedia prices by default
+  cancellation: string | null; // "Non-refundable"
+  notes: string[]; // opening hours and validity lines
+}
+
+interface ExpediaActivityDetails {
+  activityId: string;
+  name: string;
+  supplier: string | null;
+  rating: number | null; // out of 10
+  ratingLabel: string | null; // "Wonderful"
+  reviewCount: number | null;
+  price: string | null; // the lead price, "$22"
+  features: string[]; // "30m", "Mobile voucher", "Instant confirmation"
+  overview: string[];
+  inclusions: string[];
+  knowBeforeYouBook: string[];
+  meetingPoint: string | null;
+  offers: ExpediaActivityOffer[];
+  url: string;
+}
+
 interface ExpediaRoomOption {
   label: string; // "Non-Refundable", "Fully refundable before Dec 7"
   extraCost: string | null; // "+ $37"
@@ -47834,6 +48169,26 @@ interface ExpediaCalendarPrice {
      * Expedia's own app, a few seconds. Never books.
      */
     searchCars(args: string | ExpediaSearchCarsArgs): Promise<ExpediaCarSearch>;
+
+    /**
+     * Runs Expedia's own things-to-do search for a destination —
+     * `bowmark.providers.expedia.searchActivities({ destination: "Las Vegas", startDate:
+     * "2026-12-10", endDate: "2026-12-13" })` — and returns the activities in Expedia's order:
+     * name, supplier, duration, the lead price per adult with taxes and fees, the price before a
+     * discount and the image. `limit` caps the list (default 25). A plain request as Expedia's own
+     * app, a few seconds. Never books.
+     */
+    searchActivities(args: string | ExpediaSearchActivitiesArgs): Promise<ExpediaActivitySearch>;
+
+    /**
+     * Reads one Expedia things-to-do listing — `bowmark.providers.expedia.getActivityDetails({
+     * activityId: "224167" })`, the id `searchActivities` returns — and gives its name, supplier,
+     * guest rating and review count, lead price, features, overview bullets, what is included, the
+     * know-before-you-book notes, the meeting point and every ticket option with duration, the
+     * price for 2 adults, cancellation and opening hours. A plain request as Expedia's own app, a
+     * few seconds. Never books.
+     */
+    getActivityDetails(args: string | ExpediaGetActivityDetailsArgs): Promise<ExpediaActivityDetails>;
 
     /**
      * Runs Expedia's own search with its property-type filter set to rentals —
@@ -55575,7 +55930,7 @@ interface GithubPullRequestCreated {
     listIssueComments(owner: string, repo: string, issueNumber: number, options?: GithubListIssueCommentsOptions): Promise<GithubListIssueCommentsResult>;
 
     /**
-     * Lists what a pull request changes — each file's name, status
+     * Lists the files changed in a pull request (a PR) — each file's name, status
      * (added/modified/removed/renamed), additions, deletions and its unified diff (`patch`, null
      * for binary or huge files). `options.per_page` (1-100, default 30) and `options.page` page
      * through; GitHub caps the list at 3,000 files. Shares the 60 requests/hour per IP ceiling.
@@ -66671,6 +67026,16 @@ interface InstacartListItem {
   brand: string | null;
 }
 
+interface InstacartClipCouponArgs {
+  couponId: string; // from listCoupons()
+  itemId: string; // the product item id the coupon applies to
+}
+
+interface InstacartClipCouponResult {
+  couponId: string;
+  clipped: boolean;
+}
+
 interface InstacartListCouponsArgs {
   retailerId: string; // from getStore()
   zoneId: string; // the store's zone id, from getStore()
@@ -66821,6 +67186,13 @@ interface InstacartCoupon {
      * store's shopId and zoneId from getStore. Read only. A guest pauses the run for sign-in.
      */
     getList(args: InstacartGetListArgs, opts?: ConnectionOption): Promise<InstacartList>;
+
+    /**
+     * Clips one coupon, by the couponId listCoupons returns and the itemId it applies to, to the
+     * signed-in customer's account. A write; clipping twice is the same as once. A guest pauses
+     * the run for sign-in.
+     */
+    clipCoupon(args: InstacartClipCouponArgs, opts?: ConnectionOption): Promise<InstacartClipCouponResult>;
 
     /**
      * The coupons the signed-in customer can clip or has clipped at one store, by the store's
@@ -68598,6 +68970,7 @@ interface IsllcCommunity {
   lat: number;
   lng: number;
   url: string;
+  distanceMiles: number;
 }
 
 interface IsllcSearchCommunitiesResult {
@@ -68610,14 +68983,14 @@ interface IsllcSearchCommunitiesResult {
 }
 
   /**
-   * Integral Senior Living's own community locator (islllc.com/communities/) — given a US
-   * city/state or ZIP, plus optional care type(s) and radius, returns the real, nearest-first
+   * Integral Senior Living's own community list (integralseniorliving.com/communities) — given a
+   * US city/state or ZIP, plus optional care type(s) and radius, returns the real, nearest-first
    * set of matching ISL communities.
    */
   interface Unit {
     /**
-     * Runs the site's own community locator: a US location + optional care type(s) and radius,
-     * returns the real, nearest-first matching ISL communities.
+     * Reads the site's own community list and returns the ISL communities within a radius of a US
+     * location, nearest first, optionally filtered by care type.
      */
     searchCommunities(arg: {location: string, careTypes?: IsllcCareType[], radiusMiles?: number, maxResults?: number}): Promise<IsllcSearchCommunitiesResult>;
   }
@@ -71058,6 +71431,20 @@ interface KickListSubscriptionsResult {
   nextCursor?: string;
 }
 
+interface KickUpdateProfileArgs {
+  bio?: string;
+  discord?: string;
+  twitter?: string;
+  instagram?: string;
+  facebook?: string;
+  youtube?: string;
+  tiktok?: string;
+}
+
+interface KickUpdateProfileResult {
+  updated: string[];
+}
+
 interface KickUpdateStreamInfoArgs {
   channel: string;
   title?: string;
@@ -71257,6 +71644,12 @@ interface KickPlayback {
      * message getChatMessages returned.
      */
     sendChatMessage(args: KickSendChatMessageArgs, opts?: ConnectionOption): Promise<KickSendChatMessageResult>;
+
+    /**
+     * Edits the signed-in caller's bio and social links (discord, twitter, instagram, facebook,
+     * youtube, tiktok); only the fields given change.
+     */
+    updateProfile(args: KickUpdateProfileArgs, opts?: ConnectionOption): Promise<KickUpdateProfileResult>;
 
     /**
      * Sets the title and/or category of the signed-in caller's own channel stream; takes effect
@@ -76977,6 +77370,22 @@ interface MayoClinicDrugPage {
   sections: MayoClinicSection[];
 }
 
+interface MayoClinicSiteRow {
+  title: string;
+  summary: string | null;
+  url: string;
+  type: string;
+}
+
+interface MayoClinicSitePage {
+  results: MayoClinicSiteRow[];
+  total: number | null;
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+}
+
   /** Search Mayo Clinic's diseases and conditions library by a health topic. */
   interface Unit {
     /**
@@ -77027,6 +77436,25 @@ interface MayoClinicDrugPage {
      * effects) as titled text sections; url comes from listDrugs.
      */
     getDrug(args: {url: string}): Promise<MayoClinicDrugPage>;
+
+    /**
+     * Lists the tests and procedures under one letter (or "#") of Mayo Clinic's A-Z index, with
+     * name and About-page URL.
+     */
+    listTests(args: {letter: string}): Promise<MayoClinicIndexRow[]>;
+
+    /**
+     * Gets a test or procedure page (overview, why it's done, risks, how you prepare, what you can
+     * expect, results) as titled text sections; url comes from listTests.
+     */
+    getTest(args: {url: string}): Promise<MayoClinicConditionPage>;
+
+    /**
+     * Searches all of Mayo Clinic's site (conditions, drugs, tests, symptoms, articles) for a
+     * query and returns each result's title, summary, url and content type (the url's first path
+     * segment), ten per page; page starts at 1.
+     */
+    searchSite(args: {query: string, page?: number}): Promise<MayoClinicSitePage>;
   }
 }
 
@@ -92465,6 +92893,85 @@ interface postcodes_ioLookup {
   }
 }
 
+declare namespace BowmarkProvider_postgresql {
+  // ── PostgreSQL — the unit's own declarations, verbatim ──
+interface postgresqlVersion {
+  major: string;
+  latestRelease: string;
+  current: boolean;
+  supported: boolean;
+  firstReleaseDate: string;
+  latestReleaseDate: string;
+  eolDate: string;
+}
+
+interface postgresqlSearchHit {
+  title: string;
+  url: string;
+  score: number | null;
+  snippet: string;
+}
+
+interface postgresqlSearchResults {
+  query: string;
+  version: string | null;
+  page: number;
+  total: number;
+  hits: postgresqlSearchHit[];
+}
+
+interface postgresqlSearchOptions {
+  version?: string;
+  wholeSite?: boolean;
+  page?: number;
+}
+
+interface postgresqlDocSection {
+  id: string;
+  title: string;
+}
+
+interface postgresqlDocPage {
+  url: string;
+  version: string | null;
+  title: string;
+  chapter: string | null;
+  text: string;
+  sections: postgresqlDocSection[];
+  prevUrl: string | null;
+  nextUrl: string | null;
+}
+
+  /**
+   * postgresql.org — which PostgreSQL versions are current and supported (with end-of-life
+   * dates), search the official manual, and read a manual page as clean text.
+   */
+  interface Unit {
+    /**
+     * Reads one page of the official PostgreSQL manual — a full postgresql.org/docs url, a
+     * "/docs/17/sql-select.html" path, or a bare page name like "sql-select" (read from the
+     * current manual) — and returns its title, chapter, section list, prev/next links and the
+     * prose as plain text. THROWS if the page does not exist (404).
+     */
+    getDocPage(page: string): Promise<postgresqlDocPage>;
+
+    /**
+     * Lists every PostgreSQL major version, newest first, with its latest minor release, whether
+     * it is the current release and still supported, and its first-release, latest-release and
+     * end-of-life dates — the site's own /versions.json.
+     */
+    listVersions(): Promise<postgresqlVersion[]>;
+
+    /**
+     * Searches the PostgreSQL manual on postgresql.org (the current version by default; `version:
+     * "17"` or `"devel"` for another, `wholeSite: true` for the whole site) and returns ranked
+     * hits with title, url, score and snippet, 20 per page. A hit's url goes straight into
+     * getDocPage.
+     */
+    searchDocs(query: string, options?: postgresqlSearchOptions): Promise<postgresqlSearchResults>;
+  }
+}
+
 declare namespace BowmarkProvider_posthog {
   // ── PostHog — the unit's own declarations, verbatim ──
 interface PostHogProject {
@@ -107054,64 +107561,6 @@ interface SmryDocLink {
      * saved as a run file; a no-file run receives a bounded preview instead.
      */
     readArticle(args: SmryReadArticleArgs): Promise<SmryArticle>;
-  }
-}
-
-declare namespace BowmarkProvider_smtp_probe {
-  // ── SMTP mailbox probe (MX lookup + RCPT TO, no mail sent) — the unit's own declarations, verbatim ──
-interface MxAnswer {
-  domain: string;
-  hosts: string[]; // mail hosts, most preferred first; [] when the domain takes no mail
-  source: "mx" | "a" | "none"; // a = no MX, so the domain's own host (RFC 5321); none = no mail accepted (or a null MX)
-}
-
-interface LookupMxArgs {
-  domain: string;
-} // "acme.com"
-
-interface ProbeMailboxesArgs {
-  addresses: string[];
-} // 1-5 addresses, all on ONE domain
-
-interface RcptAnswer {
-  address: string;
-  verdict: "accepted" | "rejected" | "unknown"; // rejected ONLY when the server says the user does not exist
-  code: number | null; // the SMTP reply code; null when none came
-  reply: string; // the reply's first line
-}
-
-interface MailboxProbeResult {
-  domain: string;
-  mx: MxAnswer;
-  host: string | null; // the MX that answered; null when the domain takes no mail
-  catchAll: boolean | null; // true: the server accepts ANY address, so "accepted" proves nothing
-  results: RcptAnswer[];
-  sent: string[]; // every SMTP line sent: EHLO, MAIL FROM:<>, RCPT TO, QUIT. Never DATA.
-}
-
-  /**
-   * Asks a domain's own mail server whether it would accept mail for an address, without sending
-   * any: MX lookup, then EHLO / MAIL FROM:<> / RCPT TO / QUIT, plus a random address to detect
-   * catch-all servers.
-   */
-  interface Unit {
-    /**
-     * The domain's mail hosts from DNS, most preferred first. With no MX record, the domain's own
-     * host (RFC 5321 implicit MX). `source: "none"` means the domain accepts no mail at all (no MX
-     * and no address, or a null MX).
-     */
-    lookupMx(args: LookupMxArgs): Promise<MxAnswer>;
-
-    /**
-     * Asks ONE domain's mail server about 1-5 of its addresses over SMTP port 25 — EHLO, MAIL
-     * FROM:<>, RCPT TO each, RCPT TO a random address, QUIT — and never sends a message. `verdict:
-     * "accepted"` with `catchAll: false` means the mailbox exists; `catchAll: true` means the
-     * server takes any address so nothing is proven; `"rejected"` only when the server says the
-     * user does not exist; `"unknown"` for greylisting, blocks and policy refusals (common at
-     * Google and Microsoft). THROWS when no mail server for the domain could be reached on port 25
-     * — nothing is known then.
-     */
-    probeMailboxes(args: ProbeMailboxesArgs): Promise<MailboxProbeResult>;
   }
 }
 
@@ -126027,6 +126476,51 @@ interface VillagerealtyobxQuote {
   }
 }
 
+declare namespace BowmarkProvider_vimeo {
+  // ── Vimeo — the unit's own declarations, verbatim ──
+interface VimeoPlaybackFile {
+  url: string;
+  mimeType: string;
+  width: number | null;
+  height: number | null;
+  fps: number | null;
+  qualityLabel: string | null; // e.g. "1080p"
+}
+
+interface VimeoPlayback {
+  videoId: string; // Vimeo's numeric video id.
+  title: string | null;
+  channel: string | null; // The uploader's display name.
+  durationMs: number | null;
+  live: boolean;
+  files: { muxed: VimeoPlaybackFile[]; videoOnly: never[]; audioOnly: never[] }; // Plain MP4 files (video + sound in one) when Vimeo serves them, smallest first; often empty.
+  hls: { url: string; live: boolean; hasAds: false } | null; // The HLS master playlist (fMP4, separate audio). Signed ~1 h, not bound to the reader's address.
+    // Null for a DRM-protected video: use the embed.
+  embed: { url: string; note: string }; // Vimeo's own player.
+  thumbnailUrl: string | null;
+  expiresAt: string | null; // When the signed hls URL expires (ISO), or null.
+  drm: boolean; // true when Vimeo encrypts this video: only the embed plays it.
+  warnings: string[];
+}
+
+  /**
+   * Vimeo videos as a playback menu (HLS stream + embed), so a page plays them in Bowmark's own
+   * player. No sign-in.
+   */
+  interface Unit {
+    /**
+     * The playback menu for one Vimeo video (an id, a vimeo.com link, an unlisted
+     * vimeo.com/<id>/<hash> link, or a player.vimeo.com link), so a page plays it in Bowmark's own
+     * player: `files.muxed`, the plain MP4 files (video and sound in one, every size Vimeo serves,
+     * often empty), then `hls`, the HLS master Vimeo's own player reads (every rendition, fMP4,
+     * audio as separate tracks); both signed about an hour (`expiresAt`) and playable from any
+     * address; then Vimeo's embed. A DRM-protected video comes back with no files, `hls: null`,
+     * `drm: true` and a warning: only the embed plays it. A private video throws. No sign-in.
+     */
+    getPlayback(args: {video: string}): Promise<VimeoPlayback>;
+  }
+}
+
 declare namespace BowmarkProvider_visible {
   // ── Visible — the unit's own declarations, verbatim ──
 interface VisibleDealOffer {
@@ -129415,6 +129909,13 @@ interface WhatsappSentPoll {
   time: string | null;
 }
 
+interface WhatsappLocationSent {
+  chat: string;
+  place: string;
+  id: string | null;
+  time: string | null;
+}
+
 interface WhatsappForward {
   fromChat: string;
   toChat: string;
@@ -129689,6 +130190,19 @@ interface WhatsappPrivacyChange {
      * sends twice. Needs the caller signed in.
      */
     sendPoll(chatName: string, question: string, options: string[], allowMultiple?: boolean, opts?: ConnectionOption): Promise<WhatsappSentPoll>;
+
+    /**
+     * Sends a place as a location message to a chat as the caller: the chat is opened by its exact
+     * displayed name and the place is picked from the location picker's search. Returns the sent
+     * row's id and time label. Needs the caller signed in.
+     */
+    sendLocation(chatName: string, place: string, opts?: ConnectionOption): Promise<WhatsappLocationSent>;
+
+    /**
+     * Creates a WhatsApp Channel as the caller from a name and an optional description. A public
+     * write: it is visible to anyone who finds the Channel. Needs the caller signed in.
+     */
+    createChannel(name: string, description?: string, opts?: ConnectionOption): Promise<WhatsappChannelChange>;
 
     /**
      * Forwards one of the caller's messages (by the id getChatMessages returns) from one chat to
@@ -135355,9 +135869,10 @@ interface YoutubePlayback {
      * then pass the returned `nextCursor` back as `{ cursor }` for each next page, the
      * continuation YouTube's own home grid loads as the viewer scrolls. `nextCursor` is null once
      * YouTube offers no more. A cursor it did not issue is refused. NEEDS A SIGN-IN, like
-     * `listHomeFeed`.
+     * `listHomeFeed`. When Chrome is signed out of Google the call waits about 15 s for the person
+     * to sign in; pass `waitForSignIn: false` to fail at once with the sign-in error instead.
      */
-    homeFeedPage(input?: {cursor?: string}, opts?: ConnectionOption): Promise<YoutubeHomeFeedPage>;
+    homeFeedPage(input?: {cursor?: string, waitForSignIn?: boolean}, opts?: ConnectionOption): Promise<YoutubeHomeFeedPage>;
 
     /**
      * The signed-in account's Watch Later queue, newest first, paged like any playlist; `limit`
@@ -136635,6 +137150,20 @@ interface Affordability {
      * debts, down payment and interest rate, using the 36% debt-to-income rule. No network.
      */
     calculateAffordability(args: AffordabilityArgs): Promise<Affordability>;
+
+    /**
+     * Makes a NEW Zillow account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -464961,6 +465490,7 @@ interface BowmarkProviders {
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
   postcodes_io: BowmarkProvider_postcodes_io.Unit;
+  postgresql: BowmarkProvider_postgresql.Unit;
   posthog: BowmarkProvider_posthog.Unit;
   potterybarn: BowmarkProvider_potterybarn.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
@@ -465073,7 +465603,6 @@ interface BowmarkProviders {
   smartwool: BowmarkProvider_smartwool.Unit;
   smithery: BowmarkProvider_smithery.Unit;
   smry_ai: BowmarkProvider_smry_ai.Unit;
-  smtp_probe: BowmarkProvider_smtp_probe.Unit;
   snapchat: BowmarkProvider_snapchat.Unit;
   solidcore: BowmarkProvider_solidcore.Unit;
   solostove: BowmarkProvider_solostove.Unit;
@@ -465206,6 +465735,7 @@ interface BowmarkProviders {
   vestiaire_collective: BowmarkProvider_vestiaire_collective.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;
   villagerealtyobx: BowmarkProvider_villagerealtyobx.Unit;
+  vimeo: BowmarkProvider_vimeo.Unit;
   visible: BowmarkProvider_visible.Unit;
   vistaprint: BowmarkProvider_vistaprint.Unit;
   voluspa: BowmarkProvider_voluspa.Unit;

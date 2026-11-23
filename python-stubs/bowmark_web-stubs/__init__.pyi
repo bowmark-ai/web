@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7aa2cab2e4847379be97e598bf1ea783b74d4259d4e748f394f0522df62b7080
-# 99 capabilities, 955 providers, 5801 typed functions, 20 refused.
+# Manifest version: 4c8414b1f66cc57971e8ea9b232b2e1770543cc60a4a35943a2293508325e837
+# 99 capabilities, 956 providers, 5826 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1210,6 +1210,7 @@ class Cap_delegate_DelegateSummary_Out(TypedDict):
 
 class Cap_delivery_compareDeliveryFees_query_u1_In(TypedDict):
     query: str
+    address: NotRequired[str]
     limit: NotRequired[float]
 
 class Cap_delivery_CallOptions_In(TypedDict):
@@ -2140,7 +2141,7 @@ class Cap_leads_LeadEmail_Out(TypedDict):
     status: Literal["verified"] | Literal["catch-all"] | Literal["registered"] | Literal["unverified"] | Literal["unknown"]
     citation: Cap_leads_Citation_Out
     evidence: NotRequired[list[str]]
-    probe: Cap_leads_LeadEmail_Out_probe_u0_Out | None
+    probe: None
     formatProof: NotRequired[list[Cap_leads_Citation_Out]]
     gravatar: NotRequired[Cap_leads_LeadEmail_Out_gravatar_Out]
     format: NotRequired[str]
@@ -2148,10 +2149,6 @@ class Cap_leads_LeadEmail_Out(TypedDict):
 class Cap_leads_Citation_Out(TypedDict):
     url: str
     source: str
-
-class Cap_leads_LeadEmail_Out_probe_u0_Out(TypedDict):
-    host: str | None
-    reply: str
 
 class Cap_leads_LeadEmail_Out_gravatar_Out(TypedDict):
     url: str
@@ -7761,6 +7758,14 @@ class Prv_apnews_ListFactChecksArgs_In(TypedDict):
 class Prv_apnews_listFactChecks_return_Out(TypedDict):
     stories: list[Prv_apnews_ApStory_Out]
 
+class Prv_apnews_listNewsletters_return_Out(TypedDict):
+    newsletters: list[Prv_apnews_ApNewsletter_Out]
+
+class Prv_apnews_ApNewsletter_Out(TypedDict):
+    title: str
+    description: str | None
+    frequency: str | None
+
 class Prv_apnews_ListVideosArgs_In(TypedDict):
     limit: NotRequired[float]
 
@@ -7784,6 +7789,23 @@ class Prv_apnews_ApVideo_Out(TypedDict):
     thumbnail: str | None
     mp4Url: str | None
     streamUrl: str | None
+
+class Prv_apnews_GetAuthorArgs_In(TypedDict):
+    url: str
+
+class Prv_apnews_ApAuthor_Out(TypedDict):
+    url: str
+    name: str
+    bio: str | None
+    stories: list[Prv_apnews_ApAuthorStory_Out]
+
+class Prv_apnews_ApAuthorStory_Out(TypedDict):
+    title: str
+    url: str
+    type: Literal["article"] | Literal["video"] | Literal["photo-gallery"] | Literal["live"] | Literal["other"]
+    description: str | None
+    byline: str | None
+    published: str | None
 
 class Prv_apnews_GetPhotoGalleryArgs_In(TypedDict):
     url: str
@@ -10413,6 +10435,37 @@ class Prv_bankofamerica_BankofamericaDepositAccount_Out(TypedDict):
     maximumAmountOnline: str | None
     asOf: str | None
 
+class Prv_bankofamerica_BankofamericaLocationsArgs_In(TypedDict):
+    state: str
+    city: str
+
+class Prv_bankofamerica_BankofamericaLocationRow_Out(TypedDict):
+    id: str
+    name: str
+    kind: str
+    type: str
+    address: str
+    latitude: float | None
+    longitude: float | None
+    url: str
+
+class Prv_bankofamerica_BankofamericaLocationArgs_In(TypedDict):
+    url: str
+
+class Prv_bankofamerica_BankofamericaLocation_Out(TypedDict):
+    name: str
+    url: str
+    address: str
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    driveThrough: bool
+    hours: list[str]
+    services: list[str]
+
 class Prv_bankofamerica_BankofamericaMortgageRatesArgs_In(TypedDict):
     zip: str
     purpose: NotRequired[Literal["purchase"] | Literal["refinance"]]
@@ -11520,6 +11573,49 @@ class Prv_bhphoto_StoreStock_Out(TypedDict):
     price: float | None
     currency: str
     checkedAt: str
+
+class Prv_biblegateway_Commentary_Out(TypedDict):
+    id: str
+    title: str
+    description: str
+    url: str
+
+class Prv_biblegateway_GetCommentaryArgs_In(TypedDict):
+    commentary: str
+    book: str
+    chapter: float
+    verse: NotRequired[float]
+
+class Prv_biblegateway_CommentaryNotes_Out(TypedDict):
+    commentary: str
+    book: str
+    range: str
+    heading: str
+    text: str
+    sections: list[Prv_biblegateway_CommentarySection_Out]
+    url: str
+
+class Prv_biblegateway_CommentarySection_Out(TypedDict):
+    range: str
+    label: str
+    url: str
+
+class Prv_biblegateway_GetTopicalVersesArgs_In(TypedDict):
+    topic: str
+    source: NotRequired[Literal["Nave"] | Literal["Torrey"]]
+    limit: NotRequired[float]
+
+class Prv_biblegateway_TopicalVerses_Out(TypedDict):
+    topic: str
+    source: str
+    entries: list[Prv_biblegateway_TopicalEntry_Out]
+    url: str
+
+class Prv_biblegateway_TopicalEntry_Out(TypedDict):
+    topic: str
+    note: str
+    references: list[str]
+    seeTopic: str | None
 
 class Prv_biblegateway_GetVersionInfoArgs_In(TypedDict):
     version: str
@@ -19002,6 +19098,49 @@ class Prv_chess_com_chess_comPlayerTournament_Out(TypedDict):
     timeClass: str | None
     type: str | None
 
+class Prv_chess_com_chess_comPlayerMatches_Out(TypedDict):
+    finished: list[Prv_chess_com_chess_comPlayerMatch_Out]
+    inProgress: list[Prv_chess_com_chess_comPlayerMatch_Out]
+    registered: list[Prv_chess_com_chess_comPlayerMatch_Out]
+
+class Prv_chess_com_chess_comPlayerMatch_Out(TypedDict):
+    name: str | None
+    matchUrl: str | None
+    clubSlug: str | None
+    playedAsWhite: str | None
+    playedAsBlack: str | None
+    boardUrl: str | None
+
+class Prv_chess_com_chess_comMatchArgs_In(TypedDict):
+    match: str | float
+
+class Prv_chess_com_chess_comTeamMatch_Out(TypedDict):
+    matchId: float | None
+    name: str | None
+    url: str | None
+    status: str | None
+    startTime: str | None
+    endTime: str | None
+    timeClass: str | None
+    timeControl: str | None
+    boards: float | None
+    team1: Prv_chess_com_chess_comTeam_Out
+    team2: Prv_chess_com_chess_comTeam_Out
+
+class Prv_chess_com_chess_comTeam_Out(TypedDict):
+    name: str | None
+    url: str | None
+    score: float | None
+    result: str | None
+    players: list[Prv_chess_com_chess_comTeamPlayer_Out]
+
+class Prv_chess_com_chess_comTeamPlayer_Out(TypedDict):
+    username: str
+    board: float | None
+    playedAsWhite: str | None
+    playedAsBlack: str | None
+    status: str | None
+
 class Prv_chess_com_chess_comPuzzle_Out(TypedDict):
     title: str
     url: str | None
@@ -19116,6 +19255,10 @@ class Prv_chess_com_chess_comGamePlayer_Out(TypedDict):
     username: str | None
     rating: float | None
     result: str | None
+
+class Prv_chess_com_chess_comGameArgs_In(TypedDict):
+    url: str
+    username: NotRequired[str]
 
 class Prv_chick_fil_a_ChickFilALocationArgs_In(TypedDict):
     url: NotRequired[str]
@@ -25723,6 +25866,42 @@ class Prv_discogs_DiscogsReleaseRating_Out(TypedDict):
     user: str | None
     userRating: float | None
 
+class Prv_discogs_DiscogsMarketStats_Out(TypedDict):
+    releaseId: float
+    numForSale: float | None
+    lowestPrice: Prv_discogs_DiscogsMarketStats_Out_lowestPrice_u0_Out | None
+    blockedFromSale: bool | None
+
+class Prv_discogs_DiscogsMarketStats_Out_lowestPrice_u0_Out(TypedDict):
+    value: float | None
+    currency: str | None
+
+class Prv_discogs_DiscogsReleaseListingsArgs_In(TypedDict):
+    releaseId: float | str
+    page: NotRequired[float]
+
+class Prv_discogs_listReleaseListings_return_Out(TypedDict):
+    releaseId: float
+    page: float
+    listings: list[Prv_discogs_DiscogsReleaseListing_Out]
+
+class Prv_discogs_DiscogsReleaseListing_Out(TypedDict):
+    id: float | None
+    title: str | None
+    label: str | None
+    catno: str | None
+    condition: str | None
+    sleeveCondition: str | None
+    comments: str | None
+    seller: str | None
+    sellerRatingPercent: float | None
+    sellerRatingCount: float | None
+    shipsFrom: str | None
+    price: float | None
+    currency: str | None
+    shipping: str | None
+    url: str | None
+
 class Prv_discogs_DiscogsUserArgs_In(TypedDict):
     username: str
 
@@ -30727,6 +30906,58 @@ class Prv_expedia_ExpediaCar_Out(TypedDict):
     pricePerDay: str | None
     total: str | None
     url: str | None
+
+class Prv_expedia_ExpediaSearchActivitiesArgs_In(TypedDict):
+    destination: str
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_expedia_ExpediaActivitySearch_Out(TypedDict):
+    destination: str
+    startDate: str
+    endDate: str
+    resolvedRegion: str | None
+    activities: list[Prv_expedia_ExpediaActivity_Out]
+    warnings: list[str]
+
+class Prv_expedia_ExpediaActivity_Out(TypedDict):
+    activityId: str
+    name: str
+    supplier: str | None
+    duration: str | None
+    price: str | None
+    wasPrice: str | None
+    priceNote: str | None
+    priceSubtext: list[str]
+    image: str | None
+
+class Prv_expedia_ExpediaGetActivityDetailsArgs_In(TypedDict):
+    activityId: str
+
+class Prv_expedia_ExpediaActivityDetails_Out(TypedDict):
+    activityId: str
+    name: str
+    supplier: str | None
+    rating: float | None
+    ratingLabel: str | None
+    reviewCount: float | None
+    price: str | None
+    features: list[str]
+    overview: list[str]
+    inclusions: list[str]
+    knowBeforeYouBook: list[str]
+    meetingPoint: str | None
+    offers: list[Prv_expedia_ExpediaActivityOffer_Out]
+    url: str
+
+class Prv_expedia_ExpediaActivityOffer_Out(TypedDict):
+    name: str
+    duration: str | None
+    priceLine: str | None
+    total: str | None
+    cancellation: str | None
+    notes: list[str]
 
 class Prv_expedia_ExpediaSearchVacationRentalsArgs_In(TypedDict):
     destination: str
@@ -42530,6 +42761,14 @@ class Prv_instacart_InstacartListItem_Out(TypedDict):
     name: str | None
     brand: str | None
 
+class Prv_instacart_InstacartClipCouponArgs_In(TypedDict):
+    couponId: str
+    itemId: str
+
+class Prv_instacart_InstacartClipCouponResult_Out(TypedDict):
+    couponId: str
+    clipped: bool
+
 class Prv_instacart_InstacartListCouponsArgs_In(TypedDict):
     retailerId: str
     zoneId: str
@@ -43637,6 +43876,7 @@ class Prv_islllc_IsllcCommunity_Out(TypedDict):
     lat: float
     lng: float
     url: str
+    distanceMiles: float
 
 class Prv_istanbulkart_IstanbulkartCardFee_Out(TypedDict):
     cardTypeName: str
@@ -45249,6 +45489,18 @@ class Prv_kick_KickSendChatMessageResult_Out(TypedDict):
     chatroomId: float
     messageId: NotRequired[str]
     content: str
+
+class Prv_kick_KickUpdateProfileArgs_In(TypedDict):
+    bio: NotRequired[str]
+    discord: NotRequired[str]
+    twitter: NotRequired[str]
+    instagram: NotRequired[str]
+    facebook: NotRequired[str]
+    youtube: NotRequired[str]
+    tiktok: NotRequired[str]
+
+class Prv_kick_KickUpdateProfileResult_Out(TypedDict):
+    updated: list[str]
 
 class Prv_kick_KickUpdateStreamInfoArgs_In(TypedDict):
     channel: str
@@ -48749,6 +49001,30 @@ class Prv_mayoclinic_MayoClinicDrugPage_Out(TypedDict):
     name: str
     url: str
     sections: list[Prv_mayoclinic_MayoClinicSection_Out]
+
+class Prv_mayoclinic_listTests_args_In(TypedDict):
+    letter: str
+
+class Prv_mayoclinic_getTest_args_In(TypedDict):
+    url: str
+
+class Prv_mayoclinic_searchSite_args_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_mayoclinic_MayoClinicSitePage_Out(TypedDict):
+    results: list[Prv_mayoclinic_MayoClinicSiteRow_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_mayoclinic_MayoClinicSiteRow_Out(TypedDict):
+    title: str
+    summary: str | None
+    url: str
+    type: str
 
 class Prv_mcp_directory_search_query_u1_In(TypedDict):
     query: NotRequired[str]
@@ -58511,6 +58787,47 @@ class Prv_postcodes_io_postcodes_ioLookup_Out(TypedDict):
     quality: float | None
     terminated: str | None
 
+class Prv_postgresql_postgresqlDocPage_Out(TypedDict):
+    url: str
+    version: str | None
+    title: str
+    chapter: str | None
+    text: str
+    sections: list[Prv_postgresql_postgresqlDocSection_Out]
+    prevUrl: str | None
+    nextUrl: str | None
+
+class Prv_postgresql_postgresqlDocSection_Out(TypedDict):
+    id: str
+    title: str
+
+class Prv_postgresql_postgresqlVersion_Out(TypedDict):
+    major: str
+    latestRelease: str
+    current: bool
+    supported: bool
+    firstReleaseDate: str
+    latestReleaseDate: str
+    eolDate: str
+
+class Prv_postgresql_postgresqlSearchOptions_In(TypedDict):
+    version: NotRequired[str]
+    wholeSite: NotRequired[bool]
+    page: NotRequired[float]
+
+class Prv_postgresql_postgresqlSearchResults_Out(TypedDict):
+    query: str
+    version: str | None
+    page: float
+    total: float
+    hits: list[Prv_postgresql_postgresqlSearchHit_Out]
+
+class Prv_postgresql_postgresqlSearchHit_Out(TypedDict):
+    title: str
+    url: str
+    score: float | None
+    snippet: str
+
 class Prv_posthog_PostHogInsightArgs_In(TypedDict):
     projectId: float
     insightId: float
@@ -68166,31 +68483,6 @@ class Prv_smry_ai_smry_aiSavedFile_Out(TypedDict):
     url: str
     expiresAt: str
     keepUntil: NotRequired[str | None]
-
-class Prv_smtp_probe_LookupMxArgs_In(TypedDict):
-    domain: str
-
-class Prv_smtp_probe_MxAnswer_Out(TypedDict):
-    domain: str
-    hosts: list[str]
-    source: Literal["mx"] | Literal["a"] | Literal["none"]
-
-class Prv_smtp_probe_ProbeMailboxesArgs_In(TypedDict):
-    addresses: Sequence[str]
-
-class Prv_smtp_probe_MailboxProbeResult_Out(TypedDict):
-    domain: str
-    mx: Prv_smtp_probe_MxAnswer_Out
-    host: str | None
-    catchAll: bool | None
-    results: list[Prv_smtp_probe_RcptAnswer_Out]
-    sent: list[str]
-
-class Prv_smtp_probe_RcptAnswer_Out(TypedDict):
-    address: str
-    verdict: Literal["accepted"] | Literal["rejected"] | Literal["unknown"]
-    code: float | None
-    reply: str
 
 class Prv_snapchat_SnapchatSearchResult_Out(TypedDict):
     query: str
@@ -80901,6 +81193,45 @@ class Prv_villagerealtyobx_VillagerealtyobxQuote_Out(TypedDict):
     bookNowURL: str | None
     message: str | None
 
+class Prv_vimeo_getPlayback_args_In(TypedDict):
+    video: str
+
+class Prv_vimeo_VimeoPlayback_Out(TypedDict):
+    videoId: str
+    title: str | None
+    channel: str | None
+    durationMs: float | None
+    live: bool
+    files: Prv_vimeo_VimeoPlayback_Out_files_Out
+    hls: Prv_vimeo_VimeoPlayback_Out_hls_u0_Out | None
+    embed: Prv_vimeo_VimeoPlayback_Out_embed_Out
+    thumbnailUrl: str | None
+    expiresAt: str | None
+    drm: bool
+    warnings: list[str]
+
+class Prv_vimeo_VimeoPlayback_Out_files_Out(TypedDict):
+    muxed: list[Prv_vimeo_VimeoPlaybackFile_Out]
+    videoOnly: list[Any]
+    audioOnly: list[Any]
+
+class Prv_vimeo_VimeoPlaybackFile_Out(TypedDict):
+    url: str
+    mimeType: str
+    width: float | None
+    height: float | None
+    fps: float | None
+    qualityLabel: str | None
+
+class Prv_vimeo_VimeoPlayback_Out_hls_u0_Out(TypedDict):
+    url: str
+    live: bool
+    hasAds: Literal[False]
+
+class Prv_vimeo_VimeoPlayback_Out_embed_Out(TypedDict):
+    url: str
+    note: str
+
 class Prv_visible_listDeals_options_In(TypedDict):
     includePrograms: NotRequired[bool]
 
@@ -83155,6 +83486,16 @@ class Prv_whatsapp_WhatsappSentPoll_Out(TypedDict):
     id: str | None
     time: str | None
 
+class Prv_whatsapp_WhatsappLocationSent_Out(TypedDict):
+    chat: str
+    place: str
+    id: str | None
+    time: str | None
+
+class Prv_whatsapp_WhatsappChannelChange_Out(TypedDict):
+    channel: str
+    applied: list[str]
+
 class Prv_whatsapp_WhatsappForward_Out(TypedDict):
     fromChat: str
     toChat: str
@@ -83177,10 +83518,6 @@ class Prv_whatsapp_WhatsappGroupChange_Out(TypedDict):
 class Prv_whatsapp_updateGroup_update_In(TypedDict):
     name: NotRequired[str]
     description: NotRequired[str]
-
-class Prv_whatsapp_WhatsappChannelChange_Out(TypedDict):
-    channel: str
-    applied: list[str]
 
 class Prv_whatsapp_WhatsappStatusPost_Out(TypedDict):
     applied: list[str]
@@ -86974,6 +87311,7 @@ class Prv_youtube_listHomeFeed_input_In(TypedDict):
 
 class Prv_youtube_homeFeedPage_input_In(TypedDict):
     cursor: NotRequired[str]
+    waitForSignIn: NotRequired[bool]
 
 class Prv_youtube_YoutubeHomeFeedPage_Out(TypedDict):
     items: list[Prv_youtube_YoutubeSearchVideo_Out]
@@ -87901,6 +88239,46 @@ class Prv_zillow_Affordability_Out(TypedDict):
     downPaymentPercent: float
     assumptions: list[str]
 
+class Prv_zillow_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_zillow_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_zillow_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_zillow_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_zillow_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_zillow_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_zillow_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_zillow_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_zoom_ZoomPricingResult_Out(TypedDict):
     plans: list[Prv_zoom_ZoomPricingPlan_Out]
 
@@ -88680,12 +89058,14 @@ class Cap_delivery(Protocol):
     """
 
     async def compareDeliveryFees(self, query: str | Cap_delivery_compareDeliveryFees_query_u1_In, options: Cap_delivery_CallOptions_In | None = None, /) -> Cap_delivery_CompareDeliveryFeesResult_Out:
-        """Runs a free-text search — `bowmark.delivery.compareDeliveryFees("pad thai austin tx")` —
-        across the delivery apps this library covers (DoorDash today) and returns every matching
-        store tagged with which app quoted it, that app's own advertised delivery fee, rating
-        and listing URL. This is the fee shown on the app's OWN results card before a cart is
-        built, not a full checkout total (delivery + service fee + tax + tip after a real cart
-        and address) — see the capability blurb for what that needs.
+        """Runs a free-text search — `bowmark.delivery.compareDeliveryFees("pad thai austin tx")`
+        or `{ query: "pad thai", address: "Austin, TX" }` — across the delivery apps this
+        library covers (DoorDash today) and returns every matching store tagged with which app
+        quoted it, that app's own advertised delivery fee, rating and listing URL. A pool run
+        needs a place in the query or `address`; an unscoped query is refused rather than
+        answered for Bowmark's exit. This is the fee shown on the app's OWN results card before
+        a cart is built, not a full checkout total (delivery + service fee + tax + tip after a
+        real cart and address) — see the capability blurb for what that needs.
         """
 
 class Cap_developer_api_key_signup(Protocol):
@@ -90753,7 +91133,10 @@ class Prv_abercrombie(Protocol):
         """Searches or browses Abercrombie's live catalog the way the site's own search bar and
         category navigation do. Pass EITHER `query` (free text, e.g. "wide leg jeans") OR
         `category` (a category/collection — the site's own URL for it, or the bare slug at the
-        end of one, e.g. "womens-bottoms-classic-jeans-jeans") — never both. Returns each
+        end of one, e.g. "womens-bottoms-classic-jeans-jeans") — never both. Slugs that work for
+        men include "mens-tees", "mens-graphic-tees", "mens-polos" and
+        "mens-underwear-and-socks"; guesses like "mens-tshirts" or "mens-socks" do not exist —
+        copy the slug from the end of the category page URL on abercrombie.com. Returns each
         result's name, url and current `price`, plus `listPrice`/`onSale` when the card itself
         shows a markdown, in the site's own default order (best-match for a text search, curated
         for a category) — never re-sorted. **`thumbnail` is `null` on most rows past the first
@@ -92610,6 +92993,11 @@ class Prv_apnews(Protocol):
         url, last-updated time), in page order. `limit` defaults to 30, max 200.
         """
 
+    async def listNewsletters(self, /) -> Prv_apnews_listNewsletters_return_Out:
+        """Lists the email newsletters AP offers on apnews.com/newsletters (title, description,
+        send frequency), in page order.
+        """
+
     async def listVideos(self, args: Prv_apnews_ListVideosArgs_In | None = None, /) -> Prv_apnews_listVideos_return_Out:
         """Lists the videos on apnews.com/video right now (title, video page url, mm:ss duration),
         in page order. `limit` defaults to 30, max 200.
@@ -92618,6 +93006,12 @@ class Prv_apnews(Protocol):
     async def getVideo(self, args: Prv_apnews_GetVideoArgs_In, /) -> Prv_apnews_ApVideo_Out:
         """Reads one AP video page by its apnews.com/video/... url: title, description, duration in
         seconds, upload time, thumbnail and the direct mp4 and HLS stream urls.
+        """
+
+    async def getAuthor(self, args: Prv_apnews_GetAuthorArgs_In, /) -> Prv_apnews_ApAuthor_Out:
+        """Reads an AP journalist's author page by its apnews.com/author/<slug> url (the byline
+        link on getArticle's `authors`): name, bio when AP lists one, and their recent stories
+        (title, url, type, byline, published).
         """
 
     async def getPhotoGallery(self, args: Prv_apnews_GetPhotoGalleryArgs_In, /) -> Prv_apnews_ApPhotoGallery_Out:
@@ -94020,6 +94414,16 @@ class Prv_bankofamerica(Protocol):
         where shown.
         """
 
+    async def findLocations(self, args: Prv_bankofamerica_BankofamericaLocationsArgs_In, /) -> list[Prv_bankofamerica_BankofamericaLocationRow_Out]:
+        """Lists Bank of America financial centers and ATMs in a US city (state + city): name,
+        type, address, coordinates and a page URL for getLocation.
+        """
+
+    async def getLocation(self, args: Prv_bankofamerica_BankofamericaLocationArgs_In, /) -> Prv_bankofamerica_BankofamericaLocation_Out:
+        """Gets one Bank of America financial center or ATM by its page URL (from findLocations):
+        address, phone, coordinates, hours, drive-through and services.
+        """
+
     async def getMortgageRates(self, args: Prv_bankofamerica_BankofamericaMortgageRatesArgs_In, /) -> Prv_bankofamerica_BankofamericaMortgageRates_Out:
         """Gets Bank of America's published purchase or refinance mortgage rates for a ZIP code:
         30/20/15-year fixed and 10/7/5-year ARMs with rate, APR, points, monthly payment and
@@ -94615,6 +95019,21 @@ class Prv_biblegateway(Protocol):
     """Bible Gateway: read, compare and search Bible passages in 200+ translations, plus verse
     of the day, reading plans and devotionals.
     """
+
+    async def listCommentaries(self, /) -> list[Prv_biblegateway_Commentary_Out]:
+        """Lists the free commentaries in Bible Gateway's resources library (id, title,
+        description). The ids feed getCommentary.
+        """
+
+    async def getCommentary(self, args: Prv_biblegateway_GetCommentaryArgs_In, /) -> Prv_biblegateway_CommentaryNotes_Out:
+        """Reads a free commentary's notes on a book, chapter and optional verse as plain
+        paragraphs, plus the chapter's other sections.
+        """
+
+    async def getTopicalVerses(self, args: Prv_biblegateway_GetTopicalVersesArgs_In, /) -> Prv_biblegateway_TopicalVerses_Out:
+        """Looks a topic up in Nave's or Torrey's topical index: the entries that mention it, each
+        with a note and the verse references to read (getPassage fetches them).
+        """
 
     async def getVersionInfo(self, args: Prv_biblegateway_GetVersionInfoArgs_In, /) -> Prv_biblegateway_VersionInfo_Out:
         """Reads a translation's own page: its publisher, a description of how it was made, its
@@ -98447,6 +98866,17 @@ class Prv_chess_com(Protocol):
         registered, with record, placement and field size.
         """
 
+    async def listPlayerMatches(self, args: Prv_chess_com_chess_comUsernameArgs_In, /) -> Prv_chess_com_chess_comPlayerMatches_Out:
+        """Lists the team matches a Chess.com player has played in or is registered for: finished,
+        in progress and registered, with the club, the player's colour results and the match
+        URL.
+        """
+
+    async def getTeamMatch(self, args: Prv_chess_com_chess_comMatchArgs_In, /) -> Prv_chess_com_chess_comTeamMatch_Out:
+        """Reads a team match by id or URL: both teams with their scores and results, and each
+        player with the board they sat on and their colour results.
+        """
+
     async def getRandomPuzzle(self, /) -> Prv_chess_com_chess_comPuzzle_Out:
         """Reads a random Chess.com puzzle from the archive: title, FEN, PGN solution, image and
         URL.
@@ -98494,6 +98924,11 @@ class Prv_chess_com(Protocol):
     async def listPlayerGames(self, args: Prv_chess_com_chess_comGamesArgs_In, /) -> list[Prv_chess_com_chess_comGame_Out]:
         """Lists a player's finished games for the latest month (up to three), or for one given
         year and month, with players, ratings, result, time control, final position and PGN.
+        """
+
+    async def getGame(self, args: Prv_chess_com_chess_comGameArgs_In, /) -> Prv_chess_com_chess_comGame_Out:
+        """Reads one finished game by its chess.com URL: moves (PGN), players, ratings, result,
+        opening and time control. A daily game also needs one player's username.
         """
 
 class Prv_chick_fil_a(Protocol):
@@ -102013,6 +102448,19 @@ class Prv_discogs(Protocol):
         user's own rating of it.
         """
 
+    async def getReleaseMarketStats(self, args: Prv_discogs_DiscogsReleaseArgs_In, /) -> Prv_discogs_DiscogsMarketStats_Out:
+        """Read what a Discogs release sells for right now: the number of copies for sale and the
+        lowest asking price (value and currency), and whether the release is blocked from sale.
+        Last-sold, median and highest prices are not included.
+        """
+
+    async def listReleaseListings(self, args: Prv_discogs_DiscogsReleaseListingsArgs_In, /) -> Prv_discogs_listReleaseListings_return_Out:
+        """List the copies of one Discogs release for sale in the marketplace (one page, about 25
+        at a time): each listing's id, media and sleeve condition, seller comments, seller and
+        rating, price and currency, shipping and ships-from. Slow: it loads the marketplace page
+        in a browser.
+        """
+
     async def getUserProfile(self, args: str | Prv_discogs_DiscogsUserArgs_In, /) -> Prv_discogs_DiscogsUser_Out:
         """Read a Discogs user's public profile by username: name, location, profile text, join
         date, seller and buyer ratings, and collection, wantlist, for-sale and contribution
@@ -102617,10 +103065,10 @@ class Prv_doordash(Protocol):
     async def search(self, args: Prv_doordash_DoordashSearchArgs_In, /) -> list[Prv_doordash_DoordashSearchResult_Out]:
         """Runs DoorDash's own store search for a cuisine, dish or store and returns real,
         currently-listed stores with DoorDash's own advertised delivery fee, rating and ETA.
-        Pass `address` ("San Francisco, CA" or a street address) for stores delivering THERE: A
-        query ending in a city and US state ("pad thai austin tx") is read the same way. A bare
-        city with no state is refused rather than guessed. Without either, DoorDash answers for
-        Bowmark's own exit. Read-only.
+        Pass `address` ("San Francisco, CA", a ZIP or a street address) for stores delivering
+        THERE: a query ending in a city/state ("pad thai austin tx") or ZIP ("tacos 78704") is
+        read the same way. An unscoped pool search is refused rather than answered for Bowmark's
+        own exit; the caller's Buddy browser may answer from its own location. Read-only.
         """
 
     async def getStore(self, args: Prv_doordash_getStore_args_In, /) -> Prv_doordash_DoordashStore_Out:
@@ -104372,6 +104820,24 @@ class Prv_expedia(Protocol):
         order: class, model, rental company, features, pickup spot, price per day and total with
         taxes and fees, and the offer's Expedia link. `limit` caps the list (default 25). A
         plain request as Expedia's own app, a few seconds. Never books.
+        """
+
+    async def searchActivities(self, args: str | Prv_expedia_ExpediaSearchActivitiesArgs_In, /) -> Prv_expedia_ExpediaActivitySearch_Out:
+        """Runs Expedia's own things-to-do search for a destination —
+        `bowmark.providers.expedia.searchActivities({ destination: "Las Vegas", startDate:
+        "2026-12-10", endDate: "2026-12-13" })` — and returns the activities in Expedia's order:
+        name, supplier, duration, the lead price per adult with taxes and fees, the price before
+        a discount and the image. `limit` caps the list (default 25). A plain request as
+        Expedia's own app, a few seconds. Never books.
+        """
+
+    async def getActivityDetails(self, args: str | Prv_expedia_ExpediaGetActivityDetailsArgs_In, /) -> Prv_expedia_ExpediaActivityDetails_Out:
+        """Reads one Expedia things-to-do listing — `bowmark.providers.expedia.getActivityDetails({
+        activityId: "224167" })`, the id `searchActivities` returns — and gives its name,
+        supplier, guest rating and review count, lead price, features, overview bullets, what is
+        included, the know-before-you-book notes, the meeting point and every ticket option with
+        duration, the price for 2 adults, cancellation and opening hours. A plain request as
+        Expedia's own app, a few seconds. Never books.
         """
 
     async def searchVacationRentals(self, args: str | Prv_expedia_ExpediaSearchVacationRentalsArgs_In, /) -> Prv_expedia_ExpediaRentalSearch_Out:
@@ -106788,7 +107254,7 @@ class Prv_github(Protocol):
         """
 
     async def listPullRequestFiles(self, owner: str, repo: str, pullNumber: float, options: Prv_github_GithubListPullRequestFilesOptions_In | None = None, /) -> Prv_github_GithubListPullRequestFilesResult_Out:
-        """Lists what a pull request changes — each file's name, status
+        """Lists the files changed in a pull request (a PR) — each file's name, status
         (added/modified/removed/renamed), additions, deletions and its unified diff (`patch`,
         null for binary or huge files). `options.per_page` (1-100, default 30) and
         `options.page` page through; GitHub caps the list at 3,000 files. Shares the 60
@@ -110853,6 +111319,12 @@ class Prv_instacart(Protocol):
         sign-in.
         """
 
+    async def clipCoupon(self, args: Prv_instacart_InstacartClipCouponArgs_In, opts: ConnectionOption | None = None, /) -> Prv_instacart_InstacartClipCouponResult_Out:
+        """Clips one coupon, by the couponId listCoupons returns and the itemId it applies to, to
+        the signed-in customer's account. A write; clipping twice is the same as once. A guest
+        pauses the run for sign-in.
+        """
+
     async def listCoupons(self, args: Prv_instacart_InstacartListCouponsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_instacart_InstacartCoupon_Out]:
         """The coupons the signed-in customer can clip or has clipped at one store, by the store's
         retailerId and zoneId from getStore. Read only. A guest pauses the run for sign-in.
@@ -111551,14 +112023,14 @@ class Prv_irs(Protocol):
         """
 
 class Prv_islllc(Protocol):
-    """Integral Senior Living's own community locator (islllc.com/communities/) — given a US
-    city/state or ZIP, plus optional care type(s) and radius, returns the real,
+    """Integral Senior Living's own community list (integralseniorliving.com/communities) —
+    given a US city/state or ZIP, plus optional care type(s) and radius, returns the real,
     nearest-first set of matching ISL communities.
     """
 
     async def searchCommunities(self, arg: Prv_islllc_searchCommunities_arg_In, /) -> Prv_islllc_IsllcSearchCommunitiesResult_Out:
-        """Runs the site's own community locator: a US location + optional care type(s) and radius,
-        returns the real, nearest-first matching ISL communities.
+        """Reads the site's own community list and returns the ISL communities within a radius of a
+        US location, nearest first, optionally filtered by care type.
         """
 
 class Prv_istanbulkart(Protocol):
@@ -112391,6 +112863,11 @@ class Prv_kick(Protocol):
     async def sendChatMessage(self, args: Prv_kick_KickSendChatMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_kick_KickSendChatMessageResult_Out:
         """Posts a message in a channel's chat as the signed-in caller, optionally as a reply to
         one message getChatMessages returned.
+        """
+
+    async def updateProfile(self, args: Prv_kick_KickUpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_kick_KickUpdateProfileResult_Out:
+        """Edits the signed-in caller's bio and social links (discord, twitter, instagram,
+        facebook, youtube, tiktok); only the fields given change.
         """
 
     async def updateStreamInfo(self, args: Prv_kick_KickUpdateStreamInfoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_kick_KickUpdateStreamInfoResult_Out:
@@ -114741,6 +115218,22 @@ class Prv_mayoclinic(Protocol):
     async def getDrug(self, args: Prv_mayoclinic_getDrug_args_In, /) -> Prv_mayoclinic_MayoClinicDrugPage_Out:
         """Gets a drug monograph (brand names, description, before using, proper use, precautions,
         side effects) as titled text sections; url comes from listDrugs.
+        """
+
+    async def listTests(self, args: Prv_mayoclinic_listTests_args_In, /) -> list[Prv_mayoclinic_MayoClinicIndexRow_Out]:
+        """Lists the tests and procedures under one letter (or "#") of Mayo Clinic's A-Z index,
+        with name and About-page URL.
+        """
+
+    async def getTest(self, args: Prv_mayoclinic_getTest_args_In, /) -> Prv_mayoclinic_MayoClinicConditionPage_Out:
+        """Gets a test or procedure page (overview, why it's done, risks, how you prepare, what you
+        can expect, results) as titled text sections; url comes from listTests.
+        """
+
+    async def searchSite(self, args: Prv_mayoclinic_searchSite_args_In, /) -> Prv_mayoclinic_MayoClinicSitePage_Out:
+        """Searches all of Mayo Clinic's site (conditions, drugs, tests, symptoms, articles) for a
+        query and returns each result's title, summary, url and content type (the url's first
+        path segment), ten per page; page starts at 1.
         """
 
 class Prv_mcdonalds(Protocol):
@@ -119883,6 +120376,31 @@ class Prv_postcodes_io(Protocol):
         ("SW1A 1AA")
         """
 
+class Prv_postgresql(Protocol):
+    """postgresql.org — which PostgreSQL versions are current and supported (with end-of-life
+    dates), search the official manual, and read a manual page as clean text.
+    """
+
+    async def getDocPage(self, page: str, /) -> Prv_postgresql_postgresqlDocPage_Out:
+        """Reads one page of the official PostgreSQL manual — a full postgresql.org/docs url, a
+        "/docs/17/sql-select.html" path, or a bare page name like "sql-select" (read from the
+        current manual) — and returns its title, chapter, section list, prev/next links and the
+        prose as plain text. THROWS if the page does not exist (404).
+        """
+
+    async def listVersions(self, /) -> list[Prv_postgresql_postgresqlVersion_Out]:
+        """Lists every PostgreSQL major version, newest first, with its latest minor release,
+        whether it is the current release and still supported, and its first-release,
+        latest-release and end-of-life dates — the site's own /versions.json.
+        """
+
+    async def searchDocs(self, query: str, options: Prv_postgresql_postgresqlSearchOptions_In | None = None, /) -> Prv_postgresql_postgresqlSearchResults_Out:
+        """Searches the PostgreSQL manual on postgresql.org (the current version by default;
+        `version: "17"` or `"devel"` for another, `wholeSite: true` for the whole site) and
+        returns ranked hits with title, url, score and snippet, 20 per page. A hit's url goes
+        straight into getDocPage.
+        """
+
 class Prv_posthog(Protocol):
     """Read projects, saved insights, and retention analysis from the caller's own PostHog
     account with a personal API key.
@@ -124671,28 +125189,6 @@ class Prv_smry_ai(Protocol):
     async def readArticle(self, args: Prv_smry_ai_SmryReadArticleArgs_In, /) -> Prv_smry_ai_SmryArticle_Out:
         """Reads a public article through smry's clean reader. The complete paragraph-anchored text
         is saved as a run file; a no-file run receives a bounded preview instead.
-        """
-
-class Prv_smtp_probe(Protocol):
-    """Asks a domain's own mail server whether it would accept mail for an address, without
-    sending any: MX lookup, then EHLO / MAIL FROM:<> / RCPT TO / QUIT, plus a random address
-    to detect catch-all servers.
-    """
-
-    async def lookupMx(self, args: Prv_smtp_probe_LookupMxArgs_In, /) -> Prv_smtp_probe_MxAnswer_Out:
-        """The domain's mail hosts from DNS, most preferred first. With no MX record, the domain's
-        own host (RFC 5321 implicit MX). `source: "none"` means the domain accepts no mail at
-        all (no MX and no address, or a null MX).
-        """
-
-    async def probeMailboxes(self, args: Prv_smtp_probe_ProbeMailboxesArgs_In, /) -> Prv_smtp_probe_MailboxProbeResult_Out:
-        """Asks ONE domain's mail server about 1-5 of its addresses over SMTP port 25 — EHLO, MAIL
-        FROM:<>, RCPT TO each, RCPT TO a random address, QUIT — and never sends a message.
-        `verdict: "accepted"` with `catchAll: false` means the mailbox exists; `catchAll: true`
-        means the server takes any address so nothing is proven; `"rejected"` only when the
-        server says the user does not exist; `"unknown"` for greylisting, blocks and policy
-        refusals (common at Google and Microsoft). THROWS when no mail server for the domain
-        could be reached on port 25 — nothing is known then.
         """
 
 class Prv_snapchat(Protocol):
@@ -130761,6 +131257,22 @@ class Prv_villagerealtyobx(Protocol):
         Realty's own live price.
         """
 
+class Prv_vimeo(Protocol):
+    """Vimeo videos as a playback menu (HLS stream + embed), so a page plays them in Bowmark's
+    own player. No sign-in.
+    """
+
+    async def getPlayback(self, args: Prv_vimeo_getPlayback_args_In, /) -> Prv_vimeo_VimeoPlayback_Out:
+        """The playback menu for one Vimeo video (an id, a vimeo.com link, an unlisted
+        vimeo.com/<id>/<hash> link, or a player.vimeo.com link), so a page plays it in Bowmark's
+        own player: `files.muxed`, the plain MP4 files (video and sound in one, every size Vimeo
+        serves, often empty), then `hls`, the HLS master Vimeo's own player reads (every
+        rendition, fMP4, audio as separate tracks); both signed about an hour (`expiresAt`) and
+        playable from any address; then Vimeo's embed. A DRM-protected video comes back with no
+        files, `hls: null`, `drm: true` and a warning: only the embed plays it. A private video
+        throws. No sign-in.
+        """
+
 class Prv_visible(Protocol):
     """Visible (Verizon's prepaid brand): the promotions running right now — the offer grid
     with its promo codes and fine print, plus the standing referral, trade-in, payback,
@@ -132040,6 +132552,17 @@ class Prv_whatsapp(Protocol):
         """Creates a poll in a chat as the caller: a question, two to twelve options and whether
         several answers are allowed. Returns the sent row's id and time label; a retried run
         never sends twice. Needs the caller signed in.
+        """
+
+    async def sendLocation(self, chatName: str, place: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappLocationSent_Out:
+        """Sends a place as a location message to a chat as the caller: the chat is opened by its
+        exact displayed name and the place is picked from the location picker's search. Returns
+        the sent row's id and time label. Needs the caller signed in.
+        """
+
+    async def createChannel(self, name: str, description: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelChange_Out:
+        """Creates a WhatsApp Channel as the caller from a name and an optional description. A
+        public write: it is visible to anyone who finds the Channel. Needs the caller signed in.
         """
 
     async def forwardMessage(self, fromChat: str, messageId: str, toChat: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappForward_Out:
@@ -134091,7 +134614,9 @@ class Prv_youtube(Protocol):
         `listHomeFeed` returns), then pass the returned `nextCursor` back as `{ cursor }` for
         each next page, the continuation YouTube's own home grid loads as the viewer scrolls.
         `nextCursor` is null once YouTube offers no more. A cursor it did not issue is refused.
-        NEEDS A SIGN-IN, like `listHomeFeed`.
+        NEEDS A SIGN-IN, like `listHomeFeed`. When Chrome is signed out of Google the call waits
+        about 15 s for the person to sign in; pass `waitForSignIn: false` to fail at once with
+        the sign-in error instead.
         """
 
     async def listWatchLater(self, input: Prv_youtube_listWatchLater_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
@@ -134579,6 +135104,18 @@ class Prv_zillow(Protocol):
         """How much house can I afford: the highest home price a buyer can afford from income,
         monthly debts, down payment and interest rate, using the 36% debt-to-income rule. No
         network.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_zillow_signup_return_u0_Out | Prv_zillow_signup_return_u1_Out | Prv_zillow_signup_return_u2_Out | Prv_zillow_signup_return_u3_Out:
+        """Makes a NEW Zillow account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_zillow_confirmSignup_return_u0_Out | Prv_zillow_confirmSignup_return_u1_Out | Prv_zillow_confirmSignup_return_u2_Out | Prv_zillow_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_zoom(Protocol):
@@ -135385,6 +135922,7 @@ class BowmarkProviders(Protocol):
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
     postcodes_io: Prv_postcodes_io
+    postgresql: Prv_postgresql
     posthog: Prv_posthog
     potterybarn: Prv_potterybarn
     premierbuildings: Prv_premierbuildings
@@ -135497,7 +136035,6 @@ class BowmarkProviders(Protocol):
     smartwool: Prv_smartwool
     smithery: Prv_smithery
     smry_ai: Prv_smry_ai
-    smtp_probe: Prv_smtp_probe
     snapchat: Prv_snapchat
     solidcore: Prv_solidcore
     solostove: Prv_solostove
@@ -135630,6 +136167,7 @@ class BowmarkProviders(Protocol):
     vestiaire_collective: Prv_vestiaire_collective
     viewrail: Prv_viewrail
     villagerealtyobx: Prv_villagerealtyobx
+    vimeo: Prv_vimeo
     visible: Prv_visible
     vistaprint: Prv_vistaprint
     voluspa: Prv_voluspa
