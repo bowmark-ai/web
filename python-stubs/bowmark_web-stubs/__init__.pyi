@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: be4a9404b6460463ccd274e16b4a6c27ab40b4bd5af2694dc9a4bd63b18616e0
-# 99 capabilities, 968 providers, 6000 typed functions, 20 refused.
+# Manifest version: cc7bf62dc0dcc779d8deefe35882305afc31ea2af49fd5424d690d30a39ef0d8
+# 99 capabilities, 968 providers, 6006 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6087,6 +6087,42 @@ class Prv_airbnb_AirbnbTripDetail_Out(TypedDict):
     imageUrl: str | None
     url: str | None
     partial: Literal[True]
+
+class Prv_airbnb_listWishlists_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_airbnb_AirbnbWishlists_Out(TypedDict):
+    wishlists: list[Prv_airbnb_AirbnbWishlist_Out]
+
+class Prv_airbnb_AirbnbWishlist_Out(TypedDict):
+    id: str
+    internalId: str | None
+    name: str | None
+    isPrivate: bool | None
+    stayCount: float
+    experienceCount: float
+    placeCount: float
+    dateRange: str | None
+    imageUrl: str | None
+    url: str | None
+
+class Prv_airbnb_getWishlist_args_In(TypedDict):
+    id: NotRequired[str]
+    internalId: NotRequired[float]
+
+class Prv_airbnb_AirbnbWishlistDetail_Out(TypedDict):
+    id: str
+    internalId: str | None
+    name: str | None
+    url: str | None
+    items: list[Prv_airbnb_AirbnbWishlistItem_Out]
+    partial: Literal[True]
+
+class Prv_airbnb_AirbnbWishlistItem_Out(TypedDict):
+    kind: Literal["stay"] | Literal["experience"] | Literal["icon"] | Literal["other"]
+    id: str | None
+    entityId: str | None
+    isAvailable: bool | None
 
 class Prv_airbnb_listTrips_args_In(TypedDict):
     limit: NotRequired[float]
@@ -50276,6 +50312,7 @@ class Prv_mayoclinic_MayoClinicConditionPage_Out(TypedDict):
     page: str | None
     url: str
     sections: list[Prv_mayoclinic_MayoClinicSection_Out]
+    alternates: NotRequired[Mapping[str, str]]
 
 class Prv_mayoclinic_MayoClinicSection_Out(TypedDict):
     heading: str
@@ -53849,6 +53886,40 @@ class Prv_nbcnews_Article_Out(TypedDict):
 class Prv_nbcnews_Article_Out_authors_item_Out(TypedDict):
     name: str
     url: NotRequired[str]
+
+class Prv_nbcnews_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_nbcnews_Video_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    description: NotRequired[str]
+    durationSeconds: NotRequired[float]
+    publishedAt: NotRequired[str]
+    source: NotRequired[str]
+    thumbnailUrl: NotRequired[str]
+    hasCaptions: bool
+    streams: list[Prv_nbcnews_Video_Out_streams_item_Out]
+
+class Prv_nbcnews_Video_Out_streams_item_Out(TypedDict):
+    format: str
+    url: str
+    height: NotRequired[float]
+    width: NotRequired[float]
+
+class Prv_nbcnews_ListSectionsArgs_In(TypedDict):
+    pass
+
+class Prv_nbcnews_SectionList_Out(TypedDict):
+    total: float
+    items: list[Prv_nbcnews_Section_Out]
+
+class Prv_nbcnews_Section_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    kind: str
 
 class Prv_nerdwallet_NerdWalletCreditCardComparison_Out(TypedDict):
     cards: list[Prv_nerdwallet_NerdWalletCreditCard_Out]
@@ -68821,6 +68892,11 @@ class Prv_shein_sheinStore_Out(TypedDict):
 
 class Prv_shein_SheinListStoreProductsArgs_In(TypedDict):
     storeCode: str
+
+class Prv_shein_sheinTrendingSearch_Out(TypedDict):
+    word: str
+    wordId: str | None
+    type: str | None
 
 class Prv_shein_sheinOrder_Out(TypedDict):
     orderId: str
@@ -85314,6 +85390,14 @@ class Prv_wellnessliving_WellnesslivingInstructor_Out(TypedDict):
     isAppointmentProvider: bool
     isEventInstructor: bool
 
+class Prv_wellnessliving_WellnesslivingPromotion_Out(TypedDict):
+    id: str
+    title: str
+    kind: Literal["pass-or-membership"] | Literal["retail-product"] | Literal["gift-card"] | Literal["other"]
+    price: str | None
+    url: str
+    locationIds: list[str]
+
 class Prv_wellnessliving_WellnesslivingClassType_Out(TypedDict):
     id: str
     businessId: str
@@ -94282,6 +94366,24 @@ class Prv_airbnb(Protocol):
         not read yet. Runs through the caller's own Chrome when Bowmark Buddy is attached,
         otherwise from a saved Airbnb sign-in; with neither, the run pauses for the caller to
         sign in.
+        """
+
+    async def listWishlists(self, args: Prv_airbnb_listWishlists_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_airbnb_AirbnbWishlists_Out:
+        """SIGNED IN — the caller's own Airbnb wishlists from airbnb.com/wishlists: id, name,
+        private flag, how many stays, experiences and places each holds, its date range, cover
+        photo and page. `limit` caps the lists (1-50, default 12). Runs through the caller's own
+        Chrome when Bowmark Buddy is attached, otherwise from a saved Airbnb sign-in; with
+        neither, the run pauses for the caller to sign in. No wishlists is `{ wishlists: [] }`.
+        """
+
+    async def getWishlist(self, args: Prv_airbnb_getWishlist_args_In, opts: ConnectionOption | None = None, /) -> Prv_airbnb_AirbnbWishlistDetail_Out:
+        """SIGNED IN — what one of the caller's own Airbnb wishlists holds, by the `id`
+        listWishlists returns (or `internalId`, the number in /wishlists/<n>): its name and
+        page, and each saved item's kind (stay, experience, icon), id, the listing or experience
+        number it points at and whether it is available. `partial: true`: item titles, prices
+        and photos are not read yet — pass the entityId to getListing or getExperience for
+        those. Runs through the caller's own Chrome when Bowmark Buddy is attached, otherwise
+        from a saved Airbnb sign-in; with neither, the run pauses for the caller to sign in.
         """
 
     async def listTrips(self, args: Prv_airbnb_listTrips_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_airbnb_AirbnbTrips_Out:
@@ -120058,6 +120160,16 @@ class Prv_nbcnews(Protocol):
     async def listPodcasts(self, args: Prv_nbcnews_ListHeadlinesArgs_In, /) -> Prv_nbcnews_HeadlineList_Out:
         """List NBC News podcasts (show name and page URL) from the podcasts front."""
 
+    async def getVideo(self, args: Prv_nbcnews_GetVideoArgs_In, /) -> Prv_nbcnews_Video_Out:
+        """Read one NBC News video's metadata: title, description, duration, publish time,
+        thumbnail and stream URLs.
+        """
+
+    async def listSections(self, args: Prv_nbcnews_ListSectionsArgs_In, /) -> Prv_nbcnews_SectionList_Out:
+        """List the sections NBC News publishes (Politics, U.S. News, World, local markets, shows,
+        verticals) with slug and URL, to pick one for listSectionHeadlines.
+        """
+
 class Prv_nerdwallet(Protocol):
     """NerdWallet's current best-credit-card picks, ratings, fees, rewards and APRs."""
 
@@ -127763,6 +127875,12 @@ class Prv_shein(Protocol):
     async def listStoreProducts(self, args: Prv_shein_SheinListStoreProductsArgs_In, /) -> list[Prv_shein_sheinProduct_Out]:
         """The first page of products a marketplace store sells (about 20) — title, price, image
         and product page URL. Takes the `storeCode` `getStore` returns.
+        """
+
+    async def listTrendingSearches(self, /) -> list[Prv_shein_sheinTrendingSearch_Out]:
+        """The trending search keywords Shein's search box offers (hot searches, plus campaign
+        terms) — word, Shein's word id and the kind. The box returns the same list whatever is
+        typed, so this takes no query.
         """
 
     async def listNewArrivals(self, /) -> list[Prv_shein_sheinProduct_Out]:
@@ -135606,6 +135724,12 @@ class Prv_wellnessliving(Protocol):
         and whether they teach classes, take appointments or run events. This is the whole
         roster, not filtered to instructors currently teaching a class; cross-reference
         `listScheduleClasses`'s `staffIds` to find who teaches what this week.
+        """
+
+    async def getPromotions(self, args: Prv_wellnessliving_WellnesslivingListLocationsArgs_In, /) -> list[Prv_wellnessliving_WellnesslivingPromotion_Out]:
+        """Lists what a business sells in its online store — passes, memberships, retail products
+        and gift cards — with kind, price (null for passes and memberships, which are priced per
+        option on the item's page), link and the locations selling it.
         """
 
     async def getClassTypes(self, args: Prv_wellnessliving_WellnesslivingListLocationsArgs_In, /) -> list[Prv_wellnessliving_WellnesslivingClassType_Out]:
