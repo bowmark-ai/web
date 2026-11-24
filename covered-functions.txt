@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 140,432 sites, generated 2026-11-24.
+# Every website Bowmark covers and the functions it has: 140,440 sites, generated 2026-11-24.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 0017bf80 Get_a_list_of_planets#073ade69 airportDistance#0ab457b6 airportSuggest#356e4a7c binLookup#f2fbc6c4 calculateCaloriesBurned#d9081d6c calculateIncomeTax#ffab1fe4 calculateMortgage#b10dc094 calculatePaycheckWithholding#248bf78b calculateSalesTax#42eebe11 checkDisposableEmail#352ba971 checkLotteryTicket#6cd2842b classifyNaics#ab3fedb0 closestAirport#e040a996 convertAirportCode#9c1830bd convertCurrency#e42a3843 detectFaces#6d3d4604 detectObjects#43f3b6a8 encodeText#d99f5c08 extractTextFromImage#e5e60ae1 filterProfanity#9453947e generateBarcode#dff190d1 generateLoremIpsum#f4a81a3f generatePassword#5a4a9135 generateQRCode#61569f4f getAdvice#5966bae8 getAirQuality#2be13d29 getAircraft#2f026868 getAirlines#7908895c getAirports#63d09acf getAirportsList#2cd97543 getAllCatNames#5966bae8 getAllCountries#5966bae8 getAllCountryFlags#5966bae8 getAllDogs#5966bae8 getAllExercises#b03c1541 getAnalytics#2f74b018 getAnimals#5e3c1955 getBabyNames#fb6b2946 getBalanceSheet#8f2295a6 getBalanceSheetAvailability#db14f187 getBankHolidays#b43a2982 getBankInfo#ef201b34 getBitcoinData#5966bae8 getBitcoinHistoricalData#643a286c getBitcoinTreasury#3418db3e getBsbInfo#92e04c48 getBucketListItem#5966bae8 getCanadaRoutingNumberInfo#95790b8b getCarFacets#ecce56eb getCarGenerations#860c2c96 getCarMakes#f7a5bd3e getCarModels#0e5a0c65 getCars#2c689ce9 getCashFlow#8f2295a6 getCashFlowAvailability#db14f187 getCats#9ee374a8 getCelebrity#9b62ae1b getChuckNorrisJoke#051a528e getCityData#a8d0a4d2 getCommodityContract#fcac7e96 getCommodityContractList#5966bae8 getCommodityForwardCurve#5f8488fa getCommoditySnapshot#b79f99d0 getCommoditySpotPrice#b4c72e89 getCounter#afe03ae4 getCountryData#4e4a2989 getCountryFlag#824fd415 getCounty#d21898cd getCovidData#3aef9e55 getCryptoPrice#f2874ff3 getCryptoPriceHistorical#1d8aad49 getCryptoSymbols#5966bae8 getCryptoTreasury#deaaa498 getCurrencyVolatility#8c462276 getCurrencyVolatilityForecast#52f1e51a getCurrencyVolatilityHistorical#08124469 getCurrentCommodityPrice#d6e2ca3d getCurrentGoldPrice#1ce37565 getCurrentInflation#a05d9b69 getCurrentInterestRates#b2bd4e45 getCurrentMetalsPrice#04d37cee getCurrentOilPrice#1b47f3e0 getDNSRecords#fbf682e2 getDadJoke#cad2c562 getDayInHistory#e7d45901 getDefinition#92caf459 getDogs#c02c0876 getDomainInfo#fbf682e2 getETFInfo#605200e6 getEVCharger#930e6f50 getEarnings#d9a82cae getEarningsCalendar#5a567da2 getEarningsCalendarList#5966bae8 getEarningsCallParticipants#8a3ff5d9 getEarningsCallSpeaker#7c7d25fd getEarningsTranscript#73eeb195 getElectricVehicleData#12ec1e1a getElectricVehicleMakes#58fce5bd getElectricVehicleModels#3c2eae68 getEmojis#ec4da961 getEuriborRates#5966bae8 getExchangeRate#8deb4a7a getExecutiveCompensation#3f183912 getExercises#05dc8a43 getFactOfTheDay#5966bae8 getFacts#f2e1b8f5 getGDPData#4a302aa7 getGeocoding#a818d927 getGoldSpotPrice#1ce37565 getHelicopterData#58480699 getHistoricalCommodityPrice#67f490c5 getHistoricalEvents#b40cb821 getHistoricalExchangeRate#ec89b2db getHistoricalGoldPrice#dc092a8c getHistoricalInflation#89f29a87 getHistoricalInterestRates#a2aa2ca3 getHistoricalLiborRates#744f9e59 getHistoricalOilPrice#022955f6 getHobby#30a73f67 getHolidays#070547a2 getHoroscope#d8db66e7 getHospitals#a42f0e8b getIBAN#b359c6ae getIPInfo#e240f78a getIncomeStatement#8f2295a6 getIncomeStatementAvailability#db14f187 getIncomeTax#219f8fbc getInsiderDetails#4296cc7f getInsiderTransactions#7a34c249 getInsidersList#71022505 getInstitutionalHoldings#7dc65bd2 getInstitutionalInvestors#719f5821 getInstitutionalMovers#1b968edf getInstitutionalOwnership#9bb72b32 getIpoCalendar#c818990f getJoke#110cc6d8 getJokeOfTheDay#5966bae8 getLogos#66529535 getLotteryDraw#8ee30721 getLotteryHistoricalDraws#7b087310 getMXRecords#7a1ce585 getMarketCap#ef7fca62 getMortgageRate#58e45841 getMotorCarrier#61d5b79c getMotorCarrierInsurance#cd77c392 getMotorCarrierLinks#cd77c392 getMotorCarrierSafety#cd77c392 getMotorcycleMakes#5966bae8 getMotorcycleModels#11c0663e getMutualFund#896ad21a getNaics#6ec8b6a5 getNaicsRisk#ceda9cd7 getNaicsSizeStandard#2004b38e getNutrition#3e66c99d getNutritionBarcode#46db0426 getNutritionItem#232fec63 getOilSpotPrice#d356f90b getPinCode#5701bad5 getPopulationData#31921fcf getPostalCode#84221428 getPropertyTax#bf214490 getPublicHolidays#6eee0c00 getQuoteAuthors#7902b8f2 getQuoteOfTheDay#5966bae8 getQuotes#e4ae7485 getRandomImage#42658870 getRandomQuotes#0021aaf6 getRandomUsers#8f42dfff getRandomWord#6161108d getRecipes#71f6b74f getReverseGeocoding#b2cbfd85 getRhyme#92caf459 getRiddles#946e37b0 getSalesTax#14ae746a getSalesTaxFiling#8c066ba8 getSalesTaxHolidays#72d052cc getSalesTaxNexus#a59e609d getSalesTaxRateChanges#582a5758 getUpcomingEarnings#b845d2f2 isBankHoliday#22530a8d isHoliday#4078a05a isPublicHoliday#4646ab9f listActivities#5966bae8 listETFs#1241ce7a listEarningsCallTranscripts#c286b025 listLotteryGames#53d60b4a listLotteryJackpots#aeb1c93f phoneLookup#400950eb screenSanctions#07e3b1a0 searchBanks#b25c53ac searchBsb#d0671d04 searchCanadaRoutingNumbers#356f3cd9 searchCocktails#a650c886 searchETFs#57c454bc searchEarningsTranscripts#d37d9295 searchHistoricalFigures#729233ed searchMotorCarriers#10b3328e searchMotorcycles#04c93d9b searchNaics#c87d467d searchSEC#45757635
@@ -475,7 +475,6 @@
 = 2b85e0e0 dhi_create_mirror#76cd0616 dhi_get_image_attestations#1f55f81e dhi_get_image_cves#b5b66827 dhi_get_image_details#eb9d3b41 dhi_get_image_packages#9c4707dd dhi_get_repository#46cfdbaf dhi_get_tag_definition#ff6e383c dhi_list_mirrors#95ac369e dhi_list_repositories#f301d054 dhi_remove_mirror#4fca099d
 = 2b9676a0 get_item#ee401deb get_storefront#ccc1c5da list_categories#a6449078 search_items#1a7f80cf
 = 2bedb8d8 compareCommits createComment createIssue createPullRequest createReview createReviewComment deleteComment getFileContents getIssue getOrganization getProfileReadme getPullRequest getReadme getRepo getSocialAccounts getSponsorPage getUser getUserRepositories listCommits listContributors listIssueComments listIssues listMarketplaceActions listNotifications listOrganizationMembers listOrganizationRepositories listPullRequestFiles listPullRequests listReleases listSecurityAdvisories listStarredRepositories listTopics listTrendingRepositories listWorkflowRuns mergePullRequest searchCode searchIssues searchRepositories searchUsers starRepository unstarRepository unwatchRepository updateComment updateIssue updatePullRequest watchRepository
-= 2bf1f30e getArticle getAuthor getLiveBlog getVideo listHeadlines listLatestStories listNewsletters listPodcasts listSectionHeadlines listSections listVideos searchArticles
 = 2bf48aea searchListings
 = 2c012497 latestArticles
 = 2c09e80c filesfm_create_folder#ffb7ee10 filesfm_delete_file#da528568 filesfm_delete_folder#483f0f06 filesfm_dvs_add_comment#7e6a4489 filesfm_dvs_cancel_email_mailing#4fbe5d27 filesfm_dvs_count_email_recipients#c85eea6f filesfm_dvs_create_document#7af4e6a7 filesfm_dvs_create_task#7f4d4ff7 filesfm_dvs_get_comments#68e3aaa9 filesfm_dvs_get_document#1934b140 filesfm_dvs_get_email_draft#9181ac90 filesfm_dvs_get_email_mailing#2b651be5 filesfm_dvs_get_email_preparation#2b651be5 filesfm_dvs_get_email_quota#a95f5222 filesfm_dvs_get_fields#271d77eb filesfm_dvs_get_users#8df653c7 filesfm_dvs_list_documents#7845d478 filesfm_dvs_list_email_addresses#f453e207 filesfm_dvs_list_email_drafts#a95f5222 filesfm_dvs_list_email_lists#a95f5222 filesfm_dvs_list_email_mailings#e4f42974 filesfm_dvs_list_email_preparations#a95f5222 filesfm_dvs_list_email_revisions#2b651be5 filesfm_dvs_list_sections#a95f5222 filesfm_dvs_queue_email#e4c31e13 filesfm_dvs_save_email_address#e830706d filesfm_dvs_save_email_draft#1b89c3d1 filesfm_dvs_save_email_list#9c492643 filesfm_dvs_save_email_preparation#b0d8a3dc filesfm_dvs_search_email_addresses#6e88cc3c filesfm_dvs_search_users#4c21d3ef filesfm_dvs_send_email_test#4a64ddac filesfm_dvs_set_email_list_members#ac4a2f5f filesfm_dvs_set_project_members#320f435e filesfm_dvs_update_document#fbef19f5 filesfm_dvs_update_task#84718c43 filesfm_dvs_upload_file#277a3301 filesfm_get_doc#2f77e985 filesfm_get_file_info#3693a364 filesfm_get_folder_info#98aef660 filesfm_get_root_folder#daea6ffc filesfm_import_file#a6231eee filesfm_list_folder#014a2a00 filesfm_move_file#2d2cc8cb filesfm_move_folder#f7bf714f filesfm_read_file#cb38767e filesfm_rename_file#8c534e2d filesfm_rename_folder#1fbf8e17 filesfm_replace_file#dc2396c5 filesfm_search_docs#2c4a41ab filesfm_search_files#da209491 filesfm_upload_file#ae5593b0
@@ -1975,7 +1974,6 @@
 = ba3d7dbe get_listing_detail#fe7af5c2 get_listing_info#18d164b2 render_listings#f29698dd search_autosupermarket#28bd7526 search_brands#da349e41 search_dealers#695fdd07 search_models#f68bad37 search_versions#21dc1325
 = ba54e193 query_docs_filesystem_code_rabbit#1c279d62 search_code_rabbit#58af85d0 submit_feedback#7fd329e5
 = ba568e39 create_document_for_signing#4d737670
-= ba8d2e97 bookClass cancelBooking getClass getGym getMyProfile getPlan joinWaitlist listAppointmentTypes listClasses listCoaches listLocations listMyBookings listMyDocuments listMyInvoices listMyPlans listPlans
 = babc1f4c yubhub_search#27d1fa58
 = babf4df2 calculateRollsNeeded
 = bac279d8 find_nearby_cu_stores#46a06fc7 search_products#508a686f search_promotions#3303b379 search_store_stocks#b52c8e3f
@@ -2367,6 +2365,7 @@
 = e3415c8a contact_smart_center#eac805c5
 = e34d329f acceptFriendRequest addReaction blockUser createInvite createServer createThread deleteMessage editMessage getAnnouncement getApp getDocPage getGame getInvite getMyProfile getServer getUserProfile joinServer leaveServer listAppCategories listBlogPosts listChannels listDirectMessages listDocPages listFeaturedApps listFriendRequests listFriends listMentions listMessages listMyServers listPinnedMessages listQuests listServerAnnouncements listServerCategories listServerEvents listServers listSimilarApps listThreads listTrendingGames removeFriend removeReaction searchApps searchMessages searchServerMembers searchServers sendDirectMessage sendFriendRequest sendMessage setAvatar setStatus updateProfile
 = e36fd1b3 compare_charities#14076563 fetch#4e2b8c2a find_connected_charities#fcfbca63 find_nearby_charities#491635c3 get_charity#1ff28959 get_charity_finances#a4c0bcc2 get_dataset_status#daea6ffc get_trustee#dca4013b list_charity_documents#0babe2a9 list_charity_website_pages#20e1dab4 list_filter_values#2940b934 read_charity_document#76038655 read_charity_website_page#916c59c2 search#a3b99b67 search_charities#800d3c17 search_documents#ffa4b012 search_trustees#4dc8b058 search_websites#fa5a44bc send_feedback#5ab63967
+= e383f6e4 getArticle getAuthor getLiveBlog getRecipe getVideo listHeadlines listLatestStories listNewsletters listPodcasts listSectionHeadlines listSections listSelectDeals listVideos searchArticles
 = e38ac152 listings
 = e3d57d5e query_docs_filesystem_tavrn_enterprise_api#1c279d62 search_tavrn_enterprise_api#d5bf627d submit_feedback#7fd329e5
 = e3e41550 batch_download#2f5ed714 blast_results#7171c1f7 blast_status#61fbbf95 blast_submit#36f66e74 convert_coordinates#baa55bc8 cytosearch#8f385ac4 entities_for_term#c8573123 get_disease_models#527333e3 get_gene_groups_and_pathways#e89b2e72 get_interactions#6d2c9681 get_orthologs#f0966b28 get_report#d006f174 get_sequence#b43985b2 get_stocks#6157a8c7 get_term#99ca08a2 get_wiki_page#ccc06d10 list_species#841015f5 map_features#caacd9cd resolve#4c19e29b rnaseq_profile_search#2af932fb rnaseq_similar_genes#7052a469 search#a514153b search_vocabulary#6b883dac search_wiki#b535d799 validate_ids#4b98c14e
@@ -2422,6 +2421,7 @@
 = e883e04e getTitle get_review_summary#a49d7805 navigate_to_discovery#6fef886e navigate_to_login#e3d82756 search
 = e8878c4a cancel_booking#494cff89 check_availability#d461c512 create_booking#a1b2670e create_customer#000acac2 find_beauty_wellness_availability#394f416c find_beauty_wellness_venues#d59f46c6 get_salon#daea6ffc list_appointments#01924933 list_services#daea6ffc list_staff#2a36806f reschedule_booking#9b0e4180 search_customers#dd722e4b
 = e88d87bb diagnose_resume#16a3520d parser_resume#bb839b0b update_resume#e5a2c6e6
+= e89af4d2 bookClass cancelBooking getClass getGym getMyProfile getPlan joinWaitlist listAppointmentTypes listClasses listCoaches listLocations listMyBookings listMyDocuments listMyInvoices listMyPlans listPlans signWaiver
 = e89d8be2 find_repository_diagrams#2cae6a42 get_explainer_video#c4c278c4 get_repository_diagram#c4c278c4
 = e8e99eb5 cite#799fb349 find_in_fulltext#ff2d12f3 get_author#cbf61862 get_journal#d04caa07 get_paper#cedfeca0 search_papers#4e917eb3
 = e8e9c245 build_targeting#ae495753 get_all_demand_tags#ff59ee85 get_all_supply_partners#a6449078 get_current_time#eccb1184 get_geo_target#0606f03b get_report#45aff2de openapi_execute_endpoint#1d96f2e3 openapi_get_endpoint_info#b8189f22 openapi_search_endpoints#6a45b95e search_help_center#4605fc92 search_springserve#beabb2f5
@@ -59432,6 +59432,7 @@ buddha-mega-menu.myshopify.com	a9af6443
 buddhaandthebees.net	bb34c1bd
 buddhabikescph.myshopify.com	a9af6443
 buddhamjazz.myshopify.com	a9af6443
+buddhaspa.com.br	da39a3ee
 buddhastoneshop.com	4479a458
 buddhatrends.com	4479a458
 buddhishop.de	a9af6443
@@ -66889,6 +66890,7 @@ current-joys-ai.myshopify.com	a9af6443
 currentbody.com	53bf5172
 currentboutique.com	4479a458
 curriculum-hq.myshopify.com	a9af6443
+currier.org	da39a3ee
 curry-tenjiku.myshopify.com	a9af6443
 currybliss.myshopify.com	a9af6443
 currykits.com	bb34c1bd
@@ -85746,6 +85748,7 @@ hotelcollection.com	4479a458
 hotelglorietasantafe.myshopify.com	a9af6443
 hotelovia.com	843d0c5a
 hotelprint.eu	bb34c1bd
+hotelroost.com	da39a3ee
 hotelsousei-kurume.myshopify.com	a9af6443
 hotelsuppliesdepot.myshopify.com	a9af6443
 hotelsupplyfurniture.com	bb34c1bd
@@ -89811,6 +89814,7 @@ jimmy-wallace-guitars.myshopify.com	a9af6443
 jimmy-webb.myshopify.com	a9af6443
 jimmy.eu	a9af6443
 jimmybeanswool.com	4479a458
+jimmyeatworld.com	da39a3ee
 jimmyeatworld.shop	bb34c1bd
 jimmyfairly.com	4479a458
 jimmyjane.com	4479a458
@@ -95306,6 +95310,7 @@ liaorganic-t.myshopify.com	a9af6443
 liarnoise.myshopify.com	a9af6443
 liastublla.com	bb34c1bd
 liba-network.myshopify.com	a9af6443
+libascollective.com	da39a3ee
 libasjaipur.com	4479a458
 libboutique.myshopify.com	a9af6443
 libbyklinnerteaching.com	bb34c1bd
@@ -103542,6 +103547,7 @@ muziker.co.uk	21d7ad27
 muziker.com	21d7ad27
 muziker.cz	21d7ad27
 muziker.de	21d7ad27
+muziker.ee	da39a3ee
 muziker.es	21d7ad27
 muziker.fr	21d7ad27
 muziker.gr	21d7ad27
@@ -104910,7 +104916,7 @@ nb-sailsports.myshopify.com	a9af6443
 nba-store-gsw.myshopify.com	a9af6443
 nbaesthetics.com.au	bb34c1bd
 nbbridalstudio.com	bb34c1bd
-nbcnews.com	2bf1f30e
+nbcnews.com	e383f6e4
 nbcpepsi.com	4479a458
 nbcstore.com	4479a458
 nbcworldseries.myshopify.com	a9af6443
@@ -113191,6 +113197,7 @@ pritiinternational.com	bb34c1bd
 privateblends.com.au	4479a458
 privatecustom.myshopify.com	a9af6443
 privateenergy.myshopify.com	a9af6443
+privateflare.com	da39a3ee
 privatelabelliquids.com	bb34c1bd
 privatelyurs.com	bb34c1bd
 privatepod.myshopify.com	a9af6443
@@ -114086,7 +114093,7 @@ pushinspiration.myshopify.com	a9af6443
 pushmycart.com	4479a458
 pushpaexport.com	bb34c1bd
 pushpinlegend.myshopify.com	a9af6443
-pushpress.com	ba8d2e97
+pushpress.com	e89af4d2
 pushticareexim.co.in	bb34c1bd
 pushypaw.myshopify.com	a9af6443
 puspajutebags.com	bb34c1bd
@@ -139102,6 +139109,7 @@ waverlycabinets.com	bb34c1bd
 wavesushi.myshopify.com	a9af6443
 wavgroup.com	bb34c1bd
 wavlooks.myshopify.com	a9af6443
+wavs.com	da39a3ee
 wavytalk.com	4479a458
 wawcase.com	05a9bb9e
 wawi-crm.myshopify.com	61e64875
