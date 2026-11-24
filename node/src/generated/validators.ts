@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f88e9c64b8ecc1d4671b99cc65dd3188d75aff3270be66f150584a079836a0a8
-// 5962 checked, 20 unchecked.
+// Manifest version: d20aed768444b0ddc601c7b8f9106eeaeea0c4ee7c5f1d7df4246d64ff5d78a5
+// 5974 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f88e9c64b8ecc1d4671b99cc65dd3188d75aff3270be66f150584a079836a0a8",
+  "version": "d20aed768444b0ddc601c7b8f9106eeaeea0c4ee7c5f1d7df4246d64ff5d78a5",
   "units": {
     "address_validation": {
       "defs": {
@@ -30305,6 +30305,40 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "booksySendMessageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "booksyUpdateMyProfileArgs": {
           "k": "object",
           "props": [
@@ -30782,6 +30816,32 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "sendMessageToBusiness": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "booksySendMessageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getMyProfile": [
           {
             "name": "args",
@@ -30862,29 +30922,30 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "resolveLocation": "a3dafca2ffe261b3",
-        "searchBusinesses": "92e324f473159d9f",
-        "getBusiness": "e71ed74a4dc8f8e9",
-        "getAvailability": "7f7bd2f8f0cb1c13",
-        "getBookingQuote": "2e89f3dc9e05b8aa",
-        "getSearchSuggestions": "28493e5886605fd8",
-        "listCategories": "196711784c12af45",
-        "getBusinessReviews": "3b7432af6bc55d95",
-        "getBusinessPhotos": "9edd02c35e446c60",
-        "listGiftCardOffers": "e5a811d07fddd7e4",
-        "getBusinessNetwork": "f528fe1fedddd0bf",
-        "bookAppointment": "026f04bf9b93c54c",
-        "listMyBookings": "6d73d3a476eecd2b",
-        "getMyAppointment": "5e27179645562139",
-        "cancelAppointment": "bd8c6284962dcb1d",
-        "getBusinessContact": "1cfbe5a7fbc9b5b4",
-        "listFavorites": "2918162bcd2b98d3",
-        "addFavorite": "0438cd6b67423396",
-        "removeFavorite": "0438cd6b67423396",
-        "writeReview": "815fb61a5d4755dd",
-        "getMyProfile": "5f6da4f97c8842f8",
-        "updateMyProfile": "4249c298f1c2f927",
-        "listMyGiftCards": "29ff73d1e46715dc"
+        "resolveLocation": "4413bc53cc6e2e3b",
+        "searchBusinesses": "824e851e018704f1",
+        "getBusiness": "d503027c266ec9ba",
+        "getAvailability": "9feca6b8d009a516",
+        "getBookingQuote": "a1b2b7d2901e5b0c",
+        "getSearchSuggestions": "2d2e6e8fab3252de",
+        "listCategories": "fd082853687f3f35",
+        "getBusinessReviews": "5925f48ebf1b87d9",
+        "getBusinessPhotos": "d6eeb6cd5952010c",
+        "listGiftCardOffers": "9a181bc8feaf6e1e",
+        "getBusinessNetwork": "b10e16d93f2d34cb",
+        "bookAppointment": "579cc0abc551c249",
+        "listMyBookings": "e3d80653501d2518",
+        "getMyAppointment": "81cc68ff98a1928a",
+        "cancelAppointment": "a92ce9a2ca691776",
+        "getBusinessContact": "99e2a608564caefd",
+        "listFavorites": "9e9036c660d8ccd9",
+        "addFavorite": "2b2d94ba924272c7",
+        "removeFavorite": "2b2d94ba924272c7",
+        "writeReview": "e8fb78fc2b540ac0",
+        "sendMessageToBusiness": "29d3df490a59fd47",
+        "getMyProfile": "37755d46169340d0",
+        "updateMyProfile": "3d3de536f786e2b4",
+        "listMyGiftCards": "443011b355f1df63"
       }
     },
     "providers.borsheims": {
@@ -45617,6 +45678,40 @@ export const VALIDATORS: ValidatorTable = {
         "searchCoins": "434b49dcb0b8e148"
       }
     },
+    "providers.coinmarketcap": {
+      "defs": {},
+      "functions": {
+        "listTopCoins": [
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "getCoin": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listTopCoins": "536537b4aae42e10",
+        "getCoin": "4827b63f4bd73117"
+      }
+    },
     "providers.compass_living": {
       "defs": {},
       "functions": {
@@ -47029,6 +47124,42 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listFavoriteTeachers": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMilestones": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getClassPack": [
           {
             "name": "id",
@@ -47056,29 +47187,31 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listStudios": "de6a3095effe3f52",
-        "getStudio": "d580475ab00b4d86",
-        "getSchedule": "e93cc562176c0d3e",
-        "listSchedules": "fc2e0d5ad509773c",
-        "listClasses": "eed50730fbc0e37d",
-        "getClass": "6a0e16f7b85d67bc",
-        "listMembershipPrices": "d228ca2f9fb6c104",
-        "listClassPackPrices": "40f703eb6a0c93df",
-        "listTeachers": "2055c5d2bf0c1f05",
-        "getTeacher": "94a0f0374d3d6a1d",
-        "listWorkshops": "90c79f8bba14c1d3",
-        "getWorkshop": "a1a8124497e52fc6",
-        "listOnDemandVideos": "8ebf8d05eb840952",
-        "getOnDemandVideo": "b2ebd54b2ffc426a",
-        "listChallenges": "2152890125e93d43",
-        "getChallenge": "b9de9c2e0d9d6f27",
-        "getProfile": "791758b8e608cb26",
-        "listMyBookings": "41d8a850932c87b4",
-        "listMyVisits": "2aa956e1a21a9fe6",
-        "listMyMemberships": "c45b6002431a886c",
-        "listMyClassPacks": "95922392d0e96470",
-        "getMembership": "fe817895072126a3",
-        "getClassPack": "f8cfc81c930a1b56"
+        "listStudios": "6c7ee943600241db",
+        "getStudio": "6cc34c362754dbda",
+        "getSchedule": "0ca179d1945203c6",
+        "listSchedules": "e3174e5d5893f6a7",
+        "listClasses": "44e8630178ca2db6",
+        "getClass": "74db06a77651f18c",
+        "listMembershipPrices": "b755b718ca5299e5",
+        "listClassPackPrices": "af5294cb395de86d",
+        "listTeachers": "bb0e002403b7326f",
+        "getTeacher": "80264c5e4167892a",
+        "listWorkshops": "7fa87df297b45191",
+        "getWorkshop": "779447e79d25efe7",
+        "listOnDemandVideos": "32a06dfb81d8bb34",
+        "getOnDemandVideo": "94843393d277f6fb",
+        "listChallenges": "e7e0f416a0697122",
+        "getChallenge": "0f8e7eb2aaf25fee",
+        "getProfile": "1e676d88c1595060",
+        "listMyBookings": "a6e93170db5bb81b",
+        "listMyVisits": "911f9e72953c59bb",
+        "listMyMemberships": "a90dcace9a092887",
+        "listMyClassPacks": "e790f63d357061d6",
+        "getMembership": "8e62b08cbea33ae8",
+        "listFavoriteTeachers": "cc728e75198aaf16",
+        "listMilestones": "53ac418de28dee4f",
+        "getClassPack": "c089d40e726bb1c6"
       }
     },
     "providers.cosign": {
@@ -51105,7 +51238,7 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchProviders": "8107bc707b8698eb"
+        "searchProviders": "780a55657063b896"
       }
     },
     "providers.deangroup": {
@@ -92643,6 +92776,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "InstacartGetRecipeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "InstacartGetStoreArgs": {
           "k": "object",
           "props": [
@@ -93175,6 +93320,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "InstacartGetProductReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRecipe": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartGetRecipeArgs"
             },
             "optional": false
           }
@@ -93762,43 +93917,44 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findLocation": "8bef4e9446e30c41",
-        "listStores": "b9e39997dc5aee9c",
-        "getStore": "f0f1daed0b102102",
-        "compareStores": "360e784a6de06eab",
-        "getProduct": "87e2167cb0e5ac0f",
-        "listDeals": "d3742ff15c568030",
-        "listDepartments": "61cfce260e7d0ba2",
-        "listDepartmentProducts": "04d28c7b85abf7d4",
-        "getDeliveryEstimate": "27132b0212a7a4d0",
-        "searchProducts": "b0a1ee97cc38126b",
-        "suggestSearches": "1fe62ec853ee5e45",
-        "getWeeklyAd": "0e26dbd88a758bdf",
-        "getStoreHours": "cd1d4f1e67a52d91",
-        "getProductReviews": "6b9664d13e686f09",
-        "listOrders": "c2452c515e044df6",
-        "listMyAddresses": "98bcef97e46d438c",
-        "listCarts": "ad0fe4c8f9636300",
-        "getCart": "9e755aa38cb4aeb1",
-        "getMyAccount": "df188c8b18278259",
-        "listMyLists": "c27e833b2097c84b",
-        "listFavorites": "1f95a4bb519feaf4",
-        "listBuyItAgain": "d87d2e657c794375",
-        "getOrder": "79b4725924de44be",
-        "getList": "9684908ad0aeb4b6",
-        "clipCoupon": "d435463c7945c56e",
-        "addToCart": "107499df6b063341",
-        "removeFromCart": "107499df6b063341",
-        "reorder": "b1f18fe063f8e3ac",
-        "deleteAddress": "7daae469e0577e2f",
-        "addAddress": "a1adad168b2852ed",
-        "updateAddress": "5f93cbf04dac3c5f",
-        "createList": "2834bcafdfe87a82",
-        "addToList": "cc6f6a83191b61eb",
-        "linkLoyaltyCard": "4c9e98500f1e769d",
-        "updateMyAccount": "c0eb20e748f759af",
-        "favoriteProduct": "7a25dd5d240b644a",
-        "listCoupons": "1dc6b889948aeb29"
+        "findLocation": "96cff032e68d184e",
+        "listStores": "a3e10ddfe7834d79",
+        "getStore": "7d423b030ca0d39a",
+        "compareStores": "6924115d718ac0ba",
+        "getProduct": "5fab7e4270d8a4d5",
+        "listDeals": "32cb7e6514a4f740",
+        "listDepartments": "bce18be3a41d4ad8",
+        "listDepartmentProducts": "d1fee7d2605b70e3",
+        "getDeliveryEstimate": "865fcbf7878c7e26",
+        "searchProducts": "690ee04eae4694dc",
+        "suggestSearches": "5ea6b3951f29e8e9",
+        "getWeeklyAd": "9c883bd8def0f38b",
+        "getStoreHours": "78120072b359d7f3",
+        "getProductReviews": "fabebd1ac7ecc1d5",
+        "getRecipe": "4b57c4af3a373fa8",
+        "listOrders": "6fa54e4882efe6d2",
+        "listMyAddresses": "1fe88a3b34839c37",
+        "listCarts": "010243d19104588f",
+        "getCart": "ddb857a846059420",
+        "getMyAccount": "ea2c60ff6b89b509",
+        "listMyLists": "0507ef98fa919508",
+        "listFavorites": "7dbbf3937b5b0309",
+        "listBuyItAgain": "3a2e5a8e450c7be8",
+        "getOrder": "746820227a9b104f",
+        "getList": "d024cac423fea658",
+        "clipCoupon": "46b3e7999912d227",
+        "addToCart": "bf866c98ad892bff",
+        "removeFromCart": "bf866c98ad892bff",
+        "reorder": "ae4d571ac81c7f17",
+        "deleteAddress": "ad9435582702f886",
+        "addAddress": "f5e5c39e6f910bf7",
+        "updateAddress": "e5cd61b77522df61",
+        "createList": "1778d3f6ebd67736",
+        "addToList": "d405b18c2ec16aa6",
+        "linkLoyaltyCard": "ef232f29affc34f3",
+        "updateMyAccount": "e4dd2d94a0501e4d",
+        "favoriteProduct": "30f316f013f58fae",
+        "listCoupons": "58807813e028af52"
       }
     },
     "providers.instagram": {
@@ -108901,6 +109057,52 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getSymptomCheckerFactors": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "checkSymptom": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "factors",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listLifestyleTopics": [
           {
             "name": "args",
@@ -108982,27 +109184,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "4155a6405ca27eb8",
-        "getCondition": "e1de12c3cfa8fab3",
-        "getConditionTreatment": "e1de12c3cfa8fab3",
-        "listConditions": "1ca97e620632ac6c",
-        "listSymptoms": "018b31437519fc7c",
-        "getSymptom": "e1de12c3cfa8fab3",
-        "listDrugs": "018b31437519fc7c",
-        "getDrug": "ac81b1bfc1475e0a",
-        "listTests": "1ca97e620632ac6c",
-        "getTest": "e1de12c3cfa8fab3",
-        "findDoctors": "359986fd649e6ad7",
-        "getDoctor": "335f0991609e6bfe",
-        "listSupplements": "058101e3ea1f0fe8",
-        "getSupplement": "e1de12c3cfa8fab3",
-        "listFirstAid": "058101e3ea1f0fe8",
-        "getFirstAid": "e1de12c3cfa8fab3",
-        "listSymptomCheckerSymptoms": "058101e3ea1f0fe8",
-        "listLifestyleTopics": "058101e3ea1f0fe8",
-        "listLifestyleArticles": "9e17a7a96cde3c68",
-        "getArticle": "e1de12c3cfa8fab3",
-        "searchSite": "72acb48b381a8db4"
+        "search": "b1a88b608c3a89e6",
+        "getCondition": "8ee55de231a460a0",
+        "getConditionTreatment": "8ee55de231a460a0",
+        "listConditions": "80187d4021f8301c",
+        "listSymptoms": "8bf5dd9810879931",
+        "getSymptom": "8ee55de231a460a0",
+        "listDrugs": "8bf5dd9810879931",
+        "getDrug": "069ba16e4f1e0d38",
+        "listTests": "80187d4021f8301c",
+        "getTest": "8ee55de231a460a0",
+        "findDoctors": "5245542536b5bde1",
+        "getDoctor": "7036807b31949b1d",
+        "listSupplements": "f8c9a535919f5b06",
+        "getSupplement": "8ee55de231a460a0",
+        "listFirstAid": "f8c9a535919f5b06",
+        "getFirstAid": "8ee55de231a460a0",
+        "listSymptomCheckerSymptoms": "f8c9a535919f5b06",
+        "getSymptomCheckerFactors": "daacbee0fc38d1f8",
+        "checkSymptom": "229cec08ab9b2493",
+        "listLifestyleTopics": "f8c9a535919f5b06",
+        "listLifestyleArticles": "63d996afaca0a614",
+        "getArticle": "8ee55de231a460a0",
+        "searchSite": "15a3c42c02a08a4e"
       }
     },
     "providers.mcdonalds": {
@@ -156028,6 +156232,65 @@ export const VALIDATORS: ValidatorTable = {
         "listFiles": "d8b402176d16899c"
       }
     },
+    "providers.southwest": {
+      "defs": {
+        "SouthwestSearchFlightsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "nonstopOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchFlights": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SouthwestSearchFlightsArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchFlights": "19faf98932dbd34f"
+      }
+    },
     "providers.spareroom": {
       "defs": {
         "SpareroomListingArgs": {
@@ -179476,6 +179739,88 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "findCitiesByZip": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "findZipsByCityState": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "lookupZipByAddress": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "address",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getPostOfficeDetails": [
           {
             "name": "args",
@@ -179691,17 +180036,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findEddmRoutes": "2557aba28b9a7a5f",
-        "findPostOffices": "d3801944e1feaaf8",
-        "getPostOfficeDetails": "920b20474be1bab8",
-        "getRate": "e8b6a0b981b970a7",
-        "getInternationalRate": "84362a8e900b2346",
-        "getPriceList": "ead0a45a3edcc623",
-        "getServiceAlerts": "052e0c90c6815786",
-        "searchFaq": "b7880da3369ee3b1",
-        "addToStoreCart": "52a11c9fff1b21ac",
-        "listStoreProducts": "dc0f688c0e7c371f",
-        "trackPackage": "57cfad4782beeed2"
+        "findEddmRoutes": "83de9a038ab54949",
+        "findPostOffices": "272c41417387a9a4",
+        "findCitiesByZip": "9ab3fc6253ae2344",
+        "findZipsByCityState": "d101e79eef4fae27",
+        "lookupZipByAddress": "4cb0026dfec36dae",
+        "getPostOfficeDetails": "04cf8b39504fda0b",
+        "getRate": "cc40a64a4f4e2021",
+        "getInternationalRate": "e73f5945803355a8",
+        "getPriceList": "0f447e1764349a6d",
+        "getServiceAlerts": "6eeadf19c5386e37",
+        "searchFaq": "a464a1253339c9ab",
+        "addToStoreCart": "f6d442b7aeaccb10",
+        "listStoreProducts": "66771523f644f315",
+        "trackPackage": "d0d4fd6bc87aefb7"
       }
     },
     "providers.va_gov": {

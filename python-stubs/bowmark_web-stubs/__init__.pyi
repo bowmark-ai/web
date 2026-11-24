@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f88e9c64b8ecc1d4671b99cc65dd3188d75aff3270be66f150584a079836a0a8
-# 99 capabilities, 964 providers, 5962 typed functions, 20 refused.
+# Manifest version: d20aed768444b0ddc601c7b8f9106eeaeea0c4ee7c5f1d7df4246d64ff5d78a5
+# 99 capabilities, 966 providers, 5974 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14744,6 +14744,17 @@ class Prv_booksy_booksyMyReview_Out_business_u0_Out(TypedDict):
     id: float | None
     name: str | None
 
+class Prv_booksy_booksySendMessageArgs_In(TypedDict):
+    business: float | str
+    text: str
+    country: NotRequired[str]
+
+class Prv_booksy_booksyMessageSent_Out(TypedDict):
+    business: float
+    sent: bool
+    conversationId: str | None
+    channelType: str | None
+
 class Prv_booksy_booksyCountryArgs_In(TypedDict):
     country: NotRequired[str]
 
@@ -22265,6 +22276,54 @@ class Prv_coingecko_coingeckoCoin_Out(TypedDict):
     symbol: str
     marketCapRank: float | None
 
+class Prv_coinmarketcap_coinmarketcapCoinPage_Out(TypedDict):
+    results: list[Prv_coinmarketcap_coinmarketcapCoinRow_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_coinmarketcap_coinmarketcapCoinRow_Out(TypedDict):
+    id: float
+    name: str
+    symbol: str
+    slug: str
+    rank: float | None
+    priceUsd: float | None
+    marketCapUsd: float | None
+    volume24hUsd: float | None
+    change1hPct: float | None
+    change24hPct: float | None
+    change7dPct: float | None
+    circulatingSupply: float | None
+    maxSupply: float | None
+    url: str
+
+class Prv_coinmarketcap_coinmarketcapCoin_Out(TypedDict):
+    id: float
+    name: str
+    symbol: str
+    slug: str
+    category: str | None
+    description: str | None
+    rank: float | None
+    priceUsd: float | None
+    marketCapUsd: float | None
+    volume24hUsd: float | None
+    change24hPct: float | None
+    change7dPct: float | None
+    change30dPct: float | None
+    high24hUsd: float | None
+    low24hUsd: float | None
+    allTimeHighUsd: float | None
+    circulatingSupply: float | None
+    totalSupply: float | None
+    maxSupply: float | None
+    dateLaunched: str | None
+    websites: list[str]
+    url: str
+
 class Prv_compass_living_CommunityWithForms_Out(TypedDict):
     name: str
     url: str
@@ -22844,6 +22903,16 @@ class Prv_corepoweryoga_CorePowerYogaClassPack_Out(TypedDict):
     name: str | None
     status: str | None
     expiresAt: str | None
+
+class Prv_corepoweryoga_CorePowerYogaFavoriteTeacher_Out(TypedDict):
+    id: str | None
+    displayName: str | None
+
+class Prv_corepoweryoga_CorePowerYogaMilestone_Out(TypedDict):
+    id: str | None
+    name: str | None
+    achieved: bool | None
+    achievedAt: str | None
 
 class Prv_cosign_CosignSearchJobsArgs_In(TypedDict):
     role: NotRequired[str]
@@ -24480,7 +24549,6 @@ class Prv_dc_medicaid_DcMedicaidProvider_Out(TypedDict):
     zip: str | None
     phone: str | None
     fax: str | None
-    email: str | None
     languages: str | None
     acceptingNewPatients: bool | None
 
@@ -43472,6 +43540,28 @@ class Prv_instacart_InstacartProductReview_Out(TypedDict):
     reviewer: str | None
     source: str | None
 
+class Prv_instacart_InstacartGetRecipeArgs_In(TypedDict):
+    recipeId: str
+
+class Prv_instacart_InstacartRecipe_Out(TypedDict):
+    id: str
+    name: str
+    slug: str | None
+    description: str | None
+    totalTimeMinutes: float | None
+    servings: float | None
+    source: str | None
+    author: str | None
+    ingredients: list[Prv_instacart_InstacartRecipeIngredient_Out]
+    steps: list[str]
+
+class Prv_instacart_InstacartRecipeIngredient_Out(TypedDict):
+    name: str
+    text: str
+    quantity: float | None
+    unit: str | None
+    note: str | None
+
 class Prv_instacart_listOrders_args_In(TypedDict):
     limit: NotRequired[float]
     cursor: NotRequired[str]
@@ -50052,6 +50142,34 @@ class Prv_mayoclinic_getFirstAid_args_In(TypedDict):
 
 class Prv_mayoclinic_listSymptomCheckerSymptoms_args_In(TypedDict):
     page: NotRequired[float]
+
+class Prv_mayoclinic_getSymptomCheckerFactors_args_In(TypedDict):
+    url: str
+
+class Prv_mayoclinic_MayoClinicSymptomFactors_Out(TypedDict):
+    name: str
+    url: str
+    groups: list[Prv_mayoclinic_MayoClinicFactorGroup_Out]
+
+class Prv_mayoclinic_MayoClinicFactorGroup_Out(TypedDict):
+    group: str
+    factors: list[str]
+
+class Prv_mayoclinic_checkSymptom_args_In(TypedDict):
+    url: str
+    factors: Sequence[str]
+
+class Prv_mayoclinic_MayoClinicSymptomCheck_Out(TypedDict):
+    name: str
+    url: str
+    factors: list[str]
+    causes: list[Prv_mayoclinic_MayoClinicCause_Out]
+
+class Prv_mayoclinic_MayoClinicCause_Out(TypedDict):
+    condition: str
+    url: str
+    matched: list[str]
+    otherFactors: list[str]
 
 class Prv_mayoclinic_listLifestyleTopics_args_In(TypedDict):
     page: NotRequired[float]
@@ -70750,6 +70868,67 @@ class Prv_sourceforge_SourceForgeFile_Out(TypedDict):
     bytes: float | None
     md5: str | None
 
+Prv_southwest_SouthwestSearchFlightsArgs_In = TypedDict(
+    "Prv_southwest_SouthwestSearchFlightsArgs_In",
+    {
+    "from": str,
+    "to": str,
+    "date": str,
+    "nonstopOnly": NotRequired[bool],
+    "limit": NotRequired[float],
+    },
+)
+
+Prv_southwest_SouthwestSearchResult_Out = TypedDict(
+    "Prv_southwest_SouthwestSearchResult_Out",
+    {
+    "from": str,
+    "to": str,
+    "date": str,
+    "total": float,
+    "flights": list[Prv_southwest_SouthwestFlight_Out],
+    },
+)
+
+Prv_southwest_SouthwestFlight_Out = TypedDict(
+    "Prv_southwest_SouthwestFlight_Out",
+    {
+    "flightNumbers": list[str],
+    "from": str,
+    "to": str,
+    "departs": str,
+    "arrives": str,
+    "durationMinutes": float,
+    "stops": float,
+    "nonstop": bool,
+    "segments": list[Prv_southwest_SouthwestSegment_Out],
+    "fares": list[Prv_southwest_SouthwestFare_Out],
+    "lowestFareUsd": float | None,
+    },
+)
+
+Prv_southwest_SouthwestSegment_Out = TypedDict(
+    "Prv_southwest_SouthwestSegment_Out",
+    {
+    "flightNumber": str,
+    "from": str,
+    "to": str,
+    "departs": str,
+    "arrives": str,
+    "aircraft": str | None,
+    },
+)
+
+class Prv_southwest_SouthwestFare_Out(TypedDict):
+    code: str
+    name: str
+    totalUsd: float
+    baseUsd: float | None
+    taxesAndFeesUsd: float | None
+    rapidRewardsPoints: float | None
+    availability: str
+    productId: str
+
 class Prv_spareroom_SpareroomListingArgs_In(TypedDict):
     listing: str
 
@@ -81826,6 +82005,45 @@ class Prv_usps_uspsLocationHours_Out_days_item_Out(TypedDict):
 class Prv_usps_uspsLocationHours_Out_days_item_Out_times_item_Out(TypedDict):
     open: str
     close: str
+
+class Prv_usps_findCitiesByZip_args_In(TypedDict):
+    zip: str
+
+class Prv_usps_uspsCitiesByZip_Out(TypedDict):
+    zip: str
+    places: list[Prv_usps_uspsZipPlace_Out]
+
+class Prv_usps_uspsZipPlace_Out(TypedDict):
+    zip: str
+    city: str
+    state: str
+    latitude: float | None
+    longitude: float | None
+
+class Prv_usps_findZipsByCityState_args_In(TypedDict):
+    city: str
+    state: str
+
+class Prv_usps_uspsZipsByCityState_Out(TypedDict):
+    city: str
+    state: str
+    places: list[Prv_usps_uspsZipPlace_Out]
+
+class Prv_usps_lookupZipByAddress_args_In(TypedDict):
+    address: str
+    city: NotRequired[str]
+    state: NotRequired[str]
+    zip: NotRequired[str]
+
+class Prv_usps_uspsAddressZip_Out(TypedDict):
+    input: str
+    matched: bool
+    matchedAddress: str | None
+    zip: str | None
+    city: str | None
+    state: str | None
+    latitude: float | None
+    longitude: float | None
 
 class Prv_usps_getPostOfficeDetails_args_In(TypedDict):
     locationId: str
@@ -98320,6 +98538,11 @@ class Prv_booksy(Protocol):
         appointment. Public.
         """
 
+    async def sendMessageToBusiness(self, args: Prv_booksy_booksySendMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_booksy_booksyMessageSent_Out:
+        """Sends a text message from the signed-in caller to a business through Booksy's chat.
+        Reaches a real business.
+        """
+
     async def getMyProfile(self, args: Prv_booksy_booksyCountryArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_booksy_booksyMyProfile_Out:
         """The signed-in caller's Booksy profile: name, email, phone, birthday, address, photo."""
 
@@ -102298,6 +102521,22 @@ class Prv_coingecko(Protocol):
     async def searchCoins(self, query: str, /) -> list[Prv_coingecko_coingeckoCoin_Out]:
         """Find cryptocurrencies by name or ticker symbol"""
 
+class Prv_coinmarketcap(Protocol):
+    """Top cryptocurrencies by market cap and per-coin price, volume and supply, from
+    CoinMarketCap
+    """
+
+    async def listTopCoins(self, limit: float, page: float, /) -> Prv_coinmarketcap_coinmarketcapCoinPage_Out:
+        """Top cryptocurrencies by market cap on CoinMarketCap with USD price, market cap, 24h
+        volume and 1h/24h/7d change, one page at a time (limit 1-100 per page, default 20; page
+        from 1; the total says how many coins exist); each row's slug feeds getCoin
+        """
+
+    async def getCoin(self, slug: str, /) -> Prv_coinmarketcap_coinmarketcapCoin_Out:
+        """One cryptocurrency by CoinMarketCap slug ("bitcoin", "ethereum"): price, market cap,
+        volume, highs/lows, supply, description and websites
+        """
+
 class Prv_compass_living(Protocol):
     """Discover senior living communities and their contact-form fields."""
 
@@ -102584,6 +102823,17 @@ class Prv_corepoweryoga(Protocol):
         """Gets one of the signed-in caller's memberships by the `id` a listMyMemberships() row
         returns. Requires a caller session. The signed-in detail shape has never been observed,
         so every field is read defensively; throws if no membership matches.
+        """
+
+    async def listFavoriteTeachers(self, opts: ConnectionOption | None = None, /) -> list[Prv_corepoweryoga_CorePowerYogaFavoriteTeacher_Out]:
+        """Lists the signed-in caller's favorite CorePower Yoga instructors — id and display name,
+        sorted by name. Requires a caller session. Empty list when none are favorited.
+        """
+
+    async def listMilestones(self, opts: ConnectionOption | None = None, /) -> list[Prv_corepoweryoga_CorePowerYogaMilestone_Out]:
+        """Lists the signed-in caller's achievements and milestones. Requires a caller session. The
+        signed-in response shape has never been observed, so every field is read defensively and
+        the list is empty rather than thrown if the site's shape differs.
         """
 
     async def getClassPack(self, id: str, opts: ConnectionOption | None = None, /) -> Prv_corepoweryoga_CorePowerYogaClassPack_Out:
@@ -113289,6 +113539,11 @@ class Prv_instacart(Protocol):
         reviewer's first name and the source. Takes the productId getProduct returns.
         """
 
+    async def getRecipe(self, args: Prv_instacart_InstacartGetRecipeArgs_In, /) -> Prv_instacart_InstacartRecipe_Out:
+        """Returns one Instacart recipe by id: title, publisher and author, servings, total time,
+        every ingredient (quantity, unit, the recipe's own line) and the numbered steps.
+        """
+
     async def listOrders(self, args: Prv_instacart_listOrders_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_instacart_SignedInOrderPage_Out:
         """The signed-in customer's own Instacart orders, newest first — order id, when, the store,
         Instacart's own status, total, item count and the order's page. Pages with `nextCursor`.
@@ -117548,6 +117803,19 @@ class Prv_mayoclinic(Protocol):
     async def listSymptomCheckerSymptoms(self, args: Prv_mayoclinic_listSymptomCheckerSymptoms_args_In, /) -> Prv_mayoclinic_MayoClinicIndexPage_Out:
         """Lists the adult symptoms Mayo Clinic's Symptom Checker accepts, with name and the
         related-factors URL each is checked under.
+        """
+
+    async def getSymptomCheckerFactors(self, args: Prv_mayoclinic_getSymptomCheckerFactors_args_In, /) -> Prv_mayoclinic_MayoClinicSymptomFactors_Out:
+        """Gets the related factors (kind, onset, triggers, accompanying symptoms) the Symptom
+        Checker offers for one symptom, grouped as its form groups them; url comes from
+        listSymptomCheckerSymptoms.
+        """
+
+    async def checkSymptom(self, args: Prv_mayoclinic_checkSymptom_args_In, /) -> Prv_mayoclinic_MayoClinicSymptomCheck_Out:
+        """Runs Mayo Clinic's Symptom Checker for one symptom and the related factors that apply,
+        and returns the possible causes it lists, most matching first, each with its condition
+        page URL and which of your factors it matches; url comes from
+        listSymptomCheckerSymptoms, factors are labels from getSymptomCheckerFactors.
         """
 
     async def listLifestyleTopics(self, args: Prv_mayoclinic_listLifestyleTopics_args_In, /) -> Prv_mayoclinic_MayoClinicIndexPage_Out:
@@ -128087,6 +128355,20 @@ class Prv_sourceforge(Protocol):
         date, size and md5. `path` narrows to a folder such as "/7-Zip/26.06".
         """
 
+class Prv_southwest(Protocol):
+    """Southwest Airlines (southwest.com) — searchFlights() reads live one-way USD fares for
+    one adult between two airports on a date: every flight, its times and stops, and the
+    price of each fare family. Read only; it does not book.
+    """
+
+    async def searchFlights(self, args: Prv_southwest_SouthwestSearchFlightsArgs_In, /) -> Prv_southwest_SouthwestSearchResult_Out:
+        """Search Southwest flights and fares one way for one adult (`{ from: "DAL", to: "HOU",
+        date: "2026-12-15" }`, airport codes and a YYYY-MM-DD date). Returns every flight with
+        departure and arrival, segments, stops and the total price, points and product id of
+        Wanna Get Away, Wanna Get Away Plus, Anytime and Business Select. Optional `nonstopOnly`
+        and `limit`. Read only; booking is not offered.
+        """
+
 class Prv_spareroom(Protocol):
     """spareroom.co.uk — the UK's flatshare site. Search rooms to rent by place and budget,
     then read one ad's rooms, rents, deposits and household.
@@ -133341,6 +133623,26 @@ class Prv_usps(Protocol):
         Needs no key; reads through a real browser page load because USPS refuses a plain POST.
         """
 
+    async def findCitiesByZip(self, args: Prv_usps_findCitiesByZip_args_In, /) -> Prv_usps_uspsCitiesByZip_Out:
+        """The city names for one 5-digit ZIP code (with the place's coordinates), from the public
+        zippopotam.us ZIP index because USPS's own ZIP Code Lookup form is refused by every
+        client Bowmark runs. An unknown ZIP returns an empty list. Not USPS's 'acceptable city
+        names' list.
+        """
+
+    async def findZipsByCityState(self, args: Prv_usps_findZipsByCityState_args_In, /) -> Prv_usps_uspsZipsByCityState_Out:
+        """The ZIP codes that belong to one city and 2-letter state, from the public zippopotam.us
+        ZIP index because USPS's own ZIP Code Lookup form is refused by every client Bowmark
+        runs. An unknown city returns an empty list.
+        """
+
+    async def lookupZipByAddress(self, args: Prv_usps_lookupZipByAddress_args_In, /) -> Prv_usps_uspsAddressZip_Out:
+        """The 5-digit ZIP for one street address (with the matched address and coordinates), from
+        the US Census geocoder because USPS's own ZIP-by-address form is refused by every client
+        Bowmark runs. Takes the street line plus a city and state or a ZIP. No ZIP+4 and no
+        carrier route; an address the geocoder cannot match returns matched: false.
+        """
+
     async def getPostOfficeDetails(self, args: Prv_usps_getPostOfficeDetails_args_In, /) -> Prv_usps_uspsLocation_Out:
         """One Post Office's full record (hours by service, services, phone, parking, notes) for
         the `locationId` that findPostOffices returns.
@@ -138136,6 +138438,7 @@ class BowmarkProviders(Protocol):
     coast: Prv_coast
     code_claude_com: Prv_code_claude_com
     coingecko: Prv_coingecko
+    coinmarketcap: Prv_coinmarketcap
     compass_living: Prv_compass_living
     completehomewarranty_com: Prv_completehomewarranty_com
     concur: Prv_concur
@@ -138676,6 +138979,7 @@ class BowmarkProviders(Protocol):
     soulcycle: Prv_soulcycle
     soundcloud: Prv_soundcloud
     sourceforge: Prv_sourceforge
+    southwest: Prv_southwest
     spareroom: Prv_spareroom
     spectrum: Prv_spectrum
     speedrun: Prv_speedrun

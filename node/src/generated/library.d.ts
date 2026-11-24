@@ -5,10 +5,10 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f88e9c64b8ecc1d4671b99cc65dd3188d75aff3270be66f150584a079836a0a8
-// 99 capabilities, 964 providers, 5990 typed functions, 20 refused.
+// Manifest version: d20aed768444b0ddc601c7b8f9106eeaeea0c4ee7c5f1d7df4246d64ff5d78a5
+// 99 capabilities, 966 providers, 6002 typed functions, 20 refused.
 // 125,575 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
-// 15,189 sites under bowmark.sites, 194,409 functions, sharing 2,348 interface(s).
+// 15,355 sites under bowmark.sites, 196,245 functions, sharing 2,358 interface(s).
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -23863,6 +23863,19 @@ interface booksyMyReview {
   business: { id: number | null; name: string | null } | null;
 }
 
+interface booksySendMessageArgs {
+  business: number | string;
+  text: string;
+  country?: string;
+}
+
+interface booksyMessageSent {
+  business: number;
+  sent: boolean;
+  conversationId: string | null;
+  channelType: string | null;
+}
+
 interface booksyCountryArgs {
   country?: string;
 }
@@ -24030,6 +24043,12 @@ interface booksyMyGiftCards {
      * appointment. Public.
      */
     writeReview(args: booksyWriteReviewArgs, opts?: ConnectionOption): Promise<booksyMyReview>;
+
+    /**
+     * Sends a text message from the signed-in caller to a business through Booksy's chat. Reaches
+     * a real business.
+     */
+    sendMessageToBusiness(args: booksySendMessageArgs, opts?: ConnectionOption): Promise<booksyMessageSent>;
 
     /** The signed-in caller's Booksy profile: name, email, phone, birthday, address, photo. */
     getMyProfile(args?: booksyCountryArgs, opts?: ConnectionOption): Promise<booksyMyProfile>;
@@ -35556,6 +35575,76 @@ interface coingeckoPriceRow {
   }
 }
 
+declare namespace BowmarkProvider_coinmarketcap {
+  // ── CoinMarketCap — the unit's own declarations, verbatim ──
+interface coinmarketcapCoinRow {
+  id: number;
+  name: string;
+  symbol: string;
+  slug: string;
+  rank: number | null;
+  priceUsd: number | null;
+  marketCapUsd: number | null;
+  volume24hUsd: number | null;
+  change1hPct: number | null;
+  change24hPct: number | null;
+  change7dPct: number | null;
+  circulatingSupply: number | null;
+  maxSupply: number | null;
+  url: string;
+}
+
+interface coinmarketcapCoin {
+  id: number;
+  name: string;
+  symbol: string;
+  slug: string;
+  category: string | null;
+  description: string | null;
+  rank: number | null;
+  priceUsd: number | null;
+  marketCapUsd: number | null;
+  volume24hUsd: number | null;
+  change24hPct: number | null;
+  change7dPct: number | null;
+  change30dPct: number | null;
+  high24hUsd: number | null;
+  low24hUsd: number | null;
+  allTimeHighUsd: number | null;
+  circulatingSupply: number | null;
+  totalSupply: number | null;
+  maxSupply: number | null;
+  dateLaunched: string | null;
+  websites: string[];
+  url: string;
+}
+
+interface coinmarketcapCoinPage {
+  results: coinmarketcapCoinRow[];
+  total: number | null; // The number of coins CoinMarketCap lists in all, from its own count.
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+}
+
+  /** Top cryptocurrencies by market cap and per-coin price, volume and supply, from CoinMarketCap */
+  interface Unit {
+    /**
+     * Top cryptocurrencies by market cap on CoinMarketCap with USD price, market cap, 24h volume
+     * and 1h/24h/7d change, one page at a time (limit 1-100 per page, default 20; page from 1; the
+     * total says how many coins exist); each row's slug feeds getCoin
+     */
+    listTopCoins(limit: number, page: number): Promise<coinmarketcapCoinPage>;
+
+    /**
+     * One cryptocurrency by CoinMarketCap slug ("bitcoin", "ethereum"): price, market cap, volume,
+     * highs/lows, supply, description and websites
+     */
+    getCoin(slug: string): Promise<coinmarketcapCoin>;
+  }
+}
+
 declare namespace BowmarkProvider_compass_living {
   // ── Compass Living — the unit's own declarations, verbatim ──
 interface CommunityWithForms {
@@ -36231,6 +36320,18 @@ interface CorePowerYogaClassPack {
   expiresAt: string | null;
 }
 
+interface CorePowerYogaFavoriteTeacher {
+  id: string | null;
+  displayName: string | null;
+}
+
+interface CorePowerYogaMilestone {
+  id: string | null;
+  name: string | null;
+  achieved: boolean | null;
+  achievedAt: string | null;
+}
+
 interface CorePowerYogaBooking {
   id: string | null;
   sessionId: string | null;
@@ -36423,6 +36524,19 @@ interface CorePowerYogaBooking {
      * every field is read defensively; throws if no membership matches.
      */
     getMembership(id: string, opts?: ConnectionOption): Promise<CorePowerYogaMembership>;
+
+    /**
+     * Lists the signed-in caller's favorite CorePower Yoga instructors — id and display name,
+     * sorted by name. Requires a caller session. Empty list when none are favorited.
+     */
+    listFavoriteTeachers(opts?: ConnectionOption): Promise<CorePowerYogaFavoriteTeacher[]>;
+
+    /**
+     * Lists the signed-in caller's achievements and milestones. Requires a caller session. The
+     * signed-in response shape has never been observed, so every field is read defensively and the
+     * list is empty rather than thrown if the site's shape differs.
+     */
+    listMilestones(opts?: ConnectionOption): Promise<CorePowerYogaMilestone[]>;
 
     /**
      * Gets one of the signed-in caller's class packs by the `id` a listMyClassPacks() row returns.
@@ -39096,7 +39210,6 @@ interface DcMedicaidProvider {
   zip: string | null; // ZIP or ZIP+4, e.g. "20010-2916".
   phone: string | null; // Digits as the site lists them, e.g. "3015723500".
   fax: string | null;
-  email: string | null; // Null when the site masks it (most providers).
   languages: string | null; // Languages spoken, e.g. "ENGLISH".
   acceptingNewPatients: boolean | null;
 }
@@ -68036,6 +68149,31 @@ interface InstacartProductReview {
   source: string | null; // where the review came from, e.g. "influenster.com"; null for Instacart
 }
 
+interface InstacartGetRecipeArgs {
+  recipeId: string; // Instacart's recipe id (digits), e.g. "448879".
+}
+
+interface InstacartRecipeIngredient {
+  name: string; // the ingredient, e.g. "brussels sprouts"
+  text: string; // the recipe's own line, e.g. "1 pound brussels sprouts"
+  quantity: number | null; // the low end of the quantity
+  unit: string | null; // e.g. "pounds", "each"
+  note: string | null; // the recipe's note on it
+}
+
+interface InstacartRecipe {
+  id: string; // the recipe id
+  name: string; // the recipe title
+  slug: string | null; // the site's URL slug
+  description: string | null; // the recipe's intro text
+  totalTimeMinutes: number | null; // minutes
+  servings: number | null; // servings (low end)
+  source: string | null; // publisher, e.g. "New York Times Cooking"
+  author: string | null; // the recipe's author
+  ingredients: InstacartRecipeIngredient[]; // every ingredient group, flattened
+  steps: string[]; // the instructions, in order
+}
+
 interface SignedInOrder {
   id: string; // the shop's own order id
   placedAt: string | null; // ISO 8601 (YYYY-MM-DD when the shop gives only a date)
@@ -68376,6 +68514,12 @@ interface InstacartUpdateMyAccountResult {
      * reviewer's first name and the source. Takes the productId getProduct returns.
      */
     getProductReviews(args: InstacartGetProductReviewsArgs): Promise<InstacartProductReview[]>;
+
+    /**
+     * Returns one Instacart recipe by id: title, publisher and author, servings, total time, every
+     * ingredient (quantity, unit, the recipe's own line) and the numbered steps.
+     */
+    getRecipe(args: InstacartGetRecipeArgs): Promise<InstacartRecipe>;
 
     /**
      * The signed-in customer's own Instacart orders, newest first — order id, when, the store,
@@ -79038,6 +79182,31 @@ interface MayoClinicDoctorSearchPage {
   warnings: string[];
 }
 
+interface MayoClinicSymptomFactors {
+  name: string;
+  url: string;
+  groups: MayoClinicFactorGroup[];
+}
+
+interface MayoClinicFactorGroup {
+  group: string;
+  factors: string[];
+}
+
+interface MayoClinicSymptomCheck {
+  name: string;
+  url: string;
+  factors: string[];
+  causes: MayoClinicCause[];
+}
+
+interface MayoClinicCause {
+  condition: string;
+  url: string;
+  matched: string[];
+  otherFactors: string[];
+}
+
   /** Search Mayo Clinic's diseases and conditions library by a health topic. */
   interface Unit {
     /**
@@ -79144,6 +79313,21 @@ interface MayoClinicDoctorSearchPage {
      * related-factors URL each is checked under.
      */
     listSymptomCheckerSymptoms(args: {page?: number}): Promise<MayoClinicIndexPage>;
+
+    /**
+     * Gets the related factors (kind, onset, triggers, accompanying symptoms) the Symptom Checker
+     * offers for one symptom, grouped as its form groups them; url comes from
+     * listSymptomCheckerSymptoms.
+     */
+    getSymptomCheckerFactors(args: {url: string}): Promise<MayoClinicSymptomFactors>;
+
+    /**
+     * Runs Mayo Clinic's Symptom Checker for one symptom and the related factors that apply, and
+     * returns the possible causes it lists, most matching first, each with its condition page URL
+     * and which of your factors it matches; url comes from listSymptomCheckerSymptoms, factors are
+     * labels from getSymptomCheckerFactors.
+     */
+    checkSymptom(args: {url: string, factors: string[]}): Promise<MayoClinicSymptomCheck>;
 
     /**
      * Lists Mayo Clinic's healthy-lifestyle topic hubs (nutrition, fitness, stress, pregnancy,
@@ -110969,6 +111153,75 @@ interface SourceForgeListFilesArgs {
   }
 }
 
+declare namespace BowmarkProvider_southwest {
+  // ── Southwest Airlines — the unit's own declarations, verbatim ──
+interface SouthwestFare {
+  code: string; // WGA, PLU, ANY or BUS
+  name: string; // Wanna Get Away, Wanna Get Away Plus, Anytime or Business Select
+  totalUsd: number; // one adult, taxes and fees included
+  baseUsd: number | null;
+  taxesAndFeesUsd: number | null;
+  rapidRewardsPoints: number | null; // points earned
+  availability: string; // AVAILABLE when bookable
+  productId: string; // Southwest's own id for this fare on this flight
+}
+
+interface SouthwestSegment {
+  flightNumber: string;
+  from: string;
+  to: string;
+  departs: string; // local time with offset, ISO 8601
+  arrives: string;
+  aircraft: string | null;
+}
+
+interface SouthwestFlight {
+  flightNumbers: string[];
+  from: string;
+  to: string;
+  departs: string; // local time with offset, ISO 8601
+  arrives: string;
+  durationMinutes: number;
+  stops: number; // connections, 0 = one flight
+  nonstop: boolean;
+  segments: SouthwestSegment[];
+  fares: SouthwestFare[];
+  lowestFareUsd: number | null;
+}
+
+interface SouthwestSearchResult {
+  from: string;
+  to: string;
+  date: string;
+  total: number; // flights found before `limit`
+  flights: SouthwestFlight[];
+}
+
+interface SouthwestSearchFlightsArgs {
+  from: string;
+  to: string;
+  date: string;
+  nonstopOnly?: boolean;
+  limit?: number; // default 50
+}
+
+  /**
+   * Southwest Airlines (southwest.com) — searchFlights() reads live one-way USD fares for one
+   * adult between two airports on a date: every flight, its times and stops, and the price of
+   * each fare family. Read only; it does not book.
+   */
+  interface Unit {
+    /**
+     * Search Southwest flights and fares one way for one adult (`{ from: "DAL", to: "HOU", date:
+     * "2026-12-15" }`, airport codes and a YYYY-MM-DD date). Returns every flight with departure
+     * and arrival, segments, stops and the total price, points and product id of Wanna Get Away,
+     * Wanna Get Away Plus, Anytime and Business Select. Optional `nonstopOnly` and `limit`. Read
+     * only; booking is not offered.
+     */
+    searchFlights(args: SouthwestSearchFlightsArgs): Promise<SouthwestSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_spareroom {
   // ── SpareRoom — the unit's own declarations, verbatim ──
 interface SpareroomSearchArgs {
@@ -127574,6 +127827,36 @@ interface uspsFaqArticle {
   lastPublished: string | null;
 }
 
+interface uspsCitiesByZip {
+  zip: string;
+  places: uspsZipPlace[];
+}
+
+interface uspsZipPlace {
+  zip: string;
+  city: string;
+  state: string; // 2-letter state code
+  latitude: number | null;
+  longitude: number | null;
+}
+
+interface uspsZipsByCityState {
+  city: string;
+  state: string;
+  places: uspsZipPlace[];
+}
+
+interface uspsAddressZip {
+  input: string;
+  matched: boolean;
+  matchedAddress: string | null;
+  zip: string | null;
+  city: string | null;
+  state: string | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
   /**
    * USPS's own Retail Postage Price Calculator (postcalc.usps.com) — prices a domestic package
    * across every USPS Mail Service that quotes it for a ZIP-to-ZIP move, weight and optional
@@ -127597,6 +127880,28 @@ interface uspsFaqArticle {
      * no key; reads through a real browser page load because USPS refuses a plain POST.
      */
     findPostOffices(args: FindPostOfficesArgs): Promise<uspsLocation[]>;
+
+    /**
+     * The city names for one 5-digit ZIP code (with the place's coordinates), from the public
+     * zippopotam.us ZIP index because USPS's own ZIP Code Lookup form is refused by every client
+     * Bowmark runs. An unknown ZIP returns an empty list. Not USPS's 'acceptable city names' list.
+     */
+    findCitiesByZip(args: {zip: string}): Promise<uspsCitiesByZip>;
+
+    /**
+     * The ZIP codes that belong to one city and 2-letter state, from the public zippopotam.us ZIP
+     * index because USPS's own ZIP Code Lookup form is refused by every client Bowmark runs. An
+     * unknown city returns an empty list.
+     */
+    findZipsByCityState(args: {city: string, state: string}): Promise<uspsZipsByCityState>;
+
+    /**
+     * The 5-digit ZIP for one street address (with the matched address and coordinates), from the
+     * US Census geocoder because USPS's own ZIP-by-address form is refused by every client Bowmark
+     * runs. Takes the street line plus a city and state or a ZIP. No ZIP+4 and no carrier route;
+     * an address the geocoder cannot match returns matched: false.
+     */
+    lookupZipByAddress(args: {address: string, city?: string, state?: string, zip?: string}): Promise<uspsAddressZip>;
 
     /**
      * One Post Office's full record (hours by service, services, phone, parking, notes) for the
@@ -229057,6 +229362,77 @@ interface BowmarkSiteTools_3f247b8a0f {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_3f295d37c8 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Mysite" (https://www.suzannevega.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to guess t */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Mysite" (https://www.suzannevega.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for any */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Mysite" (https://www.suzannevega.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Mysite" (https://www.suzannevega.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what they c */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Mysite" (https://www.suzannevega.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an entity */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Mysite" (https://www.suzannevega.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Mysite" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site details  */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_3f2eb4ba31 {
     /** Read the complete first-party document for an exact id returned by search. Returns text and its canonical citation URL. */
     fetch(args: {
@@ -295647,6 +296023,83 @@ interface BowmarkSiteTools_718eb7d1f5 {
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_718f76874e {
+    /** Free dates and the exact final price of a stay for given dates and persons, for an offer from search_offers with booking pick_date_then_buy (hotel stays with a booking calendar on kuponko.si). Use check_in for an exact arrival, or check_in with flexible_until to get the first free arrival dates in a period. The price is for the whole stay and all persons, the same as the calendar on the offer page */
+    check_availability(args: {
+      /** Number of adults (default 2). */
+      adults?: number;
+      /** Kuponko edition: 'si' = kuponko.si (Slovenian offer texts; default, also for other languages), 'hr' = hr.kuponko.si (Croatian offer texts and site). Set 'hr' when the user writes in Croatian. Use the market of the offer from search_offers. */
+      market?: "si" | "hr";
+      /** Number of nights. */
+      nights: number;
+      /** Arrival date YYYY-MM-DD (the first possible arrival when flexible_until is given). */
+      check_in: string;
+      /** Offer id from search_offers (offer_id or a package offer_id). */
+      offer_id: number;
+      /** Ages of children at arrival, e.g. [4, 9]. */
+      children_ages?: number[];
+      /** Optional latest departure date YYYY-MM-DD: returns up to 5 first free arrival dates between check_in and this date (at most 31 days after check_in). */
+      flexible_until?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Full details of one kuponko.si offer by offer_id from search_offers: what is included, conditions (validity, booking rules, extra costs), all packages with prices, provider and address, and the url to buy. Covers both Kuponko editions: market 'si' (kuponko.si) and 'hr' (hr.kuponko.si, Croatian); results tell the market and the site where the user buys. */
+    get_offer(args: {
+      /** Kuponko edition: 'si' = kuponko.si (Slovenian offer texts; default, also for other languages), 'hr' = hr.kuponko.si (Croatian offer texts and site). Set 'hr' when the user writes in Croatian. Use the market of the offer from search_offers. */
+      market?: "si" | "hr";
+      /** Offer id from search_offers (offer_id or a package offer_id). */
+      offer_id: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Destinations (site sections, regions, countries, towns) and categories that currently have offers on kuponko.si, with the number of offers. Use it to choose values for search_offers. Covers both Kuponko editions: market 'si' (kuponko.si) and 'hr' (hr.kuponko.si, Croatian); results tell the market and the site where the user buys. */
+    list_destinations_and_categories(args?: {
+      /** Kuponko edition: 'si' = kuponko.si (Slovenian offer texts; default, also for other languages), 'hr' = hr.kuponko.si (Croatian offer texts and site). Set 'hr' when the user writes in Croatian. */
+      market?: "si" | "hr";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Offers related to one offer, as shown on its page on kuponko.si: other offers of the same provider and offers that buyers of this provider also chose, plus similar offers (same kind of offer in the same area at a similar price). Use it when the user wants alternatives or similar offers. Same card format as search_offers. Covers both Kuponko editions: market 'si' (kuponko.si) and 'hr' (hr.kuponko.s */
+    related_offers(args: {
+      /** Kuponko edition: 'si' = kuponko.si (Slovenian offer texts; default, also for other languages), 'hr' = hr.kuponko.si (Croatian offer texts and site). Set 'hr' when the user writes in Croatian. Use the market of the offer from search_offers. */
+      market?: "si" | "hr";
+      /** Offer id from search_offers (offer_id or a package offer_id). */
+      offer_id: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search deals that are on sale now on kuponko.si. kuponko.si is a Slovenian deals site: discount vouchers for trips and hotel stays, excursions, wellness and pampering, food and products. Returns up to 10 offers with the final price in EUR, location, voucher validity and the url where the user can buy. Slovenian keywords work best in query (e.g. 'wellness', 'masaža', 'terme', 'smučanje', 'kosilo'); */
+    search_offers(args?: {
+      /** Order of results: relevance (default), price_asc or price_desc. */
+      sort?: "relevance" | "price_asc" | "price_desc";
+      /** Board of hotel stays: at least this board (half board also returns full board and all inclusive); all inclusive returns only all inclusive. */
+      board?: "breakfast" | "half board" | "full board" | "all inclusive";
+      /** Number of results, 1-10 (default 10). */
+      limit?: number;
+      /** Free text, matched like the search box on kuponko.si (titles, keywords, categories, providers). */
+      query?: string;
+      /** Kuponko edition: 'si' = kuponko.si (Slovenian offer texts; default, also for other languages), 'hr' = hr.kuponko.si (Croatian offer texts and site). Set 'hr' when the user writes in Croatian. */
+      market?: "si" | "hr";
+      /** Number of nights; selects the package with this number of nights when the offer has one. */
+      nights?: number;
+      /** Date YYYY-MM-DD: keep offers whose voucher is valid on or before this date. */
+      date_to?: string;
+      /** Number of persons; selects the package for this number of persons when the offer has one. */
+      persons?: number;
+      /** Arrival date YYYY-MM-DD when the user has concrete dates (requires nights; persons default 2): only offers possible on these dates, with the exact price of the stay for hotel stays with a booking calendar. */
+      check_in?: string;
+      /** Date YYYY-MM-DD: keep offers whose voucher is valid on or after this date. */
+      date_from?: string;
+      /** Maximum price in EUR (final price incl. VAT). */
+      max_price?: number;
+      /** Minimum price in EUR. */
+      min_price?: number;
+      /** Minimum hotel stars, e.g. 4 for hotels with 4 or 5 stars. */
+      min_stars?: number;
+      /** Destination of the offer - town, region or country where the stay or activity takes place (not the user's location), e.g. 'Ljubljana', 'Bled', 'Istra', 'Novigrad', 'Hrvaška', 'Croatia'. */
+      destination?: string;
+      /** Ages of the children among persons, e.g. [6] for 2 adults and a child of 6 (persons 3). With check_in, free rooms and the stay price are checked for these ages (children often have cheaper extra beds). */
+      children_ages?: number[];
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_71c09eeadd {
     /** Read one memory model: the space's current answer to a standing question, e.g. how this user prefers to be communicated with. Use get_profile first to see which models exist. */
     get_model(args: {
@@ -300606,6 +301059,77 @@ interface BowmarkSiteTools_75a938f143 {
       price_max?: number;
       [key: string]: unknown;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_75c9e65718 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "TV Zone UK" (https://www.tvzoneuk.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to guess  */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "TV Zone UK" (https://www.tvzoneuk.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for an */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "TV Zone UK" (https://www.tvzoneuk.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "TV Zone UK" (https://www.tvzoneuk.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what they  */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "TV Zone UK" (https://www.tvzoneuk.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an entit */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "TV Zone UK" (https://www.tvzoneuk.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "TV Zone UK" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site det */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_75dd30b5c5 {
@@ -305639,6 +306163,11 @@ interface BowmarkSiteTools_77d768670a {
       /** Reference image URL for image-to-video (supported models) — public http(s) URL on port 80/443, PNG/JPEG/WebP/GIF/HEIC, up to 10MB */
       input_reference?: string;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_782623dbb9 {
+    /** Get the loan application form fields, their types, allowed values, and validation rules. */
+    get_loan_application_fields(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_784897c1c1 {
@@ -316118,6 +316647,77 @@ interface BowmarkSiteTools_807c0251a9 {
       query: string;
       [key: string]: unknown;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_811392f5dd {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "ring-u" (https://www.ring-u.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to guess the AP */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "ring-u" (https://www.ring-u.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for any Wix  */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "ring-u" (https://www.ring-u.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "ring-u" (https://www.ring-u.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what they can do */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "ring-u" (https://www.ring-u.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an entity (e.g */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "ring-u" (https://www.ring-u.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "ring-u" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site details endpo */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_817570ebfc {
@@ -335984,6 +336584,121 @@ interface BowmarkSiteTools_8d316384c5 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_8d383a3c80 {
+    /** Find public genre/topic collections and canonical page links. */
+    browse_topics(args?: {
+      kind?: "topic" | "genre";
+      page?: number;
+      limit?: number;
+      query?: string;
+      language?: "en";
+    }): Promise<unknown>;
+    /** Revalidate publication before displaying public editorial film details. */
+    catalogue_film(args: {
+      id: number;
+      filters?: unknown;
+      language?: "en";
+      explorer_id?: string | null;
+      country_code?: string | null;
+    }): Promise<unknown>;
+    /** Recommendations based on public subjects and credits, with reasons. */
+    catalogue_related(args: {
+      page?: number;
+      limit?: number;
+      filters?: unknown;
+      language?: "en";
+      similar_to_id: number;
+    }): Promise<unknown>;
+    /** Search from the explorer without remounting its interface. */
+    catalogue_search(args?: {
+      page?: number;
+      limit?: number;
+      query?: string;
+      filters?: unknown;
+      language?: "en";
+      explorer_id?: string | null;
+    }): Promise<unknown>;
+    /** Read a new selection intent for this temporary anonymous explorer instance. Revalidate each new selection through the current public gate. */
+    catalogue_sync(args: {
+      explorer_id: string;
+      after_revision?: number;
+    }): Promise<unknown>;
+    /** Read a public film URL returned by search. Never returns playback or private data. The canonical GuideDoc URL is revalidated against the same current public database gate as WebMCP. Use get_documentary for full public editorial details. */
+    fetch(args: {
+      id: string;
+    }): Promise<unknown>;
+    /** Read public article text using a numeric ID returned by search_articles. */
+    get_article(args: {
+      id: number;
+      language?: "en";
+    }): Promise<unknown>;
+    /** Read and display a verified public documentary film in the GuideDoc explorer. Use the numeric ID from current results or selected-film context. Preserve original titles. Pass current filters so subsequent recommendations retain them. For viewing availability in a specified country, pass the viewer country as country_code (ISO alpha-2). Country results do not verify account access. Pass explorer_id */
+    get_documentary(args: {
+      id: number;
+      filters?: unknown;
+      language?: "en";
+      explorer_id?: string | null;
+      country_code?: string | null;
+    }): Promise<unknown>;
+    /** Read a published person's biography and only their public documentary records. */
+    get_person(args: {
+      id: number;
+      page?: number;
+      limit?: number;
+      language?: "en";
+    }): Promise<unknown>;
+    /** Explain public catalogue discovery, availability labels and plugin limitations. Includes record-correction contact, privacy and legal links. No prices, plans, offers, checkout, account access or subscription changes are provided. */
+    get_service_info(args?: {
+      language?: "en";
+    }): Promise<unknown>;
+    /** Search and display documentary titles, filmmakers or topics inside GuideDoc. When this explorer is active, use for bare or ambiguous titles before answering from another meaning: 'Mon Petit' means query='Mon Petit', not a translation. Honor explicit translation/unrelated requests. Nonempty queries default to all documentary records, ranked by relevance; original_title identifies alternate names. P */
+    open_catalogue(args?: {
+      page?: number;
+      limit?: number;
+      query?: string;
+      filters?: unknown;
+      language?: "en";
+      explorer_id?: string | null;
+    }): Promise<unknown>;
+    /** Find and display similar documentaries with reasons in the GuideDoc explorer. For "more like the second one", use the ID at visible position 2 in explorer context. Preserve explicit duration, subtitle and subject filters. Defaults to films available on GuideDoc unless another scope is requested. No viewing history. Pass explorer_id from the active explorer context to update its view. */
+    recommend_documentaries(args?: {
+      page?: number;
+      limit?: number;
+      query?: string;
+      filters?: unknown;
+      language?: "en";
+      explorer_id?: string | null;
+      similar_to_id?: number | null;
+    }): Promise<unknown>;
+    /** Find public documentary films by concise title, director, topic or keyword. For duration, subtitle, year and audio filters use search_documentaries. Availability describes GuideDoc's catalogue; territorial restrictions may apply. */
+    search(args: {
+      query: string;
+    }): Promise<unknown>;
+    /** Find published documentary articles. Scheduled posts and private previews are excluded. */
+    search_articles(args?: {
+      page?: number;
+      limit?: number;
+      query?: string;
+      language?: "en";
+    }): Promise<unknown>;
+    /** Search and display documentary films in the GuideDoc explorer. Use concise title, director or topic terms and explicit filters. Keep the latest query and filters for follow-ups, changing only what the user requests. Unrestricted searches cover all records. English metadata; audio/subtitle filters remain independent. Pass explorer_id from the active explorer context to update its view. */
+    search_documentaries(args?: {
+      page?: number;
+      limit?: number;
+      query?: string;
+      filters?: unknown;
+      language?: "en";
+      explorer_id?: string | null;
+    }): Promise<unknown>;
+    /** Find published filmmaker/contributor profiles linked to public documentaries. */
+    search_people(args?: {
+      page?: number;
+      limit?: number;
+      query?: string;
+      language?: "en";
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_8d5151bff5 {
     /** Add a product the user's company makes to Toolradar, for free. Use it when the user wants their product listed and get_my_listing does not show it. It files a submission our team reviews, like the form at toolradar.com/company/submit; nothing is published at once. First call previews and writes nothing: show what will be sent, then call again with confirm: true. Facts only, in the vendor's own wor */
     add_my_product(args: {
@@ -339086,77 +339801,6 @@ interface BowmarkSiteTools_8dbcad7c4d {
       length?: "short" | "medium" | "long";
       [key: string]: unknown;
     }): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_8dfb284481 {
-    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
-    BrowseWixRESTDocsMenu(args: {
-      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
-      reason: string;
-      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
-      menuUrl?: string;
-    }): Promise<unknown>;
-    /** Call apis on site "Cinema City" (https://cinema-city.co.il/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to gues */
-    CallWixSiteAPI(args: {
-      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
-      url: string;
-      /** A string representing of a valid JSON object to describe the body of the request */
-      body?: string;
-      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
-      method: string;
-      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
-      visitorToken?: string;
-    }): Promise<unknown>;
-    /** Run JavaScript against the Wix REST API on site "Cinema City" (https://cinema-city.co.il/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for  */
-    ExecuteWixAPI(args: {
-      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
-      code: string;
-      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
-      files?: string;
-      /** One sentence explaining the original user request and why you are executing code to complete it. */
-      reason: string;
-      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
-      attachments?: {
-          file_id: string;
-          file_name?: string;
-          mime_type?: string;
-          download_url: string;
-        }[];
-      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
-      hasMutations?: boolean;
-      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
-      visitorToken?: string;
-      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
-      sourceDocUrls: string[];
-    }): Promise<unknown>;
-    /** Create a new visitor session and obtain a visitor access token for site "Cinema City" (https://cinema-city.co.il/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
-    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
-    /** Get business and site details for "Cinema City" (https://cinema-city.co.il/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what the */
-    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
-    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
-    ReadFullDocsArticle(args: {
-      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
-      articleUrl: string;
-    }): Promise<unknown>;
-    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
-    ReadFullDocsMethodSchema(args: {
-      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
-      reason: string;
-      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
-      articleUrl: string;
-    }): Promise<unknown>;
-    /** Searches the site "Cinema City" (https://cinema-city.co.il/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an ent */
-    SearchInSite(args: {
-      /** The term to search for in the site, e.g. "working hours" or "store locations" */
-      searchTerm: string;
-    }): Promise<unknown>;
-    /** Searches for site "Cinema City" (https://cinema-city.co.il/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Cinema City" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site  */
-    SearchSiteApiDocs(args: {
-      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
-      searchTerm: string;
-    }): Promise<unknown>;
-    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
-    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_8dff7239cb {
@@ -373930,150 +374574,6 @@ interface BowmarkSiteTools_a8ffc4bbbe {
     }): Promise<unknown>;
 }
 
-interface BowmarkSiteTools_a900e60752 {
-    /** Find public genre/topic collections and canonical page links. */
-    browse_topics(args?: {
-      kind?: "topic" | "genre";
-      page?: number;
-      limit?: number;
-      query?: string;
-      language?: "en";
-    }): Promise<unknown>;
-    /** Revalidate publication before displaying public editorial film details. */
-    catalogue_film(args: {
-      id: number;
-      filters?: unknown;
-      language?: "en";
-      explorer_id?: string | null;
-    }): Promise<unknown>;
-    /** Recommendations based on public subjects and credits, with reasons. */
-    catalogue_related(args: {
-      page?: number;
-      limit?: number;
-      filters?: unknown;
-      language?: "en";
-      similar_to_id: number;
-    }): Promise<unknown>;
-    /** Search from the explorer without remounting its interface. */
-    catalogue_search(args?: {
-      page?: number;
-      limit?: number;
-      query?: string;
-      filters?: unknown;
-      language?: "en";
-      explorer_id?: string | null;
-    }): Promise<unknown>;
-    /** Read a new selection intent for this temporary anonymous explorer instance. Revalidate each new selection through the current public gate. */
-    catalogue_sync(args: {
-      explorer_id: string;
-      after_revision?: number;
-    }): Promise<unknown>;
-    /** Read a public film URL returned by search. Never returns playback or private data. The canonical GuideDoc URL is revalidated against the same current public database gate as WebMCP. Use get_documentary for full public editorial details. */
-    fetch(args: {
-      id: string;
-    }): Promise<unknown>;
-    /** Read public article text using a numeric ID returned by search_articles. */
-    get_article(args: {
-      id: number;
-      language?: "en";
-    }): Promise<unknown>;
-    /** Read and display a verified public documentary film in the GuideDoc explorer. Use the numeric ID from current results or selected-film context. Preserve original titles. Pass current filters so subsequent recommendations retain them. Full films open on GuideDoc, with normal access requirements. Pass explorer_id from the active explorer context to update its view. */
-    get_documentary(args: {
-      id: number;
-      filters?: unknown;
-      language?: "en";
-      explorer_id?: string | null;
-    }): Promise<unknown>;
-    /** Read a published person's biography and only their public documentary records. */
-    get_person(args: {
-      id: number;
-      page?: number;
-      limit?: number;
-      language?: "en";
-    }): Promise<unknown>;
-    /** Explain public catalogue discovery, availability labels and plugin limitations. Includes record-correction contact, privacy and legal links. No prices, plans, offers, checkout, account access or subscription changes are provided. */
-    get_service_info(args?: {
-      language?: "en";
-    }): Promise<unknown>;
-    /** Search and display documentary titles, filmmakers or topics inside GuideDoc. When this explorer is active, use for bare or ambiguous titles before answering from another meaning: 'Mon Petit' means query='Mon Petit', not a translation. Honor explicit translation/unrelated requests. Nonempty queries default to all documentary records, ranked by relevance; original_title identifies alternate names. P */
-    open_catalogue(args?: {
-      page?: number;
-      limit?: number;
-      query?: string;
-      filters?: unknown;
-      language?: "en";
-      explorer_id?: string | null;
-    }): Promise<unknown>;
-    /** Find and display similar documentaries with reasons in the GuideDoc explorer. For "more like the second one", use the ID at visible position 2 in explorer context. Preserve explicit duration, subtitle and subject filters. Defaults to films available on GuideDoc unless another scope is requested. No viewing history. Pass explorer_id from the active explorer context to update its view. */
-    recommend_documentaries(args?: {
-      page?: number;
-      limit?: number;
-      query?: string;
-      filters?: unknown;
-      language?: "en";
-      explorer_id?: string | null;
-      similar_to_id?: number | null;
-    }): Promise<unknown>;
-    /** Find public documentary films by concise title, director, topic or keyword. For duration, subtitle, year and audio filters use search_documentaries. Availability describes GuideDoc's catalogue; territorial restrictions may apply. */
-    search(args: {
-      query: string;
-    }): Promise<unknown>;
-    /** Find published documentary articles. Scheduled posts and private previews are excluded. */
-    search_articles(args?: {
-      page?: number;
-      limit?: number;
-      query?: string;
-      language?: "en";
-    }): Promise<unknown>;
-    /** Search and display documentary films in the GuideDoc explorer. Use concise title, director or topic terms and explicit filters. Keep the latest query and filters for follow-ups, changing only what the user requests. Unrestricted searches cover all records. English metadata; audio/subtitle filters remain independent. Pass explorer_id from the active explorer context to update its view. */
-    search_documentaries(args?: {
-      page?: number;
-      limit?: number;
-      query?: string;
-      filters?: unknown;
-      language?: "en";
-      explorer_id?: string | null;
-    }): Promise<unknown>;
-    /** Find published filmmaker/contributor profiles linked to public documentaries. */
-    search_people(args?: {
-      page?: number;
-      limit?: number;
-      query?: string;
-      language?: "en";
-    }): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_a94ada89eb {
-    /** Compare features and pricing between two or more plans. */
-    compare_plans(args: {
-      /** Array of plan IDs to compare */
-      plans: Array<"launch" | "scale" | "growth" | "mighty_pro">;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Get Mighty Networks company information including mission, metrics, results, and careers details. */
-    get_company_info(args?: Record<string, unknown>): Promise<unknown>;
-    /** Get information about Mighty Networks founders including their names, titles, and bios. */
-    get_founders(args?: Record<string, unknown>): Promise<unknown>;
-    /** Get information about Mighty Networks investors and venture capital firms. */
-    get_investors(args?: Record<string, unknown>): Promise<unknown>;
-    /** Get all details for a specific pricing plan including features, pricing, and feature matrix entries. */
-    get_plan_details(args: {
-      /** The plan ID to get details for */
-      plan: "launch" | "scale" | "growth" | "mighty_pro";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Get Mighty Networks press and media mentions with links to articles, podcasts, and interviews. */
-    get_press_mentions(args?: Record<string, unknown>): Promise<unknown>;
-    /** Get frequently asked questions about Mighty Networks pricing, billing, free trials, and plan features. */
-    get_pricing_faqs(args?: Record<string, unknown>): Promise<unknown>;
-    /** Search the feature matrix by keyword. Returns matching features with availability per plan. */
-    search_features(args: {
-      /** Search keyword to match against feature names */
-      query: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-}
-
 interface BowmarkSiteTools_aa64763e5f {
     /** Consulta el estado del video-certificado de un sorteo ya corrido. Cuando está listo devuelve el link público del mp4 para descargar/compartir. Usá el video_id que devolvió run_giveaway. */
     get_giveaway_video(args: {
@@ -383358,6 +383858,77 @@ interface BowmarkSiteTools_b18eaad91a {
       query: string;
       [key: string]: unknown;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_b1cdbc57d3 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Cinema City" (https://www.cinema-city.co.il/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to  */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Cinema City" (https://www.cinema-city.co.il/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI  */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Cinema City" (https://www.cinema-city.co.il/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Cinema City" (https://www.cinema-city.co.il/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Cinema City" (https://www.cinema-city.co.il/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Cinema City" (https://www.cinema-city.co.il/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Cinema City" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get s */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_b1dac12b78 {
@@ -415361,77 +415932,6 @@ interface BowmarkSiteTools_c957777c31 {
     }): Promise<unknown>;
 }
 
-interface BowmarkSiteTools_c95873a660 {
-    /** The workshops, sections and lessons of one course the learner owns, with their completion state. A workshop that has not opened shows its title and open date only. */
-    course_outline(args: {
-      /** Course or workshop slug or id, as returned by my_courses. */
-      course: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** List the AI Hero courses the signed-in learner owns: each cohort or workshop, its workshops with open dates, whether each is open, and the next open date. Start here. */
-    my_courses(args?: Record<string, unknown>): Promise<unknown>;
-    /** The learner’s current offer from AI Hero, priced live by the same rules as checkout: the product, what they pay now in USD cents and why, when that price ends, and when enrollment closes. A learner who owns the product gets no price. An anonymous caller gets the default price. This is the learner’s current offer, which they may ask about. */
-    next_offer(args?: Record<string, unknown>): Promise<unknown>;
-    /** Upcoming and live office hours for the cohorts the learner owns: weekday, time in UTC and the YouTube link. */
-    office_hours(args?: {
-      /** Limit to one cohort, by slug or id. */
-      course?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** One lesson the learner owns: its text (the exercise), the video transcript, the session extract (the coding-agent session Matt shows on screen, timed to the video), and links to the lesson page. The solution stays hidden unless includeSolution is true; set it only when the learner asks for the solution. */
-    read_lesson(args: {
-      /** Lesson slug or id, as listed by course_outline. */
-      lesson: string;
-      /** Workshop slug or id the lesson belongs to. */
-      workshop?: string;
-      /** Include the solution text. Only when the learner asks for it. */
-      includeSolution?: boolean;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search AI Hero. Signed in, it also matches lesson titles in the open workshops the learner owns and marks which hits they can read now. Anonymous callers search public content. */
-    search_course(args: {
-      /** Maximum hits from each source. Default 5. */
-      limit?: number;
-      /** What to find, in plain words. */
-      query: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** The coding-agent session Matt shows on screen in one lesson video: his prompts, Claude’s replies, skill and tool calls and interrupts, each stamped with the video second it appears. Pass atSeconds to get what was on screen at that moment and the entries around it. Pass view for one slice of it: prompts (what Matt typed), corrections (each interrupt and the prompt after it), skills (each skill call */
-    session_extract(args: {
-      /** full (default), prompts, corrections, skills, errors or chapters. With atSeconds, only what falls in the window. */
-      view?: "full" | "prompts" | "corrections" | "skills" | "errors" | "chapters";
-      /** Lesson slug or id, as listed by course_outline. */
-      lesson: string;
-      /** Workshop slug or id the lesson belongs to. */
-      workshop?: string;
-      /** Video time in seconds to centre the window on. */
-      atSeconds?: number;
-      /** Seconds either side of atSeconds. Default 90. */
-      windowSeconds?: number;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Moments from Matt’s on-screen sessions across every lesson of one course the learner can read now: prompts he typed, course corrections (an interrupt and the prompt after it), skill calls, and failed tool calls with what came next. Each moment names its lesson and video second. Embargoed workshops contribute nothing. Searches at most 30 lessons per call; past that the result says so and names a wo */
-    session_moments(args: {
-      /** prompt, correction, skill or error. Default: all four. */
-      kind?: "prompt" | "correction" | "skill" | "error";
-      /** Maximum moments. Default 100. */
-      limit?: number;
-      /** Course or workshop slug or id, as returned by my_courses. */
-      course: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Every lesson and video moment where Matt’s session runs one skill, across the courses the learner can read now (or one course), with the arguments it was given and a link to the skill’s AI Hero page when there is one. Searches at most 30 lessons per call; past that the result says so and names a workshop to search on its own. */
-    skill_usage(args: {
-      /** Maximum moments. Default 100. */
-      limit?: number;
-      /** Skill name, with or without the slash: tdd or /tdd. */
-      skill: string;
-      /** Limit to one course or workshop, by slug or id. Default: every owned course. */
-      course?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-}
-
 interface BowmarkSiteTools_c96d6a90f0 {
     /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
     BrowseWixRESTDocsMenu(args: {
@@ -423180,6 +423680,37 @@ interface BowmarkSiteTools_cee6b41c7a {
       specialization_slug?: string;
       /** Optional instant confirmation filter. true restricts the search to doctors with instant appointment confirmation. false or omitted removes the filter. It does not prove free slots or a confirmed appointment. */
       instant_confirmation?: boolean;
+    }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_cef28a3a18 {
+    /** Compare features and pricing between two or more plans. */
+    compare_plans(args: {
+      /** Array of plan IDs to compare */
+      plans: Array<"launch" | "scale" | "growth" | "mighty_pro">;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get Mighty company information including mission, metrics, results, and careers details. */
+    get_company_info(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get information about Mighty founders including their names, titles, and bios. */
+    get_founders(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get information about Mighty investors and venture capital firms. */
+    get_investors(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get all details for a specific pricing plan including features, pricing, and feature matrix entries. */
+    get_plan_details(args: {
+      /** The plan ID to get details for */
+      plan: "launch" | "scale" | "growth" | "mighty_pro";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get Mighty press and media mentions with links to articles, podcasts, and interviews. */
+    get_press_mentions(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get frequently asked questions about Mighty pricing, billing, free trials, and plan features. */
+    get_pricing_faqs(args?: Record<string, unknown>): Promise<unknown>;
+    /** Search the feature matrix by keyword. Returns matching features with availability per plan. */
+    search_features(args: {
+      /** Search keyword to match against feature names */
+      query: string;
+      [key: string]: unknown;
     }): Promise<unknown>;
 }
 
@@ -435983,6 +436514,161 @@ interface BowmarkSiteTools_db17924545 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_db1d4444f2 {
+    /** Find published trail pages without a GPX file uploaded. */
+    find_hikes_missing_gpx(args?: {
+      page?: number;
+      state?: "Australian Capital Territory" | "New South Wales" | "Northern Territory" | "Queensland" | "South Australia" | "Tasmania" | "Victoria" | "Western Australia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Find trail pages with missing content fields. */
+    find_incomplete_hikes(args?: {
+      page?: number;
+      state?: "Australian Capital Territory" | "New South Wales" | "Northern Territory" | "Queensland" | "South Australia" | "Tasmania" | "Victoria" | "Western Australia";
+      check_fields?: Array<"gpx" | "featured_image" | "summary" | "grade" | "state" | "coordinates" | "getting_there" | "tips" | "warning">;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** List all post categories on the site with their IDs, slugs, and post counts. Useful for content audits and filtering list_posts by category. */
+    get_categories(args?: {
+      per_page?: number;
+      /** Only return categories that have posts */
+      hide_empty?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get draft, scheduled, or pending posts and pages. Requires WP_AUTH. Useful for reviewing content in progress. */
+    get_draft_posts(args?: {
+      page?: number;
+      type?: "posts" | "pages";
+      /** draft=unpublished, future=scheduled, pending=awaiting review, any=all non-published */
+      status?: "draft" | "future" | "pending" | "any";
+      per_page?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get full details of a specific trail by ID or slug. */
+    get_hike(args?: {
+      id?: number;
+      slug?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get a WordPress page by ID or slug. */
+    get_page(args?: {
+      id?: number;
+      slug?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get a WordPress blog post by ID or slug. */
+    get_post(args?: {
+      id?: number;
+      slug?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get recently modified or published trail pages. */
+    get_recent_hikes(args?: {
+      count?: number;
+      orderby?: "post_date_desc" | "relevance";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get overview statistics — total trails, counts by state and grade. */
+    get_site_stats(args?: Record<string, unknown>): Promise<unknown>;
+    /** List all post tags on the site with their IDs, slugs, and post counts. */
+    get_tags(args?: {
+      /** Filter tags by name */
+      search?: string;
+      per_page?: number;
+      /** Only return tags that have posts */
+      hide_empty?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Browse all published WordPress pages with pagination. Use this to audit or browse static pages without needing a search term. */
+    list_pages(args?: {
+      page?: number;
+      order?: "asc" | "desc";
+      orderby?: "date" | "modified" | "title" | "id" | "menu_order";
+      per_page?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Browse all published blog posts with pagination. Use this to audit or browse the full blog without needing a search term. */
+    list_posts(args?: {
+      page?: number;
+      order?: "asc" | "desc";
+      orderby?: "date" | "modified" | "title" | "id";
+      /** Filter by category ID */
+      category?: number;
+      per_page?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search trail pages on trailhiking.com.au by keyword, state, grade, duration, or style. */
+    search_hikes(args?: {
+      page?: number;
+      grade?: "Grade 1 (All Abilities)" | "Grade 2 (Easy)" | "Grade 3 (Moderate)" | "Grade 4 (Hard)" | "Grade 5 (Difficult)";
+      order?: "asc" | "desc";
+      state?: "Australian Capital Territory" | "New South Wales" | "Northern Territory" | "Queensland" | "South Australia" | "Tasmania" | "Victoria" | "Western Australia";
+      style?: "Circuit" | "One Way" | "Return";
+      /** Keyword search */
+      search?: string;
+      orderby?: "post_date_desc" | "relevance" | "distance";
+      duration?: "Short Walk" | "Half Day" | "Full Day" | "Overnight" | "Multi Day" | "Long Distance" | "Epic Walks";
+      per_page?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search WordPress blog posts and pages. */
+    search_posts(args: {
+      page?: number;
+      type?: "posts" | "pages";
+      /** Search term */
+      search: string;
+      per_page?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Update specific GeoDirectory fields on one or more trail listings. Requires WP_AUTH. Only provide fields you want to change. Use search_hikes first to find the IDs you need. */
+    update_hike_fields(args: {
+      /** Array of hike IDs to update (max 20 at once) */
+      ids: number[];
+      /** Fields to update — only include fields you want to change */
+      fields: {
+        tips?: string;
+        state?: string;
+        warning?: string;
+        /** Grade value e.g. 'Grade 3 (Moderate)' */
+        hike_grade?: string;
+        hike_style?: string;
+        /** Length value e.g. '12.5' */
+        hike_length?: string;
+        closest_town?: string;
+        hike_summary?: string;
+        state_search?: string;
+        getting_there?: string;
+        hike_duration?: string;
+        /** About the region / park background copy */
+        about_the_region?: string;
+        hike_grade_filter?: string;
+        hike_style_filter?: string;
+        /** Length label e.g. 'Half Day' */
+        hike_length_filter?: string;
+        hike_duration_filter?: string;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Update fields on an existing WordPress post or page. Requires WP_AUTH. Only provide fields you want to change. */
+    update_post(args: {
+      /** Post or page ID to update */
+      id: number;
+      /** Change the URL slug */
+      slug?: string;
+      type?: "posts" | "pages";
+      /** New post title */
+      title?: string;
+      /** Change post status */
+      status?: "publish" | "draft" | "pending" | "future";
+      /** New post content (HTML) */
+      content?: string;
+      /** New excerpt */
+      excerpt?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_db2e6bad61 {
     /** Find up to ten Shipley Do-Nuts shops near a city, ZIP code, or address. Results can be outside the requested city. Set cateringOnly to true to find shops with catering. */
     find_stores(args: {
@@ -443727,6 +444413,77 @@ interface BowmarkSiteTools_dfc97afd23 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_dfd483ba42 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Signature Performance" (https://www.signatureperformance.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API. */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Signature Performance" (https://www.signatureperformance.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. U */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Signature Performance" (https://www.signatureperformance.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Signature Performance" (https://www.signatureperformance.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact detai */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Signature Performance" (https://www.signatureperformance.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Signature Performance" (https://www.signatureperformance.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Signature Performance" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need info */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_dfddf5e0ea {
     /** Approves a pending suggested action by actionKey. The action (e.g. creating an Outlook draft or adding a JIRA comment) is executed by the assistant within about a minute; use listSuggestedActions with status EXECUTED or FAILED to check the outcome. Only call this tool when the user explicitly asks to approve or carry out a specific action. */
     approveSuggestedAction(args: {
@@ -445541,6 +446298,77 @@ interface BowmarkSiteTools_e24f7a2b6f {
       operation: "add" | "subtract" | "multiply" | "divide";
       [key: string]: unknown;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_e251e6a571 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Ondas inc." (https://www.ondas.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to guess the */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Ondas inc." (https://www.ondas.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for any W */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Ondas inc." (https://www.ondas.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Ondas inc." (https://www.ondas.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what they can */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Ondas inc." (https://www.ondas.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an entity ( */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Ondas inc." (https://www.ondas.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Ondas inc." site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site detail */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_e25bbddfab {
@@ -448521,6 +449349,37 @@ interface BowmarkSiteTools_e74c041700 {
     StartTrial(args: {
       /** The email address to create the free trial account with. */
       email: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_e783ad368e {
+    /** Details of one Outsite location by slug: Outsite house or partner stay, place, description, amenities, wifi speed, check-in and check-out times, minimum stay, room types with indicative list rates, rating, and the open check-in dates over the next 90 days. With checkIn and checkOut it also returns live prices for that stay per room type: guest rates (no membership needed) and member rates (need an */
+    get_location(args: {
+      /** The location slug from a search_stays result (e.g. "sagres"), or its page URL https://www.outsite.co/locations/{slug}. */
+      slug: string;
+      /** Number of people staying together in ONE room, 1 to 10 (default 1). For a group that needs several rooms, search for the people per room. */
+      guests?: number;
+      /** Optional check-in date as YYYY-MM-DD. Give it with checkOut to get live room rates. */
+      checkIn?: string;
+      /** Optional check-out date as YYYY-MM-DD. Give it with checkIn. */
+      checkOut?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Find Outsite coliving houses and partner stays with availability for a check-in and check-out date, optionally in a place (city, region or country), for a room type and under a nightly budget. Each result has the location slug, whether it is an Outsite house or a Curated partner stay, city, country, rating, a photo, availability status (AVAILABLE, MIN_LOS_NOT_MET with the required nights, or UNAVA */
+    search_stays(args: {
+      /** Optional place to search in, as free text: a city, region, country or Outsite location name, e.g. "Lisbon", "Portugal", "Europe", "Bali", "Mexico City". Omit to search every location. */
+      where?: string;
+      /** Number of people staying together in ONE room, 1 to 10 (default 1). For a group that needs several rooms, search for the people per room. */
+      guests?: number;
+      /** Check-in date as YYYY-MM-DD, a calendar date at the location. Must be today or later. */
+      checkIn: string;
+      /** Check-out date as YYYY-MM-DD, at least one day after checkIn. */
+      checkOut: string;
+      /** Optional kind of room: "private_room" (own room in a shared house, with or without a private bathroom), "studio", "apartment", or "shared_room" (a bed in a shared room). */
+      roomType?: "private_room" | "studio" | "apartment" | "shared_room";
+      /** Optional budget: leave out available locations whose cheapest room costs more than this per night, in US dollars. */
+      maxNightlyPriceUsd?: number;
       [key: string]: unknown;
     }): Promise<unknown>;
 }
@@ -468850,6 +469709,29 @@ interface BowmarkSiteTools_f28da504b3 {
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_f2904b0c8d {
+    /** CamIndex Agent API manifest with HTTP endpoint templates and enums. */
+    get_manifest(args?: {}): Promise<unknown>;
+    /** Full JSON profile for one CamIndex model: tags, streamPhotos (snapshots), schedule, recorded streamHistory sessions, videos, FAQ. */
+    get_model_profile(args: {
+      /** girls|men|trans|couples */
+      gender: string;
+      /** stripchat, chaturbate, ... */
+      platform: string;
+      /** Model username on the platform */
+      username: string;
+    }): Promise<unknown>;
+    /** Search CamIndex models by username substring; returns agentApi URLs. */
+    search_models(args?: {
+      /** Username search string */
+      q?: string;
+      limit?: number;
+      gender?: string;
+      offset?: number;
+      platform?: string;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_f2a4e1c759 {
     /** Run a read-only shell-like query against a virtualized, in-memory filesystem rooted at `/` that contains ONLY the Lago documentation pages and OpenAPI specs. This is NOT a shell on any real machine — nothing runs on the user's computer, the server host, or any network. The filesystem is a sandbox backed by documentation chunks. This is how you read documentation pages: there is no separate "get pa */
     query_docs_filesystem_lago(args: {
@@ -474989,6 +475871,77 @@ interface BowmarkSiteTools_f676084827 {
       workspace_key: string;
       [key: string]: unknown;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_f67f9c53a5 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "The Classic Valuer" (https://www.theclassicvaluer.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEV */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "The Classic Valuer" (https://www.theclassicvaluer.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use Exec */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "The Classic Valuer" (https://www.theclassicvaluer.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "The Classic Valuer" (https://www.theclassicvaluer.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or  */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "The Classic Valuer" (https://www.theclassicvaluer.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried  */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "The Classic Valuer" (https://www.theclassicvaluer.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "The Classic Valuer" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information ab */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_f68bba7e65 {
@@ -482745,6 +483698,75 @@ interface BowmarkSiteTools_fa636853be {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_fa6d8ba065 {
+    /** The workshops, sections and lessons of one course the learner owns, with their completion state. A workshop that has not opened shows its title and open date only. */
+    course_outline(args: {
+      /** Course or workshop slug or id, as returned by my_courses. */
+      course: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** List the AI Hero courses the signed-in learner owns: each cohort or workshop, its workshops with open dates, whether each is open, and the next open date. Start here. */
+    my_courses(args?: Record<string, unknown>): Promise<unknown>;
+    /** The learner’s current offer from AI Hero, priced live by the same rules as checkout: the product, what they pay now in USD cents and why, when that price ends, and when enrollment closes. A learner who owns the product gets no price. An anonymous caller gets the default price. This is the learner’s current offer, which they may ask about. */
+    next_offer(args?: Record<string, unknown>): Promise<unknown>;
+    /** Upcoming and live office hours for the cohorts the learner owns: weekday, time in UTC and the YouTube link. */
+    office_hours(args?: {
+      /** Limit to one cohort, by slug or id. */
+      course?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** One lesson the learner owns: its text (the exercise), the video transcript, the session extract (the coding-agent session Matt shows on screen, timed to the video), and links to the lesson page. Solutions are not served here: when the learner asks for one, give them the solution page link. */
+    read_lesson(args: {
+      /** Lesson slug or id, as listed by course_outline. */
+      lesson: string;
+      /** Workshop slug or id the lesson belongs to. */
+      workshop?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search AI Hero. Signed in, it also matches lesson titles in the open workshops the learner owns and marks which hits they can read now. Anonymous callers search public content. */
+    search_course(args: {
+      /** Maximum hits from each source. Default 5. */
+      limit?: number;
+      /** What to find, in plain words. */
+      query: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The coding-agent session Matt shows on screen in one lesson video: his prompts, Claude’s replies, skill and tool calls and interrupts, each stamped with the video second it appears. Pass atSeconds to get what was on screen at that moment and the entries around it. Pass view for one slice of it: prompts (what Matt typed), corrections (each interrupt and the prompt after it), skills (each skill call */
+    session_extract(args: {
+      /** full (default), prompts, corrections, skills, errors or chapters. With atSeconds, only what falls in the window. */
+      view?: "full" | "prompts" | "corrections" | "skills" | "errors" | "chapters";
+      /** Lesson slug or id, as listed by course_outline. */
+      lesson: string;
+      /** Workshop slug or id the lesson belongs to. */
+      workshop?: string;
+      /** Video time in seconds to centre the window on. */
+      atSeconds?: number;
+      /** Seconds either side of atSeconds. Default 90. */
+      windowSeconds?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Moments from Matt’s on-screen sessions across every lesson of one course the learner can read now: prompts he typed, course corrections (an interrupt and the prompt after it), skill calls, and failed tool calls with what came next. Each moment names its lesson and video second. Embargoed workshops contribute nothing. Searches at most 30 lessons per call; past that the result says so and names a wo */
+    session_moments(args: {
+      /** prompt, correction, skill or error. Default: all four. */
+      kind?: "prompt" | "correction" | "skill" | "error";
+      /** Maximum moments. Default 100. */
+      limit?: number;
+      /** Course or workshop slug or id, as returned by my_courses. */
+      course: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Every lesson and video moment where Matt’s session runs one skill, across the courses the learner can read now (or one course), with the arguments it was given and a link to the skill’s AI Hero page when there is one. Searches at most 30 lessons per call; past that the result says so and names a workshop to search on its own. */
+    skill_usage(args: {
+      /** Maximum moments. Default 100. */
+      limit?: number;
+      /** Skill name, with or without the slash: tdd or /tdd. */
+      skill: string;
+      /** Limit to one course or workshop, by slug or id. Default: every owned course. */
+      course?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_fa860f6222 {
     /** Ask anything about Aced (formerly Exponent)’s product, pricing, setup, limitations or comparisons. Get a direct answer from its published information, with sources. Add relevant context if you have it; otherwise just ask. */
     aced_ask_anything(args?: {
@@ -486428,77 +487450,6 @@ interface BowmarkSiteTools_fc163b1d81 {
       query: string;
       per_page?: number;
     }): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_fc3e39123b {
-    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
-    BrowseWixRESTDocsMenu(args: {
-      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
-      reason: string;
-      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
-      menuUrl?: string;
-    }): Promise<unknown>;
-    /** Call apis on site "Retreat Portal" (https://www.retreatportal.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try  */
-    CallWixSiteAPI(args: {
-      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
-      url: string;
-      /** A string representing of a valid JSON object to describe the body of the request */
-      body?: string;
-      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
-      method: string;
-      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
-      visitorToken?: string;
-    }): Promise<unknown>;
-    /** Run JavaScript against the Wix REST API on site "Retreat Portal" (https://www.retreatportal.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixA */
-    ExecuteWixAPI(args: {
-      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
-      code: string;
-      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
-      files?: string;
-      /** One sentence explaining the original user request and why you are executing code to complete it. */
-      reason: string;
-      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
-      attachments?: {
-          file_id: string;
-          file_name?: string;
-          mime_type?: string;
-          download_url: string;
-        }[];
-      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
-      hasMutations?: boolean;
-      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
-      visitorToken?: string;
-      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
-      sourceDocUrls: string[];
-    }): Promise<unknown>;
-    /** Create a new visitor session and obtain a visitor access token for site "Retreat Portal" (https://www.retreatportal.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
-    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
-    /** Get business and site details for "Retreat Portal" (https://www.retreatportal.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about w */
-    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
-    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
-    ReadFullDocsArticle(args: {
-      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
-      articleUrl: string;
-    }): Promise<unknown>;
-    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
-    ReadFullDocsMethodSchema(args: {
-      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
-      reason: string;
-      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
-      articleUrl: string;
-    }): Promise<unknown>;
-    /** Searches the site "Retreat Portal" (https://www.retreatportal.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find */
-    SearchInSite(args: {
-      /** The term to search for in the site, e.g. "working hours" or "store locations" */
-      searchTerm: string;
-    }): Promise<unknown>;
-    /** Searches for site "Retreat Portal" (https://www.retreatportal.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Retreat Portal" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g.,  */
-    SearchSiteApiDocs(args: {
-      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
-      searchTerm: string;
-    }): Promise<unknown>;
-    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
-    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_fc64dc00b4 {
@@ -491816,6 +492767,7 @@ interface BowmarkSites {
   "24bottles.com": BowmarkSiteTools_e8ae28a971;
   "25southboutiques.com": BowmarkSiteTools_921614d236;
   "260samplesale.com": BowmarkSiteTools_1a8e16d918;
+  "2bglass.com": BowmarkSiteTools_1a8e16d918;
   "2echoix.fr": BowmarkSiteTools_921614d236;
   "2mequipment.com": BowmarkSiteTools_921614d236;
   "2modern.com": BowmarkSiteTools_921614d236;
@@ -491842,7 +492794,7 @@ interface BowmarkSites {
   "3ddruckboss.de": BowmarkSiteTools_e8ae28a971;
   "3deksperten.dk": BowmarkSiteTools_e8ae28a971;
   "3dgbire.com": BowmarkSiteTools_1a8e16d918;
-  "3dprintingcanada.com": BowmarkSiteTools_e8ae28a971;
+  "3dprintingcanada.com": BowmarkSiteTools_1a8e16d918;
   "3drose.com": BowmarkSiteTools_1a8e16d918;
   "3dtotal.com": BowmarkSiteTools_1a8e16d918;
   "3ina.com": BowmarkSiteTools_921614d236;
@@ -491851,6 +492803,7 @@ interface BowmarkSites {
   "3ready.cc": BowmarkSiteTools_541eafa903;
   "3saf.com": BowmarkSiteTools_2c1343b9af;
   "3speak.tv": BowmarkSiteTools_fe81072d65;
+  "3t.bike": BowmarkSiteTools_921614d236;
   "3wishes.com": BowmarkSiteTools_921614d236;
   "3wliners.com": BowmarkSiteTools_921614d236;
   "420science.com": BowmarkSiteTools_921614d236;
@@ -491888,16 +492841,17 @@ interface BowmarkSites {
   "6ix.com": BowmarkSiteTools_2c70d2cf30;
   "6ixthsensela.com": BowmarkSiteTools_921614d236;
   "6ixty8ight.com": BowmarkSiteTools_921614d236;
+  "6kiom.com": BowmarkSiteTools_1a8e16d918;
   "6pmseason.com": BowmarkSiteTools_921614d236;
   "6thsensefishing.com": BowmarkSiteTools_921614d236;
   "6tm-magazine.com": BowmarkSiteTools_921614d236;
   "6waves.com": BowmarkSiteTools_f268db926c;
   "70cigars.com": BowmarkSiteTools_e8ae28a971;
-  "773grp.com": BowmarkSiteTools_921614d236;
+  "773grp.com": BowmarkSiteTools_1a8e16d918;
   "797offroad.com": BowmarkSiteTools_921614d236;
   "797performance.com": BowmarkSiteTools_1a8e16d918;
   "79bike.com": BowmarkSiteTools_921614d236;
-  "7forallmankind.com": BowmarkSiteTools_921614d236;
+  "7forallmankind.com": BowmarkSiteTools_1a8e16d918;
   "7lle.com": BowmarkSiteTools_2c1343b9af;
   "7oh.com": BowmarkSiteTools_921614d236;
   "7thavenue.co": BowmarkSiteTools_e8ae28a971;
@@ -492048,7 +493002,7 @@ interface BowmarkSites {
   "afnan.com": BowmarkSiteTools_921614d236;
   "africangenesis-101.org": BowmarkSiteTools_2e50f4fa34;
   "afrozeh.com": BowmarkSiteTools_1a8e16d918;
-  "aftco.com": BowmarkSiteTools_921614d236;
+  "aftco.com": BowmarkSiteTools_1a8e16d918;
   "afterinject.com": BowmarkSiteTools_921614d236;
   "aftermath.finance": BowmarkSiteTools_d4391055a2;
   "aftershockpc.com.au": BowmarkSiteTools_921614d236;
@@ -492080,7 +493034,7 @@ interface BowmarkSites {
   "ai.engineer": BowmarkSiteTools_ef4f05ca95;
   "aiagentstore.ai": BowmarkSiteTools_3def8572e9;
   "aiapply.co": BowmarkSiteTools_0695b054ba;
-  "aihero.dev": BowmarkSiteTools_c95873a660;
+  "aihero.dev": BowmarkSiteTools_fa6d8ba065;
   "aihot.news": BowmarkSiteTools_4addb11a44;
   "aihubmix.com": BowmarkSiteTools_77d768670a;
   "aime.co": BowmarkSiteTools_1a8e16d918;
@@ -492139,6 +493093,7 @@ interface BowmarkSites {
   "aldousbio.com": BowmarkSiteTools_921614d236;
   "alemais.com": BowmarkSiteTools_e8ae28a971;
   "alen.com": BowmarkSiteTools_921614d236;
+  "alephcontemporary.com": BowmarkSiteTools_921614d236;
   "alertasubastas.com": BowmarkSiteTools_d679db2bb6;
   "alertwest.com": BowmarkSiteTools_40478a0f82;
   "alessi.com": BowmarkSiteTools_e8ae28a971;
@@ -492156,6 +493111,7 @@ interface BowmarkSites {
   "alfperfumes.store": BowmarkSiteTools_921614d236;
   "alfred.com": BowmarkSiteTools_921614d236;
   "algaecal.com": BowmarkSiteTools_921614d236;
+  "algharbis.com": BowmarkSiteTools_2c1343b9af;
   "algotradingspace.com": BowmarkSiteTools_404af05b2f;
   "alhassan.pk": BowmarkSiteTools_e8ae28a971;
   "alhimyan.com": BowmarkSiteTools_921614d236;
@@ -492187,7 +493143,7 @@ interface BowmarkSites {
   "allheart.com": BowmarkSiteTools_921614d236;
   "allianceapps.io": BowmarkSiteTools_1a8e16d918;
   "alliancechemical.com": BowmarkSiteTools_921614d236;
-  "allies.shop": BowmarkSiteTools_921614d236;
+  "allinoneposters.com": BowmarkSiteTools_921614d236;
   "allover.art": BowmarkSiteTools_de816bd0b6;
   "alloywheelshop.com": BowmarkSiteTools_921614d236;
   "allpaintingsstore.com": BowmarkSiteTools_f42583f5d6;
@@ -492318,12 +493274,13 @@ interface BowmarkSites {
   "ammohero.com": BowmarkSiteTools_921614d236;
   "amoils.com": BowmarkSiteTools_1a8e16d918;
   "amoramarket.com.mx": BowmarkSiteTools_a5d5ad65c1;
-  "amoretti.com": BowmarkSiteTools_921614d236;
+  "amoretti.com": BowmarkSiteTools_1a8e16d918;
   "amorevintagejapan.com": BowmarkSiteTools_e8ae28a971;
   "amoseeds.com": BowmarkSiteTools_921614d236;
   "amote.app": BowmarkSiteTools_921614d236;
   "amotopart.com": BowmarkSiteTools_921614d236;
   "amouage.com": BowmarkSiteTools_e8ae28a971;
+  "amoursecrt.com": BowmarkSiteTools_921614d236;
   "ampedupmarine.com": BowmarkSiteTools_921614d236;
   "amphora.cl": BowmarkSiteTools_921614d236;
   "amplitude.com": BowmarkSiteTools_e7ab7ae904;
@@ -492517,6 +493474,7 @@ interface BowmarkSites {
   "ardene.com": BowmarkSiteTools_921614d236;
   "ardmoor.co.uk": BowmarkSiteTools_921614d236;
   "area51store.co.nz": BowmarkSiteTools_921614d236;
+  "areaware.com": BowmarkSiteTools_921614d236;
   "arenacommerce.com": BowmarkSiteTools_921614d236;
   "areyougame.com": BowmarkSiteTools_921614d236;
   "arganour.com": BowmarkSiteTools_921614d236;
@@ -492537,6 +493495,7 @@ interface BowmarkSites {
   "armadasnow.com": BowmarkSiteTools_921614d236;
   "armedangels.com": BowmarkSiteTools_e8ae28a971;
   "armerialaparra.com": BowmarkSiteTools_1a8e16d918;
+  "armiea.com": BowmarkSiteTools_921614d236;
   "armor-x.com": BowmarkSiteTools_921614d236;
   "armorathletics.com": BowmarkSiteTools_2445885e76;
   "armorlux.com": BowmarkSiteTools_921614d236;
@@ -492559,7 +493518,7 @@ interface BowmarkSites {
   "art-and-see.com": BowmarkSiteTools_921614d236;
   "art09.co.kr": BowmarkSiteTools_08120da766;
   "artakedowntool.com": BowmarkSiteTools_921614d236;
-  "artarium.com": BowmarkSiteTools_921614d236;
+  "artarium.com": BowmarkSiteTools_1a8e16d918;
   "artbreeze.marketing": BowmarkSiteTools_2020b01306;
   "artbymaudsch.com": BowmarkSiteTools_921614d236;
   "artdeco.com": BowmarkSiteTools_921614d236;
@@ -492619,6 +493578,7 @@ interface BowmarkSites {
   "ashleypiercingjewelry.com": BowmarkSiteTools_921614d236;
   "ashleystewart.com": BowmarkSiteTools_1a8e16d918;
   "ashridgetrees.co.uk": BowmarkSiteTools_921614d236;
+  "asiamarche.fr": BowmarkSiteTools_921614d236;
   "asiamarket.ie": BowmarkSiteTools_e8ae28a971;
   "asiangroceronline.com.au": BowmarkSiteTools_921614d236;
   "asienmarkt.online": BowmarkSiteTools_921614d236;
@@ -492653,7 +493613,7 @@ interface BowmarkSites {
   "assistant-ui.com": BowmarkSiteTools_8750fe5991;
   "assistant247.net": BowmarkSiteTools_192fc04884;
   "assouline.com": BowmarkSiteTools_e8ae28a971;
-  "astech.com": BowmarkSiteTools_1a8e16d918;
+  "astech.com": BowmarkSiteTools_921614d236;
   "astleyclarke.com": BowmarkSiteTools_921614d236;
   "astorebags.pk": BowmarkSiteTools_921614d236;
   "astrak.com": BowmarkSiteTools_921614d236;
@@ -492684,7 +493644,7 @@ interface BowmarkSites {
   "athleticpropulsionlabs.com": BowmarkSiteTools_e8ae28a971;
   "atipicishop.com": BowmarkSiteTools_e8ae28a971;
   "atk.store": BowmarkSiteTools_1a8e16d918;
-  "atkgear.com": BowmarkSiteTools_1a8e16d918;
+  "atkgear.com": BowmarkSiteTools_921614d236;
   "atlan.com": BowmarkSiteTools_d8e0dd7a98;
   "atlanticbooks.com": BowmarkSiteTools_921614d236;
   "atlanticfurnitureco.com": BowmarkSiteTools_921614d236;
@@ -492720,7 +493680,7 @@ interface BowmarkSites {
   "attaquercycling.com": BowmarkSiteTools_921614d236;
   "attirebyayaana.com": BowmarkSiteTools_921614d236;
   "attitudeliving.com": BowmarkSiteTools_921614d236;
-  "attracione.com.br": BowmarkSiteTools_1a8e16d918;
+  "attracione.com.br": BowmarkSiteTools_921614d236;
   "atxbooks.com": BowmarkSiteTools_921614d236;
   "aubade.com": BowmarkSiteTools_921614d236;
   "aubainerie.com": BowmarkSiteTools_921614d236;
@@ -492753,6 +493713,7 @@ interface BowmarkSites {
   "aumandsfurniture.com": BowmarkSiteTools_921614d236;
   "auniva.co": BowmarkSiteTools_921614d236;
   "aurabags.ca": BowmarkSiteTools_921614d236;
+  "aurabeautyclub.com.br": BowmarkSiteTools_921614d236;
   "aurafragrance.com": BowmarkSiteTools_921614d236;
   "aurahome.com.au": BowmarkSiteTools_e8ae28a971;
   "aurahouse.com": BowmarkSiteTools_921614d236;
@@ -492843,7 +493804,7 @@ interface BowmarkSites {
   "axorhelmets.com": BowmarkSiteTools_921614d236;
   "axparis.com": BowmarkSiteTools_921614d236;
   "axure.cloud": BowmarkSiteTools_565abea817;
-  "ayana.co.za": BowmarkSiteTools_1a8e16d918;
+  "ayana.co.za": BowmarkSiteTools_921614d236;
   "ayana.com": BowmarkSiteTools_b55e0252fc;
   "aybl.com": BowmarkSiteTools_921614d236;
   "aylanetworks.com": BowmarkSiteTools_002a4a4cdb;
@@ -492940,10 +493901,11 @@ interface BowmarkSites {
   "bambinijo.com": BowmarkSiteTools_921614d236;
   "bambooclothing.co.uk": BowmarkSiteTools_921614d236;
   "bamboom.it": BowmarkSiteTools_921614d236;
+  "bambuni.dk": BowmarkSiteTools_1a8e16d918;
   "bamers.cl": BowmarkSiteTools_e8ae28a971;
   "bamtoo.de": BowmarkSiteTools_921614d236;
   "banaanieyewear.fi": BowmarkSiteTools_1a8e16d918;
-  "bananaclub.co.in": BowmarkSiteTools_921614d236;
+  "bananaclub.co.in": BowmarkSiteTools_1a8e16d918;
   "banarasee.in": BowmarkSiteTools_921614d236;
   "bandccamera.com": BowmarkSiteTools_921614d236;
   "banded.com": BowmarkSiteTools_921614d236;
@@ -492978,7 +493940,7 @@ interface BowmarkSites {
   "bargainballoons.com": BowmarkSiteTools_921614d236;
   "bargainchemist.co.nz": BowmarkSiteTools_921614d236;
   "baristaunderground.com": BowmarkSiteTools_921614d236;
-  "baristawarehouse.com.au": BowmarkSiteTools_1a8e16d918;
+  "baristawarehouse.com.au": BowmarkSiteTools_921614d236;
   "bark.co": BowmarkSiteTools_1a8e16d918;
   "barkershoes.com": BowmarkSiteTools_1a8e16d918;
   "barmeister24.de": BowmarkSiteTools_921614d236;
@@ -493059,7 +494021,7 @@ interface BowmarkSites {
   "beadaholique.com": BowmarkSiteTools_1a8e16d918;
   "beadgala.com": BowmarkSiteTools_921614d236;
   "beadndgames.co.nz": BowmarkSiteTools_e8ae28a971;
-  "beadsland.com": BowmarkSiteTools_921614d236;
+  "beadsland.com": BowmarkSiteTools_1a8e16d918;
   "beadsnfashion.com": BowmarkSiteTools_921614d236;
   "beadsofcambay.com": BowmarkSiteTools_1a8e16d918;
   "beae.com": BowmarkSiteTools_1a8e16d918;
@@ -493106,7 +494068,7 @@ interface BowmarkSites {
   "beautypie.com": BowmarkSiteTools_921614d236;
   "beautyworksonline.com": BowmarkSiteTools_10afeb213b;
   "beavertools.com": BowmarkSiteTools_921614d236;
-  "bebe.com": BowmarkSiteTools_921614d236;
+  "bebe.com": BowmarkSiteTools_1a8e16d918;
   "bebesit.cl": BowmarkSiteTools_921614d236;
   "becausetees.com": BowmarkSiteTools_1a8e16d918;
   "beckettsimonon.com": BowmarkSiteTools_921614d236;
@@ -493115,6 +494077,7 @@ interface BowmarkSites {
   "beddys.com": BowmarkSiteTools_e8ae28a971;
   "bedgear.com": BowmarkSiteTools_921614d236;
   "bedjet.com": BowmarkSiteTools_921614d236;
+  "bedplanet.com": BowmarkSiteTools_921614d236;
   "bedre-inneklima.no": BowmarkSiteTools_921614d236;
   "bedrop.de": BowmarkSiteTools_921614d236;
   "bedsurehome.com": BowmarkSiteTools_921614d236;
@@ -493149,6 +494112,8 @@ interface BowmarkSites {
   "belfurniture.com": BowmarkSiteTools_e8ae28a971;
   "belfuse.com": BowmarkSiteTools_d7c3a151a9;
   "belgameubelen.be": BowmarkSiteTools_921614d236;
+  "bella-norge.com": BowmarkSiteTools_921614d236;
+  "bellabelts.com": BowmarkSiteTools_921614d236;
   "bellabridesmaids.com": BowmarkSiteTools_921614d236;
   "bellabubear.com": BowmarkSiteTools_921614d236;
   "bellafootwears.com": BowmarkSiteTools_921614d236;
@@ -493174,7 +494139,7 @@ interface BowmarkSites {
   "benks.com": BowmarkSiteTools_921614d236;
   "bennettandcross.com": BowmarkSiteTools_921614d236;
   "bennii.com": BowmarkSiteTools_921614d236;
-  "bentgo.com": BowmarkSiteTools_1a8e16d918;
+  "bentgo.com": BowmarkSiteTools_921614d236;
   "benu.be": BowmarkSiteTools_921614d236;
   "benu.hu": BowmarkSiteTools_921614d236;
   "benzetme.com": BowmarkSiteTools_a7da5d923b;
@@ -493207,6 +494172,7 @@ interface BowmarkSites {
   "bestcustom.co": BowmarkSiteTools_1a8e16d918;
   "bestdigit.it": BowmarkSiteTools_921614d236;
   "bestdo.com": BowmarkSiteTools_26a6806d9a;
+  "bestelectronic.de": BowmarkSiteTools_921614d236;
   "bestfiends.com": BowmarkSiteTools_619e66ecd1;
   "bestgifterever.com": BowmarkSiteTools_1a8e16d918;
   "bestperfume.store": BowmarkSiteTools_e8ae28a971;
@@ -493245,8 +494211,9 @@ interface BowmarkSites {
   "bgfretail.com": BowmarkSiteTools_a1e49d90ef;
   "bhl.co.uk": BowmarkSiteTools_921614d236;
   "biaslighting.com": BowmarkSiteTools_921614d236;
-  "bibloo.com": BowmarkSiteTools_1a8e16d918;
+  "bibloo.com": BowmarkSiteTools_921614d236;
   "bibsworld.com": BowmarkSiteTools_921614d236;
+  "bici.cc": BowmarkSiteTools_e8ae28a971;
   "bicyclesuperstore.com.au": BowmarkSiteTools_921614d236;
   "bicyclewarehouse.com": BowmarkSiteTools_e8ae28a971;
   "biffi.com": BowmarkSiteTools_921614d236;
@@ -493372,7 +494339,8 @@ interface BowmarkSites {
   "blackbeltmag.com": BowmarkSiteTools_d998efed45;
   "blackberrys.com": BowmarkSiteTools_921614d236;
   "blackbirdfabrics.com": BowmarkSiteTools_921614d236;
-  "blackcloverusa.com": BowmarkSiteTools_e8ae28a971;
+  "blackbuffalo.com": BowmarkSiteTools_921614d236;
+  "blackcloverusa.com": BowmarkSiteTools_1a8e16d918;
   "blackdiamondequipment.com": BowmarkSiteTools_1a8e16d918;
   "blackdiamondsnewyork.com": BowmarkSiteTools_921614d236;
   "blackforestdecor.com": BowmarkSiteTools_921614d236;
@@ -493615,7 +494583,7 @@ interface BowmarkSites {
   "boteboard.com": BowmarkSiteTools_e8ae28a971;
   "botslab.com": BowmarkSiteTools_1a8e16d918;
   "bottlehead.com": BowmarkSiteTools_921614d236;
-  "bottleneckgallery.com": BowmarkSiteTools_1a8e16d918;
+  "bottleneckgallery.com": BowmarkSiteTools_e8ae28a971;
   "bottleofitaly.com": BowmarkSiteTools_921614d236;
   "bouclair.com": BowmarkSiteTools_921614d236;
   "bougerv.com": BowmarkSiteTools_1a8e16d918;
@@ -493739,7 +494707,7 @@ interface BowmarkSites {
   "brodandtaylor.com.au": BowmarkSiteTools_921614d236;
   "brodandtaylor.fr": BowmarkSiteTools_921614d236;
   "brohi.store": BowmarkSiteTools_921614d236;
-  "brokenbowshop.com": BowmarkSiteTools_e8ae28a971;
+  "brokenbowshop.com": BowmarkSiteTools_1a8e16d918;
   "bronline.jp": BowmarkSiteTools_921614d236;
   "bronzallure.com": BowmarkSiteTools_921614d236;
   "bronzesnake.com": BowmarkSiteTools_1a8e16d918;
@@ -493749,7 +494717,7 @@ interface BowmarkSites {
   "brookstone.com": BowmarkSiteTools_921614d236;
   "broraonline.com": BowmarkSiteTools_921614d236;
   "brosway.com": BowmarkSiteTools_921614d236;
-  "brothersoutlet.com": BowmarkSiteTools_921614d236;
+  "brothersoutlet.com": BowmarkSiteTools_1a8e16d918;
   "browniespain.com": BowmarkSiteTools_e8ae28a971;
   "brownsfashion.com": BowmarkSiteTools_1a8e16d918;
   "brownsshoes.com": BowmarkSiteTools_e8ae28a971;
@@ -493758,7 +494726,7 @@ interface BowmarkSites {
   "brucebolt.us": BowmarkSiteTools_e8ae28a971;
   "bruceshark.com": BowmarkSiteTools_921614d236;
   "bruichladdich.com": BowmarkSiteTools_921614d236;
-  "brumate.com": BowmarkSiteTools_1a8e16d918;
+  "brumate.com": BowmarkSiteTools_921614d236;
   "brunarosso.com": BowmarkSiteTools_921614d236;
   "brunathelabel.com": BowmarkSiteTools_e8ae28a971;
   "bruno1956.com.au": BowmarkSiteTools_921614d236;
@@ -493852,7 +494820,7 @@ interface BowmarkSites {
   "burgertuning.com": BowmarkSiteTools_921614d236;
   "burgschneider.com": BowmarkSiteTools_e8ae28a971;
   "burkerwatches.com": BowmarkSiteTools_921614d236;
-  "burlebo.com": BowmarkSiteTools_1a8e16d918;
+  "burlebo.com": BowmarkSiteTools_e8ae28a971;
   "burley.com": BowmarkSiteTools_921614d236;
   "burpee.com": BowmarkSiteTools_921614d236;
   "burrow.com": BowmarkSiteTools_e8ae28a971;
@@ -493893,6 +494861,7 @@ interface BowmarkSites {
   "buypopart.com": BowmarkSiteTools_f42583f5d6;
   "buyriteelectric.com": BowmarkSiteTools_921614d236;
   "buywinesonline.com": BowmarkSiteTools_921614d236;
+  "buywitchdoctors.com": BowmarkSiteTools_921614d236;
   "buywptemplates.com": BowmarkSiteTools_921614d236;
   "buzzly.art": BowmarkSiteTools_3b78bdcdfe;
   "bwotx.com": BowmarkSiteTools_921614d236;
@@ -493905,7 +494874,7 @@ interface BowmarkSites {
   "byfaro.ai": BowmarkSiteTools_7adac1b3ae;
   "byjasco.com": BowmarkSiteTools_921614d236;
   "bylmo.com": BowmarkSiteTools_921614d236;
-  "byltbasics.com": BowmarkSiteTools_e8ae28a971;
+  "byltbasics.com": BowmarkSiteTools_1a8e16d918;
   "byoma.com": BowmarkSiteTools_921614d236;
   "byrna.com": BowmarkSiteTools_e8ae28a971;
   "bytefederal.com": BowmarkSiteTools_e44ed67fa0;
@@ -493925,6 +494894,7 @@ interface BowmarkSites {
   "cabinzero.com": BowmarkSiteTools_921614d236;
   "cabionline.com": BowmarkSiteTools_1a8e16d918;
   "cabledrumjacks.co.uk": BowmarkSiteTools_921614d236;
+  "cablemelbourne.com": BowmarkSiteTools_921614d236;
   "cableorganizer.com": BowmarkSiteTools_921614d236;
   "cabotcheese.coop": BowmarkSiteTools_e8ae28a971;
   "cabotcreamery.com": BowmarkSiteTools_e8ae28a971;
@@ -493967,6 +494937,7 @@ interface BowmarkSites {
   "cameramarket.us": BowmarkSiteTools_921614d236;
   "camilla.com": BowmarkSiteTools_1a8e16d918;
   "camillaandmarc.com": BowmarkSiteTools_921614d236;
+  "camindex.io": BowmarkSiteTools_f2904b0c8d;
   "camjam.co.nz": BowmarkSiteTools_3f247b8a0f;
   "campchef.com": BowmarkSiteTools_921614d236;
   "campermate.com": BowmarkSiteTools_d492404823;
@@ -493974,7 +494945,7 @@ interface BowmarkSites {
   "campmor.com": BowmarkSiteTools_e8ae28a971;
   "campomaggi.com": BowmarkSiteTools_921614d236;
   "campsnapphoto.com": BowmarkSiteTools_1a8e16d918;
-  "campusshoes.com": BowmarkSiteTools_921614d236;
+  "campusshoes.com": BowmarkSiteTools_1a8e16d918;
   "can-doc.de": BowmarkSiteTools_e8ae28a971;
   "canadagoose.com": BowmarkSiteTools_e8ae28a971;
   "canadalightshop.ca": BowmarkSiteTools_921614d236;
@@ -494064,6 +495035,7 @@ interface BowmarkSites {
   "carolinasportsmanoutfitters.com": BowmarkSiteTools_e8ae28a971;
   "carolsdaughter.com": BowmarkSiteTools_921614d236;
   "carousell.com": BowmarkSiteTools_0733391e97;
+  "carpetdocia.com": BowmarkSiteTools_1a8e16d918;
   "carpisa.it": BowmarkSiteTools_921614d236;
   "carpshop24.com": BowmarkSiteTools_921614d236;
   "carpuride.com": BowmarkSiteTools_921614d236;
@@ -494109,7 +495081,7 @@ interface BowmarkSites {
   "casper.com": BowmarkSiteTools_1a8e16d918;
   "casrai.org": BowmarkSiteTools_8a4a58d144;
   "castaner.com": BowmarkSiteTools_e8ae28a971;
-  "castellese.it": BowmarkSiteTools_921614d236;
+  "castellese.it": BowmarkSiteTools_1a8e16d918;
   "castelli-cycling.com": BowmarkSiteTools_921614d236;
   "casterhq.com": BowmarkSiteTools_921614d236;
   "castlefineart.com": BowmarkSiteTools_921614d236;
@@ -494233,6 +495205,7 @@ interface BowmarkSites {
   "cheesegarden.jp": BowmarkSiteTools_921614d236;
   "cheesemaking.com": BowmarkSiteTools_921614d236;
   "chefiq.com": BowmarkSiteTools_921614d236;
+  "chefman.com": BowmarkSiteTools_921614d236;
   "chefpreserve.com": BowmarkSiteTools_921614d236;
   "chefs-edge.com.au": BowmarkSiteTools_e8ae28a971;
   "chefsac.com": BowmarkSiteTools_921614d236;
@@ -494292,7 +495265,8 @@ interface BowmarkSites {
   "choicely.com": BowmarkSiteTools_ae527c31f3;
   "choicemusicla.com": BowmarkSiteTools_921614d236;
   "choicestores.ie": BowmarkSiteTools_921614d236;
-  "cholimarket.com": BowmarkSiteTools_1a8e16d918;
+  "choixstore.com": BowmarkSiteTools_921614d236;
+  "cholimarket.com": BowmarkSiteTools_921614d236;
   "chomps.com": BowmarkSiteTools_921614d236;
   "choose-a-brick.com": BowmarkSiteTools_921614d236;
   "choosemuse.com": BowmarkSiteTools_1a8e16d918;
@@ -494301,7 +495275,7 @@ interface BowmarkSites {
   "choptones.com": BowmarkSiteTools_921614d236;
   "chosenfoods.com": BowmarkSiteTools_921614d236;
   "chrisking.com": BowmarkSiteTools_921614d236;
-  "christianartworkshop.com": BowmarkSiteTools_1a8e16d918;
+  "christianartworkshop.com": BowmarkSiteTools_921614d236;
   "christianpure.com": BowmarkSiteTools_4ade724eb5;
   "christiantour.ro": BowmarkSiteTools_7466fc349f;
   "christopherandbanks.com": BowmarkSiteTools_921614d236;
@@ -494329,7 +495303,7 @@ interface BowmarkSites {
   "cinchjeans.com": BowmarkSiteTools_921614d236;
   "cineamo.com": BowmarkSiteTools_7a396a326f;
   "cinelli-milano.com": BowmarkSiteTools_921614d236;
-  "cinema-city.co.il": BowmarkSiteTools_8dfb284481;
+  "cinema-city.co.il": BowmarkSiteTools_b1cdbc57d3;
   "cinereplicas.com": BowmarkSiteTools_921614d236;
   "cinestillfilm.com": BowmarkSiteTools_921614d236;
   "cinqasept.nyc": BowmarkSiteTools_e8ae28a971;
@@ -494339,7 +495313,7 @@ interface BowmarkSites {
   "circana.com": BowmarkSiteTools_4b769b9e75;
   "circledna.com": BowmarkSiteTools_921614d236;
   "circleoftrust.nl": BowmarkSiteTools_921614d236;
-  "circuit.rocks": BowmarkSiteTools_1a8e16d918;
+  "circuit.rocks": BowmarkSiteTools_921614d236;
   "circuitmess.com": BowmarkSiteTools_921614d236;
   "circuitperformance.com": BowmarkSiteTools_e8ae28a971;
   "cirrottola.it": BowmarkSiteTools_e8ae28a971;
@@ -494366,6 +495340,7 @@ interface BowmarkSites {
   "clairemadeny.com": BowmarkSiteTools_1a8e16d918;
   "claires.com": BowmarkSiteTools_921614d236;
   "clalena.com": BowmarkSiteTools_921614d236;
+  "clamoutdoors.com": BowmarkSiteTools_921614d236;
   "clarahair.com": BowmarkSiteTools_2c1343b9af;
   "clarendale.co": BowmarkSiteTools_921614d236;
   "clarendonfineart.com": BowmarkSiteTools_921614d236;
@@ -494384,11 +495359,12 @@ interface BowmarkSites {
   "claudehome.com": BowmarkSiteTools_921614d236;
   "claudiaandjulia.com": BowmarkSiteTools_921614d236;
   "claudioluglishirts.com": BowmarkSiteTools_e8ae28a971;
-  "clayco.in": BowmarkSiteTools_1a8e16d918;
+  "clayco.in": BowmarkSiteTools_921614d236;
   "clcboats.com": BowmarkSiteTools_e8ae28a971;
   "cleaneatzkitchen.com": BowmarkSiteTools_921614d236;
   "cleanfreak.com": BowmarkSiteTools_921614d236;
   "cleanip.io": BowmarkSiteTools_05e933338b;
+  "cleanlinesurf.com": BowmarkSiteTools_e8ae28a971;
   "cleannutra.com": BowmarkSiteTools_921614d236;
   "cleansimpleeats.com": BowmarkSiteTools_921614d236;
   "cleansizecharts.com": BowmarkSiteTools_921614d236;
@@ -494429,7 +495405,7 @@ interface BowmarkSites {
   "cliveshoes.com": BowmarkSiteTools_921614d236;
   "clksupplies.com": BowmarkSiteTools_921614d236;
   "cln.com.ph": BowmarkSiteTools_921614d236;
-  "clockfacemodular.com": BowmarkSiteTools_e8ae28a971;
+  "clockfacemodular.com": BowmarkSiteTools_1a8e16d918;
   "clocksandcolours.com": BowmarkSiteTools_921614d236;
   "clockworkpi.com": BowmarkSiteTools_b2d028b22a;
   "clogau.co.uk": BowmarkSiteTools_921614d236;
@@ -494441,7 +495417,7 @@ interface BowmarkSites {
   "closurelondon.com": BowmarkSiteTools_921614d236;
   "clothandpaper.com": BowmarkSiteTools_921614d236;
   "clothesmentor.com": BowmarkSiteTools_921614d236;
-  "clothingjunction.co.za": BowmarkSiteTools_921614d236;
+  "clothingjunction.co.za": BowmarkSiteTools_1a8e16d918;
   "clothings.shopping": BowmarkSiteTools_921614d236;
   "clothsvilla.com": BowmarkSiteTools_921614d236;
   "clothwala.in": BowmarkSiteTools_921614d236;
@@ -494477,6 +495453,7 @@ interface BowmarkSites {
   "cnsupplements.com": BowmarkSiteTools_1a8e16d918;
   "coastaltool.com": BowmarkSiteTools_921614d236;
   "coatpaints.com": BowmarkSiteTools_921614d236;
+  "cobi.com": BowmarkSiteTools_921614d236;
   "cobra.com": BowmarkSiteTools_921614d236;
   "cobragolf.com": BowmarkSiteTools_921614d236;
   "cobrasport.com": BowmarkSiteTools_e8ae28a971;
@@ -494509,7 +495486,7 @@ interface BowmarkSites {
   "codyjames.com": BowmarkSiteTools_921614d236;
   "coeur.de": BowmarkSiteTools_921614d236;
   "cofetarulistet.ro": BowmarkSiteTools_3f6e447273;
-  "coffeebean.com": BowmarkSiteTools_921614d236;
+  "coffeebean.com": BowmarkSiteTools_1a8e16d918;
   "coffeebeancorral.com": BowmarkSiteTools_921614d236;
   "coffeehousepress.org": BowmarkSiteTools_921614d236;
   "cogedim.com": BowmarkSiteTools_35fcfe984c;
@@ -494561,6 +495538,7 @@ interface BowmarkSites {
   "combatarena.it": BowmarkSiteTools_1a8e16d918;
   "combatironapparel.com": BowmarkSiteTools_e8ae28a971;
   "come4buy.com": BowmarkSiteTools_921614d236;
+  "comeasyouare.com": BowmarkSiteTools_e8ae28a971;
   "cometchat.com": BowmarkSiteTools_ff045a6629;
   "cometeer.com": BowmarkSiteTools_e8ae28a971;
   "cometkartsales.com": BowmarkSiteTools_921614d236;
@@ -494592,7 +495570,7 @@ interface BowmarkSites {
   "compumarts.com": BowmarkSiteTools_e8ae28a971;
   "computerandlaptopsales.com.au": BowmarkSiteTools_9eeec270d0;
   "computerlounge.co.nz": BowmarkSiteTools_921614d236;
-  "computermania.co.za": BowmarkSiteTools_921614d236;
+  "computermania.co.za": BowmarkSiteTools_1a8e16d918;
   "computerorbit.com": BowmarkSiteTools_921614d236;
   "computerzone.pk": BowmarkSiteTools_921614d236;
   "comu.com": BowmarkSiteTools_921614d236;
@@ -494628,6 +495606,7 @@ interface BowmarkSites {
   "contarmarket.com": BowmarkSiteTools_921614d236;
   "context.dev": BowmarkSiteTools_59fc9d3536;
   "context7.com": BowmarkSiteTools_97a3e4c152;
+  "contractorsdirect.com": BowmarkSiteTools_921614d236;
   "controlla.xyz": BowmarkSiteTools_c8f2c7ea21;
   "controlledinsanity.com": BowmarkSiteTools_921614d236;
   "controlz.world": BowmarkSiteTools_1a8e16d918;
@@ -494672,7 +495651,7 @@ interface BowmarkSites {
   "cornbreadhemp.com": BowmarkSiteTools_e8ae28a971;
   "corneliajames.com": BowmarkSiteTools_921614d236;
   "cornercart.io": BowmarkSiteTools_921614d236;
-  "cornucopiapetfoods.com": BowmarkSiteTools_921614d236;
+  "cornucopiapetfoods.com": BowmarkSiteTools_1a8e16d918;
   "coronausa.com": BowmarkSiteTools_921614d236;
   "corpuslaw.us": BowmarkSiteTools_e21d30c376;
   "correasmartwatch.es": BowmarkSiteTools_921614d236;
@@ -494695,7 +495674,7 @@ interface BowmarkSites {
   "cosmicjs.com": BowmarkSiteTools_02d54aee86;
   "cosmoslay.com": BowmarkSiteTools_921614d236;
   "cosmoslayers.in": BowmarkSiteTools_921614d236;
-  "cosmotogether.com": BowmarkSiteTools_1a8e16d918;
+  "cosmotogether.com": BowmarkSiteTools_921614d236;
   "coso.org": BowmarkSiteTools_7139d500c5;
   "cosori.com": BowmarkSiteTools_921614d236;
   "cosplaysupplies.com": BowmarkSiteTools_921614d236;
@@ -494786,7 +495765,7 @@ interface BowmarkSites {
   "creamyfabrics.com": BowmarkSiteTools_e8ae28a971;
   "createmod.com": BowmarkSiteTools_bcbee2bd7c;
   "createroom.com": BowmarkSiteTools_921614d236;
-  "createwhite.com": BowmarkSiteTools_1a8e16d918;
+  "createwhite.com": BowmarkSiteTools_921614d236;
   "creatinghome.eu": BowmarkSiteTools_921614d236;
   "creatinghome.nl": BowmarkSiteTools_1a8e16d918;
   "creation.com": BowmarkSiteTools_38e9960f6a;
@@ -494967,10 +495946,11 @@ interface BowmarkSites {
   "daisous.com": BowmarkSiteTools_921614d236;
   "daisyanddream.com": BowmarkSiteTools_921614d236;
   "daivik.in": BowmarkSiteTools_921614d236;
-  "daiyafoods.com": BowmarkSiteTools_1a8e16d918;
+  "daiyafoods.com": BowmarkSiteTools_921614d236;
   "dakine.com": BowmarkSiteTools_921614d236;
   "dakotahomeoutlet.com": BowmarkSiteTools_921614d236;
   "dakotastones.com": BowmarkSiteTools_e8ae28a971;
+  "dallasdesignerhandbags.com": BowmarkSiteTools_1a8e16d918;
   "dallasgeneralwholesale.com": BowmarkSiteTools_921614d236;
   "dallaslibrary.org": BowmarkSiteTools_6164d9ac3a;
   "dallaswind.com": BowmarkSiteTools_921614d236;
@@ -494992,7 +495972,7 @@ interface BowmarkSites {
   "dangerfield.com.au": BowmarkSiteTools_921614d236;
   "dangerousthings.com": BowmarkSiteTools_e8ae28a971;
   "dangoproducts.com": BowmarkSiteTools_921614d236;
-  "danielfootwear.com": BowmarkSiteTools_1a8e16d918;
+  "danielfootwear.com": BowmarkSiteTools_921614d236;
   "danielhouse.club": BowmarkSiteTools_921614d236;
   "danielleguiziony.com": BowmarkSiteTools_e8ae28a971;
   "danielsjewelers.com": BowmarkSiteTools_921614d236;
@@ -495004,6 +495984,7 @@ interface BowmarkSites {
   "danjohn.com": BowmarkSiteTools_921614d236;
   "dankgeek.com": BowmarkSiteTools_921614d236;
   "dankstop.com": BowmarkSiteTools_921614d236;
+  "danpostboots.com": BowmarkSiteTools_921614d236;
   "dansko.com": BowmarkSiteTools_921614d236;
   "danton.com": BowmarkSiteTools_921614d236;
   "dantos.com": BowmarkSiteTools_e8ae28a971;
@@ -495215,6 +496196,7 @@ interface BowmarkSites {
   "devacurl.com": BowmarkSiteTools_921614d236;
   "devalk.nl": BowmarkSiteTools_25b40d6371;
   "deveserisso.com.br": BowmarkSiteTools_e519cba0a8;
+  "devilwalking.com": BowmarkSiteTools_921614d236;
   "devold.com": BowmarkSiteTools_7ff57fa78f;
   "devpost.com": BowmarkSiteTools_4b99b55c3f;
   "devred.com": BowmarkSiteTools_1a8e16d918;
@@ -495259,7 +496241,7 @@ interface BowmarkSites {
   "diggers.com.au": BowmarkSiteTools_e8ae28a971;
   "digibazar.pk": BowmarkSiteTools_e8ae28a971;
   "digicare.ie": BowmarkSiteTools_58601ea9bc;
-  "digidirect.com.au": BowmarkSiteTools_e8ae28a971;
+  "digidirect.com.au": BowmarkSiteTools_1a8e16d918;
   "digiexam.com": BowmarkSiteTools_c4f8bbdf37;
   "digilog.pk": BowmarkSiteTools_921614d236;
   "digimap.co.id": BowmarkSiteTools_e8ae28a971;
@@ -495298,6 +496280,7 @@ interface BowmarkSites {
   "discmania.net": BowmarkSiteTools_921614d236;
   "discontinuedperfumes.co.uk": BowmarkSiteTools_921614d236;
   "discount-supplements.co.uk": BowmarkSiteTools_e8ae28a971;
+  "discount.gay": BowmarkSiteTools_921614d236;
   "discounttackle.com": BowmarkSiteTools_921614d236;
   "discounttirecenters.com": BowmarkSiteTools_9801088a20;
   "discovercars.com": BowmarkSiteTools_ed3e7b64c1;
@@ -495319,7 +496302,7 @@ interface BowmarkSites {
   "distortedpeople.com": BowmarkSiteTools_e8ae28a971;
   "distribusion.com": BowmarkSiteTools_f96b5bd978;
   "distritomax.com": BowmarkSiteTools_1a8e16d918;
-  "disturbia.co.uk": BowmarkSiteTools_1a8e16d918;
+  "disturbia.co.uk": BowmarkSiteTools_921614d236;
   "disturbia.de": BowmarkSiteTools_921614d236;
   "disturbia.nl": BowmarkSiteTools_921614d236;
   "disturbia.us": BowmarkSiteTools_921614d236;
@@ -495347,6 +496330,7 @@ interface BowmarkSites {
   "diyfixtool.com": BowmarkSiteTools_921614d236;
   "diyfpv.com": BowmarkSiteTools_d5bf251dd2;
   "diykeycap.com": BowmarkSiteTools_921614d236;
+  "djbox.ie": BowmarkSiteTools_1a8e16d918;
   "djiusa.com": BowmarkSiteTools_921614d236;
   "djkit.com": BowmarkSiteTools_1a8e16d918;
   "djshadow.com": BowmarkSiteTools_921614d236;
@@ -495428,8 +496412,9 @@ interface BowmarkSites {
   "doublegood.com": BowmarkSiteTools_3a15f12c66;
   "doubleneat.com": BowmarkSiteTools_921614d236;
   "doublesleeved.co.uk": BowmarkSiteTools_921614d236;
-  "doublewoodsupplements.com": BowmarkSiteTools_921614d236;
+  "doublewoodsupplements.com": BowmarkSiteTools_1a8e16d918;
   "doughguy.co": BowmarkSiteTools_921614d236;
+  "doulton.com": BowmarkSiteTools_921614d236;
   "doutorhernia.com.br": BowmarkSiteTools_a7623e7e44;
   "doversaddlery.com": BowmarkSiteTools_1a8e16d918;
   "dowinx.com": BowmarkSiteTools_921614d236;
@@ -495511,7 +496496,7 @@ interface BowmarkSites {
   "drool-art.com": BowmarkSiteTools_921614d236;
   "droppe.com": BowmarkSiteTools_921614d236;
   "dropps.com": BowmarkSiteTools_1a8e16d918;
-  "drorthooil.com": BowmarkSiteTools_921614d236;
+  "drorthooil.com": BowmarkSiteTools_1a8e16d918;
   "drscholls.com": BowmarkSiteTools_921614d236;
   "drsheths.com": BowmarkSiteTools_921614d236;
   "drsimi.com": BowmarkSiteTools_921614d236;
@@ -495549,6 +496534,7 @@ interface BowmarkSites {
   "duftundkultur.com": BowmarkSiteTools_e8ae28a971;
   "dugun.com": BowmarkSiteTools_893a7870e4;
   "duiko.guru": BowmarkSiteTools_921614d236;
+  "dukeanddexter.com": BowmarkSiteTools_921614d236;
   "dukecannon.com": BowmarkSiteTools_921614d236;
   "dulleselectric.com": BowmarkSiteTools_921614d236;
   "dumbwaystodie.com": BowmarkSiteTools_6ed05dd21f;
@@ -495582,6 +496568,7 @@ interface BowmarkSites {
   "dwhome.com": BowmarkSiteTools_921614d236;
   "dwights.co.nz": BowmarkSiteTools_e8ae28a971;
   "dwmusic.com.au": BowmarkSiteTools_921614d236;
+  "dwswatches.com": BowmarkSiteTools_921614d236;
   "dyenamik.com": BowmarkSiteTools_921614d236;
   "dylanscandybar.com": BowmarkSiteTools_e8ae28a971;
   "dynamicbikecare.com": BowmarkSiteTools_1a8e16d918;
@@ -495592,13 +496579,14 @@ interface BowmarkSites {
   "e-earphone.jp": BowmarkSiteTools_921614d236;
   "e-glampot.com": BowmarkSiteTools_921614d236;
   "e-majestic.com": BowmarkSiteTools_921614d236;
-  "e-manual.com": BowmarkSiteTools_1a8e16d918;
+  "e-manual.com": BowmarkSiteTools_921614d236;
   "e-quran.com": BowmarkSiteTools_9834a0fa06;
   "e2b.dev": BowmarkSiteTools_be4de8972d;
   "e2language.com": BowmarkSiteTools_921614d236;
   "e4hats.com": BowmarkSiteTools_921614d236;
   "e78shop.com": BowmarkSiteTools_e8ae28a971;
   "eadem.co": BowmarkSiteTools_921614d236;
+  "eadeswallpaper.com": BowmarkSiteTools_921614d236;
   "eaglecreek.com": BowmarkSiteTools_921614d236;
   "eagles.com": BowmarkSiteTools_921614d236;
   "earache.com": BowmarkSiteTools_921614d236;
@@ -495606,6 +496594,7 @@ interface BowmarkSites {
   "earthbreeze.com": BowmarkSiteTools_921614d236;
   "eartheasy.com": BowmarkSiteTools_921614d236;
   "earthhero.com": BowmarkSiteTools_921614d236;
+  "earthlyderm.com": BowmarkSiteTools_921614d236;
   "earthshoes.com": BowmarkSiteTools_921614d236;
   "earthwiseseed.com": BowmarkSiteTools_921614d236;
   "easeandcostore.com": BowmarkSiteTools_921614d236;
@@ -495620,6 +496609,7 @@ interface BowmarkSites {
   "easyappsecom.com": BowmarkSiteTools_b0b8545435;
   "easybreathe.com": BowmarkSiteTools_921614d236;
   "easybuy-shop.com": BowmarkSiteTools_921614d236;
+  "easybuy-shop.de": BowmarkSiteTools_921614d236;
   "easydonate.app": BowmarkSiteTools_1abf6dd84b;
   "easygardenirrigation.co.uk": BowmarkSiteTools_921614d236;
   "easygifts.uk": BowmarkSiteTools_151ede1c3c;
@@ -495731,7 +496721,7 @@ interface BowmarkSites {
   "einszu64.de": BowmarkSiteTools_921614d236;
   "eio.com": BowmarkSiteTools_921614d236;
   "eiotclub.com": BowmarkSiteTools_921614d236;
-  "eirehobbies.com": BowmarkSiteTools_1a8e16d918;
+  "eirehobbies.com": BowmarkSiteTools_e8ae28a971;
   "eisenberg.com": BowmarkSiteTools_921614d236;
   "ekmmetering.com": BowmarkSiteTools_921614d236;
   "ekohealth.com": BowmarkSiteTools_e8ae28a971;
@@ -495918,7 +496908,7 @@ interface BowmarkSites {
   "equestrianstockholm.com": BowmarkSiteTools_921614d236;
   "equi.life": BowmarkSiteTools_e8ae28a971;
   "equibles.com": BowmarkSiteTools_3123b701ea;
-  "equinavia.com": BowmarkSiteTools_1a8e16d918;
+  "equinavia.com": BowmarkSiteTools_921614d236;
   "equineessentialsohio.com": BowmarkSiteTools_e8ae28a971;
   "equipfoods.com": BowmarkSiteTools_921614d236;
   "equipo.co.nz": BowmarkSiteTools_921614d236;
@@ -495935,10 +496925,11 @@ interface BowmarkSites {
   "ericsalodesign.com": BowmarkSiteTools_921614d236;
   "eriksbikeshop.com": BowmarkSiteTools_921614d236;
   "ersanails.com": BowmarkSiteTools_921614d236;
+  "erthwellness.com": BowmarkSiteTools_921614d236;
   "escada.com": BowmarkSiteTools_921614d236;
   "escaro.in": BowmarkSiteTools_921614d236;
   "escentric.com": BowmarkSiteTools_921614d236;
-  "escentual.com": BowmarkSiteTools_1a8e16d918;
+  "escentual.com": BowmarkSiteTools_921614d236;
   "escortfox.com": BowmarkSiteTools_2c6350784d;
   "escortradar.com": BowmarkSiteTools_e8ae28a971;
   "esd.equipment": BowmarkSiteTools_d432e00fbb;
@@ -495954,7 +496945,7 @@ interface BowmarkSites {
   "especialneeds.com": BowmarkSiteTools_921614d236;
   "esplanadamoveis.com.br": BowmarkSiteTools_a5d5ad65c1;
   "espressomaschinendoctor.de": BowmarkSiteTools_1a8e16d918;
-  "espressoparts.com": BowmarkSiteTools_1a8e16d918;
+  "espressoparts.com": BowmarkSiteTools_921614d236;
   "espressoshop.se": BowmarkSiteTools_921614d236;
   "esprit-padel-shop.com": BowmarkSiteTools_e8ae28a971;
   "esprit.com.co": BowmarkSiteTools_921614d236;
@@ -496047,7 +497038,7 @@ interface BowmarkSites {
   "everytownland.com": BowmarkSiteTools_8f6779e6c7;
   "eveshop.com.tr": BowmarkSiteTools_921614d236;
   "evezone.com.au": BowmarkSiteTools_e8ae28a971;
-  "evidentwellness.co": BowmarkSiteTools_1a8e16d918;
+  "evidentwellness.co": BowmarkSiteTools_921614d236;
   "evilgreed.com": BowmarkSiteTools_921614d236;
   "evitas.com": BowmarkSiteTools_921614d236;
   "evitas.hr": BowmarkSiteTools_921614d236;
@@ -496094,6 +497085,7 @@ interface BowmarkSites {
   "eye-oo.com": BowmarkSiteTools_921614d236;
   "eyebobs.com": BowmarkSiteTools_e8ae28a971;
   "eyecandys.com": BowmarkSiteTools_921614d236;
+  "eyedictive.com": BowmarkSiteTools_921614d236;
   "eyemartexpress.com": BowmarkSiteTools_1a8e16d918;
   "eyeons.com": BowmarkSiteTools_1a8e16d918;
   "ezarctools.com": BowmarkSiteTools_921614d236;
@@ -496139,6 +497131,7 @@ interface BowmarkSites {
   "factor-eleven.com": BowmarkSiteTools_6b022f7df0;
   "factorbikes.com": BowmarkSiteTools_e8ae28a971;
   "factory54.co.il": BowmarkSiteTools_921614d236;
+  "factorydirecthardware.com": BowmarkSiteTools_921614d236;
   "factorydirectparty.com": BowmarkSiteTools_921614d236;
   "factoryfast.com.au": BowmarkSiteTools_921614d236;
   "factoryflooringliquidators.com": BowmarkSiteTools_e8ae28a971;
@@ -496216,6 +497209,7 @@ interface BowmarkSites {
   "farmae.it": BowmarkSiteTools_1a8e16d918;
   "farmergracy.co.uk": BowmarkSiteTools_921614d236;
   "farmersdefense.com": BowmarkSiteTools_921614d236;
+  "farmersstop.com": BowmarkSiteTools_1a8e16d918;
   "farmex.cl": BowmarkSiteTools_921614d236;
   "farmhousefreshgoods.com": BowmarkSiteTools_1a8e16d918;
   "farmhousekitchenandbath.com": BowmarkSiteTools_e8ae28a971;
@@ -496248,8 +497242,9 @@ interface BowmarkSites {
   "fastmedic.com.br": BowmarkSiteTools_eaed9f5347;
   "fastmodelsports.com": BowmarkSiteTools_921614d236;
   "fastsimon.com": BowmarkSiteTools_3ab7f930b3;
-  "fatbuddhastore.com": BowmarkSiteTools_e8ae28a971;
+  "fatbuddhastore.com": BowmarkSiteTools_1a8e16d918;
   "fathead.com": BowmarkSiteTools_921614d236;
+  "fatherandsons.fr": BowmarkSiteTools_1a8e16d918;
   "fathersonsclothing.com": BowmarkSiteTools_921614d236;
   "fathyibrahim.com": BowmarkSiteTools_e8ae28a971;
   "fatpossum.com": BowmarkSiteTools_921614d236;
@@ -496308,7 +497303,7 @@ interface BowmarkSites {
   "fentonandfenton.com.au": BowmarkSiteTools_e8ae28a971;
   "fentybeauty.com": BowmarkSiteTools_921614d236;
   "fenwick.co.uk": BowmarkSiteTools_921614d236;
-  "ferkosfinejewelry.com": BowmarkSiteTools_921614d236;
+  "ferkosfinejewelry.com": BowmarkSiteTools_1a8e16d918;
   "fermedesaintemarthe.com": BowmarkSiteTools_921614d236;
   "fermliving.com": BowmarkSiteTools_921614d236;
   "feroshop.ro": BowmarkSiteTools_3f6e447273;
@@ -496423,7 +497418,7 @@ interface BowmarkSites {
   "fitsleeps.com": BowmarkSiteTools_921614d236;
   "fittaste.com": BowmarkSiteTools_1a8e16d918;
   "fittedshop.com": BowmarkSiteTools_921614d236;
-  "fittes.com": BowmarkSiteTools_1a8e16d918;
+  "fittes.com": BowmarkSiteTools_921614d236;
   "fitueyes.com": BowmarkSiteTools_921614d236;
   "fitwinkel.nl": BowmarkSiteTools_921614d236;
   "five-oceans.com": BowmarkSiteTools_e8ae28a971;
@@ -496496,7 +497491,7 @@ interface BowmarkSites {
   "floot.com": BowmarkSiteTools_303d42ac61;
   "flora4pets.com": BowmarkSiteTools_1a8e16d918;
   "florahealth.com": BowmarkSiteTools_921614d236;
-  "floralshe.com": BowmarkSiteTools_1a8e16d918;
+  "floralshe.com": BowmarkSiteTools_921614d236;
   "floraltrip.com": BowmarkSiteTools_921614d236;
   "floranzafashion.com": BowmarkSiteTools_921614d236;
   "floraqueen.com": BowmarkSiteTools_921614d236;
@@ -496505,6 +497500,7 @@ interface BowmarkSites {
   "flowerknows.co": BowmarkSiteTools_e8ae28a971;
   "flowermoxie.com": BowmarkSiteTools_921614d236;
   "flownbeauty.com": BowmarkSiteTools_921614d236;
+  "flowpouch.com": BowmarkSiteTools_921614d236;
   "floydhome.com": BowmarkSiteTools_921614d236;
   "fluege.de": BowmarkSiteTools_ffc1a48c50;
   "fluent.pet": BowmarkSiteTools_921614d236;
@@ -496542,7 +497538,7 @@ interface BowmarkSites {
   "fontanacandlecompany.com": BowmarkSiteTools_921614d236;
   "fontbros.com": BowmarkSiteTools_b8891b32a5;
   "fonteyn.nl": BowmarkSiteTools_e8ae28a971;
-  "foodiesinheels.com": BowmarkSiteTools_e8ae28a971;
+  "foodiesinheels.com": BowmarkSiteTools_1a8e16d918;
   "foodora.com": BowmarkSiteTools_6cab5ac4fd;
   "foodpanda.com": BowmarkSiteTools_6cab5ac4fd;
   "foom.id": BowmarkSiteTools_921614d236;
@@ -496563,7 +497559,7 @@ interface BowmarkSites {
   "foreyes.com": BowmarkSiteTools_921614d236;
   "forge-kit.ai": BowmarkSiteTools_effd7a085e;
   "forge12.com": BowmarkSiteTools_784fb35c88;
-  "forgenflame.com": BowmarkSiteTools_1a8e16d918;
+  "forgenflame.com": BowmarkSiteTools_921614d236;
   "foriawellness.com": BowmarkSiteTools_921614d236;
   "formant.io": BowmarkSiteTools_69ed67fe52;
   "forme.science": BowmarkSiteTools_e8ae28a971;
@@ -496630,7 +497626,7 @@ interface BowmarkSites {
   "fraterworks.com": BowmarkSiteTools_921614d236;
   "freckledpoppy.com": BowmarkSiteTools_921614d236;
   "fredaldous.co.uk": BowmarkSiteTools_e8ae28a971;
-  "fredasalvador.com": BowmarkSiteTools_e8ae28a971;
+  "fredasalvador.com": BowmarkSiteTools_1a8e16d918;
   "freddy.com": BowmarkSiteTools_921614d236;
   "fredericks.com": BowmarkSiteTools_921614d236;
   "fredfelia.com": BowmarkSiteTools_921614d236;
@@ -496686,6 +497682,7 @@ interface BowmarkSites {
   "fritz-kola.com": BowmarkSiteTools_921614d236;
   "fritz.com": BowmarkSiteTools_921614d236;
   "fritziauspreussen.de": BowmarkSiteTools_921614d236;
+  "frodio.com": BowmarkSiteTools_921614d236;
   "froggyads.com": BowmarkSiteTools_60d1d9c255;
   "fromfuture.com": BowmarkSiteTools_e8ae28a971;
   "fromourplace.com": BowmarkSiteTools_e8ae28a971;
@@ -496719,6 +497716,7 @@ interface BowmarkSites {
   "fruugo.it": BowmarkSiteTools_e86fe17b7d;
   "fruugo.jp": BowmarkSiteTools_e86fe17b7d;
   "fruugo.kr": BowmarkSiteTools_e86fe17b7d;
+  "fruugo.lu": BowmarkSiteTools_e86fe17b7d;
   "fruugo.my": BowmarkSiteTools_e86fe17b7d;
   "fruugo.nl": BowmarkSiteTools_e86fe17b7d;
   "fruugo.ph": BowmarkSiteTools_e86fe17b7d;
@@ -496761,7 +497759,7 @@ interface BowmarkSites {
   "fungi.com": BowmarkSiteTools_921614d236;
   "funimecity.com": BowmarkSiteTools_1a8e16d918;
   "funktionalfoods.co.uk": BowmarkSiteTools_921614d236;
-  "funky-buddha.com": BowmarkSiteTools_e8ae28a971;
+  "funky-buddha.com": BowmarkSiteTools_1a8e16d918;
   "funkyfidgetsshop.co.uk": BowmarkSiteTools_921614d236;
   "funnyfuzzy.com": BowmarkSiteTools_921614d236;
   "funnyplaying.com": BowmarkSiteTools_921614d236;
@@ -496799,7 +497797,7 @@ interface BowmarkSites {
   "gaala.com": BowmarkSiteTools_1a8e16d918;
   "gaastrastore.com": BowmarkSiteTools_921614d236;
   "gabbyelectric.com": BowmarkSiteTools_921614d236;
-  "gabrielasanchez.com": BowmarkSiteTools_921614d236;
+  "gabrielasanchez.com": BowmarkSiteTools_1a8e16d918;
   "gabriella.pl": BowmarkSiteTools_921614d236;
   "gabriellaplants.com": BowmarkSiteTools_921614d236;
   "gadgetlane.co.in": BowmarkSiteTools_921614d236;
@@ -496856,10 +497854,11 @@ interface BowmarkSites {
   "gardenheir.com": BowmarkSiteTools_e8ae28a971;
   "gardenjoygame.com": BowmarkSiteTools_b940ca31e2;
   "gardepro.com": BowmarkSiteTools_921614d236;
+  "gardnerswisconsincheese.com": BowmarkSiteTools_921614d236;
   "garlands.com": BowmarkSiteTools_e8ae28a971;
   "garmade.com": BowmarkSiteTools_921614d236;
   "garmont.com": BowmarkSiteTools_921614d236;
-  "garneau.com": BowmarkSiteTools_1a8e16d918;
+  "garneau.com": BowmarkSiteTools_921614d236;
   "garrettwade.com": BowmarkSiteTools_921614d236;
   "garzafurniture.com": BowmarkSiteTools_921614d236;
   "gasbijoux.com": BowmarkSiteTools_1a8e16d918;
@@ -496945,7 +497944,7 @@ interface BowmarkSites {
   "gestalten.com": BowmarkSiteTools_e8ae28a971;
   "getbotlens.com": BowmarkSiteTools_5a2f2ab982;
   "getbrick.com": BowmarkSiteTools_921614d236;
-  "getcanopy.co": BowmarkSiteTools_1a8e16d918;
+  "getcanopy.co": BowmarkSiteTools_921614d236;
   "getcasely.com": BowmarkSiteTools_921614d236;
   "getcellu.com": BowmarkSiteTools_921614d236;
   "getcubo.com": BowmarkSiteTools_921614d236;
@@ -496960,6 +497959,7 @@ interface BowmarkSites {
   "gethommey.com": BowmarkSiteTools_e8ae28a971;
   "gethuman.com": BowmarkSiteTools_451084cc11;
   "getionix.com": BowmarkSiteTools_921614d236;
+  "getjackblack.com": BowmarkSiteTools_921614d236;
   "getjubileetv.com": BowmarkSiteTools_921614d236;
   "getkekka.com": BowmarkSiteTools_921614d236;
   "getkoin.io": BowmarkSiteTools_921614d236;
@@ -497021,7 +498021,7 @@ interface BowmarkSites {
   "giftlab.com": BowmarkSiteTools_71d51d6fe1;
   "giftlist.com": BowmarkSiteTools_343ffb473a;
   "giftory.com": BowmarkSiteTools_921614d236;
-  "giftsforyounme.com": BowmarkSiteTools_921614d236;
+  "giftsforyounme.com": BowmarkSiteTools_1a8e16d918;
   "giftsoul.co": BowmarkSiteTools_921614d236;
   "giii-japan.org": BowmarkSiteTools_574c26a1d0;
   "gikacoustics.com": BowmarkSiteTools_1a8e16d918;
@@ -497064,7 +498064,7 @@ interface BowmarkSites {
   "glamsteals.com": BowmarkSiteTools_921614d236;
   "glamzei.com": BowmarkSiteTools_921614d236;
   "glassnode.com": BowmarkSiteTools_fd122ca575;
-  "glazerscamera.com": BowmarkSiteTools_921614d236;
+  "glazerscamera.com": BowmarkSiteTools_e8ae28a971;
   "gld.com": BowmarkSiteTools_921614d236;
   "gldn.com": BowmarkSiteTools_1a8e16d918;
   "gleglow.com": BowmarkSiteTools_71d51d6fe1;
@@ -497133,7 +498133,7 @@ interface BowmarkSites {
   "godsloveovercomes.com": BowmarkSiteTools_921614d236;
   "godzilla.com": BowmarkSiteTools_921614d236;
   "goelia1995.com": BowmarkSiteTools_921614d236;
-  "gofanco.com": BowmarkSiteTools_921614d236;
+  "gofanco.com": BowmarkSiteTools_1a8e16d918;
   "gofastmcp.com": BowmarkSiteTools_59ada982d7;
   "gofillerss.com": BowmarkSiteTools_921614d236;
   "goforzero.com.au": BowmarkSiteTools_e8ae28a971;
@@ -497167,11 +498167,12 @@ interface BowmarkSites {
   "gomry.com": BowmarkSiteTools_6d7bc72362;
   "gomugyourself.com": BowmarkSiteTools_921614d236;
   "gong-galaxy.com": BowmarkSiteTools_e8ae28a971;
-  "gonoise.com": BowmarkSiteTools_1a8e16d918;
+  "gonoise.com": BowmarkSiteTools_921614d236;
   "good.store": BowmarkSiteTools_921614d236;
   "goodamerican.com": BowmarkSiteTools_e8ae28a971;
   "goodandbeautiful.com": BowmarkSiteTools_e8ae28a971;
   "goodbuygear.com": BowmarkSiteTools_921614d236;
+  "gooddyeyoung.com": BowmarkSiteTools_921614d236;
   "goodeggs.com": BowmarkSiteTools_8f5d604ac6;
   "goodgames.com.au": BowmarkSiteTools_e8ae28a971;
   "goodgoodgolf.com": BowmarkSiteTools_e8ae28a971;
@@ -497272,7 +498273,7 @@ interface BowmarkSites {
   "gravidtid.dk": BowmarkSiteTools_1a8e16d918;
   "gravite.net": BowmarkSiteTools_45ad7510f1;
   "gravity-engine.com": BowmarkSiteTools_daad0861e4;
-  "gravitydefyer.com": BowmarkSiteTools_921614d236;
+  "gravitydefyer.com": BowmarkSiteTools_1a8e16d918;
   "gravitykit.com": BowmarkSiteTools_473c633eb1;
   "gravitypope.com": BowmarkSiteTools_921614d236;
   "graylinemedical.com": BowmarkSiteTools_921614d236;
@@ -497294,12 +498295,13 @@ interface BowmarkSites {
   "green-bubble.com": BowmarkSiteTools_1a8e16d918;
   "greenbook.org": BowmarkSiteTools_c957777c31;
   "greenfit.com.co": BowmarkSiteTools_921614d236;
+  "greenflow.hk": BowmarkSiteTools_921614d236;
   "greengridiron.com": BowmarkSiteTools_921614d236;
   "greenguardia.de": BowmarkSiteTools_921614d236;
   "greenhousemegastore.com": BowmarkSiteTools_921614d236;
   "greenice.com": BowmarkSiteTools_921614d236;
   "greenly.earth": BowmarkSiteTools_7e8473606c;
-  "greenpan.us": BowmarkSiteTools_1a8e16d918;
+  "greenpan.us": BowmarkSiteTools_921614d236;
   "greenpeople.co.uk": BowmarkSiteTools_e8ae28a971;
   "greensecurityllc.com": BowmarkSiteTools_67063af8bf;
   "greensoul.online": BowmarkSiteTools_921614d236;
@@ -497316,7 +498318,7 @@ interface BowmarkSites {
   "grillpartsreplacement.com": BowmarkSiteTools_921614d236;
   "grimms.eu": BowmarkSiteTools_e8ae28a971;
   "grimore.org": BowmarkSiteTools_135b8a4d06;
-  "grind.co.uk": BowmarkSiteTools_1a8e16d918;
+  "grind.co.uk": BowmarkSiteTools_921614d236;
   "grindstore.com": BowmarkSiteTools_921614d236;
   "gringa.com.br": BowmarkSiteTools_e8ae28a971;
   "gripmode.com": BowmarkSiteTools_921614d236;
@@ -497367,7 +498369,7 @@ interface BowmarkSites {
   "guess.in": BowmarkSiteTools_df9602cca1;
   "guesswatches.com": BowmarkSiteTools_921614d236;
   "guestinresidence.com": BowmarkSiteTools_e8ae28a971;
-  "guidedoc.tv": BowmarkSiteTools_a900e60752;
+  "guidedoc.tv": BowmarkSiteTools_8d383a3c80;
   "guidingcross.com": BowmarkSiteTools_71d51d6fe1;
   "guillevin.com": BowmarkSiteTools_921614d236;
   "guinot.com": BowmarkSiteTools_921614d236;
@@ -497406,11 +498408,12 @@ interface BowmarkSites {
   "h-andover.com": BowmarkSiteTools_1a8e16d918;
   "h2hubwatches.com": BowmarkSiteTools_921614d236;
   "haarspullen.nl": BowmarkSiteTools_921614d236;
+  "habausa.com": BowmarkSiteTools_921614d236;
   "habibjewels.com": BowmarkSiteTools_921614d236;
   "habitaclia.com": BowmarkSiteTools_b4d5cba4cf;
   "habitt.com": BowmarkSiteTools_921614d236;
   "hachimonjiya.com": BowmarkSiteTools_921614d236;
-  "hacksmith.store": BowmarkSiteTools_e8ae28a971;
+  "hacksmith.store": BowmarkSiteTools_1a8e16d918;
   "hadithunlocked.com": BowmarkSiteTools_1d14000333;
   "hadorn.nl": BowmarkSiteTools_921614d236;
   "hafizclothhouse.online": BowmarkSiteTools_921614d236;
@@ -497426,7 +498429,7 @@ interface BowmarkSites {
   "hairhouse.com.au": BowmarkSiteTools_e8ae28a971;
   "hairstory.com": BowmarkSiteTools_921614d236;
   "hairvivi.com": BowmarkSiteTools_921614d236;
-  "hairyt.com": BowmarkSiteTools_1a8e16d918;
+  "hairyt.com": BowmarkSiteTools_e8ae28a971;
   "haitidocs.org": BowmarkSiteTools_607704fd0f;
   "hak5.org": BowmarkSiteTools_921614d236;
   "haka.com": BowmarkSiteTools_921614d236;
@@ -497559,6 +498562,7 @@ interface BowmarkSites {
   "hawaii-guide.com": BowmarkSiteTools_24767a7c15;
   "hawknesthammocks.ca": BowmarkSiteTools_921614d236;
   "hayabusafight.com": BowmarkSiteTools_921614d236;
+  "hayagrivassilkhouse.com": BowmarkSiteTools_921614d236;
   "hayesbicycle.com": BowmarkSiteTools_921614d236;
   "haylou.com": BowmarkSiteTools_921614d236;
   "haystackapp.io": BowmarkSiteTools_718309bdba;
@@ -497594,6 +498598,7 @@ interface BowmarkSites {
   "heavys.com": BowmarkSiteTools_921614d236;
   "hebcal.com": BowmarkSiteTools_8a39c801a8;
   "hebrewbible.app": BowmarkSiteTools_b9c61b4904;
+  "hebstreit.com": BowmarkSiteTools_921614d236;
   "hec.com": BowmarkSiteTools_921614d236;
   "hechtundbarsch.de": BowmarkSiteTools_921614d236;
   "hecticmommaprinting.com": BowmarkSiteTools_1a8e16d918;
@@ -497610,6 +498615,7 @@ interface BowmarkSites {
   "hellbunny.com": BowmarkSiteTools_921614d236;
   "hello-hossy.com": BowmarkSiteTools_921614d236;
   "hello82.com": BowmarkSiteTools_921614d236;
+  "helloadorn.com": BowmarkSiteTools_e8ae28a971;
   "helloaxel.com": BowmarkSiteTools_753b699c81;
   "hellobatch.com": BowmarkSiteTools_921614d236;
   "hellobonafide.com": BowmarkSiteTools_921614d236;
@@ -497632,7 +498638,7 @@ interface BowmarkSites {
   "henssler.shop": BowmarkSiteTools_921614d236;
   "hentaihome.net": BowmarkSiteTools_7eef045cb1;
   "heppo.com": BowmarkSiteTools_921614d236;
-  "heralbony.com": BowmarkSiteTools_1a8e16d918;
+  "heralbony.com": BowmarkSiteTools_e8ae28a971;
   "herbalessences.com": BowmarkSiteTools_921614d236;
   "herbalpapa.com": BowmarkSiteTools_921614d236;
   "herbelin.com": BowmarkSiteTools_e8ae28a971;
@@ -497655,7 +498661,7 @@ interface BowmarkSites {
   "herringshoes.co.uk": BowmarkSiteTools_921614d236;
   "herschel.ca": BowmarkSiteTools_e8ae28a971;
   "herschel.com": BowmarkSiteTools_921614d236;
-  "hertexhaus.co.za": BowmarkSiteTools_921614d236;
+  "hertexhaus.co.za": BowmarkSiteTools_1a8e16d918;
   "hertrove.com": BowmarkSiteTools_921614d236;
   "herveleger.com": BowmarkSiteTools_e8ae28a971;
   "herzlein.de": BowmarkSiteTools_921614d236;
@@ -497758,7 +498764,7 @@ interface BowmarkSites {
   "hockeystickman.com": BowmarkSiteTools_e8ae28a971;
   "hockshoes.com": BowmarkSiteTools_921614d236;
   "hoefer-shop.com": BowmarkSiteTools_e8ae28a971;
-  "hoelleinshop.com": BowmarkSiteTools_921614d236;
+  "hoelleinshop.com": BowmarkSiteTools_1a8e16d918;
   "hofbeauty.co.uk": BowmarkSiteTools_921614d236;
   "hofburg.it": BowmarkSiteTools_a85505ecb5;
   "hoffmann-germany.de": BowmarkSiteTools_1a8e16d918;
@@ -497861,7 +498867,7 @@ interface BowmarkSites {
   "houkandbank.com": BowmarkSiteTools_1a8e16d918;
   "hourglasscosmetics.com": BowmarkSiteTools_e8ae28a971;
   "hourloop.com": BowmarkSiteTools_921614d236;
-  "house-of-seeds.de": BowmarkSiteTools_921614d236;
+  "house-of-seeds.de": BowmarkSiteTools_1a8e16d918;
   "housecallpro.com": BowmarkSiteTools_e74c041700;
   "housedumonde.com": BowmarkSiteTools_3d464a5a54;
   "houseofanansi.com": BowmarkSiteTools_921614d236;
@@ -497954,7 +498960,9 @@ interface BowmarkSites {
   "hydratis.co": BowmarkSiteTools_921614d236;
   "hydraulicsstores.co.za": BowmarkSiteTools_921614d236;
   "hydrobuilder.com": BowmarkSiteTools_921614d236;
+  "hyerboots.com": BowmarkSiteTools_921614d236;
   "hyggear.com": BowmarkSiteTools_921614d236;
+  "hypeandvice.com": BowmarkSiteTools_921614d236;
   "hypeneedz.com": BowmarkSiteTools_921614d236;
   "hyperice.com": BowmarkSiteTools_1a8e16d918;
   "hyperiontiles.co.uk": BowmarkSiteTools_e8ae28a971;
@@ -497976,6 +498984,7 @@ interface BowmarkSites {
   "iahorro.com": BowmarkSiteTools_90e8704c55;
   "iam8bit.com": BowmarkSiteTools_e8ae28a971;
   "iamcreative.ch": BowmarkSiteTools_921614d236;
+  "iamdelilah.com.au": BowmarkSiteTools_921614d236;
   "iamfy.co": BowmarkSiteTools_921614d236;
   "iamgia.com": BowmarkSiteTools_e8ae28a971;
   "iampsychiatry.com": BowmarkSiteTools_e9ede41fc1;
@@ -498052,6 +499061,7 @@ interface BowmarkSites {
   "ikko.com": BowmarkSiteTools_1a8e16d918;
   "ikmultimedia.com": BowmarkSiteTools_921614d236;
   "ikoho.in": BowmarkSiteTools_921614d236;
+  "ikrinka.de": BowmarkSiteTools_921614d236;
   "ilacsizyasam.com": BowmarkSiteTools_921614d236;
   "iliabeauty.com": BowmarkSiteTools_921614d236;
   "illanificio.it": BowmarkSiteTools_921614d236;
@@ -498100,6 +499110,7 @@ interface BowmarkSites {
   "incipio.com": BowmarkSiteTools_921614d236;
   "includ.com": BowmarkSiteTools_1a8e16d918;
   "incogniton.com": BowmarkSiteTools_026e1722f2;
+  "incrediblefi.com": BowmarkSiteTools_782623dbb9;
   "incrediblerugsanddecor.com": BowmarkSiteTools_921614d236;
   "incrediwear.com": BowmarkSiteTools_921614d236;
   "incu.com": BowmarkSiteTools_921614d236;
@@ -498123,7 +499134,7 @@ interface BowmarkSites {
   "indiquehair.com": BowmarkSiteTools_e8ae28a971;
   "indofoodstore.com": BowmarkSiteTools_921614d236;
   "industrialautomationco.com": BowmarkSiteTools_921614d236;
-  "industrialmonitordirect.com": BowmarkSiteTools_1a8e16d918;
+  "industrialmonitordirect.com": BowmarkSiteTools_e8ae28a971;
   "industrialpumpparts.com": BowmarkSiteTools_921614d236;
   "industville.co.uk": BowmarkSiteTools_e8ae28a971;
   "indyancart.com": BowmarkSiteTools_921614d236;
@@ -498148,7 +499159,7 @@ interface BowmarkSites {
   "inite.ai": BowmarkSiteTools_79c5d9593a;
   "iniushop.com": BowmarkSiteTools_921614d236;
   "injora.com": BowmarkSiteTools_921614d236;
-  "inkaarthouse.com": BowmarkSiteTools_1a8e16d918;
+  "inkaarthouse.com": BowmarkSiteTools_921614d236;
   "inkalloy.com": BowmarkSiteTools_e8ae28a971;
   "inkbox.com": BowmarkSiteTools_921614d236;
   "inkkas.com": BowmarkSiteTools_921614d236;
@@ -498178,6 +499189,7 @@ interface BowmarkSites {
   "insighteditions.com": BowmarkSiteTools_1a8e16d918;
   "insigneart.com": BowmarkSiteTools_921614d236;
   "insignia.com.pk": BowmarkSiteTools_921614d236;
+  "insis.shop": BowmarkSiteTools_921614d236;
   "inspee.com": BowmarkSiteTools_921614d236;
   "inspenet.com": BowmarkSiteTools_619913daa2;
   "inspiredgo.ca": BowmarkSiteTools_921614d236;
@@ -498185,6 +499197,7 @@ interface BowmarkSites {
   "instabase.jp": BowmarkSiteTools_6a715b2bee;
   "instabox.sh": BowmarkSiteTools_8f45581878;
   "instacart.com": BowmarkSiteTools_5a3ff50998;
+  "instacuppastore.com": BowmarkSiteTools_921614d236;
   "instagantt.com": BowmarkSiteTools_9857a10163;
   "instanthydration.com": BowmarkSiteTools_921614d236;
   "instantpot.com": BowmarkSiteTools_921614d236;
@@ -498221,6 +499234,7 @@ interface BowmarkSites {
   "intersport.nl": BowmarkSiteTools_921614d236;
   "intex.in": BowmarkSiteTools_921614d236;
   "intheboxperfumes.com.br": BowmarkSiteTools_921614d236;
+  "inthelighturns.com": BowmarkSiteTools_921614d236;
   "inthestyle.com": BowmarkSiteTools_921614d236;
   "intimaly.com": BowmarkSiteTools_1a8e16d918;
   "intimaterose.com": BowmarkSiteTools_921614d236;
@@ -498255,6 +499269,7 @@ interface BowmarkSites {
   "ironandresin.com": BowmarkSiteTools_e8ae28a971;
   "ironbrothers-shop.com": BowmarkSiteTools_921614d236;
   "ironheart.co.uk": BowmarkSiteTools_e8ae28a971;
+  "ironman4x4.com": BowmarkSiteTools_1a8e16d918;
   "ironmaxx.de": BowmarkSiteTools_921614d236;
   "ironpandafit.com": BowmarkSiteTools_921614d236;
   "ironstudios.com": BowmarkSiteTools_921614d236;
@@ -498275,6 +499290,7 @@ interface BowmarkSites {
   "islandrecords.com": BowmarkSiteTools_921614d236;
   "isleofwightdistillery.com": BowmarkSiteTools_921614d236;
   "ismash.com": BowmarkSiteTools_921614d236;
+  "isobaa.com": BowmarkSiteTools_1a8e16d918;
   "isolarpro.de": BowmarkSiteTools_e8ae28a971;
   "ispringfilter.com": BowmarkSiteTools_921614d236;
   "isracard.co.il": BowmarkSiteTools_48a80e6e06;
@@ -498292,6 +499308,7 @@ interface BowmarkSites {
   "italianbathrooms.it": BowmarkSiteTools_921614d236;
   "italiasearch.it": BowmarkSiteTools_96eb1fd7cc;
   "italist.com": BowmarkSiteTools_1a8e16d918;
+  "italjet.com": BowmarkSiteTools_921614d236;
   "italkereso.hu": BowmarkSiteTools_921614d236;
   "ithy.com": BowmarkSiteTools_e07d812026;
   "itjuzi.com": BowmarkSiteTools_4476f938d5;
@@ -498310,7 +499327,7 @@ interface BowmarkSites {
   "ivbwellness.com": BowmarkSiteTools_921614d236;
   "ivisa.com": BowmarkSiteTools_1b067f4d6f;
   "ivyandhope.com": BowmarkSiteTools_921614d236;
-  "ivycityco.com": BowmarkSiteTools_1a8e16d918;
+  "ivycityco.com": BowmarkSiteTools_e8ae28a971;
   "iwantmyname.com": BowmarkSiteTools_ab2a31c801;
   "iwasasari.com": BowmarkSiteTools_921614d236;
   "iwonatec.com": BowmarkSiteTools_921614d236;
@@ -498357,7 +499374,7 @@ interface BowmarkSites {
   "jamesperse.com": BowmarkSiteTools_921614d236;
   "jamiekay.com": BowmarkSiteTools_921614d236;
   "jamiesonvitamins.com": BowmarkSiteTools_921614d236;
-  "jamoona.com": BowmarkSiteTools_921614d236;
+  "jamoona.com": BowmarkSiteTools_1a8e16d918;
   "jampack.com": BowmarkSiteTools_78c3e0c191;
   "jampaper.com": BowmarkSiteTools_921614d236;
   "jamsworld.com": BowmarkSiteTools_e8ae28a971;
@@ -498374,6 +499391,7 @@ interface BowmarkSites {
   "japan2uk.com": BowmarkSiteTools_921614d236;
   "japandco.net": BowmarkSiteTools_921614d236;
   "japanelectronics.com.pk": BowmarkSiteTools_921614d236;
+  "japanesechefsknife.com": BowmarkSiteTools_921614d236;
   "japanesesword.net": BowmarkSiteTools_921614d236;
   "japanesetaste.com": BowmarkSiteTools_921614d236;
   "japaniful.com": BowmarkSiteTools_921614d236;
@@ -498387,6 +499405,7 @@ interface BowmarkSites {
   "jawayezdimotorcycles.com": BowmarkSiteTools_921614d236;
   "jaxxon.com": BowmarkSiteTools_e8ae28a971;
   "jayagrocer.com": BowmarkSiteTools_921614d236;
+  "jayces-classic-spares.co.za": BowmarkSiteTools_1a8e16d918;
   "jaycotts.co.uk": BowmarkSiteTools_e8ae28a971;
   "jazmin.pk": BowmarkSiteTools_921614d236;
   "jbhifi.co.nz": BowmarkSiteTools_921614d236;
@@ -498444,7 +499463,7 @@ interface BowmarkSites {
   "jlab.com": BowmarkSiteTools_921614d236;
   "jlindeberg.com": BowmarkSiteTools_1a8e16d918;
   "jlindebergusa.com": BowmarkSiteTools_921614d236;
-  "jlood.com": BowmarkSiteTools_1a8e16d918;
+  "jlood.com": BowmarkSiteTools_e8ae28a971;
   "jlr-design.de": BowmarkSiteTools_921614d236;
   "jluxlabel.com": BowmarkSiteTools_1a8e16d918;
   "jmclaughlin.com": BowmarkSiteTools_921614d236;
@@ -498516,7 +499535,7 @@ interface BowmarkSites {
   "josiemaran.com": BowmarkSiteTools_921614d236;
   "josportsinc.com": BowmarkSiteTools_921614d236;
   "joszaki.hu": BowmarkSiteTools_f362437a2f;
-  "jott.com": BowmarkSiteTools_1a8e16d918;
+  "jott.com": BowmarkSiteTools_e8ae28a971;
   "journelle.com": BowmarkSiteTools_e8ae28a971;
   "journeymusic.com": BowmarkSiteTools_921614d236;
   "journeysendgames.com": BowmarkSiteTools_1a8e16d918;
@@ -498537,6 +499556,7 @@ interface BowmarkSites {
   "jpbookstore.com": BowmarkSiteTools_921614d236;
   "jpcmobileaccessories.com.au": BowmarkSiteTools_e8ae28a971;
   "jpress.com": BowmarkSiteTools_e8ae28a971;
+  "jrdunn.com": BowmarkSiteTools_921614d236;
   "jrpetproducts.com": BowmarkSiteTools_1a8e16d918;
   "js-alternators.com": BowmarkSiteTools_921614d236;
   "jsaux.com": BowmarkSiteTools_921614d236;
@@ -498565,6 +499585,7 @@ interface BowmarkSites {
   "junaidjamshed.com": BowmarkSiteTools_921614d236;
   "junglescout.com": BowmarkSiteTools_48279126a8;
   "junglueck.de": BowmarkSiteTools_e8ae28a971;
+  "jungseed.com": BowmarkSiteTools_921614d236;
   "juniorscheesecake.com": BowmarkSiteTools_921614d236;
   "junkbrands.com": BowmarkSiteTools_921614d236;
   "junkfoodclothing.com": BowmarkSiteTools_921614d236;
@@ -498622,11 +499643,12 @@ interface BowmarkSites {
   "kalori.jp": BowmarkSiteTools_ecca126f07;
   "kalypsomedia.com": BowmarkSiteTools_c7fdbf1d81;
   "kamakurabeniya.com": BowmarkSiteTools_921614d236;
+  "kamawanu-store.jp": BowmarkSiteTools_921614d236;
   "kamer.nl": BowmarkSiteTools_3c838c7014;
   "kamera-express.be": BowmarkSiteTools_e8ae28a971;
   "kamera-express.de": BowmarkSiteTools_e8ae28a971;
   "kamera-express.lu": BowmarkSiteTools_e8ae28a971;
-  "kamera-express.nl": BowmarkSiteTools_1a8e16d918;
+  "kamera-express.nl": BowmarkSiteTools_e8ae28a971;
   "kamerastore.com": BowmarkSiteTools_e8ae28a971;
   "kamik.com": BowmarkSiteTools_921614d236;
   "kamino.com": BowmarkSiteTools_632e7816f2;
@@ -498636,7 +499658,7 @@ interface BowmarkSites {
   "kanela.ch": BowmarkSiteTools_921614d236;
   "kanesfurniture.com": BowmarkSiteTools_921614d236;
   "kangol.com": BowmarkSiteTools_921614d236;
-  "kanopibyarmstrong.com": BowmarkSiteTools_921614d236;
+  "kanopibyarmstrong.com": BowmarkSiteTools_1a8e16d918;
   "kanro.jp": BowmarkSiteTools_921614d236;
   "kanseptknives.com": BowmarkSiteTools_921614d236;
   "kanthabae.com": BowmarkSiteTools_1a8e16d918;
@@ -498747,11 +499769,12 @@ interface BowmarkSites {
   "khealth.com": BowmarkSiteTools_37c304e360;
   "khedutmahiti.com": BowmarkSiteTools_921614d236;
   "khloefemme.com": BowmarkSiteTools_921614d236;
-  "khmtools.com.ph": BowmarkSiteTools_921614d236;
+  "khmtools.com.ph": BowmarkSiteTools_1a8e16d918;
   "khujo.com": BowmarkSiteTools_921614d236;
   "khy.com": BowmarkSiteTools_921614d236;
   "kiabi.dz": BowmarkSiteTools_1a8e16d918;
   "kiabi.tn": BowmarkSiteTools_921614d236;
+  "kianao.com": BowmarkSiteTools_921614d236;
   "kiarasky.com": BowmarkSiteTools_921614d236;
   "kickassproducts.com.au": BowmarkSiteTools_e8ae28a971;
   "kickers.co.uk": BowmarkSiteTools_1a8e16d918;
@@ -498760,7 +499783,7 @@ interface BowmarkSites {
   "kicksown.com": BowmarkSiteTools_1a8e16d918;
   "kiddie-corner.com": BowmarkSiteTools_921614d236;
   "kiddom.co": BowmarkSiteTools_58c5f07a0e;
-  "kidkraft.com": BowmarkSiteTools_1a8e16d918;
+  "kidkraft.com": BowmarkSiteTools_921614d236;
   "kidoriman.com": BowmarkSiteTools_921614d236;
   "kidrobot.com": BowmarkSiteTools_921614d236;
   "kidrock.com": BowmarkSiteTools_921614d236;
@@ -498794,7 +499817,7 @@ interface BowmarkSites {
   "kimostore.net": BowmarkSiteTools_921614d236;
   "kimti.in": BowmarkSiteTools_921614d236;
   "kinderpostzegels.nl": BowmarkSiteTools_921614d236;
-  "kindnesscoins.com": BowmarkSiteTools_921614d236;
+  "kindnesscoins.com": BowmarkSiteTools_1a8e16d918;
   "kindora.co": BowmarkSiteTools_0e8bf4444b;
   "kindpatches.com": BowmarkSiteTools_1a8e16d918;
   "kindredbravely.com": BowmarkSiteTools_921614d236;
@@ -498846,7 +499869,7 @@ interface BowmarkSites {
   "kith.com": BowmarkSiteTools_1a8e16d918;
   "kitking.co.uk": BowmarkSiteTools_921614d236;
   "kiton.com": BowmarkSiteTools_921614d236;
-  "kittyspout.com": BowmarkSiteTools_921614d236;
+  "kittyspout.com": BowmarkSiteTools_1a8e16d918;
   "kitzheimat.de": BowmarkSiteTools_e8ae28a971;
   "kivari.com.au": BowmarkSiteTools_e8ae28a971;
   "kiwaseisakujo.jp": BowmarkSiteTools_921614d236;
@@ -498877,7 +499900,7 @@ interface BowmarkSites {
   "kneepillow.co.uk": BowmarkSiteTools_921614d236;
   "knesko.com": BowmarkSiteTools_921614d236;
   "knifewear.com": BowmarkSiteTools_1a8e16d918;
-  "knitforless.com": BowmarkSiteTools_921614d236;
+  "knitforless.com": BowmarkSiteTools_1a8e16d918;
   "knittingwool.com": BowmarkSiteTools_921614d236;
   "knix.ca": BowmarkSiteTools_e8ae28a971;
   "knix.com": BowmarkSiteTools_1a8e16d918;
@@ -498898,6 +499921,7 @@ interface BowmarkSites {
   "koh.com": BowmarkSiteTools_921614d236;
   "koifootwear.com": BowmarkSiteTools_921614d236;
   "kojodan.jp": BowmarkSiteTools_16899c6471;
+  "kokenusa.com": BowmarkSiteTools_e8ae28a971;
   "kokeshi.com.br": BowmarkSiteTools_921614d236;
   "kolayoto.com": BowmarkSiteTools_921614d236;
   "kollus.com": BowmarkSiteTools_585d569e5a;
@@ -498922,6 +499946,7 @@ interface BowmarkSites {
   "koral.nu": BowmarkSiteTools_08d862ed07;
   "koraorganics.com": BowmarkSiteTools_921614d236;
   "koreabe.com": BowmarkSiteTools_921614d236;
+  "korean-skincare.de": BowmarkSiteTools_921614d236;
   "koreanskincare.nl": BowmarkSiteTools_921614d236;
   "koreessentials.com": BowmarkSiteTools_e8ae28a971;
   "korelock.com": BowmarkSiteTools_7113607cd4;
@@ -498970,7 +499995,7 @@ interface BowmarkSites {
   "kuiu.com": BowmarkSiteTools_e8ae28a971;
   "kujten.com": BowmarkSiteTools_e8ae28a971;
   "kukirin-escooter.com": BowmarkSiteTools_921614d236;
-  "kukoonrugs.com": BowmarkSiteTools_e8ae28a971;
+  "kukoonrugs.com": BowmarkSiteTools_1a8e16d918;
   "kulanikinis.com": BowmarkSiteTools_921614d236;
   "kulfibeauty.com": BowmarkSiteTools_921614d236;
   "kultfrau.de": BowmarkSiteTools_921614d236;
@@ -498979,6 +500004,8 @@ interface BowmarkSites {
   "kuludonline.com": BowmarkSiteTools_921614d236;
   "kunastores.com": BowmarkSiteTools_921614d236;
   "kunasystems.com": BowmarkSiteTools_921614d236;
+  "kungfumagazine.com": BowmarkSiteTools_921614d236;
+  "kuponko.si": BowmarkSiteTools_718f76874e;
   "kuradashi.jp": BowmarkSiteTools_1a8e16d918;
   "kurand.jp": BowmarkSiteTools_1a8e16d918;
   "kurlon.com": BowmarkSiteTools_921614d236;
@@ -499133,7 +500160,7 @@ interface BowmarkSites {
   "laura-james.co.uk": BowmarkSiteTools_921614d236;
   "laura.ca": BowmarkSiteTools_e8ae28a971;
   "laurageller.com": BowmarkSiteTools_921614d236;
-  "lauramercier.com": BowmarkSiteTools_921614d236;
+  "lauramercier.com": BowmarkSiteTools_1a8e16d918;
   "lauravita.com": BowmarkSiteTools_e8ae28a971;
   "laureldenise.com": BowmarkSiteTools_921614d236;
   "laurelmercantile.com": BowmarkSiteTools_e8ae28a971;
@@ -499148,7 +500175,6 @@ interface BowmarkSites {
   "laveliya.com": BowmarkSiteTools_71d51d6fe1;
   "lavera.de": BowmarkSiteTools_921614d236;
   "laverne.com": BowmarkSiteTools_2c1343b9af;
-  "lavetir.com": BowmarkSiteTools_921614d236;
   "lavieworld.com": BowmarkSiteTools_921614d236;
   "lavishalice.com": BowmarkSiteTools_921614d236;
   "lawrencepur.com": BowmarkSiteTools_921614d236;
@@ -499260,8 +500286,10 @@ interface BowmarkSites {
   "lesnereides.com": BowmarkSiteTools_e8ae28a971;
   "lespecs.com": BowmarkSiteTools_921614d236;
   "lesportsac.com": BowmarkSiteTools_e8ae28a971;
+  "lestissees.com": BowmarkSiteTools_e8ae28a971;
   "letanneur.com": BowmarkSiteTools_921614d236;
   "letanneur.us": BowmarkSiteTools_921614d236;
+  "lethalcosmetics.com": BowmarkSiteTools_921614d236;
   "lethalperformance.com": BowmarkSiteTools_e8ae28a971;
   "letsbeco.com": BowmarkSiteTools_921614d236;
   "letsdothis.com": BowmarkSiteTools_53951d1f3a;
@@ -499338,6 +500366,7 @@ interface BowmarkSites {
   "lifesciencestrading.com": BowmarkSiteTools_921614d236;
   "lifespankids.com.au": BowmarkSiteTools_921614d236;
   "lifestraw.com": BowmarkSiteTools_921614d236;
+  "lifetechnology.com": BowmarkSiteTools_921614d236;
   "lifevac.net": BowmarkSiteTools_1a8e16d918;
   "liforme.com": BowmarkSiteTools_921614d236;
   "liftyelectric.com": BowmarkSiteTools_1a8e16d918;
@@ -499352,7 +500381,7 @@ interface BowmarkSites {
   "lightingsupply.com": BowmarkSiteTools_921614d236;
   "lightintheattic.net": BowmarkSiteTools_921614d236;
   "lights.com": BowmarkSiteTools_1a8e16d918;
-  "lights4fun.co.uk": BowmarkSiteTools_1a8e16d918;
+  "lights4fun.co.uk": BowmarkSiteTools_921614d236;
   "lights4fun.de": BowmarkSiteTools_921614d236;
   "lightslacquer.com": BowmarkSiteTools_921614d236;
   "lightwaverf.com": BowmarkSiteTools_921614d236;
@@ -499461,6 +500490,7 @@ interface BowmarkSites {
   "livre-rare-book.com": BowmarkSiteTools_119946e75b;
   "livreeleve.com.br": BowmarkSiteTools_921614d236;
   "livrenpoche.com": BowmarkSiteTools_e8ae28a971;
+  "livwatches.com": BowmarkSiteTools_e8ae28a971;
   "lizardtech.com": BowmarkSiteTools_539ed62226;
   "ljustema.se": BowmarkSiteTools_4cdd5ab2b1;
   "lkbennett.com": BowmarkSiteTools_1a8e16d918;
@@ -499481,6 +500511,9 @@ interface BowmarkSites {
   "localknowledge.us": BowmarkSiteTools_305d128291;
   "locally.com": BowmarkSiteTools_200fcc152d;
   "localrent.com": BowmarkSiteTools_9b7eca4839;
+  "locatellihousestore.it": BowmarkSiteTools_921614d236;
+  "lochby.com": BowmarkSiteTools_921614d236;
+  "lockenbox.com": BowmarkSiteTools_921614d236;
   "lockhatters.com": BowmarkSiteTools_e8ae28a971;
   "lockly.com": BowmarkSiteTools_1a8e16d918;
   "locksmithkeyless.com": BowmarkSiteTools_e8ae28a971;
@@ -499502,7 +500535,7 @@ interface BowmarkSites {
   "logitech.tw": BowmarkSiteTools_1a8e16d918;
   "logo.dev": BowmarkSiteTools_b516fdf178;
   "logoi.health": BowmarkSiteTools_115299dac2;
-  "logoofficial.com": BowmarkSiteTools_921614d236;
+  "logoofficial.com": BowmarkSiteTools_1a8e16d918;
   "logtail.com": BowmarkSiteTools_c3ac69e771;
   "lohmann-mode.de": BowmarkSiteTools_921614d236;
   "lojaavante.com": BowmarkSiteTools_1a8e16d918;
@@ -499512,7 +500545,7 @@ interface BowmarkSites {
   "lolablankets.com": BowmarkSiteTools_e8ae28a971;
   "lolacasademunt.com": BowmarkSiteTools_921614d236;
   "lolaroseglobal.com": BowmarkSiteTools_921614d236;
-  "lolelife.com": BowmarkSiteTools_e8ae28a971;
+  "lolelife.com": BowmarkSiteTools_1a8e16d918;
   "lolitafetch.com": BowmarkSiteTools_921614d236;
   "lolitainside.com": BowmarkSiteTools_921614d236;
   "lolja.com.br": BowmarkSiteTools_a5d5ad65c1;
@@ -499553,6 +500586,8 @@ interface BowmarkSites {
   "lotto.it": BowmarkSiteTools_921614d236;
   "lottobd.com": BowmarkSiteTools_1a8e16d918;
   "lottosport.in": BowmarkSiteTools_921614d236;
+  "loudmouth.com": BowmarkSiteTools_921614d236;
+  "louenhide.com.au": BowmarkSiteTools_921614d236;
   "louilyjewelry.com": BowmarkSiteTools_921614d236;
   "louisck.com": BowmarkSiteTools_921614d236;
   "louiscopeland.com": BowmarkSiteTools_921614d236;
@@ -499663,7 +500698,7 @@ interface BowmarkSites {
   "luxe-cosmetics.com": BowmarkSiteTools_921614d236;
   "luxe.com": BowmarkSiteTools_921614d236;
   "luxenter.com": BowmarkSiteTools_e8ae28a971;
-  "luxeol.com": BowmarkSiteTools_1a8e16d918;
+  "luxeol.com": BowmarkSiteTools_921614d236;
   "luxereduxbridal.com": BowmarkSiteTools_e8ae28a971;
   "luxeresearchlab.com": BowmarkSiteTools_921614d236;
   "luxoia.com": BowmarkSiteTools_e8ae28a971;
@@ -499755,11 +500790,12 @@ interface BowmarkSites {
   "magnatune.com": BowmarkSiteTools_860a63852b;
   "magneticme.com": BowmarkSiteTools_e8ae28a971;
   "magnite.com": BowmarkSiteTools_1f1d60e490;
-  "magnolia-jewellery.pt": BowmarkSiteTools_e8ae28a971;
+  "magnolia-jewellery.pt": BowmarkSiteTools_1a8e16d918;
   "magnolia.co.il": BowmarkSiteTools_921614d236;
   "magnolia.com": BowmarkSiteTools_1a8e16d918;
   "magnoliabakery.com": BowmarkSiteTools_921614d236;
   "magnoliabox.com": BowmarkSiteTools_921614d236;
+  "magnoliapearl.com": BowmarkSiteTools_e8ae28a971;
   "magnoliasdeco.com.ar": BowmarkSiteTools_a5d5ad65c1;
   "magnumsports.com.au": BowmarkSiteTools_e8ae28a971;
   "mahaaneco.ir": BowmarkSiteTools_af98b69a29;
@@ -499778,7 +500814,7 @@ interface BowmarkSites {
   "maisoncashmere.com": BowmarkSiteTools_921614d236;
   "maisondemusk.com": BowmarkSiteTools_921614d236;
   "maisondesabre.com": BowmarkSiteTools_921614d236;
-  "maisonette.com": BowmarkSiteTools_1a8e16d918;
+  "maisonette.com": BowmarkSiteTools_921614d236;
   "maisonflaneur.com": BowmarkSiteTools_921614d236;
   "maisonlabiche.com": BowmarkSiteTools_e8ae28a971;
   "maisonmiru.com": BowmarkSiteTools_921614d236;
@@ -499811,8 +500847,8 @@ interface BowmarkSites {
   "makotojdm.com": BowmarkSiteTools_921614d236;
   "malbon.com": BowmarkSiteTools_e8ae28a971;
   "malelions.com": BowmarkSiteTools_921614d236;
-  "maletasgreenwich.com": BowmarkSiteTools_921614d236;
-  "malibuhomeinc.com": BowmarkSiteTools_921614d236;
+  "maletasgreenwich.com": BowmarkSiteTools_1a8e16d918;
+  "malibuhomeinc.com": BowmarkSiteTools_1a8e16d918;
   "maliks.com": BowmarkSiteTools_921614d236;
   "malinandgoetz.com": BowmarkSiteTools_1a8e16d918;
   "malloftoys.com": BowmarkSiteTools_921614d236;
@@ -499857,6 +500893,7 @@ interface BowmarkSites {
   "manukarx.sg": BowmarkSiteTools_921614d236;
   "manus.im": BowmarkSiteTools_37e89f9791;
   "manyrealms.com": BowmarkSiteTools_e8ae28a971;
+  "mao-mao.de": BowmarkSiteTools_921614d236;
   "maono.com": BowmarkSiteTools_921614d236;
   "map.flights": BowmarkSiteTools_2897c98d2d;
   "maperformance.com": BowmarkSiteTools_921614d236;
@@ -499874,7 +500911,7 @@ interface BowmarkSites {
   "marcellanyc.com": BowmarkSiteTools_1a8e16d918;
   "marcfisherfootwear.com": BowmarkSiteTools_921614d236;
   "marcgebauer.com": BowmarkSiteTools_e8ae28a971;
-  "marcnolan.com": BowmarkSiteTools_e8ae28a971;
+  "marcnolan.com": BowmarkSiteTools_1a8e16d918;
   "marcomarsano.com": BowmarkSiteTools_921614d236;
   "marelia.co": BowmarkSiteTools_921614d236;
   "margauxny.com": BowmarkSiteTools_e8ae28a971;
@@ -499905,12 +500942,12 @@ interface BowmarkSites {
   "markosweb.com": BowmarkSiteTools_044a197986;
   "marksandweb.com": BowmarkSiteTools_921614d236;
   "marlasfashions.com": BowmarkSiteTools_e8ae28a971;
-  "marleylilly.com": BowmarkSiteTools_1a8e16d918;
+  "marleylilly.com": BowmarkSiteTools_921614d236;
   "marliesdekkers.com": BowmarkSiteTools_921614d236;
   "marlovale.com": BowmarkSiteTools_921614d236;
   "marnetic.com": BowmarkSiteTools_921614d236;
   "marosbike.ro": BowmarkSiteTools_3f6e447273;
-  "marrkt.com": BowmarkSiteTools_921614d236;
+  "marrkt.com": BowmarkSiteTools_1a8e16d918;
   "marscosmetics.in": BowmarkSiteTools_1a8e16d918;
   "marsghc.com": BowmarkSiteTools_921614d236;
   "marshallsgarden.com": BowmarkSiteTools_921614d236;
@@ -500008,18 +501045,18 @@ interface BowmarkSites {
   "mchose.store": BowmarkSiteTools_1a8e16d918;
   "mcmhouse.com": BowmarkSiteTools_1a8e16d918;
   "mcobeauty.com": BowmarkSiteTools_921614d236;
-  "mcphee.com": BowmarkSiteTools_921614d236;
+  "mcphee.com": BowmarkSiteTools_1a8e16d918;
   "mcricharddesignerbrands.com": BowmarkSiteTools_1a8e16d918;
   "mcs.com": BowmarkSiteTools_921614d236;
   "mdaemon.com": BowmarkSiteTools_1a8e16d918;
   "mdfinstruments.com": BowmarkSiteTools_921614d236;
   "mdfskirtingmouldings.co.uk": BowmarkSiteTools_1a8e16d918;
   "mdskinlab.ca": BowmarkSiteTools_921614d236;
-  "mdttac.com": BowmarkSiteTools_921614d236;
+  "mdttac.com": BowmarkSiteTools_1a8e16d918;
   "me.lol": BowmarkSiteTools_1a8e16d918;
   "meaco.com": BowmarkSiteTools_921614d236;
   "meanblvd.com": BowmarkSiteTools_921614d236;
-  "meaningfulbeauty.com": BowmarkSiteTools_921614d236;
+  "meaningfulbeauty.com": BowmarkSiteTools_1a8e16d918;
   "meatchurch.com": BowmarkSiteTools_e8ae28a971;
   "mechanicalkeyboards.com": BowmarkSiteTools_e8ae28a971;
   "mechmaxx.com": BowmarkSiteTools_1a8e16d918;
@@ -500058,9 +501095,9 @@ interface BowmarkSites {
   "megagym.com.br": BowmarkSiteTools_e8ae28a971;
   "megalook.com": BowmarkSiteTools_1a8e16d918;
   "megaloterias.com.br": BowmarkSiteTools_2867b1792a;
-  "megamac.com": BowmarkSiteTools_921614d236;
+  "megamac.com": BowmarkSiteTools_1a8e16d918;
   "megamarsch.de": BowmarkSiteTools_ebb1a94813;
-  "megamotorcyclestore.co.uk": BowmarkSiteTools_1a8e16d918;
+  "megamotorcyclestore.co.uk": BowmarkSiteTools_921614d236;
   "megelin.com": BowmarkSiteTools_921614d236;
   "megurokokoro.com": BowmarkSiteTools_2b84d25cd9;
   "mehnaz.com.pk": BowmarkSiteTools_921614d236;
@@ -500084,6 +501121,7 @@ interface BowmarkSites {
   "meltcosmetics.com": BowmarkSiteTools_921614d236;
   "melvita.com": BowmarkSiteTools_921614d236;
   "memeraki.com": BowmarkSiteTools_921614d236;
+  "memesperry.com": BowmarkSiteTools_e8ae28a971;
   "memoket.ai": BowmarkSiteTools_921614d236;
   "memoryboard.com": BowmarkSiteTools_921614d236;
   "men-of-mayhem.com": BowmarkSiteTools_e8ae28a971;
@@ -500114,7 +501152,7 @@ interface BowmarkSites {
   "mergerecords.com": BowmarkSiteTools_921614d236;
   "merimeri.com": BowmarkSiteTools_921614d236;
   "merino.tech": BowmarkSiteTools_921614d236;
-  "meritbeauty.com": BowmarkSiteTools_e8ae28a971;
+  "meritbeauty.com": BowmarkSiteTools_1a8e16d918;
   "merkal.com": BowmarkSiteTools_921614d236;
   "merodacosmetics.com": BowmarkSiteTools_921614d236;
   "merodacosmetics.de": BowmarkSiteTools_921614d236;
@@ -500133,7 +501171,7 @@ interface BowmarkSites {
   "messersmilltownfurniture.com": BowmarkSiteTools_921614d236;
   "messinahembry.com": BowmarkSiteTools_921614d236;
   "messmer.de": BowmarkSiteTools_921614d236;
-  "metabolae.com": BowmarkSiteTools_1a8e16d918;
+  "metabolae.com": BowmarkSiteTools_921614d236;
   "metaflow.de": BowmarkSiteTools_e8ae28a971;
   "metagenics.com.au": BowmarkSiteTools_921614d236;
   "metallbude.com": BowmarkSiteTools_921614d236;
@@ -500143,6 +501181,7 @@ interface BowmarkSites {
   "methodracewheels.com": BowmarkSiteTools_921614d236;
   "meticuloushome.com": BowmarkSiteTools_921614d236;
   "metroboutique.ch": BowmarkSiteTools_921614d236;
+  "metrobrazil.com": BowmarkSiteTools_921614d236;
   "metrocomm.com": BowmarkSiteTools_88d76c47f1;
   "metrohobbies.com.au": BowmarkSiteTools_e8ae28a971;
   "metrorestyling.com": BowmarkSiteTools_e8ae28a971;
@@ -500203,14 +501242,14 @@ interface BowmarkSites {
   "migardener.com": BowmarkSiteTools_e8ae28a971;
   "migdal.co.il": BowmarkSiteTools_63572df2ea;
   "mightycarmods.com": BowmarkSiteTools_921614d236;
-  "mightynetworks.com": BowmarkSiteTools_a94ada89eb;
+  "mightynetworks.com": BowmarkSiteTools_cef28a3a18;
   "migros-shop.de": BowmarkSiteTools_1a8e16d918;
   "mijn-wijnkoelkast.nl": BowmarkSiteTools_921614d236;
   "mikadodiamonds.com": BowmarkSiteTools_921614d236;
   "mikasa.com": BowmarkSiteTools_921614d236;
   "mikesbikes.com": BowmarkSiteTools_921614d236;
   "mikesport.com": BowmarkSiteTools_921614d236;
-  "mikihouse.co.jp": BowmarkSiteTools_1a8e16d918;
+  "mikihouse.co.jp": BowmarkSiteTools_921614d236;
   "miko.ai": BowmarkSiteTools_921614d236;
   "mikr.us": BowmarkSiteTools_db5fec7870;
   "mikuta.com": BowmarkSiteTools_e8ae28a971;
@@ -500266,6 +501305,7 @@ interface BowmarkSites {
   "ministryofsupply.com": BowmarkSiteTools_921614d236;
   "miniwesst.com": BowmarkSiteTools_1a8e16d918;
   "minnieminors.com": BowmarkSiteTools_921614d236;
+  "mint-bikes.com": BowmarkSiteTools_921614d236;
   "mintandlily.com": BowmarkSiteTools_921614d236;
   "mintlify.app": BowmarkSiteTools_9ea56cc367;
   "mintlify.site": BowmarkSiteTools_9ea56cc367;
@@ -500407,6 +501447,7 @@ interface BowmarkSites {
   "momoxbooks.com": BowmarkSiteTools_921614d236;
   "momoxfashion.com": BowmarkSiteTools_921614d236;
   "monamaar.com": BowmarkSiteTools_1a8e16d918;
+  "monark.com.pk": BowmarkSiteTools_921614d236;
   "monaseo.com": BowmarkSiteTools_921614d236;
   "monauralis.shop": BowmarkSiteTools_1a8e16d918;
   "monawatch.com": BowmarkSiteTools_921614d236;
@@ -500449,6 +501490,7 @@ interface BowmarkSites {
   "montreallighting.com": BowmarkSiteTools_921614d236;
   "montredo.com": BowmarkSiteTools_921614d236;
   "montura.com": BowmarkSiteTools_1a8e16d918;
+  "monumentgrills.com": BowmarkSiteTools_921614d236;
   "moodfabrics.com": BowmarkSiteTools_e8ae28a971;
   "moodylenses.com": BowmarkSiteTools_921614d236;
   "moogaudio.com": BowmarkSiteTools_921614d236;
@@ -500463,7 +501505,7 @@ interface BowmarkSites {
   "mooncat.com": BowmarkSiteTools_921614d236;
   "moonhaven.store": BowmarkSiteTools_921614d236;
   "moonjuice.com": BowmarkSiteTools_921614d236;
-  "moonkieshop.com": BowmarkSiteTools_921614d236;
+  "moonkieshop.com": BowmarkSiteTools_1a8e16d918;
   "moonmagic.com": BowmarkSiteTools_921614d236;
   "moonnude.com": BowmarkSiteTools_921614d236;
   "moonstoystore.com": BowmarkSiteTools_e8ae28a971;
@@ -500510,6 +501552,7 @@ interface BowmarkSites {
   "motobuys.com": BowmarkSiteTools_921614d236;
   "motocentral.co.uk": BowmarkSiteTools_e8ae28a971;
   "motogadget.com": BowmarkSiteTools_921614d236;
+  "motoheaven.com.au": BowmarkSiteTools_921614d236;
   "motomachines.com": BowmarkSiteTools_921614d236;
   "motomentum.com": BowmarkSiteTools_921614d236;
   "motomillion.com": BowmarkSiteTools_1a8e16d918;
@@ -500532,7 +501575,7 @@ interface BowmarkSites {
   "mount-it.com": BowmarkSiteTools_ddbf6ec0d9;
   "mountain-equipment.com": BowmarkSiteTools_921614d236;
   "mountainero.com": BowmarkSiteTools_921614d236;
-  "mountainhouse.com": BowmarkSiteTools_1a8e16d918;
+  "mountainhouse.com": BowmarkSiteTools_921614d236;
   "mountainside-medical.com": BowmarkSiteTools_921614d236;
   "mounttocoast.com": BowmarkSiteTools_921614d236;
   "mous.co": BowmarkSiteTools_921614d236;
@@ -500555,7 +501598,7 @@ interface BowmarkSites {
   "mrdiy.com.my": BowmarkSiteTools_921614d236;
   "mrlsexdoll.com": BowmarkSiteTools_921614d236;
   "mrmaple.com": BowmarkSiteTools_921614d236;
-  "mroglobalsolutions.com": BowmarkSiteTools_1a8e16d918;
+  "mroglobalsolutions.com": BowmarkSiteTools_921614d236;
   "mrosupreme.com": BowmarkSiteTools_921614d236;
   "mrsaker.com": BowmarkSiteTools_921614d236;
   "mrsalice.com": BowmarkSiteTools_921614d236;
@@ -500581,7 +501624,7 @@ interface BowmarkSites {
   "mtngshoes.com": BowmarkSiteTools_921614d236;
   "mtnops.com": BowmarkSiteTools_921614d236;
   "mtrtb.com": BowmarkSiteTools_0b351f216d;
-  "mtsaviationmodels.com": BowmarkSiteTools_e8ae28a971;
+  "mtsaviationmodels.com": BowmarkSiteTools_1a8e16d918;
   "muagreece.com": BowmarkSiteTools_921614d236;
   "muc-off.com": BowmarkSiteTools_921614d236;
   "muc.edu.eg": BowmarkSiteTools_ddaad6e317;
@@ -500642,6 +501685,7 @@ interface BowmarkSites {
   "muya.com": BowmarkSiteTools_921614d236;
   "muymucho.com": BowmarkSiteTools_921614d236;
   "muzazaa.com": BowmarkSiteTools_1a51030396;
+  "muziker.at": BowmarkSiteTools_b790200563;
   "muziker.bg": BowmarkSiteTools_b790200563;
   "muziker.co.uk": BowmarkSiteTools_b790200563;
   "muziker.com": BowmarkSiteTools_b790200563;
@@ -500672,6 +501716,7 @@ interface BowmarkSites {
   "my-wren.com": BowmarkSiteTools_921614d236;
   "my1styears.com": BowmarkSiteTools_921614d236;
   "myappgurus.com": BowmarkSiteTools_921614d236;
+  "myarthaus.com": BowmarkSiteTools_921614d236;
   "myascendskin.com": BowmarkSiteTools_921614d236;
   "myaskai.com": BowmarkSiteTools_76f69919fc;
   "mybag.com": BowmarkSiteTools_921614d236;
@@ -500778,6 +501823,7 @@ interface BowmarkSites {
   "naaptoloffers.com": BowmarkSiteTools_921614d236;
   "nabuno.com": BowmarkSiteTools_921614d236;
   "nacionrunner.com": BowmarkSiteTools_e8ae28a971;
+  "nadaman.co.jp": BowmarkSiteTools_921614d236;
   "nadelectronics.com": BowmarkSiteTools_921614d236;
   "nadinemerabi.com": BowmarkSiteTools_e8ae28a971;
   "nadorine.com": BowmarkSiteTools_921614d236;
@@ -500793,6 +501839,7 @@ interface BowmarkSites {
   "nailsinc.com": BowmarkSiteTools_921614d236;
   "nainpreet.com": BowmarkSiteTools_921614d236;
   "naio-nails.com": BowmarkSiteTools_921614d236;
+  "naio-nails.es": BowmarkSiteTools_921614d236;
   "naked-underwear.com": BowmarkSiteTools_921614d236;
   "nakedandfamousdenim.com": BowmarkSiteTools_921614d236;
   "nakedandthriving.com": BowmarkSiteTools_921614d236;
@@ -500809,8 +501856,9 @@ interface BowmarkSites {
   "namawell.com": BowmarkSiteTools_921614d236;
   "namedcollective.com": BowmarkSiteTools_921614d236;
   "namegarage.com": BowmarkSiteTools_b573f739fd;
+  "namestories.com": BowmarkSiteTools_921614d236;
   "namokimods.com": BowmarkSiteTools_921614d236;
-  "nancysdailydish.net": BowmarkSiteTools_1a8e16d918;
+  "nancysdailydish.net": BowmarkSiteTools_921614d236;
   "nand2tetris.org": BowmarkSiteTools_fdca1baa55;
   "nango.dev": BowmarkSiteTools_a68a6fc335;
   "nanit.com": BowmarkSiteTools_921614d236;
@@ -500963,16 +502011,16 @@ interface BowmarkSites {
   "newforestclothing.co.uk": BowmarkSiteTools_921614d236;
   "newhomegoods.com": BowmarkSiteTools_921614d236;
   "newjaisa.com": BowmarkSiteTools_921614d236;
-  "newlook.ca": BowmarkSiteTools_1a8e16d918;
+  "newlook.ca": BowmarkSiteTools_921614d236;
   "newrock.com": BowmarkSiteTools_921614d236;
   "newrvparts.com": BowmarkSiteTools_921614d236;
   "newsarca.in": BowmarkSiteTools_921614d236;
   "newshades.de": BowmarkSiteTools_921614d236;
-  "newsmilelife.ca": BowmarkSiteTools_1a8e16d918;
+  "newsmilelife.ca": BowmarkSiteTools_921614d236;
   "newt.net": BowmarkSiteTools_d10d15170b;
   "newtonbaby.com": BowmarkSiteTools_921614d236;
   "newtype.us": BowmarkSiteTools_e8ae28a971;
-  "newurtopia.com": BowmarkSiteTools_1a8e16d918;
+  "newurtopia.com": BowmarkSiteTools_921614d236;
   "newyorkdress.com": BowmarkSiteTools_e8ae28a971;
   "newyorktheatreguide.com": BowmarkSiteTools_92307997d3;
   "nexfoto.com": BowmarkSiteTools_921614d236;
@@ -500999,7 +502047,7 @@ interface BowmarkSites {
   "nichebeautylab.com": BowmarkSiteTools_921614d236;
   "nichedb.dev": BowmarkSiteTools_a8c933c9ff;
   "nickelback.com": BowmarkSiteTools_921614d236;
-  "nickeykehoe.com": BowmarkSiteTools_e8ae28a971;
+  "nickeykehoe.com": BowmarkSiteTools_1a8e16d918;
   "nickis.com": BowmarkSiteTools_921614d236;
   "nickoftimefabric.com": BowmarkSiteTools_e8ae28a971;
   "nicksboots.com": BowmarkSiteTools_e8ae28a971;
@@ -501053,6 +502101,7 @@ interface BowmarkSites {
   "nitrocircus.com": BowmarkSiteTools_b8ffe49e38;
   "nitter.cf": BowmarkSiteTools_dacef70780;
   "nivaaya.in": BowmarkSiteTools_921614d236;
+  "nivadagrenchenofficial.com": BowmarkSiteTools_1a8e16d918;
   "niviasports.com": BowmarkSiteTools_921614d236;
   "nixon.com": BowmarkSiteTools_921614d236;
   "nixplay.com": BowmarkSiteTools_921614d236;
@@ -501078,6 +502127,7 @@ interface BowmarkSites {
   "nodeflare.app": BowmarkSiteTools_991810025b;
   "noeifevo.de": BowmarkSiteTools_921614d236;
   "noirfonce.eu": BowmarkSiteTools_e8ae28a971;
+  "noisymay.com": BowmarkSiteTools_921614d236;
   "nokillnetwork.org": BowmarkSiteTools_584a9a6817;
   "nolae.de": BowmarkSiteTools_921614d236;
   "nolae.eu": BowmarkSiteTools_921614d236;
@@ -501116,11 +502166,14 @@ interface BowmarkSites {
   "normareed.ca": BowmarkSiteTools_921614d236;
   "normareed.co.uk": BowmarkSiteTools_1a8e16d918;
   "norseorganics.co": BowmarkSiteTools_1a8e16d918;
+  "northantstrade.co.uk": BowmarkSiteTools_921614d236;
   "northdeco.com": BowmarkSiteTools_921614d236;
   "northernbrewer.com": BowmarkSiteTools_921614d236;
+  "northfinder.sk": BowmarkSiteTools_921614d236;
   "northforge.ca": BowmarkSiteTools_dfbdf4df59;
   "northsails.com": BowmarkSiteTools_921614d236;
   "northspore.com": BowmarkSiteTools_921614d236;
+  "noseshop.jp": BowmarkSiteTools_921614d236;
   "notbranded.com": BowmarkSiteTools_e8ae28a971;
   "notbranded.de": BowmarkSiteTools_e8ae28a971;
   "notebooktherapy.com": BowmarkSiteTools_921614d236;
@@ -501138,6 +502191,7 @@ interface BowmarkSites {
   "nove25.net": BowmarkSiteTools_921614d236;
   "noveldex.io": BowmarkSiteTools_1eeb56f36a;
   "novelkeys.com": BowmarkSiteTools_921614d236;
+  "noverly.shop": BowmarkSiteTools_1a8e16d918;
   "novita.ai": BowmarkSiteTools_ad7ff1cbc0;
   "novita.com": BowmarkSiteTools_921614d236;
   "novodiva.com": BowmarkSiteTools_1a8e16d918;
@@ -501154,7 +502208,7 @@ interface BowmarkSites {
   "npower.com.vn": BowmarkSiteTools_e8ae28a971;
   "nps-solovair.com": BowmarkSiteTools_921614d236;
   "nrsworld.com": BowmarkSiteTools_921614d236;
-  "nseimports.co.uk": BowmarkSiteTools_921614d236;
+  "nseimports.co.uk": BowmarkSiteTools_1a8e16d918;
   "nsfw.tools": BowmarkSiteTools_921614d236;
   "nsinails.com.au": BowmarkSiteTools_921614d236;
   "nslookup.io": BowmarkSiteTools_cf321ba56a;
@@ -501228,6 +502282,7 @@ interface BowmarkSites {
   "obeyclothing.com": BowmarkSiteTools_921614d236;
   "obiono.com": BowmarkSiteTools_921614d236;
   "objectci.com": BowmarkSiteTools_921614d236;
+  "objktsjewelry.com": BowmarkSiteTools_921614d236;
   "oblist.com": BowmarkSiteTools_921614d236;
   "obsessedgarage.com": BowmarkSiteTools_e8ae28a971;
   "obsidia-tcg.store": BowmarkSiteTools_921614d236;
@@ -501276,6 +502331,7 @@ interface BowmarkSites {
   "oilily.com": BowmarkSiteTools_921614d236;
   "oilperfumery.com": BowmarkSiteTools_921614d236;
   "oilpriceapi.com": BowmarkSiteTools_b9f5817f3a;
+  "oioi.com.au": BowmarkSiteTools_921614d236;
   "oiselle.com": BowmarkSiteTools_921614d236;
   "oiselle.mom": BowmarkSiteTools_921614d236;
   "oka.com": BowmarkSiteTools_e8ae28a971;
@@ -501290,7 +502346,7 @@ interface BowmarkSites {
   "olay.com": BowmarkSiteTools_921614d236;
   "oldandrarewhisky.co.uk": BowmarkSiteTools_921614d236;
   "oldglory.com": BowmarkSiteTools_921614d236;
-  "oldnewhouse.com": BowmarkSiteTools_1a8e16d918;
+  "oldnewhouse.com": BowmarkSiteTools_e8ae28a971;
   "oldworldchristmas.com": BowmarkSiteTools_921614d236;
   "olehenriksen.com": BowmarkSiteTools_e8ae28a971;
   "olend.net": BowmarkSiteTools_921614d236;
@@ -501336,7 +502392,7 @@ interface BowmarkSites {
   "omnicreatine.com": BowmarkSiteTools_921614d236;
   "omniluxled.com": BowmarkSiteTools_921614d236;
   "omre.co": BowmarkSiteTools_921614d236;
-  "omtech.com": BowmarkSiteTools_921614d236;
+  "omtech.com": BowmarkSiteTools_1a8e16d918;
   "omybagamsterdam.com": BowmarkSiteTools_1a8e16d918;
   "omychic.com": BowmarkSiteTools_921614d236;
   "on.com": BowmarkSiteTools_ad356d6a8d;
@@ -501345,6 +502401,7 @@ interface BowmarkSites {
   "onceuponafarmorganics.com": BowmarkSiteTools_921614d236;
   "onceuponatee.net": BowmarkSiteTools_921614d236;
   "ondacast.com": BowmarkSiteTools_847dd2ab34;
+  "ondas.com": BowmarkSiteTools_e251e6a571;
   "one8.com": BowmarkSiteTools_921614d236;
   "onebioshop.com": BowmarkSiteTools_1a8e16d918;
   "oneblockdown.com": BowmarkSiteTools_e8ae28a971;
@@ -501398,6 +502455,7 @@ interface BowmarkSites {
   "onwardreserve.com": BowmarkSiteTools_e8ae28a971;
   "onyxaqua.com": BowmarkSiteTools_921614d236;
   "onyxcoffeelab.com": BowmarkSiteTools_921614d236;
+  "oodie.eu": BowmarkSiteTools_1a8e16d918;
   "oofos.com": BowmarkSiteTools_e8ae28a971;
   "oomiay.com": BowmarkSiteTools_921614d236;
   "ooni.com": BowmarkSiteTools_921614d236;
@@ -501461,7 +502519,7 @@ interface BowmarkSites {
   "oreo.com": BowmarkSiteTools_921614d236;
   "orgain.com": BowmarkSiteTools_921614d236;
   "organicbasics.com": BowmarkSiteTools_921614d236;
-  "organicbazar.net": BowmarkSiteTools_1a8e16d918;
+  "organicbazar.net": BowmarkSiteTools_921614d236;
   "organicindia.com": BowmarkSiteTools_921614d236;
   "organicindiaseeds.com": BowmarkSiteTools_921614d236;
   "organicsocean.com": BowmarkSiteTools_921614d236;
@@ -501519,7 +502577,7 @@ interface BowmarkSites {
   "otterbox.com": BowmarkSiteTools_921614d236;
   "otterbox.eu": BowmarkSiteTools_1a8e16d918;
   "otticanet.com": BowmarkSiteTools_921614d236;
-  "ottocast.com": BowmarkSiteTools_1a8e16d918;
+  "ottocast.com": BowmarkSiteTools_921614d236;
   "ottofrei.com": BowmarkSiteTools_921614d236;
   "ottolenghi.co.uk": BowmarkSiteTools_921614d236;
   "ottostore.com": BowmarkSiteTools_921614d236;
@@ -501545,7 +502603,7 @@ interface BowmarkSites {
   "outfitters.ca": BowmarkSiteTools_921614d236;
   "outfitters.com.pk": BowmarkSiteTools_921614d236;
   "outin.com": BowmarkSiteTools_921614d236;
-  "outlawleather.com": BowmarkSiteTools_e8ae28a971;
+  "outlawleather.com": BowmarkSiteTools_1a8e16d918;
   "outlet-pc.com": BowmarkSiteTools_921614d236;
   "outlet-pc.es": BowmarkSiteTools_921614d236;
   "outlet-pc.pt": BowmarkSiteTools_921614d236;
@@ -501555,9 +502613,11 @@ interface BowmarkSites {
   "outletpicks.com": BowmarkSiteTools_4d2c0eb632;
   "outletspecialist.com": BowmarkSiteTools_921614d236;
   "outnow.ch": BowmarkSiteTools_ec88d92a18;
+  "outofdarts.com": BowmarkSiteTools_921614d236;
   "outofprint.com": BowmarkSiteTools_921614d236;
   "outsetmedia.com": BowmarkSiteTools_1a8e16d918;
   "outsider.com": BowmarkSiteTools_921614d236;
+  "outsite.co": BowmarkSiteTools_e783ad368e;
   "ovaisabayacollection.in": BowmarkSiteTools_921614d236;
   "ovationthemes.com": BowmarkSiteTools_921614d236;
   "overkill.co.nz": BowmarkSiteTools_921614d236;
@@ -501575,7 +502635,7 @@ interface BowmarkSites {
   "ownerrez.com": BowmarkSiteTools_c9b87e1151;
   "ownkoti.com": BowmarkSiteTools_921614d236;
   "oxfordshop.com.au": BowmarkSiteTools_921614d236;
-  "oxfordstore.cl": BowmarkSiteTools_e8ae28a971;
+  "oxfordstore.cl": BowmarkSiteTools_1a8e16d918;
   "oxknit.com": BowmarkSiteTools_921614d236;
   "oxva.com": BowmarkSiteTools_921614d236;
   "oxy-shop.com": BowmarkSiteTools_921614d236;
@@ -501614,7 +502674,7 @@ interface BowmarkSites {
   "painfulpleasures.com": BowmarkSiteTools_921614d236;
   "paintedpaper.com": BowmarkSiteTools_921614d236;
   "painterssolutions.com": BowmarkSiteTools_921614d236;
-  "paintingtogogh.com": BowmarkSiteTools_921614d236;
+  "paintingtogogh.com": BowmarkSiteTools_1a8e16d918;
   "paintlykits.com": BowmarkSiteTools_921614d236;
   "paintscratch.com": BowmarkSiteTools_921614d236;
   "paireyewear.com": BowmarkSiteTools_921614d236;
@@ -501638,11 +502698,12 @@ interface BowmarkSites {
   "pamelascott.com": BowmarkSiteTools_921614d236;
   "pammys.com": BowmarkSiteTools_921614d236;
   "pampili.com.br": BowmarkSiteTools_e8ae28a971;
-  "panacearedlight.com": BowmarkSiteTools_921614d236;
+  "panacearedlight.com": BowmarkSiteTools_1a8e16d918;
   "panam.com.mx": BowmarkSiteTools_921614d236;
   "panamajack.de": BowmarkSiteTools_921614d236;
   "panamajack.es": BowmarkSiteTools_921614d236;
   "panamaquaticsevents.com": BowmarkSiteTools_6b07910600;
+  "panaprium.com": BowmarkSiteTools_921614d236;
   "pand.co": BowmarkSiteTools_e8ae28a971;
   "pandadrum.com": BowmarkSiteTools_921614d236;
   "pandaize.com": BowmarkSiteTools_921614d236;
@@ -501757,7 +502818,7 @@ interface BowmarkSites {
   "patrickta.com": BowmarkSiteTools_921614d236;
   "patriotcrew.co": BowmarkSiteTools_921614d236;
   "patta.nl": BowmarkSiteTools_e8ae28a971;
-  "patternbeauty.com": BowmarkSiteTools_1a8e16d918;
+  "patternbeauty.com": BowmarkSiteTools_921614d236;
   "patternnexus.com": BowmarkSiteTools_d24a2ca235;
   "paul-hewitt.com": BowmarkSiteTools_921614d236;
   "paul-joe-beaute.com": BowmarkSiteTools_921614d236;
@@ -501857,7 +502918,7 @@ interface BowmarkSites {
   "penthera.com": BowmarkSiteTools_6752460754;
   "peopleschoicebeefjerky.com": BowmarkSiteTools_e8ae28a971;
   "pepiniere.ca": BowmarkSiteTools_921614d236;
-  "pepper-home.com": BowmarkSiteTools_921614d236;
+  "pepper-home.com": BowmarkSiteTools_1a8e16d918;
   "peppermayo.com": BowmarkSiteTools_921614d236;
   "peppermayo.eu": BowmarkSiteTools_921614d236;
   "pepperpalace.com": BowmarkSiteTools_e8ae28a971;
@@ -501904,11 +502965,11 @@ interface BowmarkSites {
   "petboutique.it": BowmarkSiteTools_921614d236;
   "peterluger.com": BowmarkSiteTools_1a8e16d918;
   "peterpauper.com": BowmarkSiteTools_921614d236;
-  "petersen.org": BowmarkSiteTools_e8ae28a971;
+  "petersen.org": BowmarkSiteTools_1a8e16d918;
   "peterthomasroth.com": BowmarkSiteTools_921614d236;
   "pethardware.com": BowmarkSiteTools_30367cf120;
   "petit-q.com": BowmarkSiteTools_921614d236;
-  "petite-plume.com": BowmarkSiteTools_1a8e16d918;
+  "petite-plume.com": BowmarkSiteTools_921614d236;
   "petiteknit.com": BowmarkSiteTools_1a8e16d918;
   "petitestudionyc.com": BowmarkSiteTools_921614d236;
   "petitestudionyc.com.cn": BowmarkSiteTools_921614d236;
@@ -501920,7 +502981,7 @@ interface BowmarkSites {
   "petplanet.co.uk": BowmarkSiteTools_921614d236;
   "petrolicious.com": BowmarkSiteTools_921614d236;
   "petrolindustries.com": BowmarkSiteTools_921614d236;
-  "petromax.de": BowmarkSiteTools_1a8e16d918;
+  "petromax.de": BowmarkSiteTools_921614d236;
   "petsense.com": BowmarkSiteTools_921614d236;
   "petstore.direct": BowmarkSiteTools_e8ae28a971;
   "petsupplies4less.com": BowmarkSiteTools_921614d236;
@@ -501954,7 +503015,7 @@ interface BowmarkSites {
   "phonecase.pk": BowmarkSiteTools_921614d236;
   "phonecheck.com": BowmarkSiteTools_3ad206f405;
   "phonevilla.in": BowmarkSiteTools_921614d236;
-  "phool.co": BowmarkSiteTools_921614d236;
+  "phool.co": BowmarkSiteTools_1a8e16d918;
   "photobookworldwide.com": BowmarkSiteTools_921614d236;
   "photowarehouse.co.nz": BowmarkSiteTools_fd201c24ff;
   "phyba.com.au": BowmarkSiteTools_921614d236;
@@ -501999,7 +503060,7 @@ interface BowmarkSites {
   "pin.tt": BowmarkSiteTools_17189967be;
   "pinecone.io": BowmarkSiteTools_2bffe7562e;
   "pinggu.org": BowmarkSiteTools_11afa59c03;
-  "piniparma.com": BowmarkSiteTools_1a8e16d918;
+  "piniparma.com": BowmarkSiteTools_e8ae28a971;
   "pinkalamode.com": BowmarkSiteTools_921614d236;
   "pinkblushmaternity.com": BowmarkSiteTools_921614d236;
   "pinkboutique.co.uk": BowmarkSiteTools_1a8e16d918;
@@ -502021,13 +503082,14 @@ interface BowmarkSites {
   "pioneerelectronics.com": BowmarkSiteTools_1a8e16d918;
   "pioneerminisplit.com": BowmarkSiteTools_1a8e16d918;
   "pipingrock.com": BowmarkSiteTools_921614d236;
-  "pippoppost.com": BowmarkSiteTools_921614d236;
+  "pippoppost.com": BowmarkSiteTools_1a8e16d918;
   "piquadro.com": BowmarkSiteTools_e8ae28a971;
   "piquelife.com": BowmarkSiteTools_921614d236;
   "piranesi.com": BowmarkSiteTools_e8ae28a971;
   "piscifun.com": BowmarkSiteTools_921614d236;
   "pistoladenim.com": BowmarkSiteTools_921614d236;
   "pit-pit.com": BowmarkSiteTools_1a8e16d918;
+  "pitaya.dk": BowmarkSiteTools_e8ae28a971;
   "pitboss-grills.com": BowmarkSiteTools_921614d236;
   "pitbull.de": BowmarkSiteTools_921614d236;
   "pitbull.pl": BowmarkSiteTools_e8ae28a971;
@@ -502215,6 +503277,7 @@ interface BowmarkSites {
   "poundland.co.uk": BowmarkSiteTools_921614d236;
   "pourri.com": BowmarkSiteTools_921614d236;
   "powdervalley.com": BowmarkSiteTools_921614d236;
+  "power-division.com": BowmarkSiteTools_921614d236;
   "powerbar.com": BowmarkSiteTools_921614d236;
   "powerblock.com": BowmarkSiteTools_921614d236;
   "powercommerce.com": BowmarkSiteTools_921614d236;
@@ -502230,6 +503293,8 @@ interface BowmarkSites {
   "powerstep.com": BowmarkSiteTools_921614d236;
   "powertel.co.id": BowmarkSiteTools_ee5b430a17;
   "powerupgaming.ca": BowmarkSiteTools_e8ae28a971;
+  "ppdperformance.com.au": BowmarkSiteTools_e8ae28a971;
+  "ppepower.com": BowmarkSiteTools_e8ae28a971;
   "prabhatex.com": BowmarkSiteTools_921614d236;
   "prakrithibyramya.com": BowmarkSiteTools_921614d236;
   "pranachai.com": BowmarkSiteTools_921614d236;
@@ -502282,7 +503347,7 @@ interface BowmarkSites {
   "primacial.com.br": BowmarkSiteTools_a5d5ad65c1;
   "primal-remedies.com": BowmarkSiteTools_921614d236;
   "primal-storm.com": BowmarkSiteTools_921614d236;
-  "primalharvest.com": BowmarkSiteTools_1a8e16d918;
+  "primalharvest.com": BowmarkSiteTools_921614d236;
   "primalkitchen.com": BowmarkSiteTools_921614d236;
   "primallypure.com": BowmarkSiteTools_921614d236;
   "primalpastures.com": BowmarkSiteTools_e8ae28a971;
@@ -502416,7 +503481,7 @@ interface BowmarkSites {
   "pulltheplugpatches.com": BowmarkSiteTools_921614d236;
   "pullup-dip.de": BowmarkSiteTools_921614d236;
   "pulpaddiction.com.au": BowmarkSiteTools_921614d236;
-  "pulsar.gg": BowmarkSiteTools_1a8e16d918;
+  "pulsar.gg": BowmarkSiteTools_921614d236;
   "pulsetto.tech": BowmarkSiteTools_921614d236;
   "pumagolf.com": BowmarkSiteTools_921614d236;
   "pumaknives.de": BowmarkSiteTools_e8ae28a971;
@@ -502448,7 +503513,7 @@ interface BowmarkSites {
   "purscore.pl": BowmarkSiteTools_84e172b0c8;
   "pursuit-of-happiness.org": BowmarkSiteTools_a7f82f4f6d;
   "pushas.com": BowmarkSiteTools_921614d236;
-  "pushcolor.com": BowmarkSiteTools_1a8e16d918;
+  "pushcolor.com": BowmarkSiteTools_921614d236;
   "pusheen.com": BowmarkSiteTools_921614d236;
   "pushmycart.com": BowmarkSiteTools_921614d236;
   "puzzledly.com": BowmarkSiteTools_e8ae28a971;
@@ -502567,7 +503632,7 @@ interface BowmarkSites {
   "railsofsheffield.com": BowmarkSiteTools_e8ae28a971;
   "railway.app": BowmarkSiteTools_1b15141303;
   "railway.com": BowmarkSiteTools_1b15141303;
-  "railwayhomefurnishings.com": BowmarkSiteTools_1a8e16d918;
+  "railwayhomefurnishings.com": BowmarkSiteTools_921614d236;
   "rainbowshops.com": BowmarkSiteTools_921614d236;
   "raincity.games": BowmarkSiteTools_e8ae28a971;
   "raindoor.cl": BowmarkSiteTools_1a8e16d918;
@@ -502696,18 +503761,19 @@ interface BowmarkSites {
   "redcandy.co.uk": BowmarkSiteTools_921614d236;
   "redcastheritage.com": BowmarkSiteTools_e8ae28a971;
   "redcatracing.com": BowmarkSiteTools_921614d236;
-  "redchief.in": BowmarkSiteTools_921614d236;
+  "redchief.in": BowmarkSiteTools_1a8e16d918;
   "redclawgaming.com": BowmarkSiteTools_921614d236;
   "reddragondarts.com": BowmarkSiteTools_921614d236;
   "reddress.com": BowmarkSiteTools_921614d236;
   "redgoblin.ro": BowmarkSiteTools_921614d236;
+  "redhen.org": BowmarkSiteTools_1a8e16d918;
   "redis.io": BowmarkSiteTools_de8af5d036;
   "redmagic.gg": BowmarkSiteTools_921614d236;
   "redmagic.tech": BowmarkSiteTools_1a8e16d918;
   "redmond.com": BowmarkSiteTools_e8ae28a971;
   "redocly.com": BowmarkSiteTools_45ccd17a74;
   "redpim.de": BowmarkSiteTools_4ade1d9789;
-  "redqueen.mx": BowmarkSiteTools_e8ae28a971;
+  "redqueen.mx": BowmarkSiteTools_1a8e16d918;
   "redragonshop.com": BowmarkSiteTools_1a8e16d918;
   "redstone.finance": BowmarkSiteTools_ce2ce605f5;
   "redtape.com": BowmarkSiteTools_1a8e16d918;
@@ -502809,7 +503875,7 @@ interface BowmarkSites {
   "respire.co": BowmarkSiteTools_921614d236;
   "respshop.com": BowmarkSiteTools_921614d236;
   "ressalina.com": BowmarkSiteTools_921614d236;
-  "rest.com": BowmarkSiteTools_921614d236;
+  "rest.com": BowmarkSiteTools_1a8e16d918;
   "restaurantfurnitureplus.com": BowmarkSiteTools_921614d236;
   "restaurantsupply.com": BowmarkSiteTools_921614d236;
   "restaurantware.com": BowmarkSiteTools_921614d236;
@@ -502820,7 +503886,6 @@ interface BowmarkSites {
   "retailmaharaj.com": BowmarkSiteTools_921614d236;
   "retellai.com": BowmarkSiteTools_2a464a26c3;
   "retraced.com": BowmarkSiteTools_921614d236;
-  "retreatportal.com": BowmarkSiteTools_fc3e39123b;
   "retro-rifle.com": BowmarkSiteTools_921614d236;
   "retro-stage.com": BowmarkSiteTools_921614d236;
   "retro-stage.de": BowmarkSiteTools_921614d236;
@@ -502833,7 +503898,7 @@ interface BowmarkSites {
   "retrospekt.com": BowmarkSiteTools_e8ae28a971;
   "retrovgames.com": BowmarkSiteTools_921614d236;
   "revantoptics.com": BowmarkSiteTools_921614d236;
-  "revcook.com": BowmarkSiteTools_921614d236;
+  "revcook.com": BowmarkSiteTools_1a8e16d918;
   "revell.com": BowmarkSiteTools_921614d236;
   "revell.de": BowmarkSiteTools_921614d236;
   "revendo.ch": BowmarkSiteTools_e8ae28a971;
@@ -502901,6 +503966,7 @@ interface BowmarkSites {
   "rimoco.de": BowmarkSiteTools_e8ae28a971;
   "rimorcorp.com": BowmarkSiteTools_921614d236;
   "rinascimento.com": BowmarkSiteTools_921614d236;
+  "ring-u.com": BowmarkSiteTools_811392f5dd;
   "ringconcierge.com": BowmarkSiteTools_e8ae28a971;
   "ringconn.com": BowmarkSiteTools_1a8e16d918;
   "ringerswestern.com": BowmarkSiteTools_921614d236;
@@ -502974,6 +504040,7 @@ interface BowmarkSites {
   "rockbrosbike.us": BowmarkSiteTools_921614d236;
   "rocket.net": BowmarkSiteTools_3550bca88a;
   "rocketalumnisolutions.com": BowmarkSiteTools_149819e38d;
+  "rocketdog.com": BowmarkSiteTools_921614d236;
   "rocketlist.ai": BowmarkSiteTools_2e483ee007;
   "rockettstgeorge.co.uk": BowmarkSiteTools_921614d236;
   "rockher.com": BowmarkSiteTools_921614d236;
@@ -503060,7 +504127,7 @@ interface BowmarkSites {
   "rowingblazers.com": BowmarkSiteTools_921614d236;
   "rowve.com": BowmarkSiteTools_921614d236;
   "roxy.com": BowmarkSiteTools_921614d236;
-  "roxynailsparis.com": BowmarkSiteTools_1a8e16d918;
+  "roxynailsparis.com": BowmarkSiteTools_921614d236;
   "royalcdkeys.com": BowmarkSiteTools_921614d236;
   "royalchessmall.com": BowmarkSiteTools_921614d236;
   "royalcoffee.com": BowmarkSiteTools_921614d236;
@@ -503151,7 +504218,7 @@ interface BowmarkSites {
   "sabrent.com": BowmarkSiteTools_921614d236;
   "sabritextile.store": BowmarkSiteTools_921614d236;
   "sabro.de": BowmarkSiteTools_921614d236;
-  "sacai.jp": BowmarkSiteTools_921614d236;
+  "sacai.jp": BowmarkSiteTools_1a8e16d918;
   "sacheu.com": BowmarkSiteTools_921614d236;
   "sachinandbabi.com": BowmarkSiteTools_e8ae28a971;
   "sacredbonesrecords.com": BowmarkSiteTools_921614d236;
@@ -503170,6 +504237,7 @@ interface BowmarkSites {
   "safeguardglobal.com": BowmarkSiteTools_eaab7a1bb3;
   "safehavenarmor.com": BowmarkSiteTools_71d51d6fe1;
   "safemo.com": BowmarkSiteTools_921614d236;
+  "safestyle.com.au": BowmarkSiteTools_921614d236;
   "safetatt.eu": BowmarkSiteTools_921614d236;
   "safety1st.com": BowmarkSiteTools_921614d236;
   "safetycli.com": BowmarkSiteTools_0a44b6eab9;
@@ -503189,6 +504257,7 @@ interface BowmarkSites {
   "saintandsofia.com": BowmarkSiteTools_921614d236;
   "saintbernard.com": BowmarkSiteTools_921614d236;
   "saintgermainbrand.com.br": BowmarkSiteTools_a5d5ad65c1;
+  "saintjavelin.com": BowmarkSiteTools_921614d236;
   "saintsass.com": BowmarkSiteTools_921614d236;
   "sairam.cl": BowmarkSiteTools_f3f4b25386;
   "saje.ca": BowmarkSiteTools_e8ae28a971;
@@ -503213,7 +504282,7 @@ interface BowmarkSites {
   "salsacycles.com": BowmarkSiteTools_1a8e16d918;
   "salsag.ro": BowmarkSiteTools_3f6e447273;
   "salsavida.com": BowmarkSiteTools_5ad1e9dd74;
-  "saltair.com": BowmarkSiteTools_1a8e16d918;
+  "saltair.com": BowmarkSiteTools_921614d236;
   "saltandstone.com": BowmarkSiteTools_921614d236;
   "saltandstraw.com": BowmarkSiteTools_921614d236;
   "saltlakeladyrebels.com": BowmarkSiteTools_7791ed4480;
@@ -503285,6 +504354,7 @@ interface BowmarkSites {
   "sato-res.com": BowmarkSiteTools_921614d236;
   "saturdayclub.com": BowmarkSiteTools_921614d236;
   "sauna.guide": BowmarkSiteTools_164e597d88;
+  "saunabox.com": BowmarkSiteTools_921614d236;
   "sausewind-shop.com": BowmarkSiteTools_3dcdad624e;
   "sava-amsterdam.com": BowmarkSiteTools_921614d236;
   "savannahbee.com": BowmarkSiteTools_e8ae28a971;
@@ -503330,6 +504400,7 @@ interface BowmarkSites {
   "schemastore.org": BowmarkSiteTools_181bc02894;
   "schiaparelli.com": BowmarkSiteTools_921614d236;
   "schifferbooks.com": BowmarkSiteTools_921614d236;
+  "schilder.kaufen": BowmarkSiteTools_921614d236;
   "schilderopnr.nl": BowmarkSiteTools_921614d236;
   "schlummersack.de": BowmarkSiteTools_e8ae28a971;
   "schmuck.ch": BowmarkSiteTools_921614d236;
@@ -503347,6 +504418,7 @@ interface BowmarkSites {
   "schutz-shoes.com": BowmarkSiteTools_e8ae28a971;
   "schwinnbikes.com": BowmarkSiteTools_921614d236;
   "sciconsports.com": BowmarkSiteTools_921614d236;
+  "scooboo.in": BowmarkSiteTools_921614d236;
   "scop.onl": BowmarkSiteTools_1a8e16d918;
   "scorebooklive.com": BowmarkSiteTools_df6dec9655;
   "scosche.com": BowmarkSiteTools_921614d236;
@@ -503472,7 +504544,7 @@ interface BowmarkSites {
   "senteur.ca": BowmarkSiteTools_921614d236;
   "sentient-ui.com": BowmarkSiteTools_25c539b88e;
   "seoant.com": BowmarkSiteTools_921614d236;
-  "seoulsend.com": BowmarkSiteTools_921614d236;
+  "seoulsend.com": BowmarkSiteTools_1a8e16d918;
   "seoulskin.in": BowmarkSiteTools_921614d236;
   "seranova.com": BowmarkSiteTools_921614d236;
   "serax.com": BowmarkSiteTools_921614d236;
@@ -503518,6 +504590,7 @@ interface BowmarkSites {
   "sfbags.com": BowmarkSiteTools_1a8e16d918;
   "sftware.eu": BowmarkSiteTools_1a8e16d918;
   "sgpbusiness.com": BowmarkSiteTools_f4ad816bac;
+  "sgtknots.com": BowmarkSiteTools_1a8e16d918;
   "shadyrays.com": BowmarkSiteTools_e8ae28a971;
   "shahkaar.com": BowmarkSiteTools_921614d236;
   "shahzebsaeed.com": BowmarkSiteTools_1a8e16d918;
@@ -503571,6 +504644,7 @@ interface BowmarkSites {
   "sheywest.com": BowmarkSiteTools_e8ae28a971;
   "shieldenchannel.com": BowmarkSiteTools_921614d236;
   "shiels.com.au": BowmarkSiteTools_921614d236;
+  "shiftai.club": BowmarkSiteTools_921614d236;
   "shilav.co.il": BowmarkSiteTools_921614d236;
   "shimmerandconfetti.com": BowmarkSiteTools_921614d236;
   "shimogamo-jinja.or.jp": BowmarkSiteTools_d1727f7a49;
@@ -503596,6 +504670,7 @@ interface BowmarkSites {
   "shoes.fr": BowmarkSiteTools_0c682ecf87;
   "shoesonline.co.il": BowmarkSiteTools_921614d236;
   "shoespoint.biz": BowmarkSiteTools_e8ae28a971;
+  "shoess.ca": BowmarkSiteTools_e8ae28a971;
   "shogue.com": BowmarkSiteTools_921614d236;
   "shokz.com": BowmarkSiteTools_921614d236;
   "shomiofficial.com": BowmarkSiteTools_921614d236;
@@ -503617,6 +504692,7 @@ interface BowmarkSites {
   "shopaleena.com": BowmarkSiteTools_921614d236;
   "shopamericanthreads.com": BowmarkSiteTools_921614d236;
   "shopamua.com": BowmarkSiteTools_921614d236;
+  "shopatshams.com.pk": BowmarkSiteTools_921614d236;
   "shopatshowcase.com": BowmarkSiteTools_921614d236;
   "shopavara.com": BowmarkSiteTools_e8ae28a971;
   "shopbeam.com": BowmarkSiteTools_921614d236;
@@ -503632,6 +504708,7 @@ interface BowmarkSites {
   "shopcomics.eu": BowmarkSiteTools_921614d236;
   "shopcoveusa.com": BowmarkSiteTools_921614d236;
   "shopcsb.com": BowmarkSiteTools_921614d236;
+  "shopcwo.com": BowmarkSiteTools_921614d236;
   "shopdailydrills.com": BowmarkSiteTools_921614d236;
   "shopdap.com": BowmarkSiteTools_921614d236;
   "shopdoen.com": BowmarkSiteTools_e8ae28a971;
@@ -503671,6 +504748,7 @@ interface BowmarkSites {
   "shopnaw.shop": BowmarkSiteTools_1a8e16d918;
   "shopnicekicks.com": BowmarkSiteTools_921614d236;
   "shopnpr.org": BowmarkSiteTools_1a8e16d918;
+  "shopnutrapure.com": BowmarkSiteTools_921614d236;
   "shoppeamberlewis.com": BowmarkSiteTools_e8ae28a971;
   "shoppi.app": BowmarkSiteTools_44e0c14e89;
   "shoppingworldyt.com": BowmarkSiteTools_921614d236;
@@ -503720,6 +504798,7 @@ interface BowmarkSites {
   "sideprojectors.com": BowmarkSiteTools_d18e420cbf;
   "sidi.com": BowmarkSiteTools_921614d236;
   "siemens.com": BowmarkSiteTools_2f71924f3e;
+  "sierradarien.com": BowmarkSiteTools_921614d236;
   "sierramadrecollection.com": BowmarkSiteTools_921614d236;
   "sigg.com": BowmarkSiteTools_921614d236;
   "sigmabeauty.com": BowmarkSiteTools_921614d236;
@@ -503727,6 +504806,7 @@ interface BowmarkSites {
   "sigmasports.com": BowmarkSiteTools_e8ae28a971;
   "sign.com": BowmarkSiteTools_6ec401c715;
   "signalwire.com": BowmarkSiteTools_a0d3e65e3e;
+  "signatureperformance.com": BowmarkSiteTools_dfd483ba42;
   "signsonline.com": BowmarkSiteTools_921614d236;
   "signwarehouse.com": BowmarkSiteTools_921614d236;
   "sihoo.com": BowmarkSiteTools_921614d236;
@@ -503869,7 +504949,7 @@ interface BowmarkSites {
   "skratchlabs.com": BowmarkSiteTools_921614d236;
   "skrillex.com": BowmarkSiteTools_921614d236;
   "skullcandy.com": BowmarkSiteTools_921614d236;
-  "skullcandy.eu": BowmarkSiteTools_921614d236;
+  "skullcandy.eu": BowmarkSiteTools_1a8e16d918;
   "skullsunlimited.com": BowmarkSiteTools_1a8e16d918;
   "skultuna.com": BowmarkSiteTools_921614d236;
   "skunkshobbies.com": BowmarkSiteTools_e8ae28a971;
@@ -503895,6 +504975,7 @@ interface BowmarkSites {
   "slidemodel.com": BowmarkSiteTools_f256984545;
   "slip.com": BowmarkSiteTools_921614d236;
   "sliponline.nl": BowmarkSiteTools_1a8e16d918;
+  "slnt.com": BowmarkSiteTools_921614d236;
   "slome.fr": BowmarkSiteTools_921614d236;
   "slowear.com": BowmarkSiteTools_e8ae28a971;
   "slrspeed.com": BowmarkSiteTools_921614d236;
@@ -503903,8 +504984,8 @@ interface BowmarkSites {
   "slumberland.com": BowmarkSiteTools_921614d236;
   "sm-speeltjes.com": BowmarkSiteTools_921614d236;
   "smala.com": BowmarkSiteTools_921614d236;
-  "smallflower.com": BowmarkSiteTools_e8ae28a971;
-  "smallwoodhome.com": BowmarkSiteTools_921614d236;
+  "smallflower.com": BowmarkSiteTools_1a8e16d918;
+  "smallwoodhome.com": BowmarkSiteTools_1a8e16d918;
   "smaphocase.com": BowmarkSiteTools_1a8e16d918;
   "smappliance.com": BowmarkSiteTools_921614d236;
   "smart-center-system.com": BowmarkSiteTools_a10c1140c9;
@@ -504016,7 +505097,7 @@ interface BowmarkSites {
   "sokoglam.com": BowmarkSiteTools_921614d236;
   "solacebands.com": BowmarkSiteTools_921614d236;
   "solago.de": BowmarkSiteTools_921614d236;
-  "solakon.de": BowmarkSiteTools_921614d236;
+  "solakon.de": BowmarkSiteTools_1a8e16d918;
   "solara.in": BowmarkSiteTools_921614d236;
   "solaray.com": BowmarkSiteTools_921614d236;
   "solarhandel24.de": BowmarkSiteTools_921614d236;
@@ -504051,7 +505132,7 @@ interface BowmarkSites {
   "songmontofficial.com": BowmarkSiteTools_e8ae28a971;
   "soni.fashion": BowmarkSiteTools_921614d236;
   "sonicsoundfx.com": BowmarkSiteTools_921614d236;
-  "sonlight.com": BowmarkSiteTools_921614d236;
+  "sonlight.com": BowmarkSiteTools_1a8e16d918;
   "sonnyangelusa.com": BowmarkSiteTools_921614d236;
   "sonofastag.com": BowmarkSiteTools_1a8e16d918;
   "sonoff.tech": BowmarkSiteTools_921614d236;
@@ -504068,7 +505149,7 @@ interface BowmarkSites {
   "soufeel.com": BowmarkSiteTools_71d51d6fe1;
   "soulladywigs.com": BowmarkSiteTools_921614d236;
   "soultt.com": BowmarkSiteTools_921614d236;
-  "sound-merch.com.au": BowmarkSiteTools_1a8e16d918;
+  "sound-merch.com.au": BowmarkSiteTools_e8ae28a971;
   "soundboks.com": BowmarkSiteTools_1a8e16d918;
   "soundboks.de": BowmarkSiteTools_921614d236;
   "soundbrenner.com": BowmarkSiteTools_921614d236;
@@ -504085,6 +505166,7 @@ interface BowmarkSites {
   "southernstates.com": BowmarkSiteTools_921614d236;
   "southernstyle-offroad.com": BowmarkSiteTools_921614d236;
   "southerntide.com": BowmarkSiteTools_e8ae28a971;
+  "southparkshop.com": BowmarkSiteTools_921614d236;
   "southstardrug.com.ph": BowmarkSiteTools_921614d236;
   "sovol3d.com": BowmarkSiteTools_921614d236;
   "sowears.net": BowmarkSiteTools_921614d236;
@@ -504156,7 +505238,7 @@ interface BowmarkSites {
   "spencertified.com": BowmarkSiteTools_921614d236;
   "speroll.com": BowmarkSiteTools_3e1379c19c;
   "sperry.com": BowmarkSiteTools_921614d236;
-  "sphero.com": BowmarkSiteTools_921614d236;
+  "sphero.com": BowmarkSiteTools_1a8e16d918;
   "spiceandtea.com": BowmarkSiteTools_921614d236;
   "spiceology.com": BowmarkSiteTools_921614d236;
   "spickme.ch": BowmarkSiteTools_bc65a6df76;
@@ -504181,7 +505263,7 @@ interface BowmarkSites {
   "splashes.com": BowmarkSiteTools_921614d236;
   "splashwines.com": BowmarkSiteTools_921614d236;
   "splendid.com": BowmarkSiteTools_921614d236;
-  "splendido-magazin.de": BowmarkSiteTools_1a8e16d918;
+  "splendido-magazin.de": BowmarkSiteTools_921614d236;
   "spnutrition-us.com": BowmarkSiteTools_921614d236;
   "spoks.com": BowmarkSiteTools_7a93ae5b66;
   "sport-schindele.de": BowmarkSiteTools_921614d236;
@@ -504266,6 +505348,7 @@ interface BowmarkSites {
   "stagheaddesigns.com": BowmarkSiteTools_921614d236;
   "stagprovisions.com": BowmarkSiteTools_e8ae28a971;
   "stagshop.com": BowmarkSiteTools_921614d236;
+  "stahldesign-klostermann.de": BowmarkSiteTools_921614d236;
   "stahlgear.de": BowmarkSiteTools_921614d236;
   "staind.com": BowmarkSiteTools_921614d236;
   "stalric.com": BowmarkSiteTools_e8ae28a971;
@@ -504289,7 +505372,8 @@ interface BowmarkSites {
   "starkidsstore.co": BowmarkSiteTools_921614d236;
   "starlabs.systems": BowmarkSiteTools_921614d236;
   "starlandus.com": BowmarkSiteTools_921614d236;
-  "starter.com": BowmarkSiteTools_e8ae28a971;
+  "starprocombat.com": BowmarkSiteTools_921614d236;
+  "starter.com": BowmarkSiteTools_1a8e16d918;
   "startfitness.co.uk": BowmarkSiteTools_1a8e16d918;
   "startsafety.uk": BowmarkSiteTools_921614d236;
   "startuphub.ai": BowmarkSiteTools_bd28f5f7d0;
@@ -504317,6 +505401,7 @@ interface BowmarkSites {
   "steadygarage.com": BowmarkSiteTools_e8ae28a971;
   "steals.com": BowmarkSiteTools_e8ae28a971;
   "stealth.net": BowmarkSiteTools_8026f96fe3;
+  "stealthangelsurvival.com": BowmarkSiteTools_921614d236;
   "steamdt.com": BowmarkSiteTools_95fa2defa4;
   "steamgpt.net": BowmarkSiteTools_7afdb7b838;
   "steelprofil.eu": BowmarkSiteTools_77a4a7fd39;
@@ -504332,6 +505417,7 @@ interface BowmarkSites {
   "step2.com": BowmarkSiteTools_1a8e16d918;
   "stepone.life": BowmarkSiteTools_921614d236;
   "stepprs.com": BowmarkSiteTools_921614d236;
+  "sterilair.com.br": BowmarkSiteTools_921614d236;
   "sterling-ink.com": BowmarkSiteTools_e8ae28a971;
   "sterlingforever.com": BowmarkSiteTools_921614d236;
   "sternglas.com": BowmarkSiteTools_921614d236;
@@ -504483,6 +505569,7 @@ interface BowmarkSites {
   "sundaybazar.com.pk": BowmarkSiteTools_e8ae28a971;
   "sundaygolf.com": BowmarkSiteTools_921614d236;
   "sundayriley.com": BowmarkSiteTools_921614d236;
+  "sundays-company.com": BowmarkSiteTools_e8ae28a971;
   "sundayswagger.com": BowmarkSiteTools_1a8e16d918;
   "sundownaudio.com": BowmarkSiteTools_921614d236;
   "sundried.com": BowmarkSiteTools_921614d236;
@@ -504526,6 +505613,7 @@ interface BowmarkSites {
   "superlative.ro": BowmarkSiteTools_921614d236;
   "superlinewholesale.com": BowmarkSiteTools_e8ae28a971;
   "supermarketitaly.com": BowmarkSiteTools_921614d236;
+  "supermart.ng": BowmarkSiteTools_921614d236;
   "supermemory.ai": BowmarkSiteTools_c1d53c3e31;
   "supernext.com": BowmarkSiteTools_d31ec415b8;
   "supernote.com": BowmarkSiteTools_921614d236;
@@ -504543,6 +505631,7 @@ interface BowmarkSites {
   "supplementsource.ca": BowmarkSiteTools_1a8e16d918;
   "supplementwarehouse.com": BowmarkSiteTools_e8ae28a971;
   "supplementwholesalers.com.au": BowmarkSiteTools_921614d236;
+  "supplymaster.store": BowmarkSiteTools_921614d236;
   "supplyme.com": BowmarkSiteTools_1a8e16d918;
   "supplystop.com": BowmarkSiteTools_1a8e16d918;
   "supremenutrition.com": BowmarkSiteTools_921614d236;
@@ -504568,9 +505657,11 @@ interface BowmarkSites {
   "suta.in": BowmarkSiteTools_921614d236;
   "sutisancha.com": BowmarkSiteTools_921614d236;
   "suzannesomers.com": BowmarkSiteTools_921614d236;
+  "suzannevega.com": BowmarkSiteTools_3f295d37c8;
   "suzhoudress.com": BowmarkSiteTools_1a8e16d918;
   "suzies.com": BowmarkSiteTools_921614d236;
   "suzitee.com": BowmarkSiteTools_921614d236;
+  "suzushiiclothing.com": BowmarkSiteTools_921614d236;
   "suzyshier.com": BowmarkSiteTools_1a8e16d918;
   "svahausa.com": BowmarkSiteTools_921614d236;
   "svakom.com": BowmarkSiteTools_921614d236;
@@ -504609,6 +505700,7 @@ interface BowmarkSites {
   "swissgear.com": BowmarkSiteTools_1a8e16d918;
   "swissknifeshop.com": BowmarkSiteTools_921614d236;
   "swissmem.ch": BowmarkSiteTools_b10307d3e2;
+  "swissmilitaryindia.com": BowmarkSiteTools_921614d236;
   "switch-bot.com": BowmarkSiteTools_921614d236;
   "switch-science.com": BowmarkSiteTools_921614d236;
   "switch.com.my": BowmarkSiteTools_921614d236;
@@ -504735,7 +505827,7 @@ interface BowmarkSites {
   "taztycandy.com": BowmarkSiteTools_921614d236;
   "tbco.com": BowmarkSiteTools_921614d236;
   "tcg-corner.com": BowmarkSiteTools_921614d236;
-  "tcgakki.com": BowmarkSiteTools_921614d236;
+  "tcgakki.com": BowmarkSiteTools_1a8e16d918;
   "tcgcollectornz.com": BowmarkSiteTools_e8ae28a971;
   "tcgculture.com": BowmarkSiteTools_921614d236;
   "tcgmaniashop.com": BowmarkSiteTools_3f6e447273;
@@ -504873,7 +505965,7 @@ interface BowmarkSites {
   "thaipropertiesnetwork.com": BowmarkSiteTools_3d29bc525d;
   "thamesandhudson.com": BowmarkSiteTools_921614d236;
   "thamesandkosmos.com": BowmarkSiteTools_921614d236;
-  "thanksbuyer.com": BowmarkSiteTools_921614d236;
+  "thanksbuyer.com": BowmarkSiteTools_1a8e16d918;
   "thankyoumart.jp": BowmarkSiteTools_1a8e16d918;
   "thatsme.organic": BowmarkSiteTools_921614d236;
   "thatssofetch.com": BowmarkSiteTools_921614d236;
@@ -504937,6 +506029,7 @@ interface BowmarkSites {
   "thechristmaspalace.com": BowmarkSiteTools_1a8e16d918;
   "thecircle.de": BowmarkSiteTools_921614d236;
   "theclassictemplates.com": BowmarkSiteTools_921614d236;
+  "theclassicvaluer.com": BowmarkSiteTools_f67f9c53a5;
   "theclosetonlineshop.com": BowmarkSiteTools_e8ae28a971;
   "thecollagen.co": BowmarkSiteTools_921614d236;
   "thecommense.com": BowmarkSiteTools_921614d236;
@@ -505033,7 +506126,7 @@ interface BowmarkSites {
   "thekansascitybbqstore.com": BowmarkSiteTools_e8ae28a971;
   "thekidcollective.co.uk": BowmarkSiteTools_921614d236;
   "thekingofparfums.com.br": BowmarkSiteTools_a5d5ad65c1;
-  "thelaundress.com": BowmarkSiteTools_921614d236;
+  "thelaundress.com": BowmarkSiteTools_1a8e16d918;
   "thelegalpaige.com": BowmarkSiteTools_921614d236;
   "thelibrary.org": BowmarkSiteTools_b2c58e03ab;
   "thelifestyledco.com": BowmarkSiteTools_1a8e16d918;
@@ -505164,7 +506257,7 @@ interface BowmarkSites {
   "thewillowtree.com": BowmarkSiteTools_921614d236;
   "thewinecollective.com.au": BowmarkSiteTools_921614d236;
   "thewoobles.com": BowmarkSiteTools_e8ae28a971;
-  "thewoodveneerhub.com": BowmarkSiteTools_921614d236;
+  "thewoodveneerhub.com": BowmarkSiteTools_1a8e16d918;
   "thewoolroom.com": BowmarkSiteTools_e8ae28a971;
   "thewutangclan.com": BowmarkSiteTools_921614d236;
   "theyachtmarket.com": BowmarkSiteTools_590750e472;
@@ -505202,6 +506295,7 @@ interface BowmarkSites {
   "thought.live": BowmarkSiteTools_f93932f763;
   "threadfellows.com": BowmarkSiteTools_921614d236;
   "threadheads.com": BowmarkSiteTools_921614d236;
+  "threadheads.com.au": BowmarkSiteTools_921614d236;
   "threadlogic.com": BowmarkSiteTools_921614d236;
   "threadslabel.com": BowmarkSiteTools_e8ae28a971;
   "threadwallets.com": BowmarkSiteTools_e8ae28a971;
@@ -505223,7 +506317,7 @@ interface BowmarkSites {
   "ticketbox.vn": BowmarkSiteTools_b684d20372;
   "ticketfairy.com": BowmarkSiteTools_2facb3b636;
   "ticksly.ru": BowmarkSiteTools_24d1214d9f;
-  "tidbyt.com": BowmarkSiteTools_1a8e16d918;
+  "tidbyt.com": BowmarkSiteTools_921614d236;
   "tidesatlas.com": BowmarkSiteTools_52f9741749;
   "tidewe.com": BowmarkSiteTools_921614d236;
   "tidy.com": BowmarkSiteTools_2e2d71d641;
@@ -505287,6 +506381,7 @@ interface BowmarkSites {
   "tinycircuits.com": BowmarkSiteTools_921614d236;
   "tinycottons.com": BowmarkSiteTools_e8ae28a971;
   "tinylandus.com": BowmarkSiteTools_921614d236;
+  "tinyrituals.co": BowmarkSiteTools_921614d236;
   "tipa.eu": BowmarkSiteTools_e8ae28a971;
   "tipa.sk": BowmarkSiteTools_e8ae28a971;
   "tipsy.in": BowmarkSiteTools_921614d236;
@@ -505311,6 +506406,7 @@ interface BowmarkSites {
   "titus-shop.com": BowmarkSiteTools_921614d236;
   "titus.de": BowmarkSiteTools_921614d236;
   "tix-and-travel.com": BowmarkSiteTools_921614d236;
+  "tiziano-home.de": BowmarkSiteTools_921614d236;
   "tjc.co.uk": BowmarkSiteTools_921614d236;
   "tjhughes.co.uk": BowmarkSiteTools_921614d236;
   "tjinstoko.eu": BowmarkSiteTools_e8ae28a971;
@@ -505437,7 +506533,7 @@ interface BowmarkSites {
   "totwoo.com": BowmarkSiteTools_921614d236;
   "toucanhobby.com": BowmarkSiteTools_921614d236;
   "toucheprive.com": BowmarkSiteTools_1a8e16d918;
-  "touchland.com": BowmarkSiteTools_921614d236;
+  "touchland.com": BowmarkSiteTools_1a8e16d918;
   "touchofmodern.com": BowmarkSiteTools_921614d236;
   "toudoukan.com": BowmarkSiteTools_e8ae28a971;
   "toupsandco.com": BowmarkSiteTools_921614d236;
@@ -505455,7 +506551,7 @@ interface BowmarkSites {
   "townteam.com": BowmarkSiteTools_1a8e16d918;
   "toyarena.com": BowmarkSiteTools_921614d236;
   "toycollectorsindia.com": BowmarkSiteTools_1a8e16d918;
-  "toycra.com": BowmarkSiteTools_921614d236;
+  "toycra.com": BowmarkSiteTools_1a8e16d918;
   "toykingdom.co.za": BowmarkSiteTools_e8ae28a971;
   "toykingdom.com.ph": BowmarkSiteTools_921614d236;
   "toynix.pk": BowmarkSiteTools_921614d236;
@@ -505491,6 +506587,7 @@ interface BowmarkSites {
   "trafi.com": BowmarkSiteTools_12ee8509da;
   "trailerpartsnz.com": BowmarkSiteTools_921614d236;
   "trailforks.com": BowmarkSiteTools_63dc547772;
+  "trailhiking.com.au": BowmarkSiteTools_db1d4444f2;
   "trails-end.com": BowmarkSiteTools_921614d236;
   "trailseven.com": BowmarkSiteTools_921614d236;
   "trailsplits.com": BowmarkSiteTools_95521c5955;
@@ -505536,9 +506633,10 @@ interface BowmarkSites {
   "trendgallery.co.uk": BowmarkSiteTools_921614d236;
   "trendia.co": BowmarkSiteTools_e8ae28a971;
   "trendingcustom.com": BowmarkSiteTools_921614d236;
+  "trendmoebel24.de": BowmarkSiteTools_921614d236;
   "trendollajewelry.com": BowmarkSiteTools_921614d236;
   "trendphoria.com": BowmarkSiteTools_921614d236;
-  "trendytree.com": BowmarkSiteTools_921614d236;
+  "trendytree.com": BowmarkSiteTools_1a8e16d918;
   "trendzjewellery.in": BowmarkSiteTools_921614d236;
   "trenery.com.au": BowmarkSiteTools_e8ae28a971;
   "treselite.com": BowmarkSiteTools_921614d236;
@@ -505556,6 +506654,7 @@ interface BowmarkSites {
   "trillboards.com": BowmarkSiteTools_5727838282;
   "trinaturk.com": BowmarkSiteTools_e8ae28a971;
   "trincos.com": BowmarkSiteTools_921614d236;
+  "trineday.com": BowmarkSiteTools_921614d236;
   "trinnylondon.com": BowmarkSiteTools_921614d236;
   "trip-mile.com": BowmarkSiteTools_55b461da9d;
   "tripleaughtdesign.com": BowmarkSiteTools_921614d236;
@@ -505618,7 +506717,7 @@ interface BowmarkSites {
   "trycreate.co": BowmarkSiteTools_921614d236;
   "tryfascial.com": BowmarkSiteTools_921614d236;
   "tryfum.com": BowmarkSiteTools_921614d236;
-  "trygraymatter.com": BowmarkSiteTools_1a8e16d918;
+  "trygraymatter.com": BowmarkSiteTools_921614d236;
   "trykivora.co": BowmarkSiteTools_921614d236;
   "tryledisa.com": BowmarkSiteTools_921614d236;
   "tryluxelight.com": BowmarkSiteTools_921614d236;
@@ -505637,6 +506736,7 @@ interface BowmarkSites {
   "tsikot.com": BowmarkSiteTools_2556a54d71;
   "tsportline.com": BowmarkSiteTools_921614d236;
   "tsprof.asia": BowmarkSiteTools_921614d236;
+  "tssprofessionals.com": BowmarkSiteTools_921614d236;
   "tsuchiya-kaban-global.com": BowmarkSiteTools_921614d236;
   "tsuchiya-kaban.com": BowmarkSiteTools_921614d236;
   "tsuchiya-kaban.jp": BowmarkSiteTools_e8ae28a971;
@@ -505692,6 +506792,7 @@ interface BowmarkSites {
   "tvstoreonline.com": BowmarkSiteTools_921614d236;
   "tvwikilnk.org": BowmarkSiteTools_6b5fef3fa1;
   "tvwikilnk1.org": BowmarkSiteTools_ccaeb29e43;
+  "tvzoneuk.com": BowmarkSiteTools_75c9e65718;
   "twc.health": BowmarkSiteTools_1a8e16d918;
   "twelveboardstore.com.au": BowmarkSiteTools_921614d236;
   "twelvesouth.com": BowmarkSiteTools_921614d236;
@@ -505745,7 +506846,7 @@ interface BowmarkSites {
   "uhs-hardware.com": BowmarkSiteTools_921614d236;
   "ui-skills.com": BowmarkSiteTools_c393fe63f5;
   "ukflooringdirect.co.uk": BowmarkSiteTools_e8ae28a971;
-  "uklash.com": BowmarkSiteTools_1a8e16d918;
+  "uklash.com": BowmarkSiteTools_921614d236;
   "ukmedi.co.uk": BowmarkSiteTools_921614d236;
   "ukradiators.com": BowmarkSiteTools_921614d236;
   "ukrainealarm.com": BowmarkSiteTools_115d4eac7c;
@@ -505776,9 +506877,10 @@ interface BowmarkSites {
   "underarmour.cl": BowmarkSiteTools_921614d236;
   "underarmour.com.co": BowmarkSiteTools_1a8e16d918;
   "underd0g.com": BowmarkSiteTools_e8ae28a971;
-  "underneat.in": BowmarkSiteTools_1a8e16d918;
+  "underneat.in": BowmarkSiteTools_e8ae28a971;
   "underoutfit.com": BowmarkSiteTools_921614d236;
   "underthehood.co.in": BowmarkSiteTools_921614d236;
+  "underyours.com": BowmarkSiteTools_921614d236;
   "undiemeister.com": BowmarkSiteTools_921614d236;
   "undrdog.com": BowmarkSiteTools_1a8e16d918;
   "uneed.best": BowmarkSiteTools_ac1128abb8;
@@ -505794,6 +506896,7 @@ interface BowmarkSites {
   "uniform4kids.com": BowmarkSiteTools_921614d236;
   "unihertz.com": BowmarkSiteTools_921614d236;
   "unihosted.com": BowmarkSiteTools_b10196ecab;
+  "unikeyboards.com": BowmarkSiteTools_921614d236;
   "unimart.com": BowmarkSiteTools_e8ae28a971;
   "unimaticwatches.com": BowmarkSiteTools_921614d236;
   "unionbindingcompany.com": BowmarkSiteTools_921614d236;
@@ -505836,6 +506939,7 @@ interface BowmarkSites {
   "unze.com.pk": BowmarkSiteTools_921614d236;
   "uooyaa.com": BowmarkSiteTools_921614d236;
   "uoozee.com": BowmarkSiteTools_921614d236;
+  "up-next.com.hk": BowmarkSiteTools_e8ae28a971;
   "upandrunning.co.uk": BowmarkSiteTools_921614d236;
   "upassurine.com": BowmarkSiteTools_921614d236;
   "upaupatahiti.com": BowmarkSiteTools_921614d236;
@@ -505912,6 +507016,7 @@ interface BowmarkSites {
   "uspoloassn.in": BowmarkSiteTools_1a8e16d918;
   "usshoppingsos.com": BowmarkSiteTools_921614d236;
   "ussolarsupplier.com": BowmarkSiteTools_921614d236;
+  "ussolid.com": BowmarkSiteTools_921614d236;
   "uswalldecor.com": BowmarkSiteTools_921614d236;
   "uswatersystems.com": BowmarkSiteTools_921614d236;
   "utilitygift.co.uk": BowmarkSiteTools_1a8e16d918;
@@ -505961,13 +507066,14 @@ interface BowmarkSites {
   "vanitysklep.pl": BowmarkSiteTools_e8ae28a971;
   "vanness1938.com": BowmarkSiteTools_e8ae28a971;
   "vans.cl": BowmarkSiteTools_921614d236;
-  "vans.com.co": BowmarkSiteTools_1a8e16d918;
+  "vans.com.co": BowmarkSiteTools_921614d236;
   "vanswarpedtour.com": BowmarkSiteTools_ffdbfe9e15;
   "vantrue.com": BowmarkSiteTools_1a8e16d918;
   "vanya.pk": BowmarkSiteTools_921614d236;
   "vapeciga.com": BowmarkSiteTools_921614d236;
   "vapedubailess.com": BowmarkSiteTools_e8ae28a971;
   "vapesonline.de": BowmarkSiteTools_921614d236;
+  "vapor.com": BowmarkSiteTools_921614d236;
   "vaporauthority.com": BowmarkSiteTools_921614d236;
   "vapordna.com": BowmarkSiteTools_1a8e16d918;
   "vaporesso.com": BowmarkSiteTools_921614d236;
@@ -505987,14 +507093,14 @@ interface BowmarkSites {
   "vbeltguys.com": BowmarkSiteTools_921614d236;
   "vcam.ai": BowmarkSiteTools_dbce030a13;
   "vdsinstrumenten.com": BowmarkSiteTools_e8ae28a971;
-  "vdsinstrumenten.nl": BowmarkSiteTools_e8ae28a971;
+  "vdsinstrumenten.nl": BowmarkSiteTools_1a8e16d918;
   "vdsinstrumenten.se": BowmarkSiteTools_e8ae28a971;
   "vectorstock.com": BowmarkSiteTools_65e98e2105;
   "vedaoils.com": BowmarkSiteTools_921614d236;
   "vedi-express.com": BowmarkSiteTools_2ff297f358;
   "vedix.com": BowmarkSiteTools_e8ae28a971;
   "vedress.com": BowmarkSiteTools_921614d236;
-  "vedsanjeevani.com": BowmarkSiteTools_1a8e16d918;
+  "vedsanjeevani.com": BowmarkSiteTools_921614d236;
   "veeralai.com": BowmarkSiteTools_71d51d6fe1;
   "veg.com": BowmarkSiteTools_0966bf74c9;
   "vegaauto.com": BowmarkSiteTools_921614d236;
@@ -506228,7 +507334,7 @@ interface BowmarkSites {
   "voluspa.com": BowmarkSiteTools_e8ae28a971;
   "vom-achterhof.de": BowmarkSiteTools_921614d236;
   "vomfass.de": BowmarkSiteTools_e8ae28a971;
-  "vondutch.com": BowmarkSiteTools_1a8e16d918;
+  "vondutch.com": BowmarkSiteTools_921614d236;
   "vonessendesign.se": BowmarkSiteTools_921614d236;
   "vontaro.de": BowmarkSiteTools_921614d236;
   "vooks.com": BowmarkSiteTools_c2683eacba;
@@ -506299,6 +507405,7 @@ interface BowmarkSites {
   "wallshoppe.com": BowmarkSiteTools_e8ae28a971;
   "walmye.com": BowmarkSiteTools_921614d236;
   "walthers.com": BowmarkSiteTools_e8ae28a971;
+  "waltons.co.uk": BowmarkSiteTools_921614d236;
   "waltscomicshop.com": BowmarkSiteTools_921614d236;
   "wananluxury.com": BowmarkSiteTools_921614d236;
   "wanchain.org": BowmarkSiteTools_f83afd440b;
@@ -506373,7 +507480,7 @@ interface BowmarkSites {
   "wbbarber.com": BowmarkSiteTools_e8ae28a971;
   "wbshop.com": BowmarkSiteTools_921614d236;
   "wcosmetics.com.au": BowmarkSiteTools_921614d236;
-  "wcsaunas.com": BowmarkSiteTools_e8ae28a971;
+  "wcsaunas.com": BowmarkSiteTools_1a8e16d918;
   "weadultshop.com": BowmarkSiteTools_921614d236;
   "wealthenhancement.com": BowmarkSiteTools_717d4aedeb;
   "wear2work.nl": BowmarkSiteTools_921614d236;
@@ -506456,13 +507563,14 @@ interface BowmarkSites {
   "weston.com.sg": BowmarkSiteTools_921614d236;
   "westportbigandtall.com": BowmarkSiteTools_921614d236;
   "westside.com": BowmarkSiteTools_921614d236;
-  "wetforher.com": BowmarkSiteTools_1a8e16d918;
+  "wetforher.com": BowmarkSiteTools_921614d236;
   "wethepeopleholsters.com": BowmarkSiteTools_921614d236;
   "wetnwildbeauty.com": BowmarkSiteTools_921614d236;
   "wetsuitcentre.co.uk": BowmarkSiteTools_e8ae28a971;
   "wexor.tv": BowmarkSiteTools_921614d236;
   "wforwoman.com": BowmarkSiteTools_921614d236;
   "wgcshop.com": BowmarkSiteTools_921614d236;
+  "whacksports.com.au": BowmarkSiteTools_e8ae28a971;
   "whaleapp.com": BowmarkSiteTools_cfba24338e;
   "whatjobs.com": BowmarkSiteTools_74fe818f75;
   "whatsmenu.com.br": BowmarkSiteTools_29ee69eb77;
@@ -506472,6 +507580,7 @@ interface BowmarkSites {
   "wheelwarehouse.com": BowmarkSiteTools_e8ae28a971;
   "wheelwiz.ca": BowmarkSiteTools_921614d236;
   "whentheadultschange.com": BowmarkSiteTools_8ef7e47516;
+  "whif.com.au": BowmarkSiteTools_921614d236;
   "whiffculture.com": BowmarkSiteTools_921614d236;
   "whipplesuperchargers.com": BowmarkSiteTools_921614d236;
   "whistlefish.com": BowmarkSiteTools_e8ae28a971;
@@ -506481,18 +507590,21 @@ interface BowmarkSites {
   "whitefoxboutique.co.uk": BowmarkSiteTools_921614d236;
   "whitefoxboutique.com": BowmarkSiteTools_1a8e16d918;
   "whitefoxboutique.com.au": BowmarkSiteTools_921614d236;
+  "whitemood.it": BowmarkSiteTools_921614d236;
   "whitemountainpuzzles.com": BowmarkSiteTools_921614d236;
   "whiteoakpastures.com": BowmarkSiteTools_e8ae28a971;
-  "whiterainbookhouse.com": BowmarkSiteTools_921614d236;
+  "whiterainbookhouse.com": BowmarkSiteTools_1a8e16d918;
   "whiterosehobbies.com": BowmarkSiteTools_e8ae28a971;
   "whitesboots.com": BowmarkSiteTools_921614d236;
   "whittard.com": BowmarkSiteTools_e8ae28a971;
+  "whogivesacrap.org": BowmarkSiteTools_921614d236;
   "whoisfreaks.com": BowmarkSiteTools_ef7d283298;
   "wholefoodearth.com": BowmarkSiteTools_921614d236;
   "wholelattelove.com": BowmarkSiteTools_921614d236;
   "wholesale-city.com": BowmarkSiteTools_921614d236;
   "wholesalefashiontrends.com": BowmarkSiteTools_921614d236;
   "wholesalejewelrywebsite.com": BowmarkSiteTools_921614d236;
+  "wholesaleprintables.com": BowmarkSiteTools_921614d236;
   "wholesalesuppliesplus.com": BowmarkSiteTools_921614d236;
   "whoopea.com": BowmarkSiteTools_921614d236;
   "whoppah.com": BowmarkSiteTools_27a3b89e89;
@@ -506501,6 +507613,7 @@ interface BowmarkSites {
   "wibi.com.kw": BowmarkSiteTools_e8ae28a971;
   "wiccancenter.com": BowmarkSiteTools_921614d236;
   "wickedbrick.com": BowmarkSiteTools_921614d236;
+  "wickedcushions.com": BowmarkSiteTools_921614d236;
   "wickedweasel.com": BowmarkSiteTools_e8ae28a971;
   "widefitshoes.co.uk": BowmarkSiteTools_e8ae28a971;
   "wifimedia.eu": BowmarkSiteTools_921614d236;
@@ -506681,7 +507794,7 @@ interface BowmarkSites {
   "wrogn.com": BowmarkSiteTools_921614d236;
   "wtaps.com": BowmarkSiteTools_921614d236;
   "wtb.com": BowmarkSiteTools_921614d236;
-  "wtflex.in": BowmarkSiteTools_921614d236;
+  "wtflex.in": BowmarkSiteTools_1a8e16d918;
   "wtsbooks.com": BowmarkSiteTools_921614d236;
   "wubenlight.com": BowmarkSiteTools_921614d236;
   "wuka.co.uk": BowmarkSiteTools_921614d236;
@@ -506723,6 +507836,7 @@ interface BowmarkSites {
   "xn--fleur-fsa.com": BowmarkSiteTools_921614d236;
   "xn--gewrzkontor-vhb.de": BowmarkSiteTools_e8ae28a971;
   "xn--hq1btu07ej3c53vhzcjwt.com": BowmarkSiteTools_bd309d6c6b;
+  "xo.store": BowmarkSiteTools_921614d236;
   "xodyrz.com": BowmarkSiteTools_71d51d6fe1;
   "xoticpc.com": BowmarkSiteTools_921614d236;
   "xoxowildhearts.com": BowmarkSiteTools_1a8e16d918;
@@ -506736,7 +507850,7 @@ interface BowmarkSites {
   "xtistore.com": BowmarkSiteTools_921614d236;
   "xtool.com": BowmarkSiteTools_921614d236;
   "xtool.eu": BowmarkSiteTools_921614d236;
-  "xtoolglobal.com": BowmarkSiteTools_921614d236;
+  "xtoolglobal.com": BowmarkSiteTools_1a8e16d918;
   "xtratuf.com": BowmarkSiteTools_921614d236;
   "xtrawine.com": BowmarkSiteTools_921614d236;
   "xtremexmartialarts.com": BowmarkSiteTools_921614d236;
@@ -506788,6 +507902,7 @@ interface BowmarkSites {
   "yfood.com": BowmarkSiteTools_921614d236;
   "ygiafy.com": BowmarkSiteTools_1a8e16d918;
   "ygwigs.com": BowmarkSiteTools_e8ae28a971;
+  "yiguotech.com": BowmarkSiteTools_921614d236;
   "yimbly.com": BowmarkSiteTools_921614d236;
   "yiume.com": BowmarkSiteTools_921614d236;
   "yogabars.in": BowmarkSiteTools_1a8e16d918;
@@ -506811,6 +507926,7 @@ interface BowmarkSites {
   "yosmart.com": BowmarkSiteTools_921614d236;
   "yotaxpedition.com": BowmarkSiteTools_921614d236;
   "you.com": BowmarkSiteTools_3986f4fd1f;
+  "youandallfashion.com": BowmarkSiteTools_921614d236;
   "youkey.com": BowmarkSiteTools_921614d236;
   "youknowwhos.co.uk": BowmarkSiteTools_921614d236;
   "youngfashionmind.de": BowmarkSiteTools_1a8e16d918;
@@ -506950,6 +508066,7 @@ interface BowmarkSites {
   "zozozon.com": BowmarkSiteTools_e8ae28a971;
   "zpacks.com": BowmarkSiteTools_921614d236;
   "zsupplyclothing.com": BowmarkSiteTools_921614d236;
+  "zubaidasonline.com": BowmarkSiteTools_921614d236;
   "zubairkhalid.com": BowmarkSiteTools_6afe7f3e5c;
   "zuckerschmuck.com": BowmarkSiteTools_921614d236;
   "zudio.com": BowmarkSiteTools_1a8e16d918;
@@ -507211,6 +508328,7 @@ interface BowmarkProviders {
   coast: BowmarkProvider_coast.Unit;
   code_claude_com: BowmarkProvider_code_claude_com.Unit;
   coingecko: BowmarkProvider_coingecko.Unit;
+  coinmarketcap: BowmarkProvider_coinmarketcap.Unit;
   compass_living: BowmarkProvider_compass_living.Unit;
   completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
   concur: BowmarkProvider_concur.Unit;
@@ -507751,6 +508869,7 @@ interface BowmarkProviders {
   soulcycle: BowmarkProvider_soulcycle.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   sourceforge: BowmarkProvider_sourceforge.Unit;
+  southwest: BowmarkProvider_southwest.Unit;
   spareroom: BowmarkProvider_spareroom.Unit;
   spectrum: BowmarkProvider_spectrum.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;
