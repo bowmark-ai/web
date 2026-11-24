@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d20aed768444b0ddc601c7b8f9106eeaeea0c4ee7c5f1d7df4246d64ff5d78a5
-# 99 capabilities, 966 providers, 5974 typed functions, 20 refused.
+# Manifest version: 5405dc58d9874d03b145fccd24d84b9ded3dd1efc340bef7bf11a39e767f4420
+# 99 capabilities, 966 providers, 5977 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7832,6 +7832,27 @@ class Prv_apnews_ApAuthorStory_Out(TypedDict):
     byline: str | None
     published: str | None
 
+class Prv_apnews_GetLiveUpdatesArgs_In(TypedDict):
+    url: str
+
+class Prv_apnews_ApLiveBlog_Out(TypedDict):
+    url: str
+    headline: str
+    description: str | None
+    started: str | None
+    ended: str | None
+    keywords: list[str]
+    updates: list[Prv_apnews_ApLiveUpdate_Out]
+
+class Prv_apnews_ApLiveUpdate_Out(TypedDict):
+    id: str | None
+    headline: str | None
+    time: str | None
+    posted: str | None
+    tag: str | None
+    authors: list[str]
+    text: str
+
 class Prv_apnews_GetPhotoGalleryArgs_In(TypedDict):
     url: str
 
@@ -13648,6 +13669,66 @@ class Prv_bookedin_BookedinClassSession_Out(TypedDict):
     localTime: str
     timeZone: str
     instructor: str | None
+
+class Prv_bookeo_BookeoBookSlotArgs_In(TypedDict):
+    shortName: str
+    productId: str
+    slot: Prv_bookeo_BookeoBookSlotArgs_In_slot_In
+    party: Prv_bookeo_BookeoBookSlotArgs_In_party_In
+    guest: Prv_bookeo_BookeoBookSlotArgs_In_guest_In
+
+class Prv_bookeo_BookeoBookSlotArgs_In_slot_In(TypedDict):
+    eventScheduleId: float
+    start: str
+    stop: str
+
+class Prv_bookeo_BookeoBookSlotArgs_In_party_In(TypedDict):
+    adults: float
+
+class Prv_bookeo_BookeoBookSlotArgs_In_guest_In(TypedDict):
+    firstName: str
+    lastName: str
+    email: str
+    phone: str
+
+class Prv_bookeo_BookeoBookSlotResult_Out(TypedDict):
+    productId: str
+    eventScheduleId: float
+    checkout: Prv_bookeo_BookeoCheckout_Out
+
+class Prv_bookeo_BookeoCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    account: Prv_bookeo_BookeoCheckout_Out_account_Out
+    summary: Prv_bookeo_BookeoCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_bookeo_BookeoCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_bookeo_BookeoCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_bookeo_BookeoCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_bookeo_BookeoCheckout_Out_summary_u0_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_bookeo_BookeoCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_bookeo_BookeoCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
 
 class Prv_bookeo_BookeoListMyBookingsArgs_In(TypedDict):
     shortName: str
@@ -50044,6 +50125,20 @@ class Prv_mayoclinic_MayoClinicSection_Out(TypedDict):
 
 class Prv_mayoclinic_getConditionTreatment_args_In(TypedDict):
     url: str
+
+class Prv_mayoclinic_getConditionDoctors_args_In(TypedDict):
+    url: str
+
+class Prv_mayoclinic_MayoClinicConditionDoctors_Out(TypedDict):
+    url: str
+    total: float | None
+    doctors: list[Prv_mayoclinic_MayoClinicConditionDoctors_Out_doctors_item_Out]
+
+class Prv_mayoclinic_MayoClinicConditionDoctors_Out_doctors_item_Out(TypedDict):
+    name: str
+    url: str
+    specialty: str | None
+    locations: list[str]
 
 class Prv_mayoclinic_listConditions_args_In(TypedDict):
     letter: str
@@ -89379,6 +89474,7 @@ class Prv_zen_planner_ZenPlannerStudio_Out(TypedDict):
 
 class Prv_zen_planner_ListScheduleSlotsArgs_In(TypedDict):
     slug: str
+    date: NotRequired[str]
 
 class Prv_zen_planner_ZenPlannerScheduleSlot_Out(TypedDict):
     appointmentId: str
@@ -94914,6 +95010,12 @@ class Prv_apnews(Protocol):
         (title, url, type, byline, published).
         """
 
+    async def getLiveUpdates(self, args: Prv_apnews_GetLiveUpdatesArgs_In, /) -> Prv_apnews_ApLiveBlog_Out:
+        """Reads one AP live blog by its apnews.com/live/<slug> url: headline, description,
+        coverage start and end, keywords and every update (headline, time, posted instant, tag,
+        authors, text), newest first.
+        """
+
     async def getPhotoGallery(self, args: Prv_apnews_GetPhotoGalleryArgs_In, /) -> Prv_apnews_ApPhotoGallery_Out:
         """Reads one AP photo gallery by its apnews.com/photo-gallery/... url: headline,
         photographer, dates, the caption text as paragraphs, and each photo's caption and image
@@ -98208,6 +98310,14 @@ class Prv_bookeo(Protocol):
     """Bookeo booking engine used by tour, activity and class operators: an operator's
     products, slot availability and guest booking up to the payment step.
     """
+
+    async def bookSlot(self, args: Prv_bookeo_BookeoBookSlotArgs_In, /) -> Prv_bookeo_BookeoBookSlotResult_Out:
+        """Walks the guest booking flow for one adult on a slot from getAvailability — prices it,
+        saves the guest's name, email and phone — and stops at the operator's payment page,
+        returning a checkout handoff (the operator's own page and the total due). Never submits
+        a card or Pay later, so nothing is confirmed or charged; a free total throws (that step
+        is unmeasured).
+        """
 
     async def listMyBookings(self, args: Prv_bookeo_BookeoListMyBookingsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bookeo_BookeoMyBookings_Out:
         """Lists the signed-in caller's bookings with one operator from its Bookeo customer area
@@ -117730,6 +117840,12 @@ class Prv_mayoclinic(Protocol):
         """Gets a condition's Diagnosis and treatment page (diagnosis, treatment, self-care,
         preparing for an appointment) as titled text sections; any page URL of the condition
         works.
+        """
+
+    async def getConditionDoctors(self, args: Prv_mayoclinic_getConditionDoctors_args_In, /) -> Prv_mayoclinic_MayoClinicConditionDoctors_Out:
+        """Lists the Mayo Clinic doctors who treat a condition (the Doctors and departments tab,
+        first ten): each doctor's name, specialty, locations and profile URL; any page URL of
+        the condition works.
         """
 
     async def listConditions(self, args: Prv_mayoclinic_listConditions_args_In, /) -> list[Prv_mayoclinic_MayoClinicIndexRow_Out]:

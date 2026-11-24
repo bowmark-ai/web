@@ -1,5 +1,5 @@
 {
-  "version": "d20aed768444b0ddc601c7b8f9106eeaeea0c4ee7c5f1d7df4246d64ff5d78a5",
+  "version": "5405dc58d9874d03b145fccd24d84b9ded3dd1efc340bef7bf11a39e767f4420",
   "units": {
     "address_validation": {
       "defs": {
@@ -16332,6 +16332,18 @@
             }
           ]
         },
+        "GetLiveUpdatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPhotoGalleryArgs": {
           "k": "object",
           "props": [
@@ -16616,6 +16628,16 @@
             "optional": false
           }
         ],
+        "getLiveUpdates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetLiveUpdatesArgs"
+            },
+            "optional": false
+          }
+        ],
         "getPhotoGallery": [
           {
             "name": "args",
@@ -16638,21 +16660,22 @@
         ]
       },
       "digests": {
-        "listLatestNews": "98f7892edb9b0e79",
-        "getArticle": "1fad008aec0c180e",
-        "searchArticles": "ec129327b9e6cfe9",
-        "listSections": "dc1a2223de55a68f",
-        "listSectionArticles": "f275628210a88afb",
-        "listTopicArticles": "e21d71892b0ec37c",
-        "listFactChecks": "d8a364cadc5bf33f",
-        "listPodcasts": "d8a364cadc5bf33f",
-        "listPressReleases": "d8a364cadc5bf33f",
-        "listNewsletters": "a8d777e93a9f1f7a",
-        "listVideos": "a85b0d59c863c38f",
-        "getVideo": "94d08d2724f38239",
-        "getAuthor": "f3ec63e271541e0b",
-        "getPhotoGallery": "ea8cda16fe2f0f8a",
-        "getTodayInHistory": "25a3ac89a3078928"
+        "listLatestNews": "01c0a8d0acee91da",
+        "getArticle": "708f55e1c48c2b8b",
+        "searchArticles": "f8cb51943292b821",
+        "listSections": "1b3f99c96164f74d",
+        "listSectionArticles": "ba27bbbff273d382",
+        "listTopicArticles": "f5a63e51dfff1e4d",
+        "listFactChecks": "3e8458ac7c6f9655",
+        "listPodcasts": "3e8458ac7c6f9655",
+        "listPressReleases": "3e8458ac7c6f9655",
+        "listNewsletters": "a932d43718a98631",
+        "listVideos": "e849be62d698f38d",
+        "getVideo": "2d15f9ec61eebde9",
+        "getAuthor": "dfad05c903fe5f7b",
+        "getLiveUpdates": "3ff621ef9c9790ed",
+        "getPhotoGallery": "4ab95dfd96a08b0e",
+        "getTodayInHistory": "9ca20b11f802fbb0"
       }
     },
     "providers.app_store": {
@@ -28609,6 +28632,108 @@
     },
     "providers.bookeo": {
       "defs": {
+        "BookeoBookSlotArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "shortName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "slot",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "eventScheduleId",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "start",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "stop",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "party",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "adults",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "guest",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "firstName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "lastName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "email",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "phone",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "BookeoFindOperatorArgs": {
           "k": "object",
           "props": [
@@ -28762,6 +28887,16 @@
         }
       },
       "functions": {
+        "bookSlot": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookeoBookSlotArgs"
+            },
+            "optional": false
+          }
+        ],
         "listMyBookings": [
           {
             "name": "args",
@@ -28850,13 +28985,14 @@
         ]
       },
       "digests": {
-        "listMyBookings": "c68cb55a6b7a20b7",
-        "findOperator": "7be7e9773eccdffd",
-        "listProducts": "8e4a54811c6087fb",
-        "getAvailability": "52836ec64bc87c15",
-        "getProduct": "5ecac23033f3d897",
-        "getPriceQuote": "a19079c1be167ea2",
-        "listGroupOperators": "7129f4d71832b459"
+        "bookSlot": "07ac348fad6ba2cc",
+        "listMyBookings": "635e9e3352952824",
+        "findOperator": "02a00f4eb157b584",
+        "listProducts": "f6407b89caab592e",
+        "getAvailability": "5469bdf879be4634",
+        "getProduct": "7f991398f59988a9",
+        "getPriceQuote": "e6305189a0bfb58d",
+        "listGroupOperators": "629c1008f67d8a6b"
       }
     },
     "providers.booker": {
@@ -108779,6 +108915,24 @@
             "optional": false
           }
         ],
+        "getConditionDoctors": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listConditions": [
           {
             "name": "args",
@@ -109172,29 +109326,30 @@
         ]
       },
       "digests": {
-        "search": "b1a88b608c3a89e6",
-        "getCondition": "8ee55de231a460a0",
-        "getConditionTreatment": "8ee55de231a460a0",
-        "listConditions": "80187d4021f8301c",
-        "listSymptoms": "8bf5dd9810879931",
-        "getSymptom": "8ee55de231a460a0",
-        "listDrugs": "8bf5dd9810879931",
-        "getDrug": "069ba16e4f1e0d38",
-        "listTests": "80187d4021f8301c",
-        "getTest": "8ee55de231a460a0",
-        "findDoctors": "5245542536b5bde1",
-        "getDoctor": "7036807b31949b1d",
-        "listSupplements": "f8c9a535919f5b06",
-        "getSupplement": "8ee55de231a460a0",
-        "listFirstAid": "f8c9a535919f5b06",
-        "getFirstAid": "8ee55de231a460a0",
-        "listSymptomCheckerSymptoms": "f8c9a535919f5b06",
-        "getSymptomCheckerFactors": "daacbee0fc38d1f8",
-        "checkSymptom": "229cec08ab9b2493",
-        "listLifestyleTopics": "f8c9a535919f5b06",
-        "listLifestyleArticles": "63d996afaca0a614",
-        "getArticle": "8ee55de231a460a0",
-        "searchSite": "15a3c42c02a08a4e"
+        "search": "6d1b2c11b85c5e83",
+        "getCondition": "2d45549510fd47da",
+        "getConditionTreatment": "2d45549510fd47da",
+        "getConditionDoctors": "ad48025798124d1a",
+        "listConditions": "1a20b97176a1953b",
+        "listSymptoms": "7d576ed589e0eeff",
+        "getSymptom": "2d45549510fd47da",
+        "listDrugs": "7d576ed589e0eeff",
+        "getDrug": "df3213bc524445fe",
+        "listTests": "1a20b97176a1953b",
+        "getTest": "2d45549510fd47da",
+        "findDoctors": "e720a27bb4a995ad",
+        "getDoctor": "dfb0e6fc686d2ee8",
+        "listSupplements": "42c236b16dd5ac8e",
+        "getSupplement": "2d45549510fd47da",
+        "listFirstAid": "42c236b16dd5ac8e",
+        "getFirstAid": "2d45549510fd47da",
+        "listSymptomCheckerSymptoms": "42c236b16dd5ac8e",
+        "getSymptomCheckerFactors": "a891784ce1dfc0a3",
+        "checkSymptom": "ca1ca77d14904add",
+        "listLifestyleTopics": "42c236b16dd5ac8e",
+        "listLifestyleArticles": "c98da493c7fc07f2",
+        "getArticle": "2d45549510fd47da",
+        "searchSite": "3b27161b70717257"
       }
     },
     "providers.mcdonalds": {
@@ -197145,6 +197300,13 @@
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -197433,19 +197595,19 @@
         ]
       },
       "digests": {
-        "findStudio": "60bc0209af88527e",
-        "listScheduleSlots": "6c553973e37407b2",
-        "listClasses": "470b27e08d9fb976",
-        "searchSchedule": "db20bb8d328fe19b",
-        "getClassDetails": "0a68573aa84e0882",
-        "listPackages": "6daae01244ce124c",
-        "getPrice": "c6ba9d90b21a2165",
-        "listMyBookings": "27b2a6c905d7afc0",
-        "bookClass": "220e97cf992f15c4",
-        "cancelBooking": "12a9a0aa874ea7c6",
-        "getMemberInfo": "8ab2df33b7e2db7b",
-        "updateMemberInfo": "e9bfa682757ac598",
-        "getMembershipStatus": "8ab2df33b7e2db7b"
+        "findStudio": "d78b70b7e141612d",
+        "listScheduleSlots": "d0a748aa733120e5",
+        "listClasses": "b838e9a2eca61a01",
+        "searchSchedule": "a092766ae56b3650",
+        "getClassDetails": "aa6236d21b6756dc",
+        "listPackages": "5062e4fb02b20c71",
+        "getPrice": "9ea63d08ff0af6fa",
+        "listMyBookings": "91f92006ee3f86df",
+        "bookClass": "5f70c37b72192c91",
+        "cancelBooking": "70de8adf2eed89b8",
+        "getMemberInfo": "e8f53623fc98992a",
+        "updateMemberInfo": "b22c8a31e137335a",
+        "getMembershipStatus": "e8f53623fc98992a"
       }
     },
     "providers.zennioptical": {
