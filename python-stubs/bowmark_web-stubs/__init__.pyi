@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e3ed0e7ebd83ef83e0f91d3ef8b6b1d88c30ea6515a1cde743de9689580f8379
-# 99 capabilities, 962 providers, 5943 typed functions, 20 refused.
+# Manifest version: 692f6bc20110afbe6e133db9c7e7c59367cc40229cb3246a5a5609e8648c6320
+# 99 capabilities, 962 providers, 5948 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -43367,6 +43367,22 @@ class Prv_instacart_InstacartDeliveryEstimate_Out(TypedDict):
     etaSeconds: float | None
     etaString: str | None
 
+class Prv_instacart_InstacartSearchProductsArgs_In(TypedDict):
+    query: str
+    shopId: str
+    postalCode: str
+    latitude: float
+    longitude: float
+    maxResults: NotRequired[float]
+
+class Prv_instacart_searchProducts_return_Out(TypedDict):
+    results: list[Prv_instacart_InstacartItem_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
 class Prv_instacart_InstacartSuggestSearchesArgs_In(TypedDict):
     query: str
     shopId: str
@@ -49961,6 +49977,9 @@ class Prv_mayoclinic_listFirstAid_args_In(TypedDict):
 
 class Prv_mayoclinic_getFirstAid_args_In(TypedDict):
     url: str
+
+class Prv_mayoclinic_listSymptomCheckerSymptoms_args_In(TypedDict):
+    page: NotRequired[float]
 
 class Prv_mayoclinic_listLifestyleTopics_args_In(TypedDict):
     page: NotRequired[float]
@@ -84910,6 +84929,25 @@ class Prv_whatsapp_WhatsappChannelReaction_Out(TypedDict):
     emoji: str
     reacted: bool
 
+class Prv_whatsapp_WhatsappChatExport_Out(TypedDict):
+    chat: str
+    withMedia: bool
+    text: str
+
+class Prv_whatsapp_postStatusMedia_file_In(TypedDict):
+    name: str
+    mimeType: str
+    contentBase64: str
+
+class Prv_whatsapp_WhatsappStatusMediaPosted_Out(TypedDict):
+    posted: bool
+    caption: str | None
+
+class Prv_whatsapp_WhatsappGroupAddedToCommunity_Out(TypedDict):
+    community: str
+    group: str
+    added: bool
+
 class Prv_whatsapp_WhatsappCall_Out(TypedDict):
     name: str
     direction: str
@@ -113015,6 +113053,11 @@ class Prv_instacart(Protocol):
         service fees need the caller's own saved address and are not returned.
         """
 
+    async def searchProducts(self, args: Prv_instacart_InstacartSearchProductsArgs_In, /) -> Prv_instacart_searchProducts_return_Out:
+        """Searches one store's catalogue at a location ("eggs" at Costco) and returns the matching
+        products with name, size, price, sale price, unit price, stock status and item id.
+        """
+
     async def suggestSearches(self, args: Prv_instacart_InstacartSuggestSearchesArgs_In, /) -> list[Prv_instacart_InstacartSearchSuggestion_Out]:
         """Returns Instacart's search-as-you-type suggestions for a partial query at one store
         ("chee" → "cheez its", "cheese", "cheetos").
@@ -117274,6 +117317,11 @@ class Prv_mayoclinic(Protocol):
     async def getFirstAid(self, args: Prv_mayoclinic_getFirstAid_args_In, /) -> Prv_mayoclinic_MayoClinicConditionPage_Out:
         """Gets a first-aid page (overview, when to get emergency help, treatment, what to avoid,
         when to call your doctor) as titled text sections; url comes from listFirstAid.
+        """
+
+    async def listSymptomCheckerSymptoms(self, args: Prv_mayoclinic_listSymptomCheckerSymptoms_args_In, /) -> Prv_mayoclinic_MayoClinicIndexPage_Out:
+        """Lists the adult symptoms Mayo Clinic's Symptom Checker accepts, with name and the
+        related-factors URL each is checked under.
         """
 
     async def listLifestyleTopics(self, args: Prv_mayoclinic_listLifestyleTopics_args_In, /) -> Prv_mayoclinic_MayoClinicIndexPage_Out:
@@ -134559,11 +134607,13 @@ class Prv_whatsapp(Protocol):
         displayed name once it opens. Needs the caller signed in.
         """
 
-    async def getChatMessages(self, chatName: str, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappMessage_Out]:
-        """Reads the messages WhatsApp Web's own conversation panel currently renders for one chat,
-        opened by its exact displayed name (from listChats or findContact): each message's id,
-        sender, timestamp, text, type, quoted message and reactions, oldest to newest. No
-        scroll-back paging this pass. Needs the caller signed in.
+    async def getChatMessages(self, chatName: str, scrollBack: float | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappMessage_Out]:
+        """Reads the messages WhatsApp Web's own conversation panel renders for one chat, opened by
+        its exact displayed name (from listChats or findContact): each message's id, sender,
+        timestamp, text, type, quoted message and reactions, oldest to newest. Pass scrollBack
+        (0 to 20) to page up through older messages first; paging stops when the start of the
+        history is loaded, and there is no date bound, so read the timestamps for a window.
+        Needs the caller signed in.
         """
 
     async def downloadMedia(self, chatName: str, messageId: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMedia_Out:
@@ -134650,10 +134700,12 @@ class Prv_whatsapp(Protocol):
         in.
         """
 
-    async def sendMessage(self, chatName: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMessage_Out:
+    async def sendMessage(self, chatName: str, text: str, mentions: Sequence[str] | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMessage_Out:
         """Sends a text message as the caller to a chat opened by its exact displayed name (from
-        listChats or findContact), and returns the sent row's id and time label. A retried run
-        never sends twice. Needs the caller signed in.
+        listChats or findContact), and returns the sent row's id and time label. Pass mentions
+        (group members' displayed names) and put "@Name" in the text to notify them: each is
+        picked from the mention list, and a name the text does not contain is refused. A retried
+        run never sends twice. Needs the caller signed in.
         """
 
     async def sendMessageToNumber(self, phone: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMessage_Out:
@@ -134663,10 +134715,12 @@ class Prv_whatsapp(Protocol):
         twice. Needs the caller signed in.
         """
 
-    async def sendMedia(self, chatName: str, file: Prv_whatsapp_sendMedia_file_In, caption: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMedia_Out:
+    async def sendMedia(self, chatName: str, file: Prv_whatsapp_sendMedia_file_In, caption: str | None = None, viewOnce: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMedia_Out:
         """Sends a file as the caller to a chat opened by its exact displayed name: an image or
         video with an optional caption, or a document. The file is passed as base64 with its
-        name and MIME type. Returns the sent row's id and time label; a retried run never sends
+        name and MIME type. Pass viewOnce true to send a photo or video the recipient can open a
+        single time (a document cannot be view once, and a preview without the view-once control
+        sends nothing). Returns the sent row's id and time label; a retried run never sends
         twice. Needs the caller signed in.
         """
 
@@ -134808,6 +134862,22 @@ class Prv_whatsapp(Protocol):
     async def reactToChannelUpdate(self, channelName: str, updateId: str, emoji: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelReaction_Out:
         """Reacts with an emoji to one update of a Channel the caller follows, the update picked by
         the id getChannelUpdates returns. Needs the caller signed in.
+        """
+
+    async def exportChat(self, chatName: str, withMedia: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChatExport_Out:
+        """Exports one chat's whole history as text from the chat menu, the chat picked by its
+        exact displayed name, and returns the text; media is left out unless withMedia is true.
+        Needs the caller signed in.
+        """
+
+    async def postStatusMedia(self, file: Prv_whatsapp_postStatusMedia_file_In, caption: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappStatusMediaPosted_Out:
+        """Posts a photo or video Status, passed as base64 with its name and MIME type, with an
+        optional caption. The caller's contacts see it for 24 hours. Needs the caller signed in.
+        """
+
+    async def addGroupToCommunity(self, communityName: str, groupName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupAddedToCommunity_Out:
+        """Adds a group the caller administers, picked by its exact displayed name, to a Community
+        the caller belongs to, picked by its exact displayed name. Needs the caller signed in.
         """
 
     async def listCalls(self, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappCall_Out]:
