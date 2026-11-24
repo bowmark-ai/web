@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 692f6bc20110afbe6e133db9c7e7c59367cc40229cb3246a5a5609e8648c6320
-# 99 capabilities, 962 providers, 5948 typed functions, 20 refused.
+# Manifest version: be8a84cf52ef97a5c60b9939b7a304eb46f9bf3ced4bca5eea64b3671661edd2
+# 99 capabilities, 963 providers, 5952 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -46694,11 +46694,26 @@ class Prv_lasikplus_LasikPlusDaySlots_Out(TypedDict):
     date: str
     times: list[str]
 
-class Prv_latimes_BrowseSectionArgs_In(TypedDict):
-    section: NotRequired[str]
+class Prv_latimes_SectionList_Out(TypedDict):
+    sections: list[Prv_latimes_NavSection_Out]
+
+class Prv_latimes_NavSection_Out(TypedDict):
+    name: str
+    path: str
+    kind: Literal["section"] | Literal["topic"] | Literal["other"]
+
+class Prv_latimes_GetAuthorArgs_In(TypedDict):
+    author: str
     cursor: NotRequired[str]
 
-class Prv_latimes_StoryPage_Out(TypedDict):
+class Prv_latimes_Author_Out(TypedDict):
+    slug: str
+    name: str
+    jobTitle: str | None
+    bio: str | None
+    email: str | None
+    image: str | None
+    links: list[str]
     stories: list[Prv_latimes_Story_Out]
     nextCursor: str | None
     url: str
@@ -46711,6 +46726,22 @@ class Prv_latimes_Story_Out(TypedDict):
     byline: str | None
     publishedAt: str | None
     kind: str | None
+
+class Prv_latimes_ListHeadlinesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_latimes_HeadlineList_Out(TypedDict):
+    stories: list[Prv_latimes_Story_Out]
+    url: str
+
+class Prv_latimes_BrowseSectionArgs_In(TypedDict):
+    section: NotRequired[str]
+    cursor: NotRequired[str]
+
+class Prv_latimes_StoryPage_Out(TypedDict):
+    stories: list[Prv_latimes_Story_Out]
+    nextCursor: str | None
+    url: str
 
 class Prv_latimes_SearchArticlesArgs_In(TypedDict):
     query: str
@@ -51146,6 +51177,24 @@ class Prv_minimax_MinimaxDocPage_Out(TypedDict):
     url: str
     description: str | None
     content: str
+
+class Prv_mintmobile_MintMobilePlansOptions_In(TypedDict):
+    months: NotRequired[Literal[3] | Literal[6] | Literal[12] | None]
+
+class Prv_mintmobile_MintMobilePlan_Out(TypedDict):
+    productId: float
+    planId: str | None
+    sku: str
+    name: str
+    months: float
+    dataGb: float | None
+    unlimited: bool
+    priceUsd: float
+    regularPriceUsd: float
+    monthlyPriceUsd: float
+    onSale: bool
+    inStock: bool
+    url: str
 
 class Prv_mixbook_MixbookThemeResult_Out(TypedDict):
     name: str
@@ -114974,9 +115023,22 @@ class Prv_lasikplus(Protocol):
 
 class Prv_latimes(Protocol):
     """Los Angeles Times news: headlines, sections, search, full articles, writers, recipes,
-    restaurant guides, crosswords, newsletters (browseSection, searchArticles and getArticle
-    are built; the rest is queued).
+    restaurant guides, crosswords, newsletters (browseSection, listSections, listHeadlines,
+    getAuthor, searchArticles and getArticle are built; the rest is queued).
     """
+
+    async def listSections(self, /) -> Prv_latimes_SectionList_Out:
+        """Lists the site's navigation: every section and topic with its name and path (pass a path
+        to browseSection).
+        """
+
+    async def getAuthor(self, args: Prv_latimes_GetAuthorArgs_In, /) -> Prv_latimes_Author_Out:
+        """Reads a staff writer's page by slug (e.g. steve-lopez): name, role, bio, photo, social
+        links and their latest stories, paged by nextCursor.
+        """
+
+    async def listHeadlines(self, args: Prv_latimes_ListHeadlinesArgs_In | None = None, /) -> Prv_latimes_HeadlineList_Out:
+        """Lists the homepage's top headlines right now, newest first, with section and date."""
 
     async def browseSection(self, args: Prv_latimes_BrowseSectionArgs_In | None = None, /) -> Prv_latimes_StoryPage_Out:
         """Lists a section front's stories newest-first (section path such as "california" or
@@ -118072,6 +118134,16 @@ class Prv_minimax(Protocol):
         "prompt caching" — it is matched against the site's own docs index (title and url), and
         the matched page's full Markdown body is returned. Throws naming real page titles when
         nothing matches closely enough.
+        """
+
+class Prv_mintmobile(Protocol):
+    """Lists Mint Mobile's current phone plans (3, 6 and 12-month prepaid terms) with product
+    ids, SKUs, data amounts and prices.
+    """
+
+    async def listPlans(self, options: Prv_mintmobile_MintMobilePlansOptions_In, /) -> list[Prv_mintmobile_MintMobilePlan_Out]:
+        """Lists Mint Mobile's current phone plans (3, 6 and 12-month terms) with product id, SKU,
+        data amount, upfront and per-month price, and sale state, optionally for one term.
         """
 
 class Prv_mixbook(Protocol):
@@ -138181,6 +138253,7 @@ class BowmarkProviders(Protocol):
     millisaraylar: Prv_millisaraylar
     mindbodyonline: Prv_mindbodyonline
     minimax: Prv_minimax
+    mintmobile: Prv_mintmobile
     mixbook: Prv_mixbook
     mlb: Prv_mlb
     mobile_de: Prv_mobile_de

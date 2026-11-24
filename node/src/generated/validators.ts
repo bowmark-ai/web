@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 692f6bc20110afbe6e133db9c7e7c59367cc40229cb3246a5a5609e8648c6320
-// 5948 checked, 20 unchecked.
+// Manifest version: be8a84cf52ef97a5c60b9939b7a304eb46f9bf3ced4bca5eea64b3671661edd2
+// 5952 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "692f6bc20110afbe6e133db9c7e7c59367cc40229cb3246a5a5609e8648c6320",
+  "version": "be8a84cf52ef97a5c60b9939b7a304eb46f9bf3ced4bca5eea64b3671661edd2",
   "units": {
     "address_validation": {
       "defs": {
@@ -100496,6 +100496,37 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetAuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "author",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListHeadlinesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArticlesArgs": {
           "k": "object",
           "props": [
@@ -100517,6 +100548,27 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "listSections": [],
+        "getAuthor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAuthorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listHeadlines": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListHeadlinesArgs"
+            },
+            "optional": true
+          }
+        ],
         "browseSection": [
           {
             "name": "args",
@@ -100549,9 +100601,12 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "browseSection": "cae2a141b470e535",
-        "searchArticles": "069d331520193a92",
-        "getArticle": "bda391d858e55817"
+        "listSections": "efca643f5e2fd9a8",
+        "getAuthor": "8fa886922e12d80f",
+        "listHeadlines": "2ec8d887e9461549",
+        "browseSection": "1e29527a2a436204",
+        "searchArticles": "3f0e8bd28efb3cca",
+        "getArticle": "5e49b36a58cfea2e"
       }
     },
     "providers.launchpad": {
@@ -111981,6 +112036,54 @@ export const VALIDATORS: ValidatorTable = {
       },
       "digests": {
         "getDocs": "67fc01fa148d65fa"
+      }
+    },
+    "providers.mintmobile": {
+      "defs": {
+        "MintMobilePlansOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "months",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 3
+                  },
+                  {
+                    "k": "literal",
+                    "v": 6
+                  },
+                  {
+                    "k": "literal",
+                    "v": 12
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listPlans": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "MintMobilePlansOptions"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listPlans": "d604e660d7863955"
       }
     },
     "providers.mixbook": {
