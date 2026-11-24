@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: be8a84cf52ef97a5c60b9939b7a304eb46f9bf3ced4bca5eea64b3671661edd2
-# 99 capabilities, 963 providers, 5952 typed functions, 20 refused.
+# Manifest version: aefb140474a7336b6e2eafef21d6c24c81a7665dc6248a90de8e09c88bdd04f7
+# 99 capabilities, 964 providers, 5960 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24443,6 +24443,37 @@ class Prv_dblp_dblpAuthor_Out(TypedDict):
     publicationCount: float
     url: str
 
+class Prv_dc_medicaid_DcMedicaidSearchArgs_In(TypedDict):
+    name: NotRequired[str]
+    providerId: NotRequired[str]
+    city: NotRequired[str]
+    zip: NotRequired[str]
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+
+class Prv_dc_medicaid_DcMedicaidProviderSearch_Out(TypedDict):
+    total: float
+    page: float
+    pageSize: float
+    providers: list[Prv_dc_medicaid_DcMedicaidProvider_Out]
+
+class Prv_dc_medicaid_DcMedicaidProvider_Out(TypedDict):
+    providerId: str
+    entityId: str | None
+    name: str
+    designation: str | None
+    location: str | None
+    type: str | None
+    specialty: str | None
+    address: str | None
+    address2: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    phone: str | None
+    fax: str | None
+    email: str | None
+
 class Prv_deangroup_DeangroupProperty_Out(TypedDict):
     hotelId: float
     name: str
@@ -26359,6 +26390,29 @@ class Prv_discogs_DiscogsForumPost_Out(TypedDict):
     text: str | None
     url: str | None
 
+class Prv_discogs_DiscogsUser_Out(TypedDict):
+    id: float | None
+    username: str | None
+    name: str | None
+    location: str | None
+    homePage: str | None
+    profile: str | None
+    registered: str | None
+    numForSale: float | None
+    numCollection: float | None
+    numWantlist: float | None
+    numLists: float | None
+    releasesContributed: float | None
+    releasesRated: float | None
+    ratingAvg: float | None
+    sellerRating: float | None
+    sellerNumRatings: float | None
+    buyerRating: float | None
+    buyerNumRatings: float | None
+    currency: str | None
+    avatarUrl: str | None
+    url: str | None
+
 class Prv_discogs_DiscogsUserArgs_In(TypedDict):
     username: str
 
@@ -26388,29 +26442,6 @@ class Prv_discogs_DiscogsFeedbackEntry_Out(TypedDict):
     buyerRatingCount: float | None
     comment: str | None
     leftOn: str | None
-
-class Prv_discogs_DiscogsUser_Out(TypedDict):
-    id: float | None
-    username: str | None
-    name: str | None
-    location: str | None
-    homePage: str | None
-    profile: str | None
-    registered: str | None
-    numForSale: float | None
-    numCollection: float | None
-    numWantlist: float | None
-    numLists: float | None
-    releasesContributed: float | None
-    releasesRated: float | None
-    ratingAvg: float | None
-    sellerRating: float | None
-    sellerNumRatings: float | None
-    buyerRating: float | None
-    buyerNumRatings: float | None
-    currency: str | None
-    avatarUrl: str | None
-    url: str | None
 
 class Prv_discogs_DiscogsSellerInventoryArgs_In(TypedDict):
     username: str
@@ -71616,6 +71647,81 @@ class Prv_spotify_SpotifyTrack_Out_album_Out(TypedDict):
 class Prv_spotify_SpotifyTrack_Out_external_urls_Out(TypedDict):
     spotify: str
 
+class Prv_spotify_SpotifyAudioFeatures_Out(TypedDict):
+    id: str
+    duration_ms: float
+    tempo: float
+    key: float
+    mode: float
+    time_signature: float
+    danceability: float
+    energy: float
+    loudness: float
+    speechiness: float
+    acousticness: float
+    instrumentalness: float
+    liveness: float
+    valence: float
+
+class Prv_spotify_SpotifyAudioAnalysis_Out(TypedDict):
+    track: Prv_spotify_SpotifyAudioAnalysis_Out_track_Out
+    bars: list[Prv_spotify_SpotifyAudioAnalysis_Out_bars_item_Out]
+    beats: list[Prv_spotify_SpotifyAudioAnalysis_Out_beats_item_Out]
+    tatums: list[Prv_spotify_SpotifyAudioAnalysis_Out_tatums_item_Out]
+    sections: list[Prv_spotify_SpotifyAudioAnalysis_Out_sections_item_Out]
+    segments: list[Prv_spotify_SpotifyAudioAnalysis_Out_segments_item_Out]
+
+class Prv_spotify_SpotifyAudioAnalysis_Out_track_Out(TypedDict):
+    duration: float
+    loudness: float
+    tempo: float
+    tempo_confidence: float
+    key: float
+    key_confidence: float
+    mode: float
+    mode_confidence: float
+    time_signature: float
+    time_signature_confidence: float
+
+class Prv_spotify_SpotifyAudioAnalysis_Out_bars_item_Out(TypedDict):
+    start: float
+    duration: float
+    confidence: float
+
+class Prv_spotify_SpotifyAudioAnalysis_Out_beats_item_Out(TypedDict):
+    start: float
+    duration: float
+    confidence: float
+
+class Prv_spotify_SpotifyAudioAnalysis_Out_tatums_item_Out(TypedDict):
+    start: float
+    duration: float
+    confidence: float
+
+class Prv_spotify_SpotifyAudioAnalysis_Out_sections_item_Out(TypedDict):
+    start: float
+    duration: float
+    confidence: float
+    loudness: float
+    tempo: float
+    tempo_confidence: float
+    key: float
+    key_confidence: float
+    mode: float
+    mode_confidence: float
+    time_signature: float
+    time_signature_confidence: float
+
+class Prv_spotify_SpotifyAudioAnalysis_Out_segments_item_Out(TypedDict):
+    start: float
+    duration: float
+    confidence: float
+    loudness_start: float
+    loudness_max: float
+    loudness_max_time: float
+    pitches: list[float]
+    timbre: list[float]
+
 class Prv_spotify_SpotifyAlbum_Out(TypedDict):
     id: str
     name: str
@@ -81810,6 +81916,20 @@ class Prv_usps_uspsFaqArticle_Out(TypedDict):
     recordId: str
     lastPublished: str | None
 
+class Prv_usps_addToStoreCart_args_In(TypedDict):
+    url: str
+
+class Prv_usps_uspsStoreCart_Out(TypedDict):
+    productId: str
+    name: str
+    url: str
+    cart: Prv_usps_uspsStoreCart_Out_cart_Out
+
+class Prv_usps_uspsStoreCart_Out_cart_Out(TypedDict):
+    itemCount: float | None
+    subtotal: float | None
+    sku: str
+
 class Prv_usps_listStoreProducts_args_In(TypedDict):
     term: str
     limit: NotRequired[float]
@@ -84901,6 +85021,24 @@ class Prv_whatsapp_WhatsappChannelPost_Out(TypedDict):
     text: str
     id: str | None
     time: str | None
+
+class Prv_whatsapp_WhatsappJoinRequests_Out(TypedDict):
+    group: str
+    pending: list[str]
+    approved: list[str]
+    rejected: list[str]
+    notFound: list[str]
+
+class Prv_whatsapp_WhatsappSentGif_Out(TypedDict):
+    chat: str
+    query: str
+    id: str | None
+    time: str | None
+
+class Prv_whatsapp_WhatsappChannelEdit_Out(TypedDict):
+    channel: str
+    updateId: str
+    text: str
 
 class Prv_whatsapp_WhatsappBroadcastList_Out(TypedDict):
     name: str
@@ -90128,46 +90266,46 @@ class Cap_browser_agent(Protocol):
     `status(id).task`, so only for throwaway or demo accounts (but you can send new
     instructions to the same session with `send()` and the login persists). A standing watch
     or a daily job on a SIGNED-IN site is NOT a fit for this agent — say so and point at
-    what is. Signed-in pages: the user saves a login in Bowmark Buddy (bowmark.ai/link),
-    then `bowmark.read.page(url, { connection })` reads them for 7 days. An action on a
-    signed-in site, rather than a read, needs a typed provider with stored secrets. **NOT
-    FOR MOVING MONEY.** A trade or buy/sell order on a brokerage, a withdrawal, or a
-    transfer between accounts is out of scope, even on a login the user holds. A direct call
-    here is not code-blocked, so the refusal is the caller's to act on: tell the user it is
-    out of scope and stop. **WHEN it fits** (a lookup came back with nothing, or a function
-    failed on the site): it is billed per turn to your user's account — a typical 20-step
-    task costs roughly $2–$6 all in (budget $0.10–$0.30 per model turn; worked example on
-    the docs site's Pricing page, under 'Hosted browser agents'). That is a short task. A
-    checkout, any flow past 20 steps, or a run that retries or corrects a step costs more
-    than that figure. If your user asked you to get the thing done, `start({ task })` and in
-    the same reply tell them it is running, that it costs money, and give them the
-    `watchUrl`. A login only they hold does not stop it — they sign in themselves on the
-    live browser through that link, no saved credentials needed. **That sign-in is the real
-    site, under their real account — never a copy inside Bowmark's own browser.** Anything
-    it adds to a cart, saves to a wishlist or submits there is on their account on the real
-    site, exactly as if they had clicked it themselves, so it is there when they check out
-    or return to the site later in their own browser. Running in Bowmark's browser is about
-    WHERE the clicking happens, not where the result lives. **Either way, never leave it
-    unmentioned:** if you hold off for any reason, your reply must name this option — what
-    it would do, that it is billed, and that they can sign in on the live page — rather than
-    ending on a manual workaround alone. After `start` in one run, call `status(id)` from
-    LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps
-    working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
-    code gives up** — any client deadline shorter than that cuts off runs that were about to
-    finish. When `status` returns `needs_input`, relay `question` to your user and `send`
-    their answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop` a
-    session when done — an idle browser keeps costing money. **A turn that runs too long is
-    cancelled automatically:** Bowmark itself cuts off any turn stuck past a few minutes
-    with no result and reports status `failed` (see `error` for what it was last doing)
-    rather than leaving you polling forever — the session stays open, so `send` a narrower
-    instruction or `stop` it. **One task = one independent goal. Do not bundle multiple date
-    ranges, SKUs, or queries into one task — the agent may silently reuse a single search
-    result across all of them with no warning. Start separate sessions for each.** Reading
-    every row of ONE list under ONE filter (one date range on one orders page, paged) is one
-    goal, not a bundle; a few pages is ordinary, and how many one session gets through is
-    not measured, so test it on the target before relying on hundreds of rows. RUN-ONLY: a
-    typed session cannot call it — start in one run and poll status from later runs, never
-    in a loop.
+    what is. Signed-in pages: call `add_connection` with the domain; the user saves a login
+    in Bowmark Buddy, then use `bowmark.read.page(url, { connection })` for 7 days. An
+    action on a signed-in site, rather than a read, needs a typed provider with stored
+    secrets. **NOT FOR MOVING MONEY.** A trade or buy/sell order on a brokerage, a
+    withdrawal, or a transfer between accounts is out of scope, even on a login the user
+    holds. A direct call here is not code-blocked, so the refusal is the caller's to act on:
+    tell the user it is out of scope and stop. **WHEN it fits** (a lookup came back with
+    nothing, or a function failed on the site): it is billed per turn to your user's account
+    — a typical 20-step task costs roughly $2–$6 all in (budget $0.10–$0.30 per model turn;
+    worked example on the docs site's Pricing page, under 'Hosted browser agents'). That is
+    a short task. A checkout, any flow past 20 steps, or a run that retries or corrects a
+    step costs more than that figure. If your user asked you to get the thing done, `start({
+    task })` and in the same reply tell them it is running, that it costs money, and give
+    them the `watchUrl`. A login only they hold does not stop it — they sign in themselves
+    on the live browser through that link, no saved credentials needed. **That sign-in is
+    the real site, under their real account — never a copy inside Bowmark's own browser.**
+    Anything it adds to a cart, saves to a wishlist or submits there is on their account on
+    the real site, exactly as if they had clicked it themselves, so it is there when they
+    check out or return to the site later in their own browser. Running in Bowmark's browser
+    is about WHERE the clicking happens, not where the result lives. **Either way, never
+    leave it unmentioned:** if you hold off for any reason, your reply must name this option
+    — what it would do, that it is billed, and that they can sign in on the live page —
+    rather than ending on a manual workaround alone. After `start` in one run, call
+    `status(id)` from LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the
+    agent, which keeps working between them. **A normal task takes 1-3 minutes; give it up
+    to 5 before your own code gives up** — any client deadline shorter than that cuts off
+    runs that were about to finish. When `status` returns `needs_input`, relay `question` to
+    your user and `send` their answer. When it returns `idle`, read `result` and `stop(id)`.
+    Always `stop` a session when done — an idle browser keeps costing money. **A turn that
+    runs too long is cancelled automatically:** Bowmark itself cuts off any turn stuck past
+    a few minutes with no result and reports status `failed` (see `error` for what it was
+    last doing) rather than leaving you polling forever — the session stays open, so `send`
+    a narrower instruction or `stop` it. **One task = one independent goal. Do not bundle
+    multiple date ranges, SKUs, or queries into one task — the agent may silently reuse a
+    single search result across all of them with no warning. Start separate sessions for
+    each.** Reading every row of ONE list under ONE filter (one date range on one orders
+    page, paged) is one goal, not a bundle; a few pages is ordinary, and how many one
+    session gets through is not measured, so test it on the target before relying on
+    hundreds of rows. RUN-ONLY: a typed session cannot call it — start in one run and poll
+    status from later runs, never in a loop.
     """
 
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
@@ -90183,28 +90321,28 @@ class Cap_browser_agent(Protocol):
         the fast agent entirely, and read the `backend` field of the returned object to see
         which one ran. Not a watcher — it does not poll by itself; on a public page with no
         login or CAPTCHA a script can start and poll it unattended, while a login needs your
-        user present every run. Signed-in pages: the user saves a login in Bowmark Buddy
-        (bowmark.ai/link), then `bowmark.read.page(url, { connection })` reads them for 7 days.
-        Billed per turn: if your user already asked you to get the thing done, start it and in
-        the same reply tell them it is running, that it costs money, and give them `watchUrl` —
-        a login only they hold is signed in there, on the live page, as their real account on
-        the real site, so anything the agent then adds to a cart or saves is really on their
-        account rather than lost inside Bowmark's own browser. Otherwise tell them what it costs
-        and get a yes before you start it. Either way, never end on a manual workaround without
-        mentioning this option and its cost. **Same question, same answer:** for a lookup your
-        app repeats, put the exact search page's URL in `task`, not just the site — a site with
-        two ways to search can otherwise be entered differently each run and give two different
-        answers. **One session = one independent goal** — never bundle multiple date ranges,
-        SKUs or queries into one session; the agent silently reuses results across them. Start a
-        separate session for each distinct query. One list read in full under one filter, across
-        its pages, is ONE goal. Then `status(id)` from later runs (each `run()` is capped at
-        90s; the agent is not — a task normally takes 1-3 minutes, so do not give up on it
-        before 5); on `needs_input` relay `question` and `send` the answer; on `idle` read
-        `result` and `stop(id)`. A login persists for the life of the session, so later `send()`
-        calls into the same session do not need re-authentication. Always stop sessions when
-        done — idle browsers keep costing money. Account limit: 3 open sessions, counting ones
-        still starting — start 9 at once and 3 run while 6 are refused with the limit error, so
-        start at most 3 and `stop()` one before starting the next.
+        user present every run. Signed-in pages: call `add_connection` with the domain; the user
+        saves a login in Bowmark Buddy, then use `bowmark.read.page(url, { connection })` for 7
+        days. Billed per turn: if your user already asked you to get the thing done, start it
+        and in the same reply tell them it is running, that it costs money, and give them
+        `watchUrl` — a login only they hold is signed in there, on the live page, as their real
+        account on the real site, so anything the agent then adds to a cart or saves is really
+        on their account rather than lost inside Bowmark's own browser. Otherwise tell them what
+        it costs and get a yes before you start it. Either way, never end on a manual workaround
+        without mentioning this option and its cost. **Same question, same answer:** for a
+        lookup your app repeats, put the exact search page's URL in `task`, not just the site —
+        a site with two ways to search can otherwise be entered differently each run and give
+        two different answers. **One session = one independent goal** — never bundle multiple
+        date ranges, SKUs or queries into one session; the agent silently reuses results across
+        them. Start a separate session for each distinct query. One list read in full under one
+        filter, across its pages, is ONE goal. Then `status(id)` from later runs (each `run()`
+        is capped at 90s; the agent is not — a task normally takes 1-3 minutes, so do not give
+        up on it before 5); on `needs_input` relay `question` and `send` the answer; on `idle`
+        read `result` and `stop(id)`. A login persists for the life of the session, so later
+        `send()` calls into the same session do not need re-authentication. Always stop sessions
+        when done — idle browsers keep costing money. Account limit: 3 open sessions, counting
+        ones still starting — start 9 at once and 3 run while 6 are refused with the limit
+        error, so start at most 3 and `stop()` one before starting the next.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -103355,6 +103493,20 @@ class Prv_dblp(Protocol):
         count and profile url.
         """
 
+class Prv_dc_medicaid(Protocol):
+    """DC Medicaid (medicaid.dc.gov), the District of Columbia's Medicaid portal.
+    searchProviders finds enrolled Medicaid providers (doctors, counselors, clinics,
+    home-care workers) in the site's own provider directory by name, provider ID, city or
+    ZIP, with type, specialty and address.
+    """
+
+    async def searchProviders(self, args: Prv_dc_medicaid_DcMedicaidSearchArgs_In, /) -> Prv_dc_medicaid_DcMedicaidProviderSearch_Out:
+        """Search the DC Medicaid provider directory for enrolled providers by name ("LAST, FIRST"
+        or a clinic name), providerId, city or zip (at least one). Returns each provider's
+        Medicaid provider ID, name, type, specialty and address, paged (`page`, `pageSize` up to
+        100; the site caps a search at 500 matches).
+        """
+
 class Prv_deangroup(Protocol):
     """Searches Dean Group boutique hotels (Dublin, Cork, Galway, Berlin) and returns real
     availability, room/rate names and priced stays — the actual quote, not a from-price
@@ -104192,6 +104344,12 @@ class Prv_discogs(Protocol):
         """Read one Discogs forum thread by id (ids come from searchForum): title, section, who
         started it, and the posts with author, date and text (10 per page). Slow: it loads the
         thread page in a browser.
+        """
+
+    async def getMyIdentity(self, opts: ConnectionOption | None = None, /) -> Prv_discogs_DiscogsUser_Out:
+        """Read the signed-in caller's own Discogs profile (username, id, counts, seller rating) —
+        the door to every 'my collection / my wantlist / my orders' call. Needs the caller's
+        Discogs sign-in. Slow: it loads /my in a browser.
         """
 
     async def getSellerFeedback(self, args: str | Prv_discogs_DiscogsUserArgs_In, /) -> Prv_discogs_DiscogsSellerFeedback_Out:
@@ -128289,6 +128447,18 @@ class Prv_spotify(Protocol):
         key.
         """
 
+    async def getAudioFeatures(self, id: str, /) -> Prv_spotify_SpotifyAudioFeatures_Out:
+        """Gets a track's audio features — tempo, key, mode, time signature, danceability, energy,
+        valence and the rest. Needs a Spotify developer app with Extended Quota Mode access;
+        other keys get a 403.
+        """
+
+    async def getAudioAnalysis(self, id: str, /) -> Prv_spotify_SpotifyAudioAnalysis_Out:
+        """Gets a track's audio analysis — track summary, bars, beats, tatums, sections and
+        segments with pitch and timbre vectors. Needs a Spotify developer app with Extended
+        Quota Mode access; other keys get a 403.
+        """
+
     async def getAlbum(self, id: str, /) -> Prv_spotify_SpotifyAlbum_Out:
         """Gets one album by its Spotify id — name, artists, release date, track count, cover art,
         open.spotify.com url and Spotify uri. Needs your own Spotify developer app key.
@@ -132975,15 +133145,17 @@ class Prv_ups(Protocol):
         one labelled an example, is a wrong answer, not an estimate. Public retail rates and
         delivery dates from ups.com's own "Calculate Time and Cost" tool (ups.com/ctc) for a
         weighed parcel between ANY two countries — no key, no login, no account, international
-        lanes included (e.g. DE 20095 -> FR 69002). Countries are ISO 2-letter codes; `units`
-        defaults to "metric" (weight in kg, box in cm), "imperial" is lb and in. `customsValue`
-        (in the origin currency) is needed on a lane that crosses customs and ignored inside one
-        customs union. Returns one row per UPS service (UPS Standard, Express Saver, Express,
-        Express Plus…) with cost and the currency the calculator quoted in (the origin's, e.g.
-        EUR from Germany), the delivery date and whether it is guaranteed. Use this rather than
-        `calculateShippingCost` when the origin is not in the US. Every row carries `pricedFor`
-        (weight, box, units and a `note`): state it with the price. Drives the calculator in a
-        headless browser, so it takes about a minute.
+        lanes included (e.g. DE 20095 -> FR 69002). Countries are ISO 2-letter codes; pass
+        `fromCity` and `toCity` too (e.g. "Hamburg", "Lyon") — outside the US the calculator
+        refuses many lanes with "Please complete the highlighted fields … City" when they are
+        missing; `units` defaults to "metric" (weight in kg, box in cm), "imperial" is lb and
+        in. `customsValue` (in the origin currency) is needed on a lane that crosses customs and
+        ignored inside one customs union. Returns one row per UPS service (UPS Standard, Express
+        Saver, Express, Express Plus…) with cost and the currency the calculator quoted in (the
+        origin's, e.g. EUR from Germany), the delivery date and whether it is guaranteed. Use
+        this rather than `calculateShippingCost` when the origin is not in the US. Every row
+        carries `pricedFor` (weight, box, units and a `note`): state it with the price. Drives
+        the calculator in a headless browser, so it takes about a minute.
         """
 
     async def findNearbyLocation(self, args: Prv_ups_findNearbyLocation_args_In, /) -> list[Prv_ups_UpsNearbyLocation_Out]:
@@ -133211,6 +133383,14 @@ class Prv_usps(Protocol):
         """Searches USPS's help articles on faq.usps.com by `term` (optional `page`, 15 per page)
         and returns each match's title, summary, article number and last-published date. Needs
         no key.
+        """
+
+    async def addToStoreCart(self, args: Prv_usps_addToStoreCart_args_In, /) -> Prv_usps_uspsStoreCart_Out:
+        """Adds one product to the anonymous Postal Store cart from its store.usps.com product URL
+        (as listStoreProducts returns it) and reads the cart back: the product's id and name,
+        the item count and the subtotal. Adds one unit; never reaches checkout or payment, and
+        the cart belongs to this browser session only. Reads through a real browser because the
+        store refuses a plain client.
         """
 
     async def listStoreProducts(self, args: Prv_usps_listStoreProducts_args_In, /) -> Prv_usps_uspsStoreResults_Out:
@@ -134849,6 +135029,24 @@ class Prv_whatsapp(Protocol):
         """Posts a text update to a Channel the caller runs, picked by its exact displayed name. A
         public write: the Channel's followers receive it. Returns the update's id and time
         label. Needs the caller signed in.
+        """
+
+    async def approveGroupJoinRequests(self, groupName: str, names: Sequence[str] | None = None, decision: Literal["approve"] | Literal["reject"] | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappJoinRequests_Out:
+        """Lists or answers the join requests of a group the caller administers, the group picked
+        by its exact displayed name. With no names it only lists who is waiting; with names it
+        approves (or rejects) exactly those people. Needs the caller signed in.
+        """
+
+    async def sendGif(self, chatName: str, query: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentGif_Out:
+        """Sends a GIF to a chat as the caller: the chat is opened by its exact displayed name and
+        the GIF is the first result of a search in the chat's GIF panel. Returns the sent row's
+        id and time label; a retried run never sends twice. Needs the caller signed in.
+        """
+
+    async def editChannelUpdate(self, channelName: str, updateId: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelEdit_Out:
+        """Edits the text of one update the caller posted to a Channel they run, the Channel picked
+        by its exact displayed name and the update by the id getChannelUpdates returns. A public
+        write: followers see the edited text. Needs the caller signed in.
         """
 
     async def createBroadcastList(self, name: str, contacts: Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappBroadcastList_Out:
@@ -137962,6 +138160,7 @@ class BowmarkProviders(Protocol):
     datareportal: Prv_datareportal
     davidsonhomes: Prv_davidsonhomes
     dblp: Prv_dblp
+    dc_medicaid: Prv_dc_medicaid
     deangroup: Prv_deangroup
     decked: Prv_decked
     decksdirect: Prv_decksdirect

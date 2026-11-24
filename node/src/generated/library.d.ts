@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: be8a84cf52ef97a5c60b9939b7a304eb46f9bf3ced4bca5eea64b3671661edd2
-// 99 capabilities, 963 providers, 5980 typed functions, 20 refused.
+// Manifest version: aefb140474a7336b6e2eafef21d6c24c81a7665dc6248a90de8e09c88bdd04f7
+// 99 capabilities, 964 providers, 5988 typed functions, 20 refused.
 // 125,575 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 14,906 sites under bowmark.sites, 190,018 functions, sharing 2,321 interface(s).
 //
@@ -559,44 +559,44 @@ interface CallOptions {
    * are then typed with no pause and echoed back by `status(id).task`, so only for throwaway or
    * demo accounts (but you can send new instructions to the same session with `send()` and the
    * login persists). A standing watch or a daily job on a SIGNED-IN site is NOT a fit for this
-   * agent — say so and point at what is. Signed-in pages: the user saves a login in Bowmark
-   * Buddy (bowmark.ai/link), then `bowmark.read.page(url, { connection })` reads them for 7
-   * days. An action on a signed-in site, rather than a read, needs a typed provider with stored
-   * secrets. **NOT FOR MOVING MONEY.** A trade or buy/sell order on a brokerage, a withdrawal,
-   * or a transfer between accounts is out of scope, even on a login the user holds. A direct
-   * call here is not code-blocked, so the refusal is the caller's to act on: tell the user it is
-   * out of scope and stop. **WHEN it fits** (a lookup came back with nothing, or a function
-   * failed on the site): it is billed per turn to your user's account — a typical 20-step task
-   * costs roughly $2–$6 all in (budget $0.10–$0.30 per model turn; worked example on the docs
-   * site's Pricing page, under 'Hosted browser agents'). That is a short task. A checkout, any
-   * flow past 20 steps, or a run that retries or corrects a step costs more than that figure. If
-   * your user asked you to get the thing done, `start({ task })` and in the same reply tell them
-   * it is running, that it costs money, and give them the `watchUrl`. A login only they hold
-   * does not stop it — they sign in themselves on the live browser through that link, no saved
-   * credentials needed. **That sign-in is the real site, under their real account — never a copy
-   * inside Bowmark's own browser.** Anything it adds to a cart, saves to a wishlist or submits
-   * there is on their account on the real site, exactly as if they had clicked it themselves, so
-   * it is there when they check out or return to the site later in their own browser. Running in
-   * Bowmark's browser is about WHERE the clicking happens, not where the result lives. **Either
-   * way, never leave it unmentioned:** if you hold off for any reason, your reply must name this
-   * option — what it would do, that it is billed, and that they can sign in on the live page —
-   * rather than ending on a manual workaround alone. After `start` in one run, call `status(id)`
-   * from LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps
-   * working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
-   * code gives up** — any client deadline shorter than that cuts off runs that were about to
-   * finish. When `status` returns `needs_input`, relay `question` to your user and `send` their
-   * answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop` a session when
-   * done — an idle browser keeps costing money. **A turn that runs too long is cancelled
-   * automatically:** Bowmark itself cuts off any turn stuck past a few minutes with no result
-   * and reports status `failed` (see `error` for what it was last doing) rather than leaving you
-   * polling forever — the session stays open, so `send` a narrower instruction or `stop` it.
-   * **One task = one independent goal. Do not bundle multiple date ranges, SKUs, or queries into
-   * one task — the agent may silently reuse a single search result across all of them with no
-   * warning. Start separate sessions for each.** Reading every row of ONE list under ONE filter
-   * (one date range on one orders page, paged) is one goal, not a bundle; a few pages is
-   * ordinary, and how many one session gets through is not measured, so test it on the target
-   * before relying on hundreds of rows. RUN-ONLY: a typed session cannot call it — start in one
-   * run and poll status from later runs, never in a loop.
+   * agent — say so and point at what is. Signed-in pages: call `add_connection` with the domain;
+   * the user saves a login in Bowmark Buddy, then use `bowmark.read.page(url, { connection })`
+   * for 7 days. An action on a signed-in site, rather than a read, needs a typed provider with
+   * stored secrets. **NOT FOR MOVING MONEY.** A trade or buy/sell order on a brokerage, a
+   * withdrawal, or a transfer between accounts is out of scope, even on a login the user holds.
+   * A direct call here is not code-blocked, so the refusal is the caller's to act on: tell the
+   * user it is out of scope and stop. **WHEN it fits** (a lookup came back with nothing, or a
+   * function failed on the site): it is billed per turn to your user's account — a typical
+   * 20-step task costs roughly $2–$6 all in (budget $0.10–$0.30 per model turn; worked example
+   * on the docs site's Pricing page, under 'Hosted browser agents'). That is a short task. A
+   * checkout, any flow past 20 steps, or a run that retries or corrects a step costs more than
+   * that figure. If your user asked you to get the thing done, `start({ task })` and in the same
+   * reply tell them it is running, that it costs money, and give them the `watchUrl`. A login
+   * only they hold does not stop it — they sign in themselves on the live browser through that
+   * link, no saved credentials needed. **That sign-in is the real site, under their real account
+   * — never a copy inside Bowmark's own browser.** Anything it adds to a cart, saves to a
+   * wishlist or submits there is on their account on the real site, exactly as if they had
+   * clicked it themselves, so it is there when they check out or return to the site later in
+   * their own browser. Running in Bowmark's browser is about WHERE the clicking happens, not
+   * where the result lives. **Either way, never leave it unmentioned:** if you hold off for any
+   * reason, your reply must name this option — what it would do, that it is billed, and that
+   * they can sign in on the live page — rather than ending on a manual workaround alone. After
+   * `start` in one run, call `status(id)` from LATER runs — the 90s wall-clock cap is on each
+   * `run()`, NOT on the agent, which keeps working between them. **A normal task takes 1-3
+   * minutes; give it up to 5 before your own code gives up** — any client deadline shorter than
+   * that cuts off runs that were about to finish. When `status` returns `needs_input`, relay
+   * `question` to your user and `send` their answer. When it returns `idle`, read `result` and
+   * `stop(id)`. Always `stop` a session when done — an idle browser keeps costing money. **A
+   * turn that runs too long is cancelled automatically:** Bowmark itself cuts off any turn stuck
+   * past a few minutes with no result and reports status `failed` (see `error` for what it was
+   * last doing) rather than leaving you polling forever — the session stays open, so `send` a
+   * narrower instruction or `stop` it. **One task = one independent goal. Do not bundle multiple
+   * date ranges, SKUs, or queries into one task — the agent may silently reuse a single search
+   * result across all of them with no warning. Start separate sessions for each.** Reading every
+   * row of ONE list under ONE filter (one date range on one orders page, paged) is one goal, not
+   * a bundle; a few pages is ordinary, and how many one session gets through is not measured, so
+   * test it on the target before relying on hundreds of rows. RUN-ONLY: a typed session cannot
+   * call it — start in one run and poll status from later runs, never in a loop.
    */
   interface Unit {
     /**
@@ -612,9 +612,9 @@ interface CallOptions {
      * entirely, and read the `backend` field of the returned object to see which one ran. Not a
      * watcher — it does not poll by itself; on a public page with no login or CAPTCHA a script can
      * start and poll it unattended, while a login needs your user present every run. Signed-in
-     * pages: the user saves a login in Bowmark Buddy (bowmark.ai/link), then
-     * `bowmark.read.page(url, { connection })` reads them for 7 days. Billed per turn: if your
-     * user already asked you to get the thing done, start it and in the same reply tell them it is
+     * pages: call `add_connection` with the domain; the user saves a login in Bowmark Buddy, then
+     * use `bowmark.read.page(url, { connection })` for 7 days. Billed per turn: if your user
+     * already asked you to get the thing done, start it and in the same reply tell them it is
      * running, that it costs money, and give them `watchUrl` — a login only they hold is signed in
      * there, on the live page, as their real account on the real site, so anything the agent then
      * adds to a cart or saves is really on their account rather than lost inside Bowmark's own
@@ -39051,6 +39051,59 @@ interface dblpSearchOptions {
   }
 }
 
+declare namespace BowmarkProvider_dc_medicaid {
+  // ── DC Medicaid — the unit's own declarations, verbatim ──
+interface DcMedicaidSearchArgs {
+  name?: string; // Provider name as "LAST, FIRST" (e.g. "SALEEM, NAIMAH") or a clinic name.
+  providerId?: string; // DC Medicaid provider ID, e.g. "PRVP00000008419".
+  city?: string; // City, e.g. "Washington".
+  zip?: string; // 5-digit ZIP, e.g. "20010". At least one of name/providerId/city/zip.
+  page?: number; // 1-based page. Default 1.
+  pageSize?: number; // Rows per page, 1-100. Default 20.
+}
+
+interface DcMedicaidProvider {
+  providerId: string; // DC Medicaid provider ID (PRVP…).
+  entityId: string | null;
+  name: string;
+  designation: string | null; // Professional designation (MD, LPC…) when the site lists one.
+  location: string | null; // Service location or clinic name.
+  type: string | null; // Provider type with code, e.g. "A00-Physician MD".
+  specialty: string | null;
+  address: string | null;
+  address2: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  phone: string | null;
+  fax: string | null;
+  email: string | null;
+}
+
+interface DcMedicaidProviderSearch {
+  total: number; // Matches the site reports; it caps a search at 500.
+  page: number;
+  pageSize: number;
+  providers: DcMedicaidProvider[];
+}
+
+  /**
+   * DC Medicaid (medicaid.dc.gov), the District of Columbia's Medicaid portal. searchProviders
+   * finds enrolled Medicaid providers (doctors, counselors, clinics, home-care workers) in the
+   * site's own provider directory by name, provider ID, city or ZIP, with type, specialty and
+   * address.
+   */
+  interface Unit {
+    /**
+     * Search the DC Medicaid provider directory for enrolled providers by name ("LAST, FIRST" or a
+     * clinic name), providerId, city or zip (at least one). Returns each provider's Medicaid
+     * provider ID, name, type, specialty and address, paged (`page`, `pageSize` up to 100; the
+     * site caps a search at 500 matches).
+     */
+    searchProviders(args: DcMedicaidSearchArgs): Promise<DcMedicaidProviderSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_deangroup {
   // ── The Dean Hotel Group — the unit's own declarations, verbatim ──
 interface DeangroupProperty {
@@ -41957,6 +42010,13 @@ interface DiscogsMarketplaceItem {
      * in a browser.
      */
     getForumThread(args: number | DiscogsForumThreadArgs): Promise<{ threadId: number; page: number; title: string | null; topic: string | null; startedBy: string | null; startedAt: string | null; replyCount: number | null; totalPosts: number; posts: DiscogsForumPost[] }>;
+
+    /**
+     * Read the signed-in caller's own Discogs profile (username, id, counts, seller rating) — the
+     * door to every 'my collection / my wantlist / my orders' call. Needs the caller's Discogs
+     * sign-in. Slow: it loads /my in a browser.
+     */
+    getMyIdentity(opts?: ConnectionOption): Promise<DiscogsUser>;
 
     /**
      * Read a Discogs seller's feedback: overall rating, positive/neutral/negative totals, the
@@ -112446,6 +112506,32 @@ interface SpotifyLyrics {
   text: string; // the lines joined with newlines
 }
 
+interface SpotifyAudioFeatures {
+  id: string;
+  duration_ms: number;
+  tempo: number; // beats per minute
+  key: number; // pitch class 0-11 (C=0), -1 if none detected
+  mode: number; // 1 major, 0 minor
+  time_signature: number;
+  danceability: number;
+  energy: number;
+  loudness: number; // dB, typically -60 to 0
+  speechiness: number;
+  acousticness: number;
+  instrumentalness: number;
+  liveness: number;
+  valence: number; // 0 sad to 1 happy
+}
+
+interface SpotifyAudioAnalysis {
+  track: { duration: number; loudness: number; tempo: number; tempo_confidence: number; key: number; key_confidence: number; mode: number; mode_confidence: number; time_signature: number; time_signature_confidence: number };
+  bars: { start: number; duration: number; confidence: number }[];
+  beats: { start: number; duration: number; confidence: number }[];
+  tatums: { start: number; duration: number; confidence: number }[];
+  sections: { start: number; duration: number; confidence: number; loudness: number; tempo: number; tempo_confidence: number; key: number; key_confidence: number; mode: number; mode_confidence: number; time_signature: number; time_signature_confidence: number }[];
+  segments: { start: number; duration: number; confidence: number; loudness_start: number; loudness_max: number; loudness_max_time: number; pitches: number[] /* 12 pitch-class energies */; timbre: number[] /* 12 timbre coefficients */ }[];
+}
+
   /**
    * Search Spotify's catalog — tracks, albums, artists, playlists, podcasts — through Spotify's
    * Web API with your own developer app key.
@@ -112464,6 +112550,20 @@ interface SpotifyLyrics {
      * popularity, open.spotify.com url and Spotify uri. Needs your own Spotify developer app key.
      */
     getTrack(id: string): Promise<SpotifyTrack>;
+
+    /**
+     * Gets a track's audio features — tempo, key, mode, time signature, danceability, energy,
+     * valence and the rest. Needs a Spotify developer app with Extended Quota Mode access; other
+     * keys get a 403.
+     */
+    getAudioFeatures(id: string): Promise<SpotifyAudioFeatures>;
+
+    /**
+     * Gets a track's audio analysis — track summary, bars, beats, tatums, sections and segments
+     * with pitch and timbre vectors. Needs a Spotify developer app with Extended Quota Mode
+     * access; other keys get a 403.
+     */
+    getAudioAnalysis(id: string): Promise<SpotifyAudioAnalysis>;
 
     /**
      * Gets one album by its Spotify id — name, artists, release date, track count, cover art,
@@ -126816,14 +126916,16 @@ interface UpsTimeAndCostQuote {
      * example, is a wrong answer, not an estimate. Public retail rates and delivery dates from
      * ups.com's own "Calculate Time and Cost" tool (ups.com/ctc) for a weighed parcel between ANY
      * two countries — no key, no login, no account, international lanes included (e.g. DE 20095 ->
-     * FR 69002). Countries are ISO 2-letter codes; `units` defaults to "metric" (weight in kg, box
-     * in cm), "imperial" is lb and in. `customsValue` (in the origin currency) is needed on a lane
-     * that crosses customs and ignored inside one customs union. Returns one row per UPS service
-     * (UPS Standard, Express Saver, Express, Express Plus…) with cost and the currency the
-     * calculator quoted in (the origin's, e.g. EUR from Germany), the delivery date and whether it
-     * is guaranteed. Use this rather than `calculateShippingCost` when the origin is not in the
-     * US. Every row carries `pricedFor` (weight, box, units and a `note`): state it with the
-     * price. Drives the calculator in a headless browser, so it takes about a minute.
+     * FR 69002). Countries are ISO 2-letter codes; pass `fromCity` and `toCity` too (e.g.
+     * "Hamburg", "Lyon") — outside the US the calculator refuses many lanes with "Please complete
+     * the highlighted fields … City" when they are missing; `units` defaults to "metric" (weight
+     * in kg, box in cm), "imperial" is lb and in. `customsValue` (in the origin currency) is
+     * needed on a lane that crosses customs and ignored inside one customs union. Returns one row
+     * per UPS service (UPS Standard, Express Saver, Express, Express Plus…) with cost and the
+     * currency the calculator quoted in (the origin's, e.g. EUR from Germany), the delivery date
+     * and whether it is guaranteed. Use this rather than `calculateShippingCost` when the origin
+     * is not in the US. Every row carries `pricedFor` (weight, box, units and a `note`): state it
+     * with the price. Drives the calculator in a headless browser, so it takes about a minute.
      */
     calculateTimeAndCost(args: {fromCountry: string, fromPostalCode: string, fromCity?: string, toCountry: string, toPostalCode: string, toCity?: string, weight?: number, length?: number, width?: number, height?: number, units?: "metric" | "imperial", customsValue?: number, shipDate?: string}): Promise<UpsTimeAndCostQuote[]>;
 
@@ -127404,6 +127506,13 @@ interface uspsTracking {
   source: "callerBrowser"; // always — the function has no other door
 }
 
+interface uspsStoreCart {
+  productId: string;
+  name: string;
+  url: string;
+  cart: { itemCount: number | null; subtotal: number | null; sku: string };
+}
+
 interface uspsStoreProduct {
   name: string;
   url: string;
@@ -127522,6 +127631,15 @@ interface uspsFaqArticle {
      * returns each match's title, summary, article number and last-published date. Needs no key.
      */
     searchFaq(args: {term: string, page?: number}): Promise<uspsFaqResults>;
+
+    /**
+     * Adds one product to the anonymous Postal Store cart from its store.usps.com product URL (as
+     * listStoreProducts returns it) and reads the cart back: the product's id and name, the item
+     * count and the subtotal. Adds one unit; never reaches checkout or payment, and the cart
+     * belongs to this browser session only. Reads through a real browser because the store refuses
+     * a plain client.
+     */
+    addToStoreCart(args: {url: string}): Promise<uspsStoreCart>;
 
     /**
      * Searches the Postal Store (store.usps.com) by `term` (optional `limit`, default 60) and
@@ -131993,6 +132111,27 @@ interface WhatsappChannelPost {
   time: string | null;
 }
 
+interface WhatsappJoinRequests {
+  group: string;
+  pending: string[];
+  approved: string[];
+  rejected: string[];
+  notFound: string[];
+}
+
+interface WhatsappSentGif {
+  chat: string;
+  query: string;
+  id: string | null;
+  time: string | null;
+}
+
+interface WhatsappChannelEdit {
+  channel: string;
+  updateId: string;
+  text: string;
+}
+
 interface WhatsappBroadcastList {
   name: string;
   recipients: string[];
@@ -132416,6 +132555,27 @@ interface WhatsappPrivacyChange {
      * Needs the caller signed in.
      */
     postToChannel(channelName: string, text: string, opts?: ConnectionOption): Promise<WhatsappChannelPost>;
+
+    /**
+     * Lists or answers the join requests of a group the caller administers, the group picked by
+     * its exact displayed name. With no names it only lists who is waiting; with names it approves
+     * (or rejects) exactly those people. Needs the caller signed in.
+     */
+    approveGroupJoinRequests(groupName: string, names?: string[], decision?: "approve" | "reject", opts?: ConnectionOption): Promise<WhatsappJoinRequests>;
+
+    /**
+     * Sends a GIF to a chat as the caller: the chat is opened by its exact displayed name and the
+     * GIF is the first result of a search in the chat's GIF panel. Returns the sent row's id and
+     * time label; a retried run never sends twice. Needs the caller signed in.
+     */
+    sendGif(chatName: string, query: string, opts?: ConnectionOption): Promise<WhatsappSentGif>;
+
+    /**
+     * Edits the text of one update the caller posted to a Channel they run, the Channel picked by
+     * its exact displayed name and the update by the id getChannelUpdates returns. A public write:
+     * followers see the edited text. Needs the caller signed in.
+     */
+    editChannelUpdate(channelName: string, updateId: string, text: string, opts?: ConnectionOption): Promise<WhatsappChannelEdit>;
 
     /**
      * Creates a broadcast list as the caller: a name and the exact displayed names of saved
@@ -503432,6 +503592,7 @@ interface BowmarkProviders {
   datareportal: BowmarkProvider_datareportal.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   dblp: BowmarkProvider_dblp.Unit;
+  dc_medicaid: BowmarkProvider_dc_medicaid.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
   decksdirect: BowmarkProvider_decksdirect.Unit;
