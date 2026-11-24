@@ -1,5 +1,5 @@
 {
-  "version": "0da90ec2a5982a9b57e2a6cc25262d39f2b43326d997635d7c465c4c84025e2a",
+  "version": "be4a9404b6460463ccd274e16b4a6c27ab40b4bd5af2694dc9a4bd63b18616e0",
   "units": {
     "address_validation": {
       "defs": {
@@ -12662,6 +12662,47 @@
             "optional": false
           }
         ],
+        "getTrip": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "internalId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listTrips": [
           {
             "name": "args",
@@ -12698,19 +12739,20 @@
         ]
       },
       "digests": {
-        "getHostProfile": "f1b986b57391cf15",
-        "getListingDetails": "0b4f423fd127c6df",
-        "getListingReviews": "30307c1e82a448a1",
-        "getPriceQuote": "e6324e39b2b20102",
-        "bookListing": "5f34820ba0ab0dba",
-        "autocompleteLocation": "9def1bec53171d68",
-        "getExperience": "90867f67f9e5170e",
-        "getExperienceReviews": "ebd6aece27a88ed6",
-        "searchExperiences": "7d7b82e77720a6a1",
-        "search": "7f68c2aef277fa98",
-        "getListing": "1e9aded9c70961ce",
-        "getListingCalendar": "047d4aef86c4b755",
-        "listTrips": "2fd69552053c9b1a"
+        "getHostProfile": "8c7886e0ec638dda",
+        "getListingDetails": "526fbb2b8a53ed0e",
+        "getListingReviews": "399cf1373c71825c",
+        "getPriceQuote": "1a0751bf90522bbe",
+        "bookListing": "f3ac53d8a9438add",
+        "autocompleteLocation": "4aabb611c9a43bb5",
+        "getExperience": "aa3be323f1445d92",
+        "getExperienceReviews": "886c206d5aaef471",
+        "searchExperiences": "be1347f680e46b92",
+        "search": "223636eb7957bb06",
+        "getListing": "54281e7c65ddc256",
+        "getListingCalendar": "f8e86cfdef908dce",
+        "getTrip": "b2b98a6178f622a7",
+        "listTrips": "9ed49be607b8baa6"
       }
     },
     "providers.airchina": {
@@ -79543,6 +79585,65 @@
             }
           ]
         },
+        "glofoxCancelMembershipArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "membershipId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "reason",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "confirm",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "glofoxChangePasswordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "currentPassword",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "newPassword",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "glofoxGetClassArgs": {
           "k": "object",
           "props": [
@@ -79762,6 +79863,67 @@
               "name": "limit",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "glofoxPauseMembershipArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "membershipId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "durationAmount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "durationUnit",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "day"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "week"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "month"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "confirm",
+              "schema": {
+                "k": "boolean"
               },
               "optional": true
             }
@@ -80347,6 +80509,110 @@
             "optional": true
           }
         ],
+        "listLinkedAccounts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxStudioArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "pauseMembership": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxPauseMembershipArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelMembership": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxCancelMembershipArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "changePassword": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxChangePasswordArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -80367,33 +80633,37 @@
         ]
       },
       "digests": {
-        "findStudio": "22db735ed66c6273",
-        "getStudio": "f189f5392ebacb45",
-        "listClasses": "3388f43af21c4134",
-        "getClass": "bbf3aec0672de9d3",
-        "listTrainers": "85773dfb78e91026",
-        "listMemberships": "3f0075024224829f",
-        "listClassTypes": "533acb56e106d615",
-        "listAppointmentTypes": "5e82e3b84c611de1",
-        "listFacilities": "e2c7960ffbe93283",
-        "listTrainerSlots": "e8204626b373f0c7",
-        "listFacilitySlots": "7c3c5ce7f0c3982f",
-        "listCourses": "32139e2f99dcc157",
-        "getPrice": "27acdc0df42739bb",
-        "getMyProfile": "5ad4deba597fe0d5",
-        "listMyBookings": "1648d4274ee8f9cc",
-        "listMyCredits": "ca136d72ce8b4c83",
-        "listMyMemberships": "4b9b9d74a5559324",
-        "listMyTransactions": "9d391f95b8cbd4a4",
-        "bookClass": "e224a7124572a374",
-        "joinWaitlist": "e224a7124572a374",
-        "cancelBooking": "68100c4a0b1bb622",
-        "bookTrainerSlot": "1f10023fb048d599",
-        "bookFacilitySlot": "1f10023fb048d599",
-        "bookCourse": "67938b88a08ae233",
-        "updateMyProfile": "8f54ad6566b6a460",
-        "signup": "02d9e047b6990760",
-        "confirmSignup": "712afed16da6ef2b"
+        "findStudio": "4bfe9637f0248fd9",
+        "getStudio": "97d7352202204673",
+        "listClasses": "2cdc1310b9f5e175",
+        "getClass": "6e7d19bcda4da4b9",
+        "listTrainers": "575d23d784d581b9",
+        "listMemberships": "453f566899663181",
+        "listClassTypes": "edd8086d24eb0fab",
+        "listAppointmentTypes": "dcae6d4301b9d1c5",
+        "listFacilities": "c5f7b007fd4bbe27",
+        "listTrainerSlots": "80d85a908859c0a8",
+        "listFacilitySlots": "ca926d1a815733ad",
+        "listCourses": "10484cb1512b087a",
+        "getPrice": "83c0563fd5b23d8b",
+        "getMyProfile": "a46518b9eb0fceab",
+        "listMyBookings": "f1ed589e41015f31",
+        "listMyCredits": "fec1ce2e21c044dc",
+        "listMyMemberships": "23eb31a458bca050",
+        "listMyTransactions": "9b77d9c07a6023d2",
+        "bookClass": "508f4500ef71715a",
+        "joinWaitlist": "508f4500ef71715a",
+        "cancelBooking": "dcc7944dc2060148",
+        "bookTrainerSlot": "648fa14a7094b039",
+        "bookFacilitySlot": "648fa14a7094b039",
+        "bookCourse": "a1830a93cd53b45d",
+        "updateMyProfile": "095d880608603d87",
+        "listLinkedAccounts": "d58981e4f6fbad72",
+        "pauseMembership": "74d6a7095c7fcad3",
+        "cancelMembership": "51e25e66ff60363e",
+        "changePassword": "e85fa1ca4758b192",
+        "signup": "dbd6d290029feaee",
+        "confirmSignup": "664c1a6e204d7e5e"
       }
     },
     "providers.glossgenius": {
@@ -80680,6 +80950,18 @@
             }
           ]
         },
+        "GlossGeniusMyCardsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GlossGeniusMyMembershipsArgs": {
           "k": "object",
           "props": [
@@ -80838,6 +81120,32 @@
             "schema": {
               "k": "ref",
               "name": "GlossGeniusMyMembershipsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyCards": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GlossGeniusMyCardsArgs"
             },
             "optional": false
           },
@@ -81032,23 +81340,24 @@
         ]
       },
       "digests": {
-        "updateMyProfile": "cba187e2ccaaaeef",
-        "cancelMyMembership": "b98da80bea0a0de8",
-        "listMyMemberships": "1d7876de3c731831",
-        "listMyOrders": "b36d28577dbe7ff1",
-        "getMyProfile": "eae4827310491414",
-        "findBusiness": "1be102d2b5a98a76",
-        "getBusiness": "303d7bd6cff541da",
-        "listServices": "1d1e0f0f7a0e9b2c",
-        "listTeam": "c4cec980ae3d1dac",
-        "listLocations": "2f8740212c5294fc",
-        "getAvailability": "8b93d2a67c7a0e07",
-        "listReviews": "835546054d9340cf",
-        "listPackages": "2ad5d8d2051b5716",
-        "listMemberships": "42b308ab85d93780",
-        "getGiftCardOptions": "5b870bf061f9376f",
-        "getBookingRequirements": "ada27af029283e37",
-        "joinWaitlist": "6085b7a379dbefa3"
+        "updateMyProfile": "bf198daba3245da9",
+        "cancelMyMembership": "fe3b36a6be3a5fd0",
+        "listMyMemberships": "85514922def4ee3f",
+        "listMyCards": "3e550ae134add1c6",
+        "listMyOrders": "7d0dbd2b9c417f89",
+        "getMyProfile": "415e7c26150ec8ed",
+        "findBusiness": "38af16e5de0cf3f0",
+        "getBusiness": "7142732d6d2aad85",
+        "listServices": "3d9c40d4acdd237a",
+        "listTeam": "5b7d8e8c6a05d6bc",
+        "listLocations": "1083599f939d9791",
+        "getAvailability": "a44b04811d4d4746",
+        "listReviews": "45f9695229023cc5",
+        "listPackages": "1b62add38bd12f4b",
+        "listMemberships": "45d96b96547ef65d",
+        "getGiftCardOptions": "eae0b80b680434b8",
+        "getBookingRequirements": "33b01fe5e07b341e",
+        "joinWaitlist": "578cb953b17c669e"
       }
     },
     "providers.gmail": {
@@ -117021,6 +117330,123 @@
         "getProduct": "e26378159106a88c",
         "priceConfiguration": "763f5aa30e40f29e",
         "addToCart": "273ee3d164d64f21"
+      }
+    },
+    "providers.nbcnews": {
+      "defs": {
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListHeadlinesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListSectionHeadlinesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listHeadlines": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListHeadlinesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSectionHeadlines": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSectionHeadlinesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLatestStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListHeadlinesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListHeadlinesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPodcasts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListHeadlinesArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listHeadlines": "00aba685b77bc204",
+        "listSectionHeadlines": "f61d46de0dd3fb04",
+        "getArticle": "2902e3b701d72c6e",
+        "listLatestStories": "00aba685b77bc204",
+        "listVideos": "00aba685b77bc204",
+        "listPodcasts": "00aba685b77bc204"
       }
     },
     "providers.nerdwallet": {
@@ -180978,6 +181404,16 @@
             "optional": false
           }
         ],
+        "listProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BusinessArgs"
+            },
+            "optional": false
+          }
+        ],
         "listClasses": [
           {
             "name": "args",
@@ -181000,22 +181436,23 @@
         ]
       },
       "digests": {
-        "findBusiness": "ea223bab4b75b4a8",
-        "getBusiness": "e5e79bd6ce159761",
-        "listServices": "0d97412c394d5152",
-        "getService": "f9214ba217854ad5",
-        "listStaff": "04c5c2cf4d61457f",
-        "getAvailableDates": "f9e3d0cdd762a9ae",
-        "getOpenTimes": "9f997fd9ec372b97",
-        "searchBusinesses": "8418b70e57bdc989",
-        "listAddOns": "e111ab392a27ffb7",
-        "getStaffMember": "1b96d786e48c5c3d",
-        "listReviews": "cdc4c5d58e47b742",
-        "listPromotions": "4200faede3811b81",
-        "getCancellationPolicy": "badfa7448c66fa6f",
-        "listPhotos": "48e6a13c3b537ab2",
-        "listClasses": "772ebfa84ef24b44",
-        "getClass": "10882f0681142066"
+        "findBusiness": "2eba022a24c65137",
+        "getBusiness": "79b2b604dee10026",
+        "listServices": "8b1c7513174af9f7",
+        "getService": "7072b0c5ed36332e",
+        "listStaff": "31f109c630312c56",
+        "getAvailableDates": "31fccd2ea25e6b10",
+        "getOpenTimes": "a2748ba48f09bfb7",
+        "searchBusinesses": "977e0f153a3cd729",
+        "listAddOns": "22d3f73a284a9a30",
+        "getStaffMember": "ebfe125637718527",
+        "listReviews": "95c7265dd066c7a8",
+        "listPromotions": "96245b1d97c03c4e",
+        "getCancellationPolicy": "23130590fe392e00",
+        "listPhotos": "b56e7cc1f0ebbed3",
+        "listProducts": "341eed955fe5eec0",
+        "listClasses": "bfa5f289710b7428",
+        "getClass": "3ec53c531899c7d8"
       }
     },
     "providers.vbt": {

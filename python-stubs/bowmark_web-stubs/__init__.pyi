@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0da90ec2a5982a9b57e2a6cc25262d39f2b43326d997635d7c465c4c84025e2a
-# 99 capabilities, 967 providers, 5987 typed functions, 20 refused.
+# Manifest version: be4a9404b6460463ccd274e16b4a6c27ab40b4bd5af2694dc9a4bd63b18616e0
+# 99 capabilities, 968 providers, 6000 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6070,6 +6070,23 @@ class Prv_airbnb_AirbnbListingCalendar_Out(TypedDict):
     url: str
     currency: str
     calendar: list[Prv_airbnb_AirbnbCalendarDay_Out]
+
+class Prv_airbnb_getTrip_args_In(TypedDict):
+    id: NotRequired[str]
+    internalId: NotRequired[float]
+
+class Prv_airbnb_AirbnbTripDetail_Out(TypedDict):
+    id: str
+    internalId: str | None
+    title: str | None
+    status: str
+    cancelled: bool
+    upcoming: bool
+    startTime: str | None
+    endTime: str | None
+    imageUrl: str | None
+    url: str | None
+    partial: Literal[True]
 
 class Prv_airbnb_listTrips_args_In(TypedDict):
     limit: NotRequired[float]
@@ -37629,6 +37646,52 @@ class Prv_glofox_glofoxProfileUpdateResult_Out(TypedDict):
     changed: list[str]
     message: str | None
 
+class Prv_glofox_glofoxLinkedAccounts_Out(TypedDict):
+    studio: str
+    accounts: list[Prv_glofox_glofoxLinkedAccount_Out]
+
+class Prv_glofox_glofoxLinkedAccount_Out(TypedDict):
+    id: str | None
+    firstName: str | None
+    lastName: str | None
+    email: str | None
+
+class Prv_glofox_glofoxPauseMembershipArgs_In(TypedDict):
+    studio: str
+    membershipId: str
+    startDate: str
+    durationAmount: float
+    durationUnit: Literal["day"] | Literal["week"] | Literal["month"]
+    confirm: NotRequired[bool]
+
+class Prv_glofox_glofoxPauseResult_Out(TypedDict):
+    studio: str
+    membershipId: str
+    paused: bool
+    calculation: Mapping[str, Any]
+    note: str | None
+
+class Prv_glofox_glofoxCancelMembershipArgs_In(TypedDict):
+    studio: str
+    membershipId: str
+    reason: str
+    confirm: bool
+
+class Prv_glofox_glofoxCancelMembershipResult_Out(TypedDict):
+    studio: str
+    membershipId: str
+    requested: bool
+    note: str | None
+
+class Prv_glofox_glofoxChangePasswordArgs_In(TypedDict):
+    studio: str
+    currentPassword: str
+    newPassword: str
+
+class Prv_glofox_glofoxChangePasswordResult_Out(TypedDict):
+    studio: str
+    changed: bool
+
 class Prv_glofox_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -37697,6 +37760,14 @@ class Prv_glossgenius_GlossGeniusMyMembershipsArgs_In(TypedDict):
 class Prv_glossgenius_GlossGeniusMyMemberships_Out(TypedDict):
     business: str
     memberships: list[Mapping[str, Any]]
+    count: float
+
+class Prv_glossgenius_GlossGeniusMyCardsArgs_In(TypedDict):
+    business: str
+
+class Prv_glossgenius_GlossGeniusMyCards_Out(TypedDict):
+    business: str
+    cards: list[Mapping[str, Any]]
     count: float
 
 class Prv_glossgenius_GlossGeniusMyOrdersArgs_In(TypedDict):
@@ -53733,6 +53804,51 @@ class Prv_nationalbusinessfurniture_NbfCheckoutHandoff_Out_summary_u0_Out_items_
     lineTotal: str | None
     url: NotRequired[str]
     id: NotRequired[str]
+
+class Prv_nbcnews_ListHeadlinesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_nbcnews_HeadlineList_Out(TypedDict):
+    total: float
+    items: list[Prv_nbcnews_Headline_Out]
+
+class Prv_nbcnews_Headline_Out(TypedDict):
+    id: str
+    type: str
+    headline: str
+    summary: NotRequired[str]
+    url: str
+    section: NotRequired[str]
+    publishedAt: NotRequired[str]
+    imageUrl: NotRequired[str]
+
+class Prv_nbcnews_ListSectionHeadlinesArgs_In(TypedDict):
+    section: str
+    limit: NotRequired[float]
+
+class Prv_nbcnews_SectionHeadlineList_Out(TypedDict):
+    section: str
+    total: float
+    items: list[Prv_nbcnews_Headline_Out]
+
+class Prv_nbcnews_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_nbcnews_Article_Out(TypedDict):
+    id: str
+    url: str
+    headline: str
+    summary: NotRequired[str]
+    authors: list[Prv_nbcnews_Article_Out_authors_item_Out]
+    section: NotRequired[str]
+    publishedAt: NotRequired[str]
+    updatedAt: NotRequired[str]
+    paragraphs: list[str]
+    text: str
+
+class Prv_nbcnews_Article_Out_authors_item_Out(TypedDict):
+    name: str
+    url: NotRequired[str]
 
 class Prv_nerdwallet_NerdWalletCreditCardComparison_Out(TypedDict):
     cards: list[Prv_nerdwallet_NerdWalletCreditCard_Out]
@@ -82727,6 +82843,22 @@ class Prv_vagaro_VagaroPhoto_Out(TypedDict):
     staffId: str | None
     staffName: str | None
 
+class Prv_vagaro_VagaroProductList_Out(TypedDict):
+    businessId: str
+    slug: str
+    total: float | None
+    products: list[Prv_vagaro_VagaroProduct_Out]
+
+class Prv_vagaro_VagaroProduct_Out(TypedDict):
+    productId: str
+    name: str
+    brand: str | None
+    type: str | None
+    minPrice: float | None
+    maxPrice: float | None
+    imageUrl: str | None
+    hasVariants: bool
+
 class Prv_vagaro_VagaroClassList_Out(TypedDict):
     businessId: str
     slug: str
@@ -94140,6 +94272,16 @@ class Prv_airbnb(Protocol):
         its `/rooms/<id>` `url` or the `id` that `search` returns; `months` is how many months
         to read (default 2) starting at the month of `from` (`YYYY-MM-DD`, default today).
         `currency` is an ISO code, default USD.
+        """
+
+    async def getTrip(self, args: Prv_airbnb_getTrip_args_In, opts: ConnectionOption | None = None, /) -> Prv_airbnb_AirbnbTripDetail_Out:
+        """SIGNED IN — one of the caller's own Airbnb trips by the `id` listTrips returns (or
+        `internalId`, the number in its /trips/v1/<n> page). Returns the trip's id, title, site
+        status word, cancelled/upcoming flags, start and end times, cover photo and its own
+        page, with `partial: true`: the reservation code, guests, address and host contact are
+        not read yet. Runs through the caller's own Chrome when Bowmark Buddy is attached,
+        otherwise from a saved Airbnb sign-in; with neither, the run pauses for the caller to
+        sign in.
         """
 
     async def listTrips(self, args: Prv_airbnb_listTrips_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_airbnb_AirbnbTrips_Out:
@@ -110383,6 +110525,22 @@ class Prv_glofox(Protocol):
         consent at that studio. Only the fields passed are sent.
         """
 
+    async def listLinkedAccounts(self, args: Prv_glofox_glofoxStudioArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glofox_glofoxLinkedAccounts_Out:
+        """Signed in: list the family members (child accounts) linked to the member at that studio."""
+
+    async def pauseMembership(self, args: Prv_glofox_glofoxPauseMembershipArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glofox_glofoxPauseResult_Out:
+        """Signed in: preview what the studio computes for pausing a membership, and pause it only
+        with confirm: true and no charge.
+        """
+
+    async def cancelMembership(self, args: Prv_glofox_glofoxCancelMembershipArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glofox_glofoxCancelMembershipResult_Out:
+        """Signed in: send the studio a cancellation request for a membership with a reason;
+        refused unless confirm: true.
+        """
+
+    async def changePassword(self, args: Prv_glofox_glofoxChangePasswordArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glofox_glofoxChangePasswordResult_Out:
+        """Signed in: change the member's password at that studio."""
+
     async def signup(self, args: Any, /) -> Prv_glofox_signup_return_u0_Out | Prv_glofox_signup_return_u1_Out | Prv_glofox_signup_return_u2_Out | Prv_glofox_signup_return_u3_Out:
         """Makes a NEW Glofox account with the person's own email and password, in a session.
         Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
@@ -110418,6 +110576,12 @@ class Prv_glossgenius(Protocol):
         """Signed in: lists the memberships the caller holds at one GlossGenius business, as
         GlossGenius returns them. Example: `bowmark.providers.glossgenius.listMyMemberships({
         business: "sweettouchskin" })`.
+        """
+
+    async def listMyCards(self, args: Prv_glossgenius_GlossGeniusMyCardsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glossgenius_GlossGeniusMyCards_Out:
+        """Signed in: lists the cards the caller has saved at one GlossGenius business (brand, last
+        four, expiry), never the card number. Example:
+        `bowmark.providers.glossgenius.listMyCards({ business: "sweettouchskin" })`.
         """
 
     async def listMyOrders(self, args: Prv_glossgenius_GlossGeniusMyOrdersArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glossgenius_GlossGeniusMyOrders_Out:
@@ -119860,6 +120024,39 @@ class Prv_nationalbusinessfurniture(Protocol):
         NOTHING IS CREATED SERVER-SIDE and nothing is bought — this provider never posts to the
         site's own add-to-cart endpoint.
         """
+
+class Prv_nbcnews(Protocol):
+    """NBC News: headlines, section fronts, full articles, live blogs, video, newsletters and a
+    signed-in reader's profile and saved stories.
+    """
+
+    async def listHeadlines(self, args: Prv_nbcnews_ListHeadlinesArgs_In, /) -> Prv_nbcnews_HeadlineList_Out:
+        """Read the NBC News homepage front: lead stories and each module's headlines, with URL,
+        summary, section and publish time.
+        """
+
+    async def listSectionHeadlines(self, args: Prv_nbcnews_ListSectionHeadlinesArgs_In, /) -> Prv_nbcnews_SectionHeadlineList_Out:
+        """Read one NBC News section front (politics, us-news, world, business, health, tech...) as
+        headlines with URL, summary and publish time.
+        """
+
+    async def getArticle(self, args: Prv_nbcnews_GetArticleArgs_In, /) -> Prv_nbcnews_Article_Out:
+        """Read one NBC News article in full: headline, dek, authors, publish and update times,
+        section and body text.
+        """
+
+    async def listLatestStories(self, args: Prv_nbcnews_ListHeadlinesArgs_In, /) -> Prv_nbcnews_HeadlineList_Out:
+        """Read the NBC News Latest Stories feed: the newest stories across the newsroom with URL,
+        summary, section and publish time.
+        """
+
+    async def listVideos(self, args: Prv_nbcnews_ListHeadlinesArgs_In, /) -> Prv_nbcnews_HeadlineList_Out:
+        """Read the NBC News video front: latest videos with title, page URL, summary and publish
+        time.
+        """
+
+    async def listPodcasts(self, args: Prv_nbcnews_ListHeadlinesArgs_In, /) -> Prv_nbcnews_HeadlineList_Out:
+        """List NBC News podcasts (show name and page URL) from the podcasts front."""
 
 class Prv_nerdwallet(Protocol):
     """NerdWallet's current best-credit-card picks, ratings, fees, rewards and APRs."""
@@ -134124,6 +134321,11 @@ class Prv_vagaro(Protocol):
         service and staff member each one illustrates.
         """
 
+    async def listProducts(self, args: Prv_vagaro_BusinessArgs_In, /) -> Prv_vagaro_VagaroProductList_Out:
+        """Lists the retail products a business sells through its Vagaro store: name, brand, type,
+        price range and image.
+        """
+
     async def listClasses(self, args: Prv_vagaro_BusinessArgs_In, /) -> Prv_vagaro_VagaroClassList_Out:
         """Lists a business's group classes and workshops by category: id, name, description, price
         (null when hidden online), duration, promotion discount, and which staff teach each at
@@ -139124,6 +139326,7 @@ class BowmarkProviders(Protocol):
     naic: Prv_naic
     namecheap: Prv_namecheap
     nationalbusinessfurniture: Prv_nationalbusinessfurniture
+    nbcnews: Prv_nbcnews
     nerdwallet: Prv_nerdwallet
     netflix: Prv_netflix
     newageproducts: Prv_newageproducts
