@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: aefb140474a7336b6e2eafef21d6c24c81a7665dc6248a90de8e09c88bdd04f7
-# 99 capabilities, 964 providers, 5960 typed functions, 20 refused.
+# Manifest version: f88e9c64b8ecc1d4671b99cc65dd3188d75aff3270be66f150584a079836a0a8
+# 99 capabilities, 964 providers, 5962 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11651,6 +11651,14 @@ class Prv_biblegateway_AddHighlightArgs_In(TypedDict):
     reference: str
     color: NotRequired[str]
     version: NotRequired[str]
+
+class Prv_biblegateway_SetPreferencesArgs_In(TypedDict):
+    language: NotRequired[Literal["en"] | Literal["es"]]
+    defaultVersion: NotRequired[str]
+
+class Prv_biblegateway_PreferencesSaved_Out(TypedDict):
+    language: str
+    defaultVersion: str
 
 class Prv_biblegateway_Newsletter_Out(TypedDict):
     id: str
@@ -24445,7 +24453,7 @@ class Prv_dblp_dblpAuthor_Out(TypedDict):
 
 class Prv_dc_medicaid_DcMedicaidSearchArgs_In(TypedDict):
     name: NotRequired[str]
-    providerId: NotRequired[str]
+    npi: NotRequired[str]
     city: NotRequired[str]
     zip: NotRequired[str]
     page: NotRequired[float]
@@ -24456,23 +24464,25 @@ class Prv_dc_medicaid_DcMedicaidProviderSearch_Out(TypedDict):
     page: float
     pageSize: float
     providers: list[Prv_dc_medicaid_DcMedicaidProvider_Out]
+    warnings: list[str]
 
 class Prv_dc_medicaid_DcMedicaidProvider_Out(TypedDict):
     providerId: str
     entityId: str | None
+    npi: str | None
     name: str
-    designation: str | None
     location: str | None
     type: str | None
     specialty: str | None
     address: str | None
-    address2: str | None
     city: str | None
     state: str | None
     zip: str | None
     phone: str | None
     fax: str | None
     email: str | None
+    languages: str | None
+    acceptingNewPatients: bool | None
 
 class Prv_deangroup_DeangroupProperty_Out(TypedDict):
     hotelId: float
@@ -69915,38 +69925,6 @@ class Prv_snapchat_SnapchatProfileHighlight_Out(TypedDict):
     thumbnailUrl: NotRequired[str]
     snaps: list[Prv_snapchat_SnapchatStorySnap_Out]
 
-class Prv_snapchat_SnapchatShow_Out(TypedDict):
-    publisherId: str
-    title: NotRequired[str]
-    bio: NotRequired[str]
-    websiteUrl: NotRequired[str]
-    subscriberCount: NotRequired[float]
-    profilePictureUrl: NotRequired[str]
-    episodes: list[Prv_snapchat_SnapchatShowEpisodeSummary_Out]
-    seasons: list[Prv_snapchat_SnapchatShowSeason_Out]
-
-class Prv_snapchat_SnapchatShowEpisodeSummary_Out(TypedDict):
-    storyId: str
-    title: NotRequired[str]
-    thumbnailUrl: NotRequired[str]
-    publishedAtSec: NotRequired[float]
-    seasonNumber: NotRequired[float]
-    episodeNumber: NotRequired[float]
-
-class Prv_snapchat_SnapchatShowSeason_Out(TypedDict):
-    seasonNumber: float
-    episodeCount: float
-
-class Prv_snapchat_SnapchatGetEpisodeArgs_In(TypedDict):
-    publisherId: str
-    storyId: str
-
-class Prv_snapchat_SnapchatEpisode_Out(TypedDict):
-    storyId: str
-    title: NotRequired[str]
-    publishedAtSec: NotRequired[float]
-    snaps: list[Prv_snapchat_SnapchatStorySnap_Out]
-
 class Prv_snapchat_SnapchatLocalCities_Out(TypedDict):
     cities: list[Prv_snapchat_SnapchatLocalCity_Out]
 
@@ -85110,6 +85088,14 @@ class Prv_whatsapp_WhatsappCommunityLeft_Out(TypedDict):
     community: str
     left: bool
 
+class Prv_whatsapp_WhatsappLinkedDevice_Out(TypedDict):
+    name: str
+    lastActive: str | None
+
+class Prv_whatsapp_WhatsappDeviceUnlinked_Out(TypedDict):
+    device: str
+    unlinked: bool
+
 class Prv_whatsapp_WhatsappChannelReaction_Out(TypedDict):
     channel: str
     updateId: str
@@ -86154,6 +86140,16 @@ class Prv_wix_bookings_CancelBookingArgs_In(TypedDict):
     bookingId: str
     revision: str
     notifyParticipants: NotRequired[bool]
+
+class Prv_wix_bookings_RescheduleBookingArgs_In(TypedDict):
+    site: str
+    bookingId: str
+    revision: str
+    serviceId: str
+    startDate: str
+    endDate: str
+    timeZone: NotRequired[str]
+    resourceId: NotRequired[str]
 
 class Prv_wodify_findGym_args_In(TypedDict):
     url: str
@@ -96731,6 +96727,11 @@ class Prv_biblegateway(Protocol):
     async def addBookmark(self, args: Prv_biblegateway_LibraryArgs_In, opts: ConnectionOption | None = None, /) -> Prv_biblegateway_LibraryWrite_Out:
         """Bookmarks (favorites) a passage in the signed-in caller's own library."""
 
+    async def setPreferences(self, args: Prv_biblegateway_SetPreferencesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_biblegateway_PreferencesSaved_Out:
+        """Sets the signed-in caller's site language (en or es) and default Bible translation on
+        Bible Gateway.
+        """
+
     async def listNewsletters(self, /) -> list[Prv_biblegateway_Newsletter_Out]:
         """Lists the email newsletters and devotionals Bible Gateway offers (id, title,
         description, category).
@@ -102671,7 +102672,11 @@ class Prv_coursera(Protocol):
         `limit` rows in `results` (name, url, partner universities/companies, rating,
         difficulty, duration bucket, skills), Coursera's own count of courses for the query in
         `total`, and a warning when the rows came back short of it. Query is optional: with none
-        it returns Coursera's popular picks. 12 results per page; page is 1-based.
+        it returns Coursera's popular picks. 12 results per page; page is 1-based and reaches
+        page 100 at most (pageCount is capped there). Coursera ranks by best match and that
+        order is not stable between calls, so courses can repeat across pages (measured
+        2026-11-24: 8 of 23 page pairs repeated at least one course, and up to 8 of page 2's 12
+        rows, leaving as few as 4 new); de-duplicate by url when collecting several pages.
         """
 
 class Prv_craigslist(Protocol):
@@ -103496,15 +103501,16 @@ class Prv_dblp(Protocol):
 class Prv_dc_medicaid(Protocol):
     """DC Medicaid (medicaid.dc.gov), the District of Columbia's Medicaid portal.
     searchProviders finds enrolled Medicaid providers (doctors, counselors, clinics,
-    home-care workers) in the site's own provider directory by name, provider ID, city or
-    ZIP, with type, specialty and address.
+    home-care workers) in the site's own provider directory by name, NPI, city or ZIP, with
+    type, specialty, address, phone and ZIP.
     """
 
     async def searchProviders(self, args: Prv_dc_medicaid_DcMedicaidSearchArgs_In, /) -> Prv_dc_medicaid_DcMedicaidProviderSearch_Out:
         """Search the DC Medicaid provider directory for enrolled providers by name ("LAST, FIRST"
-        or a clinic name), providerId, city or zip (at least one). Returns each provider's
-        Medicaid provider ID, name, type, specialty and address, paged (`page`, `pageSize` up to
-        100; the site caps a search at 500 matches).
+        or a clinic name), npi, city or zip (at least one). Returns each provider's Medicaid
+        provider ID, NPI, name, type, specialty, address, ZIP, phone, fax, languages and whether
+        they take new patients, paged (`page`, `pageSize` up to 100; the site caps a search at
+        500 matches).
         """
 
 class Prv_deangroup(Protocol):
@@ -127586,8 +127592,9 @@ class Prv_snapchat(Protocol):
         """Search Snapchat the way www.snapchat.com/explore/<query> does: every section it renders
         (Lenses, Spotlight, Add Friends, Subscribe, Shows, Places, Episodes, and the Topics
         tags), each item with its kind, id, title and username plus the site's own object. A
-        Spotlight item's id is the snap id getSpotlightVideo takes, a Show's the publisherId
-        getShow takes, and an episode's the storyId getEpisode takes.
+        Spotlight item's id is the snap id getSpotlightVideo takes, a Show's and an episode's
+        ids are the publisherId and storyId of its /p/ url (Snapchat no longer serves those
+        pages on the web, so they are identifiers only).
         """
 
     async def getProfile(self, username: str, /) -> Prv_snapchat_SnapchatProfileRow_Out:
@@ -127656,17 +127663,6 @@ class Prv_snapchat(Protocol):
     async def listProfileHighlights(self, username: str, /) -> Prv_snapchat_SnapchatProfileHighlights_Out:
         """Lists a public profile's saved Story highlights (first page) — each highlight's title,
         thumbnail and snaps with their media urls.
-        """
-
-    async def getShow(self, publisherId: str, /) -> Prv_snapchat_SnapchatShow_Out:
-        """Reads one Discover show or publisher page (www.snapchat.com/p/<publisherId>) — title,
-        bio, subscriber count, seasons with episode counts, and the episode list with titles and
-        thumbnails.
-        """
-
-    async def getEpisode(self, args: Prv_snapchat_SnapchatGetEpisodeArgs_In, /) -> Prv_snapchat_SnapchatEpisode_Out:
-        """Reads one show episode's own page (www.snapchat.com/p/<publisherId>/<storyId>) — title,
-        publish date and the snaps (media urls) that make it up.
         """
 
     async def listLocalCities(self, /) -> Prv_snapchat_SnapchatLocalCities_Out:
@@ -135129,6 +135125,16 @@ class Prv_whatsapp(Protocol):
         Communities tab. Needs the caller signed in.
         """
 
+    async def listLinkedDevices(self, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappLinkedDevice_Out]:
+        """Lists the devices linked to the caller's WhatsApp account, from Settings, Linked
+        devices: each device's name and last-active line. Needs the caller signed in.
+        """
+
+    async def unlinkDevice(self, deviceName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappDeviceUnlinked_Out:
+        """Unlinks one linked device of the caller's account, picked by the name listLinkedDevices
+        shows. Needs the caller signed in.
+        """
+
     async def reactToChannelUpdate(self, channelName: str, updateId: str, emoji: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelReaction_Out:
         """Reacts with an emoji to one update of a Channel the caller follows, the update picked by
         the id getChannelUpdates returns. Needs the caller signed in.
@@ -135689,6 +135695,11 @@ class Prv_wix_bookings(Protocol):
     async def cancelBooking(self, args: Prv_wix_bookings_CancelBookingArgs_In, /) -> Prv_wix_bookings_WixBooking_Out:
         """Cancels a guest booking with no sign-in, given the booking's id and current revision
         from bookAppointment.
+        """
+
+    async def rescheduleBooking(self, args: Prv_wix_bookings_RescheduleBookingArgs_In, /) -> Prv_wix_bookings_WixBooking_Out:
+        """Moves a guest booking to another open time with no sign-in, given the booking's id, its
+        current revision and the new slot from getOpenTimes.
         """
 
 class Prv_wodify(Protocol):

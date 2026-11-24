@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: aefb140474a7336b6e2eafef21d6c24c81a7665dc6248a90de8e09c88bdd04f7
-// 5960 checked, 20 unchecked.
+// Manifest version: f88e9c64b8ecc1d4671b99cc65dd3188d75aff3270be66f150584a079836a0a8
+// 5962 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "aefb140474a7336b6e2eafef21d6c24c81a7665dc6248a90de8e09c88bdd04f7",
+  "version": "f88e9c64b8ecc1d4671b99cc65dd3188d75aff3270be66f150584a079836a0a8",
   "units": {
     "address_validation": {
       "defs": {
@@ -23671,6 +23671,35 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SetPreferencesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "language",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "en"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "es"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "defaultVersion",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -23776,6 +23805,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "LibraryArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setPreferences": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetPreferencesArgs"
             },
             "optional": false
           },
@@ -23950,30 +24005,31 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getPlusStatus": "3640c8d6ede68df3",
-        "listNotes": "557b29fbbc5f9909",
-        "addNote": "be2e546ba89ed7d1",
-        "addHighlight": "0bce9467d810dc9e",
-        "addBookmark": "2356c14027ec213d",
-        "listNewsletters": "2fa578a194bfe516",
-        "getVerseAcrossVersions": "8a92f4db23ea79d2",
-        "searchDictionary": "68d65981e1d7e8a3",
-        "getPassageAudio": "78464a15df8ab580",
-        "listCommentaries": "8c84fd92b4a003b9",
-        "getCommentary": "3f225fe426ee9fd9",
-        "getTopicalVerses": "26a3621dbc50b79c",
-        "getVersionInfo": "ece14627d644c666",
-        "getReadingPlanDay": "ffd38eef62fc3281",
-        "listDevotionals": "543b6156e44c03d4",
-        "getDevotional": "b1c4e8cb5a64d774",
-        "comparePassage": "ad768d2fc6847de8",
-        "getVerseOfTheDay": "932c1887b1c4b8cd",
-        "listReadingPlans": "9300c64b429e4ce5",
-        "searchBible": "d7520204c225acb9",
-        "getPassage": "955e458df537a638",
-        "listVersions": "3f1573bf39ce8c11",
-        "signup": "3c835ccda4f41c68",
-        "confirmSignup": "4b562e162d73c7fa"
+        "getPlusStatus": "2c17102bbaff2620",
+        "listNotes": "5dcbd09a1ec5edd6",
+        "addNote": "c500459d0157635d",
+        "addHighlight": "1b00b733b9f41694",
+        "addBookmark": "0a6beb206f6388bf",
+        "setPreferences": "f359405775b64e07",
+        "listNewsletters": "f2e5217cf51ab0c1",
+        "getVerseAcrossVersions": "ac71b511359eb8d7",
+        "searchDictionary": "7c85d8e75aa91ba7",
+        "getPassageAudio": "814c44bbeceae241",
+        "listCommentaries": "1ec68872e9c59299",
+        "getCommentary": "3e9da5504c23c14d",
+        "getTopicalVerses": "9ede339f1919acbc",
+        "getVersionInfo": "eaeca613df2ac551",
+        "getReadingPlanDay": "d88c769510c6a7a0",
+        "listDevotionals": "49e3fd3d8dc79ce2",
+        "getDevotional": "5be9b0196da27932",
+        "comparePassage": "b52bc2391aa5307a",
+        "getVerseOfTheDay": "5e8f067a8b3cc7d6",
+        "listReadingPlans": "be25857c7bd6a0a1",
+        "searchBible": "39e8b9dc82c6571f",
+        "getPassage": "a5c7126e35808c63",
+        "listVersions": "43fede7066a9c83c",
+        "signup": "57f4c2fa63302b20",
+        "confirmSignup": "563493e967793f0c"
       }
     },
     "providers.bigairusa": {
@@ -50999,7 +51055,7 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             },
             {
-              "name": "providerId",
+              "name": "npi",
               "schema": {
                 "k": "string"
               },
@@ -51049,7 +51105,7 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchProviders": "07a9c59081533783"
+        "searchProviders": "8107bc707b8698eb"
       }
     },
     "providers.deangroup": {
@@ -153842,25 +153898,6 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.snapchat": {
       "defs": {
-        "SnapchatGetEpisodeArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "publisherId",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "storyId",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        },
         "SnapchatGetLocalGuideArgs": {
           "k": "object",
           "props": [
@@ -153971,25 +154008,6 @@ export const VALIDATORS: ValidatorTable = {
             "name": "username",
             "schema": {
               "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getShow": [
-          {
-            "name": "publisherId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getEpisode": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "SnapchatGetEpisodeArgs"
             },
             "optional": false
           }
@@ -154312,8 +154330,6 @@ export const VALIDATORS: ValidatorTable = {
         "listProfileLenses": "9e8a5fa031d242c0",
         "listSpotlightComments": "d10cb8442360d56d",
         "listProfileHighlights": "f2e51318350ac94b",
-        "getShow": "7268792e6d4736ac",
-        "getEpisode": "9f76b023cb93468b",
         "listLocalCities": "f74de495b8546e55",
         "getLocalGuide": "651cf279599ac916",
         "getMyProfile": "5c053301acbe27c9",
@@ -186413,6 +186429,49 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listLinkedDevices": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unlinkDevice": [
+          {
+            "name": "deviceName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "reactToChannelUpdate": [
           {
             "name": "channelName",
@@ -187315,81 +187374,83 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getMyProfile": "fefa37ab8c38e47d",
-        "listChats": "704f4ab9af62c680",
-        "findContact": "17b38a7298502479",
-        "searchMessages": "d2dd47a0d2b2c281",
-        "listContacts": "e45f5719a74abb62",
-        "checkNumber": "ada49a322ca163a0",
-        "getChatMessages": "357a10af29770754",
-        "downloadMedia": "91110791b155d94f",
-        "previewGroupInvite": "e4fc9bf63df8122e",
-        "createClickToChatLink": "d41f575c74d70092",
-        "previewBusinessCatalog": "c8a655a547d7ca23",
-        "getChannel": "4e8452d28205f673",
-        "listBlogPosts": "1be7dcc472fe630c",
-        "getBlogPost": "42f90c13846939d5",
-        "searchHelpCenter": "0faf442b294532b4",
-        "getHelpArticle": "59b9a66f2d4d482e",
-        "getGroupInfo": "bd06e83d0ea8235d",
-        "searchChannels": "4378b2cdf18209ca",
-        "listFollowedChannels": "847f6e51673ef354",
-        "getCommunity": "b7ad7ecc43093045",
-        "getChannelUpdates": "d5608df12a00f3e0",
-        "sendMessage": "65a2a4275dd70a28",
-        "sendMessageToNumber": "ac5e94e8c7cc808f",
-        "sendMedia": "a3fb81afe22115c4",
-        "reactToMessage": "c3485911b25d6dc3",
-        "replyToMessage": "a79e556f6ad2401e",
-        "pinMessage": "099fed7fc53d2247",
-        "setDisappearingMessages": "3a60792ffe31071d",
-        "editMessage": "a1828c84d5b2117d",
-        "sendPoll": "32388c1841e41a10",
-        "votePoll": "35738b7e1329728f",
-        "sendContact": "89af36dcde2d8e84",
-        "postToChannel": "b7d78e833a6e5559",
-        "approveGroupJoinRequests": "cd17da9f9d0a7d5e",
-        "sendGif": "ce9841178356daa6",
-        "editChannelUpdate": "5d832b5156bb46d8",
-        "createBroadcastList": "6c7268356a46ca73",
-        "starMessage": "bbed597df634f8ee",
-        "listStarredMessages": "e9e8f33e58cdb084",
-        "deleteChat": "868276790ff832b3",
-        "lockChat": "d6333d7e5d1fbd7c",
-        "createCommunity": "089f056ec2075251",
-        "saveContact": "73228ab6dcc089d7",
-        "deleteContact": "9044497d8b496766",
-        "setGroupAdmin": "54d9c03edd8aaeb5",
-        "getMessageInfo": "32e6f2d374c04343",
-        "sendVoiceMessage": "58f99a53e7139d2b",
-        "startCall": "1f516575d85a7256",
-        "clearChat": "bb54bfc92254f794",
-        "leaveCommunity": "5d329fe17a259319",
-        "reactToChannelUpdate": "30458baaf6582409",
-        "exportChat": "18e027a61ca9d3e6",
-        "postStatusMedia": "a83a7e785c55946b",
-        "addGroupToCommunity": "d4b8ecc7aab35b4b",
-        "listCalls": "2f57901e1dbdba20",
-        "sendLocation": "c7504f62196d3659",
-        "createChannel": "1f6c0f1221fcc1be",
-        "forwardMessage": "a75b951fdf6131d7",
-        "updateChat": "29b8029ec2cfff0f",
-        "createGroup": "032fc37eb2b2cf0f",
-        "updateGroup": "9c9b3f6269ba71af",
-        "addGroupParticipants": "e2c5a554f471f699",
-        "removeGroupParticipants": "e2c5a554f471f699",
-        "joinGroupByInvite": "ce14fa472ace1b24",
-        "leaveGroup": "3a2bbe471ba11138",
-        "followChannel": "078dc04bebf49d39",
-        "unfollowChannel": "078dc04bebf49d39",
-        "postStatus": "684303a5987cf98a",
-        "updateProfile": "105941fd5014320a",
-        "blockContact": "6ee53bc1a3eeec3c",
-        "updatePrivacySettings": "cbb089a1df5b72cf",
-        "deleteMessage": "25176a3ec8ec59d7",
-        "listCatalogProducts": "34d7201cd807c1f4",
-        "listStatusUpdates": "27aed1d19ac0c7e3",
-        "getGroupInviteLink": "0468faee326f7d40"
+        "getMyProfile": "42aefb8394d8de77",
+        "listChats": "75a3039021956876",
+        "findContact": "ab8f8d9b2ac37a1e",
+        "searchMessages": "251991f3c399ee43",
+        "listContacts": "149b84ec0294a221",
+        "checkNumber": "03ea2a59ee384525",
+        "getChatMessages": "a3ca8e026d258528",
+        "downloadMedia": "6099d259948e3078",
+        "previewGroupInvite": "8ac753361bbeadb9",
+        "createClickToChatLink": "f4bc373577c68772",
+        "previewBusinessCatalog": "76a6c347ea41353a",
+        "getChannel": "0068837f983f6b9a",
+        "listBlogPosts": "ae21ea5cffa9f39f",
+        "getBlogPost": "68baaf40d1c9916b",
+        "searchHelpCenter": "445a8f7215037858",
+        "getHelpArticle": "cd90df4625a2612b",
+        "getGroupInfo": "5702f706babfda01",
+        "searchChannels": "fbdbd5bbbe9cb561",
+        "listFollowedChannels": "c996d6124587ad94",
+        "getCommunity": "84172fcca7da0520",
+        "getChannelUpdates": "f931da70d551ce25",
+        "sendMessage": "c7a3e529e9210937",
+        "sendMessageToNumber": "30b65feeafd073b4",
+        "sendMedia": "839e4048be70e6c6",
+        "reactToMessage": "ce61ce54e5574bb4",
+        "replyToMessage": "0eaf6055771eb5ee",
+        "pinMessage": "804e363f7d7c931e",
+        "setDisappearingMessages": "7412704e68b68233",
+        "editMessage": "f2180e7b66024579",
+        "sendPoll": "398a8f117604b3f0",
+        "votePoll": "822f56b5be882f1c",
+        "sendContact": "04f7b4deefa65624",
+        "postToChannel": "4f590c54430f0c59",
+        "approveGroupJoinRequests": "ee87cff171b74e6a",
+        "sendGif": "b14ff3d1c6c3a8ea",
+        "editChannelUpdate": "0d64d7df8c1bc781",
+        "createBroadcastList": "9110ebf63ba5ffdf",
+        "starMessage": "635a0616f9889c79",
+        "listStarredMessages": "8d7e21d81280e13a",
+        "deleteChat": "5545d8d5258d50da",
+        "lockChat": "a8b50ea42fbce0ff",
+        "createCommunity": "b81b63b5cd75b04e",
+        "saveContact": "4f5a808e2f1cf953",
+        "deleteContact": "882aff01f1ed84b6",
+        "setGroupAdmin": "84e0e54ca5c51a94",
+        "getMessageInfo": "958ce9b5562e9aeb",
+        "sendVoiceMessage": "5ac92c780209fdf4",
+        "startCall": "918d404e1d23463d",
+        "clearChat": "c4e73625c84d322f",
+        "leaveCommunity": "995ded32881b0576",
+        "listLinkedDevices": "2a57f4214bf66f7d",
+        "unlinkDevice": "662e25db3e180585",
+        "reactToChannelUpdate": "70e196684f8c1f3b",
+        "exportChat": "cdfec7649a1f699d",
+        "postStatusMedia": "2f0746f965397fb3",
+        "addGroupToCommunity": "0402501d0425b389",
+        "listCalls": "204579c671c6ebef",
+        "sendLocation": "572c8947dd9c3a77",
+        "createChannel": "23d541f50007adcb",
+        "forwardMessage": "bb48a75ffc545f58",
+        "updateChat": "c2d115623fdbe15e",
+        "createGroup": "33990be0ba055269",
+        "updateGroup": "06d73b9862e791fc",
+        "addGroupParticipants": "558f3c8b4b3f7082",
+        "removeGroupParticipants": "558f3c8b4b3f7082",
+        "joinGroupByInvite": "ea44d53f123435bf",
+        "leaveGroup": "82b2f3f8f164c74c",
+        "followChannel": "04ce6727a87488c5",
+        "unfollowChannel": "04ce6727a87488c5",
+        "postStatus": "e0da05f4afd222b0",
+        "updateProfile": "d67e70defacf8833",
+        "blockContact": "ee069280e5d8f097",
+        "updatePrivacySettings": "ce4db56da29a8d12",
+        "deleteMessage": "71031b3405722e53",
+        "listCatalogProducts": "dfb23efd4d15b5c2",
+        "listStatusUpdates": "a489bceb3a3c33a4",
+        "getGroupInviteLink": "5c8e827da38db03f"
       }
     },
     "providers.wholefoodsmarket": {
@@ -189153,6 +189214,67 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "RescheduleBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "bookingId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "revision",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "serviceId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "timeZone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "resourceId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchServicesArgs": {
           "k": "object",
           "props": [
@@ -189313,19 +189435,30 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "rescheduleBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RescheduleBookingArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "findSite": "94e8ab4996afa04c",
-        "listServices": "e653c0d679b0ce4a",
-        "searchServices": "a4609f0a4a53116d",
-        "getService": "17adc058a75f10e7",
-        "listCategories": "a82cc14abe9a69a9",
-        "listStaff": "3a5ea6036a3304fb",
-        "getOpenTimes": "0efbbe83020b20ec",
-        "listLocations": "c35ca57e9fca70a6",
-        "bookAppointment": "0cedce14cd8c53e5",
-        "cancelBooking": "aa172ad012bd4383"
+        "findSite": "4c449d7a5312ffe2",
+        "listServices": "84f0bf2b65dd96f3",
+        "searchServices": "fdccd82efa5f88ab",
+        "getService": "e22eb855631f7311",
+        "listCategories": "da11a45dfbbff66e",
+        "listStaff": "35d65171d2519a23",
+        "getOpenTimes": "7f3734d28e0c6a23",
+        "listLocations": "a6e61d55b63d4062",
+        "bookAppointment": "13f94993bf5a4b1f",
+        "cancelBooking": "dacece745544d307",
+        "rescheduleBooking": "8bd665ffac4c3974"
       }
     },
     "providers.wodify": {
