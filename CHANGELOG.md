@@ -7,6 +7,606 @@ Entries are generated from the list of covered websites and their functions, so 
 file describes the callable surface and nothing else. Each release names every website
 it added, changed or removed.
 
+## 1.37.0 (2026-11-24)
+
+**Websites**
+
+- +469 websites, +7,114 functions, -7 websites, -760 functions. 139,968 websites and 1,328,853 functions in all.
+
+Added:
+
+- 344 websites, functions not listed yet:
+  - accsly.io
+  - achate.com
+  - aerre.co
+  - afew-store.com
+  - aladdinshoppers.com
+  - allyours.com
+  - amalgamcollection.com
+  - amuzzi.com
+  - aniioki.com
+  - animescollection.com
+  - anitahass.com
+  - antiquemapsandprints.com
+  - anyaactive.com
+  - aquacadabra.com
+  - arc.cc
+  - arcteryx.com.au
+  - ardanlabs.com
+  - aromatherapyassociates.com
+  - asianpantry.com.au
+  - askechogolf.com
+  - bake-the-online.com
+  - balkonstrom.com
+  - barabasmen.com
+  - bareminerals.co.uk
+  - baserange.com
+  - baumundpferdgarten.com
+  - bdcosmos.com
+  - beamcardshop.com
+  - bearefoot.com
+  - bedbathhome.co.za
+  - beglarianfabrics.com
+  - bestbuylighting.com.au
+  - bigidesign.com
+  - blade-tech.com
+  - bluebungalow.co.nz
+  - blyssofficial.com
+  - bodylinetokyo.co.jp
+  - bubbleroom.fi
+  - buckleybelts.com
+  - bumpsuit.com
+  - buttergoods.com
+  - californiadesignden.com
+  - cardotaku.com
+  - carnivero.com
+  - carrolboyes.com
+  - casaandbeyond.com
+  - casaandbeyond.com.au
+  - catholicfaithstore.com
+  - catlifestyle.co
+  - celluma.com
+  - celticancestrygifts.com
+  - charriol.com
+  - cherrycollectables.com.au
+  - chimeragamingonline.com
+  - chip-seek.com
+  - christmasplace.com
+  - clarkesgolf.co.uk
+  - clementinaitaly.com
+  - colebuxton.com
+  - comfortoneshoes.com
+  - consilia.fi
+  - countrycollection.co.uk
+  - croissant-shop.co.jp
+  - cronos-fit.com
+  - customplugs.com
+  - cwspirits.com
+  - decadastore.com
+  - decoratingcentreonline.co.uk
+  - delamur.com
+  - demel.com
+  - derimarket.net
+  - dmax-shop.de
+  - docklandet.de
+  - dongardner.com
+  - doors.com
+  - dreame.de
+  - dressygt.com
+  - drsambunting.com
+  - drumcenternh.com
+  - e3d-online.com
+  - easyshed.com.au
+  - elevenpast.co.za
+  - emoryblanc.com
+  - ernest.ca
+  - es-fascinante.com
+  - europetheband.com
+  - evamratna.com
+  - evolc.com
+  - facetheory.com
+  - feelyou.eu
+  - feey-pflanzen.de
+  - firewiresurfboards.com
+  - fjordtimepieces.com
+  - fonezone.me
+  - forevin.ro
+  - francesca.com.au
+  - furnitureone.net
+  - gamersonly.com
+  - giarre.com
+  - gladiatorgarageworks.com
+  - globalseafoods.com
+  - gr8fires.co.uk
+  - gray-nicolls.co.uk
+  - guinthers.com
+  - gyztoys.com
+  - halfpe.com
+  - harvestportal.org
+  - hawkstone.com
+  - hflnetworks.net
+  - highgrovegardens.com
+  - holdingshub.top
+  - hoodmaps.com
+  - hunzag.com
+  - iceshaker.com
+  - idyl.com
+  - incylence.com
+  - inikaorganic.com
+  - inspee.be
+  - insulation4less.co.uk
+  - jaeger-fishing.com
+  - jalie.com
+  - jamesoro.com
+  - jenniferfurniture.com
+  - jixhobbies.co.za
+  - jobfinder-ai.com
+  - jovialfoods.com
+  - jungmaven.com
+  - kaqtu.ch
+  - katesomerville.com
+  - keeb.io
+  - keeprunningbrasil.com.br
+  - kekale.fi
+  - kenelestore.jp
+  - kentrollins.com
+  - kiyoko.ca
+  - klonescents.com
+  - kojistore.com.br
+  - koruraclub.com
+  - krosno.com
+  - kualastyle.com
+  - lakai.com
+  - lameredefamille.com
+  - lanaehome.com
+  - lebonshoppe.com
+  - legaragemode.com
+  - lelabofragrances.jp
+  - lensbaby.com
+  - levitara.lt
+  - libertineparfumerie.com.au
+  - littleme.com
+  - longsjewelers.com
+  - lotus.in
+  - louisemisha.com
+  - lovenmour.co.il
+  - lovuso.com
+  - luminesy.com
+  - luxurysouq.com
+  - lyma.life
+  - madamsew.com
+  - magicsplashy.de
+  - maisonlejaby.com
+  - make.do
+  - malennachzahlen-erwachsene.de
+  - mannys.com.au
+  - mapletattoosupply.com
+  - matchboxtwenty.com
+  - matissefootwear.com
+  - maymaymadeit.com
+  - merimerieu.com
+  - midakbeauty.com
+  - middleofbeyond.com
+  - mimomonitors.com
+  - minihorseshop.nl
+  - minopia.com
+  - miuragolf.com
+  - modemischiefstudios.com
+  - mollusksurfshop.mom
+  - momentumwatch.com
+  - monportlaser.com
+  - monumenthobbies.com
+  - moshulu.co.uk
+  - mperformance.parts
+  - mydigimenu.com
+  - myfurnishingcenter.com
+  - mygiftstop.com
+  - mynbest.info
+  - mystylesquad.com
+  - nablacosmetics.com
+  - nanasgreentea.com
+  - naturalcatchtuna.com
+  - need4shoes.ro
+  - neerus.com
+  - newglarusbrewing.com
+  - nexlorac.com
+  - nexvey.com
+  - nh-stoffe.de
+  - nikolatoy.com
+  - nomasei.com
+  - nordicbuddies.com
+  - novethery.com
+  - nurosym.com
+  - offgridstores.com
+  - officinecreative.store
+  - onlineorganics.ca
+  - outdoorsoriented.com
+  - outsidersstore.com
+  - p3m.dev
+  - pakar.com
+  - partsof4.com
+  - pequignet.com
+  - perofil.com
+  - pichler.tools
+  - plantespourtous.co
+  - playerscouture.com
+  - polhill.co.uk
+  - postermuseum.com
+  - premierequine.co.uk
+  - prexhobby.com
+  - privateblends.com.au
+  - prya.co.uk
+  - psbspeakers.com
+  - publicationschretiennes.com
+  - pucara.org
+  - pueblodirect.com
+  - purdyandfigg.com
+  - quandify.com
+  - quarkshoes.com
+  - quayaustralia.com
+  - queencreekolivemill.com
+  - rbsellars.com.au
+  - redapplelipstick.com
+  - redfoxgamingonline.com
+  - renuebyscience.com
+  - ringtons.co.uk
+  - robinsaige.com
+  - rockanutrition.de
+  - rosymae.com
+  - royalfurnitureandgift.com
+  - rumblestore.nl
+  - runthejewels.com
+  - sabyasachi.com
+  - saltxo.com
+  - sambatech.com.br
+  - sanatory.ru
+  - savellireligious.com
+  - savethegirls.com
+  - scentsangel.com
+  - schmidts.store
+  - schorr-maschinen.de
+  - scienceuniverse.org
+  - scuderistore.com
+  - scytale.ai
+  - seedtherapy.com
+  - seez.dk
+  - seriousdetecting.com
+  - shopbrickcraft.com
+  - shopfancy.com
+  - shoplecce.com
+  - silamp.fr
+  - silverbackgymwear.com
+  - sitrra.com
+  - ski-france.com
+  - smartapply.com
+  - smartscalesreviews.com
+  - socalbrewingsupply.com
+  - sokorajewels.com
+  - soniarykiel.com
+  - soulmachines.com
+  - spadeandco.com
+  - staticnails.com
+  - steiners.shop
+  - storeshoppe.com
+  - supplementmart.com.au
+  - surfari.ch
+  - sursports.cl
+  - swadesii.com
+  - swoveralls.com
+  - t-sciple.com
+  - taiko-cookware.com
+  - tallyfy.com
+  - tbm.com.my
+  - tchibo.ro
+  - teabox.com
+  - tfsafari.com
+  - theaudiostore.in
+  - themelidisjewels.com
+  - therangehoodstore.com
+  - thinkgeo.com
+  - thinkingmu.com
+  - threadbare.com
+  - tomskey.com
+  - topcollectibles.com
+  - tower-london.com
+  - traveltodjourney.com
+  - tropical-supplies.co.uk
+  - trypura.com
+  - tubalondon.co.uk
+  - tuttiosport.com
+  - ubookstore.com
+  - ukbabycentre.com
+  - uktrendzone.com
+  - ultracarmats.com
+  - underarmour.com.ph
+  - understand.com
+  - upfitsupply.com
+  - uptontea.com
+  - upway.be
+  - utmsimple.com
+  - vanillabeankings.com
+  - vanquishproducts.com
+  - vartur.com
+  - vegaoo.es
+  - velvet-tees.com
+  - verafiedny.com
+  - vetoreditora.com.br
+  - vionicshoes.com.au
+  - vkbsimcontrollers.com
+  - vodaland-usa.com
+  - vrikshamindia.com
+  - vtoman.com
+  - wallartistic.be
+  - wallpaperstogo.com
+  - walti.ro
+  - warmachine.gg
+  - waxworkrecords.com
+  - wedtree.com
+  - welove.co.uk
+  - weloveplugs.com
+  - wikimedia.com
+  - wineandbeyond.ca
+  - wisetekmarket.com
+  - wizkhalifa.com
+  - woodupp.de
+  - woodyjobs.com
+  - wrekd.com
+  - wyecliffe.com
+  - yonko-tcg.de
+  - yoyostorerewind.com
+  - zapakasa.com
+  - zepplingiyim.com
+  - zigprompt.com
+  - zoombookdirect.com
+  - zoomhitskins.com
+  - zusss.nl
+- 92 websites, each with `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - aldoshoes.com.tr
+  - applianceworldonline.com
+  - atlanticknife.com
+  - bettercuppa.com
+  - bgoodonline.co.il
+  - bighammerwines.com
+  - blossom39.com
+  - bpfauto.com
+  - bullybillows.com
+  - bysimon.it
+  - carlitosgamecafe.ca
+  - cobra.fr
+  - corruptedblood.de
+  - cotswold-fayre.co.uk
+  - custype.com
+  - dabbsson.com
+  - dibor.co.uk
+  - dishapublication.com
+  - enginecomponents.com
+  - eplehuset.no
+  - esencialmx.shop
+  - fabercastell.com
+  - fermliving.us
+  - gabrielahearst.com
+  - gameofbricks.eu
+  - go-craft.co.uk
+  - gonggarsports.com
+  - gpa.net
+  - hlgross.com
+  - indewild.com
+  - isotunes.com
+  - isurve.ge
+  - karmaeast.com.au
+  - karupdesign.com
+  - kawaiipenshop.com
+  - knifemaking.com
+  - koonbooks.com
+  - kydschoice.com
+  - latercase.com
+  - lilyandtoddny.com
+  - lineupshop.com
+  - littleseedfarm.com
+  - lonewolfpaintball.com
+  - lotus-moon.co
+  - lunalightstudios.com
+  - majestictrailer.com
+  - manymoons.com
+  - mauripro.com
+  - metabolismo.com
+  - militaryuniformsupply.com
+  - moncheri.jp
+  - mothers.com
+  - mxwraps.us
+  - nmndesigns.com
+  - nothosaur.com
+  - olderbest.com
+  - olivias.com
+  - oxensports.com
+  - pdp.com
+  - plancher2000.ca
+  - redmanshop.com
+  - rmleathersupply.com
+  - salomon.cl
+  - samakocleaning.com
+  - scanlantheodore.com
+  - selectopa.com
+  - sexyshoes.com
+  - silkygem.com
+  - simracewebshop.eu
+  - sootang.jp
+  - spectrumboutique.com
+  - sportspower.com.au
+  - sunsetmakeup.com
+  - superteamwheels.com
+  - tempusshop.com
+  - thebadpeach.com
+  - thefitville.de
+  - thereadystore.com
+  - thirdbaseurban.co.za
+  - tiffanylightingdirect.co.uk
+  - tokalana.com
+  - twiggmusique.com
+  - unclestraps.com
+  - uniquemaps.eu
+  - unrealsnacks.com
+  - vaonis.com
+  - verticaldoors.com
+  - wattbike.com
+  - wellbefore.com
+  - westslopegear.com
+  - withings.com
+  - wondergifts.in
+- 17 websites, each with `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`:
+  - 99bikes.co.uk
+  - almaenpena.com
+  - amsale.com
+  - apc-us.com
+  - arabicparfums.com
+  - eqvvs.co.uk
+  - jennibick.com
+  - jennypackham.com
+  - laeuropea.com.mx
+  - misclaire.com
+  - ohlala-sellerie.com
+  - pajar.com
+  - planetcomicsdirect.com
+  - shopnorivals.com
+  - starizona.com
+  - thealkalinegoddess.com
+  - theboardgamehut.co.uk
+- 2 websites, each with `BrowseWixRESTDocsMenu`, `CallWixSiteAPI`, `ExecuteWixAPI`, `GenerateVisitorToken`, `GetBusinessDetails`, `ReadFullDocsArticle`, `ReadFullDocsMethodSchema`, `SearchInSite`, `SearchSiteApiDocs`, `WixREADME`:
+  - angthongnationalpark.com
+  - cmsinter.net
+- 2 websites, each with `search_shop_policies_and_faqs`:
+  - heynori.com
+  - powerplate.com
+- openfactory.tech: `add_app_bucket`, `add_app_database`, `annotate_screenshot`, `apply_fix`, `assign_app_scenario`, `attach_internal_repository`, `authenticate_tester`, `build_image`, `call_phone`, `cancel_app_test_group`, `check_image_inputs`, `check_messages`, `check_walk_regression`, `clear_walk_baseline`, `close_finding`, `configure_lab_network`, `connect_cloud_provider`, `create_app`, `create_app_from_prompt`, `create_app_scenario`, `create_build`, `create_build_from_prompt`, `create_checkpoint`, `create_internal_repository`, `create_lab`, `create_lab_node`, `create_recipe_from_template`, `create_vm`, `delete_app_scenario`, `delete_checkpoint`, `delete_lab`, `delete_lab_network`, `delete_lab_node`, `delete_lab_secret`, `delete_vm`, `deliver_lab_secret`, `deploy_app`, `deploy_lab_services`, `desktop_click`, `desktop_close_tab`, `desktop_drag`, `desktop_interact`, `desktop_key`, `desktop_listen`, `desktop_open_url`, `desktop_read_region`, `desktop_screenshot`, `desktop_speak`, `desktop_start_recording`, `desktop_stop_recording`, `desktop_type`, `diff_walks`, `disable_app_auth`, `disable_app_ide`, `disconnect_cloud_provider`, `enable_app_auth`, `enable_app_ide`, `ensure_lab_tester`, `ensure_tester_vm`, `enumerate_dom_links`, `finalize_build_plan`, `finish_app_test`, `finish_verification_session`, `generate_lab_secret`, `get_app`, `get_app_auth_status`, `get_app_build_status`, `get_app_deploy_status`, `get_app_ide_status`, `get_app_scenario`, `get_app_template`, `get_app_test_group`, `get_app_test_run`, `get_app_walk`, `get_browser_diagnostics`, `get_build`, `get_build_evidence`, `get_build_group`, `get_build_status`, `get_checkpoint`, `get_compute_allocation`, `get_feature_reference`, `get_fix_intent`, `get_harness_skill`, `get_iso_download_url`, `get_lab`, `get_lab_deployment`, `get_obs_package_log`, `get_obs_package_status`, `get_pending_checkpoint`, `get_platform_fix`, `get_recipe`, `get_recording`, `get_test_evidence`, `get_test_results`, `get_test_run_screenshot`, `get_verification_session`, `get_vm_console_url`, `get_vm_hardware`, `get_vm_install_status`, `get_walk_baseline`, `get_walk_summary`, `guest_command`, `inspect_boot_sequence`, `inspect_installed_disk`, `instantiate_app_template`, `iterate_app`, `land_platform_fix`, `list_account_env`, `list_app_buckets`, `list_app_databases`, `list_app_env`, `list_app_scenarios`, `list_app_templates`, `list_app_test_runs`, `list_app_walks`, `list_apps`, `list_builds`, `list_checkpoints`, `list_cloud_instances`, `list_cloud_providers`, `list_fix_intents`, `list_internal_repositories`, `list_lab_secrets`, `list_labs`, `list_recipe_categories`, `list_recipes`, `list_recordings`, `list_test_runs`, `list_vms`, `list_walk_baselines`, `pause_lab`, `pin_checkpoint`, `platform_fix_start`, `prepare_harness_build`, `propose_fix`, `propose_vm_access_recovery`, `propose_vm_hardware_change`, `publish_internal_repository`, `query_build_knowledge`, `read_email_otp`, `record_app_test_step`, `record_verification_step`, `remix_app`, `request_user_decision`, `resume_lab`, `resume_test_environment`, `retry_build`, `reveal_account_env`, `reveal_app_env`, `revise_verification_checklist`, `rollback_app`, `rotate_app_auth_secret`, `run_all_app_scenarios`, `run_app_scenario`, `run_app_test_group`, `run_fix_cycle`, `scale_tester_pool`, `seal_walk_baseline`, `send_sms`, `set_account_env`, `set_app_env`, `set_app_remixable`, `set_app_test_report_visibility`, `set_lab_secret`, `set_vm_keep_running`, `set_walk_baseline`, `ssh_test_identity`, `stage_platform_fix`, `start_app_test`, `start_build_group_node`, `start_cloud_instance`, `start_verification_session`, `start_vm`, `stop_app_walk`, `stop_cloud_instance`, `stop_vm`, `submit_obs_package`, `submit_scenario_checkpoint`, `terminate_cloud_instance`, `test_cloud_provider`, `test_workflow`, `update_build_recipe`, `validate_recipe`, `walk_app`, `walk_findings_to_tickets`, `walk_recursive_report`, `walk_site`, `write_internal_repository`
+- brightmove.com: `addApplicantNote`, `addApplicantPhone`, `addClientAttachment`, `addClientContactNote`, `addClientContactPhone`, `addClientNote`, `addClientOfficeNote`, `addClientOfficePhone`, `addEducation`, `addEmploymentHistory`, `addLineItem`, `addLocation`, `addOpportunityAttachment`, `addResume`, `assignApplicantTag`, `assignApprover`, `assignCategory`, `assignClientContactTag`, `assignClientTag`, `assignContact`, `assignFunction`, `assignIndustry`, `assignRecruiter`, `assignSalesRep`, `assignSourcer`, `assignTag_3`, `assignVendor`, `assignWorkgroup`, `clearValue`, `createApplicant`, `createClient`, `createContact`, `createOffice`, `createOpportunity`, `createPlacement`, `createRequirement`, `createSubmittal`, `createSubmittalActivity`, `deleteApplicant`, `deleteClient`, `deleteContact`, `deleteOffice`, `deleteOpportunity`, `deletePlacement`, `deleteRequirement`, `deleteSubmittal`, `deleteSubmittalActivity`, `getApplicant`, `getApplicantSources`, `getApplicantStatuses`, `getApplicantTags`, `getBackOfficeTerms`, `getClient`, `getContact`, `getContactPhoneTypes`, `getContactStatuses`, `getDefinitions`, `getDisabilityStatuses`, `getEducationTypes`, `getEmploymentTypes`, `getGenders`, `getJobCategories`, `getJobFunctions`, `getJobGroups`, `getJobIndustries`, `getLeadSources`, `getOffice`, `getOpportunity`, `getOpportunityNextsteps`, `getOpportunityStages`, `getOpportunityTypes`, `getPayTypes`, `getPhoneTypes`, `getPlacement`, `getPlacementProduct`, `getPlacementTypes`, `getRaceEthnicities`, `getRequirement`, `getRequirementStatuses`, `getSalesAccountTypes`, `getStates`, `getSubmittal`, `getSubmittalActivity`, `getSubmittalActivityTypes`, `getSubmittalStatuses`, `getTerritories`, `getValues`, `getVeteranStatuses`, `getVisaStatuses`, `getWorkgroups`, `listActivities`, `listApplicantNotes`, `listApplicantPhones`, `listApplicantSearchFields`, `listApplicantTags`, `listApplicants`, `listApprovers`, `listClientAttachments`, `listClientContactNotes`, `listClientContactPhones`, `listClientContactTags`, `listClientNotes`, `listClientOfficeNotes`, `listClientOfficePhones`, `listClientTags`, `listClients`, `listContactSearchFields`, `listContacts`, `listEducation`, `listEmploymentHistory`, `listInvoiceLines`, `listJobSearchFields`, `listLineItems`, `listOffices`, `listOpportunities`, `listOpportunityAttachments`, `listPlacements`, `listRequirements`, `listResumes`, `listSubmittalActivities`, `listSubmittals`, `listTags_3`, `listUniversalSearchFields`, `removeApplicantNote`, `removeApplicantPhone`, `removeApplicantTag`, `removeApprover`, `removeCategory`, `removeClientAttachment`, `removeClientContactNote`, `removeClientContactPhone`, `removeClientContactTag`, `removeClientNote`, `removeClientOfficeNote`, `removeClientOfficePhone`, `removeClientTag`, `removeContact`, `removeEducation`, `removeEmploymentHistory`, `removeFunction`, `removeIndustry`, `removeLineItem`, `removeLocation`, `removeOpportunityAttachment`, `removeRecruiter`, `removeResume`, `removeSalesRep`, `removeSocialLink`, `removeSourcer`, `removeTag_3`, `removeVendor`, `removeWorkgroup`, `searchApplicants`, `searchContacts`, `searchJobs`, `searchUniversal`, `setApproval`, `setSocialLink`, `setValue`, `updateApplicant`, `updateClient`, `updateContact`, `updateOffice`, `updateOpportunity`, `updatePlacement`, `updateRequirement`, `updateSubmittal`, `updateSubmittalActivity`
+- eseven-store.com: `catalog-brand-list`, `catalog-brand-retrieve`, `catalog-category-list`, `catalog-category-retrieve`, `catalog-product-list`, `catalog-product-retrieve`, `catalog-product-search`, `checkout-assign`, `checkout-coupon-apply`, `checkout-coupon-remove`, `checkout-generate`, `checkout-item-add`, `checkout-item-remove`, `checkout-item-update`, `checkout-proceed`, `checkout-retrieve`
+- veranta.xyz: `change_limits`, `check_setup`, `complete_registration`, `get_account`, `get_calendar`, `get_correlations`, `get_history`, `get_insights`, `get_leaderboard`, `get_market`, `get_market_hours`, `get_markets`, `get_rate_history`, `get_regime`, `get_staking`, `get_trade_intelligence`, `get_vault`, `plan_hedge`, `scan_markets`, `simulate_portfolio`, `size_position`
+- etla.fi: `etla-mcp-server-get-author-stats`, `etla-mcp-server-get-content`, `etla-mcp-server-list-series`, `etla-mcp-server-search-content`
+- bluesunhotels.com: `find_hotels`, `get_availability`, `get_hotel`, `get_price_quote`
+- insumosgraficalimite.com.ar: `get_cart`, `get_free_shipping_promotions`, `get_payment_methods`, `get_promotions`, `get_shipping_methods`, `order_tracking`, `search_products`, `update_cart`
+- privjet.net: `get_empty_leg`, `search_empty_legs`
+- fruugobahrain.com: `get_policy`, `get_product`, `list_policies`, `quote_basket`, `search_products`, `suggest_queries`
+- seoinc.com: `get_site_content`, `list_sources`, `search_site_content`
+- crtc.gc.ca: `getPublicProceeding`, `listPublicProceedings`
+- vetter.store: `search_products`
+
+Changed:
+
+- 33 websites, each added `search_shop_policies_and_faqs`; removed `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - 11six24.com
+  - andmind.com
+  - awareness-avenue.com
+  - babyboofashion.com
+  - caskcartel.com
+  - cubrodesign.com
+  - davincibaby.com
+  - department56.com
+  - embarkvet.com
+  - frenchcrown.com
+  - inez.com
+  - kaptanscientific.com
+  - kidoriman.com
+  - kitchenaid.com.au
+  - lucialiving.com
+  - lux-case.co.uk
+  - matchesfashion.com
+  - minisforumpc.eu
+  - mondaine.com
+  - mybeautyaffairs.com
+  - novelkeys.com
+  - popular.jewelry
+  - pourri.com
+  - rituallabs.shop
+  - ross-simons.com
+  - seconcept.com
+  - sevenheavens.de
+  - stevemadden.com
+  - theshopyohjiyamamoto.com
+  - thrivecausemetics.com
+  - torazencollective.com
+  - urbanthreads.com
+  - valmontimode.com
+- 32 websites, each added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`; removed `search_shop_policies_and_faqs`:
+  - ataoland.com
+  - atlascoffeeclub.com
+  - aweinspired.com
+  - blurams.com
+  - briowater.com
+  - curioos.com
+  - dieselpowerproducts.com
+  - fabricmartfabrics.com
+  - final-inc.com
+  - footdistrict.com
+  - geekworm.com
+  - homeandbeyondstore.com
+  - lameda.cc
+  - lottobd.com
+  - monauralis.shop
+  - monkeypen.com
+  - nordblanc.com
+  - norseorganics.co
+  - passenger-clothing.com
+  - pioneerelectronics.com
+  - polarhaircare.com
+  - polynesian-pride.com
+  - resilia.shop
+  - skintypesolutions.com
+  - stoertebekker.com
+  - themilkybox.com
+  - topdon.com
+  - unplugged.com
+  - wallhack.com
+  - webspareparts.com
+  - xoxowildhearts.com
+  - zudio.com
+- 10 websites, each added `search_shop_policies_and_faqs`; removed `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`:
+  - afends.com
+  - cookery-store.ca
+  - doyondespres.com
+  - five6gaming.com
+  - giantrobot.com
+  - poloselcapote.com
+  - saje.ca
+  - scuffers.com
+  - stoneglacier.com
+  - stoneycloverlane.com
+- 6 websites, each added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`; removed `search_shop_policies_and_faqs`:
+  - bruntworkwear.com
+  - combatarena.it
+  - cutlers.com
+  - flagandanthem.com
+  - jacquesmariemage.com
+  - paradise-kitchens.com.au
+- bookedin.com: added `bookClass`
+- bookeo.com: added `bookSlot`
+- marteye.ie: added `browse_events`, `get_auction`, `get_lot`, `get_mart`, `get_sale`, `highlights`, `how_to_bid`, `list_filters`, `search_lots`, `search_marts`, `whats_hot`; removed `BrowseWixRESTDocsMenu`, `CallWixSiteAPI`, `ExecuteWixAPI`, `GenerateVisitorToken`, `GetBusinessDetails`, `ReadFullDocsArticle`, `ReadFullDocsMethodSchema`, `SearchInSite`, `SearchSiteApiDocs`, `WixREADME`
+- mayoclinic.org: added `calculateCalories`, `getConditionDoctors`, `getDepartment`, `listDepartments`, `listLocations`
+- floot.com: added `card_merge_status`, `run_scheduled_job`; changed `call_app_function`, `publish_app`, `upload_asset`
+- surrealdb.com: added `create_organization_avatar_upload`; changed `update_organization`
+- bankofamerica.com: added `getAutoLoanRates`
+- apnews.com: added `getLiveUpdates`
+- zenoti.com: added `getMyProfile`
+- fitdegree.com: added `listMyNotifications`
+- geloky.com: added `nearest_location`
+- sqd.dev: added `query_docs_filesystem_sqd_documentation`, `search_sqd_documentation`, `submit_feedback`; removed `portal_bitcoin_get_analytics`, `portal_bitcoin_query_transactions`, `portal_debug_hyperliquid_query_replica_commands`, `portal_debug_query_blocks`, `portal_debug_resolve_time_to_block`, `portal_evm_get_analytics`, `portal_evm_get_contract_activity`, `portal_evm_get_contract_deployment`, `portal_evm_get_ohlc`, `portal_evm_query_logs`, `portal_evm_query_token_transfers`, `portal_evm_query_traces`, `portal_evm_query_transactions`, `portal_get_head`, `portal_get_network_info`, `portal_get_recent_activity`, `portal_get_time_series`, `portal_get_wallet_summary`, `portal_hyperliquid_get_analytics`, `portal_hyperliquid_get_ohlc`, `portal_hyperliquid_query_fills`, `portal_list_networks`, `portal_resolve_entity`, `portal_solana_get_analytics`, `portal_solana_query_instructions`, `portal_solana_query_transactions`, `portal_substrate_get_analytics`, `portal_substrate_query_calls`, `portal_substrate_query_events`, `portal_tron_query_logs`, `portal_tron_query_transactions`
+- design.com: added `search_business_cards`, `search_facebook_posts`, `search_flyers`, `search_instagram_posts`, `search_logos`, `search_posters`; removed `edit_design`, `export_design`, `generate_designs`, `get_design`, `list_designs`, `ping`, `save_design`, `search_templates`
+- scratcher.io: changed `book_demo_meeting`, `find_meeting_times`, `subscribe_newsletter`
+- factanker.com: changed `get_facts`
+- usps.com: removed `addToStoreCart`
+
+Removed:
+
+- 2 websites, each with `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - chl-store.com
+  - jacksonguitars.com
+- technicalseo.com: `add`, `calculate`
+- yassir.com: `booking_info`, `search_flights`, `search_hotels`
+- tctmd.com: `compare_trials`, `count_tctmd`, `fetch`, `get_article`, `inspect_presentation`, `list_content_types`, `list_trials`, `presenter_listing`, `search`, `search_tctmd`, `survey_tctmd`, `transcript_moments`, `trial_timeline`
+- runpod.io: `query_docs_filesystem_runpod_documentation`, `search_runpod_documentation`, `submit_feedback`
+- thingsilikethingsilove.com: `search_shop_policies_and_faqs`
+
+Every website and its functions: [covered-functions.txt](covered-functions.txt) · [covered-websites.txt](covered-websites.txt)
+
 ## 1.36.0 (2026-11-24)
 
 **Websites**
