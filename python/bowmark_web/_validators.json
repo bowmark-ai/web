@@ -1,5 +1,5 @@
 {
-  "version": "cc7bf62dc0dcc779d8deefe35882305afc31ea2af49fd5424d690d30a39ef0d8",
+  "version": "df1b5e7636c958d36700e0d1a5949d2a1333ac82f06177a9c08db75bfb6ff4ed",
   "units": {
     "address_validation": {
       "defs": {
@@ -95090,6 +95090,61 @@
             "optional": true
           }
         ],
+        "markSeen": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "mediaId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "ownerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "seconds",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "unlikePost": [
           {
             "name": "mediaId",
@@ -95389,6 +95444,7 @@
         "followUser": "d6bb92e9bad316fe",
         "unfollowUser": "7008096437f20fda",
         "likePost": "bca3ffb549737653",
+        "markSeen": "e702c76d3ffcb489",
         "unlikePost": "86d06f9171f6b6c8",
         "commentOnPost": "090cb26f97399473",
         "savePost": "757276b368d5d7d4",
@@ -117423,6 +117479,25 @@
             }
           ]
         },
+        "GetLiveBlogArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -117469,6 +117544,25 @@
         "ListSectionsArgs": {
           "k": "object",
           "props": []
+        },
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -117542,6 +117636,16 @@
             "optional": false
           }
         ],
+        "getLiveBlog": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetLiveBlogArgs"
+            },
+            "optional": false
+          }
+        ],
         "listSections": [
           {
             "name": "args",
@@ -117551,17 +117655,29 @@
             },
             "optional": false
           }
+        ],
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArticlesArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "listHeadlines": "506ecf8b0af107e6",
-        "listSectionHeadlines": "91e936079b7315f4",
-        "getArticle": "ae3438ddaaf501b1",
-        "listLatestStories": "506ecf8b0af107e6",
-        "listVideos": "506ecf8b0af107e6",
-        "listPodcasts": "506ecf8b0af107e6",
-        "getVideo": "5a981dc293406049",
-        "listSections": "2d0c814f973cfe6d"
+        "listHeadlines": "0c8e3a29b3b652cb",
+        "listSectionHeadlines": "910afcaede9fcb1a",
+        "getArticle": "c6ca19de2799ed7a",
+        "listLatestStories": "0c8e3a29b3b652cb",
+        "listVideos": "0c8e3a29b3b652cb",
+        "listPodcasts": "0c8e3a29b3b652cb",
+        "getVideo": "474ad54df783c80d",
+        "getLiveBlog": "385f711d4a5b5a3a",
+        "listSections": "d6e32467bc701123",
+        "searchArticles": "890fd41e4a4e4c04"
       }
     },
     "providers.nerdwallet": {
@@ -121129,6 +121245,32 @@
             }
           ]
         },
+        "GetTafArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "station",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "issuance",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetTextProductArgs": {
           "k": "object",
           "props": [
@@ -121605,6 +121747,16 @@
             "optional": false
           }
         ],
+        "getTaf": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTafArgs"
+            },
+            "optional": false
+          }
+        ],
         "lookupGlossary": [
           {
             "name": "args",
@@ -121627,32 +121779,33 @@
         ]
       },
       "digests": {
-        "searchLocation": "866d7900ae74b3d7",
-        "getPoint": "f27485fc24120047",
-        "getForecast": "1a3338d654388366",
-        "getHourlyForecast": "e2590b7a6c539547",
-        "getActiveAlerts": "131c7afd55a41516",
-        "getCurrentConditions": "98f686ef43bd5dcc",
-        "getForecastDiscussion": "8c6ef851a7a41f7f",
-        "getAlert": "6e51aa19fdae5a64",
-        "findStations": "c53038a14e6c9868",
-        "getObservationHistory": "04c353adeef5a9c9",
-        "getGridpointData": "249ed3a729f8da14",
-        "findZones": "33e6acc34611a94c",
-        "getZoneForecast": "62268e02256866d0",
-        "listAlertTypes": "ddeb4c2bf5bf73ff",
-        "searchAlerts": "d39afe5790a93513",
-        "getAlertCounts": "7ae5a7f56b3de9f3",
-        "getOffice": "d03598c95bdc4afb",
-        "getMarineForecast": "bd2c0d32ff3c9855",
-        "getTextProduct": "cb7638d9ab9ead1f",
-        "getWeatherStories": "cbbf01b4e8837f22",
-        "getOfficeHeadlines": "ec43ced44d1c24b3",
-        "listTextProducts": "0d42c33e5db7eba6",
-        "listSigmets": "be6f090b94e54938",
-        "getWeatherRadio": "88b593ecb2c423ec",
-        "lookupGlossary": "4a4b6ea8fa183086",
-        "findRadarStations": "98c8ca07cd5f88c3"
+        "searchLocation": "4cce007a8a108559",
+        "getPoint": "c5ca8432085b2bfe",
+        "getForecast": "76a6738dfa50cc12",
+        "getHourlyForecast": "f826ec46e978537b",
+        "getActiveAlerts": "401bede34f5b1c4a",
+        "getCurrentConditions": "329b835623ae8d86",
+        "getForecastDiscussion": "cbf36350f0758890",
+        "getAlert": "cc22d63c7783f5b3",
+        "findStations": "2ce346b4d9ac6ca6",
+        "getObservationHistory": "628d3be777240cac",
+        "getGridpointData": "0e94fe2184e008e0",
+        "findZones": "8c139c05bf595ce2",
+        "getZoneForecast": "6826400746d46e05",
+        "listAlertTypes": "13d49d5120dbae21",
+        "searchAlerts": "ca36207ee280858d",
+        "getAlertCounts": "84a9fe0f02637bd5",
+        "getOffice": "5d4413e78dc30e72",
+        "getMarineForecast": "6ecb54aef424bc6b",
+        "getTextProduct": "8a78d79be732cfd9",
+        "getWeatherStories": "954678e49cdeda0d",
+        "getOfficeHeadlines": "9812f843dba3b47d",
+        "listTextProducts": "2013f9bd50593acb",
+        "listSigmets": "cad95b29f5b56a79",
+        "getWeatherRadio": "29986e4ca072caac",
+        "getTaf": "2e27e9d5725c0b0b",
+        "lookupGlossary": "9730f44ab9d18d91",
+        "findRadarStations": "8323bf0b27d56155"
       }
     },
     "providers.nyt_cooking": {
@@ -136921,6 +137074,58 @@
             "optional": true
           }
         ],
+        "listMyWaivers": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "PunchpassStudioArg"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyReceipts": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "PunchpassStudioArg"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -136957,6 +137162,8 @@
         "getMyClassHistory": "803ac90104b1d70c",
         "listMyPasses": "9f3c4dfd97ba6420",
         "listMyChildren": "9f3c4dfd97ba6420",
+        "listMyWaivers": "9f3c4dfd97ba6420",
+        "listMyReceipts": "9f3c4dfd97ba6420",
         "signup": "a5f596d9d5505978",
         "confirmSignup": "db96007cd0fd278e"
       }
@@ -171968,6 +172175,40 @@
             "optional": true
           }
         ],
+        "markWatched": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "unlikeVideo": [
           {
             "name": "args",
@@ -172326,6 +172567,7 @@
         "getOwnProfile": "b146b99a85f51caf",
         "editProfile": "bd90f9e09844ca2c",
         "likeVideo": "ee81aa6ce1babe2c",
+        "markWatched": "8a7be97df4d8f143",
         "unlikeVideo": "8ce530a41d2ef6d3",
         "postComment": "a7db9354514db9e4",
         "deleteComment": "ba56d2539cbc952a",
@@ -197535,6 +197777,54 @@
             "optional": true
           }
         ],
+        "markWatched": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "seconds",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "confirm",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "postComment": [
           {
             "name": "input",
@@ -198088,6 +198378,7 @@
         "listSubscriptions": "14aff55a68035837",
         "subscribeToChannel": "132fc7927a103896",
         "likeVideo": "2d3f368496ecc8d4",
+        "markWatched": "9d81590165accdc8",
         "postComment": "64fb358a8da59a01",
         "replyToComment": "b370089e3febba3a",
         "deleteComment": "30ff6cc17a4139ef",

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cc7bf62dc0dcc779d8deefe35882305afc31ea2af49fd5424d690d30a39ef0d8
-# 99 capabilities, 968 providers, 6006 typed functions, 20 refused.
+# Manifest version: df1b5e7636c958d36700e0d1a5949d2a1333ac82f06177a9c08db75bfb6ff4ed
+# 99 capabilities, 968 providers, 6014 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -44426,6 +44426,17 @@ class Prv_instagram_InstagramLikeResult_Out(TypedDict):
     likeCount: float
     hasLiked: bool
 
+class Prv_instagram_markSeen_input_In(TypedDict):
+    mediaId: str
+    ownerId: NotRequired[str]
+    seconds: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_instagram_markSeen_return_Out(TypedDict):
+    mediaId: str
+    recorded: bool
+    reason: NotRequired[str]
+
 class Prv_instagram_InstagramUnlikeResult_Out(TypedDict):
     mediaId: str
     likeCount: float
@@ -53908,6 +53919,28 @@ class Prv_nbcnews_Video_Out_streams_item_Out(TypedDict):
     height: NotRequired[float]
     width: NotRequired[float]
 
+class Prv_nbcnews_GetLiveBlogArgs_In(TypedDict):
+    url: str
+    limit: NotRequired[float]
+
+class Prv_nbcnews_LiveBlog_Out(TypedDict):
+    url: str
+    title: str
+    description: NotRequired[str]
+    publishedAt: NotRequired[str]
+    updatedAt: NotRequired[str]
+    coverageEndsAt: NotRequired[str]
+    total: float
+    updates: list[Prv_nbcnews_LiveBlogUpdate_Out]
+
+class Prv_nbcnews_LiveBlogUpdate_Out(TypedDict):
+    headline: NotRequired[str]
+    text: str
+    url: NotRequired[str]
+    publishedAt: NotRequired[str]
+    authors: list[str]
+    imageUrl: NotRequired[str]
+
 class Prv_nbcnews_ListSectionsArgs_In(TypedDict):
     pass
 
@@ -53920,6 +53953,22 @@ class Prv_nbcnews_Section_Out(TypedDict):
     name: str
     url: str
     kind: str
+
+class Prv_nbcnews_SearchArticlesArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_nbcnews_SearchResult_Out(TypedDict):
+    query: str
+    total: float
+    items: list[Prv_nbcnews_SearchHit_Out]
+
+class Prv_nbcnews_SearchHit_Out(TypedDict):
+    headline: str
+    url: str
+    summary: NotRequired[str]
+    publishedAt: NotRequired[str]
+    imageUrl: NotRequired[str]
 
 class Prv_nerdwallet_NerdWalletCreditCardComparison_Out(TypedDict):
     cards: list[Prv_nerdwallet_NerdWalletCreditCard_Out]
@@ -55788,6 +55837,45 @@ class Prv_nws_NwsRadioTransmitter_Out(TypedDict):
     siteState: str
     sameCodes: list[str]
     counties: list[str]
+
+class Prv_nws_GetTafArgs_In(TypedDict):
+    station: NotRequired[str]
+    place: NotRequired[str]
+    issuance: NotRequired[str]
+
+class Prv_nws_NwsTaf_Out(TypedDict):
+    stationId: str
+    issueTime: str
+    validFrom: str
+    validTo: str
+    status: str | None
+    location: Prv_nws_NwsTaf_Out_location_u0_Out | None
+    periods: list[Prv_nws_NwsTafPeriod_Out]
+    issuanceId: str
+    recentIssuances: list[str]
+
+class Prv_nws_NwsTaf_Out_location_u0_Out(TypedDict):
+    lat: float
+    lon: float
+
+class Prv_nws_NwsTafPeriod_Out(TypedDict):
+    change: str
+    start: str
+    end: str
+    probability: float | None
+    visibilityMeters: float | None
+    visibilityOperator: str | None
+    windDirectionDegrees: float | None
+    windVariable: bool
+    windSpeedKnots: float | None
+    windGustKnots: float | None
+    cloudsOkay: bool
+    clouds: list[Prv_nws_NwsTafPeriod_Out_clouds_item_Out]
+    weather: list[str]
+
+class Prv_nws_NwsTafPeriod_Out_clouds_item_Out(TypedDict):
+    amount: str
+    baseFeet: float | None
 
 class Prv_nws_LookupGlossaryArgs_In(TypedDict):
     term: str
@@ -78489,6 +78577,14 @@ class Prv_tiktok_LikeVideoArgs_In(TypedDict):
 class Prv_tiktok_likeVideo_return_Out(TypedDict):
     liked: bool
 
+class Prv_tiktok_markWatched_args_In(TypedDict):
+    video: str
+
+class Prv_tiktok_markWatched_return_Out(TypedDict):
+    video: str
+    recorded: bool
+    reason: NotRequired[str]
+
 class Prv_tiktok_UnlikeVideoArgs_In(TypedDict):
     video: str
 
@@ -89723,6 +89819,17 @@ class Prv_youtube_likeVideo_input_In(TypedDict):
 class Prv_youtube_likeVideo_return_Out(TypedDict):
     video: str
     rating: Literal["like"] | Literal["dislike"] | Literal["none"]
+
+class Prv_youtube_markWatched_input_In(TypedDict):
+    video: str
+    seconds: NotRequired[float]
+    confirm: NotRequired[bool]
+
+class Prv_youtube_markWatched_return_Out(TypedDict):
+    video: str
+    recorded: bool
+    reason: NotRequired[str]
+    inHistory: NotRequired[bool]
 
 class Prv_youtube_postComment_input_In(TypedDict):
     video: str
@@ -114385,6 +114492,19 @@ class Prv_instagram(Protocol):
         the caller to be signed in through the relay.
         """
 
+    async def markSeen(self, input: Prv_instagram_markSeen_input_In, opts: ConnectionOption | None = None, /) -> Prv_instagram_markSeen_return_Out:
+        """Marks one post or reel as seen by the signed-in account, so Instagram stops leading the
+        home feed with it. Sends the web client's own seen signal: `feed_view_info` (`[{
+        media_id: "<pk>_<ownerId>", media_pct: 1, time_info, version: 24 }]`) on one next-page
+        request of the account's home feed, the request instagram.com carries it on; that page's
+        rows are not returned. `mediaId` is the media pk or a feed row's whole `id`
+        (`<pk>_<ownerId>`); pass `cursor` (homeFeedPage's nextCursor) to send it on the feed's
+        own next request, else the first page's cursor is read first. Sends nothing else: no
+        like, no follow, no comment. Never throws for a signed-out browser or a refusal: answers
+        `{ recorded: false, reason }` so a player can fire it and forget. Requires the caller to
+        be signed in.
+        """
+
     async def unlikePost(self, mediaId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramUnlikeResult_Out:
         """Removes a like from a previously liked post. Returns the resulting like count and like
         state. Requires the caller to be signed in through the relay.
@@ -120165,9 +120285,19 @@ class Prv_nbcnews(Protocol):
         thumbnail and stream URLs.
         """
 
+    async def getLiveBlog(self, args: Prv_nbcnews_GetLiveBlogArgs_In, /) -> Prv_nbcnews_LiveBlog_Out:
+        """Read an NBC News live-updates blog: title, times and each timestamped update (newest
+        first) with text and authors.
+        """
+
     async def listSections(self, args: Prv_nbcnews_ListSectionsArgs_In, /) -> Prv_nbcnews_SectionList_Out:
         """List the sections NBC News publishes (Politics, U.S. News, World, local markets, shows,
         verticals) with slug and URL, to pick one for listSectionHeadlines.
+        """
+
+    async def searchArticles(self, args: Prv_nbcnews_SearchArticlesArgs_In, /) -> Prv_nbcnews_SearchResult_Out:
+        """Search NBC News stories by keyword and return the ranked matching articles with
+        headline, URL, summary and publish time.
         """
 
 class Prv_nerdwallet(Protocol):
@@ -121173,6 +121303,13 @@ class Prv_nws(Protocol):
         """NOAA Weather Radio: what is being broadcast for a place right now, as plain-text
         paragraphs ({ place }), and/or one transmitter's frequency, site, SAME codes and
         counties ({ callSign: "KHB35" }).
+        """
+
+    async def getTaf(self, args: Prv_nws_GetTafArgs_In, /) -> Prv_nws_NwsTaf_Out:
+        """The Terminal Aerodrome Forecast for an airport: issue and valid times, then each period
+        (base, FROM, BECMG, TEMPO, PROB) with wind, gust, visibility, cloud layers and weather.
+        Takes a station id like KBOS or a place name (nearest airport with a TAF); optionally
+        one earlier issuance.
         """
 
     async def lookupGlossary(self, args: Prv_nws_LookupGlossaryArgs_In, /) -> list[Prv_nws_NwsGlossaryEntry_Out]:
@@ -124646,6 +124783,20 @@ class Prv_punchpass(Protocol):
         caller signed in) from the studio's member children page, as rows of visible cell text
         plus links; takes the studio as its <studio>.punchpass.com subdomain, a punchpass url,
         or its numeric org id.
+        """
+
+    async def listMyWaivers(self, studio: str | float, opts: ConnectionOption | None = None, /) -> Prv_punchpass_PunchpassMemberRows_Out:
+        """Lists the waivers on the signed-in caller's account at one studio (needs the caller
+        signed in) from the studio's member waivers page, as rows of visible cell text plus
+        links; takes the studio as its <studio>.punchpass.com subdomain, a punchpass url, or its
+        numeric org id.
+        """
+
+    async def listMyReceipts(self, studio: str | float, opts: ConnectionOption | None = None, /) -> Prv_punchpass_PunchpassMemberRows_Out:
+        """Lists the signed-in caller's payments and receipts at one studio (needs the caller
+        signed in) from the studio's member payments page, as rows of visible cell text plus
+        links; takes the studio as its <studio>.punchpass.com subdomain, a punchpass url, or its
+        numeric org id.
         """
 
     async def signup(self, args: Any, /) -> Prv_punchpass_signup_return_u0_Out | Prv_punchpass_signup_return_u1_Out | Prv_punchpass_signup_return_u2_Out | Prv_punchpass_signup_return_u3_Out:
@@ -132354,6 +132505,17 @@ class Prv_tiktok(Protocol):
         the like.
         """
 
+    async def markWatched(self, args: Prv_tiktok_markWatched_args_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_markWatched_return_Out:
+        """Tell TikTok the signed-in caller watched a video, with the web app's own seen report
+        (`GET /api/record/impression/action/` with `itemIds` and `isForYouFeedImpression=true`,
+        the call the For You feed makes for the items it showed), from the caller's own Chrome
+        through Bowmark Buddy. It marks the item seen for recommendations; it cannot add it to
+        TikTok's Watch history, which the web does not write (that list is the phone app's).
+        Takes a full video URL or a bare video id. Sends nothing else: no like, no follow, no
+        comment. Never throws for a signed-out browser or a refusal: answers `{ recorded: false,
+        reason }`.
+        """
+
     async def unlikeVideo(self, args: Prv_tiktok_UnlikeVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_unlikeVideo_return_Out:
         """Remove a like (unheart) as the signed-in caller — the reverse of likeVideo. Takes a
         video reference — a full video URL or a bare video id. Writes via POST to TikTok's heart
@@ -138306,6 +138468,19 @@ class Prv_youtube(Protocol):
         rather than three functions, because a caller who wants "no rating" and a caller who
         wants a fresh dislike are both just naming the end state they want. NEEDS A SIGN-IN and
         exists nowhere else logged out.
+        """
+
+    async def markWatched(self, input: Prv_youtube_markWatched_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_markWatched_return_Out:
+        """Records that the signed-in account watched a video, the way YouTube's own web player
+        does while a video plays: it reads the video's own watch-tracking URLs off the signed-in
+        watch page and sends the two pings the player sends (playback started, then watch time),
+        so the video lands in youtube.com/feed/history and the home feed treats it as watched.
+        `video` is a bare 11-character id or any watch/shorts/youtu.be URL; `seconds` is how
+        long was watched (default: nearly the whole video, as yt-dlp's --mark-watched does).
+        Sends nothing else: no like, no subscription, no comment. Never throws for a signed-out
+        browser or a video with no tracking: answers `{ recorded: false, reason }` instead, so a
+        caller can fire it and forget. Never waits for a sign-in. NEEDS A SIGN-IN (the caller's
+        own Chrome through Bowmark Buddy, or a saved sign-in).
         """
 
     async def postComment(self, input: Prv_youtube_postComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_postComment_return_Out:

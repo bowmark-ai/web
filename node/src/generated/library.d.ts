@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cc7bf62dc0dcc779d8deefe35882305afc31ea2af49fd5424d690d30a39ef0d8
-// 99 capabilities, 968 providers, 6034 typed functions, 20 refused.
+// Manifest version: df1b5e7636c958d36700e0d1a5949d2a1333ac82f06177a9c08db75bfb6ff4ed
+// 99 capabilities, 968 providers, 6042 typed functions, 20 refused.
 // 124,263 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 16,317 sites under bowmark.sites, 208,556 functions, sharing 2,428 interface(s).
 //
@@ -69539,6 +69539,19 @@ interface InstagramPlaybackFile {
     likePost(mediaId: string, opts?: ConnectionOption): Promise<InstagramLikeResult>;
 
     /**
+     * Marks one post or reel as seen by the signed-in account, so Instagram stops leading the home
+     * feed with it. Sends the web client's own seen signal: `feed_view_info` (`[{ media_id:
+     * "<pk>_<ownerId>", media_pct: 1, time_info, version: 24 }]`) on one next-page request of the
+     * account's home feed, the request instagram.com carries it on; that page's rows are not
+     * returned. `mediaId` is the media pk or a feed row's whole `id` (`<pk>_<ownerId>`); pass
+     * `cursor` (homeFeedPage's nextCursor) to send it on the feed's own next request, else the
+     * first page's cursor is read first. Sends nothing else: no like, no follow, no comment. Never
+     * throws for a signed-out browser or a refusal: answers `{ recorded: false, reason }` so a
+     * player can fire it and forget. Requires the caller to be signed in.
+     */
+    markSeen(input: {mediaId: string, ownerId?: string, seconds?: number, cursor?: string}, opts?: ConnectionOption): Promise<{ mediaId: string; recorded: boolean; reason?: string }>;
+
+    /**
      * Removes a like from a previously liked post. Returns the resulting like count and like
      * state. Requires the caller to be signed in through the relay.
      */
@@ -85279,6 +85292,31 @@ interface Video {
   streams: { format: string /* M3U (HLS) or MPEG4 */; url: string; height?: number; width?: number }[];
 }
 
+interface GetLiveBlogArgs {
+  url: string; // an https://www.nbcnews.com/.../live-blog/... URL (listHeadlines rows of type liveBlog)
+  limit?: number; // newest updates to return, default 50
+}
+
+interface LiveBlogUpdate {
+  headline?: string;
+  text: string;
+  url?: string;
+  publishedAt?: string;
+  authors: string[];
+  imageUrl?: string;
+}
+
+interface LiveBlog {
+  url: string;
+  title: string;
+  description?: string;
+  publishedAt?: string;
+  updatedAt?: string;
+  coverageEndsAt?: string;
+  total: number; // updates the page carries, before limit
+  updates: LiveBlogUpdate[]; // newest first
+}
+
 interface Section {
   slug: string; // pass to listSectionHeadlines
   name: string;
@@ -85293,6 +85331,25 @@ interface SectionList {
 
 interface ListSectionsArgs {
 
+}
+
+interface SearchArticlesArgs {
+  query: string; // keywords, e.g. "climate" or "supreme court ruling"
+  limit?: number; // at most this many hits (default 50, max 200)
+}
+
+interface SearchHit {
+  headline: string;
+  url: string;
+  summary?: string;
+  publishedAt?: string; // ISO 8601
+  imageUrl?: string;
+}
+
+interface SearchResult {
+  query: string;
+  total: number; // matches the search service reports, before limit
+  items: SearchHit[]; // ranked by relevance
 }
 
   /**
@@ -85337,10 +85394,22 @@ interface ListSectionsArgs {
     getVideo(args: GetVideoArgs): Promise<Video>;
 
     /**
+     * Read an NBC News live-updates blog: title, times and each timestamped update (newest first)
+     * with text and authors.
+     */
+    getLiveBlog(args: GetLiveBlogArgs): Promise<LiveBlog>;
+
+    /**
      * List the sections NBC News publishes (Politics, U.S. News, World, local markets, shows,
      * verticals) with slug and URL, to pick one for listSectionHeadlines.
      */
     listSections(args: ListSectionsArgs): Promise<SectionList>;
+
+    /**
+     * Search NBC News stories by keyword and return the ranked matching articles with headline,
+     * URL, summary and publish time.
+     */
+    searchArticles(args: SearchArticlesArgs): Promise<SearchResult>;
   }
 }
 
@@ -88105,6 +88174,24 @@ interface ListSigmetsArgs {
   limit?: number; // 1-500, default 50.
 }
 
+interface GetTafArgs {
+  station?: string; // An airport station id like "KBOS". Give this or place.
+  place?: string; // A place name, ZIP or lat,lon: the nearest station that issues a TAF is used.
+  issuance?: string; // An earlier issuance id like "2026-11-24/1400" (from recentIssuances). Default newest.
+}
+
+interface NwsTaf {
+  stationId: string;
+  issueTime: string;
+  validFrom: string;
+  validTo: string;
+  status: string | null;
+  location: { lat: number; lon: number } | null;
+  periods: NwsTafPeriod[];
+  issuanceId: string;
+  recentIssuances: string[];
+}
+
 interface NwsSigmet {
   id: string;
   atsu: string;
@@ -88195,6 +88282,22 @@ interface NwsOffice {
   forecastZones: string[]; // Forecast zone ids, e.g. "MAZ015".
   fireZones: string[]; // Fire-weather zone ids.
   observationStations: string[]; // Station ids, e.g. "KBOS".
+}
+
+interface NwsTafPeriod {
+  change: string; // BASE, FROM, BECMG, TEMPO or PROB.
+  start: string;
+  end: string;
+  probability: number | null;
+  visibilityMeters: number | null;
+  visibilityOperator: string | null; // ABOVE when 10 km or more.
+  windDirectionDegrees: number | null;
+  windVariable: boolean;
+  windSpeedKnots: number | null;
+  windGustKnots: number | null;
+  cloudsOkay: boolean;
+  clouds: { amount: string; baseFeet: number | null }[];
+  weather: string[];
 }
 
   /**
@@ -88360,6 +88463,14 @@ interface NwsOffice {
      * "KHB35" }).
      */
     getWeatherRadio(args: GetWeatherRadioArgs): Promise<NwsWeatherRadio>;
+
+    /**
+     * The Terminal Aerodrome Forecast for an airport: issue and valid times, then each period
+     * (base, FROM, BECMG, TEMPO, PROB) with wind, gust, visibility, cloud layers and weather.
+     * Takes a station id like KBOS or a place name (nearest airport with a TAF); optionally one
+     * earlier issuance.
+     */
+    getTaf(args: GetTafArgs): Promise<NwsTaf>;
 
     /**
      * What an NWS term means, from NWS's own glossary — exact term first, then terms that start
@@ -98135,6 +98246,20 @@ interface PunchpassProfile {
      * org id.
      */
     listMyChildren(studio: PunchpassStudioArg, opts?: ConnectionOption): Promise<PunchpassMemberRows>;
+
+    /**
+     * Lists the waivers on the signed-in caller's account at one studio (needs the caller signed
+     * in) from the studio's member waivers page, as rows of visible cell text plus links; takes
+     * the studio as its <studio>.punchpass.com subdomain, a punchpass url, or its numeric org id.
+     */
+    listMyWaivers(studio: PunchpassStudioArg, opts?: ConnectionOption): Promise<PunchpassMemberRows>;
+
+    /**
+     * Lists the signed-in caller's payments and receipts at one studio (needs the caller signed
+     * in) from the studio's member payments page, as rows of visible cell text plus links; takes
+     * the studio as its <studio>.punchpass.com subdomain, a punchpass url, or its numeric org id.
+     */
+    listMyReceipts(studio: PunchpassStudioArg, opts?: ConnectionOption): Promise<PunchpassMemberRows>;
 
     /**
      * Makes a NEW Punchpass account with the person's own email and password, in a session. Pauses
@@ -122582,6 +122707,17 @@ interface tiktokPlaybackFile {
     likeVideo(args: LikeVideoArgs, opts?: ConnectionOption): Promise<{ liked: boolean }>;
 
     /**
+     * Tell TikTok the signed-in caller watched a video, with the web app's own seen report (`GET
+     * /api/record/impression/action/` with `itemIds` and `isForYouFeedImpression=true`, the call
+     * the For You feed makes for the items it showed), from the caller's own Chrome through
+     * Bowmark Buddy. It marks the item seen for recommendations; it cannot add it to TikTok's
+     * Watch history, which the web does not write (that list is the phone app's). Takes a full
+     * video URL or a bare video id. Sends nothing else: no like, no follow, no comment. Never
+     * throws for a signed-out browser or a refusal: answers `{ recorded: false, reason }`.
+     */
+    markWatched(args: {video: string}, opts?: ConnectionOption): Promise<{ video: string; recorded: boolean; reason?: string }>;
+
+    /**
      * Remove a like (unheart) as the signed-in caller — the reverse of likeVideo. Takes a video
      * reference — a full video URL or a bare video id. Writes via POST to TikTok's heart door
      * /api/commit/item/digg/ (type=0), from the caller's own Chrome through Bowmark Buddy when
@@ -139501,6 +139637,20 @@ interface YoutubePlayback {
      * else logged out.
      */
     likeVideo(input: {video: string, rating: "like" | "dislike" | "none"}, opts?: ConnectionOption): Promise<{ video: string; rating: "like" | "dislike" | "none" }>;
+
+    /**
+     * Records that the signed-in account watched a video, the way YouTube's own web player does
+     * while a video plays: it reads the video's own watch-tracking URLs off the signed-in watch
+     * page and sends the two pings the player sends (playback started, then watch time), so the
+     * video lands in youtube.com/feed/history and the home feed treats it as watched. `video` is a
+     * bare 11-character id or any watch/shorts/youtu.be URL; `seconds` is how long was watched
+     * (default: nearly the whole video, as yt-dlp's --mark-watched does). Sends nothing else: no
+     * like, no subscription, no comment. Never throws for a signed-out browser or a video with no
+     * tracking: answers `{ recorded: false, reason }` instead, so a caller can fire it and forget.
+     * Never waits for a sign-in. NEEDS A SIGN-IN (the caller's own Chrome through Bowmark Buddy,
+     * or a saved sign-in).
+     */
+    markWatched(input: {video: string, seconds?: number, confirm?: boolean}, opts?: ConnectionOption): Promise<{ video: string; recorded: boolean; reason?: string; inHistory?: boolean }>;
 
     /**
      * Posts a top-level comment on a video as the signed-in account — a PUBLIC write on somebody
