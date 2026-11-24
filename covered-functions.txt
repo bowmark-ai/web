@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 139,798 sites, generated 2026-11-24.
+# Every website Bowmark covers and the functions it has: 139,839 sites, generated 2026-11-24.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 0017bf80 Get_a_list_of_planets#073ade69 airportDistance#0ab457b6 airportSuggest#356e4a7c binLookup#f2fbc6c4 calculateCaloriesBurned#d9081d6c calculateIncomeTax#ffab1fe4 calculateMortgage#b10dc094 calculatePaycheckWithholding#248bf78b calculateSalesTax#42eebe11 checkDisposableEmail#352ba971 checkLotteryTicket#6cd2842b classifyNaics#ab3fedb0 closestAirport#e040a996 convertAirportCode#9c1830bd convertCurrency#e42a3843 detectFaces#6d3d4604 detectObjects#43f3b6a8 encodeText#d99f5c08 extractTextFromImage#e5e60ae1 filterProfanity#9453947e generateBarcode#dff190d1 generateLoremIpsum#f4a81a3f generatePassword#5a4a9135 generateQRCode#61569f4f getAdvice#5966bae8 getAirQuality#2be13d29 getAircraft#2f026868 getAirlines#7908895c getAirports#63d09acf getAirportsList#2cd97543 getAllCatNames#5966bae8 getAllCountries#5966bae8 getAllCountryFlags#5966bae8 getAllDogs#5966bae8 getAllExercises#b03c1541 getAnalytics#2f74b018 getAnimals#5e3c1955 getBabyNames#fb6b2946 getBalanceSheet#8f2295a6 getBalanceSheetAvailability#db14f187 getBankHolidays#b43a2982 getBankInfo#ef201b34 getBitcoinData#5966bae8 getBitcoinHistoricalData#643a286c getBitcoinTreasury#3418db3e getBsbInfo#92e04c48 getBucketListItem#5966bae8 getCanadaRoutingNumberInfo#95790b8b getCarFacets#ecce56eb getCarGenerations#860c2c96 getCarMakes#f7a5bd3e getCarModels#0e5a0c65 getCars#2c689ce9 getCashFlow#8f2295a6 getCashFlowAvailability#db14f187 getCats#9ee374a8 getCelebrity#9b62ae1b getChuckNorrisJoke#051a528e getCityData#a8d0a4d2 getCommodityContract#fcac7e96 getCommodityContractList#5966bae8 getCommodityForwardCurve#5f8488fa getCommoditySnapshot#b79f99d0 getCommoditySpotPrice#b4c72e89 getCounter#afe03ae4 getCountryData#4e4a2989 getCountryFlag#824fd415 getCounty#d21898cd getCovidData#3aef9e55 getCryptoPrice#f2874ff3 getCryptoPriceHistorical#1d8aad49 getCryptoSymbols#5966bae8 getCryptoTreasury#deaaa498 getCurrencyVolatility#8c462276 getCurrencyVolatilityForecast#52f1e51a getCurrencyVolatilityHistorical#08124469 getCurrentCommodityPrice#d6e2ca3d getCurrentGoldPrice#1ce37565 getCurrentInflation#a05d9b69 getCurrentInterestRates#b2bd4e45 getCurrentMetalsPrice#04d37cee getCurrentOilPrice#1b47f3e0 getDNSRecords#fbf682e2 getDadJoke#cad2c562 getDayInHistory#e7d45901 getDefinition#92caf459 getDogs#c02c0876 getDomainInfo#fbf682e2 getETFInfo#605200e6 getEVCharger#930e6f50 getEarnings#d9a82cae getEarningsCalendar#5a567da2 getEarningsCalendarList#5966bae8 getEarningsCallParticipants#8a3ff5d9 getEarningsCallSpeaker#7c7d25fd getEarningsTranscript#73eeb195 getElectricVehicleData#12ec1e1a getElectricVehicleMakes#58fce5bd getElectricVehicleModels#3c2eae68 getEmojis#ec4da961 getEuriborRates#5966bae8 getExchangeRate#8deb4a7a getExecutiveCompensation#3f183912 getExercises#05dc8a43 getFactOfTheDay#5966bae8 getFacts#f2e1b8f5 getGDPData#4a302aa7 getGeocoding#a818d927 getGoldSpotPrice#1ce37565 getHelicopterData#58480699 getHistoricalCommodityPrice#67f490c5 getHistoricalEvents#b40cb821 getHistoricalExchangeRate#ec89b2db getHistoricalGoldPrice#dc092a8c getHistoricalInflation#89f29a87 getHistoricalInterestRates#a2aa2ca3 getHistoricalLiborRates#744f9e59 getHistoricalOilPrice#022955f6 getHobby#30a73f67 getHolidays#070547a2 getHoroscope#d8db66e7 getHospitals#a42f0e8b getIBAN#b359c6ae getIPInfo#e240f78a getIncomeStatement#8f2295a6 getIncomeStatementAvailability#db14f187 getIncomeTax#219f8fbc getInsiderDetails#4296cc7f getInsiderTransactions#7a34c249 getInsidersList#71022505 getInstitutionalHoldings#7dc65bd2 getInstitutionalInvestors#719f5821 getInstitutionalMovers#1b968edf getInstitutionalOwnership#9bb72b32 getIpoCalendar#c818990f getJoke#110cc6d8 getJokeOfTheDay#5966bae8 getLogos#66529535 getLotteryDraw#8ee30721 getLotteryHistoricalDraws#7b087310 getMXRecords#7a1ce585 getMarketCap#ef7fca62 getMortgageRate#58e45841 getMotorCarrier#61d5b79c getMotorCarrierInsurance#cd77c392 getMotorCarrierLinks#cd77c392 getMotorCarrierSafety#cd77c392 getMotorcycleMakes#5966bae8 getMotorcycleModels#11c0663e getMutualFund#896ad21a getNaics#6ec8b6a5 getNaicsRisk#ceda9cd7 getNaicsSizeStandard#2004b38e getNutrition#3e66c99d getNutritionBarcode#46db0426 getNutritionItem#232fec63 getOilSpotPrice#d356f90b getPinCode#5701bad5 getPopulationData#31921fcf getPostalCode#84221428 getPropertyTax#bf214490 getPublicHolidays#6eee0c00 getQuoteAuthors#7902b8f2 getQuoteOfTheDay#5966bae8 getQuotes#e4ae7485 getRandomImage#42658870 getRandomQuotes#0021aaf6 getRandomUsers#8f42dfff getRandomWord#6161108d getRecipes#71f6b74f getReverseGeocoding#b2cbfd85 getRhyme#92caf459 getRiddles#946e37b0 getSalesTax#14ae746a getSalesTaxFiling#8c066ba8 getSalesTaxHolidays#72d052cc getSalesTaxNexus#a59e609d getSalesTaxRateChanges#582a5758 getUpcomingEarnings#b845d2f2 isBankHoliday#22530a8d isHoliday#4078a05a isPublicHoliday#4646ab9f listActivities#5966bae8 listETFs#1241ce7a listEarningsCallTranscripts#c286b025 listLotteryGames#53d60b4a listLotteryJackpots#aeb1c93f phoneLookup#400950eb screenSanctions#07e3b1a0 searchBanks#b25c53ac searchBsb#d0671d04 searchCanadaRoutingNumbers#356f3cd9 searchCocktails#a650c886 searchETFs#57c454bc searchEarningsTranscripts#d37d9295 searchHistoricalFigures#729233ed searchMotorCarriers#10b3328e searchMotorcycles#04c93d9b searchNaics#c87d467d searchSEC#45757635
@@ -707,7 +707,6 @@
 = 41834f96 getStoreRates searchStores
 = 41a8965b get_card#87df338f get_set#ff1c80a0 most_valuable_cards#162c963b price_trends#d162cff5 search_cards#eb390e84 upcoming_releases#95950109
 = 41ba1630 changeForwardingAddress chatWithDuckAi convertCurrency createPrivateDuckAddress defineWord getEmailProtectionAccount getInstantAnswer getLocalTime getWeather listBangs listDuckAiModels listRegions resolveBang searchImages searchNews searchPlaces searchVideos searchWeb setPrivateDuckAddressActive suggestQueries translateText
-= 41cab321 booking_info#c2d492c6 search_flights#22d300bc search_hotels#c5adbb29
 = 41efa31e search-car-hire#5b1685b2 search-holidays#3bf56e09
 = 41fc6001 getRug searchRugs
 = 41ff26d9 my_account#baf429bf search_templates#ccb7c002
@@ -47511,6 +47510,7 @@ accounting-conversions.myshopify.com	a9af6443
 accounts-860.myshopify.com	a9af6443
 accounts-store.com	05a9bb9e
 accraine.co.uk	bb34c1bd
+accsly.io	da39a3ee
 accswholesale.com	4479a458
 acctekgroup.com	bb34c1bd
 accteklaser.com	bb34c1bd
@@ -47581,6 +47581,7 @@ acgeeks.net	bb34c1bd
 achaiashop-6745.myshopify.com	a9af6443
 acharyanet-india.myshopify.com	a9af6443
 acharyanet.com	a9af6443
+achate.com	da39a3ee
 achatz-dessous.myshopify.com	a9af6443
 achbal.myshopify.com	61e64875
 achc.myshopify.com	a9af6443
@@ -48179,6 +48180,7 @@ aeropress.com	4479a458
 aerosoles.com	8b50d914
 aerosolspraypaint.co.uk	bb34c1bd
 aerowheel.co	bb34c1bd
+aerre.co	da39a3ee
 aersf.com	8b50d914
 aerus-10203.myshopify.com	a9af6443
 aerus-10235.myshopify.com	a9af6443
@@ -49803,6 +49805,7 @@ amal-kapen-interiors.myshopify.com	a9af6443
 amala-vegan-supplements.myshopify.com	a9af6443
 amaleeart.com	bb34c1bd
 amalgamatedlocksmiths.net	bb34c1bd
+amalgamcollection.com	da39a3ee
 amaliabergamo.it	4479a458
 amaliajeans.myshopify.com	a9af6443
 amaltheiamarine.gr	bb34c1bd
@@ -51330,6 +51333,7 @@ aqua-sc.myshopify.com	a9af6443
 aquaasian.com	bb34c1bd
 aquaatlantis.co.za	bb34c1bd
 aquabots-shop.myshopify.com	a9af6443
+aquacadabra.com	da39a3ee
 aquaclinic.ca	bb34c1bd
 aquacoolcoating.com	bb34c1bd
 aquadea-now.myshopify.com	a9af6443
@@ -54138,6 +54142,7 @@ balipartyshop.myshopify.com	a9af6443
 balitheme.myshopify.com	61e64875
 baliveno.com	4479a458
 baliwax-gmail-com.myshopify.com	a9af6443
+balkonstrom.com	da39a3ee
 ball-baby-pro.myshopify.com	a9af6443
 ball-sculpture.com	bb34c1bd
 ballagrio.com	4479a458
@@ -54669,6 +54674,7 @@ baum-essex-2.myshopify.com	a9af6443
 baumannkunst.ch	a9af6443
 baumannsmeats.myshopify.com	a9af6443
 baumscheibe.com	a9af6443
+baumundpferdgarten.com	da39a3ee
 bausman.net	bb34c1bd
 bautz.de	685e74a3
 bauwow-pets.myshopify.com	61e64875
@@ -57703,6 +57709,7 @@ bodyhealth.com	53bf5172
 bodyism-com.myshopify.com	a9af6443
 bodylab24.de	4479a458
 bodyliciouslingerie.co.za	bb34c1bd
+bodylinetokyo.co.jp	da39a3ee
 bodylinkpiercingstudio.myshopify.com	a9af6443
 bodymanual.myshopify.com	a9af6443
 bodynbody.com	4479a458
@@ -61286,6 +61293,7 @@ carriermideaindia.com	bb34c1bd
 carries-beanies-4-brain-cancer.myshopify.com	a9af6443
 carriewhelandesigns.com	bb34c1bd
 carrocel.com	bb34c1bd
+carrolboyes.com	da39a3ee
 carrollsirishgifts.com	4479a458
 carrosdefoc.myshopify.com	a9af6443
 carrot-sun-tan-accelerators.myshopify.com	a9af6443
@@ -68393,6 +68401,7 @@ delacyonline.myshopify.com	a9af6443
 delagoa.myshopify.com	61e64875
 delalicious.myshopify.com	a9af6443
 delalunadesigns.myshopify.com	a9af6443
+delamur.com	da39a3ee
 delaney-ramsdell-official-store.myshopify.com	a9af6443
 delaneydesigns.co.uk	bb34c1bd
 delaneyrain.myshopify.com	a9af6443
@@ -81355,6 +81364,7 @@ gqupea-g3.myshopify.com	a9af6443
 gr-gallery-bowery.myshopify.com	a9af6443
 gr13qv-nt.myshopify.com	a9af6443
 gr8-nzlife.myshopify.com	a9af6443
+gr8fires.co.uk	da39a3ee
 grabient.com	ec8a5a1c
 grabngift.com	bb34c1bd
 grabsteinhandel.de	a9af6443
@@ -82690,6 +82700,7 @@ halfdays.com	37007769
 halfkick.myshopify.com	a9af6443
 halfmoondesign.myshopify.com	a9af6443
 halfmoonseminars.org	bb34c1bd
+halfpe.com	da39a3ee
 halfpenneys.co.uk	bb34c1bd
 halfpricedrapes.com	8b50d914
 halfpricefurniturestore.com	4479a458
@@ -83400,6 +83411,7 @@ hawklifting.co.uk	bb34c1bd
 hawknesthammocks.ca	4479a458
 hawksley-workman.myshopify.com	a9af6443
 hawksongweaving.myshopify.com	a9af6443
+hawkstone.com	da39a3ee
 hawkwatch-international.myshopify.com	a9af6443
 hawwaz-shop.myshopify.com	a9af6443
 hawyee-nation.myshopify.com	a9af6443
@@ -84265,6 +84277,7 @@ hff-gift-shop-2.myshopify.com	a9af6443
 hfhr2024.myshopify.com	a9af6443
 hfischer.myshopify.com	a9af6443
 hfldirect.co.uk	bb34c1bd
+hflnetworks.net	da39a3ee
 hfq03d-07.myshopify.com	a9af6443
 hfscreenprinting.com	bb34c1bd
 hftxstore.myshopify.com	a9af6443
@@ -89683,6 +89696,7 @@ joanne-thompson-jewellery.myshopify.com	a9af6443
 joart.net	bb34c1bd
 job-enterprises-llc.myshopify.com	a9af6443
 jobescompany.com	bb34c1bd
+jobfinder-ai.com	da39a3ee
 jobgether.com	64071516
 jobiba.com	204a4e60
 jobicy.com	bb949071
@@ -93662,6 +93676,7 @@ lamusainstrumentos.es	37007769
 lamy.com	4479a458
 lamzu.com	4479a458
 lanaconz.myshopify.com	a9af6443
+lanaehome.com	da39a3ee
 lanajaraeshop.myshopify.com	a9af6443
 lanark-sheepskin.myshopify.com	a9af6443
 lanasobo.com	bb34c1bd
@@ -94477,6 +94492,7 @@ legalmondo.com	bb34c1bd
 legalnaija.com	bb34c1bd
 legalzoom.com	cb05796f
 legamishop.com	bb34c1bd
+legaragemode.com	da39a3ee
 legavenue.com	4479a458
 legbbprod.myshopify.com	a9af6443
 legend-of-the-mantamaji.myshopify.com	a9af6443
@@ -94977,6 +94993,7 @@ libernovo.com	4479a458
 liberteculinaire.com	a9af6443
 libertine-blends.myshopify.com	a9af6443
 libertine-burger.myshopify.com	a9af6443
+libertineparfumerie.com.au	da39a3ee
 liberty-heritage-nursery-farm.myshopify.com	a9af6443
 liberty-ridge-farm-and-gardens.myshopify.com	a9af6443
 liberty-safe-corporate.myshopify.com	a9af6443
@@ -99057,6 +99074,7 @@ matieshop.co.za	bb34c1bd
 matildetestsite.myshopify.com	61e64875
 matinimpex.com	4479a458
 matisseco.com	05a9bb9e
+matissefootwear.com	da39a3ee
 matkatus.com	4479a458
 matrix-music.com	bb34c1bd
 matrix-vr.myshopify.com	a9af6443
@@ -100965,6 +100983,7 @@ minifigs.me	4479a458
 minifis-oddities.myshopify.com	a9af6443
 minigara.com	a9af6443
 minihandball.myshopify.com	a9af6443
+minihorseshop.nl	da39a3ee
 minikatana.com	4479a458
 minikissshop.myshopify.com	a9af6443
 minima-organics-2.myshopify.com	a9af6443
@@ -110073,6 +110092,7 @@ peppi.hu	4479a458
 peppolvalidator.com	c7944406
 peppypod.com	bb34c1bd
 pepstores.com	4479a458
+pequignet.com	da39a3ee
 per-olovkindgren.com	bb34c1bd
 per-vurt.com	bb34c1bd
 peragashop.com	4479a458
@@ -112032,6 +112052,7 @@ posterboyprinting.com.au	bb34c1bd
 posterfix.myshopify.com	a9af6443
 posterfrance.com	bb34c1bd
 posterized.in	4479a458
+postermuseum.com	da39a3ee
 postermywall.com	9ec11d82
 posterterritory.myshopify.com	a9af6443
 postfire.myshopify.com	a9af6443
@@ -112493,6 +112514,7 @@ preview.com.au	bb34c1bd
 prevrenal.org	685e74a3
 prevsol.com	bb34c1bd
 preworn.com	4479a458
+prexhobby.com	da39a3ee
 prfestival.myshopify.com	a9af6443
 prfsancarlos.org	bb34c1bd
 prgphotoshop.com	bb34c1bd
@@ -113922,6 +113944,7 @@ qualitystoneveneer.myshopify.com	a9af6443
 qualitytextiles.co.uk	bb34c1bd
 qualitywoods.com	4479a458
 qualyair.us	4479a458
+quandify.com	da39a3ee
 quantalight.com	bb34c1bd
 quanticlo.com	4479a458
 quantity-breaks-now.myshopify.com	a9af6443
@@ -113980,6 +114003,7 @@ queenafua.myshopify.com	a9af6443
 queenb-australia.myshopify.com	a9af6443
 queenbsignatures.com	bb34c1bd
 queencityrestaurantsupply.myshopify.com	a9af6443
+queencreekolivemill.com	da39a3ee
 queeneykimchi.myshopify.com	a9af6443
 queenie-x-ceramics.myshopify.com	a9af6443
 queenjordiis-gems.myshopify.com	a9af6443
@@ -117344,6 +117368,7 @@ royaldentalgroup.com	bb34c1bd
 royaldistributing.com	37007769
 royaleheritage.co.uk	bb34c1bd
 royalemobility.co.uk	bb34c1bd
+royalfurnitureandgift.com	da39a3ee
 royalfurniturefresno.com	4479a458
 royalglenora.myshopify.com	a9af6443
 royalgpl.com	bb34c1bd
@@ -118485,6 +118510,7 @@ samatis-baits-company.myshopify.com	a9af6443
 samatools.it	bb34c1bd
 samaya-delights.myshopify.com	a9af6443
 sambarsky.myshopify.com	a9af6443
+sambatech.com.br	da39a3ee
 sambellina-sale.myshopify.com	a9af6443
 samchimes.myshopify.com	a9af6443
 samcoengineeringinc.com	bb34c1bd
@@ -118565,6 +118591,7 @@ sanacollection.co.in	bb34c1bd
 sanadajinja.myshopify.com	a9af6443
 sanaia.myshopify.com	a9af6443
 sanasafinaz.com	4479a458
+sanatory.ru	da39a3ee
 sanatrayanpars.com	bb34c1bd
 sanaullastore.com	4479a458
 sanborn-fire-maps.myshopify.com	a9af6443
@@ -118981,6 +119008,7 @@ saveit.pk	bb34c1bd
 savelacougars.myshopify.com	a9af6443
 savelectro.ro	357f4ac8
 savelife-9681.myshopify.com	a9af6443
+savellireligious.com	da39a3ee
 saveme-jp.myshopify.com	a9af6443
 saveoutdoorsports.com	bb34c1bd
 saveserverpro.com	bb34c1bd
@@ -119463,6 +119491,7 @@ scubawarehouse.com.my	bb34c1bd
 scubawarehouse.com.sg	bb34c1bd
 scuderiaaudio.com	bb34c1bd
 scuderiagp.com	bb34c1bd
+scuderistore.com	da39a3ee
 scuffed-5051.myshopify.com	61e64875
 scuffers.com	8b50d914
 scullysnz.com	bb34c1bd
@@ -125242,6 +125271,7 @@ statianery.myshopify.com	a9af6443
 static-arc.myshopify.com	a9af6443
 staticbloom.myshopify.com	a9af6443
 staticclean.com	05a9bb9e
+staticnails.com	da39a3ee
 statik.com.au	bb34c1bd
 statimusa.com	bb34c1bd
 stationery-tag.myshopify.com	a9af6443
@@ -127752,6 +127782,7 @@ tallpack.be	bb34c1bd
 tallulahs.myshopify.com	a9af6443
 tally-young.myshopify.com	a9af6443
 tallycountershop.myshopify.com	a9af6443
+tallyfy.com	da39a3ee
 tallythemes.com	bb34c1bd
 talonairguns.com	bb34c1bd
 talosdrones.com	4479a458
@@ -130218,6 +130249,7 @@ theatreprospero.myshopify.com	a9af6443
 theattic.co.in	bb34c1bd
 theatticstreetwear.com	37007769
 theaudacity2b.myshopify.com	a9af6443
+theaudiostore.in	da39a3ee
 theaudiotailor.com.au	37007769
 theauldalliance.myshopify.com	a9af6443
 theaustralianbookofrecords.com.au	a9af6443
@@ -131983,6 +132015,7 @@ thinkedu.com	4479a458
 thinkempire.com	4479a458
 thinkerspublishing.com	bb34c1bd
 thinkery.myshopify.com	a9af6443
+thinkgeo.com	da39a3ee
 thinkgooder.myshopify.com	a9af6443
 thinking-basket.myshopify.com	a9af6443
 thinkingmu.com	da39a3ee
@@ -134860,6 +134893,7 @@ ubie.app	1a813855
 ubiksolution.com	bb34c1bd
 ubisub.com	bb34c1bd
 ubonlinestore.com	4479a458
+ubookstore.com	da39a3ee
 ubrands.pk	bb34c1bd
 ubrasofficial.myshopify.com	a9af6443
 ubsmailing.com	bb34c1bd
@@ -135010,6 +135044,7 @@ ukslate.com	bb34c1bd
 uksteroids.store	bb34c1bd
 ukstudenthouses.com	40a3cc99
 uktoysforkids.co.uk	bb34c1bd
+uktrendzone.com	da39a3ee
 ukulele-hymns.myshopify.com	a9af6443
 ukulelebird.myshopify.com	a9af6443
 ukuli-collectibles.myshopify.com	a9af6443
@@ -135179,6 +135214,7 @@ under-the-almondtree.myshopify.com	a9af6443
 under510.com	37007769
 underarmour.cl	4479a458
 underarmour.com.co	8b50d914
+underarmour.com.ph	da39a3ee
 underbelly.nu	bb34c1bd
 underbergposm.myshopify.com	a9af6443
 underd0g.com	37007769
@@ -135512,6 +135548,7 @@ updogindustries.com	a9af6443
 upenterprises.in	bb34c1bd
 uperfect.com	4479a458
 upf.org	685e74a3
+upfitsupply.com	da39a3ee
 upfront.nl	37007769
 upgradepartyusa.myshopify.com	a9af6443
 upgraderc.be	4479a458
@@ -136458,6 +136495,7 @@ vegan-treats-bakery.myshopify.com	a9af6443
 veganeast.myshopify.com	a9af6443
 veganessentials.com	4479a458
 veganpetfood.myshopify.com	a9af6443
+vegaoo.es	da39a3ee
 vegapay.ae	bb34c1bd
 vegasimprint.myshopify.com	a9af6443
 vegasnearme.com	404ce277
@@ -138097,6 +138135,7 @@ wallowaavalanchecenter.org	bb34c1bd
 wallpaperemporium.co.uk	bb34c1bd
 wallpapersales.co.uk	4479a458
 wallpaperscissor.myshopify.com	a9af6443
+wallpaperstogo.com	da39a3ee
 wallpaperwallmural.com	bb34c1bd
 wallpops.com	4479a458
 wallshoppe.com	37007769
@@ -138900,6 +138939,7 @@ welotec.com	4479a458
 weloveart2022.myshopify.com	a9af6443
 welovecars-accessorises.myshopify.com	a9af6443
 welovefrugi.com	4479a458
+weloveplugs.com	da39a3ee
 welovesgames.myshopify.com	a9af6443
 welovewildwool.com	bb34c1bd
 welsh-cymru-clothing.myshopify.com	a9af6443
@@ -140293,6 +140333,7 @@ woodworktherapy.com	bb34c1bd
 woodworld-of-texas.myshopify.com	a9af6443
 woodyes.ca	bb34c1bd
 woodyguthriecenterstore.myshopify.com	a9af6443
+woodyjobs.com	da39a3ee
 woodys-dewey-beach.myshopify.com	a9af6443
 woodysbbqpantry.myshopify.com	a9af6443
 woodysfurniturestores.com	bb34c1bd
@@ -141214,7 +141255,6 @@ yasminboland.myshopify.com	a9af6443
 yasminfood.ch	bb34c1bd
 yasminstakeaway.com.au	bb34c1bd
 yassaminforcongress.myshopify.com	a9af6443
-yassir.com	41cab321
 yasuhide-koizumi.myshopify.com	a9af6443
 yasukiya.myshopify.com	a9af6443
 yasuoka.myshopify.com	a9af6443
