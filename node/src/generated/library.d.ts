@@ -8,7 +8,7 @@
 // Manifest version: aefb140474a7336b6e2eafef21d6c24c81a7665dc6248a90de8e09c88bdd04f7
 // 99 capabilities, 964 providers, 5988 typed functions, 20 refused.
 // 125,575 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
-// 14,906 sites under bowmark.sites, 190,018 functions, sharing 2,321 interface(s).
+// 15,048 sites under bowmark.sites, 191,850 functions, sharing 2,336 interface(s).
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -151050,6 +151050,161 @@ interface BowmarkSiteTools_047b2229c7 {
     list_testing_products(args?: Record<string, unknown>): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_04a1f45a39 {
+    /** Email a one-time sign-in code to the shopper. Call this when the shopper wants their own prices or their order history and is not signed in. Ask them for their email address first - never invent one - then ask them to read the code back to you and call auth_verify_otp. Ordering through an agent is not available yet, so signing in does not allow placing orders. */
+    auth_request_otp(args?: {
+      /** the shopper's email address, if they sign in with one */
+      email?: string;
+      /** the shopper's own phone number in international form: a + then the country code and the number. MOST shoppers here sign in by phone - ask for this first, and never use a number the shopper did not give you. */
+      phone?: string;
+    }): Promise<unknown>;
+    /** Exchange the shopper's one-time code for a session. Returns a sessionToken for the catalogue and order-reading tools. Ordering through an agent is not available yet: the token does not allow building a cart or placing orders, and the shopper can order on the ar-pay storefront themselves. The token is shown once and cannot be retrieved again, and it must never be read out to the shopper or written  */
+    auth_verify_otp(args: {
+      /** the one-time code the shopper read back to you */
+      code: string;
+      /** the same address auth_request_otp was called with, if that was an email */
+      email?: string;
+      /** a short name for this agent, recorded with the sign-in */
+      label?: string;
+      /** the same phone number auth_request_otp was called with, if that was a phone */
+      phone?: string;
+    }): Promise<unknown>;
+    /** Fetch one product by its id, its slug, or by a product family plus an exact denomination. Use this once you know which specific item the shopper wants; it returns a single product with its current price. */
+    catalog_get_product(args: {
+      /** how to find the product: 'id', 'slug', or 'denomination' */
+      by: string;
+      /** required when by='id': the product id from a listing or search */
+      id?: number;
+      /** required when by='slug': the URL slug */
+      slug?: string;
+      /** required when by='denomination': the product family, e.g. 'Apple Gift Card' */
+      group?: string;
+      /** required when by='denomination': the exact rung as the catalogue spells it, e.g. '50 USD'. Call catalog_list_denominations first to see the valid values. */
+      denomination?: string;
+    }): Promise<unknown>;
+    /** List catalogue categories. Omit parentId for the top level, or pass one to list its children. */
+    catalog_list_categories(args?: {
+      /** list the children of this category; omit for the top level */
+      parentId?: number;
+    }): Promise<unknown>;
+    /** List every amount one product family is sold in, cheapest first, each with its own product id and price. This is the tool for 'what sizes does this gift card come in?'. */
+    catalog_list_denominations(args: {
+      /** the product family, e.g. 'Apple Gift Card'. Use catalog_list_groups to find the exact name. */
+      group: string;
+      /** page size, 1-50, default 20 */
+      limit?: number;
+    }): Promise<unknown>;
+    /** List product families - the names a shopper uses when they do not name an amount, like 'Apple Gift Card'. Use this to find the exact family name that catalog_list_denominations needs. */
+    catalog_list_groups(args?: {
+      /** maximum families to return, 1-50, default 20 */
+      limit?: number;
+      /** case-insensitive substring to narrow the list, e.g. 'apple' */
+      match?: string;
+    }): Promise<unknown>;
+    /** Browse products, optionally narrowed by category, product family or price range, and sorted by price. Returns one page; pass nextCursor back for the following page. */
+    catalog_list_products(args?: {
+      /** 'price_asc', 'price_desc', or omit for the catalogue's own order */
+      sort?: string;
+      /** narrow to one product family, e.g. 'Apple Gift Card' */
+      group?: string;
+      /** page size, 1-50, default 20 */
+      limit?: number;
+      /** nextCursor from a previous call; omit for the first page */
+      cursor?: string;
+      /** maximum price, as a decimal string, in the session currency */
+      priceMax?: string;
+      /** minimum price, as a decimal string, in the session currency */
+      priceMin?: string;
+      /** narrow to one category; get ids from catalog_list_categories */
+      categoryId?: number;
+    }): Promise<unknown>;
+    /** Find products by name or product family. Use this when the shopper names a brand or product but you do not have its id. */
+    catalog_search_products(args: {
+      /** page size, 1-50, default 20 */
+      limit?: number;
+      /** what to search for; matches the product name and the product family name */
+      query: string;
+      /** nextCursor from a previous call */
+      cursor?: string;
+    }): Promise<unknown>;
+    /** Start a basket. Pass every line at once; the id it returns is what the other checkout tools take. */
+    checkout_create_cart(args: {
+      /** the whole basket */
+      lines: null | {
+          /** how many, 1-100 */
+          quantity: number;
+          /** the product id from a catalogue tool - one DENOMINATION, not a family */
+          productId: number;
+        }[];
+      /** the token auth_verify_otp returned; omit it only if you are sending an Authorization header instead */
+      sessionToken?: string;
+    }): Promise<unknown>;
+    /** Re-read a quote you already created, without re-pricing it. Use this to recover the exact numbers you showed the customer, rather than quoting again and getting a different total. */
+    checkout_get_quote(args: {
+      /** a quote id from checkout_quote */
+      quoteId: string;
+      /** the token auth_verify_otp returned; omit it only if you are sending an Authorization header instead */
+      sessionToken?: string;
+    }): Promise<unknown>;
+    /** List the ways this basket can be paid for. Call this BEFORE checkout_quote and pass one of the ids it returns as paymentMethodId - the ids are not guessable and a wrong one is refused. Which methods are available depends on what is in the cart, so ask again if the basket changes. */
+    checkout_list_payment_methods(args: {
+      /** the cart to be paid for - the list depends on what is in it */
+      cartId: string;
+      /** the token auth_verify_otp returned; omit it only if you are sending an Authorization header instead */
+      sessionToken?: string;
+    }): Promise<unknown>;
+    /** DISABLED on this store: agents cannot place orders yet, and every call is refused with code place_order_disabled without contacting the store. Do not call this. Show the customer the products and the total from checkout_quote and ask them to place the order on the store's own website or app. */
+    checkout_place_order(args: {
+      /** the quote the customer approved - the ONLY thing that decides what is charged */
+      quoteId: string;
+      /** the token auth_verify_otp returned; omit it only if you are sending an Authorization header instead */
+      sessionToken?: string;
+      /** set true ONLY after you have shown the customer the exact total from checkout_quote and they agreed to it */
+      customerConfirmed: boolean;
+    }): Promise<unknown>;
+    /** Price a basket and freeze the result. Returns a total and an expiry. SHOW THIS TOTAL TO THE CUSTOMER before placing any order - it is what they will be charged, and it will not change while it is valid. paymentMethodId must be one checkout_list_payment_methods returned for this basket. */
+    checkout_quote(args: {
+      /** the cart to price */
+      cartId: string;
+      /** the token auth_verify_otp returned; omit it only if you are sending an Authorization header instead */
+      sessionToken?: string;
+      /** the payment method the shopper chose */
+      paymentMethodId: number;
+    }): Promise<unknown>;
+    /** Change a basket by stating its COMPLETE contents after the change. There is no add or remove: send the whole basket every time, which is the one thing that cannot drift from what the customer asked for. */
+    checkout_update_cart(args: {
+      /** the COMPLETE basket after the change, not just what differs */
+      lines: null | {
+          /** how many, 1-100 */
+          quantity: number;
+          /** the product id from a catalogue tool - one DENOMINATION, not a family */
+          productId: number;
+        }[];
+      /** the cart to change */
+      cartId: string;
+      /** the token auth_verify_otp returned; omit it only if you are sending an Authorization header instead */
+      sessionToken?: string;
+    }): Promise<unknown>;
+    /** Read one order in full: its items, what was paid, which payment method and any fee. Takes the REFERENCE from orders_list, like NAP783331 - not the numeric orderId, which gives a not-found answer. It does NOT return gift-card codes. */
+    orders_get(args: {
+      /** the order reference from orders_list, e.g. NAP783331 - not the numeric orderId */
+      reference: string;
+      /** the token auth_verify_otp returned; omit it only if you are sending an Authorization header instead */
+      sessionToken?: string;
+    }): Promise<unknown>;
+    /** List this shopper's own orders, newest first, with status and total. Use it to answer "did my order arrive" and to check whether an order was placed when a checkout call did not answer. It does NOT return gift-card codes - those need a fresh one-time code from the shopper. */
+    orders_list(args?: {
+      /** how many orders to return; the surface default and cap apply */
+      limit?: number;
+      /** a nextCursor from a previous call, to read the following page */
+      cursor?: string;
+      /** the token auth_verify_otp returned; omit it only if you are sending an Authorization header instead */
+      sessionToken?: string;
+    }): Promise<unknown>;
+    /** Report the region, language and currency this session is shopping in, and what this agent is permitted to do. Call this before quoting any price. */
+    session_info(args?: {}): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_0531f8792b {
     /** List Nuxt modules. You should use this tool when: - A user asks questions about Nuxt modules - A user wants to know modules for a specific category This tool returns a list of Nuxt modules in a JSON array, it is a list of objects with the following properties: - name: The name of the module - description: The description of the module - category: The category of the module - repo: The GitHub repos */
     list_nuxt_modules(args?: {}): Promise<unknown>;
@@ -155280,83 +155435,6 @@ interface BowmarkSiteTools_0966bf74c9 {
     }): Promise<unknown>;
     /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_0966caccbd {
-    /** Fetch details for one public Ribblr pattern using an ID returned by search, a numeric pattern ID, a slug, or a Ribblr pattern URL. */
-    fetch(args: {
-      /** Pattern reference, e.g. "pattern:123", "123", a slug, or a Ribblr pattern URL */
-      id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Get metadata for a specific Ribblr pattern by its numeric ID or URL slug. Returns title, designer, price, difficulty, short description, and URL. Does NOT return step-by-step instructions. */
-    get_pattern_details(args?: {
-      /** Pattern URL slug, e.g. "simple-beanie-hat" */
-      slug?: string;
-      /** Numeric pattern ID from Ribblr */
-      pattern_id?: number;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Get the list of materials (yarn, hooks, needles, notions) required for a specific Ribblr pattern. */
-    get_pattern_materials(args: {
-      /** Numeric pattern ID from Ribblr */
-      pattern_id: number;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Get currently trending and popular patterns on Ribblr. Optionally filter by craft type. */
-    get_trending_patterns(args?: {
-      /** Filter by craft type */
-      craft?: "crochet" | "knitting" | "sewing" | "tunisian";
-      /** Number of results (1–20, default 10) */
-      limit?: number;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search public Ribblr craft patterns by keyword, craft type, and difficulty. Returns public metadata only, including IDs that can be passed to fetch. */
-    search(args: {
-      /** Filter by craft type */
-      craft?: "crochet" | "knitting" | "sewing" | "tunisian";
-      /** Number of results (1-20, default 10) */
-      limit?: number;
-      /** Search keywords, e.g. "beginner dog crochet pattern" */
-      query: string;
-      /** Filter by difficulty */
-      difficulty?: "beginner" | "intermediate" | "advanced" | "not_beginner";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search Ribblr for crochet, knitting, sewing, or other craft patterns by keyword. Returns pattern title, designer, price, difficulty, craft type, and a direct URL. Does NOT return pattern instructions. */
-    search_patterns(args: {
-      /** Filter by craft type */
-      craft?: "crochet" | "knitting" | "sewing" | "tunisian";
-      /** Number of results (1–20, default 10) */
-      limit?: number;
-      /** Search keywords, e.g. "beginner hat" or "amigurumi bear" */
-      query: string;
-      /** Filter by difficulty */
-      difficulty?: "beginner" | "intermediate" | "advanced" | "not_beginner";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search Ribblr's own yarn (brand: Ribblr) with a plain-language question and/or explicit filters. Understands yarn weight (lace, fingering, sport, DK, worsted/aran, bulky/chunky, super bulky, jumbo), fiber (acrylic, polyester, wool, cotton), texture (smooth, chenille, plush, velvet, fuzzy, faux fur), color (e.g. pink, navy, cream, sage) and price ("under $10"). Returns the matching yarn lines and c */
-    search_yarn(args?: {
-      /** Result order (default relevance) */
-      sort?: "relevance" | "price_low" | "price_high";
-      /** Color, e.g. "pink", "navy", "cream" */
-      color?: string;
-      /** Fiber the yarn must contain (>10%) */
-      fiber?: "acrylic" | "polyester" | "wool" | "cotton";
-      /** Colorways to return (1–20, default 10) */
-      limit?: number;
-      /** The shopper's question, e.g. "pink super bulky chenille yarn under $10" or "worsted acrylic in navy" */
-      query?: string;
-      /** Yarn weight (US/CYC names; for UK/AU names such as aran, chunky or 4 ply put them in `query`) */
-      weight?: "lace" | "super-fine" | "fine" | "dk" | "worsted" | "bulky" | "super-bulky" | "jumbo";
-      /** Only discounted colorways */
-      on_sale?: boolean;
-      /** Yarn texture */
-      texture?: "smooth" | "chenille" | "plush" | "velvet" | "fuzzy" | "fur";
-      /** Maximum price per ball in USD */
-      max_price?: number;
-      [key: string]: unknown;
-    }): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_0968a9b51d {
@@ -174206,1020 +174284,6 @@ interface BowmarkSiteTools_13f4b8f7ca {
     }): Promise<unknown>;
 }
 
-interface BowmarkSiteTools_13fe87e289 {
-    /** Battles and replays */
-    battles(args: {
-      /** Only battles on this arena, by the game's own map id (`05_prohorovka`). `facets.maps` lists the ones the catalogue has. */
-      map?: string;
-      /** Only battles of this mode, by the game's own `bonusType` (1 is random battles). `facets.modes` lists the ones the catalogue has. */
-      mode?: string;
-      /** Which page of `limit` battles, counted from one. The first by default; `total` in the answer says how many there are. */
-      page?: string;
-      /** What the replays are ranked by: the damage their recorder dealt (`damage`, the default), their assisted damage, experience or kills, the newest first (`recent`), or the most opened (`views`) or downloaded (`downloads`). */
-      sort?: "recent" | "damage" | "assist" | "xp" | "kills" | "views" | "downloads";
-      /** Only replays recorded in this vehicle, by its tank id. `facets.tanks` lists the ones the catalogue has. */
-      tank?: string;
-      /** Battles per page, 20 by default, 100 at most. */
-      limit?: string;
-      /** `true` to also answer what each filter can take, counted. */
-      facets?: "true" | "false";
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Only replays whose recorder won, lost or drew. */
-      result?: "win" | "loss" | "draw";
-      /** Only battles of this game update, as `2.4.1` (any hotfix of it), or `latest` for the newest update the catalogue holds. `versions` lists the ones it has. */
-      version?: string;
-      language?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Battle */
-    battles_by_id(args: {
-      /** The game's own battle id (`arenaUniqueID`), as digits. A string, not a number: it runs to 19 digits. */
-      id: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      language?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Battle comments */
-    battles_by_id_comments(args: {
-      /** The game's own battle id (`arenaUniqueID`), as digits. A string, not a number: it runs to 19 digits. */
-      id: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Battle replay */
-    battles_by_id_replay(args: {
-      /** The game's own battle id (`arenaUniqueID`), as digits. A string, not a number: it runs to 19 digits. */
-      id: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** The account whose recording to read, one of the battle's `recorders`. Each participant who recorded the battle has their own point of view; without it, the battle's first recording. */
-      recorder?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan overview */
-    clans_by_tag(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan activity */
-    clans_by_tag_activity(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan wars stats */
-    clans_by_tag_clan_wars(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan Maneuvers record */
-    clans_by_tag_maneuvers(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan members */
-    clans_by_tag_members(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan previous clans */
-    clans_by_tag_previous_clans(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan stronghold stats */
-    clans_by_tag_stronghold(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan tournaments */
-    clans_by_tag_tournaments(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan vehicles */
-    clans_by_tag_vehicles(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan videos */
-    clans_by_tag_videos(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Compare clans */
-    clans_compare(args: {
-      /** Clan tags to compare (2 to 4). */
-      tags: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan languages */
-    clans_languages(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search clans */
-    clans_search(args: {
-      /** Search prefix. */
-      q: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search clans (streamed) */
-    clans_search_ndjson(args: {
-      /** Search prefix. */
-      q: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Stronghold clan leaderboard */
-    clans_stronghold_top(args: {
-      /** Ranking column (default sr). */
-      sort?: "sr" | "srb" | "elo" | "battles" | "winrate";
-      /** Stronghold mode/tier (default t10). */
-      tier?: "advances" | "t11" | "t10" | "t8" | "t6";
-      /** Window the stats are computed over: the last 24 hours, 7 days, 30 days, or all-time (default overall). */
-      period?: "24h" | "7d" | "30d" | "overall";
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Top clans */
-    clans_top(args: {
-      lang?: string;
-      /** Maximum number of rows to return. Out-of-range values are clamped. */
-      limit?: string;
-      /** Rating metric the leaderboard is ranked by. `pr` (Personal Rating) and `wtr` (World of Tanks Rating) are Wargaming's account figures and exist on lifetime boards only: a recent period or a per-vehicle board asked for either answers with its `wnx` ranking. */
-      metric?: "wn7" | "wn8" | "wnx" | "pr" | "wtr";
-      period?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      strict?: string;
-      language?: string;
-      languages?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Coverage */
-    coverage(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Glossary */
-    glossary(args?: {
-      category?: string;
-      language?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Glossary anchors */
-    glossary_anchors(args?: {
-      language?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Glossary term */
-    glossary_by_slug(args: {
-      /** Term slug, e.g. `wn8`. */
-      slug: string;
-      language?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search the glossary */
-    glossary_search(args: {
-      /** Search prefix. */
-      q: string;
-      language?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Health check */
-    health(args?: Record<string, unknown>): Promise<unknown>;
-    /** Maneuvers event boards */
-    maneuvers(args: {
-      /** Case-insensitive search: a player's nickname, or a clan's tag or name. Rows keep their real place. */
-      q?: string;
-      /** Highest value kept on the `range` column, inclusive. */
-      max?: string;
-      /** Lowest value kept on the `range` column, inclusive. */
-      min?: string;
-      /** The column the boards are ordered on (default `fame-points`, the board's own order). `gain` and `move` are the last 24 hours. */
-      sort?: "fame-points" | "gain" | "move";
-      /** The board to page through. Omitted, both are served, each sliced by the same `offset` and `limit`; named, the other one comes back empty. */
-      board?: "players" | "clans";
-      /** Rows per board, 1-1000 (default 100). */
-      limit?: string;
-      /** Direction of `sort` (default `desc`). Rows with no figure on the sorted column come last either way. */
-      order?: "desc" | "asc";
-      /** The column `min` and `max` bound. A row with no figure on it (a 24h move before the captures reach back a day) is left out. */
-      range?: "fame-points" | "gain" | "move";
-      /** Rows to skip on each board, after searching and ordering (default 0). The whole board is reachable, not only its first rows. */
-      offset?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** The edition to read, by its identifier (an `eventName` from `editions`). Defaults to the newest edition recorded. */
-      edition?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Maneuvers edition history */
-    maneuvers_history(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** The edition to read, by its identifier. Defaults to the newest edition recorded. */
-      edition?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Maps */
-    maps(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Map detail */
-    maps_by_slug(args: {
-      /** Map slug (e.g. prokhorovka). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Map changes history */
-    maps_by_slug_history(args: {
-      /** Map slug (e.g. prokhorovka). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Map positions */
-    maps_by_slug_positions(args: {
-      /** Map slug (e.g. prokhorovka). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Map community rating */
-    maps_by_slug_ratings(args: {
-      /** Map slug (e.g. prokhorovka). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** My rating of this map */
-    maps_by_slug_ratings_me(args: {
-      /** Map slug (e.g. prokhorovka). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Map statistics */
-    maps_by_slug_statistics(args: {
-      /** Which battle mode to count, random by default. Modes are never pooled: each has its own team size, length and idea of a good result, so every figure in the response belongs to the one asked for. The modes field says which ones hold battles on this map. */
-      mode?: "random" | "onslaught" | "skirmish" | "advance";
-      /** Map slug (e.g. prokhorovka). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      language?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Map videos */
-    maps_by_slug_videos(args: {
-      /** Map slug (e.g. prokhorovka). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Map changes feed */
-    maps_changes(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Map community ratings board */
-    maps_ratings(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** My map ratings */
-    maps_ratings_mine(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search maps */
-    maps_search(args: {
-      /** Search prefix. */
-      q: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search maps (streamed) */
-    maps_search_ndjson(args: {
-      /** Search prefix. */
-      q: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Credits and experience by battle mode */
-    modes_economy(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Generic OG card */
-    og(args?: {
-      /** Card title. */
-      title?: string;
-      /** Card subtitle. */
-      subtitle?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Battle OG card */
-    og_battles_by_id(args: {
-      /** The game's own battle id (`arenaUniqueID`), as digits. A string, not a number: it runs to 19 digits. */
-      id: string;
-      /** The account whose battle the card shows: their result, vehicle and figures. Without it, the battle as a whole. */
-      player?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clan OG card */
-    og_clans_by_tag(args: {
-      /** Clan tag. */
-      tag: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Clans comparison OG card */
-    og_clans_compare(args: {
-      /** Clan tags to compare (2 to 4). */
-      tags: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Map OG card */
-    og_maps_by_slug(args: {
-      /** Map slug (e.g. prokhorovka). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player OG card */
-    og_players_by_nickname(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Players comparison OG card */
-    og_players_compare(args: {
-      /** Player nicknames to compare (2 to 4). */
-      names: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank OG card */
-    og_tanks_by_slug(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tanks comparison OG card */
-    og_tanks_compare(args: {
-      /** Columns to compare (2 to 4). A slug on its own, or suffixed with the game client to read it on (`is-7@ct`) or with its position among the columns showing that same vehicle (`is-7~2`, one tank under two setups). */
-      slugs: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tournament OG card */
-    og_tournaments_by_id(args: {
-      /** Tournament id. */
-      id: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tournament team OG card */
-    og_tournaments_by_id_team_by_teamId(args: {
-      /** Tournament id. */
-      id: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Team id within that tournament. */
-      teamId: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player activity by band */
-    players_activity(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** How far back an account counts as active. */
-      window?: "24h" | "7d" | "30d";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player detail */
-    players_by_nickname(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player achievements */
-    players_by_nickname_achievements(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      language?: string;
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player battles */
-    players_by_nickname_battles(args: {
-      /** Only battles on this arena, by the game's own map id (`05_prohorovka`). `facets.maps` lists the ones it has. */
-      map?: string;
-      /** Only battles of this mode, by the game's own `bonusType` (1 is random battles). `facets.modes` lists the ones this account has. */
-      mode?: string;
-      /** Which page of `limit` battles, newest first, counted from one. The first by default; `total` in the answer says how many there are. */
-      page?: string;
-      /** Only battles this account fought in this vehicle, by its tank id. `facets.tanks` lists the ones it has. */
-      tank?: string;
-      /** Battles per page, newest first. Ten by default, a hundred at most. */
-      limit?: string;
-      /** `true` to also answer `facets`: every mode, vehicle, map and result this account's battles have, counted over all of them regardless of the filters above. Left out by default, since only a page that draws filters needs it. */
-      facets?: "true" | "false";
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Only battles this account won, lost or drew. */
-      result?: "win" | "loss" | "draw";
-      language?: string;
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player profit by mode */
-    players_by_nickname_battles_economy(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Players met in battle */
-    players_by_nickname_battles_players(args: {
-      /** Only count battles on this arena, by the game's own map id (`05_prohorovka`). */
-      map?: string;
-      /** Only count battles of this mode, by the game's own `bonusType` (1 is random battles). */
-      mode?: string;
-      /** Only count battles this account fought in this vehicle, by its tank id. */
-      tank?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Only count battles this account won, lost or drew. */
-      result?: "win" | "loss" | "draw";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player current clan */
-    players_by_nickname_clan(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player Maneuvers record */
-    players_by_nickname_maneuvers(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player Onslaught record */
-    players_by_nickname_onslaught(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player sessions */
-    players_by_nickname_sessions(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      /** Bucket size for the sessions. */
-      granularity?: "daily" | "weekly" | "monthly";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player Skirmishes by tier */
-    players_by_nickname_skirmish(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player tanks */
-    players_by_nickname_tanks(args: {
-      mode?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player vehicle record */
-    players_by_nickname_tanks_by_slug(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      language?: string;
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player vehicle loadout */
-    players_by_nickname_tanks_by_slug_loadout(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player tournaments */
-    players_by_nickname_tournaments(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Player nickname. */
-      nickname: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Compare players */
-    players_compare(args: {
-      /** Player nicknames to compare (2 to 4). */
-      names: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player distribution */
-    players_distribution(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Player languages */
-    players_languages(args: {
-      /** Leaderboard time window. */
-      period?: "24h" | "7d" | "30d" | "overall";
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      min_tier?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Marks of Excellence leaderboard */
-    players_marks(args: {
-      lang?: string;
-      /** Ranking column: `total` for three-mark guns across every tier, or `tier-<n>` for one tier (`tier-10`). Default `total`, which is also what an unrecognised value falls back to. Not an enum: which tiers the game has is Wargaming's to decide, and the response's `tiers` names the ones this region has a ranking for. */
-      sort?: string;
-      /** Maximum number of rows to return. Out-of-range values are clamped. */
-      limit?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      strict?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Onslaught leaderboard */
-    players_onslaught(args: {
-      /** Maximum number of rows to return. Out-of-range values are clamped. */
-      limit?: string;
-      /** Rows to skip before the page begins, applied to the standings AND to the lost places, so one pair of parameters pages both. The aggregates always describe the whole board, whatever the slice. */
-      offset?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Season event id to load (default the current season). From the seasons list in the response. */
-      season?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Onslaught season history */
-    players_onslaught_history(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Season event id to load (default the current season). From the seasons list on the leaderboard. */
-      season?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Rampage leaderboard */
-    players_rampage(args: {
-      /** Ranking column (default mr). */
-      sort?: "mr" | "battles" | "winrate" | "survival" | "damage";
-      /** Maximum number of rows to return. Out-of-range values are clamped. */
-      limit?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search players */
-    players_search(args: {
-      /** Search prefix. */
-      q: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search players (streamed) */
-    players_search_ndjson(args: {
-      /** Search prefix. */
-      q: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Top players */
-    players_top(args: {
-      lang?: string;
-      /** Maximum number of rows to return. Out-of-range values are clamped. */
-      limit?: string;
-      /** Rating metric the leaderboard is ranked by. `pr` (Personal Rating) and `wtr` (World of Tanks Rating) are Wargaming's account figures and exist on lifetime boards only: a recent period or a per-vehicle board asked for either answers with its `wnx` ranking. */
-      metric?: "wn7" | "wn8" | "wnx" | "pr" | "wtr";
-      offset?: string;
-      /** Leaderboard time window. */
-      period?: "24h" | "7d" | "30d" | "overall";
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      strict?: string;
-      language?: string;
-      min_tier?: string;
-      languages?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Win rate by tier and rating band */
-    players_winrate_by_tier(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Exchange rates */
-    rates(args?: Record<string, unknown>): Promise<unknown>;
-    /** My ratings */
-    ratings_mine(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Rating colour scales */
-    ratings_scales(args?: Record<string, unknown>): Promise<unknown>;
-    /** Resolve a roster */
-    resolve(args: {
-      /** Which mode the `vehicles` figures should cover. Omitted, they cover every mode together. Frontline, Onslaught and Steel Hunter are absent on purpose: Wargaming publishes no per-vehicle statistics for them at all, so a client in one of those battles omits this and reads the whole record. */
-      mode?: "random" | "clan" | "company" | "globalmap" | "stronghold_skirmish" | "stronghold_defense" | "epic" | "ranked_10x10" | "team" | "regular_team" | "fallout";
-      /** Clan tags, case-insensitive. Up to 100. */
-      tags?: string;
-      /** Clan ids. Up to 100. */
-      clans?: string;
-      /** Player nicknames, case-insensitive. Up to 100. The nickname an account wears NOW, never one it used to: a roster shows who is in the room, and answering through a name history would confidently name an account that no longer answers to what the roster printed. */
-      names?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Account ids. Up to 100. */
-      players?: string;
-      /** `<account id>:<vehicle id>` pairs, up to 60. Each one is answered in `vehicles` with what that account has done on that vehicle. The vehicle id is Wargaming's `tank_id`, which is the game client's own compact descriptor, so a client reads it off the roster it is drawing. */
-      vehicles?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Resolve saved search entries */
-    search_resolve(args: {
-      /** Arena ids, comma separated. */
-      maps?: string;
-      /** Clan ids, comma separated. */
-      clans?: string;
-      /** Vehicle ids, comma separated. */
-      tanks?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Account ids, comma separated. */
-      players?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Server population */
-    server_stats(args: {
-      /** How far back the population series reads. */
-      range?: "day" | "week" | "month" | "year";
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Compare regions */
-    servers_compare(args?: {
-      /** How far back the population series reads. */
-      range?: "day" | "week" | "month" | "year";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Data sources */
-    sources(args?: Record<string, unknown>): Promise<unknown>;
-    /** Live streamers */
-    streamers_live(args?: Record<string, unknown>): Promise<unknown>;
-    /** Funding progress */
-    support_funding(args?: Record<string, unknown>): Promise<unknown>;
-    /** Supporters board */
-    support_podium(args?: Record<string, unknown>): Promise<unknown>;
-    /** Tanks performance */
-    tanks(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank performance */
-    tanks_by_slug(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank detail */
-    tanks_by_slug_detail(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Which game client to read the vehicle's characteristics from. `ct` serves what the running Common Test build makes of it, so a tank can be inspected and configured the way the next update would ship it. Falls back to live when no test is running or when it leaves this vehicle alone. */
-      client?: "live" | "ct";
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank economics */
-    tanks_by_slug_economics(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank changes history */
-    tanks_by_slug_history(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank loadouts */
-    tanks_by_slug_loadouts(args: {
-      /** Which battle mode to count, random by default. Modes are never pooled: each has its own economy and its own idea of a good result, so every figure in the response belongs to the one asked for. The modes field says which ones hold anything for this vehicle. */
-      mode?: "random" | "onslaught" | "skirmish" | "advance";
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Count this vehicle's twins with it, false by default: the vehicles that are this one under another name, listed in the tank detail's `twins` (the Dream Chaser is the SDP wz 66 Grom). Wargaming records each id apart, so their battles are otherwise counted on their own page only. Each best player's `tankId` says which of them their row is on. */
-      twins?: "true" | "false";
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      language?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank Marks of Excellence */
-    tanks_by_slug_marks_of_excellence(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank Marks of Mastery */
-    tanks_by_slug_marks_of_mastery(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank community rating */
-    tanks_by_slug_ratings(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** My rating of this tank */
-    tanks_by_slug_ratings_me(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Similar tanks */
-    tanks_by_slug_similar(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** How many matches to return. Out-of-range values are clamped. */
-      limit?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank specifications */
-    tanks_by_slug_specifications(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank videos */
-    tanks_by_slug_videos(args: {
-      /** Tank slug (e.g. is-7). */
-      slug: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tank changes feed */
-    tanks_changes(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Compare tanks */
-    tanks_compare(args: {
-      /** Columns to compare (2 to 4). A slug on its own, or suffixed with the game client to read it on (`is-7@ct`) or with its position among the columns showing that same vehicle (`is-7~2`, one tank under two setups). */
-      slugs: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tanks economics */
-    tanks_economics(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tanks Marks of Excellence */
-    tanks_marks_of_excellence(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tanks Marks of Mastery */
-    tanks_marks_of_mastery(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Community ratings board */
-    tanks_ratings(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search tanks */
-    tanks_search(args: {
-      /** Search prefix. */
-      q: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search tanks (streamed) */
-    tanks_search_ndjson(args: {
-      /** Search prefix. */
-      q: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tanks specifications */
-    tanks_specifications(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** New and upcoming tanks */
-    tanks_spotlight(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tournaments */
-    tournaments(args: {
-      /** How many tournaments to return. */
-      limit?: string;
-      /** How many tournaments to skip. */
-      offset?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Only tournaments in this lifecycle state. */
-      status?: "upcoming" | "registration_started" | "registration_finished" | "running" | "finished" | "complete";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tournament */
-    tournaments_by_id(args: {
-      /** Tournament id. */
-      id: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tournament team */
-    tournaments_by_id_team_by_teamId(args: {
-      /** Tournament id. */
-      id: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Team id within that tournament. */
-      teamId: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Twitch chat badges */
-    twitch_by_login_badges(args: {
-      /** Twitch channel login, e.g. `license__`. */
-      login: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Community videos */
-    videos(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      /** Narrow to one video's battles, ordered by timestamp. */
-      videoId?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** A suggestion, as its form */
-    videos_editable(args: {
-      /** The suggestion to read back. */
-      id: string;
-      /** Signed moderator link, from the moderation channel. */
-      token?: string;
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** My queued videos */
-    videos_mine(args: {
-      /** Game server region. */
-      region: "eu" | "na" | "asia";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-}
-
 interface BowmarkSiteTools_140e0b48d1 {
     /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
     BrowseWixRESTDocsMenu(args: {
@@ -187506,6 +186570,77 @@ interface BowmarkSiteTools_1ecd0a0cd3 {
       };
       [key: string]: unknown;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_1edd8686e1 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Vitality Dental Arts" (https://www.vitalitydentalarts.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.',  */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Vitality Dental Arts" (https://www.vitalitydentalarts.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use  */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Vitality Dental Arts" (https://www.vitalitydentalarts.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Vitality Dental Arts" (https://www.vitalitydentalarts.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Vitality Dental Arts" (https://www.vitalitydentalarts.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tr */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Vitality Dental Arts" (https://www.vitalitydentalarts.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Vitality Dental Arts" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need informat */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_1eeb56f36a {
@@ -225769,6 +224904,71 @@ interface BowmarkSiteTools_39d71c8fce {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_39e661ae5d {
+    /** Free dates and the exact final price of a stay for given dates and persons, for an offer from search_offers with booking pick_date_then_buy (hotel stays with a booking calendar on 1nadan.si). Use check_in for an exact arrival, or check_in with flexible_until to get the first free arrival dates in a period. The price is for the whole stay and all persons, the same as the calendar on the offer page; */
+    check_availability(args: {
+      /** Number of adults (default 2). */
+      adults?: number;
+      /** Number of nights. */
+      nights: number;
+      /** Arrival date YYYY-MM-DD (the first possible arrival when flexible_until is given). */
+      check_in: string;
+      /** Offer id from search_offers (offer_id or a package offer_id). */
+      offer_id: number;
+      /** Ages of children at arrival, e.g. [4, 9]. */
+      children_ages?: number[];
+      /** Optional latest departure date YYYY-MM-DD: returns up to 5 first free arrival dates between check_in and this date (at most 31 days after check_in). */
+      flexible_until?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Full details of one 1nadan.si offer by offer_id from search_offers: what is included, conditions (validity, booking rules, extra costs), all packages with prices, provider and address, and the url to buy. */
+    get_offer(args: {
+      /** Offer id from search_offers (offer_id or a package offer_id). */
+      offer_id: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Destinations (site sections, regions, countries, towns) and categories that currently have offers on 1nadan.si, with the number of offers. Use it to choose values for search_offers. */
+    list_destinations_and_categories(args?: Record<string, unknown>): Promise<unknown>;
+    /** Offers related to one offer, as shown on its page on 1nadan.si: other offers of the same provider and offers that buyers of this provider also chose, plus similar offers (same kind of offer in the same area at a similar price). Use it when the user wants alternatives or similar offers. Same card format as search_offers. */
+    related_offers(args: {
+      /** Offer id from search_offers (offer_id or a package offer_id). */
+      offer_id: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search deals that are on sale now on 1nadan.si. 1nadan.si is a Slovenian deals site: hotel and wellness stays in Slovenia and Croatia, spa days, restaurants, activities, ski passes, trips and products. Returns up to 10 offers with the final price in EUR, location, voucher validity and the url where the user can buy. Slovenian keywords work best in query (e.g. 'wellness', 'masaža', 'terme', 'smučan */
+    search_offers(args?: {
+      /** Order of results: relevance (default), price_asc or price_desc. */
+      sort?: "relevance" | "price_asc" | "price_desc";
+      /** Board of hotel stays: at least this board (half board also returns full board and all inclusive); all inclusive returns only all inclusive. */
+      board?: "breakfast" | "half board" | "full board" | "all inclusive";
+      /** Number of results, 1-10 (default 10). */
+      limit?: number;
+      /** Free text, matched like the search box on 1nadan.si (titles, keywords, categories, providers). */
+      query?: string;
+      /** Number of nights; selects the package with this number of nights when the offer has one. */
+      nights?: number;
+      /** Date YYYY-MM-DD: keep offers whose voucher is valid on or before this date. */
+      date_to?: string;
+      /** Number of persons; selects the package for this number of persons when the offer has one. */
+      persons?: number;
+      /** Arrival date YYYY-MM-DD when the user has concrete dates (requires nights; persons default 2): only offers possible on these dates, with the exact price of the stay for hotel stays with a booking calendar. */
+      check_in?: string;
+      /** Date YYYY-MM-DD: keep offers whose voucher is valid on or after this date. */
+      date_from?: string;
+      /** Maximum price in EUR (final price incl. VAT). */
+      max_price?: number;
+      /** Minimum price in EUR. */
+      min_price?: number;
+      /** Minimum hotel stars, e.g. 4 for hotels with 4 or 5 stars. */
+      min_stars?: number;
+      /** Destination of the offer - town, region or country where the stay or activity takes place (not the user's location), e.g. 'Ljubljana', 'Bled', 'Istra', 'Novigrad', 'Hrvaška', 'Croatia'. */
+      destination?: string;
+      /** Ages of the children among persons, e.g. [6] for 2 adults and a child of 6 (persons 3). With check_in, free rooms and the stay price are checked for these ages (children often have cheaper extra beds). */
+      children_ages?: number[];
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_39f83eee91 {
     /** Sucht passende Beratungsangebote der Landwirtschaftskammer. Versteht Umgangssprache, zum Beispiel 'Was kostet eine Hofuebergabe-Beratung?' oder 'Ich brauche Hilfe bei einem Foerderantrag'. Liefert Beschreibung, Nutzen, Kosten und die zustaendigen Kontakte. */
     angebot_suchen(args: {
@@ -245922,6 +245122,77 @@ interface BowmarkSiteTools_4b782c34df {
       /** Include expired/closed grants in results (default: false). Useful for historical research. */
       include_historical?: boolean;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_4b81a3abf3 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Contactfy" (https://www.contactfy.cloud/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to gues */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Contactfy" (https://www.contactfy.cloud/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for  */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Contactfy" (https://www.contactfy.cloud/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Contactfy" (https://www.contactfy.cloud/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what the */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Contactfy" (https://www.contactfy.cloud/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an ent */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Contactfy" (https://www.contactfy.cloud/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Contactfy" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site de */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_4b8766ec9e {
@@ -284325,6 +283596,313 @@ interface BowmarkSiteTools_675a0676a7 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_676083bf04 {
+    /** Journeys tracked right now around coordinates, closest first: line, destination, vehicle, delay and next stops. By default only GPS-located vehicles are returned, since other positions are estimated from timetables. */
+    find_nearby_vehicles(args: {
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      latitude: number;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      longitude: number;
+      /** Only keep journeys of this network. */
+      networkId?: number;
+      radiusMeters?: number;
+      /** GPS = located by the vehicle, ESTIMATED = real-time timetable, SCHEDULED = theoretical timetable. */
+      positionTypes?: Array<"GPS" | "ESTIMATED" | "SCHEDULED">;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Find stops (stop areas) around coordinates, closest first, optionally filtered by name or network. Prefer search_stops when the stop name is known; use this for 'near me' or 'near this address' questions. */
+    find_stops_nearby(args: {
+      /** Only keep stops whose name contains this text. */
+      name?: string;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      latitude: number;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      longitude: number;
+      /** Only keep stops served by this network. */
+      networkId?: number;
+      radiusMeters?: number;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Latest announcements published by the Bus Tracker team: new features and known outages of the service itself (e.g. a network whose data is currently unavailable). Check it when data looks missing. */
+    get_announcements(args: {
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Statistics about a network's fleet: active and withdrawn vehicles, vehicles in service right now, and breakdowns by model, operator, vehicle type and air conditioning. Only meaningful for networks with hasFleetData. */
+    get_fleet_overview(args: {
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** Network id from search_networks. */
+      networkId: number;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Full real-time details of a journey tracked right now: vehicle, position, delay, every remaining stop with scheduled and expected times (skipped, added or relocated stops flagged), and traffic alerts aimed at this journey, its line in its direction, or its network. */
+    get_journey(args: {
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** journeyId from get_line_status, get_stop_departures, get_vehicle or find_nearby_vehicles. */
+      journeyId: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Active traffic alerts (disruptions, detours, stop closures, strikes…) affecting a line, with full texts. Can be narrowed to one direction and/or one stop: alerts aimed only at the other direction or at other stops are then left out, while alerts aimed at that stop itself are added. Network-wide alerts are always included. */
+    get_line_alerts(args: {
+      /** Line id from search_lines or get_network_lines. */
+      lineId: number;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** Stop or platform ref from search_stops or get_stop. */
+      stopRef?: string;
+      /** Direction as reported by get_line_status (OUTBOUND / INBOUND). */
+      direction?: "OUTBOUND" | "INBOUND";
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Real-time snapshot of a line, grouped by direction: every journey tracked right now (vehicle, destination, delay, next stops, position, disruption flag), destinations served in each direction, and headers of active traffic alerts. Use get_line_alerts for full alert texts and get_journey for all stops of one journey. */
+    get_line_status(args: {
+      /** Line id from search_lines or get_network_lines. */
+      lineId: number;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** Only keep journeys running in this direction. */
+      direction?: "OUTBOUND" | "INBOUND";
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Stops (stop areas) served by a line, sorted alphabetically — NOT in travel order. To know the order of stops, call get_line_status then get_journey on one of its journeys. */
+    get_line_stops(args: {
+      /** Line id from search_lines or get_network_lines. */
+      lineId: number;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Which vehicles ran on a line on a given service day, with their time ranges, plus the days of that month on which the line was operated. Only networks with fleet data record vehicles. */
+    get_line_vehicle_assignments(args: {
+      /** Service day as YYYY-MM-DD, local to the network. Defaults to today. */
+      date?: string;
+      /** Line id from search_lines or get_network_lines. */
+      lineId: number;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Details of a network: authority, region, operators, number of active lines, real-time tracking quality right now (GPS vs timetable-estimated journeys) and the open data feeds it is built from (with freshness). */
+    get_network(args: {
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** Network id from search_networks. */
+      networkId: number;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** List the lines of a network in their official order, with the number of journeys and vehicles tracked on each right now. */
+    get_network_lines(args: {
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** Network id from search_networks. */
+      networkId: number;
+      /** Only keep lines whose number contains this text. */
+      lineNumber?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      /** Also list lines that no longer run. */
+      includeArchived?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Details of a stop area: its platforms (code, wheelchair access, lines served by each platform, platform ref usable in get_stop_departures), networks, whether arrivals are available, and active traffic alerts aimed at the stop. */
+    get_stop(args: {
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** Stop ref from search_stops or find_stops_nearby. */
+      stopRef: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Next departures (or arrivals) at a stop within the next two hours, merging timetables, real-time predictions and tracked vehicles. Pass a platform ref from get_stop to restrict to one platform, and lineId to restrict to one line. */
+    get_stop_departures(args: {
+      /** Only keep departures of this line. */
+      lineId?: number;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** Stop ref from search_stops, or platform ref from get_stop. */
+      stopRef: string;
+      /** Arrivals are only available when get_stop reports hasArrivalsBoard. */
+      direction?: "departures" | "arrivals";
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Record of a vehicle: model, type, operator, equipment (air conditioning, USB ports), withdrawal status, the journey it runs right now (line, destination, delay, next stops, position) and its latest line assignments. Use get_vehicle_history for a full month. */
+    get_vehicle(args: {
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** Vehicle id from search_vehicles. */
+      vehicleId: number;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Day-by-day history of a vehicle for one month: the lines it ran on and from when to when, most recent first. */
+    get_vehicle_history(args: {
+      /** Month as YYYY-MM. Defaults to the current month. */
+      month?: string;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** Vehicle id from search_vehicles. */
+      vehicleId: number;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Find lines by their public number or name (e.g. 'T1', '5', 'Fast 2') across all networks, optionally restricted to a network by name or id. Shortcut to get a lineId without browsing a network first. */
+    search_lines(args: {
+      /** Line number or part of it, as shown to passengers. */
+      line: string;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** Network name, city or authority to disambiguate, e.g. 'TCL', 'Astuce', 'Rouen' or 'Métropole de Lyon'. When nothing matches, every network is searched. */
+      network?: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** Exact network id from search_networks. */
+      networkId?: number;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      /** Also return lines that no longer run. */
+      includeArchived?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Find public transport networks tracked by Bus Tracker by name, city, authority or region. Returns the networkId needed by most other tools and how many journeys are tracked right now. Call without arguments to browse all networks and the list of regions. */
+    search_networks(args: {
+      /** Free text matched against network name, authority, region and reference, e.g. 'Rouen' or 'Astuce'. */
+      query?: string;
+      /** Only keep networks of this region, e.g. 'Normandie'. */
+      region?: string;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** ISO 3166-1 alpha-2 country code, e.g. 'FR'. */
+      countryCode?: string;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Find stops (stop areas) by name, e.g. 'Gare Rive Droite' or 'Hôtel de Ville'. Names repeat across cities, so pass networkId whenever the network is known. Returns the stopRef needed by get_stop and get_stop_departures. */
+    search_stops(args: {
+      /** Stop name or part of it; accents and case are ignored. */
+      name: string;
+      limit?: number;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** Only keep stops served by this network (from search_networks). */
+      networkId?: number;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search the vehicles of a network by fleet number, model, operator, type or air conditioning, and see whether each one is in service right now and on which line. Only networks with hasFleetData record their fleet. */
+    search_vehicles(args: {
+      page?: number;
+      type?: "TRAMWAY" | "SUBWAY" | "RAIL" | "TROLLEY" | "FUNICULAR" | "GONDOLA" | "BUS" | "FERRY" | "COACH" | "UNKNOWN";
+      /** Model designation, e.g. 'Citaro' or 'Urbanway 12'. */
+      model?: string;
+      /** Fleet number, or part of it. */
+      number?: string;
+      /** A few words on why you are calling this tool, for the server developer's analytics. Describe people and things by role, such as "a customer". Do not quote the user or include names, emails, or other personal details. */
+      context: string;
+      /** Operator name, or part of it. */
+      operator?: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** Network id from search_networks. */
+      networkId: number;
+      /** Only keep vehicles running right now. */
+      inServiceOnly?: boolean;
+      airConditioning?: "PRESENT" | "OUT_OF_SERVICE" | "ABSENT";
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      /** Also list vehicles withdrawn from the fleet. */
+      includeWithdrawn?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Send feedback about this server to its developers: a capability you needed that no tool provides, a tool that failed or misled you, or something that worked well. Records the feedback; it does not add or change tools. Leave out personal or sensitive details. */
+    send_feedback(args: {
+      /** Optional longer context: what you tried, exact parameter values, the error text you saw, and any workaround you used. Omit when the summary says it all. */
+      details?: string;
+      /** One self-contained sentence. For 'missing_capability': the capability you needed, e.g. 'No tool to delete multiple cohorts in one call.' For 'issue': the tool and the problem, e.g. 'query-trends rejects relative date ranges with an unclear error.' */
+      summary: string;
+      /** The model identifier you are running as, for example "claude-opus-4-8" or "gpt-5.2". Pass "unknown" if you are not certain. Recorded for the server developer's analytics. */
+      llm_model?: string;
+      /** Optional: how the experience felt overall. */
+      sentiment?: "positive" | "neutral" | "negative" | "mixed";
+      /** Optional: the existing tool this feedback is about (for 'issue' or 'praise'). Leave empty for 'missing_capability' - the point is that no tool fits. */
+      tool_name?: string;
+      /** What kind of feedback this is. Use 'missing_capability' when the tool you needed does not exist in the tool list - nothing failed, the capability is absent. Use 'issue' when an existing tool behaved badly: it failed, returned a confusing error, or its description or schema misled you. Use 'praise' when something worked notably well. Use 'other' for anything else. */
+      feedback_type: "missing_capability" | "issue" | "praise" | "other";
+      /** Optional: whether you still completed the user's task despite the problem. */
+      task_completed?: boolean;
+      /** The conversation_id this server returned earlier in this conversation, unchanged, including after later user messages. Omit it if you have none. Recorded for the server developer's analytics. */
+      conversation_id?: string;
+      /** Optional: the specific moments that slowed you down, as short bullet-like sentences, quoting exact tool names, parameters, or error text. */
+      friction_points?: string;
+      /** Optional: the concrete change that would have helped, e.g. the tool to add, the description to reword, or the error message to improve. */
+      suggested_improvement?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_6778546ee2 {
     /** Adjust Sprite Sheet: re-export a previously generated sprite animation with different sheet settings - frame count, frame size, loop trimming or whitespace cropping - without generating the animation again. Free (no credits). Pass the `spritesheet_url` you received from `animateSprite`, `animateSpriteKeyframes`, `transferMotion`, `editSpritesheet`, `rotateSpritesheet` or an earlier adjust - it mus */
     adjustSpritesheet(args: {
@@ -292788,6 +292366,77 @@ interface BowmarkSiteTools_6d95e1816c {
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_6dc643ea71 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Drug Science" (https://www.drugscience.org.uk/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try t */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Drug Science" (https://www.drugscience.org.uk/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAP */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Drug Science" (https://www.drugscience.org.uk/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Drug Science" (https://www.drugscience.org.uk/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about wh */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Drug Science" (https://www.drugscience.org.uk/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find  */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Drug Science" (https://www.drugscience.org.uk/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Drug Science" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'ge */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_6df120eb18 {
     /** Beneficjenci rzeczywiści spółki z Centralnego Rejestru Beneficjentów Rzeczywistych. Osoby wyłącznie w zakresie rejestru publicznego, ze stałym person_id; nigdy numer PESEL. Zużywa pulę jak firma. */
     crbr(args: {
@@ -293356,6 +293005,77 @@ interface BowmarkSiteTools_6ec401c715 {
       /** The user's own email address, only when explicitly provided by the user as theirs (e.g. 'my email is …'). Must not be inferred, guessed, or taken from a counterparty or third party. Omit if not explicitly provided. */
       creatorEmail?: string;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_6ed05dd21f {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Dumb Ways to Die" (https://www.dumbwaystodie.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER tr */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Dumb Ways to Die" (https://www.dumbwaystodie.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWi */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Dumb Ways to Die" (https://www.dumbwaystodie.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Dumb Ways to Die" (https://www.dumbwaystodie.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Dumb Ways to Die" (https://www.dumbwaystodie.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to fi */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Dumb Ways to Die" (https://www.dumbwaystodie.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Dumb Ways to Die" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e. */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_6f27710f4e {
@@ -294610,6 +294330,77 @@ interface BowmarkSiteTools_706dc86d07 {
       webPartId?: string;
       [key: string]: unknown;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_707010ad14 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "NAVTOR" (https://www.voyagerww.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to guess the */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "NAVTOR" (https://www.voyagerww.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for any W */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "NAVTOR" (https://www.voyagerww.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "NAVTOR" (https://www.voyagerww.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what they can */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "NAVTOR" (https://www.voyagerww.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an entity ( */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "NAVTOR" (https://www.voyagerww.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "NAVTOR" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site details en */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_708be0e0d4 {
@@ -310795,6 +310586,142 @@ interface BowmarkSiteTools_7d6d04beea {
     /** Search today’s public Bet Finder. Use Premier League keywords for competition39; otherwise all covered competitions. Fetch returned fixture IDs for full evidence. */
     search(args: {
       query: string;
+    }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_7d91803689 {
+    /** Use the native Modulit cable calculator. Enter actual sections in metres, loops, installation route and allowance. Result is required cable length, not a certification of signal reach. */
+    calculate_cable_route(args: {
+      dropM?: number;
+      riseM?: number;
+      signal?: "unspecified" | "hdmi18" | "hdmi48" | "hdbt" | "network" | "usb2" | "usb3" | "usbc" | "dp" | "sdi12" | "sdi3" | "audio" | "unbalanced" | "rs232" | "fiber" | "speaker" | "power" | "dmx" | "vga" | "dvi" | "kvm" | "dac" | "conversion" | "other";
+      loopToM?: number;
+      routing?: "direct" | "tray" | "raceway" | "conduit";
+      travelM?: number;
+      quantity?: number;
+      loopFromM?: number;
+      storefront: "eu" | "pl";
+      horizontalM: number;
+      wastePercent?: number;
+    }): Promise<unknown>;
+    /** Inspect the native PureLink mediahub2 choices, or resolve a housing, preset, socket, covers, mount and quantity into an actual bill of materials. Omit state to list choices. */
+    configure_mediahub(args: {
+      state?: {
+        s?: number;
+        hc?: number;
+        rc?: string | null;
+        cvr?: number[];
+        enc?: string;
+        gst?: number;
+        mnt?: string | null;
+        pre?: number;
+        sets?: number;
+      };
+      storefront: "eu" | "pl";
+    }): Promise<unknown>;
+    /** Run the native SurgeX equipment selector for this storefront. Missing evidence is counted separately. */
+    configure_power(args: {
+      limit?: number;
+      offset?: number;
+      values: Record<string, unknown>;
+      storefront: "eu" | "pl";
+    }): Promise<unknown>;
+    /** Get the native SurgeX selector fields and allowed values. */
+    describe_power_selector(args?: {}): Promise<unknown>;
+    /** Look up 1–20 exact product IDs or SKUs; return public MSRP and indicative availability when displayed by this storefront. */
+    get_products(args: {
+      language?: "en" | "pl" | "de" | "fr" | "es" | "it" | "cs" | "ro" | "hu" | "bg" | "lt" | "ar";
+      products: Array<{
+            id: string;
+          } | {
+            sku: string;
+          }>;
+      storefront: "eu" | "pl";
+    }): Promise<unknown>;
+    /** Compare another product against the source technical requirements. Missing evidence is not a match. Installation-specific compatibility must still be checked. */
+    search_product_analogs(args: {
+      sort?: {
+        by: "msrp";
+        currency: string;
+        direction: "asc" | "desc";
+      };
+      limit?: number;
+      offset?: number;
+      source: {
+          id: string;
+        } | {
+          sku: string;
+        };
+      filters?: {
+        maxMsrp?: {
+          currency: string;
+          amountMinor: number;
+        };
+        technical?: {
+          brand?: string;
+          videoMode?: string;
+          maxLengthM?: number;
+          minLengthM?: number;
+          application?: string;
+        };
+        availability?: "not_in_stock" | "low" | "in_stock" | "high" | "backorder";
+      };
+      language?: "en" | "pl" | "de" | "fr" | "es" | "it" | "cs" | "ro" | "hu" | "bg" | "lt" | "ar";
+      storefront: "eu" | "pl";
+    }): Promise<unknown>;
+    /** Find products by SKU, product text, engineering requirements or visible MSRP/status. Explicit technical constraints are mandatory. Default order inherits public storefront brand/lifecycle policy. Use sort only for an explicit price order in its specified currency; hidden prices cannot be sorted. */
+    search_products(args: {
+      q: string;
+      sort?: {
+        by: "msrp";
+        currency: string;
+        direction: "asc" | "desc";
+      };
+      limit?: number;
+      offset?: number;
+      filters?: {
+        maxMsrp?: {
+          currency: string;
+          amountMinor: number;
+        };
+        technical?: {
+          brand?: string;
+          videoMode?: string;
+          maxLengthM?: number;
+          minLengthM?: number;
+          application?: string;
+        };
+        availability?: "not_in_stock" | "low" | "in_stock" | "high" | "backorder";
+      };
+      language?: "en" | "pl" | "de" | "fr" | "es" | "it" | "cs" | "ro" | "hu" | "bg" | "lt" | "ar";
+      storefront: "eu" | "pl";
+    }): Promise<unknown>;
+    /** Find published solutions, guides, tools and products for a task, model or SKU. Catalogue links identify published pages; only structured facts support compatibility. Use get_products for current terms. */
+    search_site(args: {
+      q: string;
+      sort?: {
+        by: "msrp";
+        currency: string;
+        direction: "asc" | "desc";
+      };
+      limit?: number;
+      offset?: number;
+      filters?: {
+        maxMsrp?: {
+          currency: string;
+          amountMinor: number;
+        };
+        technical?: {
+          brand?: string;
+          videoMode?: string;
+          maxLengthM?: number;
+          minLengthM?: number;
+          application?: string;
+        };
+        availability?: "not_in_stock" | "low" | "in_stock" | "high" | "backorder";
+      };
+      language?: "en" | "pl" | "de" | "fr" | "es" | "it" | "cs" | "ro" | "hu" | "bg" | "lt" | "ar";
+      storefront: "eu" | "pl";
     }): Promise<unknown>;
 }
 
@@ -338856,6 +338783,88 @@ interface BowmarkSiteTools_8dfb284481 {
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_8dff7239cb {
+    /** After the user confirms the prepared edit and its exact credit cost in ChatGPT, submit it once. Creates private results without changing the source song. Reusing a draft never starts or charges twice. Use get_music_generation to check progress and play the result here. If the tool reports entitlement_unavailable or insufficient_credits with an informationUrl, explain the specific reason and show t */
+    execute_music_edit(args: {
+      draftId: string;
+    }): Promise<unknown>;
+    /** After the user confirms this tool call in ChatGPT, start two private music alternatives from an unexpired prepared draft. Deducts the exact credits shown by prepare_music_generation and returns a generation reference. Replaying the same draft does not charge again or start another job. If the tool reports entitlement_unavailable or insufficient_credits with an informationUrl, explain the specific  */
+    generate_music(args: {
+      draftId: string;
+    }): Promise<unknown>;
+    /** Use when the user asks about copyright, ownership, licensing, royalties or commercial use of Nafy music. Return the official commercial-license page; never promise clearance, ownership or commercial rights that have not been verified. No account is required. If the tool reports entitlement_unavailable or insufficient_credits with an informationUrl, explain the specific reason and show that Nafy pu */
+    get_commercial_license_info(args?: {}): Promise<unknown>;
+    /** Retrieve the signed-in user's available music-generation credits and the current cost per generation. Returns the existing entitlement balance without purchasing credits, changing a subscription, or exposing billing details. If the tool reports entitlement_unavailable or insufficient_credits with an informationUrl, explain the specific reason and show that Nafy purchase link before asking the user */
+    get_credit_balance(args?: {}): Promise<unknown>;
+    /** Retrieve the progress and playable results of a music generation belonging to the signed-in user. Returns available audio alternatives and their storage availability without starting a new job or spending credits. If the tool reports entitlement_unavailable or insufficient_credits with an informationUrl, explain the specific reason and show that Nafy purchase link before asking the user to continu */
+    get_music_generation(args: {
+      generationId: string;
+    }): Promise<unknown>;
+    /** Import an audio file selected or attached by the user into their private Nafy library for cover, extension, section replacement or voice change. Accepts MP3, WAV, M4A, FLAC or OGG up to 50 MB and 8 minutes. Does not spend credits. Check get_music_generation until import completes, then use its musicId for editing. The provider checks uploaded audio; do not bypass a rejection. If the tool reports e */
+    import_music_audio(args: {
+      file: {
+        file_id: string;
+        file_name?: string;
+        mime_type?: string;
+        download_url: string;
+      };
+    }): Promise<unknown>;
+    /** List or search the signed-in user's music library by title, with optional liked-only filtering. Returns playable music summaries and a cursor for the next page. Does not access other users' libraries or modify music. If the tool reports entitlement_unavailable or insufficient_credits with an informationUrl, explain the specific reason and show that Nafy purchase link before asking the user to cont */
+    list_my_music(args?: {
+      limit?: number;
+      cursor?: string;
+      likedOnly?: boolean;
+      titleQuery?: string;
+    }): Promise<unknown>;
+    /** List the signed-in user's ready voice models for in-chat voice change. Use only returned voiceModelId values. Does not train a voice, edit music or spend credits. If the tool reports entitlement_unavailable or insufficient_credits with an informationUrl, explain the specific reason and show that Nafy purchase link before asking the user to continue. */
+    list_voice_models(args?: {}): Promise<unknown>;
+    /** Open AI song cover creation with a source recording and new style. Opens an interactive editor inside ChatGPT. Choose a song from the connected Nafy library (including website-generated songs) or upload audio here. Review settings and cost with prepare_music_edit, then confirm execute_music_edit. Opening this editor does not start an edit or charge credits. Never invent a musicId. If the tool repo */
+    open_ai_song_cover(args?: {
+      musicId?: string;
+    }): Promise<unknown>;
+    /** Open song continuation (extend) from a chosen time. Opens an interactive editor inside ChatGPT. Choose a song from the connected Nafy library (including website-generated songs) or upload audio here. Review settings and cost with prepare_music_edit, then confirm execute_music_edit. Opening this editor does not start an edit or charge credits. Never invent a musicId. If the tool reports entitlement */
+    open_music_extension(args?: {
+      musicId?: string;
+    }): Promise<unknown>;
+    /** Open local section replacement (music editing / replace section) for a song. Opens an interactive editor inside ChatGPT. Choose a song from the connected Nafy library (including website-generated songs) or upload audio here. Review settings and cost with prepare_music_edit, then confirm execute_music_edit. Opening this editor does not start an edit or charge credits. Never invent a musicId. If the */
+    open_replace_section(args?: {
+      musicId?: string;
+    }): Promise<unknown>;
+    /** Open voice change with a source recording and a ready voice model. Opens an interactive editor inside ChatGPT. Choose a song from the connected Nafy library (including website-generated songs) or upload audio here. Review settings and cost with prepare_music_edit, then confirm execute_music_edit. Opening this editor does not start an edit or charge credits. Never invent a musicId. If the tool repo */
+    open_voice_change(args?: {
+      musicId?: string;
+    }): Promise<unknown>;
+    /** Prepare an AI cover, extension, section replacement or voice change for an owned Nafy song or imported audio. Show the exact settings and cost before confirmation. Does not charge credits or start editing. Use open editing tools for song selection/upload and list_voice_models for ready voice IDs. Times are seconds; replacement lyrics and fullLyrics are distinct. If the tool reports entitlement_una */
+    prepare_music_edit(args: {
+      model?: "v5" | "v5.5" | "v6";
+      pitch?: number;
+      style?: string;
+      title: string;
+      action: "replace_section" | "extend" | "ai_song_cover" | "voice_change";
+      lyrics?: string;
+      endTime?: number;
+      musicId: string;
+      startTime?: number;
+      continueAt?: number;
+      fullLyrics?: string;
+      instrumental?: boolean;
+      voiceModelId?: string;
+      negativeStyle?: string;
+    }): Promise<unknown>;
+    /** Prepare a song or instrumental music draft from a title, genre, mood, instruments, and optional lyrics. Checks content safety and account entitlement, stores a temporary draft, and returns the exact generation cost for confirmation inside ChatGPT. Does not generate audio or deduct credits. If the tool reports entitlement_unavailable or insufficient_credits with an informationUrl, explain the speci */
+    prepare_music_generation(args: {
+      mood: string;
+      genre: string;
+      model?: "v5" | "v5.5" | "v6";
+      tempo: "slow" | "moderate" | "fast";
+      title: string;
+      lyrics?: string;
+      instruments: string[];
+      vocalGender?: "male" | "female" | "unspecified";
+      instrumental: boolean;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_8e5a2d58a7 {
     /** Return the amenities of one hotel, or the chain's global amenity catalogue when hotel_id is omitted. Call it without hotel_id to discover the valid amenity IDs to use in search_hotels. No availability, rates or booking: this tool only returns descriptive information. */
     get_amenities(args?: {
@@ -339538,57 +339547,6 @@ interface BowmarkSiteTools_8f01080d8e {
     subscribe_newsletter(args?: {
       /** The customer's email address. */
       email?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_8f34867691 {
-    /** Check which site types a campground has available for a group of guests. With checkin and checkout, gives real availability and total trip price per site type. Without dates, gives which site types are bookable at all and a starting nightly price. Use after search_campgrounds; slug is the result's slug field. */
-    check_availability(args: {
-      /** Number of pets, 0-20. */
-      pets?: number;
-      /** The campground's slug — the `slug` field of a search_campgrounds result. */
-      slug: string;
-      /** Number of adults, 0-20. */
-      adults?: number;
-      /** Check-in date, YYYY-MM-DD. Omit with checkout. */
-      checkin?: string;
-      /** Check-out date, YYYY-MM-DD. Omit with checkin. */
-      checkout?: string;
-      /** Number of children, 0-20. */
-      children?: number;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Get full details for one campground on Campspot by slug — description, address, pet/check-in/check-out policy, links to its full policy pages, Campspot Awards, ratings, recent reviews, and bookable site types. Links back to its campspot.com park page for booking. `slug` is the `slug` field of a search_campgrounds result. */
-    get_campground(args: {
-      /** The campground's slug — the `slug` field of a search_campgrounds result. */
-      slug: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Find bookable campgrounds near a location on Campspot, optionally filtered by dates, number of guests, nightly price range, site type, amenities, and distance, or look up campgrounds by name to get their slugs. Every result links back to its campspot.com park page for booking. */
-    search_campgrounds(args: {
-      /** Number of pets, 0-20. */
-      pets?: number;
-      /** Number of adults, 0-20. */
-      adults?: number;
-      /** Check-in date, YYYY-MM-DD. */
-      checkin?: string;
-      /** Check-out date, YYYY-MM-DD. */
-      checkout?: string;
-      /** Number of children, 0-20. */
-      children?: number;
-      /** Free-text place to search near, e.g. "Austin, TX", or a campground name, e.g. "Camp Fimfo". */
-      location: string;
-      /** Maximum nightly starting price, in USD. */
-      maxPrice?: number;
-      /** Minimum nightly starting price, in USD. */
-      minPrice?: number;
-      /** Restrict results to one type of site. */
-      siteType?: "Lodging" | "RV Sites" | "Tent Sites";
-      /** Amenities/features to require, at either the park or the individual site level — e.g. "Pool", "Beach", "Dog Park", "Hot Tub / Sauna", "30-Amp", "Pet-Friendly", "Pull-Through", "Fire Pit", "Wi-Fi". No need to know which level an amenity is at. */
-      amenities?: string[];
-      /** Only return campgrounds within this many miles of the location. Default and maximum: 150. */
-      maxDistanceMiles?: number;
       [key: string]: unknown;
     }): Promise<unknown>;
 }
@@ -350502,30 +350460,6 @@ interface BowmarkSiteTools_9712996dd0 {
       /** Celebrity name or URL slug (e.g., 'taylor-swift') */
       identifier: string;
       [key: string]: unknown;
-    }): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_97187b113e {
-    /** Retrieve the indexed text of one dawa.center record, using an id returned by `search` (for example `file:4820`). Note that many records hold only a short catalogue summary — often a few hundred characters — rather than the document body, and some hold no text at all; `metadata.text_source` tells you which you received. Do not present a summary as though you had read the document: cite the url and  */
-    fetch(args: {
-      /** A record id exactly as returned by `search`, in the form `entity:number`, e.g. `file:4820`. */
-      id: string;
-    }): Promise<unknown>;
-    /** Search the dawa.center document library of Islamic da'wah materials: books, articles, papers and research responding to common claims and objections. The library is overwhelmingly Arabic — an Arabic query will retrieve far more than an English one on the same topic, so prefer Arabic search terms even when answering in another language. Returns ids for use with `fetch`. For countries, Islamic centr */
-    search(args: {
-      /** Search terms or a natural-language question. Arabic gives markedly better recall than English. */
-      query: string;
-    }): Promise<unknown>;
-    /** Search dawa.center for one specific kind of record — Islamic centres, countries, religions and sects, languages or da'wah websites — or for documents with a chosen query language or a larger number of results. Same ranking as `search`, which covers the document library alone. The document collection is overwhelmingly Arabic — an Arabic query retrieves far more than an English one on the same topic */
-    search_filtered(args: {
-      /** Maximum results to return. Defaults to 5. */
-      limit?: number;
-      /** Search terms or a natural-language question. Arabic gives markedly better recall than English. */
-      query: string;
-      /** Language of the query, if known. Detected automatically when omitted; it selects the analysed fields searched, not a filter on results. */
-      language?: "ar" | "en" | "es" | "pt";
-      /** Which kind of record to search. `file` is the document library and is the default. The others are reference data. `all` searches every index at once and returns a mix of record types, which dilutes results for a topical question — use it only when you genuinely want several kinds of record back. */
-      collection?: "all" | "file" | "country" | "center" | "religion" | "link" | "language" | "people_group";
     }): Promise<unknown>;
 }
 
@@ -365002,6 +364936,294 @@ interface BowmarkSiteTools_a16186764c {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_a1794e7595 {
+    /** One defined term across the whole corpus: each distinct WORDING with the publisher's own text and the instruments that write it, every instrument that borrows it (with the chain of acts it passes through), the instruments that cite a defining provision, and the term's labels in the act's other authentic EU languages. Ask this when a term is defined differently in different instruments ('producer'  */
+    concept_family(args: {
+      /** The defined term, e.g. 'producer'. Matched exactly (case-insensitive). */
+      term: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The definition of a term of art, and the provision that gives it. Ask this BEFORE search_legislation whenever the question is what a phrase means ('durable medium', 'taxable person'): search returns provisions that USE a phrase, this returns the law that DEFINES it, verbatim. A term defined by several instruments returns several rows — the scope of each definition is the instrument carrying it, so */
+    define_term(args: {
+      /** The phrase, e.g. 'durable medium'. Matched exactly (case-insensitive). */
+      term: string;
+      /** ELI or official number of the borrowing/defining instrument; scopes the term to that instrument. */
+      work?: string;
+      /** Maximum definitions, default 8. */
+      limit?: number;
+      /** ISO country filter, e.g. 'GB' (the UK), 'FR', 'ES', 'EU'. 'UK' is read as 'GB'. */
+      jurisdiction?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Research source-bound EU role requirements with exact passages, act-specific definitions, conditions, unknown facts and EN/FR/DE/IT official source availability. Select multiple roles and an optional activity, product, Spain or France, and date. Country links carry their relationship type and review state. Informative national text appears only as a separate research lead, not verified country cov */
+    explore_role_requirements(args?: {
+      /** YYYY-MM-DD; only source-supported dates are shown. */
+      asAt?: string;
+      /** Optional actor label or exact phrase in a candidate quotation. Discovery only; shared labels do not equate legal definitions or establish applicability. */
+      term?: string;
+      /** Optional legislation ELI; scope candidates and legal roles to this act. */
+      work?: string;
+      /** Comma-separated scoped role keys, e.g. crd:trader,gpsr:manufacturer. Omit to see all current candidates. */
+      roles?: string;
+      /** ES or FR for national connections. */
+      country?: string;
+      /** Product from the response catalogue, e.g. consumer-goods. */
+      product?: string;
+      /** Activity from the response catalogue, e.g. selling-online. */
+      activity?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Retrieve one search result by its opaque id, including provision text, canonical URL, authority status and source provenance. metadata.structure provides parent/child addresses; an empty container text does not mean the law is absent. Use child apiHref links or lookup_provision with sourceLang to traverse. Use ids returned by search without editing them. */
+    fetch(args: {
+      /** Opaque identifier returned by the search tool. */
+      id: string;
+    }): Promise<unknown>;
+    /** National provisions implementing one EU provision, with method and confidence per link. DERIVED data, not published by any authority: treat links not marked method='human' as leads to verify, and say so when citing. Check evidenceStatus: a current national consolidated reading aid may be informative rather than authoritative, and older links may be stale. Lexiara Nexus data requires an API key on  */
+    find_national_implementations(args: {
+      /** Provision identifier: 'sec_4' (section 4), 'art_2__para_1' (article 2(1)), 'sch_9' (Schedule 9). Use search or history endpoints to discover eIds. */
+      eId: string;
+      /** ELI of the EU instrument, e.g. the VAT Directive. */
+      work: string;
+      /** ISO country filter, e.g. 'GB' (the UK), 'FR', 'ES', 'EU'. 'UK' is read as 'GB'. */
+      jurisdiction?: string;
+      /** Drop links below this confidence (0-1). */
+      minConfidence?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The digest: every change the corpus observed on followed law, each with a SIGNIFICANCE grade and the reasoning behind it — 'major' (a new consolidation whose version point advanced, a provision appearing, a provision now repealed), 'minor' (wording changed, or the stored text moved while the publisher's version point did not), 'housekeeping' (first ingest, bulk churn from a version substitution).  */
+    follow_updates(args?: {
+      /** Maximum developments, default 100. */
+      limit?: number;
+      /** ISO timestamp. Omit to use each follow's own last read. */
+      since?: string;
+      /** Floor for this call: major | minor | housekeeping. */
+      minSignificance?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Per-source coverage and freshness. Pass `work` to check whether Lexiara holds ONE instrument before relying on it; without `work` it returns the whole coverage table, which is rarely what a user's question needs, and a lookup_provision on an act not held already says so. Absence of coverage means 'not here', never 'does not exist'. Pass `work` to ask about ONE instrument. The answer then says whic */
+    get_coverage(args?: {
+      /** Optional: ask about ONE instrument by CELEX, ELI or official number. The answer then carries `requested.gap` — metadata-only, language-not-held or not-held — or `requested.held: true` when the corpus holds it. */
+      work?: string;
+      /** Optional ISO 639-3 code, e.g. 'fra', to ask about one language version. */
+      language?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** State, stage, reason code and the time to wait before asking again, for one request you made. States: already_available, queued, running, available, partial, needs_clarification, needs_source_approval, failed, confirmed_unavailable. A fetch that timed out is `failed` and will be retried; `confirmed_unavailable` is the publisher itself saying it does not hold that manifestation, which is a differen */
+    get_ingestion_request(args: {
+      /** The request_id request_ingestion returned. */
+      request_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The published handles — expression id, work ELI, the /v1/works/text and /v1/provisions addresses — plus the source manifest (publisher URL, content hash, bytes, retrieval time, parser version) and the expectation results. Repeat your original lookup with the handles. Pass `expressionId` as the exact `expression` query parameter to `/v1/works/text` or `/v1/provisions` to preserve the acquired expre */
+    get_ingestion_result(args: {
+      /** The request_id request_ingestion returned. */
+      request_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Recheck current official passages and connections against a private saved view. The change list separates later publisher versions, parser corrections, newly acquired material and review status; inspect the cited current result before relying on a connection. Read-only. */
+    get_saved_role_view(args: {
+      /** UUID returned by list_saved_role_views. */
+      id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Everything a topic page shows: the orientation paragraph (with its draft/published editorial status), per-jurisdiction legal-status notes (GB notes carry the assimilated-law caveat), anchored provisions with anchor provenance, article-level transposition links (method, confidence, review verdict — anything not method='human' is evidence, not a finding), and related instruments from Lexiara Nexus. */
+    get_topic(args: {
+      /** Topic concept id, e.g. 'local:topic-pre-contract-information'. */
+      conceptId: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Sections of official GUIDANCE that discuss one provision — Commission notices and guidelines on the act, quoted verbatim with the section number the publisher prints, so an answer can cite '§2.8 of the UCPD Guidance' and be checked. EVERY ROW IS NON-BINDING (`binding: false`). This is the enforcing body's own reading, not law: only the instrument's text has legal force, and only a court settles wh */
+    guidance_for_provision(args: {
+      /** Provision identifier: 'sec_4' (section 4), 'art_2__para_1' (article 2(1)), 'sch_9' (Schedule 9). Use search or history endpoints to discover eIds. */
+      eId: string;
+      /** The instrument: its ELI URI or official number (CELEX for EU acts, e.g. '32011L0083'), e.g. 'http://www.legislation.gov.uk/id/ukpga/1994/23' (UK VAT Act 1994) or 'http://data.europa.eu/eli/dir/2006/112/oj' (EU VAT Directive). */
+      work: string;
+      /** Also return sections that name the act but no article. Off by default: a notice's introduction cites the whole directive and would otherwise appear under every article of it. */
+      includeActLevel?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Terms of art ranked by how many instruments in this corpus DEFINE them, BORROW them from another act (followed through every intermediate act — an act that takes 'video-sharing platform' from the DSA, which takes it from the AVMSD, counts for the AVMSD's definition) or CITE a defining provision. Nothing in the list was chosen by hand. `tier` 'pivotal' means at least one act is written around the t */
+    list_concepts(args?: {
+      /** Maximum concepts: 50, 100 (default), 200 or 500. */
+      limit?: number;
+      /** Only concepts that reach this jurisdiction, e.g. 'EU', 'GB', 'ES'. */
+      jurisdiction?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The instruments, provisions, subjects, jurisdictions and verticals this API key follows. READ-ONLY: creating or removing a follow is an HTTP POST/DELETE to /v1/follows, and no tool here dispatches one. (The one tool in this catalogue that writes anything is request_ingestion, which asks for a law and touches no follow.) Requires the caller's OWN key — the shared demo key is refused, since a follow */
+    list_follows(args?: Record<string, unknown>): Promise<unknown>;
+    /** List up to the latest 50 ingestion requests belonging to your account, newest first. Each row includes private status fields such as `intent`, `created_at` and `origin`; another account's requests are never returned. This is read-only and does not start, repeat or alter acquisition work. */
+    list_ingestion_requests(args?: {}): Promise<unknown>;
+    /** The AUTO-GATED backlog from one place, newest first: unreviewed article-level transposition links with BOTH provision texts side by side and the stored reasoning, model/low-confidence concept tags, draft topic descriptions and jurisdiction notes, and recorded findings (gaps and divergences a round could not decide). Filter by kind, vertical and jurisdiction. EVERYTHING HERE IS UNREVIEWED EVIDENCE  */
+    list_review_queue(args?: {
+      /** Comma-separated kinds: transposition, tag, topic-description, jurisdiction-note, finding. Omit for all. */
+      kind?: string;
+      /** Characters of provision text per side. Omit for the WHOLE text, which is the default: a character budget once hid two parts of a French code article and produced two false absences. */
+      chars?: number;
+      /** Maximum items, default 20, max 100. */
+      limit?: number;
+      /** Skip this many items — the queue is paged, not sampled. */
+      offset?: number;
+      /** A review-request uuid: list only the candidates imported to answer that already-approved decision. Narrows to the kinds carrying the tag (transposition). Still READ-ONLY and still unreviewed rows — the approval is why they exist, not a verdict on them. */
+      answers?: string;
+      /** Vertical id, e.g. 'eu-consumer', 'fr-consumer', 'es-consumer'. */
+      vertical?: string;
+      /** ISO country filter, e.g. 'GB' (the UK), 'FR', 'ES', 'EU'. 'UK' is read as 'GB'. */
+      jurisdiction?: string;
+      /** Also list non-model classifier tags at or below this confidence. Omit for model tags only — the keyword baseline's weak tail is 24 000 rows and would bury the 157 links a verdict changes. */
+      lowConfidence?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** List private role and country research views belonging to the connected account. Each view is a snapshot for comparison, not a compliance verdict. Read-only; saving and deleting views require a person's own HTTP account access. */
+    list_saved_role_views(args?: Record<string, unknown>): Promise<unknown>;
+    /** Curated obligation topics ('Pre-contract information') under a subject head, each with a one-paragraph orientation and per-jurisdiction anchor counts. Descriptions with editorialStatus='draft' are UNREVIEWED model drafts — say so if you quote one. Feed a result's conceptId to get_topic. */
+    list_topics(args: {
+      /** Subject head concept id, e.g. 'local:consumer'. */
+      subject: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Find same-language publisher expressions for one EU act. Each entry has an exact expression ID, source hash and a consolidation marker or as-adopted label. These markers identify text; they do not prove when it applied. Pass a returned expression ID to lookup_provision to read that exact text. Use asAt only when the source carries an explicit validity window. */
+    list_work_versions(args: {
+      /** The instrument: its ELI URI or official number (CELEX for EU acts, e.g. '32011L0083'), e.g. 'http://www.legislation.gov.uk/id/ukpga/1994/23' (UK VAT Act 1994) or 'http://data.europa.eu/eli/dir/2006/112/oj' (EU VAT Directive). */
+      work: string;
+      /** Optional held three-letter EU source language, e.g. fra or ita. */
+      sourceLang?: string;
+    }): Promise<unknown>;
+    /** Quote the exact text of one article, section or paragraph. Use it whenever the user cites a provision ("Article 6(1) of Directive 2011/83/EU" -> work '32011L0083', eId 'art_6__para_1') and for every hit from search_legislation before relying on it. A not_found answer says whether the act is not held (do not try other provisions of it) or held without that address (try one of `suggestions`). Author */
+    lookup_provision(args: {
+      /** Provision identifier: 'sec_4' (section 4), 'art_2__para_1' (article 2(1)), 'sch_9' (Schedule 9). Use search or history endpoints to discover eIds. */
+      eId: string;
+      /** Optional real calendar date YYYY-MM-DD. Text is returned only from a held expression whose explicit validity window covers that day; otherwise `date_not_covered` is returned. Omit for current text. */
+      asAt?: string;
+      /** The instrument: its ELI URI or official number (CELEX for EU acts, e.g. '32011L0083'), e.g. 'http://www.legislation.gov.uk/id/ukpga/1994/23' (UK VAT Act 1994) or 'http://data.europa.eu/eli/dir/2006/112/oj' (EU VAT Directive). */
+      work: string;
+      /** Optional exact expression UUID from list_work_versions or an ingestion result handle. Preserves the selected expression and language; use only a handle returned by Lexiara. */
+      expression?: string;
+      /** Stored three-letter source language, e.g. eng or fra. Selects held text, never generates translation. */
+      sourceLang?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The cross-reference neighbourhood of a provision plus its amendment history. Use this when a provision's relevance is not on its face: a duty that says 'the information referred to in Article 6(1)' is silent about what that information now includes, and about which amending act put it there. Returns citations both ways and the amending acts marked on this provision and on the ones it cites. `cited */
+    provision_context(args: {
+      /** Provision identifier, e.g. 'art_7__para_1'. */
+      eId: string;
+      /** ELI of the instrument. */
+      work: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Prior and successor versions of one provision across consolidations — how the text got to its current form. Lexiara Nexus data requires an API key on a signed-in account. The free plan carries a monthly Nexus allowance; the legislative text itself is always free. */
+    provision_history(args: {
+      /** Provision identifier: 'sec_4' (section 4), 'art_2__para_1' (article 2(1)), 'sch_9' (Schedule 9). Use search or history endpoints to discover eIds. */
+      eId: string;
+      /** The instrument: its ELI URI or official number (CELEX for EU acts, e.g. '32011L0083'), e.g. 'http://www.legislation.gov.uk/id/ukpga/1994/23' (UK VAT Act 1994) or 'http://data.europa.eu/eli/dir/2006/112/oj' (EU VAT Directive). */
+      work: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Cross-jurisdiction view of one legal concept: every provision tagged with the given EuroVoc concept, with tagging method and confidence. E.g. 'eurovoc:4585' (VAT), 'eurovoc:4392' (VAT rate). The language-neutral way to line up EU and national law on the same subject. */
+    provisions_by_concept(args: {
+      /** Namespaced concept id, e.g. 'eurovoc:4585'. */
+      conceptId: string;
+      /** ISO country filter, e.g. 'GB' (the UK), 'FR', 'ES', 'EU'. 'UK' is read as 'GB'. */
+      jurisdiction?: string;
+      /** Drop tags below this confidence (0-1). */
+      minConfidence?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Change feed: provisions added or modified, filterable by jurisdiction, concept and date. `detectedAt` is when Lexiara observed the change — legal in-force dates come only from the provision itself. */
+    recent_changes(args?: {
+      /** Maximum items, default 50. */
+      limit?: number;
+      /** ISO date: only changes detected after this. */
+      since?: string;
+      /** Restrict to one concept id, e.g. 'eurovoc:4585'. */
+      concept?: string;
+      /** ISO country filter, e.g. 'GB' (the UK), 'FR', 'ES', 'EU'. 'UK' is read as 'GB'. */
+      jurisdiction?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Edges between instruments: which national laws transpose a directive (direction 'in'), or what an instrument implements/amends (direction 'out'). Instrument-level; for article-level links use find_national_implementations. */
+    related_works(args: {
+      /** The instrument: its ELI URI or official number (CELEX for EU acts, e.g. '32011L0083'), e.g. 'http://www.legislation.gov.uk/id/ukpga/1994/23' (UK VAT Act 1994) or 'http://data.europa.eu/eli/dir/2006/112/oj' (EU VAT Directive). */
+      eli: string;
+      /** 'in' = edges pointing at this work (default), 'out' = from it. */
+      direction?: "in" | "out";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** When a lookup returns `coverage` with `requestable: true`, ask for the missing instrument instead of stopping or guessing. Give the CELEX (or an EU ELI), the language and the version point; say WHY in one or two sentences; state any testable expectations. Lexiara validates the target, fetches the publisher's own bytes, reads them through the same parser and the same fail-closed checks every other  */
+    request_ingestion(args: {
+      /** An EU ELI on the Publications Office's own domain, if you have no CELEX. */
+      eli?: string;
+      /** 'law' (default) or 'guidance' for a Commission notice. */
+      role?: "law" | "guidance";
+      /** CELEX id of the act, e.g. '32024L0825', or a dated consolidation '02005L0029-20220528'. */
+      celex?: string;
+      /** What kind of gap this is. `derived_references` refreshes derived references for a held work; missing_component and repair against an act already held re-read THAT expression rather than creating a second one beside it. */
+      intent: "new_work" | "missing_component" | "language_counterpart" | "version" | "repair" | "derived_references";
+      /** Lexiara handles you started from (work, eId, expression id). Private. */
+      origin?: Record<string, unknown>;
+      /** 'as-adopted' (default), the publisher's consolidation date as YYYY-MM-DD, or 'unresolved' when you genuinely do not know — which returns a question, not a job. */
+      version?: string;
+      /** ISO 639-3 language wanted, e.g. 'eng', 'fra'. Default 'eng'. */
+      language?: string;
+      /** One or two sentences: the question, and why this evidence is needed. Private to your account. */
+      rationale?: string;
+      /** Up to ten predicates, each naming exactly one of has_article, has_annex, mentions, min_provisions, language_is. */
+      expectations?: Record<string, unknown>[];
+      /** The shortest path from held material to the missing target: each step a { from, relationship, to } you observed. Private, and evidence for a human, never an instruction. */
+      evidence_path?: Record<string, unknown>[];
+      /** Your own key for this request. The same key returns the same request. */
+      idempotency_key?: string;
+      /** Official identifiers or locators you believe serve this act. RECORDED AS TEXT AND NEVER FETCHED. */
+      proposed_sources?: string[];
+      /** maxBytes / maxSeconds you are willing to spend. May only NARROW the server's budget; a larger number is ignored. */
+      requested_bounds?: Record<string, unknown>;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search the text of EU and national legislation for the provisions that answer a legal question. Returns compact, citable results with opaque ids; pass an id unchanged to fetch for the provision text and provenance. */
+    search(args: {
+      /** Natural-language or keyword search over legislation. */
+      query: string;
+    }): Promise<unknown>;
+    /** Find the provisions that answer a legal question, in EU and national legislation: use it first when the user asks what the law says about something (withdrawal rights, data retention, zero-rating of food) without citing an article. Ranked full-text search over provision text; add a jurisdiction ('EU', 'GB', 'FR', 'ES') to narrow it. Results carry work, eId, status and provenance — feed a hit's wor */
+    search_legislation(args: {
+      /** Maximum hits, default 10. */
+      limit?: number;
+      /** Search terms, e.g. 'zero-rating of food'. */
+      query: string;
+      /** Restrict to a text language, e.g. 'eng'. */
+      language?: string;
+      /** ISO country filter, e.g. 'GB' (the UK), 'FR', 'ES', 'EU'. 'UK' is read as 'GB'. */
+      jurisdiction?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** How an act words one of its defined terms in each language version held. NOT a translation: an EU instrument is equally authentic in all 24 official languages (Regulation No 1/1958, article 4), so each wording is the law in that language. Use it to answer 'what do the German and French texts call this?' — e.g. 'commercial guarantee of durability' is 'gewerbliche Haltbarkeitsgarantie' and 'garantie */
+    term_languages(args: {
+      /** The phrase, in any language held. Matched exactly (case-insensitive). */
+      term: string;
+      /** Scope to one instrument (ELI or official number). */
+      work?: string;
+      /** Maximum terms, default 8. */
+      limit?: number;
+      /** ISO country filter, e.g. 'GB' (the UK), 'FR', 'ES', 'EU'. 'UK' is read as 'GB'. */
+      jurisdiction?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The act's glossary: every term it defines, alphabetical, with the publisher's own wording verbatim and the provision that defines each one. Use it to orient in an unfamiliar instrument, or to check what a term means IN THIS ACT rather than in the corpus at large — several instruments define 'consumer' differently and all are right within their own scope. AN EMPTY GLOSSARY IS ABOUT OUR READER, NOT  */
+    work_glossary(args: {
+      /** ELI or official number of the instrument, e.g. '32011L0083'. */
+      work: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The act-level overview: every provision of every instrument in this corpus that names the given act, grouped by citing instrument, with the article of the act each citation resolved to (`targetEId`, null where the citation is act-level — which is most of them, and is not a defect). Each instrument also carries `adoptions`: definitions it BORROWS from this act rather than writing, which is a differ */
+    work_mentions(args: {
+      /** ELI URI or official number of the instrument — a French code has only the latter. */
+      eli: string;
+      /** Maximum citing provisions, default 500, cap 2000. */
+      limit?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_a181bb0a47 {
     /** Read the booking options of a single office: the services it offers, allowed insurances, consultation type, payment type, consultation channels, required patient fields, plus one derived decision. `booking_mode` is one of "online", "external" or "offline". Messages the doctor wants the patient to read live in `office.display_rules.appointment_information`. The legacy office fields `attends_first_v */
     get_appointment_options(args: {
@@ -369529,6 +369751,29 @@ interface BowmarkSiteTools_a5685d39f8 {
       /** Product ids of the parts in the build, at most 50. Repeat an id to express quantity. */
       productIds: string[];
       [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_a587171682 {
+    /** Les proprietaires personnes morales de l'adresse (SCI, societes, bailleurs sociaux, collectivites, Etat, avec SIREN et date de situation, jamais un particulier), la parcelle cadastrale d'une adresse francaise et sa contenance, le zonage d'urbanisme et les destinations autorisees, les prescriptions et servitudes, les risques (argile, sismicite, radon, catastrophes naturelles, installations classees */
+    get_french_address_facts(args: {
+      /** L'adresse en toutes lettres, par exemple « 60 rue Pasteur, Vitry-sur-Seine ». Le numero est facultatif. */
+      address: string;
+    }): Promise<unknown>;
+    /** Les permis de construire, d'amenager, de demolir et les declarations prealables delivres dans une commune, tels que la commune les declare au ministere (fichier Sitadel) : date, nature, adresse des travaux, parcelle, logements et surface crees, etat du chantier, demandeur quand c'est une personne morale. Les 500 plus recents ; l'API pagine le reste. */
+    get_french_building_permits(args: {
+      /** Code INSEE de la commune, cinq caracteres, par exemple 94081 (Vitry-sur-Seine). */
+      code_insee: string;
+    }): Promise<unknown>;
+    /** Une commune francaise : ses voies adressees, le prix median au metre carre du dernier millesime, le loyer d'annonce au metre carre, le taux de taxe fonciere et son evolution depuis 2020, le document d'urbanisme opposable, la zone A/B/C du marche du logement, la part des locaux raccordables a la fibre, les risques communaux, la delinquance enregistree face au departement et a la France (SSMSI), l'e */
+    get_french_commune_facts(args: {
+      /** Code INSEE de la commune, cinq caracteres, par exemple 94081 (Vitry-sur-Seine). */
+      code_insee: string;
+    }): Promise<unknown>;
+    /** Une parcelle par son identifiant a quatorze caracteres (code INSEE, prefixe, section, numero, par exemple 940810000E0107) : sa contenance, sa commune, et la voie la plus proche de son centre, dont le jumeau porte tout le reste. Le proprietaire n'y est pas : ceux qui sont des personnes morales se lisent dans le jumeau de la voie, un particulier nulle part. */
+    get_french_parcel(args: {
+      /** L'identifiant de la parcelle, quatorze caracteres, par exemple 940810000E0107. */
+      parcel_id: string;
     }): Promise<unknown>;
 }
 
@@ -415073,6 +415318,38 @@ interface BowmarkSiteTools_c938733fda {
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_c957777c31 {
+    /** Get companies with market research specialty (MRS) */
+    "get-companies-by-mrs"(args: {
+      mrsCode: number;
+    }): Promise<unknown>;
+    /** Get company case studies by company id or company name */
+    "get-company-case-studies"(args?: {
+      id?: string;
+      companyName?: string;
+    }): Promise<unknown>;
+    /** Get company details by id or company name */
+    "get-company-details"(args?: {
+      id?: string;
+      companyName?: string;
+    }): Promise<unknown>;
+    /** Get company reviews by company id or company name */
+    "get-company-reviews"(args?: {
+      id?: string;
+      companyName?: string;
+    }): Promise<unknown>;
+    /** Get all active market research specialties (MRSs) */
+    "get-market-research-specialties"(args?: {}): Promise<unknown>;
+    /** Get market research specialty (MRS) details */
+    "get-market-research-specialty-details"(args: {
+      mrsCode: number;
+    }): Promise<unknown>;
+    /** Search by all entities on Greenbook site */
+    "search-directory"(args: {
+      text: string;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_c95873a660 {
     /** The workshops, sections and lessons of one course the learner owns, with their completion state. A workshop that has not opened shows its title and open date only. */
     course_outline(args: {
@@ -440649,6 +440926,1011 @@ interface BowmarkSiteTools_ddbdb0dc0f {
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_ddbf6ec0d9 {
+    /** Ask a question about this store, such as what it sells, its policies, or its services. */
+    ask_business(args: {
+      ask: {
+        /** Resource identifiers for grounding. Up to 10 of this store's Shopify Product, ProductVariant, Collection or Cart GIDs are supported. A cart or collection grounds the answer in its products. */
+        ids?: string[];
+        /** Natural-language question. */
+        query: string;
+        /** Buyer context for localization and personalization. */
+        context?: {
+          intent?: string;
+          currency?: string;
+          language?: string;
+          postal_code?: string;
+          address_region?: string;
+          address_country?: string;
+          [key: string]: unknown;
+        };
+        /** Platform environment data. Signals are not currently supported. */
+        signals?: Record<string, unknown>;
+        /** Platform attribution data. Attribution is not currently supported. */
+        attribution?: Record<string, unknown>;
+        /** Opaque conversation identifier. Multi-turn conversations are not currently supported. */
+        conversation?: {
+          id: string;
+          expires_at?: string;
+          [key: string]: unknown;
+        };
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Cancels a cart. Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quoting a price to a buyer (divide by 100 for two-decimal currencies such as USD and EUR; zero-decimal currencies such as JPY are already whole units). */
+    cancel_cart(args: {
+      /** The ID of the cart. Format: 'gid://shopify/Cart/abc123' */
+      id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Cancels a checkout. Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quoting a price to a buyer (divide by 100 for two-decimal currencies such as USD and EUR; zero-decimal currencies such as JPY are already whole units) */
+    cancel_checkout(args: {
+      /** The ID of the checkout to update. Format: 'gid://shopify/Checkout/abc123' */
+      id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Checks whether a specific Mount-It! mount fits a specific TV, using the Mount-It! TV Database of verified VESA patterns and weights. Give the TV (brand + model + size, or size + VESA + weight) and the mount (its handle or product URL from search_catalog or get_product). Returns fits true/false with the size, weight and VESA checks and their reasons, the TV's verified specs with manufacturer source */
+    check_mount_fits_tv(args: {
+      /** The shopper's TV. Brand + model + size is enough when the TV is in the Mount-It! TV Database (1,150+ models): its VESA pattern and weight are looked up. Otherwise give vesa and weight_lb (or weight_kg). */
+      tv: {
+        /** VESA mounting pattern in millimetres, width x height, e.g. 400x300. On the back of the TV or in its manual. */
+        vesa?: string;
+        /** TV brand, e.g. Samsung, LG, Sony, TCL, Hisense, Vizio. */
+        brand?: string;
+        /** Model or series code as printed on the box or in the TV's name, e.g. QN90D, OLED C5, QM8K, or a full model number. A partial name such as Q65 or QN90 returns the TVs it may be, to ask the shopper which. */
+        model?: string;
+        /** TV weight without the stand, in kilograms (use instead of weight_lb). */
+        weight_kg?: number;
+        /** TV weight without the stand, in pounds. */
+        weight_lb?: number;
+        /** Screen size in inches (diagonal), e.g. 65. May be left out when model is a full model number that includes it, e.g. QN65QN90D or OLED77G5WUA. */
+        size_inches?: number;
+        [key: string]: unknown;
+      };
+      /** Optional UCP request metadata; not needed for this tool. */
+      meta?: Record<string, unknown>;
+      /** The Mount-It! mount to check: its handle or its product URL. */
+      mount: {
+        /** Product URL, e.g. https://www.mount-it.com/products/the-beast-heavy-duty-tv-wall-mount-mi-394. */
+        url?: string;
+        /** Product handle, e.g. the-beast-heavy-duty-tv-wall-mount-mi-394. */
+        handle?: string;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Completes a checkout and returns the checkout result. Returns details about the completed checkout, including order ID, Thank You Page URL, or any errors encountered. Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quo */
+    complete_checkout(args: {
+      /** The ID of the checkout to update. Format: 'gid://shopify/Checkout/abc123' */
+      id: string;
+      /** Checkout properties. */
+      checkout: {
+        buyer?: {
+          /** Per-purpose buyer consent decisions, keyed by reverse-DNS identifiers. Omission leaves existing choices unchanged. */
+          consent?: Record<string, unknown>;
+          [key: string]: unknown;
+        };
+        /** Payment information for this checkout. */
+        payment: {
+          /** Payment instruments for this checkout (e.g., credit cards, tokens, wallets). */
+          instruments?: Array<{
+              /** A unique identifier for this payment instrument instance. */
+              id: string;
+              /** Instrument type. Apple Pay uses 'card' because the submitted instrument represents a tokenized card. */
+              type: string;
+              /** Display information for this payment instrument. */
+              display?: {
+                /** Card brand (e.g., visa, mastercard), when available. */
+                brand?: string;
+                /** Card expiry year. Required for card instruments. */
+                expiry_year?: number;
+                /** Last 4 digits of the card, when available. */
+                last_digits?: string;
+                /** Card expiry month (1-12). Required for card instruments. */
+                expiry_month?: number;
+                /** Rich card art URL or identifier for the payment instrument. */
+                rich_card_art?: string;
+                /** How the card is funded, as reported by Apple Pay. */
+                funding_source?: "debit" | "credit" | "prepaid" | "store";
+                /** Rich text description of the payment instrument for display purposes. */
+                rich_text_description?: string;
+                [key: string]: unknown;
+              };
+              /** Whether this instrument is the currently selected for the checkout. */
+              selected?: boolean;
+              /** Payment credential payload to process the transaction for this instrument. */
+              credential?: {
+                /** Namespaced token type using dot notation (e.g., stripe.token, merchant.token, google.pay). */
+                type?: string;
+                /** Opaque payment token value, required except when restating a platform-listed instrument (e.g., a Shop Pay wallet card) whose token the platform re-derives from the instrument id. */
+                token?: string;
+                /** Identifier of the payment approval authorizing this credential, as returned by the approvals API. Required for shop_pay credentials when the merchant requires payment approvals. */
+                approval_id?: string;
+                payment_data?: Record<string, unknown>;
+                transaction_identifier?: string;
+                [key: string]: unknown;
+              };
+              /** Identifier of the payment handler that was used to generate this instrument. */
+              handler_id: string;
+              /** Billing address for the instrument. */
+              billing_address?: {
+                /** Last name of the contact associated with the billing address. */
+                last_name?: string;
+                /** First name of the contact associated with the billing address. */
+                first_name?: string;
+                /** Postal code of the billing address. */
+                postal_code?: string;
+                /** Phone number of the contact associated with the billing address. */
+                phone_number?: string;
+                /** Region of the billing address. */
+                address_region?: string;
+                /** Street address of the billing address. */
+                street_address?: string;
+                /** Country of the billing address in 2-letter ISO 3166-1 alpha-2 format. */
+                address_country?: string;
+                /** Locality of the billing address. */
+                address_locality?: string;
+                /** Extended address of the billing address such as an apartment number, C/O, or alternative name. */
+                extended_address?: string;
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            }>;
+          [key: string]: unknown;
+        };
+        /** Marketing attribution context for the buyer's session (referring domain, click IDs, UTM parameters). */
+        attribution?: {
+          /** UTM term parameter. */
+          utm_term?: string;
+          /** UTM medium parameter. */
+          utm_medium?: string;
+          /** UTM source parameter. */
+          utm_source?: string;
+          /** UTM content parameter. */
+          utm_content?: string;
+          /** Click identifier parameter name (e.g., 'gclid', 'fbclid'). */
+          click_id_tag?: string;
+          /** UTM campaign parameter. */
+          utm_campaign?: string;
+          /** Click identifier value matching click_id_tag. */
+          click_id_value?: string;
+          /** Activity identifier parameter name. */
+          activity_id_tag?: string;
+          /** Domain that referred the buyer to the merchant's storefront. */
+          referring_domain?: string;
+          /** Activity identifier value matching activity_id_tag. */
+          activity_id_value?: string;
+          [key: string]: unknown;
+        };
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Creates a new cart Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quoting a price to a buyer (divide by 100 for two-decimal currencies such as USD and EUR; zero-decimal currencies such as JPY are already whole units). */
+    create_cart(args: {
+      /** Cart properties. */
+      cart: {
+        /** Information about the buyer including email and phone number. */
+        buyer?: {
+          email?: string;
+          /** Per-purpose buyer consent decisions, keyed by reverse-DNS identifiers. Omission leaves existing choices unchanged. */
+          consent?: Record<string, unknown>;
+          phone_number?: string;
+          [key: string]: unknown;
+        };
+        /** Provisional context hints for localization and pricing. Used when authoritative data (e.g., shipping address) is missing; higher-resolution data supersedes these values and unsupported hints may be ignored without error. */
+        context?: {
+          /** Context describing buyer's intent. */
+          intent?: string;
+          /** Preferred currency (ISO 4217, e.g., 'EUR', 'USD'). */
+          currency?: string;
+          /** Language tag in IETF BCP 47 format. */
+          language?: string;
+          /** Buyer claims about eligible benefits such as loyalty membership, payment perks, and similar. */
+          eligibility?: string[];
+          /** Postal code hint for localization. */
+          postal_code?: string;
+          /** Region/state hint for localization. */
+          address_region?: string;
+          /** Country hint for localization. */
+          address_country?: string;
+          [key: string]: unknown;
+        };
+        /** Discount or promo codes to apply to the cart. Only prompt if customer mentions having a discount code. */
+        discounts?: {
+          /** Discount codes to apply. Case-insensitive. Replaces previously submitted codes. Send empty array to clear. */
+          codes?: string[];
+          [key: string]: unknown;
+        };
+        /** Items to add to the cart or checkout. Required when creating a new cart or checkout. */
+        line_items: {
+            /** The ID of the line item to update. */
+            id?: string;
+            item: {
+              /** The Product Variant ID to add or update. */
+              id: string;
+              [key: string]: unknown;
+            };
+            quantity: number;
+            [key: string]: unknown;
+          }[];
+        /** Marketing attribution context for the buyer's session (referring domain, click IDs, UTM parameters). Forwarded to the cart for downstream reporting. */
+        attribution?: {
+          /** UTM term parameter. */
+          utm_term?: string;
+          /** UTM medium parameter. */
+          utm_medium?: string;
+          /** UTM source parameter. */
+          utm_source?: string;
+          /** UTM content parameter. */
+          utm_content?: string;
+          /** Click identifier parameter name (e.g., 'gclid', 'fbclid'). */
+          click_id_tag?: string;
+          /** UTM campaign parameter. */
+          utm_campaign?: string;
+          /** Click identifier value matching click_id_tag. */
+          click_id_value?: string;
+          /** Activity identifier parameter name. */
+          activity_id_tag?: string;
+          /** Domain that referred the buyer to the merchant's storefront. */
+          referring_domain?: string;
+          /** Activity identifier value matching activity_id_tag. */
+          activity_id_value?: string;
+          [key: string]: unknown;
+        };
+        /** Information about the fulfillment. */
+        fulfillment?: {
+          /** The methods of fulfillment. */
+          methods?: {
+              type: string;
+              /** The groups to fulfill to. */
+              groups?: {
+                  id?: unknown;
+                  selected_option_id?: unknown;
+                  [key: string]: unknown;
+                }[];
+              /** The destinations to fulfill to. */
+              destinations?: {
+                  id?: unknown;
+                  last_name?: unknown;
+                  first_name?: unknown;
+                  postal_code?: unknown;
+                  phone_number?: unknown;
+                  address_region?: unknown;
+                  street_address?: unknown;
+                  address_country?: unknown;
+                  address_locality?: unknown;
+                  extended_address?: unknown;
+                  [key: string]: unknown;
+                }[];
+              /** ID of the selected destination. */
+              selected_destination_id?: string;
+              [key: string]: unknown;
+            }[];
+          [key: string]: unknown;
+        };
+        /** Merchant-defined cart or checkout fields and their values. On updates, replaces previously submitted custom field values; omitted or null fields are cleared. Send empty array to clear all custom fields. */
+        declared_fields?: Array<{
+            /** Unique identifier for the declared field. */
+            key: string;
+            /** Submitted JSON value for the field. Null clears the value. */
+            value: string | number | boolean | Record<string, unknown> | unknown[] | null;
+            [key: string]: unknown;
+          }>;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Creates a checkout. Returns checkout details, including line items, totals, and any applicable discounts or taxes. Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quoting a price to a buyer (divide by 100 for two-decim */
+    create_checkout(args: {
+      /** Checkout properties. */
+      checkout: {
+        /** Information about the buyer including email and phone number. */
+        buyer?: {
+          email?: string;
+          /** Per-purpose buyer consent decisions, keyed by reverse-DNS identifiers. Omission leaves existing choices unchanged. */
+          consent?: Record<string, unknown>;
+          phone_number?: string;
+          [key: string]: unknown;
+        };
+        /** Cart ID to convert to checkout. When provided, the business uses cart contents (line_items, context, buyer) and ignores overlapping fields in the checkout payload. line_items is still required: pass an empty array ("line_items": []). Format: 'gid://shopify/Cart/abc123?key=secret' */
+        cart_id?: string;
+        /** Provisional context hints for localization and pricing. Used when authoritative data (e.g., shipping address) is missing; higher-resolution data supersedes these values and unsupported hints may be ignored without error. */
+        context?: {
+          /** Context describing buyer's intent. */
+          intent?: string;
+          /** Preferred currency (ISO 4217, e.g., 'EUR', 'USD'). */
+          currency?: string;
+          /** Language tag in IETF BCP 47 format. */
+          language?: string;
+          /** Buyer claims about eligible benefits such as loyalty membership, payment perks, and similar. */
+          eligibility?: string[];
+          /** Postal code hint for localization. */
+          postal_code?: string;
+          /** Region/state hint for localization. */
+          address_region?: string;
+          /** Country hint for localization. */
+          address_country?: string;
+          [key: string]: unknown;
+        };
+        /** Payment information for this checkout. */
+        payment?: {
+          /** Payment instruments for this checkout (e.g., credit cards, tokens, wallets). */
+          instruments?: Array<{
+              /** A unique identifier for this payment instrument instance. */
+              id: string;
+              /** Instrument type. Apple Pay uses 'card' because the submitted instrument represents a tokenized card. */
+              type: string;
+              /** Display information for this payment instrument. */
+              display?: {
+                /** Card brand (e.g., visa, mastercard), when available. */
+                brand?: string;
+                /** Card expiry year. Required for card instruments. */
+                expiry_year?: number;
+                /** Last 4 digits of the card, when available. */
+                last_digits?: string;
+                /** Card expiry month (1-12). Required for card instruments. */
+                expiry_month?: number;
+                /** Rich card art URL or identifier for the payment instrument. */
+                rich_card_art?: string;
+                /** How the card is funded, as reported by Apple Pay. */
+                funding_source?: "debit" | "credit" | "prepaid" | "store";
+                /** Rich text description of the payment instrument for display purposes. */
+                rich_text_description?: string;
+                [key: string]: unknown;
+              };
+              /** Whether this instrument is the currently selected for the checkout. */
+              selected?: boolean;
+              /** Payment credential payload to process the transaction for this instrument. */
+              credential?: {
+                /** Namespaced token type using dot notation (e.g., stripe.token, merchant.token, google.pay). */
+                type?: string;
+                /** Opaque payment token value, required except when restating a platform-listed instrument (e.g., a Shop Pay wallet card) whose token the platform re-derives from the instrument id. */
+                token?: string;
+                /** Identifier of the payment approval authorizing this credential, as returned by the approvals API. Required for shop_pay credentials when the merchant requires payment approvals. */
+                approval_id?: string;
+                payment_data?: Record<string, unknown>;
+                transaction_identifier?: string;
+                [key: string]: unknown;
+              };
+              /** Identifier of the payment handler that was used to generate this instrument. */
+              handler_id: string;
+              /** Billing address for the instrument. */
+              billing_address?: {
+                /** Last name of the contact associated with the billing address. */
+                last_name?: string;
+                /** First name of the contact associated with the billing address. */
+                first_name?: string;
+                /** Postal code of the billing address. */
+                postal_code?: string;
+                /** Phone number of the contact associated with the billing address. */
+                phone_number?: string;
+                /** Region of the billing address. */
+                address_region?: string;
+                /** Street address of the billing address. */
+                street_address?: string;
+                /** Country of the billing address in 2-letter ISO 3166-1 alpha-2 format. */
+                address_country?: string;
+                /** Locality of the billing address. */
+                address_locality?: string;
+                /** Extended address of the billing address such as an apartment number, C/O, or alternative name. */
+                extended_address?: string;
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            }>;
+          [key: string]: unknown;
+        };
+        /** Discount or promo codes to apply to the cart. Only prompt if customer mentions having a discount code. */
+        discounts?: {
+          /** Discount codes to apply. Case-insensitive. Replaces previously submitted codes. Send empty array to clear. */
+          codes?: string[];
+          [key: string]: unknown;
+        };
+        /** Items to add to the cart or checkout. Required when creating a new cart or checkout. */
+        line_items: {
+            /** The ID of the line item to update. */
+            id?: string;
+            item: {
+              /** The Product Variant ID to add or update. */
+              id: string;
+              [key: string]: unknown;
+            };
+            quantity: number;
+            [key: string]: unknown;
+          }[];
+        /** Marketing attribution context for the buyer's session (referring domain, click IDs, UTM parameters). */
+        attribution?: {
+          /** UTM term parameter. */
+          utm_term?: string;
+          /** UTM medium parameter. */
+          utm_medium?: string;
+          /** UTM source parameter. */
+          utm_source?: string;
+          /** UTM content parameter. */
+          utm_content?: string;
+          /** Click identifier parameter name (e.g., 'gclid', 'fbclid'). */
+          click_id_tag?: string;
+          /** UTM campaign parameter. */
+          utm_campaign?: string;
+          /** Click identifier value matching click_id_tag. */
+          click_id_value?: string;
+          /** Activity identifier parameter name. */
+          activity_id_tag?: string;
+          /** Domain that referred the buyer to the merchant's storefront. */
+          referring_domain?: string;
+          /** Activity identifier value matching activity_id_tag. */
+          activity_id_value?: string;
+          [key: string]: unknown;
+        };
+        /** Information about the fulfillment. */
+        fulfillment?: {
+          /** The methods of fulfillment. */
+          methods?: {
+              type: string;
+              /** The groups to fulfill to. */
+              groups?: {
+                  id?: unknown;
+                  selected_option_id?: unknown;
+                  [key: string]: unknown;
+                }[];
+              /** The destinations to fulfill to. */
+              destinations?: {
+                  id?: unknown;
+                  last_name?: unknown;
+                  first_name?: unknown;
+                  postal_code?: unknown;
+                  phone_number?: unknown;
+                  address_region?: unknown;
+                  street_address?: unknown;
+                  address_country?: unknown;
+                  address_locality?: unknown;
+                  extended_address?: unknown;
+                  [key: string]: unknown;
+                }[];
+              /** ID of the selected destination. */
+              selected_destination_id?: string;
+              [key: string]: unknown;
+            }[];
+          [key: string]: unknown;
+        };
+        /** Merchant-defined cart or checkout fields and their values. On updates, replaces previously submitted custom field values; omitted or null fields are cleared. Send empty array to clear all custom fields. */
+        declared_fields?: Array<{
+            /** Unique identifier for the declared field. */
+            key: string;
+            /** Submitted JSON value for the field. Null clears the value. */
+            value: string | number | boolean | Record<string, unknown> | unknown[] | null;
+            [key: string]: unknown;
+          }>;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Finds the Mount-It! mounts that fit a specific TV, using the Mount-It! TV Database of verified VESA patterns and weights. Give the TV as brand + model + size, or size + VESA + weight. Returns Mount-It!'s recommended picks first (sized to the TV's weight with headroom), each with why it fits, its movement (fixed, tilting, full motion), placement (wall, ceiling), price, stock and the variant ID to p */
+    find_mounts_for_tv(args: {
+      /** The shopper's TV. Brand + model + size is enough when the TV is in the Mount-It! TV Database (1,150+ models): its VESA pattern and weight are looked up. Otherwise give vesa and weight_lb (or weight_kg). */
+      tv: {
+        /** VESA mounting pattern in millimetres, width x height, e.g. 400x300. On the back of the TV or in its manual. */
+        vesa?: string;
+        /** TV brand, e.g. Samsung, LG, Sony, TCL, Hisense, Vizio. */
+        brand?: string;
+        /** Model or series code as printed on the box or in the TV's name, e.g. QN90D, OLED C5, QM8K, or a full model number. A partial name such as Q65 or QN90 returns the TVs it may be, to ask the shopper which. */
+        model?: string;
+        /** TV weight without the stand, in kilograms (use instead of weight_lb). */
+        weight_kg?: number;
+        /** TV weight without the stand, in pounds. */
+        weight_lb?: number;
+        /** Screen size in inches (diagonal), e.g. 65. May be left out when model is a full model number that includes it, e.g. QN65QN90D or OLED77G5WUA. */
+        size_inches?: number;
+        [key: string]: unknown;
+      };
+      /** Optional UCP request metadata; not needed for this tool. */
+      meta?: Record<string, unknown>;
+      /** How many mounts to return, 1 to 20. Default 8. */
+      limit?: number;
+      /** recommended (default): Mount-It!'s curated picks for this TV. all: every compatible mount. */
+      include?: "recommended" | "all";
+      /** Only mounts with this movement. Default any. */
+      movement?: "any" | "fixed" | "tilting" | "full_motion";
+      /** Only mounts for this placement. Default any. */
+      placement?: "any" | "wall" | "ceiling";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get the cart contents Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quoting a price to a buyer (divide by 100 for two-decimal currencies such as USD and EUR; zero-decimal currencies such as JPY are already whole unit */
+    get_cart(args: {
+      /** The ID of the cart. Format: 'gid://shopify/Cart/abc123' */
+      id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Returns details about the checkout, including line items, totals, and any applicable discounts or taxes. Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quoting a price to a buyer (divide by 100 for two-decimal currenc */
+    get_checkout(args: {
+      /** The ID of the checkout to update. Format: 'gid://shopify/Checkout/abc123' */
+      id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get the details of an order Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quoting a price to a buyer (divide by 100 for two-decimal currencies such as USD and EUR; zero-decimal currencies such as JPY are already whol */
+    get_order(args: {
+      /** The ID of the order. Format: 'gid://shopify/Order/123' */
+      id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Retrieve complete product detail by identifier. Returns a singular product with a relevant set of variants, exact pricing, and real-time availability. Supports interactive option selection via selected and preferences parameters for variant narrowing and availability signals. Use for product detail page rendering and purchase decisions. Prices in the response are integers in the currency's ISO 421 */
+    get_product(args: {
+      /** Product detail parameters. */
+      catalog: {
+        /** Product ID. */
+        id: string;
+        /** Buyer signals for localization and personalization. */
+        context?: {
+          /** Buyer intent. */
+          intent?: string;
+          /** Currency code in ISO 4217 format. */
+          currency?: string;
+          /** Language tag in IETF BCP 47 format. */
+          language?: string;
+          /** Postal code. */
+          postal_code?: string;
+          /** Region or state. */
+          address_region?: string;
+          /** Country code in ISO 3166-1 alpha-2 format. */
+          address_country?: string;
+          [key: string]: unknown;
+        };
+        /** Narrowing criteria for catalog results. */
+        filters?: {
+          /** Price range filter. */
+          price?: {
+            /** Maximum price in minor currency units. */
+            max?: number;
+            /** Minimum price in minor currency units. */
+            min?: number;
+            [key: string]: unknown;
+          };
+          /** Filter by availability. Default true (only sale-ready items). */
+          available?: boolean;
+          /** Category filters combined with OR logic. */
+          categories?: string[];
+          [key: string]: unknown;
+        };
+        /** Platform environment data. */
+        signals?: {
+          /** Buyer IP address. */
+          "dev.ucp.buyer_ip"?: string;
+          /** Buyer user agent. */
+          "dev.ucp.user_agent"?: string;
+          [key: string]: unknown;
+        };
+        /** Selected variant options. */
+        selected?: {
+            name?: string;
+            label?: string;
+            [key: string]: unknown;
+          }[];
+        /** Buyer preferences. */
+        preferences?: string[];
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Look up multiple products or variants by identifier. Use this tool to resolve multiple product/variant IDs in a single request. Supports: - Product IDs (gid://shopify/Product/...): Returns product with match: "featured" - Variant IDs (gid://shopify/ProductVariant/...): Returns parent product with the exact variant Results are grouped by product. Each variant includes an inputs array showing which  */
+    lookup_catalog(args: {
+      /** Catalog lookup parameters. */
+      catalog: {
+        /** Product IDs to look up. */
+        ids: string[];
+        /** Buyer signals for localization and personalization. */
+        context?: {
+          /** Buyer intent. */
+          intent?: string;
+          /** Currency code in ISO 4217 format. */
+          currency?: string;
+          /** Language tag in IETF BCP 47 format. */
+          language?: string;
+          /** Postal code. */
+          postal_code?: string;
+          /** Region or state. */
+          address_region?: string;
+          /** Country code in ISO 3166-1 alpha-2 format. */
+          address_country?: string;
+          [key: string]: unknown;
+        };
+        /** Narrowing criteria for catalog results. */
+        filters?: {
+          /** Price range filter. */
+          price?: {
+            /** Maximum price in minor currency units. */
+            max?: number;
+            /** Minimum price in minor currency units. */
+            min?: number;
+            [key: string]: unknown;
+          };
+          /** Filter by availability. Default true (only sale-ready items). */
+          available?: boolean;
+          /** Category filters combined with OR logic. */
+          categories?: string[];
+          [key: string]: unknown;
+        };
+        /** Platform environment data. */
+        signals?: {
+          /** Buyer IP address. */
+          "dev.ucp.buyer_ip"?: string;
+          /** Buyer user agent. */
+          "dev.ucp.user_agent"?: string;
+          [key: string]: unknown;
+        };
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search for products from the online store, hosted on Shopify. This tool can be used to search for products using natural language queries, specific filter criteria, or both. At least one of query or filters must be provided. Results are paginated, with initial results limited to improve experience. Use the pagination.cursor from the response to fetch additional pages when users request more result */
+    search_catalog(args: {
+      /** Catalog search parameters. */
+      catalog: {
+        /** Search query string. */
+        query?: string;
+        /** Buyer signals for localization and personalization. */
+        context?: {
+          /** Buyer intent. */
+          intent?: string;
+          /** Currency code in ISO 4217 format. */
+          currency?: string;
+          /** Language tag in IETF BCP 47 format. */
+          language?: string;
+          /** Postal code. */
+          postal_code?: string;
+          /** Region or state. */
+          address_region?: string;
+          /** Country code in ISO 3166-1 alpha-2 format. */
+          address_country?: string;
+          [key: string]: unknown;
+        };
+        /** Narrowing criteria for catalog results. */
+        filters?: {
+          /** Price range filter. */
+          price?: {
+            /** Maximum price in minor currency units. */
+            max?: number;
+            /** Minimum price in minor currency units. */
+            min?: number;
+            [key: string]: unknown;
+          };
+          /** Filter by availability. Default true (only sale-ready items). */
+          available?: boolean;
+          /** Category filters combined with OR logic. */
+          categories?: string[];
+          [key: string]: unknown;
+        };
+        /** Platform environment data. */
+        signals?: {
+          /** Buyer IP address. */
+          "dev.ucp.buyer_ip"?: string;
+          /** Buyer user agent. */
+          "dev.ucp.user_agent"?: string;
+          [key: string]: unknown;
+        };
+        /** Pagination parameters. */
+        pagination?: {
+          /** Number of results to return. */
+          limit?: number;
+          /** Pagination cursor. */
+          cursor?: string;
+          [key: string]: unknown;
+        };
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Perform updates to a cart. Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quoting a price to a buyer (divide by 100 for two-decimal currencies such as USD and EUR; zero-decimal currencies such as JPY are already whole */
+    update_cart(args: {
+      /** The ID of the cart. Format: 'gid://shopify/Cart/abc123' */
+      id: string;
+      /** Cart properties. */
+      cart: {
+        /** Information about the buyer including email and phone number. */
+        buyer?: {
+          email?: string;
+          /** Per-purpose buyer consent decisions, keyed by reverse-DNS identifiers. Omission leaves existing choices unchanged. */
+          consent?: Record<string, unknown>;
+          phone_number?: string;
+          [key: string]: unknown;
+        };
+        /** Provisional context hints for localization and pricing. Used when authoritative data (e.g., shipping address) is missing; higher-resolution data supersedes these values and unsupported hints may be ignored without error. */
+        context?: {
+          /** Context describing buyer's intent. */
+          intent?: string;
+          /** Preferred currency (ISO 4217, e.g., 'EUR', 'USD'). */
+          currency?: string;
+          /** Language tag in IETF BCP 47 format. */
+          language?: string;
+          /** Buyer claims about eligible benefits such as loyalty membership, payment perks, and similar. */
+          eligibility?: string[];
+          /** Postal code hint for localization. */
+          postal_code?: string;
+          /** Region/state hint for localization. */
+          address_region?: string;
+          /** Country hint for localization. */
+          address_country?: string;
+          [key: string]: unknown;
+        };
+        /** Discount or promo codes to apply to the cart. Only prompt if customer mentions having a discount code. */
+        discounts?: {
+          /** Discount codes to apply. Case-insensitive. Replaces previously submitted codes. Send empty array to clear. */
+          codes?: string[];
+          [key: string]: unknown;
+        };
+        /** Items to add to the cart or checkout. Required when creating a new cart or checkout. */
+        line_items: {
+            /** The ID of the line item to update. */
+            id?: string;
+            item: {
+              /** The Product Variant ID to add or update. */
+              id: string;
+              [key: string]: unknown;
+            };
+            quantity: number;
+            [key: string]: unknown;
+          }[];
+        /** Marketing attribution context for the buyer's session (referring domain, click IDs, UTM parameters). Forwarded to the cart for downstream reporting. */
+        attribution?: {
+          /** UTM term parameter. */
+          utm_term?: string;
+          /** UTM medium parameter. */
+          utm_medium?: string;
+          /** UTM source parameter. */
+          utm_source?: string;
+          /** UTM content parameter. */
+          utm_content?: string;
+          /** Click identifier parameter name (e.g., 'gclid', 'fbclid'). */
+          click_id_tag?: string;
+          /** UTM campaign parameter. */
+          utm_campaign?: string;
+          /** Click identifier value matching click_id_tag. */
+          click_id_value?: string;
+          /** Activity identifier parameter name. */
+          activity_id_tag?: string;
+          /** Domain that referred the buyer to the merchant's storefront. */
+          referring_domain?: string;
+          /** Activity identifier value matching activity_id_tag. */
+          activity_id_value?: string;
+          [key: string]: unknown;
+        };
+        /** Information about the fulfillment. */
+        fulfillment?: {
+          /** The methods of fulfillment. */
+          methods?: {
+              id?: string;
+              type?: string;
+              /** The groups to fulfill to. */
+              groups?: {
+                  id: unknown;
+                  selected_option_id?: unknown;
+                  [key: string]: unknown;
+                }[];
+              /** The destinations to fulfill to. */
+              destinations?: {
+                  id?: unknown;
+                  last_name?: unknown;
+                  first_name?: unknown;
+                  postal_code?: unknown;
+                  phone_number?: unknown;
+                  address_region?: unknown;
+                  street_address?: unknown;
+                  address_country?: unknown;
+                  address_locality?: unknown;
+                  extended_address?: unknown;
+                  [key: string]: unknown;
+                }[];
+              /** The line item ids to fulfill. */
+              line_item_ids: string[];
+              /** ID of the selected destination. */
+              selected_destination_id?: string;
+              [key: string]: unknown;
+            }[];
+          [key: string]: unknown;
+        };
+        /** Merchant-defined cart or checkout fields and their values. On updates, replaces previously submitted custom field values; omitted or null fields are cleared. Send empty array to clear all custom fields. */
+        declared_fields?: Array<{
+            /** Unique identifier for the declared field. */
+            key: string;
+            /** Submitted JSON value for the field. Null clears the value. */
+            value: string | number | boolean | Record<string, unknown> | unknown[] | null;
+            [key: string]: unknown;
+          }>;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Updates a checkout. Returns checkout details, including line items, totals, and any applicable discounts or taxes. Prices in the response are integers in the currency's ISO 4217 minor units, paired with a currency code: {"amount": 600, "currency": "USD"} is $6.00 and {"amount": 2500, "currency": "USD"} is $25.00. Convert to major units before quoting a price to a buyer (divide by 100 for two-decim */
+    update_checkout(args: {
+      /** The ID of the checkout to update. Format: 'gid://shopify/Checkout/abc123' */
+      id: string;
+      /** Checkout properties. */
+      checkout: {
+        /** Information about the buyer including email and phone number. */
+        buyer?: {
+          email?: string;
+          /** Per-purpose buyer consent decisions, keyed by reverse-DNS identifiers. Omission leaves existing choices unchanged. */
+          consent?: Record<string, unknown>;
+          phone_number?: string;
+          [key: string]: unknown;
+        };
+        /** Provisional context hints for localization and pricing. Used when authoritative data (e.g., shipping address) is missing; higher-resolution data supersedes these values and unsupported hints may be ignored without error. */
+        context?: {
+          /** Context describing buyer's intent. */
+          intent?: string;
+          /** Preferred currency (ISO 4217, e.g., 'EUR', 'USD'). */
+          currency?: string;
+          /** Language tag in IETF BCP 47 format. */
+          language?: string;
+          /** Buyer claims about eligible benefits such as loyalty membership, payment perks, and similar. */
+          eligibility?: string[];
+          /** Postal code hint for localization. */
+          postal_code?: string;
+          /** Region/state hint for localization. */
+          address_region?: string;
+          /** Country hint for localization. */
+          address_country?: string;
+          [key: string]: unknown;
+        };
+        /** Payment information for this checkout. */
+        payment?: {
+          /** Payment instruments for this checkout (e.g., credit cards, tokens, wallets). */
+          instruments?: Array<{
+              /** A unique identifier for this payment instrument instance. */
+              id: string;
+              /** Instrument type. Apple Pay uses 'card' because the submitted instrument represents a tokenized card. */
+              type: string;
+              /** Display information for this payment instrument. */
+              display?: {
+                /** Card brand (e.g., visa, mastercard), when available. */
+                brand?: string;
+                /** Card expiry year. Required for card instruments. */
+                expiry_year?: number;
+                /** Last 4 digits of the card, when available. */
+                last_digits?: string;
+                /** Card expiry month (1-12). Required for card instruments. */
+                expiry_month?: number;
+                /** Rich card art URL or identifier for the payment instrument. */
+                rich_card_art?: string;
+                /** How the card is funded, as reported by Apple Pay. */
+                funding_source?: "debit" | "credit" | "prepaid" | "store";
+                /** Rich text description of the payment instrument for display purposes. */
+                rich_text_description?: string;
+                [key: string]: unknown;
+              };
+              /** Whether this instrument is the currently selected for the checkout. */
+              selected?: boolean;
+              /** Payment credential payload to process the transaction for this instrument. */
+              credential?: {
+                /** Namespaced token type using dot notation (e.g., stripe.token, merchant.token, google.pay). */
+                type?: string;
+                /** Opaque payment token value, required except when restating a platform-listed instrument (e.g., a Shop Pay wallet card) whose token the platform re-derives from the instrument id. */
+                token?: string;
+                /** Identifier of the payment approval authorizing this credential, as returned by the approvals API. Required for shop_pay credentials when the merchant requires payment approvals. */
+                approval_id?: string;
+                payment_data?: Record<string, unknown>;
+                transaction_identifier?: string;
+                [key: string]: unknown;
+              };
+              /** Identifier of the payment handler that was used to generate this instrument. */
+              handler_id: string;
+              /** Billing address for the instrument. */
+              billing_address?: {
+                /** Last name of the contact associated with the billing address. */
+                last_name?: string;
+                /** First name of the contact associated with the billing address. */
+                first_name?: string;
+                /** Postal code of the billing address. */
+                postal_code?: string;
+                /** Phone number of the contact associated with the billing address. */
+                phone_number?: string;
+                /** Region of the billing address. */
+                address_region?: string;
+                /** Street address of the billing address. */
+                street_address?: string;
+                /** Country of the billing address in 2-letter ISO 3166-1 alpha-2 format. */
+                address_country?: string;
+                /** Locality of the billing address. */
+                address_locality?: string;
+                /** Extended address of the billing address such as an apartment number, C/O, or alternative name. */
+                extended_address?: string;
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            }>;
+          [key: string]: unknown;
+        };
+        /** Discount or promo codes to apply to the cart. Only prompt if customer mentions having a discount code. */
+        discounts?: {
+          /** Discount codes to apply. Case-insensitive. Replaces previously submitted codes. Send empty array to clear. */
+          codes?: string[];
+          [key: string]: unknown;
+        };
+        /** Items to add to the cart or checkout. Required when creating a new cart or checkout. */
+        line_items: {
+            /** The ID of the line item to update. */
+            id?: string;
+            item: {
+              /** The Product Variant ID to add or update. */
+              id: string;
+              [key: string]: unknown;
+            };
+            quantity: number;
+            [key: string]: unknown;
+          }[];
+        /** Marketing attribution context for the buyer's session (referring domain, click IDs, UTM parameters). */
+        attribution?: {
+          /** UTM term parameter. */
+          utm_term?: string;
+          /** UTM medium parameter. */
+          utm_medium?: string;
+          /** UTM source parameter. */
+          utm_source?: string;
+          /** UTM content parameter. */
+          utm_content?: string;
+          /** Click identifier parameter name (e.g., 'gclid', 'fbclid'). */
+          click_id_tag?: string;
+          /** UTM campaign parameter. */
+          utm_campaign?: string;
+          /** Click identifier value matching click_id_tag. */
+          click_id_value?: string;
+          /** Activity identifier parameter name. */
+          activity_id_tag?: string;
+          /** Domain that referred the buyer to the merchant's storefront. */
+          referring_domain?: string;
+          /** Activity identifier value matching activity_id_tag. */
+          activity_id_value?: string;
+          [key: string]: unknown;
+        };
+        /** Information about the fulfillment. */
+        fulfillment?: {
+          /** The methods of fulfillment. */
+          methods?: {
+              id?: string;
+              type?: string;
+              /** The groups to fulfill to. */
+              groups?: {
+                  id: unknown;
+                  selected_option_id?: unknown;
+                  [key: string]: unknown;
+                }[];
+              /** The destinations to fulfill to. */
+              destinations?: {
+                  id?: unknown;
+                  last_name?: unknown;
+                  first_name?: unknown;
+                  postal_code?: unknown;
+                  phone_number?: unknown;
+                  address_region?: unknown;
+                  street_address?: unknown;
+                  address_country?: unknown;
+                  address_locality?: unknown;
+                  extended_address?: unknown;
+                  [key: string]: unknown;
+                }[];
+              /** The line item ids to fulfill. */
+              line_item_ids: string[];
+              /** ID of the selected destination. */
+              selected_destination_id?: string;
+              [key: string]: unknown;
+            }[];
+          [key: string]: unknown;
+        };
+        /** Merchant-defined cart or checkout fields and their values. On updates, replaces previously submitted custom field values; omitted or null fields are cleared. Send empty array to clear all custom fields. */
+        declared_fields?: Array<{
+            /** Unique identifier for the declared field. */
+            key: string;
+            /** Submitted JSON value for the field. Null clears the value. */
+            value: string | number | boolean | Record<string, unknown> | unknown[] | null;
+            [key: string]: unknown;
+          }>;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_dde9e4618e {
     /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
     BrowseWixRESTDocsMenu(args: {
@@ -444865,6 +446147,30 @@ interface BowmarkSiteTools_e45453323b {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_e4561d7447 {
+    /** Retrieve the indexed text of one dawa.center record, using an id returned by `search` (for example `file:4820`). Note that many records hold only a short catalogue summary — often a few hundred characters — rather than the document body, and some hold no text at all; `metadata.text_source` tells you which you received. Do not present a summary as though you had read the document: cite the url and  */
+    fetch(args: {
+      /** A record id exactly as returned by `search`, in the form `entity:number`, e.g. `file:4820`. */
+      id: string;
+    }): Promise<unknown>;
+    /** Search the dawa.center document library of Islamic da'wah materials: books, articles, papers and research responding to common claims and objections. The library is overwhelmingly Arabic — an Arabic query will retrieve far more than an English one on the same topic, so prefer Arabic search terms even when answering in another language. Returns ids for use with `fetch`. For countries, Islamic centr */
+    search(args: {
+      /** Search terms or a natural-language question. Arabic gives markedly better recall than English. */
+      query: string;
+    }): Promise<unknown>;
+    /** Search dawa.center for one specific kind of record — Islamic centres, countries, religions and sects, languages or da'wah websites — or for documents with a chosen query language or a larger number of results. Same ranking as `search`, which covers the document library alone. The document collection is overwhelmingly Arabic — an Arabic query retrieves far more than an English one on the same topic */
+    search_filtered(args: {
+      /** Maximum results to return. Defaults to 5. */
+      limit?: number;
+      /** Search terms or a natural-language question. Arabic gives markedly better recall than English. */
+      query: string;
+      /** Language of the query, if known. Detected automatically when omitted; it selects the analysed fields searched, not a filter on results. */
+      language?: "ar" | "en" | "es" | "pt";
+      /** Which kind of record to search. `file` is the document library and is the default. The others are reference data. `all` searches every index at once and returns a mix of record types, which dilutes results for a topical question — use it only when you genuinely want several kinds of record back. */
+      collection?: "all" | "file" | "book" | "country" | "center" | "religion" | "link" | "language" | "people_group";
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_e4754db3be {
     /** Audit one Public Safety Incident's update links and associated processing decisions. */
     audit_incident_evidence(args: {
@@ -448224,680 +449530,6 @@ interface BowmarkSiteTools_e7d2988e2e {
     }): Promise<unknown>;
     /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_e7ed65e8b1 {
-    /** Who Alion takes your agent for (level: unverified, wallet, account, verified_company), whether it is active, paused or blocked and why, today's use against the limits, the 30-day reputation (delivered, replied, declined, reported, the reply and report rates) and how to rise a level. Moderation is automatic: reports from 3 people in 7 days pause messages for 7 days, a second pause in 90 days or rep */
-    agent_status(args?: {}): Promise<unknown>;
-    /** Before you deal with someone you do not know: who is behind a domain, a url, an email, a wallet or an agent. Answers the company Alion knows there (its card, whether it hires, when its site last answered, whether it is claimed), the agents registered for it, red flags (sanctions lists, a lookalike of a known company's domain, a public mail domain, a blocked agent) and a verdict - known_active, kno */
-    check_counterparty(args: {
-      /** A domain ("acme.com"), a url (a site, an MCP or A2A endpoint), an email, a wallet address (0x... or Solana) or an agent's handle. */
-      target: string;
-    }): Promise<unknown>;
-    /** Before a person applies, shares a passport or answers a recruiter: is the company real, any signs of a job scam, can it sponsor the person's visa, is it worth applying. Our own rules over public data, not a model: company registers and legal entities, the domain's age (RDAP), the website and its certificate, mail protection (SPF, DMARC), lookalike domains, OFAC and EU sanctions, the company's own  */
-    check_employer(args?: {
-      /** Optional: the job the person looks at - an Alion job id or an alion.io/job/... link (sets the company when company is left out). */
-      job?: string;
-      /** The employer: its web domain ("acme.com"), Alion id, exact name or any url on its site. */
-      company?: string;
-      /** Optional: a recruiter's email or chat message (20-8000 characters, with the sender's address when there is one) to check against the company. */
-      message?: string;
-      /** Build the report again although one from the last 30 days exists (charged again). */
-      refresh?: boolean;
-    }): Promise<unknown>;
-    /** Before you write: does the offer pass the person's own filters - the role they look for, their pay floor, the places and work modes they accept, and whether they take messages from agents of your level? Answers fits, the first reason it would come back (role_mismatch, pay_below_floor, location_mismatch, verified_companies_only, not_accepting_agents) with a hint, each check, and how many new agent  */
-    check_fit(args: {
-      /** The offer, as the person will read it. */
-      offer: {
-        /** The pay range. Required for a job offer: it is checked against the person's floor. */
-        pay?: {
-          max?: number;
-          min?: number;
-          period?: "year" | "month" | "week" | "day" | "hour";
-          /** ISO 4217, default USD. */
-          currency?: string;
-          [key: string]: unknown;
-        };
-        /** The vacancy page: an alion.io/job/... link or the company's own job board. */
-        url?: string;
-        /** Role family or specialisation ("Backend", "Data Engineer"); the title is read when it is left out. */
-        role?: string;
-        /** Job title, e.g. "Senior Perception Engineer". */
-        title?: string;
-        /** ISO 3166-1 alpha-2 codes of where the work is (or may be done from). */
-        countries?: string[];
-        work_mode?: "on_site" | "hybrid" | "remote";
-        employment_type?: "full_time" | "part_time" | "contractor" | "cofounder" | "freelance" | "internship";
-        [key: string]: unknown;
-      };
-      /** The person: their Alion handle (the "person" field of a search row), or an alion.io/user/<handle> or alion.io/@<handle> link. */
-      person: string;
-    }): Promise<unknown>;
-    /** What appeared in a watched search since the last check_watch (or since watch_search): new job postings, companies or people, newest first, in the compact shape of the search. Daily is enough. Free. Docs: https://alion.io/developers/docs */
-    check_watch(args: {
-      /** The w_... id watch_search gave. */
-      watch_id: string;
-    }): Promise<unknown>;
-    /** For a member of a company that claimed its Alion page, connected with that account: which purposes agents may write to the company about (sales, partnership, supplier, press, investment, candidate, support, other) and how many new agent messages a day it takes. An empty purposes list closes the company to agents. Free. Docs: https://alion.io/developers/docs */
-    company_inbox_settings(args: {
-      /** The company's domain or Alion id. */
-      company: string;
-      /** New agent messages a day. */
-      day_cap?: number;
-      /** The purposes it takes. */
-      purposes?: Array<"sales" | "partnership" | "supplier" | "press" | "investment" | "candidate" | "support" | "other">;
-    }): Promise<unknown>;
-    /** Write to a company through Alion: purpose (sales, partnership, supplier, press, investment, candidate, support, other), an optional subject and the message (30-2000 characters), and on whose behalf. A company that claimed its Alion page gets it in its Alion messages by the rules it set (which purposes, how many a day) and answers there - you hear by webhook (inquiry.replied) or with inquiry_id. A  */
-    contact_company(args?: {
-      /** The company: its domain ("acme.com"), Alion id or exact name. */
-      company?: string;
-      /** 30-2000 characters, to the people of the company. */
-      message?: string;
-      /** Why you write. */
-      purpose?: "sales" | "partnership" | "supplier" | "press" | "investment" | "candidate" | "support" | "other";
-      /** A short subject line. */
-      subject?: string;
-      /** A ci_... id from an earlier call: its state and the answers. */
-      inquiry_id?: string;
-      /** Who the message is from. A company on Alion named here must be the one your agent verified. */
-      on_behalf_of?: {
-        name?: string;
-        company?: string;
-        company_domain?: string;
-        [key: string]: unknown;
-      };
-    }): Promise<unknown>;
-    /** Stop watching a search: the watch and what it remembered are deleted, and check_watch answers not_found for it. Free. Docs: https://alion.io/developers/docs */
-    delete_watch(args: {
-      /** The w_... id watch_search gave. */
-      watch_id: string;
-    }): Promise<unknown>;
-    /** Suggest a change to the signed-in account's profile: a skill to add, a salary floor or a headline. Nothing changes: the draft waits in the person's Agents settings with your reason, and only they can accept it. Free. Docs: https://alion.io/developers/docs */
-    draft_profile_change(args: {
-      /** skill, salary_min or headline. */
-      kind: "skill" | "salary_min" | "headline";
-      /** The skill name, the yearly floor in USD, or the headline. */
-      value: string;
-      /** One line the person reads: why you suggest it. */
-      reason: string;
-    }): Promise<unknown>;
-    /** One registered agent by its handle, the url of its MCP or A2A endpoint or homepage, or the domain of its company: what it does, who it acts for and whether that link is proven, its level (unverified, wallet, signed, account, verified_company), its state, its endpoints and a trust score with the facts behind it (age, people's answers and reports in 30 days, pauses). Free. Docs: https://alion.io/dev */
-    get_agent(args: {
-      /** A handle, an endpoint url or a company domain. */
-      agent: string;
-    }): Promise<unknown>;
-    /** Everything Alion knows about one company, for due diligence or account research: identity (domain, description, founded, size with confidence), headquarters and offices, industries, public links, the ATS board and its last check, live hiring (open roles, added and closed in 30/90 days, velocity, top roles, hiring countries, nine weeks of history, pay), the technology stack from its postings, fundi */
-    get_company(args?: {
-      /** Alion company id. */
-      id?: number;
-      /** Any url on the company site or its job board, or its alion.io/company/... page. */
-      url?: string;
-      /** Company name as written; matched like resolve_company, so prefer the domain when you have it. */
-      name?: string;
-      /** Company web domain, e.g. "stripe.com" (the most exact way to name a company). */
-      domain?: string;
-      /** Extra slices, a comma list: products, tech, funding, hiring, offices, pay, visa, legal_entity, headcount_history, traction, apps, lists, assets, hire_profile, news, money, ownership, record, financials, innovation, competitors, buying_windows; or "standard", "premium", "all"; or "summary" for the card and available_slices only. */
-      slices?: string;
-    }): Promise<unknown>;
-    /** The money ledger of one company, newest first, up to 200 rows a call: rounds and other equity, debt, grants, public contracts won, customers' contracts, acquisitions and stakes bought, capital spending, supply deals, revenue as stated, lobbying, taxes and payroll where filed - each row with its kind, direction (in/out), stage (announced, signed, paid, estimate), the counterparty (a person reads "I */
-    get_company_money(args: {
-      /** One kind or a comma list: revenue, equity, donation, debt, grant, public_contract, contract_won, invested_in, sold, secondary, dividend, buyback, supply, capex, acquisition, investment, tax, payroll, lobbying, political, settlement, revenue_share, grant_given, lease. */
-      kind?: string;
-      /** Rows a call (1-200). */
-      limit?: number;
-      /** Only rows dated after this point: an ISO date or a window ("1y", "6m"). */
-      since?: string;
-      /** next_offset of the previous call. */
-      offset?: number;
-      /** The company: its domain ("openai.com"), Alion id or name. */
-      company: string;
-      /** Only rows of at least this many US dollars. */
-      min_usd?: number;
-      /** in = money the company takes, out = money it pays. */
-      direction?: "in" | "out";
-    }): Promise<unknown>;
-    /** Who owns a company and what it is made of: every registered legal entity with its form, country, status, role (operator, subsidiary, branch) and registration numbers; its identifiers (LEI, Companies House, SEC CIK, Wikidata); the GLEIF group (parent, ultimate parent, entities in the group); the organisations holding a stake with their share and the register that says so (persons holding a stake ar */
-    get_company_ownership(args: {
-      /** Rows a list (entities, owners, subsidiaries, deals), 1-200. */
-      limit?: number;
-      /** The company: its domain, Alion id or name. */
-      company: string;
-    }): Promise<unknown>;
-    /** The public record of a company for a counterparty or vendor check: the status of its operating entity in the register, US federal court cases with an organisation on the other side (side, nature, filed, closed, docket link), regulators' fines, recalls and warning letters, insolvency notices (UK Gazette, BODACC), US political spending by cycle (employees and the company PAC, by party), greenhouse-g */
-    get_company_record(args: {
-      /** Rows a list (cases, regulators, notices), 1-200. */
-      limit?: number;
-      /** The company: its domain, Alion id or name. */
-      company: string;
-    }): Promise<unknown>;
-    /** The status of your message (delivered, queued, returned, expired, replied, declined) and the conversation with the person, oldest first. Pass since_message (the last id you saw) to get only what is new. Docs: https://alion.io/developers/docs */
-    get_conversation(args?: {
-      /** The am_... id send_message gave. */
-      message_id?: string;
-      /** The id of the last message you saw: only newer ones come back. */
-      since_message?: number;
-      /** The c_... id send_message gave (or message_id instead). */
-      conversation_id?: string;
-    }): Promise<unknown>;
-    /** The monthly data indices Alion publishes from the live postings on employers' own career sites, each with a page per country, employer, technology or day: AI hiring, remote openness by country, every employer's hiring report (100+ open roles), hiring of the companies in the news, return to office, entry-level jobs, pay transparency, tech skills demand, hiring after a funding round, the weekly hiri */
-    get_index(args?: {
-      /** The index code, e.g. "ai-hiring", "remote-openness", "company-hiring", "hiring-movers", "hiring-news", "return-to-office", "entry-level", "pay-transparency", "tech-skills", "funded-hiring", "hiring-pulse", "visa-sponsorship", "ghost-jobs". Omit for the list. */
-      index?: string;
-      /** One page of the edition: a country, employer, technology, stage or day, by slug or name ("germany", "anthropic", "c-sharp", "series-a", "2026-11-12"). */
-      slice?: string;
-      /** An edition month, yyyy-mm; the newest when omitted. */
-      period?: string;
-    }): Promise<unknown>;
-    /** One investor in full - for a fundraising shortlist, a co-investor check or due diligence on a fund: everything search_investors returns (type, office, sectors, stages and countries of the portfolio with their shares, counts, activity, the freshest rounds of the portfolio with the role it played, a claimed fund's thesis, cheque and pitch address) plus its own description, the portfolio's venture ro */
-    get_investor(args?: {
-      /** Alion company id of the investor (from search_investors). */
-      id?: number;
-      /** Any url on its site, or its alion.io/company/... page. */
-      url?: string;
-      /** The investor's name as written, e.g. "Index Ventures". */
-      name?: string;
-      /** The investor's web domain, e.g. "sequoiacap.com". */
-      domain?: string;
-    }): Promise<unknown>;
-    /** The full record of one posting: everything search_jobs returns plus the description (plain text by default, html on request), the complete technology list, requirements (experience, management, education, languages, clearance), benefits, where the hire may and may not live for remote roles, the industries, the lifecycle journal (open / close / reopen / expire events with UTC stamps) and the trust  */
-    get_job(args?: {
-      /** Alion job id. */
-      id?: number;
-      /** An alion.io/job/... link, its slug, or the original posting url. */
-      url?: string;
-      /** Cut the plain-text description to this many characters to save context (description_truncated tells). Leave it out for the full text. */
-      max_chars?: number;
-      /** The posting description as plain text (default) or as the employer's html. */
-      description_format?: "text" | "html";
-    }): Promise<unknown>;
-    /** The open profile of one person, as their privacy settings show it to an agent of your trust level: headline, roles, summary, skills with years and level, work history (employers, titles, dates, descriptions, technologies), projects, education, languages, the countries they may work in, what they want (availability, work modes, relocation, kind of work, places, markets, start, pay), work links (Git */
-    get_person(args: {
-      /** The person: their Alion handle (the "person" field of a search row), or an alion.io/user/<handle> or alion.io/@<handle> link. */
-      person: string;
-    }): Promise<unknown>;
-    /** Your agent's messages to people, newest first, with their status and the last activity. Pass since (ISO date) for what changed since your last look. Docs: https://alion.io/developers/docs */
-    list_conversations(args?: {
-      /** ISO date: only conversations with activity since then. */
-      since?: string;
-    }): Promise<unknown>;
-    /** The watched searches of this agent: id, kind, label, filters, when created and last checked. Free. Docs: https://alion.io/developers/docs */
-    list_watches(args?: {}): Promise<unknown>;
-    /** Aggregate statistics for a slice of the job market in one call: how much X earns in Y, how many companies hire X, whether demand grows, who hires most, how fast such roles close. Takes the search_jobs filters plus window_days and returns: open postings and hiring companies; new postings in 30 days against the 30 before (trend_30d_pct); work-mode and seniority mix; salary p10-p90 in USD a year, sta */
-    market_stats(args?: {
-      /** City name prefix. */
-      city?: string;
-      /** Role or role family by name, e.g. "Backend", "Data Engineer", "Product Manager". */
-      role?: string;
-      /** Free-text words that must appear in the title or description. */
-      query?: string;
-      /** One employer by id, domain or exact name. */
-      company?: string;
-      /** ISO 3166-1 alpha-2 code or country name. */
-      country?: string;
-      /** Industry of the posting or its employer, e.g. "Fintech", "Real Estate". */
-      industry?: string;
-      /** Seniority of the role: intern, junior, middle, senior, staff, lead or head. */
-      seniority?: "intern" | "junior" | "middle" | "senior" | "staff" | "lead" | "head";
-      /** Where the work happens: on_site, hybrid or remote. */
-      work_mode?: "on_site" | "hybrid" | "remote";
-      /** Only postings that offer equity. */
-      has_equity?: boolean;
-      /** A required technology, e.g. "Rust", "Kubernetes". */
-      technology?: string;
-      /** How far back the salary and time-to-fill samples reach (postings first seen in the window). */
-      window_days?: number;
-      /** Minimum annual pay in USD: a stated range whose top reaches it, or an estimate whose midpoint does. */
-      salary_min_usd?: number;
-      /** Kind of engagement: full_time, part_time, contractor, cofounder, freelance or internship. */
-      employment_type?: "full_time" | "part_time" | "contractor" | "cofounder" | "freelance" | "internship";
-      /** Include postings by staffing agencies and intermediaries (left out by default). */
-      include_agencies?: boolean;
-      /** Only postings that state visa sponsorship. */
-      visa_sponsorship?: boolean;
-    }): Promise<unknown>;
-    /** The best people for one vacancy: pass job_id or job_url of an Alion vacancy, or describe it (role, technology as a comma list, country / can_work_in, work_mode, seniority, budget_usd). The role and the place are hard filters; the technologies rank the people by how many of them they have, and each row says which (why). Use it when you hire for a concrete role; search_people when you browse. Free;  */
-    match_people(args?: {
-      /** City in English. */
-      city?: string;
-      /** Role family or specialisation, e.g. "Backend", "Data Engineer", "Product Manager" (alion://dictionaries/role-families). */
-      role?: string;
-      /** best_match (default), recent_activity (last active first) or experience (most years first). */
-      sort?: "best_match" | "recent_activity" | "experience";
-      /** People per page (1-20, default 10). */
-      limit?: number;
-      /** Free words over titles, summaries, employers and skills ("computer vision drones"). */
-      query?: string;
-      /** next_cursor of the previous page (a search does not page past row 100). */
-      cursor?: string;
-      /** An Alion job id. */
-      job_id?: number;
-      /** Worked (or works) at this company: name or domain. */
-      company?: string;
-      /** Where the person lives: ISO 3166-1 alpha-2 code. */
-      country?: string;
-      /** An alion.io/job/... link. */
-      job_url?: string;
-      /** What the person says they are open to here: a job, freelance projects, a CTO role, a co-founder, angel investing. */
-      open_to?: "job" | "freelance" | "cto" | "cofounder" | "angel";
-      /** The minimum degree. */
-      education?: "bachelor" | "master" | "phd";
-      /** Spoken languages, a comma list ("German, French"); all required. */
-      languages?: string;
-      /** Years with each named technology (or in total when none is named). */
-      min_years?: number;
-      /** One or a comma list: intern, junior, middle, senior, staff, principal, lead, head, architect. */
-      seniority?: string;
-      /** A work mode the person accepts. */
-      work_mode?: "on_site" | "hybrid" | "remote";
-      /** The most the role pays a year in USD: people who expect more are left out. */
-      budget_usd?: number;
-      /** Only people with their GitHub on the profile. */
-      has_github?: boolean;
-      /** Only people open to relocation. */
-      relocation?: boolean;
-      /** Technologies the person must have, a comma list ("Python, PostgreSQL"); every one is required. */
-      technology?: string;
-      /** A country the person may work in (lives there, holds a permit or citizenship): ISO code. */
-      can_work_in?: string;
-      /** actively_looking only, or everyone open to offers (the default). */
-      availability?: "actively_looking" | "open_to_offers";
-      /** The minimum English level. */
-      english_level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
-      /** A kind of work the person takes. */
-      employment_type?: "full_time" | "part_time" | "contractor" | "freelance" | "cofounder" | "internship";
-      /** Only people active on Alion in this many days. */
-      active_within_days?: number;
-    }): Promise<unknown>;
-    /** The job postings Alion matched to the signed-in account's profile (its /matches feed), newest first: the compact posting with when it was matched and whether the person already saw it on the site. For an assistant a person connected to their own Alion account (OAuth or an API key); without an account it answers account_required. Free. Docs: https://alion.io/developers/docs */
-    my_matches(args?: {
-      /** How many matches to return (1-20, default 10). */
-      limit?: number;
-    }): Promise<unknown>;
-    /** Describe your agent so others can find and check it: its name, what it does, who it acts for (a person, a company, nobody), the company's domain, its capabilities and where it answers (MCP, A2A, a homepage). Registered agents are what get_agent and check_counterparty return. A company link shows on the company's Alion page only when it is proven: your requests signed with Web Bot Auth from a key d */
-    register_agent(args: {
-      /** What the agent is called, e.g. "Acme sourcing agent". */
-      name: string;
-      /** The handle you want (letters, digits, dashes); kept once given. */
-      handle?: string;
-      /** Its A2A endpoint or agent card (https). */
-      a2a_url?: string;
-      /** Its MCP endpoint (https). */
-      mcp_url?: string;
-      /** Its homepage (https). */
-      homepage?: string;
-      /** Who it acts for. */
-      principal?: "none" | "person" | "company";
-      /** What it does, in a sentence or three. */
-      description?: string;
-      /** What it can do, e.g. ["sourcing", "outreach", "scheduling"]. */
-      capabilities?: string[];
-      /** The company it acts for, by its web domain. */
-      company_domain?: string;
-    }): Promise<unknown>;
-    /** Tell Alion what went wrong: a bug, wrong or missing data, an unclear answer, abuse. Name the tool and the arguments you sent and what came back. A person reads every report. Free; 20 a day. Docs: https://alion.io/developers/docs */
-    report_problem(args: {
-      /** What kind of problem. */
-      kind: "bug" | "wrong_data" | "missing_data" | "unclear" | "abuse" | "other";
-      /** What you called, what you expected and what came back. */
-      text: string;
-      /** The tool it is about. */
-      tool?: string;
-      /** The arguments you sent. */
-      arguments?: Record<string, unknown>;
-    }): Promise<unknown>;
-    /** Find the company record behind a domain, a url or a name and learn whether it is alive: its Alion id, canonical domain, industry, size band, headquarters, ATS vendor, how many jobs are open, when the site and the job board were last verified, and coverage - ats_board when its own job board is read directly, partial when only feeds and career pages reach us (open-job counts are then a lower bound). */
-    resolve_company(args?: {
-      /** Any url on the company site or its job board. */
-      url?: string;
-      /** Company name as written. */
-      name?: string;
-      /** Any of the above when you are not sure which it is. */
-      query?: string;
-      /** Company web domain, e.g. "stripe.com". */
-      domain?: string;
-      /** A registration number: LEI, SEC CIK, Companies House number, Wikidata QID, VAT, SIREN, INN, OGRN, EIN... bare or with its scheme ("lei:5493001KJTIIGC8Y1R12", "cik:1652044"). */
-      identifier?: string;
-    }): Promise<unknown>;
-    /** Find companies in Alion's live graph (millions worldwide, one per web domain) by name or domain prefix, office country, size, industry or frontier sector, founding year, startup or not, funding stage, rounds since a date, minimum round, a named investor, a technology from its job postings, ATS vendor, hiring now, and growth (hiring_level A-C) or AI-adoption level. For market maps, competitor and p */
-    search_companies(args?: {
-      /** ATS vendor name, e.g. "Greenhouse", "Lever", "Workday", "SmartRecruiters". */
-      ats?: string;
-      /** On a list, ranking or programme by name: "unicorn", "Hurun", "FT 1000", "Inc. 5000", "Future 100", "Skolkovo", "Astana Hub"... */
-      list?: string;
-      /** Employee band or a comma list of bands: 1-10, 11-50, 51-200, 201-500, 501-1000, 1001-5000, 5000+. */
-      size?: string;
-      /** recent_hiring (default), recent_funding (the newest matching round first), open_jobs, score, newest (newest in the graph), name. */
-      sort?: "recent_hiring" | "open_jobs" | "score" | "newest" | "name" | "recent_funding";
-      /** Companies per page (1-50, default 20). */
-      limit?: number;
-      /** Name prefix ("Acme") or domain prefix ("acme."). */
-      query?: string;
-      /** Opaque cursor from a previous response (next_cursor). */
-      cursor?: string;
-      /** "compact" keeps id, name, domain, industry, size, headquarters country, founding year, open jobs and the newest round. */
-      detail?: "standard" | "compact";
-      /** true = has open roles now, false = none open. */
-      hiring?: boolean;
-      /** true = listed on a stock exchange (has a ticker), false = not listed. */
-      listed?: boolean;
-      /** A frontier-tech sector (one or a comma list): biotech, medtech, space, aerospace, semiconductors, energy, climate, defense, robotics, quantum, automotive, science - the companies whose core business it is; with hiring=true or sort=recent_hiring, who is hiring in it now. */
-      sector?: string;
-      /** ISO 3166-1 alpha-2 code or country name of an office on file. */
-      country?: string;
-      /** true = companies Alion classifies as startups (confirmed or likely), false = everyone else. */
-      startup?: boolean;
-      /** Minimum AI-adoption level from the roles the company hires for. */
-      ai_level?: "A" | "B" | "C";
-      /** Industry or segment by name, e.g. "Fintech", "Healthcare", "E-commerce". */
-      industry?: string;
-      /** A fund, angel network or accelerator by domain ("sequoiacap.com", "ycombinator.com") or name: the companies in its portfolio and the rounds it is named in. */
-      investor?: string;
-      /** Founded in this year or earlier. */
-      founded_to?: number;
-      /** A technology the company requires in its job postings, named exactly (one or a comma list), e.g. "Snowflake", "Kubernetes". */
-      technology?: string;
-      /** Only companies with patents or patent applications on file. */
-      has_patents?: boolean;
-      /** Only companies whose open Buying windows lead to a purchase of this category (rec recruitment, legal, acc accounting, ins insurance, it IT services, sec security, saas software, mkt marketing, cons consulting ...). Combine with buying_signal for "why". */
-      about_to_buy?: "rec" | "eor" | "legal" | "acc" | "bank" | "ins" | "re" | "it" | "sec" | "saas" | "data" | "mkt" | "loc" | "cons" | "ma" | "esg" | "bid" | "ind" | "med" | "edu" | "log";
-      /** Founded in this year or later, e.g. 2022. */
-      founded_from?: number;
-      /** Minimum growth-signal level from its hiring (A is the strongest). */
-      hiring_level?: "A" | "B" | "C";
-      /** Only companies with a matching round announced after this point: an ISO date ("2026-01-01") or a window ("90d", "6m", "1y"). Without funding_stage it means any venture round. */
-      raised_since?: string;
-      /** Only companies with an open Buying window of this kind - a dated change that opens purchases: funding (a round, a deal, an asset), hiring (a function scaled or stuck), leadership (a new executive), expansion (a new country or office), programme (a build-out, a product or technology programme), public_contract (a contract won, ending or tendered), risk (regulation, legal, ESG), other. The window wi */
-      buying_signal?: "funding" | "hiring" | "leadership" | "expansion" | "programme" | "public_contract" | "risk" | "other";
-      /** One round or a comma list: pre_seed, seed, angel, series_a ... series_h, venture, grant, debt, private_equity, ipo, acquired; or a group: early (pre-seed to series A), growth (series B to H), venture (any venture round). Matches companies with such a round on file. */
-      funding_stage?: string;
-      /** At most this many employees, as above. */
-      headcount_max?: number;
-      /** At least this many employees as a named source (a register, a filing, the site) stated in the last three years. */
-      headcount_min?: number;
-      /** Only companies with at least this many open job postings now. */
-      min_open_jobs?: number;
-      /** Only companies with a matching round of at least this many US dollars. */
-      min_round_usd?: number;
-      /** Revenue on file of at least this many US dollars (an estimate or a stated figure of the last three years). */
-      revenue_min_usd?: number;
-      /** Include staffing and recruiting agencies (left out by default). */
-      include_agencies?: boolean;
-      /** Only companies sponsoring or running clinical trials. */
-      has_clinical_trials?: boolean;
-      /** Only companies that won public contracts (the tender graph); search_contracts lists them. */
-      has_public_contracts?: boolean;
-    }): Promise<unknown>;
-    /** What changed at companies, newest first: funding rounds, new countries and offices, technologies taken up or dropped, hiring spikes, a size band up, ATS adopted, leadership hires, first roles, hiring freezes and layoffs, launches, partnerships and customers won, awards, acquisitions, renames, accelerator batches, and Buying windows opened (a dated reason to buy). Across the graph narrowed by count */
-    search_company_events(args?: {
-      /** Employee band or a comma list: 1-10, 11-50, 51-200, 201-500, 501-1000, 1001-5000, 5000+. */
-      size?: string;
-      /** One type or a comma list: funding_round, geo_expansion, office_opened, technology_added, technology_dropped, hiring_spike, size_up, ats_adopted, leadership_hire, first_role, hiring_freeze, layoff, product_launch, partnership, customer_won, award, acquisition, acquired, shutdown, renamed, accelerator, role_open_45d, role_open_90d, buying_window_opened. Default: all but the role_open_* ones. */
-      type?: string;
-      /** Events a page. */
-      limit?: number;
-      /** An ISO date or a window ("24h", "7d", "2w"); at most 90 days back, default 7 days. */
-      since?: string;
-      /** next_cursor of the previous page; keep the other arguments identical. */
-      cursor?: string;
-      /** Only these companies: a domain, id or name, or a comma list of up to 100. */
-      company?: string;
-      /** Headquarters country: ISO code or a comma list. */
-      country?: string;
-      /** Industry by name, e.g. "Fintech", or a comma list. */
-      industry?: string;
-      /** Only how many events match (free). */
-      count_only?: boolean;
-    }): Promise<unknown>;
-    /** Public procurement from the tender graph (TED, USAspending and national portals, millions of notices and awards): pass company= for the contracts a company won (its own share of each, newest first), buyer= for the tenders a public body put out, ending_within= for contracts whose term ends soon (who is about to re-tender and whose client may go), or country= for a country's notices. Narrow with sta */
-    search_contracts(args?: {
-      /** A public buyer: its domain, id or name - the tenders it put out. */
-      buyer?: string;
-      /** Rows a page. */
-      limit?: number;
-      /** Words that must appear in the title. */
-      query?: string;
-      /** Published after this point: an ISO date or a window ("90d"). */
-      since?: string;
-      /** next_cursor of the previous page; keep the other arguments identical. */
-      cursor?: string;
-      /** The notice status; "open" also needs the deadline ahead. */
-      status?: "planned" | "open" | "closed" | "awarded" | "cancelled" | "complete";
-      /** A supplier: its domain, id or name - the contracts it won. */
-      company?: string;
-      /** ISO code of the country of the notice. */
-      country?: string;
-      /** A CPV or UNSPSC code prefix, e.g. "72" (IT services) or "722". */
-      category?: string;
-      /** Only how many match (free). */
-      count_only?: boolean;
-      /** Contracts whose term ends within this window: "90d", "6m", "1y". */
-      ending_within?: string;
-      /** At least this value in USD (the award's with company=). */
-      min_value_usd?: number;
-    }): Promise<unknown>;
-    /** Find the funds, accelerators, angel networks, corporate investors and PE firms behind startups worldwide (a few thousand, portfolios read from their own sites) by type, portfolio sector (15%+ of its companies), entry stage, where they invest (a country or continent, 10%+), office country, activity (portfolio_rounds_90d, leads_rounds, named_in_rounds), portfolio hiring, exits, open to pitches, port */
-    search_investors(args?: {
-      /** active = portfolio rounds in 90 days (default), leads = rounds led in 12 months, hiring = portfolio companies hiring, largest = portfolio size. */
-      sort?: "active" | "leads" | "hiring" | "largest";
-      /** One or a comma list of: vc, accelerator, angels, corporate, pe, family_office, other. */
-      type?: string;
-      /** Investors per page (1-50, default 20). */
-      limit?: number;
-      /** Words of the investor's name, e.g. "sequoia", "index". */
-      query?: string;
-      /** One or a comma list of: seed, series_a, series_b, growth (15%+ of its entries). */
-      stage?: string;
-      /** Opaque cursor from a previous response (next_cursor). Keep every other argument identical. */
-      cursor?: string;
-      /** "compact" keeps id, name, domain, type, office country, portfolio size, rounds in 90 days, rounds led and companies hiring. */
-      detail?: "standard" | "compact";
-      /** One or a comma list of top-level markets of the portfolio: "AI", "Fintech", "Software", "Health Care", "Cybersecurity", "Biotechnology"... (15%+ of its companies). */
-      sector?: string;
-      /** portfolio_rounds_90d: its portfolio raised in 90 days; leads_rounds: a round named it the lead in 12 months; named_in_rounds: a round named it in 12 months. */
-      activity?: "portfolio_rounds_90d" | "leads_rounds" | "named_in_rounds";
-      /** Only investors with exits (portfolio companies listed or acquired). */
-      has_exits?: boolean;
-      /** The country of the investor's own office: ISO 3166-1 alpha-2 or a name. */
-      hq_country?: string;
-      /** Where its portfolio is: ISO country codes or names, or a continent (europe, north_america, south_america, asia, africa, oceania); a comma list matches any. */
-      invests_in?: string;
-      /** At least this many portfolio companies. */
-      min_portfolio?: number;
-      /** Only funds that claimed their page and say they take pitches. */
-      open_to_pitches?: boolean;
-      /** Only investors whose portfolio companies hire now. */
-      portfolio_hiring?: boolean;
-    }): Promise<unknown>;
-    /** Search live or recently closed job postings read from employers' own ATS boards, career pages and partner feeds worldwide (strong in Europe, the Gulf, Central Asia and remote roles). Each row: employer, role family, seniority, work mode, locations (ISO codes; a remote role adds hiring_countries), the stated salary or a USD estimate with its method, required technologies, first seen and last verifi */
-    search_jobs(args?: {
-      /** City in English, e.g. "Berlin", "Dubai", "Almaty"; "NYC", "Bay Area", "Munich/München" are understood. An unknown city is refused with suggestions. */
-      city?: string;
-      /** A role family ("Backend", "Data Science", "AI/ML") or a specialisation ("Data Engineer", "Product Manager"); a family covers its specialisations (alion://dictionaries/role-families). filters_applied.role shows the match. */
-      role?: string;
-      /** "date" = newest first (default), "salary" = highest pay first. */
-      sort?: "date" | "salary";
-      /** Postings per page (1-50, default 20). */
-      limit?: number;
-      /** Free text over titles and descriptions, e.g. "python backend kubernetes": matched as a phrase first, else every word anywhere (filters_applied.query_match says which). An exact employer name returns its postings. */
-      query?: string;
-      /** Opaque cursor from a previous response (next_cursor). Keep every other argument identical. */
-      cursor?: string;
-      /** "compact" returns about a third of each row (who, what, where, pay, when, trust) - use it to scan many rows; "standard" adds requirements, locations, verification facts and a 280-character description snippet. */
-      detail?: "standard" | "compact";
-      /** A frontier-tech sector or a comma list: biotech, medtech, space, aerospace, semiconductors, energy, climate, defense, robotics, quantum, automotive, science - its trades at any employer and the technical roles of companies built on it (no sales or back office). */
-      sector?: string;
-      /** "closed" returns postings confirmed closed on the employer board (with closed_at), useful for time-to-fill and churn analysis. */
-      status?: "live" | "closed" | "all";
-      /** Restrict to one employer: its Alion company id, domain ("stripe.com") or exact name. */
-      company?: string;
-      /** ISO 3166-1 alpha-2 code (preferred) or country name. Matches the office country, the posting country, or the hiring country of a remote role when the posting states it (hiring_geo_confidence structured or explicit). */
-      country?: string;
-      /** The industry of the posting or its employer, e.g. "Fintech", "Real Estate", "Gaming", "Healthcare" (the industries resource lists them). Every role at those employers; combine with role for one kind of job. */
-      industry?: string;
-      /** Seniority of the role: intern, junior, middle, senior, staff, lead or head. */
-      seniority?: "intern" | "junior" | "middle" | "senior" | "staff" | "lead" | "head";
-      /** Where the work happens: on_site, hybrid or remote. */
-      work_mode?: "on_site" | "hybrid" | "remote";
-      /** Only postings that offer equity. */
-      has_equity?: boolean;
-      /** A technology that must be among the requirements, e.g. "Go", "PostgreSQL", "React". A language also matches its frameworks. */
-      technology?: string;
-      /** Only postings whose stated yearly pay reaches the posting country's work-permit salary floor (EU Blue Card in DE, FR, ES, PL, AT, CZ, FI, LU, SE, EE; Dutch highly skilled migrant; Irish Critical Skills; Danish Pay Limit; Singapore Employment Pass; Korean E-7). Postings without a stated salary are excluded. */
-      visa_salary?: boolean;
-      /** Only postings first seen after this point: an ISO date ("2026-09-01") or a relative window ("24h", "7d", "2w"). */
-      posted_since?: string;
-      /** Only employers in the official visa sponsor registers of the posting's country (UK licensed sponsors, US H-1B/PERM, Dutch IND, Canadian LMIA, Irish employment permits, Danish Fast-track, Australian labour agreements), on-site roles of direct employers in the Gulf states (where the employer arranges the work visa by law), or adverts that offer sponsorship; adverts ruling it out are excluded. */
-      visa_sponsor?: boolean;
-      /** Minimum annual pay in USD: a stated range whose top reaches it, or - when nothing is stated - an estimate whose midpoint does. */
-      salary_min_usd?: number;
-      /** Kind of engagement: full_time, part_time, contractor, cofounder, freelance or internship. */
-      employment_type?: "full_time" | "part_time" | "contractor" | "cofounder" | "freelance" | "internship";
-      /** Include postings by staffing and recruiting agencies and by intermediaries (job boards, talent marketplaces). */
-      include_agencies?: boolean;
-      /** Only postings that state visa sponsorship. */
-      visa_sponsorship?: boolean;
-    }): Promise<unknown>;
-    /** Find people on Alion for a role - engineers, data and product people, designers, founders - by role, technologies (with years), seniority, country, the countries they may work in, work mode, relocation, languages, English level, kind of work, availability, budget, degree, past employer or free words; at least one of role, technology, query or company is required. Each row is a short card: handle,  */
-    search_people(args?: {
-      /** City in English. */
-      city?: string;
-      /** Role family or specialisation, e.g. "Backend", "Data Engineer", "Product Manager" (alion://dictionaries/role-families). */
-      role?: string;
-      /** best_match (default), recent_activity (last active first) or experience (most years first). */
-      sort?: "best_match" | "recent_activity" | "experience";
-      /** People per page (1-20, default 10). */
-      limit?: number;
-      /** Free words over titles, summaries, employers and skills ("computer vision drones"). */
-      query?: string;
-      /** next_cursor of the previous page (a search does not page past row 100). */
-      cursor?: string;
-      /** Worked (or works) at this company: name or domain. */
-      company?: string;
-      /** Where the person lives: ISO 3166-1 alpha-2 code. */
-      country?: string;
-      /** What the person says they are open to here: a job, freelance projects, a CTO role, a co-founder, angel investing. */
-      open_to?: "job" | "freelance" | "cto" | "cofounder" | "angel";
-      /** The minimum degree. */
-      education?: "bachelor" | "master" | "phd";
-      /** Spoken languages, a comma list ("German, French"); all required. */
-      languages?: string;
-      /** Years with each named technology (or in total when none is named). */
-      min_years?: number;
-      /** One or a comma list: intern, junior, middle, senior, staff, principal, lead, head, architect. */
-      seniority?: string;
-      /** A work mode the person accepts. */
-      work_mode?: "on_site" | "hybrid" | "remote";
-      /** The most the role pays a year in USD: people who expect more are left out. */
-      budget_usd?: number;
-      /** Only people with their GitHub on the profile. */
-      has_github?: boolean;
-      /** Only people open to relocation. */
-      relocation?: boolean;
-      /** Technologies the person must have, a comma list ("Python, PostgreSQL"); every one is required. */
-      technology?: string;
-      /** A country the person may work in (lives there, holds a permit or citizenship): ISO code. */
-      can_work_in?: string;
-      /** actively_looking only, or everyone open to offers (the default). */
-      availability?: "actively_looking" | "open_to_offers";
-      /** The minimum English level. */
-      english_level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
-      /** A kind of work the person takes. */
-      employment_type?: "full_time" | "part_time" | "contractor" | "freelance" | "cofounder" | "internship";
-      /** Only people active on Alion in this many days. */
-      active_within_days?: number;
-    }): Promise<unknown>;
-    /** Write to a person in their Alion messages. The first message is an offer: purpose, the job (title, pay, places, work mode), on whose behalf, why this person (a fact of their profile) and the text (30-2000 characters, in their language). Delivered only if it passes the person's filters and the rules, else returned at once, unseen, with a reason and a hint: role_mismatch, pay_below_floor, location_m */
-    send_message(args?: {
-      /** The offer, as the person will read it. */
-      job?: {
-        /** The pay range. Required for a job offer: it is checked against the person's floor. */
-        pay?: {
-          max?: number;
-          min?: number;
-          period?: "year" | "month" | "week" | "day" | "hour";
-          /** ISO 4217, default USD. */
-          currency?: string;
-          [key: string]: unknown;
-        };
-        /** The vacancy page: an alion.io/job/... link or the company's own job board. */
-        url?: string;
-        /** Role family or specialisation ("Backend", "Data Engineer"); the title is read when it is left out. */
-        role?: string;
-        /** Job title, e.g. "Senior Perception Engineer". */
-        title?: string;
-        /** ISO 3166-1 alpha-2 codes of where the work is (or may be done from). */
-        countries?: string[];
-        work_mode?: "on_site" | "hybrid" | "remote";
-        employment_type?: "full_time" | "part_time" | "contractor" | "cofounder" | "freelance" | "internship";
-        [key: string]: unknown;
-      };
-      /** The person: their Alion handle (the "person" field of a search row), or an alion.io/user/<handle> or alion.io/@<handle> link. */
-      person?: string;
-      /** 30-2000 characters. Contacts are never asked in a first message. */
-      message?: string;
-      /** Why you write; job_offer (the default) needs job with its pay. */
-      purpose?: "job_offer" | "freelance" | "cofounder" | "consulting" | "interview" | "other";
-      /** ISO date the offer waits for an answer until (default 14 days, at most 60). */
-      reply_by?: string;
-      /** Who the message is from. A company named must be the one your agent verified (verify_company). */
-      on_behalf_of?: {
-        /** The person the candidate would talk to. */
-        name?: string;
-        title?: string;
-        company?: string;
-        company_domain?: string;
-        [key: string]: unknown;
-      };
-      /** To continue a conversation you have: its id and message only. */
-      conversation_id?: string;
-      /** Your key for this message: a repeat with the same key answers the first outcome. */
-      idempotency_key?: string;
-      /** One or two sentences: a fact of the profile (a skill, an employer, a project, a school) and why it matters for this offer. */
-      why_this_person?: string;
-    }): Promise<unknown>;
-    /** A public https url that receives your agent's events as signed POSTs: message.delivered, message.replied (with the text), message.declined, message.returned, message.expired, agent.paused, agent.blocked. The answer gives the secret for the X-Alion-Signature HMAC once. Pass an empty url to remove it. Docs: https://alion.io/developers/docs */
-    set_webhook(args: {
-      /** A public https url, or "" to remove the webhook. */
-      url: string;
-    }): Promise<unknown>;
-    /** Lookalikes of one company: the companies that share its industry segments, the technologies its job postings name, its headquarters country and a size band near it - the starting point for a market map, a competitor scan, a prospect list built from a best customer, or alternatives to a supplier. Each row is a company (as in search_companies) plus similarity: a score, the segments and technologies  */
-    similar_companies(args: {
-      /** "competitors": the own ranked competitor list (one record a brand, its main segment first), as its Alion /competitors page; falls back to lookalikes when it has none. */
-      mode?: "lookalikes" | "competitors";
-      /** How many lookalikes to return (1-25, default 10). */
-      limit?: number;
-      /** "compact" keeps id, name, domain, industry, size, headquarters country, founding year, open jobs and the newest round, plus similarity. */
-      detail?: "standard" | "compact";
-      /** The company to find lookalikes of: Alion id, domain ("stripe.com") or name. */
-      company: string;
-      /** Only lookalikes with an office in this country (ISO 3166-1 alpha-2 code or name). */
-      country?: string;
-    }): Promise<unknown>;
-    /** People like a given one: the same role family and the skills they share, optionally in one country. For a shortlist built from a good candidate. Free; limits by trust: no account 50 profile reads and 20 searches a day per network, a wallet signed in with SIWX 100 and 50, an Alion account 1,000 and 200, a verified company 5,000 and 1,000. Docs: https://alion.io/developers/docs */
-    similar_people(args: {
-      /** How many people to return (1-20). */
-      limit?: number;
-      /** The person: their Alion handle (the "person" field of a search row), or an alion.io/user/<handle> or alion.io/@<handle> link. */
-      person: string;
-      /** Only people living in this country: ISO 3166-1 alpha-2 code. */
-      country?: string;
-    }): Promise<unknown>;
-    /** Prove your agent writes for a company (an Alion account is needed): an account that claimed the company on Alion with a work email is verified at once; otherwise publish https://<domain>/.well-known/alion-agent.json with the token this call gives and call it again. A verified company's agent is shown with its domain and a check mark, reads what people show recruiters and has the highest limits. Pu */
-    verify_company(args: {
-      /** The company's web domain, e.g. "kestrel.com". */
-      domain: string;
-    }): Promise<unknown>;
-    /** Save a search of jobs, companies or people, or a feed of company events, and come back for what is new: kind is jobs, companies, people or events, filters are the arguments of search_jobs, search_companies, search_people or search_company_events (e.g. {"role":"Backend","country":"DE","work_mode":"remote"}). Answers the first page now (newest first, compact) and a watch_id; check_watch with it late */
-    watch_search(args: {
-      /** What to watch: jobs, companies, people, or events (the company event feed of search_company_events: funding rounds, new offices, leadership hires, Buying windows... of the companies or the slice you name; paid per event, $0.005, with an account). */
-      kind: "jobs" | "companies" | "people" | "events";
-      /** A short label, e.g. "Remote Go roles in EU". */
-      name?: string;
-      /** kind events only: "webhook" posts the new events to the agent's webhook (set_webhook) every 15 minutes as event "watch.events", paid per event; "poll" waits for check_watch. */
-      deliver?: "poll" | "webhook";
-      /** The search arguments to follow (cursor and limit are ignored). */
-      filters: Record<string, unknown>;
-    }): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_e815662066 {
@@ -453103,6 +453735,77 @@ interface BowmarkSiteTools_ea1089feb2 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_ea2548091e {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Rulercraft" (https://www.rulercraft.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to gues */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Rulercraft" (https://www.rulercraft.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for  */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Rulercraft" (https://www.rulercraft.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Rulercraft" (https://www.rulercraft.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what the */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Rulercraft" (https://www.rulercraft.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an ent */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Rulercraft" (https://www.rulercraft.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Rulercraft" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site d */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_ea282b90e7 {
     /** List every practice (office_id) this app_id/app_key partner can access. */
     authorized_practices(args?: Record<string, unknown>): Promise<unknown>;
@@ -453787,27 +454490,6 @@ interface BowmarkSiteTools_ead43b390a {
         }[];
       /** The `handoff_id` the estimate returned. */
       handoff_id: string;
-    }): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_eadd4a2cc7 {
-    /** Search the GreenBook directory for market research companies, agencies, and technology platforms. Returns companies, specialties, and locations. */
-    search_directory(args: {
-      /** Search query (e.g. 'online survey', 'focus groups', 'data analytics') */
-      query: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search GreenBook events: IIEX conferences, webinars, and virtual sessions for market research professionals. */
-    search_events(args: {
-      /** Search query (e.g. 'IIEX 2025', 'qualitative research webinar') */
-      query: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search GreenBook insights: articles, GRIT reports, case studies, podcasts, and webinars about market research industry. */
-    search_insights(args: {
-      /** Search query (e.g. 'AI in research', 'consumer insights trends') */
-      query: string;
-      [key: string]: unknown;
     }): Promise<unknown>;
 }
 
@@ -454629,6 +455311,1030 @@ interface BowmarkSiteTools_eb477ad14e {
     }): Promise<unknown>;
     /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_eb6486d613 {
+    /** Battles and replays */
+    battles(args: {
+      /** Only battles on this arena, by the game's own map id (`05_prohorovka`). `facets.maps` lists the ones the catalogue has. */
+      map?: string;
+      /** Only battles of this mode, by the game's own `bonusType` (1 is random battles). `facets.modes` lists the ones the catalogue has. */
+      mode?: string;
+      /** Which page of `limit` battles, counted from one. The first by default; `total` in the answer says how many there are. */
+      page?: string;
+      /** What the replays are ranked by: the damage their recorder dealt (`damage`, the default), their assisted damage, experience or kills, the newest first (`recent`), or the most opened (`views`) or downloaded (`downloads`). */
+      sort?: "recent" | "damage" | "assist" | "xp" | "kills" | "views" | "downloads";
+      /** Only replays recorded in this vehicle, by its tank id. `facets.tanks` lists the ones the catalogue has. */
+      tank?: string;
+      /** Battles per page, 20 by default, 100 at most. */
+      limit?: string;
+      /** `true` to also answer what each filter can take, counted. */
+      facets?: "true" | "false";
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Only replays whose recorder won, lost or drew. */
+      result?: "win" | "loss" | "draw";
+      /** Only battles of this game update, as `2.4.1` (any hotfix of it), or `latest` for the newest update the catalogue holds. `versions` lists the ones it has. */
+      version?: string;
+      language?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Battle */
+    battles_by_id(args: {
+      /** The game's own battle id (`arenaUniqueID`), as digits. A string, not a number: it runs to 19 digits. */
+      id: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      language?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Battle comments */
+    battles_by_id_comments(args: {
+      /** The game's own battle id (`arenaUniqueID`), as digits. A string, not a number: it runs to 19 digits. */
+      id: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Battle replay */
+    battles_by_id_replay(args: {
+      /** The game's own battle id (`arenaUniqueID`), as digits. A string, not a number: it runs to 19 digits. */
+      id: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** The account whose recording to read, one of the battle's `recorders`. Each participant who recorded the battle has their own point of view; without it, the battle's first recording. */
+      recorder?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan overview */
+    clans_by_tag(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan activity */
+    clans_by_tag_activity(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan wars stats */
+    clans_by_tag_clan_wars(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan Maneuvers record */
+    clans_by_tag_maneuvers(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan members */
+    clans_by_tag_members(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan previous clans */
+    clans_by_tag_previous_clans(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan stronghold stats */
+    clans_by_tag_stronghold(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan supporters */
+    clans_by_tag_supporters(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan tournaments */
+    clans_by_tag_tournaments(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan vehicles */
+    clans_by_tag_vehicles(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan videos */
+    clans_by_tag_videos(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Compare clans */
+    clans_compare(args: {
+      /** Clan tags to compare (2 to 4). */
+      tags: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan languages */
+    clans_languages(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search clans */
+    clans_search(args: {
+      /** Search prefix. */
+      q: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search clans (streamed) */
+    clans_search_ndjson(args: {
+      /** Search prefix. */
+      q: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Stronghold clan leaderboard */
+    clans_stronghold_top(args: {
+      /** Ranking column (default sr). */
+      sort?: "sr" | "srb" | "elo" | "battles" | "winrate";
+      /** Stronghold mode/tier (default t10). */
+      tier?: "advances" | "t11" | "t10" | "t8" | "t6";
+      /** Window the stats are computed over: the last 24 hours, 7 days, 30 days, or all-time (default overall). */
+      period?: "24h" | "7d" | "30d" | "overall";
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Top clans */
+    clans_top(args: {
+      lang?: string;
+      /** Maximum number of rows to return. Out-of-range values are clamped. */
+      limit?: string;
+      /** Rating metric the leaderboard is ranked by. `pr` (Personal Rating) and `wtr` (World of Tanks Rating) are Wargaming's account figures and exist on lifetime boards only: a recent period or a per-vehicle board asked for either answers with its `wnx` ranking. */
+      metric?: "wn7" | "wn8" | "wnx" | "pr" | "wtr";
+      period?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      strict?: string;
+      language?: string;
+      languages?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Coverage */
+    coverage(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Glossary */
+    glossary(args?: {
+      category?: string;
+      language?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Glossary anchors */
+    glossary_anchors(args?: {
+      language?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Glossary term */
+    glossary_by_slug(args: {
+      /** Term slug, e.g. `wn8`. */
+      slug: string;
+      language?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search the glossary */
+    glossary_search(args: {
+      /** Search prefix. */
+      q: string;
+      language?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Health check */
+    health(args?: Record<string, unknown>): Promise<unknown>;
+    /** Maneuvers event boards */
+    maneuvers(args: {
+      /** Case-insensitive search: a player's nickname, or a clan's tag or name. Rows keep their real place. */
+      q?: string;
+      /** Highest value kept on the `range` column, inclusive. */
+      max?: string;
+      /** Lowest value kept on the `range` column, inclusive. */
+      min?: string;
+      /** The column the boards are ordered on (default `fame-points`, the board's own order). `gain` and `move` are the last 24 hours. */
+      sort?: "fame-points" | "gain" | "move";
+      /** The board to page through. Omitted, both are served, each sliced by the same `offset` and `limit`; named, the other one comes back empty. */
+      board?: "players" | "clans";
+      /** Rows per board, 1-1000 (default 100). */
+      limit?: string;
+      /** Direction of `sort` (default `desc`). Rows with no figure on the sorted column come last either way. */
+      order?: "desc" | "asc";
+      /** The column `min` and `max` bound. A row with no figure on it (a 24h move before the captures reach back a day) is left out. */
+      range?: "fame-points" | "gain" | "move";
+      /** Rows to skip on each board, after searching and ordering (default 0). The whole board is reachable, not only its first rows. */
+      offset?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** The edition to read, by its identifier (an `eventName` from `editions`). Defaults to the newest edition recorded. */
+      edition?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Maneuvers edition history */
+    maneuvers_history(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** The edition to read, by its identifier. Defaults to the newest edition recorded. */
+      edition?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Maps */
+    maps(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Map detail */
+    maps_by_slug(args: {
+      /** Map slug (e.g. prokhorovka). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Map changes history */
+    maps_by_slug_history(args: {
+      /** Map slug (e.g. prokhorovka). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Map positions */
+    maps_by_slug_positions(args: {
+      /** Map slug (e.g. prokhorovka). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Map community rating */
+    maps_by_slug_ratings(args: {
+      /** Map slug (e.g. prokhorovka). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** My rating of this map */
+    maps_by_slug_ratings_me(args: {
+      /** Map slug (e.g. prokhorovka). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Map statistics */
+    maps_by_slug_statistics(args: {
+      /** Which battle mode to count, random by default. Modes are never pooled: each has its own team size, length and idea of a good result, so every figure in the response belongs to the one asked for. The modes field says which ones hold battles on this map. */
+      mode?: "random" | "onslaught" | "skirmish" | "advance";
+      /** Map slug (e.g. prokhorovka). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      language?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Map videos */
+    maps_by_slug_videos(args: {
+      /** Map slug (e.g. prokhorovka). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Map changes feed */
+    maps_changes(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Map community ratings board */
+    maps_ratings(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** My map ratings */
+    maps_ratings_mine(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search maps */
+    maps_search(args: {
+      /** Search prefix. */
+      q: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search maps (streamed) */
+    maps_search_ndjson(args: {
+      /** Search prefix. */
+      q: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Credits and experience by battle mode */
+    modes_economy(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Generic OG card */
+    og(args?: {
+      /** Card title. */
+      title?: string;
+      /** Card subtitle. */
+      subtitle?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Battle OG card */
+    og_battles_by_id(args: {
+      /** The game's own battle id (`arenaUniqueID`), as digits. A string, not a number: it runs to 19 digits. */
+      id: string;
+      /** The account whose battle the card shows: their result, vehicle and figures. Without it, the battle as a whole. */
+      player?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clan OG card */
+    og_clans_by_tag(args: {
+      /** Clan tag. */
+      tag: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Clans comparison OG card */
+    og_clans_compare(args: {
+      /** Clan tags to compare (2 to 4). */
+      tags: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Map OG card */
+    og_maps_by_slug(args: {
+      /** Map slug (e.g. prokhorovka). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player OG card */
+    og_players_by_nickname(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Players comparison OG card */
+    og_players_compare(args: {
+      /** Player nicknames to compare (2 to 4). */
+      names: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank OG card */
+    og_tanks_by_slug(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tanks comparison OG card */
+    og_tanks_compare(args: {
+      /** Columns to compare (2 to 4). A slug on its own, or suffixed with the game client to read it on (`is-7@ct`) or with its position among the columns showing that same vehicle (`is-7~2`, one tank under two setups). */
+      slugs: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tournament OG card */
+    og_tournaments_by_id(args: {
+      /** Tournament id. */
+      id: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tournament team OG card */
+    og_tournaments_by_id_team_by_teamId(args: {
+      /** Tournament id. */
+      id: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Team id within that tournament. */
+      teamId: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player activity by band */
+    players_activity(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** How far back an account counts as active. */
+      window?: "24h" | "7d" | "30d";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player detail */
+    players_by_nickname(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player achievements */
+    players_by_nickname_achievements(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      language?: string;
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player battles */
+    players_by_nickname_battles(args: {
+      /** Only battles on this arena, by the game's own map id (`05_prohorovka`). `facets.maps` lists the ones it has. */
+      map?: string;
+      /** Only battles of this mode, by the game's own `bonusType` (1 is random battles). `facets.modes` lists the ones this account has. */
+      mode?: string;
+      /** Which page of `limit` battles, newest first, counted from one. The first by default; `total` in the answer says how many there are. */
+      page?: string;
+      /** Only battles this account fought in this vehicle, by its tank id. `facets.tanks` lists the ones it has. */
+      tank?: string;
+      /** Battles per page, newest first. Ten by default, a hundred at most. */
+      limit?: string;
+      /** `true` to also answer `facets`: every mode, vehicle, map and result this account's battles have, counted over all of them regardless of the filters above. Left out by default, since only a page that draws filters needs it. */
+      facets?: "true" | "false";
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Only battles this account won, lost or drew. */
+      result?: "win" | "loss" | "draw";
+      language?: string;
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player profit by mode */
+    players_by_nickname_battles_economy(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Players met in battle */
+    players_by_nickname_battles_players(args: {
+      /** Only count battles on this arena, by the game's own map id (`05_prohorovka`). */
+      map?: string;
+      /** Only count battles of this mode, by the game's own `bonusType` (1 is random battles). */
+      mode?: string;
+      /** Only count battles this account fought in this vehicle, by its tank id. */
+      tank?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Only count battles this account won, lost or drew. */
+      result?: "win" | "loss" | "draw";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player current clan */
+    players_by_nickname_clan(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player Maneuvers record */
+    players_by_nickname_maneuvers(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player Onslaught record */
+    players_by_nickname_onslaught(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player sessions */
+    players_by_nickname_sessions(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      /** Bucket size for the sessions. */
+      granularity?: "daily" | "weekly" | "monthly";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player Skirmishes by tier */
+    players_by_nickname_skirmish(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player tanks */
+    players_by_nickname_tanks(args: {
+      mode?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player vehicle record */
+    players_by_nickname_tanks_by_slug(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      language?: string;
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player vehicle loadout */
+    players_by_nickname_tanks_by_slug_loadout(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player tournaments */
+    players_by_nickname_tournaments(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Player nickname. */
+      nickname: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Compare players */
+    players_compare(args: {
+      /** Player nicknames to compare (2 to 4). */
+      names: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player distribution */
+    players_distribution(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Player languages */
+    players_languages(args: {
+      /** Leaderboard time window. */
+      period?: "24h" | "7d" | "30d" | "overall";
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      min_tier?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Marks of Excellence leaderboard */
+    players_marks(args: {
+      lang?: string;
+      /** Ranking column: `total` for three-mark guns across every tier, or `tier-<n>` for one tier (`tier-10`). Default `total`, which is also what an unrecognised value falls back to. Not an enum: which tiers the game has is Wargaming's to decide, and the response's `tiers` names the ones this region has a ranking for. */
+      sort?: string;
+      /** Maximum number of rows to return. Out-of-range values are clamped. */
+      limit?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      strict?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Onslaught leaderboard */
+    players_onslaught(args: {
+      /** Maximum number of rows to return. Out-of-range values are clamped. */
+      limit?: string;
+      /** Rows to skip before the page begins, applied to the standings AND to the lost places, so one pair of parameters pages both. The aggregates always describe the whole board, whatever the slice. */
+      offset?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Season event id to load (default the current season). From the seasons list in the response. */
+      season?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Onslaught season history */
+    players_onslaught_history(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Season event id to load (default the current season). From the seasons list on the leaderboard. */
+      season?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Rampage leaderboard */
+    players_rampage(args: {
+      /** Ranking column (default mr). */
+      sort?: "mr" | "battles" | "winrate" | "survival" | "damage";
+      /** Maximum number of rows to return. Out-of-range values are clamped. */
+      limit?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search players */
+    players_search(args: {
+      /** Search prefix. */
+      q: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search players (streamed) */
+    players_search_ndjson(args: {
+      /** Search prefix. */
+      q: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Top players */
+    players_top(args: {
+      lang?: string;
+      /** Maximum number of rows to return. Out-of-range values are clamped. */
+      limit?: string;
+      /** Rating metric the leaderboard is ranked by. `pr` (Personal Rating) and `wtr` (World of Tanks Rating) are Wargaming's account figures and exist on lifetime boards only: a recent period or a per-vehicle board asked for either answers with its `wnx` ranking. */
+      metric?: "wn7" | "wn8" | "wnx" | "pr" | "wtr";
+      offset?: string;
+      /** Leaderboard time window. */
+      period?: "24h" | "7d" | "30d" | "overall";
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      strict?: string;
+      language?: string;
+      min_tier?: string;
+      languages?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Win rate by tier and rating band */
+    players_winrate_by_tier(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Exchange rates */
+    rates(args?: Record<string, unknown>): Promise<unknown>;
+    /** My ratings */
+    ratings_mine(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Rating colour scales */
+    ratings_scales(args?: Record<string, unknown>): Promise<unknown>;
+    /** Resolve a roster */
+    resolve(args: {
+      /** Which mode the `vehicles` figures should cover. Omitted, they cover every mode together. Frontline, Onslaught and Steel Hunter are absent on purpose: Wargaming publishes no per-vehicle statistics for them at all, so a client in one of those battles omits this and reads the whole record. */
+      mode?: "random" | "clan" | "company" | "globalmap" | "stronghold_skirmish" | "stronghold_defense" | "epic" | "ranked_10x10" | "team" | "regular_team" | "fallout";
+      /** Clan tags, case-insensitive. Up to 100. */
+      tags?: string;
+      /** Clan ids. Up to 100. */
+      clans?: string;
+      /** Player nicknames, case-insensitive. Up to 100. The nickname an account wears NOW, never one it used to: a roster shows who is in the room, and answering through a name history would confidently name an account that no longer answers to what the roster printed. */
+      names?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Account ids. Up to 100. */
+      players?: string;
+      /** `<account id>:<vehicle id>` pairs, up to 60. Each one is answered in `vehicles` with what that account has done on that vehicle. The vehicle id is Wargaming's `tank_id`, which is the game client's own compact descriptor, so a client reads it off the roster it is drawing. */
+      vehicles?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Resolve saved search entries */
+    search_resolve(args: {
+      /** Arena ids, comma separated. */
+      maps?: string;
+      /** Clan ids, comma separated. */
+      clans?: string;
+      /** Vehicle ids, comma separated. */
+      tanks?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Account ids, comma separated. */
+      players?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Server population */
+    server_stats(args: {
+      /** How far back the population series reads. */
+      range?: "day" | "week" | "month" | "year";
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Compare regions */
+    servers_compare(args?: {
+      /** How far back the population series reads. */
+      range?: "day" | "week" | "month" | "year";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Data sources */
+    sources(args?: Record<string, unknown>): Promise<unknown>;
+    /** Live streamers */
+    streamers_live(args?: Record<string, unknown>): Promise<unknown>;
+    /** Funding progress */
+    support_funding(args?: Record<string, unknown>): Promise<unknown>;
+    /** Supporters board */
+    support_podium(args?: Record<string, unknown>): Promise<unknown>;
+    /** Supporter seniority */
+    support_tiers(args?: Record<string, unknown>): Promise<unknown>;
+    /** Tanks performance */
+    tanks(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank performance */
+    tanks_by_slug(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank detail */
+    tanks_by_slug_detail(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Which game client to read the vehicle's characteristics from. `ct` serves what the running Common Test build makes of it, so a tank can be inspected and configured the way the next update would ship it. Falls back to live when no test is running or when it leaves this vehicle alone. */
+      client?: "live" | "ct";
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank economics */
+    tanks_by_slug_economics(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank changes history */
+    tanks_by_slug_history(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank loadouts */
+    tanks_by_slug_loadouts(args: {
+      /** Which battle mode to count, random by default. Modes are never pooled: each has its own economy and its own idea of a good result, so every figure in the response belongs to the one asked for. The modes field says which ones hold anything for this vehicle. */
+      mode?: "random" | "onslaught" | "skirmish" | "advance";
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Count this vehicle's twins with it, false by default: the vehicles that are this one under another name, listed in the tank detail's `twins` (the Dream Chaser is the SDP wz 66 Grom). Wargaming records each id apart, so their battles are otherwise counted on their own page only. Each best player's `tankId` says which of them their row is on. */
+      twins?: "true" | "false";
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      language?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank Marks of Excellence */
+    tanks_by_slug_marks_of_excellence(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank Marks of Mastery */
+    tanks_by_slug_marks_of_mastery(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank community rating */
+    tanks_by_slug_ratings(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** My rating of this tank */
+    tanks_by_slug_ratings_me(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Similar tanks */
+    tanks_by_slug_similar(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** How many matches to return. Out-of-range values are clamped. */
+      limit?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank specifications */
+    tanks_by_slug_specifications(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank videos */
+    tanks_by_slug_videos(args: {
+      /** Tank slug (e.g. is-7). */
+      slug: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tank changes feed */
+    tanks_changes(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Compare tanks */
+    tanks_compare(args: {
+      /** Columns to compare (2 to 4). A slug on its own, or suffixed with the game client to read it on (`is-7@ct`) or with its position among the columns showing that same vehicle (`is-7~2`, one tank under two setups). */
+      slugs: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tanks economics */
+    tanks_economics(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tanks Marks of Excellence */
+    tanks_marks_of_excellence(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tanks Marks of Mastery */
+    tanks_marks_of_mastery(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Community ratings board */
+    tanks_ratings(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search tanks */
+    tanks_search(args: {
+      /** Search prefix. */
+      q: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search tanks (streamed) */
+    tanks_search_ndjson(args: {
+      /** Search prefix. */
+      q: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tanks specifications */
+    tanks_specifications(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** New and upcoming tanks */
+    tanks_spotlight(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tournaments */
+    tournaments(args: {
+      /** How many tournaments to return. */
+      limit?: string;
+      /** How many tournaments to skip. */
+      offset?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Only tournaments in this lifecycle state. */
+      status?: "upcoming" | "registration_started" | "registration_finished" | "running" | "finished" | "complete";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tournament */
+    tournaments_by_id(args: {
+      /** Tournament id. */
+      id: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tournament team */
+    tournaments_by_id_team_by_teamId(args: {
+      /** Tournament id. */
+      id: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Team id within that tournament. */
+      teamId: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Twitch chat badges */
+    twitch_by_login_badges(args: {
+      /** Twitch channel login, e.g. `license__`. */
+      login: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Community videos */
+    videos(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      /** Narrow to one video's battles, ordered by timestamp. */
+      videoId?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** A suggestion, as its form */
+    videos_editable(args: {
+      /** The suggestion to read back. */
+      id: string;
+      /** Signed moderator link, from the moderation channel. */
+      token?: string;
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** My queued videos */
+    videos_mine(args: {
+      /** Game server region. */
+      region: "eu" | "na" | "asia";
+      [key: string]: unknown;
+    }): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_ebb1a94813 {
@@ -460225,6 +461931,77 @@ interface BowmarkSiteTools_ef6c537557 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_ef77119b75 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "ASL Neuruppin" (https://www.asl-automation.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try  */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "ASL Neuruppin" (https://www.asl-automation.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixA */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "ASL Neuruppin" (https://www.asl-automation.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "ASL Neuruppin" (https://www.asl-automation.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about w */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "ASL Neuruppin" (https://www.asl-automation.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "ASL Neuruppin" (https://www.asl-automation.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "ASL Neuruppin" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., ' */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_ef7d283298 {
     /** Show how much of the WhoisFreaks API key's allowance is used: pay-as-you-go credits bought and used, and the subscription's status, request limit, requests used and surcharge requests. Use this before a large job (a bulk lookup, many pages of reverse WHOIS or typosquatting results) to check there is enough left, or when a lookup fails with a plan or credit limit error. Returns the key (masked), it */
     apiKeyUsage(args?: Record<string, unknown>): Promise<unknown>;
@@ -462436,6 +464213,77 @@ interface BowmarkSiteTools_f0725430c8 {
       searchTerm: string;
     }): Promise<unknown>;
     /** Searches for site "SKAARHOJ" (https://www.skaarhoj.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "SKAARHOJ" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site details */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_f0af24737e {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "CELLEHEUTE.DE" (https://www.celleheute.de/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to gu */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "CELLEHEUTE.DE" (https://www.celleheute.de/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI fo */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "CELLEHEUTE.DE" (https://www.celleheute.de/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "CELLEHEUTE.DE" (https://www.celleheute.de/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what t */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "CELLEHEUTE.DE" (https://www.celleheute.de/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an e */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "CELLEHEUTE.DE" (https://www.celleheute.de/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "CELLEHEUTE.DE" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get s */
     SearchSiteApiDocs(args: {
       /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
       searchTerm: string;
@@ -466328,6 +468176,720 @@ interface BowmarkSiteTools_f2a4e1c759 {
       path: string;
       /** A clear description of the documentation issue or suggestion — what is incorrect, outdated, missing, or confusing. */
       feedback: string;
+    }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_f2be3fd45d {
+    /** Add a person you found (search_people, match_people) to the shortlist of one of your job orders, at the stage new. The person is told they are on a shortlist; the same rules as get_person apply (people open to agents, the different people of 30 days). Adding someone already there changes nothing. Needs the API key of the Alion account that posted the vacancies. Docs: https://alion.io/developers/do */
+    add_to_shortlist(args: {
+      /** The person: person_id (p_...), their Alion handle or an alion.io/user/<handle> link. */
+      person: string;
+      /** The order: the id list_orders gives (an Alion vacancy your account posted). */
+      order_id: number;
+    }): Promise<unknown>;
+    /** Who Alion takes your agent for (level: unverified, wallet, account, verified_company), whether it is active, paused or blocked and why, today's use against the limits, the 30-day reputation (delivered, replied, declined, reported, the reply and report rates) and how to rise a level. Moderation is automatic: reports from 3 people in 7 days pause messages for 7 days, a second pause in 90 days or rep */
+    agent_status(args?: {}): Promise<unknown>;
+    /** Before you deal with someone you do not know: who is behind a domain, a url, an email, a wallet or an agent. Answers the company Alion knows there (its card, whether it hires, when its site last answered, whether it is claimed), the agents registered for it, red flags (sanctions lists, a lookalike of a known company's domain, a public mail domain, a blocked agent) and a verdict - known_active, kno */
+    check_counterparty(args: {
+      /** A domain ("acme.com"), a url (a site, an MCP or A2A endpoint), an email, a wallet address (0x... or Solana) or an agent's handle. */
+      target: string;
+    }): Promise<unknown>;
+    /** Before a person applies, shares a passport or answers a recruiter: is the company real, any signs of a job scam, can it sponsor the person's visa, is it worth applying. Our own rules over public data, not a model: company registers and legal entities, the domain's age (RDAP), the website and its certificate, mail protection (SPF, DMARC), lookalike domains, OFAC and EU sanctions, the company's own  */
+    check_employer(args?: {
+      /** Optional: the job the person looks at - an Alion job id or an alion.io/job/... link (sets the company when company is left out). */
+      job?: string;
+      /** The employer: its web domain ("acme.com"), Alion id, exact name or any url on its site. */
+      company?: string;
+      /** Optional: a recruiter's email or chat message (20-8000 characters, with the sender's address when there is one) to check against the company. */
+      message?: string;
+      /** Build the report again although one from the last 30 days exists (charged again). */
+      refresh?: boolean;
+    }): Promise<unknown>;
+    /** Before you write: does the offer pass the person's own filters - the role they look for, their pay floor, the places and work modes they accept, and whether they take messages from agents of your level? Answers fits, the first reason it would come back (role_mismatch, pay_below_floor, location_mismatch, verified_companies_only, not_accepting_agents) with a hint, each check, and how many new agent  */
+    check_fit(args: {
+      /** The offer, as the person will read it. */
+      offer: {
+        /** The pay range. Required for a job offer: it is checked against the person's floor. */
+        pay?: {
+          max?: number;
+          min?: number;
+          period?: "year" | "month" | "week" | "day" | "hour";
+          /** ISO 4217, default USD. */
+          currency?: string;
+          [key: string]: unknown;
+        };
+        /** The vacancy page: an alion.io/job/... link or the company's own job board. */
+        url?: string;
+        /** Role family or specialisation ("Backend", "Data Engineer"); the title is read when it is left out. */
+        role?: string;
+        /** Job title, e.g. "Senior Perception Engineer". */
+        title?: string;
+        /** ISO 3166-1 alpha-2 codes of where the work is (or may be done from). */
+        countries?: string[];
+        work_mode?: "on_site" | "hybrid" | "remote";
+        employment_type?: "full_time" | "part_time" | "contractor" | "cofounder" | "freelance" | "internship";
+        [key: string]: unknown;
+      };
+      /** The person: their Alion handle (the "person" field of a search row), or an alion.io/user/<handle> or alion.io/@<handle> link. */
+      person: string;
+    }): Promise<unknown>;
+    /** What appeared in a watched search since the last check_watch (or since watch_search): new job postings, companies or people, newest first, in the compact shape of the search. Daily is enough. Free. Docs: https://alion.io/developers/docs */
+    check_watch(args: {
+      /** The w_... id watch_search gave. */
+      watch_id: string;
+    }): Promise<unknown>;
+    /** For a member of a company that claimed its Alion page, connected with that account: which purposes agents may write to the company about (sales, partnership, supplier, press, investment, candidate, support, other) and how many new agent messages a day it takes. An empty purposes list closes the company to agents. Free. Docs: https://alion.io/developers/docs */
+    company_inbox_settings(args: {
+      /** The company's domain or Alion id. */
+      company: string;
+      /** New agent messages a day. */
+      day_cap?: number;
+      /** The purposes it takes. */
+      purposes?: Array<"sales" | "partnership" | "supplier" | "press" | "investment" | "candidate" | "support" | "other">;
+    }): Promise<unknown>;
+    /** Write to a company through Alion: purpose (sales, partnership, supplier, press, investment, candidate, support, other), an optional subject and the message (30-2000 characters), and on whose behalf. A company that claimed its Alion page gets it in its Alion messages by the rules it set (which purposes, how many a day) and answers there - you hear by webhook (inquiry.replied) or with inquiry_id. A  */
+    contact_company(args?: {
+      /** The company: its domain ("acme.com"), Alion id or exact name. */
+      company?: string;
+      /** 30-2000 characters, to the people of the company. */
+      message?: string;
+      /** Why you write. */
+      purpose?: "sales" | "partnership" | "supplier" | "press" | "investment" | "candidate" | "support" | "other";
+      /** A short subject line. */
+      subject?: string;
+      /** A ci_... id from an earlier call: its state and the answers. */
+      inquiry_id?: string;
+      /** Who the message is from. A company on Alion named here must be the one your agent verified. */
+      on_behalf_of?: {
+        name?: string;
+        company?: string;
+        company_domain?: string;
+        [key: string]: unknown;
+      };
+    }): Promise<unknown>;
+    /** Stop watching a search: the watch and what it remembered are deleted, and check_watch answers not_found for it. Free. Docs: https://alion.io/developers/docs */
+    delete_watch(args: {
+      /** The w_... id watch_search gave. */
+      watch_id: string;
+    }): Promise<unknown>;
+    /** Suggest a change to the signed-in account's profile: a skill to add, a salary floor or a headline. Nothing changes: the draft waits in the person's Agents settings with your reason, and only they can accept it. Free. Docs: https://alion.io/developers/docs */
+    draft_profile_change(args: {
+      /** skill, salary_min or headline. */
+      kind: "skill" | "salary_min" | "headline";
+      /** The skill name, the yearly floor in USD, or the headline. */
+      value: string;
+      /** One line the person reads: why you suggest it. */
+      reason: string;
+    }): Promise<unknown>;
+    /** One registered agent by its handle, the url of its MCP or A2A endpoint or homepage, or the domain of its company: what it does, who it acts for and whether that link is proven, its level (unverified, wallet, signed, account, verified_company), its state, its endpoints and a trust score with the facts behind it (age, people's answers and reports in 30 days, pauses). Free. Docs: https://alion.io/dev */
+    get_agent(args: {
+      /** A handle, an endpoint url or a company domain. */
+      agent: string;
+    }): Promise<unknown>;
+    /** Everything Alion knows about one company, for due diligence or account research: identity (domain, description, founded, size with confidence), headquarters and offices, industries, public links, the ATS board and its last check, live hiring (open roles, added and closed in 30/90 days, velocity, top roles, hiring countries, nine weeks of history, pay), the technology stack from its postings, fundi */
+    get_company(args?: {
+      /** Alion company id. */
+      id?: number;
+      /** Any url on the company site or its job board, or its alion.io/company/... page. */
+      url?: string;
+      /** Company name as written; matched like resolve_company, so prefer the domain when you have it. */
+      name?: string;
+      /** Company web domain, e.g. "stripe.com" (the most exact way to name a company). */
+      domain?: string;
+      /** Extra slices, a comma list: products, tech, funding, hiring, offices, pay, visa, legal_entity, headcount_history, traction, apps, lists, assets, hire_profile, news, money, ownership, record, financials, innovation, competitors, buying_windows; or "standard", "premium", "all"; or "summary" for the card and available_slices only. */
+      slices?: string;
+    }): Promise<unknown>;
+    /** The money ledger of one company, newest first, up to 200 rows a call: rounds and other equity, debt, grants, public contracts won, customers' contracts, acquisitions and stakes bought, capital spending, supply deals, revenue as stated, lobbying, taxes and payroll where filed - each row with its kind, direction (in/out), stage (announced, signed, paid, estimate), the counterparty (a person reads "I */
+    get_company_money(args: {
+      /** One kind or a comma list: revenue, equity, donation, debt, grant, public_contract, contract_won, invested_in, sold, secondary, dividend, buyback, supply, capex, acquisition, investment, tax, payroll, lobbying, political, settlement, revenue_share, grant_given, lease. */
+      kind?: string;
+      /** Rows a call (1-200). */
+      limit?: number;
+      /** Only rows dated after this point: an ISO date or a window ("1y", "6m"). */
+      since?: string;
+      /** next_offset of the previous call. */
+      offset?: number;
+      /** The company: its domain ("openai.com"), Alion id or name. */
+      company: string;
+      /** Only rows of at least this many US dollars. */
+      min_usd?: number;
+      /** in = money the company takes, out = money it pays. */
+      direction?: "in" | "out";
+    }): Promise<unknown>;
+    /** Who owns a company and what it is made of: every registered legal entity with its form, country, status, role (operator, subsidiary, branch) and registration numbers; its identifiers (LEI, Companies House, SEC CIK, Wikidata); the GLEIF group (parent, ultimate parent, entities in the group); the organisations holding a stake with their share and the register that says so (persons holding a stake ar */
+    get_company_ownership(args: {
+      /** Rows a list (entities, owners, subsidiaries, deals), 1-200. */
+      limit?: number;
+      /** The company: its domain, Alion id or name. */
+      company: string;
+    }): Promise<unknown>;
+    /** The public record of a company for a counterparty or vendor check: the status of its operating entity in the register, US federal court cases with an organisation on the other side (side, nature, filed, closed, docket link), regulators' fines, recalls and warning letters, insolvency notices (UK Gazette, BODACC), US political spending by cycle (employees and the company PAC, by party), greenhouse-g */
+    get_company_record(args: {
+      /** Rows a list (cases, regulators, notices), 1-200. */
+      limit?: number;
+      /** The company: its domain, Alion id or name. */
+      company: string;
+    }): Promise<unknown>;
+    /** The status of your message (delivered, queued, returned, expired, replied, declined) and the conversation with the person, oldest first. Pass since_message (the last id you saw) to get only what is new. Docs: https://alion.io/developers/docs */
+    get_conversation(args?: {
+      /** The am_... id send_message gave. */
+      message_id?: string;
+      /** The id of the last message you saw: only newer ones come back. */
+      since_message?: number;
+      /** The c_... id send_message gave (or message_id instead). */
+      conversation_id?: string;
+    }): Promise<unknown>;
+    /** The monthly data indices Alion publishes from the live postings on employers' own career sites, each with a page per country, employer, technology or day: AI hiring, remote openness by country, every employer's hiring report (100+ open roles), hiring of the companies in the news, return to office, entry-level jobs, pay transparency, tech skills demand, hiring after a funding round, the weekly hiri */
+    get_index(args?: {
+      /** The index code, e.g. "ai-hiring", "remote-openness", "company-hiring", "hiring-movers", "hiring-news", "return-to-office", "entry-level", "pay-transparency", "tech-skills", "funded-hiring", "hiring-pulse", "visa-sponsorship", "ghost-jobs". Omit for the list. */
+      index?: string;
+      /** One page of the edition: a country, employer, technology, stage or day, by slug or name ("germany", "anthropic", "c-sharp", "series-a", "2026-11-12"). */
+      slice?: string;
+      /** An edition month, yyyy-mm; the newest when omitted. */
+      period?: string;
+    }): Promise<unknown>;
+    /** One investor in full - for a fundraising shortlist, a co-investor check or due diligence on a fund: everything search_investors returns (type, office, sectors, stages and countries of the portfolio with their shares, counts, activity, the freshest rounds of the portfolio with the role it played, a claimed fund's thesis, cheque and pitch address) plus its own description, the portfolio's venture ro */
+    get_investor(args?: {
+      /** Alion company id of the investor (from search_investors). */
+      id?: number;
+      /** Any url on its site, or its alion.io/company/... page. */
+      url?: string;
+      /** The investor's name as written, e.g. "Index Ventures". */
+      name?: string;
+      /** The investor's web domain, e.g. "sequoiacap.com". */
+      domain?: string;
+    }): Promise<unknown>;
+    /** The full record of one posting: everything search_jobs returns plus the description (plain text by default, html on request), the complete technology list, requirements (experience, management, education, languages, clearance), benefits, where the hire may and may not live for remote roles, the industries, the lifecycle journal (open / close / reopen / expire events with UTC stamps) and the trust  */
+    get_job(args?: {
+      /** Alion job id. */
+      id?: number;
+      /** An alion.io/job/... link, its slug, or the original posting url. */
+      url?: string;
+      /** Cut the plain-text description to this many characters to save context (description_truncated tells). Leave it out for the full text. */
+      max_chars?: number;
+      /** The posting description as plain text (default) or as the employer's html. */
+      description_format?: "text" | "html";
+    }): Promise<unknown>;
+    /** The open profile of one person, as their privacy settings show it to an agent of your trust level: headline, roles, summary, skills with years and level, work history (employers, titles, dates, descriptions, technologies), projects, education, languages, the countries they may work in, what they want (availability, work modes, relocation, kind of work, places, markets, start, pay), work links (Git */
+    get_person(args: {
+      /** The person: their Alion handle (the "person" field of a search row), or an alion.io/user/<handle> or alion.io/@<handle> link. */
+      person: string;
+    }): Promise<unknown>;
+    /** The people of one job order, newest first: person_id, handle, name, headline, stage, source (applied: they applied; sourced: you added them), the fit Alion computed, the application they sent (note, asked pay), and their contacts only where they gave them to you (they applied, or shared them in Messages; never the email). Filter by stage or source. Needs the API key of the Alion account that poste */
+    get_shortlist(args: {
+      limit?: number;
+      stage?: "new" | "screening" | "interview" | "offer" | "hired" | "rejected";
+      /** next_cursor of the previous page. */
+      cursor?: string;
+      source?: "applied" | "sourced";
+      /** The order: the id list_orders gives (an Alion vacancy your account posted). */
+      order_id: number;
+    }): Promise<unknown>;
+    /** Your agent's messages to people, newest first, with their status and the last activity. Pass since (ISO date) for what changed since your last look. Docs: https://alion.io/developers/docs */
+    list_conversations(args?: {
+      /** ISO date: only conversations with activity since then. */
+      since?: string;
+    }): Promise<unknown>;
+    /** Your job orders: the vacancies your account posted on Alion, newest first, each with its status (live, paused, draft, closed), its links and how many people sit at each stage of its shortlist (new, screening, interview, offer, hired, rejected) and where they came from (applied, sourced). Pass order_id for one. Needs the API key of the Alion account that posted the vacancies. Docs: https://alion.io */
+    list_orders(args?: {
+      limit?: number;
+      /** next_cursor of the previous page. */
+      cursor?: string;
+      status?: "live" | "paused" | "draft" | "closed" | "rejected" | "all";
+      /** The order: the id list_orders gives (an Alion vacancy your account posted). */
+      order_id?: number;
+    }): Promise<unknown>;
+    /** The watched searches of this agent: id, kind, label, filters, when created and last checked. Free. Docs: https://alion.io/developers/docs */
+    list_watches(args?: {}): Promise<unknown>;
+    /** Aggregate statistics for a slice of the job market in one call: how much X earns in Y, how many companies hire X, whether demand grows, who hires most, how fast such roles close. Takes the search_jobs filters plus window_days and returns: open postings and hiring companies; new postings in 30 days against the 30 before (trend_30d_pct); work-mode and seniority mix; salary p10-p90 in USD a year, sta */
+    market_stats(args?: {
+      /** City name prefix. */
+      city?: string;
+      /** Role or role family by name, e.g. "Backend", "Data Engineer", "Product Manager". */
+      role?: string;
+      /** Free-text words that must appear in the title or description. */
+      query?: string;
+      /** One employer by id, domain or exact name. */
+      company?: string;
+      /** ISO 3166-1 alpha-2 code or country name. */
+      country?: string;
+      /** Industry of the posting or its employer, e.g. "Fintech", "Real Estate". */
+      industry?: string;
+      /** Seniority of the role: intern, junior, middle, senior, staff, lead or head. */
+      seniority?: "intern" | "junior" | "middle" | "senior" | "staff" | "lead" | "head";
+      /** Where the work happens: on_site, hybrid or remote. */
+      work_mode?: "on_site" | "hybrid" | "remote";
+      /** Only postings that offer equity. */
+      has_equity?: boolean;
+      /** A required technology, e.g. "Rust", "Kubernetes". */
+      technology?: string;
+      /** How far back the salary and time-to-fill samples reach (postings first seen in the window). */
+      window_days?: number;
+      /** Minimum annual pay in USD: a stated range whose top reaches it, or an estimate whose midpoint does. */
+      salary_min_usd?: number;
+      /** Kind of engagement: full_time, part_time, contractor, cofounder, freelance or internship. */
+      employment_type?: "full_time" | "part_time" | "contractor" | "cofounder" | "freelance" | "internship";
+      /** Include postings by staffing agencies and intermediaries (left out by default). */
+      include_agencies?: boolean;
+      /** Only postings that state visa sponsorship. */
+      visa_sponsorship?: boolean;
+    }): Promise<unknown>;
+    /** The best people for one vacancy: pass job_id or job_url of an Alion vacancy, paste the vacancy's own text (vacancy - its role, technologies, level, years and work mode are read from it, vacancy_read shows what was understood), or describe it (role, technology as a comma list, country / can_work_in, work_mode, seniority, budget_usd; these also correct what was read from a text). The role and the pl */
+    match_people(args?: {
+      /** City in English. */
+      city?: string;
+      /** Role family or specialisation, e.g. "Backend", "Data Engineer", "Product Manager" (alion://dictionaries/role-families). */
+      role?: string;
+      /** best_match (default), recent_activity (last active first) or experience (most years first). */
+      sort?: "best_match" | "recent_activity" | "experience";
+      /** People per page (1-20, default 10). */
+      limit?: number;
+      /** Free words over titles, summaries, employers and skills ("computer vision drones"). */
+      query?: string;
+      /** With vacancy: the job title, when the text does not open with it. */
+      title?: string;
+      /** next_cursor of the previous page (a search does not page past row 100). */
+      cursor?: string;
+      /** An Alion job id. */
+      job_id?: number;
+      /** Worked (or works) at this company: name or domain. */
+      company?: string;
+      /** Where the person lives: ISO 3166-1 alpha-2 code. */
+      country?: string;
+      /** An alion.io/job/... link. */
+      job_url?: string;
+      /** What the person says they are open to here: a job, freelance projects, a CTO role, a co-founder, angel investing. */
+      open_to?: "job" | "freelance" | "cto" | "cofounder" | "angel";
+      /** The vacancy's own text (a job order, a posting from anywhere), up to 20,000 characters; its first short line is taken as the title. */
+      vacancy?: string;
+      /** The minimum degree. */
+      education?: "bachelor" | "master" | "phd";
+      /** Spoken languages, a comma list ("German, French"); all required. */
+      languages?: string;
+      /** Years with each named technology (or in total when none is named). */
+      min_years?: number;
+      /** One or a comma list: intern, junior, middle, senior, staff, principal, lead, head, architect. */
+      seniority?: string;
+      /** A work mode the person accepts. */
+      work_mode?: "on_site" | "hybrid" | "remote";
+      /** The most the role pays a year in USD: people who expect more are left out. */
+      budget_usd?: number;
+      /** Only people with their GitHub on the profile. */
+      has_github?: boolean;
+      /** Only people open to relocation. */
+      relocation?: boolean;
+      /** Technologies the person must have, a comma list ("Python, PostgreSQL"); every one is required. */
+      technology?: string;
+      /** A country the person may work in (lives there, holds a permit or citizenship): ISO code. */
+      can_work_in?: string;
+      /** actively_looking only, or everyone open to offers (the default). */
+      availability?: "actively_looking" | "open_to_offers";
+      /** The minimum English level. */
+      english_level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
+      /** A kind of work the person takes. */
+      employment_type?: "full_time" | "part_time" | "contractor" | "freelance" | "cofounder" | "internship";
+      /** Only people active on Alion in this many days. */
+      active_within_days?: number;
+    }): Promise<unknown>;
+    /** Move a person of an order's shortlist to another stage (a person who applied hears of it, as on the site), or remove one you added (remove: true; an application is the person's own - move it to rejected instead). Needs the API key of the Alion account that posted the vacancies. Docs: https://alion.io/developers/docs */
+    move_on_shortlist(args: {
+      stage?: "new" | "screening" | "interview" | "offer" | "hired" | "rejected";
+      /** The person: person_id (p_...), their Alion handle or an alion.io/user/<handle> link. */
+      person: string;
+      /** Remove a person you added instead of moving them. */
+      remove?: boolean;
+      /** The order: the id list_orders gives (an Alion vacancy your account posted). */
+      order_id: number;
+    }): Promise<unknown>;
+    /** The job postings Alion matched to the signed-in account's profile (its /matches feed), newest first: the compact posting with when it was matched and whether the person already saw it on the site. For an assistant a person connected to their own Alion account (OAuth or an API key); without an account it answers account_required. Free. Docs: https://alion.io/developers/docs */
+    my_matches(args?: {
+      /** How many matches to return (1-20, default 10). */
+      limit?: number;
+    }): Promise<unknown>;
+    /** Describe your agent so others can find and check it: its name, what it does, who it acts for (a person, a company, nobody), the company's domain, its capabilities and where it answers (MCP, A2A, a homepage). Registered agents are what get_agent and check_counterparty return. A company link shows on the company's Alion page only when it is proven: your requests signed with Web Bot Auth from a key d */
+    register_agent(args: {
+      /** What the agent is called, e.g. "Acme sourcing agent". */
+      name: string;
+      /** The handle you want (letters, digits, dashes); kept once given. */
+      handle?: string;
+      /** Its A2A endpoint or agent card (https). */
+      a2a_url?: string;
+      /** Its MCP endpoint (https). */
+      mcp_url?: string;
+      /** Its homepage (https). */
+      homepage?: string;
+      /** Who it acts for. */
+      principal?: "none" | "person" | "company";
+      /** What it does, in a sentence or three. */
+      description?: string;
+      /** What it can do, e.g. ["sourcing", "outreach", "scheduling"]. */
+      capabilities?: string[];
+      /** The company it acts for, by its web domain. */
+      company_domain?: string;
+    }): Promise<unknown>;
+    /** Tell Alion what went wrong: a bug, wrong or missing data, an unclear answer, abuse. Name the tool and the arguments you sent and what came back. A person reads every report. Free; 20 a day. Docs: https://alion.io/developers/docs */
+    report_problem(args: {
+      /** What kind of problem. */
+      kind: "bug" | "wrong_data" | "missing_data" | "unclear" | "abuse" | "other";
+      /** What you called, what you expected and what came back. */
+      text: string;
+      /** The tool it is about. */
+      tool?: string;
+      /** The arguments you sent. */
+      arguments?: Record<string, unknown>;
+    }): Promise<unknown>;
+    /** Find the company record behind a domain, a url or a name and learn whether it is alive: its Alion id, canonical domain, industry, size band, headquarters, ATS vendor, how many jobs are open, when the site and the job board were last verified, and coverage - ats_board when its own job board is read directly, partial when only feeds and career pages reach us (open-job counts are then a lower bound). */
+    resolve_company(args?: {
+      /** Any url on the company site or its job board. */
+      url?: string;
+      /** Company name as written. */
+      name?: string;
+      /** Any of the above when you are not sure which it is. */
+      query?: string;
+      /** Company web domain, e.g. "stripe.com". */
+      domain?: string;
+      /** A registration number: LEI, SEC CIK, Companies House number, Wikidata QID, VAT, SIREN, INN, OGRN, EIN... bare or with its scheme ("lei:5493001KJTIIGC8Y1R12", "cik:1652044"). */
+      identifier?: string;
+    }): Promise<unknown>;
+    /** Find companies in Alion's live graph (millions worldwide, one per web domain) by name or domain prefix, office country, size, industry or frontier sector, founding year, startup or not, funding stage, rounds since a date, minimum round, a named investor, a technology from its job postings, ATS vendor, hiring now, and growth (hiring_level A-C) or AI-adoption level. For market maps, competitor and p */
+    search_companies(args?: {
+      /** ATS vendor name, e.g. "Greenhouse", "Lever", "Workday", "SmartRecruiters". */
+      ats?: string;
+      /** On a list, ranking or programme by name: "unicorn", "Hurun", "FT 1000", "Inc. 5000", "Future 100", "Skolkovo", "Astana Hub"... */
+      list?: string;
+      /** Employee band or a comma list of bands: 1-10, 11-50, 51-200, 201-500, 501-1000, 1001-5000, 5000+. */
+      size?: string;
+      /** recent_hiring (default), recent_funding (the newest matching round first), open_jobs, score, newest (newest in the graph), name. */
+      sort?: "recent_hiring" | "open_jobs" | "score" | "newest" | "name" | "recent_funding";
+      /** Companies per page (1-50, default 20). */
+      limit?: number;
+      /** Name prefix ("Acme") or domain prefix ("acme."). */
+      query?: string;
+      /** Opaque cursor from a previous response (next_cursor). */
+      cursor?: string;
+      /** "compact" keeps id, name, domain, industry, size, headquarters country, founding year, open jobs and the newest round. */
+      detail?: "standard" | "compact";
+      /** true = has open roles now, false = none open. */
+      hiring?: boolean;
+      /** true = listed on a stock exchange (has a ticker), false = not listed. */
+      listed?: boolean;
+      /** A frontier-tech sector (one or a comma list): biotech, medtech, space, aerospace, semiconductors, energy, climate, defense, robotics, quantum, automotive, science - the companies whose core business it is; with hiring=true or sort=recent_hiring, who is hiring in it now. */
+      sector?: string;
+      /** ISO 3166-1 alpha-2 code or country name of an office on file. */
+      country?: string;
+      /** true = companies Alion classifies as startups (confirmed or likely), false = everyone else. */
+      startup?: boolean;
+      /** Minimum AI-adoption level from the roles the company hires for. */
+      ai_level?: "A" | "B" | "C";
+      /** Industry or segment by name, e.g. "Fintech", "Healthcare", "E-commerce". */
+      industry?: string;
+      /** A fund, angel network or accelerator by domain ("sequoiacap.com", "ycombinator.com") or name: the companies in its portfolio and the rounds it is named in. */
+      investor?: string;
+      /** Founded in this year or earlier. */
+      founded_to?: number;
+      /** A technology the company requires in its job postings, named exactly (one or a comma list), e.g. "Snowflake", "Kubernetes". */
+      technology?: string;
+      /** Only companies with patents or patent applications on file. */
+      has_patents?: boolean;
+      /** Only companies whose open Buying windows lead to a purchase of this category (rec recruitment, legal, acc accounting, ins insurance, it IT services, sec security, saas software, mkt marketing, cons consulting ...). Combine with buying_signal for "why". */
+      about_to_buy?: "rec" | "eor" | "legal" | "acc" | "bank" | "ins" | "re" | "it" | "sec" | "saas" | "data" | "mkt" | "loc" | "cons" | "ma" | "esg" | "bid" | "ind" | "med" | "edu" | "log";
+      /** Founded in this year or later, e.g. 2022. */
+      founded_from?: number;
+      /** Minimum growth-signal level from its hiring (A is the strongest). */
+      hiring_level?: "A" | "B" | "C";
+      /** Only companies with a matching round announced after this point: an ISO date ("2026-01-01") or a window ("90d", "6m", "1y"). Without funding_stage it means any venture round. */
+      raised_since?: string;
+      /** Only companies with an open Buying window of this kind - a dated change that opens purchases: funding (a round, a deal, an asset), hiring (a function scaled or stuck), leadership (a new executive), expansion (a new country or office), programme (a build-out, a product or technology programme), public_contract (a contract won, ending or tendered), risk (regulation, legal, ESG), other. The window wi */
+      buying_signal?: "funding" | "hiring" | "leadership" | "expansion" | "programme" | "public_contract" | "risk" | "other";
+      /** One round or a comma list: pre_seed, seed, angel, series_a ... series_h, venture, grant, debt, private_equity, ipo, acquired; or a group: early (pre-seed to series A), growth (series B to H), venture (any venture round). Matches companies with such a round on file. */
+      funding_stage?: string;
+      /** At most this many employees, as above. */
+      headcount_max?: number;
+      /** At least this many employees as a named source (a register, a filing, the site) stated in the last three years. */
+      headcount_min?: number;
+      /** Only companies with at least this many open job postings now. */
+      min_open_jobs?: number;
+      /** Only companies with a matching round of at least this many US dollars. */
+      min_round_usd?: number;
+      /** Revenue on file of at least this many US dollars (an estimate or a stated figure of the last three years). */
+      revenue_min_usd?: number;
+      /** Include staffing and recruiting agencies (left out by default). */
+      include_agencies?: boolean;
+      /** Only companies sponsoring or running clinical trials. */
+      has_clinical_trials?: boolean;
+      /** Only companies that won public contracts (the tender graph); search_contracts lists them. */
+      has_public_contracts?: boolean;
+    }): Promise<unknown>;
+    /** What changed at companies, newest first: funding rounds, new countries and offices, technologies taken up or dropped, hiring spikes, a size band up, ATS adopted, leadership hires, first roles, hiring freezes and layoffs, launches, partnerships and customers won, awards, acquisitions, renames, accelerator batches, and Buying windows opened (a dated reason to buy). Across the graph narrowed by count */
+    search_company_events(args?: {
+      /** Employee band or a comma list: 1-10, 11-50, 51-200, 201-500, 501-1000, 1001-5000, 5000+. */
+      size?: string;
+      /** One type or a comma list: funding_round, geo_expansion, office_opened, technology_added, technology_dropped, hiring_spike, size_up, ats_adopted, leadership_hire, first_role, hiring_freeze, layoff, product_launch, partnership, customer_won, award, acquisition, acquired, shutdown, renamed, accelerator, role_open_45d, role_open_90d, buying_window_opened. Default: all but the role_open_* ones. */
+      type?: string;
+      /** Events a page. */
+      limit?: number;
+      /** An ISO date or a window ("24h", "7d", "2w"); at most 90 days back, default 7 days. */
+      since?: string;
+      /** next_cursor of the previous page; keep the other arguments identical. */
+      cursor?: string;
+      /** Only these companies: a domain, id or name, or a comma list of up to 100. */
+      company?: string;
+      /** Headquarters country: ISO code or a comma list. */
+      country?: string;
+      /** Industry by name, e.g. "Fintech", or a comma list. */
+      industry?: string;
+      /** Only how many events match (free). */
+      count_only?: boolean;
+    }): Promise<unknown>;
+    /** Public procurement from the tender graph (TED, USAspending and national portals, millions of notices and awards): pass company= for the contracts a company won (its own share of each, newest first), buyer= for the tenders a public body put out, ending_within= for contracts whose term ends soon (who is about to re-tender and whose client may go), or country= for a country's notices. Narrow with sta */
+    search_contracts(args?: {
+      /** A public buyer: its domain, id or name - the tenders it put out. */
+      buyer?: string;
+      /** Rows a page. */
+      limit?: number;
+      /** Words that must appear in the title. */
+      query?: string;
+      /** Published after this point: an ISO date or a window ("90d"). */
+      since?: string;
+      /** next_cursor of the previous page; keep the other arguments identical. */
+      cursor?: string;
+      /** The notice status; "open" also needs the deadline ahead. */
+      status?: "planned" | "open" | "closed" | "awarded" | "cancelled" | "complete";
+      /** A supplier: its domain, id or name - the contracts it won. */
+      company?: string;
+      /** ISO code of the country of the notice. */
+      country?: string;
+      /** A CPV or UNSPSC code prefix, e.g. "72" (IT services) or "722". */
+      category?: string;
+      /** Only how many match (free). */
+      count_only?: boolean;
+      /** Contracts whose term ends within this window: "90d", "6m", "1y". */
+      ending_within?: string;
+      /** At least this value in USD (the award's with company=). */
+      min_value_usd?: number;
+    }): Promise<unknown>;
+    /** Find the funds, accelerators, angel networks, corporate investors and PE firms behind startups worldwide (a few thousand, portfolios read from their own sites) by type, portfolio sector (15%+ of its companies), entry stage, where they invest (a country or continent, 10%+), office country, activity (portfolio_rounds_90d, leads_rounds, named_in_rounds), portfolio hiring, exits, open to pitches, port */
+    search_investors(args?: {
+      /** active = portfolio rounds in 90 days (default), leads = rounds led in 12 months, hiring = portfolio companies hiring, largest = portfolio size. */
+      sort?: "active" | "leads" | "hiring" | "largest";
+      /** One or a comma list of: vc, accelerator, angels, corporate, pe, family_office, other. */
+      type?: string;
+      /** Investors per page (1-50, default 20). */
+      limit?: number;
+      /** Words of the investor's name, e.g. "sequoia", "index". */
+      query?: string;
+      /** One or a comma list of: seed, series_a, series_b, growth (15%+ of its entries). */
+      stage?: string;
+      /** Opaque cursor from a previous response (next_cursor). Keep every other argument identical. */
+      cursor?: string;
+      /** "compact" keeps id, name, domain, type, office country, portfolio size, rounds in 90 days, rounds led and companies hiring. */
+      detail?: "standard" | "compact";
+      /** One or a comma list of top-level markets of the portfolio: "AI", "Fintech", "Software", "Health Care", "Cybersecurity", "Biotechnology"... (15%+ of its companies). */
+      sector?: string;
+      /** portfolio_rounds_90d: its portfolio raised in 90 days; leads_rounds: a round named it the lead in 12 months; named_in_rounds: a round named it in 12 months. */
+      activity?: "portfolio_rounds_90d" | "leads_rounds" | "named_in_rounds";
+      /** Only investors with exits (portfolio companies listed or acquired). */
+      has_exits?: boolean;
+      /** The country of the investor's own office: ISO 3166-1 alpha-2 or a name. */
+      hq_country?: string;
+      /** Where its portfolio is: ISO country codes or names, or a continent (europe, north_america, south_america, asia, africa, oceania); a comma list matches any. */
+      invests_in?: string;
+      /** At least this many portfolio companies. */
+      min_portfolio?: number;
+      /** Only funds that claimed their page and say they take pitches. */
+      open_to_pitches?: boolean;
+      /** Only investors whose portfolio companies hire now. */
+      portfolio_hiring?: boolean;
+    }): Promise<unknown>;
+    /** Search live or recently closed job postings read from employers' own ATS boards, career pages and partner feeds worldwide (strong in Europe, the Gulf, Central Asia and remote roles). Each row: employer, role family, seniority, work mode, locations (ISO codes; a remote role adds hiring_countries), the stated salary or a USD estimate with its method, required technologies, first seen and last verifi */
+    search_jobs(args?: {
+      /** City in English, e.g. "Berlin", "Dubai", "Almaty"; "NYC", "Bay Area", "Munich/München" are understood. An unknown city is refused with suggestions. */
+      city?: string;
+      /** A role family ("Backend", "Data Science", "AI/ML") or a specialisation ("Data Engineer", "Product Manager"); a family covers its specialisations (alion://dictionaries/role-families). filters_applied.role shows the match. */
+      role?: string;
+      /** "date" = newest first (default), "salary" = highest pay first. */
+      sort?: "date" | "salary";
+      /** Postings per page (1-50, default 20). */
+      limit?: number;
+      /** Free text over titles and descriptions, e.g. "python backend kubernetes": matched as a phrase first, else every word anywhere (filters_applied.query_match says which). An exact employer name returns its postings. */
+      query?: string;
+      /** Opaque cursor from a previous response (next_cursor). Keep every other argument identical. */
+      cursor?: string;
+      /** "compact" returns about a third of each row (who, what, where, pay, when, trust) - use it to scan many rows; "standard" adds requirements, locations, verification facts and a 280-character description snippet. */
+      detail?: "standard" | "compact";
+      /** A frontier-tech sector or a comma list: biotech, medtech, space, aerospace, semiconductors, energy, climate, defense, robotics, quantum, automotive, science - its trades at any employer and the technical roles of companies built on it (no sales or back office). */
+      sector?: string;
+      /** "closed" returns postings confirmed closed on the employer board (with closed_at), useful for time-to-fill and churn analysis. */
+      status?: "live" | "closed" | "all";
+      /** Restrict to one employer: its Alion company id, domain ("stripe.com") or exact name. */
+      company?: string;
+      /** ISO 3166-1 alpha-2 code (preferred) or country name. Matches the office country, the posting country, or the hiring country of a remote role when the posting states it (hiring_geo_confidence structured or explicit). */
+      country?: string;
+      /** The industry of the posting or its employer, e.g. "Fintech", "Real Estate", "Gaming", "Healthcare" (the industries resource lists them). Every role at those employers; combine with role for one kind of job. */
+      industry?: string;
+      /** Seniority of the role: intern, junior, middle, senior, staff, lead or head. */
+      seniority?: "intern" | "junior" | "middle" | "senior" | "staff" | "lead" | "head";
+      /** Where the work happens: on_site, hybrid or remote. */
+      work_mode?: "on_site" | "hybrid" | "remote";
+      /** Only postings that offer equity. */
+      has_equity?: boolean;
+      /** A technology that must be among the requirements, e.g. "Go", "PostgreSQL", "React". A language also matches its frameworks. */
+      technology?: string;
+      /** Only postings whose stated yearly pay reaches the posting country's work-permit salary floor (EU Blue Card in DE, FR, ES, PL, AT, CZ, FI, LU, SE, EE; Dutch highly skilled migrant; Irish Critical Skills; Danish Pay Limit; Singapore Employment Pass; Korean E-7). Postings without a stated salary are excluded. */
+      visa_salary?: boolean;
+      /** Only postings first seen after this point: an ISO date ("2026-09-01") or a relative window ("24h", "7d", "2w"). */
+      posted_since?: string;
+      /** Only employers in the official visa sponsor registers of the posting's country (UK licensed sponsors, US H-1B/PERM, Dutch IND, Canadian LMIA, Irish employment permits, Danish Fast-track, Australian labour agreements), on-site roles of direct employers in the Gulf states (where the employer arranges the work visa by law), or adverts that offer sponsorship; adverts ruling it out are excluded. */
+      visa_sponsor?: boolean;
+      /** Minimum annual pay in USD: a stated range whose top reaches it, or - when nothing is stated - an estimate whose midpoint does. */
+      salary_min_usd?: number;
+      /** Kind of engagement: full_time, part_time, contractor, cofounder, freelance or internship. */
+      employment_type?: "full_time" | "part_time" | "contractor" | "cofounder" | "freelance" | "internship";
+      /** Include postings by staffing and recruiting agencies and by intermediaries (job boards, talent marketplaces). */
+      include_agencies?: boolean;
+      /** Only postings that state visa sponsorship. */
+      visa_sponsorship?: boolean;
+    }): Promise<unknown>;
+    /** Find people on Alion for a role - engineers, data and product people, designers, founders - by role, technologies (with years), seniority, country, the countries they may work in, work mode, relocation, languages, English level, kind of work, availability, budget, degree, past employer or free words; at least one of role, technology, query or company is required. Each row is a short card: handle,  */
+    search_people(args?: {
+      /** City in English. */
+      city?: string;
+      /** Role family or specialisation, e.g. "Backend", "Data Engineer", "Product Manager" (alion://dictionaries/role-families). */
+      role?: string;
+      /** best_match (default), recent_activity (last active first) or experience (most years first). */
+      sort?: "best_match" | "recent_activity" | "experience";
+      /** People per page (1-20, default 10). */
+      limit?: number;
+      /** Free words over titles, summaries, employers and skills ("computer vision drones"). */
+      query?: string;
+      /** next_cursor of the previous page (a search does not page past row 100). */
+      cursor?: string;
+      /** Worked (or works) at this company: name or domain. */
+      company?: string;
+      /** Where the person lives: ISO 3166-1 alpha-2 code. */
+      country?: string;
+      /** What the person says they are open to here: a job, freelance projects, a CTO role, a co-founder, angel investing. */
+      open_to?: "job" | "freelance" | "cto" | "cofounder" | "angel";
+      /** The minimum degree. */
+      education?: "bachelor" | "master" | "phd";
+      /** Spoken languages, a comma list ("German, French"); all required. */
+      languages?: string;
+      /** Years with each named technology (or in total when none is named). */
+      min_years?: number;
+      /** One or a comma list: intern, junior, middle, senior, staff, principal, lead, head, architect. */
+      seniority?: string;
+      /** A work mode the person accepts. */
+      work_mode?: "on_site" | "hybrid" | "remote";
+      /** The most the role pays a year in USD: people who expect more are left out. */
+      budget_usd?: number;
+      /** Only people with their GitHub on the profile. */
+      has_github?: boolean;
+      /** Only people open to relocation. */
+      relocation?: boolean;
+      /** Technologies the person must have, a comma list ("Python, PostgreSQL"); every one is required. */
+      technology?: string;
+      /** A country the person may work in (lives there, holds a permit or citizenship): ISO code. */
+      can_work_in?: string;
+      /** actively_looking only, or everyone open to offers (the default). */
+      availability?: "actively_looking" | "open_to_offers";
+      /** The minimum English level. */
+      english_level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
+      /** A kind of work the person takes. */
+      employment_type?: "full_time" | "part_time" | "contractor" | "freelance" | "cofounder" | "internship";
+      /** Only people active on Alion in this many days. */
+      active_within_days?: number;
+    }): Promise<unknown>;
+    /** Write to a person in their Alion messages. The first message is an offer: purpose, the job (title, pay, places, work mode), on whose behalf, why this person (a fact of their profile) and the text (30-2000 characters, in their language). Delivered only if it passes the person's filters and the rules, else returned at once, unseen, with a reason and a hint: role_mismatch, pay_below_floor, location_m */
+    send_message(args?: {
+      /** The offer, as the person will read it. */
+      job?: {
+        /** The pay range. Required for a job offer: it is checked against the person's floor. */
+        pay?: {
+          max?: number;
+          min?: number;
+          period?: "year" | "month" | "week" | "day" | "hour";
+          /** ISO 4217, default USD. */
+          currency?: string;
+          [key: string]: unknown;
+        };
+        /** The vacancy page: an alion.io/job/... link or the company's own job board. */
+        url?: string;
+        /** Role family or specialisation ("Backend", "Data Engineer"); the title is read when it is left out. */
+        role?: string;
+        /** Job title, e.g. "Senior Perception Engineer". */
+        title?: string;
+        /** ISO 3166-1 alpha-2 codes of where the work is (or may be done from). */
+        countries?: string[];
+        work_mode?: "on_site" | "hybrid" | "remote";
+        employment_type?: "full_time" | "part_time" | "contractor" | "cofounder" | "freelance" | "internship";
+        [key: string]: unknown;
+      };
+      /** The person: their Alion handle (the "person" field of a search row), or an alion.io/user/<handle> or alion.io/@<handle> link. */
+      person?: string;
+      /** 30-2000 characters. Contacts are never asked in a first message. */
+      message?: string;
+      /** Why you write; job_offer (the default) needs job with its pay. */
+      purpose?: "job_offer" | "freelance" | "cofounder" | "consulting" | "interview" | "other";
+      /** ISO date the offer waits for an answer until (default 14 days, at most 60). */
+      reply_by?: string;
+      /** Who the message is from. A company named must be the one your agent verified (verify_company). */
+      on_behalf_of?: {
+        /** The person the candidate would talk to. */
+        name?: string;
+        title?: string;
+        company?: string;
+        company_domain?: string;
+        [key: string]: unknown;
+      };
+      /** To continue a conversation you have: its id and message only. */
+      conversation_id?: string;
+      /** Your key for this message: a repeat with the same key answers the first outcome. */
+      idempotency_key?: string;
+      /** One or two sentences: a fact of the profile (a skill, an employer, a project, a school) and why it matters for this offer. */
+      why_this_person?: string;
+    }): Promise<unknown>;
+    /** A public https url that receives your agent's events as signed POSTs: message.delivered, message.replied (with the text), message.declined, message.returned, message.expired, agent.paused, agent.blocked. The answer gives the secret for the X-Alion-Signature HMAC once. Pass an empty url to remove it. Docs: https://alion.io/developers/docs */
+    set_webhook(args: {
+      /** A public https url, or "" to remove the webhook. */
+      url: string;
+    }): Promise<unknown>;
+    /** Lookalikes of one company: the companies that share its industry segments, the technologies its job postings name, its headquarters country and a size band near it - the starting point for a market map, a competitor scan, a prospect list built from a best customer, or alternatives to a supplier. Each row is a company (as in search_companies) plus similarity: a score, the segments and technologies  */
+    similar_companies(args: {
+      /** "competitors": the own ranked competitor list (one record a brand, its main segment first), as its Alion /competitors page; falls back to lookalikes when it has none. */
+      mode?: "lookalikes" | "competitors";
+      /** How many lookalikes to return (1-25, default 10). */
+      limit?: number;
+      /** "compact" keeps id, name, domain, industry, size, headquarters country, founding year, open jobs and the newest round, plus similarity. */
+      detail?: "standard" | "compact";
+      /** The company to find lookalikes of: Alion id, domain ("stripe.com") or name. */
+      company: string;
+      /** Only lookalikes with an office in this country (ISO 3166-1 alpha-2 code or name). */
+      country?: string;
+    }): Promise<unknown>;
+    /** People like a given one: the same role family and the skills they share, optionally in one country. For a shortlist built from a good candidate. Free; limits by trust: no account 50 profile reads and 20 searches a day per network, a wallet signed in with SIWX 100 and 50, an Alion account 1,000 and 200, a verified company 5,000 and 1,000. Docs: https://alion.io/developers/docs */
+    similar_people(args: {
+      /** How many people to return (1-20). */
+      limit?: number;
+      /** The person: their Alion handle (the "person" field of a search row), or an alion.io/user/<handle> or alion.io/@<handle> link. */
+      person: string;
+      /** Only people living in this country: ISO 3166-1 alpha-2 code. */
+      country?: string;
+    }): Promise<unknown>;
+    /** Prove your agent writes for a company (an Alion account is needed): an account that claimed the company on Alion with a work email is verified at once; otherwise publish https://<domain>/.well-known/alion-agent.json with the token this call gives and call it again. A verified company's agent is shown with its domain and a check mark, reads what people show recruiters and has the highest limits. Pu */
+    verify_company(args: {
+      /** The company's web domain, e.g. "kestrel.com". */
+      domain: string;
+    }): Promise<unknown>;
+    /** Save a search of jobs, companies or people, or a feed of company events, and come back for what is new: kind is jobs, companies, people or events, filters are the arguments of search_jobs, search_companies, search_people or search_company_events (e.g. {"role":"Backend","country":"DE","work_mode":"remote"}). Answers the first page now (newest first, compact) and a watch_id; check_watch with it late */
+    watch_search(args: {
+      /** What to watch: jobs, companies, people, or events (the company event feed of search_company_events: funding rounds, new offices, leadership hires, Buying windows... of the companies or the slice you name; paid per event, $0.005, with an account). */
+      kind: "jobs" | "companies" | "people" | "events";
+      /** A short label, e.g. "Remote Go roles in EU". */
+      name?: string;
+      /** kind events only: "webhook" posts the new events to the agent's webhook (set_webhook) every 15 minutes as event "watch.events", paid per event; "poll" waits for check_watch. */
+      deliver?: "poll" | "webhook";
+      /** The search arguments to follow (cursor and limit are ignored). */
+      filters: Record<string, unknown>;
     }): Promise<unknown>;
 }
 
@@ -473361,6 +475923,77 @@ interface BowmarkSiteTools_f80a463dac {
       section?: string;
       [key: string]: unknown;
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_f83afd440b {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Wanchain" (https://www.wanchain.org/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to guess th */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Wanchain" (https://www.wanchain.org/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for any  */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Wanchain" (https://www.wanchain.org/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Wanchain" (https://www.wanchain.org/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what they ca */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Wanchain" (https://www.wanchain.org/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an entity  */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Wanchain" (https://www.wanchain.org/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Wanchain" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site details */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_f85096804f {
@@ -488433,6 +491066,7 @@ interface BowmarkSites {
   "1e9.community": BowmarkSiteTools_8c404e0963;
   "1hotpieceofglass.com": BowmarkSiteTools_e8ae28a971;
   "1md.org": BowmarkSiteTools_921614d236;
+  "1nadan.si": BowmarkSiteTools_39e661ae5d;
   "1network.com": BowmarkSiteTools_4b18edad08;
   "1password.dev": BowmarkSiteTools_4480590097;
   "1stphorm.com": BowmarkSiteTools_921614d236;
@@ -488504,6 +491138,7 @@ interface BowmarkSites {
   "5feet11.com": BowmarkSiteTools_921614d236;
   "5gencare.com": BowmarkSiteTools_2b9c67ec6c;
   "5hourenergy.com": BowmarkSiteTools_1a8e16d918;
+  "5ktoys.com": BowmarkSiteTools_921614d236;
   "5sos.com": BowmarkSiteTools_921614d236;
   "66north.com": BowmarkSiteTools_921614d236;
   "686.com": BowmarkSiteTools_e8ae28a971;
@@ -488649,6 +491284,7 @@ interface BowmarkSites {
   "aelfriceden.com": BowmarkSiteTools_921614d236;
   "aeliyamarinetech.com": BowmarkSiteTools_1a8e16d918;
   "aeo.eu": BowmarkSiteTools_921614d236;
+  "aeonathletics.com": BowmarkSiteTools_921614d236;
   "aeonbike.jp": BowmarkSiteTools_921614d236;
   "aeroflowdynamics.com": BowmarkSiteTools_921614d236;
   "aeropanda.com": BowmarkSiteTools_1a8e16d918;
@@ -488727,7 +491363,8 @@ interface BowmarkSites {
   "ajeworld.com": BowmarkSiteTools_921614d236;
   "ajeworld.com.au": BowmarkSiteTools_921614d236;
   "ajtoys.co.uk": BowmarkSiteTools_921614d236;
-  "akbaraslam.com": BowmarkSiteTools_1a8e16d918;
+  "akakara.jp": BowmarkSiteTools_921614d236;
+  "akbaraslam.com": BowmarkSiteTools_921614d236;
   "akd.iq": BowmarkSiteTools_921614d236;
   "akisi.com": BowmarkSiteTools_8b1710ee4c;
   "akkogear.eu": BowmarkSiteTools_921614d236;
@@ -488787,8 +491424,8 @@ interface BowmarkSites {
   "aliforneycenter.org": BowmarkSiteTools_8dacc07dbb;
   "alignerco.com": BowmarkSiteTools_e8ae28a971;
   "alimed.com": BowmarkSiteTools_921614d236;
-  "alion.io": BowmarkSiteTools_e7ed65e8b1;
-  "alisa.ua": BowmarkSiteTools_921614d236;
+  "alion.io": BowmarkSiteTools_f2be3fd45d;
+  "alisa.ua": BowmarkSiteTools_1a8e16d918;
   "alishaperfumes.cl": BowmarkSiteTools_921614d236;
   "aljam3.com": BowmarkSiteTools_3ea515aeb9;
   "alkaramstudio.com": BowmarkSiteTools_921614d236;
@@ -488833,6 +491470,7 @@ interface BowmarkSites {
   "almacenesla13.com": BowmarkSiteTools_e8ae28a971;
   "almagems.com": BowmarkSiteTools_921614d236;
   "almas.pk": BowmarkSiteTools_921614d236;
+  "almeparis.com": BowmarkSiteTools_e8ae28a971;
   "almirah.com.pk": BowmarkSiteTools_921614d236;
   "almirall.com": BowmarkSiteTools_120b587a16;
   "almosafer.com": BowmarkSiteTools_5a91108466;
@@ -488850,7 +491488,7 @@ interface BowmarkSites {
   "alphagrowth.io": BowmarkSiteTools_658cd3af75;
   "alphaindustries.com": BowmarkSiteTools_e8ae28a971;
   "alphaleteathletics.com": BowmarkSiteTools_921614d236;
-  "alphalion.com": BowmarkSiteTools_1a8e16d918;
+  "alphalion.com": BowmarkSiteTools_921614d236;
   "alphapaw.com": BowmarkSiteTools_921614d236;
   "alphareproduction.com": BowmarkSiteTools_921614d236;
   "alpharexusa.com": BowmarkSiteTools_921614d236;
@@ -488913,7 +491551,7 @@ interface BowmarkSites {
   "americanbuttonmachines.com": BowmarkSiteTools_921614d236;
   "americanclassicmotors.com": BowmarkSiteTools_921614d236;
   "americancrew.com": BowmarkSiteTools_1a8e16d918;
-  "americanduchess.com": BowmarkSiteTools_921614d236;
+  "americanduchess.com": BowmarkSiteTools_1a8e16d918;
   "americanfreight.com": BowmarkSiteTools_e8ae28a971;
   "americangirl.com": BowmarkSiteTools_921614d236;
   "americanhatmakers.com": BowmarkSiteTools_1a8e16d918;
@@ -488940,6 +491578,7 @@ interface BowmarkSites {
   "amoramarket.com.mx": BowmarkSiteTools_a5d5ad65c1;
   "amoretti.com": BowmarkSiteTools_921614d236;
   "amorevintagejapan.com": BowmarkSiteTools_e8ae28a971;
+  "amoseeds.com": BowmarkSiteTools_921614d236;
   "amote.app": BowmarkSiteTools_921614d236;
   "amotopart.com": BowmarkSiteTools_921614d236;
   "amouage.com": BowmarkSiteTools_e8ae28a971;
@@ -488956,6 +491595,7 @@ interface BowmarkSites {
   "amymyersmd.com": BowmarkSiteTools_921614d236;
   "anabei.com": BowmarkSiteTools_921614d236;
   "anacate.com": BowmarkSiteTools_921614d236;
+  "anacondaperformance.com": BowmarkSiteTools_921614d236;
   "anahana.com": BowmarkSiteTools_03b11de57b;
   "analizafirm.pl": BowmarkSiteTools_6df120eb18;
   "analoguewonderland.co.uk": BowmarkSiteTools_e8ae28a971;
@@ -489027,6 +491667,7 @@ interface BowmarkSites {
   "ansaldo.cl": BowmarkSiteTools_1a8e16d918;
   "anseladams.com": BowmarkSiteTools_921614d236;
   "anta.com": BowmarkSiteTools_921614d236;
+  "antennebooks.com": BowmarkSiteTools_e8ae28a971;
   "anthbot.com": BowmarkSiteTools_1a8e16d918;
   "anthonyryans.com": BowmarkSiteTools_921614d236;
   "anthonysdiecasts.com.au": BowmarkSiteTools_e8ae28a971;
@@ -489061,6 +491702,7 @@ interface BowmarkSites {
   "aperturee.com": BowmarkSiteTools_921614d236;
   "apescan.io": BowmarkSiteTools_32a62f7460;
   "apexbookcompany.com": BowmarkSiteTools_921614d236;
+  "apexgamingpcs.com": BowmarkSiteTools_921614d236;
   "apexmagnets.com": BowmarkSiteTools_363e0a2f04;
   "api-ninjas.com": BowmarkSiteTools_7f87447d6f;
   "apicecosmeticos.com.br": BowmarkSiteTools_921614d236;
@@ -489106,6 +491748,7 @@ interface BowmarkSites {
   "aquatru.com": BowmarkSiteTools_921614d236;
   "aqueria.co": BowmarkSiteTools_921614d236;
   "aquila.com.au": BowmarkSiteTools_921614d236;
+  "ar-pay.com": BowmarkSiteTools_04a1f45a39;
   "arabellahair.com": BowmarkSiteTools_921614d236;
   "arabianaroma.in": BowmarkSiteTools_921614d236;
   "arabianoud.com": BowmarkSiteTools_2c1343b9af;
@@ -489139,7 +491782,7 @@ interface BowmarkSites {
   "arhamcommerce.com": BowmarkSiteTools_921614d236;
   "arhaus.com": BowmarkSiteTools_921614d236;
   "aribikes.com": BowmarkSiteTools_921614d236;
-  "arihantbooks.com": BowmarkSiteTools_1a8e16d918;
+  "arihantbooks.com": BowmarkSiteTools_921614d236;
   "arionflight.com": BowmarkSiteTools_fb8d5c4f61;
   "aristocrazy.com": BowmarkSiteTools_1a8e16d918;
   "arkenopticsusa.com": BowmarkSiteTools_921614d236;
@@ -489193,7 +491836,6 @@ interface BowmarkSites {
   "artistictile.com": BowmarkSiteTools_921614d236;
   "artistika.fr": BowmarkSiteTools_921614d236;
   "artisul.com": BowmarkSiteTools_1a8e16d918;
-  "artizanjoyeria.com": BowmarkSiteTools_921614d236;
   "artnap.com": BowmarkSiteTools_f85096804f;
   "artnhobby.ie": BowmarkSiteTools_921614d236;
   "artofplay.com": BowmarkSiteTools_e8ae28a971;
@@ -489217,7 +491859,7 @@ interface BowmarkSites {
   "arzopa.com": BowmarkSiteTools_1a8e16d918;
   "asadautos.pk": BowmarkSiteTools_921614d236;
   "asakuki.com": BowmarkSiteTools_921614d236;
-  "ascensionpress.com": BowmarkSiteTools_921614d236;
+  "ascensionpress.com": BowmarkSiteTools_1a8e16d918;
   "ascentoutdoors.com": BowmarkSiteTools_e8ae28a971;
   "ascuolaoggi.com": BowmarkSiteTools_89a2e19a56;
   "asdecarreaux.com": BowmarkSiteTools_dc54b5620e;
@@ -489242,6 +491884,7 @@ interface BowmarkSites {
   "askandembla.net": BowmarkSiteTools_921614d236;
   "askavet.com": BowmarkSiteTools_921614d236;
   "askscores.com": BowmarkSiteTools_8b75f16259;
+  "asl-automation.com": BowmarkSiteTools_ef77119b75;
   "asmartblonde.com": BowmarkSiteTools_921614d236;
   "asmc.com": BowmarkSiteTools_e8ae28a971;
   "asmc.de": BowmarkSiteTools_e8ae28a971;
@@ -489281,7 +491924,7 @@ interface BowmarkSites {
   "astrthelabel.com": BowmarkSiteTools_921614d236;
   "atakdomain.com": BowmarkSiteTools_20f1e4a501;
   "ataoland.com": BowmarkSiteTools_1a8e16d918;
-  "atari.com": BowmarkSiteTools_921614d236;
+  "atari.com": BowmarkSiteTools_1a8e16d918;
   "atatus.com": BowmarkSiteTools_d473d39576;
   "atechmemory.com": BowmarkSiteTools_921614d236;
   "atekcr.com": BowmarkSiteTools_921614d236;
@@ -489336,6 +491979,7 @@ interface BowmarkSites {
   "aubade.com": BowmarkSiteTools_921614d236;
   "aubainerie.com": BowmarkSiteTools_921614d236;
   "auberginefoods.com": BowmarkSiteTools_921614d236;
+  "aucadastre.fr": BowmarkSiteTools_a587171682;
   "audeze.com": BowmarkSiteTools_921614d236;
   "audiala.com": BowmarkSiteTools_e5e9be4605;
   "audienhearing.com": BowmarkSiteTools_921614d236;
@@ -489417,6 +492061,7 @@ interface BowmarkSites {
   "avatier.com": BowmarkSiteTools_d55c1aaa38;
   "avato.com.br": BowmarkSiteTools_d4967eaf5b;
   "avea-life.com": BowmarkSiteTools_921614d236;
+  "aveclesfilles.com": BowmarkSiteTools_921614d236;
   "avemariapress.com": BowmarkSiteTools_921614d236;
   "aventon.com": BowmarkSiteTools_1a8e16d918;
   "aventon.de": BowmarkSiteTools_e8ae28a971;
@@ -489586,17 +492231,18 @@ interface BowmarkSites {
   "bargainchemist.co.nz": BowmarkSiteTools_921614d236;
   "baristaunderground.com": BowmarkSiteTools_921614d236;
   "baristawarehouse.com.au": BowmarkSiteTools_1a8e16d918;
-  "bark.co": BowmarkSiteTools_921614d236;
-  "barkershoes.com": BowmarkSiteTools_e8ae28a971;
+  "bark.co": BowmarkSiteTools_1a8e16d918;
+  "barkershoes.com": BowmarkSiteTools_1a8e16d918;
   "barmeister24.de": BowmarkSiteTools_921614d236;
   "barndominiumplans.com": BowmarkSiteTools_921614d236;
   "barnesandnoble.com": BowmarkSiteTools_1a8e16d918;
   "baronofdice.com": BowmarkSiteTools_e8ae28a971;
-  "baroque.pk": BowmarkSiteTools_921614d236;
+  "baroque.pk": BowmarkSiteTools_1a8e16d918;
   "barrelofbeads.com": BowmarkSiteTools_921614d236;
   "bartesian.com": BowmarkSiteTools_1a8e16d918;
   "bartonwatchbands.com": BowmarkSiteTools_921614d236;
   "barts.eu": BowmarkSiteTools_921614d236;
+  "basantikekapde.com": BowmarkSiteTools_921614d236;
   "basariopticals.com": BowmarkSiteTools_921614d236;
   "base.org": BowmarkSiteTools_3da10ad392;
   "baseballexpress.com": BowmarkSiteTools_921614d236;
@@ -489656,6 +492302,7 @@ interface BowmarkSites {
   "bdodb.wiki": BowmarkSiteTools_3695e90139;
   "bds-suspension.com": BowmarkSiteTools_921614d236;
   "be-clinical.com": BowmarkSiteTools_921614d236;
+  "beachbunnyswimwear.com": BowmarkSiteTools_e8ae28a971;
   "beachcamera.com": BowmarkSiteTools_1a8e16d918;
   "beachriot.com": BowmarkSiteTools_e8ae28a971;
   "beaconbank.jp": BowmarkSiteTools_0084c314b0;
@@ -489674,7 +492321,7 @@ interface BowmarkSites {
   "beardo.in": BowmarkSiteTools_1a8e16d918;
   "bearhugs.in": BowmarkSiteTools_921614d236;
   "bearingscanada.com": BowmarkSiteTools_921614d236;
-  "bearpaw.com": BowmarkSiteTools_1a8e16d918;
+  "bearpaw.com": BowmarkSiteTools_921614d236;
   "bears-with-benefits.com": BowmarkSiteTools_921614d236;
   "beastlife.in": BowmarkSiteTools_921614d236;
   "beatandraise.com": BowmarkSiteTools_50c801d512;
@@ -489688,11 +492335,12 @@ interface BowmarkSites {
   "beauteprivee.fr": BowmarkSiteTools_921614d236;
   "beautifulearthboutique.com": BowmarkSiteTools_921614d236;
   "beautizone.co.uk": BowmarkSiteTools_e8ae28a971;
-  "beautyaffairs.cn": BowmarkSiteTools_1a8e16d918;
+  "beautyaffairs.cn": BowmarkSiteTools_921614d236;
   "beautyaffairs.com.au": BowmarkSiteTools_921614d236;
   "beautyaffairs.hk": BowmarkSiteTools_921614d236;
   "beautyaffairs.sg": BowmarkSiteTools_921614d236;
   "beautybase.com": BowmarkSiteTools_921614d236;
+  "beautyboxjo.com": BowmarkSiteTools_921614d236;
   "beautybrands.com": BowmarkSiteTools_e8ae28a971;
   "beautybyearth.com": BowmarkSiteTools_921614d236;
   "beautycarebag.com": BowmarkSiteTools_921614d236;
@@ -489760,7 +492408,9 @@ interface BowmarkSites {
   "bellavitaluxe.com": BowmarkSiteTools_921614d236;
   "bellavitaorganic.com": BowmarkSiteTools_1a8e16d918;
   "bellerose.com": BowmarkSiteTools_921614d236;
+  "bellissima.com": BowmarkSiteTools_921614d236;
   "bellross.com": BowmarkSiteTools_921614d236;
+  "bellsofsteel.com": BowmarkSiteTools_e8ae28a971;
   "bellsofsteel.us": BowmarkSiteTools_e8ae28a971;
   "belowbody.com": BowmarkSiteTools_921614d236;
   "belroshop.com": BowmarkSiteTools_921614d236;
@@ -489828,7 +492478,7 @@ interface BowmarkSites {
   "betterlovedoll.com": BowmarkSiteTools_1a8e16d918;
   "betteruptime.com": BowmarkSiteTools_cff29b556e;
   "betterware.com.mx": BowmarkSiteTools_921614d236;
-  "bettinardi.com": BowmarkSiteTools_1a8e16d918;
+  "bettinardi.com": BowmarkSiteTools_921614d236;
   "bettomax.com": BowmarkSiteTools_52d5f021a8;
   "betts.com.au": BowmarkSiteTools_921614d236;
   "bettystoybox.com": BowmarkSiteTools_921614d236;
@@ -489847,7 +492497,7 @@ interface BowmarkSites {
   "bhl.co.uk": BowmarkSiteTools_921614d236;
   "biaslighting.com": BowmarkSiteTools_921614d236;
   "bibloo.com": BowmarkSiteTools_1a8e16d918;
-  "bibsworld.com": BowmarkSiteTools_1a8e16d918;
+  "bibsworld.com": BowmarkSiteTools_921614d236;
   "bicyclesuperstore.com.au": BowmarkSiteTools_921614d236;
   "bicyclewarehouse.com": BowmarkSiteTools_e8ae28a971;
   "biffi.com": BowmarkSiteTools_921614d236;
@@ -489928,7 +492578,7 @@ interface BowmarkSites {
   "bioracer.com": BowmarkSiteTools_921614d236;
   "biorootlabs.com": BowmarkSiteTools_921614d236;
   "biossusa.com": BowmarkSiteTools_921614d236;
-  "biotique.com": BowmarkSiteTools_1a8e16d918;
+  "biotique.com": BowmarkSiteTools_921614d236;
   "biqu.equipment": BowmarkSiteTools_921614d236;
   "birdandbe.com": BowmarkSiteTools_921614d236;
   "birdandblendtea.com": BowmarkSiteTools_e8ae28a971;
@@ -490051,6 +492701,7 @@ interface BowmarkSites {
   "bloomshell.co": BowmarkSiteTools_921614d236;
   "bloomthis.co": BowmarkSiteTools_921614d236;
   "blowesclothing.com.au": BowmarkSiteTools_921614d236;
+  "bloxxer.gg": BowmarkSiteTools_921614d236;
   "bludot.com": BowmarkSiteTools_e8ae28a971;
   "blueair.com": BowmarkSiteTools_1a8e16d918;
   "bluebananabrand.com": BowmarkSiteTools_e8ae28a971;
@@ -490063,7 +492714,7 @@ interface BowmarkSites {
   "blueillusion.com": BowmarkSiteTools_921614d236;
   "blueisland.in": BowmarkSiteTools_921614d236;
   "blueland.com": BowmarkSiteTools_921614d236;
-  "bluemercury.com": BowmarkSiteTools_1a8e16d918;
+  "bluemercury.com": BowmarkSiteTools_921614d236;
   "blueowl.us": BowmarkSiteTools_e8ae28a971;
   "blueplanetchocolate.com": BowmarkSiteTools_921614d236;
   "blueq.com": BowmarkSiteTools_921614d236;
@@ -490105,12 +492756,14 @@ interface BowmarkSites {
   "boat-lifestyle.com": BowmarkSiteTools_921614d236;
   "boatcrowd.com": BowmarkSiteTools_a32d2c123f;
   "boathousestores.com": BowmarkSiteTools_921614d236;
+  "boba.com": BowmarkSiteTools_921614d236;
   "bobjane.com.au": BowmarkSiteTools_921614d236;
   "bobochoses.com": BowmarkSiteTools_e8ae28a971;
   "bobomoda.ro": BowmarkSiteTools_3f6e447273;
   "boc24.de": BowmarkSiteTools_921614d236;
   "bode.com": BowmarkSiteTools_e8ae28a971;
   "boden.com": BowmarkSiteTools_1a8e16d918;
+  "bodenglueck.de": BowmarkSiteTools_921614d236;
   "bodi.com": BowmarkSiteTools_921614d236;
   "bodyandbra.com": BowmarkSiteTools_921614d236;
   "bodyandfit.com": BowmarkSiteTools_1a8e16d918;
@@ -490142,7 +492795,7 @@ interface BowmarkSites {
   "boldfit.com": BowmarkSiteTools_921614d236;
   "boldsign.com": BowmarkSiteTools_f665f55bb1;
   "bollandbranch.com": BowmarkSiteTools_e8ae28a971;
-  "bombayshavingcompany.com": BowmarkSiteTools_1a8e16d918;
+  "bombayshavingcompany.com": BowmarkSiteTools_921614d236;
   "bombereyewear.com": BowmarkSiteTools_e8ae28a971;
   "bombonds.com": BowmarkSiteTools_921614d236;
   "bomboogie.com": BowmarkSiteTools_1a8e16d918;
@@ -490156,6 +492809,7 @@ interface BowmarkSites {
   "bonia.com": BowmarkSiteTools_921614d236;
   "bonkerscorner.com": BowmarkSiteTools_921614d236;
   "bonmaxie.com.au": BowmarkSiteTools_921614d236;
+  "bonne-maman.com": BowmarkSiteTools_1a8e16d918;
   "bonnegueule.fr": BowmarkSiteTools_e8ae28a971;
   "bonnemaman.us": BowmarkSiteTools_921614d236;
   "bonnersmusic.co.uk": BowmarkSiteTools_e8ae28a971;
@@ -490295,7 +492949,7 @@ interface BowmarkSites {
   "brek.com": BowmarkSiteTools_3e6df4df90;
   "bremont.com": BowmarkSiteTools_e8ae28a971;
   "brew-watches.com": BowmarkSiteTools_e8ae28a971;
-  "brewdog.com": BowmarkSiteTools_921614d236;
+  "brewdog.com": BowmarkSiteTools_1a8e16d918;
   "breyerhorses.com": BowmarkSiteTools_921614d236;
   "briangavindiamonds.com": BowmarkSiteTools_921614d236;
   "brickblingtoy.com": BowmarkSiteTools_921614d236;
@@ -490452,6 +493106,7 @@ interface BowmarkSites {
   "burstoralcare.com": BowmarkSiteTools_921614d236;
   "burton.com": BowmarkSiteTools_921614d236;
   "burtsbeesbaby.com": BowmarkSiteTools_921614d236;
+  "bus-tracker.fr": BowmarkSiteTools_676083bf04;
   "buscalibre.com": BowmarkSiteTools_59a106f663;
   "bushbalm.com": BowmarkSiteTools_921614d236;
   "bushiroad-store.com": BowmarkSiteTools_921614d236;
@@ -490565,7 +493220,6 @@ interface BowmarkSites {
   "campmor.com": BowmarkSiteTools_e8ae28a971;
   "campomaggi.com": BowmarkSiteTools_921614d236;
   "campsnapphoto.com": BowmarkSiteTools_1a8e16d918;
-  "campspot.com": BowmarkSiteTools_8f34867691;
   "campusshoes.com": BowmarkSiteTools_921614d236;
   "can-doc.de": BowmarkSiteTools_e8ae28a971;
   "canadagoose.com": BowmarkSiteTools_e8ae28a971;
@@ -490578,7 +493232,7 @@ interface BowmarkSites {
   "canapuff.com": BowmarkSiteTools_e8ae28a971;
   "canasups.com": BowmarkSiteTools_921614d236;
   "cancam.no": BowmarkSiteTools_921614d236;
-  "candent.ca": BowmarkSiteTools_1a8e16d918;
+  "candent.ca": BowmarkSiteTools_921614d236;
   "candle-shack.co.uk": BowmarkSiteTools_921614d236;
   "candle-shack.com": BowmarkSiteTools_921614d236;
   "candyclaws.com.au": BowmarkSiteTools_921614d236;
@@ -490621,7 +493275,7 @@ interface BowmarkSites {
   "carbatec.com.au": BowmarkSiteTools_e8ae28a971;
   "carbinstore.com": BowmarkSiteTools_921614d236;
   "carbon38.com": BowmarkSiteTools_e8ae28a971;
-  "carbonestore.com": BowmarkSiteTools_1a8e16d918;
+  "carbonestore.com": BowmarkSiteTools_921614d236;
   "card-binder.com": BowmarkSiteTools_921614d236;
   "cardbard.co.nz": BowmarkSiteTools_921614d236;
   "cardbrawlers.com": BowmarkSiteTools_e8ae28a971;
@@ -490651,7 +493305,7 @@ interface BowmarkSites {
   "carmoods.com": BowmarkSiteTools_1a8e16d918;
   "carnivoresnax.com": BowmarkSiteTools_e8ae28a971;
   "carolevintage.com": BowmarkSiteTools_e8ae28a971;
-  "carolinasportsmanoutfitters.com": BowmarkSiteTools_1a8e16d918;
+  "carolinasportsmanoutfitters.com": BowmarkSiteTools_e8ae28a971;
   "carolsdaughter.com": BowmarkSiteTools_921614d236;
   "carousell.com": BowmarkSiteTools_0733391e97;
   "carpisa.it": BowmarkSiteTools_921614d236;
@@ -490692,7 +493346,7 @@ interface BowmarkSites {
   "casence.in": BowmarkSiteTools_921614d236;
   "caseplay.shop": BowmarkSiteTools_921614d236;
   "cashgenerator.co.uk": BowmarkSiteTools_921614d236;
-  "cashncarry.ca": BowmarkSiteTools_921614d236;
+  "cashncarry.ca": BowmarkSiteTools_1a8e16d918;
   "casida.com": BowmarkSiteTools_921614d236;
   "caskcartel.com": BowmarkSiteTools_921614d236;
   "casparionline.com": BowmarkSiteTools_921614d236;
@@ -490730,6 +493384,7 @@ interface BowmarkSites {
   "ceacuautla.edu.mx": BowmarkSiteTools_9e483863c6;
   "cecred.com": BowmarkSiteTools_921614d236;
   "cedarandtinco.com": BowmarkSiteTools_921614d236;
+  "cedarplanters.com": BowmarkSiteTools_921614d236;
   "celavie.com.br": BowmarkSiteTools_a5d5ad65c1;
   "celebrate.app": BowmarkSiteTools_292ac6a577;
   "celebrate.company": BowmarkSiteTools_2b62dd6c51;
@@ -490739,6 +493394,7 @@ interface BowmarkSites {
   "celestialseasonings.com": BowmarkSiteTools_921614d236;
   "celestron.com": BowmarkSiteTools_921614d236;
   "celine-opticien-lunetier.com": BowmarkSiteTools_921614d236;
+  "celleheute.de": BowmarkSiteTools_f0af24737e;
   "cellopoint.com": BowmarkSiteTools_d364094f14;
   "cellucor.com": BowmarkSiteTools_921614d236;
   "celovendo.com": BowmarkSiteTools_921614d236;
@@ -490806,6 +493462,7 @@ interface BowmarkSites {
   "chatcut.io": BowmarkSiteTools_5a84e3d7e8;
   "chattanoogabutter.com": BowmarkSiteTools_921614d236;
   "chaumet.com": BowmarkSiteTools_921614d236;
+  "chaussuresfillion.ca": BowmarkSiteTools_921614d236;
   "chavda.com": BowmarkSiteTools_921614d236;
   "chavesnamao.com.br": BowmarkSiteTools_8953d334de;
   "cheapcharts.com": BowmarkSiteTools_79096f2814;
@@ -490872,6 +493529,7 @@ interface BowmarkSites {
   "chocolate.com": BowmarkSiteTools_921614d236;
   "chocosphere.com": BowmarkSiteTools_921614d236;
   "choczero.com": BowmarkSiteTools_921614d236;
+  "choicefineart.com": BowmarkSiteTools_e8ae28a971;
   "choicelegacy.com.bd": BowmarkSiteTools_921614d236;
   "choicely.com": BowmarkSiteTools_ae527c31f3;
   "choicemusicla.com": BowmarkSiteTools_921614d236;
@@ -490883,6 +493541,7 @@ interface BowmarkSites {
   "chopcult.com": BowmarkSiteTools_921614d236;
   "chopshopstore.com": BowmarkSiteTools_921614d236;
   "choptones.com": BowmarkSiteTools_921614d236;
+  "chosenfoods.com": BowmarkSiteTools_921614d236;
   "chrisking.com": BowmarkSiteTools_921614d236;
   "christianartworkshop.com": BowmarkSiteTools_1a8e16d918;
   "christianpure.com": BowmarkSiteTools_4ade724eb5;
@@ -490905,6 +493564,7 @@ interface BowmarkSites {
   "ciarraappliances.com": BowmarkSiteTools_921614d236;
   "cicatribem.com.br": BowmarkSiteTools_921614d236;
   "cicerone.co.uk": BowmarkSiteTools_921614d236;
+  "cieleathletics.com": BowmarkSiteTools_921614d236;
   "cigarsdirect.com": BowmarkSiteTools_e8ae28a971;
   "cimalp.com": BowmarkSiteTools_e8ae28a971;
   "cimri.com": BowmarkSiteTools_897beff9ea;
@@ -490984,6 +493644,7 @@ interface BowmarkSites {
   "clearview.ai": BowmarkSiteTools_2d413f94ee;
   "cleetusmcfarland.com": BowmarkSiteTools_921614d236;
   "clement.ca": BowmarkSiteTools_e8ae28a971;
+  "clementa.pl": BowmarkSiteTools_921614d236;
   "cleorecs.com": BowmarkSiteTools_e8ae28a971;
   "cletile.com": BowmarkSiteTools_921614d236;
   "clevelandpunch.com": BowmarkSiteTools_1a8e16d918;
@@ -491043,7 +493704,7 @@ interface BowmarkSites {
   "clubgg.com": BowmarkSiteTools_ab6ba4d7e4;
   "clubllondon.ca": BowmarkSiteTools_921614d236;
   "clubllondon.com": BowmarkSiteTools_e8ae28a971;
-  "clubllondon.us": BowmarkSiteTools_1a8e16d918;
+  "clubllondon.us": BowmarkSiteTools_921614d236;
   "clubmagichour.com": BowmarkSiteTools_e8ae28a971;
   "clubpiscine.ca": BowmarkSiteTools_e8ae28a971;
   "cludo.com": BowmarkSiteTools_1b462c72d2;
@@ -491117,9 +493778,11 @@ interface BowmarkSites {
   "collectiflondon.com": BowmarkSiteTools_e8ae28a971;
   "collectivemindsstore.com": BowmarkSiteTools_921614d236;
   "collectorstore.com": BowmarkSiteTools_1a8e16d918;
+  "collegiateluxe.com": BowmarkSiteTools_e8ae28a971;
   "collinesdeprovence.com": BowmarkSiteTools_921614d236;
   "collins.co.uk": BowmarkSiteTools_921614d236;
   "colnago.com": BowmarkSiteTools_921614d236;
+  "colombomilano1911.com": BowmarkSiteTools_921614d236;
   "coloradocyclist.com": BowmarkSiteTools_921614d236;
   "coloradopublichealth.org": BowmarkSiteTools_9d87d394cd;
   "colorauction.com": BowmarkSiteTools_1a8e16d918;
@@ -491170,6 +493833,7 @@ interface BowmarkSites {
   "computerlounge.co.nz": BowmarkSiteTools_921614d236;
   "computermania.co.za": BowmarkSiteTools_921614d236;
   "computerorbit.com": BowmarkSiteTools_921614d236;
+  "computerzone.pk": BowmarkSiteTools_921614d236;
   "comu.com": BowmarkSiteTools_921614d236;
   "conangray.com": BowmarkSiteTools_921614d236;
   "conbipel.com": BowmarkSiteTools_e8ae28a971;
@@ -491192,12 +493856,14 @@ interface BowmarkSites {
   "connox.de": BowmarkSiteTools_921614d236;
   "connox.nl": BowmarkSiteTools_921614d236;
   "consciousitems.com": BowmarkSiteTools_921614d236;
+  "consciousstep.com": BowmarkSiteTools_921614d236;
   "consiglioskitchenware.com": BowmarkSiteTools_e8ae28a971;
   "consort-statement.org": BowmarkSiteTools_828aa04ff1;
   "consortiumbo.nl": BowmarkSiteTools_25a592091d;
   "constantlyvariedgear.com": BowmarkSiteTools_921614d236;
-  "consuelastyle.com": BowmarkSiteTools_e8ae28a971;
+  "consuelastyle.com": BowmarkSiteTools_1a8e16d918;
   "consultaie.com.br": BowmarkSiteTools_3d2ab67da5;
+  "contactfy.cloud": BowmarkSiteTools_4b81a3abf3;
   "contarmarket.com": BowmarkSiteTools_921614d236;
   "context.dev": BowmarkSiteTools_59fc9d3536;
   "context7.com": BowmarkSiteTools_97a3e4c152;
@@ -491229,6 +493895,7 @@ interface BowmarkSites {
   "coraliev.com": BowmarkSiteTools_71d51d6fe1;
   "coram.com": BowmarkSiteTools_c4b4c70b1f;
   "coravin.com": BowmarkSiteTools_921614d236;
+  "corbloomjewelry.com": BowmarkSiteTools_921614d236;
   "cordings.co.uk": BowmarkSiteTools_921614d236;
   "cordsclub.com": BowmarkSiteTools_921614d236;
   "coredump.ws": BowmarkSiteTools_0fbefc08c5;
@@ -491265,7 +493932,7 @@ interface BowmarkSites {
   "cosmetyque.com": BowmarkSiteTools_921614d236;
   "cosmicjs.com": BowmarkSiteTools_02d54aee86;
   "cosmoslay.com": BowmarkSiteTools_921614d236;
-  "cosmoslayers.in": BowmarkSiteTools_1a8e16d918;
+  "cosmoslayers.in": BowmarkSiteTools_921614d236;
   "cosmotogether.com": BowmarkSiteTools_1a8e16d918;
   "coso.org": BowmarkSiteTools_7139d500c5;
   "cosori.com": BowmarkSiteTools_921614d236;
@@ -491279,7 +493946,7 @@ interface BowmarkSites {
   "costosoitaliano.com": BowmarkSiteTools_921614d236;
   "costumebox.com.au": BowmarkSiteTools_921614d236;
   "costumes.com": BowmarkSiteTools_921614d236;
-  "costumesupercenter.com": BowmarkSiteTools_921614d236;
+  "costumesupercenter.com": BowmarkSiteTools_1a8e16d918;
   "cosyhousecollection.com": BowmarkSiteTools_921614d236;
   "cosyisland.co": BowmarkSiteTools_921614d236;
   "cotecal.com.ar": BowmarkSiteTools_4d212777f8;
@@ -491293,7 +493960,7 @@ interface BowmarkSites {
   "countrylifefoods.com": BowmarkSiteTools_e8ae28a971;
   "countrylivingshop.co.uk": BowmarkSiteTools_921614d236;
   "countryroad.co.nz": BowmarkSiteTools_e8ae28a971;
-  "countryroad.com.au": BowmarkSiteTools_e8ae28a971;
+  "countryroad.com.au": BowmarkSiteTools_1a8e16d918;
   "countrysupply.com": BowmarkSiteTools_921614d236;
   "countycomm.com": BowmarkSiteTools_1a8e16d918;
   "coupons.de": BowmarkSiteTools_f0ee50e236;
@@ -491416,7 +494083,7 @@ interface BowmarkSites {
   "cryptostruct.com": BowmarkSiteTools_be15909f04;
   "cryptowisser.com": BowmarkSiteTools_a2763fcfec;
   "cryptozoic.com": BowmarkSiteTools_921614d236;
-  "crystallinetribe.com": BowmarkSiteTools_1a8e16d918;
+  "crystallinetribe.com": BowmarkSiteTools_921614d236;
   "crzyoga.com": BowmarkSiteTools_1a8e16d918;
   "csedweek.org": BowmarkSiteTools_0ad53d5df3;
   "cside.com": BowmarkSiteTools_c23456891d;
@@ -491432,6 +494099,7 @@ interface BowmarkSites {
   "cubelelo.com": BowmarkSiteTools_921614d236;
   "cubitts.com": BowmarkSiteTools_e8ae28a971;
   "cubrodesign.com": BowmarkSiteTools_921614d236;
+  "cuddlduds.com": BowmarkSiteTools_921614d236;
   "cuddleandkind.com": BowmarkSiteTools_921614d236;
   "cuddleclones.com": BowmarkSiteTools_921614d236;
   "cudetoate.ro": BowmarkSiteTools_921614d236;
@@ -491447,7 +494115,7 @@ interface BowmarkSites {
   "culturekings.co.nz": BowmarkSiteTools_e8ae28a971;
   "culturekings.com": BowmarkSiteTools_e8ae28a971;
   "culturekings.com.au": BowmarkSiteTools_e8ae28a971;
-  "culturelle.com": BowmarkSiteTools_1a8e16d918;
+  "culturelle.com": BowmarkSiteTools_921614d236;
   "culturesforhealth.com": BowmarkSiteTools_921614d236;
   "cumbooks.co.za": BowmarkSiteTools_921614d236;
   "cuoieriashop.com": BowmarkSiteTools_921614d236;
@@ -491545,7 +494213,7 @@ interface BowmarkSites {
   "dalstrong.com": BowmarkSiteTools_921614d236;
   "dame.com": BowmarkSiteTools_921614d236;
   "dames.ro": BowmarkSiteTools_3f6e447273;
-  "damsonmadder.com": BowmarkSiteTools_921614d236;
+  "damsonmadder.com": BowmarkSiteTools_1a8e16d918;
   "danam-antique.com": BowmarkSiteTools_921614d236;
   "danceandsway.com": BowmarkSiteTools_921614d236;
   "dancovershop.com": BowmarkSiteTools_921614d236;
@@ -491583,6 +494251,7 @@ interface BowmarkSites {
   "darkhorsedirect.com": BowmarkSiteTools_e8ae28a971;
   "darkjedibrotherhood.com": BowmarkSiteTools_f38dd94889;
   "darkness.com.br": BowmarkSiteTools_921614d236;
+  "darkpick.com": BowmarkSiteTools_71d51d6fe1;
   "darkroom.com": BowmarkSiteTools_921614d236;
   "darksiderecords.com": BowmarkSiteTools_1a8e16d918;
   "darkstar.co.uk": BowmarkSiteTools_921614d236;
@@ -491629,7 +494298,7 @@ interface BowmarkSites {
   "davines.com": BowmarkSiteTools_921614d236;
   "davisinstruments.com": BowmarkSiteTools_921614d236;
   "davisnet.com": BowmarkSiteTools_921614d236;
-  "dawa.center": BowmarkSiteTools_97187b113e;
+  "dawa.center": BowmarkSiteTools_e4561d7447;
   "dawntown.co.in": BowmarkSiteTools_1a8e16d918;
   "dawooddesigners.com": BowmarkSiteTools_921614d236;
   "dayalopticalsindia.com": BowmarkSiteTools_921614d236;
@@ -491693,7 +494362,7 @@ interface BowmarkSites {
   "defjam.com": BowmarkSiteTools_921614d236;
   "defjamshop.com": BowmarkSiteTools_921614d236;
   "degeleflamingo.com": BowmarkSiteTools_e8ae28a971;
-  "deichbrise-jewelery.de": BowmarkSiteTools_1a8e16d918;
+  "deichbrise-jewelery.de": BowmarkSiteTools_921614d236;
   "deijistudios.com": BowmarkSiteTools_921614d236;
   "deinetorte.de": BowmarkSiteTools_921614d236;
   "dekbed-discounter.nl": BowmarkSiteTools_1a8e16d918;
@@ -491825,7 +494494,7 @@ interface BowmarkSites {
   "digiexam.com": BowmarkSiteTools_c4f8bbdf37;
   "digilog.pk": BowmarkSiteTools_921614d236;
   "digimap.co.id": BowmarkSiteTools_e8ae28a971;
-  "digitalbayshop.it": BowmarkSiteTools_921614d236;
+  "digitalbayshop.it": BowmarkSiteTools_1a8e16d918;
   "digitalpurchaseorder.com": BowmarkSiteTools_0365a1ea04;
   "digitek.net.in": BowmarkSiteTools_921614d236;
   "dillonprecision.com": BowmarkSiteTools_921614d236;
@@ -491893,6 +494562,7 @@ interface BowmarkSites {
   "divani.store": BowmarkSiteTools_e8ae28a971;
   "divascans.org": BowmarkSiteTools_1eeb56f36a;
   "divebombindustries.com": BowmarkSiteTools_e8ae28a971;
+  "diverse-web.com": BowmarkSiteTools_e8ae28a971;
   "diversejobsmatter.co.uk": BowmarkSiteTools_610322be88;
   "divinafitness.com.br": BowmarkSiteTools_1a8e16d918;
   "divinagracia.edu.ec": BowmarkSiteTools_cf039590d1;
@@ -491945,13 +494615,14 @@ interface BowmarkSites {
   "dogfriendlyco.com": BowmarkSiteTools_921614d236;
   "dogishuman.com": BowmarkSiteTools_921614d236;
   "doglinegroup.com": BowmarkSiteTools_921614d236;
-  "dogshood.com": BowmarkSiteTools_921614d236;
+  "dogshood.com": BowmarkSiteTools_1a8e16d918;
   "dogsht.com.au": BowmarkSiteTools_1a8e16d918;
   "doipescari.ro": BowmarkSiteTools_3f6e447273;
   "doittennis.com": BowmarkSiteTools_e8ae28a971;
   "dokidokicos.com": BowmarkSiteTools_921614d236;
   "doku.com": BowmarkSiteTools_94db484720;
-  "dolcevita.com": BowmarkSiteTools_921614d236;
+  "dolcereverie.com": BowmarkSiteTools_921614d236;
+  "dolcevita.com": BowmarkSiteTools_1a8e16d918;
   "dolinex.ro": BowmarkSiteTools_3f6e447273;
   "dolitashoes.com": BowmarkSiteTools_921614d236;
   "dollarshaveclub.com": BowmarkSiteTools_921614d236;
@@ -492016,7 +494687,7 @@ interface BowmarkSites {
   "drakes.com": BowmarkSiteTools_921614d236;
   "drakewaterfowl.com": BowmarkSiteTools_1a8e16d918;
   "draperjames.com": BowmarkSiteTools_1a8e16d918;
-  "drbrandtskincare.com": BowmarkSiteTools_921614d236;
+  "drbrandtskincare.com": BowmarkSiteTools_1a8e16d918;
   "drbronner.com": BowmarkSiteTools_921614d236;
   "drbrownsbaby.com": BowmarkSiteTools_921614d236;
   "drcomfort.com": BowmarkSiteTools_921614d236;
@@ -492074,6 +494745,7 @@ interface BowmarkSites {
   "drsheths.com": BowmarkSiteTools_921614d236;
   "drsimi.com": BowmarkSiteTools_921614d236;
   "drsquatch.com": BowmarkSiteTools_921614d236;
+  "drugscience.org.uk": BowmarkSiteTools_6dc643ea71;
   "druids.com": BowmarkSiteTools_921614d236;
   "drumland.com": BowmarkSiteTools_921614d236;
   "drummondgolf.com.au": BowmarkSiteTools_921614d236;
@@ -492092,7 +494764,7 @@ interface BowmarkSites {
   "dtfbank.com": BowmarkSiteTools_921614d236;
   "dtfibre.fr": BowmarkSiteTools_d4ad7220d1;
   "dtknailsupply.com": BowmarkSiteTools_921614d236;
-  "dtlr.com": BowmarkSiteTools_921614d236;
+  "dtlr.com": BowmarkSiteTools_1a8e16d918;
   "duaacollections.com": BowmarkSiteTools_921614d236;
   "dualit.com": BowmarkSiteTools_1a8e16d918;
   "dubarry.com": BowmarkSiteTools_e8ae28a971;
@@ -492108,6 +494780,7 @@ interface BowmarkSites {
   "duiko.guru": BowmarkSiteTools_921614d236;
   "dukecannon.com": BowmarkSiteTools_921614d236;
   "dulleselectric.com": BowmarkSiteTools_921614d236;
+  "dumbwaystodie.com": BowmarkSiteTools_6ed05dd21f;
   "dune-hd.com": BowmarkSiteTools_921614d236;
   "dunns.co.za": BowmarkSiteTools_921614d236;
   "dunyadakitap.com": BowmarkSiteTools_1a8e16d918;
@@ -492251,7 +494924,7 @@ interface BowmarkSites {
   "edenskinstore.com": BowmarkSiteTools_e8ae28a971;
   "edgars.co.za": BowmarkSiteTools_921614d236;
   "edge.network": BowmarkSiteTools_705329a547;
-  "edgebyks.com": BowmarkSiteTools_921614d236;
+  "edgebyks.com": BowmarkSiteTools_1a8e16d918;
   "edgelabs.game": BowmarkSiteTools_c52fa5e119;
   "edgewell.com": BowmarkSiteTools_921614d236;
   "edhardy.co.uk": BowmarkSiteTools_921614d236;
@@ -492262,7 +494935,7 @@ interface BowmarkSites {
   "edikted.co.uk": BowmarkSiteTools_921614d236;
   "edikted.com": BowmarkSiteTools_921614d236;
   "edituradph.ro": BowmarkSiteTools_3f6e447273;
-  "edleessfashions.com": BowmarkSiteTools_1a8e16d918;
+  "edleessfashions.com": BowmarkSiteTools_921614d236;
   "eduardavellori.store": BowmarkSiteTools_921614d236;
   "edubily.de": BowmarkSiteTools_921614d236;
   "edubini.com": BowmarkSiteTools_921614d236;
@@ -492330,7 +495003,7 @@ interface BowmarkSites {
   "elevatestyles.com": BowmarkSiteTools_921614d236;
   "elfbar.de": BowmarkSiteTools_921614d236;
   "elfcosmetics.co.uk": BowmarkSiteTools_921614d236;
-  "elfcosmetics.com": BowmarkSiteTools_1a8e16d918;
+  "elfcosmetics.com": BowmarkSiteTools_921614d236;
   "elfhosted.com": BowmarkSiteTools_47c75541a5;
   "elftoon.net": BowmarkSiteTools_1eeb56f36a;
   "elho.com": BowmarkSiteTools_921614d236;
@@ -492357,6 +495030,7 @@ interface BowmarkSites {
   "ellesse.com": BowmarkSiteTools_921614d236;
   "ellianos.com": BowmarkSiteTools_1a8e16d918;
   "elliatt.com": BowmarkSiteTools_921614d236;
+  "ellieandmac.com": BowmarkSiteTools_921614d236;
   "elliosa.com": BowmarkSiteTools_921614d236;
   "ellipal.com": BowmarkSiteTools_921614d236;
   "elloproducts.com": BowmarkSiteTools_921614d236;
@@ -492458,7 +495132,7 @@ interface BowmarkSites {
   "epicgardening.com": BowmarkSiteTools_921614d236;
   "epicpxls.com": BowmarkSiteTools_7c9f74fc43;
   "epicreads.com": BowmarkSiteTools_1a8e16d918;
-  "epicure.com": BowmarkSiteTools_921614d236;
+  "epicure.com": BowmarkSiteTools_1a8e16d918;
   "epicurean.com": BowmarkSiteTools_921614d236;
   "epitaph.com": BowmarkSiteTools_921614d236;
   "epomaker.com": BowmarkSiteTools_921614d236;
@@ -492806,7 +495480,7 @@ interface BowmarkSites {
   "fatwreck.com": BowmarkSiteTools_921614d236;
   "fauchon.com": BowmarkSiteTools_e8ae28a971;
   "faunusplant.ro": BowmarkSiteTools_921614d236;
-  "fawbushs.com": BowmarkSiteTools_1a8e16d918;
+  "fawbushs.com": BowmarkSiteTools_e8ae28a971;
   "fayettevillefurnituregallery.com": BowmarkSiteTools_921614d236;
   "fayrouzstyle.com": BowmarkSiteTools_921614d236;
   "fayrouztileandstone.com": BowmarkSiteTools_921614d236;
@@ -492821,6 +495495,7 @@ interface BowmarkSites {
   "fcsp-shop.com": BowmarkSiteTools_921614d236;
   "fcwautoparts.com": BowmarkSiteTools_1a8e16d918;
   "fcz.ch": BowmarkSiteTools_1a8e16d918;
+  "fdrstudios.com": BowmarkSiteTools_921614d236;
   "fea.net": BowmarkSiteTools_0b707ba628;
   "fearofgod.com": BowmarkSiteTools_e8ae28a971;
   "feastables.com": BowmarkSiteTools_921614d236;
@@ -492880,7 +495555,7 @@ interface BowmarkSites {
   "fictionary-world.de": BowmarkSiteTools_921614d236;
   "fiddlershop.com": BowmarkSiteTools_e8ae28a971;
   "fieldandmoor.co.uk": BowmarkSiteTools_921614d236;
-  "fiestafactorydirect.com": BowmarkSiteTools_1a8e16d918;
+  "fiestafactorydirect.com": BowmarkSiteTools_921614d236;
   "fifinemicrophone.com": BowmarkSiteTools_921614d236;
   "fiftyfifty.one": BowmarkSiteTools_98756e4026;
   "fiftyflowers.com": BowmarkSiteTools_921614d236;
@@ -492896,7 +495571,7 @@ interface BowmarkSites {
   "files.fm": BowmarkSiteTools_a7615d03cb;
   "filgoal.com": BowmarkSiteTools_9cf1747e1a;
   "filieforme.eu": BowmarkSiteTools_921614d236;
-  "filimin.com": BowmarkSiteTools_1a8e16d918;
+  "filimin.com": BowmarkSiteTools_921614d236;
   "fillingpieces.com": BowmarkSiteTools_e8ae28a971;
   "fillyflair.com": BowmarkSiteTools_921614d236;
   "filmwerte.de": BowmarkSiteTools_5968da24c6;
@@ -492911,6 +495586,7 @@ interface BowmarkSites {
   "finalbosssour.com": BowmarkSiteTools_921614d236;
   "finalinspection.com.au": BowmarkSiteTools_921614d236;
   "finalmouse.com": BowmarkSiteTools_921614d236;
+  "financemycart.com": BowmarkSiteTools_921614d236;
   "financialmodelslab.com": BowmarkSiteTools_921614d236;
   "finanvo.in": BowmarkSiteTools_f71da7b565;
   "fincutmen.com": BowmarkSiteTools_921614d236;
@@ -492939,13 +495615,14 @@ interface BowmarkSites {
   "fireclaytile.com": BowmarkSiteTools_921614d236;
   "firefold.com": BowmarkSiteTools_921614d236;
   "firewalla.com": BowmarkSiteTools_921614d236;
+  "fireworks.com": BowmarkSiteTools_921614d236;
   "firgelliauto.com": BowmarkSiteTools_921614d236;
   "firma.de": BowmarkSiteTools_e7b36004f8;
   "firminsight.co.uk": BowmarkSiteTools_729724e9e0;
   "firmy.ai": BowmarkSiteTools_40a500b867;
   "first4figures.com": BowmarkSiteTools_921614d236;
   "firstaidbeauty.com": BowmarkSiteTools_921614d236;
-  "firstalert.com": BowmarkSiteTools_921614d236;
+  "firstalert.com": BowmarkSiteTools_1a8e16d918;
   "firstday.com": BowmarkSiteTools_921614d236;
   "firstleaf.com": BowmarkSiteTools_921614d236;
   "firstlite.com": BowmarkSiteTools_921614d236;
@@ -492965,7 +495642,7 @@ interface BowmarkSites {
   "fitmentcraft.com": BowmarkSiteTools_921614d236;
   "fitnessboutique.fr": BowmarkSiteTools_921614d236;
   "fitsleeps.com": BowmarkSiteTools_921614d236;
-  "fittaste.com": BowmarkSiteTools_921614d236;
+  "fittaste.com": BowmarkSiteTools_1a8e16d918;
   "fittedshop.com": BowmarkSiteTools_921614d236;
   "fittes.com": BowmarkSiteTools_1a8e16d918;
   "fitueyes.com": BowmarkSiteTools_921614d236;
@@ -493019,7 +495696,7 @@ interface BowmarkSites {
   "flexfits.com": BowmarkSiteTools_921614d236;
   "flexomaq.com": BowmarkSiteTools_921614d236;
   "flexsteel.com": BowmarkSiteTools_921614d236;
-  "flextail.com": BowmarkSiteTools_1a8e16d918;
+  "flextail.com": BowmarkSiteTools_921614d236;
   "flickacosmetics.com": BowmarkSiteTools_1a8e16d918;
   "flickdirect.com": BowmarkSiteTools_94428e7d10;
   "flightlist.io": BowmarkSiteTools_0a3fbc68ba;
@@ -493178,11 +495855,11 @@ interface BowmarkSites {
   "fredfelia.com": BowmarkSiteTools_921614d236;
   "fredlyn.com": BowmarkSiteTools_921614d236;
   "free3d.io": BowmarkSiteTools_f13ce5fb2a;
-  "freebeatfit.com": BowmarkSiteTools_921614d236;
+  "freebeatfit.com": BowmarkSiteTools_1a8e16d918;
   "freecountry.com": BowmarkSiteTools_921614d236;
   "freecultr.com": BowmarkSiteTools_921614d236;
   "freedict.com": BowmarkSiteTools_85a1cfa363;
-  "freedomactivewear.com.au": BowmarkSiteTools_1a8e16d918;
+  "freedomactivewear.com.au": BowmarkSiteTools_921614d236;
   "freedomdebtrelief.com": BowmarkSiteTools_a2e30106b7;
   "freedomgorilla.com": BowmarkSiteTools_921614d236;
   "freedommunitions.com": BowmarkSiteTools_921614d236;
@@ -493231,6 +495908,7 @@ interface BowmarkSites {
   "fromourplace.com": BowmarkSiteTools_e8ae28a971;
   "fromrebel.com": BowmarkSiteTools_921614d236;
   "frontiergeneralhardware.net": BowmarkSiteTools_921614d236;
+  "frontstepforge.com": BowmarkSiteTools_921614d236;
   "frostbuddy.com": BowmarkSiteTools_921614d236;
   "frostnyc.com": BowmarkSiteTools_921614d236;
   "froyaorganics.com": BowmarkSiteTools_921614d236;
@@ -493332,7 +496010,7 @@ interface BowmarkSites {
   "fyndling.de": BowmarkSiteTools_a60e1a2065;
   "fyredwrld.com": BowmarkSiteTools_921614d236;
   "g2esports.com": BowmarkSiteTools_921614d236;
-  "g3fashion.com": BowmarkSiteTools_1a8e16d918;
+  "g3fashion.com": BowmarkSiteTools_e8ae28a971;
   "gaahleri.com": BowmarkSiteTools_921614d236;
   "gaala.com": BowmarkSiteTools_1a8e16d918;
   "gaastrastore.com": BowmarkSiteTools_921614d236;
@@ -493355,6 +496033,7 @@ interface BowmarkSites {
   "galaxysecurity.com": BowmarkSiteTools_e8ae28a971;
   "galenleather.com": BowmarkSiteTools_921614d236;
   "galeriaavanti.com": BowmarkSiteTools_921614d236;
+  "galileosports.shop": BowmarkSiteTools_921614d236;
   "galison.com": BowmarkSiteTools_921614d236;
   "gallagherfence.net": BowmarkSiteTools_921614d236;
   "gallerydept.com": BowmarkSiteTools_e8ae28a971;
@@ -493397,6 +496076,7 @@ interface BowmarkSites {
   "garmont.com": BowmarkSiteTools_921614d236;
   "garneau.com": BowmarkSiteTools_1a8e16d918;
   "garrettwade.com": BowmarkSiteTools_921614d236;
+  "garzafurniture.com": BowmarkSiteTools_921614d236;
   "gasbijoux.com": BowmarkSiteTools_1a8e16d918;
   "gasmonkeygarage.com": BowmarkSiteTools_921614d236;
   "gastro-hero.de": BowmarkSiteTools_921614d236;
@@ -493448,7 +496128,7 @@ interface BowmarkSites {
   "gemsroot.com": BowmarkSiteTools_921614d236;
   "generalmotor.ro": BowmarkSiteTools_3f6e447273;
   "generalpants.com": BowmarkSiteTools_921614d236;
-  "generation.com.pk": BowmarkSiteTools_1a8e16d918;
+  "generation.com.pk": BowmarkSiteTools_921614d236;
   "geniecompany.com": BowmarkSiteTools_372874f36d;
   "genkidama.de": BowmarkSiteTools_921614d236;
   "genmobile.com": BowmarkSiteTools_921614d236;
@@ -493502,6 +496182,7 @@ interface BowmarkSites {
   "getnoosh.com": BowmarkSiteTools_921614d236;
   "getnuzzle.com": BowmarkSiteTools_921614d236;
   "getondown.com": BowmarkSiteTools_921614d236;
+  "getpiercedco.com": BowmarkSiteTools_921614d236;
   "getquietlab.com": BowmarkSiteTools_921614d236;
   "getquip.com": BowmarkSiteTools_921614d236;
   "getrak.com.br": BowmarkSiteTools_84a3d06379;
@@ -493545,7 +496226,7 @@ interface BowmarkSites {
   "giantrobot.com": BowmarkSiteTools_e8ae28a971;
   "gianttiger.com": BowmarkSiteTools_1a8e16d918;
   "gibbyselectronicsupermarket.ca": BowmarkSiteTools_921614d236;
-  "gibson.com": BowmarkSiteTools_1a8e16d918;
+  "gibson.com": BowmarkSiteTools_e8ae28a971;
   "giesswein.com": BowmarkSiteTools_1a8e16d918;
   "giffywalls.com": BowmarkSiteTools_921614d236;
   "giftlab.com": BowmarkSiteTools_71d51d6fe1;
@@ -493559,7 +496240,7 @@ interface BowmarkSites {
   "gimssine.com": BowmarkSiteTools_921614d236;
   "gini.iq": BowmarkSiteTools_b73933c2d6;
   "gioielleriarosaspina.shop": BowmarkSiteTools_921614d236;
-  "giordanoshop.com": BowmarkSiteTools_921614d236;
+  "giordanoshop.com": BowmarkSiteTools_1a8e16d918;
   "gioseppo.com": BowmarkSiteTools_921614d236;
   "giraffetools.com": BowmarkSiteTools_921614d236;
   "girafit.com": BowmarkSiteTools_921614d236;
@@ -493579,6 +496260,7 @@ interface BowmarkSites {
   "givemecosmetics.com": BowmarkSiteTools_921614d236;
   "giysi.in": BowmarkSiteTools_921614d236;
   "gizmania.cz": BowmarkSiteTools_1a8e16d918;
+  "gizmania.es": BowmarkSiteTools_e8ae28a971;
   "gizmania.eu": BowmarkSiteTools_1a8e16d918;
   "gizmo.ai": BowmarkSiteTools_63d4cf56af;
   "gjemax.de": BowmarkSiteTools_921614d236;
@@ -493594,7 +496276,7 @@ interface BowmarkSites {
   "glassnode.com": BowmarkSiteTools_fd122ca575;
   "glazerscamera.com": BowmarkSiteTools_921614d236;
   "gld.com": BowmarkSiteTools_921614d236;
-  "gldn.com": BowmarkSiteTools_921614d236;
+  "gldn.com": BowmarkSiteTools_1a8e16d918;
   "gleglow.com": BowmarkSiteTools_71d51d6fe1;
   "glenindia.com": BowmarkSiteTools_921614d236;
   "glenmorangie.com": BowmarkSiteTools_921614d236;
@@ -493789,8 +496471,8 @@ interface BowmarkSites {
   "grandshoes.com": BowmarkSiteTools_921614d236;
   "granitvasen.de": BowmarkSiteTools_921614d236;
   "grantedai.com": BowmarkSiteTools_4b782c34df;
-  "grantstoneshoes.com": BowmarkSiteTools_1a8e16d918;
-  "grapevine-surveys.com": BowmarkSiteTools_e8ae28a971;
+  "grantstoneshoes.com": BowmarkSiteTools_e8ae28a971;
+  "grapevine-surveys.com": BowmarkSiteTools_1a8e16d918;
   "graphpaper-tokyo.com": BowmarkSiteTools_921614d236;
   "grasscity.com": BowmarkSiteTools_921614d236;
   "grasslandbeef.com": BowmarkSiteTools_921614d236;
@@ -493820,7 +496502,7 @@ interface BowmarkSites {
   "greekmythology.com": BowmarkSiteTools_ef027d8a45;
   "greekroots.shop": BowmarkSiteTools_e8ae28a971;
   "green-bubble.com": BowmarkSiteTools_1a8e16d918;
-  "greenbook.org": BowmarkSiteTools_eadd4a2cc7;
+  "greenbook.org": BowmarkSiteTools_c957777c31;
   "greenfit.com.co": BowmarkSiteTools_921614d236;
   "greengridiron.com": BowmarkSiteTools_921614d236;
   "greenguardia.de": BowmarkSiteTools_921614d236;
@@ -493967,7 +496649,7 @@ interface BowmarkSites {
   "hallwines.com": BowmarkSiteTools_e8ae28a971;
   "hallyu4u.com": BowmarkSiteTools_921614d236;
   "hallyusuperstore.com": BowmarkSiteTools_e8ae28a971;
-  "halosleep.com": BowmarkSiteTools_921614d236;
+  "halosleep.com": BowmarkSiteTools_1a8e16d918;
   "ham.study": BowmarkSiteTools_8a14d9f9b7;
   "hamercop.com": BowmarkSiteTools_921614d236;
   "hammerfilms.com": BowmarkSiteTools_921614d236;
@@ -493977,6 +496659,7 @@ interface BowmarkSites {
   "hamstudy.org": BowmarkSiteTools_8a14d9f9b7;
   "hanaekorea.com": BowmarkSiteTools_921614d236;
   "handheldlegend.com": BowmarkSiteTools_921614d236;
+  "handoranails.com": BowmarkSiteTools_921614d236;
   "handsomecake.com": BowmarkSiteTools_921614d236;
   "handsontable.com": BowmarkSiteTools_e10a6f3773;
   "handt.co.uk": BowmarkSiteTools_921614d236;
@@ -493989,7 +496672,7 @@ interface BowmarkSites {
   "hanpoom.com": BowmarkSiteTools_921614d236;
   "hanro.com": BowmarkSiteTools_1a8e16d918;
   "hansepepper.de": BowmarkSiteTools_921614d236;
-  "hansohome.com": BowmarkSiteTools_1a8e16d918;
+  "hansohome.com": BowmarkSiteTools_921614d236;
   "haphong.edu.vn": BowmarkSiteTools_b82e9a6f2a;
   "happi-planet.com": BowmarkSiteTools_921614d236;
   "happy-420.de": BowmarkSiteTools_921614d236;
@@ -494042,7 +496725,7 @@ interface BowmarkSites {
   "harrycorry.com": BowmarkSiteTools_83b3cdf62f;
   "harryhartog.com.au": BowmarkSiteTools_e8ae28a971;
   "harrypottershop.co.uk": BowmarkSiteTools_921614d236;
-  "harrypottershop.com": BowmarkSiteTools_1a8e16d918;
+  "harrypottershop.com": BowmarkSiteTools_921614d236;
   "harrys.com": BowmarkSiteTools_921614d236;
   "hartstores.com": BowmarkSiteTools_e8ae28a971;
   "hartvillehardware.com": BowmarkSiteTools_921614d236;
@@ -494075,7 +496758,7 @@ interface BowmarkSites {
   "havenlycosmetics.com": BowmarkSiteTools_921614d236;
   "havenshop.com": BowmarkSiteTools_e8ae28a971;
   "haverhill.com": BowmarkSiteTools_921614d236;
-  "havitsmart.com": BowmarkSiteTools_1a8e16d918;
+  "havitsmart.com": BowmarkSiteTools_921614d236;
   "havnstore.com": BowmarkSiteTools_e8ae28a971;
   "hawa.co": BowmarkSiteTools_2c1343b9af;
   "hawaii-guide.com": BowmarkSiteTools_24767a7c15;
@@ -494101,7 +496784,7 @@ interface BowmarkSites {
   "healthpost.co.nz": BowmarkSiteTools_921614d236;
   "healthrangerstore.com": BowmarkSiteTools_921614d236;
   "hears.com": BowmarkSiteTools_921614d236;
-  "hearthdisplay.com": BowmarkSiteTools_921614d236;
+  "hearthdisplay.com": BowmarkSiteTools_1a8e16d918;
   "heartmarket.shop": BowmarkSiteTools_921614d236;
   "heartsfc.co.uk": BowmarkSiteTools_921614d236;
   "heatbit.com": BowmarkSiteTools_921614d236;
@@ -494190,6 +496873,7 @@ interface BowmarkSites {
   "hexheadart.com": BowmarkSiteTools_921614d236;
   "hexjobs.com": BowmarkSiteTools_8cba0fa142;
   "hexnub.com": BowmarkSiteTools_921614d236;
+  "hexoskin.com": BowmarkSiteTools_1a8e16d918;
   "heybalu.com": BowmarkSiteTools_921614d236;
   "heybike.com": BowmarkSiteTools_921614d236;
   "heyhappiness.com": BowmarkSiteTools_921614d236;
@@ -494209,7 +496893,7 @@ interface BowmarkSites {
   "highcountrygardens.com": BowmarkSiteTools_921614d236;
   "higherdose.com": BowmarkSiteTools_921614d236;
   "highfashionhome.com": BowmarkSiteTools_921614d236;
-  "highfy.pk": BowmarkSiteTools_921614d236;
+  "highfy.pk": BowmarkSiteTools_1a8e16d918;
   "highlandtitles.com": BowmarkSiteTools_921614d236;
   "highlandwoodworking.com": BowmarkSiteTools_921614d236;
   "highpeakco.com": BowmarkSiteTools_921614d236;
@@ -494225,13 +496909,13 @@ interface BowmarkSites {
   "hillmangroup.com": BowmarkSiteTools_921614d236;
   "hilo.com": BowmarkSiteTools_921614d236;
   "himalayas.app": BowmarkSiteTools_bb174ac110;
-  "himalayawellness.in": BowmarkSiteTools_1a8e16d918;
+  "himalayawellness.in": BowmarkSiteTools_921614d236;
   "himiwaybike.com": BowmarkSiteTools_921614d236;
   "hindbag.fr": BowmarkSiteTools_e8ae28a971;
   "hinoya.shop": BowmarkSiteTools_1a8e16d918;
   "hipeac.net": BowmarkSiteTools_9b35f6320a;
   "hipomarket.shop": BowmarkSiteTools_921614d236;
-  "hipuffy.com": BowmarkSiteTools_1a8e16d918;
+  "hipuffy.com": BowmarkSiteTools_921614d236;
   "hireahelper.com": BowmarkSiteTools_ccaac8b401;
   "hirezstudios.com": BowmarkSiteTools_2534dc0a27;
   "hiring.cafe": BowmarkSiteTools_955d80552a;
@@ -494397,7 +497081,7 @@ interface BowmarkSites {
   "housinganywhere.com": BowmarkSiteTools_1ccc328ae2;
   "hoverair.com": BowmarkSiteTools_921614d236;
   "hovercode.com": BowmarkSiteTools_ea1089feb2;
-  "howdybrewer.com": BowmarkSiteTools_1a8e16d918;
+  "howdybrewer.com": BowmarkSiteTools_921614d236;
   "howlerbros.com": BowmarkSiteTools_1a8e16d918;
   "howsie-shop.jp": BowmarkSiteTools_921614d236;
   "hoyt.com": BowmarkSiteTools_921614d236;
@@ -494427,7 +497111,7 @@ interface BowmarkSites {
   "hugeicons.com": BowmarkSiteTools_0ae699112c;
   "huggingface.co": BowmarkSiteTools_e5115ddd4e;
   "hugmyhair.com": BowmarkSiteTools_921614d236;
-  "huhandle.com": BowmarkSiteTools_921614d236;
+  "huhandle.com": BowmarkSiteTools_1a8e16d918;
   "huiinex.com": BowmarkSiteTools_a16186764c;
   "huismerken.nl": BowmarkSiteTools_921614d236;
   "huizenvinder.nl": BowmarkSiteTools_b7c5c01a65;
@@ -494484,6 +497168,7 @@ interface BowmarkSites {
   "hypershop.com": BowmarkSiteTools_921614d236;
   "hyperx.com": BowmarkSiteTools_921614d236;
   "hypewatches.co.uk": BowmarkSiteTools_921614d236;
+  "hypland.com": BowmarkSiteTools_921614d236;
   "hypofriend.de": BowmarkSiteTools_0693b8fd0f;
   "hyroadenergy.com": BowmarkSiteTools_ba437d0d23;
   "hyundaipowerequipment.co.uk": BowmarkSiteTools_921614d236;
@@ -494628,7 +497313,7 @@ interface BowmarkSites {
   "indiarestros.com": BowmarkSiteTools_b7a5ecb8c4;
   "indicadores.ar": BowmarkSiteTools_a83a4b1107;
   "indiemerch.com": BowmarkSiteTools_921614d236;
-  "indiemerchstore.com": BowmarkSiteTools_921614d236;
+  "indiemerchstore.com": BowmarkSiteTools_1a8e16d918;
   "indiepubs.com": BowmarkSiteTools_921614d236;
   "indigo.ca": BowmarkSiteTools_1a8e16d918;
   "indigoluna.store": BowmarkSiteTools_921614d236;
@@ -494706,6 +497391,7 @@ interface BowmarkSites {
   "insteon.com": BowmarkSiteTools_921614d236;
   "instock.net": BowmarkSiteTools_921614d236;
   "instore.co.in": BowmarkSiteTools_921614d236;
+  "instruments-du-monde.com": BowmarkSiteTools_921614d236;
   "insurify.com": BowmarkSiteTools_ae786473a5;
   "intakebreathing.com": BowmarkSiteTools_921614d236;
   "intapp.com": BowmarkSiteTools_75982146da;
@@ -494751,7 +497437,7 @@ interface BowmarkSites {
   "invisawear.com": BowmarkSiteTools_921614d236;
   "iogear.com": BowmarkSiteTools_921614d236;
   "ipbase.com": BowmarkSiteTools_ada8b18b33;
-  "ipcam-shop.nl": BowmarkSiteTools_1a8e16d918;
+  "ipcam-shop.nl": BowmarkSiteTools_921614d236;
   "ipdanalytics.com": BowmarkSiteTools_6846ecf153;
   "ipinfo.app": BowmarkSiteTools_bd8df8f21c;
   "ipok.io": BowmarkSiteTools_71e8df3995;
@@ -494762,6 +497448,7 @@ interface BowmarkSites {
   "iqunix.com": BowmarkSiteTools_921614d236;
   "irasshai.co": BowmarkSiteTools_e8ae28a971;
   "irazia.com": BowmarkSiteTools_921614d236;
+  "iris-lingerie.com": BowmarkSiteTools_921614d236;
   "irisusainc.com": BowmarkSiteTools_921614d236;
   "iriworldwide.com": BowmarkSiteTools_844c762d4f;
   "ironandresin.com": BowmarkSiteTools_e8ae28a971;
@@ -494776,6 +497463,7 @@ interface BowmarkSites {
   "isabelmarant.com": BowmarkSiteTools_1a8e16d918;
   "isdayoff.ru": BowmarkSiteTools_52cf5ebf94;
   "isdown.app": BowmarkSiteTools_79f5e356ac;
+  "ishhaara.com": BowmarkSiteTools_e8ae28a971;
   "isidoreleroy.com": BowmarkSiteTools_921614d236;
   "isifederal.com": BowmarkSiteTools_f7d0cdbea8;
   "isimkayit.com": BowmarkSiteTools_069ad86838;
@@ -494792,7 +497480,7 @@ interface BowmarkSites {
   "issaonline.com": BowmarkSiteTools_921614d236;
   "isseymiyake.com": BowmarkSiteTools_921614d236;
   "istudio.store": BowmarkSiteTools_921614d236;
-  "istudiosg.com": BowmarkSiteTools_1a8e16d918;
+  "istudiosg.com": BowmarkSiteTools_921614d236;
   "istyle.ae": BowmarkSiteTools_1a8e16d918;
   "istyle.cz": BowmarkSiteTools_e8ae28a971;
   "istyle.ma": BowmarkSiteTools_921614d236;
@@ -494892,6 +497580,7 @@ interface BowmarkSites {
   "japonista.com": BowmarkSiteTools_921614d236;
   "jase.com": BowmarkSiteTools_921614d236;
   "jashanmal.com": BowmarkSiteTools_921614d236;
+  "jasonl.com.au": BowmarkSiteTools_921614d236;
   "javvycoffee.com": BowmarkSiteTools_921614d236;
   "jawayezdimotorcycles.com": BowmarkSiteTools_921614d236;
   "jaxxon.com": BowmarkSiteTools_e8ae28a971;
@@ -494942,9 +497631,11 @@ interface BowmarkSites {
   "jimmybeanswool.com": BowmarkSiteTools_921614d236;
   "jimmyfairly.com": BowmarkSiteTools_921614d236;
   "jimmyjane.com": BowmarkSiteTools_921614d236;
+  "jimmyjoy.com": BowmarkSiteTools_921614d236;
   "jimshore.com": BowmarkSiteTools_921614d236;
   "jimthompson.com": BowmarkSiteTools_921614d236;
   "jionews.com": BowmarkSiteTools_2c3ebed925;
+  "jisulife.com": BowmarkSiteTools_921614d236;
   "jjjjound.com": BowmarkSiteTools_921614d236;
   "jjparfums.com": BowmarkSiteTools_921614d236;
   "jkboots.com": BowmarkSiteTools_1a8e16d918;
@@ -495011,7 +497702,7 @@ interface BowmarkSites {
   "jonesroadbeauty.com": BowmarkSiteTools_e8ae28a971;
   "jonessnowboards.com": BowmarkSiteTools_921614d236;
   "jonessoda.com": BowmarkSiteTools_921614d236;
-  "joola.com": BowmarkSiteTools_1a8e16d918;
+  "joola.com": BowmarkSiteTools_e8ae28a971;
   "joooooy.com": BowmarkSiteTools_921614d236;
   "joost.blog": BowmarkSiteTools_f99504862c;
   "jordancraig.com": BowmarkSiteTools_921614d236;
@@ -495036,7 +497727,7 @@ interface BowmarkSites {
   "joyashoes.swiss": BowmarkSiteTools_921614d236;
   "joybadminton.com": BowmarkSiteTools_921614d236;
   "joyeenails.com": BowmarkSiteTools_921614d236;
-  "joyfolie.com": BowmarkSiteTools_921614d236;
+  "joyfolie.com": BowmarkSiteTools_1a8e16d918;
   "joyfulnoiserecordings.com": BowmarkSiteTools_1a8e16d918;
   "joylovedolls.com": BowmarkSiteTools_921614d236;
   "joymade.co": BowmarkSiteTools_921614d236;
@@ -495052,6 +497743,7 @@ interface BowmarkSites {
   "jt-products.eu": BowmarkSiteTools_921614d236;
   "jubilerwolski.pl": BowmarkSiteTools_921614d236;
   "judithwilliams.com": BowmarkSiteTools_921614d236;
+  "judydoll.com": BowmarkSiteTools_921614d236;
   "jufair.com": BowmarkSiteTools_ed4415b75c;
   "juicebeauty.com": BowmarkSiteTools_921614d236;
   "juicebox.at": BowmarkSiteTools_921614d236;
@@ -495145,7 +497837,7 @@ interface BowmarkSites {
   "kanopibyarmstrong.com": BowmarkSiteTools_921614d236;
   "kanro.jp": BowmarkSiteTools_921614d236;
   "kanseptknives.com": BowmarkSiteTools_921614d236;
-  "kanthabae.com": BowmarkSiteTools_e8ae28a971;
+  "kanthabae.com": BowmarkSiteTools_1a8e16d918;
   "kanuk.com": BowmarkSiteTools_e8ae28a971;
   "kaotikobcn.eu": BowmarkSiteTools_921614d236;
   "kappa.com": BowmarkSiteTools_921614d236;
@@ -495197,6 +497889,7 @@ interface BowmarkSites {
   "kbrugs.ca": BowmarkSiteTools_921614d236;
   "kbuses.in": BowmarkSiteTools_ccdd19ba6d;
   "kcneedlepoint.com": BowmarkSiteTools_e8ae28a971;
+  "kcsshop.in": BowmarkSiteTools_e8ae28a971;
   "kctool.com": BowmarkSiteTools_e8ae28a971;
   "kdandoc.com": BowmarkSiteTools_3c460a9e41;
   "kealabs.com": BowmarkSiteTools_47bbd17ad9;
@@ -495255,7 +497948,7 @@ interface BowmarkSites {
   "khmtools.com.ph": BowmarkSiteTools_921614d236;
   "khujo.com": BowmarkSiteTools_921614d236;
   "khy.com": BowmarkSiteTools_921614d236;
-  "kiabi.dz": BowmarkSiteTools_921614d236;
+  "kiabi.dz": BowmarkSiteTools_1a8e16d918;
   "kiabi.tn": BowmarkSiteTools_921614d236;
   "kiarasky.com": BowmarkSiteTools_921614d236;
   "kickassproducts.com.au": BowmarkSiteTools_e8ae28a971;
@@ -495390,8 +498083,9 @@ interface BowmarkSites {
   "knot-designs.com": BowmarkSiteTools_921614d236;
   "knotapi.com": BowmarkSiteTools_0f039202c4;
   "knottedroadpress.com": BowmarkSiteTools_921614d236;
-  "knyamed.com": BowmarkSiteTools_e8ae28a971;
+  "knyamed.com": BowmarkSiteTools_1a8e16d918;
   "ko.io": BowmarkSiteTools_96a944f267;
+  "koalacloth-au.com": BowmarkSiteTools_921614d236;
   "koch.com.au": BowmarkSiteTools_921614d236;
   "kochava.com": BowmarkSiteTools_2a641f26c6;
   "kodiakcakes.com": BowmarkSiteTools_921614d236;
@@ -495508,7 +498202,7 @@ interface BowmarkSites {
   "labelsfashion.com": BowmarkSiteTools_e8ae28a971;
   "labgolf.com": BowmarkSiteTools_921614d236;
   "labienaimee.com": BowmarkSiteTools_921614d236;
-  "laboiteny.com": BowmarkSiteTools_921614d236;
+  "laboiteny.com": BowmarkSiteTools_1a8e16d918;
   "labonnebrosse.com": BowmarkSiteTools_e8ae28a971;
   "laboratory-k.com": BowmarkSiteTools_e8ae28a971;
   "labourseauxlivres.fr": BowmarkSiteTools_921614d236;
@@ -495586,7 +498280,7 @@ interface BowmarkSites {
   "lane201.com": BowmarkSiteTools_e8ae28a971;
   "langehair.com": BowmarkSiteTools_1a8e16d918;
   "langmuirsystems.com": BowmarkSiteTools_921614d236;
-  "langwill.com": BowmarkSiteTools_921614d236;
+  "langwill.com": BowmarkSiteTools_1a8e16d918;
   "lanieri.com": BowmarkSiteTools_921614d236;
   "lanius.com": BowmarkSiteTools_921614d236;
   "lansinoh.com": BowmarkSiteTools_921614d236;
@@ -495600,6 +498294,7 @@ interface BowmarkSites {
   "larkandclover.com": BowmarkSiteTools_921614d236;
   "larkinthemorning.com": BowmarkSiteTools_e8ae28a971;
   "larroude.com": BowmarkSiteTools_921614d236;
+  "larsonjewelers.com": BowmarkSiteTools_e8ae28a971;
   "lasallesancristobal.edu.mx": BowmarkSiteTools_19abb188e7;
   "lasenza.com": BowmarkSiteTools_1a8e16d918;
   "laserpecker.net": BowmarkSiteTools_921614d236;
@@ -495665,7 +498360,7 @@ interface BowmarkSites {
   "leathercult.com": BowmarkSiteTools_921614d236;
   "leatheritaliano.com": BowmarkSiteTools_921614d236;
   "leatherkloset.com": BowmarkSiteTools_921614d236;
-  "leatherman.com": BowmarkSiteTools_921614d236;
+  "leatherman.com": BowmarkSiteTools_1a8e16d918;
   "leatherology.com": BowmarkSiteTools_921614d236;
   "lebenskompass.eu": BowmarkSiteTools_921614d236;
   "lebenskraftpur.de": BowmarkSiteTools_921614d236;
@@ -495729,7 +498424,7 @@ interface BowmarkSites {
   "leonboutique.co": BowmarkSiteTools_921614d236;
   "leonisa.co": BowmarkSiteTools_921614d236;
   "leonisa.com": BowmarkSiteTools_921614d236;
-  "leons.ca": BowmarkSiteTools_921614d236;
+  "leons.ca": BowmarkSiteTools_1a8e16d918;
   "lepakshigdk.com": BowmarkSiteTools_921614d236;
   "lepapierpeint.fr": BowmarkSiteTools_921614d236;
   "lepetitballon.com": BowmarkSiteTools_921614d236;
@@ -495784,6 +498479,7 @@ interface BowmarkSites {
   "levoilestores.com": BowmarkSiteTools_921614d236;
   "levoit.com": BowmarkSiteTools_921614d236;
   "levtexhome.com": BowmarkSiteTools_921614d236;
+  "lexiara.org": BowmarkSiteTools_a1794e7595;
   "lexland.com": BowmarkSiteTools_921614d236;
   "lexservice.ro": BowmarkSiteTools_3f6e447273;
   "leyadoll.com": BowmarkSiteTools_921614d236;
@@ -495822,6 +498518,7 @@ interface BowmarkSites {
   "life4rent.app": BowmarkSiteTools_b2caa45302;
   "lifeboostcoffee.com": BowmarkSiteTools_921614d236;
   "lifefile.net": BowmarkSiteTools_28339883a8;
+  "lifeinteriors.com.au": BowmarkSiteTools_e8ae28a971;
   "lifeisgood.com": BowmarkSiteTools_e8ae28a971;
   "lifeprofitness.com": BowmarkSiteTools_921614d236;
   "lifesciencestrading.com": BowmarkSiteTools_921614d236;
@@ -495840,14 +498537,14 @@ interface BowmarkSites {
   "lightingsouq.com": BowmarkSiteTools_921614d236;
   "lightingsupply.com": BowmarkSiteTools_921614d236;
   "lightintheattic.net": BowmarkSiteTools_921614d236;
-  "lights.com": BowmarkSiteTools_921614d236;
+  "lights.com": BowmarkSiteTools_1a8e16d918;
   "lights4fun.co.uk": BowmarkSiteTools_1a8e16d918;
   "lights4fun.de": BowmarkSiteTools_921614d236;
   "lightslacquer.com": BowmarkSiteTools_921614d236;
   "lightwaverf.com": BowmarkSiteTools_921614d236;
   "lik.com": BowmarkSiteTools_921614d236;
   "likemychoice.com": BowmarkSiteTools_71d51d6fe1;
-  "lilabeauty.com.au": BowmarkSiteTools_1a8e16d918;
+  "lilabeauty.com.au": BowmarkSiteTools_921614d236;
   "lilienthal.berlin": BowmarkSiteTools_921614d236;
   "lillydoo.com": BowmarkSiteTools_921614d236;
   "lilyandfox.com": BowmarkSiteTools_921614d236;
@@ -495860,7 +498557,7 @@ interface BowmarkSites {
   "limacharlie.io": BowmarkSiteTools_f0bc1925db;
   "limbaecher.de": BowmarkSiteTools_921614d236;
   "limelight.pk": BowmarkSiteTools_921614d236;
-  "limelightdiamonds.com": BowmarkSiteTools_1a8e16d918;
+  "limelightdiamonds.com": BowmarkSiteTools_921614d236;
   "limelush.com": BowmarkSiteTools_921614d236;
   "limitededt.com": BowmarkSiteTools_921614d236;
   "limitedrungames.com": BowmarkSiteTools_1a8e16d918;
@@ -495892,6 +498589,7 @@ interface BowmarkSites {
   "linzi.com": BowmarkSiteTools_e8ae28a971;
   "lionbrand.com": BowmarkSiteTools_921614d236;
   "lionessfashion.com": BowmarkSiteTools_921614d236;
+  "lionparts.com": BowmarkSiteTools_921614d236;
   "liontoolsmart.com": BowmarkSiteTools_921614d236;
   "lippioutdoor.com": BowmarkSiteTools_921614d236;
   "lipscosme.com": BowmarkSiteTools_eaed84d708;
@@ -495915,7 +498613,7 @@ interface BowmarkSites {
   "little-dutch.com": BowmarkSiteTools_921614d236;
   "littleblockshop.co.uk": BowmarkSiteTools_921614d236;
   "littleboxindia.com": BowmarkSiteTools_921614d236;
-  "littlegreenradicals.com": BowmarkSiteTools_e8ae28a971;
+  "littlegreenradicals.com": BowmarkSiteTools_1a8e16d918;
   "littlehannas.com": BowmarkSiteTools_921614d236;
   "littleknits.com": BowmarkSiteTools_921614d236;
   "littlemachineshop.com": BowmarkSiteTools_e8ae28a971;
@@ -495991,6 +498689,7 @@ interface BowmarkSites {
   "logtail.com": BowmarkSiteTools_c3ac69e771;
   "lohmann-mode.de": BowmarkSiteTools_921614d236;
   "lojaavante.com": BowmarkSiteTools_921614d236;
+  "lojadoouro.pt": BowmarkSiteTools_921614d236;
   "lojafrench.com.br": BowmarkSiteTools_a5d5ad65c1;
   "lolaandtheboys.com": BowmarkSiteTools_1a8e16d918;
   "lolablankets.com": BowmarkSiteTools_e8ae28a971;
@@ -496040,12 +498739,13 @@ interface BowmarkSites {
   "louilyjewelry.com": BowmarkSiteTools_921614d236;
   "louisck.com": BowmarkSiteTools_921614d236;
   "louiscopeland.com": BowmarkSiteTools_921614d236;
+  "louisecarmen.com": BowmarkSiteTools_e8ae28a971;
   "louisecarter-official.com": BowmarkSiteTools_921614d236;
   "louisstitch.com": BowmarkSiteTools_921614d236;
   "louisxviwatches.com": BowmarkSiteTools_921614d236;
   "loulouandcompany.com": BowmarkSiteTools_e8ae28a971;
   "lounelle.com": BowmarkSiteTools_921614d236;
-  "lounge.com": BowmarkSiteTools_e8ae28a971;
+  "lounge.com": BowmarkSiteTools_1a8e16d918;
   "lovall.com": BowmarkSiteTools_921614d236;
   "love-faith.de": BowmarkSiteTools_921614d236;
   "loveamika.com": BowmarkSiteTools_921614d236;
@@ -496058,7 +498758,9 @@ interface BowmarkSites {
   "lovenspa.fr": BowmarkSiteTools_921614d236;
   "loveoliveco.com": BowmarkSiteTools_e8ae28a971;
   "lovepop.com": BowmarkSiteTools_e8ae28a971;
+  "lovesano.it": BowmarkSiteTools_1a8e16d918;
   "loveshackfancy.com": BowmarkSiteTools_921614d236;
+  "loveshop.ca": BowmarkSiteTools_921614d236;
   "lovetodream.com": BowmarkSiteTools_921614d236;
   "lovevook.com": BowmarkSiteTools_921614d236;
   "lovewellness.com": BowmarkSiteTools_921614d236;
@@ -496088,6 +498790,7 @@ interface BowmarkSites {
   "lucialiving.com": BowmarkSiteTools_921614d236;
   "luckbg.com": BowmarkSiteTools_921614d236;
   "luckybag.fr": BowmarkSiteTools_e8ae28a971;
+  "luckyfeetshoes.com": BowmarkSiteTools_e8ae28a971;
   "luckyfours.com": BowmarkSiteTools_921614d236;
   "luckyhemp.de": BowmarkSiteTools_921614d236;
   "luckyme-online.de": BowmarkSiteTools_921614d236;
@@ -496172,7 +498875,7 @@ interface BowmarkSites {
   "mac-center.com": BowmarkSiteTools_e8ae28a971;
   "mac-jeans.com": BowmarkSiteTools_921614d236;
   "maccosmetics.co.uk": BowmarkSiteTools_921614d236;
-  "maccosmetics.com": BowmarkSiteTools_e8ae28a971;
+  "maccosmetics.com": BowmarkSiteTools_1a8e16d918;
   "macduggal.com": BowmarkSiteTools_921614d236;
   "macfixit.com.au": BowmarkSiteTools_e8ae28a971;
   "macfoxbike.com": BowmarkSiteTools_1a8e16d918;
@@ -496190,6 +498893,8 @@ interface BowmarkSites {
   "madamglam.com": BowmarkSiteTools_921614d236;
   "madaracosmetics.com": BowmarkSiteTools_e8ae28a971;
   "madax-online.com": BowmarkSiteTools_921614d236;
+  "maddyparis.com": BowmarkSiteTools_921614d236;
+  "made4fighters.com": BowmarkSiteTools_921614d236;
   "madebymary.com": BowmarkSiteTools_e8ae28a971;
   "madebymutant.com": BowmarkSiteTools_921614d236;
   "madebysociety.ro": BowmarkSiteTools_921614d236;
@@ -496273,6 +498978,7 @@ interface BowmarkSites {
   "makemylemonade.com": BowmarkSiteTools_e8ae28a971;
   "makera.com": BowmarkSiteTools_921614d236;
   "makerbazar.in": BowmarkSiteTools_1a8e16d918;
+  "makerflo.com": BowmarkSiteTools_921614d236;
   "makergear.com": BowmarkSiteTools_921614d236;
   "makerlab.gr": BowmarkSiteTools_11caf9d860;
   "makershed.com": BowmarkSiteTools_e8ae28a971;
@@ -496291,6 +498997,7 @@ interface BowmarkSites {
   "maliks.com": BowmarkSiteTools_921614d236;
   "malinandgoetz.com": BowmarkSiteTools_1a8e16d918;
   "malloftoys.com": BowmarkSiteTools_921614d236;
+  "malo.com": BowmarkSiteTools_921614d236;
   "mam-bricolaj.ro": BowmarkSiteTools_3f6e447273;
   "mamaearth.in": BowmarkSiteTools_1a8e16d918;
   "mamakana.com": BowmarkSiteTools_921614d236;
@@ -496374,6 +499081,7 @@ interface BowmarkSites {
   "marketamerica.com": BowmarkSiteTools_921614d236;
   "marketbeat.com": BowmarkSiteTools_dc140492c1;
   "marketsquarejewelers.com": BowmarkSiteTools_e8ae28a971;
+  "marklawrencegallery.com": BowmarkSiteTools_921614d236;
   "markosweb.com": BowmarkSiteTools_044a197986;
   "marksandweb.com": BowmarkSiteTools_921614d236;
   "marlasfashions.com": BowmarkSiteTools_e8ae28a971;
@@ -496394,7 +499102,7 @@ interface BowmarkSites {
   "martie.com": BowmarkSiteTools_921614d236;
   "martinecosmetics.com": BowmarkSiteTools_921614d236;
   "martinistore.it": BowmarkSiteTools_1a8e16d918;
-  "maruzenjunkudo.co.jp": BowmarkSiteTools_1a8e16d918;
+  "maruzenjunkudo.co.jp": BowmarkSiteTools_921614d236;
   "marymaxim.ca": BowmarkSiteTools_e8ae28a971;
   "marymaxim.com": BowmarkSiteTools_921614d236;
   "maryruthorganics.com": BowmarkSiteTools_921614d236;
@@ -496538,7 +499246,7 @@ interface BowmarkSites {
   "meinarztbedarf.com": BowmarkSiteTools_921614d236;
   "mejuri.com": BowmarkSiteTools_e8ae28a971;
   "mekfashionoutlet.com": BowmarkSiteTools_3f6e447273;
-  "melanielyne.com": BowmarkSiteTools_1a8e16d918;
+  "melanielyne.com": BowmarkSiteTools_e8ae28a971;
   "melgeek.com": BowmarkSiteTools_921614d236;
   "melin.com": BowmarkSiteTools_e8ae28a971;
   "melindamaria.com": BowmarkSiteTools_e8ae28a971;
@@ -496634,6 +499342,7 @@ interface BowmarkSites {
   "mga-officialstore.com": BowmarkSiteTools_1a8e16d918;
   "mgemi.com": BowmarkSiteTools_1a8e16d918;
   "mhcworld.co.za": BowmarkSiteTools_e8ae28a971;
+  "mia-bijoux.ca": BowmarkSiteTools_e8ae28a971;
   "miabellegirls.com": BowmarkSiteTools_921614d236;
   "miadonna.com": BowmarkSiteTools_e8ae28a971;
   "miakarts.com": BowmarkSiteTools_921614d236;
@@ -496674,6 +499383,7 @@ interface BowmarkSites {
   "migdal.co.il": BowmarkSiteTools_63572df2ea;
   "mightycarmods.com": BowmarkSiteTools_921614d236;
   "mightynetworks.com": BowmarkSiteTools_a94ada89eb;
+  "migros-shop.de": BowmarkSiteTools_1a8e16d918;
   "mijn-wijnkoelkast.nl": BowmarkSiteTools_921614d236;
   "mikadodiamonds.com": BowmarkSiteTools_921614d236;
   "mikasa.com": BowmarkSiteTools_921614d236;
@@ -496687,6 +499397,7 @@ interface BowmarkSites {
   "milagrosbeauty.com": BowmarkSiteTools_921614d236;
   "milanicosmetics.com": BowmarkSiteTools_921614d236;
   "milbshop.com": BowmarkSiteTools_e8ae28a971;
+  "military-fasteners.com": BowmarkSiteTools_921614d236;
   "milkbarstore.com": BowmarkSiteTools_e8ae28a971;
   "milkmakeup.com": BowmarkSiteTools_921614d236;
   "millbryhill.co.uk": BowmarkSiteTools_e8ae28a971;
@@ -496746,7 +499457,7 @@ interface BowmarkSites {
   "miracles.my": BowmarkSiteTools_921614d236;
   "miraclesuit.com": BowmarkSiteTools_1a8e16d918;
   "miraggiolife.com": BowmarkSiteTools_1a8e16d918;
-  "miraiclinical.com": BowmarkSiteTools_921614d236;
+  "miraiclinical.com": BowmarkSiteTools_1a8e16d918;
   "mirasafety.com": BowmarkSiteTools_921614d236;
   "mirasales.com": BowmarkSiteTools_921614d236;
   "mirefaccion.com.mx": BowmarkSiteTools_921614d236;
@@ -496754,7 +499465,7 @@ interface BowmarkSites {
   "miruto.shop": BowmarkSiteTools_921614d236;
   "misako.com": BowmarkSiteTools_e8ae28a971;
   "misantoremedio.com": BowmarkSiteTools_921614d236;
-  "misbahwp.com": BowmarkSiteTools_1a8e16d918;
+  "misbahwp.com": BowmarkSiteTools_921614d236;
   "miseducationofmotherhood.com": BowmarkSiteTools_9b5b1869a3;
   "misen.com": BowmarkSiteTools_921614d236;
   "mishimoto.com": BowmarkSiteTools_7b7bd4b597;
@@ -496826,7 +499537,7 @@ interface BowmarkSites {
   "modernbathroom.com": BowmarkSiteTools_921614d236;
   "moderncitizen.com": BowmarkSiteTools_e8ae28a971;
   "moderndesignerrugs.com": BowmarkSiteTools_921614d236;
-  "modernmemorydesign.com": BowmarkSiteTools_921614d236;
+  "modernmemorydesign.com": BowmarkSiteTools_1a8e16d918;
   "modernnursery.com": BowmarkSiteTools_921614d236;
   "moderntribe.com": BowmarkSiteTools_1a8e16d918;
   "modesees.com": BowmarkSiteTools_921614d236;
@@ -496836,6 +499547,7 @@ interface BowmarkSites {
   "modiphius.net": BowmarkSiteTools_1a8e16d918;
   "modretro.com": BowmarkSiteTools_921614d236;
   "modularclosets.com": BowmarkSiteTools_921614d236;
+  "modulit.eu": BowmarkSiteTools_7d91803689;
   "modusfurniture.com": BowmarkSiteTools_921614d236;
   "modway.com": BowmarkSiteTools_921614d236;
   "moea.io": BowmarkSiteTools_921614d236;
@@ -496919,6 +499631,7 @@ interface BowmarkSites {
   "moogaudio.com": BowmarkSiteTools_921614d236;
   "mooiehome.com": BowmarkSiteTools_921614d236;
   "mooierthuis.nl": BowmarkSiteTools_921614d236;
+  "mooijane.com": BowmarkSiteTools_921614d236;
   "mooinzen.de": BowmarkSiteTools_921614d236;
   "moon-audio.com": BowmarkSiteTools_921614d236;
   "moonbikesrl.it": BowmarkSiteTools_e8ae28a971;
@@ -496993,7 +499706,7 @@ interface BowmarkSites {
   "motusboutique.fr": BowmarkSiteTools_921614d236;
   "moudda.com": BowmarkSiteTools_921614d236;
   "mouldkingcorp.com": BowmarkSiteTools_921614d236;
-  "mount-it.com": BowmarkSiteTools_921614d236;
+  "mount-it.com": BowmarkSiteTools_ddbf6ec0d9;
   "mountain-equipment.com": BowmarkSiteTools_921614d236;
   "mountainero.com": BowmarkSiteTools_921614d236;
   "mountainhouse.com": BowmarkSiteTools_1a8e16d918;
@@ -497037,6 +499750,7 @@ interface BowmarkSites {
   "msretro.com": BowmarkSiteTools_1a8e16d918;
   "mstgolf.com": BowmarkSiteTools_921614d236;
   "mtaudio.eu": BowmarkSiteTools_921614d236;
+  "mtbdirect.com.au": BowmarkSiteTools_921614d236;
   "mtckitchen.com": BowmarkSiteTools_921614d236;
   "mthorshop.com": BowmarkSiteTools_921614d236;
   "mtixtl.com": BowmarkSiteTools_921614d236;
@@ -497069,11 +499783,12 @@ interface BowmarkSites {
   "municipal.com": BowmarkSiteTools_e8ae28a971;
   "murad.co.uk": BowmarkSiteTools_921614d236;
   "murad.com": BowmarkSiteTools_921614d236;
+  "muranojoias.com.br": BowmarkSiteTools_921614d236;
   "murphydoor.com": BowmarkSiteTools_921614d236;
   "murukali.com": BowmarkSiteTools_e8ae28a971;
   "musaartgallery.com": BowmarkSiteTools_921614d236;
   "musashihamono.com": BowmarkSiteTools_1a8e16d918;
-  "musclefood.com": BowmarkSiteTools_1a8e16d918;
+  "musclefood.com": BowmarkSiteTools_921614d236;
   "musclenation.org": BowmarkSiteTools_921614d236;
   "musclerepublic.com": BowmarkSiteTools_e8ae28a971;
   "muscletech.com": BowmarkSiteTools_921614d236;
@@ -497088,6 +499803,7 @@ interface BowmarkSites {
   "musicmarket.com.pe": BowmarkSiteTools_921614d236;
   "musiconvinyl.com": BowmarkSiteTools_1a8e16d918;
   "musicplaza.com": BowmarkSiteTools_e8ae28a971;
+  "musicredone.com": BowmarkSiteTools_e8ae28a971;
   "musikschulverwaltung.de": BowmarkSiteTools_0ac6d14d0f;
   "mussi.com.co": BowmarkSiteTools_921614d236;
   "mustangsurvival.com": BowmarkSiteTools_921614d236;
@@ -497245,6 +499961,7 @@ interface BowmarkSites {
   "naehwelt-flach.de": BowmarkSiteTools_e8ae28a971;
   "nafiriguitar.com": BowmarkSiteTools_921614d236;
   "nafori.com": BowmarkSiteTools_921614d236;
+  "nafy.ai": BowmarkSiteTools_8dff7239cb;
   "nagano-market.jp": BowmarkSiteTools_921614d236;
   "nagulstrendycollections.com": BowmarkSiteTools_921614d236;
   "nahoko.si": BowmarkSiteTools_b5d96084f8;
@@ -497285,6 +500002,7 @@ interface BowmarkSites {
   "napoleonejoyas.co": BowmarkSiteTools_921614d236;
   "nappycare.co.za": BowmarkSiteTools_921614d236;
   "naqshiofficial.com": BowmarkSiteTools_921614d236;
+  "naramaxx.com": BowmarkSiteTools_921614d236;
   "naranjatec.com": BowmarkSiteTools_a6f29ce5b5;
   "narn.com": BowmarkSiteTools_921614d236;
   "nas.io": BowmarkSiteTools_416b1b6b7c;
@@ -497302,7 +500020,7 @@ interface BowmarkSites {
   "native-instruments.com": BowmarkSiteTools_1a8e16d918;
   "nativecos.com": BowmarkSiteTools_921614d236;
   "nativedsd.com": BowmarkSiteTools_921614d236;
-  "nativepath.com": BowmarkSiteTools_921614d236;
+  "nativepath.com": BowmarkSiteTools_1a8e16d918;
   "nativepet.com": BowmarkSiteTools_e8ae28a971;
   "nativeseeds.org": BowmarkSiteTools_921614d236;
   "nativeshoes.com": BowmarkSiteTools_921614d236;
@@ -497465,6 +500183,7 @@ interface BowmarkSites {
   "nida.co": BowmarkSiteTools_921614d236;
   "nidecker.com": BowmarkSiteTools_921614d236;
   "niftypackage.co": BowmarkSiteTools_921614d236;
+  "nightingale.com": BowmarkSiteTools_921614d236;
   "nightout.com": BowmarkSiteTools_f7288ddbc9;
   "nightowlsp.com": BowmarkSiteTools_921614d236;
   "nihoner.com": BowmarkSiteTools_9154c9f334;
@@ -497475,7 +500194,7 @@ interface BowmarkSites {
   "nile.ch": BowmarkSiteTools_921614d236;
   "nilerodgers.com": BowmarkSiteTools_921614d236;
   "nilight.com": BowmarkSiteTools_e8ae28a971;
-  "nililotan.com": BowmarkSiteTools_e8ae28a971;
+  "nililotan.com": BowmarkSiteTools_1a8e16d918;
   "nilkamalfurniture.com": BowmarkSiteTools_921614d236;
   "nilkamalhomes.com": BowmarkSiteTools_921614d236;
   "nillkin.com": BowmarkSiteTools_921614d236;
@@ -497494,6 +500213,7 @@ interface BowmarkSites {
   "nishatlinenfps.com": BowmarkSiteTools_921614d236;
   "nishatlinenuae.com": BowmarkSiteTools_1a8e16d918;
   "nishikawa-store.com": BowmarkSiteTools_921614d236;
+  "nishikiya-shop.com": BowmarkSiteTools_921614d236;
   "nishorama.com": BowmarkSiteTools_1a8e16d918;
   "nisolo.com": BowmarkSiteTools_1a8e16d918;
   "nitecorestore.com": BowmarkSiteTools_921614d236;
@@ -497515,7 +500235,7 @@ interface BowmarkSites {
   "nmmusd.org": BowmarkSiteTools_6e16f5fe9c;
   "no-cosmetics.com": BowmarkSiteTools_921614d236;
   "noaachartmap.com": BowmarkSiteTools_921614d236;
-  "noahkahan.com": BowmarkSiteTools_921614d236;
+  "noahkahan.com": BowmarkSiteTools_1a8e16d918;
   "noahny.com": BowmarkSiteTools_1a8e16d918;
   "nobero.com": BowmarkSiteTools_921614d236;
   "nobi.ai": BowmarkSiteTools_5599099bf4;
@@ -497562,7 +500282,7 @@ interface BowmarkSites {
   "nordicoil.de": BowmarkSiteTools_921614d236;
   "nordisk.eu": BowmarkSiteTools_1a8e16d918;
   "nordleaf.de": BowmarkSiteTools_921614d236;
-  "nordlichtstore.com": BowmarkSiteTools_e8ae28a971;
+  "nordlichtstore.com": BowmarkSiteTools_1a8e16d918;
   "nordpharm.ro": BowmarkSiteTools_3f6e447273;
   "norev.com": BowmarkSiteTools_921614d236;
   "normakamali.com": BowmarkSiteTools_921614d236;
@@ -497575,7 +500295,7 @@ interface BowmarkSites {
   "northsails.com": BowmarkSiteTools_921614d236;
   "northspore.com": BowmarkSiteTools_921614d236;
   "notbranded.com": BowmarkSiteTools_e8ae28a971;
-  "notbranded.de": BowmarkSiteTools_1a8e16d918;
+  "notbranded.de": BowmarkSiteTools_e8ae28a971;
   "notebooktherapy.com": BowmarkSiteTools_921614d236;
   "notedaromas.co.uk": BowmarkSiteTools_921614d236;
   "noteonline.pt": BowmarkSiteTools_921614d236;
@@ -497699,7 +500419,7 @@ interface BowmarkSites {
   "odsdesignerclothing.com": BowmarkSiteTools_e8ae28a971;
   "oemusedautoparts1.com": BowmarkSiteTools_e8ae28a971;
   "offduty.in": BowmarkSiteTools_1a8e16d918;
-  "offe.market": BowmarkSiteTools_1a8e16d918;
+  "offe.market": BowmarkSiteTools_e8ae28a971;
   "office-japan.jp": BowmarkSiteTools_921614d236;
   "officialcelestia.com": BowmarkSiteTools_921614d236;
   "officialmart.shop": BowmarkSiteTools_921614d236;
@@ -497941,6 +500661,7 @@ interface BowmarkSites {
   "oroblu.com": BowmarkSiteTools_1a8e16d918;
   "orolay.com": BowmarkSiteTools_921614d236;
   "ororowear.com": BowmarkSiteTools_e8ae28a971;
+  "ortc.com.au": BowmarkSiteTools_e8ae28a971;
   "orthofeet.com": BowmarkSiteTools_921614d236;
   "orthora-footwear.com": BowmarkSiteTools_1a8e16d918;
   "orthoticshop.com": BowmarkSiteTools_921614d236;
@@ -498008,6 +500729,7 @@ interface BowmarkSites {
   "outsider.com": BowmarkSiteTools_921614d236;
   "ovaisabayacollection.in": BowmarkSiteTools_921614d236;
   "ovationthemes.com": BowmarkSiteTools_921614d236;
+  "overkill.co.nz": BowmarkSiteTools_921614d236;
   "overkillshop.com": BowmarkSiteTools_921614d236;
   "overlaysnow.com": BowmarkSiteTools_921614d236;
   "overlookboots.com": BowmarkSiteTools_e8ae28a971;
@@ -498301,6 +501023,7 @@ interface BowmarkSites {
   "penroseskin.com": BowmarkSiteTools_921614d236;
   "pentel.com": BowmarkSiteTools_e8ae28a971;
   "penthera.com": BowmarkSiteTools_6752460754;
+  "peopleschoicebeefjerky.com": BowmarkSiteTools_e8ae28a971;
   "pepiniere.ca": BowmarkSiteTools_921614d236;
   "pepper-home.com": BowmarkSiteTools_921614d236;
   "peppermayo.com": BowmarkSiteTools_921614d236;
@@ -498312,6 +501035,7 @@ interface BowmarkSites {
   "peragashop.com": BowmarkSiteTools_921614d236;
   "peralane.com": BowmarkSiteTools_1be8d9c7fd;
   "percivalclo.com": BowmarkSiteTools_e8ae28a971;
+  "percko.com": BowmarkSiteTools_921614d236;
   "perelelhealth.com": BowmarkSiteTools_921614d236;
   "perfect-ai-hairstyles-aplvn.app": BowmarkSiteTools_cf5b0a3d83;
   "perfect-ai-hairstyles.app": BowmarkSiteTools_cf5b0a3d83;
@@ -498323,6 +501047,7 @@ interface BowmarkSites {
   "performancelab.com": BowmarkSiteTools_921614d236;
   "perfumania.com": BowmarkSiteTools_921614d236;
   "perfume-parlour.co.uk": BowmarkSiteTools_e8ae28a971;
+  "perfumebox.com": BowmarkSiteTools_921614d236;
   "perfumeclearancecentre.com.au": BowmarkSiteTools_921614d236;
   "perfumedirect.com": BowmarkSiteTools_921614d236;
   "perfumegyaan.com": BowmarkSiteTools_921614d236;
@@ -498431,6 +501156,7 @@ interface BowmarkSites {
   "pika.art": BowmarkSiteTools_fb9de5faf8;
   "pikastore.cz": BowmarkSiteTools_921614d236;
   "pikastore.de": BowmarkSiteTools_921614d236;
+  "pikazo.co": BowmarkSiteTools_921614d236;
   "pilgrim.net": BowmarkSiteTools_921614d236;
   "pillowdaddy.de": BowmarkSiteTools_1a8e16d918;
   "pillowguy.com": BowmarkSiteTools_921614d236;
@@ -498442,7 +501168,7 @@ interface BowmarkSites {
   "piniparma.com": BowmarkSiteTools_1a8e16d918;
   "pinkalamode.com": BowmarkSiteTools_921614d236;
   "pinkblushmaternity.com": BowmarkSiteTools_921614d236;
-  "pinkboutique.co.uk": BowmarkSiteTools_921614d236;
+  "pinkboutique.co.uk": BowmarkSiteTools_1a8e16d918;
   "pinkcherry.ca": BowmarkSiteTools_921614d236;
   "pinkcherry.com": BowmarkSiteTools_921614d236;
   "pinkfort.co": BowmarkSiteTools_921614d236;
@@ -498457,10 +501183,10 @@ interface BowmarkSites {
   "pinnacleblooms.org": BowmarkSiteTools_bab08885c7;
   "pinoyhyper.com": BowmarkSiteTools_921614d236;
   "pinsandaces.com": BowmarkSiteTools_e8ae28a971;
-  "pinter.com": BowmarkSiteTools_921614d236;
+  "pinter.com": BowmarkSiteTools_1a8e16d918;
   "pioneerelectronics.com": BowmarkSiteTools_1a8e16d918;
   "pioneerminisplit.com": BowmarkSiteTools_1a8e16d918;
-  "pipingrock.com": BowmarkSiteTools_1a8e16d918;
+  "pipingrock.com": BowmarkSiteTools_921614d236;
   "pippoppost.com": BowmarkSiteTools_921614d236;
   "piquadro.com": BowmarkSiteTools_e8ae28a971;
   "piquelife.com": BowmarkSiteTools_921614d236;
@@ -498541,7 +501267,7 @@ interface BowmarkSites {
   "please.co": BowmarkSiteTools_921614d236;
   "pleasershoes.com": BowmarkSiteTools_921614d236;
   "plenitudedistribuidora.com.br": BowmarkSiteTools_1a8e16d918;
-  "plgautomation.com": BowmarkSiteTools_921614d236;
+  "plgautomation.com": BowmarkSiteTools_1a8e16d918;
   "plomberiemascouche.ca": BowmarkSiteTools_921614d236;
   "plouise.co.uk": BowmarkSiteTools_1a8e16d918;
   "plowhearth.com": BowmarkSiteTools_921614d236;
@@ -498614,7 +501340,9 @@ interface BowmarkSites {
   "poolcomet.com": BowmarkSiteTools_e45453323b;
   "poolhousenewyork.com": BowmarkSiteTools_e8ae28a971;
   "poolplanet.com": BowmarkSiteTools_921614d236;
+  "poolweb.com": BowmarkSiteTools_921614d236;
   "popart-gallery.fr": BowmarkSiteTools_921614d236;
+  "popcollectibles.store": BowmarkSiteTools_921614d236;
   "popeia.de": BowmarkSiteTools_921614d236;
   "popflexactive.com": BowmarkSiteTools_1a8e16d918;
   "popilush.com": BowmarkSiteTools_921614d236;
@@ -498637,7 +501365,7 @@ interface BowmarkSites {
   "portlandleathergoods.com": BowmarkSiteTools_e8ae28a971;
   "portronics.com": BowmarkSiteTools_921614d236;
   "pos.do": BowmarkSiteTools_75a938f143;
-  "poshhaus.com": BowmarkSiteTools_1a8e16d918;
+  "poshhaus.com": BowmarkSiteTools_921614d236;
   "poshpeanut.com": BowmarkSiteTools_921614d236;
   "pospaper.com": BowmarkSiteTools_921614d236;
   "postalform.com": BowmarkSiteTools_00bc947067;
@@ -498656,7 +501384,7 @@ interface BowmarkSites {
   "powerblock.com": BowmarkSiteTools_921614d236;
   "powercommerce.com": BowmarkSiteTools_921614d236;
   "poweredtemplate.com": BowmarkSiteTools_5a9c626b95;
-  "powerfulform.com": BowmarkSiteTools_921614d236;
+  "powerfulform.com": BowmarkSiteTools_1a8e16d918;
   "powerhouseexpress.com.pk": BowmarkSiteTools_921614d236;
   "powerlook.in": BowmarkSiteTools_921614d236;
   "powermaccenter.com": BowmarkSiteTools_921614d236;
@@ -498678,7 +501406,7 @@ interface BowmarkSites {
   "prbottleshop.com": BowmarkSiteTools_921614d236;
   "preachindex.com": BowmarkSiteTools_e0d0ff069d;
   "preciousmoments.com": BowmarkSiteTools_921614d236;
-  "predatorcues.com": BowmarkSiteTools_921614d236;
+  "predatorcues.com": BowmarkSiteTools_1a8e16d918;
   "preethiwear.in": BowmarkSiteTools_1a8e16d918;
   "preetpret.pk": BowmarkSiteTools_921614d236;
   "prefect.io": BowmarkSiteTools_014004dec8;
@@ -498697,6 +501425,7 @@ interface BowmarkSites {
   "prepmyfuture.com": BowmarkSiteTools_921614d236;
   "prepmymeal.com": BowmarkSiteTools_921614d236;
   "preppersshop.co.uk": BowmarkSiteTools_921614d236;
+  "preprod.systems": BowmarkSiteTools_921614d236;
   "prequelskin.com": BowmarkSiteTools_921614d236;
   "presenca.pt": BowmarkSiteTools_921614d236;
   "presentgivers.com": BowmarkSiteTools_921614d236;
@@ -498722,7 +501451,7 @@ interface BowmarkSites {
   "primalqueen.com": BowmarkSiteTools_921614d236;
   "primalstrength.com": BowmarkSiteTools_921614d236;
   "primalviking.com": BowmarkSiteTools_921614d236;
-  "primalwear.com": BowmarkSiteTools_e8ae28a971;
+  "primalwear.com": BowmarkSiteTools_1a8e16d918;
   "primary.com": BowmarkSiteTools_921614d236;
   "primcast.com": BowmarkSiteTools_ca883031b6;
   "primegastro.pl": BowmarkSiteTools_921614d236;
@@ -498851,6 +501580,7 @@ interface BowmarkSites {
   "pulpaddiction.com.au": BowmarkSiteTools_921614d236;
   "pulsar.gg": BowmarkSiteTools_1a8e16d918;
   "pulsetto.tech": BowmarkSiteTools_921614d236;
+  "pumagolf.com": BowmarkSiteTools_921614d236;
   "pumaknives.de": BowmarkSiteTools_e8ae28a971;
   "punkdesign.shop": BowmarkSiteTools_921614d236;
   "punkride.com": BowmarkSiteTools_921614d236;
@@ -498862,9 +501592,10 @@ interface BowmarkSites {
   "purebredkitties.com": BowmarkSiteTools_921614d236;
   "puredent.dk": BowmarkSiteTools_921614d236;
   "purefishing.com": BowmarkSiteTools_921614d236;
+  "pureflowair.com": BowmarkSiteTools_921614d236;
   "pureforyou.com": BowmarkSiteTools_1a8e16d918;
   "purekana.com": BowmarkSiteTools_921614d236;
-  "purelei.com": BowmarkSiteTools_1a8e16d918;
+  "purelei.com": BowmarkSiteTools_e8ae28a971;
   "purelyinspired.com": BowmarkSiteTools_1a8e16d918;
   "purelynutrient.com": BowmarkSiteTools_921614d236;
   "purenails.co.uk": BowmarkSiteTools_e8ae28a971;
@@ -498907,6 +501638,7 @@ interface BowmarkSites {
   "qiditech3dprinter.com": BowmarkSiteTools_921614d236;
   "qikify.com": BowmarkSiteTools_921614d236;
   "qixskateshop.com.br": BowmarkSiteTools_1a8e16d918;
+  "qlf.de": BowmarkSiteTools_921614d236;
   "qlia.store": BowmarkSiteTools_921614d236;
   "qnkmia.es": BowmarkSiteTools_1a8e16d918;
   "qomfortco.com": BowmarkSiteTools_921614d236;
@@ -498961,7 +501693,7 @@ interface BowmarkSites {
   "r1s-test.com": BowmarkSiteTools_551161cdb8;
   "rabbitroom.com": BowmarkSiteTools_e94e24a04c;
   "rabbu.com": BowmarkSiteTools_bc586a458f;
-  "raboesy.com": BowmarkSiteTools_921614d236;
+  "raboesy.com": BowmarkSiteTools_1a8e16d918;
   "racedayquads.com": BowmarkSiteTools_921614d236;
   "raceface.com": BowmarkSiteTools_921614d236;
   "raceofchampions.com": BowmarkSiteTools_e3fcb1dd14;
@@ -498988,7 +501720,7 @@ interface BowmarkSites {
   "raghouse.com": BowmarkSiteTools_921614d236;
   "ragno.com": BowmarkSiteTools_921614d236;
   "ragofabrication.com": BowmarkSiteTools_1a8e16d918;
-  "ragstock.com": BowmarkSiteTools_1a8e16d918;
+  "ragstock.com": BowmarkSiteTools_921614d236;
   "ragtag.com.tw": BowmarkSiteTools_e8ae28a971;
   "raidlight.com": BowmarkSiteTools_e8ae28a971;
   "railjournal.in": BowmarkSiteTools_8a79c0175c;
@@ -499044,6 +501776,7 @@ interface BowmarkSites {
   "rasees.net": BowmarkSiteTools_2c1343b9af;
   "rashyam.in": BowmarkSiteTools_1a8e16d918;
   "rasik.style": BowmarkSiteTools_1a8e16d918;
+  "raskolapparel.com": BowmarkSiteTools_921614d236;
   "ratandboa.com": BowmarkSiteTools_921614d236;
   "rauantiques.com": BowmarkSiteTools_921614d236;
   "rausch.de": BowmarkSiteTools_1a8e16d918;
@@ -499056,7 +501789,7 @@ interface BowmarkSites {
   "rawson.co.za": BowmarkSiteTools_1a99c8a1fa;
   "rawspiritual.com": BowmarkSiteTools_921614d236;
   "rayconglobal.com": BowmarkSiteTools_921614d236;
-  "raygunsite.com": BowmarkSiteTools_e8ae28a971;
+  "raygunsite.com": BowmarkSiteTools_1a8e16d918;
   "raymond-weil.com": BowmarkSiteTools_921614d236;
   "rayneo.com": BowmarkSiteTools_921614d236;
   "raynerefillery.com": BowmarkSiteTools_e8ae28a971;
@@ -499081,6 +501814,7 @@ interface BowmarkSites {
   "readerswarehouse.co.za": BowmarkSiteTools_921614d236;
   "readingglasses.com": BowmarkSiteTools_921614d236;
   "readyourheart.com": BowmarkSiteTools_1a8e16d918;
+  "readysetpedal.com": BowmarkSiteTools_921614d236;
   "realdoll.com": BowmarkSiteTools_921614d236;
   "realeactives.com": BowmarkSiteTools_921614d236;
   "realgroovy.com": BowmarkSiteTools_921614d236;
@@ -499100,7 +501834,7 @@ interface BowmarkSites {
   "rebeccavallance.com": BowmarkSiteTools_1a8e16d918;
   "rebelcopenhagen.dk": BowmarkSiteTools_921614d236;
   "rebelgunworks.com.au": BowmarkSiteTools_e8ae28a971;
-  "rebelliousfashion.com": BowmarkSiteTools_1a8e16d918;
+  "rebelliousfashion.com": BowmarkSiteTools_921614d236;
   "rebelsmarket.com": BowmarkSiteTools_921614d236;
   "rebike.com": BowmarkSiteTools_e8ae28a971;
   "rebilly.com": BowmarkSiteTools_2b3c193d86;
@@ -499186,7 +501920,7 @@ interface BowmarkSites {
   "releasealert.dev": BowmarkSiteTools_c512aac51e;
   "releasemyad.com": BowmarkSiteTools_169528f1a4;
   "relevantbits.com": BowmarkSiteTools_921614d236;
-  "reliableaftermarketparts.com": BowmarkSiteTools_921614d236;
+  "reliableaftermarketparts.com": BowmarkSiteTools_1a8e16d918;
   "relinkonline.com": BowmarkSiteTools_921614d236;
   "relivex.com": BowmarkSiteTools_921614d236;
   "relojes.com": BowmarkSiteTools_1a8e16d918;
@@ -499300,7 +502034,6 @@ interface BowmarkSites {
   "rhythmandbeat.com": BowmarkSiteTools_921614d236;
   "riadtile.com": BowmarkSiteTools_1a8e16d918;
   "riavara.com": BowmarkSiteTools_921614d236;
-  "ribblr.com": BowmarkSiteTools_0966caccbd;
   "ribbonfarm.com": BowmarkSiteTools_bd39dbd5ab;
   "ricebyrice.com": BowmarkSiteTools_921614d236;
   "ricemillkkart.com": BowmarkSiteTools_921614d236;
@@ -499317,6 +502050,7 @@ interface BowmarkSites {
   "ridge.com": BowmarkSiteTools_1a8e16d918;
   "ridgemerino.com": BowmarkSiteTools_e8ae28a971;
   "ridgerun.com": BowmarkSiteTools_6a0a3c3f09;
+  "ridhimehra.com": BowmarkSiteTools_921614d236;
   "rielty.co.uk": BowmarkSiteTools_6b1a1c925d;
   "riflepaperco.com": BowmarkSiteTools_921614d236;
   "rifo-lab.com": BowmarkSiteTools_e8ae28a971;
@@ -499324,6 +502058,7 @@ interface BowmarkSites {
   "righteousbabe.com": BowmarkSiteTools_921614d236;
   "rihoas.com": BowmarkSiteTools_921614d236;
   "rimoco.de": BowmarkSiteTools_e8ae28a971;
+  "rimorcorp.com": BowmarkSiteTools_921614d236;
   "rinascimento.com": BowmarkSiteTools_921614d236;
   "ringconcierge.com": BowmarkSiteTools_e8ae28a971;
   "ringconn.com": BowmarkSiteTools_1a8e16d918;
@@ -499423,6 +502158,7 @@ interface BowmarkSites {
   "rogueandwolf.com": BowmarkSiteTools_921614d236;
   "rogueroyalty.com.au": BowmarkSiteTools_e8ae28a971;
   "roka.com": BowmarkSiteTools_921614d236;
+  "rokalondon.com": BowmarkSiteTools_e8ae28a971;
   "rokform.com": BowmarkSiteTools_e8ae28a971;
   "rokhardware.com": BowmarkSiteTools_921614d236;
   "rokit.co.uk": BowmarkSiteTools_921614d236;
@@ -499432,7 +502168,7 @@ interface BowmarkSites {
   "rollersnakes.co.uk": BowmarkSiteTools_e8ae28a971;
   "rollick.io": BowmarkSiteTools_99d0880f28;
   "rollingrabbitbooks.com": BowmarkSiteTools_921614d236;
-  "rollingreens.com": BowmarkSiteTools_921614d236;
+  "rollingreens.com": BowmarkSiteTools_1a8e16d918;
   "rollover.com.pk": BowmarkSiteTools_921614d236;
   "romalarjewelry.com": BowmarkSiteTools_921614d236;
   "roman.com": BowmarkSiteTools_921614d236;
@@ -499474,6 +502210,7 @@ interface BowmarkSites {
   "routeone.co.uk": BowmarkSiteTools_1a8e16d918;
   "routescan.io": BowmarkSiteTools_b46fa861cb;
   "routific.com": BowmarkSiteTools_86273d3b6d;
+  "rovenxa.com": BowmarkSiteTools_921614d236;
   "roverparts.eu": BowmarkSiteTools_921614d236;
   "rowandsons.co.uk": BowmarkSiteTools_921614d236;
   "rowecasaorganics.com": BowmarkSiteTools_921614d236;
@@ -499517,6 +502254,7 @@ interface BowmarkSites {
   "rugsusa.com": BowmarkSiteTools_921614d236;
   "rugtales.com": BowmarkSiteTools_921614d236;
   "rula.com": BowmarkSiteTools_180bfe7019;
+  "rulercraft.com": BowmarkSiteTools_ea2548091e;
   "rumpl.com": BowmarkSiteTools_921614d236;
   "runawayplay.com": BowmarkSiteTools_fcb3d900da;
   "runawaythelabel.com": BowmarkSiteTools_1a8e16d918;
@@ -499611,7 +502349,7 @@ interface BowmarkSites {
   "sairam.cl": BowmarkSiteTools_f3f4b25386;
   "saje.ca": BowmarkSiteTools_e8ae28a971;
   "saje.com": BowmarkSiteTools_e8ae28a971;
-  "sajiero.com": BowmarkSiteTools_921614d236;
+  "sajiero.com": BowmarkSiteTools_1a8e16d918;
   "sajjakreation.com": BowmarkSiteTools_921614d236;
   "sakerplus.com": BowmarkSiteTools_921614d236;
   "salamander.de": BowmarkSiteTools_921614d236;
@@ -499628,7 +502366,7 @@ interface BowmarkSites {
   "salonsdirect.com": BowmarkSiteTools_e8ae28a971;
   "salonsupplies.co.uk": BowmarkSiteTools_e8ae28a971;
   "salrog.com": BowmarkSiteTools_921614d236;
-  "salsacycles.com": BowmarkSiteTools_921614d236;
+  "salsacycles.com": BowmarkSiteTools_1a8e16d918;
   "salsag.ro": BowmarkSiteTools_3f6e447273;
   "salsavida.com": BowmarkSiteTools_5ad1e9dd74;
   "saltair.com": BowmarkSiteTools_1a8e16d918;
@@ -499644,6 +502382,7 @@ interface BowmarkSites {
   "samm.com.br": BowmarkSiteTools_0d85e487c7;
   "samma3a.com": BowmarkSiteTools_921614d236;
   "sammy-jackson.shop": BowmarkSiteTools_921614d236;
+  "samoondoh.com": BowmarkSiteTools_921614d236;
   "samplize.com": BowmarkSiteTools_921614d236;
   "samsungparts.com": BowmarkSiteTools_921614d236;
   "samsungpartsusa.com": BowmarkSiteTools_921614d236;
@@ -499663,6 +502402,7 @@ interface BowmarkSites {
   "sanrio.com": BowmarkSiteTools_1a8e16d918;
   "sanscomplexe.com": BowmarkSiteTools_921614d236;
   "sanshee.com": BowmarkSiteTools_921614d236;
+  "sanskrutistore.com": BowmarkSiteTools_921614d236;
   "sansoti.com": BowmarkSiteTools_921614d236;
   "santabohemia.com": BowmarkSiteTools_a5d5ad65c1;
   "santacruzbicycles.com": BowmarkSiteTools_921614d236;
@@ -499688,6 +502428,7 @@ interface BowmarkSites {
   "sashatherese.com": BowmarkSiteTools_921614d236;
   "sasitrends.com": BowmarkSiteTools_921614d236;
   "sasnola.com": BowmarkSiteTools_e8ae28a971;
+  "sassafras.in": BowmarkSiteTools_921614d236;
   "sassyclassy.com": BowmarkSiteTools_921614d236;
   "sassyclassy.de": BowmarkSiteTools_921614d236;
   "sassysaints.com": BowmarkSiteTools_921614d236;
@@ -499761,7 +502502,7 @@ interface BowmarkSites {
   "schutz-shoes.com": BowmarkSiteTools_e8ae28a971;
   "schwinnbikes.com": BowmarkSiteTools_921614d236;
   "sciconsports.com": BowmarkSiteTools_921614d236;
-  "scop.onl": BowmarkSiteTools_921614d236;
+  "scop.onl": BowmarkSiteTools_1a8e16d918;
   "scorebooklive.com": BowmarkSiteTools_df6dec9655;
   "scosche.com": BowmarkSiteTools_921614d236;
   "scotchandsoda.com": BowmarkSiteTools_921614d236;
@@ -499785,6 +502526,7 @@ interface BowmarkSites {
   "sculptedbyaimee.com": BowmarkSiteTools_e8ae28a971;
   "sculture.tokyo": BowmarkSiteTools_921614d236;
   "scvd.store": BowmarkSiteTools_7329e259c7;
+  "sdhqoffroad.com": BowmarkSiteTools_921614d236;
   "sds.com.au": BowmarkSiteTools_921614d236;
   "sea-ny.com": BowmarkSiteTools_e8ae28a971;
   "seadwelling.com": BowmarkSiteTools_921614d236;
@@ -499810,6 +502552,7 @@ interface BowmarkSites {
   "second-circle.de": BowmarkSiteTools_1a8e16d918;
   "secretalchemist.com": BowmarkSiteTools_921614d236;
   "secretbottleshop.co.uk": BowmarkSiteTools_e8ae28a971;
+  "secretcoco.com": BowmarkSiteTools_921614d236;
   "secretgarden.ro": BowmarkSiteTools_921614d236;
   "secretlab.co": BowmarkSiteTools_1a8e16d918;
   "secretlab.eu": BowmarkSiteTools_921614d236;
@@ -499845,6 +502588,7 @@ interface BowmarkSites {
   "selectblinds.com": BowmarkSiteTools_921614d236;
   "selectedhomme.in": BowmarkSiteTools_921614d236;
   "selecteu.com": BowmarkSiteTools_921614d236;
+  "selectseeds.com": BowmarkSiteTools_921614d236;
   "selenichast.com": BowmarkSiteTools_921614d236;
   "seletti.it": BowmarkSiteTools_921614d236;
   "self-portrait.com": BowmarkSiteTools_e8ae28a971;
@@ -499856,6 +502600,7 @@ interface BowmarkSites {
   "selkirk.com": BowmarkSiteTools_e8ae28a971;
   "sellbooks.co.uk": BowmarkSiteTools_921614d236;
   "selleriebucephale.com": BowmarkSiteTools_e8ae28a971;
+  "sellierknightsbridge.com": BowmarkSiteTools_1a8e16d918;
   "sellmystuff.shop": BowmarkSiteTools_921614d236;
   "selltostate.com": BowmarkSiteTools_0fd348b4d9;
   "selmer.fr": BowmarkSiteTools_921614d236;
@@ -499869,8 +502614,9 @@ interface BowmarkSites {
   "sendafriend.co": BowmarkSiteTools_1a8e16d918;
   "sendegaro.com": BowmarkSiteTools_921614d236;
   "senderopc.com": BowmarkSiteTools_e8ae28a971;
-  "senegence.com": BowmarkSiteTools_921614d236;
+  "senegence.com": BowmarkSiteTools_1a8e16d918;
   "seniors.fyi": BowmarkSiteTools_47cf6dd4df;
+  "senitaathletics.com": BowmarkSiteTools_921614d236;
   "sensalytics.io": BowmarkSiteTools_c4a5143275;
   "sensalytics.net": BowmarkSiteTools_9d5344a34e;
   "sense-u.com": BowmarkSiteTools_921614d236;
@@ -499928,7 +502674,7 @@ interface BowmarkSites {
   "sgpbusiness.com": BowmarkSiteTools_f4ad816bac;
   "shadyrays.com": BowmarkSiteTools_e8ae28a971;
   "shahkaar.com": BowmarkSiteTools_921614d236;
-  "shahzebsaeed.com": BowmarkSiteTools_921614d236;
+  "shahzebsaeed.com": BowmarkSiteTools_1a8e16d918;
   "shakepay.com": BowmarkSiteTools_6d58d92df3;
   "shaktimat.co.jp": BowmarkSiteTools_921614d236;
   "shamansmarket.com": BowmarkSiteTools_e8ae28a971;
@@ -499983,6 +502729,7 @@ interface BowmarkSites {
   "shineon.co.nz": BowmarkSiteTools_921614d236;
   "shinesty.com": BowmarkSiteTools_e8ae28a971;
   "shinola.com": BowmarkSiteTools_921614d236;
+  "shinychiefs.de": BowmarkSiteTools_921614d236;
   "ship24.com": BowmarkSiteTools_78d3bea3a2;
   "shipleydonuts.com": BowmarkSiteTools_db2e6bad61;
   "shippingsaint.com": BowmarkSiteTools_45ce545911;
@@ -500057,7 +502804,8 @@ interface BowmarkSites {
   "shopkarolg.com": BowmarkSiteTools_921614d236;
   "shopkawaiigifts.com": BowmarkSiteTools_e8ae28a971;
   "shopkissonline.com": BowmarkSiteTools_921614d236;
-  "shopkury.com": BowmarkSiteTools_921614d236;
+  "shopko.com": BowmarkSiteTools_921614d236;
+  "shopkury.com": BowmarkSiteTools_1a8e16d918;
   "shoplc.com": BowmarkSiteTools_921614d236;
   "shoplc.de": BowmarkSiteTools_921614d236;
   "shoplixs.com": BowmarkSiteTools_921614d236;
@@ -500067,7 +502815,7 @@ interface BowmarkSites {
   "shopmelissa.com": BowmarkSiteTools_921614d236;
   "shopmentionables.com": BowmarkSiteTools_921614d236;
   "shopmicas.com": BowmarkSiteTools_1a8e16d918;
-  "shopmissa.com": BowmarkSiteTools_921614d236;
+  "shopmissa.com": BowmarkSiteTools_1a8e16d918;
   "shopmoco.com": BowmarkSiteTools_921614d236;
   "shopmoment.com": BowmarkSiteTools_921614d236;
   "shopnaw.shop": BowmarkSiteTools_1a8e16d918;
@@ -500107,7 +502855,7 @@ interface BowmarkSites {
   "showmeyourmumu.com": BowmarkSiteTools_921614d236;
   "showpo.com": BowmarkSiteTools_921614d236;
   "shredstore.de": BowmarkSiteTools_e8ae28a971;
-  "shreehari.co": BowmarkSiteTools_921614d236;
+  "shreehari.co": BowmarkSiteTools_1a8e16d918;
   "shreyanspos.com": BowmarkSiteTools_921614d236;
   "shriimant.com": BowmarkSiteTools_921614d236;
   "shrine.io": BowmarkSiteTools_921614d236;
@@ -500257,7 +503005,7 @@ interface BowmarkSites {
   "skinnymixes.com": BowmarkSiteTools_921614d236;
   "skinslegend.com": BowmarkSiteTools_921614d236;
   "skintific.com": BowmarkSiteTools_921614d236;
-  "skintwo.com": BowmarkSiteTools_e8ae28a971;
+  "skintwo.com": BowmarkSiteTools_1a8e16d918;
   "skintypesolutions.com": BowmarkSiteTools_1a8e16d918;
   "skiny.com": BowmarkSiteTools_1a8e16d918;
   "skiplagged.com": BowmarkSiteTools_9e31fd505d;
@@ -500272,6 +503020,7 @@ interface BowmarkSites {
   "skullcandy.eu": BowmarkSiteTools_921614d236;
   "skullsunlimited.com": BowmarkSiteTools_1a8e16d918;
   "skultuna.com": BowmarkSiteTools_921614d236;
+  "skunkshobbies.com": BowmarkSiteTools_e8ae28a971;
   "skygolf.com": BowmarkSiteTools_921614d236;
   "skymall.com": BowmarkSiteTools_921614d236;
   "skymusic.com.au": BowmarkSiteTools_e8ae28a971;
@@ -500330,7 +503079,7 @@ interface BowmarkSites {
   "smileactives.com": BowmarkSiteTools_921614d236;
   "smileadyus.com": BowmarkSiteTools_921614d236;
   "smileset.com": BowmarkSiteTools_e8ae28a971;
-  "smilodox.com": BowmarkSiteTools_1a8e16d918;
+  "smilodox.com": BowmarkSiteTools_e8ae28a971;
   "smithey.com": BowmarkSiteTools_e8ae28a971;
   "smithoptics.com": BowmarkSiteTools_921614d236;
   "smithtea.com": BowmarkSiteTools_921614d236;
@@ -500351,7 +503100,7 @@ interface BowmarkSites {
   "snackfully.co.uk": BowmarkSiteTools_921614d236;
   "snaggedandbagged.com": BowmarkSiteTools_921614d236;
   "snagtights.com": BowmarkSiteTools_921614d236;
-  "snagtights.de": BowmarkSiteTools_1a8e16d918;
+  "snagtights.de": BowmarkSiteTools_921614d236;
   "snagtights.eu": BowmarkSiteTools_921614d236;
   "snagtights.us": BowmarkSiteTools_921614d236;
   "snakebiteco.com": BowmarkSiteTools_921614d236;
@@ -500390,7 +503139,7 @@ interface BowmarkSites {
   "society6.com": BowmarkSiteTools_1a8e16d918;
   "sockdreams.com": BowmarkSiteTools_e8ae28a971;
   "socket.dev": BowmarkSiteTools_5eed04402d;
-  "sodastream.com": BowmarkSiteTools_1a8e16d918;
+  "sodastream.com": BowmarkSiteTools_921614d236;
   "sodastream.com.ar": BowmarkSiteTools_921614d236;
   "sodastream.de": BowmarkSiteTools_921614d236;
   "sodastream.pl": BowmarkSiteTools_921614d236;
@@ -500401,7 +503150,7 @@ interface BowmarkSites {
   "sofary.com": BowmarkSiteTools_921614d236;
   "sofasandsectionals.com": BowmarkSiteTools_566fd5f139;
   "sofiaandspritz.com": BowmarkSiteTools_921614d236;
-  "sofiavittoria.com": BowmarkSiteTools_1a8e16d918;
+  "sofiavittoria.com": BowmarkSiteTools_921614d236;
   "sofico.pt": BowmarkSiteTools_1a8e16d918;
   "sofiepavittface.com": BowmarkSiteTools_921614d236;
   "sofontsy.com": BowmarkSiteTools_921614d236;
@@ -500422,6 +503171,7 @@ interface BowmarkSites {
   "solarisjapan.com": BowmarkSiteTools_921614d236;
   "solarkontor.de": BowmarkSiteTools_921614d236;
   "solarmars.de": BowmarkSiteTools_921614d236;
+  "solaroutlet.com.au": BowmarkSiteTools_921614d236;
   "solarvie.at": BowmarkSiteTools_921614d236;
   "solawave.co": BowmarkSiteTools_921614d236;
   "solawoodflowers.com": BowmarkSiteTools_921614d236;
@@ -500467,9 +503217,9 @@ interface BowmarkSites {
   "soulladywigs.com": BowmarkSiteTools_921614d236;
   "soultt.com": BowmarkSiteTools_921614d236;
   "sound-merch.com.au": BowmarkSiteTools_1a8e16d918;
-  "soundboks.com": BowmarkSiteTools_921614d236;
+  "soundboks.com": BowmarkSiteTools_1a8e16d918;
   "soundboks.de": BowmarkSiteTools_921614d236;
-  "soundbrenner.com": BowmarkSiteTools_1a8e16d918;
+  "soundbrenner.com": BowmarkSiteTools_921614d236;
   "soundiiz.com": BowmarkSiteTools_47e37f5440;
   "soundmatch.co.za": BowmarkSiteTools_921614d236;
   "soundstrue.com": BowmarkSiteTools_921614d236;
@@ -500640,9 +503390,9 @@ interface BowmarkSites {
   "squeezeluck.com": BowmarkSiteTools_921614d236;
   "squishable.com": BowmarkSiteTools_921614d236;
   "sreeleathers.com": BowmarkSiteTools_1a8e16d918;
-  "sreeleathersonline.com": BowmarkSiteTools_1a8e16d918;
+  "sreeleathersonline.com": BowmarkSiteTools_921614d236;
   "srqfabrications.com": BowmarkSiteTools_921614d236;
-  "ss-gtm.com": BowmarkSiteTools_921614d236;
+  "ss-gtm.com": BowmarkSiteTools_1a8e16d918;
   "ss.ge": BowmarkSiteTools_44de148123;
   "ssemble.com": BowmarkSiteTools_4aea0b8ac0;
   "ssptex.com": BowmarkSiteTools_1a8e16d918;
@@ -500667,6 +503417,7 @@ interface BowmarkSites {
   "stamprints.com": BowmarkSiteTools_921614d236;
   "stance.com": BowmarkSiteTools_921614d236;
   "stand-prive.com": BowmarkSiteTools_1a8e16d918;
+  "standardproducts.jp": BowmarkSiteTools_921614d236;
   "standishgroup.com": BowmarkSiteTools_1a8e16d918;
   "stanley1913.ar": BowmarkSiteTools_921614d236;
   "stanley1913.com": BowmarkSiteTools_e8ae28a971;
@@ -500699,6 +503450,7 @@ interface BowmarkSites {
   "statz.ai": BowmarkSiteTools_994e849001;
   "staud.clothing": BowmarkSiteTools_e8ae28a971;
   "stayclassy.in": BowmarkSiteTools_921614d236;
+  "staycoldapparel.com": BowmarkSiteTools_921614d236;
   "stayhard.com": BowmarkSiteTools_921614d236;
   "stayspiced.com": BowmarkSiteTools_921614d236;
   "stazebeauty.com": BowmarkSiteTools_1a8e16d918;
@@ -500786,7 +503538,7 @@ interface BowmarkSites {
   "storyly.io": BowmarkSiteTools_f20e66ce79;
   "storyonline.co.il": BowmarkSiteTools_e8ae28a971;
   "storyous.com": BowmarkSiteTools_effa83d981;
-  "stoxenergy.com": BowmarkSiteTools_1a8e16d918;
+  "stoxenergy.com": BowmarkSiteTools_921614d236;
   "stoy.com": BowmarkSiteTools_e8ae28a971;
   "straede.cc": BowmarkSiteTools_921614d236;
   "strandbags.com.au": BowmarkSiteTools_1a8e16d918;
@@ -500809,8 +503561,9 @@ interface BowmarkSites {
   "striking-viking.com": BowmarkSiteTools_921614d236;
   "string-db.org": BowmarkSiteTools_919bbdec29;
   "stringberry.com": BowmarkSiteTools_921614d236;
-  "stripeandstare.com": BowmarkSiteTools_921614d236;
+  "stripeandstare.com": BowmarkSiteTools_1a8e16d918;
   "strivectin.com": BowmarkSiteTools_921614d236;
+  "stroeppche.de": BowmarkSiteTools_921614d236;
   "stromspa.com": BowmarkSiteTools_e8ae28a971;
   "strtvoid.com": BowmarkSiteTools_71d51d6fe1;
   "structurizr.com": BowmarkSiteTools_c078ef1f1d;
@@ -500834,6 +503587,7 @@ interface BowmarkSites {
   "stylesock.com": BowmarkSiteTools_921614d236;
   "styleunion.in": BowmarkSiteTools_921614d236;
   "stylo.pk": BowmarkSiteTools_1a8e16d918;
+  "styxworld.com": BowmarkSiteTools_921614d236;
   "suakokobetty.com": BowmarkSiteTools_921614d236;
   "sub-shop.com": BowmarkSiteTools_921614d236;
   "subhvastra.in": BowmarkSiteTools_921614d236;
@@ -500880,6 +503634,7 @@ interface BowmarkSites {
   "sunmountain.com": BowmarkSiteTools_e8ae28a971;
   "sunnyhealthfitness.com": BowmarkSiteTools_1a8e16d918;
   "sunology.eu": BowmarkSiteTools_921614d236;
+  "sunpan.com": BowmarkSiteTools_921614d236;
   "sunprotectionclothing.co.uk": BowmarkSiteTools_921614d236;
   "sunsetmixing.com": BowmarkSiteTools_7582051eff;
   "sunsetsinc.com": BowmarkSiteTools_921614d236;
@@ -500951,7 +503706,7 @@ interface BowmarkSites {
   "sususummer.com": BowmarkSiteTools_921614d236;
   "suta.in": BowmarkSiteTools_921614d236;
   "sutisancha.com": BowmarkSiteTools_921614d236;
-  "suzhoudress.com": BowmarkSiteTools_921614d236;
+  "suzhoudress.com": BowmarkSiteTools_1a8e16d918;
   "suzies.com": BowmarkSiteTools_921614d236;
   "suzitee.com": BowmarkSiteTools_921614d236;
   "suzyshier.com": BowmarkSiteTools_1a8e16d918;
@@ -500969,6 +503724,7 @@ interface BowmarkSites {
   "swashaa.com": BowmarkSiteTools_921614d236;
   "swastikpenn.com": BowmarkSiteTools_921614d236;
   "swati.com": BowmarkSiteTools_921614d236;
+  "sweatershop.com": BowmarkSiteTools_921614d236;
   "swedishstockings.com": BowmarkSiteTools_921614d236;
   "sweelee.com.sg": BowmarkSiteTools_e8ae28a971;
   "sweepscrub.com": BowmarkSiteTools_921614d236;
@@ -500977,7 +503733,7 @@ interface BowmarkSites {
   "sweetlegs.ca": BowmarkSiteTools_e8ae28a971;
   "sweetmarias.com": BowmarkSiteTools_921614d236;
   "sweetsshop.uk": BowmarkSiteTools_921614d236;
-  "swell.com": BowmarkSiteTools_1a8e16d918;
+  "swell.com": BowmarkSiteTools_921614d236;
   "swiftnodes.io": BowmarkSiteTools_1d8dd33ece;
   "swiglife.com": BowmarkSiteTools_921614d236;
   "swim2000.com": BowmarkSiteTools_921614d236;
@@ -501036,7 +503792,7 @@ interface BowmarkSites {
   "tacticalshop24.com": BowmarkSiteTools_27fdaf9ff3;
   "tacticaltrophy.com": BowmarkSiteTools_921614d236;
   "tadabburbooks.com": BowmarkSiteTools_e8ae28a971;
-  "tadashishoji.com": BowmarkSiteTools_921614d236;
+  "tadashishoji.com": BowmarkSiteTools_1a8e16d918;
   "tafsir.app": BowmarkSiteTools_5775fb16ab;
   "taftclothing.com": BowmarkSiteTools_921614d236;
   "tagalys.com": BowmarkSiteTools_921614d236;
@@ -501062,7 +503818,7 @@ interface BowmarkSites {
   "tallows.de": BowmarkSiteTools_921614d236;
   "talosdrones.com": BowmarkSiteTools_921614d236;
   "talroo.com": BowmarkSiteTools_afce58dce2;
-  "tameson.com": BowmarkSiteTools_1a8e16d918;
+  "tameson.com": BowmarkSiteTools_921614d236;
   "tanabana.com.pk": BowmarkSiteTools_921614d236;
   "tandyleather.ca": BowmarkSiteTools_e8ae28a971;
   "tandyleather.com": BowmarkSiteTools_e8ae28a971;
@@ -501081,6 +503837,7 @@ interface BowmarkSites {
   "tapetenshop.lv": BowmarkSiteTools_921614d236;
   "tappancollective.com": BowmarkSiteTools_e8ae28a971;
   "tappwater.co": BowmarkSiteTools_921614d236;
+  "tapsgames.com": BowmarkSiteTools_1a8e16d918;
   "targetsportsusa.com": BowmarkSiteTools_1a8e16d918;
   "tarifbase.com": BowmarkSiteTools_afe8b815a8;
   "tarotap.com": BowmarkSiteTools_a3b94a6c84;
@@ -501137,7 +503894,7 @@ interface BowmarkSites {
   "teamm8.com": BowmarkSiteTools_e8ae28a971;
   "teamprostandard.com": BowmarkSiteTools_921614d236;
   "teamprostandard.mx": BowmarkSiteTools_921614d236;
-  "teamsg.in": BowmarkSiteTools_1a8e16d918;
+  "teamsg.in": BowmarkSiteTools_921614d236;
   "teamyokomo.com": BowmarkSiteTools_921614d236;
   "teapaw.org": BowmarkSiteTools_dacef70780;
   "teapawt.net": BowmarkSiteTools_dacef70780;
@@ -501152,7 +503909,7 @@ interface BowmarkSites {
   "techpunt.nl": BowmarkSiteTools_921614d236;
   "techstudio.ch": BowmarkSiteTools_921614d236;
   "techwearofficial.com": BowmarkSiteTools_921614d236;
-  "tecisoft.com": BowmarkSiteTools_1a8e16d918;
+  "tecisoft.com": BowmarkSiteTools_921614d236;
   "teckwrap.com": BowmarkSiteTools_921614d236;
   "teclazo.com": BowmarkSiteTools_25ad337353;
   "tecniciencia.com": BowmarkSiteTools_921614d236;
@@ -501227,6 +503984,7 @@ interface BowmarkSites {
   "terrauno.de": BowmarkSiteTools_1a8e16d918;
   "terre-de-bougies.com": BowmarkSiteTools_921614d236;
   "territorialseed.com": BowmarkSiteTools_e8ae28a971;
+  "terrycosta.com": BowmarkSiteTools_921614d236;
   "terrysfabrics.co.uk": BowmarkSiteTools_e8ae28a971;
   "tesery.com": BowmarkSiteTools_921614d236;
   "teskeys.com": BowmarkSiteTools_e8ae28a971;
@@ -501306,7 +504064,7 @@ interface BowmarkSites {
   "thebodyshop.com.au": BowmarkSiteTools_1a8e16d918;
   "thebodyshop.de": BowmarkSiteTools_1a8e16d918;
   "thebookbundle.com": BowmarkSiteTools_921614d236;
-  "thebookishshop.com": BowmarkSiteTools_1a8e16d918;
+  "thebookishshop.com": BowmarkSiteTools_e8ae28a971;
   "thebradery.com": BowmarkSiteTools_1a8e16d918;
   "thebrick.com": BowmarkSiteTools_921614d236;
   "thecabindepot.ca": BowmarkSiteTools_e8ae28a971;
@@ -501325,7 +504083,7 @@ interface BowmarkSites {
   "thecoolrepublic.com": BowmarkSiteTools_921614d236;
   "thecoutureclub.com": BowmarkSiteTools_921614d236;
   "thecpapshop.com": BowmarkSiteTools_921614d236;
-  "thecraze.in": BowmarkSiteTools_1a8e16d918;
+  "thecraze.in": BowmarkSiteTools_921614d236;
   "thecubicle.com": BowmarkSiteTools_1a8e16d918;
   "thecuratedlobe.com": BowmarkSiteTools_e8ae28a971;
   "thecushionlab.com": BowmarkSiteTools_921614d236;
@@ -501341,7 +504099,7 @@ interface BowmarkSites {
   "thedoublef.com": BowmarkSiteTools_921614d236;
   "thedrchoice.com": BowmarkSiteTools_921614d236;
   "thedressoutlet.com": BowmarkSiteTools_1a8e16d918;
-  "thedriveclothing.com": BowmarkSiteTools_1a8e16d918;
+  "thedriveclothing.com": BowmarkSiteTools_921614d236;
   "theduabrand.com": BowmarkSiteTools_921614d236;
   "theearthlingco.com": BowmarkSiteTools_1a8e16d918;
   "theemperorslane.com": BowmarkSiteTools_921614d236;
@@ -501451,7 +504209,7 @@ interface BowmarkSites {
   "theory11.com": BowmarkSiteTools_921614d236;
   "theouai.com": BowmarkSiteTools_e8ae28a971;
   "theoutlierman.com": BowmarkSiteTools_921614d236;
-  "theoutnet.com": BowmarkSiteTools_921614d236;
+  "theoutnet.com": BowmarkSiteTools_1a8e16d918;
   "thepaperworm.com": BowmarkSiteTools_921614d236;
   "theparkwholesale.com": BowmarkSiteTools_921614d236;
   "thepattern.com": BowmarkSiteTools_5eb2bfd02b;
@@ -501465,7 +504223,7 @@ interface BowmarkSites {
   "theponty.com": BowmarkSiteTools_921614d236;
   "thepoolfactory.com": BowmarkSiteTools_921614d236;
   "theporchswingcompany.com": BowmarkSiteTools_921614d236;
-  "theposterclub.com": BowmarkSiteTools_1a8e16d918;
+  "theposterclub.com": BowmarkSiteTools_921614d236;
   "thepowertoolstore.com": BowmarkSiteTools_e8ae28a971;
   "thepremierstore.com": BowmarkSiteTools_e8ae28a971;
   "theproscloset.com": BowmarkSiteTools_e8ae28a971;
@@ -501484,7 +504242,7 @@ interface BowmarkSites {
   "thermos.com": BowmarkSiteTools_921614d236;
   "thermoworks.com": BowmarkSiteTools_e8ae28a971;
   "therootbrands.com": BowmarkSiteTools_e8ae28a971;
-  "therow.com": BowmarkSiteTools_921614d236;
+  "therow.com": BowmarkSiteTools_1a8e16d918;
   "thesak.com": BowmarkSiteTools_921614d236;
   "thesapphirerow.com": BowmarkSiteTools_921614d236;
   "thesatanictemple.com": BowmarkSiteTools_921614d236;
@@ -501557,7 +504315,7 @@ interface BowmarkSites {
   "thinkrobotics.com": BowmarkSiteTools_921614d236;
   "thinktankphoto.com": BowmarkSiteTools_921614d236;
   "thinkwell.com": BowmarkSiteTools_921614d236;
-  "thinoptics.com": BowmarkSiteTools_1a8e16d918;
+  "thinoptics.com": BowmarkSiteTools_921614d236;
   "thinx.com": BowmarkSiteTools_921614d236;
   "thirdlove.com": BowmarkSiteTools_1a8e16d918;
   "thirdmanrecords.com": BowmarkSiteTools_e8ae28a971;
@@ -501578,6 +504336,7 @@ interface BowmarkSites {
   "thorkitchen.com": BowmarkSiteTools_921614d236;
   "thorum.com": BowmarkSiteTools_921614d236;
   "thought.live": BowmarkSiteTools_f93932f763;
+  "threadfellows.com": BowmarkSiteTools_921614d236;
   "threadheads.com": BowmarkSiteTools_921614d236;
   "threadlogic.com": BowmarkSiteTools_921614d236;
   "threadslabel.com": BowmarkSiteTools_e8ae28a971;
@@ -501646,6 +504405,7 @@ interface BowmarkSites {
   "time4sleep.co.uk": BowmarkSiteTools_921614d236;
   "timeforaclock.com": BowmarkSiteTools_1a8e16d918;
   "timekettle.co": BowmarkSiteTools_921614d236;
+  "timelessha.com": BowmarkSiteTools_921614d236;
   "timephoria.com": BowmarkSiteTools_921614d236;
   "timepour.com.au": BowmarkSiteTools_921614d236;
   "timesbook.com": BowmarkSiteTools_921614d236;
@@ -501663,7 +504423,7 @@ interface BowmarkSites {
   "tinycircuits.com": BowmarkSiteTools_921614d236;
   "tinycottons.com": BowmarkSiteTools_e8ae28a971;
   "tinylandus.com": BowmarkSiteTools_921614d236;
-  "tipa.eu": BowmarkSiteTools_1a8e16d918;
+  "tipa.eu": BowmarkSiteTools_e8ae28a971;
   "tipa.sk": BowmarkSiteTools_e8ae28a971;
   "tipsy.in": BowmarkSiteTools_921614d236;
   "tipsyelves.com": BowmarkSiteTools_1a8e16d918;
@@ -501678,12 +504438,12 @@ interface BowmarkSites {
   "titan.fitness": BowmarkSiteTools_921614d236;
   "titan13toy.com": BowmarkSiteTools_921614d236;
   "titancards.co.uk": BowmarkSiteTools_921614d236;
-  "titancasket.com": BowmarkSiteTools_921614d236;
+  "titancasket.com": BowmarkSiteTools_1a8e16d918;
   "titaniumrings.com": BowmarkSiteTools_921614d236;
   "titanmotorsports.com": BowmarkSiteTools_921614d236;
   "titleboxing.com": BowmarkSiteTools_921614d236;
   "titlemtb.com": BowmarkSiteTools_921614d236;
-  "titlenine.com": BowmarkSiteTools_1a8e16d918;
+  "titlenine.com": BowmarkSiteTools_e8ae28a971;
   "titus-shop.com": BowmarkSiteTools_921614d236;
   "titus.de": BowmarkSiteTools_921614d236;
   "tjc.co.uk": BowmarkSiteTools_921614d236;
@@ -501699,7 +504459,7 @@ interface BowmarkSites {
   "tmgindustrial.com": BowmarkSiteTools_921614d236;
   "tmigifts.com": BowmarkSiteTools_e8ae28a971;
   "tmlewin.co.uk": BowmarkSiteTools_e8ae28a971;
-  "tmraudio.com": BowmarkSiteTools_1a8e16d918;
+  "tmraudio.com": BowmarkSiteTools_921614d236;
   "tmsmusic.co": BowmarkSiteTools_921614d236;
   "tnnursery.net": BowmarkSiteTools_921614d236;
   "tntfashion.ca": BowmarkSiteTools_921614d236;
@@ -501711,13 +504471,14 @@ interface BowmarkSites {
   "toddla.co": BowmarkSiteTools_921614d236;
   "toddsnyder.com": BowmarkSiteTools_e8ae28a971;
   "todestrieb.co.uk": BowmarkSiteTools_921614d236;
-  "todsnteens.com": BowmarkSiteTools_921614d236;
+  "todsnteens.com": BowmarkSiteTools_1a8e16d918;
   "toffs.com": BowmarkSiteTools_921614d236;
   "toffu.co": BowmarkSiteTools_921614d236;
   "tog24.com": BowmarkSiteTools_1a8e16d918;
   "tokenomist.ai": BowmarkSiteTools_fce3e3ac98;
   "tokichi.jp": BowmarkSiteTools_921614d236;
   "tokidoki.it": BowmarkSiteTools_1a8e16d918;
+  "tokiohotel.com": BowmarkSiteTools_e8ae28a971;
   "tokotoyz.jp": BowmarkSiteTools_921614d236;
   "tokullectibles.com": BowmarkSiteTools_921614d236;
   "tokyo-recycle.net": BowmarkSiteTools_921614d236;
@@ -501751,6 +504512,7 @@ interface BowmarkSites {
   "tonybianco.com.au": BowmarkSiteTools_1a8e16d918;
   "tonyschocolonely.com": BowmarkSiteTools_921614d236;
   "tonzar.com": BowmarkSiteTools_961cf376a7;
+  "toolbelts.com": BowmarkSiteTools_921614d236;
   "toolbrothers.de": BowmarkSiteTools_921614d236;
   "toolbrothers.es": BowmarkSiteTools_921614d236;
   "toolcraft.co.za": BowmarkSiteTools_921614d236;
@@ -501870,7 +504632,7 @@ interface BowmarkSites {
   "trakracer.com": BowmarkSiteTools_921614d236;
   "trakracer.eu": BowmarkSiteTools_921614d236;
   "tramas-home.com": BowmarkSiteTools_921614d236;
-  "tramasmas.com": BowmarkSiteTools_1a8e16d918;
+  "tramasmas.com": BowmarkSiteTools_921614d236;
   "tramontina.com": BowmarkSiteTools_921614d236;
   "trandnova.com": BowmarkSiteTools_921614d236;
   "tranquillo-shop.de": BowmarkSiteTools_e8ae28a971;
@@ -501964,6 +504726,7 @@ interface BowmarkSites {
   "trueprotein.com.au": BowmarkSiteTools_921614d236;
   "trueseamoss.com": BowmarkSiteTools_921614d236;
   "trueshotammo.com": BowmarkSiteTools_921614d236;
+  "truetemper.com": BowmarkSiteTools_921614d236;
   "truetoys.co.uk": BowmarkSiteTools_921614d236;
   "truewerk.com": BowmarkSiteTools_1a8e16d918;
   "trulybeauty.com": BowmarkSiteTools_921614d236;
@@ -502036,7 +504799,7 @@ interface BowmarkSites {
   "tuningsupply.com": BowmarkSiteTools_921614d236;
   "tupperware-eu.com": BowmarkSiteTools_921614d236;
   "tupperware.com": BowmarkSiteTools_1a8e16d918;
-  "tupperware.com.br": BowmarkSiteTools_1a8e16d918;
+  "tupperware.com.br": BowmarkSiteTools_921614d236;
   "turath.io": BowmarkSiteTools_24ae32b212;
   "turbobrandsfactory.com": BowmarkSiteTools_921614d236;
   "turbogruen.de": BowmarkSiteTools_921614d236;
@@ -502090,7 +504853,7 @@ interface BowmarkSites {
   "typeonestyle.com": BowmarkSiteTools_921614d236;
   "tyr.com": BowmarkSiteTools_e8ae28a971;
   "u-tec.com": BowmarkSiteTools_921614d236;
-  "u2.com": BowmarkSiteTools_921614d236;
+  "u2.com": BowmarkSiteTools_1a8e16d918;
   "uathayam.in": BowmarkSiteTools_921614d236;
   "uaudio.com": BowmarkSiteTools_921614d236;
   "ubeauty.com": BowmarkSiteTools_921614d236;
@@ -502099,13 +504862,14 @@ interface BowmarkSites {
   "uchida.com": BowmarkSiteTools_921614d236;
   "ucon-acrobatics.com": BowmarkSiteTools_1a8e16d918;
   "ucon-acrobatics.fr": BowmarkSiteTools_921614d236;
+  "udobni.bg": BowmarkSiteTools_3f6e447273;
   "ueni.com": BowmarkSiteTools_5a969fa3ea;
   "ufra.com.mx": BowmarkSiteTools_a5d5ad65c1;
   "ufseeds.com": BowmarkSiteTools_921614d236;
   "ugaoo.com": BowmarkSiteTools_1a8e16d918;
   "ugcnetenglish.in": BowmarkSiteTools_afd494f520;
   "uggexpress.com.au": BowmarkSiteTools_921614d236;
-  "ugmonk.com": BowmarkSiteTools_1a8e16d918;
+  "ugmonk.com": BowmarkSiteTools_921614d236;
   "ugreen.com": BowmarkSiteTools_921614d236;
   "ugreen.jp": BowmarkSiteTools_921614d236;
   "uhrinstinkt.de": BowmarkSiteTools_1a8e16d918;
@@ -502154,7 +504918,7 @@ interface BowmarkSites {
   "unibling.com": BowmarkSiteTools_71d51d6fe1;
   "unibrands.co": BowmarkSiteTools_921614d236;
   "unico-fan.co.jp": BowmarkSiteTools_921614d236;
-  "unicum.gg": BowmarkSiteTools_13fe87e289;
+  "unicum.gg": BowmarkSiteTools_eb6486d613;
   "unicutil.ro": BowmarkSiteTools_3f6e447273;
   "uniden.com": BowmarkSiteTools_921614d236;
   "unifclothing.com": BowmarkSiteTools_921614d236;
@@ -502229,6 +504993,7 @@ interface BowmarkSites {
   "urban-sheek.com": BowmarkSiteTools_921614d236;
   "urbanambiance.com": BowmarkSiteTools_921614d236;
   "urbanbodyjewelry.com": BowmarkSiteTools_921614d236;
+  "urbancarryholsters.com": BowmarkSiteTools_921614d236;
   "urbancitystyles.net": BowmarkSiteTools_921614d236;
   "urbandictionary.com": BowmarkSiteTools_cf61ea0214;
   "urbanhydration.com": BowmarkSiteTools_921614d236;
@@ -502273,7 +505038,7 @@ interface BowmarkSites {
   "ushadesigners.com": BowmarkSiteTools_921614d236;
   "ushomeplus.com": BowmarkSiteTools_e8ae28a971;
   "usjewelryfactory.com": BowmarkSiteTools_921614d236;
-  "uskidsgolf.com": BowmarkSiteTools_921614d236;
+  "uskidsgolf.com": BowmarkSiteTools_1a8e16d918;
   "uspoloassn.com": BowmarkSiteTools_921614d236;
   "uspoloassn.in": BowmarkSiteTools_1a8e16d918;
   "usshoppingsos.com": BowmarkSiteTools_921614d236;
@@ -502287,6 +505052,7 @@ interface BowmarkSites {
   "utvonalterv.net": BowmarkSiteTools_8619ce6dab;
   "utzsnacks.com": BowmarkSiteTools_921614d236;
   "uvapeshop.com": BowmarkSiteTools_e8ae28a971;
+  "uvskinz.com": BowmarkSiteTools_921614d236;
   "uwowocosplay.com": BowmarkSiteTools_921614d236;
   "ux4g.gov.in": BowmarkSiteTools_d32ca3d1d8;
   "uynsports.com": BowmarkSiteTools_921614d236;
@@ -502307,6 +505073,7 @@ interface BowmarkSites {
   "valirscans.org": BowmarkSiteTools_1eeb56f36a;
   "valiuz.com": BowmarkSiteTools_2eb7f5a181;
   "valkental.com": BowmarkSiteTools_921614d236;
+  "valleyrosestudio.com": BowmarkSiteTools_921614d236;
   "vallisvaseha.com": BowmarkSiteTools_921614d236;
   "vallon.com": BowmarkSiteTools_921614d236;
   "valmontimode.com": BowmarkSiteTools_921614d236;
@@ -502352,7 +505119,7 @@ interface BowmarkSites {
   "vcam.ai": BowmarkSiteTools_dbce030a13;
   "vdsinstrumenten.com": BowmarkSiteTools_e8ae28a971;
   "vdsinstrumenten.nl": BowmarkSiteTools_e8ae28a971;
-  "vdsinstrumenten.se": BowmarkSiteTools_1a8e16d918;
+  "vdsinstrumenten.se": BowmarkSiteTools_e8ae28a971;
   "vectorstock.com": BowmarkSiteTools_65e98e2105;
   "vedaoils.com": BowmarkSiteTools_921614d236;
   "vedi-express.com": BowmarkSiteTools_2ff297f358;
@@ -502365,6 +505132,7 @@ interface BowmarkSites {
   "vegamour.com": BowmarkSiteTools_921614d236;
   "veganessentials.com": BowmarkSiteTools_921614d236;
   "vegasnearme.com": BowmarkSiteTools_9ddfba6cd3;
+  "vegdog.de": BowmarkSiteTools_921614d236;
   "vegogarden.com": BowmarkSiteTools_921614d236;
   "vehner.de": BowmarkSiteTools_921614d236;
   "veiled.com": BowmarkSiteTools_e8ae28a971;
@@ -502377,7 +505145,7 @@ interface BowmarkSites {
   "velodrom.cc": BowmarkSiteTools_1a8e16d918;
   "veloforte.com": BowmarkSiteTools_921614d236;
   "velotricbike.com": BowmarkSiteTools_921614d236;
-  "velourgarments.eu": BowmarkSiteTools_921614d236;
+  "velourgarments.eu": BowmarkSiteTools_1a8e16d918;
   "velthentic.com": BowmarkSiteTools_921614d236;
   "velvetcaviar.com": BowmarkSiteTools_1a8e16d918;
   "velvetmusic.nl": BowmarkSiteTools_921614d236;
@@ -502405,6 +505173,7 @@ interface BowmarkSites {
   "veritahire.com": BowmarkSiteTools_c340eb2195;
   "vermontflannel.com": BowmarkSiteTools_e8ae28a971;
   "vermontteddybear.com": BowmarkSiteTools_e8ae28a971;
+  "vermontwoodsstudios.com": BowmarkSiteTools_921614d236;
   "vernalspace.com": BowmarkSiteTools_921614d236;
   "veromoda.in": BowmarkSiteTools_921614d236;
   "veronicabeard.com": BowmarkSiteTools_921614d236;
@@ -502465,7 +505234,7 @@ interface BowmarkSites {
   "vietmusic.vn": BowmarkSiteTools_e8ae28a971;
   "viewyourdeal.com": BowmarkSiteTools_921614d236;
   "vikingbags.com": BowmarkSiteTools_921614d236;
-  "viktilabs.de": BowmarkSiteTools_1a8e16d918;
+  "viktilabs.de": BowmarkSiteTools_921614d236;
   "viktor-rolf.com": BowmarkSiteTools_1a8e16d918;
   "viktor.com": BowmarkSiteTools_ffb1d094b5;
   "villagehatshop.com": BowmarkSiteTools_921614d236;
@@ -502476,7 +505245,7 @@ interface BowmarkSites {
   "vilrita.com": BowmarkSiteTools_921614d236;
   "viltrox.com": BowmarkSiteTools_1a8e16d918;
   "vilvahstore.com": BowmarkSiteTools_1a8e16d918;
-  "vimvigr.com": BowmarkSiteTools_921614d236;
+  "vimvigr.com": BowmarkSiteTools_1a8e16d918;
   "vincecamuto.com": BowmarkSiteTools_921614d236;
   "vincecare.com": BowmarkSiteTools_e8ae28a971;
   "vincerocollective.com": BowmarkSiteTools_921614d236;
@@ -502517,7 +505286,7 @@ interface BowmarkSites {
   "virascience.com": BowmarkSiteTools_0bb6728745;
   "viridianeclection.com": BowmarkSiteTools_e8ae28a971;
   "virtual-college.co.uk": BowmarkSiteTools_921614d236;
-  "virtualmuebles.com": BowmarkSiteTools_921614d236;
+  "virtualmuebles.com": BowmarkSiteTools_1a8e16d918;
   "virtueimpact.com": BowmarkSiteTools_f45df4a68e;
   "visamoda.com": BowmarkSiteTools_921614d236;
   "vishalperipherals.com": BowmarkSiteTools_1a8e16d918;
@@ -502538,6 +505307,7 @@ interface BowmarkSites {
   "vital-side.com": BowmarkSiteTools_921614d236;
   "vitalhealthglobal.com": BowmarkSiteTools_e8ae28a971;
   "vitality.gg": BowmarkSiteTools_e8ae28a971;
+  "vitalitydentalarts.com": BowmarkSiteTools_1edd8686e1;
   "vitalityextracts.com": BowmarkSiteTools_921614d236;
   "vitaliving.com": BowmarkSiteTools_1a8e16d918;
   "vitalproteins.com": BowmarkSiteTools_921614d236;
@@ -502550,6 +505320,7 @@ interface BowmarkSites {
   "vitamoment.de": BowmarkSiteTools_921614d236;
   "vitateka.ee": BowmarkSiteTools_74e4a660b9;
   "vitkovice.cz": BowmarkSiteTools_3f445ca26c;
+  "vitruta.com": BowmarkSiteTools_921614d236;
   "vittoria.com": BowmarkSiteTools_921614d236;
   "vittoriocitro.it": BowmarkSiteTools_e8ae28a971;
   "viva-finance.com": BowmarkSiteTools_28527d97a3;
@@ -502607,6 +505378,7 @@ interface BowmarkSites {
   "voxhouses.co.uk": BowmarkSiteTools_e79d424208;
   "voxvoice.com": BowmarkSiteTools_bf475373c6;
   "voyabarefoot.com": BowmarkSiteTools_921614d236;
+  "voyagerww.com": BowmarkSiteTools_707010ad14;
   "voylla.com": BowmarkSiteTools_921614d236;
   "vpo.ca": BowmarkSiteTools_921614d236;
   "vpracingfuels.com": BowmarkSiteTools_e8ae28a971;
@@ -502657,13 +505429,14 @@ interface BowmarkSites {
   "walthers.com": BowmarkSiteTools_e8ae28a971;
   "waltscomicshop.com": BowmarkSiteTools_921614d236;
   "wananluxury.com": BowmarkSiteTools_921614d236;
+  "wanchain.org": BowmarkSiteTools_f83afd440b;
   "wandbild.com": BowmarkSiteTools_921614d236;
   "wander.com": BowmarkSiteTools_dcf36037c2;
   "wanderprints.com": BowmarkSiteTools_1a8e16d918;
   "wandguru.de": BowmarkSiteTools_921614d236;
   "wandrd.com": BowmarkSiteTools_921614d236;
   "wanelo.com": BowmarkSiteTools_921614d236;
-  "wanimo.com": BowmarkSiteTools_1a8e16d918;
+  "wanimo.com": BowmarkSiteTools_921614d236;
   "wanlingteahouse.com": BowmarkSiteTools_921614d236;
   "wappi.pro": BowmarkSiteTools_6a047be914;
   "waragod.bg": BowmarkSiteTools_921614d236;
@@ -502728,7 +505501,7 @@ interface BowmarkSites {
   "wbshop.com": BowmarkSiteTools_921614d236;
   "wcosmetics.com.au": BowmarkSiteTools_921614d236;
   "wcsaunas.com": BowmarkSiteTools_e8ae28a971;
-  "weadultshop.com": BowmarkSiteTools_1a8e16d918;
+  "weadultshop.com": BowmarkSiteTools_921614d236;
   "wealthenhancement.com": BowmarkSiteTools_717d4aedeb;
   "wear2work.nl": BowmarkSiteTools_921614d236;
   "wearcomet.com": BowmarkSiteTools_921614d236;
@@ -503067,6 +505840,7 @@ interface BowmarkSites {
   "xitter.cf": BowmarkSiteTools_dacef70780;
   "xlrd.org": BowmarkSiteTools_00e1e560bc;
   "xmiles.co.uk": BowmarkSiteTools_1a8e16d918;
+  "xmondohair.com": BowmarkSiteTools_921614d236;
   "xn--fleur-fsa.com": BowmarkSiteTools_921614d236;
   "xn--gewrzkontor-vhb.de": BowmarkSiteTools_e8ae28a971;
   "xn--hq1btu07ej3c53vhzcjwt.com": BowmarkSiteTools_bd309d6c6b;
@@ -503133,6 +505907,7 @@ interface BowmarkSites {
   "yespark.fr": BowmarkSiteTools_f7215a8197;
   "yeswevibe.com": BowmarkSiteTools_921614d236;
   "yfood.com": BowmarkSiteTools_921614d236;
+  "ygiafy.com": BowmarkSiteTools_1a8e16d918;
   "ygwigs.com": BowmarkSiteTools_e8ae28a971;
   "yimbly.com": BowmarkSiteTools_921614d236;
   "yiume.com": BowmarkSiteTools_921614d236;
@@ -503261,7 +506036,7 @@ interface BowmarkSites {
   "zevia.com": BowmarkSiteTools_921614d236;
   "zgallerie.com": BowmarkSiteTools_71d51d6fe1;
   "zgrills.com": BowmarkSiteTools_921614d236;
-  "ziatile.com": BowmarkSiteTools_921614d236;
+  "ziatile.com": BowmarkSiteTools_1a8e16d918;
   "zigly.com": BowmarkSiteTools_921614d236;
   "ziicloud.com": BowmarkSiteTools_b338a714a1;
   "zildjian.com": BowmarkSiteTools_921614d236;
