@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5405dc58d9874d03b145fccd24d84b9ded3dd1efc340bef7bf11a39e767f4420
-// 5977 checked, 20 unchecked.
+// Manifest version: 0da90ec2a5982a9b57e2a6cc25262d39f2b43326d997635d7c465c4c84025e2a
+// 5987 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5405dc58d9874d03b145fccd24d84b9ded3dd1efc340bef7bf11a39e767f4420",
+  "version": "0da90ec2a5982a9b57e2a6cc25262d39f2b43326d997635d7c465c4c84025e2a",
   "units": {
     "address_validation": {
       "defs": {
@@ -5886,7 +5886,7 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "176709fed99929f6"
+        "search": "9891c9670f04154d"
       }
     },
     "restaurant_booking": {
@@ -21408,6 +21408,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.bankofamerica": {
       "defs": {
+        "BankofamericaAutoLoanRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "BankofamericaCdRatesArgs": {
           "k": "object",
           "props": [
@@ -21543,6 +21555,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "BankofamericaRoutingNumberArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -21607,6 +21631,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getAutoLoanRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BankofamericaAutoLoanRatesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRoutingNumber": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BankofamericaRoutingNumberArgs"
+            },
+            "optional": false
+          }
+        ],
         "getHomeEquityRates": [
           {
             "name": "args",
@@ -21619,14 +21663,16 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getCdRates": "3a6dc63c13efb25b",
-        "getCreditCard": "c3ca7dc1a2ef980b",
-        "listCreditCards": "a2b245bc19e9c0c7",
-        "listDepositAccounts": "cb0267dcd93a693c",
-        "findLocations": "744ac6bd7d951bc0",
-        "getLocation": "f1f1dffa25a4a038",
-        "getMortgageRates": "921038ad6c215545",
-        "getHomeEquityRates": "2a5dd11fd554e3ef"
+        "getCdRates": "eb9e9513e85b7af0",
+        "getCreditCard": "3496c4823f85e413",
+        "listCreditCards": "73bc432f297faaa9",
+        "listDepositAccounts": "44c0fadd4bb2882e",
+        "findLocations": "79026fd776a72beb",
+        "getLocation": "7cc5cc1134898a6b",
+        "getMortgageRates": "931e90b1b3f0056b",
+        "getAutoLoanRates": "a58bcfdbdc64cdb2",
+        "getRoutingNumber": "7b9c35b5566c086c",
+        "getHomeEquityRates": "df1eb0825b9a2288"
       }
     },
     "providers.barletta": {
@@ -28503,6 +28549,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "bookClass": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookedinClassSessionArgs"
+            },
+            "optional": false
+          }
+        ],
         "bookAppointment": [
           {
             "name": "args",
@@ -28625,21 +28681,22 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "cancelClassBooking": "d0412d0be81fe78f",
-        "cancelAppointment": "d0412d0be81fe78f",
-        "confirmAppointment": "d0412d0be81fe78f",
-        "bookAppointment": "a4dbce4b0ca6b9d3",
-        "listRegions": "e93084c82b04f202",
-        "searchMerchants": "5c35a81b3a121e37",
-        "getMerchant": "1f706af331472f08",
-        "listServices": "46841b91229571f7",
-        "listStaff": "b35b0d10fe209adc",
-        "getAvailableDates": "3b3b5d10e5de0d5b",
-        "getAvailability": "246266bd4dabd388",
-        "getClassDates": "9743e509895078f8",
-        "listClassSessions": "d2e68c9f85e87d91",
-        "requestAppointment": "5690e71e6a3a490c",
-        "getClassSession": "3133a1a302fcb956"
+        "cancelClassBooking": "2bce263b7636f3d1",
+        "cancelAppointment": "2bce263b7636f3d1",
+        "confirmAppointment": "2bce263b7636f3d1",
+        "bookClass": "46f3cb24404c43d0",
+        "bookAppointment": "77c71c5cbe37d255",
+        "listRegions": "7180fd8618197b66",
+        "searchMerchants": "c55a83569b11ab0a",
+        "getMerchant": "bdc90e269e4f152a",
+        "listServices": "b03e5d73dc4d988a",
+        "listStaff": "5c52478460a225a5",
+        "getAvailableDates": "76c89261fdc8802d",
+        "getAvailability": "36f4b61de68a7d61",
+        "getClassDates": "f3db1163852ecbc4",
+        "listClassSessions": "5152eca85eb9e74b",
+        "requestAppointment": "06ac93c8c4d98b3d",
+        "getClassSession": "f4cbecf62581fa4e"
       }
     },
     "providers.bookeo": {
@@ -48369,6 +48426,92 @@ export const VALIDATORS: ValidatorTable = {
       "digests": {
         "getApplicationForm": "2e4307a24f6d73b2",
         "getEligibilityRequirements": "a626e3ae4eaff027"
+      }
+    },
+    "providers.crtc_applications": {
+      "defs": {
+        "crtcListQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "status",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "open"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "closed"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sector",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listPublicProceedings": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "crtcListQuery"
+            },
+            "optional": true
+          }
+        ],
+        "getPublicProceeding": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listPublicProceedings": "26cb8a63a5e862db",
+        "getPublicProceeding": "7fb4a05ee3a12b4a"
       }
     },
     "providers.cruiselakegeneva": {
@@ -70887,6 +71030,38 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listMyNotifications": [
+          {
+            "name": "fitspotId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listMyPasses": [
           {
             "name": "fitspotId",
@@ -70998,28 +71173,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findStudio": "7e736e2a54cdbbe9",
-        "getStudio": "f799d58c8078d183",
-        "listClasses": "deffb80557d61748",
-        "getClass": "1f71e67b9f423e7d",
-        "listInstructors": "6a9e3513b1251feb",
-        "getInstructor": "1d73560e48795ce9",
-        "listLocations": "9e787eef4705aa78",
-        "listScheduleDates": "8bf426eb1a78f34d",
-        "listMemberships": "05ee402c5e7916e0",
-        "getCancellationPolicy": "8d7220b0bd6f6545",
-        "listEvents": "4ce2100623a9fb69",
-        "listIntroOffers": "8371a74066ff7bcd",
-        "listSeries": "601ad12b7d9920b0",
-        "listAnnouncements": "c5b3569c3f7ce30b",
-        "listPrivateSessionTypes": "f002be4cb4031202",
-        "getMyProfile": "97480d2846ce2464",
-        "listMyBookings": "1c710b92d06751f5",
-        "listMyPasses": "c857f06e334d9898",
-        "listWaiversToSign": "d407d07d3234f602",
-        "getMembershipPricing": "eaa4591544043e1b",
-        "signup": "f4286ad4aaf1cb0b",
-        "confirmSignup": "eb7d6921aa6f89f9"
+        "findStudio": "b131f6280634d2a6",
+        "getStudio": "e9c94761c1ef1303",
+        "listClasses": "d5aa8bc243993564",
+        "getClass": "60bb434f864e6264",
+        "listInstructors": "810360eea39ec77a",
+        "getInstructor": "9e2d07d0c93156d3",
+        "listLocations": "eb8814d07acfb402",
+        "listScheduleDates": "1d114228235f201f",
+        "listMemberships": "4287057997f3bee1",
+        "getCancellationPolicy": "a499f65f2afb1849",
+        "listEvents": "2389c437f38d6439",
+        "listIntroOffers": "2e9b34c72bfdd338",
+        "listSeries": "b2e9f792db8de551",
+        "listAnnouncements": "f5a22c42aac7845f",
+        "listPrivateSessionTypes": "79b0e8752d178bf1",
+        "getMyProfile": "46d4332e8345545b",
+        "listMyBookings": "1e6284e12feca79e",
+        "listMyNotifications": "9cacba17657b767a",
+        "listMyPasses": "64601f76abd3b391",
+        "listWaiversToSign": "414c23776d816dd0",
+        "getMembershipPricing": "1d7f9882d881c3e5",
+        "signup": "667729ad26217d97",
+        "confirmSignup": "8086ee99e786c552"
       }
     },
     "providers.fitness1440": {
@@ -109175,6 +109351,200 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listDepartments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getDepartment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "calculateCalories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "age",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "sex",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "female"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "male"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "height",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "cm",
+                            "schema": {
+                              "k": "number"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      },
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "feet",
+                            "schema": {
+                              "k": "number"
+                            },
+                            "optional": false
+                          },
+                          {
+                            "name": "inches",
+                            "schema": {
+                              "k": "number"
+                            },
+                            "optional": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "weight",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "kg",
+                            "schema": {
+                              "k": "number"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      },
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "lb",
+                            "schema": {
+                              "k": "number"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "activityLevel",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "inactive"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "somewhat-active"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "active"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "very-active"
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getFirstAid": [
           {
             "name": "args",
@@ -109338,30 +109708,34 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "6d1b2c11b85c5e83",
-        "getCondition": "2d45549510fd47da",
-        "getConditionTreatment": "2d45549510fd47da",
-        "getConditionDoctors": "ad48025798124d1a",
-        "listConditions": "1a20b97176a1953b",
-        "listSymptoms": "7d576ed589e0eeff",
-        "getSymptom": "2d45549510fd47da",
-        "listDrugs": "7d576ed589e0eeff",
-        "getDrug": "df3213bc524445fe",
-        "listTests": "1a20b97176a1953b",
-        "getTest": "2d45549510fd47da",
-        "findDoctors": "e720a27bb4a995ad",
-        "getDoctor": "dfb0e6fc686d2ee8",
-        "listSupplements": "42c236b16dd5ac8e",
-        "getSupplement": "2d45549510fd47da",
-        "listFirstAid": "42c236b16dd5ac8e",
-        "getFirstAid": "2d45549510fd47da",
-        "listSymptomCheckerSymptoms": "42c236b16dd5ac8e",
-        "getSymptomCheckerFactors": "a891784ce1dfc0a3",
-        "checkSymptom": "ca1ca77d14904add",
-        "listLifestyleTopics": "42c236b16dd5ac8e",
-        "listLifestyleArticles": "c98da493c7fc07f2",
-        "getArticle": "2d45549510fd47da",
-        "searchSite": "3b27161b70717257"
+        "search": "91219f7a7d715226",
+        "getCondition": "9faf68488f2158e7",
+        "getConditionTreatment": "9faf68488f2158e7",
+        "getConditionDoctors": "d82079194643520d",
+        "listConditions": "69ece99eedf61f1c",
+        "listSymptoms": "cd5e6d6ccbce8df6",
+        "getSymptom": "9faf68488f2158e7",
+        "listDrugs": "cd5e6d6ccbce8df6",
+        "getDrug": "e65903669a4716e6",
+        "listTests": "69ece99eedf61f1c",
+        "getTest": "9faf68488f2158e7",
+        "findDoctors": "fd01b9101013087c",
+        "getDoctor": "41d21ff16c3080c4",
+        "listSupplements": "cc67f73557dbc272",
+        "getSupplement": "9faf68488f2158e7",
+        "listFirstAid": "cc67f73557dbc272",
+        "listDepartments": "fc79871eca424a50",
+        "getDepartment": "dbe45a43a205d67c",
+        "listLocations": "98b97e79d79c5446",
+        "calculateCalories": "e56bcb5efba54f13",
+        "getFirstAid": "9faf68488f2158e7",
+        "listSymptomCheckerSymptoms": "cc67f73557dbc272",
+        "getSymptomCheckerFactors": "0a680b36fa509460",
+        "checkSymptom": "493efc85c231cf8a",
+        "listLifestyleTopics": "cc67f73557dbc272",
+        "listLifestyleArticles": "3610b95227d880d1",
+        "getArticle": "9faf68488f2158e7",
+        "searchSite": "1e8ec0b21900d7ac"
       }
     },
     "providers.mcdonalds": {
@@ -180136,24 +180510,6 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "addToStoreCart": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "url",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": false
-          }
-        ],
         "listStoreProducts": [
           {
             "name": "args",
@@ -180202,7 +180558,6 @@ export const VALIDATORS: ValidatorTable = {
         "getPriceList": "0f447e1764349a6d",
         "getServiceAlerts": "6eeadf19c5386e37",
         "searchFaq": "a464a1253339c9ab",
-        "addToStoreCart": "f6d442b7aeaccb10",
         "listStoreProducts": "66771523f644f315",
         "trackPackage": "d0d4fd6bc87aefb7"
       }
@@ -195718,6 +196073,20 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                },
+                {
+                  "name": "poToken",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "visitorData",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -197125,56 +197494,56 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "eb6334b2ba0ae685",
-        "suggestSearches": "4011eeca2fc0bc23",
-        "getDislikes": "4f229b2cc608ef97",
-        "embeddable": "3aa2f87eeea917e8",
-        "getTranscript": "fd49cdac2921b397",
-        "findChannel": "bd418536c49861e5",
-        "getVideo": "e34a505dc9a70bbe",
-        "listComments": "edf9a94f16c48b04",
-        "listCommentReplies": "1d5cfc792b8aea52",
-        "commentsPage": "03f18018949ca098",
-        "listRelatedVideos": "a6d32c8294c39b55",
-        "listChapters": "864cd98548b3d43e",
-        "getLiveChat": "3efdc78bcd616074",
-        "listCaptionTracks": "6a0663ac39326fd8",
-        "listStreamFormats": "8bd4ee21650f63cf",
-        "getPlayableStream": "c1d3f1036397a838",
-        "getPlayback": "6dbcda168a7de992",
-        "listHashtagVideos": "b7564af5efca02b9",
-        "getChannel": "aafff20b170cc7df",
-        "listChannelVideos": "28041dc161c97dfd",
-        "listChannelShorts": "57f179f8d08c7377",
-        "listChannelLiveStreams": "b8f5286811d3edbd",
-        "listChannelPlaylists": "4b00c635486fc228",
-        "listChannelPosts": "5f3a58fb0358a400",
-        "searchWithinChannel": "113f89d1ef046ba3",
-        "getPlaylist": "44f714f4a3b99aa1",
-        "listPlaylistVideos": "bc835e37492624d4",
-        "listHomeFeed": "86c3fde0e198071c",
-        "homeFeedPage": "c5872c81536ec7bf",
-        "listWatchLater": "3a73fc26d97dd191",
-        "listLikedVideos": "3a73fc26d97dd191",
-        "listWatchHistory": "3a73fc26d97dd191",
-        "createPlaylist": "33457ec9640735ab",
-        "createChannel": "448ccbc651fa6627",
-        "addToPlaylist": "2165204f78b0b77a",
-        "removeFromPlaylist": "2165204f78b0b77a",
-        "updatePlaylist": "4cf6c926133f3f0f",
-        "deletePlaylist": "f62c566a37e7d9d8",
-        "listSubscriptions": "1f272b214ff42bcb",
-        "subscribeToChannel": "4b32edc75279c4b3",
-        "likeVideo": "8a25ecc535603811",
-        "postComment": "872ae4373c4e9eb4",
-        "replyToComment": "3ef4eb88864a741e",
-        "deleteComment": "cf433d8c401cbd69",
-        "listMyVideos": "d948034176249133",
-        "uploadVideo": "d28aca49e2bec074",
-        "updateVideo": "d41757c277613a79",
-        "setThumbnail": "c714aadeb768c2b2",
-        "deleteVideo": "54ec4096bb7d2130",
-        "login": "26dbf816ffd2df26"
+        "search": "8c1199bd4a93340e",
+        "suggestSearches": "3ba67441c7769fcd",
+        "getDislikes": "c69475b6135664c9",
+        "embeddable": "3e21588aa932bd52",
+        "getTranscript": "f3bfa7e5b226c42e",
+        "findChannel": "c6e3e3a25f9b951a",
+        "getVideo": "19550d20562e932f",
+        "listComments": "a4b36f0701f3d952",
+        "listCommentReplies": "baa02e9db8f97510",
+        "commentsPage": "510af5e34bfe5eb7",
+        "listRelatedVideos": "22a5fba7fbb7e040",
+        "listChapters": "09a78c5dd53f6cf5",
+        "getLiveChat": "9ec6f4c9042e1ab0",
+        "listCaptionTracks": "3590182d1493ba73",
+        "listStreamFormats": "71e5fa90eed10e97",
+        "getPlayableStream": "8760d16182af4081",
+        "getPlayback": "636eaad72215f77e",
+        "listHashtagVideos": "a22d1b06168bbc49",
+        "getChannel": "ea9c9002db7ee0fd",
+        "listChannelVideos": "c7f3824bee67c9d3",
+        "listChannelShorts": "35589a740a3e74fc",
+        "listChannelLiveStreams": "11cd72cc942ad084",
+        "listChannelPlaylists": "5454c4ad6d2bf9dc",
+        "listChannelPosts": "333519d018baffdc",
+        "searchWithinChannel": "fd1b0227fcad67e4",
+        "getPlaylist": "2ad7acaabb64dc58",
+        "listPlaylistVideos": "f8c84945630ed971",
+        "listHomeFeed": "0c5b763abde9eded",
+        "homeFeedPage": "1886964feec8b773",
+        "listWatchLater": "aac4773ef6014326",
+        "listLikedVideos": "aac4773ef6014326",
+        "listWatchHistory": "aac4773ef6014326",
+        "createPlaylist": "0b2595f326763b36",
+        "createChannel": "bcab0c5eb2335277",
+        "addToPlaylist": "df90e3309df5d1f0",
+        "removeFromPlaylist": "df90e3309df5d1f0",
+        "updatePlaylist": "0d98c0d7ec082981",
+        "deletePlaylist": "bffe6004f1aa28b9",
+        "listSubscriptions": "14aff55a68035837",
+        "subscribeToChannel": "132fc7927a103896",
+        "likeVideo": "2d3f368496ecc8d4",
+        "postComment": "64fb358a8da59a01",
+        "replyToComment": "b370089e3febba3a",
+        "deleteComment": "30ff6cc17a4139ef",
+        "listMyVideos": "51463cb7f2d740b7",
+        "uploadVideo": "6f6342dad3208f2d",
+        "updateVideo": "8628da004cdbd22e",
+        "setThumbnail": "825d269f559acefe",
+        "deleteVideo": "131b4bb7f95b56da",
+        "login": "0b323b0d8f6b77ce"
       }
     },
     "providers.zen_planner": {
@@ -197884,6 +198253,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getMyProfile": [
+          {
+            "name": "tenant",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listMyAppointments": [
           {
             "name": "tenant",
@@ -198093,18 +198487,19 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findTenant": "0c2bc698bff2c6b0",
-        "listCenters": "558e200ac6985272",
-        "searchServices": "e91591923322abe9",
-        "listServiceCategories": "604bdd1a4d448901",
-        "getService": "211ce1305e7d4b11",
-        "listProviders": "ce4af8cb72e00215",
-        "listClassSessions": "bdd48995e66e4f06",
-        "getAvailableTimes": "9b16a94977315d16",
-        "listMyAppointments": "2c04583571f863a6",
-        "bookAppointment": "11e5696f96672499",
-        "cancelAppointment": "797ff5714d994e58",
-        "rescheduleAppointment": "1dd7d220db33764b"
+        "findTenant": "16f8934e2d19f554",
+        "listCenters": "3feb8c3fa796e7d5",
+        "searchServices": "5c9788b4d036fc89",
+        "listServiceCategories": "9b46be36b11c5444",
+        "getService": "8df31572a944c016",
+        "listProviders": "70634bf1801e8263",
+        "listClassSessions": "a32b3885f6c7dc05",
+        "getAvailableTimes": "7f88d12984c5244d",
+        "getMyProfile": "5534e65a26abfdf7",
+        "listMyAppointments": "d81e260e60c81924",
+        "bookAppointment": "b9f8a0fb0ee2f807",
+        "cancelAppointment": "630ee0e807782ac1",
+        "rescheduleAppointment": "a8ca19c30ba4033b"
       }
     },
     "providers.zepto": {

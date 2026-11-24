@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5405dc58d9874d03b145fccd24d84b9ded3dd1efc340bef7bf11a39e767f4420
-# 99 capabilities, 966 providers, 5977 typed functions, 20 refused.
+# Manifest version: 0da90ec2a5982a9b57e2a6cc25262d39f2b43326d997635d7c465c4c84025e2a
+# 99 capabilities, 967 providers, 5987 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2828,6 +2828,7 @@ class Cap_real_estate_listings_RealEstateListing_Out(TypedDict):
     address: str
     priceText: str | None
     price: float | None
+    priceMax: float | None
     currency: Literal["USD"] | Literal["GBP"]
     beds: float | None
     baths: float | None
@@ -10538,6 +10539,32 @@ class Prv_bankofamerica_BankofamericaMortgageRate_Out(TypedDict):
     closingCosts: float | None
     asOf: str | None
 
+class Prv_bankofamerica_BankofamericaAutoLoanRatesArgs_In(TypedDict):
+    state: str
+
+class Prv_bankofamerica_BankofamericaAutoLoanRates_Out(TypedDict):
+    state: str
+    rates: list[Prv_bankofamerica_BankofamericaAutoLoanRate_Out]
+    asOf: str | None
+
+class Prv_bankofamerica_BankofamericaAutoLoanRate_Out(TypedDict):
+    purpose: str
+    rate: float
+
+class Prv_bankofamerica_BankofamericaRoutingNumberArgs_In(TypedDict):
+    state: str
+
+class Prv_bankofamerica_BankofamericaRoutingNumbers_Out(TypedDict):
+    state: str
+    stateName: str
+    groups: list[Prv_bankofamerica_BankofamericaRoutingNumberGroup_Out]
+
+class Prv_bankofamerica_BankofamericaRoutingNumberGroup_Out(TypedDict):
+    region: str
+    paper: str
+    electronic: str
+    wire: str | None
+
 class Prv_bankofamerica_BankofamericaHomeEquityRatesArgs_In(TypedDict):
     state: str
     zip: str
@@ -13374,6 +13401,52 @@ class Prv_bookedin_BookedinAppointmentUpdate_Out(TypedDict):
     done: bool
     message: str | None
 
+class Prv_bookedin_BookedinClassSessionArgs_In(TypedDict):
+    merchant: str
+    session: str
+
+class Prv_bookedin_BookedinClassCheckout_Out(TypedDict):
+    token: str
+    session: str
+    classId: str
+    className: str | None
+    checkout: Prv_bookedin_BookedinCheckout_Out | None
+
+class Prv_bookedin_BookedinCheckout_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_bookedin_BookedinCheckout_Out_account_Out
+    summary: Prv_bookedin_BookedinCheckout_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_bookedin_BookedinCheckout_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+    signInUrl: NotRequired[str]
+
+class Prv_bookedin_BookedinCheckout_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_dates_Out]
+
+class Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
+
 class Prv_bookedin_BookedinBookArgs_In(TypedDict):
     merchant: str
     service: str
@@ -13431,41 +13504,6 @@ class Prv_bookedin_BookedinMerchantSummary_Out(TypedDict):
     phone: str | None
     website: str | None
     checkout: Prv_bookedin_BookedinCheckout_Out | None
-
-class Prv_bookedin_BookedinCheckout_Out(TypedDict):
-    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
-    url: str
-    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
-    reason: NotRequired[str]
-    detail: NotRequired[str]
-    account: Prv_bookedin_BookedinCheckout_Out_account_Out
-    summary: Prv_bookedin_BookedinCheckout_Out_summary_u0_Out | None
-    warnings: list[str]
-
-class Prv_bookedin_BookedinCheckout_Out_account_Out(TypedDict):
-    site: str
-    hint: str
-    signedInAs: NotRequired[str]
-    signInUrl: NotRequired[str]
-
-class Prv_bookedin_BookedinCheckout_Out_summary_u0_Out(TypedDict):
-    items: list[Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_items_item_Out]
-    total: str | None
-    currency: str
-    dates: NotRequired[Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_dates_Out]
-
-class Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_items_item_Out(TypedDict):
-    title: str
-    variant: str | None
-    quantity: float
-    unitPrice: str | None
-    lineTotal: str | None
-    url: NotRequired[str]
-    id: NotRequired[str]
-
-class Prv_bookedin_BookedinCheckout_Out_summary_u0_Out_dates_Out(TypedDict):
-    start: str
-    end: NotRequired[str]
 
 class Prv_bookedin_BookedinMerchantArgs_In(TypedDict):
     merchant: str
@@ -13651,10 +13689,6 @@ class Prv_bookedin_BookedinAppointmentRequest_Out(TypedDict):
     service: str
     preferredTime: str
     forClassWorkshop: bool
-
-class Prv_bookedin_BookedinClassSessionArgs_In(TypedDict):
-    merchant: str
-    session: str
 
 class Prv_bookedin_BookedinClassSession_Out(TypedDict):
     session: str
@@ -23353,6 +23387,42 @@ class Prv_credibly_com_CrediblyApplicationField_Out_options_item_Out(TypedDict):
 class Prv_credibly_com_CrediblyEligibilityRequirements_Out(TypedDict):
     applicationUrl: str
     requirements: list[str]
+
+class Prv_crtc_applications_crtcListQuery_In(TypedDict):
+    status: NotRequired[Literal["open"] | Literal["closed"]]
+    sector: NotRequired[str]
+    type: NotRequired[str]
+    query: NotRequired[str]
+    year: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_crtc_applications_crtcListResult_Out(TypedDict):
+    total: float
+    proceedings: list[Prv_crtc_applications_crtcProceeding_Out]
+
+class Prv_crtc_applications_crtcProceeding_Out(TypedDict):
+    id: str
+    title: str
+    sector: str
+    proceedingType: str
+    status: Literal["Open"] | Literal["Closed"] | None
+    subject: list[str]
+    postedDate: str
+    deadline: str | None
+    deadlineNote: str | None
+    commentFormUrl: str | None
+    documents: list[Prv_crtc_applications_crtcLink_Out]
+    applicant: str | None
+    province: str | None
+    city: str | None
+    licenceCategory: str | None
+    complianceType: str | None
+    keywords: str | None
+    url: str
+
+class Prv_crtc_applications_crtcLink_Out(TypedDict):
+    label: str
+    url: str
 
 class Prv_cruiselakegeneva_listTours_args_In(TypedDict):
     category: NotRequired[str]
@@ -33756,6 +33826,23 @@ Prv_fitdegree_FitdegreeMyBooking_Out = TypedDict(
     "class": NotRequired[Prv_fitdegree_FitdegreeClass_Out],
     },
 )
+
+class Prv_fitdegree_FitdegreeNotificationPage_Out(TypedDict):
+    results: list[Prv_fitdegree_FitdegreeNotification_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_fitdegree_FitdegreeNotification_Out(TypedDict):
+    notificationId: str
+    title: NotRequired[str]
+    subtitle: NotRequired[str]
+    text: NotRequired[str]
+    read: bool
+    fitspotId: NotRequired[str]
+    updatedAt: NotRequired[str]
 
 class Prv_fitdegree_FitdegreeMyPass_Out(TypedDict):
     passId: NotRequired[str]
@@ -50231,6 +50318,77 @@ class Prv_mayoclinic_getSupplement_args_In(TypedDict):
 
 class Prv_mayoclinic_listFirstAid_args_In(TypedDict):
     page: NotRequired[float]
+
+class Prv_mayoclinic_listDepartments_args_In(TypedDict):
+    location: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_mayoclinic_MayoClinicDepartmentListPage_Out(TypedDict):
+    results: list[Prv_mayoclinic_MayoClinicDepartmentRow_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_mayoclinic_MayoClinicDepartmentRow_Out(TypedDict):
+    name: str
+    url: str
+
+class Prv_mayoclinic_getDepartment_args_In(TypedDict):
+    url: str
+
+class Prv_mayoclinic_MayoClinicDepartmentPage_Out(TypedDict):
+    name: str
+    url: str
+    sections: list[Prv_mayoclinic_MayoClinicSection_Out]
+
+class Prv_mayoclinic_listLocations_args_In(TypedDict):
+    page: NotRequired[float]
+
+class Prv_mayoclinic_MayoClinicLocationPage_Out(TypedDict):
+    results: list[Prv_mayoclinic_MayoClinicLocationRow_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_mayoclinic_MayoClinicLocationRow_Out(TypedDict):
+    name: str
+    city: str | None
+    url: str
+
+class Prv_mayoclinic_calculateCalories_args_In(TypedDict):
+    age: float
+    sex: Literal["female"] | Literal["male"]
+    height: Prv_mayoclinic_calculateCalories_args_In_height_u0_In | Prv_mayoclinic_calculateCalories_args_In_height_u1_In
+    weight: Prv_mayoclinic_calculateCalories_args_In_weight_u0_In | Prv_mayoclinic_calculateCalories_args_In_weight_u1_In
+    activityLevel: Literal["inactive"] | Literal["somewhat-active"] | Literal["active"] | Literal["very-active"]
+
+class Prv_mayoclinic_calculateCalories_args_In_height_u0_In(TypedDict):
+    cm: float
+
+class Prv_mayoclinic_calculateCalories_args_In_height_u1_In(TypedDict):
+    feet: float
+    inches: NotRequired[float]
+
+class Prv_mayoclinic_calculateCalories_args_In_weight_u0_In(TypedDict):
+    kg: float
+
+class Prv_mayoclinic_calculateCalories_args_In_weight_u1_In(TypedDict):
+    lb: float
+
+class Prv_mayoclinic_MayoClinicCalorieEstimate_Out(TypedDict):
+    calories: float
+    activityLevel: Literal["inactive"] | Literal["somewhat-active"] | Literal["active"] | Literal["very-active"]
+    byActivityLevel: list[Prv_mayoclinic_MayoClinicCalorieEstimate_Out_byActivityLevel_item_Out]
+    bmi: float
+    note: str
+
+class Prv_mayoclinic_MayoClinicCalorieEstimate_Out_byActivityLevel_item_Out(TypedDict):
+    level: Literal["inactive"] | Literal["somewhat-active"] | Literal["active"] | Literal["very-active"]
+    calories: float
 
 class Prv_mayoclinic_getFirstAid_args_In(TypedDict):
     url: str
@@ -82207,20 +82365,6 @@ class Prv_usps_uspsFaqArticle_Out(TypedDict):
     recordId: str
     lastPublished: str | None
 
-class Prv_usps_addToStoreCart_args_In(TypedDict):
-    url: str
-
-class Prv_usps_uspsStoreCart_Out(TypedDict):
-    productId: str
-    name: str
-    url: str
-    cart: Prv_usps_uspsStoreCart_Out_cart_Out
-
-class Prv_usps_uspsStoreCart_Out_cart_Out(TypedDict):
-    itemCount: float | None
-    subtotal: float | None
-    sku: str
-
 class Prv_usps_listStoreProducts_args_In(TypedDict):
     term: str
     limit: NotRequired[float]
@@ -89047,10 +89191,14 @@ class Prv_youtube_YoutubePlayableStream_Out(TypedDict):
 
 class Prv_youtube_getPlayback_input_In(TypedDict):
     video: str
+    poToken: NotRequired[str]
+    visitorData: NotRequired[str]
 
 class Prv_youtube_YoutubePlayback_Out(TypedDict):
     videoId: str
     title: str | None
+    channel: str | None
+    thumbnail: str | None
     durationMs: float | None
     live: bool
     embed: Prv_youtube_YoutubePlayback_Out_embed_u0_Out | None
@@ -89704,6 +89852,16 @@ class Prv_zenoti_ZenotiAvailability_Out(TypedDict):
 class Prv_zenoti_ZenotiSlot_Out(TypedDict):
     time: str
     available: bool
+
+class Prv_zenoti_ZenotiProfile_Out(TypedDict):
+    guestId: str
+    firstName: str | None
+    lastName: str | None
+    email: str | None
+    phone: str | None
+    gender: str | float | None
+    dateOfBirth: str | None
+    tags: list[str]
 
 class Prv_zenoti_ZenotiAppointment_Out(TypedDict):
     appointmentId: str
@@ -96432,6 +96590,16 @@ class Prv_bankofamerica(Protocol):
         closing costs.
         """
 
+    async def getAutoLoanRates(self, args: Prv_bankofamerica_BankofamericaAutoLoanRatesArgs_In, /) -> Prv_bankofamerica_BankofamericaAutoLoanRates_Out:
+        """Gets Bank of America's published auto loan rates for a state: new-car and used-car
+        dealer purchase and refinance rates in percent.
+        """
+
+    async def getRoutingNumber(self, args: Prv_bankofamerica_BankofamericaRoutingNumberArgs_In, /) -> Prv_bankofamerica_BankofamericaRoutingNumbers_Out:
+        """Gets Bank of America's routing numbers for a state: paper, electronic (ACH) and wire
+        numbers per region of the state.
+        """
+
     async def getHomeEquityRates(self, args: Prv_bankofamerica_BankofamericaHomeEquityRatesArgs_In, /) -> Prv_bankofamerica_BankofamericaHomeEquityRates_Out:
         """Gets Bank of America's published HELOC (home equity line of credit) rate and APR for a
         state and ZIP: sample payment, draw period, relationship discount and any introductory
@@ -98240,6 +98408,11 @@ class Prv_bookedin(Protocol):
     async def confirmAppointment(self, args: Prv_bookedin_BookedinAppointmentLinkArgs_In, /) -> Prv_bookedin_BookedinAppointmentUpdate_Out:
         """Confirms a Bookedin appointment from the confirm link in its reminder email (or that
         link's business token, id, h and key).
+        """
+
+    async def bookClass(self, args: Prv_bookedin_BookedinClassSessionArgs_In, /) -> Prv_bookedin_BookedinClassCheckout_Out:
+        """Hands back the link to one class session's own Bookedin booking page, to be opened
+        signed out as a guest; it checks the session exists and never registers anyone or pays.
         """
 
     async def bookAppointment(self, args: Prv_bookedin_BookedinBookArgs_In, /) -> Prv_bookedin_BookedinBooking_Out:
@@ -103173,6 +103346,22 @@ class Prv_credibly_com(Protocol):
         verbatim.
         """
 
+class Prv_crtc_applications(Protocol):
+    """The CRTC's Public Proceedings list: every broadcasting and telecom notice, Part 1
+    application and tariff filing, with status, comment deadline, comment form and documents
+    """
+
+    async def listPublicProceedings(self, query: Prv_crtc_applications_crtcListQuery_In | None = None, /) -> Prv_crtc_applications_crtcListResult_Out:
+        """List CRTC public proceedings newest first, as on
+        applications.crtc.gc.ca/portail-portal/eng/listes-lists/public-proceedings/18. Filter by
+        { status: "open" | "closed", sector, type, query, year, limit }
+        """
+
+    async def getPublicProceeding(self, id: str, /) -> Prv_crtc_applications_crtcProceeding_Out:
+        """One CRTC public proceeding by notice, application or file number ("2026-47",
+        "202605908", "8740-B54-202605908"): subject, deadline, comment form and documents
+        """
+
 class Prv_cruiselakegeneva(Protocol):
     """Cruise Lake Geneva's own tour lineup — narrated, dining and seasonal boat tours on Lake
     Geneva, WI — with real pricing, duration, ages and live availability straight off the
@@ -107992,6 +108181,12 @@ class Prv_fitdegree(Protocol):
         """Signed in: lists the caller's own bookings at a studio's company — each with its
         classId, status (registered, waitlisted, …), when it was booked, check-in, and the class
         itself — sorted by class start.
+        """
+
+    async def listMyNotifications(self, fitspotId: str, page: float, opts: ConnectionOption | None = None, /) -> Prv_fitdegree_FitdegreeNotificationPage_Out:
+        """Signed in: lists the caller's FitDegree notifications, 30 per page (booking
+        confirmations, waitlist promotions, studio messages) with title, text, read state and
+        time.
         """
 
     async def listMyPasses(self, fitspotId: str, opts: ConnectionOption | None = None, /) -> list[Prv_fitdegree_FitdegreeMyPass_Out]:
@@ -117909,6 +118104,28 @@ class Prv_mayoclinic(Protocol):
     async def listFirstAid(self, args: Prv_mayoclinic_listFirstAid_args_In, /) -> Prv_mayoclinic_MayoClinicIndexPage_Out:
         """Lists the first-aid topics Mayo Clinic covers (Burns, Choking, Nosebleeds, ...), with
         name and page URL, in one page (page 1).
+        """
+
+    async def listDepartments(self, args: Prv_mayoclinic_listDepartments_args_In, /) -> Prv_mayoclinic_MayoClinicDepartmentListPage_Out:
+        """Lists Mayo Clinic's medical departments and centers A-Z, optionally narrowed to a campus
+        (Arizona, Florida, Minnesota or all), with each one's page URL.
+        """
+
+    async def getDepartment(self, args: Prv_mayoclinic_getDepartment_args_In, /) -> Prv_mayoclinic_MayoClinicDepartmentPage_Out:
+        """Gets a Mayo Clinic department or center's overview page: what it treats, its locations
+        and how to request an appointment, as titled text sections; url comes from
+        listDepartments.
+        """
+
+    async def listLocations(self, args: Prv_mayoclinic_listLocations_args_In, /) -> Prv_mayoclinic_MayoClinicLocationPage_Out:
+        """Lists Mayo Clinic's campuses and sites (Arizona, Florida, Minnesota, London) with each
+        one's city or area and page URL.
+        """
+
+    async def calculateCalories(self, args: Prv_mayoclinic_calculateCalories_args_In, /) -> Prv_mayoclinic_MayoClinicCalorieEstimate_Out:
+        """Estimates daily calorie needs from age, sex, height, weight and activity level with Mayo
+        Clinic's calorie calculator formula, at the chosen activity level and at each of the
+        four; pure, no network.
         """
 
     async def getFirstAid(self, args: Prv_mayoclinic_getFirstAid_args_In, /) -> Prv_mayoclinic_MayoClinicConditionPage_Out:
@@ -133799,14 +134016,6 @@ class Prv_usps(Protocol):
         no key.
         """
 
-    async def addToStoreCart(self, args: Prv_usps_addToStoreCart_args_In, /) -> Prv_usps_uspsStoreCart_Out:
-        """Adds one product to the anonymous Postal Store cart from its store.usps.com product URL
-        (as listStoreProducts returns it) and reads the cart back: the product's id and name,
-        the item count and the subtotal. Adds one unit; never reaches checkout or payment, and
-        the cart belongs to this browser session only. Reads through a real browser because the
-        store refuses a plain client.
-        """
-
     async def listStoreProducts(self, args: Prv_usps_listStoreProducts_args_In, /) -> Prv_usps_uspsStoreResults_Out:
         """Searches the Postal Store (store.usps.com) by `term` (optional `limit`, default 60) and
         returns each product's name, URL, product id, image, unit note (e.g. "Forever 82¢") and
@@ -137536,7 +137745,12 @@ class Prv_youtube(Protocol):
         bytes go from YouTube straight to the player; the call moves about 5 KB. A live,
         age-gated, region- or members-blocked video comes back with empty `files`, the embed,
         and a `warnings` line saying why. Throws only for a removed or private video.
-        `getPlayableStream` is the one-call shortcut to the 360p muxed file.
+        `getPlayableStream` is the one-call shortcut to the 360p muxed file. Without a token,
+        `videoOnly` and `audioOnly` files stop after about the first minute of media (YouTube
+        refuses later ranges); Bowmark Buddy passes `poToken` and `visitorData`, a
+        proof-of-origin token minted in the person's own Chrome, and then every file plays
+        whole, but only from that Chrome (the URLs are signed to its address). Anything wrong
+        with the token falls back to the tokenless menu.
         """
 
     async def listHashtagVideos(self, input: Prv_youtube_listHashtagVideos_input_In, /) -> list[Prv_youtube_YoutubeSearchVideo_Out]:
@@ -138009,6 +138223,12 @@ class Prv_zenoti(Protocol):
         bookable times. An empty `slots` array is the tenant's real answer (fully booked or
         closed that day), not an error. A tenant that requires sign-in to see times throws
         naming that.
+        """
+
+    async def getMyProfile(self, tenant: str, opts: ConnectionOption | None = None, /) -> Prv_zenoti_ZenotiProfile_Out:
+        """Returns the signed-in caller's profile at one business: name, email, phone, gender,
+        birthday and tags. Accounts are per business: the caller signs in at that tenant's own
+        webstore; with no sign-in the run pauses for one.
         """
 
     async def listMyAppointments(self, tenant: str, when: Literal["upcoming"] | Literal["past"] | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_zenoti_ZenotiAppointment_Out]:
@@ -138571,6 +138791,7 @@ class BowmarkProviders(Protocol):
     crateandbarrel: Prv_crateandbarrel
     crecipr: Prv_crecipr
     credibly_com: Prv_credibly_com
+    crtc_applications: Prv_crtc_applications
     cruiselakegeneva: Prv_cruiselakegeneva
     crunchbase: Prv_crunchbase
     crutchfield: Prv_crutchfield
