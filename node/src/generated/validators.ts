@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: df1b5e7636c958d36700e0d1a5949d2a1333ac82f06177a9c08db75bfb6ff4ed
-// 6014 checked, 20 unchecked.
+// Manifest version: 3b50bfc5e3a10e062d2642e1008788110fb52b4874fa5f109eee74c36ec9e91d
+// 6022 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "df1b5e7636c958d36700e0d1a5949d2a1333ac82f06177a9c08db75bfb6ff4ed",
+  "version": "3b50bfc5e3a10e062d2642e1008788110fb52b4874fa5f109eee74c36ec9e91d",
   "units": {
     "address_validation": {
       "defs": {
@@ -77025,6 +77025,112 @@ export const VALIDATORS: ValidatorTable = {
     "providers.genius": {
       "defs": {},
       "functions": {
+        "getArtist": [
+          {
+            "name": "artist",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listArtistAlbums": [
+          {
+            "name": "artist",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "listArtistSongs": [
+          {
+            "name": "artist",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "sort",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "popularity"
+                },
+                {
+                  "k": "literal",
+                  "v": "title"
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "listSongAnnotations": [
+          {
+            "name": "song",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
         "getLyrics": [
           {
             "name": "song",
@@ -77097,12 +77203,16 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getLyrics": "5bf11caaa8723b8a",
-        "getSong": "a058fd871edcc6d5",
-        "searchAlbums": "5fb76564217140b2",
-        "searchArtists": "7d176538271f8faa",
-        "searchLyrics": "7efb02f13a971976",
-        "searchSongs": "983c2454453227e8"
+        "getArtist": "2f2a255a2ecedfe0",
+        "listArtistAlbums": "322e7640f1007313",
+        "listArtistSongs": "e0e5902033715358",
+        "listSongAnnotations": "25e15e8cc82988d3",
+        "getLyrics": "fd29728bc0050de1",
+        "getSong": "fe9fb8145abc2267",
+        "searchAlbums": "37bf05d4c35221e0",
+        "searchArtists": "28726602556a6296",
+        "searchLyrics": "acbfdeade431c2d0",
+        "searchSongs": "c80bcd6acf56a776"
       }
     },
     "providers.github": {
@@ -117491,6 +117601,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetAuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetLiveBlogArgs": {
           "k": "object",
           "props": [
@@ -117507,6 +117629,18 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            }
+          ]
+        },
+        "GetRecipeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -117556,6 +117690,18 @@ export const VALIDATORS: ValidatorTable = {
         "ListSectionsArgs": {
           "k": "object",
           "props": []
+        },
+        "ListSelectDealsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         },
         "SearchArticlesArgs": {
           "k": "object",
@@ -117648,6 +117794,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listSelectDeals": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSelectDealsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRecipe": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetRecipeArgs"
+            },
+            "optional": false
+          }
+        ],
         "getLiveBlog": [
           {
             "name": "args",
@@ -117677,19 +117843,43 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listNewsletters": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListHeadlinesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAuthor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAuthorArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "listHeadlines": "0c8e3a29b3b652cb",
-        "listSectionHeadlines": "910afcaede9fcb1a",
-        "getArticle": "c6ca19de2799ed7a",
-        "listLatestStories": "0c8e3a29b3b652cb",
-        "listVideos": "0c8e3a29b3b652cb",
-        "listPodcasts": "0c8e3a29b3b652cb",
-        "getVideo": "474ad54df783c80d",
-        "getLiveBlog": "385f711d4a5b5a3a",
-        "listSections": "d6e32467bc701123",
-        "searchArticles": "890fd41e4a4e4c04"
+        "listHeadlines": "1dc05ca480b3db98",
+        "listSectionHeadlines": "0312bfacdf948593",
+        "getArticle": "743eacd17b04730f",
+        "listLatestStories": "1dc05ca480b3db98",
+        "listVideos": "1dc05ca480b3db98",
+        "listPodcasts": "1dc05ca480b3db98",
+        "getVideo": "6659c4cfb6ffedc0",
+        "listSelectDeals": "f6290e44f53e092f",
+        "getRecipe": "b25381602bd7d6c0",
+        "getLiveBlog": "b0d9007dbb2a26e6",
+        "listSections": "ea81d59f567d0e1f",
+        "searchArticles": "32c1b7ce8dbc5f03",
+        "listNewsletters": "00317c3ff6304530",
+        "getAuthor": "626b5fa684752458"
       }
     },
     "providers.nerdwallet": {
@@ -151518,24 +151708,24 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findBusiness": "76db09836e28830b",
-        "getBusiness": "105fe109aa7674b2",
-        "listServices": "aa648aa08d74e660",
-        "listStaff": "4b8144a990460308",
-        "getAvailability": "9b65925e869b67fe",
-        "bookAppointment": "0ef3d1bfc87bee5c",
-        "bookClass": "7204459600b7c13b",
-        "listClasses": "1af25576240e181a",
-        "getClassSession": "67fbf12e949f349a",
-        "getBooking": "cfd0f88dfee1d9e4",
-        "cancelAppointment": "b3f952041ded3905",
-        "rescheduleAppointment": "3b9d67e398113e52",
-        "getMyBookings": "255aa0093fae4d0a",
-        "updateMyDetails": "a0c64587d3bc6905",
-        "getBookingForm": "8582cff583ca8cf7",
-        "getReviews": "fc40e3c8da36494d",
-        "listGalleryImages": "ea1b562e2362edbb",
-        "checkPromoCode": "8815447fd3e920a8"
+        "findBusiness": "e371c457f66c40c3",
+        "getBusiness": "08c61da1ce18e41f",
+        "listServices": "d3ef9259b53d9dd4",
+        "listStaff": "f2e3bca71e068dfb",
+        "getAvailability": "7e8e462beed58a81",
+        "bookAppointment": "93651908d787f2b4",
+        "bookClass": "c572296e310cce0f",
+        "listClasses": "14ab179e572efdd0",
+        "getClassSession": "b70aa00a34b0e18a",
+        "getBooking": "cde052c74dfad6c6",
+        "cancelAppointment": "7374843e3d5a5645",
+        "rescheduleAppointment": "b9f4c41941822257",
+        "getMyBookings": "36178e1f6b02a2e4",
+        "updateMyDetails": "a61bc5c558ae783e",
+        "getBookingForm": "51f96c141be883ba",
+        "getReviews": "34c210e645992370",
+        "listGalleryImages": "93a98de500427412",
+        "checkPromoCode": "cd87099954240d15"
       }
     },
     "providers.sevenrooms": {

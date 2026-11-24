@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: df1b5e7636c958d36700e0d1a5949d2a1333ac82f06177a9c08db75bfb6ff4ed
-# 99 capabilities, 968 providers, 6014 typed functions, 20 refused.
+# Manifest version: 3b50bfc5e3a10e062d2642e1008788110fb52b4874fa5f109eee74c36ec9e91d
+# 99 capabilities, 968 providers, 6022 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -36316,6 +36316,68 @@ class Prv_geico_GeicoAgentSearch_Out_searchedFrom_Out(TypedDict):
     latitude: float
     longitude: float
 
+class Prv_genius_GeniusArtist_Out(TypedDict):
+    id: float
+    name: str
+    url: str
+    imageUrl: str | None
+    isVerified: bool
+    alternateNames: list[str]
+    bio: str | None
+    followers: float | None
+    iq: float | None
+    twitter: str | None
+    instagram: str | None
+    facebook: str | None
+
+class Prv_genius_GeniusArtistAlbums_Out(TypedDict):
+    artistId: float
+    page: float
+    nextPage: float | None
+    albums: list[Prv_genius_GeniusAlbumHit_Out]
+
+class Prv_genius_GeniusAlbumHit_Out(TypedDict):
+    id: float
+    name: str
+    artist: str
+    fullTitle: str
+    url: str
+    releaseDate: str | None
+    coverUrl: str | None
+
+class Prv_genius_GeniusArtistSongs_Out(TypedDict):
+    artistId: float
+    page: float
+    nextPage: float | None
+    songs: list[Prv_genius_GeniusSongHit_Out]
+
+class Prv_genius_GeniusSongHit_Out(TypedDict):
+    id: float
+    title: str
+    artist: str
+    fullTitle: str
+    url: str
+    releaseDate: str | None
+    pageviews: float | None
+    imageUrl: str | None
+
+class Prv_genius_GeniusSongAnnotations_Out(TypedDict):
+    songId: float
+    page: float
+    nextPage: float | None
+    annotations: list[Prv_genius_GeniusAnnotation_Out]
+
+class Prv_genius_GeniusAnnotation_Out(TypedDict):
+    id: float
+    fragment: str
+    url: str
+    annotator: str | None
+    state: str | None
+    verified: bool
+    votes: float
+    commentCount: float
+    body: str
+
 class Prv_genius_GeniusLyrics_Out(TypedDict):
     url: str
     title: str
@@ -36346,15 +36408,6 @@ class Prv_genius_GeniusAlbumSearch_Out(TypedDict):
     query: str
     albums: list[Prv_genius_GeniusAlbumHit_Out]
 
-class Prv_genius_GeniusAlbumHit_Out(TypedDict):
-    id: float
-    name: str
-    artist: str
-    fullTitle: str
-    url: str
-    releaseDate: str | None
-    coverUrl: str | None
-
 class Prv_genius_GeniusArtistSearch_Out(TypedDict):
     query: str
     artists: list[Prv_genius_GeniusArtistHit_Out]
@@ -36373,16 +36426,6 @@ class Prv_genius_GeniusLyricSearch_Out(TypedDict):
 class Prv_genius_GeniusLyricMatch_Out(TypedDict):
     song: Prv_genius_GeniusSongHit_Out
     snippet: str
-
-class Prv_genius_GeniusSongHit_Out(TypedDict):
-    id: float
-    title: str
-    artist: str
-    fullTitle: str
-    url: str
-    releaseDate: str | None
-    pageviews: float | None
-    imageUrl: str | None
 
 class Prv_genius_GeniusSongSearch_Out(TypedDict):
     query: str
@@ -53919,6 +53962,58 @@ class Prv_nbcnews_Video_Out_streams_item_Out(TypedDict):
     height: NotRequired[float]
     width: NotRequired[float]
 
+class Prv_nbcnews_ListSelectDealsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_nbcnews_SelectDealList_Out(TypedDict):
+    total: float
+    items: list[Prv_nbcnews_SelectDeal_Out]
+    warnings: NotRequired[list[str]]
+
+class Prv_nbcnews_SelectDeal_Out(TypedDict):
+    id: str
+    headline: str
+    summary: NotRequired[str]
+    url: str
+    publishedAt: NotRequired[str]
+    imageUrl: NotRequired[str]
+    discount: str
+    percentOff: NotRequired[float]
+
+class Prv_nbcnews_GetRecipeArgs_In(TypedDict):
+    url: str
+
+Prv_nbcnews_Recipe_Out = TypedDict(
+    "Prv_nbcnews_Recipe_Out",
+    {
+    "id": str,
+    "url": str,
+    "title": str,
+    "description": NotRequired[str],
+    "authors": list[str],
+    "publishedAt": NotRequired[str],
+    "yield": NotRequired[str],
+    "prepTime": NotRequired[str],
+    "cookTime": NotRequired[str],
+    "totalTime": NotRequired[str],
+    "ratingValue": NotRequired[float],
+    "ratingCount": NotRequired[float],
+    "ingredients": list[Prv_nbcnews_Recipe_Out_ingredients_item_Out],
+    "steps": list[str],
+    "notes": list[str],
+    "imageUrl": NotRequired[str],
+    },
+)
+
+class Prv_nbcnews_Recipe_Out_ingredients_item_Out(TypedDict):
+    title: NotRequired[str]
+    items: list[Prv_nbcnews_Recipe_Out_ingredients_item_Out_items_item_Out]
+
+class Prv_nbcnews_Recipe_Out_ingredients_item_Out_items_item_Out(TypedDict):
+    text: str
+    quantity: NotRequired[str]
+    unit: NotRequired[str]
+
 class Prv_nbcnews_GetLiveBlogArgs_In(TypedDict):
     url: str
     limit: NotRequired[float]
@@ -53969,6 +54064,29 @@ class Prv_nbcnews_SearchHit_Out(TypedDict):
     summary: NotRequired[str]
     publishedAt: NotRequired[str]
     imageUrl: NotRequired[str]
+
+class Prv_nbcnews_NewsletterList_Out(TypedDict):
+    total: float
+    items: list[Prv_nbcnews_Newsletter_Out]
+
+class Prv_nbcnews_Newsletter_Out(TypedDict):
+    id: str
+    title: str
+    description: NotRequired[str]
+    imageUrl: NotRequired[str]
+    sampleUrl: NotRequired[str]
+    subscribersOnly: bool
+
+class Prv_nbcnews_GetAuthorArgs_In(TypedDict):
+    url: str
+
+class Prv_nbcnews_Author_Out(TypedDict):
+    name: str
+    url: str
+    title: NotRequired[str]
+    bio: NotRequired[str]
+    imageUrl: NotRequired[str]
+    links: list[str]
 
 class Prv_nerdwallet_NerdWalletCreditCardComparison_Out(TypedDict):
     cards: list[Prv_nerdwallet_NerdWalletCreditCard_Out]
@@ -68336,6 +68454,16 @@ class Prv_setmore_SetmoreBookingConfig_Out(TypedDict):
     allowCancellation: bool
     allowRescheduling: bool
     slotIntervalMins: float | None
+    cancellationNotice: Prv_setmore_SetmoreBookingWindow_Out | None
+    advanceBookingLimit: Prv_setmore_SetmoreBookingWindow_Out | None
+
+class Prv_setmore_SetmoreBookingWindow_Out(TypedDict):
+    years: float
+    months: float
+    days: float
+    hours: float
+    minutes: float
+    label: str
 
 class Prv_setmore_SetmoreBusinessDetail_Out_paymentsConfig_u0_Out(TypedDict):
     isEnabled: bool
@@ -110020,6 +110148,22 @@ class Prv_genius(Protocol):
     line of its lyrics, read a song's details and its full lyrics.
     """
 
+    async def getArtist(self, artist: str | float, /) -> Prv_genius_GeniusArtist_Out:
+        """Reads a Genius artist by id: bio, aliases, followers, IQ and social handles."""
+
+    async def listArtistAlbums(self, artist: str | float, page: float | None = None, /) -> Prv_genius_GeniusArtistAlbums_Out:
+        """Lists an artist's albums on Genius, newest first, one page at a time."""
+
+    async def listArtistSongs(self, artist: str | float, sort: Literal["popularity"] | Literal["title"] | None = None, page: float | None = None, /) -> Prv_genius_GeniusArtistSongs_Out:
+        """Lists an artist's songs on Genius, by popularity or title, one page at a time (nextPage
+        says whether more exist).
+        """
+
+    async def listSongAnnotations(self, song: str | float, page: float | None = None, /) -> Prv_genius_GeniusSongAnnotations_Out:
+        """Lists the annotated lines of a song with each annotation's text, annotator, votes and
+        state.
+        """
+
     async def getLyrics(self, song: str | float, /) -> Prv_genius_GeniusLyrics_Out:
         """Reads a song's full lyrics from its Genius page, section by section ([Verse 1], [Chorus]
         …), by song id or page url.
@@ -120285,6 +120429,16 @@ class Prv_nbcnews(Protocol):
         thumbnail and stream URLs.
         """
 
+    async def listSelectDeals(self, args: Prv_nbcnews_ListSelectDealsArgs_In, /) -> Prv_nbcnews_SelectDealList_Out:
+        """List NBC Select deals that state a real discount (percent or dollars off) from the
+        deals-sales page, with headline, link and discount.
+        """
+
+    async def getRecipe(self, args: Prv_nbcnews_GetRecipeArgs_In, /) -> Prv_nbcnews_Recipe_Out:
+        """Read one NBC News (TODAY) recipe: ingredient groups with quantities, steps, chef's
+        notes, yield and rating.
+        """
+
     async def getLiveBlog(self, args: Prv_nbcnews_GetLiveBlogArgs_In, /) -> Prv_nbcnews_LiveBlog_Out:
         """Read an NBC News live-updates blog: title, times and each timestamped update (newest
         first) with text and authors.
@@ -120299,6 +120453,14 @@ class Prv_nbcnews(Protocol):
         """Search NBC News stories by keyword and return the ranked matching articles with
         headline, URL, summary and publish time.
         """
+
+    async def listNewsletters(self, args: Prv_nbcnews_ListHeadlinesArgs_In, /) -> Prv_nbcnews_NewsletterList_Out:
+        """List the newsletters NBC News offers (id, title, description, sample link,
+        subscribers-only flag).
+        """
+
+    async def getAuthor(self, args: Prv_nbcnews_GetAuthorArgs_In, /) -> Prv_nbcnews_Author_Out:
+        """Read an NBC News journalist's page: name, title, bio, photo and profile links."""
 
 class Prv_nerdwallet(Protocol):
     """NerdWallet's current best-credit-card picks, ratings, fees, rewards and APRs."""
