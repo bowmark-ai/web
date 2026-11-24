@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 139,771 sites, generated 2026-11-24.
+# Every website Bowmark covers and the functions it has: 139,778 sites, generated 2026-11-24.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 0017bf80 Get_a_list_of_planets#073ade69 airportDistance#0ab457b6 airportSuggest#356e4a7c binLookup#f2fbc6c4 calculateCaloriesBurned#d9081d6c calculateIncomeTax#ffab1fe4 calculateMortgage#b10dc094 calculatePaycheckWithholding#248bf78b calculateSalesTax#42eebe11 checkDisposableEmail#352ba971 checkLotteryTicket#6cd2842b classifyNaics#ab3fedb0 closestAirport#e040a996 convertAirportCode#9c1830bd convertCurrency#e42a3843 detectFaces#6d3d4604 detectObjects#43f3b6a8 encodeText#d99f5c08 extractTextFromImage#e5e60ae1 filterProfanity#9453947e generateBarcode#dff190d1 generateLoremIpsum#f4a81a3f generatePassword#5a4a9135 generateQRCode#61569f4f getAdvice#5966bae8 getAirQuality#2be13d29 getAircraft#2f026868 getAirlines#7908895c getAirports#63d09acf getAirportsList#2cd97543 getAllCatNames#5966bae8 getAllCountries#5966bae8 getAllCountryFlags#5966bae8 getAllDogs#5966bae8 getAllExercises#b03c1541 getAnalytics#2f74b018 getAnimals#5e3c1955 getBabyNames#fb6b2946 getBalanceSheet#8f2295a6 getBalanceSheetAvailability#db14f187 getBankHolidays#b43a2982 getBankInfo#ef201b34 getBitcoinData#5966bae8 getBitcoinHistoricalData#643a286c getBitcoinTreasury#3418db3e getBsbInfo#92e04c48 getBucketListItem#5966bae8 getCanadaRoutingNumberInfo#95790b8b getCarFacets#ecce56eb getCarGenerations#860c2c96 getCarMakes#f7a5bd3e getCarModels#0e5a0c65 getCars#2c689ce9 getCashFlow#8f2295a6 getCashFlowAvailability#db14f187 getCats#9ee374a8 getCelebrity#9b62ae1b getChuckNorrisJoke#051a528e getCityData#a8d0a4d2 getCommodityContract#fcac7e96 getCommodityContractList#5966bae8 getCommodityForwardCurve#5f8488fa getCommoditySnapshot#b79f99d0 getCommoditySpotPrice#b4c72e89 getCounter#afe03ae4 getCountryData#4e4a2989 getCountryFlag#824fd415 getCounty#d21898cd getCovidData#3aef9e55 getCryptoPrice#f2874ff3 getCryptoPriceHistorical#1d8aad49 getCryptoSymbols#5966bae8 getCryptoTreasury#deaaa498 getCurrencyVolatility#8c462276 getCurrencyVolatilityForecast#52f1e51a getCurrencyVolatilityHistorical#08124469 getCurrentCommodityPrice#d6e2ca3d getCurrentGoldPrice#1ce37565 getCurrentInflation#a05d9b69 getCurrentInterestRates#b2bd4e45 getCurrentMetalsPrice#04d37cee getCurrentOilPrice#1b47f3e0 getDNSRecords#fbf682e2 getDadJoke#cad2c562 getDayInHistory#e7d45901 getDefinition#92caf459 getDogs#c02c0876 getDomainInfo#fbf682e2 getETFInfo#605200e6 getEVCharger#930e6f50 getEarnings#d9a82cae getEarningsCalendar#5a567da2 getEarningsCalendarList#5966bae8 getEarningsCallParticipants#8a3ff5d9 getEarningsCallSpeaker#7c7d25fd getEarningsTranscript#73eeb195 getElectricVehicleData#12ec1e1a getElectricVehicleMakes#58fce5bd getElectricVehicleModels#3c2eae68 getEmojis#ec4da961 getEuriborRates#5966bae8 getExchangeRate#8deb4a7a getExecutiveCompensation#3f183912 getExercises#05dc8a43 getFactOfTheDay#5966bae8 getFacts#f2e1b8f5 getGDPData#4a302aa7 getGeocoding#a818d927 getGoldSpotPrice#1ce37565 getHelicopterData#58480699 getHistoricalCommodityPrice#67f490c5 getHistoricalEvents#b40cb821 getHistoricalExchangeRate#ec89b2db getHistoricalGoldPrice#dc092a8c getHistoricalInflation#89f29a87 getHistoricalInterestRates#a2aa2ca3 getHistoricalLiborRates#744f9e59 getHistoricalOilPrice#022955f6 getHobby#30a73f67 getHolidays#070547a2 getHoroscope#d8db66e7 getHospitals#a42f0e8b getIBAN#b359c6ae getIPInfo#e240f78a getIncomeStatement#8f2295a6 getIncomeStatementAvailability#db14f187 getIncomeTax#219f8fbc getInsiderDetails#4296cc7f getInsiderTransactions#7a34c249 getInsidersList#71022505 getInstitutionalHoldings#7dc65bd2 getInstitutionalInvestors#719f5821 getInstitutionalMovers#1b968edf getInstitutionalOwnership#9bb72b32 getIpoCalendar#c818990f getJoke#110cc6d8 getJokeOfTheDay#5966bae8 getLogos#66529535 getLotteryDraw#8ee30721 getLotteryHistoricalDraws#7b087310 getMXRecords#7a1ce585 getMarketCap#ef7fca62 getMortgageRate#58e45841 getMotorCarrier#61d5b79c getMotorCarrierInsurance#cd77c392 getMotorCarrierLinks#cd77c392 getMotorCarrierSafety#cd77c392 getMotorcycleMakes#5966bae8 getMotorcycleModels#11c0663e getMutualFund#896ad21a getNaics#6ec8b6a5 getNaicsRisk#ceda9cd7 getNaicsSizeStandard#2004b38e getNutrition#3e66c99d getNutritionBarcode#46db0426 getNutritionItem#232fec63 getOilSpotPrice#d356f90b getPinCode#5701bad5 getPopulationData#31921fcf getPostalCode#84221428 getPropertyTax#bf214490 getPublicHolidays#6eee0c00 getQuoteAuthors#7902b8f2 getQuoteOfTheDay#5966bae8 getQuotes#e4ae7485 getRandomImage#42658870 getRandomQuotes#0021aaf6 getRandomUsers#8f42dfff getRandomWord#6161108d getRecipes#71f6b74f getReverseGeocoding#b2cbfd85 getRhyme#92caf459 getRiddles#946e37b0 getSalesTax#14ae746a getSalesTaxFiling#8c066ba8 getSalesTaxHolidays#72d052cc getSalesTaxNexus#a59e609d getSalesTaxRateChanges#582a5758 getUpcomingEarnings#b845d2f2 isBankHoliday#22530a8d isHoliday#4078a05a isPublicHoliday#4646ab9f listActivities#5966bae8 listETFs#1241ce7a listEarningsCallTranscripts#c286b025 listLotteryGames#53d60b4a listLotteryJackpots#aeb1c93f phoneLookup#400950eb screenSanctions#07e3b1a0 searchBanks#b25c53ac searchBsb#d0671d04 searchCanadaRoutingNumbers#356f3cd9 searchCocktails#a650c886 searchETFs#57c454bc searchEarningsTranscripts#d37d9295 searchHistoricalFigures#729233ed searchMotorCarriers#10b3328e searchMotorcycles#04c93d9b searchNaics#c87d467d searchSEC#45757635
@@ -1070,7 +1070,6 @@
 = 637450e5 compare_content#0e699cc8 find_content_assets#f2b1efd0 find_pages_by_title#012277e4 find_product_mentions#1a77e971 get_almax_dosage_calculator#6d3cd897 get_chunk#b89f1d99 get_official_prospecto#55b061ec get_page#dc686425 get_source_map#a98821b9 list_pages#6e855754 list_sources#8c8f4db1 match_almax_prompt#2987eb64 search_content#a3288b29 search_tools#93d5ea37
 = 63930fcf getJob search
 = 63be87a3 cancel_agent_turn#e5ed1fc1 cancel_inference#4a5178e4 cancel_training_run#c5fe91be cancel_workflow_run#4afbea4d compose_image#c51ccd82 create_product#b11b8f4f create_project_from_app_listing#f1d44694 create_reference_set#50bbf38e delete_product#73a79199 estimate_forge_price#fe90370d estimate_training_price#5afc3ce1 estimate_video_timeline_price#fe90370d estimate_workflow_price#87d64518 execute_forge#fe90370d execute_workflow#d82e0e29 export_parallax#2ea9da20 export_tileset#47b34f8f export_ui_kit#e4ed9697 get_agent_response#4b585dca get_base_model#81de7c03 get_blueprint_system_config#699627b6 get_file_scores#e09d5920 get_files#2d331b06 get_forge_instructions#ab58cbd4 get_forge_run#d83aee88 get_generation_run#22c953d6 get_inference_tool#1c92a3ab get_instructions#ae80dd4e get_project#cdf48e68 get_reference_set#96007da5 get_trained_model#33c15320 get_training_status#f02ec478 get_trend#a752aa76 get_workflow_instructions#3c28b39c get_workflow_run#30207be0 get_workspace#dfdf2a57 import_workflow#581ad717 list_agents#c5cec120 list_base_models#9a65355d list_chat_sessions#dc906853 list_file_lifecycle_statuses#89c96e2e list_inference_tools#498900ee list_output_scoring_rules#f342a15e list_projects#c08028f4 list_reference_sets#5f82d986 list_training_runs#fcaf1e52 list_trends#6a1b3243 list_workflows#75d69c88 list_workspaces#cc1b27c9 pack_sprite_sheet#90940b72 render_text#5fd9ebcc render_video_timeline#fe90370d report_feedback#05e11641 request_file_upload_url#602b3a80 run_inference_tool#f18db056 score_files#60eea588 send_agent_message#0d7f8b68 set_file_lifecycle_status#47ac6dc7 split_sprite_sheet#f23b9958 start_training#f6a04ff9 update_product#84c65a7b upload_file#f3494d43
-= 63dd615d getArticle listHeadlines listLatestStories listPodcasts listSectionHeadlines listVideos
 = 64071516 searchJobs#f993939c
 = 6415a426 fine_appeal_check#9275d3dd get_listing#9d7dbe74 parking_guides#5082e638 sample_letters#bc0a1ab8 search_parking#d4b168e0 space_value#8c57311b
 = 6418398a start_ski_rental#a7be8bdd
@@ -1209,6 +1208,7 @@
 = 714bd5fc card_refresh#728e4436 create_draft#eeac5e82 delete_item#1d9c920a discard_draft#91fa29fe edit_draft#e5bc317b find_ea_app#372e3a1f get_item#4c462f49 get_setup#0acd482e get_stats#0d9d6a5a get_suggestions#64b7e958 get_write_guide#b5a86023 list_apps#ece2d19e list_drafts#64b7e958 list_ea_apps#daea6ffc list_items#a1759e46 list_stores#daea6ffc lookup#b5611d3f preview_draft#91fa29fe request_publish#91fa29fe request_undo#91fa29fe stage_changes#a596a13c
 = 71af5c99 getForumThread getOrderDetails getProduct getProductDrivers getRegisteredProductDetails getSavedCartDetails getSupportArticle listDealProducts listMyOrders listMyRegisteredProducts listMySavedCarts listProductCategories listSupportCategories searchForumThreads searchProducts searchSupport
 = 71b62252 integrate_propelauth_backend#119d5f53 integrate_propelauth_frontend#1b38dc6d integrate_propelauth_fullstack#e09bc06b integrate_propelauth_oauth#bd4ed7cf migrate_to_propelauth_backend#cd889bd3 migrate_to_propelauth_frontend#48acaeed migrate_to_propelauth_fullstack#da173c92 migrate_to_propelauth_users#ba8f2636 propelauth_backend_api#89506ea8 propelauth_custom_ui#80dac348 propelauth_troubleshooting#ca55b2e9
+= 71bbf055 getArticle getVideo listHeadlines listLatestStories listPodcasts listSectionHeadlines listVideos
 = 71c232a6 ai_browser_agent#348e524b ai_crawler#ca21f1c2 ai_map#75e1c9b0 ai_scraper#035e56be ai_search#e27a7c0f amazon_product_scraper#bbe5e7af amazon_search_scraper#7cce68fa generate_schema#9e395755 google_search_scraper#200fac6c universal_scraper#95d130eb
 = 71da6585 get_accounting_languages#daea6ffc get_builder_languages#daea6ffc get_faq_categories#0904cfe0 get_faq_search_results#f89d8a1c get_site_countries#daea6ffc get_site_languages#daea6ffc
 = 71fa0b8b checkAvailability searchCampgrounds
@@ -59584,7 +59584,6 @@ burbancreation.myshopify.com	a9af6443
 burbankcards.com	37007769
 burchtreebladeworks.myshopify.com	a9af6443
 burdockgrovefarm.ca	05a9bb9e
-bureauengros.com	4479a458
 bureauofdigital.myshopify.com	a9af6443
 burespro.com	05a9bb9e
 burg.biz	4479a458
@@ -61315,6 +61314,7 @@ cart-parts-r-us.myshopify.com	a9af6443
 cart-related-products-store-prod.myshopify.com	61e64875
 cart-save-and-share.myshopify.com	61e64875
 carta-bianca-store.myshopify.com	a9af6443
+carta.tech	da39a3ee
 cartbloom-webibazaar.myshopify.com	a9af6443
 cartconvert.myshopify.com	a9af6443
 cartcourier.myshopify.com	a9af6443
@@ -63378,6 +63378,7 @@ cirrottola.it	37007769
 cirrusmedia.myshopify.com	a9af6443
 cirse.org	bb34c1bd
 cirtashop.net	bb34c1bd
+cisoclub.ru	da39a3ee
 cisv.myshopify.com	a9af6443
 citadel-nutrition.myshopify.com	a9af6443
 citaliarestauro.com	bb34c1bd
@@ -99568,6 +99569,7 @@ media-town24.myshopify.com	a9af6443
 media-wolf.co.uk	bb34c1bd
 mediabangladesh.net	bb34c1bd
 mediability.no	bb34c1bd
+mediabooth.com.au	da39a3ee
 mediadvicepharmacy.com	bb34c1bd
 mediagear.ee	bb34c1bd
 mediahoek.nl	a9af6443
@@ -104481,7 +104483,7 @@ nb-sailsports.myshopify.com	a9af6443
 nba-store-gsw.myshopify.com	a9af6443
 nbaesthetics.com.au	bb34c1bd
 nbbridalstudio.com	bb34c1bd
-nbcnews.com	63dd615d
+nbcnews.com	71bbf055
 nbcpepsi.com	4479a458
 nbcstore.com	4479a458
 nbcworldseries.myshopify.com	a9af6443
@@ -104604,6 +104606,7 @@ needmore-orchids.myshopify.com	a9af6443
 needpremium.com	bb34c1bd
 needsquish.com	da39a3ee
 needsshirt.com	bb34c1bd
+neeed.directory	da39a3ee
 neeleyofficial.myshopify.com	a9af6443
 neelymarketplace.com	bb34c1bd
 neemans.com	4479a458
@@ -124169,6 +124172,7 @@ spaceinterio.co.in	bb34c1bd
 spacelighting.com	bb34c1bd
 spacemonkey-models.myshopify.com	a9af6443
 spacepac.com.au	bb34c1bd
+spaceplanner.co	da39a3ee
 spacermobilityjp.myshopify.com	a9af6443
 spacerocks-store.myshopify.com	a9af6443
 spacershop.com	bb34c1bd
@@ -128304,6 +128308,7 @@ teaspoonoffun.com	bb34c1bd
 teastrazicic.myshopify.com	a9af6443
 teatox-life.myshopify.com	61e64875
 teatrebarcelona.com	6a8fd6ab
+teatromadrid.com	da39a3ee
 teaura.myshopify.com	a9af6443
 tecbikeparts.com	bb34c1bd
 tech-comm-tools.myshopify.com	a9af6443
@@ -130575,6 +130580,7 @@ thedeadsouthonlinemerch.myshopify.com	a9af6443
 thedecksupply.com	bb34c1bd
 thedeconstruct.in	4479a458
 thedecorativeart.com	bb34c1bd
+thedecorkart.com	da39a3ee
 thedellvineyard.co.uk	bb34c1bd
 thedermaco.com	4479a458
 thedesigncart.com	4479a458
@@ -135288,6 +135294,7 @@ uniletstores.com	bb34c1bd
 unilongindustry.com	bb34c1bd
 unilution.com	bb34c1bd
 unimart.com	37007769
+unimat.ro	da39a3ee
 unimaticwatches.com	4479a458
 unimatindustries.com	bb34c1bd
 unimedicalhealthcare.com	bb34c1bd
@@ -135424,6 +135431,7 @@ universityfirewood.myshopify.com	a9af6443
 universityoftime.myshopify.com	a9af6443
 universitypressplc.com	bb34c1bd
 uniworthshop.com	4479a458
+uniydress.com	da39a3ee
 unknown-mortal-orchestra.myshopify.com	a9af6443
 unknowncomicbooks.com	4479a458
 unknowncountry.com	a9af6443
@@ -142087,7 +142095,6 @@ zest-cosmo.myshopify.com	a9af6443
 zest-fleek.myshopify.com	a9af6443
 zest-gusto.myshopify.com	a9af6443
 zest-laura.myshopify.com	a9af6443
-zestal.store	357f4ac8
 zestard-gift-wrap.myshopify.com	a9af6443
 zestardgiftshop.myshopify.com	a9af6443
 zestliving.com.au	bb34c1bd
