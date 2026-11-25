@@ -1193,7 +1193,6 @@
 = 6c141d4e bookSession findStudio getBookingOptions getCheckoutFields getLocations getSessionDetails getSessionPlans getSessionTiers getSessions getSessionsByDate getSessionsByLocation getSessionsByTeacher getStudio getTeachers getUserInfo joinWaitlist
 = 6c1bbca9 get-flight-details#63586bcb get-hotel-details#70fe7615 search-destinations#e9373d3d search-flights#51f07ddf search-hotels#3e64c6e9
 = 6c1d97ec get_event_detail#806f9859 get_showing_detail#ef0aee39 search_events#ece08d85
-= 6c236c9a carduri_test#1afa924d cauta_documentatie#47167123 citeste_sectiune#78df861b exemple_cod#5240ea44 explica_cod_eroare#be84b342 fetch#59e7c44c informatii_euplatesc#e37d32fa intrebari_frecvente#cfe3d2eb operatii_webservice#8f7b2b95 search#995bbe0e
 = 6c4a0d9f get_project#51df4724 render_project_selection#97dd84ea search_categories#2c9f6dc2 search_projects#8a4ed812
 = 6c5b8e78 browse_category#f5c3d150 get_episode#51185b7e get_episode_transcript#ca208554 get_podcast#2367772c get_podcast_episodes#2c9fd55e get_trending_podcasts#9cc2dbf2 list_categories#a6449078 search_episodes#4ebe2e38 search_podcasts#d89d841c search_transcripts#a040a9e2
 = 6cc03997 searchProducts#4f0bc67e
@@ -48062,6 +48061,7 @@ aiblifescience.com	bb34c1bd
 aic-imagecentral.com	bb34c1bd
 aiconbiotech.com	bb34c1bd
 aicq-cochleaire.myshopify.com	a9af6443
+aicut.pro	da39a3ee
 aid-coalition.myshopify.com	a9af6443
 aida-impact.myshopify.com	a9af6443
 aidaautosale.com	bb34c1bd
@@ -73468,7 +73468,6 @@ euphoric-flame.myshopify.com	a9af6443
 euphoric-scentsations.myshopify.com	a9af6443
 euphoricherbals.com	37007769
 euphorium-brooklyn.myshopify.com	a9af6443
-euplatesc.ro	6c236c9a
 euqpnm-zf.myshopify.com	a9af6443
 eureka-hub.myshopify.com	a9af6443
 eurekacoffeeroasters.myshopify.com	a9af6443
