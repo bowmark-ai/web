@@ -7,6 +7,215 @@ Entries are generated from the list of covered websites and their functions, so 
 file describes the callable surface and nothing else. Each release names every website
 it added, changed or removed.
 
+## 1.46.0 (2026-11-25)
+
+**Websites**
+
+- +184 websites, +2,405 functions, -5 websites, -30 functions. 140,722 websites and 1,347,164 functions in all.
+
+Added:
+
+- 183 websites, functions not listed yet:
+  - afterfivefashion.com
+  - airtacdistr.com
+  - albagame.al
+  - alexrossart.com
+  - algo-bonito.com
+  - almusbahperfume.com
+  - alpropharmacy.com
+  - alser.kz
+  - aodhanwheels.com
+  - appytoys.com.mt
+  - aram.co.uk
+  - arando-online.de
+  - artemlegrand.co.uk
+  - aslalfakama.com
+  - balparmak.com.tr
+  - belvish.com
+  - beultimate.com
+  - beyond.co.kr
+  - bibloo.cz
+  - blackbirdcoop.com
+  - blessedcbd.co.uk
+  - blush-jewels.com
+  - bmctoys.com
+  - bols.com
+  - booksbunnii.com
+  - borntostandout.com
+  - brittfurn.se
+  - brixies.de
+  - byshree.com
+  - canarias.com
+  - candyniche.com
+  - cantia.com.mx
+  - carpetright.nl
+  - casalolalights.co.uk
+  - catus-airsoft.eu
+  - catus.hu
+  - citychain.com.hk
+  - coco-store.jp
+  - consider.com
+  - conturve.com
+  - craftshack.com
+  - creationnetworks.net
+  - dafontstyle.io
+  - dalbe.fr
+  - diff.blog
+  - divorcebusting.com
+  - diwan-store.com
+  - egmcigars.com
+  - elaandearth.com.au
+  - elcytec.com
+  - eliteelevensporting.com
+  - elle-charleston.com
+  - elnour-tech.com
+  - emmylondon.com
+  - etoner.lt
+  - fabcurate.com
+  - facescanada.com
+  - fibralink.net.br
+  - flaxandtwine.com
+  - fliplet.com
+  - fntcase.com
+  - framework7.io
+  - getairmoto.com
+  - gildednewyork.com
+  - goldengate.mv
+  - greyhaze.co.uk
+  - guitarshopegypt.com
+  - hairdis.com
+  - haivivi.com
+  - hatch-green-chile.com
+  - hearnshobbies.com
+  - hellomoon-shop.com
+  - herder-ing.de
+  - histaminikus.de
+  - hometown.in
+  - impresee.com
+  - intersport.ch
+  - japanesemaplesandconifers.com
+  - jdcustomsusa.com
+  - jensenbeef.com
+  - jessicarebellofotografia.com.br
+  - jimmythemovie.com
+  - johnnydangandco.com
+  - joola.de
+  - juicestore.com
+  - juliaamory.com
+  - justintimewatchstores.com
+  - kidseventsthisweek.com
+  - kidsinfy.in
+  - klockor4you.nu
+  - kurinuka.com
+  - lalalandcafe.com
+  - lamptitude.com
+  - lieblingskorb.de
+  - lowpricefoods.com
+  - luibelle.com
+  - mahoneswallpapershop.com
+  - mastercoins.com.au
+  - masterlandscapesupply.com
+  - mcjars.app
+  - medifashion.ro
+  - misspinkyy.com
+  - mistymountaingaming.com
+  - musclemat.com.au
+  - mybeauty.sa
+  - mythical.com
+  - naak.com
+  - namesakehome.com
+  - naveetech.de
+  - neoprocycling.com
+  - nightbubo.com
+  - norsefoundry.com
+  - obucagazela.rs
+  - onsize.si
+  - outletshoesmx.com
+  - parlordoughnuts.com
+  - pathfinderpress.com
+  - pawesomehouse.com
+  - pawport.com
+  - payate.com
+  - pets-dreams.uk
+  - planet-gates.com
+  - planten247.nl
+  - poppyshop.org.uk
+  - purebulk.com
+  - queenofsparkles.com
+  - ratiocoffee.com
+  - reddyannaoffiiciall.com
+  - restaurantstock.com
+  - reveriehair.co.uk
+  - ricardoalmeida.com.br
+  - ritzcamera.com
+  - rockbrookcamera.com
+  - rocketdog.co.uk
+  - saascity.io
+  - samawa.ae
+  - sara-makeup.com
+  - seedfella.com
+  - sendsquared.com
+  - sensationfootwear.com
+  - shop-rosemary.co.uk
+  - shopcherrypick.com
+  - shopxplr.com
+  - signal8.ai
+  - sportega.at
+  - sportega.ro
+  - sshh.io
+  - stegmannusa.com
+  - superseeds.com
+  - tecisoft.ca
+  - tendenzestore.com
+  - tethrd.com
+  - thecaistore.com
+  - thecookiecountess.com
+  - thelist.app
+  - thisisthegreat.com
+  - thisisunfolded.com
+  - thundathighs.com
+  - tiedex.co.uk
+  - time2padel.com
+  - tondeesfurniture.com
+  - torqueking.com
+  - toto.co.id
+  - treesofantiquity.com
+  - trimpeks.com.tr
+  - trynavaro.com
+  - ufit.co.jp
+  - uinfootwear.com
+  - uncovercreations.com
+  - uratex.com.ph
+  - venum.com.br
+  - vfat.io
+  - vintagesuppliers1989.com
+  - viragelondon.com
+  - wallartistic.nl
+  - wdeftksa.com
+  - wearwellx.com
+  - westcoastsaw.com
+  - westmorebeauty.com
+  - wollehalle.com
+  - yllwthelabel.com
+  - yummie.com
+  - yuqarin.com
+- pixabay.com: `searchImages`
+
+Changed:
+
+- lowes.com: added `getProductReviews`
+- latimes.com: added `getRecipe`, `searchRecipes`
+
+Removed:
+
+- afew-store.com: `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`
+- clickandboat.com: `get_boat_details`, `get_booking_link`, `search_boats`, `show_boats`
+- tag.global: `get_company`, `get_news`, `get_page`, `get_service`, `list_companies`, `list_offices`, `list_publications`, `list_services`, `search_news`
+- batterytrader.com: `get_discovery_links`, `get_product_data_skill`
+- info-computer.com: `searchProducts`
+
+Every website and its functions: [covered-functions.txt](covered-functions.txt) · [covered-websites.txt](covered-websites.txt)
+
 ## 1.45.0 (2026-11-25)
 
 **Websites**
