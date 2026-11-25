@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 140,722 sites, generated 2026-11-25.
+# Every website Bowmark covers and the functions it has: 140,730 sites, generated 2026-11-25.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -458,7 +458,6 @@
 = 2870744d fetch#dd415940 search#78d8eb73 search_katalon_documentation_with_filter#cfb7e43b
 = 28df1243 get_event_details#5d7da0a3 get_event_venues#70e52200 get_venue_program#dab07ac4 search_events#dafe21d1 search_venues#83ea0f47
 = 28fa9efc query_docs_filesystem_kamino_docs#1c279d62 search_kamino_docs#58af85d0 submit_feedback#7fd329e5
-= 293365d4 getTravelAdvisory listCountries listTravelAdvisories
 = 29364ef7 docs_find_stores#2850134c docs_get_pricing_summary#3e4d8e57 docs_get_shipping_and_returns#eef01fdc docs_search_faq#e0ab98dc ucp_create_cart_handoff#9989be36 ucp_get_product#468c3094 ucp_search_catalog#9ffc03f2
 = 293aa3f9 storefront_cart_link_create#46b5c3c6 storefront_categories#6174cb6d storefront_product_details#9f9c15b4 storefront_products_search#4e965d0e storefront_resolve_store#f88c9c76 storefront_stores_list#ae46dd78
 = 2945c4aa add_to_cart#f233f82b browse_product_at_store#85244f99 find_in_stock_nearby#57959802 find_nearby_stores_for_variant#313eb6c4 get_store_details#5db4e0ae list_product_option_labels#b43104e4 locally_shopping_guide#7a9ad045 lookup_locations#c5928c72 resolve_variant_upc#a53a5463 search_locations#7bc80d28 search_products#088ac1ec show_product_image#0f9a6992
@@ -1234,6 +1233,7 @@
 = 705d1eb7 inspect_image_c2pa#4b9b055b scan_images_c2pa#946a9cf4 searchProducts
 = 70701edf build_basket#2b29a37b get_product#1267dfa2 lookup_catalog#7572c325 plan_party#525109c0 search_catalog#bb622112
 = 707583a6 tavily_crawl#c0762342 tavily_extract#0f3c7092 tavily_map#62b4c803 tavily_research#0d502850 tavily_search#1d04ba00
+= 70999b56 getAlbum getAnnotation getArtist getCharts getLyrics getSong listArtistAlbums listArtistSongs listSongAnnotations listSongComments listSongQuestions searchAlbums searchArtists searchLyrics searchSongs
 = 70a9c2ea get_booking_link#2b67f856 get_event#2b67f856 get_package_options#2b67f856 search_events#e6f1e2c8
 = 70c0ad23 browse_portfolio#a76a3ed1 fetch#9488a006 fetch_many#44b81a41 fetch_map_layer#1550fcc0 fiscal_catalog#61f30894 fiscal_checks#b03d3601 fiscal_query#5d8b6b13 get_passages#78a3debb list_documents#469e782c search#cb692b87 server_info#ac63038e
 = 70dcb786 getReport listReports
@@ -1331,6 +1331,7 @@
 = 7855199a concept_family#fe06a17a define_term#4e808fba explore_role_requirements#62eb8a88 fetch#766d17a1 find_national_implementations#592e858e follow_updates#b8c9eb06 get_coverage#cffa89d0 get_ingestion_request#b0aea474 get_ingestion_result#b0aea474 get_saved_role_view#e713524e get_topic#db1f5f4b guidance_for_provision#2d9ef6f1 list_concepts#d5abbc9d list_follows#a6449078 list_ingestion_requests#daea6ffc list_review_queue#f4ff005a list_saved_role_views#a6449078 list_topics#9d418cab list_work_versions#be5aa19e lookup_provision#63978f70 provision_context#47209842 provision_history#0edae4d4 provisions_by_concept#703a4e5f recent_changes#5690defb related_works#5f7078bc request_ingestion#8f017e41 search#11ec111f search_legislation#7dde909b term_languages#c369c23a work_glossary#43434e24 work_mentions#84dde436
 = 787f6988 getJob searchCompanies searchJobs
 = 78ac39c7 best-deals#41fed54c flight-search#7cb49965 pnr-search#88c0d1f0 point-search#6579a11e
+= 78c7a9c8 getCountry getPressRelease getTravelAdvisory listCountries listPressReleases listTravelAdvisories
 = 78db22c1 compile#ca8076bd generate_short_url#7ded2f54 get_shortlink_info#e3b36d1a list_compilers#0d56089a list_languages#a6449078 list_libraries#b5ea5d88 lookup_asm_instruction#f1466130
 = 7902aca2 ownerrez_docs_search#18857c54
 = 791998c5 getStoreRewards
@@ -2354,7 +2355,6 @@
 = d9a4fa0a knowledge_ask#558a8bee knowledge_get_page_content#dbdbe6db knowledge_list_pages#3cd6777c knowledge_list_sources#daea6ffc knowledge_search#42e040af knowledge_submit_feedback#757187e7
 = d9aabf47 get_crafting#83b98fc2 get_entity#cc649595 get_loot#11be8a41 list_entities#aefa39ff search#6922ae57
 = da023374 add_changelog_entry#2cb94bf0 browse_category#0178a930 check_subdomain#3ac52a10 create_site#36273f2e find_alternatives#4943dac1 generate_page#aeb7a098 get_app#80de262d get_app_privacy#80de262d get_app_reviews#5014e398 get_developer_apps#d2378501 get_feedback#4c9b65e0 get_modules#2bfd8d1d get_page#8d5be596 get_plan#daea6ffc get_site#2bfd8d1d list_my_sites#daea6ffc post_status_incident#93ea67d8 refresh_site_from_store#2bfd8d1d resolve_status_incident#86cde780 search_apps#95c1f0c1 set_app_ads_txt#5d9fdcc3 set_app_links#8ffbd110 set_custom_domain#4802effd set_module#8ae783d4 set_page#80b59679 set_remote_config#29d58bc2 update_site#4e134829
-= da1901d4 getAlbum getAnnotation getArtist getLyrics getSong listArtistAlbums listArtistSongs listSongAnnotations listSongComments listSongQuestions searchAlbums searchArtists searchLyrics searchSongs
 = da39a3ee
 = da3bb865 compare_developments#d90a3dae get_area_prices#ccc87eb5 get_development#46a30341 get_new_development#2e02af3b search_developments#4b26379d search_new_developments#cc1e604f
 = da5d92ed getLawyer searchLawyers
@@ -47025,6 +47025,7 @@ accutrans-store.myshopify.com	a9af6443
 accuweather.com	8bab6f40
 acdc.com.tw	bb34c1bd
 acdcdrives.co.uk	4479a458
+acdcrag.com	da39a3ee
 acdirect.com	4479a458
 ace-bl.tech	7396d71d
 ace-cider.myshopify.com	a9af6443
@@ -77671,6 +77672,7 @@ freedomscooters.com.au	bb34c1bd
 freedomstorestudio.myshopify.com	a9af6443
 freedomsupply.net	bb34c1bd
 freedomtraininternational.myshopify.com	a9af6443
+freedomtree.in	da39a3ee
 freedroptest.myshopify.com	61e64875
 freedsbakery.com	37007769
 freefallindustries.myshopify.com	a9af6443
@@ -79242,7 +79244,7 @@ geniebidet.myshopify.com	a9af6443
 geniecompany.com	685e74a3
 geniemerce.com	bb34c1bd
 genius-lounge-inc.myshopify.com	a9af6443
-genius.com	da1901d4
+genius.com	70999b56
 geniusbowtie.com	bb34c1bd
 geniusmobile.lk	bb34c1bd
 genkidama.de	4479a458
@@ -88199,6 +88201,7 @@ itsgoldhomeandbody.myshopify.com	a9af6443
 itsjustcavan.myshopify.com	a9af6443
 itsjvke.myshopify.com	a9af6443
 itskissedbynature.myshopify.com	a9af6443
+itsminesa.com	da39a3ee
 itsmy4te.myshopify.com	a9af6443
 itsmywine.com.au	bb34c1bd
 itsnaturals-beauty.myshopify.com	a9af6443
@@ -91542,6 +91545,7 @@ kgt-gmbh.de	bb34c1bd
 khadas.com	685e74a3
 khadims.com	4479a458
 khadipure.com	bb34c1bd
+khadlaj-perfumes.com	da39a3ee
 khairatiengineeringworks.com	05a9bb9e
 khaish.com	bb34c1bd
 khaite.com	37007769
@@ -113098,6 +113102,7 @@ prm-parkausweis-studierende-uni-eichstaett.myshopify.com	a9af6443
 prm-syrup.myshopify.com	a9af6443
 prmpbeauty.myshopify.com	a9af6443
 pro-before-after-image-slider-2.myshopify.com	61e64875
+pro-bikegear.com	da39a3ee
 pro-brew.myshopify.com	a9af6443
 pro-cabinets.myshopify.com	a9af6443
 pro-cheer.myshopify.com	a9af6443
@@ -125835,7 +125840,7 @@ stashtea.com	4479a458
 stasias-school-of-thot.myshopify.com	a9af6443
 state-and-federal-poster.myshopify.com	a9af6443
 state-library-of-massachusetts.myshopify.com	a9af6443
-state.gov	293365d4
+state.gov	78c7a9c8
 stateandliberty.com	37007769
 statebicycle.com	4479a458
 statefairrecords.myshopify.com	a9af6443
@@ -128530,6 +128535,7 @@ tannico.it	4479a458
 tannin-agatics.myshopify.com	a9af6443
 tanningwasagabeach.com	bb34c1bd
 tano-jones.myshopify.com	a9af6443
+tano.ai	da39a3ee
 tanology-by-emma.myshopify.com	a9af6443
 tanotis.com	4479a458
 tansmas.com.au	bb34c1bd
@@ -132959,6 +132965,7 @@ thrivetrue.com	bb34c1bd
 thrivin.com	4479a458
 thrivingchildcareshop.com	a9af6443
 throblife.com	bb34c1bd
+throneandliberty.wiki	da39a3ee
 throttleaddiction.com	4479a458
 through-the-garden-gate.myshopify.com	a9af6443
 throwbackbrewery.myshopify.com	a9af6443
@@ -141294,6 +141301,7 @@ woolacombetourism.co.uk	bb34c1bd
 wooland.com	37007769
 woolandcompany.com	37007769
 woolandprince.com	37007769
+woolandwoollen.eu	da39a3ee
 woolery.com	37007769
 woolgeek.myshopify.com	a9af6443
 woolino-ca.myshopify.com	a9af6443

@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 140,722 sites, generated 2026-11-25.
+# Every website Bowmark covers: 140,730 sites, generated 2026-11-25.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -44298,6 +44298,7 @@ accutrans-store.myshopify.com	AccuTRANS Store	10
 accuweather.com	AccuWeather	21
 acdc.com.tw	越點專業音響	6
 acdcdrives.co.uk	acdcdrives.co.uk	14
+acdcrag.com	acdcrag.com	14
 acdirect.com	acdirect.com	14
 ace-bl.tech	ace-bl.tech	6
 ace-cider.myshopify.com	Ace Cider I, LLC	10
@@ -57953,7 +57954,7 @@ carbonetti-guitars.myshopify.com	Carbonetti Guitars	10
 carbonfiber-cnc.com	iKabon	6
 carbonized-records.myshopify.com	Carbonized Records	10
 carbubble.uk	Car Bubble UK – Inflatable Car Storage Protection	6
-carcajoutactical.com	carcajoutactical.com	1
+carcajoutactical.com	carcajoutactical.com	16
 carcamoscaramelapples.com.au	Carcamos Gourmet Caramel Apples	6
 carcolourservices.co.uk	Car Colour Services	6
 card-binder.com	card-binder.com	14
@@ -60773,7 +60774,7 @@ clinical-hypnotherapy-centre.myshopify.com	Clinical Hypnotherapy Centre	10
 clinicalherbalism.myshopify.com	Colorado School of Clinical Herbalism	10
 clinicalphysio.com	Clinical Physio	6
 cliniciansofcolor.myshopify.com	Clinicians Of Color™	10
-clinicly.ca	clinicly.ca	17
+clinicly.ca	clinicly.ca	13
 clinicofcalm.com.au	Clinic of Calm	6
 clinique.co.uk	clinique.co.uk	14
 clinique.com	clinique.com	14
@@ -72551,7 +72552,7 @@ favs-room-tokyo.myshopify.com	fav's room TOKYO	10
 fawbushs.com	fawbushs.com	16
 fawkesandthehounds.myshopify.com	fawkesandthehounds	10
 faybee.myshopify.com	Faybee	10
-fayettevillefurnituregallery.com	fayettevillefurnituregallery.com	1
+fayettevillefurnituregallery.com	fayettevillefurnituregallery.com	14
 fayrouzstyle.com	fayrouzstyle.com	1
 fayrouztileandstone.com	fayrouztileandstone.com	14
 fayshacare.com	Faysha Care	6
@@ -74944,6 +74945,7 @@ freedomscooters.com.au	Freedom Scooters	6
 freedomstorestudio.myshopify.com	freedomstorestudio	10
 freedomsupply.net	Freedom Supply	6
 freedomtraininternational.myshopify.com	Freedom Train International	10
+freedomtree.in	freedomtree.in	14
 freedroptest.myshopify.com	FreeDropTest	8
 freedsbakery.com	freedsbakery.com	1
 freefallindustries.myshopify.com	freefallindustries	10
@@ -76515,7 +76517,7 @@ geniebidet.myshopify.com	GenieBidet	10
 geniecompany.com	geniecompany.com	10
 geniemerce.com	Geniemerce	6
 genius-lounge-inc.myshopify.com	Genius Lounge Inc.	10
-genius.com	Genius	14
+genius.com	Genius	15
 geniusbowtie.com	Genius Bowtie	6
 geniusmobile.lk	Genius Mobile	6
 genkidama.de	genkidama.de	14
@@ -81070,7 +81072,7 @@ herbandspicemill.co.nz	Herb and Spice Mill	6
 herbaria-japan.myshopify.com	Herbaria Japan	10
 herbariumwelly.myshopify.com	The Herbarium	10
 herbcastle.cc	Herb Castle	6
-herbdoc.com	herbdoc.com	1
+herbdoc.com	herbdoc.com	16
 herbelementz.com	Herb Elementz	6
 herbelin.com	herbelin.com	16
 herbfancy.myshopify.com	Herb Fancy Gifts, LLC	10
@@ -85472,6 +85474,7 @@ itsgoldhomeandbody.myshopify.com	itsgoldhomeandbody	10
 itsjustcavan.myshopify.com	itsjustcavan	10
 itsjvke.myshopify.com	JVKE	10
 itskissedbynature.myshopify.com	itskissedbynature	10
+itsminesa.com	itsminesa.com	16
 itsmy4te.myshopify.com	ItsMy4Te	10
 itsmywine.com.au	It's My Wine	6
 itsnaturals-beauty.myshopify.com	Itsnaturals Beauty	10
@@ -88815,6 +88818,7 @@ kgt-gmbh.de	KGT Gewächshäuser	6
 khadas.com	khadas.com	10
 khadims.com	khadims.com	14
 khadipure.com	Khadi Pure	6
+khadlaj-perfumes.com	khadlaj-perfumes.com	14
 khairatiengineeringworks.com	Khairati Engineering Works (KEW) India’s Leading Supplier of Abicor Binzel, Ador	4
 khaish.com	Khaish	6
 khaite.com	khaite.com	16
@@ -89223,7 +89227,7 @@ kingsleybeds.com	Kingsley Beds	6
 kingsleylockwoodliterarybooks.myshopify.com	Kingsley Lockwood Literary	10
 kingsleyplastics.co.uk	Kingsley Plastics	6
 kingsloot.com	kingsloot.com	14
-kingsofindigo.com	kingsofindigo.com	1
+kingsofindigo.com	kingsofindigo.com	16
 kingsolomonseals.com	King Solomon Wisdom™	6
 kingspapools.com.au	King Spa Pools	6
 kingspider.co	kingspider.co	16
@@ -89416,7 +89420,7 @@ kiwibit.com	kiwibit.com	14
 kiwibusinessproducts.co.nz	Kiwi Business	6
 kiwicachers.nz	KiwiCachers	6
 kiwigeek.co.nz	TradeMaster Ltd	6
-kiwinithelabel.com	kiwinithelabel.com	1
+kiwinithelabel.com	kiwinithelabel.com	14
 kiwinurseries.com	Kiwi Nurseries	6
 kiwipure-nz-australia.myshopify.com	KP Water - Whole House Water Filtration	10
 kiwisizing-test-shop.myshopify.com	Kiwi Sizing	10
@@ -90884,7 +90888,7 @@ landmarktrading.com	Landmark Trading	6
 landofjoshuatrees.com	Land of Joshua Trees: A Palmdale Original	6
 landoftheblind.myshopify.com	Land of the Blind	10
 landomo.com	landomo.com	5
-landpark-shop.de	landpark-shop.de	14
+landpark-shop.de	landpark-shop.de	1
 landportal.com	landportal.com	16
 landproseminars.myshopify.com	Land Pro Seminars	10
 landrovercentre.com	Land Rover Centre	6
@@ -102563,7 +102567,7 @@ nextleveltoursjamaica.com	Next Level Tours	6
 nextleveltraining.com	Next Level Training	6
 nextpagebooks.co.uk	Next Page Books	6
 nextplaytees.com	Next Play Tees	6
-nextroundgolf.com	nextroundgolf.com	1
+nextroundgolf.com	nextroundgolf.com	14
 nextryclean.myshopify.com	ワイクリン	10
 nextshark.myshopify.com	NextShark	10
 nextstep-ministries.myshopify.com	Next Step Ministries	10
@@ -109387,7 +109391,7 @@ pontus-kjerrman.myshopify.com	Pontus Kjerrman	10
 ponycycle-de.myshopify.com	PonyCycle EU Official Store	10
 ponykram.myshopify.com	Ponykram	10
 poo19.com	Buy videos here with -80% off old videos and -60% off new videos! Activate your 	6
-poobienaidoos.co.za	poobienaidoos.co.za	1
+poobienaidoos.co.za	poobienaidoos.co.za	16
 poochkiss.com	Poochkiss	6
 poof-patch.myshopify.com	Poof Patch	10
 poofdoof.myshopify.com	POOF DOOF	10
@@ -110371,6 +110375,7 @@ prm-parkausweis-studierende-uni-eichstaett.myshopify.com	ParkRaum-Management PRM
 prm-syrup.myshopify.com	PRM_syrup	10
 prmpbeauty.myshopify.com	prmpbeauty	10
 pro-before-after-image-slider-2.myshopify.com	Pro - Before After Image Slider	8
+pro-bikegear.com	pro-bikegear.com	14
 pro-brew.myshopify.com	Pro Brew	10
 pro-cabinets.myshopify.com	Pro-Cabinets LLC	10
 pro-cheer.myshopify.com	PRO Cheer	10
@@ -117377,7 +117382,7 @@ seatcoversolutions.com	seatcoversolutions.com	1
 seatcoversunlimited.com	seatcoversunlimited.com	14
 seatgeek.com	SeatGeek	15
 seaton-sports-limited.myshopify.com	Seaton Sports	10
-seatoskygames.com	seatoskygames.com	14
+seatoskygames.com	seatoskygames.com	1
 seatosummit.com	Sea to Summit North America	26
 seatosummit.eu	seatosummit.eu	14
 seatpin.com	seatpin.com	1
@@ -123108,7 +123113,7 @@ stashtea.com	stashtea.com	14
 stasias-school-of-thot.myshopify.com	School of Thot	10
 state-and-federal-poster.myshopify.com	State and Federal Poster	10
 state-library-of-massachusetts.myshopify.com	State Library of Massachusetts	10
-state.gov	U.S. Department of State	3
+state.gov	U.S. Department of State	6
 stateandliberty.com	stateandliberty.com	16
 statebicycle.com	statebicycle.com	14
 statefairrecords.myshopify.com	State Fair Records	10
@@ -124272,7 +124277,7 @@ sugarcreekcandleco.myshopify.com	Sugar Creek Candle Co.	10
 sugardoh5.myshopify.com	sugardoh5	8
 sugardots.co.za	SugarDots	6
 sugared-mango.myshopify.com	Sugared Mango Soaps	10
-sugaredandbronzed.com	sugaredandbronzed.com	14
+sugaredandbronzed.com	sugaredandbronzed.com	1
 sugarenspice.co.za	Sugar 'n Spice	6
 sugargang.myshopify.com	SugarGang	10
 sugaridoo.com	Sugaridoo	6
@@ -125803,6 +125808,7 @@ tannico.it	tannico.it	1
 tannin-agatics.myshopify.com	Tannin Aquatics	10
 tanningwasagabeach.com	Siesta Sun Spa	6
 tano-jones.myshopify.com	The Tano Jones Trading Company	10
+tano.ai	tano.ai	4
 tanology-by-emma.myshopify.com	Tanology By Emma	10
 tanotis.com	tanotis.com	14
 tansmas.com.au	Tans Martial Arts Supplier	6
@@ -128715,7 +128721,7 @@ thefirstrefresh.myshopify.com	thefirstrefresh	10
 thefirstyears.com.mt	The First Years	6
 thefisherman.co.za	KAYAKFISH	6
 thefishingarmory.myshopify.com	The Fishing Armory	10
-thefishsociety.co.uk	thefishsociety.co.uk	14
+thefishsociety.co.uk	thefishsociety.co.uk	1
 thefitinstitute.com	The FIT Institute	6
 thefitville.com	thefitville.com	14
 thefitville.de	thefitville.de	14
@@ -130232,6 +130238,7 @@ thrivetrue.com	Thrive True	6
 thrivin.com	thrivin.com	14
 thrivingchildcareshop.com	ThrivingchildcareShop.com	10
 throblife.com	Throblife	6
+throneandliberty.wiki	throneandliberty.wiki	4
 throttleaddiction.com	throttleaddiction.com	14
 through-the-garden-gate.myshopify.com	Through The Garden Gate	10
 throwbackbrewery.myshopify.com	Throwback	10
@@ -138567,6 +138574,7 @@ woolacombetourism.co.uk	Woolacombe T.I.C. Store	6
 wooland.com	wooland.com	16
 woolandcompany.com	woolandcompany.com	16
 woolandprince.com	woolandprince.com	16
+woolandwoollen.eu	woolandwoollen.eu	14
 woolery.com	woolery.com	16
 woolgeek.myshopify.com	WoolGeek - Premium Quality Yarns	10
 woolino-ca.myshopify.com	Woolino Canada	10
