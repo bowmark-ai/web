@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 857a373d7003bd2a39b07fff556d6ec075216ae9b5e6b3389eb34207ba9ec532
-// 99 capabilities, 968 providers, 6064 typed functions, 20 refused.
+// Manifest version: 7dc308d7eeb61ace413cec1428aa752449d58d986405fdf21346c3391485f3bd
+// 99 capabilities, 968 providers, 6071 typed functions, 20 refused.
 // 122,906 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -11078,6 +11078,8 @@ interface AmazonMarketOptions {
   market?: AmazonMarket; // which Amazon store to ask; amazon.com when omitted. A product URL on another store's host selects it by itself
 }
 
+type AmazonProductReference = string | { asin: string } | { product: string | { asin: string } } | { productUrl: string } | { url: string }; // a bare ASIN or product URL, `{ asin }`, or an ASIN-bearing search result — pass a row directly from `searchProducts().products`
+
 interface AmazonProduct {
   asin: string;
   title: string;
@@ -11401,9 +11403,10 @@ interface SignedInOrderPage {
      * Read one product page the way a shopper reads it: title, brand, ASIN, current price and list
      * price, whether it is in stock, the star rating and how many ratings it has, the bullet-point
      * features, the specification table, the images, its category breadcrumb, its Best Sellers
-     * Rank, and who it is sold by. The single most-wanted read on the whole site.
+     * Rank, and who it is sold by. Pass the search row itself, `{ asin: row.asin }`, or its
+     * ASIN/URL. The single most-wanted read on the whole site.
      */
-    getProduct(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonProductDetail>;
+    getProduct(asinOrUrl: AmazonProductReference, options?: AmazonMarketOptions): Promise<AmazonProductDetail>;
 
     /**
      * List every version of a product that is really the same listing — the 8-inch, 10.25-inch,
@@ -11412,7 +11415,7 @@ interface SignedInOrderPage {
      * size Amazon ranked first. Empty when the listing has no variations — a real answer, not a
      * parse failure.
      */
-    listVariations(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonVariation[]>;
+    listVariations(asinOrUrl: AmazonProductReference, options?: AmazonMarketOptions): Promise<AmazonVariation[]>;
 
     /**
      * Read what customers actually wrote about a product — reviewer name, star rating, headline,
@@ -11423,7 +11426,7 @@ interface SignedInOrderPage {
      * answer an empty list. Sorting, filtering and paging need a signed-in account. The read an
      * agent needs to answer "is this any good" rather than "what does it cost".
      */
-    listReviews(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonReview[]>;
+    listReviews(asinOrUrl: AmazonProductReference, options?: AmazonMarketOptions): Promise<AmazonReview[]>;
 
     /**
      * What reviewers say about a product, as Amazon shows it to a shopper who is not logged in:
@@ -11433,7 +11436,7 @@ interface SignedInOrderPage {
      * answer to "is this any good" on the products where Amazon no longer shows individual reviews
      * logged out.
      */
-    getReviewSummary(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonReviewSummary>;
+    getReviewSummary(asinOrUrl: AmazonProductReference, options?: AmazonMarketOptions): Promise<AmazonReviewSummary>;
 
     /**
      * The other products Amazon puts next to this one — "Frequently bought together" and
@@ -11443,7 +11446,7 @@ interface SignedInOrderPage {
      * How an agent moves from one product to the alternatives without inventing a new search
      * query.
      */
-    listRelatedProducts(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonRelatedProducts>;
+    listRelatedProducts(asinOrUrl: AmazonProductReference, options?: AmazonMarketOptions): Promise<AmazonRelatedProducts>;
 
     /**
      * Amazon's hourly-updated top sellers in one department (the slug listBestSellerCategories
@@ -11514,7 +11517,7 @@ interface SignedInOrderPage {
      * full count) — no paging control was found in the modal's static markup this pass. Empty
      * `offers` on a listing with no other sellers is a real answer, not a parse failure.
      */
-    listSellerOffers(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonSellerOffersResult>;
+    listSellerOffers(asinOrUrl: AmazonProductReference, options?: AmazonMarketOptions): Promise<AmazonSellerOffersResult>;
 
     /**
      * Read what is in the cart — the same cart `addToCart` writes. With the caller's connected
@@ -114127,6 +114130,30 @@ interface SpotifyAudioAnalysis {
     getLyrics(track: string, opts?: ConnectionOption): Promise<SpotifyLyrics>;
 
     /**
+     * Saves tracks to the signed-in caller's Liked Songs (1-50 track ids, uris or ids from
+     * search). Saving an already-saved track is harmless. Needs the caller signed in to Spotify.
+     */
+    saveTracks(ids: string | string[], opts?: ConnectionOption): Promise<{ ids: string[]; saved: boolean }>;
+
+    /**
+     * Removes tracks from the signed-in caller's Liked Songs (1-50 track ids). Removing one that
+     * is not saved is harmless. Needs the caller signed in to Spotify.
+     */
+    removeSavedTracks(ids: string | string[], opts?: ConnectionOption): Promise<{ ids: string[]; removed: boolean }>;
+
+    /**
+     * Follows artists as the signed-in caller (1-50 artist ids). Following an already-followed
+     * artist is harmless. Needs the caller signed in to Spotify.
+     */
+    followArtist(ids: string | string[], opts?: ConnectionOption): Promise<{ ids: string[]; following: boolean }>;
+
+    /**
+     * Unfollows artists as the signed-in caller (1-50 artist ids). Needs the caller signed in to
+     * Spotify.
+     */
+    unfollowArtist(ids: string | string[], opts?: ConnectionOption): Promise<{ ids: string[]; following: boolean }>;
+
+    /**
      * The signed-in caller's current playback state — what's playing, where, progress,
      * shuffle/repeat. Nothing playing is a normal, not-playing answer, never an error. Needs the
      * caller signed in to Spotify.
@@ -141146,6 +141173,18 @@ interface ListSavedHomesResult {
   interface Unit {
     /** Lists the homes the signed-in caller has saved (hearted). */
     listSavedHomes(opts?: ConnectionOption): Promise<ListSavedHomesResult>;
+
+    /** Reads the signed-in caller's Zillow profile: name, email, phone and account settings. */
+    getAccount(opts?: ConnectionOption): Promise<ListSavedHomesResult>;
+
+    /** Lists the signed-in caller's saved searches with their alert frequency. */
+    listSavedSearches(opts?: ConnectionOption): Promise<ListSavedHomesResult>;
+
+    /**
+     * Lists the signed-in caller's Zillow inbox: conversations with landlords and agents and their
+     * latest messages.
+     */
+    listConversations(opts?: ConnectionOption): Promise<ListSavedHomesResult>;
 
     /**
      * Turn a place name, ZIP, neighborhood or street address into Zillow regions and addresses

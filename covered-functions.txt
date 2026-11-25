@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 140,024 sites, generated 2026-11-25.
+# Every website Bowmark covers and the functions it has: 140,027 sites, generated 2026-11-25.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -1227,6 +1227,7 @@
 = 6fa064c9 compare_pois#c63b09f9 find_nearby#e0921241 get_deals#be3dbe69 get_poi#6de21012 list_categories#cda89ab5 list_features#cda89ab5 list_guides#51223faf list_regions#cda89ab5 search_pois#77da502a
 = 6fa25b7f check_contrast#baabecf7 check_design_tokens#002f5220 check_page_colors#b9d52b9c check_palette#7fc8ef43 color_harmonies#acbf16a5 color_shades#d3d5e070 convert_color#4c57f0f7 fix_palette#86472253 simulate_color_vision#8ef8beac
 = 6fc18f62 pinggu_claim_benefits#e6f0623c pinggu_feedback_form#5b398e6d pinggu_feedback_submit#e500234c pinggu_read_thread#535bf2b1 pinggu_search#ef9d1efd
+= 6fdcd760 addGroupParticipants addGroupToCommunity approveGroupJoinRequests blockContact checkNumber clearChat createBroadcastList createChannel createClickToChatLink createCommunity createGroup createGroupEvent deleteChat deleteContact deleteMessage downloadMedia editChannelUpdate editMessage exportChat findContact followChannel forwardMessage getBlogPost getChannel getChannelUpdates getChatMessages getCommunity getGroupInfo getGroupInviteLink getHelpArticle getMessageInfo getMyProfile joinGroupByInvite leaveCommunity leaveGroup listBlogPosts listCalls listCatalogProducts listChats listContacts listFollowedChannels listLinkedDevices listStarredMessages listStatusUpdates lockChat pinMessage postStatus postStatusMedia postToChannel previewBusinessCatalog previewGroupInvite reactToChannelUpdate reactToMessage removeGroupParticipants replyToMessage saveContact searchChannels searchHelpCenter searchMessages sendContact sendGif sendLocation sendMedia sendMessage sendMessageToNumber sendMessageToUsername sendPoll sendVoiceMessage setDisappearingMessages setGroupAdmin starMessage startCall unfollowChannel unlinkDevice updateChat updateGroup updatePrivacySettings updateProfile votePoll
 = 6fde4212 getBedMatchResult
 = 6fed44b9 get_route_markdown#68b1511d get_site_overview#daea6ffc list_public_routes#daea6ffc
 = 70172f3d addToCart ask_business#5c396c6f cancel_cart#58b90052 cancel_checkout#bd9db33f complete_checkout#d01ec3ad create_cart#7859511f create_checkout#e049d654 getProduct get_cart#58b90052 get_checkout#bd9db33f get_order#c54d1d98 get_product#e6f5dc4f lookup_catalog#1b7541e7 search search_catalog#00f04bbe update_cart#e19c1555 update_checkout#7c15eb83
@@ -2506,7 +2507,6 @@
 = e9a9d19b activate_game_server#3d752c43 ask_codebase#d20a641d check_connection#3d752c43 coin_flip#a6449078 confirm_game_server_release#a3b40f8a create_featured_room_blog_draft#651a834e create_featured_room_draft#d41b949d deactivate_game_server#3d752c43 describe_environment#3d752c43 diff_flags#4b1481e7 diff_prod_envs#a6449078 fact_of_the_day#fbd19abc get_beta_deploy#38edb0ad get_cp_cli_status#354ffb39 get_deployment_plan#6bb4fc4d get_flags#b5264f78 get_game_server_deploy#38edb0ad get_game_server_status#354ffb39 get_global_event_room_opportunities#40dec2ba get_hosted_room_state#23c7be4d get_new_release_flags#1af78543 get_pm2_status#dfcd660c get_recent_audit_events#8737d976 get_release_journal#ff1e042e get_release_status#354ffb39 get_room_validation_batch#245fd5c1 handle_oncall_alert#641393a3 implement_slack_thread#ca2456cf joke_of_the_day#fbd19abc list_environments#a6449078 list_game_servers#a6449078 pause_game_server_release#3ee94709 pick_one#ff2fbd91 preview_feature_admin_room#23c7be4d preview_remove_flag#43975b02 preview_set_flag#d71df026 preview_set_flags#ce17cffb random_channel_member#e53faddb random_number#1453a686 remove_flag#43975b02 resume_game_server_release#3ee94709 review_pull_request#5ecb6733 roll_dice#30818caf run_beta_deploy#15f43759 run_game_server_deploy#42a60178 set_flag#d71df026 set_flags#162c8e83 shuffle_list#ff2fbd91 start_game_server_release#b30aebe7 start_room_validation_batch#23c7be4d stop_game_server_release#3ee94709 tick_game_server_release#2ce86fd8 trivia_of_the_day#fbd19abc validate_room_content#23c7be4d
 = e9b6a7d1 about_dataset#99a82ecf get_menu#dfa07166 get_place#72e02ab3 get_restaurant#dfa07166 list_places#ff660778 report_correction#6754ee33 search_dishes#c09ce9c7 search_restaurants#7574e8f4
 = e9b9f9a5 add_to_cart_40149647366_JpTpQy#a6449078 add_to_cart_4828042694_HjBiEW#a6449078 add_to_cart_5301800774_HjBiEW#a6449078 add_to_cart_6714387910_JpTpQy#a6449078 add_to_cart_7936733806768_HjBiEW#a6449078 add_to_cart_7955193495728_xVMUEc#a6449078 add_to_cart_7975301742768_HjBiEW#a6449078 add_to_cart_8002774270128_xVMUEc#a6449078 add_to_cart_8041855451312_xVMUEc#a6449078 add_to_cart_8080370598064_xVMUEc#a6449078 add_to_cart_8107280728240_xVMUEc#a6449078 add_to_cart_8114891751600_JpTpQy#a6449078 add_to_cart_8126564663472_xVMUEc#a6449078 add_to_cart_8145798889648_xVMUEc#a6449078 add_to_cart_8145798922416_xVMUEc#a6449078 go_to_checkout#a6449078 newsletter_signup#83f7a07f search_products#549fa210 search_products_mobile#549fa210 set_country_mobile#e48d8d61
-= e9e01e76 addGroupParticipants addGroupToCommunity approveGroupJoinRequests blockContact checkNumber clearChat createBroadcastList createChannel createClickToChatLink createCommunity createGroup deleteChat deleteContact deleteMessage downloadMedia editChannelUpdate editMessage exportChat findContact followChannel forwardMessage getBlogPost getChannel getChannelUpdates getChatMessages getCommunity getGroupInfo getGroupInviteLink getHelpArticle getMessageInfo getMyProfile joinGroupByInvite leaveCommunity leaveGroup listBlogPosts listCalls listCatalogProducts listChats listContacts listFollowedChannels listLinkedDevices listStarredMessages listStatusUpdates lockChat pinMessage postStatus postStatusMedia postToChannel previewBusinessCatalog previewGroupInvite reactToChannelUpdate reactToMessage removeGroupParticipants replyToMessage saveContact searchChannels searchHelpCenter searchMessages sendContact sendGif sendLocation sendMedia sendMessage sendMessageToNumber sendPoll sendVoiceMessage setDisappearingMessages setGroupAdmin starMessage startCall unfollowChannel unlinkDevice updateChat updateGroup updatePrivacySettings updateProfile votePoll
 = e9f63e98 browse_products#38483e31 get_details#1655d157 get_price_history#1655d157 get_products#c9aafbc5 get_similar#5ebd8218 search_products#f947a9a1 submit_feedback#75c842ec submit_product_review#34e87128 unwatch_product#8dc5c5f9 watch_product#1254b10b
 = e9ffca41 how_to_install#0d3e4841 mod_info#0d3e4841 search_mods#8fb717c7
 = ea1a1d01 cancel_pricing#fe735baa create_list#2d27a28f discard_list#fe735baa find_items#9c6fea5d get_list#882f286d get_quotes#1cecb649 remove_items#6e65fa26 update_items#39ffd8df
@@ -47237,6 +47237,7 @@ actome.myshopify.com	a9af6443
 actors-studio-of-orange-county.myshopify.com	a9af6443
 actplatinum.com	bb34c1bd
 actskintherapy.com	bb34c1bd
+actualgroup.com	da39a3ee
 actuallychristianbooks.com	bb34c1bd
 actualpain.myshopify.com	a9af6443
 acturacion.myshopify.com	a9af6443
@@ -65297,6 +65298,7 @@ craftbynaari.com	bb34c1bd
 craftcafe.store	4479a458
 craftcationconference.com	bb34c1bd
 craftclubco.com	4479a458
+craftcms.com	da39a3ee
 craftculinary.com	685e74a3
 craftdlondon.com	4479a458
 crafted-new-england.myshopify.com	a9af6443
@@ -78123,6 +78125,7 @@ fusspotsatinglewood.com.au	bb34c1bd
 futario.com	4479a458
 futbar.myshopify.com	a9af6443
 futbolcult.myshopify.com	a9af6443
+futbolsites.net	da39a3ee
 futhark.org	bb34c1bd
 futinator.myshopify.com	a9af6443
 futmomento23.myshopify.com	a9af6443
@@ -131478,7 +131481,6 @@ theoriginofom.com	bb34c1bd
 theorthofitstore.com	8b50d914
 theory-collaborative.myshopify.com	a9af6443
 theory-of-thought.myshopify.com	a9af6443
-theory11.com	4479a458
 theosfc.myshopify.com	a9af6443
 theothersideofthepillow.myshopify.com	a9af6443
 theouai.com	53bf5172
@@ -135485,6 +135487,7 @@ unibrands.co	4479a458
 unico-fan.co.jp	4479a458
 unico-underwear-uk.myshopify.com	a9af6443
 unico-zelo.myshopify.com	a9af6443
+unicoeye.com	da39a3ee
 unicomondo-altromercato.myshopify.com	a9af6443
 unicorn-landing.myshopify.com	a9af6443
 unicorn-lashes.myshopify.com	a9af6443
@@ -139432,7 +139435,7 @@ whatsapp-marketing-chats.myshopify.com	61e64875
 whatsapp-phone-orders-buttons.myshopify.com	61e64875
 whatsapp-quote-and-hide-prices.myshopify.com	61e64875
 whatsapp-share-manager-sample-shop.myshopify.com	a9af6443
-whatsapp.com	e9e01e76
+whatsapp.com	6fdcd760
 whatsappbuttonpro.myshopify.com	61e64875
 whatsappbycc.myshopify.com	61e64875
 whatshare.myshopify.com	a9af6443

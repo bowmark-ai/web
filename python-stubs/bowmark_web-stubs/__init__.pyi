@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 857a373d7003bd2a39b07fff556d6ec075216ae9b5e6b3389eb34207ba9ec532
-# 99 capabilities, 968 providers, 6036 typed functions, 20 refused.
+# Manifest version: 7dc308d7eeb61ace413cec1428aa752449d58d986405fdf21346c3391485f3bd
+# 99 capabilities, 968 providers, 6043 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6712,6 +6712,21 @@ class Prv_amazon_AmazonKeywordSuggestion_Out(TypedDict):
 class Prv_amazon_AmazonBestSellerCategory_Out(TypedDict):
     name: str
     slug: str
+
+class Prv_amazon_AmazonProductReference_u1_In(TypedDict):
+    asin: str
+
+class Prv_amazon_AmazonProductReference_u2_In(TypedDict):
+    product: str | Prv_amazon_AmazonProductReference_u2_In_product_u1_In
+
+class Prv_amazon_AmazonProductReference_u2_In_product_u1_In(TypedDict):
+    asin: str
+
+class Prv_amazon_AmazonProductReference_u3_In(TypedDict):
+    productUrl: str
+
+class Prv_amazon_AmazonProductReference_u4_In(TypedDict):
+    url: str
 
 class Prv_amazon_AmazonProductDetail_Out(TypedDict):
     asin: str
@@ -73107,6 +73122,22 @@ class Prv_spotify_SpotifyLyrics_Out_lines_item_Out(TypedDict):
     startTimeMs: float | None
     words: str
 
+class Prv_spotify_saveTracks_return_Out(TypedDict):
+    ids: list[str]
+    saved: bool
+
+class Prv_spotify_removeSavedTracks_return_Out(TypedDict):
+    ids: list[str]
+    removed: bool
+
+class Prv_spotify_followArtist_return_Out(TypedDict):
+    ids: list[str]
+    following: bool
+
+class Prv_spotify_unfollowArtist_return_Out(TypedDict):
+    ids: list[str]
+    following: bool
+
 class Prv_spotify_SpotifyCurrentPlayback_Out(TypedDict):
     isPlaying: bool
     progressMs: float | None
@@ -95099,14 +95130,15 @@ class Prv_amazon(Protocol):
         word "kitchen" cannot reach a ranking without this.
         """
 
-    async def getProduct(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonProductDetail_Out:
+    async def getProduct(self, asinOrUrl: str | Prv_amazon_AmazonProductReference_u1_In | Prv_amazon_AmazonProductReference_u2_In | Prv_amazon_AmazonProductReference_u3_In | Prv_amazon_AmazonProductReference_u4_In, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonProductDetail_Out:
         """Read one product page the way a shopper reads it: title, brand, ASIN, current price and
         list price, whether it is in stock, the star rating and how many ratings it has, the
         bullet-point features, the specification table, the images, its category breadcrumb, its
-        Best Sellers Rank, and who it is sold by. The single most-wanted read on the whole site.
+        Best Sellers Rank, and who it is sold by. Pass the search row itself, `{ asin: row.asin
+        }`, or its ASIN/URL. The single most-wanted read on the whole site.
         """
 
-    async def listVariations(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonVariation_Out]:
+    async def listVariations(self, asinOrUrl: str | Prv_amazon_AmazonProductReference_u1_In | Prv_amazon_AmazonProductReference_u2_In | Prv_amazon_AmazonProductReference_u3_In | Prv_amazon_AmazonProductReference_u4_In, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonVariation_Out]:
         """List every version of a product that is really the same listing — the 8-inch,
         10.25-inch, 12-inch and 15-inch skillet; the colours; the pack sizes — each with the
         ASIN that buys it. What an agent needs when the person said "the 12 inch one" and the
@@ -95114,7 +95146,7 @@ class Prv_amazon(Protocol):
         variations — a real answer, not a parse failure.
         """
 
-    async def listReviews(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonReview_Out]:
+    async def listReviews(self, asinOrUrl: str | Prv_amazon_AmazonProductReference_u1_In | Prv_amazon_AmazonProductReference_u2_In | Prv_amazon_AmazonProductReference_u3_In | Prv_amazon_AmazonProductReference_u4_In, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonReview_Out]:
         """Read what customers actually wrote about a product — reviewer name, star rating,
         headline, date, the variant they bought, whether the purchase was Verified, the review
         body, and how many people found it helpful. Amazon shows a logged-out visitor up to
@@ -95125,7 +95157,7 @@ class Prv_amazon(Protocol):
         "what does it cost".
         """
 
-    async def getReviewSummary(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonReviewSummary_Out:
+    async def getReviewSummary(self, asinOrUrl: str | Prv_amazon_AmazonProductReference_u1_In | Prv_amazon_AmazonProductReference_u2_In | Prv_amazon_AmazonProductReference_u3_In | Prv_amazon_AmazonProductReference_u4_In, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonReviewSummary_Out:
         """What reviewers say about a product, as Amazon shows it to a shopper who is not logged
         in: the star rating, the rating count, the percent at each star, the "Customers say"
         paragraph, and each aspect Amazon scores (size, ease of cleaning, weight, …) with its
@@ -95134,7 +95166,7 @@ class Prv_amazon(Protocol):
         individual reviews logged out.
         """
 
-    async def listRelatedProducts(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonRelatedProducts_Out:
+    async def listRelatedProducts(self, asinOrUrl: str | Prv_amazon_AmazonProductReference_u1_In | Prv_amazon_AmazonProductReference_u2_In | Prv_amazon_AmazonProductReference_u3_In | Prv_amazon_AmazonProductReference_u4_In, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonRelatedProducts_Out:
         """The other products Amazon puts next to this one — "Frequently bought together" and
         "Customers who viewed this item also viewed" — each with its ASIN, title, price and
         rating, kept in separate arrays so a caller can tell a complement from a substitute.
@@ -95198,7 +95230,7 @@ class Prv_amazon(Protocol):
         location rather than the caller's ZIP, on an invalid ZIP.
         """
 
-    async def listSellerOffers(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonSellerOffersResult_Out:
+    async def listSellerOffers(self, asinOrUrl: str | Prv_amazon_AmazonProductReference_u1_In | Prv_amazon_AmazonProductReference_u2_In | Prv_amazon_AmazonProductReference_u3_In | Prv_amazon_AmazonProductReference_u4_In, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonSellerOffersResult_Out:
         """Every seller offering the same listing side by side — condition (new, used, its grade),
         price, shipping cost and estimate, and the seller's own name, id and star rating — read
         off the site's "All Offers Display" modal rather than the buy-box winner alone. What
@@ -130101,6 +130133,27 @@ class Prv_spotify(Protocol):
         error. Needs the caller signed in to Spotify.
         """
 
+    async def saveTracks(self, ids: str | Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_spotify_saveTracks_return_Out:
+        """Saves tracks to the signed-in caller's Liked Songs (1-50 track ids, uris or ids from
+        search). Saving an already-saved track is harmless. Needs the caller signed in to
+        Spotify.
+        """
+
+    async def removeSavedTracks(self, ids: str | Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_spotify_removeSavedTracks_return_Out:
+        """Removes tracks from the signed-in caller's Liked Songs (1-50 track ids). Removing one
+        that is not saved is harmless. Needs the caller signed in to Spotify.
+        """
+
+    async def followArtist(self, ids: str | Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_spotify_followArtist_return_Out:
+        """Follows artists as the signed-in caller (1-50 artist ids). Following an already-followed
+        artist is harmless. Needs the caller signed in to Spotify.
+        """
+
+    async def unfollowArtist(self, ids: str | Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_spotify_unfollowArtist_return_Out:
+        """Unfollows artists as the signed-in caller (1-50 artist ids). Needs the caller signed in
+        to Spotify.
+        """
+
     async def getCurrentPlayback(self, opts: ConnectionOption | None = None, /) -> Prv_spotify_SpotifyCurrentPlayback_Out:
         """The signed-in caller's current playback state — what's playing, where, progress,
         shuffle/repeat. Nothing playing is a normal, not-playing answer, never an error. Needs
@@ -139189,6 +139242,17 @@ class Prv_zillow(Protocol):
 
     async def listSavedHomes(self, opts: ConnectionOption | None = None, /) -> Prv_zillow_ListSavedHomesResult_Out:
         """Lists the homes the signed-in caller has saved (hearted)."""
+
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_zillow_ListSavedHomesResult_Out:
+        """Reads the signed-in caller's Zillow profile: name, email, phone and account settings."""
+
+    async def listSavedSearches(self, opts: ConnectionOption | None = None, /) -> Prv_zillow_ListSavedHomesResult_Out:
+        """Lists the signed-in caller's saved searches with their alert frequency."""
+
+    async def listConversations(self, opts: ConnectionOption | None = None, /) -> Prv_zillow_ListSavedHomesResult_Out:
+        """Lists the signed-in caller's Zillow inbox: conversations with landlords and agents and
+        their latest messages.
+        """
 
     async def searchLocations(self, args: Prv_zillow_SearchLocationsArgs_In, /) -> list[Prv_zillow_ZillowLocation_Out]:
         """Turn a place name, ZIP, neighborhood or street address into Zillow regions and addresses

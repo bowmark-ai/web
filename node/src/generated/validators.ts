@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 857a373d7003bd2a39b07fff556d6ec075216ae9b5e6b3389eb34207ba9ec532
-// 6036 checked, 20 unchecked.
+// Manifest version: 7dc308d7eeb61ace413cec1428aa752449d58d986405fdf21346c3391485f3bd
+// 6043 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "857a373d7003bd2a39b07fff556d6ec075216ae9b5e6b3389eb34207ba9ec532",
+  "version": "7dc308d7eeb61ace413cec1428aa752449d58d986405fdf21346c3391485f3bd",
   "units": {
     "address_validation": {
       "defs": {
@@ -14104,6 +14104,79 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "AmazonProductReference": {
+          "k": "union",
+          "of": [
+            {
+              "k": "string"
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "asin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "product",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "asin",
+                            "schema": {
+                              "k": "string"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            }
+          ]
+        },
         "GetDeliveryEstimateArgs": {
           "k": "object",
           "props": [
@@ -14409,7 +14482,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "asinOrUrl",
             "schema": {
-              "k": "string"
+              "k": "ref",
+              "name": "AmazonProductReference"
             },
             "optional": false
           },
@@ -14426,7 +14500,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "asinOrUrl",
             "schema": {
-              "k": "string"
+              "k": "ref",
+              "name": "AmazonProductReference"
             },
             "optional": false
           },
@@ -14443,7 +14518,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "asinOrUrl",
             "schema": {
-              "k": "string"
+              "k": "ref",
+              "name": "AmazonProductReference"
             },
             "optional": false
           },
@@ -14460,7 +14536,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "asinOrUrl",
             "schema": {
-              "k": "string"
+              "k": "ref",
+              "name": "AmazonProductReference"
             },
             "optional": false
           },
@@ -14477,7 +14554,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "asinOrUrl",
             "schema": {
-              "k": "string"
+              "k": "ref",
+              "name": "AmazonProductReference"
             },
             "optional": false
           },
@@ -14600,7 +14678,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "asinOrUrl",
             "schema": {
-              "k": "string"
+              "k": "ref",
+              "name": "AmazonProductReference"
             },
             "optional": false
           },
@@ -14778,26 +14857,26 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchProducts": "3219dcf4dbb96a5d",
-        "searchWholeFoods": "9ef510317fe75247",
-        "listCategoryProducts": "8d90ea2cc1d6fe15",
-        "suggestKeywords": "5a8a82db64ffcd1e",
-        "listBestSellerCategories": "9592aa20c6cc1f2e",
-        "getProduct": "45edec481625ea06",
-        "listVariations": "e5383ee58ecb027e",
-        "listReviews": "18ca404c39bc172b",
-        "getReviewSummary": "a0b8dac9601df48f",
-        "listRelatedProducts": "b7430e563a8ad96c",
-        "listBestSellers": "fb4703845d2d4644",
-        "listNewReleases": "fb4703845d2d4644",
-        "listMostWishedFor": "de3ed60df09b8adb",
-        "listDeals": "10d40f01cbb54d39",
-        "getSeller": "d959fe24852987a5",
-        "getDeliveryEstimate": "961e4579df804cf3",
-        "listSellerOffers": "24b0c5504cd20bea",
-        "getCart": "820d6944a2d0208b",
-        "addToCart": "5da5743d66532301",
-        "listOrders": "0e04c6d67541fc79"
+        "searchProducts": "786aff63ce07fbcb",
+        "searchWholeFoods": "3159cbd23b603c50",
+        "listCategoryProducts": "e91a48533d8ce329",
+        "suggestKeywords": "16b24b95b8c78b20",
+        "listBestSellerCategories": "8815c1a417339627",
+        "getProduct": "54e3e6437c40be62",
+        "listVariations": "14f84dfb6f23746b",
+        "listReviews": "0420b04da74786a9",
+        "getReviewSummary": "4c392f2e19c711dc",
+        "listRelatedProducts": "2e1fd568189a039f",
+        "listBestSellers": "30f71ba8a802f4b7",
+        "listNewReleases": "30f71ba8a802f4b7",
+        "listMostWishedFor": "5311904c9dd94663",
+        "listDeals": "7f5aeacf747fc16b",
+        "getSeller": "7b8b59979efcf074",
+        "getDeliveryEstimate": "4e73c0dbe6eb9986",
+        "listSellerOffers": "78f340bad6805221",
+        "getCart": "b32fb2fd174d3ee9",
+        "addToCart": "c4d44c23267b1078",
+        "listOrders": "d6ae6e9dd07aa722"
       }
     },
     "providers.amazon_br": {
@@ -160473,6 +160552,150 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "saveTracks": [
+          {
+            "name": "ids",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "string"
+                  }
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeSavedTracks": [
+          {
+            "name": "ids",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "string"
+                  }
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followArtist": [
+          {
+            "name": "ids",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "string"
+                  }
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowArtist": [
+          {
+            "name": "ids",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "string"
+                  }
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getCurrentPlayback": [
           {
             "name": "opts",
@@ -160529,6 +160752,10 @@ export const VALIDATORS: ValidatorTable = {
         "getRecentlyPlayed": "f5a57bda44885fdf",
         "getDevices": "df6e12fd39c9abd0",
         "getLyrics": "94486c34dd63de52",
+        "saveTracks": "33f6db96487ae47a",
+        "removeSavedTracks": "6d637466e1528ec6",
+        "followArtist": "0bbe2f02ecce701b",
+        "unfollowArtist": "0bbe2f02ecce701b",
         "getCurrentPlayback": "a94f1375381e6e97"
       }
     },
@@ -200510,6 +200737,60 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listSavedSearches": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listConversations": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "searchLocations": [
           {
             "name": "args",
@@ -200641,6 +200922,9 @@ export const VALIDATORS: ValidatorTable = {
       },
       "digests": {
         "listSavedHomes": "d1a6adc7921a4a07",
+        "getAccount": "d1a6adc7921a4a07",
+        "listSavedSearches": "d1a6adc7921a4a07",
+        "listConversations": "d1a6adc7921a4a07",
         "searchLocations": "8c4c476127e4a22e",
         "searchHomes": "71a320567d271616",
         "getHome": "0143b9781c359298",
