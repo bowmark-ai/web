@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 140,543 sites, generated 2026-11-25.
+# Every website Bowmark covers: 140,551 sites, generated 2026-11-25.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -73758,6 +73758,7 @@ flipaquatics.com	flipaquatics.com	14
 flipchange.myshopify.com	flipchange	8
 flipdemo-2.myshopify.com	flipdemo	8
 flipflopbbq.com	Flip Flop BBQ Sauce	6
+fliplet.com	fliplet.com	5
 flipmods.com	FlipMods	6
 flipper-rose.myshopify.com	Flipper Aquarium Products	10
 flipper.net	flipper.net	14
@@ -84296,7 +84297,6 @@ info-9010.myshopify.com	Upgrade Studio Shop	10
 info-9932.myshopify.com	treemans	10
 info-99a4.myshopify.com	For Your 7th Day	10
 info-cbbb.myshopify.com	FSProdukte	10
-info-computer.com	info-computer.com	1
 info-f9c9.myshopify.com	Philicka	10
 info-floralbay.myshopify.com	Floralbay	10
 info-studio-seventy-com.myshopify.com	Studio Seventy	10
@@ -88867,6 +88867,7 @@ kidscarstore.co.uk	www.kidscarstore.co.uk	10
 kidscollections.com.au	Kidscollections	6
 kidscool-space.myshopify.com	Kidscool USA	10
 kidsenjoyingjesus.com	Kids Enjoying Jesus	6
+kidseventsthisweek.com	kidseventsthisweek.com	3
 kidsflysafe.myshopify.com	Kids Fly Safe	10
 kidsgames1.myshopify.com	kidsgames1	10
 kidsgottaplay.com	Kids Gotta Play	6
@@ -96649,6 +96650,7 @@ mcguire-moorman-hospitality.myshopify.com	MML Hospitality Merchandise	10
 mchose.store	mchose.store	1
 mcintoshlabs.myshopify.com	McIntosh Laboratory, Inc.	10
 mcjahtahiti.myshopify.com	MC ECOM Tahiti	10
+mcjars.app	mcjars.app	6
 mckechnie-cleaning.ie	McKechnie Cleaning Services	6
 mckellars-modified-rides.myshopify.com	Mckellar's Modified Rides	10
 mckim-photography.myshopify.com	Bill McKim Photography -Jersey Shore whale watch tours	10
@@ -103985,6 +103987,7 @@ obsnap.com	Obsnap Group	6
 obstwelt.com	obstwelt.com	14
 obtainhigh.com	OBTAIN HIGH	6
 obtusejewellery.myshopify.com	Obtuse Jewellery	10
+obucagazela.rs	obucagazela.rs	1
 obvious-plant.myshopify.com	Obvious Plant	10
 obxbeachcabanaservices.com	obxBeachCabanaServices.com	6
 obxsmax.myshopify.com	SMAXShop	10
@@ -104997,6 +105000,7 @@ onpurposepresenter.com	On-Purpose Presenter	6
 onsetheadsets.myshopify.com	On Set Headsets	10
 onshoring-ventures.myshopify.com	Onshoring Ventures	10
 onsite.com.au	Onsite Rental Group	6
+onsize.si	onsize.si	16
 onstone.com.au	OnStone	6
 onsyc.myshopify.com	ONSYC	10
 ontargetsportingarms.com	On Target Sporting Arms	6
@@ -106672,6 +106676,7 @@ parkwaystore.myshopify.com	Parkway Bakery & Tavern	10
 parlayedit.myshopify.com	Parlay Edit	10
 parleperla.com	Parle Perla	6
 parlights.com	Parlights	6
+parlordoughnuts.com	parlordoughnuts.com	10
 parlorroom.myshopify.com	The Parlor Room	10
 parlour-salon.myshopify.com	Parlour Salon DC	10
 parlouro.com.au	Parlour O	6
@@ -119561,6 +119566,7 @@ sign.com	sign.com	1
 sign.org	Signs & Wonders for Our Times	6
 sign96.com	sign96	6
 signage.com	Signage.com	10
+signal8.ai	signal8.ai	118
 signalcorps.org	Signal Corps Regimental Association	6
 signals.uk.com	Signals Hi-Fi	6
 signalsolutions.eu	Signal Solutions	6
@@ -122397,6 +122403,7 @@ sportega.de	sportega.de	6
 sportega.fr	sportega.fr	6
 sportega.hu	sportega.hu	6
 sportega.pl	sportega.pl	6
+sportega.ro	sportega.ro	6
 sportega.sk	sportega.sk	6
 sportextremaduracd.myshopify.com	SPORT SHOP	10
 sportful.com	sportful.com	14
@@ -133868,7 +133875,7 @@ utica-blue-sox.myshopify.com	Utica Blue Sox	10
 uticacomets.myshopify.com	Utica Comets and Utica City FC Store	10
 utilitarioss.com	utilitarioss.com	8
 utility-technologies.myshopify.com	Utility Technologies	10
-utilitygift.co.uk	utilitygift.co.uk	1
+utilitygift.co.uk	utilitygift.co.uk	14
 utilitymetals.com	Utility Metals	6
 utilitypro-wholesale.myshopify.com	Utility Pro Wear Wholesale	10
 utmbstoreoceania.myshopify.com	UTMB Store | Oceania	10
@@ -139843,6 +139850,7 @@ yuntietiastore.myshopify.com	yuntietiastore	10
 yunzii.com	yunzii.com	14
 yupeewomen.com	YUPEEWOMEN.COM	10
 yuppiegadgets.com	Yuppie Gadgets	6
+yuqarin.com	yuqarin.com	1
 yuragidesign.myshopify.com	サインの達人	10
 yuruliku.myshopify.com	yuruliku World-Japan	10
 yus-online-store.myshopify.com	Yu's Online Store - (A Division of Yu's Farm Co. Ltd.)	10

@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 140,543 sites, generated 2026-11-25.
+# Every website Bowmark covers and the functions it has: 140,551 sites, generated 2026-11-25.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -691,7 +691,6 @@
 = 3e431ce4 account-get#99a82ecf account-models#99a82ecf chat-send#ba61c2aa credits-get#99a82ecf docs-get#3d88ba01 docs-search#c8d574ee image-generate#def08fc5 keys-list#20aa21b7 model-get#ac2fa874 models-list#65631050 ping#99a82ecf video-generate#c081b13e
 = 3e63f129 get_openapi_spec#407d9089 get_page#bddde704 list_apis#547792c3 search_docs#e3f59395
 = 3e776769 addToCart ask_business#5c396c6f cancel_cart#58b90052 cancel_checkout#bd9db33f complete_checkout#d01ec3ad create_cart#7859511f create_checkout#e049d654 getCart getProduct get_cart#58b90052 get_checkout#bd9db33f get_order#c54d1d98 get_product#e6f5dc4f listProducts lookup_catalog#1b7541e7 searchProducts search_catalog#00f04bbe update_cart#e19c1555 update_checkout#7c15eb83
-= 3e7ab103 searchProducts#042a9051
 = 3eb5d4ad arxiv_account#a6449078 arxiv_api_overview#a6449078 arxiv_citations#a9e6e688 arxiv_cited_by#bdb6a910 arxiv_get_paper#a9e6e688 arxiv_related_papers#3af55a4e arxiv_search#aef3ef46
 = 3eb7b276 get_apartment_prices#4423c00d get_business#9f100166 get_investment#3a608dba get_property#c320f3a4 get_property_stats#893b450c list_categories#fa642f6a list_investments#ac849901 nearby#ea144957 search_businesses#d08c7820 search_properties#ef63e85a
 = 3ecf0b50 checkStock findStores getProduct search
@@ -76487,6 +76486,7 @@ flipaquatics.com	4479a458
 flipchange.myshopify.com	61e64875
 flipdemo-2.myshopify.com	61e64875
 flipflopbbq.com	bb34c1bd
+fliplet.com	da39a3ee
 flipmods.com	bb34c1bd
 flipper-rose.myshopify.com	a9af6443
 flipper.net	4479a458
@@ -87025,7 +87025,6 @@ info-9010.myshopify.com	a9af6443
 info-9932.myshopify.com	a9af6443
 info-99a4.myshopify.com	a9af6443
 info-cbbb.myshopify.com	a9af6443
-info-computer.com	3e7ab103
 info-f9c9.myshopify.com	a9af6443
 info-floralbay.myshopify.com	a9af6443
 info-studio-seventy-com.myshopify.com	a9af6443
@@ -91596,6 +91595,7 @@ kidscarstore.co.uk	a9af6443
 kidscollections.com.au	bb34c1bd
 kidscool-space.myshopify.com	a9af6443
 kidsenjoyingjesus.com	bb34c1bd
+kidseventsthisweek.com	da39a3ee
 kidsflysafe.myshopify.com	a9af6443
 kidsgames1.myshopify.com	a9af6443
 kidsgottaplay.com	bb34c1bd
@@ -99378,6 +99378,7 @@ mcguire-moorman-hospitality.myshopify.com	a9af6443
 mchose.store	8b50d914
 mcintoshlabs.myshopify.com	a9af6443
 mcjahtahiti.myshopify.com	a9af6443
+mcjars.app	da39a3ee
 mckechnie-cleaning.ie	bb34c1bd
 mckellars-modified-rides.myshopify.com	a9af6443
 mckim-photography.myshopify.com	a9af6443
@@ -106714,6 +106715,7 @@ obsnap.com	bb34c1bd
 obstwelt.com	4479a458
 obtainhigh.com	bb34c1bd
 obtusejewellery.myshopify.com	a9af6443
+obucagazela.rs	da39a3ee
 obvious-plant.myshopify.com	a9af6443
 obxbeachcabanaservices.com	bb34c1bd
 obxsmax.myshopify.com	a9af6443
@@ -107726,6 +107728,7 @@ onpurposepresenter.com	bb34c1bd
 onsetheadsets.myshopify.com	a9af6443
 onshoring-ventures.myshopify.com	a9af6443
 onsite.com.au	bb34c1bd
+onsize.si	da39a3ee
 onstone.com.au	bb34c1bd
 onsyc.myshopify.com	a9af6443
 ontargetsportingarms.com	bb34c1bd
@@ -109401,6 +109404,7 @@ parkwaystore.myshopify.com	a9af6443
 parlayedit.myshopify.com	a9af6443
 parleperla.com	bb34c1bd
 parlights.com	bb34c1bd
+parlordoughnuts.com	da39a3ee
 parlorroom.myshopify.com	a9af6443
 parlour-salon.myshopify.com	a9af6443
 parlouro.com.au	bb34c1bd
@@ -122290,6 +122294,7 @@ sign.com	ba568e39
 sign.org	bb34c1bd
 sign96.com	bb34c1bd
 signage.com	a9af6443
+signal8.ai	da39a3ee
 signalcorps.org	bb34c1bd
 signals.uk.com	bb34c1bd
 signalsolutions.eu	bb34c1bd
@@ -125126,6 +125131,7 @@ sportega.de	bd7908bd
 sportega.fr	bd7908bd
 sportega.hu	bd7908bd
 sportega.pl	bd7908bd
+sportega.ro	da39a3ee
 sportega.sk	bd7908bd
 sportextremaduracd.myshopify.com	a9af6443
 sportful.com	4479a458
@@ -142572,6 +142578,7 @@ yuntietiastore.myshopify.com	a9af6443
 yunzii.com	4479a458
 yupeewomen.com	a9af6443
 yuppiegadgets.com	bb34c1bd
+yuqarin.com	da39a3ee
 yuragidesign.myshopify.com	a9af6443
 yuruliku.myshopify.com	a9af6443
 yus-online-store.myshopify.com	a9af6443
